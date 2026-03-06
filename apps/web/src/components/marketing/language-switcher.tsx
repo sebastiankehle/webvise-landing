@@ -43,7 +43,7 @@ export default function LanguageSwitcher() {
 					<DropdownMenuItem
 						key={loc}
 						className={locale === loc ? "font-medium text-foreground" : ""}
-						onSelect={() => switchLocale(loc)}
+						onClick={() => switchLocale(loc)}
 					>
 						<span className="w-6 uppercase text-muted-foreground">{loc}</span>
 						{localeLabels[loc]}
