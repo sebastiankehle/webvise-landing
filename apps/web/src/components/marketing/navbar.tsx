@@ -90,11 +90,11 @@ export default function Navbar() {
 								</a>
 							))}
 						</div>
-						<div className="border-border/40 border-t pt-4">
+						<div className="flex items-center justify-between border-border/40 border-t pt-4">
+							<LanguageSwitcher />
 							<Button
 								size="sm"
 								variant="outline"
-								className="w-full"
 								// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
 								render={<a href="/#contact" />}
 							>
