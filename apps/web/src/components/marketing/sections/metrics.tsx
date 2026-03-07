@@ -34,7 +34,17 @@ export default async function Metrics() {
 					</div>
 				))}
 			</StaggerChildren>
-			<MiniChart />
+			<MiniChart translations={{
+				conversionLabel: t("chart.conversionLabel"),
+				conversionDescription: t("chart.conversionDescription"),
+				engagementLabel: t("chart.engagementLabel"),
+				engagementDescription: t("chart.engagementDescription"),
+				speedLabel: t("chart.speedLabel"),
+				speedDescription: t("chart.speedDescription"),
+				before: t("chart.before"),
+				afterWebvise: t("chart.afterWebvise"),
+				after: t("chart.after"),
+			}} />
 		</SectionWrapper>
 	);
 }

@@ -12,22 +12,26 @@ import {
 	YAxis,
 } from "recharts";
 
+interface ChartTranslations {
+	conversionLabel: string;
+	conversionDescription: string;
+	engagementLabel: string;
+	engagementDescription: string;
+	speedLabel: string;
+	speedDescription: string;
+	before: string;
+	afterWebvise: string;
+	after: string;
+}
+
 type Metric = "conversion" | "engagement" | "speed";
 
-const datasets: Record<
-	Metric,
-	{
-		label: string;
-		lift: string;
-		description: string;
-		unit: string;
-		data: Array<{ week: string; before: number | null; after: number | null }>;
-	}
-> = {
+function buildDatasets(t: ChartTranslations) {
+	return {
 	conversion: {
-		label: "Conversion Rate",
+		label: t.conversionLabel,
 		lift: "+210%",
-		description: "1.2% → 3.7%",
+		description: t.conversionDescription,
 		unit: "%",
 		data: [
 			{ week: "", before: 1.2, after: null },
@@ -53,9 +57,9 @@ const datasets: Record<
 		],
 	},
 	engagement: {
-		label: "User Engagement",
+		label: t.engagementLabel,
 		lift: "+125%",
-		description: "42 → 95",
+		description: t.engagementDescription,
 		unit: "",
 		data: [
 			{ week: "", before: 44, after: null },
@@ -81,9 +85,9 @@ const datasets: Record<
 		],
 	},
 	speed: {
-		label: "Lighthouse Score",
+		label: t.speedLabel,
 		lift: "57 → 100",
-		description: "Instant optimization",
+		description: t.speedDescription,
 		unit: "/100",
 		data: [
 			{ week: "", before: 55, after: null },
@@ -108,7 +112,8 @@ const datasets: Record<
 			{ week: "W13", before: null, after: 100 },
 		],
 	},
-};
+} as const;
+}
 
 const metricOrder: Metric[] = ["conversion", "engagement", "speed"];
 
@@ -117,11 +122,17 @@ function CustomTooltip({
 	payload,
 	label,
 	unit,
+	beforeLabel,
+	afterLabel,
+	afterWebviseLabel,
 }: {
 	active?: boolean;
 	payload?: Array<{ value: number | null; dataKey: string; color: string }>;
 	label?: string;
 	unit?: string;
+	beforeLabel: string;
+	afterLabel: string;
+	afterWebviseLabel: string;
 }) {
 	if (!active || !payload?.length) return null;
 
@@ -129,8 +140,8 @@ function CustomTooltip({
 	if (!valid.length) return null;
 
 	const phase = valid.some((e) => e.dataKey === "after")
-		? "After webvise"
-		: "Before";
+		? afterWebviseLabel
+		: beforeLabel;
 
 	return (
 		<div className="border border-border/40 bg-background/95 px-4 py-3 backdrop-blur-sm">
@@ -153,7 +164,7 @@ function CustomTooltip({
 							style={{ backgroundColor: entry.color }}
 						/>
 						<span className="text-muted-foreground text-xs">
-							{entry.dataKey === "before" ? "Before" : "After"}
+							{entry.dataKey === "before" ? beforeLabel : afterLabel}
 						</span>
 					</div>
 					<span className="font-medium text-foreground text-xs tabular-nums">
@@ -166,7 +177,8 @@ function CustomTooltip({
 	);
 }
 
-export default function MiniChart() {
+export default function MiniChart({ translations }: { translations: ChartTranslations }) {
+	const datasets = buildDatasets(translations);
 	const [active, setActive] = useState<Metric>("conversion");
 	const current = datasets[active];
 
@@ -258,7 +270,7 @@ export default function MiniChart() {
 							domain={[0, "auto"]}
 						/>
 						<Tooltip
-							content={<CustomTooltip unit={current.unit} />}
+							content={<CustomTooltip unit={current.unit} beforeLabel={translations.before} afterLabel={translations.after} afterWebviseLabel={translations.afterWebvise} />}
 							cursor={{
 								stroke: "oklch(0.75 0.18 55 / 0.12)",
 								strokeWidth: 1,
