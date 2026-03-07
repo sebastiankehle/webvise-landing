@@ -34,7 +34,7 @@ export default function LanguageSwitcher() {
 
 	return (
 		<DropdownMenu>
-			<DropdownMenuTrigger className="flex cursor-pointer items-center gap-1.5 text-muted-foreground text-sm uppercase tracking-wider transition-colors hover:text-foreground">
+			<DropdownMenuTrigger className="flex cursor-pointer items-center gap-1.5 text-muted-foreground text-xs uppercase tracking-wider transition-colors hover:text-foreground">
 				<Globe className="size-4" />
 				{locale}
 			</DropdownMenuTrigger>
