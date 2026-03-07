@@ -8,6 +8,7 @@ import { useState } from "react";
 import LanguageSwitcher from "@/components/marketing/language-switcher";
 import { Button } from "@/components/ui/button";
 import { services } from "@/data/services";
+import { socials } from "@/data/socials";
 
 export default function Navbar() {
 	const [mobileOpen, setMobileOpen] = useState(false);
@@ -43,7 +44,7 @@ export default function Navbar() {
 				<div className="hidden items-center gap-4 md:flex">
 					<LanguageSwitcher />
 					{/* biome-ignore lint/a11y/useAnchorContent: content provided by Button children */}
-					<Button size="sm" variant="outline" render={<a href="/#contact" />}>
+					<Button size="sm" render={<a href="/#contact" />}>
 						{t("getStarted")}
 					</Button>
 				</div>
@@ -91,10 +92,25 @@ export default function Navbar() {
 							))}
 						</div>
 						<div className="flex items-center justify-between border-border/40 border-t pt-4">
-							<LanguageSwitcher />
+							<div className="flex items-center gap-3">
+								<LanguageSwitcher />
+								<div className="flex items-center gap-2">
+									{socials.map((social) => (
+										<a
+											key={social.name}
+											href={social.href}
+											target="_blank"
+											rel="noopener noreferrer"
+											className="text-muted-foreground transition-colors hover:text-foreground"
+											aria-label={social.name}
+										>
+											{social.icon}
+										</a>
+									))}
+								</div>
+							</div>
 							<Button
 								size="sm"
-								variant="outline"
 								// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
 								render={<a href="/#contact" />}
 							>

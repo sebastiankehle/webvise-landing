@@ -64,7 +64,6 @@ export default async function Pricing() {
 									{t(`tiers.${key}.basis`)}
 								</p>
 								<Button
-									variant="outline"
 									size="sm"
 									className="mt-4 w-full"
 									// biome-ignore lint/a11y/useAnchorContent: content provided by Button children

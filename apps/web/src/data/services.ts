@@ -1,6 +1,17 @@
+import type { LucideIcon } from "lucide-react";
+import {
+	Layers,
+	PanelTop,
+	RefreshCw,
+	Rocket,
+	Search,
+	Sparkles,
+} from "lucide-react";
+
 export interface Service {
 	slug: string;
 	translationKey: string;
+	icon: LucideIcon;
 	featureCount: number;
 	deliverableCount: number;
 	toolCount: number;
@@ -11,6 +22,7 @@ export const services: Service[] = [
 	{
 		slug: "landing-pages",
 		translationKey: "landingPages",
+		icon: PanelTop,
 		featureCount: 6,
 		deliverableCount: 5,
 		toolCount: 5,
@@ -19,6 +31,7 @@ export const services: Service[] = [
 	{
 		slug: "seo-performance",
 		translationKey: "seoPerformance",
+		icon: Search,
 		featureCount: 6,
 		deliverableCount: 5,
 		toolCount: 6,
@@ -27,6 +40,7 @@ export const services: Service[] = [
 	{
 		slug: "website-redesign",
 		translationKey: "websiteRedesign",
+		icon: RefreshCw,
 		featureCount: 6,
 		deliverableCount: 5,
 		toolCount: 5,
@@ -35,6 +49,7 @@ export const services: Service[] = [
 	{
 		slug: "mvp-development",
 		translationKey: "mvpDevelopment",
+		icon: Rocket,
 		featureCount: 6,
 		deliverableCount: 5,
 		toolCount: 6,
@@ -43,6 +58,7 @@ export const services: Service[] = [
 	{
 		slug: "ai-automation",
 		translationKey: "aiAutomation",
+		icon: Sparkles,
 		featureCount: 6,
 		deliverableCount: 5,
 		toolCount: 6,
@@ -51,6 +67,7 @@ export const services: Service[] = [
 	{
 		slug: "full-stack-applications",
 		translationKey: "fullStackApps",
+		icon: Layers,
 		featureCount: 6,
 		deliverableCount: 5,
 		toolCount: 6,

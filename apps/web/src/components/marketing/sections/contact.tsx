@@ -64,7 +64,6 @@ export default function Contact() {
 							{t("booking.description")}
 						</p>
 						<Button
-							variant="outline"
 							size="sm"
 							className="mt-4"
 							render={

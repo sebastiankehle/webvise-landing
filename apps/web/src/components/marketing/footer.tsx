@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 
 import { services } from "@/data/services";
+import { socials } from "@/data/socials";
 
 export default async function Footer() {
 	const t = await getTranslations("footer");
@@ -25,6 +26,20 @@ export default async function Footer() {
 						</a>
 						<p className="mt-4 text-sm opacity-60">{t("tagline")}</p>
 						<p className="mt-2 text-sm opacity-60">{t("location")}</p>
+						<div className="mt-4 flex items-center gap-3">
+							{socials.map((social) => (
+								<a
+									key={social.name}
+									href={social.href}
+									target="_blank"
+									rel="noopener noreferrer"
+									className="opacity-40 transition-opacity hover:opacity-100"
+									aria-label={social.name}
+								>
+									{social.icon}
+								</a>
+							))}
+						</div>
 					</div>
 
 					<div>
