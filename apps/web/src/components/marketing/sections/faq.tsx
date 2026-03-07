@@ -17,22 +17,9 @@ const faqItems = [
 	{ key: "8", category: "general" },
 ];
 
-const categories = [
-	{ key: "all", label: "All" },
-	{ key: "general", label: "General" },
-	{ key: "technical", label: "Technical" },
-	{ key: "investment", label: "Investment" },
-];
-
 export default function FAQ() {
 	const [openIndex, setOpenIndex] = useState<number | null>(null);
-	const [activeCategory, setActiveCategory] = useState("all");
 	const t = useTranslations("faq");
-
-	const filtered =
-		activeCategory === "all"
-			? faqItems
-			: faqItems.filter((item) => item.category === activeCategory);
 
 	return (
 		<SectionWrapper id="faq" alternate>
@@ -42,33 +29,13 @@ export default function FAQ() {
 				</h2>
 				<p className="mt-4 font-light text-muted-foreground">{t("subtitle")}</p>
 			</div>
-			<div className="mt-8 flex gap-2" role="group" aria-label="Filter questions by category">
-				{categories.map((cat) => (
-					<button
-						key={cat.key}
-						type="button"
-						aria-pressed={activeCategory === cat.key}
-						onClick={() => {
-							setActiveCategory(cat.key);
-							setOpenIndex(null);
-						}}
-						className={`border px-3 py-1.5 text-sm transition-colors ${
-							activeCategory === cat.key
-								? "border-foreground bg-foreground text-background"
-								: "border-border/40 text-muted-foreground hover:text-foreground"
-						}`}
-					>
-						{cat.label}
-					</button>
-				))}
-			</div>
-			<div className="mt-6 max-w-3xl border border-border/40">
-				{filtered.map((item, i) => {
+			<div className="mt-8 max-w-3xl border border-border/40">
+				{faqItems.map((item, i) => {
 					const isOpen = openIndex === i;
 					return (
 						<div
 							key={item.key}
-							className={`transition-colors [&:not(:last-child)]:border-border/40 [&:not(:last-child)]:border-b ${isOpen ? "bg-brand/[0.03]" : ""}`}
+							className="[&:not(:last-child)]:border-border/40 [&:not(:last-child)]:border-b"
 						>
 							<button
 								type="button"

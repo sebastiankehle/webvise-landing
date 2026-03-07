@@ -18,7 +18,6 @@ export default async function Testimonials() {
 			</div>
 			<StaggerChildren
 				className="mt-12 grid gap-px overflow-hidden border border-border/40 md:grid-cols-2 lg:grid-cols-3"
-				stagger={0.08}
 			>
 				{testimonialKeys.map((key) => (
 					<div

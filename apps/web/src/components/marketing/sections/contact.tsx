@@ -58,7 +58,7 @@ export default function Contact() {
 						{t("subtitle")}
 					</p>
 
-					<div className="mt-12 border border-border/40 border-l-brand border-l-2 p-8">
+					<div className="mt-12 border border-border/40 border-l-2 border-l-brand p-8">
 						<h3 className="font-medium text-base">{t("booking.title")}</h3>
 						<p className="mt-2 font-light text-muted-foreground text-sm">
 							{t("booking.description")}

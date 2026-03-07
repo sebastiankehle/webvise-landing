@@ -23,7 +23,6 @@ export default async function Benefits() {
 			</div>
 			<StaggerChildren
 				className="mt-12 grid gap-px overflow-hidden border border-border/40 md:grid-cols-3"
-				stagger={0.1}
 			>
 				{benefitKeys.map(({ key, icon: Icon }) => (
 					<div

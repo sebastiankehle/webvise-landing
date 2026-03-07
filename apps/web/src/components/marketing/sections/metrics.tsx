@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 
+import MiniChart from "@/components/marketing/mini-chart";
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import StaggerChildren from "@/components/marketing/stagger-children";
 
@@ -18,7 +19,6 @@ export default async function Metrics() {
 			</div>
 			<StaggerChildren
 				className="mt-12 grid grid-cols-2 gap-px overflow-hidden border border-border/40 md:grid-cols-4"
-				stagger={0.1}
 			>
 				{metricKeys.map((key) => (
 					<div
@@ -34,6 +34,7 @@ export default async function Metrics() {
 					</div>
 				))}
 			</StaggerChildren>
+			<MiniChart />
 		</SectionWrapper>
 	);
 }
