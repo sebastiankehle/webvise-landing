@@ -1,6 +1,5 @@
 "use client";
 
-import { useTheme } from "next-themes";
 import type { MouseEvent as ReactMouseEvent } from "react";
 import { useEffect, useMemo, useState } from "react";
 import {
@@ -36,12 +35,17 @@ const cloudProps: Omit<ICloud, "children"> = {
   },
 };
 
-function renderCustomIcon(icon: SimpleIcon, theme: string) {
+function renderCustomIcon(icon: SimpleIcon) {
+  const hex = icon.hex.replace("#", "").toLowerCase();
+  // Force white/near-white icons to black
+  const r = Number.parseInt(hex.slice(0, 2), 16);
+  const g = Number.parseInt(hex.slice(2, 4), 16);
+  const b = Number.parseInt(hex.slice(4, 6), 16);
+  const effectiveIcon =
+    r > 200 && g > 200 && b > 200 ? { ...icon, hex: "1a1a1a" } : icon;
+
   return renderSimpleIcon({
-    icon,
-    bgHex: theme === "light" ? "#fafafa" : "#080510",
-    fallbackHex: theme === "light" ? "#6e6e73" : "#ffffff",
-    minContrastRatio: theme === "dark" ? 2 : 1.2,
+    icon: effectiveIcon,
     size: 42,
     aProps: {
       href: undefined,
@@ -70,9 +74,11 @@ const iconSlugs = [
   "turborepo",
   "biome",
   "drizzle",
+  "redis",
   "trpc",
-  "zod",
   "postgresql",
+  "inngest",
+  "hono",
   "pnpm",
   "resend",
 ];
@@ -82,7 +88,6 @@ type IconData = Awaited<ReturnType<typeof fetchSimpleIcons>>;
 export default function IconCloud() {
   const [mounted, setMounted] = useState(false);
   const [data, setData] = useState<IconData | null>(null);
-  const { theme } = useTheme();
 
   useEffect(() => {
     setMounted(true);
@@ -92,9 +97,9 @@ export default function IconCloud() {
   const renderedIcons = useMemo(() => {
     if (!data) return null;
     return Object.values(data.simpleIcons).map((icon) =>
-      renderCustomIcon(icon, theme || "light"),
+      renderCustomIcon(icon),
     );
-  }, [data, theme]);
+  }, [data]);
 
   if (!mounted) {
     return <div className="h-[300px] w-full md:h-[400px]" />;
