@@ -106,6 +106,14 @@ export default async function Footer() {
 									</a>
 								</li>
 							))}
+							<li className="border-background/10 border-t pt-2.5">
+								<a
+									href="/media"
+									className="font-light text-sm opacity-60 transition-opacity hover:opacity-100"
+								>
+									{t("links.media")}
+								</a>
+							</li>
 						</ul>
 					</div>
 
