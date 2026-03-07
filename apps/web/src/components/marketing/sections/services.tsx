@@ -2,6 +2,7 @@ import { ArrowRight } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
 import SectionWrapper from "@/components/marketing/section-wrapper";
+import StaggerChildren from "@/components/marketing/stagger-children";
 import { services } from "@/data/services";
 
 export default async function Services() {
@@ -15,15 +16,18 @@ export default async function Services() {
 				</h2>
 				<p className="mt-4 font-light text-muted-foreground">{t("subtitle")}</p>
 			</div>
-			<div className="mt-12 grid gap-px overflow-hidden border border-border/40 md:grid-cols-2 lg:grid-cols-3">
+			<StaggerChildren
+				className="mt-12 grid gap-px overflow-hidden border border-border/40 md:grid-cols-2 lg:grid-cols-3"
+				stagger={0.08}
+			>
 				{services.map((service) => (
 					<a
 						key={service.slug}
 						href={`/services/${service.slug}`}
-						className="group flex flex-col justify-between border-border/40 p-8 transition-colors hover:bg-muted/30 [&:not(:last-child)]:border-b md:[&:not(:last-child)]:border-b-0 md:[&:not(:nth-child(3n))]:border-r md:[&:nth-child(-n+3)]:border-b"
+						className="group flex flex-col justify-between border-border/40 border-t-2 border-t-transparent p-8 transition-all hover:border-t-brand hover:bg-muted/30 [&:not(:last-child)]:border-b md:[&:not(:last-child)]:border-b-0 md:[&:not(:nth-child(3n))]:border-r md:[&:nth-child(-n+3)]:border-b"
 					>
 						<div>
-							<service.icon className="h-5 w-5 text-muted-foreground/50" strokeWidth={1.5} />
+							<service.icon className="h-5 w-5 text-brand" strokeWidth={1.5} />
 							<h3 className="mt-2 font-medium text-lg">
 								{t(`${service.translationKey}.title`)}
 							</h3>
@@ -39,7 +43,7 @@ export default async function Services() {
 						</div>
 					</a>
 				))}
-			</div>
+			</StaggerChildren>
 		</SectionWrapper>
 	);
 }

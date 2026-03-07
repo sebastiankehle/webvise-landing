@@ -23,13 +23,13 @@ export default function Navbar() {
 	];
 
 	return (
-		<header className="sticky top-0 z-50 h-20 border-border/40 border-b bg-background/80 backdrop-blur-sm">
+		<header className="sticky top-0 z-50 h-20 border-border/40 border-b bg-background">
 			<div className="mx-auto flex h-full max-w-[1200px] items-center justify-between px-6">
-				<Link href="/" className="font-medium text-xl tracking-tight">
+				<Link href="/" className="font-medium text-xl tracking-tight" aria-label="webvise — home">
 					webvise
 				</Link>
 
-				<nav className="hidden items-center gap-8 md:flex">
+				<nav aria-label="Main navigation" className="hidden items-center gap-8 md:flex">
 					{navLinks.map(({ href, label }) => (
 						<a
 							key={href}
@@ -65,7 +65,7 @@ export default function Navbar() {
 
 			{mobileOpen && (
 				<div className="border-border/40 border-b bg-background px-6 pb-6 md:hidden">
-					<nav className="flex flex-col gap-4 pt-4">
+					<nav aria-label="Mobile navigation" className="flex flex-col gap-4 pt-4">
 						{navLinks.map(({ href, label }) => (
 							<a
 								key={href}

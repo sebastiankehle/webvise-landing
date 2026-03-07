@@ -67,7 +67,7 @@ export default async function TechStack() {
 							{cat.items.map((tech) => (
 								<span
 									key={tech}
-									className="border border-border/40 px-3 py-1.5 font-light text-sm transition-colors hover:text-foreground"
+									className="border border-border/40 px-3 py-1.5 font-light text-sm transition-all hover:border-brand hover:bg-brand hover:text-white"
 								>
 									{tech}
 								</span>

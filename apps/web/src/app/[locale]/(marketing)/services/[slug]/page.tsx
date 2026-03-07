@@ -43,6 +43,7 @@ export default async function ServicePage({
 	const t = await getTranslations("services");
 	const td = await getTranslations("serviceDetail");
 	const key = service.translationKey;
+	const Icon = service.icon;
 
 	return (
 		<>
@@ -56,13 +57,19 @@ export default async function ServicePage({
 							>
 								&larr; {td("backLink")}
 							</a>
-							<h1 className="mt-6 font-normal text-4xl tracking-tight md:text-5xl">
-								{t(`${key}.title`)}
-							</h1>
-							<p className="mt-2 font-light text-lg text-muted-foreground">
+							<div className="mt-6 flex items-center gap-4">
+								<Icon
+									className="h-8 w-8 text-brand"
+									strokeWidth={1.5}
+								/>
+								<h1 className="font-normal text-4xl tracking-tight md:text-5xl">
+									{t(`${key}.title`)}
+								</h1>
+							</div>
+							<p className="mt-3 font-light text-lg text-muted-foreground">
 								{t(`${key}.tagline`)}
 							</p>
-							<div className="mt-6 flex gap-4 font-light text-sm">
+							<div className="mt-6 flex flex-wrap gap-4 font-light text-sm">
 								<span className="border border-border/40 px-3 py-1.5">
 									{t(`${key}.price`)}
 								</span>
@@ -96,7 +103,7 @@ export default async function ServicePage({
 							{Array.from({ length: service.toolCount }, (_, i) => (
 								<span
 									key={t(`${key}.tools.${i}`)}
-									className="border border-border/40 px-3 py-1.5 font-light text-muted-foreground text-sm"
+									className="border border-border/40 px-3 py-1.5 font-light text-sm transition-all hover:border-brand hover:bg-brand hover:text-white"
 								>
 									{t(`${key}.tools.${i}`)}
 								</span>
@@ -116,7 +123,7 @@ export default async function ServicePage({
 					{Array.from({ length: service.painPointCount }, (_, i) => (
 						<div
 							key={t(`${key}.painPoints.${i}.heading`)}
-							className="border-border/40 p-8 [&:not(:last-child)]:border-b md:[&:not(:last-child)]:border-r md:[&:not(:last-child)]:border-b-0"
+							className="border-border/40 border-t-2 border-t-brand p-8 [&:not(:last-child)]:border-b md:[&:not(:last-child)]:border-r md:[&:not(:last-child)]:border-b-0"
 						>
 							<h3 className="font-medium text-base">
 								{t(`${key}.painPoints.${i}.heading`)}
@@ -155,7 +162,7 @@ export default async function ServicePage({
 							key={t(`${key}.deliverables.${i}`)}
 							className="flex gap-4 px-6 py-4 [&:not(:last-child)]:border-border/40 [&:not(:last-child)]:border-b"
 						>
-							<span className="text-muted-foreground/50 text-xs">
+							<span className="text-brand/60 text-xs">
 								{String(i + 1).padStart(2, "0")}
 							</span>
 							<span className="font-light text-sm">
@@ -175,8 +182,13 @@ export default async function ServicePage({
 						{td("ctaDescription")}
 					</p>
 					<div className="mt-8 flex gap-3">
-						{/* biome-ignore lint/a11y/useAnchorContent: content provided by Button children */}
-						<Button render={<a href="/#contact" />}>{td("ctaButton")}</Button>
+						<Button
+							className="border-brand bg-brand text-white [&]:hover:bg-brand/80"
+							// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
+							render={<a href="/#contact" />}
+						>
+							{td("ctaButton")}
+						</Button>
 						{/* biome-ignore lint/a11y/useAnchorContent: content provided by Button children */}
 						<Button variant="outline" render={<a href="/#pricing" />}>
 							{td("ctaPricingButton")}

@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 
 import SectionWrapper from "@/components/marketing/section-wrapper";
+import StaggerChildren from "@/components/marketing/stagger-children";
 import { Button } from "@/components/ui/button";
 
 const tiers = [
@@ -20,7 +21,10 @@ export default async function Pricing() {
 				</h2>
 				<p className="mt-4 font-light text-muted-foreground">{t("subtitle")}</p>
 			</div>
-			<div className="mt-12 grid gap-px overflow-hidden border border-border/40 md:grid-cols-3">
+			<StaggerChildren
+				className="mt-12 grid gap-px overflow-hidden border border-border/40 md:grid-cols-3"
+				stagger={0.1}
+			>
 				{tiers.map(({ key, featureCount, hasBadge }) => {
 					const featureKeys = Array.from({ length: featureCount }, (_, i) =>
 						String(i),
@@ -37,7 +41,7 @@ export default async function Pricing() {
 										{t(`tiers.${key}.name`)}
 									</h3>
 									{hasBadge && (
-										<span className="border border-foreground bg-foreground px-2 py-0.5 text-background text-xs">
+										<span className="border border-brand bg-brand px-2 py-0.5 text-white text-xs">
 											{t(`tiers.${key}.badge`)}
 										</span>
 									)}
@@ -75,7 +79,7 @@ export default async function Pricing() {
 						</div>
 					);
 				})}
-			</div>
+			</StaggerChildren>
 		</SectionWrapper>
 	);
 }

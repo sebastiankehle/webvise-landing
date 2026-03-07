@@ -58,7 +58,7 @@ export default function Contact() {
 						{t("subtitle")}
 					</p>
 
-					<div className="mt-12 border border-border/40 p-8">
+					<div className="mt-12 border border-border/40 border-l-brand border-l-2 p-8">
 						<h3 className="font-medium text-base">{t("booking.title")}</h3>
 						<p className="mt-2 font-light text-muted-foreground text-sm">
 							{t("booking.description")}
@@ -83,6 +83,8 @@ export default function Contact() {
 				<form
 					onSubmit={handleSubmit}
 					className="space-y-5 border border-border/40 p-8"
+					aria-label={t("title")}
+					noValidate
 				>
 					<div className="grid gap-5 sm:grid-cols-2">
 						<div className="space-y-2">
@@ -148,12 +150,18 @@ export default function Contact() {
 					>
 						{status === "loading" ? t("form.submitting") : t("form.submit")}
 					</Button>
-					{status === "success" && (
-						<p className="text-muted-foreground text-sm">{t("form.success")}</p>
-					)}
-					{status === "error" && (
-						<p className="text-destructive text-sm">{t("form.error")}</p>
-					)}
+					<div aria-live="polite" aria-atomic="true">
+						{status === "success" && (
+							<p role="status" className="text-muted-foreground text-sm">
+								{t("form.success")}
+							</p>
+						)}
+						{status === "error" && (
+							<p role="alert" className="text-destructive text-sm">
+								{t("form.error")}
+							</p>
+						)}
+					</div>
 				</form>
 			</div>
 		</SectionWrapper>

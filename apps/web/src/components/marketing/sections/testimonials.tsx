@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 
 import SectionWrapper from "@/components/marketing/section-wrapper";
+import StaggerChildren from "@/components/marketing/stagger-children";
 
 const testimonialKeys = ["0", "1", "2", "3", "4", "5"];
 
@@ -15,15 +16,23 @@ export default async function Testimonials() {
 				</h2>
 				<p className="mt-4 font-light text-muted-foreground">{t("subtitle")}</p>
 			</div>
-			<div className="mt-12 grid gap-px overflow-hidden border border-border/40 md:grid-cols-2 lg:grid-cols-3">
+			<StaggerChildren
+				className="mt-12 grid gap-px overflow-hidden border border-border/40 md:grid-cols-2 lg:grid-cols-3"
+				stagger={0.08}
+			>
 				{testimonialKeys.map((key) => (
 					<div
 						key={key}
 						className="flex flex-col justify-between border-border/40 p-8 [&:not(:last-child)]:border-b md:[&:not(:last-child)]:border-b-0 md:[&:not(:nth-child(3n))]:border-r md:[&:nth-child(-n+3)]:border-b"
 					>
-						<p className="font-light text-muted-foreground text-sm leading-relaxed">
-							&ldquo;{t(`items.${key}.quote`)}&rdquo;
-						</p>
+						<div>
+							<span className="block font-serif text-3xl leading-none text-brand/40">
+								&ldquo;
+							</span>
+							<p className="mt-2 font-light text-muted-foreground text-sm leading-relaxed">
+								{t(`items.${key}.quote`)}
+							</p>
+						</div>
 						<div className="mt-6">
 							<p className="font-medium text-sm">{t(`items.${key}.author`)}</p>
 							<p className="font-light text-muted-foreground text-xs">
@@ -33,7 +42,7 @@ export default async function Testimonials() {
 						</div>
 					</div>
 				))}
-			</div>
+			</StaggerChildren>
 		</SectionWrapper>
 	);
 }

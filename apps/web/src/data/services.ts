@@ -1,11 +1,11 @@
 import type { LucideIcon } from "lucide-react";
 import {
-	Layers,
-	PanelTop,
-	RefreshCw,
-	Rocket,
-	Search,
-	Sparkles,
+	BrainCircuit,
+	Database,
+	FlaskConical,
+	LayoutTemplate,
+	Paintbrush,
+	TrendingUp,
 } from "lucide-react";
 
 export interface Service {
@@ -22,7 +22,7 @@ export const services: Service[] = [
 	{
 		slug: "landing-pages",
 		translationKey: "landingPages",
-		icon: PanelTop,
+		icon: LayoutTemplate,
 		featureCount: 6,
 		deliverableCount: 5,
 		toolCount: 5,
@@ -31,7 +31,7 @@ export const services: Service[] = [
 	{
 		slug: "seo-performance",
 		translationKey: "seoPerformance",
-		icon: Search,
+		icon: TrendingUp,
 		featureCount: 6,
 		deliverableCount: 5,
 		toolCount: 6,
@@ -40,7 +40,7 @@ export const services: Service[] = [
 	{
 		slug: "website-redesign",
 		translationKey: "websiteRedesign",
-		icon: RefreshCw,
+		icon: Paintbrush,
 		featureCount: 6,
 		deliverableCount: 5,
 		toolCount: 5,
@@ -49,7 +49,7 @@ export const services: Service[] = [
 	{
 		slug: "mvp-development",
 		translationKey: "mvpDevelopment",
-		icon: Rocket,
+		icon: FlaskConical,
 		featureCount: 6,
 		deliverableCount: 5,
 		toolCount: 6,
@@ -58,7 +58,7 @@ export const services: Service[] = [
 	{
 		slug: "ai-automation",
 		translationKey: "aiAutomation",
-		icon: Sparkles,
+		icon: BrainCircuit,
 		featureCount: 6,
 		deliverableCount: 5,
 		toolCount: 6,
@@ -67,7 +67,7 @@ export const services: Service[] = [
 	{
 		slug: "full-stack-applications",
 		translationKey: "fullStackApps",
-		icon: Layers,
+		icon: Database,
 		featureCount: 6,
 		deliverableCount: 5,
 		toolCount: 6,
