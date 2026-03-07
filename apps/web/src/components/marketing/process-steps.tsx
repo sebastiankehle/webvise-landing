@@ -30,7 +30,7 @@ export default function ProcessSteps({ steps }: { steps: Step[] }) {
 							delay: i * 0.1,
 							ease: [0.25, 0.1, 0.25, 1],
 						}}
-						className="border-border/40 p-8 [&:not(:last-child)]:border-b md:[&:not(:last-child)]:border-r md:[&:not(:last-child)]:border-b-0"
+						className="border-border/40 p-6 md:p-8 [&:not(:last-child)]:border-b md:[&:not(:last-child)]:border-r md:[&:not(:last-child)]:border-b-0"
 					>
 						<span className="font-medium text-brand/60 text-xs">
 							{step.number}

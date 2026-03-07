@@ -16,7 +16,7 @@ export default function SectionWrapper({
 		<section
 			id={id}
 			className={cn(
-				"py-24 md:py-32",
+				"py-16 md:py-32",
 				alternate ? "bg-white" : "bg-background",
 				className,
 			)}

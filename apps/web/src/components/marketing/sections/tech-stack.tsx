@@ -54,11 +54,11 @@ export default async function TechStack() {
 				</h2>
 				<p className="mt-4 font-light text-muted-foreground">{t("subtitle")}</p>
 			</div>
-			<div className="mt-12 grid gap-px overflow-hidden border border-border/40 sm:grid-cols-2 lg:grid-cols-4">
+			<div className="mt-12 grid gap-px overflow-hidden border border-border/40 grid-cols-2 lg:grid-cols-4">
 				{categories.map((cat) => (
 					<div
 						key={cat.key}
-						className="border-border/40 p-8 [&:not(:last-child)]:border-b sm:[&:not(:last-child)]:border-r sm:[&:not(:last-child)]:border-b-0"
+						className="border-border/40 p-6 md:p-8 [&:nth-child(odd)]:border-r [&:nth-child(-n+2)]:border-b lg:[&:nth-child(odd)]:border-r-0 lg:[&:nth-child(-n+2)]:border-b-0 lg:[&:not(:last-child)]:border-r"
 					>
 						<p className="mb-4 font-medium text-muted-foreground/50 text-xs uppercase tracking-wider">
 							{t(cat.key)}

@@ -8,17 +8,22 @@ export default async function Hero() {
 	const t = await getTranslations("hero");
 
 	return (
-		<section id="hero" className="py-32 md:py-40">
+		<section id="hero" className="py-20 md:py-40">
 			<div className="mx-auto max-w-[1200px] px-6">
 				<HeroContent>
 					<div className="grid items-center gap-12 md:grid-cols-2">
 						<div>
-							<h1 className="font-normal text-4xl leading-[1.15] tracking-tight md:text-[48px]">
+							<h1 className="font-normal text-3xl leading-[1.15] tracking-tight md:text-[48px]">
 								{t.rich("title", {
 									brand: (chunks) => (
 										<span className="text-brand">{chunks}</span>
 									),
-									br: () => <br className="hidden md:block" />,
+									br: () => (
+									<>
+										{" "}
+										<br className="hidden md:block" />
+									</>
+								),
 								})}
 							</h1>
 							<p className="mt-6 font-light text-lg text-muted-foreground leading-relaxed">

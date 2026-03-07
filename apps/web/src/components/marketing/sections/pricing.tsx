@@ -32,7 +32,7 @@ export default async function Pricing() {
 					return (
 						<div
 							key={key}
-							className="flex flex-col justify-between border-border/40 p-8 [&:not(:last-child)]:border-b md:[&:not(:last-child)]:border-r md:[&:not(:last-child)]:border-b-0"
+							className="flex flex-col justify-between border-border/40 p-6 md:p-8 [&:not(:last-child)]:border-b md:[&:not(:last-child)]:border-r md:[&:not(:last-child)]:border-b-0"
 						>
 							<div>
 								<div className="flex items-center gap-3">

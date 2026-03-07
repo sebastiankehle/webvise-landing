@@ -47,7 +47,7 @@ export default async function ServicePage({
 
 	return (
 		<>
-			<section className="py-32 md:py-40">
+			<section className="py-20 md:py-40">
 				<div className="mx-auto max-w-[1200px] px-6">
 					<AnimateIn>
 						<div className="max-w-2xl">
@@ -62,7 +62,7 @@ export default async function ServicePage({
 									className="h-8 w-8 text-brand"
 									strokeWidth={1.5}
 								/>
-								<h1 className="font-normal text-4xl tracking-tight md:text-5xl">
+								<h1 className="font-normal text-3xl tracking-tight md:text-5xl">
 									{t(`${key}.title`)}
 								</h1>
 							</div>
@@ -123,7 +123,7 @@ export default async function ServicePage({
 					{Array.from({ length: service.painPointCount }, (_, i) => (
 						<div
 							key={t(`${key}.painPoints.${i}.heading`)}
-							className="border-border/40 border-t-2 border-t-brand p-8 [&:not(:last-child)]:border-b md:[&:not(:last-child)]:border-r md:[&:not(:last-child)]:border-b-0"
+							className="border-border/40 border-t-2 border-t-brand p-6 md:p-8 [&:not(:last-child)]:border-b md:[&:not(:last-child)]:border-r md:[&:not(:last-child)]:border-b-0"
 						>
 							<h3 className="font-medium text-base">
 								{t(`${key}.painPoints.${i}.heading`)}

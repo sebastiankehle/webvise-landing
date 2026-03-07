@@ -23,9 +23,9 @@ export default async function Metrics() {
 				{metricKeys.map((key) => (
 					<div
 						key={key}
-						className="border-border/40 p-8 [&:not(:last-child)]:border-b md:[&:not(:last-child)]:border-r md:[&:not(:last-child)]:border-b-0"
+						className="border-border/40 p-6 md:p-8 [&:nth-child(odd)]:border-r [&:nth-child(-n+2)]:border-b md:[&:nth-child(odd)]:border-r-0 md:[&:nth-child(-n+2)]:border-b-0 md:[&:not(:last-child)]:border-r"
 					>
-						<p className="font-normal text-4xl tracking-tight md:text-5xl">
+						<p className="font-normal text-3xl tracking-tight md:text-5xl">
 							{t(`${key}.value`)}
 						</p>
 						<p className="mt-3 font-light text-muted-foreground text-sm">

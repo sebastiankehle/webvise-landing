@@ -22,7 +22,7 @@ export default async function Testimonials() {
 				{testimonialKeys.map((key) => (
 					<div
 						key={key}
-						className="flex flex-col justify-between border-border/40 p-8 [&:not(:last-child)]:border-b md:[&:not(:last-child)]:border-b-0 md:[&:not(:nth-child(3n))]:border-r md:[&:nth-child(-n+3)]:border-b"
+						className="flex flex-col justify-between border-border/40 p-6 md:p-8 [&:not(:last-child)]:border-b md:[&:not(:last-child)]:border-b-0 md:[&:not(:nth-child(3n))]:border-r md:[&:nth-child(-n+3)]:border-b"
 					>
 						<div>
 							<span className="block font-serif text-3xl leading-none text-brand/40">
