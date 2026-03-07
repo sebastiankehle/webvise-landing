@@ -112,7 +112,7 @@ function buildDatasets(t: ChartTranslations) {
 			{ week: "W13", before: null, after: 100 },
 		],
 	},
-} as const;
+};
 }
 
 const metricOrder: Metric[] = ["conversion", "engagement", "speed"];
