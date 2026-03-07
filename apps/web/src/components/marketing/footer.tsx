@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 
+import Logo from "@/components/logo";
 import { services } from "@/data/services";
 import { socials } from "@/data/socials";
 
@@ -21,7 +22,8 @@ export default async function Footer() {
 			<div className="mx-auto max-w-[1200px] px-6 py-20">
 				<div className="grid gap-10 md:grid-cols-4">
 					<div className="md:col-span-1">
-						<a href="/" className="font-medium text-xl tracking-tight">
+						<a href="/" className="flex items-center gap-2 font-medium text-xl tracking-tight">
+							<Logo className="h-7 w-7" />
 							webvise
 						</a>
 						<p className="mt-4 text-sm opacity-60">{t("tagline")}</p>

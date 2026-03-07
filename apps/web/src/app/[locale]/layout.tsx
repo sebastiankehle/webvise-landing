@@ -26,6 +26,13 @@ export const metadata: Metadata = {
 	verification: {
 		google: process.env.GOOGLE_VERIFICATION_CODE,
 	},
+	icons: {
+		icon: [
+			{ url: "/favicon.ico", sizes: "32x32" },
+			{ url: "/icon.svg", type: "image/svg+xml" },
+		],
+		apple: "/apple-icon",
+	},
 	title: {
 		default: "webvise — Design. Development. Automation.",
 		template: "%s — webvise",

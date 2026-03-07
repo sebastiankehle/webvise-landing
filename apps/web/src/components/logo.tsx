@@ -1,0 +1,20 @@
+export default function Logo({ className }: { className?: string }) {
+	return (
+		<svg
+			viewBox="0 0 32 32"
+			fill="none"
+			xmlns="http://www.w3.org/2000/svg"
+			className={className}
+			aria-hidden="true"
+		>
+			<polygon points="16,2 8,10 16,12" fill="#f97316" opacity="0.9" />
+			<polygon points="16,2 24,10 16,12" fill="#fb923c" opacity="0.85" />
+			<polygon points="8,10 4,18 16,12" fill="#fdba74" opacity="0.8" />
+			<polygon points="24,10 28,18 16,12" fill="#f97316" opacity="0.75" />
+			<polygon points="16,12 4,18 10,26" fill="#fb923c" opacity="0.9" />
+			<polygon points="16,12 28,18 22,26" fill="#fdba74" opacity="0.85" />
+			<polygon points="16,12 10,26 16,30" fill="#f97316" opacity="0.8" />
+			<polygon points="16,12 22,26 16,30" fill="#fb923c" opacity="0.75" />
+		</svg>
+	);
+}

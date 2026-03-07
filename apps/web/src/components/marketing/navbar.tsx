@@ -5,6 +5,7 @@ import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
+import Logo from "@/components/logo";
 import LanguageSwitcher from "@/components/marketing/language-switcher";
 import { Button } from "@/components/ui/button";
 import { services } from "@/data/services";
@@ -25,7 +26,8 @@ export default function Navbar() {
 	return (
 		<header className="sticky top-0 z-50 h-20 border-border/40 border-b bg-background">
 			<div className="mx-auto flex h-full max-w-[1200px] items-center justify-between px-6">
-				<Link href="/" className="font-medium text-xl tracking-tight" aria-label="webvise — home">
+				<Link href="/" className="flex items-center gap-2 font-medium text-xl tracking-tight" aria-label="webvise — home">
+					<Logo className="h-7 w-7" />
 					webvise
 				</Link>
 
