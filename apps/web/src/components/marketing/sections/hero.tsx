@@ -18,6 +18,7 @@ export default async function Hero() {
 									brand: (chunks) => (
 										<span className="text-brand">{chunks}</span>
 									),
+									br: () => <br />,
 								})}
 							</h1>
 							<p className="mt-6 font-light text-lg text-muted-foreground leading-relaxed">
