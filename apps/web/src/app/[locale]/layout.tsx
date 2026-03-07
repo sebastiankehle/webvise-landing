@@ -21,6 +21,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+	verification: {
+		google: process.env.GOOGLE_VERIFICATION_CODE,
+	},
 	title: {
 		default: "webvise — Design. Development. Automation.",
 		template: "%s — webvise",
