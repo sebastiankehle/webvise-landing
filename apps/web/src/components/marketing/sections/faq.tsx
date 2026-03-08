@@ -8,11 +8,11 @@ import SectionWrapper from "@/components/marketing/section-wrapper";
 const faqItems = [
 	{ key: "0", category: "general" },
 	{ key: "1", category: "general" },
-	{ key: "2", category: "technical" },
-	{ key: "3", category: "technical" },
-	{ key: "4", category: "general" },
-	{ key: "5", category: "general" },
-	{ key: "6", category: "investment" },
+	{ key: "2", category: "investment" },
+	{ key: "3", category: "general" },
+	{ key: "4", category: "technical" },
+	{ key: "5", category: "technical" },
+	{ key: "6", category: "general" },
 	{ key: "7", category: "investment" },
 	{ key: "8", category: "general" },
 ];

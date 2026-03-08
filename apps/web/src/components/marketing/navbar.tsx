@@ -72,7 +72,6 @@ export default function Navbar() {
 					<LanguageSwitcher />
 					{/* biome-ignore lint/a11y/useAnchorContent: content provided by Button children */}
 					<Button
-						size="sm"
 						className="border-transparent bg-brand text-white [&]:hover:bg-brand/80"
 						render={<a href="/#contact" />}
 					>
@@ -141,7 +140,6 @@ export default function Navbar() {
 								</div>
 							</div>
 							<Button
-								size="sm"
 								className="border-transparent bg-brand text-white [&]:hover:bg-brand/80"
 								// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
 								render={<a href="/#contact" />}
