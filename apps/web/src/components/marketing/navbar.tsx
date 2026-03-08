@@ -29,6 +29,7 @@ export default function Navbar() {
 		{ href: "/#services", label: t("services") },
 		{ href: "/#process", label: t("process") },
 		{ href: "/#pricing", label: t("pricing") },
+		{ href: "/blog", label: t("blog") },
 		{ href: "/#contact", label: t("contact") },
 	];
 

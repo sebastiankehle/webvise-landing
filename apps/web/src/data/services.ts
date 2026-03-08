@@ -1,10 +1,10 @@
 import type { LucideIcon } from "lucide-react";
 import {
+	ArrowLeftRight,
 	BrainCircuit,
 	Database,
 	FlaskConical,
 	LayoutTemplate,
-	Paintbrush,
 	TrendingUp,
 } from "lucide-react";
 
@@ -38,9 +38,9 @@ export const services: Service[] = [
 		painPointCount: 3,
 	},
 	{
-		slug: "website-redesign",
-		translationKey: "websiteRedesign",
-		icon: Paintbrush,
+		slug: "wordpress-migration",
+		translationKey: "wordpressMigration",
+		icon: ArrowLeftRight,
 		featureCount: 6,
 		deliverableCount: 5,
 		toolCount: 5,
