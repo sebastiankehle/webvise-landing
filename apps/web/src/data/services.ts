@@ -5,6 +5,7 @@ import {
 	FlaskConical,
 	LayoutTemplate,
 	Paintbrush,
+	Rocket,
 	TrendingUp,
 } from "lucide-react";
 
@@ -68,6 +69,15 @@ export const services: Service[] = [
 		slug: "full-stack-applications",
 		translationKey: "fullStackApps",
 		icon: Database,
+		featureCount: 6,
+		deliverableCount: 5,
+		toolCount: 6,
+		painPointCount: 3,
+	},
+	{
+		slug: "wordpress-nextjs-migration",
+		translationKey: "wpMigration",
+		icon: Rocket,
 		featureCount: 6,
 		deliverableCount: 5,
 		toolCount: 6,
