@@ -80,7 +80,6 @@ const iconSlugs = [
   "inngest",
   "hono",
   "pnpm",
-  "resend",
 ];
 
 type IconData = Awaited<ReturnType<typeof fetchSimpleIcons>>;
