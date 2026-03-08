@@ -4,7 +4,6 @@ import {
 	Database,
 	FlaskConical,
 	LayoutTemplate,
-	Paintbrush,
 	Rocket,
 	TrendingUp,
 } from "lucide-react";
@@ -36,15 +35,6 @@ export const services: Service[] = [
 		featureCount: 6,
 		deliverableCount: 5,
 		toolCount: 6,
-		painPointCount: 3,
-	},
-	{
-		slug: "website-redesign",
-		translationKey: "websiteRedesign",
-		icon: Paintbrush,
-		featureCount: 6,
-		deliverableCount: 5,
-		toolCount: 5,
 		painPointCount: 3,
 	},
 	{
