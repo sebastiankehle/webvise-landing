@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 import AnimateIn from "@/components/marketing/animate-in";
 import { Button } from "@/components/ui/button";
@@ -89,15 +90,17 @@ function ScoreRing({
 }
 
 function ReportResults({ data }: { data: ReportData }) {
+	const t = useTranslations("wpHealthReport");
+
 	return (
 		<AnimateIn>
 			<div className="mt-16 space-y-10">
 				<div>
 					<h2 className="font-normal text-2xl tracking-tight md:text-3xl">
-						Your WordPress Health Report
+						{t("results.title")}
 					</h2>
 					<p className="mt-2 text-muted-foreground text-sm">
-						Results for{" "}
+						{t("results.resultsFor")}{" "}
 						<span className="font-medium text-foreground">{data.url}</span>
 					</p>
 				</div>
@@ -105,20 +108,31 @@ function ReportResults({ data }: { data: ReportData }) {
 				{/* Scores */}
 				<div className="grid gap-6 sm:grid-cols-3">
 					<div className="flex flex-col items-center border border-border/40 p-6">
-						<ScoreRing score={data.mobile.score} label="Mobile" />
+						<ScoreRing
+							score={data.mobile.score}
+							label={t("results.mobile")}
+						/>
 					</div>
 					<div className="flex flex-col items-center border border-border/40 p-6">
-						<ScoreRing score={data.desktop.score} label="Desktop" />
+						<ScoreRing
+							score={data.desktop.score}
+							label={t("results.desktop")}
+						/>
 					</div>
 					<div className="flex flex-col items-center border border-border/40 border-l-2 border-l-brand p-6">
-						<ScoreRing score={data.projectedScore} label="After Next.js" />
+						<ScoreRing
+							score={data.projectedScore}
+							label={t("results.afterNextjs")}
+						/>
 					</div>
 				</div>
 
 				{/* Top issues */}
 				{data.issues.length > 0 && (
 					<div className="border border-border/40 p-6">
-						<h3 className="font-medium text-sm">Top Speed Killers</h3>
+						<h3 className="font-medium text-sm">
+							{t("results.speedKillers")}
+						</h3>
 						<ul className="mt-4 space-y-3">
 							{data.issues.map((issue) => (
 								<li
@@ -143,7 +157,9 @@ function ReportResults({ data }: { data: ReportData }) {
 				{/* Security flags */}
 				{data.securityFlags.length > 0 && (
 					<div className="border border-border/40 p-6">
-						<h3 className="font-medium text-sm">Security Risks</h3>
+						<h3 className="font-medium text-sm">
+							{t("results.securityRisks")}
+						</h3>
 						<ul className="mt-4 space-y-3">
 							{data.securityFlags.map((flag) => (
 								<li key={flag} className="flex items-start gap-3 text-sm">
@@ -157,19 +173,19 @@ function ReportResults({ data }: { data: ReportData }) {
 
 				{/* Migration estimate */}
 				<div className="border border-border/40 border-l-2 border-l-brand p-6">
-					<h3 className="font-medium text-sm">Migration Estimate</h3>
+					<h3 className="font-medium text-sm">
+						{t("results.migrationEstimate")}
+					</h3>
 					<p className="mt-2 text-muted-foreground text-sm">
-						Based on your site analysis, a Next.js rebuild would cost
-						approximately{" "}
-						<span className="font-medium text-foreground">
-							&euro;{data.migrationEstimate.min.toLocaleString()}&ndash;&euro;
-							{data.migrationEstimate.max.toLocaleString()}
-						</span>{" "}
-						one-time, with managed edits from{" "}
-						<span className="font-medium text-foreground">
-							&euro;299/month
-						</span>
-						.
+						{t.rich("results.migrationText", {
+							strong: (chunks) => (
+								<span className="font-medium text-foreground">
+									{chunks}
+								</span>
+							),
+							min: data.migrationEstimate.min.toLocaleString(),
+							max: data.migrationEstimate.max.toLocaleString(),
+						})}
 					</p>
 					<div className="mt-4 flex flex-col gap-3 sm:flex-row">
 						<Button
@@ -184,7 +200,7 @@ function ReportResults({ data }: { data: ReportData }) {
 								/>
 							}
 						>
-							Book a Free Call
+							{t("results.bookCall")}
 						</Button>
 						<Button
 							size="lg"
@@ -194,7 +210,7 @@ function ReportResults({ data }: { data: ReportData }) {
 								<a href="/#contact" />
 							}
 						>
-							Get in Touch
+							{t("results.getInTouch")}
 						</Button>
 					</div>
 				</div>
@@ -204,6 +220,7 @@ function ReportResults({ data }: { data: ReportData }) {
 }
 
 export default function WpHealthReport() {
+	const t = useTranslations("wpHealthReport");
 	const [status, setStatus] = useState<
 		"idle" | "loading" | "success" | "error"
 	>("idle");
@@ -241,14 +258,11 @@ export default function WpHealthReport() {
 				setStatus("success");
 			} else {
 				const err = await res.json().catch(() => null);
-				setErrorMessage(
-					err?.error ||
-						"Failed to analyze website. Please check the URL and try again.",
-				);
+				setErrorMessage(err?.error || t("errors.analyzeFailed"));
 				setStatus("error");
 			}
 		} catch {
-			setErrorMessage("Network error. Please try again.");
+			setErrorMessage(t("errors.networkError"));
 			setStatus("error");
 		}
 	}
@@ -261,76 +275,73 @@ export default function WpHealthReport() {
 						<div className="grid items-start gap-16 md:grid-cols-2">
 							<div>
 								<h1 className="font-normal text-3xl leading-[1.15] tracking-tight md:text-[48px]">
-									Is Your WordPress Site{" "}
-									<span className="text-brand">Hurting Your Business?</span>
+									{t.rich("hero.title", {
+										brand: (chunks) => (
+											<span className="text-brand">{chunks}</span>
+										),
+									})}
 								</h1>
 								<p className="mt-6 font-light text-lg text-muted-foreground leading-relaxed">
-									Get a free WordPress Health Report in 60 seconds — see your
-									real speed score, security risks, and what a Next.js rebuild
-									would score.
+									{t("hero.subtitle")}
 								</p>
 
 								<ul className="mt-8 space-y-3">
-									{[
-										"Real PageSpeed score for mobile and desktop",
-										"Security risk flags and vulnerability exposure",
-										"Performance comparison with projected Next.js score",
-										"Personalised migration cost estimate",
-									].map((item) => (
+									{[0, 1, 2, 3].map((i) => (
 										<li
-											key={item}
+											key={i}
 											className="flex items-start gap-3 text-sm"
 										>
 											<span className="mt-1 h-1.5 w-1.5 shrink-0 bg-brand" />
-											<span>{item}</span>
+											<span>{t(`hero.benefits.${i}`)}</span>
 										</li>
 									))}
 								</ul>
 
 								<p className="mt-8 text-muted-foreground text-xs">
-									Used by 25+ businesses. Built by webvise.io — the team that
-									rebuilds WordPress sites in Next.js.
+									{t("hero.trustLine")}
 								</p>
 							</div>
 
 							<form
 								onSubmit={handleSubmit}
 								className="space-y-5 border border-border/40 p-8"
-								aria-label="WordPress Health Report"
+								aria-label={t("form.ariaLabel")}
 								noValidate
 							>
 								<div className="space-y-2">
-									<Label htmlFor="url">Website URL</Label>
+									<Label htmlFor="url">{t("form.url")}</Label>
 									<Input
 										id="url"
 										name="url"
 										type="url"
 										required
-										placeholder="yoursite.com"
+										placeholder={t("form.urlPlaceholder")}
 										disabled={status === "loading"}
 									/>
 								</div>
 								<div className="grid gap-5 sm:grid-cols-2">
 									<div className="space-y-2">
-										<Label htmlFor="email">Email</Label>
+										<Label htmlFor="email">{t("form.email")}</Label>
 										<Input
 											id="email"
 											name="email"
 											type="email"
 											required
-											placeholder="you@company.com"
+											placeholder={t("form.emailPlaceholder")}
 											disabled={status === "loading"}
 										/>
 									</div>
 									<div className="space-y-2">
 										<Label htmlFor="firstName">
-											Name{" "}
-											<span className="text-muted-foreground">(optional)</span>
+											{t("form.name")}{" "}
+											<span className="text-muted-foreground">
+												{t("form.nameOptional")}
+											</span>
 										</Label>
 										<Input
 											id="firstName"
 											name="firstName"
-											placeholder="Your name"
+											placeholder={t("form.namePlaceholder")}
 											disabled={status === "loading"}
 										/>
 									</div>
@@ -341,11 +352,11 @@ export default function WpHealthReport() {
 									className="w-full border-transparent bg-brand text-white [&]:hover:bg-brand/80"
 								>
 									{status === "loading"
-										? "Analyzing... this takes ~30 seconds"
-										: "Get My Free Report"}
+										? t("form.submitting")
+										: t("form.submit")}
 								</Button>
 								<p className="text-center text-muted-foreground text-xs">
-									No signup required. No credit card. Just results.
+									{t("form.noSignup")}
 								</p>
 								<div aria-live="polite" aria-atomic="true">
 									{status === "error" && (
@@ -361,9 +372,7 @@ export default function WpHealthReport() {
 					{status === "loading" && (
 						<div className="mt-16 flex flex-col items-center gap-4">
 							<div className="h-6 w-6 animate-spin border-2 border-brand border-t-transparent" />
-							<p className="text-muted-foreground text-sm">
-								Running Lighthouse audit on your website...
-							</p>
+							<p className="text-muted-foreground text-sm">{t("loading")}</p>
 						</div>
 					)}
 
@@ -376,10 +385,7 @@ export default function WpHealthReport() {
 			{/* Trust footer */}
 			<section className="border-t border-border/40 py-12">
 				<div className="mx-auto max-w-[1200px] px-6 text-center">
-					<p className="text-muted-foreground text-xs">
-						We take your data seriously. Your email is used only to send your
-						report and follow-ups. Unsubscribe any time.
-					</p>
+					<p className="text-muted-foreground text-xs">{t("trust")}</p>
 				</div>
 			</section>
 		</>
