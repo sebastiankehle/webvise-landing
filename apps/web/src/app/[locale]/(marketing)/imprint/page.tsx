@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-	title: "Imprint — webvise",
+	title: "Imprint - webvise",
 	description:
 		"Legal information and contact details for webvise, as required by German law.",
 };

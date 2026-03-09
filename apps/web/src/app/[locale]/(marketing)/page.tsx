@@ -39,7 +39,7 @@ const jsonLd = {
 			"@type": "WebPage",
 			"@id": "https://webvise.io/#webpage",
 			url: "https://webvise.io",
-			name: "webvise — Design. Development. Automation.",
+			name: "webvise - Design. Development. Automation.",
 			isPartOf: { "@id": "https://webvise.io/#website" },
 			about: { "@id": "https://webvise.io/#organization" },
 			description:

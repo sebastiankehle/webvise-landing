@@ -8,7 +8,7 @@ export default function MarketingLayout({
 }) {
 	return (
 		<>
-			{/* Preloader overlay — pure CSS, content stays in DOM for SEO */}
+			{/* Preloader overlay - pure CSS, content stays in DOM for SEO */}
 			<div
 				aria-hidden="true"
 				className="preloader-overlay pointer-events-none fixed inset-0 z-[200] flex items-center justify-center bg-background"

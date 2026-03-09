@@ -25,7 +25,7 @@ export default function MediaContent({ heroSlogan }: { heroSlogan: string }) {
 				</div>
 			</div>
 
-			{/* LinkedIn Banners — Tagline */}
+			{/* LinkedIn Banners - Tagline */}
 			<div>
 				<h2 className="mb-2 font-medium text-lg">{t("linkedinBanners")}</h2>
 				<p className="mb-8 text-muted-foreground text-sm">{t("linkedinBannersDescription")}</p>
@@ -46,7 +46,7 @@ export default function MediaContent({ heroSlogan }: { heroSlogan: string }) {
 				</div>
 			</div>
 
-			{/* LinkedIn Banners — Hero Slogan */}
+			{/* LinkedIn Banners - Hero Slogan */}
 			<div>
 				<h2 className="mb-2 font-medium text-lg">{t("linkedinBannersHero")}</h2>
 				<p className="mb-8 text-muted-foreground text-sm">{t("linkedinBannersHeroDescription")}</p>

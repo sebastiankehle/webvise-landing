@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-	title: "Terms of Service — webvise",
+	title: "Terms of Service - webvise",
 	description: "Terms and conditions for using webvise services.",
 };
 

@@ -7,7 +7,7 @@ import { getBlogPosts } from "@/data/blog";
 export async function generateMetadata(): Promise<Metadata> {
 	const t = await getTranslations("blog");
 	return {
-		title: `${t("title")} — webvise`,
+		title: `${t("title")} - webvise`,
 		description: t("subtitle"),
 	};
 }

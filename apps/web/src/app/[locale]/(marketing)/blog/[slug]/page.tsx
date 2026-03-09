@@ -21,7 +21,7 @@ export async function generateMetadata({
 	if (!post) return {};
 
 	return {
-		title: `${post.title} — webvise`,
+		title: `${post.title} - webvise`,
 		description: post.excerpt,
 		keywords: post.keyword,
 	};

@@ -44,7 +44,7 @@ export default function Navbar() {
 				<Link
 					href="/"
 					className="flex items-center gap-2.5 font-medium text-xl tracking-tight"
-					aria-label="webvise — home"
+					aria-label="webvise - home"
 					onClick={(e) => {
 						if (pathname === "/") {
 							e.preventDefault();

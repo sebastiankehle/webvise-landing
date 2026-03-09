@@ -24,7 +24,7 @@ export async function generateMetadata({
 	const t = await getTranslations("services");
 
 	return {
-		title: `${t(`${service.translationKey}.title`)} — webvise`,
+		title: `${t(`${service.translationKey}.title`)} - webvise`,
 		description: t(`${service.translationKey}.description`),
 	};
 }

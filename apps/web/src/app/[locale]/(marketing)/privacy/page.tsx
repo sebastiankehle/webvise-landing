@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-	title: "Privacy Policy — webvise",
+	title: "Privacy Policy - webvise",
 	description: "How webvise collects, uses, and protects your personal data.",
 };
 
@@ -31,16 +31,16 @@ export default function PrivacyPage() {
 					<p>We collect the following data when you use our website:</p>
 					<ul>
 						<li>
-							Contact form submissions (name, email, company, message) — to
+							Contact form submissions (name, email, company, message) - to
 							respond to your inquiry.
 						</li>
 						<li>
-							Usage analytics (page views, referrer, device type) — to improve
+							Usage analytics (page views, referrer, device type) - to improve
 							our website. We use PostHog, which can be configured to anonymize
 							IP addresses.
 						</li>
 						<li>
-							Error tracking data (browser, OS, stack traces) — to fix bugs. We
+							Error tracking data (browser, OS, stack traces) - to fix bugs. We
 							use Sentry, which does not track personal data.
 						</li>
 					</ul>

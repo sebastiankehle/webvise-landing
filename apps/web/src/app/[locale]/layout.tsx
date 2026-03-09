@@ -34,8 +34,8 @@ export const metadata: Metadata = {
 		apple: "/apple-icon",
 	},
 	title: {
-		default: "webvise — Design. Development. Automation.",
-		template: "%s — webvise",
+		default: "webvise - Design. Development. Automation.",
+		template: "%s - webvise",
 	},
 	description:
 		"We turn ideas into production-ready software. Design, engineering, and AI. Shipped in weeks, built to scale.",
@@ -43,13 +43,13 @@ export const metadata: Metadata = {
 	openGraph: {
 		type: "website",
 		siteName: "webvise",
-		title: "webvise — Design. Development. Automation.",
+		title: "webvise - Design. Development. Automation.",
 		description:
 			"We turn ideas into production-ready software. Design, engineering, and AI. Shipped in weeks, built to scale.",
 	},
 	twitter: {
 		card: "summary_large_image",
-		title: "webvise — Design. Development. Automation.",
+		title: "webvise - Design. Development. Automation.",
 		description:
 			"We turn ideas into production-ready software. Design, engineering, and AI. Shipped in weeks, built to scale.",
 	},
