@@ -1,0 +1,185 @@
+{
+	"title": "Perché il tuo sito WordPress fallisce su mobile (e come risolverlo definitivamente)",
+	"excerpt": "Nel 2026, il 60% del traffico web proviene da dispositivi mobili — e Google valuta il tuo sito in base alle prestazioni mobile. Scopri perché WordPress ottiene 35–55 nel PageSpeed mobile e cosa puoi fare.",
+	"blocks": [
+		{
+			"type": "p",
+			"text": "Sai già che il tuo sito WordPress è lento. Ma l'hai mai controllato su mobile?"
+		},
+		{
+			"type": "p",
+			"text": "Prendi il telefono adesso e carica il tuo sito web. Conta i secondi. Guarda il layout che salta da una parte all'altra. Nota le immagini che si caricano nelle dimensioni sbagliate. Questa è l'esperienza che vivono il 60% dei tuoi visitatori — perché questa è la quota del traffico web proveniente da dispositivi mobili nel 2026."
+		},
+		{
+			"type": "p",
+			"text": "E anche Google sta guardando."
+		},
+		{
+			"type": "h2",
+			"text": "Indicizzazione Mobile-First: perché la velocità mobile è l'unica che conta"
+		},
+		{
+			"type": "p",
+			"text": "Dal 2021, Google utilizza l'indicizzazione mobile-first per ogni sito web. Ciò significa che Google classifica il tuo sito in base alle sue prestazioni su mobile — non su desktop."
+		},
+		{
+			"type": "p",
+			"text": "Il tuo punteggio desktop è quasi irrilevante. Se il tuo PageSpeed mobile è 45, questo è il numero che vede Google. Ed è il numero che determina se appari in prima o terza pagina."
+		},
+		{
+			"type": "p",
+			"text": "Il sito WordPress medio ottiene **35–55 nel PageSpeed mobile**. Non è solo un brutto voto. È un problema di business."
+		},
+		{
+			"type": "h2",
+			"text": "Perché WordPress fallisce su mobile"
+		},
+		{
+			"type": "h3",
+			"text": "I temi non sono stati costruiti per il mobile-first"
+		},
+		{
+			"type": "p",
+			"text": "La maggior parte dei temi WordPress è progettata prima per il desktop e poi \"resa responsive\" con i media query CSS. Il risultato: il tuo telefono scarica gli stessi asset pesanti di un browser desktop, poi nasconde ciò di cui non ha bisogno. I dati vengono comunque trasferiti. Il JavaScript viene comunque eseguito. Semplicemente non lo vedi."
+		},
+		{
+			"type": "p",
+			"text": "Un sito veramente mobile-first invia solo ciò di cui il dispositivo ha bisogno. I temi WordPress quasi non lo fanno mai."
+		},
+		{
+			"type": "h3",
+			"text": "CSS e JavaScript che bloccano il rendering"
+		},
+		{
+			"type": "p",
+			"text": "Il sito WordPress medio carica **15–25 file CSS e JavaScript separati** prima che appaia qualcosa sullo schermo. Ogni file è un viaggio di andata e ritorno verso il server. Sulle reti mobili — anche con il 4G veloce — questo può aggiungere 2–4 secondi di pura attesa prima che un singolo pixel venga visualizzato."
+		},
+		{
+			"type": "p",
+			"text": "I plugin di caching cercano di combinare e minimizzare questi file. Ma non possono risolvere il problema fondamentale: WordPress carica tutto in anticipo perché i plugin non si coordinano tra loro."
+		},
+		{
+			"type": "h3",
+			"text": "Le immagini sono il problema principale"
+		},
+		{
+			"type": "p",
+			"text": "WordPress genera più dimensioni di immagini, ma raramente serve quella giusta per il dispositivo. Un'immagine hero da 2000px viene inviata a uno schermo di telefono da 390px. Anche con i plugin di lazy loading, WordPress non serve formati moderni come WebP o AVIF per impostazione predefinita, e non utilizza un nodo CDN edge vicino al tuo visitatore."
+		},
+		{
+			"type": "p",
+			"text": "Su mobile, le immagini spesso rappresentano il 60–80% del peso totale della pagina. Se sbagli questo, nient'altro conta."
+		},
+		{
+			"type": "h3",
+			"text": "I page builder aggiungono un overhead enorme"
+		},
+		{
+			"type": "p",
+			"text": "Elementor, Divi, WPBakery — questi strumenti rendono WordPress più facile da progettare. Iniettano anche **500kb–1,5mb di JavaScript** che viene eseguito ad ogni caricamento di pagina. Su desktop con una connessione veloce, a malapena lo noti. Su mobile, è la differenza tra un caricamento di 1 secondo e uno di 8 secondi."
+		},
+		{
+			"type": "h3",
+			"text": "L'hosting condiviso non può gestire i picchi di traffico mobile"
+		},
+		{
+			"type": "p",
+			"text": "Gli utenti mobile sono impazienti. Si aspettano pagine in meno di 2 secondi. I server di hosting condiviso che impiegano 800ms solo per rispondere alla richiesta iniziale hanno già consumato metà di quel budget prima che un singolo asset venga caricato."
+		},
+		{
+			"type": "h2",
+			"text": "Numeri reali: WordPress vs Next.js su mobile"
+		},
+		{
+			"type": "p",
+			"text": "Abbiamo migrato decine di siti WordPress verso Next.js. Ecco come appaiono realmente i numeri mobile:"
+		},
+		{
+			"type": "table",
+			"headers": [
+				"Metrica",
+				"WordPress (tipico)",
+				"Next.js su Vercel"
+			],
+			"rows": [
+				[
+					"PageSpeed mobile",
+					"35–55",
+					"90–99"
+				],
+				[
+					"First Contentful Paint",
+					"3,0–5,5s",
+					"0,3–0,8s"
+				],
+				[
+					"Largest Contentful Paint",
+					"4,0–8,0s",
+					"0,6–1,2s"
+				],
+				[
+					"Cumulative Layout Shift",
+					"0,15–0,35",
+					"0,01–0,05"
+				],
+				[
+					"Peso totale della pagina",
+					"2–5mb",
+					"200–500kb"
+				]
+			]
+		},
+		{
+			"type": "p",
+			"text": "Stesso contenuto. Stesso branding. La differenza è l'architettura."
+		},
+		{
+			"type": "h2",
+			"text": "Cosa significa davvero l'architettura \"Mobile-First\""
+		},
+		{
+			"type": "p",
+			"text": "I siti Next.js sono costruiti in modo fondamentalmente diverso:"
+		},
+		{
+			"type": "p",
+			"text": "**Generazione statica.** Le pagine vengono pre-costruite come file HTML al momento del deployment. Quando un utente mobile visita il sito, riceve un file statico da un CDN — nessuna elaborazione server, nessuna query al database, nessuna esecuzione PHP. Tempo di risposta: ~50ms a livello globale."
+		},
+		{
+			"type": "p",
+			"text": "**Immagini responsive per impostazione predefinita.** Next.js ha un componente Image integrato che serve automaticamente la dimensione corretta, in formato WebP/AVIF, con lazy loading, dall'edge. Un utente mobile su uno schermo da 390px riceve un'immagine da 390px. Non un'immagine da 2000px compressa in un piccolo viewport."
+		},
+		{
+			"type": "p",
+			"text": "**Deployment su edge CDN.** Vercel serve il tuo sito da oltre 100 posizioni edge globali. Un utente mobile a Milano riceve la tua pagina da un server vicino, non da un server condiviso a Dallas. La sola distanza fisica può risparmiare 200–400ms."
+		},
+		{
+			"type": "p",
+			"text": "**JavaScript minimale.** Niente jQuery. Nessuna catena di plugin. Nessun runtime di page builder. Un tipico sito aziendale Next.js invia 50–100kb di JavaScript in totale. Questo è 10–20 volte meno rispetto alla maggior parte dei siti WordPress."
+		},
+		{
+			"type": "h2",
+			"text": "Cosa puoi fare al riguardo"
+		},
+		{
+			"type": "p",
+			"text": "**Controlla prima il tuo punteggio mobile.** Se non conosci il tuo attuale punteggio PageSpeed mobile, stai navigando alla cieca. Ottieni un WordPress Health Report gratuito su webvise.io/wp-health-report — mostra il tuo vero punteggio mobile, i segnali di sicurezza e cosa otterrebbe il tuo sito dopo una ricostruzione."
+		},
+		{
+			"type": "p",
+			"text": "**Smetti di ottimizzare WordPress per mobile.** Se il tuo punteggio mobile è sotto 60, nessuna combinazione di plugin ti porterà a 90+. Spenderai soldi in plugin di caching, ottimizzatori di immagini e abbonamenti CDN — e nel migliore dei casi raggiungerai i 60. L'architettura è il soffitto."
+		},
+		{
+			"type": "p",
+			"text": "**Considera una ricostruzione.** Una migrazione da WordPress a Next.js richiede 1–2 settimane, costa €1.500–€4.000 e risolve definitivamente il problema della velocità mobile. Il tuo sito raggiunge 90+ su mobile dal primo giorno. Nessuna manutenzione continua dei plugin. Nessun degrado delle prestazioni nel tempo."
+		},
+		{
+			"type": "p",
+			"text": "I tuoi visitatori mobile — e Google — lo noteranno immediatamente."
+		},
+		{
+			"type": "p",
+			"text": "Pronto a vedere come si comporta il tuo sito su mobile? Ottieni il tuo WordPress Health Report gratuito su webvise.io/wp-health-report — richiede 60 secondi. Nessuna registrazione richiesta."
+		}
+	]
+}

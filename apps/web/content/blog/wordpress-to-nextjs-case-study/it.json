@@ -1,0 +1,182 @@
+{
+	"title": "Come abbiamo ricostruito un sito WordPress in 10 giorni — e triplicato la sua velocità",
+	"excerpt": "Un caso di studio di migrazione reale: 44 → 97 su PageSpeed, 31% di traffico organico in più e i costi di hosting dimezzati — tutto in 10 giorni.",
+	"blocks": [
+		{
+			"type": "p",
+			"text": "Un cliente è venuto da noi con un problema che non riusciva a risolvere con i plugin."
+		},
+		{
+			"type": "p",
+			"text": "Il suo sito aziendale era online da quattro anni. Costruito su WordPress con un tema premium, un page builder e il solito stack di plugin per SEO, caching, sicurezza e moduli. Aveva un aspetto professionale. Funzionava — per lo più."
+		},
+		{
+			"type": "p",
+			"text": "Ma il suo punteggio Google PageSpeed era 44 su mobile. Le richieste organiche si erano bloccate. Aveva provato un plugin di caching, una CDN, la compressione delle immagini. Niente spostava l'ago di più di 5–8 punti."
+		},
+		{
+			"type": "p",
+			"text": "Lo abbiamo ricostruito in Next.js. Ecco esattamente cosa è successo."
+		},
+		{
+			"type": "h2",
+			"text": "Il problema con l'ottimizzazione di WordPress"
+		},
+		{
+			"type": "p",
+			"text": "Quando un sito WordPress è lento, il consiglio abituale è aggiungere più plugin: un plugin di caching, un plugin di performance, un plugin di lazy-load. Il problema è che WordPress stesso — il rendering PHP ad ogni richiesta, una catena di esecuzione di plugin che può raggiungere 30–50 plugin, e una query al database ad ogni caricamento di pagina — è il collo di bottiglia."
+		},
+		{
+			"type": "p",
+			"text": "Non si può uscire da un'architettura lenta con il caching."
+		},
+		{
+			"type": "p",
+			"text": "Questo sito aveva già tutte le correzioni abituali applicate. Header di cache impostati. Immagini servite da una CDN. \"Modalità performance\" abilitata nelle impostazioni del tema. Punteggio: 44/100 su mobile."
+		},
+		{
+			"type": "p",
+			"text": "Il problema non era la configurazione. Era la piattaforma."
+		},
+		{
+			"type": "h2",
+			"text": "Cosa abbiamo fatto"
+		},
+		{
+			"type": "h3",
+			"text": "Giorni 1–2: Audit ed estrazione dei contenuti"
+		},
+		{
+			"type": "p",
+			"text": "Abbiamo eseguito un crawl completo del sito — 47 pagine, 6 post del blog, un elenco di servizi, un modulo di contatto. Abbiamo estratto tutti i contenuti, le immagini e i metadati in un formato strutturato. Abbiamo mappato la struttura URL esistente in modo che nulla si rompesse."
+		},
+		{
+			"type": "h3",
+			"text": "Giorni 3–5: Costruzione"
+		},
+		{
+			"type": "p",
+			"text": "Abbiamo ricostruito il sito in Next.js 14 con generazione statica. Ogni pagina viene renderizzata al momento della build e servita come file HTML statico dalla rete edge di Vercel. Nessun PHP. Nessuna query al database. Nessuna catena di plugin."
+		},
+		{
+			"type": "p",
+			"text": "Abbiamo usato Tailwind CSS per lo styling — stesso design visuale, codice più pulito. Il modulo di contatto viene instradato attraverso una funzione serverless. JavaScript totale inviato al browser: 94kb (da 1,2mb)."
+		},
+		{
+			"type": "h3",
+			"text": "Giorni 6–7: Migrazione dei contenuti e QA"
+		},
+		{
+			"type": "p",
+			"text": "Contenuto trasferito, immagini ottimizzate e convertite in WebP/AVIF, tutti i link interni verificati. Abbiamo eseguito Lighthouse su ogni pagina."
+		},
+		{
+			"type": "h3",
+			"text": "Giorni 8–9: Consegna SEO"
+		},
+		{
+			"type": "p",
+			"text": "Redirect 301 configurati per eventuali modifiche URL. Titoli meta, descrizioni e dati strutturati migrati da Yoast all'API metadata di Next.js. Google Search Console collegato."
+		},
+		{
+			"type": "h3",
+			"text": "Giorno 10: Lancio"
+		},
+		{
+			"type": "p",
+			"text": "Cambio DNS a Vercel. Zero downtime. Posizionamenti esistenti preservati."
+		},
+		{
+			"type": "h2",
+			"text": "Risultati"
+		},
+		{
+			"type": "table",
+			"headers": [
+				"Metrica",
+				"Prima (WordPress)",
+				"Dopo (Next.js)"
+			],
+			"rows": [
+				[
+					"PageSpeed Mobile",
+					"44/100",
+					"97/100"
+				],
+				[
+					"PageSpeed Desktop",
+					"61/100",
+					"99/100"
+				],
+				[
+					"Time to First Byte",
+					"1,4s",
+					"0,08s"
+				],
+				[
+					"Largest Contentful Paint",
+					"4,2s",
+					"0,9s"
+				],
+				[
+					"Peso totale della pagina",
+					"2,8mb",
+					"340kb"
+				],
+				[
+					"Costo mensile di hosting",
+					"€42/mese",
+					"€20/mese"
+				]
+			]
+		},
+		{
+			"type": "h2",
+			"text": "Tre mesi dopo"
+		},
+		{
+			"type": "p",
+			"text": "Traffico organico aumentato del 31%. Il cliente attribuisce parte di questo ai miglioramenti del posizionamento seguiti ai miglioramenti della velocità — Google usa esplicitamente i Core Web Vitals come segnale di ranking dal 2021."
+		},
+		{
+			"type": "p",
+			"text": "Il loro tasso di conversione (invii del modulo di contatto) è aumentato del 22%. Stesso traffico. Stesso contenuto. Il sito si carica semplicemente prima che le persone se ne vadano."
+		},
+		{
+			"type": "p",
+			"text": "Sono ora sul nostro retainer di editing gestito. Quando hanno bisogno di modifiche al testo, nuove pagine di servizi o aggiornamenti del layout — ci inviano un'email. Consegniamo le modifiche entro 24–48 ore."
+		},
+		{
+			"type": "h2",
+			"text": "È tipico?"
+		},
+		{
+			"type": "p",
+			"text": "I miglioramenti della velocità sono consistenti. Ogni sito WordPress che abbiamo migrato è passato dall'intervallo 40–65 a 90+ su PageSpeed mobile."
+		},
+		{
+			"type": "p",
+			"text": "L'impatto su traffico e conversioni varia per sito e dipende da molti fattori oltre alla velocità. Ma se il tuo sito attualmente segna meno di 70, stai lasciando posizionamenti e conversioni sul tavolo — e nessuna quantità di ottimizzazione WordPress potrà rimediare."
+		},
+		{
+			"type": "h2",
+			"text": "Quanto costa una migrazione"
+		},
+		{
+			"type": "p",
+			"text": "Migrazione una tantum: **€1.500–€4.000** a seconda delle dimensioni e della complessità del sito. Retainer di editing gestito: **€299–€999/mese**."
+		},
+		{
+			"type": "p",
+			"text": "La maggior parte dei clienti con qualsiasi volume di traffico significativo raggiunge il pareggio entro 6–12 mesi, prima di considerare ciò che portano i tassi di conversione migliorati."
+		},
+		{
+			"type": "p",
+			"text": "Se vuoi vedere come si posiziona il tuo sito — e come si posizionerebbe dopo una ricostruzione — ottieni un rapporto WordPress Health gratuito su webvise.io/wp-health-report"
+		},
+		{
+			"type": "p",
+			"text": "Ci vogliono 60 secondi. Nessuna registrazione richiesta."
+		}
+	]
+}
