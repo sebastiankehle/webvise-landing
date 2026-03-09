@@ -271,113 +271,117 @@ export default function WpHealthReport() {
 		<>
 			<section id="wp-health-report" className="py-20 md:py-40">
 				<div className="mx-auto max-w-[1200px] px-6">
-					<AnimateIn>
-						<div className="grid items-start gap-16 md:grid-cols-2">
-							<div>
-								<h1 className="font-normal text-3xl leading-[1.15] tracking-tight md:text-[48px]">
-									{t.rich("hero.title", {
-										brand: (chunks) => (
-											<span className="text-brand">{chunks}</span>
-										),
-									})}
-								</h1>
-								<p className="mt-6 font-light text-lg text-muted-foreground leading-relaxed">
-									{t("hero.subtitle")}
-								</p>
-
-								<ul className="mt-8 space-y-3">
-									{[0, 1, 2, 3].map((i) => (
-										<li
-											key={i}
-											className="flex items-start gap-3 text-sm"
-										>
-											<span className="mt-1 h-1.5 w-1.5 shrink-0 bg-brand" />
-											<span>{t(`hero.benefits.${i}`)}</span>
-										</li>
-									))}
-								</ul>
-
-								<p className="mt-8 text-muted-foreground text-xs">
-									{t("hero.trustLine")}
-								</p>
-							</div>
-
-							<form
-								onSubmit={handleSubmit}
-								className="space-y-5 border border-border/40 p-8"
-								aria-label={t("form.ariaLabel")}
-								noValidate
-							>
-								<div className="space-y-2">
-									<Label htmlFor="url">{t("form.url")}</Label>
-									<Input
-										id="url"
-										name="url"
-										type="url"
-										required
-										placeholder={t("form.urlPlaceholder")}
-										disabled={status === "loading"}
-									/>
-								</div>
-								<div className="grid gap-5 sm:grid-cols-2">
-									<div className="space-y-2">
-										<Label htmlFor="email">{t("form.email")}</Label>
-										<Input
-											id="email"
-											name="email"
-											type="email"
-											required
-											placeholder={t("form.emailPlaceholder")}
-											disabled={status === "loading"}
-										/>
-									</div>
-									<div className="space-y-2">
-										<Label htmlFor="firstName">
-											{t("form.name")}{" "}
-											<span className="text-muted-foreground">
-												{t("form.nameOptional")}
-											</span>
-										</Label>
-										<Input
-											id="firstName"
-											name="firstName"
-											placeholder={t("form.namePlaceholder")}
-											disabled={status === "loading"}
-										/>
-									</div>
-								</div>
-								<Button
-									type="submit"
-									disabled={status === "loading"}
-									className="w-full border-transparent bg-brand text-white [&]:hover:bg-brand/80"
-								>
-									{status === "loading"
-										? t("form.submitting")
-										: t("form.submit")}
-								</Button>
-								<p className="text-center text-muted-foreground text-xs">
-									{t("form.noSignup")}
-								</p>
-								<div aria-live="polite" aria-atomic="true">
-									{status === "error" && (
-										<p role="alert" className="text-destructive text-sm">
-											{errorMessage}
+					{status !== "success" ? (
+						<>
+							<AnimateIn>
+								<div className="grid items-start gap-16 md:grid-cols-2">
+									<div>
+										<h1 className="font-normal text-3xl leading-[1.15] tracking-tight md:text-[48px]">
+											{t.rich("hero.title", {
+												brand: (chunks) => (
+													<span className="text-brand">{chunks}</span>
+												),
+											})}
+										</h1>
+										<p className="mt-6 font-light text-lg text-muted-foreground leading-relaxed">
+											{t("hero.subtitle")}
 										</p>
-									)}
+
+										<ul className="mt-8 space-y-3">
+											{[0, 1, 2, 3].map((i) => (
+												<li
+													key={i}
+													className="flex items-start gap-3 text-sm"
+												>
+													<span className="mt-1 h-1.5 w-1.5 shrink-0 bg-brand" />
+													<span>{t(`hero.benefits.${i}`)}</span>
+												</li>
+											))}
+										</ul>
+
+										<p className="mt-8 text-muted-foreground text-xs">
+											{t("hero.trustLine")}
+										</p>
+									</div>
+
+									<form
+										onSubmit={handleSubmit}
+										className="space-y-5 border border-border/40 p-8"
+										aria-label={t("form.ariaLabel")}
+										noValidate
+									>
+										<div className="space-y-2">
+											<Label htmlFor="url">{t("form.url")}</Label>
+											<Input
+												id="url"
+												name="url"
+												type="url"
+												required
+												placeholder={t("form.urlPlaceholder")}
+												disabled={status === "loading"}
+											/>
+										</div>
+										<div className="grid gap-5 sm:grid-cols-2">
+											<div className="space-y-2">
+												<Label htmlFor="email">{t("form.email")}</Label>
+												<Input
+													id="email"
+													name="email"
+													type="email"
+													required
+													placeholder={t("form.emailPlaceholder")}
+													disabled={status === "loading"}
+												/>
+											</div>
+											<div className="space-y-2">
+												<Label htmlFor="firstName">
+													{t("form.name")}{" "}
+													<span className="text-muted-foreground">
+														{t("form.nameOptional")}
+													</span>
+												</Label>
+												<Input
+													id="firstName"
+													name="firstName"
+													placeholder={t("form.namePlaceholder")}
+													disabled={status === "loading"}
+												/>
+											</div>
+										</div>
+										<Button
+											type="submit"
+											disabled={status === "loading"}
+											className="w-full border-transparent bg-brand text-white [&]:hover:bg-brand/80"
+										>
+											{status === "loading"
+												? t("form.submitting")
+												: t("form.submit")}
+										</Button>
+										<p className="text-center text-muted-foreground text-xs">
+											{t("form.noSignup")}
+										</p>
+										<div aria-live="polite" aria-atomic="true">
+											{status === "error" && (
+												<p role="alert" className="text-destructive text-sm">
+													{errorMessage}
+												</p>
+											)}
+										</div>
+									</form>
 								</div>
-							</form>
-						</div>
-					</AnimateIn>
+							</AnimateIn>
 
-					{status === "loading" && (
-						<div className="mt-16 flex flex-col items-center gap-4">
-							<div className="h-6 w-6 animate-spin border-2 border-brand border-t-transparent" />
-							<p className="text-muted-foreground text-sm">{t("loading")}</p>
-						</div>
-					)}
-
-					{status === "success" && report && (
-						<ReportResults data={report} />
+							{status === "loading" && (
+								<div className="mt-16 flex flex-col items-center gap-4">
+									<div className="h-6 w-6 animate-spin border-2 border-brand border-t-transparent" />
+									<p className="text-muted-foreground text-sm">
+										{t("loading")}
+									</p>
+								</div>
+							)}
+						</>
+					) : (
+						report && <ReportResults data={report} />
 					)}
 				</div>
 			</section>

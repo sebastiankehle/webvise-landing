@@ -131,42 +131,50 @@ export async function POST(request: Request) {
 		const estimateMin = 1500;
 		const estimateMax = mobileScore < 50 ? 4000 : 3000;
 
-		// Send lead notification email
+		// Send lead notification email to admin
 		const resendApiKey = process.env.RESEND_API_KEY;
 		if (resendApiKey) {
-			fetch("https://api.resend.com/emails", {
-				method: "POST",
-				headers: {
-					Authorization: `Bearer ${resendApiKey}`,
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					from: "webvise <noreply@webvise.io>",
-					to: [process.env.CONTACT_EMAIL_TO || "mail@webvise.io"],
-					subject: `WP Health Report Lead: ${data.url}`,
-					text: [
-						"New WordPress Health Report lead:",
-						"",
-						`URL: ${data.url}`,
-						`Email: ${data.email}`,
-						data.firstName ? `Name: ${data.firstName}` : null,
-						"",
-						`Mobile Score: ${mobileScore}/100`,
-						`Desktop Score: ${desktopScore}/100`,
-						`Projected Next.js Score: ${projectedScore}/100`,
-						"",
-						"Top Issues:",
-						...issues.map(
-							(i) =>
-								`- ${i.title}${i.displayValue ? ` (${i.displayValue})` : ""}`,
-						),
-					]
-						.filter(Boolean)
-						.join("\n"),
-				}),
-			}).catch((err) =>
-				console.error("Failed to send lead notification:", err),
-			);
+			try {
+				const emailRes = await fetch("https://api.resend.com/emails", {
+					method: "POST",
+					headers: {
+						Authorization: `Bearer ${resendApiKey}`,
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						from: "webvise <noreply@webvise.io>",
+						to: [process.env.CONTACT_EMAIL_TO || "mail@webvise.io"],
+						subject: `WP Health Report Lead: ${data.url}`,
+						text: [
+							"New WordPress Health Report lead:",
+							"",
+							`URL: ${data.url}`,
+							`Email: ${data.email}`,
+							data.firstName ? `Name: ${data.firstName}` : null,
+							"",
+							`Mobile Score: ${mobileScore}/100`,
+							`Desktop Score: ${desktopScore}/100`,
+							`Projected Next.js Score: ${projectedScore}/100`,
+							"",
+							"Top Issues:",
+							...issues.map(
+								(i) =>
+									`- ${i.title}${i.displayValue ? ` (${i.displayValue})` : ""}`,
+							),
+						]
+							.filter(Boolean)
+							.join("\n"),
+					}),
+				});
+				if (!emailRes.ok) {
+					console.error(
+						"Failed to send lead notification:",
+						await emailRes.text(),
+					);
+				}
+			} catch (err) {
+				console.error("Failed to send lead notification:", err);
+			}
 		}
 
 		return NextResponse.json({
