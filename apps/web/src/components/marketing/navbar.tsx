@@ -52,7 +52,7 @@ export default function Navbar() {
 						}
 					}}
 				>
-					<Logo className="h-7 w-7" />
+					<Logo className="h-7 w-7" animated />
 					webvise
 				</Link>
 

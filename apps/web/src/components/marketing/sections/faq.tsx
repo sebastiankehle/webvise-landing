@@ -17,6 +17,28 @@ const faqItems = [
 	{ key: "8", category: "general" },
 ];
 
+function ChevronIcon({ open }: { open: boolean }) {
+	return (
+		<svg
+			width="16"
+			height="16"
+			viewBox="0 0 16 16"
+			fill="none"
+			xmlns="http://www.w3.org/2000/svg"
+			className={`shrink-0 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+			aria-hidden="true"
+		>
+			<path
+				d="M4 6L8 10L12 6"
+				stroke="currentColor"
+				strokeWidth="1.5"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+			/>
+		</svg>
+	);
+}
+
 export default function FAQ() {
 	const [openIndex, setOpenIndex] = useState<number | null>(null);
 	const t = useTranslations("faq");
@@ -29,28 +51,27 @@ export default function FAQ() {
 				</h2>
 				<p className="mt-4 font-light text-muted-foreground">{t("subtitle")}</p>
 			</div>
-			<div className="mt-8 max-w-3xl border border-border/40">
+			<div className="mt-8 max-w-3xl">
 				{faqItems.map((item, i) => {
 					const isOpen = openIndex === i;
 					return (
 						<div
 							key={item.key}
-							className="[&:not(:last-child)]:border-border/40 [&:not(:last-child)]:border-b"
+							className={`border-border/40 border-b transition-colors duration-200 ${isOpen ? "border-l-2 border-l-brand" : "border-l-2 border-l-transparent"}`}
 						>
 							<button
 								type="button"
-								className="flex w-full items-center justify-between px-6 py-5 text-left"
+								className="flex w-full items-center justify-between px-6 py-5 text-left transition-colors duration-150 hover:bg-muted/40"
 								onClick={() => setOpenIndex(isOpen ? null : i)}
 								aria-expanded={isOpen}
 							>
-								<span className="flex-1 font-medium text-sm">
+								<span className="flex-1 font-medium text-[15px] leading-snug">
 									{t(`items.${item.key}.question`)}
 								</span>
 								<span
-									aria-hidden="true"
-									className={`ml-4 transition-all duration-200 ${isOpen ? "rotate-45 text-brand" : "text-muted-foreground/50"}`}
+									className={`ml-4 ${isOpen ? "text-brand" : "text-muted-foreground/50"}`}
 								>
-									+
+									<ChevronIcon open={isOpen} />
 								</span>
 							</button>
 							<div

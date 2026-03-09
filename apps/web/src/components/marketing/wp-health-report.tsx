@@ -111,7 +111,7 @@ function ReportResults({ data }: { data: ReportData }) {
 				</div>
 
 				{/* Scores row */}
-				<div className="mt-8 grid grid-cols-3 gap-px overflow-hidden border border-border/40">
+				<div className="mt-8 grid grid-cols-2 gap-px overflow-hidden border border-border/40">
 					<div className="flex flex-col items-center justify-center p-4">
 						<ScoreRing
 							score={data.mobile.score}
@@ -124,12 +124,23 @@ function ReportResults({ data }: { data: ReportData }) {
 							label={t("results.desktop")}
 						/>
 					</div>
-					<div className="flex flex-col items-center justify-center border-border/40 border-l border-l-brand p-4">
+				</div>
+
+				{/* Projected score - visually separated */}
+				<div className="mt-4 border-2 border-brand bg-brand/5 p-5">
+					<p className="mb-3 text-center font-medium text-xs uppercase tracking-wider text-brand">
+						{t("results.projectedLabel")}
+					</p>
+					<div className="flex justify-center">
 						<ScoreRing
 							score={data.projectedScore}
 							label={t("results.afterNextjs")}
+							size={88}
 						/>
 					</div>
+					<p className="mt-3 text-center text-muted-foreground text-xs">
+						{t("results.projectedHint")}
+					</p>
 				</div>
 
 				{/* Core Web Vitals */}

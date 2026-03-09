@@ -49,7 +49,7 @@ export default async function Footer() {
 					{/* Brand column */}
 					<div className="md:col-span-4">
 						<a href="/" className="flex items-center gap-2 font-medium text-xl tracking-tight">
-							<Logo className="h-7 w-7" />
+							<Logo className="h-7 w-7" animated />
 							webvise
 						</a>
 						<p className="mt-4 max-w-xs font-light text-sm leading-relaxed opacity-60">

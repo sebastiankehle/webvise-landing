@@ -131,40 +131,68 @@
 	}
 }
 
-.preloader-overlay {
-	animation: preloader-out 0.4s ease-in 1.1s forwards;
+/* Logo hover animation - segments assemble clockwise */
+.logo-animated .logo-seg {
+	fill-opacity: var(--seg-opacity, 1);
+	transition: fill-opacity 0.15s ease-out;
 }
 
-.preloader-seg {
+.logo-animated:hover .logo-seg {
 	fill-opacity: 0;
-	animation: preloader-seg-in 0.25s ease-out forwards;
+	animation: logo-seg-in 0.2s ease-out forwards;
 }
 
-.preloader-seg-1 { animation-delay: 0.05s; }
-.preloader-seg-2 { animation-delay: 0.15s; }
-.preloader-seg-3 { animation-delay: 0.25s; }
-.preloader-seg-4 { animation-delay: 0.35s; }
-.preloader-seg-5 { animation-delay: 0.45s; }
-.preloader-seg-6 { animation-delay: 0.55s; }
-.preloader-seg-7 { animation-delay: 0.65s; }
-.preloader-seg-8 { animation-delay: 0.75s; }
+.logo-animated:hover .logo-seg-1 { animation-delay: 0s; }
+.logo-animated:hover .logo-seg-2 { animation-delay: 0.05s; }
+.logo-animated:hover .logo-seg-3 { animation-delay: 0.1s; }
+.logo-animated:hover .logo-seg-4 { animation-delay: 0.15s; }
+.logo-animated:hover .logo-seg-5 { animation-delay: 0.2s; }
+.logo-animated:hover .logo-seg-6 { animation-delay: 0.25s; }
+.logo-animated:hover .logo-seg-7 { animation-delay: 0.3s; }
+.logo-animated:hover .logo-seg-8 { animation-delay: 0.35s; }
 
-@keyframes preloader-out {
-	from {
-		opacity: 1;
-		visibility: visible;
-	}
-	to {
-		opacity: 0;
-		visibility: hidden;
-	}
-}
-
-@keyframes preloader-seg-in {
+@keyframes logo-seg-in {
 	from {
 		fill-opacity: 0;
 	}
 	to {
 		fill-opacity: var(--seg-opacity, 1);
+	}
+}
+
+/* Fast page preloader for subpages */
+.preloader-fast {
+	position: fixed;
+	inset: 0;
+	z-index: 9999;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: var(--background);
+	animation: preloader-fade-out 0.3s ease-out 0.55s forwards;
+	pointer-events: none;
+}
+
+.preloader-fast .logo-seg {
+	fill-opacity: 0;
+	animation: logo-seg-in 0.1s ease-out forwards;
+}
+
+.preloader-fast .logo-seg-1 { animation-delay: 0s; }
+.preloader-fast .logo-seg-2 { animation-delay: 0.03s; }
+.preloader-fast .logo-seg-3 { animation-delay: 0.06s; }
+.preloader-fast .logo-seg-4 { animation-delay: 0.09s; }
+.preloader-fast .logo-seg-5 { animation-delay: 0.12s; }
+.preloader-fast .logo-seg-6 { animation-delay: 0.15s; }
+.preloader-fast .logo-seg-7 { animation-delay: 0.18s; }
+.preloader-fast .logo-seg-8 { animation-delay: 0.21s; }
+
+@keyframes preloader-fade-out {
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+		visibility: hidden;
 	}
 }
