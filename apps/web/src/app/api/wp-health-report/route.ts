@@ -13,6 +13,13 @@ interface PSIAudit {
   title: string;
   score: number | null;
   displayValue?: string;
+  numericValue?: number;
+  numericUnit?: string;
+  details?: {
+    overallSavingsMs?: number;
+    overallSavingsBytes?: number;
+    items?: Array<Record<string, unknown>>;
+  };
 }
 
 interface PSIResult {
@@ -46,6 +53,33 @@ async function runPageSpeedInsights(
   return res.json();
 }
 
+function extractCoreWebVitals(result: PSIResult) {
+  const audits = result.lighthouseResult.audits;
+  const metrics = [
+    { key: "first-contentful-paint", label: "FCP" },
+    { key: "largest-contentful-paint", label: "LCP" },
+    { key: "total-blocking-time", label: "TBT" },
+    { key: "cumulative-layout-shift", label: "CLS" },
+    { key: "speed-index", label: "SI" },
+  ];
+
+  return metrics
+    .map(({ key, label }) => {
+      const audit = audits[key];
+      if (!audit) return null;
+      return {
+        label,
+        displayValue: audit.displayValue ?? "",
+        score: audit.score !== null ? Math.round(audit.score * 100) : null,
+      };
+    })
+    .filter(Boolean) as Array<{
+    label: string;
+    displayValue: string;
+    score: number | null;
+  }>;
+}
+
 function extractTopIssues(result: PSIResult, count = 5) {
   const audits = result.lighthouseResult.audits;
   const issueKeys = [
@@ -65,11 +99,24 @@ function extractTopIssues(result: PSIResult, count = 5) {
   ];
 
   return issueKeys
-    .map((id) => audits[id])
-    .filter((a): a is PSIAudit => !!a && a.score !== null && a.score < 0.9)
+    .map((id) => {
+      const audit = audits[id];
+      if (!audit) return null;
+      return { ...audit, id };
+    })
+    .filter(
+      (a): a is PSIAudit & { id: string } =>
+        !!a && a.score !== null && a.score < 0.9,
+    )
     .sort((a, b) => (a.score ?? 1) - (b.score ?? 1))
     .slice(0, count)
-    .map((a) => ({ title: a.title, displayValue: a.displayValue }));
+    .map((a) => ({
+      title: a.title,
+      displayValue: a.displayValue,
+      savingsMs: a.details?.overallSavingsMs
+        ? Math.round(a.details.overallSavingsMs)
+        : undefined,
+    }));
 }
 
 export async function POST(request: Request) {
@@ -118,6 +165,7 @@ export async function POST(request: Request) {
       desktop.lighthouseResult.categories.performance.score * 100,
     );
     const issues = extractTopIssues(mobile);
+    const vitals = extractCoreWebVitals(mobile);
     const projectedScore = mobileScore < 50 ? 93 : mobileScore < 70 ? 95 : 97;
 
     const securityFlags: string[] = [];
@@ -181,6 +229,7 @@ export async function POST(request: Request) {
       mobile: { score: mobileScore },
       desktop: { score: desktopScore },
       issues,
+      vitals,
       projectedScore,
       securityFlags,
       migrationEstimate: { min: estimateMin, max: estimateMax },

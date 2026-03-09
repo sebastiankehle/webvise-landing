@@ -12,6 +12,13 @@ import { cn } from "@/lib/utils";
 interface ReportIssue {
 	title: string;
 	displayValue?: string;
+	savingsMs?: number;
+}
+
+interface ReportVital {
+	label: string;
+	displayValue: string;
+	score: number | null;
 }
 
 interface ReportData {
@@ -19,34 +26,31 @@ interface ReportData {
 	mobile: { score: number };
 	desktop: { score: number };
 	issues: ReportIssue[];
+	vitals?: ReportVital[];
 	projectedScore: number;
 	securityFlags: string[];
 	migrationEstimate: { min: number; max: number };
 }
 
+function scoreColor(score: number | null) {
+	if (score === null) return { text: "text-muted-foreground", stroke: "stroke-muted-foreground" };
+	if (score >= 90) return { text: "text-green-500", stroke: "stroke-green-500" };
+	if (score >= 50) return { text: "text-yellow-500", stroke: "stroke-yellow-500" };
+	return { text: "text-red-500", stroke: "stroke-red-500" };
+}
+
 function ScoreRing({
 	score,
 	label,
-	size = 100,
+	size = 72,
 }: { score: number; label: string; size?: number }) {
-	const radius = (size - 8) / 2;
+	const radius = (size - 6) / 2;
 	const circumference = 2 * Math.PI * radius;
 	const offset = circumference - (score / 100) * circumference;
-	const color =
-		score >= 90
-			? "text-green-500"
-			: score >= 50
-				? "text-yellow-500"
-				: "text-red-500";
-	const strokeColor =
-		score >= 90
-			? "stroke-green-500"
-			: score >= 50
-				? "stroke-yellow-500"
-				: "stroke-red-500";
+	const { text, stroke } = scoreColor(score);
 
 	return (
-		<div className="flex flex-col items-center gap-2">
+		<div className="flex flex-col items-center gap-1.5">
 			<div className="relative" style={{ width: size, height: size }}>
 				<svg
 					width={size}
@@ -60,7 +64,7 @@ function ScoreRing({
 						r={radius}
 						fill="none"
 						stroke="currentColor"
-						strokeWidth={4}
+						strokeWidth={3}
 						className="text-border"
 					/>
 					<circle
@@ -68,17 +72,17 @@ function ScoreRing({
 						cy={size / 2}
 						r={radius}
 						fill="none"
-						strokeWidth={4}
+						strokeWidth={3}
 						strokeLinecap="butt"
 						strokeDasharray={circumference}
 						strokeDashoffset={offset}
-						className={cn("transition-all duration-1000", strokeColor)}
+						className={cn("transition-all duration-1000", stroke)}
 					/>
 				</svg>
 				<span
 					className={cn(
-						"absolute inset-0 flex items-center justify-center font-medium text-xl",
-						color,
+						"absolute inset-0 flex items-center justify-center font-medium text-base",
+						text,
 					)}
 				>
 					{score}
@@ -106,77 +110,95 @@ function ReportResults({ data }: { data: ReportData }) {
 					</p>
 				</div>
 
-				{/* Main grid: scores + details side by side */}
-				<div className="mt-8 grid gap-px overflow-hidden border border-border/40 md:grid-cols-[auto_1fr]">
-					{/* Scores column */}
-					<div className="grid grid-cols-3 md:grid-cols-1 md:w-56">
-						<div className="flex flex-col items-center justify-center p-6">
-							<ScoreRing
-								score={data.mobile.score}
-								label={t("results.mobile")}
-							/>
-						</div>
-						<div className="flex flex-col items-center justify-center border-border/40 border-l p-6 md:border-l-0 md:border-t">
-							<ScoreRing
-								score={data.desktop.score}
-								label={t("results.desktop")}
-							/>
-						</div>
-						<div className="flex flex-col items-center justify-center border-border/40 border-l border-l-brand p-6 md:border-l-0 md:border-t md:border-t-brand">
-							<ScoreRing
-								score={data.projectedScore}
-								label={t("results.afterNextjs")}
-							/>
-						</div>
+				{/* Scores row */}
+				<div className="mt-8 grid grid-cols-3 gap-px overflow-hidden border border-border/40">
+					<div className="flex flex-col items-center justify-center p-4">
+						<ScoreRing
+							score={data.mobile.score}
+							label={t("results.mobile")}
+						/>
 					</div>
-
-					{/* Details column */}
-					<div className="grid border-border/40 border-t md:grid-cols-2 md:border-t-0 md:border-l">
-						{data.issues.length > 0 && (
-							<div className="p-6">
-								<h3 className="font-medium text-xs uppercase tracking-wider text-muted-foreground">
-									{t("results.speedKillers")}
-								</h3>
-								<ul className="mt-3 space-y-2.5">
-									{data.issues.map((issue) => (
-										<li
-											key={issue.title}
-											className="flex items-start gap-3 font-light text-sm"
-										>
-											<span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-red-500" />
-											<div>
-												<span className="text-foreground">{issue.title}</span>
-												{issue.displayValue && (
-													<span className="ml-2 text-muted-foreground text-xs">
-														{issue.displayValue}
-													</span>
-												)}
-											</div>
-										</li>
-									))}
-								</ul>
-							</div>
-						)}
-
-						{data.securityFlags.length > 0 && (
-							<div className="border-border/40 border-t p-6 md:border-t-0 md:border-l">
-								<h3 className="font-medium text-xs uppercase tracking-wider text-muted-foreground">
-									{t("results.securityRisks")}
-								</h3>
-								<ul className="mt-3 space-y-2.5">
-									{data.securityFlags.map((flag) => (
-										<li
-											key={flag}
-											className="flex items-start gap-3 font-light text-sm"
-										>
-											<span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-yellow-500" />
-											<span className="text-foreground">{flag}</span>
-										</li>
-									))}
-								</ul>
-							</div>
-						)}
+					<div className="flex flex-col items-center justify-center border-border/40 border-l p-4">
+						<ScoreRing
+							score={data.desktop.score}
+							label={t("results.desktop")}
+						/>
 					</div>
+					<div className="flex flex-col items-center justify-center border-border/40 border-l border-l-brand p-4">
+						<ScoreRing
+							score={data.projectedScore}
+							label={t("results.afterNextjs")}
+						/>
+					</div>
+				</div>
+
+				{/* Core Web Vitals */}
+				{data.vitals && data.vitals.length > 0 && (
+					<div className="mt-px grid grid-cols-5 gap-px overflow-hidden border border-border/40 border-t-0">
+						{data.vitals.map((vital) => (
+							<div key={vital.label} className="px-3 py-2.5 text-center">
+								<span className={cn(
+									"font-medium text-sm",
+									scoreColor(vital.score).text,
+								)}>
+									{vital.displayValue}
+								</span>
+								<span className="mt-0.5 block text-muted-foreground text-[10px] uppercase tracking-wider">
+									{vital.label}
+								</span>
+							</div>
+						))}
+					</div>
+				)}
+
+				{/* Issues & Security */}
+				<div className="mt-px grid gap-px overflow-hidden border border-border/40 border-t-0 md:grid-cols-2">
+					{data.issues.length > 0 && (
+						<div className="p-5">
+							<h3 className="font-medium text-xs uppercase tracking-wider text-muted-foreground">
+								{t("results.speedKillers")}
+							</h3>
+							<ul className="mt-3 space-y-2">
+								{data.issues.map((issue) => (
+									<li
+										key={issue.title}
+										className="flex items-start gap-3 font-light text-sm"
+									>
+										<span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-red-500" />
+										<div>
+											<span className="text-foreground">{issue.title}</span>
+											{(issue.displayValue || issue.savingsMs) && (
+												<span className="ml-2 text-muted-foreground text-xs">
+													{issue.savingsMs
+														? `${issue.savingsMs >= 1000 ? `${(issue.savingsMs / 1000).toFixed(1)}s` : `${issue.savingsMs}ms`} potential savings`
+														: issue.displayValue}
+												</span>
+											)}
+										</div>
+									</li>
+								))}
+							</ul>
+						</div>
+					)}
+
+					{data.securityFlags.length > 0 && (
+						<div className="border-border/40 border-t p-5 md:border-t-0 md:border-l">
+							<h3 className="font-medium text-xs uppercase tracking-wider text-muted-foreground">
+								{t("results.securityRisks")}
+							</h3>
+							<ul className="mt-3 space-y-2">
+								{data.securityFlags.map((flag) => (
+									<li
+										key={flag}
+										className="flex items-start gap-3 font-light text-sm"
+									>
+										<span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-yellow-500" />
+										<span className="text-foreground">{flag}</span>
+									</li>
+								))}
+							</ul>
+						</div>
+					)}
 				</div>
 
 				{/* Migration estimate + CTA */}
