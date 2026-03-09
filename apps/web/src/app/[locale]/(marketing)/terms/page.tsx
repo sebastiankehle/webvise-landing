@@ -63,7 +63,7 @@ export default function TermsPage() {
 				<section>
 					<h2>5. Warranties</h2>
 					<p>
-						We deliver work to professional standards and provide 30 days of
+						We deliver work to professional standards and provide
 						post-launch bug fixes at no extra cost. We do not guarantee specific
 						business outcomes (revenue, rankings, conversions) as these depend
 						on factors beyond our control.
