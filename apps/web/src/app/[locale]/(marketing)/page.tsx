@@ -10,6 +10,7 @@ import Process from "@/components/marketing/sections/process";
 import Services from "@/components/marketing/sections/services";
 import TechStack from "@/components/marketing/sections/tech-stack";
 import Testimonials from "@/components/marketing/sections/testimonials";
+import WpHealthCta from "@/components/marketing/sections/wp-health-cta";
 
 const jsonLd = {
 	"@context": "https://schema.org",
@@ -63,6 +64,7 @@ export default function HomePage() {
 			<Services />
 			<Process />
 			<Testimonials />
+			<WpHealthCta />
 			<Pricing />
 			<Contact />
 			<FAQ />

@@ -4,6 +4,7 @@ import { getTranslations } from "next-intl/server";
 
 import AnimateIn from "@/components/marketing/animate-in";
 import SectionWrapper from "@/components/marketing/section-wrapper";
+import WpHealthCta from "@/components/marketing/sections/wp-health-cta";
 import { Button } from "@/components/ui/button";
 import { getServiceBySlug, services } from "@/data/services";
 
@@ -172,6 +173,8 @@ export default async function ServicePage({
 					))}
 				</div>
 			</SectionWrapper>
+
+			{slug === "wordpress-migration" && <WpHealthCta />}
 
 			<SectionWrapper id="cta" alternate>
 				<div className="max-w-xl">
