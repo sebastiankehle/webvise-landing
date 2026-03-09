@@ -74,13 +74,42 @@ function extractTopIssues(result: PSIResult, count = 5) {
 
 export async function POST(request: Request) {
 	try {
+		if (!process.env.GOOGLE_PAGESPEED_API_KEY) {
+			console.error("Missing GOOGLE_PAGESPEED_API_KEY environment variable");
+			return NextResponse.json(
+				{ error: "Service temporarily unavailable. Please try again later." },
+				{ status: 503 },
+			);
+		}
+
 		const body = await request.json();
 		const data = schema.parse(body);
 
-		const [mobile, desktop] = await Promise.all([
-			runPageSpeedInsights(data.url, "mobile"),
-			runPageSpeedInsights(data.url, "desktop"),
-		]);
+		let mobile: PSIResult;
+		let desktop: PSIResult;
+		try {
+			[mobile, desktop] = await Promise.all([
+				runPageSpeedInsights(data.url, "mobile"),
+				runPageSpeedInsights(data.url, "desktop"),
+			]);
+		} catch (psiError) {
+			console.error("PageSpeed Insights API failed:", psiError);
+			const message =
+				psiError instanceof Error ? psiError.message : String(psiError);
+			if (message.includes("429")) {
+				return NextResponse.json(
+					{ error: "Rate limited by Google. Please try again in a moment." },
+					{ status: 429 },
+				);
+			}
+			return NextResponse.json(
+				{
+					error:
+						"Failed to analyze website. Please check the URL and try again.",
+				},
+				{ status: 502 },
+			);
+		}
 
 		const mobileScore = Math.round(
 			mobile.lighthouseResult.categories.performance.score * 100,
