@@ -8,6 +8,7 @@ import { socials } from "@/data/socials";
 export default async function Footer() {
 	const t = await getTranslations("footer");
 	const ts = await getTranslations("services");
+	const tw = await getTranslations("wpHealthReport.cta");
 
 	const companyLinks = [
 		{ href: "/#benefits", label: t("links.benefits") },
@@ -120,6 +121,14 @@ export default async function Footer() {
 									className="font-light text-sm opacity-60 transition-opacity hover:opacity-100"
 								>
 									{t("links.media")}
+								</a>
+							</li>
+							<li>
+								<a
+									href="/wp-health-report"
+									className="font-light text-sm text-brand transition-opacity hover:opacity-80"
+								>
+									{tw("button")}
 								</a>
 							</li>
 						</ul>
