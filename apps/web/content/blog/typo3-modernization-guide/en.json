@@ -1,0 +1,229 @@
+{
+	"date": "2026-01-11",
+	"readingTime": 8,
+	"keyword": "typo3 modernization",
+	"title": "TYPO3 Modernization: Headless, Hybrid, or Full Migration?",
+	"excerpt": "TYPO3 served your enterprise well for years. But modernizing it is now unavoidable. Here are your three options - and how to pick the right one.",
+	"blocks": [
+		{
+			"type": "p",
+			"text": "TYPO3 has been the enterprise CMS of choice in the DACH region for over two decades. If your company runs TYPO3, it probably works. Content gets published. Pages load. The system does its job."
+		},
+		{
+			"type": "p",
+			"text": "But \"works\" and \"works well\" are different things. Your TYPO3 site likely has slow page loads, a dated design that's expensive to update, a shrinking pool of developers who can maintain it, and performance that falls short of modern expectations."
+		},
+		{
+			"type": "p",
+			"text": "Modernization isn't optional anymore. The question is how."
+		},
+		{
+			"type": "h2",
+			"text": "The Three Paths"
+		},
+		{
+			"type": "p",
+			"text": "You have three realistic options for modernizing a TYPO3 installation. Each has different trade-offs in cost, timeline, and long-term value."
+		},
+		{
+			"type": "table",
+			"headers": [
+				"Approach",
+				"Timeline",
+				"Risk",
+				"Long-term Value"
+			],
+			"rows": [
+				[
+					"TYPO3 upgrade (stay on TYPO3)",
+					"2-6 months",
+					"Low",
+					"Medium"
+				],
+				[
+					"Headless TYPO3 + modern frontend",
+					"3-6 months",
+					"Medium",
+					"High"
+				],
+				[
+					"Full migration to Next.js",
+					"2-4 months",
+					"Medium",
+					"Highest"
+				]
+			]
+		},
+		{
+			"type": "h2",
+			"text": "Option 1: Upgrade TYPO3"
+		},
+		{
+			"type": "p",
+			"text": "If your TYPO3 installation is several major versions behind, simply upgrading to TYPO3 v13 brings meaningful improvements. Better backend UX, improved performance, PHP 8.2+ support, and a more modern editing experience."
+		},
+		{
+			"type": "h3",
+			"text": "When this makes sense"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"Your content editors are trained on TYPO3 and resistant to change",
+				"You have complex TYPO3-specific workflows (workspaces, granular permissions)",
+				"The site doesn't need to compete on frontend performance",
+				"Budget is limited and the current site structure is sound"
+			]
+		},
+		{
+			"type": "h3",
+			"text": "The limitations"
+		},
+		{
+			"type": "p",
+			"text": "Upgrading TYPO3 doesn't fix the fundamental architecture. Pages are still server-rendered with PHP on every request. The frontend is still tied to Fluid templates. Performance will improve but won't match modern static-first architectures. You're also staying on a platform with a shrinking developer ecosystem - finding TYPO3 specialists is getting harder and more expensive every year."
+		},
+		{
+			"type": "h2",
+			"text": "Option 2: Headless TYPO3"
+		},
+		{
+			"type": "p",
+			"text": "TYPO3 has supported headless mode since the introduction of the headless extension. The idea: keep TYPO3 as your CMS backend, but replace the frontend with a modern framework like Next.js."
+		},
+		{
+			"type": "p",
+			"text": "TYPO3 exposes content via JSON APIs. Next.js fetches that content at build time or request time and renders it. You get the best of both worlds - TYPO3's mature CMS capabilities with a modern, fast frontend."
+		},
+		{
+			"type": "h3",
+			"text": "When this makes sense"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"Your editors depend on TYPO3's backend features (workspaces, permissions, workflows)",
+				"You have a large content team already trained on TYPO3",
+				"You need modern frontend performance without disrupting editorial processes",
+				"The TYPO3 backend is well-maintained and running a recent version"
+			]
+		},
+		{
+			"type": "h3",
+			"text": "The limitations"
+		},
+		{
+			"type": "p",
+			"text": "You're still maintaining a TYPO3 server. That means PHP updates, extension updates, database maintenance, and TYPO3 core upgrades. The headless approach reduces but doesn't eliminate the operational overhead. You also need developers who understand both TYPO3 and Next.js - a rare combination."
+		},
+		{
+			"type": "h2",
+			"text": "Option 3: Full Migration to Next.js"
+		},
+		{
+			"type": "p",
+			"text": "Replace TYPO3 entirely. Migrate your content to a headless CMS (Sanity, Contentful, Strapi) or file-based content, build a new frontend in Next.js, and deploy on a modern hosting platform."
+		},
+		{
+			"type": "h3",
+			"text": "When this makes sense"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"Your TYPO3 installation is heavily outdated (v8 or older)",
+				"The upgrade path would cost more than a fresh build",
+				"You want to eliminate PHP server maintenance entirely",
+				"Frontend performance and SEO are business priorities",
+				"Your content structure is relatively straightforward (no complex workflows)"
+			]
+		},
+		{
+			"type": "h3",
+			"text": "The migration process"
+		},
+		{
+			"type": "p",
+			"text": "A full TYPO3 migration involves exporting content from the TYPO3 database, restructuring it for the new CMS, rebuilding the frontend in React/Next.js, setting up 301 redirects for every URL, and validating SEO continuity. For a typical enterprise site with 100-500 pages, this takes 2-4 months."
+		},
+		{
+			"type": "h2",
+			"text": "Comparing the Outcomes"
+		},
+		{
+			"type": "table",
+			"headers": [
+				"Metric",
+				"TYPO3 Upgrade",
+				"Headless TYPO3",
+				"Full Next.js"
+			],
+			"rows": [
+				[
+					"Mobile PageSpeed",
+					"45-70",
+					"85-95",
+					"92-99"
+				],
+				[
+					"Annual server cost",
+					"High (PHP hosting)",
+					"Medium (PHP + CDN)",
+					"Low (CDN only)"
+				],
+				[
+					"Developer availability",
+					"Shrinking",
+					"Mixed",
+					"Growing"
+				],
+				[
+					"Maintenance effort",
+					"High",
+					"Medium",
+					"Low"
+				],
+				[
+					"Editor experience",
+					"TYPO3 backend",
+					"TYPO3 backend",
+					"Headless CMS or managed"
+				],
+				[
+					"Time to implement",
+					"2-6 months",
+					"3-6 months",
+					"2-4 months"
+				]
+			]
+		},
+		{
+			"type": "h2",
+			"text": "The Developer Problem"
+		},
+		{
+			"type": "p",
+			"text": "This is the factor that tips the decision for many enterprises. TYPO3 developers are increasingly rare and expensive. The PHP ecosystem is mature but not growing. Meanwhile, React and Next.js developers are abundant, and the JavaScript ecosystem is where most innovation happens."
+		},
+		{
+			"type": "p",
+			"text": "Staying on TYPO3 means competing for a shrinking talent pool. Every year, more PHP developers move to JavaScript or TypeScript. This isn't a trend that will reverse."
+		},
+		{
+			"type": "h2",
+			"text": "Making the Decision"
+		},
+		{
+			"type": "p",
+			"text": "Start with an honest assessment of your current state. How old is your TYPO3 version? How many custom extensions do you depend on? How complex are your editorial workflows? What does your content structure look like?"
+		},
+		{
+			"type": "p",
+			"text": "If you're on TYPO3 v11 or newer with a small content team, a full migration to Next.js is likely the most cost-effective path. If you're on an older version with deeply embedded workflows, headless TYPO3 gives you a modern frontend without disrupting your editors."
+		},
+		{
+			"type": "p",
+			"text": "Either way, the status quo has a cost. Every month on an outdated TYPO3 installation is another month of accumulating technical debt, rising maintenance costs, and falling behind on performance benchmarks."
+		}
+	]
+}

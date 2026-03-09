@@ -1,0 +1,209 @@
+{
+	"title": "Migreren van Webflow naar Next.js: een praktische gids",
+	"excerpt": "Overweeg je om Webflow te verlaten? Dit is wat de migratie naar Next.js daadwerkelijk inhoudt - het proces, de tijdlijn en wat er verandert voor je team.",
+	"blocks": [
+		{
+			"type": "p",
+			"text": "Je hebt je site op Webflow gebouwd. Het werkte geweldig in het begin. Maar nu loop je tegen limieten aan - CMS-beperkingen, prestatieproblemen, ontbrekende functies die hacky workarounds vereisen. Je overweegt Next.js."
+		},
+		{
+			"type": "p",
+			"text": "Goed nieuws: migreren van Webflow naar Next.js is eenvoudig als je het correct aanpakt. Slecht nieuws: het is geen simpele export/import. Hier is hoe het proces er daadwerkelijk uitziet."
+		},
+		{
+			"type": "h2",
+			"text": "Wanneer migratie zinvol is"
+		},
+		{
+			"type": "p",
+			"text": "Niet elke Webflow-site hoeft te migreren. Een eenvoudige marketingpagina die een designer maandelijks bijwerkt, is prima op Webflow. Migratie is zinvol wanneer:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"Je CMS-behoeften de 10.000-itemlimiet van Webflow of het rigide datamodel overschrijden",
+				"Je echte i18n nodig hebt - niet de beperkte lokalisatie van Webflow",
+				"Aangepaste functies (auth, dashboards, API's) meer vereisen dan embed-blokken",
+				"Mobiele PageSpeed-scores belangrijk zijn voor SEO en je niet boven de 70 komt",
+				"Je maandelijkse kosten voor Webflow + tools van derden hoger zijn dan de migratie-investering"
+			]
+		},
+		{
+			"type": "h2",
+			"text": "Waar je vandaan komt en naartoe gaat"
+		},
+		{
+			"type": "table",
+			"headers": [
+				"Aspect",
+				"Webflow",
+				"Next.js"
+			],
+			"rows": [
+				[
+					"Hosting",
+					"Webflow-servers",
+					"Vercel / AWS / elke CDN"
+				],
+				[
+					"CMS",
+					"Ingebouwd (beperkt)",
+					"Headless CMS, MDX of bestandsgebaseerd"
+				],
+				[
+					"Styling",
+					"Visuele builder",
+					"Tailwind, CSS Modules of elke CSS-aanpak"
+				],
+				[
+					"Formulieren",
+					"Webflow Forms (beperkt)",
+					"Aangepaste formulieren met elke backend"
+				],
+				[
+					"Animaties",
+					"Webflow Interactions",
+					"Framer Motion, GSAP, CSS-animaties"
+				],
+				[
+					"Aangepaste logica",
+					"Embed-blokken + tools van derden",
+					"Native code - geen limieten"
+				]
+			]
+		},
+		{
+			"type": "h2",
+			"text": "Het migratieproces"
+		},
+		{
+			"type": "h3",
+			"text": "Stap 1: Content-audit (1-2 dagen)"
+		},
+		{
+			"type": "p",
+			"text": "Exporteer je Webflow CMS-data als CSV. Inventariseer elke pagina, collectie en asset. Identificeer welke content blijft, wat wordt geherstructureerd en wat wordt verwijderd. Dit is ook het moment om op te ruimen - de meeste sites hebben pagina's die geen doel meer dienen."
+		},
+		{
+			"type": "h3",
+			"text": "Stap 2: Designvertaling (2-5 dagen)"
+		},
+		{
+			"type": "p",
+			"text": "Je bestaande ontwerp hoeft niet te veranderen. De visuele output blijft hetzelfde - het is de onderliggende technologie die verandert. Een developer vertaalt je Webflow-componenten naar React-componenten. Animaties worden herbouwd met Framer Motion of CSS."
+		},
+		{
+			"type": "p",
+			"text": "Dit is ook de kans om designproblemen op te lossen waar je mee leefde. Responsieve breakpoints die niet helemaal werken, layout shifts op mobiel, inconsistente spacing - dit alles wordt opgelost tijdens de vertaling."
+		},
+		{
+			"type": "h3",
+			"text": "Stap 3: CMS-opzet (1-3 dagen)"
+		},
+		{
+			"type": "p",
+			"text": "Je content heeft een nieuw thuis nodig. Opties zijn onder andere een headless CMS zoals Sanity of Contentful, Markdown/MDX-bestanden in de repository, of een aangepaste contentstructuur. De keuze hangt af van wie content moet bewerken en hoe vaak."
+		},
+		{
+			"type": "p",
+			"text": "Voor de meeste bedrijfssites is bestandsgebaseerde content met een beheerde bewerkingsservice de eenvoudigste en meest kosteneffectieve aanpak."
+		},
+		{
+			"type": "h3",
+			"text": "Stap 4: Bouwen en testen (3-7 dagen)"
+		},
+		{
+			"type": "p",
+			"text": "De Next.js-site wordt gebouwd, getest op verschillende apparaten en geoptimaliseerd voor prestaties. Elke pagina wordt vergeleken met de Webflow-versie om te zorgen dat er niets ontbreekt. Formulieren, integraties en tracking-scripts worden allemaal opnieuw verbonden."
+		},
+		{
+			"type": "h3",
+			"text": "Stap 5: SEO-migratie (1 dag)"
+		},
+		{
+			"type": "p",
+			"text": "Dit is de stap waar mensen zich het meest zorgen over maken. De sleutel is **URL-pariteit**. Elke bestaande URL blijft hetzelfde of krijgt een correcte 301-redirect. Metadata, Open Graph-tags en gestructureerde data worden allemaal overgedragen. Als het correct wordt gedaan, zou je nul rankingverlies moeten zien - en vaak een verbetering binnen weken dankzij betere Core Web Vitals."
+		},
+		{
+			"type": "h3",
+			"text": "Stap 6: Lancering en monitoring (1 dag)"
+		},
+		{
+			"type": "p",
+			"text": "DNS-switch, SSL-verificatie, laatste tests en monitoring. De volledige overschakeling duurt minder dan een uur. We monitoren Search Console en analytics nauwlettend gedurende de eerste twee weken om problemen vroegtijdig op te sporen."
+		},
+		{
+			"type": "h2",
+			"text": "Tijdlijn en kosten"
+		},
+		{
+			"type": "p",
+			"text": "Een typische Webflow-naar-Next.js-migratie duurt **2-4 weken** van start tot lancering. Eenvoudige sites (minder dan 20 pagina's, minimaal CMS) kunnen sneller. Complexe sites met zwaar CMS-gebruik, meerdere integraties of aangepaste functionaliteit duren langer."
+		},
+		{
+			"type": "table",
+			"headers": [
+				"Complexiteit site",
+				"Tijdlijn",
+				"Typische investering"
+			],
+			"rows": [
+				[
+					"Eenvoudig (5-15 pagina's, geen CMS)",
+					"1-2 weken",
+					"$2.000-$4.000"
+				],
+				[
+					"Gemiddeld (15-50 pagina's, CMS-collecties)",
+					"2-3 weken",
+					"$4.000-$8.000"
+				],
+				[
+					"Complex (50+ pagina's, integraties, i18n)",
+					"3-5 weken",
+					"$8.000-$15.000"
+				]
+			]
+		},
+		{
+			"type": "h2",
+			"text": "Wat verandert er voor je team"
+		},
+		{
+			"type": "p",
+			"text": "De grootste aanpassing is het bewerken van content. De visuele editor van Webflow is weg. Afhankelijk van je opzet vinden contentwijzigingen plaats via een headless CMS-dashboard of via een beheerde bewerkingsservice waarbij je wijzigingen e-mailt en ze binnen 24-48 uur live gaan."
+		},
+		{
+			"type": "p",
+			"text": "Al het andere verbetert. De site is sneller, veiliger en goedkoper om te hosten. Nieuwe functies worden gebouwd als code in plaats van samengehackt met embed-blokken en tools van derden."
+		},
+		{
+			"type": "h2",
+			"text": "Veelvoorkomende zorgen"
+		},
+		{
+			"type": "p",
+			"text": "**\"Verlies ik mijn SEO-rankings?\"** Niet als de migratie URL-redirects en metadata correct afhandelt. We hebben hier een gedetailleerd artikel over geschreven - het korte antwoord is dat correcte migraties rankings behouden en ze vaak verbeteren."
+		},
+		{
+			"type": "p",
+			"text": "**\"Kan ik nog steeds zelf content bijwerken?\"** Ja, via een headless CMS of beheerde bewerking. De visuele drag-and-drop is weg, maar de mogelijkheid om tekst, afbeeldingen en pagina's te wijzigen blijft."
+		},
+		{
+			"type": "p",
+			"text": "**\"Hoe zit het met mijn Webflow-animaties?\"** Die worden herbouwd. Framer Motion en GSAP kunnen alles repliceren wat Webflow Interactions kan - en meer. De animaties presteren vaak beter omdat ze geoptimaliseerd zijn voor de specifieke implementatie."
+		},
+		{
+			"type": "h2",
+			"text": "Het besliskader"
+		},
+		{
+			"type": "p",
+			"text": "Bereken je huidige Webflow-kosten: hostingplan, workspace-seats, overschrijdingen bij formulierinzendingen, tools van derden en ontwikkeltijd voor workarounds. Vergelijk dat met de eenmalige migratiekosten plus minimale doorlopende hosting."
+		},
+		{
+			"type": "p",
+			"text": "De meeste bedrijven die migreren, draaien break-even binnen 6-12 maanden. Daarna groeien de besparingen terwijl de mogelijkheden van de site toenemen."
+		}
+	]
+}

@@ -1,4 +1,4 @@
-import { readFileSync, existsSync } from "node:fs";
+import { readFileSync, readdirSync, existsSync, statSync } from "node:fs";
 import { join } from "node:path";
 
 export type Block =
@@ -7,12 +7,6 @@ export type Block =
 	| { type: "h3"; text: string }
 	| { type: "ul"; items: string[] }
 	| { type: "table"; headers: string[]; rows: string[][] };
-
-export interface LocaleContent {
-	title: string;
-	excerpt: string;
-	blocks: Block[];
-}
 
 export interface BlogPost {
 	slug: string;
@@ -24,105 +18,77 @@ export interface BlogPost {
 	blocks: Block[];
 }
 
-interface BlogPostMeta {
-	slug: string;
+interface PostFile {
 	date: string;
 	readingTime: number;
 	keyword: string;
+	title: string;
+	excerpt: string;
+	blocks: Block[];
 }
 
-const blogPostsMeta: BlogPostMeta[] = [
-	{
-		slug: "wordpress-site-speed",
-		date: "2025-12-12",
-		readingTime: 5,
-		keyword: "is wordpress too slow",
-	},
-	{
-		slug: "hidden-cost-of-wordpress",
-		date: "2025-12-23",
-		readingTime: 6,
-		keyword: "wordpress cost",
-	},
-	{
-		slug: "wordpress-security-2026",
-		date: "2026-01-06",
-		readingTime: 7,
-		keyword: "wordpress security problems",
-	},
-	{
-		slug: "wordpress-to-nextjs-case-study",
-		date: "2026-01-16",
-		readingTime: 7,
-		keyword: "wordpress to nextjs case study",
-	},
-	{
-		slug: "should-i-migrate-wordpress-to-nextjs",
-		date: "2026-01-27",
-		readingTime: 6,
-		keyword: "wordpress to nextjs migration",
-	},
-	{
-		slug: "wordpress-to-nextjs-migration-faq",
-		date: "2026-02-05",
-		readingTime: 8,
-		keyword: "wordpress nextjs migration FAQ",
-	},
-	{
-		slug: "wordpress-slow-on-mobile",
-		date: "2026-02-14",
-		readingTime: 7,
-		keyword: "wordpress slow on mobile",
-	},
-	{
-		slug: "wordpress-alternatives-small-business-2026",
-		date: "2026-02-24",
-		readingTime: 9,
-		keyword: "wordpress alternatives for small business 2026",
-	},
-	{
-		slug: "will-i-lose-seo-rankings-rebuild",
-		date: "2026-03-03",
-		readingTime: 9,
-		keyword: "will I lose SEO if I rebuild my website",
-	},
-	{
-		slug: "wordpress-vs-nextjs-for-business-website",
-		date: "2026-03-09",
-		readingTime: 10,
-		keyword: "wordpress vs nextjs for business website",
-	},
-];
+interface LocaleContent {
+	title: string;
+	excerpt: string;
+	blocks: Block[];
+}
 
 const contentDir = join(process.cwd(), "content/blog");
 
-// Cache parsed locale files to avoid re-reading per post
-const localeCache = new Map<string, Record<string, LocaleContent>>();
+// Cache parsed post files
+const postCache = new Map<string, PostFile | LocaleContent>();
 
-function getLocaleData(locale: string): Record<string, LocaleContent> {
-	const cached = localeCache.get(locale);
+function cacheKey(slug: string, locale: string): string {
+	return `${slug}:${locale}`;
+}
+
+function readPostFile(slug: string, locale: string): PostFile | LocaleContent | null {
+	const key = cacheKey(slug, locale);
+	const cached = postCache.get(key);
 	if (cached) return cached;
 
-	const filePath = join(contentDir, `${locale}.json`);
-	if (existsSync(filePath)) {
-		const data = JSON.parse(readFileSync(filePath, "utf-8"));
-		localeCache.set(locale, data);
-		return data;
+	const filePath = join(contentDir, slug, `${locale}.json`);
+	if (!existsSync(filePath)) return null;
+
+	const data = JSON.parse(readFileSync(filePath, "utf-8"));
+	postCache.set(key, data);
+	return data;
+}
+
+function getEnglishPost(slug: string): PostFile | null {
+	return readPostFile(slug, "en") as PostFile | null;
+}
+
+function loadContent(slug: string, locale: string): { meta: PostFile; content: LocaleContent } | null {
+	const enPost = getEnglishPost(slug);
+	if (!enPost) return null;
+
+	if (locale === "en") {
+		return { meta: enPost, content: enPost };
 	}
-	return {};
-}
 
-function loadContent(slug: string, locale: string): LocaleContent {
-	const localeData = getLocaleData(locale);
-	if (localeData[slug]) return localeData[slug];
-	// Fallback to English if the requested locale doesn't have this post
-	return getLocaleData("en")[slug];
-}
-
-function toPost(meta: BlogPostMeta, locale: string): BlogPost {
-	const content = loadContent(meta.slug, locale);
+	const localeContent = readPostFile(slug, locale) as LocaleContent | null;
 	return {
-		slug: meta.slug,
+		meta: enPost,
+		content: localeContent ?? enPost,
+	};
+}
+
+/** Discover all post slugs from content/blog directories */
+function getPostSlugs(): string[] {
+	if (!existsSync(contentDir)) return [];
+	return readdirSync(contentDir).filter((entry) => {
+		const entryPath = join(contentDir, entry);
+		return statSync(entryPath).isDirectory() && existsSync(join(entryPath, "en.json"));
+	});
+}
+
+function toPost(slug: string, locale: string): BlogPost | null {
+	const result = loadContent(slug, locale);
+	if (!result) return null;
+	const { meta, content } = result;
+	return {
+		slug,
 		date: meta.date,
 		readingTime: meta.readingTime,
 		keyword: meta.keyword,
@@ -133,16 +99,14 @@ function toPost(meta: BlogPostMeta, locale: string): BlogPost {
 }
 
 export function getBlogPosts(locale: string): BlogPost[] {
-	return blogPostsMeta.map((meta) => toPost(meta, locale));
+	return getPostSlugs()
+		.map((slug) => toPost(slug, locale))
+		.filter((post): post is BlogPost => post !== null)
+		.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
 
-export function getBlogPostBySlug(
-	slug: string,
-	locale: string,
-): BlogPost | undefined {
-	const meta = blogPostsMeta.find((p) => p.slug === slug);
-	if (!meta) return undefined;
-	return toPost(meta, locale);
+export function getBlogPostBySlug(slug: string, locale: string): BlogPost | undefined {
+	return toPost(slug, locale) ?? undefined;
 }
 
 // backwards compat for sitemap.ts

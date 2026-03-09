@@ -1,0 +1,182 @@
+{
+	"title": "Jak przebudowaliśmy stronę WordPress w 10 dni - i potroiliśmy jej szybkość",
+	"excerpt": "Prawdziwe studium przypadku migracji: 44 → 97 PageSpeed, 31% więcej ruchu organicznego i koszty hostingu zmniejszone o połowę - wszystko w 10 dni.",
+	"blocks": [
+		{
+			"type": "p",
+			"text": "Klient przyszedł do nas z problemem, którego nie mógł rozwiązać za pomocą wtyczek."
+		},
+		{
+			"type": "p",
+			"text": "Jego strona biznesowa działała od czterech lat. Zbudowana na WordPress z premium motywem, konstruktorem stron i zwykłym zestawem wtyczek do SEO, pamięci podręcznej, bezpieczeństwa i formularzy. Wyglądała profesjonalnie. Działała - przeważnie."
+		},
+		{
+			"type": "p",
+			"text": "Ale jego wynik Google PageSpeed wynosił 44 na urządzeniach mobilnych. Organiczne zapytania utknęły w miejscu. Próbował wtyczki do buforowania, CDN, kompresji obrazów. Nic nie poprawiało wyniku o więcej niż 5–8 punktów."
+		},
+		{
+			"type": "p",
+			"text": "Przebudowaliśmy ją w Next.js. Oto dokładnie co się wydarzyło."
+		},
+		{
+			"type": "h2",
+			"text": "Problem z optymalizacją WordPress"
+		},
+		{
+			"type": "p",
+			"text": "Gdy strona WordPress jest wolna, zwykła rada brzmi: dodaj więcej wtyczek - wtyczkę do buforowania, wtyczkę wydajnościową, wtyczkę do leniwego ładowania. Problem polega na tym, że sam WordPress - renderowanie PHP przy każdym żądaniu, łańcuch wykonywania wtyczek mogący osiągnąć 30–50 wtyczek, i zapytanie do bazy danych przy każdym ładowaniu strony - jest wąskim gardłem."
+		},
+		{
+			"type": "p",
+			"text": "Nie można wyjść z powolnej architektury za pomocą buforowania."
+		},
+		{
+			"type": "p",
+			"text": "Ta strona miała już wszystkie zwykłe poprawki zastosowane. Nagłówki pamięci podręcznej ustawione. Obrazy serwowane z CDN. 'Tryb wydajności' włączony w ustawieniach motywu. Wynik: 44/100 na urządzeniach mobilnych."
+		},
+		{
+			"type": "p",
+			"text": "Problem nie leżał w konfiguracji. Leżał w platformie."
+		},
+		{
+			"type": "h2",
+			"text": "Co zrobiliśmy"
+		},
+		{
+			"type": "h3",
+			"text": "Dni 1–2: Audyt i ekstrakcja treści"
+		},
+		{
+			"type": "p",
+			"text": "Przeprowadziliśmy pełne przeszukanie strony - 47 stron, 6 wpisów blogowych, lista usług, formularz kontaktowy. Wyodrębniliśmy całą treść, obrazy i metadane do ustrukturyzowanego formatu. Zmapowaliśmy istniejącą strukturę URL, aby nic się nie zepsuło."
+		},
+		{
+			"type": "h3",
+			"text": "Dni 3–5: Budowanie"
+		},
+		{
+			"type": "p",
+			"text": "Przebudowaliśmy stronę w Next.js 14 ze statycznym generowaniem. Każda strona renderuje się w czasie budowania i jest serwowana jako statyczny plik HTML z sieci edge Vercel. Bez PHP. Bez zapytań do bazy danych. Bez łańcucha wtyczek."
+		},
+		{
+			"type": "p",
+			"text": "Do stylizacji użyliśmy Tailwind CSS - ten sam wygląd wizualny, czystszy kod. Formularz kontaktowy jest kierowany przez funkcję serverless. Całkowity JavaScript dostarczony do przeglądarki: 94kb (w dół z 1,2mb)."
+		},
+		{
+			"type": "h3",
+			"text": "Dni 6–7: Migracja treści i kontrola jakości"
+		},
+		{
+			"type": "p",
+			"text": "Treść przeniesiona, obrazy zoptymalizowane i skonwertowane do WebP/AVIF, wszystkie linki wewnętrzne zweryfikowane. Uruchomiliśmy Lighthouse na każdej stronie."
+		},
+		{
+			"type": "h3",
+			"text": "Dni 8–9: Przekazanie SEO"
+		},
+		{
+			"type": "p",
+			"text": "Przekierowania 301 skonfigurowane dla wszelkich zmian URL. Tytuły meta, opisy i dane strukturalne zmigrowane z Yoast do API metadanych Next.js. Google Search Console podłączone."
+		},
+		{
+			"type": "h3",
+			"text": "Dzień 10: Uruchomienie"
+		},
+		{
+			"type": "p",
+			"text": "Przełączenie DNS na Vercel. Zero przestojów. Istniejące pozycje zachowane."
+		},
+		{
+			"type": "h2",
+			"text": "Wyniki"
+		},
+		{
+			"type": "table",
+			"headers": [
+				"Metryka",
+				"Przed (WordPress)",
+				"Po (Next.js)"
+			],
+			"rows": [
+				[
+					"PageSpeed Mobilny",
+					"44/100",
+					"97/100"
+				],
+				[
+					"PageSpeed Desktop",
+					"61/100",
+					"99/100"
+				],
+				[
+					"Time to First Byte",
+					"1,4s",
+					"0,08s"
+				],
+				[
+					"Largest Contentful Paint",
+					"4,2s",
+					"0,9s"
+				],
+				[
+					"Całkowita waga strony",
+					"2,8mb",
+					"340kb"
+				],
+				[
+					"Miesięczny koszt hostingu",
+					"€42/mies.",
+					"€20/mies."
+				]
+			]
+		},
+		{
+			"type": "h2",
+			"text": "Trzy miesiące później"
+		},
+		{
+			"type": "p",
+			"text": "Ruch organiczny wzrósł o 31%. Klient przypisuje część tego poprawie pozycji po ulepszeniach szybkości - Google jawnie używa Core Web Vitals jako sygnału rankingowego od 2021 roku."
+		},
+		{
+			"type": "p",
+			"text": "Ich współczynnik konwersji (przesyłanie formularzy kontaktowych) wzrósł o 22%. Ten sam ruch. Ta sama treść. Strona po prostu ładuje się, zanim ludzie wyjdą."
+		},
+		{
+			"type": "p",
+			"text": "Są teraz na naszym retainerze zarządzanej edycji. Kiedy potrzebują zmian w treści, nowych stron usług lub aktualizacji układu - wysyłają nam e-mail. Dostarczamy zmiany w ciągu 24–48 godzin."
+		},
+		{
+			"type": "h2",
+			"text": "Czy to typowe?"
+		},
+		{
+			"type": "p",
+			"text": "Ulepszenia szybkości są spójne. Każda strona WordPress, którą migrowaliśmy, przeszła z zakresu 40–65 do 90+ na mobilnym PageSpeed."
+		},
+		{
+			"type": "p",
+			"text": "Wpływ na ruch i konwersje różni się w zależności od strony i zależy od wielu czynników poza szybkością. Ale jeśli Twoja strona aktualnie uzyskuje poniżej 70, tracisz pozycje i konwersje - i żadna ilość optymalizacji WordPress tego nie naprawi."
+		},
+		{
+			"type": "h2",
+			"text": "Ile kosztuje migracja"
+		},
+		{
+			"type": "p",
+			"text": "Jednorazowa migracja: **€1 500–€4 000** w zależności od rozmiaru i złożoności strony. Retainer zarządzanej edycji: **€299–€999/miesiąc**."
+		},
+		{
+			"type": "p",
+			"text": "Większość klientów z jakimkolwiek znaczącym wolumenem ruchu osiąga próg rentowności w ciągu 6–12 miesięcy, nie uwzględniając tego, co przynoszą ulepszone współczynniki konwersji."
+		},
+		{
+			"type": "p",
+			"text": "Jeśli chcesz zobaczyć, jaki wynik osiąga Twoja strona - i jaki byłby po przebudowie - pobierz bezpłatny raport WordPress Health na webvise.io/wp-health-report"
+		},
+		{
+			"type": "p",
+			"text": "Zajmuje to 60 sekund. Nie jest wymagana rejestracja."
+		}
+	]
+}

@@ -1,0 +1,292 @@
+{
+	"title": "TYPO3 vs Next.js: una comparativa empresarial para quienes toman decisiones",
+	"excerpt": "TYPO3 ha sido el estandar empresarial en Europa durante 20 anos. Next.js representa la alternativa moderna. Asi se comparan en las metricas que importan.",
+	"blocks": [
+		{
+			"type": "p",
+			"text": "Si tu organizacion usa TYPO3, probablemente alguien ha sugerido mudarse a \"algo moderno\". Quiza un desarrollador menciono Next.js. Quiza un competidor lanzo un sitio notablemente mas rapido. Quiza tu equipo de TI senalo el coste creciente de mantener la infraestructura de TYPO3."
+		},
+		{
+			"type": "p",
+			"text": "Esta comparativa esta escrita para las personas que toman la decision - no para los desarrolladores que la implementan. Cubriremos ambas plataformas honestamente, incluyendo donde TYPO3 aun tiene ventajas legitimas."
+		},
+		{
+			"type": "h2",
+			"text": "Arquitectura: la diferencia fundamental"
+		},
+		{
+			"type": "p",
+			"text": "**TYPO3** es un CMS tradicional del lado del servidor. Cuando un visitante solicita una pagina, el servidor ejecuta PHP, consulta una base de datos MySQL/MariaDB, ensambla el HTML usando plantillas Fluid y lo envia al navegador. Cada solicitud pasa por este ciclo (a menos que se configure el cache)."
+		},
+		{
+			"type": "p",
+			"text": "**Next.js** es un framework hibrido. Las paginas pueden ser pre-construidas como HTML estatico en el momento del despliegue, renderizadas en el servidor por solicitud, o renderizadas en el cliente. La mayoria de los sitios empresariales usan generacion estatica - las paginas se construyen una vez, se despliegan en un CDN global y se sirven como archivos HTML planos. Sin servidor, sin base de datos, sin PHP."
+		},
+		{
+			"type": "h2",
+			"text": "Rendimiento"
+		},
+		{
+			"type": "h3",
+			"text": "TYPO3: 4/10"
+		},
+		{
+			"type": "p",
+			"text": "Los sitios TYPO3 tipicamente obtienen **35-60 en PageSpeed movil**. El pipeline de renderizado PHP, las consultas a la base de datos y el codigo frontend a menudo desactualizado (estilos inline, imagenes sin optimizar, scripts que bloquean el renderizado) crean una linea base lenta. El cache ayuda, pero anade complejidad y no resuelve los problemas fundamentales de rendimiento del frontend."
+		},
+		{
+			"type": "h3",
+			"text": "Next.js: 9/10"
+		},
+		{
+			"type": "p",
+			"text": "Los sitios Next.js consistentemente obtienen **90-99 en PageSpeed movil**. HTML estatico servido desde ubicaciones CDN en el edge, optimizacion automatica de imagenes (WebP/AVIF, dimensionado responsivo), division de codigo por pagina y cero sobrecarga de base de datos. El tiempo hasta el primer byte es tipicamente menor a 100ms a nivel global."
+		},
+		{
+			"type": "p",
+			"text": "**Ganador: Next.js** - la ventaja arquitectonica es significativa."
+		},
+		{
+			"type": "h2",
+			"text": "Gestion de contenido"
+		},
+		{
+			"type": "h3",
+			"text": "TYPO3: 8/10"
+		},
+		{
+			"type": "p",
+			"text": "Esta es el area mas fuerte de TYPO3. El backend proporciona arboles de paginas granulares, elementos de contenido flexibles, soporte multilingue, flujos de trabajo de publicacion basados en workspaces y permisos de usuario detallados. Para grandes organizaciones con multiples editores, cadenas de aprobacion y estructuras de contenido complejas, las capacidades CMS de TYPO3 son genuinamente maduras."
+		},
+		{
+			"type": "h3",
+			"text": "Next.js: 5/10 (varia segun la eleccion del CMS)"
+		},
+		{
+			"type": "p",
+			"text": "Next.js no tiene CMS integrado. Lo combinas con un headless CMS como Sanity, Contentful o Strapi - o usas contenido basado en archivos para sitios mas simples. Las plataformas modernas de headless CMS ofrecen buenas experiencias de edicion pero rara vez igualan la profundidad de TYPO3 en gestion de flujos de trabajo y permisos."
+		},
+		{
+			"type": "p",
+			"text": "**Ganador: TYPO3** - para organizaciones que necesitan flujos de trabajo editoriales complejos."
+		},
+		{
+			"type": "h2",
+			"text": "Seguridad"
+		},
+		{
+			"type": "h3",
+			"text": "TYPO3: 5/10"
+		},
+		{
+			"type": "p",
+			"text": "TYPO3 tiene un mejor historial de seguridad que WordPress, con un equipo de seguridad dedicado y avisos regulares. Pero la superficie de ataque es inherente a la arquitectura: un servidor de aplicaciones PHP, una base de datos, un panel de administracion y extensiones de terceros. Cada uno es una vulnerabilidad potencial."
+		},
+		{
+			"type": "h3",
+			"text": "Next.js: 9/10"
+		},
+		{
+			"type": "p",
+			"text": "Un sitio Next.js estatico tiene practicamente ninguna superficie de ataque. No hay servidor que comprometer, ni base de datos que vulnerar, ni panel de administracion al que hacer fuerza bruta. Si agregas un headless CMS, ese CMS se convierte en el limite de seguridad - pero es un servicio gestionado con su propio equipo de seguridad, no algo que tu mantengas."
+		},
+		{
+			"type": "p",
+			"text": "**Ganador: Next.js** - menos partes moviles significa menos vulnerabilidades."
+		},
+		{
+			"type": "h2",
+			"text": "Internacionalizacion"
+		},
+		{
+			"type": "h3",
+			"text": "TYPO3: 7/10"
+		},
+		{
+			"type": "p",
+			"text": "TYPO3 tiene un solido soporte multilingue. El contenido puede traducirse por pagina, por elemento, con cadenas de respaldo y capas de idioma. Ha sido probado en batalla en empresas europeas que gestionan 5-10+ versiones de idiomas."
+		},
+		{
+			"type": "h3",
+			"text": "Next.js: 8/10"
+		},
+		{
+			"type": "p",
+			"text": "Next.js tiene enrutamiento i18n integrado con deteccion automatica de idioma, enrutamiento por subrutas (/de, /fr) y enrutamiento basado en dominios. Combinado con bibliotecas de traduccion como next-intl, la experiencia del desarrollador es excelente. Agregar un nuevo idioma es un cambio de configuracion y archivos de traduccion - no se requieren cambios estructurales."
+		},
+		{
+			"type": "p",
+			"text": "**Ganador: Next.js** - ligeramente, por la arquitectura mas limpia. TYPO3 esta cerca."
+		},
+		{
+			"type": "h2",
+			"text": "Coste total de propiedad"
+		},
+		{
+			"type": "table",
+			"headers": [
+				"Factor de coste",
+				"TYPO3 (anual)",
+				"Next.js (anual)"
+			],
+			"rows": [
+				[
+					"Hosting",
+					"€2.000-€8.000 (dedicado/gestionado)",
+					"€0-€240 (Vercel/CDN)"
+				],
+				[
+					"SSL, CDN, cache",
+					"€500-€2.000",
+					"€0 (incluido)"
+				],
+				[
+					"Actualizaciones y mantenimiento de TYPO3",
+					"€3.000-€10.000",
+					"€0"
+				],
+				[
+					"Monitoreo de seguridad",
+					"€1.000-€3.000",
+					"€0 (superficie de ataque minima)"
+				],
+				[
+					"Headless CMS",
+					"N/A",
+					"€0-€3.000"
+				],
+				[
+					"Costes de desarrollador (promedio por hora)",
+					"€100-€150 (especialista TYPO3)",
+					"€80-€130 (React/Next.js)"
+				]
+			]
+		},
+		{
+			"type": "p",
+			"text": "La diferencia en costes de infraestructura es notable. TYPO3 requiere hosting PHP dedicado, servidores de base de datos, capas de cache y mantenimiento regular. Un sitio Next.js estatico en el tier gratuito de Vercel no cuesta nada de alojar. Incluso a escala empresarial con Vercel Pro, los costes de hosting son una fraccion de la infraestructura de TYPO3."
+		},
+		{
+			"type": "h2",
+			"text": "Ecosistema de desarrolladores"
+		},
+		{
+			"type": "p",
+			"text": "TYPO3 tiene una comunidad activa, particularmente en Alemania, Austria y Suiza. Pero el grupo de desarrolladores se esta reduciendo. La mayoria de los graduados en informatica aprenden JavaScript, no PHP. La mayoria de los nuevos proyectos web usan React, no plantillas Fluid."
+		},
+		{
+			"type": "p",
+			"text": "Next.js es el framework React mas popular con mas de 120.000 estrellas en GitHub y una adopcion creciente. Encontrar desarrolladores de React/Next.js es significativamente mas facil y tipicamente menos costoso que encontrar especialistas en TYPO3."
+		},
+		{
+			"type": "p",
+			"text": "Para una decision tecnologica a largo plazo, la disponibilidad de desarrolladores importa mas que cualquier caracteristica individual."
+		},
+		{
+			"type": "h2",
+			"text": "La tabla de puntuaciones"
+		},
+		{
+			"type": "table",
+			"headers": [
+				"Categoria",
+				"TYPO3",
+				"Next.js"
+			],
+			"rows": [
+				[
+					"Rendimiento",
+					"4/10",
+					"9/10"
+				],
+				[
+					"Gestion de contenido",
+					"8/10",
+					"5/10"
+				],
+				[
+					"Seguridad",
+					"5/10",
+					"9/10"
+				],
+				[
+					"i18n",
+					"7/10",
+					"8/10"
+				],
+				[
+					"Coste total de propiedad",
+					"4/10",
+					"8/10"
+				],
+				[
+					"Ecosistema de desarrolladores",
+					"4/10",
+					"9/10"
+				],
+				[
+					"Flexibilidad / funciones personalizadas",
+					"5/10",
+					"9/10"
+				],
+				[
+					"**Promedio**",
+					"**5,3/10**",
+					"**8,1/10**"
+				]
+			]
+		},
+		{
+			"type": "h2",
+			"text": "Quien deberia quedarse en TYPO3"
+		},
+		{
+			"type": "p",
+			"text": "TYPO3 sigue siendo la mejor opcion si:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"Tienes flujos de trabajo de publicacion complejos de multiples pasos de los que dependen los editores",
+				"Los permisos granulares del backend entre departamentos son innegociables",
+				"Tu equipo de contenido es grande, esta capacitado en TYPO3 y es resistente al cambio",
+				"Recientemente invertiste en una actualizacion a TYPO3 v12 o v13"
+			]
+		},
+		{
+			"type": "h2",
+			"text": "Quien deberia migrar a Next.js"
+		},
+		{
+			"type": "p",
+			"text": "Next.js es la opcion mas fuerte si:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"El rendimiento del frontend y los Core Web Vitals son prioridades de negocio",
+				"Quieres reducir el coste de infraestructura y la carga de mantenimiento",
+				"Tu version de TYPO3 esta desactualizada y la ruta de actualizacion es costosa",
+				"Necesitas funciones personalizadas (dashboards, integraciones, APIs) que van mas alla del CMS",
+				"El reclutamiento y la retencion de desarrolladores son importantes para tu estrategia de TI",
+				"Tu sitio sirve como herramienta de generacion de leads o ingresos"
+			]
+		},
+		{
+			"type": "h2",
+			"text": "El enfoque pragmatico"
+		},
+		{
+			"type": "p",
+			"text": "No tienes que ir con todo de inmediato. Un enfoque comun es comenzar con una configuracion de TYPO3 headless - mantener el backend que tus editores conocen, pero reemplazar el frontend con Next.js. Esto te da rendimiento moderno sin interrumpir los flujos de trabajo editoriales."
+		},
+		{
+			"type": "p",
+			"text": "A partir de ahi, puedes evaluar si el backend de TYPO3 sigue justificando su coste o si un headless CMS mas simple te serviria igual de bien a una fraccion del coste."
+		},
+		{
+			"type": "p",
+			"text": "De cualquier manera, comienza con datos. Mide las puntuaciones PageSpeed de tu sitio actual, audita tus costes anuales de TYPO3 y calcula el tiempo que tu equipo dedica al mantenimiento. Los numeros guiaran la decision mejor que cualquier comparativa de frameworks."
+		}
+	]
+}

@@ -1,0 +1,295 @@
+{
+	"date": "2026-03-06",
+	"readingTime": 9,
+	"keyword": "typo3 vs nextjs",
+	"title": "TYPO3 vs Next.js: An Enterprise Comparison for Decision Makers",
+	"excerpt": "TYPO3 has been the enterprise standard in Europe for 20 years. Next.js represents the modern alternative. Here is how they compare on the metrics that matter.",
+	"blocks": [
+		{
+			"type": "p",
+			"text": "If your organization runs TYPO3, someone has probably suggested moving to \"something modern.\" Maybe a developer mentioned Next.js. Maybe a competitor launched a noticeably faster site. Maybe your IT team flagged the rising cost of maintaining the TYPO3 infrastructure."
+		},
+		{
+			"type": "p",
+			"text": "This comparison is written for the people making the decision - not the developers implementing it. We'll cover both platforms honestly, including where TYPO3 still has legitimate advantages."
+		},
+		{
+			"type": "h2",
+			"text": "Architecture: The Fundamental Difference"
+		},
+		{
+			"type": "p",
+			"text": "**TYPO3** is a traditional server-side CMS. When a visitor requests a page, the server runs PHP, queries a MySQL/MariaDB database, assembles the HTML using Fluid templates, and sends it to the browser. Every request goes through this cycle (unless caching is configured)."
+		},
+		{
+			"type": "p",
+			"text": "**Next.js** is a hybrid framework. Pages can be pre-built as static HTML at deploy time, rendered on the server per request, or rendered on the client. Most business sites use static generation - pages are built once, deployed to a global CDN, and served as plain HTML files. No server, no database, no PHP."
+		},
+		{
+			"type": "h2",
+			"text": "Performance"
+		},
+		{
+			"type": "h3",
+			"text": "TYPO3: 4/10"
+		},
+		{
+			"type": "p",
+			"text": "TYPO3 sites typically score **35-60 on mobile PageSpeed**. The PHP rendering pipeline, database queries, and often outdated frontend code (inline styles, unoptimized images, render-blocking scripts) create a slow baseline. Caching helps, but it adds complexity and doesn't solve the underlying frontend performance issues."
+		},
+		{
+			"type": "h3",
+			"text": "Next.js: 9/10"
+		},
+		{
+			"type": "p",
+			"text": "Next.js sites consistently score **90-99 on mobile PageSpeed**. Static HTML served from edge CDN locations, automatic image optimization (WebP/AVIF, responsive sizing), code splitting per page, and zero database overhead. Time to first byte is typically under 100ms globally."
+		},
+		{
+			"type": "p",
+			"text": "**Winner: Next.js** - the architectural advantage is significant."
+		},
+		{
+			"type": "h2",
+			"text": "Content Management"
+		},
+		{
+			"type": "h3",
+			"text": "TYPO3: 8/10"
+		},
+		{
+			"type": "p",
+			"text": "This is TYPO3's strongest area. The backend provides granular page trees, flexible content elements, multi-language support, workspace-based publishing workflows, and detailed user permissions. For large organizations with multiple editors, approval chains, and complex content structures, TYPO3's CMS capabilities are genuinely mature."
+		},
+		{
+			"type": "h3",
+			"text": "Next.js: 5/10 (varies by CMS choice)"
+		},
+		{
+			"type": "p",
+			"text": "Next.js has no built-in CMS. You pair it with a headless CMS like Sanity, Contentful, or Strapi - or use file-based content for simpler sites. Modern headless CMS platforms offer good editing experiences but rarely match TYPO3's depth in workflow management and permissions."
+		},
+		{
+			"type": "p",
+			"text": "**Winner: TYPO3** - for organizations that need complex editorial workflows."
+		},
+		{
+			"type": "h2",
+			"text": "Security"
+		},
+		{
+			"type": "h3",
+			"text": "TYPO3: 5/10"
+		},
+		{
+			"type": "p",
+			"text": "TYPO3 has a better security track record than WordPress, with a dedicated security team and regular advisories. But the attack surface is inherent to the architecture: a PHP application server, a database, an admin backend, and third-party extensions. Each is a potential vulnerability."
+		},
+		{
+			"type": "h3",
+			"text": "Next.js: 9/10"
+		},
+		{
+			"type": "p",
+			"text": "A static Next.js site has virtually no attack surface. There's no server to compromise, no database to breach, no admin panel to brute-force. If you add a headless CMS, that CMS becomes the security boundary - but it's a managed service with its own security team, not something you maintain."
+		},
+		{
+			"type": "p",
+			"text": "**Winner: Next.js** - fewer moving parts means fewer vulnerabilities."
+		},
+		{
+			"type": "h2",
+			"text": "Internationalization"
+		},
+		{
+			"type": "h3",
+			"text": "TYPO3: 7/10"
+		},
+		{
+			"type": "p",
+			"text": "TYPO3 has solid multi-language support. Content can be translated per page, per element, with fallback chains and language overlays. It's been battle-tested across European enterprises running 5-10+ language versions."
+		},
+		{
+			"type": "h3",
+			"text": "Next.js: 8/10"
+		},
+		{
+			"type": "p",
+			"text": "Next.js has built-in i18n routing with automatic locale detection, subpath routing (/de, /fr), and domain-based routing. Combined with translation libraries like next-intl, the developer experience is excellent. Adding a new language is a configuration change and translation files - no structural changes required."
+		},
+		{
+			"type": "p",
+			"text": "**Winner: Next.js** - slightly, for the cleaner architecture. TYPO3 is close."
+		},
+		{
+			"type": "h2",
+			"text": "Total Cost of Ownership"
+		},
+		{
+			"type": "table",
+			"headers": [
+				"Cost Factor",
+				"TYPO3 (Annual)",
+				"Next.js (Annual)"
+			],
+			"rows": [
+				[
+					"Hosting",
+					"€2,000-€8,000 (dedicated/managed)",
+					"€0-€240 (Vercel/CDN)"
+				],
+				[
+					"SSL, CDN, caching",
+					"€500-€2,000",
+					"€0 (included)"
+				],
+				[
+					"TYPO3 updates and maintenance",
+					"€3,000-€10,000",
+					"€0"
+				],
+				[
+					"Security monitoring",
+					"€1,000-€3,000",
+					"€0 (minimal attack surface)"
+				],
+				[
+					"Headless CMS",
+					"N/A",
+					"€0-€3,000"
+				],
+				[
+					"Developer costs (avg hourly)",
+					"€100-€150 (TYPO3 specialist)",
+					"€80-€130 (React/Next.js)"
+				]
+			]
+		},
+		{
+			"type": "p",
+			"text": "The infrastructure cost difference is stark. TYPO3 requires dedicated PHP hosting, database servers, caching layers, and regular maintenance. A Next.js static site on Vercel's free tier costs nothing to host. Even at enterprise scale with Vercel Pro, hosting costs are a fraction of TYPO3 infrastructure."
+		},
+		{
+			"type": "h2",
+			"text": "Developer Ecosystem"
+		},
+		{
+			"type": "p",
+			"text": "TYPO3 has an active community, particularly in Germany, Austria, and Switzerland. But the developer pool is shrinking. Most computer science graduates learn JavaScript, not PHP. Most new web projects use React, not Fluid templates."
+		},
+		{
+			"type": "p",
+			"text": "Next.js is the most popular React framework with over 120,000 GitHub stars and growing adoption. Finding React/Next.js developers is significantly easier and typically less expensive than finding TYPO3 specialists."
+		},
+		{
+			"type": "p",
+			"text": "For a long-term technology decision, developer availability matters more than any single feature."
+		},
+		{
+			"type": "h2",
+			"text": "The Scorecard"
+		},
+		{
+			"type": "table",
+			"headers": [
+				"Category",
+				"TYPO3",
+				"Next.js"
+			],
+			"rows": [
+				[
+					"Performance",
+					"4/10",
+					"9/10"
+				],
+				[
+					"Content management",
+					"8/10",
+					"5/10"
+				],
+				[
+					"Security",
+					"5/10",
+					"9/10"
+				],
+				[
+					"i18n",
+					"7/10",
+					"8/10"
+				],
+				[
+					"Total cost of ownership",
+					"4/10",
+					"8/10"
+				],
+				[
+					"Developer ecosystem",
+					"4/10",
+					"9/10"
+				],
+				[
+					"Flexibility / custom features",
+					"5/10",
+					"9/10"
+				],
+				[
+					"**Average**",
+					"**5.3/10**",
+					"**8.1/10**"
+				]
+			]
+		},
+		{
+			"type": "h2",
+			"text": "Who Should Stay on TYPO3"
+		},
+		{
+			"type": "p",
+			"text": "TYPO3 remains the better choice if:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"You have complex multi-step publishing workflows that editors depend on",
+				"Granular backend permissions across departments are non-negotiable",
+				"Your content team is large, trained on TYPO3, and change-resistant",
+				"You recently invested in a TYPO3 v12 or v13 upgrade"
+			]
+		},
+		{
+			"type": "h2",
+			"text": "Who Should Migrate to Next.js"
+		},
+		{
+			"type": "p",
+			"text": "Next.js is the stronger choice if:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"Frontend performance and Core Web Vitals are business priorities",
+				"You want to reduce infrastructure cost and maintenance burden",
+				"Your TYPO3 version is outdated and the upgrade path is expensive",
+				"You need custom features (dashboards, integrations, APIs) that go beyond CMS",
+				"Developer recruitment and retention matter to your IT strategy",
+				"Your site serves as a lead generation or revenue tool"
+			]
+		},
+		{
+			"type": "h2",
+			"text": "The Pragmatic Approach"
+		},
+		{
+			"type": "p",
+			"text": "You don't have to go all-in immediately. A common approach is to start with a headless TYPO3 setup - keep the backend your editors know, but replace the frontend with Next.js. This gives you modern performance without disrupting editorial workflows."
+		},
+		{
+			"type": "p",
+			"text": "From there, you can evaluate whether TYPO3's backend is still earning its keep or whether a simpler headless CMS would serve you just as well at a fraction of the cost."
+		},
+		{
+			"type": "p",
+			"text": "Either way, start with data. Measure your current site's PageSpeed scores, audit your annual TYPO3 costs, and calculate the time your team spends on maintenance. The numbers will guide the decision better than any framework comparison."
+		}
+	]
+}

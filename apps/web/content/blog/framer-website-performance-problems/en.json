@@ -1,0 +1,158 @@
+{
+	"date": "2026-02-19",
+	"readingTime": 6,
+	"keyword": "framer website slow",
+	"title": "Why Your Framer Website Is Slow (and What You Can Do About It)",
+	"excerpt": "Framer sites look great in the editor but often score poorly on PageSpeed. Here is why that happens and what your options are.",
+	"blocks": [
+		{
+			"type": "p",
+			"text": "You built a beautiful site in Framer. The animations are smooth in the editor, the design looks polished, and everything feels fast on your MacBook Pro. Then you run a PageSpeed test and see a score of 45."
+		},
+		{
+			"type": "p",
+			"text": "You're not alone. Framer sites consistently underperform on Google's Core Web Vitals - particularly on mobile. Let's look at why, and what you can do about it."
+		},
+		{
+			"type": "h2",
+			"text": "The Performance Numbers"
+		},
+		{
+			"type": "p",
+			"text": "We've audited dozens of Framer sites over the past year. The pattern is consistent:"
+		},
+		{
+			"type": "table",
+			"headers": [
+				"Metric",
+				"Framer Average",
+				"Google's \"Good\" Threshold",
+				"Next.js Average"
+			],
+			"rows": [
+				[
+					"Mobile PageSpeed Score",
+					"42-65",
+					"90+",
+					"92-99"
+				],
+				[
+					"Largest Contentful Paint",
+					"3.2-5.8s",
+					"Under 2.5s",
+					"0.8-1.5s"
+				],
+				[
+					"Total Blocking Time",
+					"400-1,200ms",
+					"Under 200ms",
+					"10-80ms"
+				],
+				[
+					"Cumulative Layout Shift",
+					"0.05-0.25",
+					"Under 0.1",
+					"0-0.02"
+				]
+			]
+		},
+		{
+			"type": "p",
+			"text": "These aren't cherry-picked examples. This is the typical range for Framer business sites with animations, CMS content, and custom components."
+		},
+		{
+			"type": "h2",
+			"text": "Why Framer Sites Are Slow"
+		},
+		{
+			"type": "h3",
+			"text": "Heavy JavaScript Bundle"
+		},
+		{
+			"type": "p",
+			"text": "Framer ships a large JavaScript runtime to every page. This runtime powers the animation engine, the CMS rendering, and the component system. Even a simple landing page with minimal content loads **200-400KB of JavaScript** before your actual content appears."
+		},
+		{
+			"type": "p",
+			"text": "On a mid-range Android phone with a 4G connection, parsing and executing that JavaScript takes 1-3 seconds. That's before your images load, before your fonts render, before the user sees anything useful."
+		},
+		{
+			"type": "h3",
+			"text": "Client-Side Rendering"
+		},
+		{
+			"type": "p",
+			"text": "Framer renders pages primarily on the client side. The browser downloads HTML, then JavaScript, then the JavaScript builds the page. Compare this to Next.js, which sends fully-rendered HTML from the server - the browser displays content immediately while JavaScript loads in the background."
+		},
+		{
+			"type": "p",
+			"text": "This is why your Framer site feels fast on your laptop but scores poorly on PageSpeed. The test simulates a real mobile device on a real mobile connection, not a MacBook on fiber."
+		},
+		{
+			"type": "h3",
+			"text": "Animation Overhead"
+		},
+		{
+			"type": "p",
+			"text": "Framer's animation system is powerful but expensive. Every scroll-triggered animation, hover effect, and page transition adds to the JavaScript execution cost. Animations that feel smooth on desktop can cause visible jank on mobile devices with less processing power."
+		},
+		{
+			"type": "h3",
+			"text": "Limited Image Optimization"
+		},
+		{
+			"type": "p",
+			"text": "Framer handles basic image optimization, but you have no control over formats, quality settings, or responsive sizing strategies. Next.js's Image component automatically serves WebP/AVIF in the right dimensions for each device, with lazy loading and blur-up placeholders. The difference in image payload alone can be 50-80%."
+		},
+		{
+			"type": "h2",
+			"text": "What You Can Do Within Framer"
+		},
+		{
+			"type": "p",
+			"text": "If you want to stay on Framer, there are marginal improvements available:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"Reduce the number of animations - each one costs performance",
+				"Compress images before uploading instead of relying on Framer's optimization",
+				"Minimize custom code overrides and embedded scripts",
+				"Remove unused components and sections",
+				"Avoid deeply nested component structures"
+			]
+		},
+		{
+			"type": "p",
+			"text": "Realistically, these optimizations can improve your score by 10-15 points. If you're at 45, you might reach 55-60. Still below Google's threshold for \"good\" performance."
+		},
+		{
+			"type": "h2",
+			"text": "Why This Matters for Your Business"
+		},
+		{
+			"type": "p",
+			"text": "Google uses Core Web Vitals as a ranking signal. A slow mobile experience means lower search rankings. Beyond SEO, **53% of mobile visitors leave a site that takes longer than 3 seconds to load** (Google data). If your Framer site's LCP is 4+ seconds, you're losing visitors before they see your content."
+		},
+		{
+			"type": "p",
+			"text": "For sites that depend on organic traffic or paid ad conversions, poor performance directly impacts revenue. Every 100ms of additional load time reduces conversion rates by approximately 1%."
+		},
+		{
+			"type": "h2",
+			"text": "The Alternative"
+		},
+		{
+			"type": "p",
+			"text": "A Next.js rebuild preserves your design while fixing the underlying performance issues. The visual output stays the same - same layout, same animations, same brand identity. The delivery mechanism changes from client-rendered JavaScript to server-rendered HTML with optimized assets."
+		},
+		{
+			"type": "p",
+			"text": "The result is typically a jump from 45-65 on mobile PageSpeed to 92-99. Same design, dramatically better performance. Better rankings, lower bounce rates, higher conversions."
+		},
+		{
+			"type": "p",
+			"text": "If your Framer site is a business tool - not just a portfolio piece - performance should be a priority. Run your site through PageSpeed Insights on mobile and see where you stand. The numbers will tell you whether optimization is enough or whether the platform itself is the bottleneck."
+		}
+	]
+}
