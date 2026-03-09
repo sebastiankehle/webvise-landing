@@ -100,13 +100,13 @@ export default function IconCloud() {
     );
   }, [data]);
 
-  if (!mounted) {
-    return <div className="h-[300px] w-full md:h-[400px]" />;
-  }
-
   return (
-    <Cloud {...cloudProps}>
-      <>{renderedIcons}</>
-    </Cloud>
+    <div className="h-[300px] w-full md:h-[400px]">
+      {mounted && renderedIcons ? (
+        <Cloud {...cloudProps}>
+          <>{renderedIcons}</>
+        </Cloud>
+      ) : null}
+    </div>
   );
 }
