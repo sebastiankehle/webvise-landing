@@ -96,14 +96,27 @@ const blogPostsMeta: BlogPostMeta[] = [
 
 const contentDir = join(process.cwd(), "content/blog");
 
-function loadContent(slug: string, locale: string): LocaleContent {
-	const localePath = join(contentDir, slug, `${locale}.json`);
-	if (existsSync(localePath)) {
-		return JSON.parse(readFileSync(localePath, "utf-8"));
+// Cache parsed locale files to avoid re-reading per post
+const localeCache = new Map<string, Record<string, LocaleContent>>();
+
+function getLocaleData(locale: string): Record<string, LocaleContent> {
+	const cached = localeCache.get(locale);
+	if (cached) return cached;
+
+	const filePath = join(contentDir, `${locale}.json`);
+	if (existsSync(filePath)) {
+		const data = JSON.parse(readFileSync(filePath, "utf-8"));
+		localeCache.set(locale, data);
+		return data;
 	}
-	// Fallback to English if the requested locale is not available
-	const enPath = join(contentDir, slug, "en.json");
-	return JSON.parse(readFileSync(enPath, "utf-8"));
+	return {};
+}
+
+function loadContent(slug: string, locale: string): LocaleContent {
+	const localeData = getLocaleData(locale);
+	if (localeData[slug]) return localeData[slug];
+	// Fallback to English if the requested locale doesn't have this post
+	return getLocaleData("en")[slug];
 }
 
 function toPost(meta: BlogPostMeta, locale: string): BlogPost {
