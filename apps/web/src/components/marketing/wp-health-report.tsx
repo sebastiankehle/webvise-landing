@@ -94,32 +94,31 @@ function ReportResults({ data }: { data: ReportData }) {
 
 	return (
 		<AnimateIn>
-			<div className="mt-16 space-y-10">
-				<div>
-					<h2 className="font-normal text-2xl tracking-tight md:text-3xl">
-						{t("results.title")}
-					</h2>
-					<p className="mt-2 text-muted-foreground text-sm">
-						{t("results.resultsFor")}{" "}
-						<span className="font-medium text-foreground">{data.url}</span>
-					</p>
-				</div>
+			<div className="max-w-3xl">
+				{/* Header */}
+				<h2 className="font-normal text-3xl tracking-tight md:text-4xl">
+					{t("results.title")}
+				</h2>
+				<p className="mt-3 font-light text-muted-foreground">
+					{t("results.resultsFor")}{" "}
+					<span className="font-medium text-foreground">{data.url}</span>
+				</p>
 
-				{/* Scores */}
-				<div className="grid gap-6 sm:grid-cols-3">
-					<div className="flex flex-col items-center border border-border/40 p-6">
+				{/* Score grid */}
+				<div className="mt-12 grid gap-px overflow-hidden border border-border/40 sm:grid-cols-3">
+					<div className="flex flex-col items-center p-8">
 						<ScoreRing
 							score={data.mobile.score}
 							label={t("results.mobile")}
 						/>
 					</div>
-					<div className="flex flex-col items-center border border-border/40 p-6">
+					<div className="flex flex-col items-center border-border/40 border-t p-8 sm:border-t-0 sm:border-l">
 						<ScoreRing
 							score={data.desktop.score}
 							label={t("results.desktop")}
 						/>
 					</div>
-					<div className="flex flex-col items-center border border-border/40 border-l-2 border-l-brand p-6">
+					<div className="flex flex-col items-center border-border/40 border-t border-t-brand p-8 sm:border-t-0 sm:border-l sm:border-l-brand">
 						<ScoreRing
 							score={data.projectedScore}
 							label={t("results.afterNextjs")}
@@ -127,70 +126,71 @@ function ReportResults({ data }: { data: ReportData }) {
 					</div>
 				</div>
 
-				{/* Top issues */}
-				{data.issues.length > 0 && (
-					<div className="border border-border/40 p-6">
-						<h3 className="font-medium text-sm">
-							{t("results.speedKillers")}
-						</h3>
-						<ul className="mt-4 space-y-3">
-							{data.issues.map((issue) => (
-								<li
-									key={issue.title}
-									className="flex items-start gap-3 text-sm"
-								>
-									<span className="mt-0.5 h-1.5 w-1.5 shrink-0 bg-red-500" />
-									<div>
-										<span className="text-foreground">{issue.title}</span>
-										{issue.displayValue && (
-											<span className="ml-2 text-muted-foreground text-xs">
-												{issue.displayValue}
-											</span>
-										)}
-									</div>
-								</li>
-							))}
-						</ul>
-					</div>
-				)}
+				{/* Issues & Security in two-column grid */}
+				<div className="mt-px grid gap-px overflow-hidden border border-border/40 border-t-0 md:grid-cols-2">
+					{data.issues.length > 0 && (
+						<div className="p-6 md:p-8">
+							<h3 className="font-medium text-xs uppercase tracking-wider text-muted-foreground">
+								{t("results.speedKillers")}
+							</h3>
+							<ul className="mt-4 space-y-3">
+								{data.issues.map((issue) => (
+									<li
+										key={issue.title}
+										className="flex items-start gap-3 font-light text-sm"
+									>
+										<span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-red-500" />
+										<div>
+											<span className="text-foreground">{issue.title}</span>
+											{issue.displayValue && (
+												<span className="ml-2 text-muted-foreground text-xs">
+													{issue.displayValue}
+												</span>
+											)}
+										</div>
+									</li>
+								))}
+							</ul>
+						</div>
+					)}
 
-				{/* Security flags */}
-				{data.securityFlags.length > 0 && (
-					<div className="border border-border/40 p-6">
-						<h3 className="font-medium text-sm">
-							{t("results.securityRisks")}
-						</h3>
-						<ul className="mt-4 space-y-3">
-							{data.securityFlags.map((flag) => (
-								<li key={flag} className="flex items-start gap-3 text-sm">
-									<span className="mt-0.5 h-1.5 w-1.5 shrink-0 bg-yellow-500" />
-									<span className="text-foreground">{flag}</span>
-								</li>
-							))}
-						</ul>
-					</div>
-				)}
+					{data.securityFlags.length > 0 && (
+						<div className="border-border/40 border-t p-6 md:border-t-0 md:border-l md:p-8">
+							<h3 className="font-medium text-xs uppercase tracking-wider text-muted-foreground">
+								{t("results.securityRisks")}
+							</h3>
+							<ul className="mt-4 space-y-3">
+								{data.securityFlags.map((flag) => (
+									<li
+										key={flag}
+										className="flex items-start gap-3 font-light text-sm"
+									>
+										<span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-yellow-500" />
+										<span className="text-foreground">{flag}</span>
+									</li>
+								))}
+							</ul>
+						</div>
+					)}
+				</div>
 
 				{/* Migration estimate */}
-				<div className="border border-border/40 border-l-2 border-l-brand p-6">
-					<h3 className="font-medium text-sm">
+				<div className="mt-12 border-t-2 border-t-brand pt-8">
+					<h3 className="font-medium text-xs uppercase tracking-wider text-muted-foreground">
 						{t("results.migrationEstimate")}
 					</h3>
-					<p className="mt-2 text-muted-foreground text-sm">
+					<p className="mt-3 font-light text-muted-foreground leading-relaxed">
 						{t.rich("results.migrationText", {
 							strong: (chunks) => (
-								<span className="font-medium text-foreground">
-									{chunks}
-								</span>
+								<span className="font-medium text-foreground">{chunks}</span>
 							),
 							min: data.migrationEstimate.min.toLocaleString(),
 							max: data.migrationEstimate.max.toLocaleString(),
 						})}
 					</p>
-					<div className="mt-4 flex flex-col gap-3 sm:flex-row">
+					<div className="mt-6 flex flex-wrap gap-3">
 						<Button
-							size="lg"
-							className="border-transparent bg-brand text-white [&]:hover:bg-brand/80"
+							className="border-brand bg-brand text-white [&]:hover:bg-brand/80"
 							render={
 								// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
 								<a
@@ -202,14 +202,8 @@ function ReportResults({ data }: { data: ReportData }) {
 						>
 							{t("results.bookCall")}
 						</Button>
-						<Button
-							size="lg"
-							variant="outline"
-							render={
-								// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
-								<a href="/#contact" />
-							}
-						>
+						{/* biome-ignore lint/a11y/useAnchorContent: content provided by Button children */}
+						<Button variant="outline" render={<a href="/#contact" />}>
 							{t("results.getInTouch")}
 						</Button>
 					</div>
