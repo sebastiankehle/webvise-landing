@@ -45,7 +45,8 @@ export default function LanguageSwitcher() {
 		// Build new path: default locale (en) needs no prefix
 		const newPath =
 			nextLocale === routing.defaultLocale ? path : `/${nextLocale}${path}`;
-		// Full navigation to ensure middleware runs and locale context updates
+		// Set cookie so next-intl middleware uses the correct locale
+		document.cookie = `NEXT_LOCALE=${nextLocale};path=/;max-age=31536000;SameSite=Lax`;
 		window.location.href = newPath;
 	}
 
