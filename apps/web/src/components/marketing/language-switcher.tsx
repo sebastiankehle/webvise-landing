@@ -2,6 +2,7 @@
 
 import { Globe } from "lucide-react";
 import { useLocale } from "next-intl";
+import { usePathname, useRouter } from "next/navigation";
 
 import {
 	DropdownMenu,
@@ -9,7 +10,6 @@ import {
 	DropdownMenuContent,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { usePathname, useRouter } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 
 const localeLabels: Record<string, string> = {
@@ -29,7 +29,24 @@ export default function LanguageSwitcher() {
 
 	function switchLocale(nextLocale: string) {
 		if (nextLocale === locale) return;
-		router.replace(pathname as "/", { locale: nextLocale });
+
+		// Strip current locale prefix from pathname
+		let path = pathname;
+		for (const loc of routing.locales) {
+			if (path.startsWith(`/${loc}/`)) {
+				path = path.slice(loc.length + 1);
+				break;
+			}
+			if (path === `/${loc}`) {
+				path = "/";
+				break;
+			}
+		}
+
+		// Build new path: default locale (en) needs no prefix
+		const newPath =
+			nextLocale === routing.defaultLocale ? path : `/${nextLocale}${path}`;
+		router.replace(newPath as never);
 	}
 
 	return (
