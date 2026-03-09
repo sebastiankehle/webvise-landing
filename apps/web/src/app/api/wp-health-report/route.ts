@@ -31,6 +31,38 @@ interface PSIResult {
   };
 }
 
+async function detectTechnology(
+  url: string,
+): Promise<{ isWordPress: boolean; isPHP: boolean }> {
+  try {
+    const res = await fetch(url, {
+      redirect: "follow",
+      signal: AbortSignal.timeout(10000),
+      headers: { "User-Agent": "webvise-health-report/1.0" },
+    });
+    const html = await res.text();
+    const headers = Object.fromEntries(
+      [...res.headers.entries()].map(([k, v]) => [k.toLowerCase(), v]),
+    );
+
+    const isWordPress =
+      /\/wp-content\//i.test(html) ||
+      /\/wp-includes\//i.test(html) ||
+      /name=["']generator["'][^>]*WordPress/i.test(html) ||
+      headers["x-powered-by"]?.toLowerCase().includes("wordpress") === true ||
+      headers.link?.includes("wp-json") === true;
+
+    const isPHP =
+      isWordPress ||
+      headers["x-powered-by"]?.toLowerCase().includes("php") === true ||
+      /\.php[\s"'?]/i.test(html);
+
+    return { isWordPress, isPHP };
+  } catch {
+    return { isWordPress: false, isPHP: false };
+  }
+}
+
 async function runPageSpeedInsights(
   url: string,
   strategy: "mobile" | "desktop",
@@ -158,12 +190,11 @@ export async function POST(request: Request) {
       );
     }
 
-    const mobileScore = Math.round(
-      mobile.lighthouseResult.categories.performance.score * 100,
-    );
-    const desktopScore = Math.round(
-      desktop.lighthouseResult.categories.performance.score * 100,
-    );
+    const [mobileScore, desktopScore, tech] = [
+      Math.round(mobile.lighthouseResult.categories.performance.score * 100),
+      Math.round(desktop.lighthouseResult.categories.performance.score * 100),
+      await detectTechnology(data.url),
+    ];
     const issues = extractTopIssues(mobile);
     const vitals = extractCoreWebVitals(mobile);
     const projectedScore = mobileScore < 50 ? 93 : mobileScore < 70 ? 95 : 97;
@@ -172,8 +203,12 @@ export async function POST(request: Request) {
     if (!data.url.startsWith("https://")) {
       securityFlags.push("No HTTPS encryption");
     }
-    securityFlags.push("WordPress plugin ecosystem exposure");
-    securityFlags.push("PHP server-side attack surface");
+    if (tech.isWordPress) {
+      securityFlags.push("WordPress plugin ecosystem exposure");
+    }
+    if (tech.isPHP) {
+      securityFlags.push("PHP server-side attack surface");
+    }
 
     const estimateMin = 750;
     const estimateMax = mobileScore < 50 ? 2500 : 1500;
