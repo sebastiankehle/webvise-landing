@@ -190,18 +190,18 @@ export default function Contact() {
 					>
 						{status === "loading" ? t("form.submitting") : t("form.submit")}
 					</Button>
-					<div aria-live="polite" aria-atomic="true">
+					<output aria-live="polite" aria-atomic="true">
 						{status === "success" && (
-							<p role="status" className="text-muted-foreground text-sm">
+							<p className="text-muted-foreground text-sm">
 								{t("form.success")}
 							</p>
 						)}
 						{status === "error" && (
-							<p role="alert" className="text-destructive text-sm">
+							<p className="text-destructive text-sm">
 								{t("form.error")}
 							</p>
 						)}
-					</div>
+					</output>
 				</form>
 			</div>
 		</SectionWrapper>
