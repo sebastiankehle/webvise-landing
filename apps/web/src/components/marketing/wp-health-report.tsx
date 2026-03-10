@@ -361,7 +361,7 @@ export default function WpHealthReport() {
 
 								<form
 									onSubmit={handleSubmit}
-									className="space-y-4 border border-border/40 p-6 md:p-8"
+									className="space-y-4 border border-border/40 p-5 md:p-8"
 									aria-label={t("form.ariaLabel")}
 									noValidate
 								>
@@ -375,12 +375,12 @@ export default function WpHealthReport() {
 											placeholder={t("form.urlPlaceholder")}
 											disabled={status === "loading"}
 											aria-invalid={!!fieldErrors.url}
-											className={fieldErrors.url ? "border-destructive" : ""}
+											className={cn("h-10 text-base md:h-8 md:text-xs", fieldErrors.url && "border-destructive")}
 											onChange={() => setFieldErrors((prev) => { const { url: _, ...rest } = prev; return rest; })}
 										/>
 										{fieldErrors.url && <p className="text-destructive text-xs">{fieldErrors.url}</p>}
 									</div>
-									<div className="grid gap-4 sm:grid-cols-2">
+									<div className="grid gap-4 md:grid-cols-2">
 										<div className="space-y-2">
 											<Label htmlFor="email">{t("form.email")}</Label>
 											<Input
@@ -391,7 +391,7 @@ export default function WpHealthReport() {
 												placeholder={t("form.emailPlaceholder")}
 												disabled={status === "loading"}
 												aria-invalid={!!fieldErrors.email}
-												className={fieldErrors.email ? "border-destructive" : ""}
+												className={cn("h-10 text-base md:h-8 md:text-xs", fieldErrors.email && "border-destructive")}
 												onChange={() => setFieldErrors((prev) => { const { email: _, ...rest } = prev; return rest; })}
 											/>
 											{fieldErrors.email && <p className="text-destructive text-xs">{fieldErrors.email}</p>}
@@ -408,13 +408,15 @@ export default function WpHealthReport() {
 												name="firstName"
 												placeholder={t("form.namePlaceholder")}
 												disabled={status === "loading"}
+												className="h-10 text-base md:h-8 md:text-xs"
 											/>
 										</div>
 									</div>
 									<Button
 										type="submit"
 										disabled={status === "loading"}
-										className="w-full border-transparent bg-brand text-white [&]:hover:bg-brand/80"
+										size="lg"
+										className="w-full border-transparent bg-brand text-white md:h-8 md:text-xs [&]:hover:bg-brand/80"
 									>
 										{status === "loading"
 											? t("form.submitting")

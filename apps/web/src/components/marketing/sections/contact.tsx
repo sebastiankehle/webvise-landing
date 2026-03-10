@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { services } from "@/data/services";
+import { cn } from "@/lib/utils";
 
 export default function Contact() {
 	const [status, setStatus] = useState<
@@ -72,7 +73,7 @@ export default function Contact() {
 
 	return (
 		<SectionWrapper id="contact">
-			<div className="grid gap-16 md:grid-cols-2">
+			<div className="grid gap-10 md:gap-16 md:grid-cols-2">
 				<div>
 					<h2 className="font-normal text-3xl tracking-tight md:text-4xl">
 						{t("title")}
@@ -81,7 +82,7 @@ export default function Contact() {
 						{t("subtitle")}
 					</p>
 
-					<div className="mt-12 border border-border/40 border-l-2 border-l-brand p-8">
+					<div className="mt-8 border border-border/40 border-l-2 border-l-brand p-5 md:mt-12 md:p-8">
 						<h3 className="font-medium text-base">{t("booking.title")}</h3>
 						<p className="mt-2 font-light text-muted-foreground text-sm">
 							{t("booking.description")}
@@ -105,11 +106,11 @@ export default function Contact() {
 
 				<form
 					onSubmit={handleSubmit}
-					className="space-y-5 border border-border/40 p-8"
+					className="space-y-4 border border-border/40 p-5 md:space-y-5 md:p-8"
 					aria-label={t("title")}
 					noValidate
 				>
-					<div className="grid gap-5 sm:grid-cols-2">
+					<div className="grid gap-4 md:grid-cols-2 md:gap-5">
 						<div className="space-y-2">
 							<Label htmlFor="name">{t("form.name")}</Label>
 							<Input
@@ -118,7 +119,7 @@ export default function Contact() {
 								required
 								placeholder={t("form.namePlaceholder")}
 								aria-invalid={!!fieldErrors.name}
-								className={fieldErrors.name ? "border-destructive" : ""}
+								className={cn("h-10 text-base md:h-8 md:text-xs", fieldErrors.name && "border-destructive")}
 								onChange={() => setFieldErrors((prev) => { const { name: _, ...rest } = prev; return rest; })}
 							/>
 							{fieldErrors.name && <p className="text-destructive text-xs">{fieldErrors.name}</p>}
@@ -132,19 +133,20 @@ export default function Contact() {
 								required
 								placeholder={t("form.emailPlaceholder")}
 								aria-invalid={!!fieldErrors.email}
-								className={fieldErrors.email ? "border-destructive" : ""}
+								className={cn("h-10 text-base md:h-8 md:text-xs", fieldErrors.email && "border-destructive")}
 								onChange={() => setFieldErrors((prev) => { const { email: _, ...rest } = prev; return rest; })}
 							/>
 							{fieldErrors.email && <p className="text-destructive text-xs">{fieldErrors.email}</p>}
 						</div>
 					</div>
-					<div className="grid gap-5 sm:grid-cols-2">
+					<div className="grid gap-4 md:grid-cols-2 md:gap-5">
 						<div className="space-y-2">
 							<Label htmlFor="company">{t("form.company")}</Label>
 							<Input
 								id="company"
 								name="company"
 								placeholder={t("form.companyPlaceholder")}
+								className="h-10 text-base md:h-8 md:text-xs"
 							/>
 						</div>
 						<div className="space-y-2">
@@ -152,7 +154,7 @@ export default function Contact() {
 							<select
 								id="service"
 								name="service"
-								className="flex h-8 w-full border border-border bg-background px-2.5 text-xs outline-none focus:border-ring focus:ring-1 focus:ring-ring/50"
+								className="flex h-10 w-full border border-border bg-background px-2.5 text-base outline-none focus:border-ring focus:ring-1 focus:ring-ring/50 md:h-8 md:text-xs"
 							>
 								<option value="">{t("form.servicePlaceholder")}</option>
 								{services.map((s) => (
@@ -172,7 +174,10 @@ export default function Contact() {
 							rows={4}
 							placeholder={t("form.messagePlaceholder")}
 							aria-invalid={!!fieldErrors.message}
-							className={`flex w-full border bg-background px-2.5 py-2 text-xs outline-none focus:border-ring focus:ring-1 focus:ring-ring/50 ${fieldErrors.message ? "border-destructive" : "border-border"}`}
+							className={cn(
+								"flex w-full border bg-background px-2.5 py-2 text-base outline-none focus:border-ring focus:ring-1 focus:ring-ring/50 md:text-xs",
+								fieldErrors.message ? "border-destructive" : "border-border",
+							)}
 							onChange={() => setFieldErrors((prev) => { const { message: _, ...rest } = prev; return rest; })}
 						/>
 						{fieldErrors.message && <p className="text-destructive text-xs">{fieldErrors.message}</p>}
@@ -180,7 +185,8 @@ export default function Contact() {
 					<Button
 						type="submit"
 						disabled={status === "loading"}
-						className="w-full"
+						size="lg"
+						className="w-full md:h-8 md:text-xs"
 					>
 						{status === "loading" ? t("form.submitting") : t("form.submit")}
 					</Button>
