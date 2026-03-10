@@ -29,73 +29,83 @@ export default function Navbar() {
 		{ href: "/#services", label: t("services") },
 		{ href: "/#process", label: t("process") },
 		{ href: "/#pricing", label: t("pricing") },
-{ href: "/#contact", label: t("contact") },
+		{ href: "/#contact", label: t("contact") },
 	];
 
 	return (
-		<header
-			className={`sticky top-0 z-50 h-16 transition-[height,background-color,border-color,backdrop-filter] duration-300 md:h-20 ${
-				scrolled
-					? "border-border/40 border-b bg-background/80 backdrop-blur-xl"
-					: "border-transparent border-b bg-background"
-			}`}
-		>
-			<div className="mx-auto flex h-full max-w-[1200px] items-center justify-between px-6">
-				<Link
-					href="/"
-					className="flex items-center gap-2.5 font-medium text-xl tracking-tight"
-					aria-label="webvise - home"
-					onClick={(e) => {
-						if (pathname === "/") {
-							e.preventDefault();
-							window.scrollTo({ top: 0, behavior: "smooth" });
-						}
-					}}
-				>
-					<Logo className="h-7 w-7" animated />
-					webvise
-				</Link>
+		<>
+			<header
+				className={`sticky top-0 z-50 h-16 transition-[height,background-color,border-color,backdrop-filter] duration-300 md:h-20 ${
+					scrolled
+						? "border-border/40 border-b bg-background/80 backdrop-blur-xl"
+						: "border-transparent border-b bg-background"
+				}`}
+			>
+				<div className="mx-auto flex h-full max-w-[1200px] items-center justify-between px-6">
+					<Link
+						href="/"
+						className="flex items-center gap-2.5 font-medium text-xl tracking-tight"
+						aria-label="webvise - home"
+						onClick={(e) => {
+							if (pathname === "/") {
+								e.preventDefault();
+								window.scrollTo({ top: 0, behavior: "smooth" });
+							}
+						}}
+					>
+						<Logo className="h-7 w-7" animated />
+						webvise
+					</Link>
 
-				<nav aria-label="Main navigation" className="hidden items-center gap-1 md:flex">
-					{navLinks.map(({ href, label }) => (
-						<a
-							key={href}
-							href={href}
-							className="rounded-md px-3 py-1.5 text-muted-foreground text-sm transition-colors hover:bg-muted hover:text-foreground"
-						>
-							{label}
-						</a>
-					))}
-				</nav>
+					<nav
+						aria-label="Main navigation"
+						className="hidden items-center gap-1 md:flex"
+					>
+						{navLinks.map(({ href, label }) => (
+							<a
+								key={href}
+								href={href}
+								className="rounded-md px-3 py-1.5 text-muted-foreground text-sm transition-colors hover:bg-muted hover:text-foreground"
+							>
+								{label}
+							</a>
+						))}
+					</nav>
 
-				<div className="hidden items-center gap-3 md:flex">
+					<div className="hidden items-center gap-3 md:flex">
 					<LanguageSwitcher />
-					{/* biome-ignore lint/a11y/useAnchorContent: content provided by Button children */}
 					<Button
 						className="border-transparent bg-brand text-white [&]:hover:bg-brand/80"
-						render={<a href="/#contact" />}
+						render={
+							// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
+							<a href="/#contact" />
+						}
 					>
-						{t("getStarted")}
-					</Button>
-				</div>
+							{t("getStarted")}
+						</Button>
+					</div>
 
-				<button
-					type="button"
-					className="flex h-9 w-9 items-center justify-center rounded-md transition-colors hover:bg-muted md:hidden"
-					onClick={() => setMobileOpen(!mobileOpen)}
-					aria-label={mobileOpen ? "Close menu" : "Open menu"}
-				>
-					{mobileOpen ? (
-						<X className="h-5 w-5" />
-					) : (
-						<Menu className="h-5 w-5" />
-					)}
-				</button>
-			</div>
+					<button
+						type="button"
+						className="flex h-9 w-9 items-center justify-center rounded-md transition-colors hover:bg-muted md:hidden"
+						onClick={() => setMobileOpen(!mobileOpen)}
+						aria-label={mobileOpen ? "Close menu" : "Open menu"}
+					>
+						{mobileOpen ? (
+							<X className="h-5 w-5" />
+						) : (
+							<Menu className="h-5 w-5" />
+						)}
+					</button>
+				</div>
+			</header>
 
 			{mobileOpen && (
-				<div className="fixed inset-x-0 top-16 bottom-0 overflow-y-auto bg-background/95 px-6 pb-6 backdrop-blur-xl md:hidden">
-					<nav aria-label="Mobile navigation" className="flex min-h-full flex-col gap-1 pt-3">
+				<div className="fixed inset-x-0 top-16 bottom-0 z-50 overflow-y-auto bg-background/95 px-6 pb-6 backdrop-blur-xl md:hidden">
+					<nav
+						aria-label="Mobile navigation"
+						className="flex min-h-full flex-col gap-1 pt-3"
+					>
 						{navLinks.map(({ href, label }) => (
 							<a
 								key={href}
@@ -141,8 +151,10 @@ export default function Navbar() {
 							</div>
 							<Button
 								className="border-transparent bg-brand text-white [&]:hover:bg-brand/80"
-								// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
-								render={<a href="/#contact" />}
+								render={
+									// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
+									<a href="/#contact" />
+								}
 							>
 								{t("getStarted")}
 							</Button>
@@ -150,6 +162,6 @@ export default function Navbar() {
 					</nav>
 				</div>
 			)}
-		</header>
+		</>
 	);
 }
