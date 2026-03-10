@@ -1,12 +1,14 @@
 "use client";
 
+import { useForm } from "@tanstack/react-form";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
+import z from "zod";
 
-import AnimateIn from "@/components/marketing/animate-in";
 import { Button } from "@/components/ui/button";
+import { FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { SubmitButton } from "@/components/ui/submit-button";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
@@ -105,9 +107,8 @@ function ReportResults({ data }: { data: ReportData }) {
 	const t = useTranslations("wpHealthReport");
 
 	return (
-		<AnimateIn>
-			<div>
-				{/* Header */}
+		<div>
+			{/* Header */}
 				<div className="flex flex-col gap-1 md:flex-row md:items-baseline md:justify-between">
 					<h2 className="font-normal text-3xl tracking-tight md:text-4xl">
 						{t("results.title")}
@@ -250,100 +251,84 @@ function ReportResults({ data }: { data: ReportData }) {
 						</Button>
 					</div>
 				</div>
-			</div>
-		</AnimateIn>
+		</div>
 	);
+}
+
+function isValidUrl(value: string): boolean {
+	const normalized = value.startsWith("http") ? value : `https://${value}`;
+	try {
+		const parsed = new URL(normalized);
+		return parsed.hostname.includes(".");
+	} catch {
+		return false;
+	}
 }
 
 export default function WpHealthReport() {
 	const t = useTranslations("wpHealthReport");
-	const [status, setStatus] = useState<
-		"idle" | "loading" | "success" | "error"
+	const [submitStatus, setSubmitStatus] = useState<
+		"idle" | "success" | "error"
 	>("idle");
 	const [report, setReport] = useState<ReportData | null>(null);
 	const [errorMessage, setErrorMessage] = useState("");
-	const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
-	function validateFields(data: FormData): Record<string, string> {
-		const errors: Record<string, string> = {};
-		const url = (data.get("url") as string)?.trim();
-		const email = (data.get("email") as string)?.trim();
+	const form = useForm({
+		defaultValues: {
+			url: "",
+			email: "",
+			firstName: "",
+		},
+		validators: {
+			onSubmit: z.object({
+				url: z.string().min(1, t("errors.urlRequired")),
+				email: z.email(t("errors.emailInvalid")),
+				firstName: z.string(),
+			}),
+		},
+		onSubmit: async ({ value }) => {
+			setErrorMessage("");
+			setSubmitStatus("idle");
 
-		if (!url) {
-			errors.url = t("errors.urlRequired");
-		} else {
-			const normalized = url.startsWith("http") ? url : `https://${url}`;
+			let url = value.url.trim();
+			if (!url.startsWith("http")) {
+				url = `https://${url}`;
+			}
+
 			try {
-				const parsed = new URL(normalized);
-				if (!parsed.hostname.includes(".")) {
-					errors.url = t("errors.urlInvalid");
+				const res = await fetch("/api/wp-health-report", {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({
+						url,
+						email: value.email.trim(),
+						firstName: value.firstName,
+					}),
+				});
+
+				if (res.ok) {
+					const result = await res.json();
+					setReport(result);
+					setSubmitStatus("success");
+				} else {
+					const err = await res.json().catch(() => null);
+					setErrorMessage(err?.error || t("errors.analyzeFailed"));
+					setSubmitStatus("error");
 				}
 			} catch {
-				errors.url = t("errors.urlInvalid");
+				setErrorMessage(t("errors.networkError"));
+				setSubmitStatus("error");
 			}
-		}
-
-		if (!email) {
-			errors.email = t("errors.emailRequired");
-		} else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-			errors.email = t("errors.emailInvalid");
-		}
-
-		return errors;
-	}
-
-	async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-		e.preventDefault();
-		setErrorMessage("");
-
-		const form = e.currentTarget;
-		const data = new FormData(form);
-
-		const errors = validateFields(data);
-		setFieldErrors(errors);
-		if (Object.keys(errors).length > 0) return;
-
-		setStatus("loading");
-
-		let url = (data.get("url") as string).trim();
-		if (!url.startsWith("http")) {
-			url = `https://${url}`;
-		}
-
-		try {
-			const res = await fetch("/api/wp-health-report", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({
-					url,
-					email: (data.get("email") as string).trim(),
-					firstName: data.get("firstName"),
-				}),
-			});
-
-			if (res.ok) {
-				const result = await res.json();
-				setReport(result);
-				setFieldErrors({});
-				setStatus("success");
-			} else {
-				const err = await res.json().catch(() => null);
-				setErrorMessage(err?.error || t("errors.analyzeFailed"));
-				setStatus("error");
-			}
-		} catch {
-			setErrorMessage(t("errors.networkError"));
-			setStatus("error");
-		}
-	}
+		},
+	});
 
 	return (
 		<section id="wp-health-report" className="py-16 md:py-32">
 			<div className="mx-auto max-w-[1200px] px-6">
-				{status !== "success" ? (
+				{submitStatus !== "success" ? (
 					<>
-						<AnimateIn>
-							<div className="grid items-start gap-12 md:grid-cols-2 md:gap-16">
+					<div>
+						<div className="grid items-start gap-12 md:grid-cols-2 md:gap-16">
 								<div>
 									<h1 className="font-normal text-3xl leading-[1.15] tracking-tight md:text-[48px]">
 										{t.rich("hero.title", {
@@ -371,97 +356,120 @@ export default function WpHealthReport() {
 								</div>
 
 								<form
-									onSubmit={handleSubmit}
+									onSubmit={(e) => {
+										e.preventDefault();
+										e.stopPropagation();
+										form.handleSubmit();
+									}}
 									className="space-y-4 border border-border/40 p-5 md:p-8"
 									aria-label={t("form.ariaLabel")}
 									noValidate
+									autoComplete="off"
 								>
-									<div className="space-y-2">
-										<Label htmlFor="url">{t("form.url")}</Label>
-										<Input
-											id="url"
-											name="url"
-											type="url"
-											required
-											placeholder={t("form.urlPlaceholder")}
-											disabled={status === "loading"}
-											aria-invalid={!!fieldErrors.url}
-											className={cn(
-												"h-10 text-base md:h-8 md:text-xs",
-												fieldErrors.url && "border-destructive",
-											)}
-											onChange={() =>
-												setFieldErrors((prev) => {
-													const { url: _, ...rest } = prev;
-													return rest;
-												})
-											}
-										/>
-										{fieldErrors.url && (
-											<p className="text-destructive text-xs">
-												{fieldErrors.url}
-											</p>
-										)}
-									</div>
-									<div className="grid gap-4 md:grid-cols-2">
-										<div className="space-y-2">
-											<Label htmlFor="email">{t("form.email")}</Label>
-											<Input
-												id="email"
-												name="email"
-												type="email"
-												required
-												placeholder={t("form.emailPlaceholder")}
-												disabled={status === "loading"}
-												aria-invalid={!!fieldErrors.email}
-												className={cn(
-													"h-10 text-base md:h-8 md:text-xs",
-													fieldErrors.email && "border-destructive",
-												)}
-												onChange={() =>
-													setFieldErrors((prev) => {
-														const { email: _, ...rest } = prev;
-														return rest;
-													})
-												}
-											/>
-											{fieldErrors.email && (
-												<p className="text-destructive text-xs">
-													{fieldErrors.email}
-												</p>
-											)}
-										</div>
-										<div className="space-y-2">
-											<Label htmlFor="firstName">
-												{t("form.name")}{" "}
-												<span className="text-muted-foreground">
-													{t("form.nameOptional")}
-												</span>
-											</Label>
-											<Input
-												id="firstName"
-												name="firstName"
-												placeholder={t("form.namePlaceholder")}
-												disabled={status === "loading"}
-												className="h-10 text-base md:h-8 md:text-xs"
-											/>
-										</div>
-									</div>
-									<Button
-										type="submit"
-										disabled={status === "loading"}
-										size="lg"
-										className="w-full border-transparent bg-brand text-white md:h-8 md:text-xs [&]:hover:bg-brand/80"
+									<form.Field
+										name="url"
+										validators={{
+											onSubmit: ({ value }) => {
+												if (!value.trim()) return t("errors.urlRequired");
+												if (!isValidUrl(value)) return t("errors.urlInvalid");
+												return undefined;
+											},
+										}}
 									>
-										{status === "loading"
-											? t("form.submitting")
-											: t("form.submit")}
-									</Button>
+										{(field) => (
+											<FormItem>
+												<FormLabel htmlFor={field.name}>
+													{t("form.url")}
+												</FormLabel>
+												<Input
+													id={field.name}
+													name={field.name}
+													type="url"
+													value={field.state.value}
+													onBlur={field.handleBlur}
+													onChange={(e) => field.handleChange(e.target.value)}
+													placeholder={t("form.urlPlaceholder")}
+													autoComplete="off"
+													aria-invalid={field.state.meta.errors.length > 0}
+													className="h-10 text-base md:h-8 md:text-xs"
+												/>
+												<FormMessage errors={field.state.meta.errors} />
+											</FormItem>
+										)}
+									</form.Field>
+									<div className="grid gap-4 md:grid-cols-2">
+										<form.Field name="email">
+											{(field) => (
+												<FormItem>
+													<FormLabel htmlFor={field.name}>
+														{t("form.email")}
+													</FormLabel>
+													<Input
+														id={field.name}
+														name={field.name}
+														type="email"
+														value={field.state.value}
+														onBlur={field.handleBlur}
+														onChange={(e) =>
+															field.handleChange(e.target.value)
+														}
+														placeholder={t("form.emailPlaceholder")}
+														autoComplete="off"
+														aria-invalid={
+															field.state.meta.errors.length > 0
+														}
+														className="h-10 text-base md:h-8 md:text-xs"
+													/>
+													<FormMessage errors={field.state.meta.errors} />
+												</FormItem>
+											)}
+										</form.Field>
+										<form.Field name="firstName">
+											{(field) => (
+												<FormItem>
+													<FormLabel htmlFor={field.name}>
+														{t("form.name")}{" "}
+														<span className="text-muted-foreground">
+															{t("form.nameOptional")}
+														</span>
+													</FormLabel>
+													<Input
+														id={field.name}
+														name={field.name}
+														value={field.state.value}
+														onBlur={field.handleBlur}
+														onChange={(e) =>
+															field.handleChange(e.target.value)
+														}
+														placeholder={t("form.namePlaceholder")}
+														autoComplete="off"
+														className="h-10 text-base md:h-8 md:text-xs"
+													/>
+												</FormItem>
+											)}
+										</form.Field>
+									</div>
+									<form.Subscribe
+										selector={(state) => [
+											state.canSubmit,
+											state.isSubmitting,
+										]}
+									>
+										{([_canSubmit, isSubmitting]) => (
+											<SubmitButton
+												isSubmitting={isSubmitting}
+												size="lg"
+												className="w-full border-transparent bg-brand text-white md:h-8 md:text-xs [&]:hover:bg-brand/80"
+											>
+												{t("form.submit")}
+											</SubmitButton>
+										)}
+									</form.Subscribe>
 									<p className="text-center text-muted-foreground text-xs">
 										{t("form.noSignup")}
 									</p>
 									<div aria-live="polite" aria-atomic="true">
-										{status === "error" && (
+										{submitStatus === "error" && (
 											<p role="alert" className="text-destructive text-sm">
 												{errorMessage}
 											</p>
@@ -469,14 +477,22 @@ export default function WpHealthReport() {
 									</div>
 								</form>
 							</div>
-						</AnimateIn>
+						</div>
 
-						{status === "loading" && (
-							<div className="mt-12 flex flex-col items-center gap-3">
-								<div className="h-6 w-6 animate-spin border-2 border-brand border-t-transparent" />
-								<p className="text-muted-foreground text-sm">{t("loading")}</p>
-							</div>
-						)}
+						<form.Subscribe
+							selector={(state) => state.isSubmitting}
+						>
+							{(isSubmitting) =>
+								isSubmitting ? (
+									<div className="mt-12 flex flex-col items-center gap-3">
+										<div className="h-6 w-6 animate-spin border-2 border-brand border-t-transparent" />
+										<p className="text-muted-foreground text-sm">
+											{t("loading")}
+										</p>
+									</div>
+								) : null
+							}
+						</form.Subscribe>
 					</>
 				) : (
 					report && <ReportResults data={report} />

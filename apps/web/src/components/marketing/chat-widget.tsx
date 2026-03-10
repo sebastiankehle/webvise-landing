@@ -35,15 +35,7 @@ export default function ChatWidget() {
 	}, [messages.length, isStreaming]);
 
 	useEffect(() => {
-		if (open) {
-			inputRef.current?.focus();
-			document.body.style.overflow = window.innerWidth < 768 ? "hidden" : "";
-		} else {
-			document.body.style.overflow = "";
-		}
-		return () => {
-			document.body.style.overflow = "";
-		};
+		if (open) inputRef.current?.focus();
 	}, [open]);
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -59,18 +51,15 @@ export default function ChatWidget() {
 	};
 
 	return (
-		<>
+		<div className="fixed right-6 bottom-6 z-40 flex flex-col items-end gap-3">
 			<AnimatePresence>
 				{open && (
 					<motion.div
-						initial={{ opacity: 0, y: 12, scale: 0.97 }}
+						initial={{ opacity: 0, y: 12, scale: 0.95 }}
 						animate={{ opacity: 1, y: 0, scale: 1 }}
-						exit={{ opacity: 0, y: 12, scale: 0.97 }}
+						exit={{ opacity: 0, y: 12, scale: 0.95 }}
 						transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
-						className={cn(
-							"fixed z-50 flex flex-col overflow-hidden border border-border bg-background shadow-2xl",
-							"inset-0 md:inset-auto md:right-6 md:bottom-20 md:h-[min(520px,80svh)] md:w-[400px]",
-						)}
+						className="flex h-[min(520px,80svh)] w-[min(400px,calc(100vw-3rem))] flex-col overflow-hidden border border-border bg-background shadow-2xl"
 					>
 						<div className="flex items-center justify-between border-border/60 border-b bg-card px-4 py-3">
 							<div className="flex items-center gap-2.5">
@@ -85,7 +74,7 @@ export default function ChatWidget() {
 							<button
 								type="button"
 								onClick={() => setOpen(false)}
-								className="flex h-8 w-8 items-center justify-center text-muted-foreground transition-colors hover:text-foreground md:h-7 md:w-7"
+								className="flex h-7 w-7 items-center justify-center text-muted-foreground transition-colors hover:text-foreground"
 								aria-label="Close chat"
 							>
 								<X className="h-4 w-4" />
@@ -105,7 +94,7 @@ export default function ChatWidget() {
 												key={q}
 												type="button"
 												onClick={() => handleSuggestion(q)}
-												className="border border-border bg-card px-2.5 py-1.5 text-muted-foreground text-xs transition-colors hover:bg-muted hover:text-foreground md:py-1"
+												className="border border-border bg-card px-2.5 py-1 text-muted-foreground text-xs transition-colors hover:bg-muted hover:text-foreground"
 											>
 												{q}
 											</button>
@@ -146,20 +135,25 @@ export default function ChatWidget() {
 
 						<form
 							onSubmit={handleSubmit}
-							className="flex items-center gap-2 border-border/60 border-t px-3 py-2.5 pb-[calc(0.625rem+env(safe-area-inset-bottom))]"
+							className="flex items-center gap-2 border-border/60 border-t px-3 py-2.5"
 						>
 							<input
 								ref={inputRef}
 								value={input}
 								onChange={(e) => setInput(e.target.value)}
 								placeholder="Type a message…"
-								className="h-9 flex-1 bg-transparent px-1 text-base outline-none placeholder:text-muted-foreground md:h-8 md:text-sm"
+								className="h-8 flex-1 bg-transparent px-1 text-sm outline-none placeholder:text-muted-foreground"
 								autoComplete="off"
+								autoCorrect="off"
+								autoCapitalize="off"
+								spellCheck={false}
+								enterKeyHint="send"
+								data-form-type="other"
 							/>
 							<button
 								type="submit"
 								disabled={!input.trim() || isStreaming}
-								className="flex h-8 w-8 shrink-0 items-center justify-center bg-brand text-white transition-opacity disabled:opacity-40 md:h-7 md:w-7"
+								className="flex h-7 w-7 shrink-0 items-center justify-center bg-brand text-white transition-opacity disabled:opacity-40"
 								aria-label="Send message"
 							>
 								<Send className="h-3.5 w-3.5" />
@@ -172,10 +166,7 @@ export default function ChatWidget() {
 			<motion.button
 				type="button"
 				onClick={() => setOpen(!open)}
-				className={cn(
-					"fixed right-6 bottom-6 z-40 flex h-12 w-12 items-center justify-center bg-brand text-white shadow-lg transition-colors hover:bg-brand/80",
-					open && "max-md:hidden",
-				)}
+				className="flex h-12 w-12 items-center justify-center bg-brand text-white shadow-lg transition-colors hover:bg-brand/80"
 				whileHover={{ scale: 1.05 }}
 				whileTap={{ scale: 0.95 }}
 				aria-label={open ? "Close chat" : "Open AI chat"}
@@ -204,6 +195,6 @@ export default function ChatWidget() {
 					)}
 				</AnimatePresence>
 			</motion.button>
-		</>
+		</div>
 	);
 }

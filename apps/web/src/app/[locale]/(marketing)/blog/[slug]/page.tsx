@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 
-import AnimateIn from "@/components/marketing/animate-in";
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import { Button } from "@/components/ui/button";
 import { type Block, getBlogPostBySlug, getBlogPosts } from "@/data/blog";
@@ -146,9 +145,9 @@ export default async function BlogPostPage({
 		<>
 			<section className="py-20 md:py-40">
 				<div className="mx-auto max-w-[1200px] px-6">
-					<AnimateIn>
-						<div className="max-w-2xl">
-							<a
+				<div>
+					<div className="max-w-2xl">
+						<a
 								href="/blog"
 								className="font-light text-muted-foreground text-sm transition-colors hover:text-foreground"
 							>
@@ -171,7 +170,7 @@ export default async function BlogPostPage({
 								{post.title}
 							</h1>
 						</div>
-					</AnimateIn>
+					</div>
 				</div>
 			</section>
 

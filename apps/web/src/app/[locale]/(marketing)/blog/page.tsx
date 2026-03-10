@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 
-import AnimateIn from "@/components/marketing/animate-in";
 import { getBlogPosts } from "@/data/blog";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -19,8 +18,8 @@ export default async function BlogPage() {
 	return (
 		<section className="py-20 md:py-40">
 			<div className="mx-auto max-w-[1200px] px-6">
-				<AnimateIn>
-					<div className="max-w-2xl">
+			<div>
+				<div className="max-w-2xl">
 						<h1 className="font-normal text-3xl tracking-tight md:text-5xl">
 							{t("title")}
 						</h1>
@@ -64,7 +63,7 @@ export default async function BlogPage() {
 							</a>
 						))}
 					</div>
-				</AnimateIn>
+				</div>
 			</div>
 		</section>
 	);

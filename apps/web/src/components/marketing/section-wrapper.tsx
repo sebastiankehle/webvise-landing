@@ -1,4 +1,3 @@
-import AnimateIn from "@/components/marketing/animate-in";
 import { cn } from "@/lib/utils";
 
 export default function SectionWrapper({
@@ -21,9 +20,7 @@ export default function SectionWrapper({
 				className,
 			)}
 		>
-			<div className="mx-auto max-w-[1200px] px-6">
-				<AnimateIn>{children}</AnimateIn>
-			</div>
+			<div className="mx-auto max-w-[1200px] px-6">{children}</div>
 		</section>
 	);
 }

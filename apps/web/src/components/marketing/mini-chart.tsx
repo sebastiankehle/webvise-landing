@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "motion/react";
 import { useState } from "react";
 import {
 	Area,
@@ -187,13 +186,7 @@ export default function MiniChart({
 	const current = datasets[active];
 
 	return (
-		<motion.div
-			initial={{ opacity: 0 }}
-			whileInView={{ opacity: 1 }}
-			viewport={{ once: true, margin: "-64px" }}
-			transition={{ duration: 0.8, delay: 0.3 }}
-			className="mt-12 border border-border/40"
-		>
+		<div className="mt-12 border border-border/40">
 			<div className="flex flex-col gap-3 border-border/40 border-b px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
 				<div>
 					<div className="flex items-center gap-3">
@@ -334,6 +327,6 @@ export default function MiniChart({
 					</AreaChart>
 				</ResponsiveContainer>
 			</div>
-		</motion.div>
+		</div>
 	);
 }

@@ -1,6 +1,5 @@
 "use client";
 
-import { motion, useInView } from "motion/react";
 import type { RefObject } from "react";
 import { useEffect, useId, useRef, useState } from "react";
 
@@ -45,23 +44,11 @@ export function AnimatedBeam({
 }: AnimatedBeamProps) {
 	const id = useId();
 	const svgRef = useRef<SVGSVGElement>(null);
-	const isInView = useInView(svgRef, { once: true, margin: "-64px" });
 	const [pathD, setPathD] = useState("");
 	const [svgDimensions, setSvgDimensions] = useState({ width: 0, height: 0 });
 
-	const gradientCoordinates = reverse
-		? {
-				x1: ["90%", "-10%"],
-				x2: ["100%", "0%"],
-				y1: ["0%", "0%"],
-				y2: ["0%", "0%"],
-			}
-		: {
-				x1: ["10%", "110%"],
-				x2: ["0%", "100%"],
-				y1: ["0%", "0%"],
-				y2: ["0%", "0%"],
-			};
+	const x1Values = reverse ? "90%;-10%" : "10%;110%";
+	const x2Values = reverse ? "100%;0%" : "0%;100%";
 
 	useEffect(() => {
 		const updatePath = () => {
@@ -140,34 +127,30 @@ export function AnimatedBeam({
 				strokeLinecap="round"
 			/>
 			<defs>
-				<motion.linearGradient
+				<linearGradient
 					className="transform-gpu"
 					id={id}
 					gradientUnits="userSpaceOnUse"
-					initial={{ x1: "0%", x2: "0%", y1: "0%", y2: "0%" }}
-					animate={
-						isInView
-							? {
-									x1: gradientCoordinates.x1,
-									x2: gradientCoordinates.x2,
-									y1: gradientCoordinates.y1,
-									y2: gradientCoordinates.y2,
-								}
-							: undefined
-					}
-					transition={{
-						delay,
-						duration,
-						ease: [0.16, 1, 0.3, 1],
-						repeat: Number.POSITIVE_INFINITY,
-						repeatDelay: 0,
-					}}
 				>
+					<animate
+						attributeName="x1"
+						values={x1Values}
+						dur={`${duration}s`}
+						begin={`${delay}s`}
+						repeatCount="indefinite"
+					/>
+					<animate
+						attributeName="x2"
+						values={x2Values}
+						dur={`${duration}s`}
+						begin={`${delay}s`}
+						repeatCount="indefinite"
+					/>
 					<stop stopColor={gradientStartColor} stopOpacity="0" />
 					<stop stopColor={gradientStartColor} />
 					<stop offset="32.5%" stopColor={gradientStopColor} />
 					<stop offset="100%" stopColor={gradientStopColor} stopOpacity="0" />
-				</motion.linearGradient>
+				</linearGradient>
 			</defs>
 		</svg>
 	);
