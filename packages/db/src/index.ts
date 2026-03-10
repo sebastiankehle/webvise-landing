@@ -3,5 +3,5 @@ import { drizzle } from "drizzle-orm/node-postgres";
 
 import * as schema from "./schema";
 
-if (!env.DATABASE_URL) throw new Error("DATABASE_URL is required");
-export const db = drizzle(env.DATABASE_URL, { schema });
+// biome-ignore lint/style/noNonNullAssertion: validated at runtime, optional at build time
+export const db = drizzle(env.DATABASE_URL!, { schema });
