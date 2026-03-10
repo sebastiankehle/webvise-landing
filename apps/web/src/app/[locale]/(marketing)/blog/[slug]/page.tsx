@@ -57,6 +57,22 @@ function renderInline(text: string) {
 	});
 }
 
+function getBlockKeys(blocks: Block[]) {
+	const counts = new Map<string, number>();
+	return blocks.map((block) => {
+		const base =
+			block.type +
+			("text" in block
+				? block.text
+				: "items" in block
+					? block.items[0]
+					: block.headers.join());
+		const n = counts.get(base) ?? 0;
+		counts.set(base, n + 1);
+		return n > 0 ? `${base}:${n}` : base;
+	});
+}
+
 function RenderBlock({ block }: { block: Block }) {
 	switch (block.type) {
 		case "h2":
@@ -176,12 +192,12 @@ export default async function BlogPostPage({
 
 			<SectionWrapper id="content" alternate>
 				<div className="max-w-2xl">
-					{post.blocks.map((block) => (
-						<RenderBlock
-							key={block.type + (("text" in block ? block.text : "") || "")}
-							block={block}
-						/>
-					))}
+				{(() => {
+					const keys = getBlockKeys(post.blocks);
+					return post.blocks.map((block, idx) => (
+						<RenderBlock key={keys[idx]} block={block} />
+					));
+				})()}
 				</div>
 			</SectionWrapper>
 
