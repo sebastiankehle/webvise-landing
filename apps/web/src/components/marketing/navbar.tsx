@@ -1,8 +1,8 @@
 "use client";
 
-import { Menu, X } from "lucide-react";
-import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { ArrowRight, Menu, X } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Logo from "@/components/logo";
 import LanguageSwitcher from "@/components/marketing/language-switcher";
 import { Button } from "@/components/ui/button";
@@ -10,12 +10,31 @@ import { services } from "@/data/services";
 import { socials } from "@/data/socials";
 import { Link, usePathname } from "@/i18n/navigation";
 
-export default function Navbar() {
+export interface NavbarPost {
+	slug: string;
+	title: string;
+	date: string;
+	readingTime: number;
+}
+
+type NavHash = "services" | "blog" | "pricing" | "contact";
+
+export default function Navbar({
+	recentPosts = [],
+}: { recentPosts?: NavbarPost[] }) {
 	const [mobileOpen, setMobileOpen] = useState(false);
 	const [scrolled, setScrolled] = useState(false);
+	const [activeDropdown, setActiveDropdown] = useState<NavHash | null>(null);
+	const closeRef = useRef<ReturnType<typeof setTimeout> | undefined>(
+		undefined,
+	);
 	const t = useTranslations("nav");
 	const ts = useTranslations("services");
+	const tpr = useTranslations("pricing");
+	const tb = useTranslations("blog");
+	const tc = useTranslations("contact");
 	const pathname = usePathname();
+	const locale = useLocale();
 
 	useEffect(() => {
 		const onScroll = () => setScrolled(window.scrollY > 16);
@@ -24,9 +43,30 @@ export default function Navbar() {
 		return () => window.removeEventListener("scroll", onScroll);
 	}, []);
 
-	const navLinks = [
+	const open = useCallback((id: NavHash) => {
+		clearTimeout(closeRef.current);
+		setActiveDropdown(id);
+	}, []);
+
+	const scheduleClose = useCallback(() => {
+		closeRef.current = setTimeout(() => setActiveDropdown(null), 150);
+	}, []);
+
+	const close = useCallback(() => {
+		clearTimeout(closeRef.current);
+		setActiveDropdown(null);
+	}, []);
+
+	useEffect(() => {
+		const onKeyDown = (e: KeyboardEvent) => {
+			if (e.key === "Escape") setActiveDropdown(null);
+		};
+		window.addEventListener("keydown", onKeyDown);
+		return () => window.removeEventListener("keydown", onKeyDown);
+	}, []);
+
+	const navLinks: { hash: NavHash; label: string }[] = [
 		{ hash: "services", label: t("services") },
-		{ hash: "process", label: t("process") },
 		{ hash: "blog", label: t("blog") },
 		{ hash: "pricing", label: t("pricing") },
 		{ hash: "contact", label: t("contact") },
@@ -59,13 +99,20 @@ export default function Navbar() {
 
 					<nav
 						aria-label="Main navigation"
-						className="hidden items-center gap-1 md:flex"
+						className="hidden h-full items-center gap-1 md:flex"
 					>
 						{navLinks.map(({ hash, label }) => (
 							<Link
 								key={hash}
 								href={{ pathname: "/", hash }}
-								className="rounded-md px-3 py-1.5 text-muted-foreground text-sm transition-colors hover:bg-muted hover:text-foreground"
+								className={`inline-flex h-full items-center px-3 text-sm transition-colors hover:text-foreground ${
+									activeDropdown === hash
+										? "text-foreground"
+										: "text-muted-foreground"
+								}`}
+								onMouseEnter={() => open(hash)}
+								onMouseLeave={scheduleClose}
+								onClick={close}
 							>
 								{label}
 							</Link>
@@ -76,7 +123,9 @@ export default function Navbar() {
 						<LanguageSwitcher />
 						<Button
 							className="border-transparent bg-brand text-white [&]:hover:bg-brand/80"
-							render={<Link href={{ pathname: "/", hash: "contact" }} />}
+							render={
+								<Link href={{ pathname: "/", hash: "contact" }} />
+							}
 						>
 							{t("getStarted")}
 						</Button>
@@ -96,6 +145,202 @@ export default function Navbar() {
 					</button>
 				</div>
 			</header>
+
+			{activeDropdown && (
+				<button
+					type="button"
+					className="fixed inset-0 z-30 hidden cursor-default transition-opacity duration-200 md:block"
+					onClick={close}
+					onMouseEnter={close}
+					tabIndex={-1}
+					aria-label="Close menu"
+				/>
+			)}
+
+			<nav
+				aria-label="Section preview"
+				className={`pointer-events-none fixed top-16 right-0 left-0 z-40 hidden justify-center px-6 md:top-20 md:flex ${
+					activeDropdown
+						? "*:pointer-events-auto *:translate-y-0 *:opacity-100"
+						: "*:pointer-events-none *:-translate-y-2 *:opacity-0"
+				}`}
+				onMouseEnter={() => activeDropdown && open(activeDropdown)}
+				onMouseLeave={scheduleClose}
+			>
+				<div
+					className="w-full max-w-[720px] border border-border/40 bg-background/95 shadow-lg backdrop-blur-xl transition-all duration-200 ease-out"
+				>
+					{activeDropdown === "services" && (
+						<div className="grid grid-cols-2">
+							{services.map((service, i) => (
+								<Link
+									key={service.slug}
+									href={{
+										pathname: "/services/[slug]",
+										params: { slug: service.slug },
+									}}
+									className={`group flex items-start gap-4 border-border/40 p-5 transition-colors hover:bg-muted/40 ${
+										i < 4 ? "border-b" : ""
+									} ${i % 2 === 0 ? "border-r" : ""}`}
+									onClick={close}
+								>
+									<service.icon
+										className="mt-0.5 h-5 w-5 shrink-0 text-brand"
+										strokeWidth={1.5}
+									/>
+									<div className="min-w-0">
+										<p className="font-medium text-sm">
+											{ts(
+												`${service.translationKey}.title`,
+											)}
+										</p>
+										<p className="mt-1 font-light text-muted-foreground text-xs leading-relaxed">
+											{ts(
+												`${service.translationKey}.tagline`,
+											)}
+										</p>
+									</div>
+								</Link>
+							))}
+						</div>
+					)}
+
+					{activeDropdown === "blog" && (
+						<div className="flex flex-col">
+							{recentPosts.map((post, i) => (
+								<Link
+									key={post.slug}
+									href={{
+										pathname: "/blog/[slug]",
+										params: { slug: post.slug },
+									}}
+									className={`group flex flex-col border-border/40 p-5 transition-colors hover:bg-muted/40 ${
+										i < recentPosts.length - 1
+											? "border-b"
+											: ""
+									}`}
+									onClick={close}
+								>
+									<div className="flex items-center gap-3">
+										<time
+											dateTime={post.date}
+											className="font-light text-muted-foreground text-xs"
+										>
+											{new Date(
+												post.date,
+											).toLocaleDateString(locale, {
+												day: "numeric",
+												month: "short",
+												year: "numeric",
+											})}
+										</time>
+										<span className="text-muted-foreground/40 text-xs">
+											&middot;
+										</span>
+										<span className="font-light text-muted-foreground text-xs">
+											{post.readingTime} {tb("minRead")}
+										</span>
+									</div>
+									<p className="mt-2 font-medium text-sm transition-colors group-hover:text-brand">
+										{post.title}
+									</p>
+								</Link>
+							))}
+							<Link
+								href="/blog"
+								className="group flex items-center justify-between border-border/40 border-t p-5 transition-colors hover:bg-muted/40"
+								onClick={close}
+							>
+								<span className="font-light text-brand text-xs">
+									{tb("viewAll")}
+								</span>
+								<ArrowRight className="h-3 w-3 text-brand transition-transform group-hover:translate-x-0.5" />
+							</Link>
+						</div>
+					)}
+
+					{activeDropdown === "pricing" && (
+						<div className="grid grid-cols-3">
+							{(["project", "growth", "enterprise"] as const).map(
+								(key, i) => (
+									<Link
+										key={key}
+										href={{ pathname: "/", hash: "pricing" }}
+										className={`group flex flex-col border-border/40 p-5 transition-colors hover:bg-muted/40 ${
+											i < 2 ? "border-r" : ""
+										}`}
+										onClick={close}
+									>
+										<div className="flex items-center gap-2">
+											<p className="font-medium text-sm">
+												{tpr(`tiers.${key}.name`)}
+											</p>
+											{key === "growth" && (
+												<span className="border border-brand bg-brand px-1.5 py-0.5 text-[10px] text-white">
+													{tpr(
+														`tiers.${key}.badge`,
+													)}
+												</span>
+											)}
+										</div>
+										<p className="mt-1 font-light text-muted-foreground text-xs leading-relaxed">
+											{tpr(`tiers.${key}.description`)}
+										</p>
+										<p className="mt-3 font-normal text-lg tracking-tight">
+											{tpr(`tiers.${key}.price`)}
+										</p>
+										<span className="font-light text-muted-foreground text-xs">
+											{tpr(`tiers.${key}.basis`)}
+										</span>
+									</Link>
+								),
+							)}
+						</div>
+					)}
+
+					{activeDropdown === "contact" && (
+						<div className="grid grid-cols-2">
+							<Link
+								href={{ pathname: "/", hash: "contact" }}
+								className="group flex flex-col justify-between border-border/40 border-r p-5 transition-colors hover:bg-muted/40"
+								onClick={close}
+							>
+								<div>
+									<p className="font-medium text-sm">
+										{tc("title")}
+									</p>
+									<p className="mt-1 font-light text-muted-foreground text-xs leading-relaxed">
+										{tc("subtitle")}
+									</p>
+								</div>
+								<span className="mt-4 flex items-center gap-1 font-light text-brand text-xs">
+									{tc("form.submit")}
+									<ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
+								</span>
+							</Link>
+							<a
+								href="https://cal.com/webvise"
+								target="_blank"
+								rel="noopener noreferrer"
+								className="group flex flex-col justify-between p-5 transition-colors hover:bg-muted/40"
+							>
+								<div>
+									<p className="font-medium text-sm">
+										{tc("booking.title")}
+									</p>
+									<p className="mt-1 font-light text-muted-foreground text-xs leading-relaxed">
+										{tc("booking.description")}
+									</p>
+								</div>
+								<span className="mt-4 flex items-center gap-1 font-light text-brand text-xs">
+									{tc("booking.cta")}
+									<ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
+								</span>
+							</a>
+						</div>
+					)}
+				</div>
+			</nav>
 
 			{mobileOpen && (
 				<div className="fixed inset-x-0 top-16 bottom-0 z-50 overflow-y-auto bg-background/95 px-6 pb-6 backdrop-blur-xl md:hidden">
@@ -120,7 +365,10 @@ export default function Navbar() {
 							{services.map(({ slug, translationKey }) => (
 								<Link
 									key={slug}
-									href={{ pathname: "/services/[slug]", params: { slug } }}
+									href={{
+										pathname: "/services/[slug]",
+										params: { slug },
+									}}
 									className="block rounded-md px-3 py-2 text-muted-foreground text-sm transition-colors hover:bg-muted hover:text-foreground"
 									onClick={() => setMobileOpen(false)}
 								>
@@ -148,7 +396,11 @@ export default function Navbar() {
 							</div>
 							<Button
 								className="border-transparent bg-brand text-white [&]:hover:bg-brand/80"
-								render={<Link href={{ pathname: "/", hash: "contact" }} />}
+								render={
+									<Link
+										href={{ pathname: "/", hash: "contact" }}
+									/>
+								}
 							>
 								{t("getStarted")}
 							</Button>
