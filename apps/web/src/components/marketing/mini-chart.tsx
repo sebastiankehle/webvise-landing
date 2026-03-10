@@ -225,7 +225,7 @@ export default function MiniChart({ translations }: { translations: ChartTransla
 				<ResponsiveContainer width="100%" height={200}>
 					<AreaChart
 						data={current.data}
-						margin={{ top: 20, right: 8, bottom: 0, left: -12 }}
+						margin={{ top: 20, right: 8, bottom: 0, left: 0 }}
 					>
 						<defs>
 							<linearGradient id="afterFill" x1="0" y1="0" x2="0" y2="1">
@@ -266,7 +266,7 @@ export default function MiniChart({ translations }: { translations: ChartTransla
 							axisLine={false}
 							tickLine={false}
 							tick={{ fontSize: 10, fill: "oklch(0.5 0 0 / 0.25)" }}
-							width={32}
+							width={40}
 							domain={[0, "auto"]}
 						/>
 						<Tooltip

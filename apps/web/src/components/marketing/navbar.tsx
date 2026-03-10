@@ -94,8 +94,8 @@ export default function Navbar() {
 			</div>
 
 			{mobileOpen && (
-				<div className="border-border/40 border-b bg-background/95 px-6 pb-6 backdrop-blur-xl md:hidden">
-					<nav aria-label="Mobile navigation" className="flex flex-col gap-1 pt-3">
+				<div className="fixed inset-x-0 top-16 bottom-0 overflow-y-auto bg-background/95 px-6 pb-6 backdrop-blur-xl md:hidden">
+					<nav aria-label="Mobile navigation" className="flex min-h-full flex-col gap-1 pt-3">
 						{navLinks.map(({ href, label }) => (
 							<a
 								key={href}
@@ -121,7 +121,7 @@ export default function Navbar() {
 								</a>
 							))}
 						</div>
-						<div className="mt-3 flex items-center justify-between border-border/40 border-t pt-4">
+						<div className="mt-auto flex items-center justify-between border-border/40 border-t pt-4">
 							<div className="flex items-center gap-3">
 								<LanguageSwitcher />
 								<div className="flex items-center gap-1">

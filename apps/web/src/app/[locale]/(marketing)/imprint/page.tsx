@@ -44,11 +44,6 @@ export default function ImprintPage() {
 				</section>
 
 				<section>
-					<h2>VAT Identification Number</h2>
-					<p>VAT ID according to &sect; 27a UStG: pending registration.</p>
-				</section>
-
-				<section>
 					<h2>Dispute Resolution</h2>
 					<p>
 						The European Commission provides a platform for online dispute

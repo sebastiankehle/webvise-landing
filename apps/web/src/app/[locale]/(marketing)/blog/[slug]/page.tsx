@@ -28,16 +28,32 @@ export async function generateMetadata({
 }
 
 function renderInline(text: string) {
-	const parts = text.split(/\*\*(.*?)\*\*/g);
-	return parts.map((part, i) =>
-		i % 2 === 1 ? (
-			<strong key={i} className="font-medium text-foreground">
-				{part}
-			</strong>
-		) : (
-			part
-		),
-	);
+	// Split on **bold** and [link text](url) patterns
+	const tokens = text.split(/(\*\*.*?\*\*|\[.*?\]\(.*?\))/g);
+	return tokens.map((token, i) => {
+		const boldMatch = token.match(/^\*\*(.*?)\*\*$/);
+		if (boldMatch) {
+			return (
+				<strong key={i} className="font-medium text-foreground">
+					{boldMatch[1]}
+				</strong>
+			);
+		}
+		const linkMatch = token.match(/^\[(.*?)\]\((.*?)\)$/);
+		if (linkMatch) {
+			return (
+				<a
+					key={i}
+					href={linkMatch[2]}
+					className="font-medium text-brand underline underline-offset-4 transition-colors hover:text-brand/80"
+					{...(linkMatch[2].startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+				>
+					{linkMatch[1]}
+				</a>
+			);
+		}
+		return token;
+	});
 }
 
 function RenderBlock({ block }: { block: Block }) {

@@ -13,31 +13,54 @@ export default function Contact() {
 	const [status, setStatus] = useState<
 		"idle" | "loading" | "success" | "error"
 	>("idle");
+	const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 	const t = useTranslations("contact");
 	const ts = useTranslations("services");
 
+	function validateFields(data: FormData): Record<string, string> {
+		const errors: Record<string, string> = {};
+		const name = (data.get("name") as string)?.trim();
+		const email = (data.get("email") as string)?.trim();
+		const message = (data.get("message") as string)?.trim();
+
+		if (!name) errors.name = t("form.errors.nameRequired");
+		if (!email) {
+			errors.email = t("form.errors.emailRequired");
+		} else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+			errors.email = t("form.errors.emailInvalid");
+		}
+		if (!message) errors.message = t("form.errors.messageRequired");
+
+		return errors;
+	}
+
 	async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault();
-		setStatus("loading");
-
 		const form = e.currentTarget;
 		const data = new FormData(form);
+
+		const errors = validateFields(data);
+		setFieldErrors(errors);
+		if (Object.keys(errors).length > 0) return;
+
+		setStatus("loading");
 
 		try {
 			const res = await fetch("/api/contact", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({
-					name: data.get("name"),
-					email: data.get("email"),
+					name: (data.get("name") as string).trim(),
+					email: (data.get("email") as string).trim(),
 					company: data.get("company"),
 					service: data.get("service"),
-					message: data.get("message"),
+					message: (data.get("message") as string).trim(),
 				}),
 			});
 
 			if (res.ok) {
 				setStatus("success");
+				setFieldErrors({});
 				form.reset();
 			} else {
 				setStatus("error");
@@ -94,7 +117,11 @@ export default function Contact() {
 								name="name"
 								required
 								placeholder={t("form.namePlaceholder")}
+								aria-invalid={!!fieldErrors.name}
+								className={fieldErrors.name ? "border-destructive" : ""}
+								onChange={() => setFieldErrors((prev) => { const { name: _, ...rest } = prev; return rest; })}
 							/>
+							{fieldErrors.name && <p className="text-destructive text-xs">{fieldErrors.name}</p>}
 						</div>
 						<div className="space-y-2">
 							<Label htmlFor="email">{t("form.email")}</Label>
@@ -104,7 +131,11 @@ export default function Contact() {
 								type="email"
 								required
 								placeholder={t("form.emailPlaceholder")}
+								aria-invalid={!!fieldErrors.email}
+								className={fieldErrors.email ? "border-destructive" : ""}
+								onChange={() => setFieldErrors((prev) => { const { email: _, ...rest } = prev; return rest; })}
 							/>
+							{fieldErrors.email && <p className="text-destructive text-xs">{fieldErrors.email}</p>}
 						</div>
 					</div>
 					<div className="grid gap-5 sm:grid-cols-2">
@@ -140,8 +171,11 @@ export default function Contact() {
 							required
 							rows={4}
 							placeholder={t("form.messagePlaceholder")}
-							className="flex w-full border border-border bg-background px-2.5 py-2 text-xs outline-none focus:border-ring focus:ring-1 focus:ring-ring/50"
+							aria-invalid={!!fieldErrors.message}
+							className={`flex w-full border bg-background px-2.5 py-2 text-xs outline-none focus:border-ring focus:ring-1 focus:ring-ring/50 ${fieldErrors.message ? "border-destructive" : "border-border"}`}
+							onChange={() => setFieldErrors((prev) => { const { message: _, ...rest } = prev; return rest; })}
 						/>
+						{fieldErrors.message && <p className="text-destructive text-xs">{fieldErrors.message}</p>}
 					</div>
 					<Button
 						type="submit"
