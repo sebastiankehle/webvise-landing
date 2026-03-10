@@ -1,5 +1,5 @@
 import { devToolsMiddleware } from "@ai-sdk/devtools";
-import { google } from "@ai-sdk/google";
+import { gateway } from "@ai-sdk/gateway";
 import {
 	convertToModelMessages,
 	streamText,
@@ -13,7 +13,7 @@ export async function POST(req: Request) {
 	const { messages }: { messages: UIMessage[] } = await req.json();
 
 	const model = wrapLanguageModel({
-		model: google("gemini-2.5-flash"),
+		model: gateway("google/gemini-2.5-flash"),
 		middleware: devToolsMiddleware(),
 	});
 	const result = streamText({

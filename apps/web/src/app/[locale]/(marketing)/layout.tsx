@@ -1,3 +1,4 @@
+import ChatWidget from "@/components/marketing/chat-widget";
 import Footer from "@/components/marketing/footer";
 import Navbar from "@/components/marketing/navbar";
 
@@ -17,6 +18,7 @@ export default function MarketingLayout({
 			<Navbar />
 			<main id="main-content">{children}</main>
 			<Footer />
+			<ChatWidget />
 		</>
 	);
 }
