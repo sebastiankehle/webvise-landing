@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 
 import SectionWrapper from "@/components/marketing/section-wrapper";
+import { TechBadge } from "@/components/marketing/tech-badge";
 
 const categories = [
 	{
@@ -64,16 +65,11 @@ export default async function TechStack() {
 						<p className="mb-4 font-medium text-muted-foreground/50 text-xs uppercase tracking-wider">
 							{t(cat.key)}
 						</p>
-						<div className="flex flex-wrap gap-2">
-							{cat.items.map((tech) => (
-								<span
-									key={tech}
-									className="border border-border/40 px-3 py-1.5 font-light text-sm transition-all hover:border-brand hover:bg-brand hover:text-white"
-								>
-									{tech}
-								</span>
-							))}
-						</div>
+					<div className="flex flex-wrap gap-2">
+						{cat.items.map((tech) => (
+							<TechBadge key={tech} name={tech} />
+						))}
+					</div>
 					</div>
 				))}
 			</div>

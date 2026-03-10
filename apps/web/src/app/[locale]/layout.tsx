@@ -10,6 +10,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import "../../index.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { routing } from "@/i18n/routing";
 
 const geistSans = Geist({
@@ -27,10 +28,7 @@ export const metadata: Metadata = {
 		google: process.env.GOOGLE_VERIFICATION_CODE,
 	},
 	icons: {
-		icon: [
-			{ url: "/favicon.ico", sizes: "32x32" },
-			{ url: "/icon.svg", type: "image/svg+xml" },
-		],
+		icon: { url: "/icon.svg", type: "image/svg+xml" },
 		apple: "/apple-icon",
 	},
 	title: {
@@ -109,9 +107,9 @@ export default async function LocaleLayout({
 					forcedTheme="light"
 					disableTransitionOnChange
 				>
-					<NextIntlClientProvider messages={messages}>
-						{children}
-					</NextIntlClientProvider>
+				<NextIntlClientProvider messages={messages}>
+					<TooltipProvider>{children}</TooltipProvider>
+				</NextIntlClientProvider>
 					<Toaster richColors />
 					<Analytics />
 					<SpeedInsights />
