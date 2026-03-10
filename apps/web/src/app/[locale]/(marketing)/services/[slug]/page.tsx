@@ -59,10 +59,7 @@ export default async function ServicePage({
 								&larr; {td("backLink")}
 							</a>
 							<div className="mt-6 flex items-center gap-4">
-								<Icon
-									className="h-8 w-8 text-brand"
-									strokeWidth={1.5}
-								/>
+								<Icon className="h-8 w-8 text-brand" strokeWidth={1.5} />
 								<h1 className="font-normal text-3xl tracking-tight md:text-5xl">
 									{t(`${key}.title`)}
 								</h1>
@@ -124,7 +121,7 @@ export default async function ServicePage({
 					{Array.from({ length: service.painPointCount }, (_, i) => (
 						<div
 							key={t(`${key}.painPoints.${i}.heading`)}
-							className="border-border/40 border-t-2 border-t-brand p-6 md:p-8 [&:not(:last-child)]:border-b md:[&:not(:last-child)]:border-r md:[&:not(:last-child)]:border-b-0"
+							className="border-border/40 border-t-2 border-t-brand not-last:border-b p-6 md:not-last:border-r md:not-last:border-b-0 md:p-8"
 						>
 							<h3 className="font-medium text-base">
 								{t(`${key}.painPoints.${i}.heading`)}
@@ -145,7 +142,7 @@ export default async function ServicePage({
 					{Array.from({ length: service.featureCount }, (_, i) => (
 						<div
 							key={t(`${key}.features.${i}`)}
-							className="border-border/40 p-4 font-light text-sm [&:not(:last-child)]:border-b md:[&:nth-child(odd):not(:last-child)]:border-r"
+							className="border-border/40 not-last:border-b p-4 font-light text-sm md:nth-last-[-n+2]:border-b-0 md:odd:not-last:border-r"
 						>
 							{t(`${key}.features.${i}`)}
 						</div>
@@ -161,7 +158,7 @@ export default async function ServicePage({
 					{Array.from({ length: service.deliverableCount }, (_, i) => (
 						<div
 							key={t(`${key}.deliverables.${i}`)}
-							className="flex gap-4 px-6 py-4 [&:not(:last-child)]:border-border/40 [&:not(:last-child)]:border-b"
+							className="flex gap-4 not-last:border-border/40 not-last:border-b px-6 py-4"
 						>
 							<span className="text-brand/60 text-xs">
 								{String(i + 1).padStart(2, "0")}

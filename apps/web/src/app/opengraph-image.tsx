@@ -23,6 +23,8 @@ export default function OpenGraphImage() {
 				width="160"
 				height="160"
 				xmlns="http://www.w3.org/2000/svg"
+				role="img"
+				aria-label="webvise logo"
 			>
 				<polygon points="16,2 8,10 16,12" fill="#f97316" opacity="0.9" />
 				<polygon points="16,2 24,10 16,12" fill="#fb923c" opacity="0.85" />

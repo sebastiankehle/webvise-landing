@@ -28,91 +28,91 @@ type Metric = "conversion" | "engagement" | "speed";
 
 function buildDatasets(t: ChartTranslations) {
 	return {
-	conversion: {
-		label: t.conversionLabel,
-		lift: "+210%",
-		description: t.conversionDescription,
-		unit: "%",
-		data: [
-			{ week: "", before: 1.2, after: null },
-			{ week: " ", before: 1.1, after: null },
-			{ week: "  ", before: 1.4, after: null },
-			{ week: "   ", before: 1.0, after: null },
-			{ week: "    ", before: 1.3, after: null },
-			{ week: "     ", before: 1.2, after: null },
-			{ week: "      ", before: 1.1, after: 1.1 },
-			{ week: "W1", before: null, after: 1.9 },
-			{ week: "W2", before: null, after: 2.1 },
-			{ week: "W3", before: null, after: 2.0 },
-			{ week: "W4", before: null, after: 2.3 },
-			{ week: "W5", before: null, after: 2.5 },
-			{ week: "W6", before: null, after: 2.4 },
-			{ week: "W7", before: null, after: 2.7 },
-			{ week: "W8", before: null, after: 2.9 },
-			{ week: "W9", before: null, after: 2.8 },
-			{ week: "W10", before: null, after: 3.1 },
-			{ week: "W11", before: null, after: 3.4 },
-			{ week: "W12", before: null, after: 3.5 },
-			{ week: "W13", before: null, after: 3.7 },
-		],
-	},
-	engagement: {
-		label: t.engagementLabel,
-		lift: "+125%",
-		description: t.engagementDescription,
-		unit: "",
-		data: [
-			{ week: "", before: 44, after: null },
-			{ week: " ", before: 41, after: null },
-			{ week: "  ", before: 46, after: null },
-			{ week: "   ", before: 42, after: null },
-			{ week: "    ", before: 45, after: null },
-			{ week: "     ", before: 43, after: null },
-			{ week: "      ", before: 44, after: 44 },
-			{ week: "W1", before: null, after: 58 },
-			{ week: "W2", before: null, after: 61 },
-			{ week: "W3", before: null, after: 59 },
-			{ week: "W4", before: null, after: 64 },
-			{ week: "W5", before: null, after: 67 },
-			{ week: "W6", before: null, after: 66 },
-			{ week: "W7", before: null, after: 72 },
-			{ week: "W8", before: null, after: 76 },
-			{ week: "W9", before: null, after: 74 },
-			{ week: "W10", before: null, after: 82 },
-			{ week: "W11", before: null, after: 87 },
-			{ week: "W12", before: null, after: 91 },
-			{ week: "W13", before: null, after: 95 },
-		],
-	},
-	speed: {
-		label: t.speedLabel,
-		lift: "57 → 100",
-		description: t.speedDescription,
-		unit: "/100",
-		data: [
-			{ week: "", before: 55, after: null },
-			{ week: " ", before: 58, after: null },
-			{ week: "  ", before: 54, after: null },
-			{ week: "   ", before: 59, after: null },
-			{ week: "    ", before: 56, after: null },
-			{ week: "     ", before: 57, after: null },
-			{ week: "      ", before: 57, after: 57 },
-			{ week: "W1", before: null, after: 96 },
-			{ week: "W2", before: null, after: 97 },
-			{ week: "W3", before: null, after: 96 },
-			{ week: "W4", before: null, after: 98 },
-			{ week: "W5", before: null, after: 97 },
-			{ week: "W6", before: null, after: 99 },
-			{ week: "W7", before: null, after: 98 },
-			{ week: "W8", before: null, after: 99 },
-			{ week: "W9", before: null, after: 99 },
-			{ week: "W10", before: null, after: 100 },
-			{ week: "W11", before: null, after: 99 },
-			{ week: "W12", before: null, after: 100 },
-			{ week: "W13", before: null, after: 100 },
-		],
-	},
-};
+		conversion: {
+			label: t.conversionLabel,
+			lift: "+210%",
+			description: t.conversionDescription,
+			unit: "%",
+			data: [
+				{ week: "", before: 1.2, after: null },
+				{ week: " ", before: 1.1, after: null },
+				{ week: "  ", before: 1.4, after: null },
+				{ week: "   ", before: 1.0, after: null },
+				{ week: "    ", before: 1.3, after: null },
+				{ week: "     ", before: 1.2, after: null },
+				{ week: "      ", before: 1.1, after: 1.1 },
+				{ week: "W1", before: null, after: 1.9 },
+				{ week: "W2", before: null, after: 2.1 },
+				{ week: "W3", before: null, after: 2.0 },
+				{ week: "W4", before: null, after: 2.3 },
+				{ week: "W5", before: null, after: 2.5 },
+				{ week: "W6", before: null, after: 2.4 },
+				{ week: "W7", before: null, after: 2.7 },
+				{ week: "W8", before: null, after: 2.9 },
+				{ week: "W9", before: null, after: 2.8 },
+				{ week: "W10", before: null, after: 3.1 },
+				{ week: "W11", before: null, after: 3.4 },
+				{ week: "W12", before: null, after: 3.5 },
+				{ week: "W13", before: null, after: 3.7 },
+			],
+		},
+		engagement: {
+			label: t.engagementLabel,
+			lift: "+125%",
+			description: t.engagementDescription,
+			unit: "",
+			data: [
+				{ week: "", before: 44, after: null },
+				{ week: " ", before: 41, after: null },
+				{ week: "  ", before: 46, after: null },
+				{ week: "   ", before: 42, after: null },
+				{ week: "    ", before: 45, after: null },
+				{ week: "     ", before: 43, after: null },
+				{ week: "      ", before: 44, after: 44 },
+				{ week: "W1", before: null, after: 58 },
+				{ week: "W2", before: null, after: 61 },
+				{ week: "W3", before: null, after: 59 },
+				{ week: "W4", before: null, after: 64 },
+				{ week: "W5", before: null, after: 67 },
+				{ week: "W6", before: null, after: 66 },
+				{ week: "W7", before: null, after: 72 },
+				{ week: "W8", before: null, after: 76 },
+				{ week: "W9", before: null, after: 74 },
+				{ week: "W10", before: null, after: 82 },
+				{ week: "W11", before: null, after: 87 },
+				{ week: "W12", before: null, after: 91 },
+				{ week: "W13", before: null, after: 95 },
+			],
+		},
+		speed: {
+			label: t.speedLabel,
+			lift: "57 → 100",
+			description: t.speedDescription,
+			unit: "/100",
+			data: [
+				{ week: "", before: 55, after: null },
+				{ week: " ", before: 58, after: null },
+				{ week: "  ", before: 54, after: null },
+				{ week: "   ", before: 59, after: null },
+				{ week: "    ", before: 56, after: null },
+				{ week: "     ", before: 57, after: null },
+				{ week: "      ", before: 57, after: 57 },
+				{ week: "W1", before: null, after: 96 },
+				{ week: "W2", before: null, after: 97 },
+				{ week: "W3", before: null, after: 96 },
+				{ week: "W4", before: null, after: 98 },
+				{ week: "W5", before: null, after: 97 },
+				{ week: "W6", before: null, after: 99 },
+				{ week: "W7", before: null, after: 98 },
+				{ week: "W8", before: null, after: 99 },
+				{ week: "W9", before: null, after: 99 },
+				{ week: "W10", before: null, after: 100 },
+				{ week: "W11", before: null, after: 99 },
+				{ week: "W12", before: null, after: 100 },
+				{ week: "W13", before: null, after: 100 },
+			],
+		},
+	};
 }
 
 const metricOrder: Metric[] = ["conversion", "engagement", "speed"];
@@ -177,7 +177,11 @@ function CustomTooltip({
 	);
 }
 
-export default function MiniChart({ translations }: { translations: ChartTranslations }) {
+export default function MiniChart({
+	translations,
+}: {
+	translations: ChartTranslations;
+}) {
 	const datasets = buildDatasets(translations);
 	const [active, setActive] = useState<Metric>("conversion");
 	const current = datasets[active];
@@ -190,7 +194,7 @@ export default function MiniChart({ translations }: { translations: ChartTransla
 			transition={{ duration: 0.8, delay: 0.3 }}
 			className="mt-12 border border-border/40"
 		>
-			<div className="flex flex-col gap-3 border-b border-border/40 px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
+			<div className="flex flex-col gap-3 border-border/40 border-b px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
 				<div>
 					<div className="flex items-center gap-3">
 						<p className="font-medium text-foreground text-sm">
@@ -270,7 +274,14 @@ export default function MiniChart({ translations }: { translations: ChartTransla
 							domain={[0, "auto"]}
 						/>
 						<Tooltip
-							content={<CustomTooltip unit={current.unit} beforeLabel={translations.before} afterLabel={translations.after} afterWebviseLabel={translations.afterWebvise} />}
+							content={
+								<CustomTooltip
+									unit={current.unit}
+									beforeLabel={translations.before}
+									afterLabel={translations.after}
+									afterWebviseLabel={translations.afterWebvise}
+								/>
+							}
 							cursor={{
 								stroke: "oklch(0.75 0.18 55 / 0.12)",
 								strokeWidth: 1,

@@ -122,6 +122,8 @@ export function AnimatedBeam({
 			xmlns="http://www.w3.org/2000/svg"
 			className={`pointer-events-none absolute top-0 left-0 transform-gpu ${className ?? ""}`}
 			viewBox={`0 0 ${svgDimensions.width} ${svgDimensions.height}`}
+			role="img"
+			aria-hidden="true"
 		>
 			<path
 				d={pathD}

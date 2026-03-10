@@ -17,13 +17,11 @@ export default async function Metrics() {
 				</h2>
 				<p className="mt-4 font-light text-muted-foreground">{t("subtitle")}</p>
 			</div>
-			<StaggerChildren
-				className="mt-12 grid grid-cols-2 gap-px overflow-hidden border border-border/40 md:grid-cols-4"
-			>
+			<StaggerChildren className="mt-12 grid grid-cols-2 gap-px overflow-hidden border border-border/40 md:grid-cols-4">
 				{metricKeys.map((key) => (
 					<div
 						key={key}
-						className="border-border/40 p-6 md:p-8 [&:nth-child(odd)]:border-r [&:nth-child(-n+2)]:border-b md:[&:nth-child(odd)]:border-r-0 md:[&:nth-child(-n+2)]:border-b-0 md:[&:not(:last-child)]:border-r"
+						className="border-border/40 nth-[-n+2]:border-b p-6 odd:border-r md:not-last:border-r md:nth-[-n+2]:border-b-0 md:p-8 md:odd:border-r-0"
 					>
 						<p className="font-normal text-3xl tracking-tight md:text-5xl">
 							{t(`${key}.value`)}
@@ -34,17 +32,19 @@ export default async function Metrics() {
 					</div>
 				))}
 			</StaggerChildren>
-			<MiniChart translations={{
-				conversionLabel: t("chart.conversionLabel"),
-				conversionDescription: t("chart.conversionDescription"),
-				engagementLabel: t("chart.engagementLabel"),
-				engagementDescription: t("chart.engagementDescription"),
-				speedLabel: t("chart.speedLabel"),
-				speedDescription: t("chart.speedDescription"),
-				before: t("chart.before"),
-				afterWebvise: t("chart.afterWebvise"),
-				after: t("chart.after"),
-			}} />
+			<MiniChart
+				translations={{
+					conversionLabel: t("chart.conversionLabel"),
+					conversionDescription: t("chart.conversionDescription"),
+					engagementLabel: t("chart.engagementLabel"),
+					engagementDescription: t("chart.engagementDescription"),
+					speedLabel: t("chart.speedLabel"),
+					speedDescription: t("chart.speedDescription"),
+					before: t("chart.before"),
+					afterWebvise: t("chart.afterWebvise"),
+					after: t("chart.after"),
+				}}
+			/>
 		</SectionWrapper>
 	);
 }

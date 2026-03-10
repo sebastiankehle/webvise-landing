@@ -1,15 +1,14 @@
 "use client";
 
 import { Menu, X } from "lucide-react";
-import { Link, usePathname } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-
 import Logo from "@/components/logo";
 import LanguageSwitcher from "@/components/marketing/language-switcher";
 import { Button } from "@/components/ui/button";
 import { services } from "@/data/services";
 import { socials } from "@/data/socials";
+import { Link, usePathname } from "@/i18n/navigation";
 
 export default function Navbar() {
 	const [mobileOpen, setMobileOpen] = useState(false);
@@ -58,27 +57,27 @@ export default function Navbar() {
 						webvise
 					</Link>
 
-				<nav
-					aria-label="Main navigation"
-					className="hidden items-center gap-1 md:flex"
-				>
-					{navLinks.map(({ hash, label }) => (
-						<Link
-							key={hash}
-							href={{ pathname: "/", hash }}
-							className="rounded-md px-3 py-1.5 text-muted-foreground text-sm transition-colors hover:bg-muted hover:text-foreground"
-						>
-							{label}
-						</Link>
-					))}
-				</nav>
+					<nav
+						aria-label="Main navigation"
+						className="hidden items-center gap-1 md:flex"
+					>
+						{navLinks.map(({ hash, label }) => (
+							<Link
+								key={hash}
+								href={{ pathname: "/", hash }}
+								className="rounded-md px-3 py-1.5 text-muted-foreground text-sm transition-colors hover:bg-muted hover:text-foreground"
+							>
+								{label}
+							</Link>
+						))}
+					</nav>
 
 					<div className="hidden items-center gap-3 md:flex">
-					<LanguageSwitcher />
-					<Button
-						className="border-transparent bg-brand text-white [&]:hover:bg-brand/80"
-						render={<Link href={{ pathname: "/", hash: "contact" }} />}
-					>
+						<LanguageSwitcher />
+						<Button
+							className="border-transparent bg-brand text-white [&]:hover:bg-brand/80"
+							render={<Link href={{ pathname: "/", hash: "contact" }} />}
+						>
 							{t("getStarted")}
 						</Button>
 					</div>
@@ -104,16 +103,16 @@ export default function Navbar() {
 						aria-label="Mobile navigation"
 						className="flex min-h-full flex-col gap-1 pt-3"
 					>
-					{navLinks.map(({ hash, label }) => (
-						<Link
-							key={hash}
-							href={{ pathname: "/", hash }}
-							className="rounded-md px-3 py-2.5 text-muted-foreground text-sm transition-colors hover:bg-muted hover:text-foreground"
-							onClick={() => setMobileOpen(false)}
-						>
-							{label}
-						</Link>
-					))}
+						{navLinks.map(({ hash, label }) => (
+							<Link
+								key={hash}
+								href={{ pathname: "/", hash }}
+								className="rounded-md px-3 py-2.5 text-muted-foreground text-sm transition-colors hover:bg-muted hover:text-foreground"
+								onClick={() => setMobileOpen(false)}
+							>
+								{label}
+							</Link>
+						))}
 						<div className="mt-3 border-border/40 border-t pt-4">
 							<p className="mb-2 px-3 font-medium text-muted-foreground/60 text-xs uppercase tracking-wider">
 								{t("services")}

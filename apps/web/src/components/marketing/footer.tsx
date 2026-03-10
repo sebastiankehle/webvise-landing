@@ -2,9 +2,9 @@ import { getTranslations } from "next-intl/server";
 
 import Logo from "@/components/logo";
 import { Button } from "@/components/ui/button";
-import { Link } from "@/i18n/navigation";
 import { services } from "@/data/services";
 import { socials } from "@/data/socials";
+import { Link } from "@/i18n/navigation";
 
 export default async function Footer() {
 	const t = await getTranslations("footer");
@@ -33,7 +33,7 @@ export default async function Footer() {
 							{t("ctaSubtext")}
 						</p>
 					</div>
-				<Button
+					<Button
 						size="lg"
 						className="shrink-0 border-transparent bg-brand text-white [&]:hover:bg-brand/80"
 						render={<Link href={{ pathname: "/", hash: "contact" }} />}
@@ -48,14 +48,19 @@ export default async function Footer() {
 				<div className="grid gap-10 md:grid-cols-12">
 					{/* Brand column */}
 					<div className="md:col-span-4">
-					<Link href="/" className="flex items-center gap-2 font-medium text-xl tracking-tight">
-						<Logo className="h-7 w-7" animated />
-						webvise
-					</Link>
+						<Link
+							href="/"
+							className="flex items-center gap-2 font-medium text-xl tracking-tight"
+						>
+							<Logo className="h-7 w-7" animated />
+							webvise
+						</Link>
 						<p className="mt-4 max-w-xs font-light text-sm leading-relaxed opacity-60">
 							{t("tagline")}
 						</p>
-						<p className="mt-1 font-light text-sm opacity-40">{t("location")}</p>
+						<p className="mt-1 font-light text-sm opacity-40">
+							{t("location")}
+						</p>
 						<div className="mt-6 flex items-center gap-3">
 							{socials.map((social) => (
 								<a
@@ -79,15 +84,15 @@ export default async function Footer() {
 						</h3>
 						<ul className="space-y-2.5">
 							{services.map(({ slug, translationKey }) => (
-							<li key={slug}>
-								<Link
-									href={{ pathname: "/services/[slug]", params: { slug } }}
-									className="font-light text-sm opacity-60 transition-opacity hover:opacity-100"
-								>
-									{ts(`${translationKey}.title`)}
-								</Link>
-							</li>
-						))}
+								<li key={slug}>
+									<Link
+										href={{ pathname: "/services/[slug]", params: { slug } }}
+										className="font-light text-sm opacity-60 transition-opacity hover:opacity-100"
+									>
+										{ts(`${translationKey}.title`)}
+									</Link>
+								</li>
+							))}
 						</ul>
 					</div>
 
@@ -97,40 +102,40 @@ export default async function Footer() {
 							{t("sections.company")}
 						</h3>
 						<ul className="space-y-2.5">
-						{companyLinks.map(({ hash, label }) => (
-							<li key={hash}>
+							{companyLinks.map(({ hash, label }) => (
+								<li key={hash}>
+									<Link
+										href={{ pathname: "/", hash }}
+										className="font-light text-sm opacity-60 transition-opacity hover:opacity-100"
+									>
+										{label}
+									</Link>
+								</li>
+							))}
+							<li>
 								<Link
-									href={{ pathname: "/", hash }}
+									href="/blog"
 									className="font-light text-sm opacity-60 transition-opacity hover:opacity-100"
 								>
-									{label}
+									{t("links.blog")}
 								</Link>
 							</li>
-						))}
-						<li>
-							<Link
-								href="/blog"
-								className="font-light text-sm opacity-60 transition-opacity hover:opacity-100"
-							>
-								{t("links.blog")}
-							</Link>
-						</li>
-						<li className="border-background/10 border-t pt-2.5">
-							<a
-								href="/media"
-								className="font-light text-sm opacity-60 transition-opacity hover:opacity-100"
-							>
-								{t("links.media")}
-							</a>
-						</li>
-						<li>
-							<Link
-								href="/wp-health-report"
-								className="font-light text-sm text-brand transition-opacity hover:opacity-80"
-							>
-								{tw("button")}
-							</Link>
-						</li>
+							<li className="border-background/10 border-t pt-2.5">
+								<a
+									href="/media"
+									className="font-light text-sm opacity-60 transition-opacity hover:opacity-100"
+								>
+									{t("links.media")}
+								</a>
+							</li>
+							<li>
+								<Link
+									href="/wp-health-report"
+									className="font-light text-brand text-sm transition-opacity hover:opacity-80"
+								>
+									{tw("button")}
+								</Link>
+							</li>
 						</ul>
 					</div>
 
@@ -160,17 +165,26 @@ export default async function Footer() {
 			<div className="border-background/10 border-t">
 				<div className="mx-auto flex max-w-[1200px] flex-col items-center justify-between gap-4 px-6 py-6 md:flex-row">
 					<p className="text-xs opacity-40">{t("legal.copyright", { year })}</p>
-				<div className="flex gap-6 text-xs opacity-40">
-					<Link href="/privacy" className="transition-opacity hover:opacity-100">
-						{t("legal.privacy")}
-					</Link>
-					<Link href="/terms" className="transition-opacity hover:opacity-100">
-						{t("legal.terms")}
-					</Link>
-					<Link href="/imprint" className="transition-opacity hover:opacity-100">
-						{t("legal.imprint")}
-					</Link>
-				</div>
+					<div className="flex gap-6 text-xs opacity-40">
+						<Link
+							href="/privacy"
+							className="transition-opacity hover:opacity-100"
+						>
+							{t("legal.privacy")}
+						</Link>
+						<Link
+							href="/terms"
+							className="transition-opacity hover:opacity-100"
+						>
+							{t("legal.terms")}
+						</Link>
+						<Link
+							href="/imprint"
+							className="transition-opacity hover:opacity-100"
+						>
+							{t("legal.imprint")}
+						</Link>
+					</div>
 				</div>
 			</div>
 

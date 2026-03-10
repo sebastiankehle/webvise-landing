@@ -1,13 +1,13 @@
 "use client";
 
 import { Globe } from "lucide-react";
-import { useLocale } from "next-intl";
 import { usePathname } from "next/navigation";
+import { useLocale } from "next-intl";
 
 import {
 	DropdownMenu,
-	DropdownMenuItem,
 	DropdownMenuContent,
+	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { routing } from "@/i18n/routing";
@@ -45,7 +45,7 @@ export default function LanguageSwitcher() {
 		// Build new path: default locale (en) needs no prefix
 		const newPath =
 			nextLocale === routing.defaultLocale ? path : `/${nextLocale}${path}`;
-		// Set cookie so next-intl middleware uses the correct locale
+		// biome-ignore lint/suspicious/noDocumentCookie: Cookie Store API not supported in all browsers yet
 		document.cookie = `NEXT_LOCALE=${nextLocale};path=/;max-age=31536000;SameSite=Lax`;
 		window.location.href = newPath;
 	}
@@ -63,7 +63,7 @@ export default function LanguageSwitcher() {
 						className={locale === loc ? "font-medium text-foreground" : ""}
 						onClick={() => switchLocale(loc)}
 					>
-						<span className="w-6 uppercase text-muted-foreground">{loc}</span>
+						<span className="w-6 text-muted-foreground uppercase">{loc}</span>
 						{localeLabels[loc]}
 					</DropdownMenuItem>
 				))}

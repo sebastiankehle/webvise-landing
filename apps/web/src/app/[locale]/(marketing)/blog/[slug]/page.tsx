@@ -5,7 +5,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import AnimateIn from "@/components/marketing/animate-in";
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import { Button } from "@/components/ui/button";
-import { type Block, getBlogPosts, getBlogPostBySlug } from "@/data/blog";
+import { type Block, getBlogPostBySlug, getBlogPosts } from "@/data/blog";
 
 export function generateStaticParams() {
 	return getBlogPosts("en").map((p) => ({ slug: p.slug }));
@@ -30,11 +30,11 @@ export async function generateMetadata({
 function renderInline(text: string) {
 	// Split on **bold** and [link text](url) patterns
 	const tokens = text.split(/(\*\*.*?\*\*|\[.*?\]\(.*?\))/g);
-	return tokens.map((token, i) => {
+	return tokens.map((token) => {
 		const boldMatch = token.match(/^\*\*(.*?)\*\*$/);
 		if (boldMatch) {
 			return (
-				<strong key={i} className="font-medium text-foreground">
+				<strong key={token} className="font-medium text-foreground">
 					{boldMatch[1]}
 				</strong>
 			);
@@ -43,10 +43,12 @@ function renderInline(text: string) {
 		if (linkMatch) {
 			return (
 				<a
-					key={i}
+					key={token}
 					href={linkMatch[2]}
 					className="font-medium text-brand underline underline-offset-4 transition-colors hover:text-brand/80"
-					{...(linkMatch[2].startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+					{...(linkMatch[2].startsWith("http")
+						? { target: "_blank", rel: "noopener noreferrer" }
+						: {})}
 				>
 					{linkMatch[1]}
 				</a>
@@ -79,8 +81,8 @@ function RenderBlock({ block }: { block: Block }) {
 		case "ul":
 			return (
 				<ul className="mb-5 space-y-2 font-light text-muted-foreground text-sm leading-relaxed">
-					{block.items.map((item, i) => (
-						<li key={i} className="flex gap-3">
+					{block.items.map((item) => (
+						<li key={item} className="flex gap-3">
 							<span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand" />
 							<span>{renderInline(item)}</span>
 						</li>
@@ -104,13 +106,13 @@ function RenderBlock({ block }: { block: Block }) {
 							</tr>
 						</thead>
 						<tbody>
-							{block.rows.map((row, i) => (
+							{block.rows.map((row) => (
 								<tr
-									key={i}
+									key={row.join("-")}
 									className="border-border/40 border-b last:border-0 odd:bg-background even:bg-muted/20"
 								>
-									{row.map((cell, j) => (
-										<td key={j} className="px-4 py-3 text-muted-foreground">
+									{row.map((cell) => (
+										<td key={cell} className="px-4 py-3 text-muted-foreground">
 											{renderInline(cell)}
 										</td>
 									))}
@@ -175,8 +177,11 @@ export default async function BlogPostPage({
 
 			<SectionWrapper id="content" alternate>
 				<div className="max-w-2xl">
-					{post.blocks.map((block, i) => (
-						<RenderBlock key={i} block={block} />
+					{post.blocks.map((block) => (
+						<RenderBlock
+							key={block.type + (("text" in block ? block.text : "") || "")}
+							block={block}
+						/>
 					))}
 				</div>
 			</SectionWrapper>

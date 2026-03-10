@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { useState } from "react";
 
 import AnimateIn from "@/components/marketing/animate-in";
 import { Button } from "@/components/ui/button";
@@ -34,9 +34,12 @@ interface ReportData {
 }
 
 function scoreColor(score: number | null) {
-	if (score === null) return { text: "text-muted-foreground", stroke: "stroke-muted-foreground" };
-	if (score >= 90) return { text: "text-green-500", stroke: "stroke-green-500" };
-	if (score >= 50) return { text: "text-yellow-500", stroke: "stroke-yellow-500" };
+	if (score === null)
+		return { text: "text-muted-foreground", stroke: "stroke-muted-foreground" };
+	if (score >= 90)
+		return { text: "text-green-500", stroke: "stroke-green-500" };
+	if (score >= 50)
+		return { text: "text-yellow-500", stroke: "stroke-yellow-500" };
 	return { text: "text-red-500", stroke: "stroke-red-500" };
 }
 
@@ -44,7 +47,11 @@ function ScoreRing({
 	score,
 	label,
 	size = 72,
-}: { score: number; label: string; size?: number }) {
+}: {
+	score: number;
+	label: string;
+	size?: number;
+}) {
 	const radius = (size - 6) / 2;
 	const circumference = 2 * Math.PI * radius;
 	const offset = circumference - (score / 100) * circumference;
@@ -114,10 +121,7 @@ function ReportResults({ data }: { data: ReportData }) {
 				{/* Scores row */}
 				<div className="mt-8 grid grid-cols-2 gap-px overflow-hidden border border-border/40">
 					<div className="flex flex-col items-center justify-center p-4">
-						<ScoreRing
-							score={data.mobile.score}
-							label={t("results.mobile")}
-						/>
+						<ScoreRing score={data.mobile.score} label={t("results.mobile")} />
 					</div>
 					<div className="flex flex-col items-center justify-center border-border/40 border-l p-4">
 						<ScoreRing
@@ -129,7 +133,7 @@ function ReportResults({ data }: { data: ReportData }) {
 
 				{/* Projected score - visually separated */}
 				<div className="mt-4 border-2 border-brand bg-brand/5 p-5">
-					<p className="mb-3 text-center font-medium text-xs uppercase tracking-wider text-brand">
+					<p className="mb-3 text-center font-medium text-brand text-xs uppercase tracking-wider">
 						{t("results.projectedLabel")}
 					</p>
 					<div className="flex justify-center">
@@ -148,7 +152,7 @@ function ReportResults({ data }: { data: ReportData }) {
 				{data.vitals && data.vitals.length > 0 && (
 					<div className="mt-px border border-border/40 border-t-0">
 						<div className="border-border/40 border-b px-5 py-3">
-							<h3 className="font-medium text-xs uppercase tracking-wider text-muted-foreground">
+							<h3 className="font-medium text-muted-foreground text-xs uppercase tracking-wider">
 								{t("results.webVitalsTitle")}
 							</h3>
 							<p className="mt-1 text-muted-foreground text-xs">
@@ -158,19 +162,28 @@ function ReportResults({ data }: { data: ReportData }) {
 						<div className="divide-y divide-border/40">
 							{data.vitals.map((vital) => {
 								const { text } = scoreColor(vital.score);
-								const explanationKey = `results.vitalExplanations.${vital.label}` as const;
+								const explanationKey =
+									`results.vitalExplanations.${vital.label}` as const;
 								return (
-									<div key={vital.label} className="flex items-start gap-4 px-5 py-3">
-										<div className="flex shrink-0 flex-col items-center gap-0.5" style={{ minWidth: 48 }}>
+									<div
+										key={vital.label}
+										className="flex items-start gap-4 px-5 py-3"
+									>
+										<div
+											className="flex shrink-0 flex-col items-center gap-0.5"
+											style={{ minWidth: 48 }}
+										>
 											<span className={cn("font-medium text-sm", text)}>
 												{vital.displayValue}
 											</span>
-											<span className="text-muted-foreground text-[10px] uppercase tracking-wider">
+											<span className="text-[10px] text-muted-foreground uppercase tracking-wider">
 												{vital.label}
 											</span>
 										</div>
 										<p className="font-light text-muted-foreground text-xs leading-relaxed">
-											{t.has(explanationKey) ? t(explanationKey) : t("results.vitalExplanations.default")}
+											{t.has(explanationKey)
+												? t(explanationKey)
+												: t("results.vitalExplanations.default")}
 										</p>
 									</div>
 								);
@@ -182,7 +195,7 @@ function ReportResults({ data }: { data: ReportData }) {
 				{/* Security flags - only show if present */}
 				{data.securityFlags.length > 0 && (
 					<div className="mt-px border border-border/40 border-t-0 p-5">
-						<h3 className="font-medium text-xs uppercase tracking-wider text-muted-foreground">
+						<h3 className="font-medium text-muted-foreground text-xs uppercase tracking-wider">
 							{t("results.securityRisks")}
 						</h3>
 						<ul className="mt-3 space-y-2">
@@ -202,15 +215,13 @@ function ReportResults({ data }: { data: ReportData }) {
 				{/* Migration estimate + CTA */}
 				<div className="mt-px grid items-center gap-6 border border-border/40 border-t-2 border-t-brand p-6 md:grid-cols-[1fr_auto]">
 					<div>
-						<h3 className="font-medium text-xs uppercase tracking-wider text-muted-foreground">
+						<h3 className="font-medium text-muted-foreground text-xs uppercase tracking-wider">
 							{t("results.migrationEstimate")}
 						</h3>
 						<p className="mt-2 font-light text-muted-foreground text-sm leading-relaxed">
 							{t.rich("results.migrationText", {
 								strong: (chunks) => (
-									<span className="font-medium text-foreground">
-										{chunks}
-									</span>
+									<span className="font-medium text-foreground">{chunks}</span>
 								),
 								min: data.migrationEstimate.min.toLocaleString(),
 								max: data.migrationEstimate.max.toLocaleString(),
@@ -231,7 +242,10 @@ function ReportResults({ data }: { data: ReportData }) {
 						>
 							{t("results.bookCall")}
 						</Button>
-					<Button variant="outline" render={<Link href={{ pathname: "/", hash: "contact" }} />}>
+						<Button
+							variant="outline"
+							render={<Link href={{ pathname: "/", hash: "contact" }} />}
+						>
 							{t("results.getInTouch")}
 						</Button>
 					</div>
@@ -344,10 +358,7 @@ export default function WpHealthReport() {
 
 									<ul className="mt-6 space-y-2">
 										{[0, 1, 2, 3].map((i) => (
-											<li
-												key={i}
-												className="flex items-start gap-3 text-sm"
-											>
+											<li key={i} className="flex items-start gap-3 text-sm">
 												<span className="mt-1 h-1.5 w-1.5 shrink-0 bg-brand" />
 												<span>{t(`hero.benefits.${i}`)}</span>
 											</li>
@@ -375,10 +386,22 @@ export default function WpHealthReport() {
 											placeholder={t("form.urlPlaceholder")}
 											disabled={status === "loading"}
 											aria-invalid={!!fieldErrors.url}
-											className={cn("h-10 text-base md:h-8 md:text-xs", fieldErrors.url && "border-destructive")}
-											onChange={() => setFieldErrors((prev) => { const { url: _, ...rest } = prev; return rest; })}
+											className={cn(
+												"h-10 text-base md:h-8 md:text-xs",
+												fieldErrors.url && "border-destructive",
+											)}
+											onChange={() =>
+												setFieldErrors((prev) => {
+													const { url: _, ...rest } = prev;
+													return rest;
+												})
+											}
 										/>
-										{fieldErrors.url && <p className="text-destructive text-xs">{fieldErrors.url}</p>}
+										{fieldErrors.url && (
+											<p className="text-destructive text-xs">
+												{fieldErrors.url}
+											</p>
+										)}
 									</div>
 									<div className="grid gap-4 md:grid-cols-2">
 										<div className="space-y-2">
@@ -391,10 +414,22 @@ export default function WpHealthReport() {
 												placeholder={t("form.emailPlaceholder")}
 												disabled={status === "loading"}
 												aria-invalid={!!fieldErrors.email}
-												className={cn("h-10 text-base md:h-8 md:text-xs", fieldErrors.email && "border-destructive")}
-												onChange={() => setFieldErrors((prev) => { const { email: _, ...rest } = prev; return rest; })}
+												className={cn(
+													"h-10 text-base md:h-8 md:text-xs",
+													fieldErrors.email && "border-destructive",
+												)}
+												onChange={() =>
+													setFieldErrors((prev) => {
+														const { email: _, ...rest } = prev;
+														return rest;
+													})
+												}
 											/>
-											{fieldErrors.email && <p className="text-destructive text-xs">{fieldErrors.email}</p>}
+											{fieldErrors.email && (
+												<p className="text-destructive text-xs">
+													{fieldErrors.email}
+												</p>
+											)}
 										</div>
 										<div className="space-y-2">
 											<Label htmlFor="firstName">
@@ -439,9 +474,7 @@ export default function WpHealthReport() {
 						{status === "loading" && (
 							<div className="mt-12 flex flex-col items-center gap-3">
 								<div className="h-6 w-6 animate-spin border-2 border-brand border-t-transparent" />
-								<p className="text-muted-foreground text-sm">
-									{t("loading")}
-								</p>
+								<p className="text-muted-foreground text-sm">{t("loading")}</p>
 							</div>
 						)}
 					</>
@@ -451,7 +484,7 @@ export default function WpHealthReport() {
 			</div>
 
 			{/* Trust footer */}
-			<div className="mx-auto mt-12 max-w-[1200px] border-t border-border/40 px-6 pt-8 text-center">
+			<div className="mx-auto mt-12 max-w-[1200px] border-border/40 border-t px-6 pt-8 text-center">
 				<p className="text-muted-foreground text-xs">{t("trust")}</p>
 			</div>
 		</section>

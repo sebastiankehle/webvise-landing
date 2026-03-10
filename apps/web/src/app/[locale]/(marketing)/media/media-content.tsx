@@ -2,7 +2,11 @@
 
 import { useTranslations } from "next-intl";
 
-import { BannerAsset, LogoAsset, WallpaperAsset } from "@/components/marketing/media-asset";
+import {
+	BannerAsset,
+	LogoAsset,
+	WallpaperAsset,
+} from "@/components/marketing/media-asset";
 
 const VARIANTS = ["light", "dark", "brand"] as const;
 
@@ -14,11 +18,20 @@ export default function MediaContent({ heroSlogan }: { heroSlogan: string }) {
 			{/* Logo */}
 			<div>
 				<h2 className="mb-2 font-medium text-lg">{t("logoTitle")}</h2>
-				<p className="mb-8 text-muted-foreground text-sm">{t("logoDescription")}</p>
+				<p className="mb-8 text-muted-foreground text-sm">
+					{t("logoDescription")}
+				</p>
 				<div className="grid gap-12 sm:grid-cols-3">
 					{VARIANTS.map((v) => (
 						<div key={v}>
-							<p className="mb-3 font-medium text-sm">{t(`variant${v[0].toUpperCase()}${v.slice(1)}` as "variantLight" | "variantDark" | "variantBrand")}</p>
+							<p className="mb-3 font-medium text-sm">
+								{t(
+									`variant${v[0].toUpperCase()}${v.slice(1)}` as
+										| "variantLight"
+										| "variantDark"
+										| "variantBrand",
+								)}
+							</p>
 							<LogoAsset variant={v} />
 						</div>
 					))}
@@ -28,11 +41,20 @@ export default function MediaContent({ heroSlogan }: { heroSlogan: string }) {
 			{/* LinkedIn Banners - Tagline */}
 			<div>
 				<h2 className="mb-2 font-medium text-lg">{t("linkedinBanners")}</h2>
-				<p className="mb-8 text-muted-foreground text-sm">{t("linkedinBannersDescription")}</p>
+				<p className="mb-8 text-muted-foreground text-sm">
+					{t("linkedinBannersDescription")}
+				</p>
 				<div className="grid gap-16">
 					{VARIANTS.map((v) => (
 						<div key={v}>
-							<p className="mb-3 font-medium text-sm">{t(`variant${v[0].toUpperCase()}${v.slice(1)}` as "variantLight" | "variantDark" | "variantBrand")}</p>
+							<p className="mb-3 font-medium text-sm">
+								{t(
+									`variant${v[0].toUpperCase()}${v.slice(1)}` as
+										| "variantLight"
+										| "variantDark"
+										| "variantBrand",
+								)}
+							</p>
 							<BannerAsset
 								variant={v}
 								width={1584}
@@ -49,11 +71,20 @@ export default function MediaContent({ heroSlogan }: { heroSlogan: string }) {
 			{/* LinkedIn Banners - Hero Slogan */}
 			<div>
 				<h2 className="mb-2 font-medium text-lg">{t("linkedinBannersHero")}</h2>
-				<p className="mb-8 text-muted-foreground text-sm">{t("linkedinBannersHeroDescription")}</p>
+				<p className="mb-8 text-muted-foreground text-sm">
+					{t("linkedinBannersHeroDescription")}
+				</p>
 				<div className="grid gap-16">
 					{VARIANTS.map((v) => (
 						<div key={v}>
-							<p className="mb-3 font-medium text-sm">{t(`variant${v[0].toUpperCase()}${v.slice(1)}` as "variantLight" | "variantDark" | "variantBrand")}</p>
+							<p className="mb-3 font-medium text-sm">
+								{t(
+									`variant${v[0].toUpperCase()}${v.slice(1)}` as
+										| "variantLight"
+										| "variantDark"
+										| "variantBrand",
+								)}
+							</p>
 							<BannerAsset
 								variant={v}
 								width={1584}
@@ -70,11 +101,20 @@ export default function MediaContent({ heroSlogan }: { heroSlogan: string }) {
 			{/* Desktop Wallpapers */}
 			<div>
 				<h2 className="mb-2 font-medium text-lg">{t("desktopWallpapers")}</h2>
-				<p className="mb-8 text-muted-foreground text-sm">{t("desktopWallpapersDescription")}</p>
+				<p className="mb-8 text-muted-foreground text-sm">
+					{t("desktopWallpapersDescription")}
+				</p>
 				<div className="grid gap-16">
 					{VARIANTS.map((v) => (
 						<div key={v}>
-							<p className="mb-3 font-medium text-sm">{t(`variant${v[0].toUpperCase()}${v.slice(1)}` as "variantLight" | "variantDark" | "variantBrand")}</p>
+							<p className="mb-3 font-medium text-sm">
+								{t(
+									`variant${v[0].toUpperCase()}${v.slice(1)}` as
+										| "variantLight"
+										| "variantDark"
+										| "variantBrand",
+								)}
+							</p>
 							<WallpaperAsset
 								variant={v}
 								width={2560}
@@ -91,11 +131,20 @@ export default function MediaContent({ heroSlogan }: { heroSlogan: string }) {
 			{/* Mobile Wallpapers */}
 			<div>
 				<h2 className="mb-2 font-medium text-lg">{t("mobileWallpapers")}</h2>
-				<p className="mb-8 text-muted-foreground text-sm">{t("mobileWallpapersDescription")}</p>
+				<p className="mb-8 text-muted-foreground text-sm">
+					{t("mobileWallpapersDescription")}
+				</p>
 				<div className="grid gap-12 sm:grid-cols-3">
 					{VARIANTS.map((v) => (
 						<div key={v}>
-							<p className="mb-3 font-medium text-sm">{t(`variant${v[0].toUpperCase()}${v.slice(1)}` as "variantLight" | "variantDark" | "variantBrand")}</p>
+							<p className="mb-3 font-medium text-sm">
+								{t(
+									`variant${v[0].toUpperCase()}${v.slice(1)}` as
+										| "variantLight"
+										| "variantDark"
+										| "variantBrand",
+								)}
+							</p>
 							<WallpaperAsset
 								variant={v}
 								width={1170}

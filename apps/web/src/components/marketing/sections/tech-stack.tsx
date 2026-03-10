@@ -30,18 +30,19 @@ const categories = [
 	},
 	{
 		key: "ai",
-		items: ["OpenAI", "Anthropic", "Gemini", "Vercel AI SDK", "Mastra", "Inngest", "n8n"],
+		items: [
+			"OpenAI",
+			"Anthropic",
+			"Gemini",
+			"Vercel AI SDK",
+			"Mastra",
+			"Inngest",
+			"n8n",
+		],
 	},
 	{
 		key: "infrastructure",
-		items: [
-			"Vercel",
-			"Docker",
-			"Turborepo",
-			"Redis",
-			"Sentry",
-			"PostHog",
-		],
+		items: ["Vercel", "Docker", "Turborepo", "Redis", "Sentry", "PostHog"],
 	},
 ];
 
@@ -56,20 +57,20 @@ export default async function TechStack() {
 				</h2>
 				<p className="mt-4 font-light text-muted-foreground">{t("subtitle")}</p>
 			</div>
-			<div className="mt-12 grid gap-px overflow-hidden border border-border/40 grid-cols-2 lg:grid-cols-4">
+			<div className="mt-12 grid grid-cols-2 gap-px overflow-hidden border border-border/40 lg:grid-cols-4">
 				{categories.map((cat) => (
 					<div
 						key={cat.key}
-						className="border-border/40 p-6 md:p-8 [&:nth-child(odd)]:border-r [&:nth-child(-n+2)]:border-b lg:[&:nth-child(odd)]:border-r-0 lg:[&:nth-child(-n+2)]:border-b-0 lg:[&:not(:last-child)]:border-r"
+						className="border-border/40 nth-[-n+2]:border-b p-6 odd:border-r md:p-8 lg:not-last:border-r lg:nth-[-n+2]:border-b-0 lg:odd:border-r-0"
 					>
 						<p className="mb-4 font-medium text-muted-foreground/50 text-xs uppercase tracking-wider">
 							{t(cat.key)}
 						</p>
-					<div className="flex flex-wrap gap-2">
-						{cat.items.map((tech) => (
-							<TechBadge key={tech} name={tech} />
-						))}
-					</div>
+						<div className="flex flex-wrap gap-2">
+							{cat.items.map((tech) => (
+								<TechBadge key={tech} name={tech} />
+							))}
+						</div>
 					</div>
 				))}
 			</div>

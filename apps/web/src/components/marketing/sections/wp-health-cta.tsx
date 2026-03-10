@@ -14,9 +14,9 @@ export default async function WpHealthCta() {
 				<div>
 					<div className="flex items-center gap-3">
 						<Activity className="h-5 w-5 text-brand" strokeWidth={1.5} />
-					<span className="font-medium text-xs uppercase tracking-wider text-brand">
-						{t("badge")}
-					</span>
+						<span className="font-medium text-brand text-xs uppercase tracking-wider">
+							{t("badge")}
+						</span>
 					</div>
 					<h2 className="mt-4 font-normal text-3xl tracking-tight md:text-4xl">
 						{t("title")}
@@ -28,7 +28,7 @@ export default async function WpHealthCta() {
 						<Button
 							size="lg"
 							className="border-transparent bg-brand text-white [&]:hover:bg-brand/80"
-						render={<Link href="/wp-health-report" />}
+							render={<Link href="/wp-health-report" />}
 						>
 							{t("button")}
 						</Button>
@@ -57,9 +57,7 @@ export default async function WpHealthCta() {
 							<span className="text-muted-foreground text-xs">
 								After Next.js
 							</span>
-							<span className="font-medium text-green-500 text-sm">
-								95/100
-							</span>
+							<span className="font-medium text-green-500 text-sm">95/100</span>
 						</div>
 						<div className="h-2 w-full bg-muted">
 							<div className="h-full w-[95%] bg-green-500" />

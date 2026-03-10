@@ -29,6 +29,7 @@ export default function ChatWidget() {
 
 	const isStreaming = status === "streaming";
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: deps are intentional scroll triggers
 	useEffect(() => {
 		messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
 	}, [messages.length, isStreaming]);
@@ -75,9 +76,7 @@ export default function ChatWidget() {
 							<div className="flex items-center gap-2.5">
 								<Logo className="h-5 w-5" />
 								<div>
-									<p className="font-medium text-sm leading-none">
-										webvise AI
-									</p>
+									<p className="font-medium text-sm leading-none">webvise AI</p>
 									<p className="mt-0.5 text-muted-foreground text-xs">
 										Ask us anything
 									</p>

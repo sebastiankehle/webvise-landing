@@ -1,4 +1,4 @@
-import { readFileSync, readdirSync, existsSync, statSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 
 export type Block =
@@ -42,7 +42,10 @@ function cacheKey(slug: string, locale: string): string {
 	return `${slug}:${locale}`;
 }
 
-function readPostFile(slug: string, locale: string): PostFile | LocaleContent | null {
+function readPostFile(
+	slug: string,
+	locale: string,
+): PostFile | LocaleContent | null {
 	const key = cacheKey(slug, locale);
 	const cached = postCache.get(key);
 	if (cached) return cached;
@@ -59,7 +62,10 @@ function getEnglishPost(slug: string): PostFile | null {
 	return readPostFile(slug, "en") as PostFile | null;
 }
 
-function loadContent(slug: string, locale: string): { meta: PostFile; content: LocaleContent } | null {
+function loadContent(
+	slug: string,
+	locale: string,
+): { meta: PostFile; content: LocaleContent } | null {
 	const enPost = getEnglishPost(slug);
 	if (!enPost) return null;
 
@@ -79,7 +85,10 @@ function getPostSlugs(): string[] {
 	if (!existsSync(contentDir)) return [];
 	return readdirSync(contentDir).filter((entry) => {
 		const entryPath = join(contentDir, entry);
-		return statSync(entryPath).isDirectory() && existsSync(join(entryPath, "en.json"));
+		return (
+			statSync(entryPath).isDirectory() &&
+			existsSync(join(entryPath, "en.json"))
+		);
 	});
 }
 
@@ -105,7 +114,10 @@ export function getBlogPosts(locale: string): BlogPost[] {
 		.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
 
-export function getBlogPostBySlug(slug: string, locale: string): BlogPost | undefined {
+export function getBlogPostBySlug(
+	slug: string,
+	locale: string,
+): BlogPost | undefined {
 	return toPost(slug, locale) ?? undefined;
 }
 

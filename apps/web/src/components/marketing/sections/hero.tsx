@@ -20,29 +20,29 @@ export default async function Hero() {
 										<span className="text-brand">{chunks}</span>
 									),
 									br: () => (
-									<>
-										{" "}
-										<br className="hidden md:block" />
-									</>
-								),
+										<>
+											{" "}
+											<br className="hidden md:block" />
+										</>
+									),
 								})}
 							</h1>
 							<p className="mt-6 font-light text-lg text-muted-foreground leading-relaxed">
 								{t("subtitle")}
 							</p>
 							<div className="mt-10 flex flex-col gap-3 sm:flex-row">
-							<Button
-								size="lg"
-								className="border-transparent bg-brand text-white [&]:hover:bg-brand/80"
-								render={<Link href={{ pathname: "/", hash: "contact" }} />}
-							>
-								{t("cta")}
-							</Button>
-							<Button
-								size="lg"
-								variant="outline"
-								render={<Link href={{ pathname: "/", hash: "services" }} />}
-							>
+								<Button
+									size="lg"
+									className="border-transparent bg-brand text-white [&]:hover:bg-brand/80"
+									render={<Link href={{ pathname: "/", hash: "contact" }} />}
+								>
+									{t("cta")}
+								</Button>
+								<Button
+									size="lg"
+									variant="outline"
+									render={<Link href={{ pathname: "/", hash: "services" }} />}
+								>
 									{t("ctaSecondary")}
 								</Button>
 							</div>

@@ -1,4 +1,4 @@
-import { readFileSync, existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
 export interface LegalSection {
@@ -31,6 +31,9 @@ function readFile(slug: LegalSlug, locale: string): LegalPage | null {
 	return data;
 }
 
-export function getLegalPage(slug: LegalSlug, locale: string): LegalPage | null {
+export function getLegalPage(
+	slug: LegalSlug,
+	locale: string,
+): LegalPage | null {
 	return readFile(slug, locale) ?? readFile(slug, "en");
 }

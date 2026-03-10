@@ -73,7 +73,7 @@ export default function Contact() {
 
 	return (
 		<SectionWrapper id="contact">
-			<div className="grid gap-10 md:gap-16 md:grid-cols-2">
+			<div className="grid gap-10 md:grid-cols-2 md:gap-16">
 				<div>
 					<h2 className="font-normal text-3xl tracking-tight md:text-4xl">
 						{t("title")}
@@ -119,10 +119,20 @@ export default function Contact() {
 								required
 								placeholder={t("form.namePlaceholder")}
 								aria-invalid={!!fieldErrors.name}
-								className={cn("h-10 text-base md:h-8 md:text-xs", fieldErrors.name && "border-destructive")}
-								onChange={() => setFieldErrors((prev) => { const { name: _, ...rest } = prev; return rest; })}
+								className={cn(
+									"h-10 text-base md:h-8 md:text-xs",
+									fieldErrors.name && "border-destructive",
+								)}
+								onChange={() =>
+									setFieldErrors((prev) => {
+										const { name: _, ...rest } = prev;
+										return rest;
+									})
+								}
 							/>
-							{fieldErrors.name && <p className="text-destructive text-xs">{fieldErrors.name}</p>}
+							{fieldErrors.name && (
+								<p className="text-destructive text-xs">{fieldErrors.name}</p>
+							)}
 						</div>
 						<div className="space-y-2">
 							<Label htmlFor="email">{t("form.email")}</Label>
@@ -133,10 +143,20 @@ export default function Contact() {
 								required
 								placeholder={t("form.emailPlaceholder")}
 								aria-invalid={!!fieldErrors.email}
-								className={cn("h-10 text-base md:h-8 md:text-xs", fieldErrors.email && "border-destructive")}
-								onChange={() => setFieldErrors((prev) => { const { email: _, ...rest } = prev; return rest; })}
+								className={cn(
+									"h-10 text-base md:h-8 md:text-xs",
+									fieldErrors.email && "border-destructive",
+								)}
+								onChange={() =>
+									setFieldErrors((prev) => {
+										const { email: _, ...rest } = prev;
+										return rest;
+									})
+								}
 							/>
-							{fieldErrors.email && <p className="text-destructive text-xs">{fieldErrors.email}</p>}
+							{fieldErrors.email && (
+								<p className="text-destructive text-xs">{fieldErrors.email}</p>
+							)}
 						</div>
 					</div>
 					<div className="grid gap-4 md:grid-cols-2 md:gap-5">
@@ -178,9 +198,16 @@ export default function Contact() {
 								"flex w-full border bg-background px-2.5 py-2 text-base outline-none focus:border-ring focus:ring-1 focus:ring-ring/50 md:text-xs",
 								fieldErrors.message ? "border-destructive" : "border-border",
 							)}
-							onChange={() => setFieldErrors((prev) => { const { message: _, ...rest } = prev; return rest; })}
+							onChange={() =>
+								setFieldErrors((prev) => {
+									const { message: _, ...rest } = prev;
+									return rest;
+								})
+							}
 						/>
-						{fieldErrors.message && <p className="text-destructive text-xs">{fieldErrors.message}</p>}
+						{fieldErrors.message && (
+							<p className="text-destructive text-xs">{fieldErrors.message}</p>
+						)}
 					</div>
 					<Button
 						type="submit"
@@ -197,9 +224,7 @@ export default function Contact() {
 							</p>
 						)}
 						{status === "error" && (
-							<p className="text-destructive text-sm">
-								{t("form.error")}
-							</p>
+							<p className="text-destructive text-sm">{t("form.error")}</p>
 						)}
 					</output>
 				</form>

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { getLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
+import { getLocale } from "next-intl/server";
 
 import { getLegalPage } from "@/data/legal";
 
@@ -20,9 +20,7 @@ export default async function PrivacyPage() {
 				<h1 className="font-normal text-4xl tracking-tight md:text-5xl">
 					{page.title}
 				</h1>
-				<p className="mt-4 font-light text-muted-foreground">
-					{page.subtitle}
-				</p>
+				<p className="mt-4 font-light text-muted-foreground">{page.subtitle}</p>
 			</div>
 
 			<div className="mt-16 max-w-2xl space-y-12 font-light text-muted-foreground leading-relaxed [&_h2]:mb-4 [&_h2]:font-medium [&_h2]:text-foreground [&_h2]:text-lg [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:pl-5">

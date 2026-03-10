@@ -2,14 +2,11 @@ import { getLocale, getTranslations } from "next-intl/server";
 
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import StaggerChildren from "@/components/marketing/stagger-children";
-import { Link } from "@/i18n/navigation";
 import { getBlogPosts } from "@/data/blog";
+import { Link } from "@/i18n/navigation";
 
 export default async function BlogPreview() {
-	const [t, locale] = await Promise.all([
-		getTranslations("blog"),
-		getLocale(),
-	]);
+	const [t, locale] = await Promise.all([getTranslations("blog"), getLocale()]);
 	const posts = getBlogPosts(locale).slice(0, 3);
 
 	if (posts.length === 0) return null;
@@ -25,20 +22,20 @@ export default async function BlogPreview() {
 						{t("subtitle")}
 					</p>
 				</div>
-			<Link
-				href="/blog"
-				className="shrink-0 font-light text-brand text-sm transition-opacity hover:opacity-80"
-			>
-				{t("viewAll")}
-			</Link>
+				<Link
+					href="/blog"
+					className="shrink-0 font-light text-brand text-sm transition-opacity hover:opacity-80"
+				>
+					{t("viewAll")}
+				</Link>
 			</div>
 			<StaggerChildren className="mt-12 grid gap-px overflow-hidden border border-border/40 md:grid-cols-3">
-			{posts.map((post) => (
-				<Link
-					key={post.slug}
-					href={{ pathname: "/blog/[slug]", params: { slug: post.slug } }}
-					className="group flex flex-col border-border/40 p-6 transition-colors hover:bg-muted/40 md:p-8 not-last:border-b md:not-last:border-r md:not-last:border-b-0"
-				>
+				{posts.map((post) => (
+					<Link
+						key={post.slug}
+						href={{ pathname: "/blog/[slug]", params: { slug: post.slug } }}
+						className="group flex flex-col border-border/40 not-last:border-b p-6 transition-colors hover:bg-muted/40 md:not-last:border-r md:not-last:border-b-0 md:p-8"
+					>
 						<div className="flex items-center gap-3">
 							<time
 								dateTime={post.date}
@@ -61,10 +58,10 @@ export default async function BlogPreview() {
 						<p className="mt-3 line-clamp-3 font-light text-muted-foreground text-sm leading-relaxed">
 							{post.excerpt}
 						</p>
-					<span className="mt-6 font-light text-brand text-sm transition-opacity group-hover:opacity-80">
-						{t("readMore")}
-					</span>
-				</Link>
+						<span className="mt-6 font-light text-brand text-sm transition-opacity group-hover:opacity-80">
+							{t("readMore")}
+						</span>
+					</Link>
 				))}
 			</StaggerChildren>
 		</SectionWrapper>

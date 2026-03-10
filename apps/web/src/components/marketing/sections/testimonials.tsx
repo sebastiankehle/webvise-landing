@@ -16,16 +16,14 @@ export default async function Testimonials() {
 				</h2>
 				<p className="mt-4 font-light text-muted-foreground">{t("subtitle")}</p>
 			</div>
-			<StaggerChildren
-				className="mt-12 grid gap-px overflow-hidden border border-border/40 md:grid-cols-2 lg:grid-cols-3"
-			>
+			<StaggerChildren className="mt-12 grid gap-px overflow-hidden border border-border/40 md:grid-cols-2 lg:grid-cols-3">
 				{testimonialKeys.map((key) => (
 					<div
 						key={key}
-						className="flex flex-col justify-between border-border/40 p-6 md:p-8 [&:not(:last-child)]:border-b md:[&:not(:last-child)]:border-b-0 md:[&:not(:nth-child(3n))]:border-r md:[&:nth-child(-n+3)]:border-b"
+						className="flex flex-col justify-between border-border/40 not-last:border-b p-6 md:not-nth-[3n]:border-r md:nth-[-n+3]:border-b md:not-last:border-b-0 md:p-8"
 					>
 						<div>
-							<span className="block font-serif text-3xl leading-none text-brand/40">
+							<span className="block font-serif text-3xl text-brand/40 leading-none">
 								&ldquo;
 							</span>
 							<p className="mt-2 font-light text-muted-foreground text-sm leading-relaxed">

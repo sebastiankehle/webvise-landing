@@ -22,9 +22,7 @@ export default async function Pricing() {
 				</h2>
 				<p className="mt-4 font-light text-muted-foreground">{t("subtitle")}</p>
 			</div>
-			<StaggerChildren
-				className="mt-12 grid gap-px overflow-hidden border border-border/40 md:grid-cols-3"
-			>
+			<StaggerChildren className="mt-12 grid gap-px overflow-hidden border border-border/40 md:grid-cols-3">
 				{tiers.map(({ key, featureCount, hasBadge }) => {
 					const featureKeys = Array.from({ length: featureCount }, (_, i) =>
 						String(i),
@@ -33,7 +31,7 @@ export default async function Pricing() {
 					return (
 						<div
 							key={key}
-							className="flex flex-col justify-between border-border/40 p-6 md:p-8 [&:not(:last-child)]:border-b md:[&:not(:last-child)]:border-r md:[&:not(:last-child)]:border-b-0"
+							className="flex flex-col justify-between border-border/40 not-last:border-b p-6 md:not-last:border-r md:not-last:border-b-0 md:p-8"
 						>
 							<div>
 								<div className="flex items-center gap-3">
@@ -70,7 +68,7 @@ export default async function Pricing() {
 								<Button
 									size="sm"
 									className="mt-4 w-full"
-								render={<Link href={{ pathname: "/", hash: "contact" }} />}
+									render={<Link href={{ pathname: "/", hash: "contact" }} />}
 								>
 									{t("cta")}
 								</Button>

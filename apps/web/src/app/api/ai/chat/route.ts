@@ -159,14 +159,10 @@ export async function POST(req: Request) {
 				inputSchema: z.object({
 					url: z
 						.string()
-						.describe(
-							"The full URL to fetch (include https:// if missing).",
-						),
+						.describe("The full URL to fetch (include https:// if missing)."),
 				}),
 				execute: async ({ url }) => {
-					const normalized = url.match(/^https?:\/\//)
-						? url
-						: `https://${url}`;
+					const normalized = url.match(/^https?:\/\//) ? url : `https://${url}`;
 					return fetchPageContent(normalized);
 				},
 			}),
