@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import { Button } from "@/components/ui/button";
+import { Link } from "@/i18n/navigation";
 
 export default async function WpHealthCta() {
 	const t = await getTranslations("wpHealthReport.cta");
@@ -27,10 +28,7 @@ export default async function WpHealthCta() {
 						<Button
 							size="lg"
 							className="border-transparent bg-brand text-white [&]:hover:bg-brand/80"
-							render={
-								// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
-								<a href="/wp-health-report" />
-							}
+						render={<Link href="/wp-health-report" />}
 						>
 							{t("button")}
 						</Button>

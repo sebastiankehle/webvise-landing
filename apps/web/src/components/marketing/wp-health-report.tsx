@@ -7,6 +7,7 @@ import AnimateIn from "@/components/marketing/animate-in";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
 interface ReportIssue {
@@ -230,8 +231,7 @@ function ReportResults({ data }: { data: ReportData }) {
 						>
 							{t("results.bookCall")}
 						</Button>
-						{/* biome-ignore lint/a11y/useAnchorContent: content provided by Button children */}
-						<Button variant="outline" render={<a href="/#contact" />}>
+					<Button variant="outline" render={<Link href={{ pathname: "/", hash: "contact" }} />}>
 							{t("results.getInTouch")}
 						</Button>
 					</div>

@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import StaggerChildren from "@/components/marketing/stagger-children";
 import { Button } from "@/components/ui/button";
+import { Link } from "@/i18n/navigation";
 
 const tiers = [
 	{ key: "project", featureCount: 5, hasBadge: false },
@@ -69,8 +70,7 @@ export default async function Pricing() {
 								<Button
 									size="sm"
 									className="mt-4 w-full"
-									// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
-									render={<a href="/#contact" />}
+								render={<Link href={{ pathname: "/", hash: "contact" }} />}
 								>
 									{t("cta")}
 								</Button>

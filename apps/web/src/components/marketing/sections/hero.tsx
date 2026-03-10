@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import HeroContent from "@/components/marketing/hero-content";
 import IconCloud from "@/components/marketing/icon-cloud";
 import { Button } from "@/components/ui/button";
+import { Link } from "@/i18n/navigation";
 
 export default async function Hero() {
 	const t = await getTranslations("hero");
@@ -30,20 +31,18 @@ export default async function Hero() {
 								{t("subtitle")}
 							</p>
 							<div className="mt-10 flex flex-col gap-3 sm:flex-row">
-								<Button
-									size="lg"
-									className="border-transparent bg-brand text-white [&]:hover:bg-brand/80"
-									// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
-									render={<a href="/#contact" />}
-								>
-									{t("cta")}
-								</Button>
-								<Button
-									size="lg"
-									variant="outline"
-									// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
-									render={<a href="/#services" />}
-								>
+							<Button
+								size="lg"
+								className="border-transparent bg-brand text-white [&]:hover:bg-brand/80"
+								render={<Link href={{ pathname: "/", hash: "contact" }} />}
+							>
+								{t("cta")}
+							</Button>
+							<Button
+								size="lg"
+								variant="outline"
+								render={<Link href={{ pathname: "/", hash: "services" }} />}
+							>
 									{t("ctaSecondary")}
 								</Button>
 							</div>

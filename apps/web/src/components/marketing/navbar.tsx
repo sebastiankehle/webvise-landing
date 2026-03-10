@@ -26,11 +26,11 @@ export default function Navbar() {
 	}, []);
 
 	const navLinks = [
-		{ href: "/#services", label: t("services") },
-		{ href: "/#process", label: t("process") },
-		{ href: "/#blog", label: t("blog") },
-		{ href: "/#pricing", label: t("pricing") },
-		{ href: "/#contact", label: t("contact") },
+		{ hash: "services", label: t("services") },
+		{ hash: "process", label: t("process") },
+		{ hash: "blog", label: t("blog") },
+		{ hash: "pricing", label: t("pricing") },
+		{ hash: "contact", label: t("contact") },
 	];
 
 	return (
@@ -62,14 +62,14 @@ export default function Navbar() {
 					aria-label="Main navigation"
 					className="hidden items-center gap-1 md:flex"
 				>
-					{navLinks.map(({ href, label }) => (
-						<a
-							key={href}
-							href={href}
+					{navLinks.map(({ hash, label }) => (
+						<Link
+							key={hash}
+							href={{ pathname: "/", hash }}
 							className="rounded-md px-3 py-1.5 text-muted-foreground text-sm transition-colors hover:bg-muted hover:text-foreground"
 						>
 							{label}
-						</a>
+						</Link>
 					))}
 				</nav>
 
@@ -77,10 +77,7 @@ export default function Navbar() {
 					<LanguageSwitcher />
 					<Button
 						className="border-transparent bg-brand text-white [&]:hover:bg-brand/80"
-						render={
-							// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
-							<a href="/#contact" />
-						}
+						render={<Link href={{ pathname: "/", hash: "contact" }} />}
 					>
 							{t("getStarted")}
 						</Button>
@@ -107,29 +104,29 @@ export default function Navbar() {
 						aria-label="Mobile navigation"
 						className="flex min-h-full flex-col gap-1 pt-3"
 					>
-					{navLinks.map(({ href, label }) => (
-						<a
-							key={href}
-							href={href}
+					{navLinks.map(({ hash, label }) => (
+						<Link
+							key={hash}
+							href={{ pathname: "/", hash }}
 							className="rounded-md px-3 py-2.5 text-muted-foreground text-sm transition-colors hover:bg-muted hover:text-foreground"
 							onClick={() => setMobileOpen(false)}
 						>
 							{label}
-						</a>
+						</Link>
 					))}
 						<div className="mt-3 border-border/40 border-t pt-4">
 							<p className="mb-2 px-3 font-medium text-muted-foreground/60 text-xs uppercase tracking-wider">
 								{t("services")}
 							</p>
 							{services.map(({ slug, translationKey }) => (
-								<a
+								<Link
 									key={slug}
-									href={`/services/${slug}`}
+									href={{ pathname: "/services/[slug]", params: { slug } }}
 									className="block rounded-md px-3 py-2 text-muted-foreground text-sm transition-colors hover:bg-muted hover:text-foreground"
 									onClick={() => setMobileOpen(false)}
 								>
 									{ts(`${translationKey}.title`)}
-								</a>
+								</Link>
 							))}
 						</div>
 						<div className="mt-auto flex items-center justify-between border-border/40 border-t pt-4">
@@ -152,10 +149,7 @@ export default function Navbar() {
 							</div>
 							<Button
 								className="border-transparent bg-brand text-white [&]:hover:bg-brand/80"
-								render={
-									// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
-									<a href="/#contact" />
-								}
+								render={<Link href={{ pathname: "/", hash: "contact" }} />}
 							>
 								{t("getStarted")}
 							</Button>
