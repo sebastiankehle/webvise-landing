@@ -53,9 +53,19 @@ export default function ChatWidget() {
 
 	useEffect(() => {
 		if (!open || !isMobile) return;
+		const scrollY = window.scrollY;
+		document.body.style.position = "fixed";
+		document.body.style.top = `-${scrollY}px`;
+		document.body.style.left = "0";
+		document.body.style.right = "0";
 		document.body.style.overflow = "hidden";
 		return () => {
+			document.body.style.position = "";
+			document.body.style.top = "";
+			document.body.style.left = "";
+			document.body.style.right = "";
 			document.body.style.overflow = "";
+			window.scrollTo(0, scrollY);
 		};
 	}, [open, isMobile]);
 
@@ -188,12 +198,13 @@ export default function ChatWidget() {
 						>
 							<input
 								ref={inputRef}
-								name="chat-msg"
+								name={`msg-${Date.now()}`}
 								value={input}
 								onChange={(e) => setInput(e.target.value)}
 								placeholder="Type a message…"
 								className="h-9 flex-1 bg-transparent px-1 text-base outline-none placeholder:text-muted-foreground md:h-8 md:text-sm"
-								autoComplete="off"
+								type="search"
+								autoComplete="one-time-code"
 								autoCorrect="off"
 								autoCapitalize="off"
 								spellCheck={false}
