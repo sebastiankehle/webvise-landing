@@ -41,11 +41,12 @@ export default function ChatWidget() {
 	});
 
 	const isStreaming = status === "streaming";
+	const isThinking = status === "submitted";
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: deps are intentional scroll triggers
 	useEffect(() => {
 		messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-	}, [messages.length, isStreaming]);
+	}, [messages.length, isStreaming, isThinking]);
 
 	useEffect(() => {
 		if (open) inputRef.current?.focus();
@@ -187,6 +188,13 @@ export default function ChatWidget() {
 										})}
 									</div>
 								))
+							)}
+							{isThinking && (
+								<div className="mr-auto flex items-center gap-1.5 bg-secondary/40 px-3 py-2.5">
+									<span className="h-1.5 w-1.5 animate-pulse rounded-full bg-muted-foreground/50" />
+									<span className="h-1.5 w-1.5 animate-pulse rounded-full bg-muted-foreground/50 [animation-delay:150ms]" />
+									<span className="h-1.5 w-1.5 animate-pulse rounded-full bg-muted-foreground/50 [animation-delay:300ms]" />
+								</div>
 							)}
 							<div ref={messagesEndRef} />
 						</div>
