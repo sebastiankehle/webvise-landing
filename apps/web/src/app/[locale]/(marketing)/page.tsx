@@ -1,6 +1,7 @@
 import Script from "next/script";
 
 import Benefits from "@/components/marketing/sections/benefits";
+import BlogPreview from "@/components/marketing/sections/blog-preview";
 import Contact from "@/components/marketing/sections/contact";
 import FAQ from "@/components/marketing/sections/faq";
 import Hero from "@/components/marketing/sections/hero";
@@ -54,17 +55,19 @@ export default function HomePage() {
 			<Script
 				id="json-ld"
 				type="application/ld+json"
+				// biome-ignore lint/security/noDangerouslySetInnerHtml: <static JSON-LD from hardcoded content>
 				dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
 				strategy="afterInteractive"
 			/>
 			<Hero />
 			<TechStack />
 			<Benefits />
+			<WpHealthCta />
 			<Metrics />
 			<Services />
 			<Process />
 			<Testimonials />
-			<WpHealthCta />
+			<BlogPreview />
 			<Pricing />
 			<Contact />
 			<FAQ />

@@ -13,9 +13,9 @@ export default async function WpHealthCta() {
 				<div>
 					<div className="flex items-center gap-3">
 						<Activity className="h-5 w-5 text-brand" strokeWidth={1.5} />
-						<span className="font-medium text-xs uppercase tracking-wider text-brand">
-							Free Tool
-						</span>
+					<span className="font-medium text-xs uppercase tracking-wider text-brand">
+						{t("badge")}
+					</span>
 					</div>
 					<h2 className="mt-4 font-normal text-3xl tracking-tight md:text-4xl">
 						{t("title")}

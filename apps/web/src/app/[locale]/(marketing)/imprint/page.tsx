@@ -1,4 +1,28 @@
 import type { Metadata } from "next";
+import { getLocale } from "next-intl/server";
+import { notFound } from "next/navigation";
+
+import { getLegalPage } from "@/data/legal";
+
+const EMAIL_RE = /([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g;
+
+function renderLine(line: string) {
+	const parts = line.split(EMAIL_RE);
+	if (parts.length === 1) return line;
+	return parts.map((part) =>
+		EMAIL_RE.test(part) ? (
+			<a
+				key={part}
+				href={`mailto:${part}`}
+				className="text-foreground underline underline-offset-4"
+			>
+				{part}
+			</a>
+		) : (
+			part
+		),
+	);
+}
 
 export const metadata: Metadata = {
 	title: "Imprint - webvise",
@@ -6,72 +30,38 @@ export const metadata: Metadata = {
 		"Legal information and contact details for webvise, as required by German law.",
 };
 
-export default function ImprintPage() {
+export default async function ImprintPage() {
+	const locale = await getLocale();
+	const page = getLegalPage("imprint", locale);
+	if (!page) notFound();
+
 	return (
 		<article className="mx-auto max-w-[1200px] px-6 py-32 md:py-40">
 			<div className="max-w-2xl">
 				<h1 className="font-normal text-4xl tracking-tight md:text-5xl">
-					Imprint
+					{page.title}
 				</h1>
 				<p className="mt-4 font-light text-muted-foreground">
-					Information according to &sect; 5 TMG
+					{page.subtitle}
 				</p>
 			</div>
 
 			<div className="mt-16 max-w-2xl space-y-12 font-light text-muted-foreground leading-relaxed [&_h2]:mb-4 [&_h2]:font-medium [&_h2]:text-foreground [&_h2]:text-lg">
-				<section>
-					<h2>Responsible</h2>
-					<p>
-						Sebastian Kehle
-						<br />
-						Eva-Laube-Weg 5
-						<br />
-						14473 Potsdam, Germany
-					</p>
-				</section>
-
-				<section>
-					<h2>Contact</h2>
-					<p>
-						Email:{" "}
-						<a
-							href="mailto:mail@webvise.io"
-							className="text-foreground underline underline-offset-4"
-						>
-							mail@webvise.io
-						</a>
-					</p>
-				</section>
-
-				<section>
-					<h2>Dispute Resolution</h2>
-					<p>
-						The European Commission provides a platform for online dispute
-						resolution (OS). We are not obliged and not willing to participate
-						in dispute resolution proceedings before a consumer arbitration
-						board.
-					</p>
-				</section>
-
-				<section>
-					<h2>Liability for Content</h2>
-					<p>
-						As a service provider, we are responsible for our own content on
-						these pages under &sect; 7(1) TMG. According to &sect;&sect; 8-10
-						TMG, we are not obligated to monitor transmitted or stored
-						third-party information.
-					</p>
-				</section>
-
-				<section>
-					<h2>Liability for Links</h2>
-					<p>
-						Our website contains links to external websites. We have no
-						influence on their content and cannot accept any liability. The
-						respective provider is always responsible for the content of linked
-						pages.
-					</p>
-				</section>
+				{page.sections.map((section) => (
+					<section key={section.heading}>
+						<h2>{section.heading}</h2>
+						{section.body && (
+							<p>
+								{section.body.split("\n").map((line, i, arr) => (
+									<span key={line}>
+										{renderLine(line)}
+										{i < arr.length - 1 && <br />}
+									</span>
+								))}
+							</p>
+						)}
+					</section>
+				))}
 			</div>
 		</article>
 	);

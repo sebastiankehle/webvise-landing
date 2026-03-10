@@ -28,6 +28,7 @@ export default function Navbar() {
 	const navLinks = [
 		{ href: "/#services", label: t("services") },
 		{ href: "/#process", label: t("process") },
+		{ href: "/#blog", label: t("blog") },
 		{ href: "/#pricing", label: t("pricing") },
 		{ href: "/#contact", label: t("contact") },
 	];
@@ -57,20 +58,20 @@ export default function Navbar() {
 						webvise
 					</Link>
 
-					<nav
-						aria-label="Main navigation"
-						className="hidden items-center gap-1 md:flex"
-					>
-						{navLinks.map(({ href, label }) => (
-							<a
-								key={href}
-								href={href}
-								className="rounded-md px-3 py-1.5 text-muted-foreground text-sm transition-colors hover:bg-muted hover:text-foreground"
-							>
-								{label}
-							</a>
-						))}
-					</nav>
+				<nav
+					aria-label="Main navigation"
+					className="hidden items-center gap-1 md:flex"
+				>
+					{navLinks.map(({ href, label }) => (
+						<a
+							key={href}
+							href={href}
+							className="rounded-md px-3 py-1.5 text-muted-foreground text-sm transition-colors hover:bg-muted hover:text-foreground"
+						>
+							{label}
+						</a>
+					))}
+				</nav>
 
 					<div className="hidden items-center gap-3 md:flex">
 					<LanguageSwitcher />
@@ -106,16 +107,16 @@ export default function Navbar() {
 						aria-label="Mobile navigation"
 						className="flex min-h-full flex-col gap-1 pt-3"
 					>
-						{navLinks.map(({ href, label }) => (
-							<a
-								key={href}
-								href={href}
-								className="rounded-md px-3 py-2.5 text-muted-foreground text-sm transition-colors hover:bg-muted hover:text-foreground"
-								onClick={() => setMobileOpen(false)}
-							>
-								{label}
-							</a>
-						))}
+					{navLinks.map(({ href, label }) => (
+						<a
+							key={href}
+							href={href}
+							className="rounded-md px-3 py-2.5 text-muted-foreground text-sm transition-colors hover:bg-muted hover:text-foreground"
+							onClick={() => setMobileOpen(false)}
+						>
+							{label}
+						</a>
+					))}
 						<div className="mt-3 border-border/40 border-t pt-4">
 							<p className="mb-2 px-3 font-medium text-muted-foreground/60 text-xs uppercase tracking-wider">
 								{t("services")}
