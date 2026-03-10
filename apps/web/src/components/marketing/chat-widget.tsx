@@ -10,6 +10,18 @@ import { Streamdown } from "streamdown";
 import Logo from "@/components/logo";
 import { cn } from "@/lib/utils";
 
+function ChatLink(props: React.AnchorHTMLAttributes<HTMLAnchorElement>) {
+	const isExternal =
+		props.href?.startsWith("http") || props.href?.startsWith("mailto:");
+	return (
+		<a
+			{...props}
+			className="font-medium text-brand underline underline-offset-2 transition-colors hover:text-brand/80"
+			{...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+		/>
+	);
+}
+
 const SUGGESTED_QUESTIONS = [
 	"What services do you offer?",
 	"How much does an MVP cost?",
@@ -174,14 +186,15 @@ export default function ChatWidget() {
 										{message.parts?.map((part) => {
 											if (part.type === "text") {
 												return (
-													<Streamdown
-														key={part.text}
-														isAnimating={
-															isStreaming && message.role === "assistant"
-														}
-													>
-														{part.text}
-													</Streamdown>
+												<Streamdown
+													key={part.text}
+													isAnimating={
+														isStreaming && message.role === "assistant"
+													}
+													components={{ a: ChatLink }}
+												>
+													{part.text}
+												</Streamdown>
 												);
 											}
 											return null;
