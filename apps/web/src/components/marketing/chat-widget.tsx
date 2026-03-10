@@ -4,7 +4,7 @@ import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import { MessageCircle, Send, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Streamdown } from "streamdown";
 
 import Logo from "@/components/logo";
@@ -17,11 +17,24 @@ const SUGGESTED_QUESTIONS = [
 	"How fast can you ship?",
 ];
 
+function useIsMobile() {
+	const [mobile, setMobile] = useState(false);
+	useEffect(() => {
+		const check = () => setMobile(window.innerWidth < 768);
+		check();
+		window.addEventListener("resize", check);
+		return () => window.removeEventListener("resize", check);
+	}, []);
+	return mobile;
+}
+
 export default function ChatWidget() {
 	const [open, setOpen] = useState(false);
 	const [input, setInput] = useState("");
 	const messagesEndRef = useRef<HTMLDivElement>(null);
 	const inputRef = useRef<HTMLInputElement>(null);
+	const panelRef = useRef<HTMLDivElement>(null);
+	const isMobile = useIsMobile();
 
 	const { messages, sendMessage, status } = useChat({
 		transport: new DefaultChatTransport({ api: "/api/ai/chat" }),
@@ -38,6 +51,36 @@ export default function ChatWidget() {
 		if (open) inputRef.current?.focus();
 	}, [open]);
 
+	useEffect(() => {
+		if (!open || !isMobile) return;
+		document.body.style.overflow = "hidden";
+		return () => {
+			document.body.style.overflow = "";
+		};
+	}, [open, isMobile]);
+
+	const syncViewport = useCallback(() => {
+		const el = panelRef.current;
+		if (!el || !isMobile) return;
+		const vv = window.visualViewport;
+		if (!vv) return;
+		el.style.height = `${vv.height}px`;
+		el.style.top = `${vv.offsetTop}px`;
+	}, [isMobile]);
+
+	useEffect(() => {
+		if (!open || !isMobile) return;
+		const vv = window.visualViewport;
+		if (!vv) return;
+		syncViewport();
+		vv.addEventListener("resize", syncViewport);
+		vv.addEventListener("scroll", syncViewport);
+		return () => {
+			vv.removeEventListener("resize", syncViewport);
+			vv.removeEventListener("scroll", syncViewport);
+		};
+	}, [open, isMobile, syncViewport]);
+
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const text = input.trim();
@@ -51,15 +94,20 @@ export default function ChatWidget() {
 	};
 
 	return (
-		<div className="fixed right-6 bottom-6 z-40 flex flex-col items-end gap-3">
+		<>
 			<AnimatePresence>
 				{open && (
 					<motion.div
-						initial={{ opacity: 0, y: 12, scale: 0.95 }}
+						ref={panelRef}
+						initial={{ opacity: 0, y: 12, scale: 0.97 }}
 						animate={{ opacity: 1, y: 0, scale: 1 }}
-						exit={{ opacity: 0, y: 12, scale: 0.95 }}
+						exit={{ opacity: 0, y: 12, scale: 0.97 }}
 						transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
-						className="flex h-[min(520px,80svh)] w-[min(400px,calc(100vw-3rem))] flex-col overflow-hidden border border-border bg-background shadow-2xl"
+						className={cn(
+							"fixed z-50 flex flex-col overflow-hidden border border-border bg-background shadow-2xl",
+							"inset-0 h-dvh",
+							"md:inset-auto md:right-6 md:bottom-20 md:h-[min(520px,80svh)] md:w-[400px]",
+						)}
 					>
 						<div className="flex items-center justify-between border-border/60 border-b bg-card px-4 py-3">
 							<div className="flex items-center gap-2.5">
@@ -74,7 +122,7 @@ export default function ChatWidget() {
 							<button
 								type="button"
 								onClick={() => setOpen(false)}
-								className="flex h-7 w-7 items-center justify-center text-muted-foreground transition-colors hover:text-foreground"
+								className="flex h-8 w-8 items-center justify-center text-muted-foreground transition-colors hover:text-foreground md:h-7 md:w-7"
 								aria-label="Close chat"
 							>
 								<X className="h-4 w-4" />
@@ -94,7 +142,7 @@ export default function ChatWidget() {
 												key={q}
 												type="button"
 												onClick={() => handleSuggestion(q)}
-												className="border border-border bg-card px-2.5 py-1 text-muted-foreground text-xs transition-colors hover:bg-muted hover:text-foreground"
+												className="border border-border bg-card px-2.5 py-1.5 text-muted-foreground text-xs transition-colors hover:bg-muted hover:text-foreground md:py-1"
 											>
 												{q}
 											</button>
@@ -135,25 +183,29 @@ export default function ChatWidget() {
 
 						<form
 							onSubmit={handleSubmit}
-							className="flex items-center gap-2 border-border/60 border-t px-3 py-2.5"
+							autoComplete="off"
+							className="flex items-center gap-2 border-border/60 border-t px-3 py-2.5 pb-[max(0.625rem,env(safe-area-inset-bottom))]"
 						>
 							<input
 								ref={inputRef}
+								name="chat-msg"
 								value={input}
 								onChange={(e) => setInput(e.target.value)}
 								placeholder="Type a message…"
-								className="h-8 flex-1 bg-transparent px-1 text-sm outline-none placeholder:text-muted-foreground"
+								className="h-9 flex-1 bg-transparent px-1 text-base outline-none placeholder:text-muted-foreground md:h-8 md:text-sm"
 								autoComplete="off"
 								autoCorrect="off"
 								autoCapitalize="off"
 								spellCheck={false}
 								enterKeyHint="send"
 								data-form-type="other"
+								data-lpignore="true"
+								data-1p-ignore="true"
 							/>
 							<button
 								type="submit"
 								disabled={!input.trim() || isStreaming}
-								className="flex h-7 w-7 shrink-0 items-center justify-center bg-brand text-white transition-opacity disabled:opacity-40"
+								className="flex h-8 w-8 shrink-0 items-center justify-center bg-brand text-white transition-opacity disabled:opacity-40 md:h-7 md:w-7"
 								aria-label="Send message"
 							>
 								<Send className="h-3.5 w-3.5" />
@@ -166,7 +218,10 @@ export default function ChatWidget() {
 			<motion.button
 				type="button"
 				onClick={() => setOpen(!open)}
-				className="flex h-12 w-12 items-center justify-center bg-brand text-white shadow-lg transition-colors hover:bg-brand/80"
+				className={cn(
+					"fixed right-6 bottom-6 z-40 flex h-12 w-12 items-center justify-center bg-brand text-white shadow-lg transition-colors hover:bg-brand/80",
+					open && "max-md:hidden",
+				)}
 				whileHover={{ scale: 1.05 }}
 				whileTap={{ scale: 0.95 }}
 				aria-label={open ? "Close chat" : "Open AI chat"}
@@ -195,6 +250,6 @@ export default function ChatWidget() {
 					)}
 				</AnimatePresence>
 			</motion.button>
-		</div>
+		</>
 	);
 }
