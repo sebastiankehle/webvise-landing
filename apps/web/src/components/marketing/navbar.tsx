@@ -1,12 +1,13 @@
 "use client";
 
-import { ArrowRight, ChevronDown, Menu, X } from "lucide-react";
+import { Activity, ArrowRight, ChevronDown, Menu, X } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Logo from "@/components/logo";
 import LanguageSwitcher from "@/components/marketing/language-switcher";
 import { Button } from "@/components/ui/button";
 import { services } from "@/data/services";
+import { socials } from "@/data/socials";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
 
 export interface NavbarPost {
@@ -317,23 +318,23 @@ export default function Navbar({
 				<div className="fixed inset-x-0 top-16 bottom-0 z-50 overflow-y-auto bg-background/95 px-6 pb-6 backdrop-blur-xl md:hidden">
 					<nav
 						aria-label="Mobile navigation"
-						className="flex min-h-full flex-col pt-3"
+						className="flex min-h-full flex-col pt-4"
 					>
-						<div className="flex flex-col">
+						<div className="flex flex-col gap-0.5">
 							<button
 								type="button"
-								className="flex items-center justify-between rounded-md px-3 py-2.5 text-muted-foreground text-sm transition-colors hover:bg-muted hover:text-foreground"
+								className="flex items-center justify-between px-3 py-3 text-foreground transition-colors hover:text-brand"
 								onClick={() =>
 									setMobileServicesOpen(!mobileServicesOpen)
 								}
 							>
-								{t("services")}
+								<span className="text-base">{t("services")}</span>
 								<ChevronDown
-									className={`h-4 w-4 transition-transform ${mobileServicesOpen ? "rotate-180" : ""}`}
+									className={`h-4 w-4 text-muted-foreground transition-transform duration-200 ${mobileServicesOpen ? "rotate-180" : ""}`}
 								/>
 							</button>
 							{mobileServicesOpen && (
-								<div className="flex flex-col pb-1 pl-3">
+								<div className="mb-1 ml-3 flex flex-col gap-0.5 border-border/40 border-l pl-3">
 									{services.map(
 										({ slug, translationKey, icon: Icon }) => (
 											<Link
@@ -343,7 +344,7 @@ export default function Navbar({
 														"/services/[slug]",
 													params: { slug },
 												}}
-												className="flex items-center gap-3 rounded-md px-3 py-2 text-muted-foreground text-sm transition-colors hover:bg-muted hover:text-foreground"
+												className="flex items-center gap-3 py-2 text-muted-foreground text-sm transition-colors hover:text-foreground"
 												onClick={() =>
 													setMobileOpen(false)
 												}
@@ -363,7 +364,7 @@ export default function Navbar({
 
 							<button
 								type="button"
-								className="rounded-md px-3 py-2.5 text-left text-muted-foreground text-sm transition-colors hover:bg-muted hover:text-foreground"
+								className="px-3 py-3 text-left text-base text-foreground transition-colors hover:text-brand"
 								onClick={() => {
 									scrollToSection("pricing");
 									setMobileOpen(false);
@@ -374,7 +375,7 @@ export default function Navbar({
 
 							<button
 								type="button"
-								className="rounded-md px-3 py-2.5 text-left text-muted-foreground text-sm transition-colors hover:bg-muted hover:text-foreground"
+								className="px-3 py-3 text-left text-base text-foreground transition-colors hover:text-brand"
 								onClick={() => {
 									scrollToSection("blog");
 									setMobileOpen(false);
@@ -382,20 +383,26 @@ export default function Navbar({
 							>
 								{t("blog")}
 							</button>
+						</div>
 
+						<div className="mt-6">
 							<Link
 								href="/wp-health-report"
-								className="rounded-md px-3 py-2.5 text-muted-foreground text-sm transition-colors hover:bg-muted hover:text-foreground"
+								className="group flex items-center gap-3 rounded-lg border border-brand/20 bg-brand/5 px-4 py-3 transition-colors hover:border-brand/40 hover:bg-brand/10"
 								onClick={() => setMobileOpen(false)}
 							>
-								{t("webAnalyzer")}
+								<Activity className="h-4 w-4 text-brand" strokeWidth={1.5} />
+								<span className="font-medium text-sm text-foreground">
+									{t("webAnalyzer")}
+								</span>
+								<ArrowRight className="ml-auto h-4 w-4 text-brand opacity-0 transition-opacity group-hover:opacity-100" />
 							</Link>
 						</div>
 
-						<div className="mt-auto flex items-center justify-between border-border/40 border-t pt-4">
-							<LanguageSwitcher />
+						<div className="mt-auto space-y-5 border-border/40 border-t pt-5">
 							<Button
-								className="border-transparent bg-brand text-white [&]:hover:bg-brand/80"
+								className="w-full border-transparent bg-brand text-white [&]:hover:bg-brand/80"
+								size="lg"
 								render={
 									<Link
 										href={{
@@ -408,6 +415,23 @@ export default function Navbar({
 							>
 								{t("getStarted")}
 							</Button>
+							<div className="flex items-center justify-between">
+								<div className="flex items-center gap-2">
+									{socials.map((social) => (
+										<a
+											key={social.name}
+											href={social.href}
+											target="_blank"
+											rel="noopener noreferrer"
+											className="flex h-8 w-8 items-center justify-center rounded-full border border-border/40 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+											aria-label={social.name}
+										>
+											{social.icon}
+										</a>
+									))}
+								</div>
+								<LanguageSwitcher />
+							</div>
 						</div>
 					</nav>
 				</div>
