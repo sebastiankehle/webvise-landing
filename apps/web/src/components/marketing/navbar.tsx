@@ -1,14 +1,13 @@
 "use client";
 
-import { ArrowRight, Menu, X } from "lucide-react";
+import { ArrowRight, ChevronDown, Menu, X } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Logo from "@/components/logo";
 import LanguageSwitcher from "@/components/marketing/language-switcher";
 import { Button } from "@/components/ui/button";
 import { services } from "@/data/services";
-import { socials } from "@/data/socials";
-import { Link, usePathname } from "@/i18n/navigation";
+import { Link, usePathname, useRouter } from "@/i18n/navigation";
 
 export interface NavbarPost {
 	slug: string;
@@ -17,7 +16,7 @@ export interface NavbarPost {
 	readingTime: number;
 }
 
-type NavHash = "services" | "blog" | "pricing" | "contact";
+type NavHash = "services" | "blog" | "pricing";
 
 export default function Navbar({
 	recentPosts = [],
@@ -25,6 +24,7 @@ export default function Navbar({
 	const [mobileOpen, setMobileOpen] = useState(false);
 	const [scrolled, setScrolled] = useState(false);
 	const [activeDropdown, setActiveDropdown] = useState<NavHash | null>(null);
+	const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
 	const closeRef = useRef<ReturnType<typeof setTimeout> | undefined>(
 		undefined,
 	);
@@ -32,8 +32,8 @@ export default function Navbar({
 	const ts = useTranslations("services");
 	const tpr = useTranslations("pricing");
 	const tb = useTranslations("blog");
-	const tc = useTranslations("contact");
 	const pathname = usePathname();
+	const router = useRouter();
 	const locale = useLocale();
 
 	useEffect(() => {
@@ -65,11 +65,26 @@ export default function Navbar({
 		return () => window.removeEventListener("keydown", onKeyDown);
 	}, []);
 
+	const scrollToSection = useCallback(
+		(hash: string) => {
+			close();
+			if (pathname === "/") {
+				const el = document.getElementById(hash);
+				if (el) {
+					el.scrollIntoView({ behavior: "smooth" });
+					window.history.replaceState(null, "", `/${locale === "en" ? "" : locale}`);
+				}
+			} else {
+				router.push("/");
+			}
+		},
+		[pathname, router, close, locale],
+	);
+
 	const navLinks: { hash: NavHash; label: string }[] = [
 		{ hash: "services", label: t("services") },
-		{ hash: "blog", label: t("blog") },
 		{ hash: "pricing", label: t("pricing") },
-		{ hash: "contact", label: t("contact") },
+		{ hash: "blog", label: t("blog") },
 	];
 
 	return (
@@ -90,6 +105,7 @@ export default function Navbar({
 							if (pathname === "/") {
 								e.preventDefault();
 								window.scrollTo({ top: 0, behavior: "smooth" });
+								window.history.replaceState(null, "", `/${locale === "en" ? "" : locale}`);
 							}
 						}}
 					>
@@ -102,9 +118,9 @@ export default function Navbar({
 						className="hidden h-full items-center gap-1 md:flex"
 					>
 						{navLinks.map(({ hash, label }) => (
-							<Link
+							<button
 								key={hash}
-								href={{ pathname: "/", hash }}
+								type="button"
 								className={`inline-flex h-full items-center px-3 text-sm transition-colors hover:text-foreground ${
 									activeDropdown === hash
 										? "text-foreground"
@@ -112,10 +128,10 @@ export default function Navbar({
 								}`}
 								onMouseEnter={() => open(hash)}
 								onMouseLeave={scheduleClose}
-								onClick={close}
+								onClick={() => scrollToSection(hash)}
 							>
 								{label}
-							</Link>
+							</button>
 						))}
 					</nav>
 
@@ -167,9 +183,7 @@ export default function Navbar({
 				onMouseEnter={() => activeDropdown && open(activeDropdown)}
 				onMouseLeave={scheduleClose}
 			>
-				<div
-					className="w-full max-w-[720px] border border-border/40 bg-background/95 shadow-lg backdrop-blur-xl transition-all duration-200 ease-out"
-				>
+				<div className="w-full max-w-[720px] border border-border/40 bg-background/95 shadow-lg backdrop-blur-xl transition-all duration-200 ease-out">
 					{activeDropdown === "services" && (
 						<div className="grid grid-cols-2">
 							{services.map((service, i) => (
@@ -206,22 +220,20 @@ export default function Navbar({
 					)}
 
 					{activeDropdown === "blog" && (
-						<div className="flex flex-col">
-							{recentPosts.map((post, i) => (
-								<Link
-									key={post.slug}
-									href={{
-										pathname: "/blog/[slug]",
-										params: { slug: post.slug },
-									}}
-									className={`group flex flex-col border-border/40 p-5 transition-colors hover:bg-muted/40 ${
-										i < recentPosts.length - 1
-											? "border-b"
-											: ""
-									}`}
-									onClick={close}
-								>
-									<div className="flex items-center gap-3">
+						<div>
+							<div className="grid grid-cols-3">
+								{recentPosts.map((post, i) => (
+									<Link
+										key={post.slug}
+										href={{
+											pathname: "/blog/[slug]",
+											params: { slug: post.slug },
+										}}
+										className={`group flex flex-col border-border/40 p-5 transition-colors hover:bg-muted/40 ${
+											i < 2 ? "border-r" : ""
+										}`}
+										onClick={close}
+									>
 										<time
 											dateTime={post.date}
 											className="font-light text-muted-foreground text-xs"
@@ -234,21 +246,19 @@ export default function Navbar({
 												year: "numeric",
 											})}
 										</time>
-										<span className="text-muted-foreground/40 text-xs">
-											&middot;
+										<p className="mt-2 font-medium text-sm leading-snug transition-colors group-hover:text-brand">
+											{post.title}
+										</p>
+										<span className="mt-3 font-light text-muted-foreground text-xs">
+											{post.readingTime}{" "}
+											{tb("minRead")}
 										</span>
-										<span className="font-light text-muted-foreground text-xs">
-											{post.readingTime} {tb("minRead")}
-										</span>
-									</div>
-									<p className="mt-2 font-medium text-sm transition-colors group-hover:text-brand">
-										{post.title}
-									</p>
-								</Link>
-							))}
+									</Link>
+								))}
+							</div>
 							<Link
 								href="/blog"
-								className="group flex items-center justify-between border-border/40 border-t p-5 transition-colors hover:bg-muted/40"
+								className="group flex items-center justify-between border-border/40 border-t p-4 px-5 transition-colors hover:bg-muted/40"
 								onClick={close}
 							>
 								<span className="font-light text-brand text-xs">
@@ -269,7 +279,10 @@ export default function Navbar({
 										className={`group flex flex-col border-border/40 p-5 transition-colors hover:bg-muted/40 ${
 											i < 2 ? "border-r" : ""
 										}`}
-										onClick={close}
+										onClick={(e) => {
+											e.preventDefault();
+											scrollToSection("pricing");
+										}}
 									>
 										<div className="flex items-center gap-2">
 											<p className="font-medium text-sm">
@@ -297,48 +310,6 @@ export default function Navbar({
 							)}
 						</div>
 					)}
-
-					{activeDropdown === "contact" && (
-						<div className="grid grid-cols-2">
-							<Link
-								href={{ pathname: "/", hash: "contact" }}
-								className="group flex flex-col justify-between border-border/40 border-r p-5 transition-colors hover:bg-muted/40"
-								onClick={close}
-							>
-								<div>
-									<p className="font-medium text-sm">
-										{tc("title")}
-									</p>
-									<p className="mt-1 font-light text-muted-foreground text-xs leading-relaxed">
-										{tc("subtitle")}
-									</p>
-								</div>
-								<span className="mt-4 flex items-center gap-1 font-light text-brand text-xs">
-									{tc("form.submit")}
-									<ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
-								</span>
-							</Link>
-							<a
-								href="https://cal.com/webvise"
-								target="_blank"
-								rel="noopener noreferrer"
-								className="group flex flex-col justify-between p-5 transition-colors hover:bg-muted/40"
-							>
-								<div>
-									<p className="font-medium text-sm">
-										{tc("booking.title")}
-									</p>
-									<p className="mt-1 font-light text-muted-foreground text-xs leading-relaxed">
-										{tc("booking.description")}
-									</p>
-								</div>
-								<span className="mt-4 flex items-center gap-1 font-light text-brand text-xs">
-									{tc("booking.cta")}
-									<ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
-								</span>
-							</a>
-						</div>
-					)}
 				</div>
 			</nav>
 
@@ -346,61 +317,94 @@ export default function Navbar({
 				<div className="fixed inset-x-0 top-16 bottom-0 z-50 overflow-y-auto bg-background/95 px-6 pb-6 backdrop-blur-xl md:hidden">
 					<nav
 						aria-label="Mobile navigation"
-						className="flex min-h-full flex-col gap-1 pt-3"
+						className="flex min-h-full flex-col pt-3"
 					>
-						{navLinks.map(({ hash, label }) => (
+						<div className="flex flex-col">
+							<button
+								type="button"
+								className="flex items-center justify-between rounded-md px-3 py-2.5 text-muted-foreground text-sm transition-colors hover:bg-muted hover:text-foreground"
+								onClick={() =>
+									setMobileServicesOpen(!mobileServicesOpen)
+								}
+							>
+								{t("services")}
+								<ChevronDown
+									className={`h-4 w-4 transition-transform ${mobileServicesOpen ? "rotate-180" : ""}`}
+								/>
+							</button>
+							{mobileServicesOpen && (
+								<div className="flex flex-col pb-1 pl-3">
+									{services.map(
+										({ slug, translationKey, icon: Icon }) => (
+											<Link
+												key={slug}
+												href={{
+													pathname:
+														"/services/[slug]",
+													params: { slug },
+												}}
+												className="flex items-center gap-3 rounded-md px-3 py-2 text-muted-foreground text-sm transition-colors hover:bg-muted hover:text-foreground"
+												onClick={() =>
+													setMobileOpen(false)
+												}
+											>
+												<Icon
+													className="h-4 w-4 text-brand"
+													strokeWidth={1.5}
+												/>
+												{ts(
+													`${translationKey}.title`,
+												)}
+											</Link>
+										),
+									)}
+								</div>
+							)}
+
+							<button
+								type="button"
+								className="rounded-md px-3 py-2.5 text-left text-muted-foreground text-sm transition-colors hover:bg-muted hover:text-foreground"
+								onClick={() => {
+									scrollToSection("pricing");
+									setMobileOpen(false);
+								}}
+							>
+								{t("pricing")}
+							</button>
+
+							<button
+								type="button"
+								className="rounded-md px-3 py-2.5 text-left text-muted-foreground text-sm transition-colors hover:bg-muted hover:text-foreground"
+								onClick={() => {
+									scrollToSection("blog");
+									setMobileOpen(false);
+								}}
+							>
+								{t("blog")}
+							</button>
+
 							<Link
-								key={hash}
-								href={{ pathname: "/", hash }}
+								href="/wp-health-report"
 								className="rounded-md px-3 py-2.5 text-muted-foreground text-sm transition-colors hover:bg-muted hover:text-foreground"
 								onClick={() => setMobileOpen(false)}
 							>
-								{label}
+								{t("webAnalyzer")}
 							</Link>
-						))}
-						<div className="mt-3 border-border/40 border-t pt-4">
-							<p className="mb-2 px-3 font-medium text-muted-foreground/60 text-xs uppercase tracking-wider">
-								{t("services")}
-							</p>
-							{services.map(({ slug, translationKey }) => (
-								<Link
-									key={slug}
-									href={{
-										pathname: "/services/[slug]",
-										params: { slug },
-									}}
-									className="block rounded-md px-3 py-2 text-muted-foreground text-sm transition-colors hover:bg-muted hover:text-foreground"
-									onClick={() => setMobileOpen(false)}
-								>
-									{ts(`${translationKey}.title`)}
-								</Link>
-							))}
 						</div>
+
 						<div className="mt-auto flex items-center justify-between border-border/40 border-t pt-4">
-							<div className="flex items-center gap-3">
-								<LanguageSwitcher />
-								<div className="flex items-center gap-1">
-									{socials.map((social) => (
-										<a
-											key={social.name}
-											href={social.href}
-											target="_blank"
-											rel="noopener noreferrer"
-											className="flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-											aria-label={social.name}
-										>
-											{social.icon}
-										</a>
-									))}
-								</div>
-							</div>
+							<LanguageSwitcher />
 							<Button
 								className="border-transparent bg-brand text-white [&]:hover:bg-brand/80"
 								render={
 									<Link
-										href={{ pathname: "/", hash: "contact" }}
+										href={{
+											pathname: "/",
+											hash: "contact",
+										}}
 									/>
 								}
+								onClick={() => setMobileOpen(false)}
 							>
 								{t("getStarted")}
 							</Button>
