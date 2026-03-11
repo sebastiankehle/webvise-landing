@@ -9,6 +9,15 @@ const nextConfig: NextConfig = {
 	typedRoutes: true,
 	reactCompiler: true,
 	transpilePackages: ["shiki"],
+	async redirects() {
+		return [
+			{
+				source: "/analyze",
+				destination: "/wp-health-report",
+				permanent: true,
+			},
+		];
+	},
 };
 
 export default withSentryConfig(withNextIntl(nextConfig), {
