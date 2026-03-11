@@ -7,4 +7,7 @@ Sentry.init({
 	replaysSessionSampleRate: 0.1,
 	replaysOnErrorSampleRate: 1.0,
 	integrations: [Sentry.replayIntegration()],
+	sendDefaultPii: true,
 });
+
+export const onRouterTransitionStart = Sentry.captureRouterTransitionStart;

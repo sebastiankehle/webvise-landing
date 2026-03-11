@@ -12,10 +12,11 @@ const nextConfig: NextConfig = {
 };
 
 export default withSentryConfig(withNextIntl(nextConfig), {
-	org: process.env.SENTRY_ORG,
-	project: process.env.SENTRY_PROJECT,
+	org: "webvise",
+	project: "webvise-app",
 	silent: !process.env.CI,
 	widenClientFileUpload: true,
 	tunnelRoute: "/monitoring",
 	disableLogger: true,
+	automaticVercelMonitors: true,
 });
