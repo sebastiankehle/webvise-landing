@@ -7,6 +7,10 @@ import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import "../../index.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import {
+	PostHogPageView,
+	PostHogProvider,
+} from "@/components/posthog-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { routing } from "@/i18n/routing";
@@ -105,9 +109,12 @@ export default async function LocaleLayout({
 					forcedTheme="light"
 					disableTransitionOnChange
 				>
-					<NextIntlClientProvider messages={messages}>
-						<TooltipProvider>{children}</TooltipProvider>
-					</NextIntlClientProvider>
+					<PostHogProvider>
+						<NextIntlClientProvider messages={messages}>
+							<PostHogPageView />
+							<TooltipProvider>{children}</TooltipProvider>
+						</NextIntlClientProvider>
+					</PostHogProvider>
 					<Toaster richColors />
 					<Analytics />
 					<SpeedInsights />
