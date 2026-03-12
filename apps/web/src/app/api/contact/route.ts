@@ -9,6 +9,77 @@ const contactSchema = z.object({
 	message: z.string().min(1).max(5000),
 });
 
+const SERVICE_LABELS: Record<string, string> = {
+	"landing-pages": "Landing Pages",
+	"seo-performance": "SEO & Performance",
+	"wordpress-migration": "WordPress Migration",
+	"mvp-development": "MVP Development",
+	"ai-automation": "AI Automation",
+	"full-stack-applications": "Full-Stack Applications",
+};
+
+function buildContactHtml(data: {
+	name: string;
+	email: string;
+	company?: string;
+	service?: string;
+	message: string;
+	timestamp: string;
+}) {
+	const serviceLabel = data.service
+		? (SERVICE_LABELS[data.service] ?? data.service)
+		: null;
+
+	const rows = [
+		["Name", data.name],
+		["Email", `<a href="mailto:${data.email}" style="color:#7c3aed">${data.email}</a>`],
+		data.company ? ["Company", data.company] : null,
+		serviceLabel ? ["Service", serviceLabel] : null,
+		["Received", data.timestamp],
+	].filter(Boolean) as [string, string][];
+
+	const tableRows = rows
+		.map(
+			([label, value]) => `
+      <tr>
+        <td style="padding:8px 16px 8px 0;color:#6b7280;font-size:13px;white-space:nowrap;vertical-align:top">${label}</td>
+        <td style="padding:8px 0;color:#111827;font-size:13px">${value}</td>
+      </tr>`,
+		)
+		.join("");
+
+	return `<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#f9fafb;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+  <div style="max-width:560px;margin:40px auto;background:#ffffff;border:1px solid #e5e7eb">
+    <div style="background:#7c3aed;padding:20px 28px">
+      <span style="color:#ffffff;font-size:14px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase">webvise</span>
+      <span style="color:#c4b5fd;font-size:14px;margin-left:8px">— New Inquiry</span>
+    </div>
+    <div style="padding:28px">
+      <h1 style="margin:0 0 4px;font-size:20px;font-weight:600;color:#111827">
+        ${data.name}${data.company ? ` · ${data.company}` : ""}
+      </h1>
+      ${serviceLabel ? `<p style="margin:0 0 20px;font-size:13px;color:#7c3aed;font-weight:500">${serviceLabel}</p>` : '<div style="margin-bottom:20px"></div>'}
+      <table style="border-collapse:collapse;width:100%">
+        ${tableRows}
+      </table>
+      <div style="margin:24px 0 0;border-top:1px solid #e5e7eb;padding-top:20px">
+        <p style="margin:0 0 8px;font-size:12px;color:#6b7280;text-transform:uppercase;letter-spacing:0.05em;font-weight:500">Message</p>
+        <p style="margin:0;font-size:14px;color:#111827;line-height:1.6;white-space:pre-wrap">${data.message}</p>
+      </div>
+      <div style="margin:24px 0 0">
+        <a href="mailto:${data.email}?subject=Re: Your webvise inquiry" style="display:inline-block;background:#7c3aed;color:#ffffff;text-decoration:none;padding:10px 20px;font-size:13px;font-weight:500">
+          Reply to ${data.name.split(" ")[0]}
+        </a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>`;
+}
+
 export async function POST(request: Request) {
 	try {
 		const body = await request.json();
@@ -25,6 +96,25 @@ export async function POST(request: Request) {
 			);
 		}
 
+		const timestamp = new Date().toLocaleString("en-GB", {
+			dateStyle: "long",
+			timeStyle: "short",
+			timeZone: "Europe/Berlin",
+		});
+
+		const serviceLabel = data.service
+			? (SERVICE_LABELS[data.service] ?? data.service)
+			: null;
+
+		const subject = [
+			data.company
+				? `${data.name} (${data.company})`
+				: data.name,
+			serviceLabel ? `— ${serviceLabel}` : null,
+		]
+			.filter(Boolean)
+			.join(" ");
+
 		const res = await fetch("https://api.resend.com/emails", {
 			method: "POST",
 			headers: {
@@ -34,14 +124,22 @@ export async function POST(request: Request) {
 			body: JSON.stringify({
 				from: "webvise <noreply@webvise.io>",
 				to: [contactEmail],
-				subject: `New inquiry from ${data.name}${data.company ? ` (${data.company})` : ""}`,
+				reply_to: data.email,
+				subject,
+				html: buildContactHtml({
+					name: data.name,
+					email: data.email,
+					company: data.company,
+					service: data.service,
+					message: data.message,
+					timestamp,
+				}),
 				text: [
-					`Name: ${data.name}`,
-					`Email: ${data.email}`,
+					`From: ${data.name} <${data.email}>`,
 					data.company ? `Company: ${data.company}` : null,
-					data.service ? `Service: ${data.service}` : null,
+					serviceLabel ? `Service: ${serviceLabel}` : null,
+					`Received: ${timestamp}`,
 					"",
-					"Message:",
 					data.message,
 				]
 					.filter(Boolean)
