@@ -114,6 +114,14 @@ export default async function Footer() {
 							))}
 							<li>
 								<Link
+									href="/case-studies"
+									className="font-light text-sm opacity-60 transition-opacity hover:opacity-100"
+								>
+									{t("links.caseStudies")}
+								</Link>
+							</li>
+							<li>
+								<Link
 									href="/blog"
 									className="font-light text-sm opacity-60 transition-opacity hover:opacity-100"
 								>
