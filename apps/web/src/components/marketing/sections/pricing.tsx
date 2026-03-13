@@ -68,6 +68,8 @@ export default async function Pricing() {
 								<Button
 									size="sm"
 									className="mt-4 w-full"
+									data-ph-capture-attribute-cta-location="pricing"
+									data-ph-capture-attribute-cta-variant={key}
 									render={<Link href={{ pathname: "/", hash: "contact" }} />}
 								>
 									{t("cta")}
