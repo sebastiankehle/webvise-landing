@@ -34,6 +34,8 @@ export default async function Hero() {
 								<Button
 									size="lg"
 									className="border-transparent bg-brand text-white [&]:hover:bg-brand/80"
+									data-ph-capture-attribute-cta-location="hero"
+									data-ph-capture-attribute-cta-variant="primary"
 									render={<Link href={{ pathname: "/", hash: "contact" }} />}
 								>
 									{t("cta")}
@@ -41,6 +43,8 @@ export default async function Hero() {
 								<Button
 									size="lg"
 									variant="outline"
+									data-ph-capture-attribute-cta-location="hero"
+									data-ph-capture-attribute-cta-variant="secondary"
 									render={<Link href={{ pathname: "/", hash: "services" }} />}
 								>
 									{t("ctaSecondary")}

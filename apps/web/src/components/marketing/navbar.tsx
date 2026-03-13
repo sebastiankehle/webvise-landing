@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { services } from "@/data/services";
 import { socials } from "@/data/socials";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
+import { track } from "@/lib/track";
 
 export interface NavbarPost {
 	slug: string;
@@ -140,6 +141,7 @@ export default function Navbar({
 						<LanguageSwitcher />
 						<Button
 							className="border-transparent bg-brand text-white [&]:hover:bg-brand/80"
+							onClick={() => track("cta_clicked", { location: "navbar", variant: "get_started" })}
 							render={
 								<Link href={{ pathname: "/", hash: "contact" }} />
 							}
@@ -389,7 +391,10 @@ export default function Navbar({
 							<Link
 								href="/wp-health-report"
 								className="group flex items-center gap-3 rounded-lg border border-brand/20 bg-brand/5 px-4 py-3 transition-colors hover:border-brand/40 hover:bg-brand/10"
-								onClick={() => setMobileOpen(false)}
+								onClick={() => {
+									track("cta_clicked", { location: "navbar_mobile", variant: "analyzer" });
+									setMobileOpen(false);
+								}}
 							>
 								<Activity className="h-4 w-4 text-brand" strokeWidth={1.5} />
 								<span className="font-medium text-sm text-foreground">
@@ -411,7 +416,10 @@ export default function Navbar({
 										}}
 									/>
 								}
-								onClick={() => setMobileOpen(false)}
+								onClick={() => {
+									track("cta_clicked", { location: "navbar_mobile", variant: "get_started" });
+									setMobileOpen(false);
+								}}
 							>
 								{t("getStarted")}
 							</Button>

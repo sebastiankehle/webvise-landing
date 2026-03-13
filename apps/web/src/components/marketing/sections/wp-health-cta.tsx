@@ -28,6 +28,8 @@ export default async function WpHealthCta() {
 						<Button
 							size="lg"
 							className="border-transparent bg-brand text-white [&]:hover:bg-brand/80"
+							data-ph-capture-attribute-cta-location="wp-health-cta"
+							data-ph-capture-attribute-cta-variant="analyzer"
 							render={<Link href="/wp-health-report" />}
 						>
 							{t("button")}

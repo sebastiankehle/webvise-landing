@@ -10,6 +10,7 @@ import { FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { Link } from "@/i18n/navigation";
+import { track } from "@/lib/track";
 import { cn } from "@/lib/utils";
 
 interface ReportIssue {
@@ -232,6 +233,7 @@ function ReportResults({ data }: { data: ReportData }) {
 					<div className="flex flex-wrap gap-3">
 						<Button
 							className="border-brand bg-brand text-white [&]:hover:bg-brand/80"
+							onClick={() => track("book_call_clicked", { location: "analyzer_results" })}
 							render={
 								// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
 								<a
@@ -245,6 +247,7 @@ function ReportResults({ data }: { data: ReportData }) {
 						</Button>
 						<Button
 							variant="outline"
+							onClick={() => track("cta_clicked", { location: "analyzer_results", variant: "contact" })}
 							render={<Link href={{ pathname: "/", hash: "contact" }} />}
 						>
 							{t("results.getInTouch")}
@@ -295,6 +298,8 @@ export default function WpHealthReport() {
 				url = `https://${url}`;
 			}
 
+			track("analyzer_submitted", { url });
+
 			try {
 				const res = await fetch("/api/wp-health-report", {
 					method: "POST",
@@ -310,14 +315,22 @@ export default function WpHealthReport() {
 					const result = await res.json();
 					setReport(result);
 					setSubmitStatus("success");
+					track("analyzer_success", {
+						url,
+						mobile_score: result.mobile?.score ?? null,
+						desktop_score: result.desktop?.score ?? null,
+						projected_score: result.projectedScore ?? null,
+					});
 				} else {
 					const err = await res.json().catch(() => null);
 					setErrorMessage(err?.error || t("errors.analyzeFailed"));
 					setSubmitStatus("error");
+					track("analyzer_error", { url, reason: "server_error" });
 				}
 			} catch {
 				setErrorMessage(t("errors.networkError"));
 				setSubmitStatus("error");
+				track("analyzer_error", { url, reason: "network_error" });
 			}
 		},
 	});

@@ -36,6 +36,8 @@ export default async function Footer() {
 					<Button
 						size="lg"
 						className="shrink-0 border-transparent bg-brand text-white [&]:hover:bg-brand/80"
+						data-ph-capture-attribute-cta-location="footer"
+						data-ph-capture-attribute-cta-variant="primary"
 						render={<Link href={{ pathname: "/", hash: "contact" }} />}
 					>
 						{t("ctaButton")}
