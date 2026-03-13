@@ -5,6 +5,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import { Button } from "@/components/ui/button";
 import { type Block, getBlogPostBySlug, getBlogPosts } from "@/data/blog";
+import { Link } from "@/i18n/navigation";
 
 export function generateStaticParams() {
 	return getBlogPosts("en").map((p) => ({ slug: p.slug }));
@@ -16,7 +17,8 @@ export async function generateMetadata({
 	params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
 	const { slug } = await params;
-	const post = getBlogPostBySlug(slug, "en");
+	const locale = await getLocale();
+	const post = getBlogPostBySlug(slug, locale);
 	if (!post) return {};
 
 	return {
@@ -163,15 +165,15 @@ export default async function BlogPostPage({
 				<div className="mx-auto max-w-[1200px] px-6">
 				<div>
 					<div className="max-w-2xl">
-						<a
+						<Link
 								href="/blog"
 								className="font-light text-muted-foreground text-sm transition-colors hover:text-foreground"
 							>
 								&larr; {t("backLink")}
-							</a>
+							</Link>
 							<div className="mt-6 flex items-center gap-3 font-light text-muted-foreground text-xs">
 								<time dateTime={post.date}>
-									{new Date(post.date).toLocaleDateString("en-GB", {
+									{new Date(post.date).toLocaleDateString(locale, {
 										day: "numeric",
 										month: "long",
 										year: "numeric",
@@ -213,12 +215,12 @@ export default async function BlogPostPage({
 						<Button
 							className="border-brand bg-brand text-white [&]:hover:bg-brand/80"
 							// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
-							render={<a href="/#contact" />}
+							render={<Link href={{ pathname: "/", hash: "contact" }} />}
 						>
 							{t("ctaButton")}
 						</Button>
 						{/* biome-ignore lint/a11y/useAnchorContent: content provided by Button children */}
-						<Button variant="outline" render={<a href="/blog" />}>
+						<Button variant="outline" render={<Link href="/blog" />}>
 							{t("ctaSecondary")}
 						</Button>
 					</div>
