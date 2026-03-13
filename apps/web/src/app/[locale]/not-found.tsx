@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 
 import { Button } from "@/components/ui/button";
+import { Link } from "@/i18n/navigation";
 
 export default async function NotFound() {
 	const t = await getTranslations("notFound");
@@ -19,14 +20,14 @@ export default async function NotFound() {
 			<div className="mt-8 flex gap-3">
 				<Button
 					// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
-					render={<a href="/" />}
+					render={<Link href="/" />}
 				>
 					{t("backHome")}
 				</Button>
 				<Button
 					variant="outline"
 					// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
-					render={<a href="/#contact" />}
+					render={<Link href={{ pathname: "/", hash: "contact" }} />}
 				>
 					{t("contact")}
 				</Button>

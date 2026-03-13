@@ -6,6 +6,7 @@ import SectionWrapper from "@/components/marketing/section-wrapper";
 import WpHealthCta from "@/components/marketing/sections/wp-health-cta";
 import { Button } from "@/components/ui/button";
 import { getServiceBySlug, services } from "@/data/services";
+import { Link } from "@/i18n/navigation";
 
 export function generateStaticParams() {
 	return services.map((s) => ({ slug: s.slug }));
@@ -51,12 +52,12 @@ export default async function ServicePage({
 				<div className="mx-auto max-w-[1200px] px-6">
 				<div>
 					<div className="max-w-2xl">
-						<a
-							href="/#services"
+						<Link
+							href={{ pathname: "/", hash: "services" }}
 								className="font-light text-muted-foreground text-sm transition-colors hover:text-foreground"
 							>
 								&larr; {td("backLink")}
-							</a>
+							</Link>
 							<div className="mt-6 flex items-center gap-4">
 								<Icon className="h-8 w-8 text-brand" strokeWidth={1.5} />
 								<h1 className="font-normal text-3xl tracking-tight md:text-5xl">
@@ -184,12 +185,12 @@ export default async function ServicePage({
 						<Button
 							className="border-brand bg-brand text-white [&]:hover:bg-brand/80"
 							// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
-							render={<a href="/#contact" />}
+							render={<Link href={{ pathname: "/", hash: "contact" }} />}
 						>
 							{td("ctaButton")}
 						</Button>
 						{/* biome-ignore lint/a11y/useAnchorContent: content provided by Button children */}
-						<Button variant="outline" render={<a href="/#pricing" />}>
+						<Button variant="outline" render={<Link href={{ pathname: "/", hash: "pricing" }} />}>
 							{td("ctaPricingButton")}
 						</Button>
 					</div>
