@@ -1,0 +1,258 @@
+{
+	"date": "2026-04-06",
+	"readingTime": 6,
+	"keyword": "ecommerce website speed",
+	"title": "Why Your Ecommerce Site Speed Is Costing You Sales",
+	"excerpt": "Ecommerce sites have the least tolerance for slow load times — and the most to gain from fixing them. Here's what the data shows and what to do about it.",
+	"blocks": [
+		{
+			"type": "p",
+			"text": "A site that takes 3 seconds to load on mobile loses roughly 53% of visitors before they see a single product. That's not a minor inconvenience — it's more than half your potential customers gone before the page is even visible."
+		},
+		{
+			"type": "p",
+			"text": "Of those who do stay, every additional second of load time reduces conversions by approximately 7%. For a store doing €10,000 per month in revenue, that's €700 per month lost for every extra second your pages take to load."
+		},
+		{
+			"type": "p",
+			"text": "No other type of website has as much to lose from poor performance — and as much to gain from fixing it — as an ecommerce store."
+		},
+		{
+			"type": "h2",
+			"text": "The Numbers Behind Speed"
+		},
+		{
+			"type": "p",
+			"text": "The connection between page speed and revenue has been studied extensively. The numbers are consistent across industries and time periods:"
+		},
+		{
+			"type": "table",
+			"headers": ["Study / Source", "Finding"],
+			"rows": [
+				["Google / Deloitte (2019)", "0.1 second improvement → 8% lift in conversion rate on mobile"],
+				["Amazon (internal)", "Every 100ms delay = 1% revenue loss"],
+				["Walmart (internal)", "1 second improvement → 2% increase in conversions"],
+				["Portent (2019)", "Sites loading in 1 second convert 3× better than sites loading in 5 seconds"]
+			]
+		},
+		{
+			"type": "p",
+			"text": "These are not outlier findings from favourable conditions. They come from large-scale, real-world data across millions of transactions. The direction is always the same: faster equals more revenue."
+		},
+		{
+			"type": "h2",
+			"text": "Why Mobile Ecommerce Is Different"
+		},
+		{
+			"type": "p",
+			"text": "More than 70% of ecommerce traffic now comes from mobile devices. Yet mobile converts at roughly 2%, compared to around 4% on desktop. That gap — representing billions in unrealised revenue across the industry — is largely explained by speed and usability on mobile."
+		},
+		{
+			"type": "p",
+			"text": "Mobile connections are not uniform. 4G coverage is inconsistent, particularly in rural areas. Lower-end Android devices — which make up a substantial share of the market — have slower processors that struggle with JavaScript-heavy pages. A product page that loads acceptably on a new iPhone in a city centre may be effectively broken for a significant portion of your actual customers."
+		},
+		{
+			"type": "p",
+			"text": "The interaction model is different too. Thumb-zone navigation, small tap targets, and checkout forms designed for desktop all add friction. When that friction is layered on top of a slow-loading page, abandonment rates compound quickly."
+		},
+		{
+			"type": "ul",
+			"items": [
+				"70%+ of ecommerce traffic is on mobile, but mobile converts at roughly half the rate of desktop",
+				"4G connections vary significantly by location and device quality",
+				"Lower-end devices represent a large share of real users — not just edge cases",
+				"Checkout friction on mobile is amplified when the page is slow to respond"
+			]
+		},
+		{
+			"type": "h2",
+			"text": "Core Web Vitals and What They Mean for Your Store"
+		},
+		{
+			"type": "p",
+			"text": "Google measures site performance through a set of metrics called Core Web Vitals. Each one maps directly to something your customers experience when shopping:"
+		},
+		{
+			"type": "table",
+			"headers": ["Metric", "What It Measures", "Ecommerce Relevance", "Good", "Needs Work", "Poor"],
+			"rows": [
+				["LCP (Largest Contentful Paint)", "How long until the main content is visible", "Your hero product image or featured banner", "Under 2.5s", "2.5s – 4s", "Over 4s"],
+				["INP (Interaction to Next Paint)", "How fast the page responds to clicks and taps", "Add to cart button, filter selection, quantity changes", "Under 200ms", "200ms – 500ms", "Over 500ms"],
+				["CLS (Cumulative Layout Shift)", "How much the page jumps while loading", "Product listings shifting as images load in", "Under 0.1", "0.1 – 0.25", "Over 0.25"]
+			]
+		},
+		{
+			"type": "p",
+			"text": "Sites that score green on all three Core Web Vitals receive a ranking boost in Google search results. Sites that fail are pushed down. This means a slow store gets penalised twice: lower organic visibility, and lower conversion rates from the traffic that does arrive."
+		},
+		{
+			"type": "p",
+			"text": "A poor INP score on an ecommerce site is particularly damaging. If a customer taps \"Add to cart\" and nothing happens for half a second, many will tap again — or assume the site is broken and leave."
+		},
+		{
+			"type": "h2",
+			"text": "WooCommerce and the Plugin Problem"
+		},
+		{
+			"type": "p",
+			"text": "WooCommerce powers a large share of ecommerce stores — and it's also one of the most performance-challenged platforms at scale. A functioning WooCommerce store typically runs 50–80 plugins. Each one adds HTTP requests, JavaScript execution time, and CSS overhead."
+		},
+		{
+			"type": "p",
+			"text": "The result at page level:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"Product pages typically transfer 4–8MB of data on first load",
+				"A standard WooCommerce product page can trigger 100+ database queries",
+				"JavaScript bundles from multiple plugins often block rendering",
+				"Third-party scripts (reviews, live chat, analytics) add further request chains",
+				"Average WooCommerce LCP on mobile: 4–6 seconds"
+			]
+		},
+		{
+			"type": "p",
+			"text": "The 4–6 second LCP range is well into \"poor\" territory on Google's scale, and well past the abandonment threshold for most mobile users. Caching plugins help reduce the symptom, but they don't change the underlying architecture generating the problem."
+		},
+		{
+			"type": "p",
+			"text": "The database query problem is structural. WooCommerce builds product pages dynamically on every request — pulling product data, pricing rules, inventory status, related products, and cart state from the database each time. With 100+ queries per page load, even fast hosting has a ceiling."
+		},
+		{
+			"type": "h2",
+			"text": "What a Performance-Optimised Ecommerce Stack Looks Like"
+		},
+		{
+			"type": "p",
+			"text": "A headless commerce architecture separates the frontend — what your customers see and interact with — from the commerce backend that handles products, inventory, and orders. The frontend is built in Next.js and pre-rendered at build time. The backend (Shopify, BigCommerce, or WooCommerce headless) handles transactions via API."
+		},
+		{
+			"type": "p",
+			"text": "The performance difference is structural, not cosmetic:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**Static/ISR product pages:** pre-rendered at build time and served directly from a CDN edge — no PHP, no database queries on load",
+				"**Lazy-loaded product images:** offscreen images load only when needed, using next-gen formats (WebP, AVIF) that are 30–50% smaller",
+				"**Minimal JavaScript:** no jQuery, no full Bootstrap, tree-shaken bundles that ship only the code each page actually uses",
+				"**Incremental Static Regeneration:** product pages update automatically when inventory or pricing changes, without a full rebuild"
+			]
+		},
+		{
+			"type": "table",
+			"headers": ["Metric", "WooCommerce (typical)", "Next.js Headless (typical)"],
+			"rows": [
+				["LCP (mobile)", "4–6 seconds", "Under 1.5 seconds"],
+				["Time to Interactive", "6–10 seconds", "Under 2 seconds"],
+				["Page weight (product page)", "4–8 MB", "Under 500 KB"],
+				["Lighthouse score (mobile)", "25–45", "90–98"]
+			]
+		},
+		{
+			"type": "p",
+			"text": "These are not theoretical best cases. They are consistent results seen across production ecommerce builds on modern stacks."
+		},
+		{
+			"type": "h2",
+			"text": "The Conversion Math for Your Store"
+		},
+		{
+			"type": "p",
+			"text": "You don't need to trust aggregate studies to understand the impact. You can run the calculation for your own store."
+		},
+		{
+			"type": "p",
+			"text": "The framework is simple:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"Take your current monthly revenue",
+				"Estimate your current conversion rate (orders ÷ sessions)",
+				"Apply the expected improvement from a speed uplift",
+				"Calculate the resulting revenue increase"
+			]
+		},
+		{
+			"type": "p",
+			"text": "Example: a store with €15,000/month in revenue and a 1.5% conversion rate. After a performance rebuild, conversion rate moves to 2.1% — a realistic improvement supported by the research. Monthly revenue at 2.1% conversion on the same traffic: €21,000. That's **€6,000/month more revenue** from the same number of visitors."
+		},
+		{
+			"type": "p",
+			"text": "Even a more conservative improvement — from 1.5% to 1.9% — represents €4,000/month in additional revenue. At that rate, a performance rebuild pays for itself in weeks."
+		},
+		{
+			"type": "p",
+			"text": "The calculation works at any revenue level. A €5,000/month store gaining 0.5 percentage points in conversion adds €1,667/month. A €50,000/month store gaining the same gains €16,667/month."
+		},
+		{
+			"type": "h2",
+			"text": "What to Measure First"
+		},
+		{
+			"type": "p",
+			"text": "Before making any changes, establish your baseline. Four tools cover the ground:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**Google PageSpeed Insights:** enter your product page URL (not just the homepage) and get a score from 0–100 on mobile. Below 50 is urgent. Below 30 means customers are actively abandoning due to speed.",
+				"**Google Search Console → Core Web Vitals:** this shows real-user data from actual visitors, not lab conditions. If you have red URLs in here, those are live revenue losses.",
+				"**Lighthouse (Chrome DevTools):** run in incognito mode on your product page. Check the LCP element — is it your main product image? Is it marked as lazy-loaded? It should not be.",
+				"**Network tab (Chrome DevTools):** sort requests by size. Look for large uncompressed images, render-blocking scripts, and third-party requests adding to load time."
+			]
+		},
+		{
+			"type": "p",
+			"text": "Pay particular attention to your LCP element. If your hero product image is lazy-loaded (which it commonly is in theme-based WooCommerce setups), that single change — removing the lazy-load attribute from the first visible image — can improve LCP by 1–2 seconds immediately."
+		},
+		{
+			"type": "h2",
+			"text": "Quick Wins Before a Full Rebuild"
+		},
+		{
+			"type": "p",
+			"text": "If a full rebuild is not immediately on the agenda, these changes can improve performance within your current setup:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**Image compression and WebP conversion:** converting product images to WebP can reduce image payload by 40–60%. Tools like Imagify or ShortPixel handle this automatically.",
+				"**Remove unused plugins:** run a plugin audit. Every installed plugin — even deactivated ones — adds overhead. Delete anything not actively needed.",
+				"**Enable page caching:** WP Rocket or W3 Total Cache reduces the dynamic page generation cost. This doesn't fix the architecture but reduces the impact on repeat visits.",
+				"**Upgrade hosting:** shared hosting imposes a hard ceiling on performance. Moving to managed WordPress hosting (Kinsta, WP Engine, Cloudways) typically adds 10–20 Lighthouse points.",
+				"**Defer non-critical JavaScript:** most themes load all scripts on every page. Deferring scripts that aren't needed on initial load reduces render-blocking time."
+			]
+		},
+		{
+			"type": "p",
+			"text": "These changes extend a site's viable life and can move a score from 35 to 55. They do not change the structural ceiling. A WooCommerce store with full plugin stack, dynamic page generation, and shared database will not reach 85+ on mobile regardless of how much configuration work is done."
+		},
+		{
+			"type": "p",
+			"text": "For stores generating serious monthly revenue, these are delay tactics. The structural fix — a headless rebuild — is what moves the needle permanently."
+		},
+		{
+			"type": "h2",
+			"text": "When a Performance Rebuild Makes Financial Sense"
+		},
+		{
+			"type": "p",
+			"text": "The rough rule: if your store is doing more than €5,000/month and your mobile PageSpeed score is below 60, a performance rebuild will almost certainly pay for itself within 6 months from conversion gains alone."
+		},
+		{
+			"type": "p",
+			"text": "At €10,000/month with a typical pre-rebuild conversion rate improvement of 0.4–0.6 percentage points, the monthly uplift is €400–600. A rebuild cost of €3,000–5,000 is recovered in 6–10 months — before accounting for any improvement in organic search rankings from better Core Web Vitals scores."
+		},
+		{
+			"type": "p",
+			"text": "Stores above €20,000/month with poor performance scores are leaving substantial money on the table every month they delay. The payback window is often under 3 months."
+		},
+		{
+			"type": "p",
+			"text": "To see exactly where your store stands, get a free website health report at [webvise.io/wp-health-report](/wp-health-report). It analyses your Core Web Vitals, identifies your highest-impact performance issues, and gives you a clear picture of what a rebuild would actually change. No signup required."
+		}
+	]
+}
