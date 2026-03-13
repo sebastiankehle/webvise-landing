@@ -58,8 +58,8 @@ export default async function ServicePage({
 							>
 								&larr; {td("backLink")}
 							</Link>
-							<div className="mt-6 flex items-center gap-4">
-								<Icon className="h-8 w-8 text-brand" strokeWidth={1.5} />
+							<div className="mt-6">
+								<Icon className="mb-4 h-8 w-8 text-brand" strokeWidth={1.5} />
 								<h1 className="font-normal text-3xl tracking-tight md:text-5xl">
 									{t(`${key}.title`)}
 								</h1>
