@@ -2,6 +2,7 @@ import Script from "next/script";
 
 import Benefits from "@/components/marketing/sections/benefits";
 import BlogPreview from "@/components/marketing/sections/blog-preview";
+import CaseStudiesPreview from "@/components/marketing/sections/case-studies-preview";
 import Contact from "@/components/marketing/sections/contact";
 import FAQ from "@/components/marketing/sections/faq";
 import Hero from "@/components/marketing/sections/hero";
@@ -66,6 +67,7 @@ export default function HomePage() {
 			<Metrics />
 			<Services />
 			<Process />
+			<CaseStudiesPreview />
 			<Testimonials />
 			<BlogPreview />
 			<Pricing />

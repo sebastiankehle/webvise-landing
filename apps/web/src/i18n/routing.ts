@@ -10,6 +10,8 @@ export const routing = defineRouting({
 		"/services/[slug]": "/services/[slug]",
 		"/blog": "/blog",
 		"/blog/[slug]": "/blog/[slug]",
+		"/case-studies": "/case-studies",
+		"/case-studies/[slug]": "/case-studies/[slug]",
 		"/wp-health-report": "/wp-health-report",
 		"/privacy": "/privacy",
 		"/terms": "/terms",

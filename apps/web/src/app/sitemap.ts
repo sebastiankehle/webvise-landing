@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 
 import { blogPosts } from "@/data/blog";
+import { getCaseStudies } from "@/data/case-studies";
 import { services } from "@/data/services";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -11,6 +12,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
 		lastModified: new Date(),
 		changeFrequency: "monthly" as const,
 		priority: 0.8,
+	}));
+
+	const caseStudyPages = getCaseStudies("en").map((cs) => ({
+		url: `${baseUrl}/case-studies/${cs.slug}`,
+		lastModified: new Date(cs.date),
+		changeFrequency: "monthly" as const,
+		priority: 0.7,
 	}));
 
 	const blogPages = blogPosts.map((post) => ({
@@ -33,7 +41,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
 			changeFrequency: "weekly" as const,
 			priority: 0.8,
 		},
+		{
+			url: `${baseUrl}/case-studies`,
+			lastModified: new Date(),
+			changeFrequency: "weekly" as const,
+			priority: 0.8,
+		},
 		...servicePages,
+		...caseStudyPages,
 		...blogPages,
 		{
 			url: `${baseUrl}/privacy`,
