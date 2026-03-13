@@ -82,15 +82,15 @@ function toCaseStudy(slug: string, locale: string): CaseStudy | null {
 	const enFile = getEnglishFile(slug);
 	if (!enFile) return null;
 
-	const content =
-		locale === "en"
-			? enFile
-			: ((readFile(slug, locale) as CaseStudyContent | null) ?? enFile);
+	const localeFile = locale !== "en" ? readFile(slug, locale) : null;
+	const content = (localeFile as CaseStudyContent | null) ?? enFile;
 
 	return {
 		slug,
 		client: enFile.client,
-		industry: enFile.industry,
+		industry:
+			((localeFile as Record<string, unknown> | null)?.industry as string) ??
+			enFile.industry,
 		services: enFile.services,
 		date: enFile.date,
 		title: content.title,
