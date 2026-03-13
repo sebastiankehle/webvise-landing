@@ -2,7 +2,7 @@
 
 import { useForm } from "@tanstack/react-form";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import z from "zod";
 
 import SectionWrapper from "@/components/marketing/section-wrapper";
@@ -11,11 +11,13 @@ import { FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { services } from "@/data/services";
+import { track } from "@/lib/track";
 
 export default function Contact() {
 	const [submitStatus, setSubmitStatus] = useState<
 		"idle" | "success" | "error"
 	>("idle");
+	const formStarted = useRef(false);
 	const t = useTranslations("contact");
 	const ts = useTranslations("services");
 
@@ -38,6 +40,7 @@ export default function Contact() {
 		},
 		onSubmit: async ({ value }) => {
 			setSubmitStatus("idle");
+			track("contact_form_submitted", { service: value.service || null });
 			try {
 				const res = await fetch("/api/contact", {
 					method: "POST",
@@ -53,12 +56,16 @@ export default function Contact() {
 
 				if (res.ok) {
 					setSubmitStatus("success");
+					track("contact_form_success", { service: value.service || null });
 					form.reset();
+					formStarted.current = false;
 				} else {
 					setSubmitStatus("error");
+					track("contact_form_error", { reason: "server_error" });
 				}
 			} catch {
 				setSubmitStatus("error");
+				track("contact_form_error", { reason: "network_error" });
 			}
 		},
 	});
@@ -82,6 +89,7 @@ export default function Contact() {
 						<Button
 							size="sm"
 							className="mt-4"
+							onClick={() => track("book_call_clicked", { location: "contact_section" })}
 							render={
 								// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
 								<a
@@ -101,6 +109,12 @@ export default function Contact() {
 						e.preventDefault();
 						e.stopPropagation();
 						form.handleSubmit();
+					}}
+					onFocus={() => {
+						if (!formStarted.current) {
+							formStarted.current = true;
+							track("contact_form_started");
+						}
 					}}
 					className="space-y-4 border border-border/40 p-5 md:space-y-5 md:p-8"
 					aria-label={t("title")}

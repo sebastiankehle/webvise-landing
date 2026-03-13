@@ -8,6 +8,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Streamdown } from "streamdown";
 
 import Logo from "@/components/logo";
+import { track } from "@/lib/track";
 import { cn } from "@/lib/utils";
 
 function ChatLink(props: React.AnchorHTMLAttributes<HTMLAnchorElement>) {
@@ -108,11 +109,13 @@ export default function ChatWidget() {
 		e.preventDefault();
 		const text = input.trim();
 		if (!text || isStreaming) return;
+		track("chat_message_sent");
 		sendMessage({ text });
 		setInput("");
 	};
 
 	const handleSuggestion = (question: string) => {
+		track("chat_suggestion_clicked", { question });
 		sendMessage({ text: question });
 	};
 
@@ -249,7 +252,11 @@ export default function ChatWidget() {
 
 			<motion.button
 				type="button"
-				onClick={() => setOpen(!open)}
+				onClick={() => {
+					const next = !open;
+					setOpen(next);
+					if (next) track("chat_opened");
+				}}
 				className={cn(
 					"fixed right-6 bottom-6 z-40 flex h-12 w-12 items-center justify-center bg-brand text-white shadow-lg transition-colors hover:bg-brand/80",
 					open && "max-md:hidden",
