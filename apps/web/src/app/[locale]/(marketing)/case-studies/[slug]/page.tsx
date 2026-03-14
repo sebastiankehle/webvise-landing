@@ -81,7 +81,7 @@ export default async function CaseStudyPage({
 			{cs.coverImage && (
 				<section className="pb-12">
 					<div className="mx-auto max-w-[1200px] px-6">
-						<div className="relative aspect-[16/9] w-full overflow-hidden border border-border/40">
+						<div className="relative aspect-[8/5] w-full overflow-hidden border border-border/40">
 							<Image
 								src={cs.coverImage}
 								alt={cs.title}
@@ -157,7 +157,7 @@ export default async function CaseStudyPage({
 						{cs.images.map((image) => (
 							<div
 								key={image}
-								className="relative aspect-[16/9] overflow-hidden border border-border/40"
+								className="relative aspect-[8/5] overflow-hidden border border-border/40"
 							>
 								<Image
 									src={image}
