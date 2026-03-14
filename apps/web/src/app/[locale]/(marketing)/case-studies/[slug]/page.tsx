@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 
@@ -77,6 +78,22 @@ export default async function CaseStudyPage({
 				</div>
 			</section>
 
+			{cs.coverImage && (
+				<section className="pb-12">
+					<div className="mx-auto max-w-[1200px] px-6">
+						<div className="relative aspect-[16/9] w-full overflow-hidden border border-border/40">
+							<Image
+								src={cs.coverImage}
+								alt={cs.title}
+								fill
+								className="object-cover"
+								priority
+							/>
+						</div>
+					</div>
+				</section>
+			)}
+
 			<SectionWrapper id="challenge" alternate>
 				<div className="grid gap-16 md:grid-cols-2">
 					<div>
@@ -130,6 +147,26 @@ export default async function CaseStudyPage({
 								{cs.testimonial.role}
 							</p>
 						</div>
+					</div>
+				</SectionWrapper>
+			)}
+
+			{cs.images && cs.images.length > 0 && (
+				<SectionWrapper id="gallery">
+					<div className="grid gap-4 md:grid-cols-2">
+						{cs.images.map((image) => (
+							<div
+								key={image}
+								className="relative aspect-[16/9] overflow-hidden border border-border/40"
+							>
+								<Image
+									src={image}
+									alt={cs.title}
+									fill
+									className="object-cover"
+								/>
+							</div>
+						))}
 					</div>
 				</SectionWrapper>
 			)}
