@@ -1,5 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
+import Image from "next/image";
 import { getLocale, getTranslations } from "next-intl/server";
 
 import SectionWrapper from "@/components/marketing/section-wrapper";
@@ -46,6 +47,16 @@ export default async function CaseStudiesPage() {
 							}}
 							className="group flex flex-col justify-between border-border/40 border-t-2 border-t-transparent not-last:border-b p-6 transition-all hover:border-t-brand hover:bg-muted/30 md:not-nth-[3n]:border-r md:nth-[-n+3]:border-b md:not-last:border-b-0 md:p-8"
 						>
+							{cs.coverImage && (
+								<div className="relative mb-4 aspect-[8/5] w-full overflow-hidden border border-border/40">
+									<Image
+										src={cs.coverImage}
+										alt={cs.title}
+										fill
+										className="object-cover transition-transform group-hover:scale-105"
+									/>
+								</div>
+							)}
 							<div>
 								<span className="font-light text-brand text-xs uppercase tracking-wider">
 									{cs.industry}

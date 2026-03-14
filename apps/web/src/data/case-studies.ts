@@ -7,6 +7,8 @@ export interface CaseStudyMeta {
 	industry: string;
 	services: string[];
 	date: string;
+	coverImage?: string;
+	images?: string[];
 }
 
 export interface CaseStudyContent {
@@ -25,19 +27,7 @@ export interface CaseStudyContent {
 
 export interface CaseStudy extends CaseStudyMeta, CaseStudyContent {}
 
-interface MetaFile extends CaseStudyMeta {
-	title: string;
-	excerpt: string;
-	challenge: string;
-	solution: string;
-	results: string[];
-	techStack: string[];
-	testimonial: {
-		quote: string;
-		author: string;
-		role: string;
-	} | null;
-}
+interface MetaFile extends CaseStudyMeta, CaseStudyContent {}
 
 const contentDir = join(process.cwd(), "content/case-studies");
 
@@ -93,6 +83,8 @@ function toCaseStudy(slug: string, locale: string): CaseStudy | null {
 			enFile.industry,
 		services: enFile.services,
 		date: enFile.date,
+		coverImage: enFile.coverImage,
+		images: enFile.images,
 		title: content.title,
 		excerpt: content.excerpt,
 		challenge: content.challenge,
