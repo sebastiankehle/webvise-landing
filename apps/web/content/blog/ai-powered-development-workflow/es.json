@@ -1,0 +1,134 @@
+{
+	"date": "2026-03-26",
+	"readingTime": 8,
+	"keyword": "desarrollo de software con inteligencia artificial",
+	"title": "Cómo usamos la IA para construir mejor software, más rápido",
+	"excerpt": "Las herramientas de programación con IA están en todas partes, pero usarlas de forma eficaz requiere algo más que instalar una extensión. Así es como hemos integrado la IA en cada etapa de nuestro flujo de trabajo de desarrollo — desde la planificación hasta la revisión de código y el despliegue.",
+	"blocks": [
+		{
+			"type": "p",
+			"text": "Ahora todos los desarrolladores tienen acceso a asistentes de programación con IA. Las herramientas en sí ya no son una ventaja competitiva. Lo que diferencia a los equipos que envían software más rápido con IA de los que obtienen ganancias marginales es **cómo la IA está integrada en el flujo de trabajo** — no qué herramienta usan, sino cómo la configuran, qué contexto le proporcionan y dónde establecen el límite entre la autonomía de la IA y el juicio humano."
+		},
+		{
+			"type": "p",
+			"text": "En webvise, la IA está integrada en cada etapa de nuestro proceso de desarrollo. No se trata de reemplazar a los desarrolladores — se trata de eliminar la fricción para que nuestros ingenieros dediquen su tiempo a la arquitectura, las decisiones de diseño y la lógica de negocio, en lugar de al código repetitivo, la refactorización rutinaria y las listas de verificación manuales."
+		},
+		{
+			"type": "h2",
+			"text": "Planificación: explorar antes de comprometerse"
+		},
+		{
+			"type": "p",
+			"text": "Las tareas complejas — migraciones de bibliotecas, cambios de arquitectura, funcionalidades que tocan docenas de archivos — comienzan en el **modo de planificación**. Antes de escribir ningún código, la IA explora el código base, mapea las dependencias y propone un enfoque de implementación. Esto es fundamentalmente diferente a darle a la IA una tarea y esperar que el resultado sea correcto."
+		},
+		{
+			"type": "p",
+			"text": "El modo de planificación importa porque el coste de rehacer un cambio grande es alto. Una reestructuración de microservicios que descubre dependencias inesperadas después de que la mitad del código ya está escrito desperdicia días enteros. Que la IA mapee primero el grafo completo de dependencias y luego proponga los límites de los servicios detecta esos problemas antes de que cambie una sola línea."
+		},
+		{
+			"type": "p",
+			"text": "Para cambios bien delimitados — una corrección de error en un solo archivo, añadir una validación — nos saltamos el modo de planificación por completo y ejecutamos directamente. La clave es adaptar el enfoque a la complejidad: planificación para decisiones arquitectónicas, ejecución directa para tareas claras."
+		},
+		{
+			"type": "h2",
+			"text": "Configuración del proyecto: enseñar a la IA sus estándares"
+		},
+		{
+			"type": "p",
+			"text": "Lo más impactante que puede hacer con un asistente de programación con IA es **darle el contexto adecuado**. Mantenemos archivos de configuración estructurados que informan a la IA sobre nuestros estándares de codificación, convenciones de pruebas, patrones de API y requisitos de despliegue. Este contexto se carga automáticamente en cada sesión."
+		},
+		{
+			"type": "p",
+			"text": "Pero no todo el contexto es relevante siempre. Cargar las convenciones de API al editar un componente React desperdicia tokens y puede confundir a la IA. Usamos **reglas específicas por ruta** con patrones glob — reglas que se activan solo al editar los archivos correspondientes. Las convenciones de pruebas se cargan para los archivos `**/*.test.tsx`. Los patrones de API se cargan para `src/api/**/*`. Las convenciones de base de datos se cargan para los archivos de migración."
+		},
+		{
+			"type": "p",
+			"text": "Este enfoque reduce el ruido y mejora la calidad del resultado. La IA genera código que se ajusta a nuestros estándares porque los conoce — y solo los estándares relevantes para el archivo que está editando."
+		},
+		{
+			"type": "h2",
+			"text": "Desarrollo: refinamiento iterativo frente a generación en un solo paso"
+		},
+		{
+			"type": "p",
+			"text": "El mayor error que cometen los equipos con las herramientas de programación con IA es tratarlas como generadores de una sola pasada. Se describe lo que se quiere, la IA produce código y se acepta o se empieza de nuevo. Este enfoque rinde consistentemente peor que el **refinamiento iterativo**."
+		},
+		{
+			"type": "p",
+			"text": "Nuestro flujo de trabajo es orientado a pruebas: primero escribimos el conjunto de pruebas — cubriendo el comportamiento esperado, los casos límite y los requisitos de rendimiento — y luego hacemos que la IA implemente contra esas pruebas. Cuando las pruebas fallan, compartimos los fallos específicos y la IA corrige su implementación. Cada iteración reduce la brecha entre el resultado y el requisito."
+		},
+		{
+			"type": "p",
+			"text": "Para requisitos ambiguos, usamos el **patrón de entrevista**: en lugar de implementar de inmediato, hacemos que la IA haga primero preguntas aclaratorias. Esto saca a la luz consideraciones que el desarrollador quizás no había anticipado — estrategias de invalidación de caché, modos de fallo, problemas de concurrencia. Dos minutos de preguntas pueden evitar dos horas de trabajo rehecho."
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**Los ejemplos concretos superan a las descripciones en prosa.** Cuando el lenguaje natural produce resultados inconsistentes, 2-3 ejemplos de entrada/salida aclaran el requisito al instante",
+				"**Los problemas relacionados van en un solo mensaje.** Cuando múltiples correcciones se afectan entre sí, proporciónelas juntas para que la IA considere las interacciones",
+				"**Los problemas independientes van de forma secuencial.** Corrija los problemas no relacionados de uno en uno con retroalimentación enfocada"
+			]
+		},
+		{
+			"type": "h2",
+			"text": "Revisión de código: una perspectiva independiente detecta más errores"
+		},
+		{
+			"type": "p",
+			"text": "El código generado por IA sigue necesitando revisión. Pero lo que la mayoría de los equipos hace mal es usar **la misma sesión de IA** que escribió el código para revisarlo. Esto es ineficaz porque el modelo conserva el contexto de su razonamiento y es menos probable que cuestione sus propias decisiones."
+		},
+		{
+			"type": "p",
+			"text": "Utilizamos **instancias de revisión independientes** — una sesión de IA nueva sin contexto de razonamiento previo de la fase de generación. Este segundo par de ojos detecta problemas sutiles que la auto-revisión pasa por alto. Para pull requests grandes que tocan muchos archivos, dividimos las revisiones en pasadas de análisis por archivo para los problemas locales, más una pasada de integración separada que examina el flujo de datos entre archivos."
+		},
+		{
+			"type": "p",
+			"text": "Los prompts de revisión son específicos sobre qué buscar. Las instrucciones vagas como «comprueba que el código sea correcto» producen resultados poco fiables. Los criterios explícitos — «señala errores de lógica y problemas de seguridad, omite las diferencias menores de estilo» — reducen los falsos positivos y generan confianza en el proceso de revisión."
+		},
+		{
+			"type": "h2",
+			"text": "Integración en CI/CD: la IA en el pipeline"
+		},
+		{
+			"type": "p",
+			"text": "La revisión de IA se ejecuta automáticamente en cada pull request como parte de nuestro pipeline de CI. La IA analiza los cambios, produce hallazgos estructurados con la ubicación del archivo, descripción del problema, severidad y corrección sugerida, y los publica como comentarios en línea en el PR. La salida estructurada garantiza que los hallazgos sean analizables por máquina y puedan integrarse en los paneles de revisión de código existentes."
+		},
+		{
+			"type": "p",
+			"text": "Dos detalles hacen que esto funcione en la práctica. Primero, cuando las revisiones se vuelven a ejecutar tras nuevos commits, los hallazgos anteriores se incluyen en el contexto para que la IA informe solo sobre **problemas nuevos o aún no resueltos** — evitando comentarios duplicados que erosionan la confianza. Segundo, los archivos de prueba existentes se incluyen en el contexto para que la generación de pruebas evite sugerir escenarios ya cubiertos por el conjunto de pruebas."
+		},
+		{
+			"type": "h2",
+			"text": "Gestión del contexto: la habilidad que hace funcionar todo lo demás"
+		},
+		{
+			"type": "p",
+			"text": "Todas las técnicas anteriores dependen de una gestión eficaz del contexto. Los modelos de IA tienen ventanas de contexto finitas, y cómo se llena esa ventana determina la calidad del resultado. Aplicamos varios principios de forma consistente:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**Exploración incremental.** Comience con búsquedas específicas para encontrar los puntos de entrada, luego siga las importaciones y trace los flujos — no cargue todos los archivos desde el principio",
+				"**Delegación a subagentes.** Las tareas de descubrimiento verbosas se ejecutan en sub-contextos aislados que devuelven resúmenes, manteniendo la conversación principal enfocada",
+				"**Persistencia estructurada del estado.** Los hallazgos clave se escriben en archivos de notas y se referencian en consultas posteriores, contrarrestando la degradación del contexto en sesiones largas",
+				"**Compactación del contexto.** Cuando el contexto se llena con salida verbosa de la exploración, lo compactamos — resumiendo lo aprendido antes de continuar"
+			]
+		},
+		{
+			"type": "h2",
+			"text": "Los resultados"
+		},
+		{
+			"type": "p",
+			"text": "Este flujo de trabajo es la razón por la que podemos entregar aplicaciones listas para producción en semanas en lugar de meses. La IA gestiona el trabajo de volumen — generación de código repetitivo, escritura de pruebas, revisión de código, documentación — mientras nuestros ingenieros se centran en las decisiones que requieren juicio humano: arquitectura, experiencia de usuario, lógica de negocio y estándares de calidad."
+		},
+		{
+			"type": "p",
+			"text": "El resultado no es solo una entrega más rápida. Es **una calidad más consistente a mayor velocidad**. Cada pull request recibe una revisión exhaustiva. Cada funcionalidad recibe pruebas completas. Cada componente sigue las convenciones establecidas. La IA no se cansa, no recorta caminos bajo la presión de los plazos y no olvida las convenciones de pruebas documentadas hace tres meses."
+		},
+		{
+			"type": "p",
+			"text": "Si está construyendo un producto y quiere un equipo que combine flujos de trabajo modernos impulsados por IA con criterio de ingeniería experimentado, [hablemos](/contact). Entregamos rápido sin comprometer la calidad — y podemos mostrarle exactamente cómo."
+		}
+	]
+}

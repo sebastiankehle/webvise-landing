@@ -1,0 +1,155 @@
+{
+	"date": "2026-03-27",
+	"readingTime": 9,
+	"keyword": "model context protocol MCP",
+	"title": "Cos'è il Model Context Protocol (MCP) — e Perché la Sua Azienda Dovrebbe Interessarsene",
+	"excerpt": "MCP è lo standard aperto che permette all'AI di connettersi agli strumenti aziendali già in uso — CRM, database, gestione progetti — senza dover scrivere codice di integrazione personalizzato per ciascuno. Ecco cos'è, come funziona e perché è importante.",
+	"blocks": [
+		{
+			"type": "p",
+			"text": "Ogni azienda che vuole che l'AI faccia qualcosa di più che rispondere a domande generiche si scontra con lo stesso ostacolo: l'AI ha bisogno di accedere ai suoi sistemi. Il database clienti, la gestione degli ordini, il project tracker, i documenti interni. Senza quell'accesso, anche il modello AI più capace è limitato a ciò che ha appreso durante l'addestramento."
+		},
+		{
+			"type": "p",
+			"text": "Fino a poco tempo fa, collegare l'AI agli strumenti aziendali significava scrivere codice di integrazione personalizzato per ogni singolo sistema. Ogni connessione era su misura, fragile e costosa da mantenere. Il **Model Context Protocol (MCP)** cambia tutto questo. È uno standard aperto — sviluppato da Anthropic e adottato dall'intero settore — che fornisce un modo universale per far interagire l'AI con strumenti esterni e fonti di dati."
+		},
+		{
+			"type": "h2",
+			"text": "Il Problema che MCP Risolve"
+		},
+		{
+			"type": "p",
+			"text": "Si immagini di voler far cercare a un assistente AI un cliente nel CRM, verificare i suoi ordini recenti nella piattaforma e-commerce e redigere un'email di follow-up personalizzata. Senza un protocollo standard, sarebbe necessario scrivere codice di integrazione separato per ogni sistema — gestendo autenticazione, formattazione dei dati, casi di errore e parsing delle risposte individualmente. Con 10 strumenti, si traducono in 10 integrazioni personalizzate da costruire e mantenere."
+		},
+		{
+			"type": "p",
+			"text": "MCP sostituisce tutto questo con un'**interfaccia standard unica**. Ogni strumento è esposto come server MCP con un insieme definito di capacità. L'AI si connette a questi server tramite un protocollo standard e scopre automaticamente gli strumenti disponibili. Aggiungere un nuovo strumento significa distribuire un nuovo server MCP — il lato AI non richiede alcuna modifica."
+		},
+		{
+			"type": "h2",
+			"text": "Come Funziona MCP: Tre Primitive Fondamentali"
+		},
+		{
+			"type": "p",
+			"text": "MCP organizza le capacità in tre primitive, ognuna progettata per un diverso modello di interazione:"
+		},
+		{
+			"type": "h3",
+			"text": "1. Tools — Azioni che l'AI Può Compiere"
+		},
+		{
+			"type": "p",
+			"text": "I tool sono funzioni che il modello AI può invocare per eseguire azioni: cercare un cliente, creare un ticket, inviare un'email, elaborare un rimborso. L'AI decide quale tool chiamare in base alla richiesta dell'utente e alle descrizioni dei tool. I tool sono **controllati dal modello** — l'AI ragiona su quando e come utilizzarli."
+		},
+		{
+			"type": "p",
+			"text": "La qualità delle descrizioni dei tool è fondamentale. Descrizioni minimali come \"recupera informazioni sul cliente\" portano a una selezione inaffidabile dei tool quando sono disponibili più tool simili. Le descrizioni efficaci includono formati di input, query di esempio, casi limite e confini chiari che spiegano quando usare questo tool rispetto alle alternative."
+		},
+		{
+			"type": "h3",
+			"text": "2. Resources — Dati che l'AI Può Leggere"
+		},
+		{
+			"type": "p",
+			"text": "Le resource espongono dati in sola lettura all'AI: gerarchie di documentazione, schemi di database, riepiloghi di issue, file di configurazione. Sono **controllate dall'applicazione** — l'applicazione host decide quali resource includere nel contesto dell'AI. Le resource riducono la necessità per l'AI di effettuare chiamate esplorative ai tool, dandole visibilità sui dati disponibili fin dall'inizio."
+		},
+		{
+			"type": "h3",
+			"text": "3. Prompts — Flussi di Lavoro Predefiniti"
+		},
+		{
+			"type": "p",
+			"text": "I prompt sono istruzioni predefinite e di alta qualità per flussi di lavoro comuni — formattare un documento, generare un report, seguire uno specifico pattern di analisi. Sono **controllati dall'utente** — l'utente seleziona quale prompt applicare. Possono essere pensati come template che codificano le best practice."
+		},
+		{
+			"type": "h2",
+			"text": "Perché MCP è Importante per l'Integrazione Aziendale"
+		},
+		{
+			"type": "h3",
+			"text": "Standardizzato, Non Personalizzato"
+		},
+		{
+			"type": "p",
+			"text": "Prima di MCP, ogni integrazione AI era un progetto unico. MCP trasforma l'integrazione degli strumenti in un'attività di configurazione. Esistono già server MCP gestiti dalla community per le piattaforme più diffuse — Jira, GitHub, Slack, database e molte altre. Per le integrazioni standard, si distribuisce un server esistente invece di costruirlo da zero. I server personalizzati sono riservati ai flussi di lavoro specifici del team."
+		},
+		{
+			"type": "h3",
+			"text": "Componibile e Scopribile"
+		},
+		{
+			"type": "p",
+			"text": "Quando tutti gli strumenti parlano lo stesso protocollo, si compongono naturalmente. Un agente AI può utilizzare un tool CRM, uno di fatturazione e uno per le email nello stesso flusso di lavoro — scoprendo le loro capacità al momento della connessione. Aggiungere una nuova capacità al sistema AI è semplice come connettere un nuovo server MCP."
+		},
+		{
+			"type": "h3",
+			"text": "Gestione Sicura delle Credenziali"
+		},
+		{
+			"type": "p",
+			"text": "MCP supporta l'espansione delle variabili d'ambiente per la gestione delle credenziali. I token di autenticazione sono referenziati come variabili nei file di configurazione — mai hardcoded o inclusi nel controllo di versione. La configurazione a livello di progetto condivide gli strumenti del team tramite il controllo di versione, mentre i server personali o sperimentali rimangono nella configurazione a livello utente."
+		},
+		{
+			"type": "h2",
+			"text": "Progettare Tool MCP Efficaci"
+		},
+		{
+			"type": "p",
+			"text": "L'affidabilità di un sistema AI che utilizza tool MCP dipende in larga misura da come quei tool sono progettati. Dall'esperienza in produzione, alcuni pattern migliorano costantemente i risultati:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**Descrizioni chiare dei tool** con formati di input, query di esempio e spiegazioni dei confini — l'AI le usa per decidere quale tool chiamare",
+				"**Nessuna sovrapposizione funzionale** tra tool — descrizioni ambigue o quasi identiche causano errori di instradamento",
+				"**Risposte di errore strutturate** che distinguono errori transitori (riprova), di validazione (correggi input) e di permesso (escalation) invece di messaggi di errore generici",
+				"**Set di tool circoscritti** — fornire a ogni agente 4–5 tool focalizzati invece dell'accesso a tutto, riducendo la complessità decisionale",
+				"**Cataloghi di contenuti come resource** — esporre i dati disponibili fin dall'inizio così l'AI non deve effettuare chiamate esplorative per scoprire cosa esiste"
+			]
+		},
+		{
+			"type": "h2",
+			"text": "MCP in Pratica: Pattern di Integrazione Reali"
+		},
+		{
+			"type": "h3",
+			"text": "Integrazione del Supporto Clienti"
+		},
+		{
+			"type": "p",
+			"text": "Un server MCP racchiude il database clienti, la gestione degli ordini e l'elaborazione dei rimborsi. L'agente AI accede ai clienti tramite un tool `get_customer`, agli ordini tramite `lookup_order` e processa i rimborsi tramite `process_refund`. Ogni tool ha descrizioni distinte e risposte di errore strutturate. Un hook programmatico garantisce che i rimborsi superiori a una soglia vengano automaticamente escalati a un revisore umano."
+		},
+		{
+			"type": "h3",
+			"text": "Produttività degli Sviluppatori"
+		},
+		{
+			"type": "p",
+			"text": "I server MCP connettono gli assistenti AI di programmazione agli strumenti di project management, alla documentazione e ai sistemi di deployment. Uno sviluppatore può chiedere all'AI di verificare lo stato dei ticket correlati, revisionare la pipeline di deployment e redigere le release notes — il tutto tramite chiamate standardizzate a tool MCP invece di passare manualmente da una piattaforma all'altra."
+		},
+		{
+			"type": "h3",
+			"text": "Pipeline di Elaborazione Documenti"
+		},
+		{
+			"type": "p",
+			"text": "Un server MCP fornisce tool per leggere documenti, estrarre dati strutturati e scrivere risultati in un database. L'agente AI elabora i documenti in entrata usando schemi JSON per la validazione, riprova con feedback specifico sugli errori quando l'estrazione fallisce e instrada le estrazioni a bassa confidenza alla revisione umana."
+		},
+		{
+			"type": "h2",
+			"text": "Iniziare con MCP"
+		},
+		{
+			"type": "p",
+			"text": "Se sta valutando l'integrazione AI per la Sua azienda, MCP dovrebbe far parte dell'architettura fin dall'inizio. Evita il vendor lock-in, riduce la manutenzione delle integrazioni e garantisce che gli strumenti AI possano crescere con le Sue esigenze. Il protocollo è open source, ben documentato e supportato da tutte le principali piattaforme AI."
+		},
+		{
+			"type": "p",
+			"text": "Il punto di partenza pratico è identificare quali dei Suoi sistemi esistenti trarrebbero maggior beneficio dall'accesso AI — tipicamente strumenti rivolti ai clienti, flussi di inserimento dati e knowledge base interne. Per molti di questi esistono già server MCP sviluppati dalla community."
+		},
+		{
+			"type": "p",
+			"text": "In **webvise**, costruiamo applicazioni integrate con AI utilizzando MCP come layer di integrazione standard. Che abbia bisogno di connettere l'AI ai Suoi strumenti esistenti o di costruire server MCP personalizzati per sistemi proprietari, [possiamo aiutarLa a progettare e implementare l'architettura giusta](/contact)."
+		}
+	]
+}

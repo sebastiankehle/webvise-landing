@@ -1,0 +1,134 @@
+{
+	"date": "2026-03-26",
+	"readingTime": 8,
+	"keyword": "tworzenie oprogramowania z AI",
+	"title": "Jak używamy AI, żeby budować lepsze oprogramowanie szybciej",
+	"excerpt": "Narzędzia AI do kodowania są wszędzie, ale skuteczne ich wykorzystanie wymaga czegoś więcej niż zainstalowania rozszerzenia. Oto jak zintegrowaliśmy AI z każdym etapem naszego procesu tworzenia oprogramowania — od planowania przez code review aż po wdrożenie.",
+	"blocks": [
+		{
+			"type": "p",
+			"text": "Każdy deweloper ma dziś dostęp do asystentów AI do kodowania. Same narzędzia nie stanowią już przewagi konkurencyjnej. To, co odróżnia zespoły, które dzięki AI dostarczają szybciej, od tych, które osiągają marginalne zyski, to **sposób integracji AI z procesem pracy** — nie które narzędzie wybiorą, ale jak je skonfigurują, jaki kontekst mu dadzą i gdzie wyznaczą granicę między autonomią AI a ludzką oceną."
+		},
+		{
+			"type": "p",
+			"text": "W webvise AI jest wbudowane w każdy etap naszego procesu tworzenia oprogramowania. Nie chodzi o zastępowanie deweloperów — chodzi o eliminowanie tarcia, żeby nasi inżynierowie spędzali czas na architekturze, decyzjach projektowych i logice biznesowej, a nie na kodzie szablonowym, repetytywnym refaktoryzowaniu i ręcznych listach kontrolnych przeglądów."
+		},
+		{
+			"type": "h2",
+			"text": "Planowanie: eksploruj, zanim zatwierdzisz"
+		},
+		{
+			"type": "p",
+			"text": "Złożone zadania — migracje bibliotek, zmiany architektury, funkcje dotykające dziesiątek plików — zaczynamy w **trybie planowania**. Zanim zostanie napisany jakikolwiek kod, AI eksploruje bazę kodu, mapuje zależności i proponuje podejście implementacyjne. To zasadniczo różni się od zlecania AI zadania i liczenia na to, że wynik będzie poprawny."
+		},
+		{
+			"type": "p",
+			"text": "Tryb planowania ma znaczenie, ponieważ koszt przepracowania dużej zmiany jest wysoki. Restrukturyzacja mikroserwisów, która odkrywa nieoczekiwane zależności po napisaniu połowy kodu, marnuje dni pracy. Polecenie AI, żeby najpierw zmapowało pełny graf zależności, a następnie zaproponowało granice serwisów, pozwala wykryć te problemy zanim zmieni się choćby jedna linia."
+		},
+		{
+			"type": "p",
+			"text": "W przypadku dobrze zdefiniowanych zmian — naprawy błędu w jednym pliku, dodania walidacji — pomijamy tryb planowania i wykonujemy bezpośrednio. Kluczem jest dopasowanie podejścia do złożoności: planowanie dla decyzji architektonicznych, bezpośrednie wykonanie dla jasnych zadań."
+		},
+		{
+			"type": "h2",
+			"text": "Konfiguracja projektu: uczenie AI Państwa standardów"
+		},
+		{
+			"type": "p",
+			"text": "Najważniejszą rzeczą, którą można zrobić z asystentem AI do kodowania, jest **przekazanie mu właściwego kontekstu**. Utrzymujemy ustrukturyzowane pliki konfiguracyjne, które informują AI o naszych standardach kodowania, konwencjach testowania, wzorcach API i wymaganiach wdrożeniowych. Ten kontekst jest ładowany automatycznie przy każdej sesji."
+		},
+		{
+			"type": "p",
+			"text": "Ale nie każdy kontekst jest istotny przez cały czas. Ładowanie konwencji API podczas edycji komponentu React marnuje tokeny i może dezorientować AI. Używamy **reguł specyficznych dla ścieżki** ze wzorcami glob — reguł, które aktywują się tylko podczas edycji pasujących plików. Konwencje testów ładują się dla plików `**/*.test.tsx`. Wzorce API ładują się dla `src/api/**/*`. Konwencje baz danych ładują się dla plików migracji."
+		},
+		{
+			"type": "p",
+			"text": "To podejście redukuje szum i poprawia jakość wyników. AI generuje kod zgodny z naszymi standardami, ponieważ wie, jakie te standardy są — i tylko te standardy, które są istotne dla edytowanego pliku."
+		},
+		{
+			"type": "h2",
+			"text": "Tworzenie: iteracyjne udoskonalanie zamiast generowania za jednym razem"
+		},
+		{
+			"type": "p",
+			"text": "Największy błąd, jaki zespoły popełniają z narzędziami AI do kodowania, to traktowanie ich jako generatorów 'za jednym razem'. Opisujesz, czego chcesz, AI produkuje kod, a ty albo akceptujesz, albo zaczynasz od nowa. Takie podejście konsekwentnie ustępuje **iteracyjnemu udoskonalaniu**."
+		},
+		{
+			"type": "p",
+			"text": "Nasz proces jest oparty na testach: najpierw piszemy zestaw testów — obejmujący oczekiwane zachowanie, przypadki brzegowe i wymagania wydajnościowe — a następnie zlecamy AI implementację względem tych testów. Gdy testy zawodzą, przekazujemy konkretne błędy, a AI koryguje implementację. Każda iteracja zmniejsza lukę między wynikiem a wymaganiem."
+		},
+		{
+			"type": "p",
+			"text": "W przypadku niejednoznacznych wymagań używamy **wzorca wywiadu**: zamiast natychmiastowej implementacji, najpierw prosimy AI o zadanie pytań wyjaśniających. Ujawnia to kwestie, których deweloper mógł nie przewidzieć — strategie unieważniania cache, tryby awarii, problemy z współbieżnością. Dwie minuty pytań mogą zapobiec dwóm godzinom przepracowania."
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**Konkretne przykłady biją opisy w prozie.** Gdy język naturalny daje niespójne wyniki, 2–3 przykłady wejście/wyjście natychmiast wyjaśniają wymaganie",
+				"**Powiązane problemy idą w jednej wiadomości.** Gdy wiele poprawek wzajemnie na siebie wpływa, podaj je razem, żeby AI rozważyło interakcje",
+				"**Niezależne problemy idą sekwencyjnie.** Naprawiaj niepowiązane kwestie jeden po drugim ze skoncentrowaną informacją zwrotną"
+			]
+		},
+		{
+			"type": "h2",
+			"text": "Code review: niezależne spojrzenie wyłapuje więcej błędów"
+		},
+		{
+			"type": "p",
+			"text": "Kod generowany przez AI nadal wymaga przeglądu. Ale oto, co większość zespołów robi źle: mają **tę samą sesję AI**, która napisała kod, dokonującą jego przeglądu. Jest to nieskuteczne, ponieważ model zachowuje kontekst swojego rozumowania i rzadziej kwestionuje własne decyzje."
+		},
+		{
+			"type": "p",
+			"text": "Używamy **niezależnych instancji przeglądów** — świeżej sesji AI bez wcześniejszego kontekstu rozumowania z fazy generowania. Ta druga para oczu wyłapuje subtelne problemy, które samoprzegląd przeocza. W przypadku dużych pull requestów dotykających wielu plików dzielimy przeglądy na przebiegi analizy per-plik dla problemów lokalnych, plus oddzielny przebieg integracyjny badający przepływ danych między plikami."
+		},
+		{
+			"type": "p",
+			"text": "Prompty do przeglądów są konkretne co do tego, czego szukać. Ogólne instrukcje, takie jak 'sprawdź, czy kod jest poprawny', dają niestabilne wyniki. Jawne kryteria — 'sygnalizuj błędy logiczne i problemy bezpieczeństwa, pomiń drobne różnice stylistyczne' — redukują fałszywe alarmy i budują zaufanie deweloperów do procesu przeglądów."
+		},
+		{
+			"type": "h2",
+			"text": "Integracja CI/CD: AI w potoku"
+		},
+		{
+			"type": "p",
+			"text": "Przegląd AI uruchamia się automatycznie przy każdym pull requeście jako część naszego potoku CI. AI analizuje zmiany, tworzy ustrukturyzowane wyniki z lokalizacją pliku, opisem problemu, poziomem ważności i sugerowaną poprawką, a następnie publikuje je jako komentarze inline w PR. Ustrukturyzowane wyjście zapewnia, że wyniki są przetwarzalne maszynowo i mogą być integrowane z istniejącymi dashboardami code review."
+		},
+		{
+			"type": "p",
+			"text": "Dwa szczegóły sprawiają, że to działa w praktyce. Po pierwsze, gdy przeglądy są ponawiane po nowych commitach, wcześniejsze wyniki są uwzględniane w kontekście, żeby AI raportowało tylko **nowe lub nadal nierozwiązane problemy** — unikając duplikatów komentarzy, które niszczą zaufanie. Po drugie, istniejące pliki testów są uwzględniane w kontekście, żeby generowanie testów unikało sugerowania scenariuszy już pokrytych przez zestaw testów."
+		},
+		{
+			"type": "h2",
+			"text": "Zarządzanie kontekstem: umiejętność, która sprawia, że wszystko inne działa"
+		},
+		{
+			"type": "p",
+			"text": "Każda z powyższych technik zależy od skutecznego zarządzania kontekstem. Modele AI mają skończone okna kontekstu, a sposób wypełnienia tego okna determinuje jakość wyników. Konsekwentnie stosujemy kilka zasad:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**Eksploracja przyrostowa.** Zacznij od celowych wyszukiwań, żeby znaleźć punkty wejścia, a następnie podążaj za importami i śledź przepływy — nie ładuj wszystkich plików z góry",
+				"**Delegacja do subagentów.** Rozbudowane zadania odkrywcze działają w izolowanych subkontekstach, które zwracają podsumowania, utrzymując główną rozmowę w skupieniu",
+				"**Strukturalna trwałość stanu.** Kluczowe ustalenia są zapisywane do plików notatek i odwoływane w kolejnych zapytaniach, przeciwdziałając degradacji kontekstu w długich sesjach",
+				"**Kompaktowanie kontekstu.** Gdy kontekst wypełnia się rozbudowanymi wynikami z eksploracji, kompaktujemy go — podsumowując, czego się dowiedzieliśmy, przed kontynuowaniem"
+			]
+		},
+		{
+			"type": "h2",
+			"text": "Wyniki"
+		},
+		{
+			"type": "p",
+			"text": "Ten proces pracy pozwala nam dostarczać aplikacje gotowe do środowiska produkcyjnego w tygodniach, a nie miesiącach. AI obsługuje pracę masową — generowanie kodu szablonowego, pisanie testów, code review, dokumentację — podczas gdy nasi inżynierowie skupiają się na decyzjach wymagających ludzkiej oceny: architekturze, doświadczeniu użytkownika, logice biznesowej i standardach jakości."
+		},
+		{
+			"type": "p",
+			"text": "Wynikiem nie jest tylko szybsze dostarczanie. To **bardziej spójna jakość** w wysokim tempie. Każdy pull request otrzymuje dokładny przegląd. Każda funkcja otrzymuje kompleksowe testy. Każdy komponent przestrzega ustalonych konwencji. AI nie męczy się, nie skraca drogi pod presją terminów i nie zapomina konwencji testów udokumentowanych trzy miesiące temu."
+		},
+		{
+			"type": "p",
+			"text": "Jeśli budują Państwo produkt i szukają zespołu łączącego nowoczesne procesy wspierane przez AI z doświadczonym osądem inżynierskim, [zapraszamy do rozmowy](/contact). Dostarczamy szybko, nie kompromitując jakości — i możemy Państwu pokazać dokładnie, jak to robimy."
+		}
+	]
+}
