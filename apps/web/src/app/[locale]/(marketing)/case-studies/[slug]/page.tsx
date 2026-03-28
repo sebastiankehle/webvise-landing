@@ -44,27 +44,27 @@ export default async function CaseStudyPage({
 
 	return (
 		<>
-			<section className="py-20 md:py-40">
+			<section className="py-20 md:py-32">
 				<div className="mx-auto max-w-[1200px] px-6">
-					<div className="max-w-2xl">
-						<Link
-							href="/case-studies"
-							className="font-light text-muted-foreground text-sm transition-colors hover:text-foreground"
-						>
-							&larr; {t("backLink")}
-						</Link>
-						<div className="mt-6">
+					<Link
+						href="/case-studies"
+						className="font-light text-muted-foreground text-sm transition-colors hover:text-foreground"
+					>
+						&larr; {t("backLink")}
+					</Link>
+					<div className="mt-10 grid gap-12 md:grid-cols-[1fr_1fr] md:items-end">
+						<div>
 							<span className="font-light text-brand text-xs uppercase tracking-wider">
 								{cs.client} &middot; {cs.industry}
 							</span>
-							<h1 className="mt-2 font-normal text-3xl tracking-tight md:text-5xl">
+							<h1 className="mt-3 font-normal text-3xl tracking-tight md:text-5xl">
 								{cs.title}
 							</h1>
-							<p className="mt-3 font-light text-lg text-muted-foreground">
+							<p className="mt-4 font-light text-lg text-muted-foreground leading-relaxed">
 								{cs.excerpt}
 							</p>
 						</div>
-						<div className="mt-6 flex flex-wrap gap-2">
+						<div className="flex flex-wrap gap-2 md:justify-end">
 							{cs.techStack.map((tech) => (
 								<span
 									key={tech}
@@ -79,14 +79,14 @@ export default async function CaseStudyPage({
 			</section>
 
 			{cs.coverImage && (
-				<section className="pb-12">
+				<section className="pb-16">
 					<div className="mx-auto max-w-[1200px] px-6">
-						<div className="relative aspect-[8/5] w-full overflow-hidden border border-border/40">
+						<div className="relative aspect-video w-full overflow-hidden rounded-sm border border-border/40 shadow-sm">
 							<Image
 								src={cs.coverImage}
 								alt={cs.title}
 								fill
-								className="object-cover"
+								className="object-cover object-top"
 								priority
 							/>
 						</div>
@@ -95,7 +95,7 @@ export default async function CaseStudyPage({
 			)}
 
 			<SectionWrapper id="challenge" alternate>
-				<div className="grid gap-16 md:grid-cols-2">
+				<div className="grid gap-12 md:grid-cols-2 md:gap-16">
 					<div>
 						<h2 className="font-normal text-2xl tracking-tight">
 							{t("challenge")}
@@ -116,57 +116,43 @@ export default async function CaseStudyPage({
 			</SectionWrapper>
 
 			<SectionWrapper id="results">
-				<h2 className="font-normal text-2xl tracking-tight">{t("results")}</h2>
-				<div className="mt-8 max-w-2xl border border-border/40">
-					{cs.results.map((result, i) => (
-						<div
-							key={result}
-							className="flex gap-4 not-last:border-border/40 not-last:border-b px-6 py-4"
-						>
-							<span className="text-brand/60 text-xs">
-								{String(i + 1).padStart(2, "0")}
-							</span>
-							<span className="font-light text-sm">{result}</span>
-						</div>
-					))}
+				<div className="grid gap-12 md:grid-cols-[1fr_2fr] md:items-start">
+					<h2 className="font-normal text-2xl tracking-tight">
+						{t("results")}
+					</h2>
+					<div className="border border-border/40">
+						{cs.results.map((result, i) => (
+							<div
+								key={result}
+								className="flex gap-4 not-last:border-border/40 not-last:border-b px-6 py-4"
+							>
+								<span className="mt-0.5 font-medium text-brand/60 text-xs">
+									{String(i + 1).padStart(2, "0")}
+								</span>
+								<span className="font-light text-sm leading-relaxed">
+									{result}
+								</span>
+							</div>
+						))}
+					</div>
 				</div>
 			</SectionWrapper>
 
 			{cs.testimonial && (
 				<SectionWrapper id="testimonial" alternate>
-					<div className="max-w-2xl">
-						<span className="block font-serif text-5xl text-brand/40 leading-none">
+					<div className="mx-auto max-w-3xl text-center">
+						<span className="block font-serif text-6xl text-brand/30 leading-none">
 							&ldquo;
 						</span>
-						<p className="mt-4 font-light text-lg text-muted-foreground leading-relaxed">
+						<p className="mt-4 font-light text-muted-foreground text-xl leading-relaxed md:text-2xl">
 							{cs.testimonial.quote}
 						</p>
-						<div className="mt-6">
+						<div className="mt-8">
 							<p className="font-medium text-sm">{cs.testimonial.author}</p>
-							<p className="font-light text-muted-foreground text-xs">
+							<p className="mt-1 font-light text-muted-foreground text-xs">
 								{cs.testimonial.role}
 							</p>
 						</div>
-					</div>
-				</SectionWrapper>
-			)}
-
-			{cs.images && cs.images.length > 0 && (
-				<SectionWrapper id="gallery">
-					<div className="grid gap-4 md:grid-cols-2">
-						{cs.images.map((image) => (
-							<div
-								key={image}
-								className="relative aspect-[8/5] overflow-hidden border border-border/40"
-							>
-								<Image
-									src={image}
-									alt={cs.title}
-									fill
-									className="object-cover"
-								/>
-							</div>
-						))}
 					</div>
 				</SectionWrapper>
 			)}
