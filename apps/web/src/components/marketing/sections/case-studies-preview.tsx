@@ -14,8 +14,15 @@ export default async function CaseStudiesPreview() {
 
 	if (caseStudies.length === 0) return null;
 
-	const featured = caseStudies.slice(0, 3);
-	const rest = caseStudies.slice(3);
+	const featuredSlugs = [
+		"old-world-labs",
+		"bloom-and-root-ecommerce",
+		"mp-bau-construction",
+	];
+	const featured = featuredSlugs
+		.map((slug) => caseStudies.find((cs) => cs.slug === slug))
+		.filter(Boolean) as typeof caseStudies;
+	const rest = caseStudies.filter((cs) => !featuredSlugs.includes(cs.slug));
 
 	return (
 		<SectionWrapper id="case-studies">
