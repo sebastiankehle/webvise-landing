@@ -53,7 +53,7 @@ export default async function TechStack() {
 	return (
 		<SectionWrapper id="tech-stack" alternate>
 			<div className="max-w-2xl">
-				<h2 className="font-display text-4xl tracking-tight md:text-5xl">
+				<h2 className="font-display text-3xl tracking-tight md:text-4xl">
 					{t("title")}
 				</h2>
 				<p className="mt-4 text-muted-foreground leading-relaxed">{t("subtitle")}</p>
