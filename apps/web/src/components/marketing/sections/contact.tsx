@@ -72,23 +72,23 @@ export default function Contact() {
 
 	return (
 		<SectionWrapper id="contact">
-			<div className="grid gap-10 md:grid-cols-2 md:gap-16">
+			<div className="grid gap-12 md:grid-cols-2 md:gap-20">
 				<div>
-					<h2 className="font-normal text-3xl tracking-tight md:text-4xl">
+					<h2 className="font-display text-4xl tracking-tight md:text-5xl">
 						{t("title")}
 					</h2>
-					<p className="mt-4 font-light text-muted-foreground">
+					<p className="mt-4 text-muted-foreground leading-relaxed">
 						{t("subtitle")}
 					</p>
 
-					<div className="mt-8 border border-border/40 border-l-2 border-l-brand p-5 md:mt-12 md:p-8">
-						<h3 className="font-medium text-base">{t("booking.title")}</h3>
-						<p className="mt-2 font-light text-muted-foreground text-sm">
+					<div className="mt-10 border border-border/40 border-l-2 border-l-brand p-6 md:mt-14 md:p-8">
+						<h3 className="font-display text-xl">{t("booking.title")}</h3>
+						<p className="mt-3 text-muted-foreground text-sm leading-relaxed">
 							{t("booking.description")}
 						</p>
 						<Button
 							size="sm"
-							className="mt-4"
+							className="mt-5"
 							onClick={() => track("book_call_clicked", { location: "contact_section" })}
 							render={
 								// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
@@ -116,12 +116,12 @@ export default function Contact() {
 							track("contact_form_started");
 						}
 					}}
-					className="space-y-4 border border-border/40 p-5 md:space-y-5 md:p-8"
+					className="space-y-5 border border-border/40 p-6 md:space-y-6 md:p-10"
 					aria-label={t("title")}
 					noValidate
 					autoComplete="off"
 				>
-					<div className="grid gap-4 md:grid-cols-2 md:gap-5">
+					<div className="grid gap-5 md:grid-cols-2 md:gap-6">
 						<form.Field name="name">
 							{(field) => (
 								<FormItem>
@@ -137,7 +137,7 @@ export default function Contact() {
 										placeholder={t("form.namePlaceholder")}
 										autoComplete="off"
 										aria-invalid={field.state.meta.errors.length > 0}
-										className="h-10 text-base md:h-8 md:text-xs"
+										className="h-10 text-base md:h-9 md:text-sm"
 									/>
 									<FormMessage errors={field.state.meta.errors} />
 								</FormItem>
@@ -159,14 +159,14 @@ export default function Contact() {
 										placeholder={t("form.emailPlaceholder")}
 										autoComplete="off"
 										aria-invalid={field.state.meta.errors.length > 0}
-										className="h-10 text-base md:h-8 md:text-xs"
+										className="h-10 text-base md:h-9 md:text-sm"
 									/>
 									<FormMessage errors={field.state.meta.errors} />
 								</FormItem>
 							)}
 						</form.Field>
 					</div>
-					<div className="grid gap-4 md:grid-cols-2 md:gap-5">
+					<div className="grid gap-5 md:grid-cols-2 md:gap-6">
 						<form.Field name="company">
 							{(field) => (
 								<FormItem>
@@ -181,7 +181,7 @@ export default function Contact() {
 										onChange={(e) => field.handleChange(e.target.value)}
 										placeholder={t("form.companyPlaceholder")}
 										autoComplete="off"
-										className="h-10 text-base md:h-8 md:text-xs"
+										className="h-10 text-base md:h-9 md:text-sm"
 									/>
 								</FormItem>
 							)}
@@ -198,7 +198,7 @@ export default function Contact() {
 										value={field.state.value}
 										onBlur={field.handleBlur}
 										onChange={(e) => field.handleChange(e.target.value)}
-										className="flex h-10 w-full border border-border bg-background px-2.5 text-base outline-none focus:border-ring focus:ring-1 focus:ring-ring/50 md:h-8 md:text-xs"
+										className="flex h-10 w-full border border-border bg-background px-3 text-base outline-none transition-colors focus:border-ring focus:ring-1 focus:ring-ring/50 md:h-9 md:text-sm"
 									>
 										<option value="">
 											{t("form.servicePlaceholder")}
@@ -225,11 +225,11 @@ export default function Contact() {
 									value={field.state.value}
 									onBlur={field.handleBlur}
 									onChange={(e) => field.handleChange(e.target.value)}
-									rows={4}
+									rows={5}
 									placeholder={t("form.messagePlaceholder")}
 									autoComplete="off"
 									aria-invalid={field.state.meta.errors.length > 0}
-									className="flex w-full border border-border bg-background px-2.5 py-2 text-base outline-none focus:border-ring focus:ring-1 focus:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-1 aria-invalid:ring-destructive/20 md:text-xs"
+									className="flex w-full border border-border bg-background px-3 py-2.5 text-base outline-none transition-colors focus:border-ring focus:ring-1 focus:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-1 aria-invalid:ring-destructive/20 md:text-sm"
 								/>
 								<FormMessage errors={field.state.meta.errors} />
 							</FormItem>
@@ -242,7 +242,7 @@ export default function Contact() {
 							<SubmitButton
 								isSubmitting={isSubmitting}
 								size="lg"
-								className="w-full md:h-8 md:text-xs"
+								className="w-full border-transparent bg-brand text-white [&]:hover:bg-brand/80 md:h-10 md:text-sm"
 							>
 								{t("form.submit")}
 							</SubmitButton>

@@ -3,6 +3,7 @@
 import { Activity, ArrowRight, ChevronDown, Menu, X } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useCallback, useEffect, useRef, useState } from "react";
+
 import Logo from "@/components/logo";
 import LanguageSwitcher from "@/components/marketing/language-switcher";
 import { Button } from "@/components/ui/button";
@@ -18,7 +19,8 @@ export interface NavbarPost {
 	readingTime: number;
 }
 
-type NavHash = "services" | "blog" | "pricing";
+type NavHash = "services" | "case-studies" | "blog" | "pricing";
+const dropdownHashes = new Set<NavHash>(["services", "blog", "pricing"]);
 
 export default function Navbar({
 	recentPosts = [],
@@ -85,20 +87,21 @@ export default function Navbar({
 
 	const navLinks: { hash: NavHash; label: string }[] = [
 		{ hash: "services", label: t("services") },
-		{ hash: "pricing", label: t("pricing") },
+		{ hash: "case-studies", label: t("caseStudies") },
 		{ hash: "blog", label: t("blog") },
+		{ hash: "pricing", label: t("pricing") },
 	];
 
 	return (
 		<>
 			<header
-				className={`sticky top-0 z-50 h-16 transition-[height,background-color,border-color,backdrop-filter] duration-300 md:h-20 ${
+				className={`sticky top-0 z-50 transition-all duration-500 ${
 					scrolled
 						? "border-border/40 border-b bg-background/80 backdrop-blur-xl"
-						: "border-transparent border-b bg-background"
+						: "border-transparent border-b bg-transparent"
 				}`}
 			>
-				<div className="mx-auto flex h-full max-w-[1200px] items-center justify-between px-6">
+				<div className="mx-auto flex h-16 max-w-[1320px] items-center justify-between px-6 md:h-20">
 					<Link
 						href="/"
 						className="flex items-center gap-2.5 font-medium text-xl tracking-tight"
@@ -112,7 +115,7 @@ export default function Navbar({
 						}}
 					>
 						<Logo className="h-7 w-7" animated />
-						webvise
+						<span className="font-display text-[22px]">webvise</span>
 					</Link>
 
 					<nav
@@ -123,24 +126,27 @@ export default function Navbar({
 							<button
 								key={hash}
 								type="button"
-								className={`inline-flex h-full items-center px-3 text-sm transition-colors hover:text-foreground ${
+								className={`relative inline-flex h-full items-center px-4 text-[13px] uppercase tracking-wider transition-colors hover:text-foreground ${
 									activeDropdown === hash
 										? "text-foreground"
 										: "text-muted-foreground"
 								}`}
-								onMouseEnter={() => open(hash)}
-								onMouseLeave={scheduleClose}
+								onMouseEnter={() => dropdownHashes.has(hash) && open(hash)}
+								onMouseLeave={() => dropdownHashes.has(hash) && scheduleClose()}
 								onClick={() => scrollToSection(hash)}
 							>
 								{label}
+								{activeDropdown === hash && (
+									<span className="absolute bottom-0 left-4 right-4 h-px bg-brand" />
+								)}
 							</button>
 						))}
 					</nav>
 
-					<div className="hidden items-center gap-3 md:flex">
+					<div className="hidden items-center gap-4 md:flex">
 						<LanguageSwitcher />
 						<Button
-							className="border-transparent bg-brand text-white [&]:hover:bg-brand/80"
+							className="border-transparent bg-brand px-6 text-white [&]:hover:bg-brand/80"
 							onClick={() => track("cta_clicked", { location: "navbar", variant: "get_started" })}
 							render={
 								<Link href={{ pathname: "/", hash: "contact" }} />
@@ -152,7 +158,7 @@ export default function Navbar({
 
 					<button
 						type="button"
-						className="flex h-9 w-9 items-center justify-center rounded-md transition-colors hover:bg-muted md:hidden"
+						className="flex h-9 w-9 items-center justify-center transition-colors hover:text-brand md:hidden"
 						onClick={() => setMobileOpen(!mobileOpen)}
 						aria-label={mobileOpen ? "Close menu" : "Open menu"}
 					>
@@ -186,7 +192,7 @@ export default function Navbar({
 				onMouseEnter={() => activeDropdown && open(activeDropdown)}
 				onMouseLeave={scheduleClose}
 			>
-				<div className="w-full max-w-[720px] border border-border/40 bg-background/95 shadow-lg backdrop-blur-xl transition-all duration-200 ease-out">
+				<div className="w-full max-w-[720px] border border-border/40 bg-background/95 shadow-xl backdrop-blur-xl transition-all duration-200 ease-out">
 					{activeDropdown === "services" && (
 						<div className="grid grid-cols-2">
 							{services.map((service, i) => (
@@ -206,12 +212,12 @@ export default function Navbar({
 										strokeWidth={1.5}
 									/>
 									<div className="min-w-0">
-										<p className="font-medium text-sm">
+										<p className="text-sm">
 											{ts(
 												`${service.translationKey}.title`,
 											)}
 										</p>
-										<p className="mt-1 font-light text-muted-foreground text-xs leading-relaxed">
+										<p className="mt-1 text-muted-foreground text-xs leading-relaxed">
 											{ts(
 												`${service.translationKey}.tagline`,
 											)}
@@ -239,7 +245,7 @@ export default function Navbar({
 									>
 										<time
 											dateTime={post.date}
-											className="font-light text-muted-foreground text-xs"
+											className="text-muted-foreground text-xs"
 										>
 											{new Date(
 												post.date,
@@ -249,10 +255,10 @@ export default function Navbar({
 												year: "numeric",
 											})}
 										</time>
-										<p className="mt-2 font-medium text-sm leading-snug transition-colors group-hover:text-brand">
+										<p className="mt-2 text-sm leading-snug transition-colors group-hover:text-brand">
 											{post.title}
 										</p>
-										<span className="mt-3 font-light text-muted-foreground text-xs">
+										<span className="mt-3 text-muted-foreground text-xs">
 											{post.readingTime}{" "}
 											{tb("minRead")}
 										</span>
@@ -264,7 +270,7 @@ export default function Navbar({
 								className="group flex items-center justify-between border-border/40 border-t p-4 px-5 transition-colors hover:bg-muted/40"
 								onClick={close}
 							>
-								<span className="font-light text-brand text-xs">
+								<span className="text-brand text-xs uppercase tracking-wider">
 									{tb("viewAll")}
 								</span>
 								<ArrowRight className="h-3 w-3 text-brand transition-transform group-hover:translate-x-0.5" />
@@ -288,7 +294,7 @@ export default function Navbar({
 										}}
 									>
 										<div className="flex items-center gap-2">
-											<p className="font-medium text-sm">
+											<p className="text-sm">
 												{tpr(`tiers.${key}.name`)}
 											</p>
 											{key === "growth" && (
@@ -299,13 +305,13 @@ export default function Navbar({
 												</span>
 											)}
 										</div>
-										<p className="mt-1 font-light text-muted-foreground text-xs leading-relaxed">
+										<p className="mt-1 text-muted-foreground text-xs leading-relaxed">
 											{tpr(`tiers.${key}.description`)}
 										</p>
-										<p className="mt-3 font-normal text-lg tracking-tight">
+										<p className="mt-3 font-display text-xl tracking-tight">
 											{tpr(`tiers.${key}.price`)}
 										</p>
-										<span className="font-light text-muted-foreground text-xs">
+										<span className="text-muted-foreground text-xs">
 											{tpr(`tiers.${key}.basis`)}
 										</span>
 									</Link>
@@ -320,23 +326,23 @@ export default function Navbar({
 				<div className="fixed inset-x-0 top-16 bottom-0 z-50 overflow-y-auto bg-background/95 px-6 pb-6 backdrop-blur-xl md:hidden">
 					<nav
 						aria-label="Mobile navigation"
-						className="flex min-h-full flex-col pt-4"
+						className="flex min-h-full flex-col pt-6"
 					>
 						<div className="flex flex-col gap-0.5">
 							<button
 								type="button"
-								className="flex items-center justify-between px-3 py-3 text-foreground transition-colors hover:text-brand"
+								className="flex items-center justify-between py-4 text-foreground transition-colors hover:text-brand"
 								onClick={() =>
 									setMobileServicesOpen(!mobileServicesOpen)
 								}
 							>
-								<span className="text-base">{t("services")}</span>
+								<span className="font-display text-xl">{t("services")}</span>
 								<ChevronDown
 									className={`h-4 w-4 text-muted-foreground transition-transform duration-200 ${mobileServicesOpen ? "rotate-180" : ""}`}
 								/>
 							</button>
 							{mobileServicesOpen && (
-								<div className="mb-1 ml-3 flex flex-col gap-0.5 border-border/40 border-l pl-3">
+								<div className="mb-2 ml-1 flex flex-col gap-0.5 border-border/40 border-l pl-4">
 									{services.map(
 										({ slug, translationKey, icon: Icon }) => (
 											<Link
@@ -346,7 +352,7 @@ export default function Navbar({
 														"/services/[slug]",
 													params: { slug },
 												}}
-												className="flex items-center gap-3 py-2 text-muted-foreground text-sm transition-colors hover:text-foreground"
+												className="flex items-center gap-3 py-2.5 text-muted-foreground text-sm transition-colors hover:text-foreground"
 												onClick={() =>
 													setMobileOpen(false)
 												}
@@ -366,18 +372,18 @@ export default function Navbar({
 
 							<button
 								type="button"
-								className="px-3 py-3 text-left text-base text-foreground transition-colors hover:text-brand"
+								className="py-4 text-left font-display text-xl text-foreground transition-colors hover:text-brand"
 								onClick={() => {
-									scrollToSection("pricing");
+									scrollToSection("case-studies");
 									setMobileOpen(false);
 								}}
 							>
-								{t("pricing")}
+								{t("caseStudies")}
 							</button>
 
 							<button
 								type="button"
-								className="px-3 py-3 text-left text-base text-foreground transition-colors hover:text-brand"
+								className="py-4 text-left font-display text-xl text-foreground transition-colors hover:text-brand"
 								onClick={() => {
 									scrollToSection("blog");
 									setMobileOpen(false);
@@ -385,26 +391,37 @@ export default function Navbar({
 							>
 								{t("blog")}
 							</button>
+
+							<button
+								type="button"
+								className="py-4 text-left font-display text-xl text-foreground transition-colors hover:text-brand"
+								onClick={() => {
+									scrollToSection("pricing");
+									setMobileOpen(false);
+								}}
+							>
+								{t("pricing")}
+							</button>
 						</div>
 
-						<div className="mt-6">
+						<div className="mt-8">
 							<Link
 								href="/wp-health-report"
-								className="group flex items-center gap-3 rounded-lg border border-brand/20 bg-brand/5 px-4 py-3 transition-colors hover:border-brand/40 hover:bg-brand/10"
+								className="group flex items-center gap-3 border border-brand/20 bg-brand/5 px-5 py-4 transition-colors hover:border-brand/40 hover:bg-brand/10"
 								onClick={() => {
 									track("cta_clicked", { location: "navbar_mobile", variant: "analyzer" });
 									setMobileOpen(false);
 								}}
 							>
 								<Activity className="h-4 w-4 text-brand" strokeWidth={1.5} />
-								<span className="font-medium text-sm text-foreground">
+								<span className="text-sm text-foreground">
 									{t("webAnalyzer")}
 								</span>
 								<ArrowRight className="ml-auto h-4 w-4 text-brand opacity-0 transition-opacity group-hover:opacity-100" />
 							</Link>
 						</div>
 
-						<div className="mt-auto space-y-5 border-border/40 border-t pt-5">
+						<div className="mt-auto space-y-6 border-border/40 border-t pt-6">
 							<Button
 								className="w-full border-transparent bg-brand text-white [&]:hover:bg-brand/80"
 								size="lg"
@@ -431,7 +448,7 @@ export default function Navbar({
 											href={social.href}
 											target="_blank"
 											rel="noopener noreferrer"
-											className="flex h-8 w-8 items-center justify-center rounded-full border border-border/40 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+											className="flex h-8 w-8 items-center justify-center border border-border/40 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
 											aria-label={social.name}
 										>
 											{social.icon}

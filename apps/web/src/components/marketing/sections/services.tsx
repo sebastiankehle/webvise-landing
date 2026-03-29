@@ -12,12 +12,12 @@ export default async function Services() {
 	return (
 		<SectionWrapper id="services">
 			<div className="max-w-2xl">
-				<h2 className="font-normal text-3xl tracking-tight md:text-4xl">
+				<h2 className="font-display text-4xl tracking-tight md:text-5xl">
 					{t("title")}
 				</h2>
-				<p className="mt-4 font-light text-muted-foreground">{t("subtitle")}</p>
+				<p className="mt-4 text-muted-foreground leading-relaxed">{t("subtitle")}</p>
 			</div>
-			<StaggerChildren className="mt-12 grid gap-px overflow-hidden border border-border/40 md:grid-cols-2 lg:grid-cols-3">
+			<StaggerChildren className="mt-14 grid gap-px overflow-hidden border border-border/40 md:grid-cols-2 lg:grid-cols-3">
 				{services.map((service) => (
 					<Link
 						key={service.slug}
@@ -25,22 +25,26 @@ export default async function Services() {
 							pathname: "/services/[slug]",
 							params: { slug: service.slug },
 						}}
-						className="group flex flex-col justify-between border-border/40 border-t-2 border-t-transparent not-last:border-b p-6 transition-all hover:border-t-brand hover:bg-muted/30 md:not-nth-[3n]:border-r md:nth-[-n+3]:border-b md:not-last:border-b-0 md:p-8"
+						className="group flex flex-col justify-between border-border/40 not-last:border-b p-8 transition-all hover:bg-muted/30 md:not-nth-[3n]:border-r md:nth-[-n+3]:border-b md:not-last:border-b-0 md:p-10"
 					>
 						<div>
-							<service.icon className="h-5 w-5 text-brand" strokeWidth={1.5} />
-							<h3 className="mt-2 font-medium text-lg">
-								{t(`${service.translationKey}.title`)}
-							</h3>
-							<p className="mt-2 font-light text-muted-foreground text-sm leading-relaxed">
+							<div className="flex items-center gap-4">
+								<div className="flex h-10 w-10 items-center justify-center border border-brand/20 bg-brand/5 transition-colors group-hover:border-brand/40 group-hover:bg-brand/10">
+									<service.icon className="h-5 w-5 text-brand" strokeWidth={1.5} />
+								</div>
+								<h3 className="font-display text-xl">
+									{t(`${service.translationKey}.title`)}
+								</h3>
+							</div>
+							<p className="mt-4 text-muted-foreground text-sm leading-relaxed">
 								{t(`${service.translationKey}.tagline`)}
 							</p>
 						</div>
-						<div className="mt-6 flex items-center justify-between">
-							<span className="font-light text-muted-foreground text-sm">
+						<div className="mt-8 flex items-center justify-between border-border/40 border-t pt-5">
+							<span className="font-mono text-[11px] text-muted-foreground uppercase tracking-wider">
 								{t(`${service.translationKey}.timeline`)}
 							</span>
-							<ArrowRight className="h-4 w-4 text-muted-foreground transition-transform group-hover:translate-x-1" />
+							<ArrowRight className="h-4 w-4 text-muted-foreground transition-all group-hover:translate-x-1 group-hover:text-brand" />
 						</div>
 					</Link>
 				))}

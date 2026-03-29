@@ -23,10 +23,10 @@ export default async function Process() {
 	return (
 		<SectionWrapper id="process" alternate>
 			<div className="max-w-2xl">
-				<h2 className="font-normal text-3xl tracking-tight md:text-4xl">
+				<h2 className="font-display text-4xl tracking-tight md:text-5xl">
 					{t("title")}
 				</h2>
-				<p className="mt-4 font-light text-muted-foreground">{t("subtitle")}</p>
+				<p className="mt-4 text-muted-foreground leading-relaxed">{t("subtitle")}</p>
 			</div>
 			<ProcessSteps steps={steps} />
 		</SectionWrapper>

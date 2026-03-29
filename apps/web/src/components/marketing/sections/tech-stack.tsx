@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 
 import SectionWrapper from "@/components/marketing/section-wrapper";
+import StaggerChildren from "@/components/marketing/stagger-children";
 import { TechBadge } from "@/components/marketing/tech-badge";
 
 const categories = [
@@ -52,18 +53,18 @@ export default async function TechStack() {
 	return (
 		<SectionWrapper id="tech-stack" alternate>
 			<div className="max-w-2xl">
-				<h2 className="font-normal text-3xl tracking-tight md:text-4xl">
+				<h2 className="font-display text-4xl tracking-tight md:text-5xl">
 					{t("title")}
 				</h2>
-				<p className="mt-4 font-light text-muted-foreground">{t("subtitle")}</p>
+				<p className="mt-4 text-muted-foreground leading-relaxed">{t("subtitle")}</p>
 			</div>
-			<div className="mt-12 grid grid-cols-2 gap-px overflow-hidden border border-border/40 lg:grid-cols-4">
+			<StaggerChildren className="mt-14 grid grid-cols-2 gap-px overflow-hidden border border-border/40 lg:grid-cols-4">
 				{categories.map((cat) => (
 					<div
 						key={cat.key}
 						className="border-border/40 nth-[-n+2]:border-b p-6 odd:border-r md:p-8 lg:not-last:border-r lg:nth-[-n+2]:border-b-0 lg:odd:border-r-0"
 					>
-						<p className="mb-4 font-medium text-muted-foreground/50 text-xs uppercase tracking-wider">
+						<p className="mb-5 font-mono text-[10px] text-muted-foreground/50 uppercase tracking-widest">
 							{t(cat.key)}
 						</p>
 						<div className="flex flex-wrap gap-2">
@@ -73,7 +74,7 @@ export default async function TechStack() {
 						</div>
 					</div>
 				))}
-			</div>
+			</StaggerChildren>
 		</SectionWrapper>
 	);
 }

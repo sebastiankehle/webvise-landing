@@ -29,7 +29,6 @@ export async function generateMetadata({
 }
 
 function renderInline(text: string) {
-	// Split on **bold** and [link text](url) patterns
 	const tokens = text.split(/(\*\*.*?\*\*|\[.*?\]\(.*?\))/g);
 	return tokens.map((token) => {
 		const boldMatch = token.match(/^\*\*(.*?)\*\*$/);
@@ -46,7 +45,7 @@ function renderInline(text: string) {
 				<a
 					key={token}
 					href={linkMatch[2]}
-					className="font-medium text-brand underline underline-offset-4 transition-colors hover:text-brand/80"
+					className="text-brand underline underline-offset-4 transition-colors hover:text-brand/80"
 					{...(linkMatch[2].startsWith("http")
 						? { target: "_blank", rel: "noopener noreferrer" }
 						: {})}
@@ -79,28 +78,28 @@ function RenderBlock({ block }: { block: Block }) {
 	switch (block.type) {
 		case "h2":
 			return (
-				<h2 className="mt-12 mb-4 font-normal text-2xl tracking-tight first:mt-0">
+				<h2 className="mt-14 mb-4 font-display text-2xl tracking-tight first:mt-0">
 					{block.text}
 				</h2>
 			);
 		case "h3":
 			return (
-				<h3 className="mt-8 mb-3 font-medium text-base tracking-tight">
+				<h3 className="mt-8 mb-3 text-base tracking-tight">
 					{block.text}
 				</h3>
 			);
 		case "p":
 			return (
-				<p className="mb-5 font-light text-muted-foreground leading-relaxed last:mb-0">
+				<p className="mb-5 text-muted-foreground leading-relaxed last:mb-0">
 					{renderInline(block.text)}
 				</p>
 			);
 		case "ul":
 			return (
-				<ul className="mb-5 space-y-2 font-light text-muted-foreground text-sm leading-relaxed">
+				<ul className="mb-5 space-y-2 text-muted-foreground text-sm leading-relaxed">
 					{block.items.map((item) => (
 						<li key={item} className="flex gap-3">
-							<span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand" />
+							<span className="mt-1.5 h-1.5 w-1.5 shrink-0 bg-brand" />
 							<span>{renderInline(item)}</span>
 						</li>
 					))}
@@ -109,13 +108,13 @@ function RenderBlock({ block }: { block: Block }) {
 		case "table":
 			return (
 				<div className="mb-5 overflow-x-auto">
-					<table className="w-full border border-border/40 font-light text-sm">
+					<table className="w-full border border-border/40 text-sm">
 						<thead>
 							<tr className="border-border/40 border-b bg-muted/30">
 								{block.headers.map((h) => (
 									<th
 										key={h}
-										className="px-4 py-3 text-left font-medium text-foreground text-xs uppercase tracking-wider"
+										className="px-4 py-3 text-left font-mono text-[10px] text-foreground uppercase tracking-widest"
 									>
 										{h}
 									</th>
@@ -126,7 +125,7 @@ function RenderBlock({ block }: { block: Block }) {
 							{block.rows.map((row) => (
 								<tr
 									key={row.join("-")}
-									className="border-border/40 border-b last:border-0 odd:bg-background even:bg-muted/20"
+									className="border-border/40 border-b last:border-0"
 								>
 									{row.map((cell) => (
 										<td key={cell} className="px-4 py-3 text-muted-foreground">
@@ -161,59 +160,57 @@ export default async function BlogPostPage({
 
 	return (
 		<>
-			<section className="py-20 md:py-40">
-				<div className="mx-auto max-w-[1200px] px-6">
-				<div>
+			<section className="py-24 md:py-44">
+				<div className="mx-auto max-w-[1320px] px-6">
 					<div className="max-w-2xl">
 						<Link
-								href="/blog"
-								className="font-light text-muted-foreground text-sm transition-colors hover:text-foreground"
-							>
-								&larr; {t("backLink")}
-							</Link>
-							<div className="mt-6 flex items-center gap-3 font-light text-muted-foreground text-xs">
-								<time dateTime={post.date}>
-									{new Date(post.date).toLocaleDateString(locale, {
-										day: "numeric",
-										month: "long",
-										year: "numeric",
-									})}
-								</time>
-								<span className="text-muted-foreground/40">·</span>
-								<span>
-									{post.readingTime} {t("minRead")}
-								</span>
-							</div>
-							<h1 className="mt-4 font-normal text-3xl tracking-tight md:text-5xl">
-								{post.title}
-							</h1>
+							href="/blog"
+							className="text-muted-foreground text-sm transition-colors hover:text-foreground"
+						>
+							&larr; {t("backLink")}
+						</Link>
+						<div className="mt-8 flex items-center gap-3 font-mono text-[11px] text-muted-foreground uppercase tracking-wider">
+							<time dateTime={post.date}>
+								{new Date(post.date).toLocaleDateString(locale, {
+									day: "numeric",
+									month: "long",
+									year: "numeric",
+								})}
+							</time>
+							<span className="text-border">/</span>
+							<span>
+								{post.readingTime} {t("minRead")}
+							</span>
 						</div>
+						<h1 className="mt-4 font-display text-4xl tracking-tight md:text-5xl">
+							{post.title}
+						</h1>
 					</div>
 				</div>
 			</section>
 
 			<SectionWrapper id="content" alternate>
 				<div className="max-w-2xl">
-				{(() => {
-					const keys = getBlockKeys(post.blocks);
-					return post.blocks.map((block, idx) => (
-						<RenderBlock key={keys[idx]} block={block} />
-					));
-				})()}
+					{(() => {
+						const keys = getBlockKeys(post.blocks);
+						return post.blocks.map((block, idx) => (
+							<RenderBlock key={keys[idx]} block={block} />
+						));
+					})()}
 				</div>
 			</SectionWrapper>
 
 			<SectionWrapper id="cta">
 				<div className="max-w-xl">
-					<h2 className="font-normal text-2xl tracking-tight">
+					<h2 className="font-display text-2xl tracking-tight">
 						{t("ctaTitle")}
 					</h2>
-					<p className="mt-4 font-light text-muted-foreground">
+					<p className="mt-4 text-muted-foreground leading-relaxed">
 						{t("ctaDescription")}
 					</p>
 					<div className="mt-8 flex flex-wrap gap-3">
 						<Button
-							className="border-brand bg-brand text-white [&]:hover:bg-brand/80"
+							className="border-transparent bg-brand text-white [&]:hover:bg-brand/80"
 							// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
 							render={<Link href={{ pathname: "/", hash: "contact" }} />}
 						>

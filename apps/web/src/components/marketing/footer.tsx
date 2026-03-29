@@ -21,21 +21,21 @@ export default async function Footer() {
 	const year = new Date().getFullYear();
 
 	return (
-		<footer className="bg-foreground text-background">
+		<footer className="section-dark">
 			{/* CTA banner */}
-			<div className="border-background/10 border-b">
-				<div className="mx-auto flex max-w-[1200px] flex-col items-start justify-between gap-6 px-6 py-16 md:flex-row md:items-center md:py-20">
+			<div className="border-[--border] border-b">
+				<div className="mx-auto flex max-w-[1320px] flex-col items-start justify-between gap-8 px-6 py-20 md:flex-row md:items-center md:py-24">
 					<div>
-						<p className="font-normal text-2xl tracking-tight md:text-3xl">
+						<p className="font-display text-3xl tracking-tight md:text-4xl">
 							{t("ctaHeadline")}
 						</p>
-						<p className="mt-2 font-light text-sm opacity-60 md:text-base">
+						<p className="mt-3 text-sm text-muted-foreground md:text-base">
 							{t("ctaSubtext")}
 						</p>
 					</div>
 					<Button
 						size="lg"
-						className="shrink-0 border-transparent bg-brand text-white [&]:hover:bg-brand/80"
+						className="shrink-0 border-transparent bg-brand px-8 text-white [&]:hover:bg-brand/80"
 						data-ph-capture-attribute-cta-location="footer"
 						data-ph-capture-attribute-cta-variant="primary"
 						render={<Link href={{ pathname: "/", hash: "contact" }} />}
@@ -46,31 +46,31 @@ export default async function Footer() {
 			</div>
 
 			{/* Main footer content */}
-			<div className="mx-auto max-w-[1200px] px-6 py-16 md:py-20">
-				<div className="grid gap-10 md:grid-cols-12">
+			<div className="mx-auto max-w-[1320px] px-6 py-20 md:py-24">
+				<div className="grid gap-12 md:grid-cols-12">
 					{/* Brand column */}
 					<div className="md:col-span-4">
 						<Link
 							href="/"
-							className="flex items-center gap-2 font-medium text-xl tracking-tight"
+							className="flex items-center gap-2.5"
 						>
 							<Logo className="h-7 w-7" animated />
-							webvise
+							<span className="font-display text-[22px]">webvise</span>
 						</Link>
-						<p className="mt-4 max-w-xs font-light text-sm leading-relaxed opacity-60">
+						<p className="mt-5 max-w-xs text-sm leading-relaxed text-muted-foreground">
 							{t("tagline")}
 						</p>
-						<p className="mt-1 font-light text-sm opacity-40">
+						<p className="mt-1 text-sm text-muted-foreground/60">
 							{t("location")}
 						</p>
-						<div className="mt-6 flex items-center gap-3">
+						<div className="mt-8 flex items-center gap-3">
 							{socials.map((social) => (
 								<a
 									key={social.name}
 									href={social.href}
 									target="_blank"
 									rel="noopener noreferrer"
-									className="flex h-8 w-8 items-center justify-center rounded-full border border-background/10 opacity-50 transition-all hover:border-background/30 hover:opacity-100"
+									className="flex h-8 w-8 items-center justify-center border border-[--border] text-muted-foreground transition-all hover:border-brand/40 hover:text-brand"
 									aria-label={social.name}
 								>
 									{social.icon}
@@ -81,15 +81,15 @@ export default async function Footer() {
 
 					{/* Services */}
 					<div className="md:col-span-3">
-						<h3 className="mb-4 font-medium text-xs uppercase tracking-wider opacity-40">
+						<h3 className="mb-5 font-mono text-[10px] uppercase tracking-widest text-muted-foreground/50">
 							{t("sections.services")}
 						</h3>
-						<ul className="space-y-2.5">
+						<ul className="space-y-3">
 							{services.map(({ slug, translationKey }) => (
 								<li key={slug}>
 									<Link
 										href={{ pathname: "/services/[slug]", params: { slug } }}
-										className="font-light text-sm opacity-60 transition-opacity hover:opacity-100"
+										className="text-sm text-muted-foreground transition-colors hover:text-[--foreground]"
 									>
 										{ts(`${translationKey}.title`)}
 									</Link>
@@ -100,15 +100,15 @@ export default async function Footer() {
 
 					{/* Company */}
 					<div className="md:col-span-2">
-						<h3 className="mb-4 font-medium text-xs uppercase tracking-wider opacity-40">
+						<h3 className="mb-5 font-mono text-[10px] uppercase tracking-widest text-muted-foreground/50">
 							{t("sections.company")}
 						</h3>
-						<ul className="space-y-2.5">
+						<ul className="space-y-3">
 							{companyLinks.map(({ hash, label }) => (
 								<li key={hash}>
 									<Link
 										href={{ pathname: "/", hash }}
-										className="font-light text-sm opacity-60 transition-opacity hover:opacity-100"
+										className="text-sm text-muted-foreground transition-colors hover:text-[--foreground]"
 									>
 										{label}
 									</Link>
@@ -117,7 +117,7 @@ export default async function Footer() {
 							<li>
 								<Link
 									href="/case-studies"
-									className="font-light text-sm opacity-60 transition-opacity hover:opacity-100"
+									className="text-sm text-muted-foreground transition-colors hover:text-[--foreground]"
 								>
 									{t("links.caseStudies")}
 								</Link>
@@ -125,15 +125,15 @@ export default async function Footer() {
 							<li>
 								<Link
 									href="/blog"
-									className="font-light text-sm opacity-60 transition-opacity hover:opacity-100"
+									className="text-sm text-muted-foreground transition-colors hover:text-[--foreground]"
 								>
 									{t("links.blog")}
 								</Link>
 							</li>
-							<li className="border-background/10 border-t pt-2.5">
+							<li className="border-[--border] border-t pt-3">
 								<a
 									href="/media"
-									className="font-light text-sm opacity-60 transition-opacity hover:opacity-100"
+									className="text-sm text-muted-foreground transition-colors hover:text-[--foreground]"
 								>
 									{t("links.media")}
 								</a>
@@ -141,7 +141,7 @@ export default async function Footer() {
 							<li>
 								<Link
 									href="/wp-health-report"
-									className="font-light text-brand text-sm transition-opacity hover:opacity-80"
+									className="text-brand text-sm transition-opacity hover:opacity-80"
 								>
 									{tw("button")}
 								</Link>
@@ -151,10 +151,10 @@ export default async function Footer() {
 
 					{/* Contact */}
 					<div className="md:col-span-3">
-						<h3 className="mb-4 font-medium text-xs uppercase tracking-wider opacity-40">
+						<h3 className="mb-5 font-mono text-[10px] uppercase tracking-widest text-muted-foreground/50">
 							{t("sections.contact")}
 						</h3>
-						<ul className="space-y-2.5 font-light text-sm">
+						<ul className="space-y-3 text-sm">
 							<li>
 								<a
 									href={`mailto:${t("address.email")}`}
@@ -163,34 +163,34 @@ export default async function Footer() {
 									{t("address.email")}
 								</a>
 							</li>
-							<li className="opacity-60">{t("address.street")}</li>
-							<li className="opacity-60">{t("address.city")}</li>
-							<li className="opacity-40">{t("address.hours")}</li>
+							<li className="text-muted-foreground">{t("address.street")}</li>
+							<li className="text-muted-foreground">{t("address.city")}</li>
+							<li className="text-muted-foreground/60">{t("address.hours")}</li>
 						</ul>
 					</div>
 				</div>
 			</div>
 
 			{/* Bottom bar */}
-			<div className="border-background/10 border-t">
-				<div className="mx-auto flex max-w-[1200px] flex-col items-center justify-between gap-4 px-6 py-6 md:flex-row">
-					<p className="text-xs opacity-40">{t("legal.copyright", { year })}</p>
-					<div className="flex gap-6 text-xs opacity-40">
+			<div className="border-[--border] border-t">
+				<div className="mx-auto flex max-w-[1320px] flex-col items-center justify-between gap-4 px-6 py-6 md:flex-row">
+					<p className="text-xs text-muted-foreground/60">{t("legal.copyright", { year })}</p>
+					<div className="flex gap-6 text-xs text-muted-foreground/60">
 						<Link
 							href="/privacy"
-							className="transition-opacity hover:opacity-100"
+							className="transition-colors hover:text-[--foreground]"
 						>
 							{t("legal.privacy")}
 						</Link>
 						<Link
 							href="/terms"
-							className="transition-opacity hover:opacity-100"
+							className="transition-colors hover:text-[--foreground]"
 						>
 							{t("legal.terms")}
 						</Link>
 						<Link
 							href="/imprint"
-							className="transition-opacity hover:opacity-100"
+							className="transition-colors hover:text-[--foreground]"
 						>
 							{t("legal.imprint")}
 						</Link>
@@ -199,7 +199,7 @@ export default async function Footer() {
 			</div>
 
 			{/* Brand accent stripe */}
-			<div className="h-1 bg-brand" />
+			<div className="h-px bg-brand" />
 		</footer>
 	);
 }

@@ -1,4 +1,10 @@
+"use client";
+
+import { useInView } from "motion/react";
 import type { ReactNode } from "react";
+import { useRef } from "react";
+
+import { cn } from "@/lib/utils";
 
 interface StaggerChildrenProps {
 	children: ReactNode;
@@ -9,5 +15,18 @@ export default function StaggerChildren({
 	children,
 	className,
 }: StaggerChildrenProps) {
-	return <div className={className}>{children}</div>;
+	const ref = useRef<HTMLDivElement>(null);
+	const isInView = useInView(ref, { once: true, margin: "-60px" });
+
+	return (
+		<div
+			ref={ref}
+			className={cn(
+				className,
+				isInView ? "stagger-visible" : "stagger-hidden",
+			)}
+		>
+			{children}
+		</div>
+	);
 }

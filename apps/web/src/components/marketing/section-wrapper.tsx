@@ -5,22 +5,28 @@ export default function SectionWrapper({
 	children,
 	className,
 	alternate = false,
+	dark = false,
 }: {
 	id: string;
 	children: React.ReactNode;
 	className?: string;
 	alternate?: boolean;
+	dark?: boolean;
 }) {
 	return (
 		<section
 			id={id}
 			className={cn(
-				"py-16 md:py-32",
-				alternate ? "bg-white" : "bg-background",
+				"relative py-20 md:py-36",
+				dark
+					? "section-dark"
+					: alternate
+						? "bg-white"
+						: "bg-background",
 				className,
 			)}
 		>
-			<div className="mx-auto max-w-[1200px] px-6">{children}</div>
+			<div className="relative mx-auto max-w-[1320px] px-6">{children}</div>
 		</section>
 	);
 }

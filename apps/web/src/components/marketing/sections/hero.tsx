@@ -9,12 +9,12 @@ export default async function Hero() {
 	const t = await getTranslations("hero");
 
 	return (
-		<section id="hero" className="py-20 md:py-40">
-			<div className="mx-auto max-w-[1200px] px-6">
+		<section id="hero" className="py-24 md:py-44">
+			<div className="mx-auto max-w-[1320px] px-6">
 				<HeroContent>
-					<div className="grid items-center gap-12 md:grid-cols-2">
+					<div className="grid items-center gap-16 md:grid-cols-2">
 						<div>
-							<h1 className="font-normal text-3xl leading-[1.15] tracking-tight md:text-[48px]">
+							<h1 className="text-balance font-display text-3xl leading-[1.12] tracking-tight md:text-[52px]">
 								{t.rich("title", {
 									brand: (chunks) => (
 										<span className="text-brand">{chunks}</span>
@@ -27,13 +27,13 @@ export default async function Hero() {
 									),
 								})}
 							</h1>
-							<p className="mt-6 font-light text-lg text-muted-foreground leading-relaxed">
+							<p className="mt-8 max-w-lg text-lg text-muted-foreground leading-relaxed">
 								{t("subtitle")}
 							</p>
-							<div className="mt-10 flex flex-col gap-3 sm:flex-row">
+							<div className="mt-12 flex flex-col gap-4 sm:flex-row">
 								<Button
 									size="lg"
-									className="border-transparent bg-brand text-white [&]:hover:bg-brand/80"
+									className="border-transparent bg-brand px-8 text-white [&]:hover:bg-brand/80"
 									data-ph-capture-attribute-cta-location="hero"
 									data-ph-capture-attribute-cta-variant="primary"
 									render={<Link href={{ pathname: "/", hash: "contact" }} />}

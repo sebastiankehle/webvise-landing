@@ -14,7 +14,7 @@ function renderLine(line: string) {
 			<a
 				key={part}
 				href={`mailto:${part}`}
-				className="text-foreground underline underline-offset-4"
+				className="text-brand underline underline-offset-4 transition-opacity hover:opacity-80"
 			>
 				{part}
 			</a>
@@ -36,15 +36,15 @@ export default async function ImprintPage() {
 	if (!page) notFound();
 
 	return (
-		<article className="mx-auto max-w-[1200px] px-6 py-32 md:py-40">
+		<article className="mx-auto max-w-[1320px] px-6 py-32 md:py-44">
 			<div className="max-w-2xl">
-				<h1 className="font-normal text-4xl tracking-tight md:text-5xl">
+				<h1 className="font-display text-4xl tracking-tight md:text-5xl">
 					{page.title}
 				</h1>
-				<p className="mt-4 font-light text-muted-foreground">{page.subtitle}</p>
+				<p className="mt-4 text-muted-foreground leading-relaxed">{page.subtitle}</p>
 			</div>
 
-			<div className="mt-16 max-w-2xl space-y-12 font-light text-muted-foreground leading-relaxed [&_h2]:mb-4 [&_h2]:font-medium [&_h2]:text-foreground [&_h2]:text-lg">
+			<div className="mt-16 max-w-2xl space-y-12 text-muted-foreground leading-relaxed [&_h2]:mb-4 [&_h2]:font-display [&_h2]:text-foreground [&_h2]:text-lg">
 				{page.sections.map((section) => (
 					<section key={section.heading}>
 						<h2>{section.heading}</h2>

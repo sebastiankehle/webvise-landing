@@ -17,12 +17,12 @@ export default async function Pricing() {
 	return (
 		<SectionWrapper id="pricing" alternate>
 			<div className="max-w-2xl">
-				<h2 className="font-normal text-3xl tracking-tight md:text-4xl">
+				<h2 className="font-display text-4xl tracking-tight md:text-5xl">
 					{t("title")}
 				</h2>
-				<p className="mt-4 font-light text-muted-foreground">{t("subtitle")}</p>
+				<p className="mt-4 text-muted-foreground leading-relaxed">{t("subtitle")}</p>
 			</div>
-			<StaggerChildren className="mt-12 grid gap-px overflow-hidden border border-border/40 md:grid-cols-3">
+			<StaggerChildren className="mt-14 grid gap-px overflow-hidden border border-border/40 md:grid-cols-3">
 				{tiers.map(({ key, featureCount, hasBadge }) => {
 					const featureKeys = Array.from({ length: featureCount }, (_, i) =>
 						String(i),
@@ -31,43 +31,45 @@ export default async function Pricing() {
 					return (
 						<div
 							key={key}
-							className="flex flex-col justify-between border-border/40 not-last:border-b p-6 md:not-last:border-r md:not-last:border-b-0 md:p-8"
+							className={`flex flex-col justify-between border-border/40 not-last:border-b p-8 md:not-last:border-r md:not-last:border-b-0 md:p-10 ${
+								hasBadge ? "bg-muted/30" : ""
+							}`}
 						>
 							<div>
 								<div className="flex items-center gap-3">
-									<h3 className="font-medium text-lg">
+									<h3 className="font-display text-2xl">
 										{t(`tiers.${key}.name`)}
 									</h3>
 									{hasBadge && (
-										<span className="border border-brand bg-brand px-2 py-0.5 text-white text-xs">
+										<span className="border border-brand bg-brand px-2 py-0.5 text-[10px] text-white uppercase tracking-wider">
 											{t(`tiers.${key}.badge`)}
 										</span>
 									)}
 								</div>
-								<p className="mt-2 font-light text-muted-foreground text-sm">
+								<p className="mt-3 text-muted-foreground text-sm leading-relaxed">
 									{t(`tiers.${key}.description`)}
 								</p>
-								<ul className="mt-6 space-y-3">
+								<ul className="mt-8 space-y-3">
 									{featureKeys.map((i) => (
 										<li
 											key={i}
-											className="border-border/40 border-b pb-3 font-light text-sm last:border-b-0 last:pb-0"
+											className="border-border/40 border-b pb-3 text-sm last:border-b-0 last:pb-0"
 										>
 											{t(`tiers.${key}.features.${i}`)}
 										</li>
 									))}
 								</ul>
 							</div>
-							<div className="mt-8">
-								<p className="font-normal text-2xl tracking-tight">
+							<div className="mt-10">
+								<p className="font-display text-3xl tracking-tight">
 									{t(`tiers.${key}.price`)}
 								</p>
-								<p className="mt-1 font-light text-muted-foreground text-xs">
+								<p className="mt-1 text-muted-foreground text-xs">
 									{t(`tiers.${key}.basis`)}
 								</p>
 								<Button
 									size="sm"
-									className="mt-4 w-full"
+									className="mt-5 w-full border-transparent bg-brand text-white [&]:hover:bg-brand/80"
 									data-ph-capture-attribute-cta-location="pricing"
 									data-ph-capture-attribute-cta-variant={key}
 									render={<Link href={{ pathname: "/", hash: "contact" }} />}

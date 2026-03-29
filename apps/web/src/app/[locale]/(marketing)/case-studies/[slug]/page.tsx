@@ -44,23 +44,23 @@ export default async function CaseStudyPage({
 
 	return (
 		<>
-			<section className="py-20 md:py-32">
-				<div className="mx-auto max-w-[1200px] px-6">
+			<section className="py-24 md:py-36">
+				<div className="mx-auto max-w-[1320px] px-6">
 					<Link
 						href="/case-studies"
-						className="font-light text-muted-foreground text-sm transition-colors hover:text-foreground"
+						className="text-muted-foreground text-sm transition-colors hover:text-foreground"
 					>
 						&larr; {t("backLink")}
 					</Link>
 					<div className="mt-10 grid gap-12 md:grid-cols-[1fr_1fr] md:items-end">
 						<div>
-							<span className="font-light text-brand text-xs uppercase tracking-wider">
+							<span className="font-mono text-[10px] text-brand uppercase tracking-widest">
 								{cs.client} &middot; {cs.industry}
 							</span>
-							<h1 className="mt-3 font-normal text-3xl tracking-tight md:text-5xl">
+							<h1 className="mt-3 font-display text-4xl tracking-tight md:text-5xl">
 								{cs.title}
 							</h1>
-							<p className="mt-4 font-light text-lg text-muted-foreground leading-relaxed">
+							<p className="mt-4 text-lg text-muted-foreground leading-relaxed">
 								{cs.excerpt}
 							</p>
 						</div>
@@ -68,7 +68,7 @@ export default async function CaseStudyPage({
 							{cs.techStack.map((tech) => (
 								<span
 									key={tech}
-									className="border border-border/40 px-3 py-1.5 font-light text-sm"
+									className="border border-border/40 px-3 py-1.5 text-sm"
 								>
 									{tech}
 								</span>
@@ -79,9 +79,9 @@ export default async function CaseStudyPage({
 			</section>
 
 			{cs.coverImage && (
-				<section className="pb-16">
-					<div className="mx-auto max-w-[1200px] px-6">
-						<div className="relative aspect-video w-full overflow-hidden rounded-sm border border-border/40 shadow-sm">
+				<section className="pb-20">
+					<div className="mx-auto max-w-[1320px] px-6">
+						<div className="relative aspect-video w-full overflow-hidden border border-border/40">
 							<Image
 								src={cs.coverImage}
 								alt={cs.title}
@@ -95,20 +95,20 @@ export default async function CaseStudyPage({
 			)}
 
 			<SectionWrapper id="challenge" alternate>
-				<div className="grid gap-12 md:grid-cols-2 md:gap-16">
+				<div className="grid gap-16 md:grid-cols-2 md:gap-20">
 					<div>
-						<h2 className="font-normal text-2xl tracking-tight">
+						<h2 className="font-display text-2xl tracking-tight">
 							{t("challenge")}
 						</h2>
-						<p className="mt-4 font-light text-muted-foreground leading-relaxed">
+						<p className="mt-4 text-muted-foreground leading-relaxed">
 							{cs.challenge}
 						</p>
 					</div>
 					<div>
-						<h2 className="font-normal text-2xl tracking-tight">
+						<h2 className="font-display text-2xl tracking-tight">
 							{t("solution")}
 						</h2>
-						<p className="mt-4 font-light text-muted-foreground leading-relaxed">
+						<p className="mt-4 text-muted-foreground leading-relaxed">
 							{cs.solution}
 						</p>
 					</div>
@@ -117,19 +117,19 @@ export default async function CaseStudyPage({
 
 			<SectionWrapper id="results">
 				<div className="grid gap-12 md:grid-cols-[1fr_2fr] md:items-start">
-					<h2 className="font-normal text-2xl tracking-tight">
+					<h2 className="font-display text-2xl tracking-tight">
 						{t("results")}
 					</h2>
 					<div className="border border-border/40">
 						{cs.results.map((result, i) => (
 							<div
 								key={result}
-								className="flex gap-4 not-last:border-border/40 not-last:border-b px-6 py-4"
+								className="flex gap-4 not-last:border-border/40 not-last:border-b px-6 py-5"
 							>
-								<span className="mt-0.5 font-medium text-brand/60 text-xs">
+								<span className="mt-0.5 font-display text-brand/50 text-xs">
 									{String(i + 1).padStart(2, "0")}
 								</span>
-								<span className="font-light text-sm leading-relaxed">
+								<span className="text-sm leading-relaxed">
 									{result}
 								</span>
 							</div>
@@ -139,17 +139,17 @@ export default async function CaseStudyPage({
 			</SectionWrapper>
 
 			{cs.testimonial && (
-				<SectionWrapper id="testimonial" alternate>
+				<SectionWrapper id="testimonial" dark>
 					<div className="mx-auto max-w-3xl text-center">
-						<span className="block font-serif text-6xl text-brand/30 leading-none">
+						<span className="block font-display text-6xl text-brand/30 leading-none select-none">
 							&ldquo;
 						</span>
-						<p className="mt-4 font-light text-muted-foreground text-xl leading-relaxed md:text-2xl">
+						<p className="mt-4 text-xl leading-relaxed text-muted-foreground md:text-2xl italic">
 							{cs.testimonial.quote}
 						</p>
 						<div className="mt-8">
-							<p className="font-medium text-sm">{cs.testimonial.author}</p>
-							<p className="mt-1 font-light text-muted-foreground text-xs">
+							<p className="text-sm">{cs.testimonial.author}</p>
+							<p className="mt-1 text-muted-foreground text-xs">
 								{cs.testimonial.role}
 							</p>
 						</div>
@@ -159,15 +159,15 @@ export default async function CaseStudyPage({
 
 			<SectionWrapper id="cta">
 				<div className="max-w-xl">
-					<h2 className="font-normal text-2xl tracking-tight">
+					<h2 className="font-display text-2xl tracking-tight">
 						{t("ctaTitle")}
 					</h2>
-					<p className="mt-4 font-light text-muted-foreground">
+					<p className="mt-4 text-muted-foreground leading-relaxed">
 						{t("ctaDescription")}
 					</p>
 					<div className="mt-8 flex gap-3">
 						<Button
-							className="border-brand bg-brand text-white [&]:hover:bg-brand/80"
+							className="border-transparent bg-brand text-white [&]:hover:bg-brand/80"
 							// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
 							render={<a href="/#contact" />}
 						>
