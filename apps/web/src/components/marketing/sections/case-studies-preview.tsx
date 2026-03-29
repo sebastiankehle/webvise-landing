@@ -50,7 +50,7 @@ export default async function CaseStudiesPreview() {
 									src={cs.coverImage}
 									alt={cs.title}
 									fill
-									className="object-cover transition-transform group-hover:scale-[1.03]"
+									className="object-cover transition-all group-hover:brightness-110"
 								/>
 							</div>
 						)}
@@ -93,7 +93,7 @@ export default async function CaseStudiesPreview() {
 										src={cs.coverImage}
 										alt={cs.title}
 										fill
-										className="object-cover transition-transform group-hover:scale-[1.03]"
+										className="object-cover transition-all group-hover:brightness-110"
 									/>
 								</div>
 							)}
