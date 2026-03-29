@@ -85,7 +85,7 @@ export default async function CaseStudiesPreview() {
 								pathname: "/case-studies/[slug]",
 								params: { slug: cs.slug },
 							}}
-							className="group flex items-center gap-5 border-border/40 border-t-2 border-t-transparent not-last:border-b p-5 transition-all hover:border-t-brand hover:bg-muted/30 md:not-nth-[3n]:border-r md:not-last:border-b-0"
+							className="group flex items-center gap-5 border-border/40 not-last:border-b p-5 transition-all hover:bg-muted/30 md:not-nth-[3n]:border-r md:not-last:border-b-0"
 						>
 							{cs.coverImage && (
 								<div className="relative aspect-[8/5] w-28 shrink-0 overflow-hidden border border-border/40">
