@@ -22,7 +22,7 @@ export default async function Pricing() {
 				</h2>
 				<p className="mt-4 text-muted-foreground leading-relaxed">{t("subtitle")}</p>
 			</div>
-			<StaggerChildren className="mt-14 grid gap-px overflow-hidden border border-border/40 md:grid-cols-3">
+			<StaggerChildren className="mt-14 grid items-stretch gap-px overflow-hidden border border-border/40 md:grid-cols-3">
 				{tiers.map(({ key, featureCount, hasBadge }) => {
 					const featureKeys = Array.from({ length: featureCount }, (_, i) =>
 						String(i),
@@ -32,7 +32,9 @@ export default async function Pricing() {
 						<div
 							key={key}
 							className={`flex flex-col justify-between border-border/40 not-last:border-b p-8 md:not-last:border-r md:not-last:border-b-0 md:p-10 ${
-								hasBadge ? "bg-muted/30" : ""
+								hasBadge
+									? "border-t-2 border-t-brand bg-muted/30 md:-my-4 md:py-14"
+									: ""
 							}`}
 						>
 							<div>
