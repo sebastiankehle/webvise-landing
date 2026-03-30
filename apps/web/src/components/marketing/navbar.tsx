@@ -9,7 +9,7 @@ import LanguageSwitcher from "@/components/marketing/language-switcher";
 import { Button } from "@/components/ui/button";
 import { services } from "@/data/services";
 import { socials } from "@/data/socials";
-import { Link, usePathname, useRouter } from "@/i18n/navigation";
+import { Link, usePathname } from "@/i18n/navigation";
 import { track } from "@/lib/track";
 
 export interface NavbarPost {
@@ -37,7 +37,6 @@ export default function Navbar({
 	const tpr = useTranslations("pricing");
 	const tb = useTranslations("blog");
 	const pathname = usePathname();
-	const router = useRouter();
 	const locale = useLocale();
 
 	useEffect(() => {
@@ -69,22 +68,17 @@ export default function Navbar({
 		return () => window.removeEventListener("keydown", onKeyDown);
 	}, []);
 
-	const scrollToSection = useCallback(
-		(hash: string) => {
+	const handleNavClick = useCallback(
+		(e: React.MouseEvent, hash: string) => {
 			close();
 			setMobileOpen(false);
 			if (pathname === "/") {
+				e.preventDefault();
 				const el = document.getElementById(hash);
-				if (el) {
-					el.scrollIntoView({ behavior: "smooth" });
-					window.history.replaceState(null, "", `/${locale === "en" ? "" : locale}`);
-				}
-			} else {
-				const prefix = locale === "en" ? "" : `/${locale}`;
-				window.location.href = `${prefix}/#${hash}`;
+				if (el) el.scrollIntoView({ behavior: "smooth" });
 			}
 		},
-		[pathname, close, locale],
+		[pathname, close],
 	);
 
 	const navLinks: { hash: NavHash; label: string }[] = [
@@ -125,9 +119,9 @@ export default function Navbar({
 						className="hidden h-full items-center gap-1 md:flex"
 					>
 						{navLinks.map(({ hash, label }) => (
-							<button
+							<Link
 								key={hash}
-								type="button"
+								href={{ pathname: "/", hash }}
 								className={`relative inline-flex h-full items-center px-4 text-[13px] uppercase tracking-wider transition-colors hover:text-foreground ${
 									activeDropdown === hash
 										? "text-foreground"
@@ -135,13 +129,13 @@ export default function Navbar({
 								}`}
 								onMouseEnter={() => dropdownHashes.has(hash) && open(hash)}
 								onMouseLeave={() => dropdownHashes.has(hash) && scheduleClose()}
-								onClick={() => scrollToSection(hash)}
+								onClick={(e) => handleNavClick(e, hash)}
 							>
 								{label}
 								{activeDropdown === hash && (
 									<span className="absolute bottom-0 left-4 right-4 h-px bg-brand" />
 								)}
-							</button>
+							</Link>
 						))}
 					</nav>
 
@@ -290,10 +284,7 @@ export default function Navbar({
 										className={`group flex flex-col border-border/40 p-5 transition-colors hover:bg-muted/40 ${
 											i < 2 ? "border-r" : ""
 										}`}
-										onClick={(e) => {
-											e.preventDefault();
-											scrollToSection("pricing");
-										}}
+										onClick={(e) => handleNavClick(e, "pricing")}
 									>
 										<div className="flex items-center gap-2">
 											<p className="text-sm">
@@ -372,38 +363,29 @@ export default function Navbar({
 								</div>
 							)}
 
-							<button
-								type="button"
+							<Link
+								href={{ pathname: "/", hash: "case-studies" }}
 								className="py-4 text-left font-display text-xl text-foreground transition-colors hover:text-brand"
-								onClick={() => {
-									scrollToSection("case-studies");
-									setMobileOpen(false);
-								}}
+								onClick={(e) => handleNavClick(e, "case-studies")}
 							>
 								{t("caseStudies")}
-							</button>
+							</Link>
 
-							<button
-								type="button"
+							<Link
+								href={{ pathname: "/", hash: "blog" }}
 								className="py-4 text-left font-display text-xl text-foreground transition-colors hover:text-brand"
-								onClick={() => {
-									scrollToSection("blog");
-									setMobileOpen(false);
-								}}
+								onClick={(e) => handleNavClick(e, "blog")}
 							>
 								{t("blog")}
-							</button>
+							</Link>
 
-							<button
-								type="button"
+							<Link
+								href={{ pathname: "/", hash: "pricing" }}
 								className="py-4 text-left font-display text-xl text-foreground transition-colors hover:text-brand"
-								onClick={() => {
-									scrollToSection("pricing");
-									setMobileOpen(false);
-								}}
+								onClick={(e) => handleNavClick(e, "pricing")}
 							>
 								{t("pricing")}
-							</button>
+							</Link>
 						</div>
 
 						<div className="mt-8">
