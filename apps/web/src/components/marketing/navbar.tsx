@@ -69,6 +69,20 @@ export default function Navbar({
 		return () => window.removeEventListener("keydown", onKeyDown);
 	}, []);
 
+	const [pendingHash, setPendingHash] = useState<string | null>(null);
+
+	useEffect(() => {
+		if (pendingHash && pathname === "/") {
+			const id = pendingHash;
+			setPendingHash(null);
+			const timer = setTimeout(() => {
+				const el = document.getElementById(id);
+				if (el) el.scrollIntoView({ behavior: "smooth" });
+			}, 100);
+			return () => clearTimeout(timer);
+		}
+	}, [pathname, pendingHash]);
+
 	const scrollToSection = useCallback(
 		(hash: string) => {
 			close();
@@ -79,6 +93,7 @@ export default function Navbar({
 					window.history.replaceState(null, "", `/${locale === "en" ? "" : locale}`);
 				}
 			} else {
+				setPendingHash(hash);
 				router.push("/");
 			}
 		},
