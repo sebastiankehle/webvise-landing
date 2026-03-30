@@ -22,9 +22,20 @@ export async function generateMetadata({
 	if (!post) return {};
 
 	return {
-		title: `${post.title} - webvise`,
+		title: post.title,
 		description: post.excerpt,
 		keywords: post.keyword,
+		openGraph: {
+			title: `${post.title} | webvise`,
+			description: post.excerpt,
+			url: `https://webvise.io/blog/${slug}`,
+			type: "article",
+			publishedTime: post.date,
+		},
+		twitter: {
+			title: `${post.title} | webvise`,
+			description: post.excerpt,
+		},
 	};
 }
 

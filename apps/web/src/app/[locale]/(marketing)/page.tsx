@@ -1,5 +1,4 @@
-import Script from "next/script";
-
+import JsonLd from "@/components/json-ld";
 import Benefits from "@/components/marketing/sections/benefits";
 import BlogPreview from "@/components/marketing/sections/blog-preview";
 import CaseStudiesPreview from "@/components/marketing/sections/case-studies-preview";
@@ -53,13 +52,7 @@ const jsonLd = {
 export default function HomePage() {
 	return (
 		<>
-			<Script
-				id="json-ld"
-				type="application/ld+json"
-				// biome-ignore lint/security/noDangerouslySetInnerHtml: <static JSON-LD from hardcoded content>
-				dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-				strategy="afterInteractive"
-			/>
+			<JsonLd data={jsonLd} />
 			<Hero />
 			<TechStack />
 			<Benefits />

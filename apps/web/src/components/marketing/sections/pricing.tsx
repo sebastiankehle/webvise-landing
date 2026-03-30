@@ -11,6 +11,8 @@ const tiers = [
 	{ key: "enterprise", featureCount: 7, hasBadge: false },
 ];
 
+const COMPARISON_FEATURE_COUNT = 15;
+
 export default async function Pricing() {
 	const t = await getTranslations("pricing");
 
@@ -83,6 +85,62 @@ export default async function Pricing() {
 					);
 				})}
 			</StaggerChildren>
+
+				{/* Feature comparison table */}
+				<div className="mt-14 overflow-x-auto">
+					<h3 className="mb-6 font-display text-2xl tracking-tight">
+						{t("comparison.title")}
+					</h3>
+					<table className="w-full border border-border/40 text-sm">
+						<thead>
+							<tr className="border-border/40 border-b bg-muted/30">
+								<th className="px-5 py-3 text-left font-mono text-[10px] text-foreground uppercase tracking-widest">
+									Feature
+								</th>
+								{tiers.map(({ key }) => (
+									<th
+										key={key}
+										className="px-5 py-3 text-center font-mono text-[10px] text-foreground uppercase tracking-widest"
+									>
+										{t(`tiers.${key}.name`)}
+									</th>
+								))}
+							</tr>
+						</thead>
+						<tbody>
+							{Array.from(
+								{ length: COMPARISON_FEATURE_COUNT },
+								(_, i) => (
+									<tr
+										key={t(`comparison.features.${i}.name`)}
+										className="border-border/40 border-b last:border-0"
+									>
+										<td className="px-5 py-3 text-muted-foreground">
+											{t(`comparison.features.${i}.name`)}
+										</td>
+										{(["project", "growth", "enterprise"] as const).map(
+											(tierKey) => (
+												<td
+													key={tierKey}
+													className="px-5 py-3 text-center"
+												>
+													{t(`comparison.features.${i}.${tierKey}`) ===
+													"true" ? (
+														<span className="text-brand">&#10003;</span>
+													) : (
+														<span className="text-muted-foreground/40">
+															&mdash;
+														</span>
+													)}
+												</td>
+											),
+										)}
+									</tr>
+								),
+							)}
+						</tbody>
+					</table>
+				</div>
 		</SectionWrapper>
 	);
 }

@@ -268,30 +268,128 @@ function isValidUrl(value: string): boolean {
 	}
 }
 
+function TeaserResults({
+	data,
+	onUnlock,
+}: {
+	data: ReportData;
+	onUnlock: (email: string, firstName: string) => void;
+}) {
+	const t = useTranslations("wpHealthReport");
+	const [email, setEmail] = useState("");
+	const [firstName, setFirstName] = useState("");
+	const [emailError, setEmailError] = useState("");
+
+	function handleUnlock(e: React.FormEvent) {
+		e.preventDefault();
+		const trimmed = email.trim();
+		if (!trimmed || !z.string().email().safeParse(trimmed).success) {
+			setEmailError(t("errors.emailInvalid"));
+			return;
+		}
+		setEmailError("");
+		onUnlock(trimmed, firstName.trim());
+	}
+
+	return (
+		<div>
+			<div className="flex flex-col gap-1 md:flex-row md:items-baseline md:justify-between">
+				<h2 className="font-normal text-3xl tracking-tight md:text-4xl">
+					{t("results.title")}
+				</h2>
+				<p className="font-light text-muted-foreground text-sm">
+					{t("results.resultsFor")}{" "}
+					<span className="font-medium text-foreground">{data.url}</span>
+				</p>
+			</div>
+
+			{/* Scores row */}
+			<div className="mt-8 grid grid-cols-2 gap-px overflow-hidden border border-border/40">
+				<div className="flex flex-col items-center justify-center p-4">
+					<ScoreRing score={data.mobile.score} label={t("results.mobile")} />
+				</div>
+				<div className="flex flex-col items-center justify-center border-border/40 border-l p-4">
+					<ScoreRing score={data.desktop.score} label={t("results.desktop")} />
+				</div>
+			</div>
+
+			{/* Projected score */}
+			<div className="mt-4 border-2 border-brand bg-brand/5 p-5">
+				<p className="mb-3 text-center font-medium text-brand text-xs uppercase tracking-wider">
+					{t("results.projectedLabel")}
+				</p>
+				<div className="flex justify-center">
+					<ScoreRing
+						score={data.projectedScore}
+						label={t("results.afterNextjs")}
+						size={88}
+					/>
+				</div>
+				<p className="mt-3 text-center text-muted-foreground text-xs">
+					{t("results.projectedHint")}
+				</p>
+			</div>
+
+			{/* Email gate */}
+			<form
+				onSubmit={handleUnlock}
+				className="mt-6 border border-border/40 p-6"
+				noValidate
+			>
+				<p className="font-medium text-sm">
+					{t("gate.title")}
+				</p>
+				<p className="mt-1 text-muted-foreground text-xs">
+					{t("gate.subtitle")}
+				</p>
+				<div className="mt-4 grid gap-3 md:grid-cols-[1fr_1fr_auto]">
+					<Input
+						type="email"
+						value={email}
+						onChange={(e) => setEmail(e.target.value)}
+						placeholder={t("form.emailPlaceholder")}
+						className="h-10 text-base md:h-8 md:text-xs"
+						required
+					/>
+					<Input
+						value={firstName}
+						onChange={(e) => setFirstName(e.target.value)}
+						placeholder={t("form.namePlaceholder")}
+						className="h-10 text-base md:h-8 md:text-xs"
+					/>
+					<Button
+						type="submit"
+						className="border-transparent bg-brand text-white md:h-8 md:text-xs [&]:hover:bg-brand/80"
+					>
+						{t("gate.unlock")}
+					</Button>
+				</div>
+				{emailError && (
+					<p className="mt-2 text-destructive text-xs">{emailError}</p>
+				)}
+				<p className="mt-3 text-muted-foreground text-xs">
+					{t("gate.privacy")}
+				</p>
+			</form>
+		</div>
+	);
+}
+
 export default function WpHealthReport() {
 	const t = useTranslations("wpHealthReport");
-	const [submitStatus, setSubmitStatus] = useState<
-		"idle" | "success" | "error"
-	>("idle");
+	const [phase, setPhase] = useState<"form" | "teaser" | "full">("form");
 	const [report, setReport] = useState<ReportData | null>(null);
 	const [errorMessage, setErrorMessage] = useState("");
 
 	const form = useForm({
-		defaultValues: {
-			url: "",
-			email: "",
-			firstName: "",
-		},
+		defaultValues: { url: "" },
 		validators: {
 			onSubmit: z.object({
 				url: z.string().min(1, t("errors.urlRequired")),
-				email: z.email(t("errors.emailInvalid")),
-				firstName: z.string(),
 			}),
 		},
 		onSubmit: async ({ value }) => {
 			setErrorMessage("");
-			setSubmitStatus("idle");
 
 			let url = value.url.trim();
 			if (!url.startsWith("http")) {
@@ -304,17 +402,13 @@ export default function WpHealthReport() {
 				const res = await fetch("/api/wp-health-report", {
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({
-						url,
-						email: value.email.trim(),
-						firstName: value.firstName,
-					}),
+					body: JSON.stringify({ url }),
 				});
 
 				if (res.ok) {
 					const result = await res.json();
 					setReport(result);
-					setSubmitStatus("success");
+					setPhase("teaser");
 					track("analyzer_success", {
 						url,
 						mobile_score: result.mobile?.score ?? null,
@@ -324,177 +418,137 @@ export default function WpHealthReport() {
 				} else {
 					const err = await res.json().catch(() => null);
 					setErrorMessage(err?.error || t("errors.analyzeFailed"));
-					setSubmitStatus("error");
 					track("analyzer_error", { url, reason: "server_error" });
 				}
 			} catch {
 				setErrorMessage(t("errors.networkError"));
-				setSubmitStatus("error");
 				track("analyzer_error", { url, reason: "network_error" });
 			}
 		},
 	});
 
+	function handleUnlock(email: string, firstName: string) {
+		setPhase("full");
+		track("analyzer_unlocked", { url: report?.url ?? "", email });
+
+		// Fire-and-forget: re-submit with email to trigger notification emails
+		if (report) {
+			fetch("/api/wp-health-report", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					url: report.url,
+					email,
+					firstName: firstName || undefined,
+				}),
+			}).catch(() => {});
+		}
+	}
+
 	return (
 		<section id="wp-health-report" className="py-16 md:py-32">
 			<div className="mx-auto max-w-[1200px] px-6">
-				{submitStatus !== "success" ? (
+				{phase === "form" && (
 					<>
-					<div>
 						<div className="grid items-start gap-12 md:grid-cols-2 md:gap-16">
-								<div>
-									<h1 className="font-normal text-3xl leading-[1.15] tracking-tight md:text-[48px]">
-										{t.rich("hero.title", {
-											brand: (chunks) => (
-												<span className="text-brand">{chunks}</span>
-											),
-										})}
-									</h1>
-									<p className="mt-4 font-light text-lg text-muted-foreground leading-relaxed">
-										{t("hero.subtitle")}
-									</p>
+							<div>
+								<h1 className="font-normal text-3xl leading-[1.15] tracking-tight md:text-[48px]">
+									{t.rich("hero.title", {
+										brand: (chunks) => (
+											<span className="text-brand">{chunks}</span>
+										),
+									})}
+								</h1>
+								<p className="mt-4 font-light text-lg text-muted-foreground leading-relaxed">
+									{t("hero.subtitle")}
+								</p>
 
-									<ul className="mt-6 space-y-2">
-										{[0, 1, 2, 3].map((i) => (
-											<li key={i} className="flex items-start gap-3 text-sm">
-												<span className="mt-1 h-1.5 w-1.5 shrink-0 bg-brand" />
-												<span>{t(`hero.benefits.${i}`)}</span>
-											</li>
-										))}
-									</ul>
+								<ul className="mt-6 space-y-2">
+									{[0, 1, 2, 3].map((i) => (
+										<li key={i} className="flex items-start gap-3 text-sm">
+											<span className="mt-1 h-1.5 w-1.5 shrink-0 bg-brand" />
+											<span>{t(`hero.benefits.${i}`)}</span>
+										</li>
+									))}
+								</ul>
 
-									<p className="mt-6 text-muted-foreground text-xs">
-										{t("hero.trustLine")}
-									</p>
-								</div>
-
-								<form
-									onSubmit={(e) => {
-										e.preventDefault();
-										e.stopPropagation();
-										form.handleSubmit();
-									}}
-									className="space-y-4 border border-border/40 p-5 md:p-8"
-									aria-label={t("form.ariaLabel")}
-									noValidate
-									autoComplete="off"
-								>
-									<form.Field
-										name="url"
-										validators={{
-											onSubmit: ({ value }) => {
-												if (!value.trim()) return t("errors.urlRequired");
-												if (!isValidUrl(value)) return t("errors.urlInvalid");
-												return undefined;
-											},
-										}}
-									>
-										{(field) => (
-											<FormItem>
-												<FormLabel htmlFor={field.name}>
-													{t("form.url")}
-												</FormLabel>
-												<Input
-													id={field.name}
-													name={field.name}
-													type="url"
-													value={field.state.value}
-													onBlur={field.handleBlur}
-													onChange={(e) => field.handleChange(e.target.value)}
-													placeholder={t("form.urlPlaceholder")}
-													autoComplete="off"
-													aria-invalid={field.state.meta.errors.length > 0}
-													className="h-10 text-base md:h-8 md:text-xs"
-												/>
-												<FormMessage errors={field.state.meta.errors} />
-											</FormItem>
-										)}
-									</form.Field>
-									<div className="grid gap-4 md:grid-cols-2">
-										<form.Field name="email">
-											{(field) => (
-												<FormItem>
-													<FormLabel htmlFor={field.name}>
-														{t("form.email")}
-													</FormLabel>
-													<Input
-														id={field.name}
-														name={field.name}
-														type="email"
-														value={field.state.value}
-														onBlur={field.handleBlur}
-														onChange={(e) =>
-															field.handleChange(e.target.value)
-														}
-														placeholder={t("form.emailPlaceholder")}
-														autoComplete="off"
-														aria-invalid={
-															field.state.meta.errors.length > 0
-														}
-														className="h-10 text-base md:h-8 md:text-xs"
-													/>
-													<FormMessage errors={field.state.meta.errors} />
-												</FormItem>
-											)}
-										</form.Field>
-										<form.Field name="firstName">
-											{(field) => (
-												<FormItem>
-													<FormLabel htmlFor={field.name}>
-														{t("form.name")}{" "}
-														<span className="text-muted-foreground">
-															{t("form.nameOptional")}
-														</span>
-													</FormLabel>
-													<Input
-														id={field.name}
-														name={field.name}
-														value={field.state.value}
-														onBlur={field.handleBlur}
-														onChange={(e) =>
-															field.handleChange(e.target.value)
-														}
-														placeholder={t("form.namePlaceholder")}
-														autoComplete="off"
-														className="h-10 text-base md:h-8 md:text-xs"
-													/>
-												</FormItem>
-											)}
-										</form.Field>
-									</div>
-									<form.Subscribe
-										selector={(state) => [
-											state.canSubmit,
-											state.isSubmitting,
-										]}
-									>
-										{([_canSubmit, isSubmitting]) => (
-											<SubmitButton
-												isSubmitting={isSubmitting}
-												size="lg"
-												className="w-full border-transparent bg-brand text-white md:h-8 md:text-xs [&]:hover:bg-brand/80"
-											>
-												{t("form.submit")}
-											</SubmitButton>
-										)}
-									</form.Subscribe>
-									<p className="text-center text-muted-foreground text-xs">
-										{t("form.noSignup")}
-									</p>
-									<div aria-live="polite" aria-atomic="true">
-										{submitStatus === "error" && (
-											<p role="alert" className="text-destructive text-sm">
-												{errorMessage}
-											</p>
-										)}
-									</div>
-								</form>
+								<p className="mt-6 text-muted-foreground text-xs">
+									{t("hero.trustLine")}
+								</p>
 							</div>
+
+							<form
+								onSubmit={(e) => {
+									e.preventDefault();
+									e.stopPropagation();
+									form.handleSubmit();
+								}}
+								className="space-y-4 border border-border/40 p-5 md:p-8"
+								aria-label={t("form.ariaLabel")}
+								noValidate
+								autoComplete="off"
+							>
+								<form.Field
+									name="url"
+									validators={{
+										onSubmit: ({ value }) => {
+											if (!value.trim()) return t("errors.urlRequired");
+											if (!isValidUrl(value)) return t("errors.urlInvalid");
+											return undefined;
+										},
+									}}
+								>
+									{(field) => (
+										<FormItem>
+											<FormLabel htmlFor={field.name}>
+												{t("form.url")}
+											</FormLabel>
+											<Input
+												id={field.name}
+												name={field.name}
+												type="url"
+												value={field.state.value}
+												onBlur={field.handleBlur}
+												onChange={(e) => field.handleChange(e.target.value)}
+												placeholder={t("form.urlPlaceholder")}
+												autoComplete="off"
+												aria-invalid={field.state.meta.errors.length > 0}
+												className="h-10 text-base md:h-8 md:text-xs"
+											/>
+											<FormMessage errors={field.state.meta.errors} />
+										</FormItem>
+									)}
+								</form.Field>
+								<form.Subscribe
+									selector={(state) => [
+										state.canSubmit,
+										state.isSubmitting,
+									]}
+								>
+									{([_canSubmit, isSubmitting]) => (
+										<SubmitButton
+											isSubmitting={isSubmitting}
+											size="lg"
+											className="w-full border-transparent bg-brand text-white md:h-8 md:text-xs [&]:hover:bg-brand/80"
+										>
+											{t("form.submit")}
+										</SubmitButton>
+									)}
+								</form.Subscribe>
+								<p className="text-center text-muted-foreground text-xs">
+									{t("form.noSignup")}
+								</p>
+								<div aria-live="polite" aria-atomic="true">
+									{errorMessage && (
+										<p role="alert" className="text-destructive text-sm">
+											{errorMessage}
+										</p>
+									)}
+								</div>
+							</form>
 						</div>
 
-						<form.Subscribe
-							selector={(state) => state.isSubmitting}
-						>
+						<form.Subscribe selector={(state) => state.isSubmitting}>
 							{(isSubmitting) =>
 								isSubmitting ? (
 									<div className="mt-12 flex flex-col items-center gap-3">
@@ -507,8 +561,14 @@ export default function WpHealthReport() {
 							}
 						</form.Subscribe>
 					</>
-				) : (
-					report && <ReportResults data={report} />
+				)}
+
+				{phase === "teaser" && report && (
+					<TeaserResults data={report} onUnlock={handleUnlock} />
+				)}
+
+				{phase === "full" && report && (
+					<ReportResults data={report} />
 				)}
 			</div>
 

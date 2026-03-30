@@ -8,9 +8,21 @@ const POSTS_PER_PAGE = 9;
 
 export async function generateMetadata(): Promise<Metadata> {
 	const t = await getTranslations("blog");
+	const title = t("title");
+	const description = t("subtitle");
+
 	return {
-		title: `${t("title")} - webvise`,
-		description: t("subtitle"),
+		title,
+		description,
+		openGraph: {
+			title: `${title} | webvise`,
+			description,
+			url: "https://webvise.io/blog",
+		},
+		twitter: {
+			title: `${title} | webvise`,
+			description,
+		},
 	};
 }
 

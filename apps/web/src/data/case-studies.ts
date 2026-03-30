@@ -11,12 +11,18 @@ export interface CaseStudyMeta {
 	images?: string[];
 }
 
+export interface CaseStudyMetric {
+	value: string;
+	label: string;
+}
+
 export interface CaseStudyContent {
 	title: string;
 	excerpt: string;
 	challenge: string;
 	solution: string;
 	results: string[];
+	metrics?: CaseStudyMetric[];
 	techStack: string[];
 	testimonial: {
 		quote: string;
@@ -90,6 +96,7 @@ function toCaseStudy(slug: string, locale: string): CaseStudy | null {
 		challenge: content.challenge,
 		solution: content.solution,
 		results: content.results,
+		metrics: content.metrics,
 		techStack: content.techStack,
 		testimonial: content.testimonial,
 	};

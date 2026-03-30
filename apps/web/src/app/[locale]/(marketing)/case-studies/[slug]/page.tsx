@@ -22,8 +22,19 @@ export async function generateMetadata({
 	if (!cs) return {};
 
 	return {
-		title: `${cs.title} - webvise`,
+		title: cs.title,
 		description: cs.excerpt,
+		openGraph: {
+			title: `${cs.title} | webvise`,
+			description: cs.excerpt,
+			url: `https://webvise.io/case-studies/${slug}`,
+			...(cs.coverImage && { images: [{ url: cs.coverImage }] }),
+		},
+		twitter: {
+			title: `${cs.title} | webvise`,
+			description: cs.excerpt,
+			...(cs.coverImage && { images: [cs.coverImage] }),
+		},
 	};
 }
 
@@ -78,13 +89,35 @@ export default async function CaseStudyPage({
 				</div>
 			</section>
 
+			{cs.metrics && cs.metrics.length > 0 && (
+				<section className="pb-20">
+					<div className="mx-auto max-w-[1320px] px-6">
+						<div className="grid gap-px overflow-hidden border border-border/40 md:grid-cols-4">
+							{cs.metrics.map((metric) => (
+								<div
+									key={metric.label}
+									className="border-border/40 not-last:border-b p-8 text-center md:not-last:border-r md:not-last:border-b-0"
+								>
+									<span className="block font-display text-3xl tracking-tight text-brand">
+										{metric.value}
+									</span>
+									<span className="mt-2 block text-muted-foreground text-sm">
+										{metric.label}
+									</span>
+								</div>
+							))}
+						</div>
+					</div>
+				</section>
+			)}
+
 			{cs.coverImage && (
 				<section className="pb-20">
 					<div className="mx-auto max-w-[1320px] px-6">
 						<div className="relative aspect-video w-full overflow-hidden border border-border/40">
 							<Image
 								src={cs.coverImage}
-								alt={cs.title}
+								alt={`${cs.client} – ${cs.title}`}
 								fill
 								className="object-cover object-top"
 								priority

@@ -5,7 +5,7 @@ export const maxDuration = 60;
 
 const schema = z.object({
 	url: z.string().url(),
-	email: z.string().email(),
+	email: z.string().email().optional(),
 	firstName: z.string().max(100).optional(),
 });
 
@@ -438,7 +438,7 @@ export async function POST(request: Request) {
 		const estimateMax = mobileScore < 50 ? 2500 : 1500;
 
 		const resendApiKey = process.env.RESEND_API_KEY;
-		if (resendApiKey) {
+		if (resendApiKey && data.email) {
 			const adminEmail = process.env.CONTACT_EMAIL_TO || "mail@webvise.io";
 			const timestamp = new Date().toLocaleString("en-GB", {
 				dateStyle: "long",

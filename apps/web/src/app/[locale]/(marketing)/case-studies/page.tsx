@@ -10,9 +10,21 @@ import { Link } from "@/i18n/navigation";
 
 export async function generateMetadata(): Promise<Metadata> {
 	const t = await getTranslations("caseStudies");
+	const title = t("title");
+	const description = t("subtitle");
+
 	return {
-		title: `${t("title")} - webvise`,
-		description: t("subtitle"),
+		title,
+		description,
+		openGraph: {
+			title: `${title} | webvise`,
+			description,
+			url: "https://webvise.io/case-studies",
+		},
+		twitter: {
+			title: `${title} | webvise`,
+			description,
+		},
 	};
 }
 
@@ -51,7 +63,7 @@ export default async function CaseStudiesPage() {
 								<div className="relative mb-5 aspect-[8/5] w-full overflow-hidden border border-border/40">
 									<Image
 										src={cs.coverImage}
-										alt={cs.title}
+										alt={`${cs.client} – ${cs.title}`}
 										fill
 										className="object-cover transition-all duration-500 group-hover:brightness-110"
 									/>

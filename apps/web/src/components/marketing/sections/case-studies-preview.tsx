@@ -48,7 +48,7 @@ export default async function CaseStudiesPreview() {
 							<div className="relative mb-5 aspect-[8/5] w-full overflow-hidden border border-border">
 								<Image
 									src={cs.coverImage}
-									alt={cs.title}
+									alt={`${cs.client} – ${cs.title}`}
 									fill
 									className="object-cover transition-all duration-500 group-hover:brightness-110"
 								/>
@@ -91,7 +91,7 @@ export default async function CaseStudiesPreview() {
 								<div className="relative aspect-[8/5] w-28 shrink-0 overflow-hidden border border-border">
 									<Image
 										src={cs.coverImage}
-										alt={cs.title}
+										alt={`${cs.client} – ${cs.title}`}
 										fill
 										className="object-cover transition-all duration-500 group-hover:brightness-110"
 									/>
