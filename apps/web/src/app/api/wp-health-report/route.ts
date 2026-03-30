@@ -82,7 +82,7 @@ async function runPageSpeedInsights(
 		const text = await res.text();
 		throw new Error(`PageSpeed API error ${res.status}: ${text}`);
 	}
-	return res.json();
+	return res.json() as Promise<PSIResult>;
 }
 
 function extractCoreWebVitals(result: PSIResult) {
@@ -399,12 +399,40 @@ export async function POST(request: Request) {
 			console.error("PageSpeed Insights API failed:", psiError);
 			const message =
 				psiError instanceof Error ? psiError.message : String(psiError);
+
 			if (message.includes("429")) {
 				return NextResponse.json(
 					{ error: "Rate limited by Google. Please try again in a moment." },
 					{ status: 429 },
 				);
 			}
+
+			const statusMatch = message.match(/PageSpeed API error (\d+)/);
+			const apiStatus = statusMatch ? Number(statusMatch[1]) : null;
+
+			if (apiStatus === 400) {
+				return NextResponse.json(
+					{
+						error:
+							"Could not analyze this URL. Make sure it's a publicly accessible website.",
+					},
+					{ status: 400 },
+				);
+			}
+
+			if (apiStatus === 403) {
+				console.error(
+					"PageSpeed API key may be invalid or the PageSpeed Insights API is not enabled in Google Cloud Console.",
+				);
+				return NextResponse.json(
+					{
+						error:
+							"Analysis service is temporarily unavailable. Please try again later.",
+					},
+					{ status: 503 },
+				);
+			}
+
 			return NextResponse.json(
 				{
 					error:
@@ -414,9 +442,29 @@ export async function POST(request: Request) {
 			);
 		}
 
+		const mobileRawScore =
+			mobile.lighthouseResult?.categories?.performance?.score;
+		const desktopRawScore =
+			desktop.lighthouseResult?.categories?.performance?.score;
+
+		if (mobileRawScore == null || desktopRawScore == null) {
+			console.error("PageSpeed returned null scores", {
+				url: data.url,
+				mobileScore: mobileRawScore,
+				desktopScore: desktopRawScore,
+			});
+			return NextResponse.json(
+				{
+					error:
+						"Could not analyze this URL. Make sure it's a publicly accessible website.",
+				},
+				{ status: 400 },
+			);
+		}
+
 		const [mobileScore, desktopScore, tech] = [
-			Math.round(mobile.lighthouseResult.categories.performance.score * 100),
-			Math.round(desktop.lighthouseResult.categories.performance.score * 100),
+			Math.round(mobileRawScore * 100),
+			Math.round(desktopRawScore * 100),
 			await detectTechnology(data.url),
 		];
 		const issues = extractTopIssues(mobile);
