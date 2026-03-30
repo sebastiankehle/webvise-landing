@@ -69,23 +69,24 @@ export default function Navbar({
 		return () => window.removeEventListener("keydown", onKeyDown);
 	}, []);
 
-	const [pendingHash, setPendingHash] = useState<string | null>(null);
-
 	useEffect(() => {
-		if (pendingHash && pathname === "/") {
-			const id = pendingHash;
-			setPendingHash(null);
-			const timer = setTimeout(() => {
-				const el = document.getElementById(id);
-				if (el) el.scrollIntoView({ behavior: "smooth" });
-			}, 100);
-			return () => clearTimeout(timer);
+		if (pathname === "/") {
+			const hash = sessionStorage.getItem("scrollTo");
+			if (hash) {
+				sessionStorage.removeItem("scrollTo");
+				const timer = setTimeout(() => {
+					const el = document.getElementById(hash);
+					if (el) el.scrollIntoView({ behavior: "smooth" });
+				}, 150);
+				return () => clearTimeout(timer);
+			}
 		}
-	}, [pathname, pendingHash]);
+	}, [pathname]);
 
 	const scrollToSection = useCallback(
 		(hash: string) => {
 			close();
+			setMobileOpen(false);
 			if (pathname === "/") {
 				const el = document.getElementById(hash);
 				if (el) {
@@ -93,7 +94,7 @@ export default function Navbar({
 					window.history.replaceState(null, "", `/${locale === "en" ? "" : locale}`);
 				}
 			} else {
-				setPendingHash(hash);
+				sessionStorage.setItem("scrollTo", hash);
 				router.push("/");
 			}
 		},
