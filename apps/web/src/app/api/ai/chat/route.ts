@@ -7,6 +7,10 @@ import {
 	type UIMessage,
 } from "ai";
 import { z } from "zod";
+import {
+	validateUrl,
+	UrlValidationError,
+} from "@/lib/validate-url";
 
 export const maxDuration = 60;
 
@@ -170,6 +174,12 @@ export async function POST(req: Request) {
 				}),
 				execute: async ({ url }) => {
 					const normalized = url.match(/^https?:\/\//) ? url : `https://${url}`;
+					try {
+						await validateUrl(normalized);
+					} catch (e) {
+						if (e instanceof UrlValidationError) return `Error: ${e.message}`;
+						return "Error: Could not validate the URL.";
+					}
 					return fetchPageContent(normalized);
 				},
 			}),

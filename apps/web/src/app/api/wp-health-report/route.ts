@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { validateUrl, UrlValidationError } from "@/lib/validate-url";
 
 export const maxDuration = 60;
 
@@ -387,6 +388,16 @@ export async function POST(request: Request) {
 
 		const body = await request.json();
 		const data = schema.parse(body);
+
+		try {
+			await validateUrl(data.url);
+		} catch (e) {
+			const message =
+				e instanceof UrlValidationError
+					? e.message
+					: "Could not validate the URL.";
+			return NextResponse.json({ error: message }, { status: 400 });
+		}
 
 		let mobile: PSIResult;
 		let desktop: PSIResult;
