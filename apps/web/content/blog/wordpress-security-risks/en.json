@@ -1,73 +1,236 @@
 {
-  "date": "2026-01-15",
-  "readingTime": 6,
-  "keyword": "wordpress security risks outdated",
-  "title": "Running an Outdated WordPress Site: The Security Risks You're Actually Taking",
-  "excerpt": "Once a WordPress vulnerability is publicly disclosed, exploit code typically appears within 24–72 hours. Here's what running outdated plugins, themes, or core means for your business - with real CVEs from 2024–2025.",
-  "blocks": [
-    { "type": "p", "text": "Over 40% of WordPress sites are running at least one outdated plugin with a known vulnerability. That's not a rough estimate - it's a regularly audited figure from WordPress security researchers. If you haven't updated your plugins or themes in the last few weeks, there's a real chance your site is in that category." },
-    { "type": "p", "text": "The risk isn't abstract. When a vulnerability is patched, the patch itself reveals what the flaw was. Researchers publish technical details. Automated scanners start probing for vulnerable sites within hours. By day three, active exploitation is typically underway at scale." },
-    { "type": "h2", "text": "How Fast Vulnerabilities Get Exploited" },
-    { "type": "p", "text": "The timeline from public disclosure to mass exploitation has compressed significantly. In 2023, the average was around 15 days. By 2025, major vulnerabilities in popular plugins are typically being actively exploited within 24–72 hours of the patch being published." },
-    { "type": "table", "headers": ["Stage", "Typical Timeframe"], "rows": [
-      ["Vulnerability discovered by researcher", "Day 0"],
-      ["Patch released by plugin developer", "Days 1–30 (if ever)"],
-      ["Technical details published", "Same day as patch"],
-      ["Proof-of-concept exploit code published", "24–72 hours after patch"],
-      ["Automated mass scanning begins", "24–72 hours after patch"],
-      ["Your unpatched site at active risk", "Day 3 onward"]
-    ]},
-    { "type": "p", "text": "Your site doesn't need to be targeted specifically. Attackers run automated scanners that probe millions of sites simultaneously, looking for version signatures that indicate vulnerable installations. If your site matches, it gets queued for exploitation." },
-    { "type": "h2", "text": "Real Vulnerabilities From 2024–2025" },
-    { "type": "p", "text": "These are not hypothetical. These are specific vulnerabilities in plugins installed on millions of WordPress sites - all publicly documented." },
-    { "type": "h3", "text": "LiteSpeed Cache - 5 Million Sites at Risk" },
-    { "type": "p", "text": "In August 2024, researchers disclosed CVE-2024-28000, a critical vulnerability in the LiteSpeed Cache plugin. The flaw allowed an unauthenticated attacker to escalate privileges and create administrator accounts on any affected site. LiteSpeed Cache is installed on over 5 million WordPress sites. Sites that didn't update within days were found to have rogue admin accounts created by automated bots within the week." },
-    { "type": "h3", "text": "Really Simple Security - 4 Million Sites at Risk" },
-    { "type": "p", "text": "In November 2024, CVE-2024-10924 was disclosed in Really Simple Security (formerly Really Simple SSL), a plugin installed on 4 million sites. The vulnerability allowed complete authentication bypass - an attacker could log in as any user, including administrators, without knowing the password. WordPress.org rated this as a critical 9.8/10 severity. Mass exploitation attempts were recorded within 24 hours of public disclosure." },
-    { "type": "h3", "text": "WP Automatic - SQL Injection at Scale" },
-    { "type": "p", "text": "In early 2024, CVE-2024-27956 was found in WP Automatic, a plugin used by over 30,000 sites for automated content publishing. The SQL injection vulnerability allowed attackers to extract database contents and create admin accounts. Within weeks of disclosure, thousands of sites had been compromised and backdoors installed." },
-    { "type": "h2", "text": "What 'Outdated' Actually Means" },
-    { "type": "p", "text": "When people think about WordPress updates, they usually think about the core version. But the real attack surface is much broader." },
-    { "type": "table", "headers": ["Component", "Why It Matters", "Risk if Outdated"], "rows": [
-      ["WordPress core", "The foundation - patched regularly", "High: known exploits target old versions"],
-      ["Plugins", "The #1 attack vector - thousands of plugins, varying quality", "Critical: most exploits target plugins"],
-      ["Themes", "Often contain vulnerabilities, especially premium themes from marketplaces", "Medium-High"],
-      ["PHP version", "Server-side language WordPress runs on", "High: PHP 7.4 (EOL 2022) receives no security patches"]
-    ]},
-    { "type": "p", "text": "A significant portion of WordPress sites are still running on PHP 7.x - a version that has been end-of-life since 2022 and receives no security updates. Vulnerabilities in PHP itself go unpatched, creating a security gap below everything else." },
-    { "type": "h2", "text": "The Update Paradox" },
-    { "type": "p", "text": "The logical response to all this is: update everything, immediately. The problem is that WordPress updates frequently break things." },
-    { "type": "p", "text": "Plugin conflicts after major WordPress version updates are common. A theme that worked fine on WP 6.3 may have display issues on WP 6.5. A payment plugin update can break checkout. Most business owners have experienced at least one broken-site-after-update scenario. The result: updates get delayed 'just until we can test it' - and weeks turn into months." },
-    { "type": "p", "text": "Enabling auto-updates reduces the window of vulnerability but introduces unpredictable breakage risk. Many businesses disable auto-updates after one bad experience. There's no clean solution within the WordPress model." },
-    { "type": "h2", "text": "What Attackers Do With Access" },
-    { "type": "p", "text": "Once a site is compromised, attackers typically don't destroy it immediately - that would reveal the breach. They prefer quiet, persistent access." },
-    { "type": "ul", "items": [
-      "**SEO spam injection:** Thousands of hidden links to pharmaceutical, gambling, or adult sites are added to your pages. Your Google rankings decline. Eventually Google blacklists your domain.",
-      "**Redirect hacks:** Visitors (but not you) are silently redirected to malicious sites. Your organic traffic disappears mysteriously. You don't see it because the redirect targets specific traffic patterns.",
-      "**Customer data theft:** Form submissions, contact details, and any stored user data are exfiltrated.",
-      "**Phishing pages:** Fake login pages are hosted on your domain and used to harvest credentials from visitors.",
-      "**Backdoor installation:** A persistent backdoor is left so attackers retain access even after the original vulnerability is patched."
-    ]},
-    { "type": "h2", "text": "Your GDPR Liability" },
-    { "type": "p", "text": "If your site collects any identifiable data - contact form submissions, newsletter signups, customer accounts - and that data is exposed due to a known, unpatched vulnerability, you have a GDPR problem." },
-    { "type": "p", "text": "Article 32 of GDPR requires organizations to implement 'appropriate technical measures' to ensure data security. Running software with publicly documented critical vulnerabilities, without patching them, is a defensible position only if you can demonstrate you had no reasonable opportunity to update. 'We were worried updates might break the site' is not an adequate defense." },
-    { "type": "p", "text": "GDPR fines can reach €20 million or 4% of global annual turnover, whichever is higher. For a small business, even a mid-range fine is existential." },
-    { "type": "h2", "text": "Why Patching Isn't a Long-Term Strategy" },
-    { "type": "p", "text": "In 2024, security researchers disclosed approximately 8,000 new WordPress plugin vulnerabilities - more than 20 per day. This number has grown each year." },
-    { "type": "p", "text": "Keeping up requires: monitoring security advisories for every plugin you use, testing updates in a staging environment before applying to production, applying patches quickly (within 24–72 hours for critical issues), handling site breakages when updates conflict, and managing emergency remediation when something slips through." },
-    { "type": "p", "text": "This is not a one-time task. It's an ongoing maintenance burden. For a business that simply wants a website that works, this overhead is a significant hidden cost of the WordPress model." },
-    { "type": "h2", "text": "The Alternative: Eliminate the Attack Surface" },
-    { "type": "p", "text": "A site built with a modern JavaScript framework like Next.js has a fundamentally different security profile - not because it's immune to all attacks, but because the entire category of vulnerabilities that affects 90% of WordPress compromises doesn't exist in the same form." },
-    { "type": "ul", "items": [
-      "**No database exposed to the internet** - no SQL injection attack surface",
-      "**No server-side PHP execution** - no PHP code execution vulnerabilities",
-      "**No plugin ecosystem to patch** - dependencies are managed explicitly, not sourced from a marketplace of 60,000 options",
-      "**No wp-admin login page** - a known, universally targeted URL that doesn't exist",
-      "**Infrastructure-level security** - DDoS protection, SSL, and edge security handled by platforms like Vercel"
-    ]},
-    { "type": "p", "text": "Moving to a static or server-rendered JavaScript site doesn't mean zero security considerations. But it means your maintenance team isn't racing against daily vulnerability disclosures in a plugin ecosystem." },
-    { "type": "h2", "text": "Check Your Current Exposure" },
-    { "type": "p", "text": "If you're running WordPress, the first step is knowing your actual situation. Our free audit checks your visible WordPress indicators, server response headers, and performance metrics in 60 seconds." },
-    { "type": "p", "text": "Run the audit at [webvise.io/wp-health-report](/wp-health-report). If the results show outdated software or security issues, we can discuss the realistic options - whether that's a disciplined update and monitoring process, or a migration to an architecture without the update treadmill." }
-  ]
+	"date": "2026-01-15",
+	"readingTime": 6,
+	"keyword": "wordpress security risks outdated",
+	"title": "Running an Outdated WordPress Site: The Security Risks You're Actually Taking",
+	"excerpt": "Once a WordPress vulnerability is publicly disclosed, exploit code typically appears within 24–72 hours. Here's what running outdated plugins, themes, or core means for your business - with real CVEs from 2024–2025.",
+	"blocks": [
+		{
+			"type": "p",
+			"text": "Over 40% of WordPress sites are running at least one outdated plugin with a known vulnerability. That's not a rough estimate - it's a regularly audited figure from WordPress [security](/blog/wordpress-security-2026) researchers. If you haven't updated your plugins or themes in the last few weeks, there's a real chance your site is in that category."
+		},
+		{
+			"type": "p",
+			"text": "The risk isn't abstract. When a vulnerability is patched, the patch itself reveals what the flaw was. Researchers publish technical details. Automated scanners start probing for vulnerable sites within hours. By day three, active exploitation is typically underway at scale."
+		},
+		{
+			"type": "h2",
+			"text": "How Fast Vulnerabilities Get Exploited"
+		},
+		{
+			"type": "p",
+			"text": "The timeline from public disclosure to mass exploitation has compressed significantly. In 2023, the average was around 15 days. By 2025, major vulnerabilities in popular plugins are typically being actively exploited within 24–72 hours of the patch being published."
+		},
+		{
+			"type": "table",
+			"headers": [
+				"Stage",
+				"Typical Timeframe"
+			],
+			"rows": [
+				[
+					"Vulnerability discovered by researcher",
+					"Day 0"
+				],
+				[
+					"Patch released by plugin developer",
+					"Days 1–30 (if ever)"
+				],
+				[
+					"Technical details published",
+					"Same day as patch"
+				],
+				[
+					"Proof-of-concept exploit code published",
+					"24–72 hours after patch"
+				],
+				[
+					"Automated mass scanning begins",
+					"24–72 hours after patch"
+				],
+				[
+					"Your unpatched site at active risk",
+					"Day 3 onward"
+				]
+			]
+		},
+		{
+			"type": "p",
+			"text": "Your site doesn't need to be targeted specifically. Attackers run automated scanners that probe millions of sites simultaneously, looking for version signatures that indicate vulnerable installations. If your site matches, it gets queued for exploitation."
+		},
+		{
+			"type": "h2",
+			"text": "Real Vulnerabilities From 2024–2025"
+		},
+		{
+			"type": "p",
+			"text": "These are not hypothetical. These are specific vulnerabilities in plugins installed on millions of WordPress sites - all publicly documented."
+		},
+		{
+			"type": "h3",
+			"text": "LiteSpeed Cache - 5 Million Sites at Risk"
+		},
+		{
+			"type": "p",
+			"text": "In August 2024, researchers disclosed CVE-2024-28000, a critical vulnerability in the LiteSpeed Cache plugin. The flaw allowed an unauthenticated attacker to escalate privileges and create administrator accounts on any affected site. LiteSpeed Cache is installed on over 5 million WordPress sites. Sites that didn't update within days were found to have rogue admin accounts created by automated bots within the week."
+		},
+		{
+			"type": "h3",
+			"text": "Really Simple Security - 4 Million Sites at Risk"
+		},
+		{
+			"type": "p",
+			"text": "In November 2024, CVE-2024-10924 was disclosed in Really Simple Security (formerly Really Simple SSL), a plugin installed on 4 million sites. The vulnerability allowed complete authentication bypass - an attacker could log in as any user, including administrators, without knowing the password. WordPress.org rated this as a critical 9.8/10 severity. Mass exploitation attempts were recorded within 24 hours of public disclosure."
+		},
+		{
+			"type": "h3",
+			"text": "WP Automatic - SQL Injection at Scale"
+		},
+		{
+			"type": "p",
+			"text": "In early 2024, CVE-2024-27956 was found in WP Automatic, a plugin used by over 30,000 sites for automated content publishing. The SQL injection vulnerability allowed attackers to extract database contents and create admin accounts. Within weeks of disclosure, thousands of sites had been compromised and backdoors installed."
+		},
+		{
+			"type": "h2",
+			"text": "What 'Outdated' Actually Means"
+		},
+		{
+			"type": "p",
+			"text": "When people think about WordPress updates, they usually think about the core version. But the real attack surface is much broader."
+		},
+		{
+			"type": "table",
+			"headers": [
+				"Component",
+				"Why It Matters",
+				"Risk if Outdated"
+			],
+			"rows": [
+				[
+					"WordPress core",
+					"The foundation - patched regularly",
+					"High: known exploits target old versions"
+				],
+				[
+					"Plugins",
+					"The #1 attack vector - thousands of plugins, varying quality",
+					"Critical: most exploits target plugins"
+				],
+				[
+					"Themes",
+					"Often contain vulnerabilities, especially premium themes from marketplaces",
+					"Medium-High"
+				],
+				[
+					"PHP version",
+					"Server-side language WordPress runs on",
+					"High: PHP 7.4 (EOL 2022) receives no security patches"
+				]
+			]
+		},
+		{
+			"type": "p",
+			"text": "A significant portion of WordPress sites are still running on PHP 7.x - a version that has been end-of-life since 2022 and receives no security updates. Vulnerabilities in PHP itself go unpatched, creating a security gap below everything else."
+		},
+		{
+			"type": "h2",
+			"text": "The Update Paradox"
+		},
+		{
+			"type": "p",
+			"text": "The logical response to all this is: update everything, immediately. The problem is that WordPress updates frequently break things."
+		},
+		{
+			"type": "p",
+			"text": "Plugin conflicts after major WordPress version updates are common. A theme that worked fine on WP 6.3 may have display issues on WP 6.5. A payment plugin update can break checkout. Most business owners have experienced at least one broken-site-after-update scenario. The result: updates get delayed 'just until we can test it' - and weeks turn into months."
+		},
+		{
+			"type": "p",
+			"text": "Enabling auto-updates reduces the window of vulnerability but introduces unpredictable breakage risk. Many businesses disable auto-updates after one bad experience. There's no clean solution within the WordPress model."
+		},
+		{
+			"type": "h2",
+			"text": "What Attackers Do With Access"
+		},
+		{
+			"type": "p",
+			"text": "Once a site is compromised, attackers typically don't destroy it immediately - that would reveal the breach. They prefer quiet, persistent access."
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**SEO spam injection:** Thousands of hidden links to pharmaceutical, gambling, or adult sites are added to your pages. Your Google rankings decline. Eventually Google blacklists your domain.",
+				"**Redirect hacks:** Visitors (but not you) are silently redirected to malicious sites. Your organic traffic disappears mysteriously. You don't see it because the redirect targets specific traffic patterns.",
+				"**Customer data theft:** Form submissions, contact details, and any stored user data are exfiltrated.",
+				"**Phishing pages:** Fake login pages are hosted on your domain and used to harvest credentials from visitors.",
+				"**Backdoor installation:** A persistent backdoor is left so attackers retain access even after the original vulnerability is patched."
+			]
+		},
+		{
+			"type": "h2",
+			"text": "Your GDPR Liability"
+		},
+		{
+			"type": "p",
+			"text": "If your site collects any identifiable data - contact form submissions, newsletter signups, customer accounts - and that data is exposed due to a known, unpatched vulnerability, you have a GDPR problem."
+		},
+		{
+			"type": "p",
+			"text": "Article 32 of GDPR requires organizations to implement 'appropriate technical measures' to ensure data security. Running software with publicly documented critical vulnerabilities, without patching them, is a defensible position only if you can demonstrate you had no reasonable opportunity to update. 'We were worried updates might break the site' is not an adequate defense."
+		},
+		{
+			"type": "p",
+			"text": "GDPR fines can reach €20 million or 4% of global annual turnover, whichever is higher. For a small business, even a mid-range fine is existential."
+		},
+		{
+			"type": "h2",
+			"text": "Why Patching Isn't a Long-Term Strategy"
+		},
+		{
+			"type": "p",
+			"text": "In 2024, security researchers disclosed approximately [8,000](https://patchstack.com/whitepaper/state-of-wordpress-security-in-2024/) new WordPress plugin vulnerabilities - more than 20 per day. This number has grown each year."
+		},
+		{
+			"type": "p",
+			"text": "Keeping up requires: monitoring security advisories for every plugin you use, testing updates in a staging environment before applying to production, applying patches quickly (within 24–72 hours for critical issues), handling site breakages when updates conflict, and managing emergency remediation when something slips through."
+		},
+		{
+			"type": "p",
+			"text": "This is not a one-time task. It's an ongoing maintenance burden. For a business that simply wants a website that works, this overhead is a significant hidden [cost](/blog/hidden-cost-of-wordpress) of the WordPress model."
+		},
+		{
+			"type": "h2",
+			"text": "The Alternative: Eliminate the Attack Surface"
+		},
+		{
+			"type": "p",
+			"text": "A site built with a modern JavaScript framework like Next.js has a fundamentally different security profile - not because it's immune to all attacks, but because the entire category of vulnerabilities that affects 90% of WordPress compromises doesn't exist in the same form."
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**No database exposed to the internet** - no SQL injection attack surface",
+				"**No server-side PHP execution** - no PHP code execution vulnerabilities",
+				"**No plugin ecosystem to patch** - dependencies are managed explicitly, not sourced from a marketplace of 60,000 options",
+				"**No wp-admin login page** - a known, universally targeted URL that doesn't exist",
+				"**Infrastructure-level security** - DDoS protection, SSL, and edge security handled by platforms like Vercel"
+			]
+		},
+		{
+			"type": "p",
+			"text": "Moving to a static or server-rendered JavaScript site doesn't mean zero security considerations. But it means your maintenance team isn't racing against daily vulnerability disclosures in a plugin ecosystem."
+		},
+		{
+			"type": "h2",
+			"text": "Check Your Current Exposure"
+		},
+		{
+			"type": "p",
+			"text": "If you're running WordPress, the first step is knowing your actual situation. Our free audit checks your visible WordPress indicators, server response headers, and performance metrics in 60 seconds."
+		},
+		{
+			"type": "p",
+			"text": "Run the audit at [webvise.io/wp-health-report](/wp-health-report). If the results show outdated software or security issues, we can discuss the realistic options - whether that's a disciplined update and monitoring process, or a migration to an architecture without the update treadmill."
+		}
+	]
 }

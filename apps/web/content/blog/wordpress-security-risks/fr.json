@@ -1,73 +1,236 @@
 {
-  "date": "2026-01-15",
-  "readingTime": 6,
-  "keyword": "risques sécurité wordpress obsolète",
-  "title": "WordPress obsolète : les risques de sécurité que vous prenez",
-  "excerpt": "Dès qu'une vulnérabilité WordPress est rendue publique, le code d'exploitation apparaît généralement dans les 24 à 72 heures. Voici ce que signifie faire tourner des plugins, thèmes ou un core obsolètes pour votre entreprise - avec de vrais CVE de 2024–2025.",
-  "blocks": [
-    { "type": "p", "text": "Plus de 40 % des sites WordPress font tourner au moins un plugin obsolète comportant une vulnérabilité connue. Ce n'est pas une estimation approximative - c'est un chiffre régulièrement audité par des chercheurs en sécurité WordPress. Si vous n'avez pas mis à jour vos plugins ou thèmes au cours des dernières semaines, il y a de réelles chances que votre site fasse partie de cette catégorie." },
-    { "type": "p", "text": "Le risque n'est pas abstrait. Lorsqu'une vulnérabilité est corrigée, le correctif lui-même révèle quelle était la faille. Les chercheurs publient les détails techniques. Les scanners automatisés commencent à sonder les sites vulnérables en quelques heures. Dès le troisième jour, l'exploitation active est généralement en cours à grande échelle." },
-    { "type": "h2", "text": "À quelle vitesse les vulnérabilités sont exploitées" },
-    { "type": "p", "text": "Le délai entre la divulgation publique et l'exploitation massive s'est considérablement réduit. En 2023, la moyenne était d'environ 15 jours. En 2025, les vulnérabilités majeures dans les plugins populaires sont généralement activement exploitées dans les 24 à 72 heures suivant la publication du correctif." },
-    { "type": "table", "headers": ["Étape", "Délai typique"], "rows": [
-      ["Vulnérabilité découverte par le chercheur", "Jour 0"],
-      ["Correctif publié par le développeur du plugin", "Jours 1–30 (si jamais)"],
-      ["Détails techniques publiés", "Le jour même du correctif"],
-      ["Code d'exploitation proof-of-concept publié", "24–72 heures après le correctif"],
-      ["Scan de masse automatisé commence", "24–72 heures après le correctif"],
-      ["Votre site non corrigé activement à risque", "À partir du jour 3"]
-    ]},
-    { "type": "p", "text": "Votre site n'a pas besoin d'être ciblé spécifiquement. Les attaquants utilisent des scanners automatisés qui sondent des millions de sites simultanément, cherchant des signatures de version indiquant des installations vulnérables. Si votre site correspond, il est mis en file d'attente pour exploitation." },
-    { "type": "h2", "text": "De vraies vulnérabilités de 2024–2025" },
-    { "type": "p", "text": "Ce ne sont pas des hypothèses. Ce sont des vulnérabilités spécifiques dans des plugins installés sur des millions de sites WordPress - toutes publiquement documentées." },
-    { "type": "h3", "text": "LiteSpeed Cache - 5 millions de sites à risque" },
-    { "type": "p", "text": "En août 2024, des chercheurs ont divulgué CVE-2024-28000, une vulnérabilité critique dans le plugin LiteSpeed Cache. La faille permettait à un attaquant non authentifié d'escalader les privilèges et de créer des comptes administrateur sur n'importe quel site affecté. LiteSpeed Cache est installé sur plus de 5 millions de sites WordPress. Les sites qui n'ont pas effectué la mise à jour dans les jours suivants ont vu des comptes administrateur non autorisés créés par des bots automatisés dans la semaine." },
-    { "type": "h3", "text": "Really Simple Security - 4 millions de sites à risque" },
-    { "type": "p", "text": "En novembre 2024, CVE-2024-10924 a été divulgué dans Really Simple Security (anciennement Really Simple SSL), un plugin installé sur 4 millions de sites. La vulnérabilité permettait un contournement complet de l'authentification - un attaquant pouvait se connecter en tant que n'importe quel utilisateur, y compris les administrateurs, sans connaître le mot de passe. WordPress.org a évalué cela à un niveau de gravité critique de 9,8/10. Des tentatives d'exploitation massive ont été enregistrées dans les 24 heures suivant la divulgation publique." },
-    { "type": "h3", "text": "WP Automatic - injection SQL à grande échelle" },
-    { "type": "p", "text": "Début 2024, CVE-2024-27956 a été trouvé dans WP Automatic, un plugin utilisé par plus de 30 000 sites pour la publication automatisée de contenu. La vulnérabilité d'injection SQL permettait aux attaquants d'extraire le contenu de la base de données et de créer des comptes administrateur. En quelques semaines après la divulgation, des milliers de sites avaient été compromis et des backdoors installées." },
-    { "type": "h2", "text": "Ce que \"obsolète\" signifie vraiment" },
-    { "type": "p", "text": "Quand on pense aux mises à jour WordPress, on pense généralement à la version du core. Mais la vraie surface d'attaque est bien plus large." },
-    { "type": "table", "headers": ["Composant", "Pourquoi c'est important", "Risque si obsolète"], "rows": [
-      ["WordPress core", "Le socle - corrigé régulièrement", "Élevé : les exploits connus ciblent les anciennes versions"],
-      ["Plugins", "Le vecteur d'attaque n°1 - des milliers de plugins, qualité variable", "Critique : la plupart des exploits ciblent les plugins"],
-      ["Thèmes", "Contiennent souvent des vulnérabilités, surtout les thèmes premium des marketplaces", "Moyen-Élevé"],
-      ["Version PHP", "Langage côté serveur sur lequel tourne WordPress", "Élevé : PHP 7.4 (EOL 2022) ne reçoit plus de correctifs de sécurité"]
-    ]},
-    { "type": "p", "text": "Une part significative des sites WordPress tourne encore sur PHP 7.x - une version en fin de vie depuis 2022 qui ne reçoit plus de mises à jour de sécurité. Les vulnérabilités dans PHP lui-même restent non corrigées, créant une faille de sécurité sous-jacente à tout le reste." },
-    { "type": "h2", "text": "Le paradoxe des mises à jour" },
-    { "type": "p", "text": "La réponse logique à tout cela est : tout mettre à jour, immédiatement. Le problème, c'est que les mises à jour WordPress cassent fréquemment des choses." },
-    { "type": "p", "text": "Les conflits de plugins après les mises à jour majeures de WordPress sont courants. Un thème qui fonctionnait parfaitement sur WP 6.3 peut avoir des problèmes d'affichage sur WP 6.5. Une mise à jour d'un plugin de paiement peut casser le processus de commande. La plupart des propriétaires d'entreprise ont vécu au moins une situation où le site était cassé après une mise à jour. Résultat : les mises à jour sont reportées « juste le temps qu'on puisse tester » - et les semaines deviennent des mois." },
-    { "type": "p", "text": "Activer les mises à jour automatiques réduit la fenêtre de vulnérabilité mais introduit un risque de dysfonctionnement imprévisible. Beaucoup d'entreprises désactivent les mises à jour automatiques après une mauvaise expérience. Il n'existe pas de solution propre dans le modèle WordPress." },
-    { "type": "h2", "text": "Ce que les attaquants font avec l'accès" },
-    { "type": "p", "text": "Une fois un site compromis, les attaquants ne le détruisent généralement pas immédiatement - cela révélerait l'intrusion. Ils préfèrent un accès discret et persistant." },
-    { "type": "ul", "items": [
-      "**Injection de spam SEO :** Des milliers de liens cachés vers des sites pharmaceutiques, de jeux d'argent ou pour adultes sont ajoutés à vos pages. Votre classement Google décline. Google finit par blacklister votre domaine.",
-      "**Hacks de redirection :** Les visiteurs (mais pas vous) sont silencieusement redirigés vers des sites malveillants. Votre trafic organique disparaît mystérieusement. Vous ne le voyez pas car la redirection cible des schémas de trafic spécifiques.",
-      "**Vol de données clients :** Les soumissions de formulaires, coordonnées et toutes les données utilisateurs stockées sont exfiltrées.",
-      "**Pages de phishing :** De fausses pages de connexion sont hébergées sur votre domaine et utilisées pour collecter les identifiants des visiteurs.",
-      "**Installation de backdoor :** Une backdoor persistante est laissée pour que les attaquants conservent l'accès même après que la vulnérabilité d'origine a été corrigée."
-    ]},
-    { "type": "h2", "text": "Votre responsabilité RGPD" },
-    { "type": "p", "text": "Si votre site collecte des données identifiables - soumissions de formulaires de contact, inscriptions à la newsletter, comptes clients - et que ces données sont exposées en raison d'une vulnérabilité connue et non corrigée, vous avez un problème RGPD." },
-    { "type": "p", "text": "L'article 32 du RGPD oblige les organisations à mettre en œuvre des « mesures techniques appropriées » pour assurer la sécurité des données. Faire tourner un logiciel avec des vulnérabilités critiques publiquement documentées sans les corriger n'est défendable que si vous pouvez démontrer que vous n'aviez aucune occasion raisonnable de mettre à jour. « Nous craignions que les mises à jour cassent le site » n'est pas une défense suffisante." },
-    { "type": "p", "text": "Les amendes RGPD peuvent atteindre 20 millions d'euros ou 4 % du chiffre d'affaires annuel mondial, selon le montant le plus élevé. Pour une petite entreprise, même une amende intermédiaire peut être existentielle." },
-    { "type": "h2", "text": "Pourquoi le patching n'est pas une stratégie à long terme" },
-    { "type": "p", "text": "En 2024, les chercheurs en sécurité ont divulgué environ 8 000 nouvelles vulnérabilités de plugins WordPress - plus de 20 par jour. Ce chiffre augmente chaque année." },
-    { "type": "p", "text": "Rester à jour nécessite : surveiller les avis de sécurité pour chaque plugin utilisé, tester les mises à jour dans un environnement de staging avant de les appliquer en production, appliquer les correctifs rapidement (dans les 24 à 72 heures pour les problèmes critiques), gérer les dysfonctionnements du site lors des conflits de mise à jour, et gérer les remédiations d'urgence quand quelque chose passe à travers les mailles." },
-    { "type": "p", "text": "Ce n'est pas une tâche ponctuelle. C'est une charge de maintenance continue. Pour une entreprise qui souhaite simplement un site web qui fonctionne, cette surcharge représente un coût caché significatif du modèle WordPress." },
-    { "type": "h2", "text": "L'alternative : éliminer la surface d'attaque" },
-    { "type": "p", "text": "Un site construit avec un framework JavaScript moderne comme Next.js a un profil de sécurité fondamentalement différent - non pas parce qu'il est immunisé contre toutes les attaques, mais parce que toute la catégorie de vulnérabilités qui affecte 90 % des compromissions WordPress n'existe pas sous la même forme." },
-    { "type": "ul", "items": [
-      "**Aucune base de données exposée sur internet** - aucune surface d'attaque par injection SQL",
-      "**Aucune exécution PHP côté serveur** - aucune vulnérabilité d'exécution de code PHP",
-      "**Aucun écosystème de plugins à patcher** - les dépendances sont gérées explicitement, pas sourcées depuis un marketplace de 60 000 options",
-      "**Aucune page de connexion wp-admin** - une URL connue, universellement ciblée, qui n'existe pas",
-      "**Sécurité au niveau de l'infrastructure** - protection DDoS, SSL et sécurité edge gérés par des plateformes comme Vercel"
-    ]},
-    { "type": "p", "text": "Passer à un site JavaScript statique ou rendu côté serveur ne signifie pas zéro considération de sécurité. Mais cela signifie que votre équipe de maintenance ne court plus contre la montre face aux divulgations quotidiennes de vulnérabilités dans un écosystème de plugins." },
-    { "type": "h2", "text": "Vérifiez votre exposition actuelle" },
-    { "type": "p", "text": "Si vous utilisez WordPress, la première étape est de connaître votre situation réelle. Notre audit gratuit vérifie vos indicateurs WordPress visibles, les en-têtes de réponse serveur et les métriques de performance en 60 secondes." },
-    { "type": "p", "text": "Lancez l'audit sur [webvise.io/wp-health-report](/wp-health-report). Si les résultats montrent des logiciels obsolètes ou des problèmes de sécurité, nous pouvons discuter des options réalistes - que ce soit un processus de mise à jour et de surveillance rigoureux, ou une migration vers une architecture sans le tapis roulant des mises à jour." }
-  ]
+	"date": "2026-01-15",
+	"readingTime": 6,
+	"keyword": "risques sécurité wordpress obsolète",
+	"title": "WordPress obsolète : les risques de sécurité que vous prenez",
+	"excerpt": "Dès qu'une vulnérabilité WordPress est rendue publique, le code d'exploitation apparaît généralement dans les 24 à 72 heures. Voici ce que signifie faire tourner des plugins, thèmes ou un core obsolètes pour votre entreprise - avec de vrais CVE de 2024–2025.",
+	"blocks": [
+		{
+			"type": "p",
+			"text": "Plus de 40 % des sites WordPress font tourner au moins un plugin obsolète comportant une vulnérabilité connue. Ce n'est pas une estimation approximative - c'est un chiffre régulièrement audité par des chercheurs en [sécurité](/fr/blog/wordpress-security-2026) WordPress. Si vous n'avez pas mis à jour vos plugins ou thèmes au cours des dernières semaines, il y a de réelles chances que votre site fasse partie de cette catégorie."
+		},
+		{
+			"type": "p",
+			"text": "Le risque n'est pas abstrait. Lorsqu'une vulnérabilité est corrigée, le correctif lui-même révèle quelle était la faille. Les chercheurs publient les détails techniques. Les scanners automatisés commencent à sonder les sites vulnérables en quelques heures. Dès le troisième jour, l'exploitation active est généralement en cours à grande échelle."
+		},
+		{
+			"type": "h2",
+			"text": "À quelle vitesse les vulnérabilités sont exploitées"
+		},
+		{
+			"type": "p",
+			"text": "Le délai entre la divulgation publique et l'exploitation massive s'est considérablement réduit. En 2023, la moyenne était d'environ 15 jours. En 2025, les vulnérabilités majeures dans les plugins populaires sont généralement activement exploitées dans les 24 à 72 heures suivant la publication du correctif."
+		},
+		{
+			"type": "table",
+			"headers": [
+				"Étape",
+				"Délai typique"
+			],
+			"rows": [
+				[
+					"Vulnérabilité découverte par le chercheur",
+					"Jour 0"
+				],
+				[
+					"Correctif publié par le développeur du plugin",
+					"Jours 1–30 (si jamais)"
+				],
+				[
+					"Détails techniques publiés",
+					"Le jour même du correctif"
+				],
+				[
+					"Code d'exploitation proof-of-concept publié",
+					"24–72 heures après le correctif"
+				],
+				[
+					"Scan de masse automatisé commence",
+					"24–72 heures après le correctif"
+				],
+				[
+					"Votre site non corrigé activement à risque",
+					"À partir du jour 3"
+				]
+			]
+		},
+		{
+			"type": "p",
+			"text": "Votre site n'a pas besoin d'être ciblé spécifiquement. Les attaquants utilisent des scanners automatisés qui sondent des millions de sites simultanément, cherchant des signatures de version indiquant des installations vulnérables. Si votre site correspond, il est mis en file d'attente pour exploitation."
+		},
+		{
+			"type": "h2",
+			"text": "De vraies vulnérabilités de 2024–2025"
+		},
+		{
+			"type": "p",
+			"text": "Ce ne sont pas des hypothèses. Ce sont des vulnérabilités spécifiques dans des plugins installés sur des millions de sites WordPress - toutes publiquement documentées."
+		},
+		{
+			"type": "h3",
+			"text": "LiteSpeed Cache - 5 millions de sites à risque"
+		},
+		{
+			"type": "p",
+			"text": "En août 2024, des chercheurs ont divulgué CVE-2024-28000, une vulnérabilité critique dans le plugin LiteSpeed Cache. La faille permettait à un attaquant non authentifié d'escalader les privilèges et de créer des comptes administrateur sur n'importe quel site affecté. LiteSpeed Cache est installé sur plus de 5 millions de sites WordPress. Les sites qui n'ont pas effectué la mise à jour dans les jours suivants ont vu des comptes administrateur non autorisés créés par des bots automatisés dans la semaine."
+		},
+		{
+			"type": "h3",
+			"text": "Really Simple Security - 4 millions de sites à risque"
+		},
+		{
+			"type": "p",
+			"text": "En novembre 2024, CVE-2024-10924 a été divulgué dans Really Simple Security (anciennement Really Simple SSL), un plugin installé sur 4 millions de sites. La vulnérabilité permettait un contournement complet de l'authentification - un attaquant pouvait se connecter en tant que n'importe quel utilisateur, y compris les administrateurs, sans connaître le mot de passe. WordPress.org a évalué cela à un niveau de gravité critique de 9,8/10. Des tentatives d'exploitation massive ont été enregistrées dans les 24 heures suivant la divulgation publique."
+		},
+		{
+			"type": "h3",
+			"text": "WP Automatic - injection SQL à grande échelle"
+		},
+		{
+			"type": "p",
+			"text": "Début 2024, CVE-2024-27956 a été trouvé dans WP Automatic, un plugin utilisé par plus de 30 000 sites pour la publication automatisée de contenu. La vulnérabilité d'injection SQL permettait aux attaquants d'extraire le contenu de la base de données et de créer des comptes administrateur. En quelques semaines après la divulgation, des milliers de sites avaient été compromis et des backdoors installées."
+		},
+		{
+			"type": "h2",
+			"text": "Ce que \"obsolète\" signifie vraiment"
+		},
+		{
+			"type": "p",
+			"text": "Quand on pense aux mises à jour WordPress, on pense généralement à la version du core. Mais la vraie surface d'attaque est bien plus large."
+		},
+		{
+			"type": "table",
+			"headers": [
+				"Composant",
+				"Pourquoi c'est important",
+				"Risque si obsolète"
+			],
+			"rows": [
+				[
+					"WordPress core",
+					"Le socle - corrigé régulièrement",
+					"Élevé : les exploits connus ciblent les anciennes versions"
+				],
+				[
+					"Plugins",
+					"Le vecteur d'attaque n°1 - des milliers de plugins, qualité variable",
+					"Critique : la plupart des exploits ciblent les plugins"
+				],
+				[
+					"Thèmes",
+					"Contiennent souvent des vulnérabilités, surtout les thèmes premium des marketplaces",
+					"Moyen-Élevé"
+				],
+				[
+					"Version PHP",
+					"Langage côté serveur sur lequel tourne WordPress",
+					"Élevé : PHP 7.4 (EOL 2022) ne reçoit plus de correctifs de sécurité"
+				]
+			]
+		},
+		{
+			"type": "p",
+			"text": "Une part significative des sites WordPress tourne encore sur PHP 7.x - une version en fin de vie depuis 2022 qui ne reçoit plus de mises à jour de sécurité. Les vulnérabilités dans PHP lui-même restent non corrigées, créant une faille de sécurité sous-jacente à tout le reste."
+		},
+		{
+			"type": "h2",
+			"text": "Le paradoxe des mises à jour"
+		},
+		{
+			"type": "p",
+			"text": "La réponse logique à tout cela est : tout mettre à jour, immédiatement. Le problème, c'est que les mises à jour WordPress cassent fréquemment des choses."
+		},
+		{
+			"type": "p",
+			"text": "Les conflits de plugins après les mises à jour majeures de WordPress sont courants. Un thème qui fonctionnait parfaitement sur WP 6.3 peut avoir des problèmes d'affichage sur WP 6.5. Une mise à jour d'un plugin de paiement peut casser le processus de commande. La plupart des propriétaires d'entreprise ont vécu au moins une situation où le site était cassé après une mise à jour. Résultat : les mises à jour sont reportées « juste le temps qu'on puisse tester » - et les semaines deviennent des mois."
+		},
+		{
+			"type": "p",
+			"text": "Activer les mises à jour automatiques réduit la fenêtre de vulnérabilité mais introduit un risque de dysfonctionnement imprévisible. Beaucoup d'entreprises désactivent les mises à jour automatiques après une mauvaise expérience. Il n'existe pas de solution propre dans le modèle WordPress."
+		},
+		{
+			"type": "h2",
+			"text": "Ce que les attaquants font avec l'accès"
+		},
+		{
+			"type": "p",
+			"text": "Une fois un site compromis, les attaquants ne le détruisent généralement pas immédiatement - cela révélerait l'intrusion. Ils préfèrent un accès discret et persistant."
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**Injection de spam SEO :** Des milliers de liens cachés vers des sites pharmaceutiques, de jeux d'argent ou pour adultes sont ajoutés à vos pages. Votre classement Google décline. Google finit par blacklister votre domaine.",
+				"**Hacks de redirection :** Les visiteurs (mais pas vous) sont silencieusement redirigés vers des sites malveillants. Votre trafic organique disparaît mystérieusement. Vous ne le voyez pas car la redirection cible des schémas de trafic spécifiques.",
+				"**Vol de données clients :** Les soumissions de formulaires, coordonnées et toutes les données utilisateurs stockées sont exfiltrées.",
+				"**Pages de phishing :** De fausses pages de connexion sont hébergées sur votre domaine et utilisées pour collecter les identifiants des visiteurs.",
+				"**Installation de backdoor :** Une backdoor persistante est laissée pour que les attaquants conservent l'accès même après que la vulnérabilité d'origine a été corrigée."
+			]
+		},
+		{
+			"type": "h2",
+			"text": "Votre responsabilité RGPD"
+		},
+		{
+			"type": "p",
+			"text": "Si votre site collecte des données identifiables - soumissions de formulaires de contact, inscriptions à la newsletter, comptes clients - et que ces données sont exposées en raison d'une vulnérabilité connue et non corrigée, vous avez un problème RGPD."
+		},
+		{
+			"type": "p",
+			"text": "L'article 32 du RGPD oblige les organisations à mettre en œuvre des « mesures techniques appropriées » pour assurer la sécurité des données. Faire tourner un logiciel avec des vulnérabilités critiques publiquement documentées sans les corriger n'est défendable que si vous pouvez démontrer que vous n'aviez aucune occasion raisonnable de mettre à jour. « Nous craignions que les mises à jour cassent le site » n'est pas une défense suffisante."
+		},
+		{
+			"type": "p",
+			"text": "Les amendes RGPD peuvent atteindre 20 millions d'euros ou 4 % du chiffre d'affaires annuel mondial, selon le montant le plus élevé. Pour une petite entreprise, même une amende intermédiaire peut être existentielle."
+		},
+		{
+			"type": "h2",
+			"text": "Pourquoi le patching n'est pas une stratégie à long terme"
+		},
+		{
+			"type": "p",
+			"text": "En 2024, les chercheurs en sécurité ont divulgué environ 8 000 nouvelles vulnérabilités de plugins WordPress - plus de 20 par jour. Ce chiffre augmente chaque année."
+		},
+		{
+			"type": "p",
+			"text": "Rester à jour nécessite : surveiller les avis de sécurité pour chaque plugin utilisé, tester les mises à jour dans un environnement de staging avant de les appliquer en production, appliquer les correctifs rapidement (dans les 24 à 72 heures pour les problèmes critiques), gérer les dysfonctionnements du site lors des conflits de mise à jour, et gérer les remédiations d'urgence quand quelque chose passe à travers les mailles."
+		},
+		{
+			"type": "p",
+			"text": "Ce n'est pas une tâche ponctuelle. C'est une charge de maintenance continue. Pour une entreprise qui souhaite simplement un site web qui fonctionne, cette surcharge représente un [coût](/fr/blog/hidden-cost-of-wordpress) caché significatif du modèle WordPress."
+		},
+		{
+			"type": "h2",
+			"text": "L'alternative : éliminer la surface d'attaque"
+		},
+		{
+			"type": "p",
+			"text": "Un site construit avec un framework JavaScript moderne comme Next.js a un profil de sécurité fondamentalement différent - non pas parce qu'il est immunisé contre toutes les attaques, mais parce que toute la catégorie de vulnérabilités qui affecte 90 % des compromissions WordPress n'existe pas sous la même forme."
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**Aucune base de données exposée sur internet** - aucune surface d'attaque par injection SQL",
+				"**Aucune exécution PHP côté serveur** - aucune vulnérabilité d'exécution de code PHP",
+				"**Aucun écosystème de plugins à patcher** - les dépendances sont gérées explicitement, pas sourcées depuis un marketplace de 60 000 options",
+				"**Aucune page de connexion wp-admin** - une URL connue, universellement ciblée, qui n'existe pas",
+				"**Sécurité au niveau de l'infrastructure** - protection DDoS, SSL et sécurité edge gérés par des plateformes comme Vercel"
+			]
+		},
+		{
+			"type": "p",
+			"text": "Passer à un site JavaScript statique ou rendu côté serveur ne signifie pas zéro considération de sécurité. Mais cela signifie que votre équipe de maintenance ne court plus contre la montre face aux divulgations quotidiennes de vulnérabilités dans un écosystème de plugins."
+		},
+		{
+			"type": "h2",
+			"text": "Vérifiez votre exposition actuelle"
+		},
+		{
+			"type": "p",
+			"text": "Si vous utilisez WordPress, la première étape est de connaître votre situation réelle. Notre audit gratuit vérifie vos indicateurs WordPress visibles, les en-têtes de réponse serveur et les métriques de performance en 60 secondes."
+		},
+		{
+			"type": "p",
+			"text": "Lancez l'audit sur [webvise.io/wp-health-report](/wp-health-report). Si les résultats montrent des logiciels obsolètes ou des problèmes de sécurité, nous pouvons discuter des options réalistes - que ce soit un processus de mise à jour et de surveillance rigoureux, ou une migration vers une architecture sans le tapis roulant des mises à jour."
+		}
+	]
 }
