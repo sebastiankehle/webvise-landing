@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { escapeHtml } from "@/lib/escape-html";
 
 export const maxDuration = 60;
 
@@ -182,12 +183,14 @@ function buildAdminHtml(data: {
 	timestamp: string;
 }) {
 	const urgency = urgencyLabel(data.mobileScore);
-	const firstName = data.firstName || data.email.split("@")[0];
+	const url = escapeHtml(data.url);
+	const email = escapeHtml(data.email);
+	const firstName = escapeHtml(data.firstName || data.email.split("@")[0]);
 
 	const issueRows = data.issues
 		.map(
 			(i) =>
-				`<li style="margin:0 0 4px;font-size:13px;color:#374151">${i.title}${i.displayValue ? ` <span style="color:#6b7280">(${i.displayValue})</span>` : ""}</li>`,
+				`<li style="margin:0 0 4px;font-size:13px;color:#374151">${escapeHtml(i.title)}${i.displayValue ? ` <span style="color:#6b7280">(${escapeHtml(i.displayValue)})</span>` : ""}</li>`,
 		)
 		.join("");
 
@@ -196,7 +199,7 @@ function buildAdminHtml(data: {
 			? data.securityFlags
 					.map(
 						(f) =>
-							`<li style="margin:0 0 4px;font-size:13px;color:#dc2626">⚠ ${f}</li>`,
+							`<li style="margin:0 0 4px;font-size:13px;color:#dc2626">⚠ ${escapeHtml(f)}</li>`,
 					)
 					.join("")
 			: `<li style="margin:0;font-size:13px;color:#16a34a">✓ No flags detected</li>`;
@@ -223,11 +226,11 @@ function buildAdminHtml(data: {
         </tr>
         <tr>
           <td style="padding:6px 16px 6px 0;color:#6b7280;font-size:13px;white-space:nowrap;vertical-align:top">Email</td>
-          <td style="padding:6px 0;font-size:13px"><a href="mailto:${data.email}" style="color:#7c3aed">${data.email}</a></td>
+          <td style="padding:6px 0;font-size:13px"><a href="mailto:${email}" style="color:#7c3aed">${email}</a></td>
         </tr>
         <tr>
           <td style="padding:6px 16px 6px 0;color:#6b7280;font-size:13px;white-space:nowrap;vertical-align:top">Website</td>
-          <td style="padding:6px 0;font-size:13px"><a href="${data.url}" style="color:#7c3aed">${data.url}</a></td>
+          <td style="padding:6px 0;font-size:13px"><a href="${url}" style="color:#7c3aed">${url}</a></td>
         </tr>
         <tr>
           <td style="padding:6px 16px 6px 0;color:#6b7280;font-size:13px;white-space:nowrap;vertical-align:top">Received</td>
@@ -271,7 +274,7 @@ function buildAdminHtml(data: {
       </div>
 
       <!-- CTA -->
-      <a href="mailto:${data.email}?subject=Your webvise WordPress health report&body=Hi ${firstName},%0A%0A" style="display:inline-block;background:#7c3aed;color:#ffffff;text-decoration:none;padding:10px 20px;font-size:13px;font-weight:500">
+      <a href="mailto:${email}?subject=Your webvise WordPress health report&body=Hi ${firstName},%0A%0A" style="display:inline-block;background:#7c3aed;color:#ffffff;text-decoration:none;padding:10px 20px;font-size:13px;font-weight:500">
         Reply to ${firstName}
       </a>
     </div>
@@ -290,12 +293,13 @@ function buildProspectHtml(data: {
 	estimateMin: number;
 	estimateMax: number;
 }) {
-	const firstName = data.firstName || "there";
+	const firstName = escapeHtml(data.firstName || "there");
+	const url = escapeHtml(data.url);
 
 	const issueRows = data.issues
 		.map(
 			(i) =>
-				`<li style="margin:0 0 6px;font-size:14px;color:#374151">${i.title}${i.displayValue ? ` — ${i.displayValue}` : ""}</li>`,
+				`<li style="margin:0 0 6px;font-size:14px;color:#374151">${escapeHtml(i.title)}${i.displayValue ? ` — ${escapeHtml(i.displayValue)}` : ""}</li>`,
 		)
 		.join("");
 
@@ -309,7 +313,7 @@ function buildProspectHtml(data: {
     </div>
     <div style="padding:28px">
       <h1 style="margin:0 0 8px;font-size:20px;font-weight:600;color:#111827">Hi ${firstName}, here's your report</h1>
-      <p style="margin:0 0 24px;font-size:14px;color:#6b7280;line-height:1.6">We've analysed <strong style="color:#111827">${data.url}</strong>. Here's what we found — and what's possible.</p>
+      <p style="margin:0 0 24px;font-size:14px;color:#6b7280;line-height:1.6">We've analysed <strong style="color:#111827">${url}</strong>. Here's what we found — and what's possible.</p>
 
       <!-- Score summary -->
       <div style="border:1px solid #e5e7eb;padding:20px;margin-bottom:24px">

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { escapeHtml } from "@/lib/escape-html";
 
 const contactSchema = z.object({
 	name: z.string().min(1).max(200),
@@ -26,14 +27,18 @@ function buildContactHtml(data: {
 	message: string;
 	timestamp: string;
 }) {
+	const name = escapeHtml(data.name);
+	const email = escapeHtml(data.email);
+	const company = data.company ? escapeHtml(data.company) : undefined;
+	const message = escapeHtml(data.message);
 	const serviceLabel = data.service
-		? (SERVICE_LABELS[data.service] ?? data.service)
+		? escapeHtml(SERVICE_LABELS[data.service] ?? data.service)
 		: null;
 
 	const rows = [
-		["Name", data.name],
-		["Email", `<a href="mailto:${data.email}" style="color:#7c3aed">${data.email}</a>`],
-		data.company ? ["Company", data.company] : null,
+		["Name", name],
+		["Email", `<a href="mailto:${email}" style="color:#7c3aed">${email}</a>`],
+		company ? ["Company", company] : null,
 		serviceLabel ? ["Service", serviceLabel] : null,
 		["Received", data.timestamp],
 	].filter(Boolean) as [string, string][];
@@ -59,7 +64,7 @@ function buildContactHtml(data: {
     </div>
     <div style="padding:28px">
       <h1 style="margin:0 0 4px;font-size:20px;font-weight:600;color:#111827">
-        ${data.name}${data.company ? ` · ${data.company}` : ""}
+        ${name}${company ? ` · ${company}` : ""}
       </h1>
       ${serviceLabel ? `<p style="margin:0 0 20px;font-size:13px;color:#7c3aed;font-weight:500">${serviceLabel}</p>` : '<div style="margin-bottom:20px"></div>'}
       <table style="border-collapse:collapse;width:100%">
@@ -67,11 +72,11 @@ function buildContactHtml(data: {
       </table>
       <div style="margin:24px 0 0;border-top:1px solid #e5e7eb;padding-top:20px">
         <p style="margin:0 0 8px;font-size:12px;color:#6b7280;text-transform:uppercase;letter-spacing:0.05em;font-weight:500">Message</p>
-        <p style="margin:0;font-size:14px;color:#111827;line-height:1.6;white-space:pre-wrap">${data.message}</p>
+        <p style="margin:0;font-size:14px;color:#111827;line-height:1.6;white-space:pre-wrap">${message}</p>
       </div>
       <div style="margin:24px 0 0">
-        <a href="mailto:${data.email}?subject=Re: Your webvise inquiry" style="display:inline-block;background:#7c3aed;color:#ffffff;text-decoration:none;padding:10px 20px;font-size:13px;font-weight:500">
-          Reply to ${data.name.split(" ")[0]}
+        <a href="mailto:${email}?subject=Re: Your webvise inquiry" style="display:inline-block;background:#7c3aed;color:#ffffff;text-decoration:none;padding:10px 20px;font-size:13px;font-weight:500">
+          Reply to ${escapeHtml(data.name.split(" ")[0])}
         </a>
       </div>
     </div>
