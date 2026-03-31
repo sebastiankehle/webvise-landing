@@ -15,6 +15,7 @@ export interface BlogPost {
 	keyword: string;
 	title: string;
 	excerpt: string;
+	metaDescription?: string;
 	blocks: Block[];
 }
 
@@ -24,12 +25,14 @@ interface PostFile {
 	keyword: string;
 	title: string;
 	excerpt: string;
+	metaDescription?: string;
 	blocks: Block[];
 }
 
 interface LocaleContent {
 	title: string;
 	excerpt: string;
+	metaDescription?: string;
 	blocks: Block[];
 }
 
@@ -103,6 +106,7 @@ function toPost(slug: string, locale: string): BlogPost | null {
 		keyword: meta.keyword,
 		title: content.title,
 		excerpt: content.excerpt,
+		metaDescription: content.metaDescription,
 		blocks: content.blocks,
 	};
 }
