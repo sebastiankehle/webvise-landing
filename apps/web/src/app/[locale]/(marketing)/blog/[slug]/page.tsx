@@ -21,20 +21,22 @@ export async function generateMetadata({
 	const post = getBlogPostBySlug(slug, locale);
 	if (!post) return {};
 
+	const description = post.metaDescription ?? post.excerpt;
+
 	return {
 		title: post.title,
-		description: post.excerpt,
+		description,
 		keywords: post.keyword,
 		openGraph: {
 			title: `${post.title} | webvise`,
-			description: post.excerpt,
+			description,
 			url: `https://webvise.io/blog/${slug}`,
 			type: "article",
 			publishedTime: post.date,
 		},
 		twitter: {
 			title: `${post.title} | webvise`,
-			description: post.excerpt,
+			description,
 		},
 	};
 }
