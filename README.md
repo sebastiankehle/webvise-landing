@@ -62,10 +62,17 @@ The app runs at [http://localhost:3001](http://localhost:3001).
 | Command              | Description                              |
 | -------------------- | ---------------------------------------- |
 | `pnpm dev`           | Start all apps in development mode       |
+| `pnpm dev:web`       | Start web app only                       |
+| `pnpm dev:native`    | Start native app only                    |
 | `pnpm build`         | Build all apps                           |
 | `pnpm check-types`   | TypeScript type checking across all apps |
+| `pnpm test`          | Run test suite                           |
+| `pnpm db:start`      | Start database (Docker)                  |
+| `pnpm db:stop`       | Stop database                            |
+| `pnpm db:down`       | Tear down database                       |
 | `pnpm db:push`       | Push schema changes to database          |
 | `pnpm db:generate`   | Generate database client/types           |
 | `pnpm db:migrate`    | Run database migrations                  |
 | `pnpm db:studio`     | Open Drizzle Studio                      |
+| `pnpm db:watch`      | Watch database for changes               |
 | `pnpm check`         | Run Biome formatting and linting         |
