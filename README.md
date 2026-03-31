@@ -1,71 +1,71 @@
-# webvise-app
+# Webvise
 
-This project was created with [Better-T-Stack](https://github.com/AmanVarshney01/create-better-t-stack), a modern TypeScript stack that combines Next.js, Self, TRPC, and more.
+Digital product agency — design, engineering, AI.
 
-## Features
+## Tech Stack
 
-- **TypeScript** - For type safety and improved developer experience
-- **Next.js** - Full-stack React framework
-- **TailwindCSS** - Utility-first CSS for rapid UI development
-- **shadcn/ui** - Reusable UI components
-- **tRPC** - End-to-end type-safe APIs
-- **Drizzle** - TypeScript-first ORM
-- **PostgreSQL** - Database engine
-- **Authentication** - Better-Auth
-- **Biome** - Linting and formatting
+- **Next.js 15** with React 19
+- **tRPC 11** for end-to-end type-safe APIs
+- **Drizzle ORM** with PostgreSQL
+- **TailwindCSS 4** and **shadcn/ui**
+- **Better-Auth** for authentication
+- **7-locale i18n** — en, de, fr, es, nl, pl, it
+- **Biome** for linting and formatting
+- **Turborepo** for monorepo orchestration
+
+## Monorepo Structure
+
+```
+webvise-app/
+├── apps/
+│   └── web/            # Next.js application
+├── packages/
+│   ├── api/            # tRPC API layer
+│   ├── auth/           # Authentication config
+│   ├── config/         # Shared configuration
+│   ├── db/             # Database schema and migrations
+│   └── env/            # Environment variable validation
+```
 
 ## Getting Started
 
-First, install the dependencies:
+1. Install dependencies:
 
 ```bash
 pnpm install
 ```
 
-## Database Setup
-
-This project uses PostgreSQL with Drizzle ORM.
-
-1. Make sure you have a PostgreSQL database set up.
-2. Update your `apps/web/.env` file with your PostgreSQL connection details.
-
-3. Apply the schema to your database:
+2. Copy the example environment file and fill in your values:
 
 ```bash
-pnpm run db:push
+cp apps/web/.env.example apps/web/.env
 ```
 
-Then, run the development server:
+See [`apps/web/.env.example`](apps/web/.env.example) for all available variables.
+
+3. Set up the database:
 
 ```bash
-pnpm run dev
+pnpm db:push
 ```
 
-Open [http://localhost:3001](http://localhost:3001) in your browser to see the fullstack application.
+4. Start the development server:
 
-## Git Hooks and Formatting
-
-- Format and lint fix: `pnpm run check`
-
-## Project Structure
-
-```
-webvise-app/
-├── apps/
-│   └── web/         # Fullstack application (Next.js)
-├── packages/
-│   ├── api/         # API layer / business logic
-│   ├── auth/        # Authentication configuration & logic
-│   └── db/          # Database schema & queries
+```bash
+pnpm dev
 ```
 
-## Available Scripts
+The app runs at [http://localhost:3001](http://localhost:3001).
 
-- `pnpm run dev`: Start all applications in development mode
-- `pnpm run build`: Build all applications
-- `pnpm run check-types`: Check TypeScript types across all apps
-- `pnpm run db:push`: Push schema changes to database
-- `pnpm run db:generate`: Generate database client/types
-- `pnpm run db:migrate`: Run database migrations
-- `pnpm run db:studio`: Open database studio UI
-- `pnpm run check`: Run Biome formatting and linting
+## Scripts
+
+| Command              | Description                              |
+| -------------------- | ---------------------------------------- |
+| `pnpm dev`           | Start all apps in development mode       |
+| `pnpm build`         | Build all apps                           |
+| `pnpm check-types`   | TypeScript type checking across all apps |
+| `pnpm db:push`       | Push schema changes to database          |
+| `pnpm db:generate`   | Generate database client/types           |
+| `pnpm db:migrate`    | Run database migrations                  |
+| `pnpm db:studio`     | Open Drizzle Studio                      |
+| `pnpm check`         | Run Biome formatting and linting         |
