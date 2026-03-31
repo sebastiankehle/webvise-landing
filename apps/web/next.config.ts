@@ -1,5 +1,4 @@
 import "@webvise-app/env/web";
-import { withSentryConfig } from "@sentry/nextjs";
 import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
 
@@ -20,12 +19,4 @@ const nextConfig: NextConfig = {
 	},
 };
 
-export default withSentryConfig(withNextIntl(nextConfig), {
-	org: "webvise",
-	project: "webvise-app",
-	silent: !process.env.CI,
-	widenClientFileUpload: true,
-	tunnelRoute: "/monitoring",
-	disableLogger: true,
-	automaticVercelMonitors: true,
-});
+export default withNextIntl(nextConfig);
