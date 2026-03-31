@@ -1,73 +1,237 @@
 {
-  "date": "2026-01-15",
-  "readingTime": 6,
-  "keyword": "wordpress sicherheitsrisiken veraltete website",
-  "title": "Veraltetes WordPress: Die Sicherheitsrisiken, die Sie eingehen",
-  "excerpt": "Sobald eine WordPress-Sicherheitslücke öffentlich bekannt wird, erscheint Exploit-Code typischerweise innerhalb von 24–72 Stunden. Was veraltete Plugins, Themes oder Core für Ihr Unternehmen bedeuten - mit echten CVEs aus 2024–2025.",
-  "blocks": [
-    { "type": "p", "text": "Über 40 % aller WordPress-Websites betreiben mindestens ein veraltetes Plugin mit einer bekannten Sicherheitslücke. Das ist keine grobe Schätzung - es ist eine regelmäßig geprüfte Zahl von WordPress-Sicherheitsforschern. Wenn Sie Ihre Plugins oder Themes in den letzten Wochen nicht aktualisiert haben, besteht eine reale Chance, dass Ihre Website in diese Kategorie fällt." },
-    { "type": "p", "text": "Das Risiko ist nicht abstrakt. Wenn eine Sicherheitslücke gepatcht wird, offenbart der Patch selbst, wo der Fehler lag. Forscher veröffentlichen technische Details. Automatisierte Scanner beginnen innerhalb von Stunden, nach verwundbaren Websites zu suchen. Ab Tag drei läuft die aktive Ausnutzung typischerweise im großen Maßstab." },
-    { "type": "h2", "text": "Wie schnell Sicherheitslücken ausgenutzt werden" },
-    { "type": "p", "text": "Die Zeitspanne von der öffentlichen Bekanntmachung bis zur massenhaften Ausnutzung hat sich erheblich verkürzt. Im Jahr 2023 betrug der Durchschnitt etwa 15 Tage. Bis 2025 werden kritische Sicherheitslücken in populären Plugins typischerweise innerhalb von 24–72 Stunden nach Veröffentlichung des Patches aktiv ausgenutzt." },
-    { "type": "table", "headers": ["Phase", "Typischer Zeitrahmen"], "rows": [
-      ["Sicherheitslücke vom Forscher entdeckt", "Tag 0"],
-      ["Patch vom Plugin-Entwickler veröffentlicht", "Tag 1–30 (wenn überhaupt)"],
-      ["Technische Details veröffentlicht", "Gleicher Tag wie der Patch"],
-      ["Proof-of-Concept-Exploit-Code veröffentlicht", "24–72 Stunden nach dem Patch"],
-      ["Automatisiertes Massen-Scanning beginnt", "24–72 Stunden nach dem Patch"],
-      ["Ihre ungepatchte Website aktiv gefährdet", "Ab Tag 3"]
-    ]},
-    { "type": "p", "text": "Ihre Website muss nicht gezielt angegriffen werden. Angreifer betreiben automatisierte Scanner, die gleichzeitig Millionen von Websites prüfen und nach Versions-Signaturen suchen, die auf verwundbare Installationen hinweisen. Wenn Ihre Website übereinstimmt, wird sie für die Ausnutzung vorgemerkt." },
-    { "type": "h2", "text": "Echte Sicherheitslücken aus 2024–2025" },
-    { "type": "p", "text": "Das sind keine Hypothesen. Es handelt sich um konkrete Sicherheitslücken in Plugins, die auf Millionen von WordPress-Websites installiert sind - alle öffentlich dokumentiert." },
-    { "type": "h3", "text": "LiteSpeed Cache - 5 Millionen Websites gefährdet" },
-    { "type": "p", "text": "Im August 2024 legten Forscher CVE-2024-28000 offen, eine kritische Sicherheitslücke im LiteSpeed Cache Plugin. Der Fehler ermöglichte es einem nicht authentifizierten Angreifer, Privilegien zu eskalieren und Administratorkonten auf betroffenen Websites zu erstellen. LiteSpeed Cache ist auf über 5 Millionen WordPress-Websites installiert. Websites, die nicht innerhalb weniger Tage aktualisiert wurden, hatten binnen einer Woche durch automatisierte Bots erstellte unberechtigte Admin-Konten." },
-    { "type": "h3", "text": "Really Simple Security - 4 Millionen Websites gefährdet" },
-    { "type": "p", "text": "Im November 2024 wurde CVE-2024-10924 in Really Simple Security (früher Really Simple SSL) offengelegt, einem Plugin mit 4 Millionen Installationen. Die Sicherheitslücke ermöglichte eine vollständige Authentifizierungsumgehung - ein Angreifer konnte sich ohne Kenntnis des Passworts als beliebiger Nutzer, einschließlich Administratoren, anmelden. WordPress.org bewertete dies mit kritischen 9,8/10 Schweregrad. Massenhafte Ausnutzungsversuche wurden innerhalb von 24 Stunden nach der Offenlegung registriert." },
-    { "type": "h3", "text": "WP Automatic - SQL Injection im großen Maßstab" },
-    { "type": "p", "text": "Anfang 2024 wurde CVE-2024-27956 in WP Automatic gefunden, einem Plugin, das von über 30.000 Websites für automatisiertes Content-Publishing genutzt wird. Die SQL-Injection-Sicherheitslücke ermöglichte es Angreifern, Datenbankinhalt auszulesen und Admin-Konten zu erstellen. Innerhalb von Wochen nach der Offenlegung waren Tausende von Websites kompromittiert und Hintertüren installiert." },
-    { "type": "h2", "text": "Was 'veraltet' wirklich bedeutet" },
-    { "type": "p", "text": "Wenn Menschen an WordPress-Updates denken, denken sie meist an die Core-Version. Aber die tatsächliche Angriffsfläche ist viel größer." },
-    { "type": "table", "headers": ["Komponente", "Warum es wichtig ist", "Risiko bei Veralterung"], "rows": [
-      ["WordPress Core", "Das Fundament - wird regelmäßig gepatcht", "Hoch: bekannte Exploits zielen auf alte Versionen"],
-      ["Plugins", "Angriffsvektor Nr. 1 - Tausende von Plugins, unterschiedliche Qualität", "Kritisch: die meisten Exploits zielen auf Plugins"],
-      ["Themes", "Enthalten oft Sicherheitslücken, besonders Premium-Themes aus Marktplätzen", "Mittel-Hoch"],
-      ["PHP-Version", "Serverseitige Sprache, auf der WordPress läuft", "Hoch: PHP 7.4 (EOL 2022) erhält keine Sicherheits-Patches"]
-    ]},
-    { "type": "p", "text": "Ein erheblicher Teil der WordPress-Websites läuft noch immer auf PHP 7.x - einer Version, die seit 2022 End-of-Life ist und keine Sicherheitsupdates mehr erhält. Sicherheitslücken in PHP selbst bleiben ungepatcht und schaffen eine Sicherheitslücke unterhalb aller anderen Schichten." },
-    { "type": "h2", "text": "Das Update-Paradox" },
-    { "type": "p", "text": "Die logische Reaktion darauf wäre: alles sofort aktualisieren. Das Problem: WordPress-Updates führen häufig zu Problemen." },
-    { "type": "p", "text": "Plugin-Konflikte nach größeren WordPress-Versionsupdates sind verbreitet. Ein Theme, das auf WP 6.3 einwandfrei funktionierte, kann auf WP 6.5 Darstellungsprobleme haben. Ein Update des Zahlungs-Plugins kann den Checkout-Prozess unterbrechen. Die meisten Unternehmer haben mindestens eine Situation erlebt, in der eine Website nach einem Update nicht mehr funktionierte. Das Ergebnis: Updates werden 'nur bis wir es testen können' verzögert - und aus Wochen werden Monate." },
-    { "type": "p", "text": "Automatische Updates zu aktivieren verkleinert das Zeitfenster der Gefährdung, birgt aber unvorhersehbare Bruchrisiken. Viele Unternehmen deaktivieren automatische Updates nach einer schlechten Erfahrung. Im WordPress-Modell gibt es dafür keine saubere Lösung." },
-    { "type": "h2", "text": "Was Angreifer mit dem Zugang machen" },
-    { "type": "p", "text": "Sobald eine Website kompromittiert ist, zerstören Angreifer sie typischerweise nicht sofort - das würde den Einbruch verraten. Sie bevorzugen stillen, dauerhaften Zugang." },
-    { "type": "ul", "items": [
-      "**SEO-Spam-Injektion:** Tausende versteckter Links zu Pharma-, Glücksspiel- oder Erotik-Websites werden in Ihre Seiten eingefügt. Ihre Google-Rankings sinken. Schließlich setzt Google Ihre Domain auf die schwarze Liste.",
-      "**Redirect-Hacks:** Besucher (aber nicht Sie) werden still auf bösartige Websites umgeleitet. Ihr organischer Traffic verschwindet rätselhaft. Sie bemerken es nicht, weil die Weiterleitung auf bestimmte Traffic-Muster abzielt.",
-      "**Kundendatendiebstahl:** Formularübermittlungen, Kontaktdaten und alle gespeicherten Nutzerdaten werden exfiltriert.",
-      "**Phishing-Seiten:** Gefälschte Login-Seiten werden auf Ihrer Domain gehostet und dazu verwendet, Zugangsdaten von Besuchern zu stehlen.",
-      "**Hintertür-Installation:** Eine dauerhafte Hintertür wird hinterlassen, damit Angreifer auch nach dem Patchen der ursprünglichen Sicherheitslücke Zugang behalten."
-    ]},
-    { "type": "h2", "text": "Ihre DSGVO-Haftung" },
-    { "type": "p", "text": "Wenn Ihre Website identifizierbare Daten erfasst - Kontaktformulareinsendungen, Newsletter-Anmeldungen, Kundenkonten - und diese Daten aufgrund einer bekannten, ungepatchten Sicherheitslücke offengelegt werden, haben Sie ein DSGVO-Problem." },
-    { "type": "p", "text": "Artikel 32 der DSGVO verpflichtet Organisationen, 'geeignete technische Maßnahmen' zur Gewährleistung der Datensicherheit umzusetzen. Software mit öffentlich dokumentierten kritischen Sicherheitslücken zu betreiben, ohne sie zu patchen, lässt sich nur dann rechtfertigen, wenn Sie nachweisen können, dass Sie keine zumutbare Möglichkeit zur Aktualisierung hatten. 'Wir hatten Bedenken, dass Updates die Website beschädigen könnten' ist keine ausreichende Verteidigung." },
-    { "type": "p", "text": "DSGVO-Bußgelder können bis zu 20 Millionen Euro oder 4 % des globalen Jahresumsatzes erreichen, je nachdem, welcher Betrag höher ist. Für ein kleines Unternehmen kann selbst ein mittleres Bußgeld existenzbedrohend sein." },
-    { "type": "h2", "text": "Warum Patchen keine langfristige Strategie ist" },
-    { "type": "p", "text": "Im Jahr 2024 haben Sicherheitsforscher rund 8.000 neue WordPress-Plugin-Sicherheitslücken offengelegt - mehr als 20 pro Tag. Diese Zahl wächst jedes Jahr." },
-    { "type": "p", "text": "Um Schritt zu halten, ist Folgendes erforderlich: Sicherheits-Advisories für jedes verwendete Plugin überwachen, Updates in einer Staging-Umgebung testen, bevor sie in der Produktion angewendet werden, Patches schnell anwenden (innerhalb von 24–72 Stunden bei kritischen Problemen), Website-Ausfälle bei Update-Konflikten beheben und Notfall-Behebungen managen, wenn etwas durchrutscht." },
-    { "type": "p", "text": "Das ist keine einmalige Aufgabe. Es ist eine laufende Wartungslast. Für ein Unternehmen, das einfach eine funktionierende Website möchte, ist dieser Aufwand ein erheblicher versteckter Kostenfaktor des WordPress-Modells." },
-    { "type": "h2", "text": "Die Alternative: Die Angriffsfläche eliminieren" },
-    { "type": "p", "text": "Eine Website, die mit einem modernen JavaScript-Framework wie Next.js erstellt wurde, hat ein grundlegend anderes Sicherheitsprofil - nicht weil sie immun gegen alle Angriffe ist, sondern weil die gesamte Kategorie von Sicherheitslücken, die 90 % der WordPress-Kompromittierungen betrifft, in dieser Form nicht existiert." },
-    { "type": "ul", "items": [
-      "**Keine dem Internet ausgesetzte Datenbank** - keine SQL-Injection-Angriffsfläche",
-      "**Keine serverseitige PHP-Ausführung** - keine PHP-Code-Ausführungs-Sicherheitslücken",
-      "**Kein Plugin-Ökosystem zum Patchen** - Abhängigkeiten werden explizit verwaltet, nicht aus einem Marktplatz mit 60.000 Optionen bezogen",
-      "**Keine wp-admin-Login-Seite** - eine bekannte, universell angegriffene URL, die nicht existiert",
-      "**Sicherheit auf Infrastrukturebene** - DDoS-Schutz, SSL und Edge-Sicherheit werden von Plattformen wie Vercel übernommen"
-    ]},
-    { "type": "p", "text": "Der Wechsel zu einer statischen oder server-gerenderten JavaScript-Website bedeutet nicht, dass es keine Sicherheitsüberlegungen mehr gibt. Aber es bedeutet, dass Ihr Wartungsteam nicht täglich gegen neue Sicherheitslücken im Plugin-Ökosystem ankämpfen muss." },
-    { "type": "h2", "text": "Prüfen Sie Ihre aktuelle Gefährdung" },
-    { "type": "p", "text": "Wenn Sie WordPress betreiben, ist der erste Schritt, Ihre tatsächliche Situation zu kennen. Unser kostenloser Audit prüft Ihre sichtbaren WordPress-Indikatoren, Server-Response-Header und Performance-Metriken in 60 Sekunden." },
-    { "type": "p", "text": "Führen Sie den Audit durch unter [webvise.io/wp-health-report](/wp-health-report). Wenn die Ergebnisse veraltete Software oder Sicherheitsprobleme zeigen, können wir die realistischen Optionen besprechen - ob das ein disziplinierter Update- und Monitoring-Prozess ist oder eine Migration zu einer Architektur ohne den Update-Kreislauf." }
-  ]
+	"date": "2026-01-15",
+	"readingTime": 6,
+	"keyword": "wordpress sicherheitsrisiken veraltete website",
+	"title": "Veraltetes WordPress: Die Sicherheitsrisiken, die Sie eingehen",
+	"excerpt": "Sobald eine WordPress-Sicherheitslücke öffentlich bekannt wird, erscheint Exploit-Code typischerweise innerhalb von 24–72 Stunden. Was veraltete Plugins, Themes oder Core für Ihr Unternehmen bedeuten - mit echten CVEs aus 2024–2025.",
+	"blocks": [
+		{
+			"type": "p",
+			"text": "Über 40 % aller WordPress-Websites betreiben mindestens ein veraltetes Plugin mit einer bekannten Sicherheitslücke. Das ist keine grobe Schätzung - es ist eine regelmäßig geprüfte Zahl von WordPress-Sicherheitsforschern. Wenn Sie Ihre Plugins oder Themes in den letzten Wochen nicht aktualisiert haben, besteht eine reale Chance, dass Ihre Website in diese Kategorie fällt."
+		},
+		{
+			"type": "p",
+			"text": "Das Risiko ist nicht abstrakt. Wenn eine Sicherheitslücke gepatcht wird, offenbart der Patch selbst, wo der Fehler lag. Forscher veröffentlichen technische Details. Automatisierte Scanner beginnen innerhalb von Stunden, nach verwundbaren Websites zu suchen. Ab Tag drei läuft die aktive Ausnutzung typischerweise im großen Maßstab."
+		},
+		{
+			"type": "h2",
+			"text": "Wie schnell Sicherheitslücken ausgenutzt werden"
+		},
+		{
+			"type": "p",
+			"text": "Die Zeitspanne von der öffentlichen Bekanntmachung bis zur massenhaften Ausnutzung hat sich erheblich verkürzt. Im Jahr 2023 betrug der Durchschnitt etwa 15 Tage. Bis 2025 werden kritische Sicherheitslücken in populären Plugins typischerweise innerhalb von 24–72 Stunden nach Veröffentlichung des Patches aktiv ausgenutzt."
+		},
+		{
+			"type": "table",
+			"headers": [
+				"Phase",
+				"Typischer Zeitrahmen"
+			],
+			"rows": [
+				[
+					"Sicherheitslücke vom Forscher entdeckt",
+					"Tag 0"
+				],
+				[
+					"Patch vom Plugin-Entwickler veröffentlicht",
+					"Tag 1–30 (wenn überhaupt)"
+				],
+				[
+					"Technische Details veröffentlicht",
+					"Gleicher Tag wie der Patch"
+				],
+				[
+					"Proof-of-Concept-Exploit-Code veröffentlicht",
+					"24–72 Stunden nach dem Patch"
+				],
+				[
+					"Automatisiertes Massen-Scanning beginnt",
+					"24–72 Stunden nach dem Patch"
+				],
+				[
+					"Ihre ungepatchte Website aktiv gefährdet",
+					"Ab Tag 3"
+				]
+			]
+		},
+		{
+			"type": "p",
+			"text": "Ihre Website muss nicht gezielt angegriffen werden. Angreifer betreiben automatisierte Scanner, die gleichzeitig Millionen von Websites prüfen und nach Versions-Signaturen suchen, die auf verwundbare Installationen hinweisen. Wenn Ihre Website übereinstimmt, wird sie für die Ausnutzung vorgemerkt."
+		},
+		{
+			"type": "h2",
+			"text": "Echte Sicherheitslücken aus 2024–2025"
+		},
+		{
+			"type": "p",
+			"text": "Das sind keine Hypothesen. Es handelt sich um konkrete Sicherheitslücken in Plugins, die auf Millionen von WordPress-Websites installiert sind - alle öffentlich dokumentiert."
+		},
+		{
+			"type": "h3",
+			"text": "LiteSpeed Cache - 5 Millionen Websites gefährdet"
+		},
+		{
+			"type": "p",
+			"text": "Im August 2024 legten Forscher CVE-2024-28000 offen, eine kritische Sicherheitslücke im LiteSpeed Cache Plugin. Der Fehler ermöglichte es einem nicht authentifizierten Angreifer, Privilegien zu eskalieren und Administratorkonten auf betroffenen Websites zu erstellen. LiteSpeed Cache ist auf über 5 Millionen WordPress-Websites installiert. Websites, die nicht innerhalb weniger Tage aktualisiert wurden, hatten binnen einer Woche durch automatisierte Bots erstellte unberechtigte Admin-Konten."
+		},
+		{
+			"type": "h3",
+			"text": "Really Simple Security - 4 Millionen Websites gefährdet"
+		},
+		{
+			"type": "p",
+			"text": "Im November 2024 wurde CVE-2024-10924 in Really Simple Security (früher Really Simple SSL) offengelegt, einem Plugin mit 4 Millionen Installationen. Die Sicherheitslücke ermöglichte eine vollständige Authentifizierungsumgehung - ein Angreifer konnte sich ohne Kenntnis des Passworts als beliebiger Nutzer, einschließlich Administratoren, anmelden. WordPress.org bewertete dies mit kritischen 9,8/10 Schweregrad. Massenhafte Ausnutzungsversuche wurden innerhalb von 24 Stunden nach der Offenlegung registriert."
+		},
+		{
+			"type": "h3",
+			"text": "WP Automatic - SQL Injection im großen Maßstab"
+		},
+		{
+			"type": "p",
+			"text": "Anfang 2024 wurde CVE-2024-27956 in WP Automatic gefunden, einem Plugin, das von über 30.000 Websites für automatisiertes Content-Publishing genutzt wird. Die SQL-Injection-Sicherheitslücke ermöglichte es Angreifern, Datenbankinhalt auszulesen und Admin-Konten zu erstellen. Innerhalb von Wochen nach der Offenlegung waren Tausende von Websites kompromittiert und Hintertüren installiert."
+		},
+		{
+			"type": "h2",
+			"text": "Was 'veraltet' wirklich bedeutet"
+		},
+		{
+			"type": "p",
+			"text": "Wenn Menschen an WordPress-Updates denken, denken sie meist an die Core-Version. Aber die tatsächliche Angriffsfläche ist viel größer."
+		},
+		{
+			"type": "table",
+			"headers": [
+				"Komponente",
+				"Warum es wichtig ist",
+				"Risiko bei Veralterung"
+			],
+			"rows": [
+				[
+					"WordPress Core",
+					"Das Fundament - wird regelmäßig gepatcht",
+					"Hoch: bekannte Exploits zielen auf alte Versionen"
+				],
+				[
+					"Plugins",
+					"Angriffsvektor Nr. 1 - Tausende von Plugins, unterschiedliche Qualität",
+					"Kritisch: die meisten Exploits zielen auf Plugins"
+				],
+				[
+					"Themes",
+					"Enthalten oft Sicherheitslücken, besonders Premium-Themes aus Marktplätzen",
+					"Mittel-Hoch"
+				],
+				[
+					"PHP-Version",
+					"Serverseitige Sprache, auf der WordPress läuft",
+					"Hoch: PHP 7.4 (EOL 2022) erhält keine Sicherheits-Patches"
+				]
+			]
+		},
+		{
+			"type": "p",
+			"text": "Ein erheblicher Teil der WordPress-Websites läuft noch immer auf PHP 7.x - einer Version, die seit 2022 End-of-Life ist und keine Sicherheitsupdates mehr erhält. Sicherheitslücken in PHP selbst bleiben ungepatcht und schaffen eine Sicherheitslücke unterhalb aller anderen Schichten."
+		},
+		{
+			"type": "h2",
+			"text": "Das Update-Paradox"
+		},
+		{
+			"type": "p",
+			"text": "Die logische Reaktion darauf wäre: alles sofort aktualisieren. Das Problem: WordPress-Updates führen häufig zu Problemen."
+		},
+		{
+			"type": "p",
+			"text": "Plugin-Konflikte nach größeren WordPress-Versionsupdates sind verbreitet. Ein Theme, das auf WP 6.3 einwandfrei funktionierte, kann auf WP 6.5 Darstellungsprobleme haben. Ein Update des Zahlungs-Plugins kann den Checkout-Prozess unterbrechen. Die meisten Unternehmer haben mindestens eine Situation erlebt, in der eine Website nach einem Update nicht mehr funktionierte. Das Ergebnis: Updates werden 'nur bis wir es testen können' verzögert - und aus Wochen werden Monate."
+		},
+		{
+			"type": "p",
+			"text": "Automatische Updates zu aktivieren verkleinert das Zeitfenster der Gefährdung, birgt aber unvorhersehbare Bruchrisiken. Viele Unternehmen deaktivieren automatische Updates nach einer schlechten Erfahrung. Im WordPress-Modell gibt es dafür keine saubere Lösung."
+		},
+		{
+			"type": "h2",
+			"text": "Was Angreifer mit dem Zugang machen"
+		},
+		{
+			"type": "p",
+			"text": "Sobald eine Website kompromittiert ist, zerstören Angreifer sie typischerweise nicht sofort - das würde den Einbruch verraten. Sie bevorzugen stillen, dauerhaften Zugang."
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**SEO-Spam-Injektion:** Tausende versteckter Links zu Pharma-, Glücksspiel- oder Erotik-Websites werden in Ihre Seiten eingefügt. Ihre Google-Rankings sinken. Schließlich setzt Google Ihre Domain auf die schwarze Liste.",
+				"**Redirect-Hacks:** Besucher (aber nicht Sie) werden still auf bösartige Websites umgeleitet. Ihr organischer Traffic verschwindet rätselhaft. Sie bemerken es nicht, weil die Weiterleitung auf bestimmte Traffic-Muster abzielt.",
+				"**Kundendatendiebstahl:** Formularübermittlungen, Kontaktdaten und alle gespeicherten Nutzerdaten werden exfiltriert.",
+				"**Phishing-Seiten:** Gefälschte Login-Seiten werden auf Ihrer Domain gehostet und dazu verwendet, Zugangsdaten von Besuchern zu stehlen.",
+				"**Hintertür-Installation:** Eine dauerhafte Hintertür wird hinterlassen, damit Angreifer auch nach dem Patchen der ursprünglichen Sicherheitslücke Zugang behalten."
+			]
+		},
+		{
+			"type": "h2",
+			"text": "Ihre DSGVO-Haftung"
+		},
+		{
+			"type": "p",
+			"text": "Wenn Ihre Website identifizierbare Daten erfasst - Kontaktformulareinsendungen, Newsletter-Anmeldungen, Kundenkonten - und diese Daten aufgrund einer bekannten, ungepatchten Sicherheitslücke offengelegt werden, haben Sie ein DSGVO-Problem."
+		},
+		{
+			"type": "p",
+			"text": "Artikel 32 der DSGVO verpflichtet Organisationen, 'geeignete technische Maßnahmen' zur Gewährleistung der Datensicherheit umzusetzen. Software mit öffentlich dokumentierten kritischen Sicherheitslücken zu betreiben, ohne sie zu patchen, lässt sich nur dann rechtfertigen, wenn Sie nachweisen können, dass Sie keine zumutbare Möglichkeit zur Aktualisierung hatten. 'Wir hatten Bedenken, dass Updates die Website beschädigen könnten' ist keine ausreichende Verteidigung."
+		},
+		{
+			"type": "p",
+			"text": "DSGVO-Bußgelder können bis zu 20 Millionen Euro oder 4 % des globalen Jahresumsatzes erreichen, je nachdem, welcher Betrag höher ist. Für ein kleines Unternehmen kann selbst ein mittleres Bußgeld existenzbedrohend sein."
+		},
+		{
+			"type": "h2",
+			"text": "Warum Patchen keine langfristige Strategie ist"
+		},
+		{
+			"type": "p",
+			"text": "Im Jahr 2024 haben Sicherheitsforscher rund 8.000 neue WordPress-Plugin-Sicherheitslücken offengelegt - mehr als 20 pro Tag. Diese Zahl wächst jedes Jahr."
+		},
+		{
+			"type": "p",
+			"text": "Um Schritt zu halten, ist Folgendes erforderlich: Sicherheits-Advisories für jedes verwendete Plugin überwachen, Updates in einer Staging-Umgebung testen, bevor sie in der Produktion angewendet werden, Patches schnell anwenden (innerhalb von 24–72 Stunden bei kritischen Problemen), Website-Ausfälle bei Update-Konflikten beheben und Notfall-Behebungen managen, wenn etwas durchrutscht."
+		},
+		{
+			"type": "p",
+			"text": "Das ist keine einmalige Aufgabe. Es ist eine laufende Wartungslast. Für ein Unternehmen, das einfach eine funktionierende Website möchte, ist dieser Aufwand ein erheblicher versteckter Kostenfaktor des WordPress-Modells."
+		},
+		{
+			"type": "h2",
+			"text": "Die Alternative: Die Angriffsfläche eliminieren"
+		},
+		{
+			"type": "p",
+			"text": "Eine Website, die mit einem modernen JavaScript-Framework wie Next.js erstellt wurde, hat ein grundlegend anderes Sicherheitsprofil - nicht weil sie immun gegen alle Angriffe ist, sondern weil die gesamte Kategorie von Sicherheitslücken, die 90 % der WordPress-Kompromittierungen betrifft, in dieser Form nicht existiert."
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**Keine dem Internet ausgesetzte Datenbank** - keine SQL-Injection-Angriffsfläche",
+				"**Keine serverseitige PHP-Ausführung** - keine PHP-Code-Ausführungs-Sicherheitslücken",
+				"**Kein Plugin-Ökosystem zum Patchen** - Abhängigkeiten werden explizit verwaltet, nicht aus einem Marktplatz mit 60.000 Optionen bezogen",
+				"**Keine wp-admin-Login-Seite** - eine bekannte, universell angegriffene URL, die nicht existiert",
+				"**Sicherheit auf Infrastrukturebene** - DDoS-Schutz, SSL und Edge-Sicherheit werden von Plattformen wie Vercel übernommen"
+			]
+		},
+		{
+			"type": "p",
+			"text": "Der Wechsel zu einer statischen oder server-gerenderten JavaScript-Website bedeutet nicht, dass es keine Sicherheitsüberlegungen mehr gibt. Aber es bedeutet, dass Ihr Wartungsteam nicht täglich gegen neue Sicherheitslücken im Plugin-Ökosystem ankämpfen muss."
+		},
+		{
+			"type": "h2",
+			"text": "Prüfen Sie Ihre aktuelle Gefährdung"
+		},
+		{
+			"type": "p",
+			"text": "Wenn Sie WordPress betreiben, ist der erste Schritt, Ihre tatsächliche Situation zu kennen. Unser kostenloser Audit prüft Ihre sichtbaren WordPress-Indikatoren, Server-Response-Header und Performance-Metriken in 60 Sekunden."
+		},
+		{
+			"type": "p",
+			"text": "Führen Sie den Audit durch unter [webvise.io/wp-health-report](/wp-health-report). Wenn die Ergebnisse veraltete Software oder Sicherheitsprobleme zeigen, können wir die realistischen Optionen besprechen - ob das ein disziplinierter Update- und Monitoring-Prozess ist oder eine Migration zu einer Architektur ohne den Update-Kreislauf."
+		}
+	],
+	"cta": "WordPress-Sicherheit jetzt prüfen"
 }

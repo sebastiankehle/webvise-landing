@@ -225,7 +225,7 @@ export default async function BlogPostPage({
 							// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
 							render={<Link href={{ pathname: "/", hash: "contact" }} />}
 						>
-							{t("ctaButton")}
+							{post.cta ?? t("ctaButton")}
 						</Button>
 						{/* biome-ignore lint/a11y/useAnchorContent: content provided by Button children */}
 						<Button variant="outline" render={<Link href="/blog" />}>
