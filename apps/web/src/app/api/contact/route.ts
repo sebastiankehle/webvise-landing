@@ -1,5 +1,16 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import {
+	createRateLimiter,
+	getClientIP,
+	rateLimitResponse,
+} from "@/lib/rate-limit";
+
+const limiter = createRateLimiter({
+	name: "contact",
+	maxRequests: 3,
+	windowMs: 60_000,
+});
 
 const contactSchema = z.object({
 	name: z.string().min(1).max(200),
@@ -81,6 +92,9 @@ function buildContactHtml(data: {
 }
 
 export async function POST(request: Request) {
+	const { limited, retryAfterSec } = limiter.check(getClientIP(request));
+	if (limited) return rateLimitResponse(retryAfterSec);
+
 	try {
 		const body = await request.json();
 		const data = contactSchema.parse(body);

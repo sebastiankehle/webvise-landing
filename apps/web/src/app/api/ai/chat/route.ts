@@ -11,8 +11,19 @@ import {
 	validateUrl,
 	UrlValidationError,
 } from "@/lib/validate-url";
+import {
+	createRateLimiter,
+	getClientIP,
+	rateLimitResponse,
+} from "@/lib/rate-limit";
 
 export const maxDuration = 60;
+
+const limiter = createRateLimiter({
+	name: "ai-chat",
+	maxRequests: 10,
+	windowMs: 60_000,
+});
 
 const SYSTEM_PROMPT = `You are the webvise AI assistant — a friendly, concise expert on webvise's services. You help visitors understand what webvise does, recommend the right service for their needs, and guide them toward booking a free consultation.
 
@@ -158,6 +169,9 @@ async function fetchPageContent(url: string): Promise<string> {
 }
 
 export async function POST(req: Request) {
+	const { limited, retryAfterSec } = limiter.check(getClientIP(req));
+	if (limited) return rateLimitResponse(retryAfterSec);
+
 	const { messages }: { messages: UIMessage[] } = await req.json();
 
 	const result = streamText({

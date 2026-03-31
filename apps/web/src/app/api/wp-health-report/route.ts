@@ -1,8 +1,19 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { validateUrl, UrlValidationError } from "@/lib/validate-url";
+import {
+	createRateLimiter,
+	getClientIP,
+	rateLimitResponse,
+} from "@/lib/rate-limit";
 
 export const maxDuration = 60;
+
+const limiter = createRateLimiter({
+	name: "wp-health-report",
+	maxRequests: 5,
+	windowMs: 60_000,
+});
 
 const schema = z.object({
 	url: z.string().url(),
@@ -377,6 +388,9 @@ function buildProspectHtml(data: {
 }
 
 export async function POST(request: Request) {
+	const { limited, retryAfterSec } = limiter.check(getClientIP(request));
+	if (limited) return rateLimitResponse(retryAfterSec);
+
 	try {
 		if (!process.env.GOOGLE_PAGESPEED_API_KEY) {
 			console.error("Missing GOOGLE_PAGESPEED_API_KEY environment variable");
