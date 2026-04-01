@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getLocale } from "next-intl/server";
 
 import { getLegalPage } from "@/data/legal";
+import { generateAlternates } from "@/lib/seo";
 
 const EMAIL_RE = /([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g;
 
@@ -24,11 +25,15 @@ function renderLine(line: string) {
 	);
 }
 
-export const metadata: Metadata = {
-	title: "Imprint - webvise",
-	description:
-		"Legal information and contact details for webvise, as required by German law.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+	const locale = await getLocale();
+	return {
+		title: "Imprint - webvise",
+		description:
+			"Legal information and contact details for webvise, as required by German law.",
+		alternates: generateAlternates("/imprint", locale),
+	};
+}
 
 export default async function ImprintPage() {
 	const locale = await getLocale();

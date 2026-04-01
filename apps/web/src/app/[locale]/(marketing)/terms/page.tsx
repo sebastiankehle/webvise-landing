@@ -3,11 +3,16 @@ import { notFound } from "next/navigation";
 import { getLocale } from "next-intl/server";
 
 import { getLegalPage } from "@/data/legal";
+import { generateAlternates } from "@/lib/seo";
 
-export const metadata: Metadata = {
-	title: "Terms of Service - webvise",
-	description: "Terms and conditions for using webvise services.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+	const locale = await getLocale();
+	return {
+		title: "Terms of Service - webvise",
+		description: "Terms and conditions for using webvise services.",
+		alternates: generateAlternates("/terms", locale),
+	};
+}
 
 export default async function TermsPage() {
 	const locale = await getLocale();
