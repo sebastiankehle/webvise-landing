@@ -2119,7 +2119,7 @@ const EXTERNAL_LINKS = {
 			keywords: ["batch", "50%", "Batch"],
 		},
 		{
-			url: "https://docs.anthropic.com/en/docs/build-with-claude/agentic-systems",
+			url: "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview",
 			keywords: [
 				"4–5",
 				"4-5",
