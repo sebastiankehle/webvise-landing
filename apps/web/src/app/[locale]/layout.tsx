@@ -61,6 +61,7 @@ export const metadata: Metadata = {
 		},
 	},
 	alternates: {
+		canonical: "https://webvise.io",
 		languages: {
 			en: "https://webvise.io",
 			de: "https://webvise.io/de",

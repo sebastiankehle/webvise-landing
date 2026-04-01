@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getTranslations } from "next-intl/server";
-
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 
 import JsonLd from "@/components/json-ld";
 import SectionWrapper from "@/components/marketing/section-wrapper";
@@ -16,6 +14,7 @@ import {
 	services,
 } from "@/data/services";
 import { Link } from "@/i18n/navigation";
+import { generateAlternates, localizedUrl } from "@/lib/seo";
 
 export function generateStaticParams() {
 	return services.map((s) => ({ slug: s.slug }));
@@ -30,20 +29,27 @@ export async function generateMetadata({
 	const service = getServiceBySlug(slug);
 	if (!service) return {};
 
-	const t = await getTranslations("services");
+	const [t, locale] = await Promise.all([
+		getTranslations("services"),
+		getLocale(),
+	]);
 
 	const title = t(`${service.translationKey}.title`);
 	const description = t(`${service.translationKey}.description`);
+	const path = `/services/${slug}`;
 
 	return {
 		title,
 		description,
+		alternates: generateAlternates(path, locale),
 		openGraph: {
 			title: `${title} | webvise`,
 			description,
-			url: `https://webvise.io/services/${slug}`,
+			siteName: "webvise",
+			url: localizedUrl(path, locale),
 		},
 		twitter: {
+			card: "summary_large_image",
 			title: `${title} | webvise`,
 			description,
 		},

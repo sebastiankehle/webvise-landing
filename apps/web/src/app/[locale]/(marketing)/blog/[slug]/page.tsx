@@ -2,10 +2,12 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 
+import JsonLd from "@/components/json-ld";
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import { Button } from "@/components/ui/button";
 import { type Block, getBlogPostBySlug, getBlogPosts } from "@/data/blog";
 import { Link } from "@/i18n/navigation";
+import { generateAlternates, localizedUrl } from "@/lib/seo";
 
 export function generateStaticParams() {
 	return getBlogPosts("en").map((p) => ({ slug: p.slug }));
@@ -22,19 +24,23 @@ export async function generateMetadata({
 	if (!post) return {};
 
 	const description = post.metaDescription ?? post.excerpt;
+	const path = `/blog/${slug}`;
 
 	return {
 		title: post.title,
 		description,
 		keywords: post.keyword,
+		alternates: generateAlternates(path, locale),
 		openGraph: {
 			title: `${post.title} | webvise`,
 			description,
-			url: `https://webvise.io/blog/${slug}`,
+			siteName: "webvise",
+			url: localizedUrl(path, locale),
 			type: "article",
 			publishedTime: post.date,
 		},
 		twitter: {
+			card: "summary_large_image",
 			title: `${post.title} | webvise`,
 			description,
 		},
@@ -170,9 +176,53 @@ export default async function BlogPostPage({
 	}
 
 	const t = await getTranslations("blog");
+	const postUrl = localizedUrl(`/blog/${slug}`, locale);
+
+	const jsonLd = {
+		"@context": "https://schema.org",
+		"@graph": [
+			{
+				"@type": "BlogPosting",
+				"@id": `${postUrl}#article`,
+				headline: post.title,
+				description: post.metaDescription ?? post.excerpt,
+				datePublished: post.date,
+				dateModified: post.date,
+				author: { "@id": "https://webvise.io/#organization" },
+				publisher: { "@id": "https://webvise.io/#organization" },
+				mainEntityOfPage: { "@type": "WebPage", "@id": postUrl },
+				inLanguage: locale,
+			},
+			{
+				"@type": "BreadcrumbList",
+				"@id": `${postUrl}#breadcrumb`,
+				itemListElement: [
+					{
+						"@type": "ListItem",
+						position: 1,
+						name: "Home",
+						item: localizedUrl("/", locale),
+					},
+					{
+						"@type": "ListItem",
+						position: 2,
+						name: "Blog",
+						item: localizedUrl("/blog", locale),
+					},
+					{
+						"@type": "ListItem",
+						position: 3,
+						name: post.title,
+						item: postUrl,
+					},
+				],
+			},
+		],
+	};
 
 	return (
 		<>
+			<JsonLd data={jsonLd} />
 			<section className="py-24 md:py-44">
 				<div className="mx-auto max-w-[1320px] px-6">
 					<div className="max-w-2xl">

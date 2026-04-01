@@ -3,11 +3,16 @@ import { notFound } from "next/navigation";
 import { getLocale } from "next-intl/server";
 
 import { getLegalPage } from "@/data/legal";
+import { generateAlternates } from "@/lib/seo";
 
-export const metadata: Metadata = {
-	title: "Privacy Policy - webvise",
-	description: "How webvise collects, uses, and protects your personal data.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+	const locale = await getLocale();
+	return {
+		title: "Privacy Policy - webvise",
+		description: "How webvise collects, uses, and protects your personal data.",
+		alternates: generateAlternates("/privacy", locale),
+	};
+}
 
 export default async function PrivacyPage() {
 	const locale = await getLocale();

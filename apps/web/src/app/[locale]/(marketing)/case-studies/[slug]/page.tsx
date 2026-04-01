@@ -3,10 +3,12 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 
+import JsonLd from "@/components/json-ld";
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import { Button } from "@/components/ui/button";
 import { getCaseStudies, getCaseStudyBySlug } from "@/data/case-studies";
 import { Link } from "@/i18n/navigation";
+import { generateAlternates, localizedUrl } from "@/lib/seo";
 
 export function generateStaticParams() {
 	return getCaseStudies("en").map((cs) => ({ slug: cs.slug }));
@@ -18,19 +20,25 @@ export async function generateMetadata({
 	params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
 	const { slug } = await params;
-	const cs = getCaseStudyBySlug(slug, "en");
+	const locale = await getLocale();
+	const cs = getCaseStudyBySlug(slug, locale);
 	if (!cs) return {};
+
+	const path = `/case-studies/${slug}`;
 
 	return {
 		title: cs.title,
 		description: cs.excerpt,
+		alternates: generateAlternates(path, locale),
 		openGraph: {
 			title: `${cs.title} | webvise`,
 			description: cs.excerpt,
-			url: `https://webvise.io/case-studies/${slug}`,
+			siteName: "webvise",
+			url: localizedUrl(path, locale),
 			...(cs.coverImage && { images: [{ url: cs.coverImage }] }),
 		},
 		twitter: {
+			card: "summary_large_image",
 			title: `${cs.title} | webvise`,
 			description: cs.excerpt,
 			...(cs.coverImage && { images: [cs.coverImage] }),
@@ -52,9 +60,41 @@ export default async function CaseStudyPage({
 	}
 
 	const t = await getTranslations("caseStudies");
+	const csUrl = localizedUrl(`/case-studies/${slug}`, locale);
+
+	const jsonLd = {
+		"@context": "https://schema.org",
+		"@graph": [
+			{
+				"@type": "BreadcrumbList",
+				"@id": `${csUrl}#breadcrumb`,
+				itemListElement: [
+					{
+						"@type": "ListItem",
+						position: 1,
+						name: "Home",
+						item: localizedUrl("/", locale),
+					},
+					{
+						"@type": "ListItem",
+						position: 2,
+						name: t("title"),
+						item: localizedUrl("/case-studies", locale),
+					},
+					{
+						"@type": "ListItem",
+						position: 3,
+						name: cs.title,
+						item: csUrl,
+					},
+				],
+			},
+		],
+	};
 
 	return (
 		<>
+			<JsonLd data={jsonLd} />
 			<section className="py-24 md:py-36">
 				<div className="mx-auto max-w-[1320px] px-6">
 					<Link

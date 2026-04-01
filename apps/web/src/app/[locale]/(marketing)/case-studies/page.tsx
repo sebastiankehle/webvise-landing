@@ -7,21 +7,28 @@ import SectionWrapper from "@/components/marketing/section-wrapper";
 import StaggerChildren from "@/components/marketing/stagger-children";
 import { getCaseStudies } from "@/data/case-studies";
 import { Link } from "@/i18n/navigation";
+import { generateAlternates, localizedUrl } from "@/lib/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
-	const t = await getTranslations("caseStudies");
+	const [t, locale] = await Promise.all([
+		getTranslations("caseStudies"),
+		getLocale(),
+	]);
 	const title = t("title");
 	const description = t("subtitle");
 
 	return {
 		title,
 		description,
+		alternates: generateAlternates("/case-studies", locale),
 		openGraph: {
 			title: `${title} | webvise`,
 			description,
-			url: "https://webvise.io/case-studies",
+			siteName: "webvise",
+			url: localizedUrl("/case-studies", locale),
 		},
 		twitter: {
+			card: "summary_large_image",
 			title: `${title} | webvise`,
 			description,
 		},
