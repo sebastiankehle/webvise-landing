@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 
+import { FooterCtaProvider } from "@/components/marketing/footer-cta-context";
 import JsonLd from "@/components/json-ld";
 import SectionWrapper from "@/components/marketing/section-wrapper";
-import { Button } from "@/components/ui/button";
 import { type Block, getBlogPostBySlug, getBlogPosts } from "@/data/blog";
 import { Link } from "@/i18n/navigation";
 import { generateAlternates, localizedUrl } from "@/lib/seo";
@@ -221,7 +221,16 @@ export default async function BlogPostPage({
 	};
 
 	return (
-		<>
+		<FooterCtaProvider
+			value={{
+				headline: t("ctaTitle"),
+				subtext: t("ctaDescription"),
+				buttonText: post.cta ?? t("ctaButton"),
+				buttonHref: "/#contact",
+				secondaryButtonText: t("ctaSecondary"),
+				secondaryButtonHref: "/blog",
+			}}
+		>
 			<JsonLd data={jsonLd} />
 			<section className="py-24 md:py-44">
 				<div className="mx-auto max-w-[1320px] px-6">
@@ -262,30 +271,6 @@ export default async function BlogPostPage({
 					})()}
 				</div>
 			</SectionWrapper>
-
-			<SectionWrapper id="cta">
-				<div className="max-w-xl">
-					<h2 className="font-display text-2xl tracking-tight">
-						{t("ctaTitle")}
-					</h2>
-					<p className="mt-4 text-muted-foreground leading-relaxed">
-						{t("ctaDescription")}
-					</p>
-					<div className="mt-8 flex flex-wrap gap-3">
-						<Button
-							className="border-transparent bg-brand text-white [&]:hover:bg-brand/80"
-							// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
-							render={<Link href={{ pathname: "/", hash: "contact" }} />}
-						>
-							{post.cta ?? t("ctaButton")}
-						</Button>
-						{/* biome-ignore lint/a11y/useAnchorContent: content provided by Button children */}
-						<Button variant="outline" render={<Link href="/blog" />}>
-							{t("ctaSecondary")}
-						</Button>
-					</div>
-				</div>
-			</SectionWrapper>
-		</>
+		</FooterCtaProvider>
 	);
 }

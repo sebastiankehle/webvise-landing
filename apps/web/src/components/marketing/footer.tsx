@@ -1,7 +1,7 @@
 import { getTranslations } from "next-intl/server";
 
 import Logo from "@/components/logo";
-import { Button } from "@/components/ui/button";
+import FooterCtaBanner from "@/components/marketing/footer-cta-banner";
 import { services } from "@/data/services";
 import { socials } from "@/data/socials";
 import { Link } from "@/i18n/navigation";
@@ -22,28 +22,11 @@ export default async function Footer() {
 
 	return (
 		<footer className="section-dark">
-			{/* CTA banner */}
-			<div className="border-[--border] border-b">
-				<div className="mx-auto flex max-w-[1320px] flex-col items-start justify-between gap-8 px-6 py-20 md:flex-row md:items-center md:py-24">
-					<div>
-						<p className="font-display text-3xl tracking-tight md:text-4xl">
-							{t("ctaHeadline")}
-						</p>
-						<p className="mt-3 text-sm text-muted-foreground md:text-base">
-							{t("ctaSubtext")}
-						</p>
-					</div>
-					<Button
-						size="lg"
-						className="shrink-0 border-transparent bg-brand px-8 text-white [&]:hover:bg-brand/80"
-						data-ph-capture-attribute-cta-location="footer"
-						data-ph-capture-attribute-cta-variant="primary"
-						render={<Link href={{ pathname: "/", hash: "contact" }} />}
-					>
-						{t("ctaButton")}
-					</Button>
-				</div>
-			</div>
+			<FooterCtaBanner
+				defaultHeadline={t("ctaHeadline")}
+				defaultSubtext={t("ctaSubtext")}
+				defaultButtonText={t("ctaButton")}
+			/>
 
 			{/* Main footer content */}
 			<div className="mx-auto max-w-[1320px] px-6 py-20 md:py-24">
