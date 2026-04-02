@@ -42,12 +42,13 @@ export default async function CaseStudiesPreview() {
 						className="group flex flex-col justify-between border-border not-last:border-b p-6 transition-all hover:bg-[--surface-dark-secondary] md:not-nth-[3n]:border-r md:nth-[-n+3]:border-b md:not-last:border-b-0 md:p-8"
 					>
 						{cs.coverImage && (
-							<div className="relative mb-5 aspect-[8/5] w-full overflow-hidden border border-border">
+							<div className="mb-5 w-full overflow-hidden border border-border">
 								<Image
 									src={cs.coverImage}
 									alt={`${cs.client} – ${cs.title}`}
-									fill
-									className="object-cover transition-all duration-500 group-hover:brightness-110"
+									width={1512}
+									height={766}
+									className="h-auto w-full transition-all duration-500 group-hover:brightness-110"
 								/>
 							</div>
 						)}

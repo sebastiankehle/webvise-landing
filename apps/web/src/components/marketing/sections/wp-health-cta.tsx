@@ -47,10 +47,10 @@ export default async function WpHealthCta() {
 							<span className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider">
 								PageSpeed Score
 							</span>
-							<span className="font-display text-lg text-red-500">32</span>
+							<span className="font-display text-lg text-orange-600">32</span>
 						</div>
 						<div className="h-1.5 w-full bg-muted">
-							<div className="h-full w-[32%] bg-red-500" />
+							<div className="h-full w-[32%] bg-orange-600" />
 						</div>
 						<div className="flex items-center gap-3 py-1">
 							<span className="h-px flex-1 bg-border/40" />
@@ -61,10 +61,10 @@ export default async function WpHealthCta() {
 							<span className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider">
 								After Next.js
 							</span>
-							<span className="font-display text-lg text-emerald-500">95</span>
+							<span className="font-display text-lg text-green-600">95</span>
 						</div>
 						<div className="h-1.5 w-full bg-muted">
-							<div className="h-full w-[95%] bg-emerald-500" />
+							<div className="h-full w-[95%] bg-green-600" />
 						</div>
 					</div>
 				</div>
