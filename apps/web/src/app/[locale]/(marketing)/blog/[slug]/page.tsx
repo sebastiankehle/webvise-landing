@@ -4,6 +4,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 
 import JsonLd from "@/components/json-ld";
 import SectionWrapper from "@/components/marketing/section-wrapper";
+import { Button } from "@/components/ui/button";
 import { type Block, getBlogPostBySlug, getBlogPosts } from "@/data/blog";
 import { Link } from "@/i18n/navigation";
 import { generateAlternates, localizedUrl } from "@/lib/seo";
@@ -262,6 +263,29 @@ export default async function BlogPostPage({
 				</div>
 			</SectionWrapper>
 
+			<SectionWrapper id="cta">
+				<div className="max-w-xl">
+					<h2 className="font-display text-2xl tracking-tight">
+						{t("ctaTitle")}
+					</h2>
+					<p className="mt-4 text-muted-foreground leading-relaxed">
+						{t("ctaDescription")}
+					</p>
+					<div className="mt-8 flex flex-wrap gap-3">
+						<Button
+							className="border-transparent bg-brand text-white [&]:hover:bg-brand/80"
+							// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
+							render={<Link href={{ pathname: "/", hash: "contact" }} />}
+						>
+							{post.cta ?? t("ctaButton")}
+						</Button>
+						{/* biome-ignore lint/a11y/useAnchorContent: content provided by Button children */}
+						<Button variant="outline" render={<Link href="/blog" />}>
+							{t("ctaSecondary")}
+						</Button>
+					</div>
+				</div>
+			</SectionWrapper>
 		</>
 	);
 }
