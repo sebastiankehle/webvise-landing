@@ -1,8 +1,10 @@
 "use client";
 
 import Image from "next/image";
+import { XIcon } from "lucide-react";
 import {
 	Dialog,
+	DialogClose,
 	DialogContent,
 	DialogOverlay,
 	DialogPortal,
@@ -27,7 +29,8 @@ export default function CaseStudyLightbox({
 			<DialogPortal>
 				<DialogOverlay className="bg-black/90 backdrop-blur-sm" />
 				<DialogContent
-					className="fixed inset-4 top-4 right-4 bottom-4 left-4 max-w-3xl mx-auto translate-x-0 translate-y-0 overflow-y-auto overscroll-contain bg-transparent p-0 ring-0 sm:max-w-3xl data-open:zoom-in-100 data-closed:zoom-out-100"
+					showCloseButton={false}
+					className="fixed inset-0 sm:inset-6 max-w-3xl mx-auto translate-x-0 translate-y-0 overflow-y-auto overscroll-contain bg-transparent p-0 ring-0 sm:max-w-3xl data-open:zoom-in-100 data-closed:zoom-out-100"
 				>
 					<DialogTitle className="sr-only">{alt}</DialogTitle>
 					<Image
@@ -41,6 +44,17 @@ export default function CaseStudyLightbox({
 						unoptimized
 					/>
 				</DialogContent>
+				<DialogClose
+					render={
+						<button
+							type="button"
+							className="fixed top-4 right-4 z-[60] flex size-10 items-center justify-center rounded-full text-white/70 transition-colors hover:text-white sm:top-3 sm:right-3"
+						/>
+					}
+				>
+					<XIcon className="size-5" />
+					<span className="sr-only">Close</span>
+				</DialogClose>
 			</DialogPortal>
 		</Dialog>
 	);
