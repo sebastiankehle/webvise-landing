@@ -1,10 +1,10 @@
 import { ExternalLink } from "lucide-react";
 import type { Metadata } from "next";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 import JsonLd from "@/components/json-ld";
 import CaseStudyGallery from "@/components/marketing/case-study-gallery";
+import CaseStudyHeroImage from "@/components/marketing/case-study-hero-image";
 import { TechBadge } from "@/components/marketing/tech-badge";
 import { getCaseStudies, getCaseStudyBySlug } from "@/data/case-studies";
 import { Link } from "@/i18n/navigation";
@@ -184,15 +184,10 @@ export default async function CaseStudyPage({
 						{/* Hero — spans 2 cols */}
 						{cs.coverImage && (
 							<div className="md:col-span-2">
-								<Image
+								<CaseStudyHeroImage
 									src={cs.coverImage}
+									fullPageImage={cs.fullPageImage}
 									alt={`${cs.client} – ${cs.title}`}
-									width={1920}
-									height={1080}
-									className="h-auto w-full border border-border/40"
-									sizes="(max-width: 768px) 100vw, 880px"
-									quality={100}
-									priority
 								/>
 							</div>
 						)}
@@ -267,7 +262,7 @@ export default async function CaseStudyPage({
 			</section>
 
 			{/* Image gallery */}
-			{cs.images && cs.images.length > 0 && (
+			{((cs.images && cs.images.length > 0) || cs.fullPageImage) && (
 				<section className="pb-28">
 					<div className="mx-auto max-w-[1320px] px-6">
 						<CaseStudyGallery images={cs.images} alt={cs.client} />

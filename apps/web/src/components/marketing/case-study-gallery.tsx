@@ -14,17 +14,18 @@ export default function CaseStudyGallery({
 	const items = images.slice(0, 3);
 
 	return (
-		<div className="grid gap-6 md:grid-cols-3">
+		<div className="grid gap-3 md:grid-cols-3">
 			{items.map((src, i) => (
 				<div
 					key={src}
-					className="relative aspect-[4/3] w-full overflow-hidden border border-border/40"
+					className="overflow-hidden border border-border/40"
 				>
 					<Image
 						src={src}
 						alt={`${alt} – screenshot ${i + 1}`}
-						fill
-						className="object-cover object-top"
+						width={800}
+						height={400}
+						className="h-auto w-full"
 						sizes="(max-width: 768px) 100vw, 33vw"
 						quality={100}
 					/>

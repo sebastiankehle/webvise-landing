@@ -9,6 +9,7 @@ export interface CaseStudyMeta {
 	date: string;
 	coverImage?: string;
 	images?: string[];
+	fullPageImage?: string;
 	location?: string;
 	deliveryTime?: string;
 	liveUrl?: string;
@@ -94,6 +95,7 @@ function toCaseStudy(slug: string, locale: string): CaseStudy | null {
 		date: enFile.date,
 		coverImage: enFile.coverImage,
 		images: enFile.images,
+		fullPageImage: enFile.fullPageImage,
 		location: enFile.location,
 		deliveryTime: enFile.deliveryTime,
 		liveUrl: enFile.liveUrl,

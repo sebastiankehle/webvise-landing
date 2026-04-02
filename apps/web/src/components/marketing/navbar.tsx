@@ -140,7 +140,7 @@ export default function Navbar({
 					</nav>
 
 					<div className="hidden items-center gap-4 md:flex">
-						<LanguageSwitcher />
+						<LanguageSwitcher id="lang-desktop" />
 						<Button
 							className="border-transparent bg-brand px-6 text-white [&]:hover:bg-brand/80"
 							onClick={() => track("cta_clicked", { location: "navbar", variant: "get_started" })}
@@ -439,7 +439,7 @@ export default function Navbar({
 										</a>
 									))}
 								</div>
-								<LanguageSwitcher />
+								<LanguageSwitcher id="lang-mobile" />
 							</div>
 						</div>
 					</nav>
