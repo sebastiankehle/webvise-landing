@@ -1,8 +1,10 @@
+import { ExternalLink } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 
+import CaseStudyGallery from "@/components/marketing/case-study-gallery";
 import JsonLd from "@/components/json-ld";
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import { Button } from "@/components/ui/button";
@@ -95,6 +97,8 @@ export default async function CaseStudyPage({
 	return (
 		<>
 			<JsonLd data={jsonLd} />
+
+			{/* Header */}
 			<section className="py-24 md:py-36">
 				<div className="mx-auto max-w-[1320px] px-6">
 					<Link
@@ -103,32 +107,113 @@ export default async function CaseStudyPage({
 					>
 						&larr; {t("backLink")}
 					</Link>
-					<div className="mt-10 grid gap-12 md:grid-cols-[1fr_1fr] md:items-end">
-						<div>
-							<span className="font-mono text-[10px] text-brand uppercase tracking-widest">
-								{cs.client} &middot; {cs.industry}
-							</span>
-							<h1 className="mt-3 font-display text-4xl tracking-tight md:text-5xl">
-								{cs.title}
-							</h1>
-							<p className="mt-4 text-lg text-muted-foreground leading-relaxed">
-								{cs.excerpt}
-							</p>
-						</div>
-						<div className="flex flex-wrap gap-2 md:justify-end">
-							{cs.techStack.map((tech) => (
-								<span
-									key={tech}
-									className="border border-border/40 px-3 py-1.5 text-sm"
-								>
-									{tech}
+					<div className="mt-10 max-w-3xl">
+						<span className="font-mono text-[10px] text-brand uppercase tracking-widest">
+							{cs.client} &middot; {cs.industry}
+						</span>
+						<h1 className="mt-3 font-display text-4xl tracking-tight md:text-5xl">
+							{cs.title}
+						</h1>
+						<p className="mt-4 text-lg text-muted-foreground leading-relaxed">
+							{cs.excerpt}
+						</p>
+					</div>
+
+					{/* Metadata bar */}
+					<div className="mt-10 flex flex-wrap gap-x-8 gap-y-3 border-border/40 border-t pt-6">
+						{cs.location && (
+							<div>
+								<span className="block font-mono text-[10px] text-muted-foreground uppercase tracking-widest">
+									{t("location")}
 								</span>
-							))}
+								<span className="mt-1 block text-sm">{cs.location}</span>
+							</div>
+						)}
+						{cs.deliveryTime && (
+							<div>
+								<span className="block font-mono text-[10px] text-muted-foreground uppercase tracking-widest">
+									{t("deliveryTime")}
+								</span>
+								<span className="mt-1 block text-sm">{cs.deliveryTime}</span>
+							</div>
+						)}
+						<div>
+							<span className="block font-mono text-[10px] text-muted-foreground uppercase tracking-widest">
+								{t("techStackLabel")}
+							</span>
+							<span className="mt-1 block text-sm">
+								{cs.techStack.slice(0, 4).join(", ")}
+							</span>
 						</div>
+						{cs.liveUrl && (
+							<div>
+								<span className="block font-mono text-[10px] text-muted-foreground uppercase tracking-widest">
+									{t("liveProject")}
+								</span>
+								<a
+									href={cs.liveUrl}
+									target="_blank"
+									rel="noopener noreferrer"
+									className="mt-1 inline-flex items-center gap-1.5 text-sm text-brand transition-colors hover:text-brand/80"
+								>
+									{t("visitSite")}
+									<ExternalLink className="h-3 w-3" />
+								</a>
+							</div>
+						)}
 					</div>
 				</div>
 			</section>
 
+			{/* Hero image */}
+			{cs.coverImage && (
+				<section className="pb-20">
+					<div className="mx-auto max-w-[1320px] px-6">
+						<div className="relative aspect-video w-full overflow-hidden border border-border/40">
+							<Image
+								src={cs.coverImage}
+								alt={`${cs.client} – ${cs.title}`}
+								fill
+								className="object-cover object-top"
+								priority
+							/>
+						</div>
+					</div>
+				</section>
+			)}
+
+			{/* Challenge / Solution */}
+			<SectionWrapper id="challenge" alternate>
+				<div className="grid gap-16 md:grid-cols-2 md:gap-20">
+					<div>
+						<h2 className="font-display text-2xl tracking-tight">
+							{t("challenge")}
+						</h2>
+						<p className="mt-4 text-muted-foreground leading-relaxed">
+							{cs.challenge}
+						</p>
+					</div>
+					<div>
+						<h2 className="font-display text-2xl tracking-tight">
+							{t("solution")}
+						</h2>
+						<p className="mt-4 text-muted-foreground leading-relaxed">
+							{cs.solution}
+						</p>
+					</div>
+				</div>
+			</SectionWrapper>
+
+			{/* Image gallery */}
+			{cs.images && cs.images.length > 0 && (
+				<section className="py-20">
+					<div className="mx-auto max-w-[1320px] px-6">
+						<CaseStudyGallery images={cs.images} alt={cs.client} />
+					</div>
+				</section>
+			)}
+
+			{/* Metrics */}
 			{cs.metrics && cs.metrics.length > 0 && (
 				<section className="pb-20">
 					<div className="mx-auto max-w-[1320px] px-6">
@@ -151,66 +236,7 @@ export default async function CaseStudyPage({
 				</section>
 			)}
 
-			{cs.coverImage && (
-				<section className="pb-20">
-					<div className="mx-auto max-w-[1320px] px-6">
-						<div className="relative aspect-video w-full overflow-hidden border border-border/40">
-							<Image
-								src={cs.coverImage}
-								alt={`${cs.client} – ${cs.title}`}
-								fill
-								className="object-cover object-top"
-								priority
-							/>
-						</div>
-					</div>
-				</section>
-			)}
-
-			<SectionWrapper id="challenge" alternate>
-				<div className="grid gap-16 md:grid-cols-2 md:gap-20">
-					<div>
-						<h2 className="font-display text-2xl tracking-tight">
-							{t("challenge")}
-						</h2>
-						<p className="mt-4 text-muted-foreground leading-relaxed">
-							{cs.challenge}
-						</p>
-					</div>
-					<div>
-						<h2 className="font-display text-2xl tracking-tight">
-							{t("solution")}
-						</h2>
-						<p className="mt-4 text-muted-foreground leading-relaxed">
-							{cs.solution}
-						</p>
-					</div>
-				</div>
-			</SectionWrapper>
-
-			<SectionWrapper id="results">
-				<div className="grid gap-12 md:grid-cols-[1fr_2fr] md:items-start">
-					<h2 className="font-display text-2xl tracking-tight">
-						{t("results")}
-					</h2>
-					<div className="border border-border/40">
-						{cs.results.map((result, i) => (
-							<div
-								key={result}
-								className="flex gap-4 not-last:border-border/40 not-last:border-b px-6 py-5"
-							>
-								<span className="mt-0.5 font-display text-brand/50 text-xs">
-									{String(i + 1).padStart(2, "0")}
-								</span>
-								<span className="text-sm leading-relaxed">
-									{result}
-								</span>
-							</div>
-						))}
-					</div>
-				</div>
-			</SectionWrapper>
-
+			{/* Testimonial */}
 			{cs.testimonial && (
 				<SectionWrapper id="testimonial" dark>
 					<div className="mx-auto max-w-3xl text-center">
@@ -230,6 +256,7 @@ export default async function CaseStudyPage({
 				</SectionWrapper>
 			)}
 
+			{/* CTA */}
 			<SectionWrapper id="cta">
 				<div className="max-w-xl">
 					<h2 className="font-display text-2xl tracking-tight">

@@ -83,12 +83,12 @@ export const services: Service[] = [
 ];
 
 export const serviceCaseStudies: Record<string, string[]> = {
-	"landing-pages": ["carvio-automotive", "alpine-escapes-hospitality"],
-	"seo-performance": ["bloom-and-root-ecommerce", "carvio-automotive"],
-	"wordpress-migration": ["bloom-and-root-ecommerce", "old-world-labs"],
-	"mvp-development": ["vitalix-healthcare", "lexflow-legaltech"],
-	"ai-automation": ["greengrid-energy", "lexflow-legaltech"],
-	"full-stack-applications": ["alpine-escapes-hospitality", "ohyp-fintech"],
+	"landing-pages": ["mp-bau-construction", "old-world-labs"],
+	"seo-performance": ["old-world-labs", "mp-bau-construction"],
+	"wordpress-migration": ["old-world-labs"],
+	"mvp-development": ["ohyp-fintech"],
+	"ai-automation": ["mp-bau-construction"],
+	"full-stack-applications": ["ohyp-fintech", "old-world-labs"],
 };
 
 export const relatedServices: Record<string, string[]> = {

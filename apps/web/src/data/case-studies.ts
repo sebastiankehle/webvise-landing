@@ -9,6 +9,9 @@ export interface CaseStudyMeta {
 	date: string;
 	coverImage?: string;
 	images?: string[];
+	location?: string;
+	deliveryTime?: string;
+	liveUrl?: string;
 }
 
 export interface CaseStudyMetric {
@@ -21,7 +24,7 @@ export interface CaseStudyContent {
 	excerpt: string;
 	challenge: string;
 	solution: string;
-	results: string[];
+	results?: string[];
 	metrics?: CaseStudyMetric[];
 	techStack: string[];
 	testimonial: {
@@ -91,6 +94,9 @@ function toCaseStudy(slug: string, locale: string): CaseStudy | null {
 		date: enFile.date,
 		coverImage: enFile.coverImage,
 		images: enFile.images,
+		location: enFile.location,
+		deliveryTime: enFile.deliveryTime,
+		liveUrl: enFile.liveUrl,
 		title: content.title,
 		excerpt: content.excerpt,
 		challenge: content.challenge,
