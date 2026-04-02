@@ -33,8 +33,7 @@ export default function CaseStudyHeroImage({
 					height={766}
 					className="h-auto w-full border border-border/40"
 					sizes="(max-width: 768px) 100vw, 880px"
-					quality={100}
-					unoptimized
+					quality={90}
 					priority
 				/>
 			</button>

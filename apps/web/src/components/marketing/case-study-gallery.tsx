@@ -23,6 +23,8 @@ export default function CaseStudyGallery({
 						src={src}
 						alt={`${alt} – screenshot ${i + 1}`}
 						className="block h-auto w-full"
+						loading="lazy"
+						decoding="async"
 					/>
 				</div>
 			))}
