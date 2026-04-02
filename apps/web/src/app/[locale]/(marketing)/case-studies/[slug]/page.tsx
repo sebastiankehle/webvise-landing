@@ -7,7 +7,6 @@ import { getLocale, getTranslations } from "next-intl/server";
 import CaseStudyGallery from "@/components/marketing/case-study-gallery";
 import JsonLd from "@/components/json-ld";
 import SectionWrapper from "@/components/marketing/section-wrapper";
-import { Button } from "@/components/ui/button";
 import { getCaseStudies, getCaseStudyBySlug } from "@/data/case-studies";
 import { Link } from "@/i18n/navigation";
 import { generateAlternates, localizedUrl } from "@/lib/seo";
@@ -256,29 +255,6 @@ export default async function CaseStudyPage({
 				</SectionWrapper>
 			)}
 
-			{/* CTA */}
-			<SectionWrapper id="cta">
-				<div className="max-w-xl">
-					<h2 className="font-display text-2xl tracking-tight">
-						{t("ctaTitle")}
-					</h2>
-					<p className="mt-4 text-muted-foreground leading-relaxed">
-						{t("ctaDescription")}
-					</p>
-					<div className="mt-8 flex gap-3">
-						<Button
-							className="border-transparent bg-brand text-white [&]:hover:bg-brand/80"
-							// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
-							render={<a href="/#contact" />}
-						>
-							{t("ctaButton")}
-						</Button>
-						<Button variant="outline" render={<Link href="/case-studies" />}>
-							{t("ctaSecondary")}
-						</Button>
-					</div>
-				</div>
-			</SectionWrapper>
 		</>
 	);
 }
