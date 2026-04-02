@@ -214,29 +214,6 @@ export default async function CaseStudyPage({
 				</div>
 			</section>
 
-			{/* Metrics */}
-			{cs.metrics && cs.metrics.length > 0 && (
-				<section className="pb-28">
-					<div className="mx-auto max-w-[1320px] px-6">
-						<div className="grid gap-px overflow-hidden border border-border/40 md:grid-cols-4">
-							{cs.metrics.map((metric) => (
-								<div
-									key={metric.label}
-									className="border-border/40 not-last:border-b p-8 text-center md:not-last:border-r md:not-last:border-b-0"
-								>
-									<span className="block font-display text-3xl text-brand tracking-tight">
-										{metric.value}
-									</span>
-									<span className="mt-2 block text-muted-foreground text-sm">
-										{metric.label}
-									</span>
-								</div>
-							))}
-						</div>
-					</div>
-				</section>
-			)}
-
 			{/* Challenge / Solution */}
 			<section className="pb-28">
 				<div className="mx-auto max-w-[1320px] px-6">
@@ -260,6 +237,29 @@ export default async function CaseStudyPage({
 					</div>
 				</div>
 			</section>
+
+			{/* Metrics */}
+			{cs.metrics && cs.metrics.length > 0 && (
+				<section className="pb-28">
+					<div className="mx-auto max-w-[1320px] px-6">
+						<div className="grid gap-px overflow-hidden border border-border/40 md:grid-cols-4">
+							{cs.metrics.map((metric) => (
+								<div
+									key={metric.label}
+									className="border-border/40 not-last:border-b p-8 text-center md:not-last:border-r md:not-last:border-b-0"
+								>
+									<span className="block font-display text-3xl text-brand tracking-tight">
+										{metric.value}
+									</span>
+									<span className="mt-2 block text-muted-foreground text-sm">
+										{metric.label}
+									</span>
+								</div>
+							))}
+						</div>
+					</div>
+				</section>
+			)}
 
 			{/* Image gallery */}
 			{((cs.images && cs.images.length > 0) || cs.fullPageImage) && (

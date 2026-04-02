@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 interface CaseStudyGalleryProps {
 	images?: string[];
 	alt: string;
@@ -14,20 +12,17 @@ export default function CaseStudyGallery({
 	const items = images.slice(0, 3);
 
 	return (
-		<div className="grid gap-3 md:grid-cols-3">
+		<div className="grid items-start gap-3 md:grid-cols-3">
 			{items.map((src, i) => (
 				<div
 					key={src}
 					className="overflow-hidden border border-border/40"
 				>
-					<Image
+					{/* eslint-disable-next-line @next/next/no-img-element */}
+					<img
 						src={src}
 						alt={`${alt} – screenshot ${i + 1}`}
-						width={800}
-						height={400}
-						className="h-auto w-full"
-						sizes="(max-width: 768px) 100vw, 33vw"
-						quality={100}
+						className="block h-auto w-full"
 					/>
 				</div>
 			))}
