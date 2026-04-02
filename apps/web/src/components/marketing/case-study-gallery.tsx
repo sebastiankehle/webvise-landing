@@ -14,7 +14,7 @@ export default function CaseStudyGallery({
 	const items = images.slice(0, 3);
 
 	return (
-		<div className="grid gap-3 md:grid-cols-3">
+		<div className="grid gap-6 md:grid-cols-3">
 			{items.map((src, i) => (
 				<div
 					key={src}
@@ -26,6 +26,7 @@ export default function CaseStudyGallery({
 						fill
 						className="object-cover object-top"
 						sizes="(max-width: 768px) 100vw, 33vw"
+						quality={100}
 					/>
 				</div>
 			))}

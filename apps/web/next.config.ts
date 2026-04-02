@@ -8,6 +8,9 @@ const nextConfig: NextConfig = {
 	typedRoutes: true,
 	reactCompiler: true,
 	transpilePackages: ["shiki"],
+	images: {
+		qualities: [75, 90, 100],
+	},
 	async redirects() {
 		return [
 			{
