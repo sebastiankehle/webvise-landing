@@ -7,7 +7,6 @@ import { Link } from "@/i18n/navigation";
 
 export default async function Hero() {
 	const t = await getTranslations("hero");
-	const tt = await getTranslations("trust");
 
 	return (
 		<section id="hero" className="py-24 md:py-44">
@@ -30,9 +29,6 @@ export default async function Hero() {
 							</h1>
 							<p className="mt-8 max-w-lg text-lg text-muted-foreground leading-relaxed">
 								{t("subtitle")}
-							</p>
-							<p className="mt-3 text-muted-foreground/50 text-xs">
-								{tt("heroBadge")}
 							</p>
 							<div className="mt-12 flex flex-col gap-4 sm:flex-row">
 								<Button
