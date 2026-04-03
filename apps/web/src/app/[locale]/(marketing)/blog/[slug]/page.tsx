@@ -322,16 +322,12 @@ export default async function BlogPostPage({
 					})()}
 
 					{post.tags?.some((tag) => ["ai", "security"].some((t) => tag.toLowerCase().includes(t))) && (
-						<Link
-							href="/trust"
-							className="mt-14 flex items-center gap-3 border border-border/40 p-5 text-sm transition-colors hover:border-brand/30"
-						>
+						<div className="mt-14 flex items-center gap-3 border border-border/40 p-5 text-sm">
 							<Shield className="h-4 w-4 shrink-0 text-brand" strokeWidth={1.5} />
 							<span className="text-muted-foreground">
-								{tt("text")}{" "}
-								<span className="text-brand">{tt("link")} →</span>
+								{tt("text")}
 							</span>
-						</Link>
+						</div>
 					)}
 				</div>
 			</SectionWrapper>
