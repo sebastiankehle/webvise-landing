@@ -6,16 +6,16 @@ import StaggerChildren from "@/components/marketing/stagger-children";
 import { Link } from "@/i18n/navigation";
 
 export default async function Trust() {
-	const t = await getTranslations("trust.section");
+	const t = await getTranslations("trust");
 
 	return (
 		<SectionWrapper id="trust">
 			<div className="max-w-2xl">
 				<h2 className="font-display text-3xl tracking-tight md:text-4xl">
-					{t("title")}
+					{t("section.title")}
 				</h2>
 				<p className="mt-4 text-muted-foreground leading-relaxed">
-					{t("subtitle")}
+					{t("section.subtitle")}
 				</p>
 			</div>
 			<StaggerChildren className="mt-14 grid grid-cols-1 gap-px overflow-hidden border border-border md:grid-cols-2">
@@ -31,7 +31,7 @@ export default async function Trust() {
 							ISO 27001
 						</p>
 						<p className="mt-0.5 text-muted-foreground text-sm">
-							Information Security
+							{t("iso27001.label")}
 						</p>
 					</div>
 				</Link>
@@ -47,7 +47,7 @@ export default async function Trust() {
 							ISO 42001
 						</p>
 						<p className="mt-0.5 text-muted-foreground text-sm">
-							AI Management
+							{t("iso42001.label")}
 						</p>
 					</div>
 				</Link>
@@ -57,7 +57,7 @@ export default async function Trust() {
 					href="/trust"
 					className="text-brand transition-opacity hover:opacity-80"
 				>
-					{t("learnMore")} →
+					{t("section.learnMore")} →
 				</Link>
 			</p>
 		</SectionWrapper>
