@@ -1,4 +1,3 @@
-import { Shield } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
 import HeroContent from "@/components/marketing/hero-content";
@@ -32,6 +31,9 @@ export default async function Hero() {
 							<p className="mt-8 max-w-lg text-lg text-muted-foreground leading-relaxed">
 								{t("subtitle")}
 							</p>
+							<p className="mt-3 text-muted-foreground/50 text-xs">
+								{tt("heroBadge")}
+							</p>
 							<div className="mt-12 flex flex-col gap-4 sm:flex-row">
 								<Button
 									size="lg"
@@ -52,13 +54,6 @@ export default async function Hero() {
 									{t("ctaSecondary")}
 								</Button>
 							</div>
-							<Link
-								href="/trust"
-								className="mt-8 inline-flex items-center gap-2 text-muted-foreground text-xs transition-colors hover:text-foreground"
-							>
-								<Shield className="h-3.5 w-3.5" strokeWidth={1.5} />
-								{tt("heroBadge")}
-							</Link>
 						</div>
 						<div className="flex items-center justify-center">
 							<div className="relative w-full max-w-sm">
