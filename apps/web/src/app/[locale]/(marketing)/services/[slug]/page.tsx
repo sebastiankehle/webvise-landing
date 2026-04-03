@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 
@@ -149,68 +150,83 @@ export default async function ServicePage({
 	return (
 		<>
 			<JsonLd data={jsonLd} />
-			<section className="py-24 md:py-44">
-				<div className="mx-auto max-w-[1320px] px-6">
-					<div className="max-w-2xl">
+
+			{/* Breadcrumb */}
+			<nav
+				aria-label="Breadcrumb"
+				className="mx-auto max-w-[1320px] px-6 pt-24 md:pt-36"
+			>
+				<ol className="flex items-center gap-2 text-sm text-muted-foreground">
+					<li>
+						<Link
+							href="/"
+							className="transition-colors hover:text-foreground"
+						>
+							Home
+						</Link>
+					</li>
+					<li aria-hidden="true">/</li>
+					<li>
 						<Link
 							href={{ pathname: "/", hash: "services" }}
-							className="text-muted-foreground text-sm transition-colors hover:text-foreground"
+							className="transition-colors hover:text-foreground"
 						>
-							&larr; {td("backLink")}
+							{t("title")}
 						</Link>
-						<div className="mt-8">
-							<div className="flex h-12 w-12 items-center justify-center border border-brand/20 bg-brand/5">
-								<Icon className="h-6 w-6 text-brand" strokeWidth={1.5} />
-							</div>
-							<h1 className="mt-5 font-display text-4xl tracking-tight md:text-5xl">
+					</li>
+					<li aria-hidden="true">/</li>
+					<li className="truncate text-foreground">{t(`${key}.title`)}</li>
+				</ol>
+			</nav>
+
+			{/* Header */}
+			<section className="pb-24 pt-10 md:pb-36">
+				<div className="mx-auto max-w-[1320px] px-6">
+					<div className="grid items-start gap-12 md:grid-cols-3 md:gap-16">
+						{/* Title + info */}
+						<div className="md:col-span-2">
+							<span className="text-brand text-xs">
+								{t(`${key}.price`)} &middot; {t(`${key}.timeline`)}
+							</span>
+							<h1 className="mt-3 font-display text-4xl tracking-tight md:text-5xl">
 								{t(`${key}.title`)}
 							</h1>
+							<p className="mt-4 text-lg text-muted-foreground leading-relaxed">
+								{t(`${key}.tagline`)}
+							</p>
+
+							{/* Metadata bar */}
+							<div className="mt-10 flex flex-wrap items-start gap-x-8 gap-y-4 border-border/40 border-t pt-6">
+								<div>
+									<span className="block text-muted-foreground text-xs">
+										{td("aboutTitle")}
+									</span>
+									<p className="mt-1 max-w-lg text-sm leading-relaxed">
+										{t(`${key}.description`)}
+									</p>
+								</div>
+							</div>
 						</div>
-						<p className="mt-4 text-lg text-muted-foreground leading-relaxed">
-							{t(`${key}.tagline`)}
-						</p>
-						<div className="mt-8 flex flex-wrap gap-3 text-sm">
-							<span className="border border-border/40 px-3 py-1.5">
-								{t(`${key}.price`)}
-							</span>
-							<span className="border border-border/40 px-3 py-1.5">
-								{t(`${key}.timeline`)}
-							</span>
-							<span className="border border-border/40 px-3 py-1.5">
-								{td("ongoingSupport")}
-							</span>
+
+						{/* Tools box */}
+						<div className="border border-border/40 p-6 md:p-8">
+							<p className="mb-5 text-muted-foreground/50 text-xs">
+								{td("toolsTitle")}
+							</p>
+							<div className="flex flex-wrap gap-2">
+								{Array.from({ length: service.toolCount }, (_, i) => (
+									<span
+										key={t(`${key}.tools.${i}`)}
+										className="border border-border/40 px-3 py-1.5 text-sm transition-all hover:border-brand hover:bg-brand hover:text-white"
+									>
+										{t(`${key}.tools.${i}`)}
+									</span>
+								))}
+							</div>
 						</div>
 					</div>
 				</div>
 			</section>
-
-			<SectionWrapper id="about" alternate>
-				<div className="grid gap-16 md:grid-cols-2 md:gap-20">
-					<div>
-						<h2 className="font-display text-2xl tracking-tight">
-							{td("aboutTitle")}
-						</h2>
-						<p className="mt-4 text-muted-foreground leading-relaxed">
-							{t(`${key}.description`)}
-						</p>
-					</div>
-					<div>
-						<h2 className="font-display text-2xl tracking-tight">
-							{td("toolsTitle")}
-						</h2>
-						<div className="mt-4 flex flex-wrap gap-2">
-							{Array.from({ length: service.toolCount }, (_, i) => (
-								<span
-									key={t(`${key}.tools.${i}`)}
-									className="border border-border/40 px-3 py-1.5 text-sm transition-all hover:border-brand hover:bg-brand hover:text-white"
-								>
-									{t(`${key}.tools.${i}`)}
-								</span>
-							))}
-						</div>
-					</div>
-				</div>
-			</SectionWrapper>
 
 			<SectionWrapper id="why">
 				<div className="max-w-2xl">
@@ -301,79 +317,83 @@ export default async function ServicePage({
 			{slug === "wordpress-migration" && <WpHealthCta />}
 
 			{relatedCaseStudies.length > 0 && (
-				<SectionWrapper id="related-work">
-					<h2 className="font-display text-2xl tracking-tight">
-						{td("relatedWorkTitle")}
-					</h2>
-					<div className="mt-10 grid gap-px overflow-hidden border border-border/40 md:grid-cols-2">
-						{relatedCaseStudies.map((cs) => (
-							<Link
-								key={cs!.slug}
-								href={{
-									pathname: "/case-studies/[slug]",
-									params: { slug: cs!.slug },
-								}}
-								className="group flex flex-col border-border/40 not-last:border-b p-8 transition-colors hover:bg-muted/30 md:not-last:border-r md:not-last:border-b-0 md:p-10"
-							>
-								<span className="font-mono text-[10px] text-brand uppercase tracking-widest">
-									{cs!.client} &middot; {cs!.industry}
-								</span>
-								<h3 className="mt-3 font-display text-lg tracking-tight transition-colors group-hover:text-brand">
-									{cs!.title}
-								</h3>
-								<p className="mt-2 line-clamp-2 text-muted-foreground text-sm leading-relaxed">
-									{cs!.excerpt}
-								</p>
-								<div className="mt-4 flex flex-wrap gap-2">
-									{cs!.techStack.slice(0, 3).map((tech) => (
-										<span
-											key={tech}
-											className="border border-border/40 px-2 py-1 text-xs text-muted-foreground"
-										>
-											{tech}
+				<section className="border-border/40 border-t pb-28 pt-20">
+					<div className="mx-auto max-w-[1320px] px-6">
+						<h2 className="font-display text-2xl tracking-tight">
+							{td("relatedWorkTitle")}
+						</h2>
+						<div className="mt-10 grid gap-6 md:grid-cols-2">
+							{relatedCaseStudies.map((cs) => (
+								<Link
+									key={cs!.slug}
+									href={{
+										pathname: "/case-studies/[slug]",
+										params: { slug: cs!.slug },
+									}}
+									className="group border border-border/40 transition-colors hover:border-brand/30"
+								>
+									{cs!.coverImage && (
+										<Image
+											src={cs!.coverImage}
+											alt={`${cs!.client} - ${cs!.title}`}
+											width={756}
+											height={383}
+											className="h-auto w-full"
+											sizes="(max-width: 768px) 100vw, 50vw"
+											quality={80}
+										/>
+									)}
+									<div className="p-6">
+										<span className="text-brand text-xs">
+											{cs!.client} &middot; {cs!.industry}
 										</span>
-									))}
-								</div>
-							</Link>
-						))}
+										<h3 className="mt-2 font-display text-lg tracking-tight transition-colors group-hover:text-brand">
+											{cs!.title}
+										</h3>
+									</div>
+								</Link>
+							))}
+						</div>
 					</div>
-				</SectionWrapper>
+				</section>
 			)}
 
 			{relatedServiceData.length > 0 && (
-				<SectionWrapper id="related-services" alternate>
-					<h2 className="font-display text-2xl tracking-tight">
-						{td("relatedServicesTitle")}
-					</h2>
-					<div className="mt-10 grid gap-px overflow-hidden border border-border/40 md:grid-cols-2">
-						{relatedServiceData.map((rs) => {
-							const RsIcon = rs!.icon;
-							return (
-								<Link
-									key={rs!.slug}
-									href={{
-										pathname: "/services/[slug]",
-										params: { slug: rs!.slug },
-									}}
-									className="group flex items-start gap-5 border-border/40 not-last:border-b p-8 transition-colors hover:bg-muted/30 md:not-last:border-r md:not-last:border-b-0 md:p-10"
-								>
-									<div className="flex h-10 w-10 shrink-0 items-center justify-center border border-brand/20 bg-brand/5">
-										<RsIcon className="h-5 w-5 text-brand" strokeWidth={1.5} />
-									</div>
-									<div>
-										<h3 className="font-display text-lg tracking-tight transition-colors group-hover:text-brand">
-											{t(`${rs!.translationKey}.title`)}
-										</h3>
-										<p className="mt-1 line-clamp-2 text-muted-foreground text-sm leading-relaxed">
-											{t(`${rs!.translationKey}.tagline`)}
-										</p>
+				<section className="border-border/40 border-t pb-28 pt-20">
+					<div className="mx-auto max-w-[1320px] px-6">
+						<h2 className="font-display text-2xl tracking-tight">
+							{td("relatedServicesTitle")}
+						</h2>
+						<div className="mt-10 grid gap-6 md:grid-cols-2">
+							{relatedServiceData.map((rs) => {
+								const RsIcon = rs!.icon;
+								return (
+									<Link
+										key={rs!.slug}
+										href={{
+											pathname: "/services/[slug]",
+											params: { slug: rs!.slug },
+										}}
+										className="group flex items-start gap-5 border border-border/40 p-6 transition-colors hover:border-brand/30"
+									>
+										<div className="flex h-10 w-10 shrink-0 items-center justify-center border border-brand/20 bg-brand/5">
+											<RsIcon className="h-5 w-5 text-brand" strokeWidth={1.5} />
+										</div>
+										<div>
+											<h3 className="font-display text-lg tracking-tight transition-colors group-hover:text-brand">
+												{t(`${rs!.translationKey}.title`)}
+											</h3>
+											<p className="mt-1 line-clamp-2 text-muted-foreground text-sm leading-relaxed">
+												{t(`${rs!.translationKey}.tagline`)}
+											</p>
 									</div>
 								</Link>
 							);
 						})}
 					</div>
-				</SectionWrapper>
-			)}
+				</div>
+			</section>
+		)}
 
 		</>
 	);

@@ -41,7 +41,7 @@ export default async function Services() {
 							</p>
 						</div>
 						<div className="mt-8 flex items-center justify-between border-border/40 border-t pt-5">
-							<span className="font-mono text-[11px] text-muted-foreground uppercase tracking-wider">
+							<span className="text-muted-foreground text-xs">
 								{t(`${service.translationKey}.timeline`)}
 							</span>
 							<ArrowRight className="h-4 w-4 text-muted-foreground transition-all group-hover:translate-x-1 group-hover:text-brand" />

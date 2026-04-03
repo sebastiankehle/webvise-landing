@@ -43,7 +43,7 @@ export default async function Pricing() {
 										{t(`tiers.${key}.name`)}
 									</h3>
 									{hasBadge && (
-										<span className="border border-brand bg-brand px-2 py-0.5 text-[10px] text-white uppercase tracking-wider">
+										<span className="border border-brand bg-brand px-2 py-0.5 text-[10px] text-white">
 											{t(`tiers.${key}.badge`)}
 										</span>
 									)}

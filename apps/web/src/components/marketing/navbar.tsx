@@ -1,6 +1,6 @@
 "use client";
 
-import { Activity, ArrowRight, ChevronDown, Menu, X } from "lucide-react";
+import { ArrowRight, ChevronDown, Menu, X } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -19,12 +19,21 @@ export interface NavbarPost {
 	readingTime: number;
 }
 
+export interface NavbarCaseStudy {
+	slug: string;
+	client: string;
+	title: string;
+	excerpt: string;
+	coverImage?: string;
+}
+
 type NavHash = "services" | "case-studies" | "blog" | "pricing";
-const dropdownHashes = new Set<NavHash>(["services", "blog", "pricing"]);
+const dropdownHashes = new Set<NavHash>(["services", "case-studies", "blog", "pricing"]);
 
 export default function Navbar({
 	recentPosts = [],
-}: { recentPosts?: NavbarPost[] }) {
+	featuredCaseStudies = [],
+}: { recentPosts?: NavbarPost[]; featuredCaseStudies?: NavbarCaseStudy[] }) {
 	const [mobileOpen, setMobileOpen] = useState(false);
 	const [scrolled, setScrolled] = useState(false);
 	const [activeDropdown, setActiveDropdown] = useState<NavHash | null>(null);
@@ -36,6 +45,7 @@ export default function Navbar({
 	const ts = useTranslations("services");
 	const tpr = useTranslations("pricing");
 	const tb = useTranslations("blog");
+	const tcs = useTranslations("caseStudies");
 	const pathname = usePathname();
 	const locale = useLocale();
 
@@ -122,7 +132,7 @@ export default function Navbar({
 							<Link
 								key={hash}
 								href={{ pathname: "/", hash }}
-								className={`relative inline-flex h-full items-center px-4 text-[13px] uppercase tracking-wider transition-colors hover:text-foreground ${
+								className={`relative inline-flex h-full items-center px-4 text-sm transition-colors hover:text-foreground ${
 									activeDropdown === hash
 										? "text-foreground"
 										: "text-muted-foreground"
@@ -190,37 +200,97 @@ export default function Navbar({
 			>
 				<div className="w-full max-w-[720px] border border-border/40 bg-background/95 shadow-xl backdrop-blur-xl transition-all duration-200 ease-out">
 					{activeDropdown === "services" && (
-						<div className="grid grid-cols-2">
-							{services.map((service, i) => (
-								<Link
-									key={service.slug}
-									href={{
-										pathname: "/services/[slug]",
-										params: { slug: service.slug },
-									}}
-									className={`group flex items-start gap-4 border-border/40 p-5 transition-colors hover:bg-muted/40 ${
-										i < 4 ? "border-b" : ""
-									} ${i % 2 === 0 ? "border-r" : ""}`}
-									onClick={close}
-								>
-									<service.icon
-										className="mt-0.5 h-5 w-5 shrink-0 text-brand"
-										strokeWidth={1.5}
-									/>
-									<div className="min-w-0">
-										<p className="text-sm">
-											{ts(
-												`${service.translationKey}.title`,
-											)}
-										</p>
-										<p className="mt-1 text-muted-foreground text-xs leading-relaxed">
-											{ts(
-												`${service.translationKey}.tagline`,
-											)}
-										</p>
-									</div>
-								</Link>
-							))}
+						<div>
+							<div className="grid grid-cols-3">
+								{services.map((service, i) => (
+									<Link
+										key={service.slug}
+										href={{
+											pathname: "/services/[slug]",
+											params: { slug: service.slug },
+										}}
+										className={`group flex items-start gap-3 border-border/40 p-5 transition-colors hover:bg-muted/40 ${
+											i < 3 ? "border-b" : ""
+										} ${i % 3 !== 2 ? "border-r" : ""}`}
+										onClick={close}
+									>
+										<service.icon
+											className="mt-0.5 h-4 w-4 shrink-0 text-brand"
+											strokeWidth={1.5}
+										/>
+										<div className="min-w-0">
+											<p className="text-sm">
+												{ts(
+													`${service.translationKey}.title`,
+												)}
+											</p>
+											<p className="mt-1 text-muted-foreground text-xs leading-relaxed">
+												{ts(
+													`${service.translationKey}.tagline`,
+												)}
+											</p>
+										</div>
+									</Link>
+								))}
+							</div>
+							<Link
+								href={{ pathname: "/", hash: "services" }}
+								className="group flex items-center justify-between border-border/40 border-t p-4 px-5 transition-colors hover:bg-muted/40"
+								onClick={(e) => handleNavClick(e, "services")}
+							>
+								<span className="text-brand text-xs">
+									{ts("viewAll")}
+								</span>
+								<ArrowRight className="h-3 w-3 text-brand transition-transform group-hover:translate-x-0.5" />
+							</Link>
+						</div>
+					)}
+
+					{activeDropdown === "case-studies" && (
+						<div>
+							<div className="grid grid-cols-3">
+								{featuredCaseStudies.map((cs, i) => (
+									<Link
+										key={cs.slug}
+										href={{
+											pathname: "/case-studies/[slug]",
+											params: { slug: cs.slug },
+										}}
+										className={`group flex flex-col border-border/40 transition-colors hover:bg-muted/40 ${
+											i < 2 ? "border-r" : ""
+										}`}
+										onClick={close}
+									>
+										{cs.coverImage && (
+											<div className="relative aspect-[16/9] w-full overflow-hidden bg-muted/20">
+												<img
+													src={cs.coverImage}
+													alt={cs.title}
+													className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+												/>
+											</div>
+										)}
+										<div className="flex flex-1 flex-col p-4">
+											<span className="text-muted-foreground text-xs">
+												{cs.client}
+											</span>
+											<p className="mt-1.5 text-sm leading-snug transition-colors group-hover:text-brand">
+												{cs.title}
+											</p>
+										</div>
+									</Link>
+								))}
+							</div>
+							<Link
+								href="/case-studies"
+								className="group flex items-center justify-between border-border/40 border-t p-4 px-5 transition-colors hover:bg-muted/40"
+								onClick={close}
+							>
+								<span className="text-brand text-xs">
+									{tcs("viewAll")}
+								</span>
+								<ArrowRight className="h-3 w-3 text-brand transition-transform group-hover:translate-x-0.5" />
+							</Link>
 						</div>
 					)}
 
@@ -254,7 +324,7 @@ export default function Navbar({
 										<p className="mt-2 text-sm leading-snug transition-colors group-hover:text-brand">
 											{post.title}
 										</p>
-										<span className="mt-3 text-muted-foreground text-xs">
+										<span className="mt-auto pt-3 text-muted-foreground text-xs">
 											{post.readingTime}{" "}
 											{tb("minRead")}
 										</span>
@@ -266,7 +336,7 @@ export default function Navbar({
 								className="group flex items-center justify-between border-border/40 border-t p-4 px-5 transition-colors hover:bg-muted/40"
 								onClick={close}
 							>
-								<span className="text-brand text-xs uppercase tracking-wider">
+								<span className="text-brand text-xs">
 									{tb("viewAll")}
 								</span>
 								<ArrowRight className="h-3 w-3 text-brand transition-transform group-hover:translate-x-0.5" />
@@ -275,41 +345,53 @@ export default function Navbar({
 					)}
 
 					{activeDropdown === "pricing" && (
-						<div className="grid grid-cols-3">
-							{(["project", "growth", "enterprise"] as const).map(
-								(key, i) => (
-									<Link
-										key={key}
-										href={{ pathname: "/", hash: "pricing" }}
-										className={`group flex flex-col border-border/40 p-5 transition-colors hover:bg-muted/40 ${
-											i < 2 ? "border-r" : ""
-										}`}
-										onClick={(e) => handleNavClick(e, "pricing")}
-									>
-										<div className="flex items-center gap-2">
-											<p className="text-sm">
-												{tpr(`tiers.${key}.name`)}
+						<div>
+							<div className="grid grid-cols-3">
+								{(["project", "growth", "enterprise"] as const).map(
+									(key, i) => (
+										<Link
+											key={key}
+											href={{ pathname: "/", hash: "pricing" }}
+											className={`group flex flex-col border-border/40 p-5 transition-colors hover:bg-muted/40 ${
+												i < 2 ? "border-r" : ""
+											}`}
+											onClick={(e) => handleNavClick(e, "pricing")}
+										>
+											<div className="flex items-center gap-2">
+												<p className="text-sm">
+													{tpr(`tiers.${key}.name`)}
+												</p>
+												{key === "growth" && (
+													<span className="border border-brand bg-brand px-1.5 py-0.5 text-[10px] text-white">
+														{tpr(
+															`tiers.${key}.badge`,
+														)}
+													</span>
+												)}
+											</div>
+											<p className="mt-1 text-muted-foreground text-xs leading-relaxed">
+												{tpr(`tiers.${key}.description`)}
 											</p>
-											{key === "growth" && (
-												<span className="border border-brand bg-brand px-1.5 py-0.5 text-[10px] text-white">
-													{tpr(
-														`tiers.${key}.badge`,
-													)}
-												</span>
-											)}
-										</div>
-										<p className="mt-1 text-muted-foreground text-xs leading-relaxed">
-											{tpr(`tiers.${key}.description`)}
-										</p>
-										<p className="mt-3 font-display text-xl tracking-tight">
-											{tpr(`tiers.${key}.price`)}
-										</p>
-										<span className="text-muted-foreground text-xs">
-											{tpr(`tiers.${key}.basis`)}
-										</span>
-									</Link>
-								),
-							)}
+											<p className="mt-auto pt-3 font-display text-xl tracking-tight">
+												{tpr(`tiers.${key}.price`)}
+											</p>
+											<span className="text-muted-foreground text-xs">
+												{tpr(`tiers.${key}.basis`)}
+											</span>
+										</Link>
+									),
+								)}
+							</div>
+							<Link
+								href={{ pathname: "/", hash: "pricing" }}
+								className="group flex items-center justify-between border-border/40 border-t p-4 px-5 transition-colors hover:bg-muted/40"
+								onClick={(e) => handleNavClick(e, "pricing")}
+							>
+								<span className="text-brand text-xs">
+									{tpr("cta")}
+								</span>
+								<ArrowRight className="h-3 w-3 text-brand transition-transform group-hover:translate-x-0.5" />
+							</Link>
 						</div>
 					)}
 				</div>
@@ -386,22 +468,16 @@ export default function Navbar({
 							>
 								{t("pricing")}
 							</Link>
-						</div>
 
-						<div className="mt-8">
 							<Link
 								href="/wp-health-report"
-								className="group flex items-center gap-3 border border-brand/20 bg-brand/5 px-5 py-4 transition-colors hover:border-brand/40 hover:bg-brand/10"
+								className="py-4 text-left font-display text-xl text-foreground transition-colors hover:text-brand"
 								onClick={() => {
-									track("cta_clicked", { location: "navbar_mobile", variant: "analyzer" });
+									track("cta_clicked", { location: "navbar_mobile", variant: "health_report" });
 									setMobileOpen(false);
 								}}
 							>
-								<Activity className="h-4 w-4 text-brand" strokeWidth={1.5} />
-								<span className="text-sm text-foreground">
-									{t("webAnalyzer")}
-								</span>
-								<ArrowRight className="ml-auto h-4 w-4 text-brand opacity-0 transition-opacity group-hover:opacity-100" />
+								{t("wpHealthReport")}
 							</Link>
 						</div>
 

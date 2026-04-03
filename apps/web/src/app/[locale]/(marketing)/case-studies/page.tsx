@@ -77,7 +77,7 @@ export default async function CaseStudiesPage() {
 								</div>
 							)}
 							<div>
-								<span className="font-mono text-[10px] text-brand uppercase tracking-widest">
+								<span className="text-brand text-xs">
 									{cs.industry}
 								</span>
 								<h2 className="mt-2 font-display text-xl leading-snug">

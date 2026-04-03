@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 
+import BlogShare from "@/components/marketing/blog-share";
 import JsonLd from "@/components/json-ld";
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import {
@@ -137,7 +138,7 @@ function RenderBlock({ block }: { block: Block }) {
 								{block.headers.map((h) => (
 									<th
 										key={h}
-										className="px-4 py-3 text-left font-mono text-[10px] text-foreground uppercase tracking-widest"
+										className="px-4 py-3 text-left text-foreground text-xs font-medium"
 									>
 										{h}
 									</th>
@@ -263,7 +264,7 @@ export default async function BlogPostPage({
 					<div className="grid items-start gap-12 md:grid-cols-3 md:gap-16">
 						{/* Title + info */}
 						<div className="md:col-span-2">
-							<span className="font-mono text-[10px] text-brand uppercase tracking-widest">
+							<span className="text-brand text-xs">
 								<time dateTime={post.date}>
 									{new Date(post.date).toLocaleDateString(locale, {
 										day: "numeric",
@@ -285,7 +286,7 @@ export default async function BlogPostPage({
 						{/* Tags box */}
 						{post.tags && post.tags.length > 0 && (
 							<div className="border border-border/40 p-6 md:p-8">
-								<p className="mb-5 font-mono text-[10px] text-muted-foreground/50 uppercase tracking-widest">
+								<p className="mb-5 text-muted-foreground/50 text-xs">
 									{t("tagsLabel")}
 								</p>
 								<div className="flex flex-wrap gap-2">
@@ -302,6 +303,10 @@ export default async function BlogPostPage({
 						)}
 					</div>
 				</div>
+
+				<div className="mx-auto mt-10 max-w-[1320px] px-6">
+					<BlogShare url={postUrl} title={post.title} />
+				</div>
 			</section>
 
 			<SectionWrapper id="content" alternate>
@@ -315,49 +320,53 @@ export default async function BlogPostPage({
 				</div>
 			</SectionWrapper>
 
-			{(prev || next) && (
-				<section className="border-border/40 border-t pb-28 pt-20">
-					<div className="mx-auto max-w-[1320px] px-6">
-						<h2 className="font-display text-2xl tracking-tight">
-							{t("moreArticles")}
-						</h2>
-						<div className="mt-10 grid gap-6 md:grid-cols-2">
-							{prev && (
-								<a
-									href={`/blog/${prev.slug}`}
-									className="group border border-border/40 p-6 transition-colors hover:border-brand/30"
-								>
-									<span className="font-mono text-[10px] text-brand uppercase tracking-widest">
-										{t("prevPost")}
-									</span>
-									<h3 className="mt-2 font-display text-lg tracking-tight transition-colors group-hover:text-brand">
-										{prev.title}
-									</h3>
-									<p className="mt-2 text-muted-foreground text-sm leading-relaxed line-clamp-2">
-										{prev.excerpt}
-									</p>
-								</a>
-							)}
-							{next && (
-								<a
-									href={`/blog/${next.slug}`}
-									className="group border border-border/40 p-6 transition-colors hover:border-brand/30"
-								>
-									<span className="font-mono text-[10px] text-brand uppercase tracking-widest">
-										{t("nextPost")}
-									</span>
-									<h3 className="mt-2 font-display text-lg tracking-tight transition-colors group-hover:text-brand">
-										{next.title}
-									</h3>
-									<p className="mt-2 text-muted-foreground text-sm leading-relaxed line-clamp-2">
-										{next.excerpt}
-									</p>
-								</a>
-							)}
-						</div>
-					</div>
-				</section>
-			)}
+			<section className="border-border/40 border-t pb-28 pt-12">
+				<div className="mx-auto max-w-[1320px] px-6">
+					<BlogShare url={postUrl} title={post.title} />
+
+					{(prev || next) && (
+						<>
+							<h2 className="mt-12 font-display text-2xl tracking-tight">
+								{t("moreArticles")}
+							</h2>
+							<div className="mt-10 grid gap-6 md:grid-cols-2">
+								{prev && (
+									<a
+										href={`/blog/${prev.slug}`}
+										className="group border border-border/40 p-6 transition-colors hover:border-brand/30"
+									>
+										<span className="text-brand text-xs">
+											{t("prevPost")}
+										</span>
+										<h3 className="mt-2 font-display text-lg tracking-tight transition-colors group-hover:text-brand">
+											{prev.title}
+										</h3>
+										<p className="mt-2 text-muted-foreground text-sm leading-relaxed line-clamp-2">
+											{prev.excerpt}
+										</p>
+									</a>
+								)}
+								{next && (
+									<a
+										href={`/blog/${next.slug}`}
+										className="group border border-border/40 p-6 transition-colors hover:border-brand/30"
+									>
+										<span className="text-brand text-xs">
+											{t("nextPost")}
+										</span>
+										<h3 className="mt-2 font-display text-lg tracking-tight transition-colors group-hover:text-brand">
+											{next.title}
+										</h3>
+										<p className="mt-2 text-muted-foreground text-sm leading-relaxed line-clamp-2">
+											{next.excerpt}
+										</p>
+									</a>
+								)}
+							</div>
+						</>
+					)}
+				</div>
+			</section>
 		</>
 	);
 }

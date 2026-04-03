@@ -60,7 +60,7 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 
 					{/* Services */}
 					<div className="md:col-span-3">
-						<h3 className="mb-5 font-mono text-[10px] uppercase tracking-widest text-muted-foreground/50">
+						<h3 className="mb-5 text-muted-foreground/50 text-xs">
 							{t("sections.services")}
 						</h3>
 						<ul className="space-y-3">
@@ -79,7 +79,7 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 
 					{/* Company */}
 					<div className="md:col-span-2">
-						<h3 className="mb-5 font-mono text-[10px] uppercase tracking-widest text-muted-foreground/50">
+						<h3 className="mb-5 text-muted-foreground/50 text-xs">
 							{t("sections.company")}
 						</h3>
 						<ul className="space-y-3">
@@ -130,7 +130,7 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 
 					{/* Contact */}
 					<div className="md:col-span-3">
-						<h3 className="mb-5 font-mono text-[10px] uppercase tracking-widest text-muted-foreground/50">
+						<h3 className="mb-5 text-muted-foreground/50 text-xs">
 							{t("sections.contact")}
 						</h3>
 						<ul className="space-y-3 text-sm">

@@ -24,7 +24,7 @@ export default async function BlogPreview() {
 				</div>
 				<Link
 					href="/blog"
-					className="shrink-0 text-brand text-sm uppercase tracking-wider transition-opacity hover:opacity-80"
+					className="shrink-0 text-brand text-sm transition-opacity hover:opacity-80"
 				>
 					{t("viewAll")}
 				</Link>
@@ -36,7 +36,7 @@ export default async function BlogPreview() {
 						href={{ pathname: "/blog/[slug]", params: { slug: post.slug } }}
 						className="group flex flex-col border-border/40 not-last:border-b p-8 transition-colors hover:bg-muted/30 md:not-[:nth-last-child(-n+3)]:border-b md:[&:nth-child(3n+1)]:border-r md:[&:nth-child(3n+2)]:border-r md:p-10"
 					>
-						<div className="flex items-center gap-3 font-mono text-[11px] text-muted-foreground uppercase tracking-wider">
+						<div className="flex items-center gap-3 text-muted-foreground text-xs">
 							<time dateTime={post.date}>
 								{new Date(post.date).toLocaleDateString(locale, {
 									day: "numeric",
@@ -55,7 +55,7 @@ export default async function BlogPreview() {
 						<p className="mt-3 line-clamp-3 text-muted-foreground text-sm leading-relaxed">
 							{post.excerpt}
 						</p>
-						<span className="mt-auto pt-8 text-brand text-sm uppercase tracking-wider transition-opacity group-hover:opacity-80">
+						<span className="mt-auto pt-8 text-brand text-sm transition-opacity group-hover:opacity-80">
 							{t("readMore")}
 						</span>
 					</Link>

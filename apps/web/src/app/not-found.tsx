@@ -13,7 +13,7 @@ export default async function GlobalNotFound() {
 	return (
 		<html lang="en" className={geistSans.variable}>
 			<body className="flex min-h-screen flex-col items-center justify-center bg-background px-6 font-sans antialiased">
-				<p className="font-medium text-muted-foreground/50 text-sm uppercase tracking-wider">
+				<p className="font-medium text-muted-foreground/50 text-sm">
 					404
 				</p>
 				<h1 className="mt-4 font-normal text-4xl tracking-tight md:text-5xl">

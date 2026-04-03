@@ -64,7 +64,7 @@ export default async function TechStack() {
 						key={cat.key}
 						className="border-border/40 nth-[-n+2]:border-b p-6 odd:border-r md:p-8 lg:not-last:border-r lg:nth-[-n+2]:border-b-0 lg:odd:border-r-0"
 					>
-						<p className="mb-5 font-mono text-[10px] text-muted-foreground/50 uppercase tracking-widest">
+						<p className="mb-5 text-muted-foreground/50 text-xs">
 							{t(cat.key)}
 						</p>
 						<div className="flex flex-wrap gap-2">

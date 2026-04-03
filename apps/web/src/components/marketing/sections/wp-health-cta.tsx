@@ -16,7 +16,7 @@ export default async function WpHealthCta() {
 						<div className="flex h-8 w-8 items-center justify-center border border-brand/20 bg-brand/5">
 							<Activity className="h-4 w-4 text-brand" strokeWidth={1.5} />
 						</div>
-						<span className="font-mono text-[10px] text-brand uppercase tracking-widest">
+						<span className="text-brand text-xs">
 							{t("badge")}
 						</span>
 					</div>
@@ -44,7 +44,7 @@ export default async function WpHealthCta() {
 				<div className="flex items-center justify-center">
 					<div className="w-full max-w-xs space-y-5 border border-border/40 p-8">
 						<div className="flex items-center justify-between">
-							<span className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider">
+							<span className="text-muted-foreground text-xs">
 								PageSpeed Score
 							</span>
 							<span className="font-display text-lg text-orange-600">32</span>
@@ -54,11 +54,11 @@ export default async function WpHealthCta() {
 						</div>
 						<div className="flex items-center gap-3 py-1">
 							<span className="h-px flex-1 bg-border/40" />
-							<span className="font-mono text-[9px] text-muted-foreground/50 uppercase tracking-widest">vs</span>
+							<span className="text-muted-foreground/50 text-xs">vs</span>
 							<span className="h-px flex-1 bg-border/40" />
 						</div>
 						<div className="flex items-center justify-between">
-							<span className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider">
+							<span className="text-muted-foreground text-xs">
 								After Next.js
 							</span>
 							<span className="font-display text-lg text-green-600">95</span>

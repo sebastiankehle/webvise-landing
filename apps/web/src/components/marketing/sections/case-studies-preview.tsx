@@ -53,7 +53,7 @@ export default async function CaseStudiesPreview() {
 							</div>
 						)}
 						<div>
-							<span className="font-mono text-[10px] text-brand uppercase tracking-widest">
+							<span className="text-brand text-xs">
 								{cs.industry}
 							</span>
 							<h3 className="mt-2 font-display text-xl leading-snug">

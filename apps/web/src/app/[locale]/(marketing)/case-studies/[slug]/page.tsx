@@ -182,7 +182,7 @@ export default async function CaseStudyPage({
 					<div className="grid items-start gap-12 md:grid-cols-3 md:gap-16">
 						{/* Title + info */}
 						<div className="md:col-span-2">
-							<span className="font-mono text-[10px] text-brand uppercase tracking-widest">
+							<span className="text-brand text-xs">
 								{cs.client} &middot; {cs.industry}
 							</span>
 							<h1 className="mt-3 font-display text-4xl tracking-tight md:text-5xl">
@@ -196,7 +196,7 @@ export default async function CaseStudyPage({
 							<div className="mt-10 flex flex-wrap items-start gap-x-8 gap-y-4 border-border/40 border-t pt-6">
 								{cs.location && (
 									<div>
-										<span className="block font-mono text-[10px] text-muted-foreground uppercase tracking-widest">
+										<span className="block text-muted-foreground text-xs">
 											{t("location")}
 										</span>
 										<span className="mt-1 block text-sm">{cs.location}</span>
@@ -204,7 +204,7 @@ export default async function CaseStudyPage({
 								)}
 								{cs.deliveryTime && (
 									<div>
-										<span className="block font-mono text-[10px] text-muted-foreground uppercase tracking-widest">
+										<span className="block text-muted-foreground text-xs">
 											{t("deliveryTime")}
 										</span>
 										<span className="mt-1 block text-sm">
@@ -213,7 +213,7 @@ export default async function CaseStudyPage({
 									</div>
 								)}
 								<div>
-									<span className="block font-mono text-[10px] text-muted-foreground uppercase tracking-widest">
+									<span className="block text-muted-foreground text-xs">
 										{t("liveProject")}
 									</span>
 									{cs.liveUrl ? (
@@ -237,7 +237,7 @@ export default async function CaseStudyPage({
 
 						{/* Tech stack box */}
 						<div className="border border-border/40 p-6 md:p-8">
-							<p className="mb-5 font-mono text-[10px] text-muted-foreground/50 uppercase tracking-widest">
+							<p className="mb-5 text-muted-foreground/50 text-xs">
 								{t("techStackLabel")}
 							</p>
 							<div className="flex flex-wrap gap-2">
@@ -372,7 +372,7 @@ export default async function CaseStudyPage({
 										/>
 									)}
 									<div className="p-6">
-										<span className="font-mono text-[10px] text-brand uppercase tracking-widest">
+										<span className="text-brand text-xs">
 											{related.client} &middot;{" "}
 											{related.industry}
 										</span>

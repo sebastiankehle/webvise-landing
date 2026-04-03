@@ -92,7 +92,7 @@ export default async function BlogPage({
 								href={`/blog/${post.slug}`}
 								className="group flex flex-col p-8 transition-colors hover:bg-muted/30 md:p-10"
 							>
-								<div className="flex items-center gap-3 font-mono text-[11px] text-muted-foreground uppercase tracking-wider">
+								<div className="flex items-center gap-3 text-muted-foreground text-xs">
 									<time dateTime={post.date}>
 										{new Date(post.date).toLocaleDateString(locale, {
 											day: "numeric",
@@ -111,7 +111,7 @@ export default async function BlogPage({
 								<p className="mt-3 text-muted-foreground text-sm leading-relaxed">
 									{post.excerpt}
 								</p>
-								<span className="mt-8 text-brand text-sm uppercase tracking-wider transition-opacity group-hover:opacity-80">
+								<span className="mt-8 text-brand text-sm transition-opacity group-hover:opacity-80">
 									{t("readMore")}
 								</span>
 							</a>

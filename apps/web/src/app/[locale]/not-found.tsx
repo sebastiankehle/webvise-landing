@@ -8,7 +8,7 @@ export default async function NotFound() {
 
 	return (
 		<div className="flex min-h-screen flex-col items-center justify-center px-6">
-			<p className="font-medium text-muted-foreground/50 text-sm uppercase tracking-wider">
+			<p className="font-medium text-muted-foreground/50 text-sm">
 				404
 			</p>
 			<h1 className="mt-4 font-normal text-4xl tracking-tight md:text-5xl">

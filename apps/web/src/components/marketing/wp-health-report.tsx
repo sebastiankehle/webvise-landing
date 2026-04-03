@@ -135,7 +135,7 @@ function ReportResults({ data }: { data: ReportData }) {
 
 				{/* Projected score - visually separated */}
 				<div className="mt-4 border-2 border-brand bg-brand/5 p-5">
-					<p className="mb-3 text-center font-medium text-brand text-xs uppercase tracking-wider">
+					<p className="mb-3 text-center font-medium text-brand text-xs">
 						{t("results.projectedLabel")}
 					</p>
 					<div className="flex justify-center">
@@ -154,7 +154,7 @@ function ReportResults({ data }: { data: ReportData }) {
 				{data.vitals && data.vitals.length > 0 && (
 					<div className="mt-px border border-border/40 border-t-0">
 						<div className="border-border/40 border-b px-5 py-3">
-							<h3 className="font-medium text-muted-foreground text-xs uppercase tracking-wider">
+							<h3 className="font-medium text-muted-foreground text-xs">
 								{t("results.webVitalsTitle")}
 							</h3>
 							<p className="mt-1 text-muted-foreground text-xs">
@@ -178,7 +178,7 @@ function ReportResults({ data }: { data: ReportData }) {
 											<span className={cn("font-medium text-sm", text)}>
 												{vital.displayValue}
 											</span>
-											<span className="text-[10px] text-muted-foreground uppercase tracking-wider">
+											<span className="text-muted-foreground text-xs">
 												{vital.label}
 											</span>
 										</div>
@@ -197,7 +197,7 @@ function ReportResults({ data }: { data: ReportData }) {
 				{/* Security flags - only show if present */}
 				{data.securityFlags.length > 0 && (
 					<div className="mt-px border border-border/40 border-t-0 p-5">
-						<h3 className="font-medium text-muted-foreground text-xs uppercase tracking-wider">
+						<h3 className="font-medium text-muted-foreground text-xs">
 							{t("results.securityRisks")}
 						</h3>
 						<ul className="mt-3 space-y-2">
@@ -217,7 +217,7 @@ function ReportResults({ data }: { data: ReportData }) {
 				{/* Migration estimate + CTA */}
 				<div className="mt-px grid items-center gap-6 border border-border/40 border-t-2 border-t-brand p-6 md:grid-cols-[1fr_auto]">
 					<div>
-						<h3 className="font-medium text-muted-foreground text-xs uppercase tracking-wider">
+						<h3 className="font-medium text-muted-foreground text-xs">
 							{t("results.migrationEstimate")}
 						</h3>
 						<p className="mt-2 font-light text-muted-foreground text-sm leading-relaxed">
@@ -315,7 +315,7 @@ function TeaserResults({
 
 			{/* Projected score */}
 			<div className="mt-4 border-2 border-brand bg-brand/5 p-5">
-				<p className="mb-3 text-center font-medium text-brand text-xs uppercase tracking-wider">
+				<p className="mb-3 text-center font-medium text-brand text-xs">
 					{t("results.projectedLabel")}
 				</p>
 				<div className="flex justify-center">

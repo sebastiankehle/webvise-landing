@@ -4,6 +4,7 @@ import ChatWidget from "@/components/marketing/chat-widget";
 import Footer from "@/components/marketing/footer";
 import Navbar from "@/components/marketing/navbar";
 import { getBlogPosts } from "@/data/blog";
+import { getCaseStudies } from "@/data/case-studies";
 
 export default async function MarketingLayout({
 	children,
@@ -22,6 +23,13 @@ export default async function MarketingLayout({
 			readingTime,
 		}));
 
+	const allCaseStudies = getCaseStudies(locale);
+	const featuredSlugs = ["old-world-labs", "ohyp-fintech", "mp-bau-construction"];
+	const featuredCaseStudies = featuredSlugs
+		.map((s) => allCaseStudies.find((cs) => cs.slug === s))
+		.filter((cs): cs is NonNullable<typeof cs> => cs != null)
+		.map(({ slug, client, title, excerpt, coverImage }) => ({ slug, client, title, excerpt, coverImage }));
+
 	return (
 		<>
 			<a
@@ -30,7 +38,7 @@ export default async function MarketingLayout({
 			>
 				Skip to content
 			</a>
-			<Navbar recentPosts={recentPosts} />
+			<Navbar recentPosts={recentPosts} featuredCaseStudies={featuredCaseStudies} />
 			<main id="main-content">{children}</main>
 			<Footer ctaBanner={cta} />
 			<ChatWidget />
