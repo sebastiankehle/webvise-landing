@@ -23,8 +23,8 @@ const contactSchema = z.object({
 
 const SERVICE_LABELS: Record<string, string> = {
 	"landing-pages": "Landing Pages",
-	"seo-performance": "SEO & Performance",
 	"wordpress-migration": "WordPress Migration",
+	"ai-consulting": "AI Consulting",
 	"mvp-development": "MVP Development",
 	"ai-automation": "AI Automation",
 	"full-stack-applications": "Full-Stack Applications",

@@ -319,7 +319,7 @@ export default async function ServicePage({
 
 			{slug === "wordpress-migration" && <WpHealthCta />}
 
-			{(slug === "ai-automation" || slug === "full-stack-applications") && (
+			{(slug === "ai-automation" || slug === "ai-consulting" || slug === "full-stack-applications") && (
 				<section className="border-border/40 border-t pb-20 pt-20">
 					<div className="mx-auto max-w-[1320px] px-6">
 						<div className="flex items-start gap-5 border border-border/40 p-6 md:p-8">
