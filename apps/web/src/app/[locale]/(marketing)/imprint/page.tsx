@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
+import { Shield } from "lucide-react";
 import { notFound } from "next/navigation";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 
 import { getLegalPage } from "@/data/legal";
 import { generateAlternates } from "@/lib/seo";
@@ -39,6 +40,7 @@ export default async function ImprintPage() {
 	const locale = await getLocale();
 	const page = getLegalPage("imprint", locale);
 	if (!page) notFound();
+	const tt = await getTranslations("trust.blogBanner");
 
 	return (
 		<article className="mx-auto max-w-[1320px] px-6 py-32 md:py-44">
@@ -66,6 +68,11 @@ export default async function ImprintPage() {
 					</section>
 				))}
 			</div>
+
+				<div className="mt-16 flex max-w-2xl items-center gap-3 border border-border/40 p-5 text-sm">
+					<Shield className="h-4 w-4 shrink-0 text-brand" strokeWidth={1.5} />
+					<span className="text-muted-foreground">{tt("text")}</span>
+				</div>
 		</article>
 	);
 }
