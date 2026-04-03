@@ -18,15 +18,16 @@ export default function FooterCtaBanner({
 					<p className="font-display text-3xl tracking-tight md:text-4xl">
 						{headline}
 					</p>
-					<p className="mt-3 text-sm text-muted-foreground md:text-base">
+					<p className="mt-3 text-muted-foreground text-sm md:text-base">
 						{subtext}
 					</p>
 				</div>
 				<Button
 					size="lg"
-					className="shrink-0 border-transparent bg-brand px-8 text-white [&]:hover:brightness-125"
+					className="[a]:hover:!bg-brand/80 shrink-0 border-transparent bg-brand px-8 text-white"
 					data-ph-capture-attribute-cta-location="footer"
 					data-ph-capture-attribute-cta-variant="primary"
+					// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
 					render={<a href="/#contact" />}
 				>
 					{buttonText}
