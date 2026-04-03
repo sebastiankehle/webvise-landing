@@ -131,7 +131,7 @@ function addLinkToBlocks(blocks, keywords, url, preferredBlockTypes = ["p"]) {
 
 // ─── LINK SPECIFICATIONS ────────────────────────────────────────────────────
 // Each article has internal links and external links.
-// Keywords are ordered by priority — more specific first.
+// Keywords are ordered by priority - more specific first.
 
 const INTERNAL_LINKS = {
 	"ai-agents-business-automation": [

@@ -71,7 +71,7 @@ function buildContactHtml(data: {
   <div style="max-width:560px;margin:40px auto;background:#ffffff;border:1px solid #e5e7eb">
     <div style="background:#7c3aed;padding:20px 28px">
       <span style="color:#ffffff;font-size:14px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase">webvise</span>
-      <span style="color:#c4b5fd;font-size:14px;margin-left:8px">— New Inquiry</span>
+      <span style="color:#c4b5fd;font-size:14px;margin-left:8px">- New Inquiry</span>
     </div>
     <div style="padding:28px">
       <h1 style="margin:0 0 4px;font-size:20px;font-weight:600;color:#111827">
@@ -129,7 +129,7 @@ export async function POST(request: Request) {
 			data.company
 				? `${data.name} (${data.company})`
 				: data.name,
-			serviceLabel ? `— ${serviceLabel}` : null,
+			serviceLabel ? `- ${serviceLabel}` : null,
 		]
 			.filter(Boolean)
 			.join(" ");

@@ -1,6 +1,6 @@
 # Webvise
 
-Digital product agency — design, engineering, AI.
+Digital product agency - design, engineering, AI.
 
 ## Tech Stack
 
@@ -9,7 +9,7 @@ Digital product agency — design, engineering, AI.
 - **Drizzle ORM** with PostgreSQL
 - **TailwindCSS 4** and **shadcn/ui**
 - **Better-Auth** for authentication
-- **7-locale i18n** — en, de, fr, es, nl, pl, it
+- **7-locale i18n** - en, de, fr, es, nl, pl, it
 - **Biome** for linting and formatting
 - **Turborepo** for monorepo orchestration
 

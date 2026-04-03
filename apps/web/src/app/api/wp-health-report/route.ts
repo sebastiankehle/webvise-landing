@@ -176,9 +176,9 @@ function scoreBadge(score: number): string {
 }
 
 function urgencyLabel(mobileScore: number): { text: string; color: string } {
-	if (mobileScore < 40) return { text: "HOT LEAD — score critical", color: "#dc2626" };
-	if (mobileScore < 60) return { text: "WARM LEAD — clear improvement opportunity", color: "#ca8a04" };
-	return { text: "COOL LEAD — already decent performance", color: "#6b7280" };
+	if (mobileScore < 40) return { text: "HOT LEAD - score critical", color: "#dc2626" };
+	if (mobileScore < 60) return { text: "WARM LEAD - clear improvement opportunity", color: "#ca8a04" };
+	return { text: "COOL LEAD - already decent performance", color: "#6b7280" };
 }
 
 function buildAdminHtml(data: {
@@ -311,7 +311,7 @@ function buildProspectHtml(data: {
 	const issueRows = data.issues
 		.map(
 			(i) =>
-				`<li style="margin:0 0 6px;font-size:14px;color:#374151">${escapeHtml(i.title)}${i.displayValue ? ` — ${escapeHtml(i.displayValue)}` : ""}</li>`,
+				`<li style="margin:0 0 6px;font-size:14px;color:#374151">${escapeHtml(i.title)}${i.displayValue ? ` - ${escapeHtml(i.displayValue)}` : ""}</li>`,
 		)
 		.join("");
 
@@ -325,7 +325,7 @@ function buildProspectHtml(data: {
     </div>
     <div style="padding:28px">
       <h1 style="margin:0 0 8px;font-size:20px;font-weight:600;color:#111827">Hi ${firstName}, here's your report</h1>
-      <p style="margin:0 0 24px;font-size:14px;color:#6b7280;line-height:1.6">We've analysed <strong style="color:#111827">${url}</strong>. Here's what we found — and what's possible.</p>
+      <p style="margin:0 0 24px;font-size:14px;color:#6b7280;line-height:1.6">We've analysed <strong style="color:#111827">${url}</strong>. Here's what we found - and what's possible.</p>
 
       <!-- Score summary -->
       <div style="border:1px solid #e5e7eb;padding:20px;margin-bottom:24px">
@@ -536,7 +536,7 @@ export async function POST(request: Request) {
 						from: "webvise <noreply@webvise.io>",
 						to: [adminEmail],
 						reply_to: data.email,
-						subject: `WP Lead: ${data.url} — mobile ${mobileScore}/100`,
+						subject: `WP Lead: ${data.url} - mobile ${mobileScore}/100`,
 						html: buildAdminHtml({
 							url: data.url,
 							email: data.email,
@@ -621,7 +621,7 @@ export async function POST(request: Request) {
 							`Ready to talk? Book a free call: https://cal.com/webvise`,
 							`Or reply to this email with any questions.`,
 							``,
-							`— The webvise team`,
+							`- The webvise team`,
 						].join("\n"),
 					}),
 				}).then(async (r) => {

@@ -9,10 +9,10 @@ This design system is built on the intersection of Swiss-style precision and res
 The system uses **Geist** as its typographic backbone, **OKLCH** for perceptually uniform color, and **zero border-radius** as a defining geometric choice. Every surface, component, and interaction is designed to feel engineered rather than decorated.
 
 **Core Principles:**
-- **Sharp geometry** — `border-radius: 0` everywhere. No rounded corners. No pills.
-- **Restrained color** — A near-monochromatic palette with a single warm orange accent used sparingly for action and emphasis.
-- **Tonal depth** — Elevation is achieved through background shifts and subtle rings, not drop shadows.
-- **Generous spacing** — Whitespace is a first-class structural element, not leftover space.
+- **Sharp geometry** - `border-radius: 0` everywhere. No rounded corners. No pills.
+- **Restrained color** - A near-monochromatic palette with a single warm orange accent used sparingly for action and emphasis.
+- **Tonal depth** - Elevation is achieved through background shifts and subtle rings, not drop shadows.
+- **Generous spacing** - Whitespace is a first-class structural element, not leftover space.
 
 ---
 
@@ -38,7 +38,7 @@ Colors are defined as CSS custom properties using the **OKLCH** color space for 
 | `--input` | `oklch(0.90 0.005 80)` | Input field borders |
 | `--ring` | `oklch(0.48 0.01 250)` | Focus ring color |
 | `--destructive` | `oklch(0.58 0.22 27)` | Error states and destructive actions |
-| `--brand` | `oklch(0.75 0.18 55)` | Brand orange — the singular accent color |
+| `--brand` | `oklch(0.75 0.18 55)` | Brand orange - the singular accent color |
 | `--brand-subtle` | `oklch(0.75 0.18 55 / 8%)` | Low-opacity brand tint for backgrounds |
 | `--surface-dark` | `oklch(0.13 0.01 250)` | Dark section base |
 | `--surface-dark-secondary` | `oklch(0.18 0.01 250)` | Dark section secondary surface |
@@ -171,7 +171,7 @@ Both fonts are loaded via `next/font/google` with CSS variable injection in the 
 
 ### 4.4 The Breathing Rule
 
-Sections use generous vertical padding that scales up significantly on desktop. If a section feels cramped, increase padding — the design favors expensive whitespace. The jump from mobile to desktop spacing (e.g., `py-20` → `py-36`) is intentional and creates visual openness on larger viewports.
+Sections use generous vertical padding that scales up significantly on desktop. If a section feels cramped, increase padding - the design favors expensive whitespace. The jump from mobile to desktop spacing (e.g., `py-20` → `py-36`) is intentional and creates visual openness on larger viewports.
 
 ---
 
@@ -181,10 +181,10 @@ Sections use generous vertical padding that scales up significantly on desktop. 
 
 Depth is **not** achieved through box shadows on standard components. Instead, the system uses:
 
-1. **Ring separators** — `ring-1 ring-foreground/10` on cards, dialogs, and containers. This provides a subtle, integrated boundary.
-2. **Background shifts** — Moving between `--background`, `--card`, `--muted`, and `--secondary` to create tonal depth.
-3. **Opacity borders** — `border-border/40` for lighter separation in dropdowns, grids, and navigation.
-4. **Section-dark** — Full background inversion for high-contrast zones.
+1. **Ring separators** - `ring-1 ring-foreground/10` on cards, dialogs, and containers. This provides a subtle, integrated boundary.
+2. **Background shifts** - Moving between `--background`, `--card`, `--muted`, and `--secondary` to create tonal depth.
+3. **Opacity borders** - `border-border/40` for lighter separation in dropdowns, grids, and navigation.
+4. **Section-dark** - Full background inversion for high-contrast zones.
 
 ### 5.2 When Shadows Are Permitted
 
@@ -216,9 +216,9 @@ The pattern: semi-transparent background + backdrop blur. The transparency allow
 --radius: 0rem;
 ```
 
-All computed radius tokens (`--radius-sm` through `--radius-4xl`) cascade from this base. Every component uses `rounded-none`. This is a deliberate, defining aesthetic choice — sharp corners create a technical, engineered feel.
+All computed radius tokens (`--radius-sm` through `--radius-4xl`) cascade from this base. Every component uses `rounded-none`. This is a deliberate, defining aesthetic choice - sharp corners create a technical, engineered feel.
 
-**No exceptions.** Buttons, cards, inputs, dialogs, dropdowns, checkboxes, badges — all sharp.
+**No exceptions.** Buttons, cards, inputs, dialogs, dropdowns, checkboxes, badges - all sharp.
 
 ### 6.2 Border Strategy
 
@@ -250,7 +250,7 @@ Built with `class-variance-authority` on a `@base-ui/react` primitive.
 | `destructive` | `bg-destructive/10 text-destructive` | Delete, remove |
 | `link` | `text-primary underline-offset-4` → hover underline | Inline text links |
 
-**Brand CTA buttons** are not a variant — they're composed inline:
+**Brand CTA buttons** are not a variant - they're composed inline:
 ```tsx
 <Button className="border-transparent bg-brand px-8 text-white [&]:hover:bg-brand/80" />
 ```
@@ -263,10 +263,10 @@ Built with `class-variance-authority` on a `@base-ui/react` primitive.
 | `sm` | `h-7` | `px-2.5` |
 | `default` | `h-8` | `px-2.5` |
 | `lg` | `h-9` | `px-2.5` |
-| `icon` | `size-8` | — |
-| `icon-xs` | `size-6` | — |
-| `icon-sm` | `size-7` | — |
-| `icon-lg` | `size-9` | — |
+| `icon` | `size-8` | - |
+| `icon-xs` | `size-6` | - |
+| `icon-sm` | `size-7` | - |
+| `icon-lg` | `size-9` | - |
 
 Brand CTAs in the hero and navbar use `size="lg"` with additional `px-6` or `px-8` for wider touch targets and visual weight.
 
@@ -425,8 +425,8 @@ All marketing sections use a consistent wrapper:
 ```
 
 Variants:
-- `alternate` — `bg-white` instead of `bg-background` (creates subtle tonal shift)
-- `dark` — Applies `.section-dark` class for inverted sections
+- `alternate` - `bg-white` instead of `bg-background` (creates subtle tonal shift)
+- `dark` - Applies `.section-dark` class for inverted sections
 
 ### 9.2 Grid Patterns
 

@@ -254,7 +254,7 @@ export default async function CaseStudyPage({
 			<section className="pb-28">
 				<div className="mx-auto max-w-[1320px] px-6">
 					<div className="grid items-start gap-3 md:grid-cols-3">
-						{/* Hero — spans 2 cols */}
+						{/* Hero - spans 2 cols */}
 						{cs.coverImage && (
 							<div className="md:col-span-2">
 								<CaseStudyHeroImage
