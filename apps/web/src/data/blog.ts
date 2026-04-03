@@ -16,7 +16,8 @@ export interface BlogPost {
 	title: string;
 	excerpt: string;
 	metaDescription?: string;
-	cta?: string;
+
+	tags?: string[];
 	blocks: Block[];
 }
 
@@ -27,7 +28,8 @@ interface PostFile {
 	title: string;
 	excerpt: string;
 	metaDescription?: string;
-	cta?: string;
+
+	tags?: string[];
 	blocks: Block[];
 }
 
@@ -35,7 +37,8 @@ interface LocaleContent {
 	title: string;
 	excerpt: string;
 	metaDescription?: string;
-	cta?: string;
+
+	tags?: string[];
 	blocks: Block[];
 }
 
@@ -110,7 +113,7 @@ function toPost(slug: string, locale: string): BlogPost | null {
 		title: content.title,
 		excerpt: content.excerpt,
 		metaDescription: content.metaDescription,
-		cta: content.cta,
+		tags: content.tags ?? meta.tags,
 		blocks: content.blocks,
 	};
 }
@@ -127,6 +130,19 @@ export function getBlogPostBySlug(
 	locale: string,
 ): BlogPost | undefined {
 	return toPost(slug, locale) ?? undefined;
+}
+
+export function getAdjacentPosts(
+	slug: string,
+	locale: string,
+): { prev: BlogPost | null; next: BlogPost | null } {
+	const posts = getBlogPosts(locale);
+	const index = posts.findIndex((p) => p.slug === slug);
+	if (index === -1) return { prev: null, next: null };
+	return {
+		prev: index < posts.length - 1 ? posts[index + 1] : null,
+		next: index > 0 ? posts[index - 1] : null,
+	};
 }
 
 // backwards compat for sitemap.ts

@@ -4,7 +4,12 @@ import { getLocale, getTranslations } from "next-intl/server";
 
 import JsonLd from "@/components/json-ld";
 import SectionWrapper from "@/components/marketing/section-wrapper";
-import { type Block, getBlogPostBySlug, getBlogPosts } from "@/data/blog";
+import {
+	type Block,
+	getAdjacentPosts,
+	getBlogPostBySlug,
+	getBlogPosts,
+} from "@/data/blog";
 import { Link } from "@/i18n/navigation";
 import { generateAlternates, localizedUrl } from "@/lib/seo";
 
@@ -176,6 +181,7 @@ export default async function BlogPostPage({
 
 	const t = await getTranslations("blog");
 	const postUrl = localizedUrl(`/blog/${slug}`, locale);
+	const { prev, next } = getAdjacentPosts(slug, locale);
 
 	const jsonLd = {
 		"@context": "https://schema.org",
@@ -222,31 +228,78 @@ export default async function BlogPostPage({
 	return (
 		<>
 			<JsonLd data={jsonLd} />
-			<section className="py-24 md:py-44">
-				<div className="mx-auto max-w-[1320px] px-6">
-					<div className="max-w-2xl">
+
+			{/* Breadcrumb */}
+			<nav
+				aria-label="Breadcrumb"
+				className="mx-auto max-w-[1320px] px-6 pt-24 md:pt-36"
+			>
+				<ol className="flex items-center gap-2 text-sm text-muted-foreground">
+					<li>
+						<Link
+							href="/"
+							className="transition-colors hover:text-foreground"
+						>
+							Home
+						</Link>
+					</li>
+					<li aria-hidden="true">/</li>
+					<li>
 						<Link
 							href="/blog"
-							className="text-muted-foreground text-sm transition-colors hover:text-foreground"
+							className="transition-colors hover:text-foreground"
 						>
-							&larr; {t("backLink")}
+							{t("title")}
 						</Link>
-						<div className="mt-8 flex items-center gap-3 font-mono text-[11px] text-muted-foreground uppercase tracking-wider">
-							<time dateTime={post.date}>
-								{new Date(post.date).toLocaleDateString(locale, {
-									day: "numeric",
-									month: "long",
-									year: "numeric",
-								})}
-							</time>
-							<span className="text-border">/</span>
-							<span>
+					</li>
+					<li aria-hidden="true">/</li>
+					<li className="truncate text-foreground">{post.title}</li>
+				</ol>
+			</nav>
+
+			{/* Header */}
+			<section className="pb-24 pt-10 md:pb-36">
+				<div className="mx-auto max-w-[1320px] px-6">
+					<div className="grid items-start gap-12 md:grid-cols-3 md:gap-16">
+						{/* Title + info */}
+						<div className="md:col-span-2">
+							<span className="font-mono text-[10px] text-brand uppercase tracking-widest">
+								<time dateTime={post.date}>
+									{new Date(post.date).toLocaleDateString(locale, {
+										day: "numeric",
+										month: "long",
+										year: "numeric",
+									})}
+								</time>
+								{" \u00B7 "}
 								{post.readingTime} {t("minRead")}
 							</span>
+							<h1 className="mt-3 font-display text-4xl tracking-tight md:text-5xl">
+								{post.title}
+							</h1>
+							<p className="mt-4 text-lg text-muted-foreground leading-relaxed">
+								{post.excerpt}
+							</p>
 						</div>
-						<h1 className="mt-4 font-display text-4xl tracking-tight md:text-5xl">
-							{post.title}
-						</h1>
+
+						{/* Tags box */}
+						{post.tags && post.tags.length > 0 && (
+							<div className="border border-border/40 p-6 md:p-8">
+								<p className="mb-5 font-mono text-[10px] text-muted-foreground/50 uppercase tracking-widest">
+									{t("tagsLabel")}
+								</p>
+								<div className="flex flex-wrap gap-2">
+									{post.tags.map((tag) => (
+										<span
+											key={tag}
+											className="border border-border/40 px-3 py-1.5 text-sm transition-all hover:border-brand hover:bg-brand hover:text-white"
+										>
+											{tag}
+										</span>
+									))}
+								</div>
+							</div>
+						)}
 					</div>
 				</div>
 			</section>
@@ -261,6 +314,50 @@ export default async function BlogPostPage({
 					})()}
 				</div>
 			</SectionWrapper>
+
+			{(prev || next) && (
+				<section className="border-border/40 border-t pb-28 pt-20">
+					<div className="mx-auto max-w-[1320px] px-6">
+						<h2 className="font-display text-2xl tracking-tight">
+							{t("moreArticles")}
+						</h2>
+						<div className="mt-10 grid gap-6 md:grid-cols-2">
+							{prev && (
+								<a
+									href={`/blog/${prev.slug}`}
+									className="group border border-border/40 p-6 transition-colors hover:border-brand/30"
+								>
+									<span className="font-mono text-[10px] text-brand uppercase tracking-widest">
+										{t("prevPost")}
+									</span>
+									<h3 className="mt-2 font-display text-lg tracking-tight transition-colors group-hover:text-brand">
+										{prev.title}
+									</h3>
+									<p className="mt-2 text-muted-foreground text-sm leading-relaxed line-clamp-2">
+										{prev.excerpt}
+									</p>
+								</a>
+							)}
+							{next && (
+								<a
+									href={`/blog/${next.slug}`}
+									className="group border border-border/40 p-6 transition-colors hover:border-brand/30"
+								>
+									<span className="font-mono text-[10px] text-brand uppercase tracking-widest">
+										{t("nextPost")}
+									</span>
+									<h3 className="mt-2 font-display text-lg tracking-tight transition-colors group-hover:text-brand">
+										{next.title}
+									</h3>
+									<p className="mt-2 text-muted-foreground text-sm leading-relaxed line-clamp-2">
+										{next.excerpt}
+									</p>
+								</a>
+							)}
+						</div>
+					</div>
+				</section>
+			)}
 		</>
 	);
 }

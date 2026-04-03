@@ -1,0 +1,244 @@
+{
+	"date": "2026-04-03",
+	"readingTime": 12,
+	"keyword": "OpenClaw Open-Source KI-Agent",
+	"title": "OpenClaw: Der Open-Source-KI-Agent, der GitHub-Rekorde gebrochen hat - und was das für Ihr Unternehmen bedeutet",
+	"excerpt": "OpenClaw wuchs in 60 Tagen von einem Wochenendprojekt auf 250.000 GitHub-Sterne. Es verbindet KI-Modelle mit über 50 Messaging-Plattformen und läuft autonom auf Ihrer eigenen Infrastruktur. Was es ist, wie es funktioniert und warum es relevant ist.",
+	"metaDescription": "OpenClaw ist der am schnellsten wachsende Open-Source-KI-Agent in der Geschichte. Erfahren Sie, wie er funktioniert, was ihn von Chatbots unterscheidet, welche Sicherheitslehren CVE-2026-25253 bietet und wie Unternehmen autonome Agenten produktiv einsetzen können.",
+	"tags": [
+		"AI Agents",
+		"Open Source",
+		"Self-Hosted",
+		"Security"
+	],
+	"blocks": [
+		{
+			"type": "p",
+			"text": "Im November 2025 startete Peter Steinberger - der Gründer hinter PSPDFKits neunstelligem Exit - ein Wochenendprojekt. Er wollte sehen, was passiert, wenn man einem KI-Modell persistentes Gedächtnis, Werkzeugzugriff und Konnektivität zu allen Messaging-Plattformen gibt, die er nutzte. Zwei Monate später hatte dieses Projekt **250.000 GitHub-Sterne** und übertraf Reacts jahrzehntelangen Rekord in einem Bruchteil der Zeit. Das Projekt heißt [OpenClaw](https://openclaw.ai/) und ist das bisher konkreteste Beispiel dafür, wohin [KI-Agenten](/de/blog/ai-agents-business-automation) sich entwickeln."
+		},
+		{
+			"type": "h2",
+			"text": "Was OpenClaw tatsächlich ist"
+		},
+		{
+			"type": "p",
+			"text": "OpenClaw ist ein freier, quelloffener **autonomer KI-Agent**, der auf Ihrer eigenen Infrastruktur läuft. Im Gegensatz zu cloudbasierten KI-Assistenten, die in einem Browser-Tab existieren, verbindet sich OpenClaw mit den Messaging-Plattformen, die Ihr Team bereits nutzt - WhatsApp, Slack, Telegram, Discord, Microsoft Teams, Signal, Matrix und über 50 weitere - und fungiert als persistenter, immer verfügbarer Assistent, der eigenständig denken, handeln und Aufgaben verwalten kann."
+		},
+		{
+			"type": "p",
+			"text": "Es unterstützt mehrere LLM-Anbieter - Anthropic Claude, OpenAI GPT, Google Gemini, DeepSeek und lokale Modelle über Ollama -, sodass Sie nicht an einen einzigen Anbieter gebunden sind. Konfiguration und Gedächtnis werden lokal in Markdown-Dateien gespeichert, was bedeutet, dass Ihre Daten Ihren Rechner nie verlassen, es sei denn, Sie entscheiden sich ausdrücklich dafür."
+		},
+		{
+			"type": "h2",
+			"text": "Der Unterschied zum Chatbot"
+		},
+		{
+			"type": "p",
+			"text": "Der Unterschied ist bedeutsam. Ein Chatbot antwortet auf Eingaben. OpenClaw arbeitet in einer **ReAct-Schleife** - es denkt über ein Ziel nach, wählt ein Werkzeug aus, führt es aus, beobachtet das Ergebnis und entscheidet, was als Nächstes zu tun ist. Diese Schleife läuft, bis die Aufgabe abgeschlossen ist. OpenClaw wartet nicht darauf, dass Sie ihm bei jedem Schritt sagen, was zu tun ist."
+		},
+		{
+			"type": "table",
+			"headers": [
+				"Fähigkeit",
+				"Klassischer Chatbot",
+				"OpenClaw-Agent"
+			],
+			"rows": [
+				[
+					"Persistenz",
+					"Zustandslos zwischen Sitzungen",
+					"Persistentes Gedächtnis über Gespräche hinweg"
+				],
+				[
+					"Initiative",
+					"Rein reaktiv",
+					"Proaktiv über Heartbeat-Scheduler"
+				],
+				[
+					"Werkzeugzugriff",
+					"Keiner oder fest kodiert",
+					"100+ Skills, erweiterbares Plugin-System"
+				],
+				[
+					"Plattformreichweite",
+					"Einzelne Oberfläche",
+					"50+ Messaging-Plattformen gleichzeitig"
+				],
+				[
+					"Infrastruktur",
+					"Vom Anbieter gehostete Cloud",
+					"Self-Hosted, Daten bleiben lokal"
+				],
+				[
+					"Modellflexibilität",
+					"Einzelner Anbieter",
+					"Beliebiger LLM-Anbieter oder lokales Modell"
+				]
+			]
+		},
+		{
+			"type": "p",
+			"text": "Das **Heartbeat-System** ist besonders bemerkenswert. OpenClaw wartet nicht nur auf Nachrichten - es führt geplante Aufgaben aus, überwacht Posteingänge und wickelt Workflows nach einem Timer ab. Dadurch wandelt es sich von einem reaktiven Assistenten in etwas, das einem autonomen Teammitglied nahekommt, das wiederkehrende Aufgaben erledigt, ohne darum gebeten zu werden."
+		},
+		{
+			"type": "h2",
+			"text": "Die Architektur dahinter"
+		},
+		{
+			"type": "p",
+			"text": "Die Architektur von OpenClaw hat fünf Kernkomponenten, deren Verständnis sowohl die Stärken als auch die Risiken erklärt."
+		},
+		{
+			"type": "h3",
+			"text": "Gateway"
+		},
+		{
+			"type": "p",
+			"text": "Ein WebSocket-Server, der Nachrichten von verbundenen Kanälen (Slack, WhatsApp, Telegram usw.) an die Agent-Laufzeitumgebung weiterleitet. Diese Schicht macht OpenClaw plattformunabhängig - der Rest des Systems kümmert sich nicht darum, woher die Nachricht stammt."
+		},
+		{
+			"type": "h3",
+			"text": "Brain"
+		},
+		{
+			"type": "p",
+			"text": "Die Orchestrierungsschicht, die LLM-Aufrufe nach dem ReAct-Muster verwaltet. Sie empfängt ein Ziel, denkt über den nächsten Schritt nach, ruft ein Werkzeug auf, beobachtet das Ergebnis und wiederholt den Vorgang. Dies ist dasselbe agentische Schleifenmuster, das in produktiven [KI-Automatisierungssystemen](/services/ai-automation) eingesetzt wird, jedoch verpackt OpenClaw es mit breitem Werkzeugzugriff und Messaging-Integration direkt von Anfang an."
+		},
+		{
+			"type": "h3",
+			"text": "Memory"
+		},
+		{
+			"type": "p",
+			"text": "Persistenter Kontext, der in lokalen Markdown-Dateien gespeichert wird. Anders als sitzungsbasierte KI-Tools, die alles vergessen, wenn man den Tab schließt, erinnert sich OpenClaw über Sitzungen hinweg an frühere Interaktionen, Präferenzen und Aufgabenkontext. Das ist es, was es eher wie einen persönlichen Assistenten wirken lässt und weniger wie ein zustandsloses Werkzeug."
+		},
+		{
+			"type": "h3",
+			"text": "Skills"
+		},
+		{
+			"type": "p",
+			"text": "Ein Plugin-System, bei dem jeder Skill ein Verzeichnis mit einer `SKILL.md`-Datei mit YAML-Frontmatter und Anweisungen in natürlicher Sprache ist. OpenClaw wird mit über 100 vorkonfigurierten Skills ausgeliefert - Shell-Befehle, Dateiverwaltung, Web-Automatisierung, API-Aufrufe, E-Mail, Kalender - und Sie können eigene schreiben. Skills werden in einer Rangfolge geladen: arbeitsbereichsspezifische Skills überschreiben benutzerspezifische, die wiederum die mitgelieferten Standardwerte überschreiben."
+		},
+		{
+			"type": "h3",
+			"text": "Heartbeat"
+		},
+		{
+			"type": "p",
+			"text": "Der Scheduler, der proaktives Verhalten ermöglicht. Er verwaltet zeitgesteuerte Aufgaben, Posteingangsüberwachung und alle Workflows, die ohne Benutzerauslöser laufen sollen. Diese Komponente unterscheidet OpenClaw von den meisten anderen KI-Agent-Frameworks, die rein reaktiv sind."
+		},
+		{
+			"type": "h2",
+			"text": "Die Entstehungsgeschichte und dreifache Umbenennung"
+		},
+		{
+			"type": "p",
+			"text": "Die Geschichte des Projekts ist es wert, gekannt zu werden, denn sie veranschaulicht die Geschwindigkeit, mit der sich das KI-Agent-Ökosystem bewegt - und das Chaos, das damit einhergeht."
+		},
+		{
+			"type": "p",
+			"text": "Steinberger benannte das Projekt ursprünglich im November 2025 **Clawdbot** - eine Anspielung auf Anthropics Claude. Im Januar 2026 schickte Anthropic Markenbeschwerden wegen der phonetischen Ähnlichkeit, was eine Umbenennung in **Moltbot** erzwang (eine Metapher für das Häuten eines Hummers). Drei Tage später benannte Steinberger es erneut in **OpenClaw** um, weil \"Moltbot\" nicht haftete. Während des Übergangs beanspruchten Krypto-Betrüger den aufgegebenen GitHub-Benutzernamen innerhalb von Sekunden und lancierten betrügerische Token, die kurzzeitig eine **Marktkapitalisierung von 16 Millionen Dollar** erreichten, bevor sie zusammenbrachen."
+		},
+		{
+			"type": "p",
+			"text": "Im Februar 2026 kündigte Steinberger an, er werde **zu OpenAI wechseln**, um deren Abteilung für persönliche Agenten zu leiten. OpenClaw wechselt zu einer unabhängigen Open-Source-Stiftung mit OpenAI-Förderung. Das Projekt entwickelte sich in unter vier Monaten vom Nebenprojekt zu einer stiftungsgeführten Organisation."
+		},
+		{
+			"type": "h2",
+			"text": "Der Sicherheits-Weckruf"
+		},
+		{
+			"type": "p",
+			"text": "Im Februar 2026 veröffentlichten Sicherheitsforscher **CVE-2026-25253** - eine One-Click-Remote-Code-Execution-Schwachstelle mit einem CVSS-Score von 8,8. Ein Angreifer konnte Authentifizierungstoken stehlen und die vollständige Kontrolle über den Host-Rechner erlangen. Scans fanden über **40.000 öffentlich im Internet exponierte OpenClaw-Instanzen**, von denen 63 % als anfällig eingestuft wurden."
+		},
+		{
+			"type": "p",
+			"text": "Dies ist der unvermeidliche Kompromiss bei self-gehosteten KI-Agenten mit breitem Systemzugriff. Dieselben Fähigkeiten, die OpenClaw leistungsstark machen - Shell-Ausführung, Dateisystemzugriff, API-Konnektivität -, erzeugen eine große Angriffsfläche bei Fehlkonfiguration. Die Schwachstelle wurde in Version 2026.1.29 behoben, doch der Vorfall beleuchtet eine grundlegende Wahrheit beim Einsatz autonomer Agenten:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**Agent-Schnittstellen niemals ohne Authentifizierung und Netzwerkisolierung dem öffentlichen Internet aussetzen**",
+				"**Werkzeugberechtigungen einschränken** auf nur die Fähigkeiten, die jeder Einsatz tatsächlich benötigt",
+				"**Skill-Konfigurationen vor dem Deployment prüfen** - Standard-Skills umfassen Shell-Ausführung, die die meisten Anwendungsfälle nicht benötigen",
+				"**Agent-Aktionen überwachen** mit strukturiertem Logging - ein autonomes System, das API-Aufrufe durchführt und Befehle ausführt, benötigt dieselbe Beobachtbarkeit wie jeder Produktionsdienst",
+				"**Update-Rhythmus straff halten** - OpenClaw lieferte im März 2026 allein 13 Releases aus, etwa eines alle zwei Tage"
+			]
+		},
+		{
+			"type": "p",
+			"text": "Dies sind keine OpenClaw-spezifischen Lektionen. Sie gelten für **jeden** autonomen KI-Agenten-Einsatz, ob auf OpenClaw aufgebaut, einem eigenen Framework oder einer kommerziellen Plattform. Je mehr Autonomie Sie einem Agenten gewähren, desto rigoroser muss Ihre Sicherheitsstrategie sein."
+		},
+		{
+			"type": "h2",
+			"text": "Die Ökosystem-Explosion"
+		},
+		{
+			"type": "p",
+			"text": "OpenClaws Wachstum hat ein Ökosystem hervorgebracht, das sich schneller bewegt, als die meisten Organisationen verfolgen können. Einige Highlights aus dem ersten Quartal 2026:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**NVIDIA NemoClaw** - ein Referenz-Stack für den sicheren Betrieb von OpenClaw innerhalb von NVIDIAs OpenShell-Container-Umgebung",
+				"**Cloudflare moltworker** - Tooling zum Betrieb von OpenClaw auf Cloudflare Workers für Edge-Deployed-Agenten",
+				"**OpenClaw-RL** - ein Reinforcement-Learning-Framework, das Konversationen in Trainingssignale für personalisiertes Agentenverhalten umwandelt",
+				"**ClawHub** - ein Marktplatz zum Teilen und Entdecken von Community-erstellten Skills",
+				"**Agent-zu-Agent-Netzwerke** - experimentelle Plattformen wie Moltbook und 4claw, auf denen autonome Agenten miteinander interagieren"
+			]
+		},
+		{
+			"type": "p",
+			"text": "Wenn NVIDIA und Cloudflare dedizierte Infrastruktur für ein vier Monate altes Projekt aufbauen, ist das Signal klar: Autonome KI-Agenten werden zu einer Plattformkategorie, nicht nur zu einem GitHub-Trend."
+		},
+		{
+			"type": "h2",
+			"text": "Was das für Unternehmen bedeutet"
+		},
+		{
+			"type": "p",
+			"text": "OpenClaw ist weniger als spezifisches Werkzeug relevant, sondern vielmehr als Signal für die Richtung der Branche. Das von ihm etablierte Muster - **persistentes Gedächtnis, Multi-Plattform-Präsenz, proaktive Ausführung, Local-First-Architektur** - wird zur Grunderwartung für KI-Agenten im Unternehmensumfeld."
+		},
+		{
+			"type": "h3",
+			"text": "Der Datenschutzvorteil"
+		},
+		{
+			"type": "p",
+			"text": "Für Branchen mit strengen Anforderungen an die Datenverarbeitung - Recht, Gesundheitswesen, Finanzdienstleistungen - ist das Self-Hosted-Modell keine Option, sondern eine Anforderung. OpenClaws Local-First-Architektur bedeutet, dass sensible Daten Ihre Infrastruktur nie verlassen. Kein Drittanbieter verarbeitet Ihre Kundengespräche, Dokumente oder internen Kommunikationen in der Cloud. Das ist ein echter Differenzierer für Organisationen, die cloud-gehostete KI-Assistenten aufgrund von Compliance-Vorgaben nicht nutzen können."
+		},
+		{
+			"type": "h3",
+			"text": "Die Integrations-Realität"
+		},
+		{
+			"type": "p",
+			"text": "Die über 50 Messaging-Plattform-Integrationen adressieren ein reales Problem: Mitarbeiter wollen kein weiteres Tool. Sie wollen KI-Funktionen in den Werkzeugen, die sie bereits verwenden. Ein Agent, der in Slack lebt, in Teams antwortet und E-Mails überwacht, wird eher angenommen als einer, der das Öffnen einer separaten Anwendung erfordert."
+		},
+		{
+			"type": "h3",
+			"text": "Die Build-or-Buy-Entscheidung"
+		},
+		{
+			"type": "p",
+			"text": "OpenClaw ist Open-Source und kostenlos, aber \"kostenlos\" ist irreführend. Steinberger gab vor OpenAIs Beteiligung **12.000 Dollar pro Monat** für Infrastruktur aus. Der Betrieb eines produktiven KI-Agenten erfordert LLM-API-Kosten, Rechenleistung für die Agent-Laufzeitumgebung, Monitoring, Sicherheitshärtung und laufende Wartung, da das Projekt zweiwöchentlich Breaking Changes ausliefert. Für die meisten Unternehmen lautet die Frage nicht, ob OpenClaw im Speziellen genutzt werden soll, sondern ob das von ihm demonstrierte autonome Agentenmuster zu ihren Workflows passt - und ob auf Open-Source aufgebaut oder in eine verwaltete Plattform investiert werden soll."
+		},
+		{
+			"type": "h2",
+			"text": "Wohin die Entwicklung führt"
+		},
+		{
+			"type": "p",
+			"text": "OpenClaws Trajektorie - vom Wochenend-Hack auf 250.000 Sterne bis zur OpenAI-Übernahme in vier Monaten - verdichtet eine Dekade typischer Open-Source-Evolution in ein einziges Quartal. Die von ihm popularisierten technischen Muster tauchen bereits in kommerziellen Produkten und Enterprise-Frameworks auf."
+		},
+		{
+			"type": "p",
+			"text": "Die Unternehmen, die am meisten profitieren, werden jene sein, die die Architektur gut genug verstehen, um die Kompromisse zu bewerten: **was zu automatisieren ist, wie viel Autonomie zu gewähren ist, wo die Sicherheitsgrenzen liegen müssen und wie gemessen wird, ob ein Agent tatsächlich Mehrwert liefert** - anstatt nur zu funktionieren. Das erfordert dieselbe produktionstaugliche Engineering-Disziplin, die zuverlässige [Softwaresysteme](/services/web-development) von beeindruckenden Demos unterscheidet."
+		},
+		{
+			"type": "p",
+			"text": "Bei **webvise** helfen wir Unternehmen dabei, KI-Agenten-Architekturen zu bewerten und zu implementieren - von der Machbarkeitsprüfung bis zum Produktivbetrieb. Ob Sie OpenClaw erkunden, eigene Agenten entwickeln oder kommerzielle Plattformen evaluieren: [Nehmen Sie Kontakt auf](/de/#contact) - wir helfen Ihnen, den Ansatz zu finden, der zu Ihren Anforderungen, Ihrer Sicherheitsstrategie und Ihrem Budget passt."
+		}
+	]
+}

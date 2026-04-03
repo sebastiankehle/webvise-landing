@@ -24,7 +24,7 @@ export default function FooterCtaBanner({
 				</div>
 				<Button
 					size="lg"
-					className="shrink-0 border-transparent bg-brand px-8 text-white [&]:hover:bg-brand/80"
+					className="shrink-0 border-transparent bg-brand px-8 text-white [&]:hover:brightness-125"
 					data-ph-capture-attribute-cta-location="footer"
 					data-ph-capture-attribute-cta-variant="primary"
 					render={<a href="/#contact" />}
