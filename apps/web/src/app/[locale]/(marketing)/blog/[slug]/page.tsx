@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 
+import { Shield } from "lucide-react";
+
 import BlogShare from "@/components/marketing/blog-share";
 import JsonLd from "@/components/json-ld";
 import SectionWrapper from "@/components/marketing/section-wrapper";
@@ -181,6 +183,7 @@ export default async function BlogPostPage({
 	}
 
 	const t = await getTranslations("blog");
+	const tt = await getTranslations("trust.blogBanner");
 	const postUrl = localizedUrl(`/blog/${slug}`, locale);
 	const { prev, next } = getAdjacentPosts(slug, locale);
 
@@ -317,6 +320,19 @@ export default async function BlogPostPage({
 							<RenderBlock key={keys[idx]} block={block} />
 						));
 					})()}
+
+					{post.tags?.some((tag) => ["AI", "Security"].includes(tag)) && (
+						<Link
+							href="/trust"
+							className="mt-14 flex items-center gap-3 border border-border/40 p-5 text-sm transition-colors hover:border-brand/30"
+						>
+							<Shield className="h-4 w-4 shrink-0 text-brand" strokeWidth={1.5} />
+							<span className="text-muted-foreground">
+								{tt("text")}{" "}
+								<span className="text-brand">{tt("link")} →</span>
+							</span>
+						</Link>
+					)}
 				</div>
 			</SectionWrapper>
 

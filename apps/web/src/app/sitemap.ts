@@ -84,6 +84,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
 		...caseStudyPages,
 		...blogPages,
 		{
+			url: `${baseUrl}/trust`,
+			lastModified: new Date(),
+			changeFrequency: "monthly",
+			priority: 0.6,
+			alternates: alternates("/trust"),
+		},
+		{
 			url: `${baseUrl}/privacy`,
 			lastModified: new Date(),
 			changeFrequency: "yearly",

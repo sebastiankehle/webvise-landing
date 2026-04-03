@@ -11,6 +11,7 @@ import Process from "@/components/marketing/sections/process";
 import Services from "@/components/marketing/sections/services";
 import TechStack from "@/components/marketing/sections/tech-stack";
 import Testimonials from "@/components/marketing/sections/testimonials";
+import Trust from "@/components/marketing/sections/trust";
 import WpHealthCta from "@/components/marketing/sections/wp-health-cta";
 
 const jsonLd = {
@@ -58,6 +59,7 @@ export default function HomePage() {
 			<Benefits />
 			<WpHealthCta />
 			<Metrics />
+			<Trust />
 			<Services />
 			<Process />
 			<CaseStudiesPreview />

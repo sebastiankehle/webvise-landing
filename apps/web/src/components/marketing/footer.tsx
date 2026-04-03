@@ -10,6 +10,7 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 	const t = await getTranslations("footer");
 	const ts = await getTranslations("services");
 	const tw = await getTranslations("wpHealthReport.cta");
+	const tt = await getTranslations("trust.footer");
 
 	const companyLinks = [
 		{ hash: "benefits", label: t("links.benefits") },
@@ -109,6 +110,14 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 									{t("links.blog")}
 								</Link>
 							</li>
+							<li>
+								<Link
+									href="/trust"
+									className="text-sm text-muted-foreground transition-colors hover:text-[--foreground]"
+								>
+									{t("links.trust")}
+								</Link>
+							</li>
 							<li className="border-[--border] border-t pt-3">
 								<a
 									href="/media"
@@ -153,7 +162,16 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 			{/* Bottom bar */}
 			<div className="border-[--border] border-t">
 				<div className="mx-auto flex max-w-[1320px] flex-col items-center justify-between gap-4 px-6 py-6 md:flex-row">
-					<p className="text-xs text-muted-foreground/60">{t("legal.copyright", { year })}</p>
+					<div className="flex items-center gap-4">
+						<p className="text-xs text-muted-foreground/60">{t("legal.copyright", { year })}</p>
+						<span className="hidden text-muted-foreground/30 md:inline">|</span>
+						<Link
+							href="/trust"
+							className="hidden text-xs text-muted-foreground/60 transition-colors hover:text-[--foreground] md:inline"
+						>
+							{tt("iso27001")} · {tt("iso42001")}
+						</Link>
+					</div>
 					<div className="flex gap-6 text-xs text-muted-foreground/60">
 						<Link
 							href="/privacy"

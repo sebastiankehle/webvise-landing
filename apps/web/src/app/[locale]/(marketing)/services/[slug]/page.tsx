@@ -3,6 +3,8 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 
+import { Shield } from "lucide-react";
+
 import JsonLd from "@/components/json-ld";
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import WpHealthCta from "@/components/marketing/sections/wp-health-cta";
@@ -71,6 +73,7 @@ export default async function ServicePage({
 	const locale = await getLocale();
 	const t = await getTranslations("services");
 	const td = await getTranslations("serviceDetail");
+	const tt = await getTranslations("trust.serviceCallout");
 	const key = service.translationKey;
 	const Icon = service.icon;
 
@@ -315,6 +318,32 @@ export default async function ServicePage({
 			)}
 
 			{slug === "wordpress-migration" && <WpHealthCta />}
+
+			{(slug === "ai-automation" || slug === "full-stack-applications") && (
+				<section className="border-border/40 border-t pb-20 pt-20">
+					<div className="mx-auto max-w-[1320px] px-6">
+						<Link
+							href="/trust"
+							className="group flex items-start gap-5 border border-border/40 p-6 transition-colors hover:border-brand/30 md:p-8"
+						>
+							<div className="flex h-10 w-10 shrink-0 items-center justify-center border border-brand/20 bg-brand/5">
+								<Shield className="h-5 w-5 text-brand" strokeWidth={1.5} />
+							</div>
+							<div>
+								<h3 className="font-display text-lg tracking-tight transition-colors group-hover:text-brand">
+									{tt("title")}
+								</h3>
+								<p className="mt-1 max-w-lg text-muted-foreground text-sm leading-relaxed">
+									{tt("description")}
+								</p>
+								<p className="mt-3 text-brand text-xs">
+									{tt("link")} →
+								</p>
+							</div>
+						</Link>
+					</div>
+				</section>
+			)}
 
 			{relatedCaseStudies.length > 0 && (
 				<section className="border-border/40 border-t pb-28 pt-20">
