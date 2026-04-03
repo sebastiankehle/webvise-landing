@@ -468,17 +468,6 @@ export default function Navbar({
 							>
 								{t("pricing")}
 							</Link>
-
-							<Link
-								href="/wp-health-report"
-								className="py-4 text-left font-display text-xl text-foreground transition-colors hover:text-brand"
-								onClick={() => {
-									track("cta_clicked", { location: "navbar_mobile", variant: "health_report" });
-									setMobileOpen(false);
-								}}
-							>
-								{t("wpHealthReport")}
-							</Link>
 						</div>
 
 						<div className="mt-auto space-y-6 border-border/40 border-t pt-6">
