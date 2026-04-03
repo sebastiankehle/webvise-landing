@@ -7,8 +7,10 @@ import { getBlogPosts } from "@/data/blog";
 
 export default async function MarketingLayout({
 	children,
+	cta,
 }: {
 	children: React.ReactNode;
+	cta: React.ReactNode;
 }) {
 	const locale = await getLocale();
 	const recentPosts = getBlogPosts(locale)
@@ -30,7 +32,7 @@ export default async function MarketingLayout({
 			</a>
 			<Navbar recentPosts={recentPosts} />
 			<main id="main-content">{children}</main>
-			<Footer />
+			<Footer ctaBanner={cta} />
 			<ChatWidget />
 		</>
 	);

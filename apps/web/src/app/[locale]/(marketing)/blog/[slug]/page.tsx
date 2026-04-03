@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 
-import { FooterCtaProvider } from "@/components/marketing/footer-cta-context";
 import JsonLd from "@/components/json-ld";
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import { type Block, getBlogPostBySlug, getBlogPosts } from "@/data/blog";
@@ -221,16 +220,7 @@ export default async function BlogPostPage({
 	};
 
 	return (
-		<FooterCtaProvider
-			value={{
-				headline: t("ctaTitle"),
-				subtext: t("ctaDescription"),
-				buttonText: post.cta ?? t("ctaButton"),
-				buttonHref: "/#contact",
-				secondaryButtonText: t("ctaSecondary"),
-				secondaryButtonHref: "/blog",
-			}}
-		>
+		<>
 			<JsonLd data={jsonLd} />
 			<section className="py-24 md:py-44">
 				<div className="mx-auto max-w-[1320px] px-6">
@@ -271,6 +261,6 @@ export default async function BlogPostPage({
 					})()}
 				</div>
 			</SectionWrapper>
-		</FooterCtaProvider>
+		</>
 	);
 }

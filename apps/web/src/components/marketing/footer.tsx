@@ -1,12 +1,12 @@
+import type { ReactNode } from "react";
 import { getTranslations } from "next-intl/server";
 
 import Logo from "@/components/logo";
-import FooterCtaBanner from "@/components/marketing/footer-cta-banner";
 import { services } from "@/data/services";
 import { socials } from "@/data/socials";
 import { Link } from "@/i18n/navigation";
 
-export default async function Footer() {
+export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 	const t = await getTranslations("footer");
 	const ts = await getTranslations("services");
 	const tw = await getTranslations("wpHealthReport.cta");
@@ -22,11 +22,7 @@ export default async function Footer() {
 
 	return (
 		<footer className="section-dark">
-			<FooterCtaBanner
-				defaultHeadline={t("ctaHeadline")}
-				defaultSubtext={t("ctaSubtext")}
-				defaultButtonText={t("ctaButton")}
-			/>
+			{ctaBanner}
 
 			{/* Main footer content */}
 			<div className="mx-auto max-w-[1320px] px-6 py-20 md:py-24">
