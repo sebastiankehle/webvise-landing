@@ -5,6 +5,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 
 import { Shield } from "lucide-react";
 
+import FounderCard from "@/components/marketing/founder-card";
 import JsonLd from "@/components/json-ld";
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import WpHealthCta from "@/components/marketing/sections/wp-health-cta";
@@ -338,6 +339,12 @@ export default async function ServicePage({
 					</div>
 				</section>
 			)}
+
+			<section className="border-border/40 border-t pb-20 pt-20">
+				<div className="mx-auto max-w-[1320px] px-6">
+					<FounderCard />
+				</div>
+			</section>
 
 			{relatedCaseStudies.length > 0 && (
 				<section className="border-border/40 border-t pb-28 pt-20">

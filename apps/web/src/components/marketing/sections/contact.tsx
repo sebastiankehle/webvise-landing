@@ -11,6 +11,7 @@ import { FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { services } from "@/data/services";
+import { Link } from "@/i18n/navigation";
 import { track } from "@/lib/track";
 
 export default function Contact() {
@@ -102,6 +103,23 @@ export default function Contact() {
 							{t("booking.cta")}
 						</Button>
 					</div>
+
+					<p className="mt-6 text-sm text-muted-foreground">
+						{t("founder.text")}{" "}
+						<Link
+							href="/about"
+							className="text-foreground underline-offset-4 hover:underline"
+						>
+							{t("founder.name")}
+						</Link>
+						.{" "}
+						<Link
+							href="/about"
+							className="text-brand transition-opacity hover:opacity-80"
+						>
+							{t("founder.link")} &rarr;
+						</Link>
+					</p>
 				</div>
 
 				<form

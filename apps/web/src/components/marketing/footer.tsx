@@ -110,6 +110,14 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 									{t("links.blog")}
 								</Link>
 							</li>
+							<li>
+								<Link
+									href="/about"
+									className="text-sm text-muted-foreground transition-colors hover:text-[--foreground]"
+								>
+									{t("links.about")}
+								</Link>
+							</li>
 							<li className="border-[--border] border-t pt-3">
 								<a
 									href="/media"
