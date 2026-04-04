@@ -73,6 +73,8 @@ const iconSlugs = [
 	"linear",
 	"turborepo",
 	"biome",
+	"posthog",
+	"sentry",
 	"drizzle",
 	"redis",
 	"trpc",
@@ -80,6 +82,9 @@ const iconSlugs = [
 	"inngest",
 	"hono",
 	"pnpm",
+	"openai",
+	"claude",
+	"gemini",
 ];
 
 type IconData = Awaited<ReturnType<typeof fetchSimpleIcons>>;
