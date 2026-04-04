@@ -29,7 +29,7 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 			<div className="mx-auto max-w-[1320px] px-6 py-20 md:py-24">
 				<div className="grid gap-12 md:grid-cols-12">
 					{/* Brand column */}
-					<div className="md:col-span-4">
+					<div className="md:col-span-3">
 						<Link
 							href="/"
 							className="flex items-center gap-2.5"
@@ -59,82 +59,103 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 						</div>
 					</div>
 
-					{/* Services */}
-					<div className="md:col-span-3">
-						<h3 className="mb-5 text-muted-foreground/50 text-xs">
-							{t("sections.services")}
-						</h3>
-						<ul className="space-y-3">
-							{services.map(({ slug, translationKey }) => (
-								<li key={slug}>
-									<Link
-										href={{ pathname: "/services/[slug]", params: { slug } }}
-										className="text-sm text-muted-foreground transition-colors hover:text-[--foreground]"
-									>
-										{ts(`${translationKey}.title`)}
-									</Link>
-								</li>
-							))}
-						</ul>
-					</div>
+					{/* Navigation 2x2 grid */}
+					<div className="grid grid-cols-2 gap-x-8 gap-y-10 md:col-span-6">
+						{/* Company */}
+						<div>
+							<h3 className="mb-5 text-muted-foreground/50 text-xs">
+								{t("sections.company")}
+							</h3>
+							<ul className="space-y-3">
+								{companyLinks.map(({ hash, label }) => (
+									<li key={hash}>
+										<Link
+											href={{ pathname: "/", hash }}
+											className="text-sm text-muted-foreground transition-colors hover:text-[--foreground]"
+										>
+											{label}
+										</Link>
+									</li>
+								))}
+							</ul>
+						</div>
 
-					{/* Company */}
-					<div className="md:col-span-2">
-						<h3 className="mb-5 text-muted-foreground/50 text-xs">
-							{t("sections.company")}
-						</h3>
-						<ul className="space-y-3">
-							{companyLinks.map(({ hash, label }) => (
-								<li key={hash}>
+						{/* Services */}
+						<div>
+							<h3 className="mb-5 text-muted-foreground/50 text-xs">
+								{t("sections.services")}
+							</h3>
+							<ul className="space-y-3">
+								{services.map(({ slug, translationKey }) => (
+									<li key={slug}>
+										<Link
+											href={{ pathname: "/services/[slug]", params: { slug } }}
+											className="text-sm text-muted-foreground transition-colors hover:text-[--foreground]"
+										>
+											{ts(`${translationKey}.title`)}
+										</Link>
+									</li>
+								))}
+							</ul>
+						</div>
+
+						{/* Explore */}
+						<div>
+							<h3 className="mb-5 text-muted-foreground/50 text-xs">
+								{t("sections.explore")}
+							</h3>
+							<ul className="space-y-3">
+								<li>
 									<Link
-										href={{ pathname: "/", hash }}
+										href="/about"
 										className="text-sm text-muted-foreground transition-colors hover:text-[--foreground]"
 									>
-										{label}
+										{t("links.about")}
 									</Link>
 								</li>
-							))}
-							<li>
-								<Link
-									href="/case-studies"
-									className="text-sm text-muted-foreground transition-colors hover:text-[--foreground]"
-								>
-									{t("links.caseStudies")}
-								</Link>
-							</li>
-							<li>
-								<Link
-									href="/blog"
-									className="text-sm text-muted-foreground transition-colors hover:text-[--foreground]"
-								>
-									{t("links.blog")}
-								</Link>
-							</li>
-							<li>
-								<Link
-									href="/about"
-									className="text-sm text-muted-foreground transition-colors hover:text-[--foreground]"
-								>
-									{t("links.about")}
-								</Link>
-							</li>
-							<li className="border-[--border] border-t pt-3">
-								<a
-									href="/media"
-									className="text-sm text-muted-foreground transition-colors hover:text-[--foreground]"
-								>
-									{t("links.media")}
-								</a>
-							</li>
-							<li>
-								<Link
-									href="/wp-health-report"
-									className="text-brand text-sm transition-opacity hover:opacity-80"
-								>
-									{tw("button")}
-								</Link>
-							</li>
-						</ul>
+								<li>
+									<Link
+										href="/blog"
+										className="text-sm text-muted-foreground transition-colors hover:text-[--foreground]"
+									>
+										{t("links.blog")}
+									</Link>
+								</li>
+								<li>
+									<Link
+										href="/case-studies"
+										className="text-sm text-muted-foreground transition-colors hover:text-[--foreground]"
+									>
+										{t("links.caseStudies")}
+									</Link>
+								</li>
+							</ul>
+						</div>
+
+						{/* Resources */}
+						<div>
+							<h3 className="mb-5 text-muted-foreground/50 text-xs">
+								{t("sections.resources")}
+							</h3>
+							<ul className="space-y-3">
+								<li>
+									<a
+										href="/media"
+										className="text-sm text-muted-foreground transition-colors hover:text-[--foreground]"
+									>
+										{t("links.media")}
+									</a>
+								</li>
+								<li>
+									<Link
+										href="/wp-health-report"
+										className="text-brand text-sm transition-opacity hover:opacity-80"
+									>
+										{tw("button")}
+									</Link>
+								</li>
+							</ul>
+						</div>
 					</div>
 
 					{/* Contact */}

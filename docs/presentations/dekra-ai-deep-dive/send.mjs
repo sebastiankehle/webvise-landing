@@ -36,7 +36,7 @@ async function sendEmail(attachments) {
     body: JSON.stringify({
       from: "webvise <noreply@webvise.io>",
       to: ["sebastian.kehle@webvise.io"],
-      subject: "DEKRA AI Deep Dive - Presentation Materials (DE + EN)",
+      subject: "AI Deep Dive - Presentation Materials (DE + EN)",
       html: `<!DOCTYPE html>
 <html>
 <head><meta charset="utf-8"></head>
@@ -51,7 +51,7 @@ async function sendEmail(attachments) {
         AI, Agents & AI Coding Tools
       </h1>
       <p style="margin:0 0 20px;font-size:14px;color:#6b7280;line-height:1.6">
-        Your DEKRA presentation materials are attached. Both German and English versions included as PDF and Markdown.
+        Your presentation materials are attached. Both German and English versions included as PDF and Markdown.
       </p>
       <table style="border-collapse:collapse;width:100%;margin-bottom:20px">
         <tr>
@@ -98,10 +98,10 @@ async function main() {
 
   console.log("Preparing attachments...");
   const attachments = [
-    { filename: "dekra-ai-deep-dive-de.pdf", content: readFileSync(join(__dirname, "de.pdf")).toString("base64") },
-    { filename: "dekra-ai-deep-dive-en.pdf", content: readFileSync(join(__dirname, "en.pdf")).toString("base64") },
-    { filename: "dekra-ai-deep-dive-de.md", content: Buffer.from(readFileSync(join(__dirname, "de.md"), "utf-8")).toString("base64") },
-    { filename: "dekra-ai-deep-dive-en.md", content: Buffer.from(readFileSync(join(__dirname, "en.md"), "utf-8")).toString("base64") },
+    { filename: "ai-deep-dive-de.pdf", content: readFileSync(join(__dirname, "de.pdf")).toString("base64") },
+    { filename: "ai-deep-dive-en.pdf", content: readFileSync(join(__dirname, "en.pdf")).toString("base64") },
+    { filename: "ai-deep-dive-de.md", content: Buffer.from(readFileSync(join(__dirname, "de.md"), "utf-8")).toString("base64") },
+    { filename: "ai-deep-dive-en.md", content: Buffer.from(readFileSync(join(__dirname, "en.md"), "utf-8")).toString("base64") },
   ];
 
   console.log("Sending email...");

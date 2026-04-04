@@ -225,15 +225,15 @@ Skills are Markdown-based instructions that give agents specific capabilities. T
 **The skills.sh Ecosystem:**
 skills.sh is an open marketplace for AI agent skills. Teams can create, share, and discover skills. Instead of every team writing their own prompts, there's a growing library of reusable capabilities.
 
-For a large organization, this means: Create a "DEKRA Security Review Skill" once, and every developer uses the same standard - regardless of IDE or AI tool.
+For a large organization, this means: Create an "Enterprise Security Review Skill" once, and every developer uses the same standard - regardless of IDE or AI tool.
 
 ---
 
 ## Part 4: Compliance, Security & Governance
 
-### Why This Chapter Is Especially Relevant for DEKRA
+### Why This Chapter Is Especially Relevant for Large Enterprises
 
-DEKRA stands for safety, quality, and certification. When AI tools are integrated into the development process, the same standards must apply that DEKRA verifies for its own clients. This isn't a contradiction - it's an opportunity to lead by example.
+Large enterprises in regulated industries prioritize safety, quality, and certification. When AI tools are integrated into the development process, the same standards must apply that these organizations verify for their own clients. This isn't a contradiction - it's an opportunity to lead by example.
 
 ### EU AI Act - What Does It Mean for Development Tools?
 
@@ -248,12 +248,12 @@ The EU AI Act (in force since August 2024, full application from August 2026) cl
 - Transparency obligation: users must know they're interacting with AI
 - Documentation obligation for AI use
 
-**High Risk (potentially relevant for DEKRA):**
+**High Risk (potentially relevant for regulated enterprises):**
 - AI systems in safety-critical applications
 - If AI-generated code flows into testing or certification software
 - Requires: risk management, data quality, transparency, human oversight, accuracy
 
-**Recommendation for DEKRA:**
+**Recommendation for large enterprises:**
 - Classify your applications by AI Act risk classes
 - Define which apps may be AI-assisted and under what conditions
 - Establish an AI governance board that sets standards
@@ -301,7 +301,7 @@ For highly sensitive code, there's an alternative: local AI models that run enti
 - **llama.cpp** - Maximum performance, C++ based
 - **vLLM** - Production-grade serving for teams
 
-**Hybrid Approach (Recommendation for DEKRA):**
+**Hybrid Approach (Recommendation for large enterprises):**
 - Local models for safety-critical code (testing software, certification systems)
 - Cloud APIs for non-critical development (marketing websites, internal tools)
 - Clear guidelines on which code goes where
@@ -317,7 +317,7 @@ For highly sensitive code, there's an alternative: local AI models that run enti
 
 ### Audit Trails and Traceability
 
-For an organization like DEKRA that conducts audits itself, traceability is critical:
+For organizations that conduct audits themselves, traceability is critical:
 
 **Best Practices:**
 1. **Git Integration:** All AI-generated changes go through normal Git workflows (branches, PRs, reviews)
