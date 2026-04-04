@@ -25,7 +25,7 @@ const descriptions: Record<string, string> = {
 	"Better Auth": "Modern authentication framework for TypeScript",
 	OpenAI: "GPT models for text, vision, and reasoning",
 	Anthropic: "Claude models for safe, capable AI assistance",
-	Gemini: "Google's multimodal AI model family",
+	"Google AI Studio": "Google's platform for prototyping with Gemini models",
 	"Vercel AI SDK": "Unified API for building AI-powered applications",
 	Mastra: "TypeScript framework for AI agents and workflows",
 	Inngest: "Durable workflow engine for background jobs",
@@ -35,6 +35,9 @@ const descriptions: Record<string, string> = {
 	Turborepo: "High-performance monorepo build system",
 	Sentry: "Error monitoring and performance tracking",
 	PostHog: "Open-source product analytics and feature flags",
+	Stitch: "Google's AI-powered web development platform",
+	Greptile: "AI-powered codebase understanding and code review",
+	Coderabbit: "AI-driven automated code review tool",
 };
 
 export function TechBadge({ name }: { name: string }) {

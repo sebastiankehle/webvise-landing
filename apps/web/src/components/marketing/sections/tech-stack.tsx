@@ -14,6 +14,7 @@ const categories = [
 			"Tailwind CSS",
 			"shadcn/ui",
 			"Motion",
+			"Stitch",
 		],
 	},
 	{
@@ -35,7 +36,7 @@ const categories = [
 		items: [
 			"OpenAI",
 			"Anthropic",
-			"Gemini",
+			"Google AI Studio",
 			"Vercel AI SDK",
 			"Mastra",
 			"Inngest",
@@ -44,7 +45,7 @@ const categories = [
 	},
 	{
 		key: "infrastructure",
-		items: ["Vercel", "Docker", "Turborepo", "Redis", "Sentry", "PostHog"],
+		items: ["Vercel", "Docker", "Turborepo", "Redis", "Sentry", "PostHog", "Greptile", "Coderabbit"],
 	},
 ];
 
