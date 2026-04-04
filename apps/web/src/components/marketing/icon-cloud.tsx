@@ -81,6 +81,7 @@ const iconSlugs = [
 	"postgresql",
 	"inngest",
 	"hono",
+	"convex",
 	"pnpm",
 	"openai",
 	"claude",

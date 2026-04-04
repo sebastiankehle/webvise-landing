@@ -18,6 +18,7 @@ const descriptions: Record<string, string> = {
 	Bun: "Fast all-in-one JavaScript runtime and toolkit",
 	Hono: "Ultra-fast web framework for the edge",
 	tRPC: "End-to-end typesafe APIs without code generation",
+	Convex: "Reactive backend platform with realtime sync",
 	Drizzle: "TypeScript ORM with SQL-like query builder",
 	Redis: "In-memory data store for caching and queues",
 	PostgreSQL: "Advanced open-source relational database",

@@ -23,6 +23,7 @@ const categories = [
 			"Bun",
 			"Hono",
 			"tRPC",
+			"Convex",
 			"Drizzle",
 			"Redis",
 			"PostgreSQL",
