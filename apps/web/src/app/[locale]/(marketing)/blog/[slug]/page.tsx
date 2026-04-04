@@ -168,13 +168,13 @@ function RenderBlock({ block }: { block: Block }) {
 							</tr>
 						</thead>
 						<tbody>
-							{block.rows.map((row) => (
+							{block.rows.map((row, ri) => (
 								<tr
-									key={row.join("-")}
+									key={`row-${ri}`}
 									className="border-border/40 border-b last:border-0"
 								>
-									{row.map((cell) => (
-										<td key={cell} className="px-4 py-3 text-muted-foreground">
+									{row.map((cell, ci) => (
+										<td key={`${ri}-${ci}`} className="px-4 py-3 text-muted-foreground">
 											{renderInline(cell)}
 										</td>
 									))}
