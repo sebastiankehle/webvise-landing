@@ -2,7 +2,7 @@
 
 import { Check, Copy } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export default function BlogShare({
 	url,
@@ -10,11 +10,23 @@ export default function BlogShare({
 }: { url: string; title: string }) {
 	const t = useTranslations("blog");
 	const [copied, setCopied] = useState(false);
+	const timerRef = useRef<ReturnType<typeof setTimeout>>(null);
+
+	useEffect(() => {
+		return () => {
+			if (timerRef.current) clearTimeout(timerRef.current);
+		};
+	}, []);
 
 	const copyLink = useCallback(async () => {
-		await navigator.clipboard.writeText(url);
-		setCopied(true);
-		setTimeout(() => setCopied(false), 2000);
+		try {
+			await navigator.clipboard.writeText(url);
+			setCopied(true);
+			if (timerRef.current) clearTimeout(timerRef.current);
+			timerRef.current = setTimeout(() => setCopied(false), 2000);
+		} catch {
+			// Clipboard API unavailable or denied
+		}
 	}, [url]);
 
 	return (

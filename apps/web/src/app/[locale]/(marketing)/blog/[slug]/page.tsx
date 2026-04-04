@@ -57,7 +57,7 @@ export async function generateMetadata({
 
 function renderInline(text: string) {
 	const tokens = text.split(/(\*\*.*?\*\*|\[.*?\]\(.*?\))/g);
-	return tokens.map((token) => {
+	return tokens.map((token, idx) => {
 		const boldMatch = token.match(/^\*\*(.*?)\*\*$/);
 		if (boldMatch) {
 			const innerLink = boldMatch[1].match(/^\[(.*?)\]\((.*?)\)$/);
@@ -65,7 +65,7 @@ function renderInline(text: string) {
 				if (innerLink[2].startsWith("http")) {
 					return (
 						<a
-							key={token}
+							key={`${idx}-${token}`}
 							href={innerLink[2]}
 							className="font-medium text-brand underline underline-offset-4 transition-colors hover:text-brand/80"
 							target="_blank"
@@ -77,7 +77,7 @@ function renderInline(text: string) {
 				}
 				return (
 					<Link
-						key={token}
+						key={`${idx}-${token}`}
 						href={innerLink[2] as "/blog"}
 						className="font-medium text-brand underline underline-offset-4 transition-colors hover:text-brand/80"
 					>
@@ -86,7 +86,7 @@ function renderInline(text: string) {
 				);
 			}
 			return (
-				<strong key={token} className="font-medium text-foreground">
+				<strong key={`${idx}-${token}`} className="font-medium text-foreground">
 					{boldMatch[1]}
 				</strong>
 			);
@@ -96,7 +96,7 @@ function renderInline(text: string) {
 			if (linkMatch[2].startsWith("http")) {
 				return (
 					<a
-						key={token}
+						key={`${idx}-${token}`}
 						href={linkMatch[2]}
 						className="text-brand underline underline-offset-4 transition-colors hover:text-brand/80"
 						target="_blank"
@@ -108,7 +108,7 @@ function renderInline(text: string) {
 			}
 			return (
 				<Link
-					key={token}
+					key={`${idx}-${token}`}
 					href={linkMatch[2] as "/blog"}
 					className="text-brand underline underline-offset-4 transition-colors hover:text-brand/80"
 				>

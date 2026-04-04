@@ -256,9 +256,10 @@ export default function Contact() {
 					<form.Subscribe
 						selector={(state) => [state.canSubmit, state.isSubmitting]}
 					>
-						{([_canSubmit, isSubmitting]) => (
+						{([canSubmit, isSubmitting]) => (
 							<SubmitButton
 								isSubmitting={isSubmitting}
+								disabled={!canSubmit}
 								size="lg"
 								className="w-full border-transparent bg-brand text-white [&]:hover:bg-brand/80 md:h-10 md:text-sm"
 							>

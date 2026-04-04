@@ -29,7 +29,7 @@ export default function FooterCtaBanner({
 					data-ph-capture-attribute-cta-location="footer"
 					data-ph-capture-attribute-cta-variant="primary"
 					// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
-					render={<Link href={"/#contact" as "/"} />}
+					render={<Link href={{ pathname: "/", hash: "contact" }} />}
 				>
 					{buttonText}
 				</Button>

@@ -1,7 +1,6 @@
 "use client";
 
 import { Globe } from "lucide-react";
-import { usePathname } from "next/navigation";
 import { useLocale } from "next-intl";
 
 import {
@@ -10,6 +9,7 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { usePathname } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 
 const localeLabels: Record<string, string> = {
@@ -29,22 +29,11 @@ export default function LanguageSwitcher({ id }: { id?: string }) {
 	function switchLocale(nextLocale: string) {
 		if (nextLocale === locale) return;
 
-		// Strip current locale prefix from pathname
-		let path = pathname;
-		for (const loc of routing.locales) {
-			if (path.startsWith(`/${loc}/`)) {
-				path = path.slice(loc.length + 1);
-				break;
-			}
-			if (path === `/${loc}`) {
-				path = "/";
-				break;
-			}
-		}
-
 		// Build new path: default locale (en) needs no prefix
 		const newPath =
-			nextLocale === routing.defaultLocale ? path : `/${nextLocale}${path}`;
+			nextLocale === routing.defaultLocale
+				? pathname
+				: `/${nextLocale}${pathname}`;
 		// biome-ignore lint/suspicious/noDocumentCookie: Cookie Store API not supported in all browsers yet
 		document.cookie = `NEXT_LOCALE=${nextLocale};path=/;max-age=31536000;SameSite=Lax`;
 		window.location.href = newPath;

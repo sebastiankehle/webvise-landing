@@ -1,6 +1,8 @@
 import { auth } from "@webvise-app/auth";
 import { headers } from "next/headers";
-import { redirect } from "next/navigation";
+import { getLocale } from "next-intl/server";
+
+import { redirect } from "@/i18n/navigation";
 
 import Dashboard from "./dashboard";
 
@@ -10,7 +12,8 @@ export default async function DashboardPage() {
 	});
 
 	if (!session?.user) {
-		redirect("/login");
+		const locale = await getLocale();
+		return redirect({ href: "/login", locale });
 	}
 
 	return (
