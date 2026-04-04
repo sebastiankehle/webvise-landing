@@ -8,9 +8,10 @@ import { generateAlternates } from "@/lib/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
 	const locale = await getLocale();
+	const page = getLegalPage("terms", locale);
 	return {
-		title: "Terms of Service - webvise",
-		description: "Terms and conditions for using webvise services.",
+		title: page?.title ?? "Terms of Service",
+		description: page?.subtitle,
 		alternates: generateAlternates("/terms", locale),
 	};
 }

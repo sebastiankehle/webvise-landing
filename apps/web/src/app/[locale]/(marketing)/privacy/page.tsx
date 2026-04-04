@@ -8,9 +8,10 @@ import { generateAlternates } from "@/lib/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
 	const locale = await getLocale();
+	const page = getLegalPage("privacy", locale);
 	return {
-		title: "Privacy Policy - webvise",
-		description: "How webvise collects, uses, and protects your personal data.",
+		title: page?.title ?? "Privacy Policy",
+		description: page?.subtitle,
 		alternates: generateAlternates("/privacy", locale),
 	};
 }

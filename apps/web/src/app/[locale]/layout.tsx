@@ -49,6 +49,10 @@ export const metadata: Metadata = {
 		description:
 			"We turn ideas into production-ready software. Design, engineering, and AI. Shipped in weeks, built to scale.",
 	},
+	formatDetection: {
+		telephone: false,
+		address: false,
+	},
 	robots: {
 		index: true,
 		follow: true,

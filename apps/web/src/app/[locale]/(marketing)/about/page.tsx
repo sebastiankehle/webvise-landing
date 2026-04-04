@@ -27,7 +27,7 @@ export async function generateMetadata(): Promise<Metadata> {
 	};
 }
 
-const experienceCount = 5;
+const experienceCount = 6;
 const bioCount = 6;
 
 const connectLinks = [

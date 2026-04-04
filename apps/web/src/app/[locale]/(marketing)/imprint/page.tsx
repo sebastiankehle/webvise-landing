@@ -28,10 +28,10 @@ function renderLine(line: string) {
 
 export async function generateMetadata(): Promise<Metadata> {
 	const locale = await getLocale();
+	const page = getLegalPage("imprint", locale);
 	return {
-		title: "Imprint - webvise",
-		description:
-			"Legal information and contact details for webvise, as required by German law.",
+		title: page?.title ?? "Imprint",
+		description: page?.subtitle,
 		alternates: generateAlternates("/imprint", locale),
 	};
 }
