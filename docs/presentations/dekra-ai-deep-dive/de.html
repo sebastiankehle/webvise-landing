@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI, Agents & AI-Coding-Tools: Ein Deep Dive - webvise</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    @page { size: A4 landscape; margin: 0; }
+    :root {
+      --bg: oklch(0.985 0.003 80);
+      --fg: oklch(0.13 0.01 250);
+      --card: oklch(1 0.003 80);
+      --muted: oklch(0.96 0.005 80);
+      --muted-fg: oklch(0.48 0.01 250);
+      --border: oklch(0.90 0.005 80);
+      --brand: oklch(0.75 0.18 55);
+      --brand-subtle: oklch(0.75 0.18 55 / 8%);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg); color: var(--fg);
+      font-size: 13px; line-height: 1.6;
+      -webkit-font-smoothing: antialiased; width: 297mm;
+    }
+    .p { max-width: 100%; margin: 0 auto; padding: 0 56px; }
+
+    /* Slide base */
+    .s { width: 297mm; height: 210mm; padding: 44px 0; page-break-after: always; position: relative; overflow: hidden; }
+    .s:last-child { page-break-after: avoid; }
+    .s.dk { background: linear-gradient(165deg, oklch(0.14 0.015 250), oklch(0.11 0.008 250)); color: var(--bg); }
+    .s.lt { background: var(--bg); }
+    .s.wh { background: var(--card); }
+    .s.dk h2,.s.dk h3,.s.dk h4 { color: var(--bg); }
+    .s.dk .mu { color: oklch(0.985 0.003 80 / 60%); }
+    .s.dk .sl { color: oklch(0.985 0.003 80 / 40%); }
+    .s.dk .si { color: oklch(0.985 0.003 80 / 60%); }
+    .s.dk .c { background: oklch(0.18 0.01 250); border-color: oklch(1 0 0 / 10%); }
+    .s.dk .c h4 { color: var(--bg); }
+    .s.dk .c p,.s.dk .c li { color: oklch(0.985 0.003 80 / 65%); }
+    .s.dk .g3,.s.dk .g2,.s.dk .wf,.s.dk .sg,.s.dk .pg { border-color: oklch(1 0 0 / 10%); }
+    .s.dk .g3 .c,.s.dk .g2 .c,.s.dk .wf .c { border-color: oklch(1 0 0 / 10%); }
+    .s.dk .g2 { background: oklch(1 0 0 / 10%); }
+    .s.dk .sg { background: oklch(1 0 0 / 10%); }
+    .s.dk .wf { background: oklch(1 0 0 / 10%); }
+    .s.dk .st { background: oklch(0.18 0.01 250); }
+    .s.dk .st-l { color: oklch(0.985 0.003 80 / 50%); }
+    .s.dk .ws { background: oklch(0.18 0.01 250); }
+    .s.dk .ws p { color: oklch(0.985 0.003 80 / 50%); }
+    .s.dk .co { background: oklch(0.75 0.18 55 / 8%); }
+    .s.dk .tg { border-color: oklch(0.75 0.18 55 / 30%); background: oklch(0.75 0.18 55 / 10%); }
+
+    /* Cover */
+    .cv { padding: 64px 0 48px; }
+    .cv::before { content:''; position:absolute; top:-200px; right:-100px; width:500px; height:500px; background:radial-gradient(circle,oklch(0.75 0.18 55/6%) 0%,transparent 70%); pointer-events:none; }
+    .cv .p { position:relative; z-index:1; }
+    .cv-l { font-family:'Geist Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:0.2em; color:oklch(0.985 0.003 80/40%); margin-bottom:20px; }
+    .cv h1 { font-size:42px; font-weight:600; line-height:1.1; letter-spacing:-0.02em; max-width:680px; }
+    .cv h1 span { color:var(--brand); }
+    .cv-s { font-size:15px; line-height:1.6; color:oklch(0.985 0.003 80/60%); max-width:540px; margin-top:18px; }
+    .cv-m { display:flex; gap:36px; margin-top:36px; padding-top:20px; border-top:1px solid oklch(1 0 0/10%); }
+    .cv-mi { font-family:'Geist Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:0.1em; color:oklch(0.985 0.003 80/50%); }
+    .cv-mi strong { display:block; font-family:'Geist',sans-serif; font-size:12px; font-weight:500; color:var(--bg); text-transform:none; letter-spacing:0; margin-top:2px; }
+
+    /* Typography */
+    .sl { font-family:'Geist Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:0.2em; color:var(--muted-fg); margin-bottom:10px; }
+    h2 { font-size:28px; font-weight:600; line-height:1.15; letter-spacing:-0.02em; margin-bottom:10px; }
+    h3 { font-size:17px; font-weight:600; line-height:1.25; margin-top:24px; margin-bottom:10px; }
+    h4 { font-size:13px; font-weight:600; line-height:1.3; margin-top:0; margin-bottom:5px; }
+    .si { font-size:13px; line-height:1.6; color:var(--muted-fg); max-width:600px; margin-bottom:24px; }
+    p { margin-bottom:10px; max-width:600px; }
+    .mu { color:var(--muted-fg); }
+    strong { font-weight:600; }
+    .br { color:var(--brand); }
+
+    /* Layout */
+    .cols { display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:start; }
+    .cols-w { display:grid; grid-template-columns:1.3fr 0.7fr; gap:40px; align-items:start; }
+
+    /* Grid */
+    .g3 { display:grid; grid-template-columns:repeat(3,1fr); border:1px solid var(--border); }
+    .g3 .c { padding:22px; border-right:1px solid var(--border); border-bottom:1px solid var(--border); }
+    .g3 .c:nth-child(3n) { border-right:none; }
+    .g3 .c:nth-last-child(-n+3) { border-bottom:none; }
+    .g2 { display:grid; grid-template-columns:repeat(2,1fr); gap:1px; border:1px solid var(--border); background:var(--border); }
+    .g2 .c { padding:22px; background:var(--card); }
+    .g5 { display:grid; grid-template-columns:repeat(5,1fr); gap:1px; border:1px solid var(--border); background:var(--border); }
+    .g5 .c { padding:16px; background:var(--card); text-align:center; }
+    .s.dk .g5 { border-color:oklch(1 0 0/10%); background:oklch(1 0 0/10%); }
+    .s.dk .g5 .c { background:oklch(0.18 0.01 250); }
+    .g4 { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; border:1px solid var(--border); background:var(--border); }
+    .g4 .c { padding:18px; background:var(--card); }
+    .s.dk .g4 { border-color:oklch(1 0 0/10%); background:oklch(1 0 0/10%); }
+    .s.dk .g4 .c { background:oklch(0.18 0.01 250); }
+
+    .c { background:var(--card); }
+    .c .ic { width:28px; height:28px; border:1px solid oklch(0.75 0.18 55/20%); background:oklch(0.75 0.18 55/5%); display:flex; align-items:center; justify-content:center; margin-bottom:10px; color:var(--brand); font-size:12px; font-weight:600; }
+    .c p { font-size:11.5px; color:var(--muted-fg); margin-bottom:0; line-height:1.55; max-width:none; }
+    .c li { font-size:11.5px; color:var(--muted-fg); }
+
+    /* Stats */
+    .sg { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; border:1px solid var(--border); background:var(--border); }
+    .st { padding:20px; background:var(--card); text-align:center; }
+    .st-n { font-size:28px; font-weight:700; color:var(--brand); line-height:1; margin-bottom:5px; }
+    .st-l { font-size:10px; color:var(--muted-fg); line-height:1.35; }
+
+    /* Workflow */
+    .wf { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; border:1px solid var(--border); background:var(--border); margin:16px 0; }
+    .ws { padding:20px; background:var(--card); }
+    .ws .sn { font-family:'Geist Mono',monospace; font-size:9px; color:var(--brand); margin-bottom:6px; }
+    .ws h4 { font-size:13px; }
+    .ws p { font-size:11.5px; color:var(--muted-fg); margin-bottom:0; max-width:none; }
+
+    /* Phase */
+    .pg { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; border:1px solid var(--border); background:var(--border); margin:16px 0; }
+    .s.dk .pg { background:oklch(1 0 0/10%); }
+    .pc { padding:20px; background:var(--card); }
+    .s.dk .pc { background:oklch(0.18 0.01 250); }
+    .pc .pl { font-family:'Geist Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:0.12em; color:var(--brand); margin-bottom:6px; }
+    .pc p { font-size:11.5px; color:var(--muted-fg); margin-bottom:6px; max-width:none; }
+    .pc ul { padding-left:14px; margin:0; }
+    .pc li { font-size:11.5px; color:var(--muted-fg); margin-bottom:2px; }
+
+    /* Code */
+    .cb { background:oklch(0.13 0.01 250); color:oklch(0.85 0 0); padding:18px 22px; font-family:'Geist Mono',monospace; font-size:11px; line-height:1.65; margin:14px 0; border:1px solid oklch(1 0 0/10%); white-space:pre; }
+    .cb .cm { color:oklch(0.5 0 0); }
+    .cb .hl { color:var(--brand); }
+
+    /* Callout */
+    .co { border-left:3px solid var(--brand); padding:14px 20px; background:var(--brand-subtle); margin:16px 0; }
+    .co p { margin-bottom:0; font-size:12px; max-width:none; line-height:1.55; }
+
+    /* Timeline */
+    .tl { margin:16px 0; padding:0; list-style:none; }
+    .ti { display:grid; grid-template-columns:140px 1fr; gap:20px; padding:10px 0; border-bottom:1px solid var(--border); }
+    .ti:last-child { border-bottom:none; }
+    .td { font-family:'Geist Mono',monospace; font-size:10px; color:var(--muted-fg); padding-top:2px; }
+    .tc h4 { margin-bottom:2px; }
+    .tc p { font-size:11.5px; margin-bottom:0; color:var(--muted-fg); }
+
+    /* Tags */
+    .tg { display:inline-block; font-family:'Geist Mono',monospace; font-size:9px; padding:2px 7px; border:1px solid oklch(0.75 0.18 55/20%); background:oklch(0.75 0.18 55/5%); color:var(--brand); margin-right:3px; margin-bottom:3px; }
+
+    /* Rating dots */
+    .dots { font-size:14px; letter-spacing:2px; line-height:1; }
+    .dots .on { color:var(--brand); }
+    .dots .off { color:oklch(0.85 0 0); }
+    .s.dk .dots .off { color:oklch(0.3 0 0); }
+    .rate-grid { display:grid; grid-template-columns:140px repeat(4,1fr); gap:1px; border:1px solid var(--border); background:var(--border); }
+    .rate-grid .rh { padding:12px 16px; background:var(--muted); font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; }
+    .rate-grid .rc { padding:12px 16px; background:var(--card); text-align:center; }
+    .rate-grid .rc .rn { font-size:10px; font-weight:600; margin-bottom:4px; display:block; }
+
+    /* Slide number */
+    .snum { position:absolute; bottom:14px; right:56px; font-family:'Geist Mono',monospace; font-size:9px; color:var(--muted-fg); opacity:0.4; }
+    .s.dk .snum { color:oklch(0.985 0.003 80/25%); }
+
+    ul,ol { margin:8px 0; padding-left:18px; }
+    li { margin-bottom:4px; font-size:12px; }
+
+    @media print {
+      .s { page-break-after:always; height:210mm; padding:40px 0; }
+      .s:last-child { page-break-after:avoid; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- 01 Cover -->
+<div class="s dk cv">
+  <div class="p">
+    <div class="cv-l">webvise / Deep Dive</div>
+    <h1>AI, Agents &<br>AI-Coding-Tools:<br><span>Ein Deep Dive</span><br>f&uuml;r die Praxis</h1>
+    <p class="cv-s">Wie AI-Agents, Multi-Agent-Orchestrierung und moderne Coding-Tools die Softwareentwicklung ver&auml;ndern. Ein praxisnaher Einblick f&uuml;r Engineering- und IT-Teams.</p>
+    <div class="cv-m">
+      <div class="cv-mi">Referent<strong>Sebastian Kehle</strong></div>
+      <div class="cv-mi">Rolle<strong>AI Engineer & Gr&uuml;nder, webvise</strong></div>
+      <div class="cv-mi">Dauer<strong>60 Minuten</strong></div>
+      <div class="cv-mi">Format<strong>Vortrag + Q&A</strong></div>
+    </div>
+  </div>
+  <div class="snum">01</div>
+</div>
+
+<!-- 02 About -->
+<div class="s lt">
+  <div class="p">
+    <div class="sl">01 / &Uuml;ber mich</div>
+    <h2>Sebastian Kehle</h2>
+    <div class="cols">
+      <div>
+        <p>Gr&uuml;nder von webvise und AI Engineer bei luca in Berlin. Mein Hintergrund liegt in Design und Kommunikation - &uuml;ber die Jahre bin ich immer tiefer in Softwareentwicklung und Automatisierung eingestiegen.</p>
+        <p>Bei luca arbeite ich an LLM-basierten L&ouml;sungen f&uuml;r die Hospitality-Branche. Bei webvise verbinde ich diese Erfahrung mit Kundenprojekten: Webentwicklung, Design und zunehmend AI-Automatisierung.</p>
+        <p>Was ich heute vorstelle, sind Tools und Workflows, die ich im Alltag einsetze.</p>
+        <div style="margin-top:14px;">
+          <span class="tg">TypeScript</span><span class="tg">React</span><span class="tg">Next.js</span><span class="tg">Node.js</span><span class="tg">PostgreSQL</span><span class="tg">OpenAI</span><span class="tg">Anthropic</span><span class="tg">Vercel AI SDK</span><span class="tg">Mastra</span><span class="tg">n8n</span>
+        </div>
+      </div>
+      <div>
+        <div class="tl">
+          <div class="ti"><div class="td">2025 - heute</div><div class="tc"><h4>AI Engineer, luca</h4><p>LLM-Integrationen, Tooling, Automatisierung</p></div></div>
+          <div class="ti"><div class="td">2022 - 2025</div><div class="tc"><h4>Frontend Engineer, luca</h4><p>B2B-Features, Design-Kollaboration</p></div></div>
+          <div class="ti"><div class="td">2016 - heute</div><div class="tc"><h4>Gr&uuml;nder, webvise</h4><p>Design, Entwicklung, AI-Automatisierung</p></div></div>
+          <div class="ti"><div class="td">2017 - 2021</div><div class="tc"><h4>CEO, Addisco Education</h4><p>Recruiting-Plattform, Matching-Algorithmus</p></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="snum">02</div>
+</div>
+
+<!-- 03 Why Now -->
+<div class="s dk">
+  <div class="p">
+    <div class="sl">02 / Kontext</div>
+    <h2>Warum gerade jetzt?</h2>
+    <div class="cols">
+      <div>
+        <h3 style="margin-top:0;">Der Wendepunkt</h3>
+        <p>Wir haben den Punkt &uuml;berschritten, an dem AI ein Experiment war. AI ist Infrastruktur geworden. Jede grosse IDE hat AI-Features. Terminal-Agents arbeiten autonom. Die Frage hat sich verschoben: nicht mehr &quot;Sollen wir AI nutzen?&quot; sondern &quot;Wie schnell k&ouml;nnen wir adoptieren?&quot;</p>
+        <p>Die Tools sind reif. Die Modelle sind gut genug. Die Integration in bestehende Workflows funktioniert. Was fehlt, ist eine strukturierte Einf&uuml;hrung - und genau darum geht es heute.</p>
+      </div>
+      <div>
+        <div class="sg">
+          <div class="st"><div class="st-n">20-45%</div><div class="st-l">Produktivit&auml;tssteigerung<br><em>McKinsey, 2025</em></div></div>
+          <div class="st"><div class="st-n">55%</div><div class="st-l">Schnellere Task-<br>Completion<br><em>GitHub, 2025</em></div></div>
+          <div class="st"><div class="st-n">76%</div><div class="st-l">der Entwickler nutzen<br>AI-Tools<br><em>Stack Overflow, 2025</em></div></div>
+          <div class="st"><div class="st-n">75%</div><div class="st-l">Enterprise-Engineers<br>bis 2028 mit AI<br><em>Gartner, 2026</em></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="snum">03</div>
+</div>
+
+<!-- 04 Three Waves -->
+<div class="s wh">
+  <div class="p">
+    <div class="sl">03 / Evolution</div>
+    <h2>Drei Wellen der AI-gest&uuml;tzten Entwicklung</h2>
+    <p class="si">Jede Welle hat die Rolle des Entwicklers fundamental ver&auml;ndert. Wir sind mitten in Welle 3.</p>
+    <div class="wf">
+      <div class="ws"><div class="sn">Welle 01</div><h4>Autocomplete</h4><p>2021-2023. GitHub Copilot bringt AI in den Editor. Zeilenvervollst&auml;ndigung, Boilerplate. Der Entwickler bleibt am Steuer, AI ist ein besseres IntelliSense.</p></div>
+      <div class="ws"><div class="sn">Welle 02</div><h4>Chat & Copilot</h4><p>2023-2025. ChatGPT, Claude, Cursor. Konversationen &uuml;ber Code, Multi-File-Kontext. Ganze Funktionen beschreiben und generieren lassen.</p></div>
+      <div class="ws"><div class="sn">Welle 03</div><h4>Autonome Agents</h4><p>2025-heute. AI-Systeme, die planen, Tools nutzen, testen, deployen. Nicht ein Prompt, eine Antwort - sondern ein Ziel, viele Schritte. Das ist jetzt.</p></div>
+    </div>
+    <div class="co"><p><strong>Der entscheidende Unterschied:</strong> In Welle 1 und 2 reagiert AI auf den Entwickler. In Welle 3 agiert AI eigenst&auml;ndig - plant, iteriert, korrigiert sich selbst.</p></div>
+  </div>
+  <div class="snum">04</div>
+</div>
+
+<!-- 05 Tool Landscape -->
+<div class="s dk">
+  <div class="p">
+    <div class="sl">04 / Tool-Landschaft</div>
+    <h2>AI Coding Tools 2026</h2>
+    <div class="g3">
+      <div class="c"><div class="ic">Co</div><h4>GitHub Copilot</h4><p>Breiteste Adoption, solide Autocomplete-Qualit&auml;t. Agent Mode seit 2025, wirkt aber nachtr&auml;glich angef&uuml;gt. F&uuml;r einfache Vervollst&auml;ndigung gut - bei komplexen Aufgaben schnell am Limit.</p></div>
+      <div class="c"><div class="ic">Cu</div><h4>Cursor</h4><p>VS-Code-Fork mit nativer AI. Starkes Multi-File-Editing, guter Codebase-Kontext, Composer f&uuml;r komplexe Aufgaben. Aktuell eine der besten IDE-Erfahrungen.</p></div>
+      <div class="c"><div class="ic">Cl</div><h4>Claude Code</h4><p>Terminal-basierter autonomer Agent. Plant, implementiert, testet eigenst&auml;ndig. Exzellentes Codebase-Verst&auml;ndnis. Volle Git/Shell/API-Integration. Selbst-hostbar.</p></div>
+      <div class="c"><div class="ic">Wi</div><h4>Windsurf</h4><p>AI-First-IDE mit Flows f&uuml;r Multi-Step-Aufgaben. Niedrige Einstiegsh&uuml;rde, gutes Kontext-Management. Solide Alternative zu Cursor.</p></div>
+      <div class="c"><div class="ic">Cx</div><h4>Codex CLI</h4><p>OpenAIs Terminal-Agent. Cloud-Sandbox-Execution, OpenAI-&Ouml;kosystem. Noch relativ jung im Vergleich zu Claude Code.</p></div>
+      <div class="c"><div class="ic">Ge</div><h4>Gemini CLI</h4><p>Googles Terminal-Agent. Gr&ouml;sstes Kontextfenster (1M+ Tokens), Google-&Ouml;kosystem. Kostenloses Tier verf&uuml;gbar.</p></div>
+    </div>
+  </div>
+  <div class="snum">05</div>
+</div>
+
+<!-- 06 Tool Comparison -->
+<div class="s lt">
+  <div class="p">
+    <div class="sl">05 / Vergleich</div>
+    <h2>Wie sie sich unterscheiden</h2>
+    <p class="si">Kein Tool ist in allem das beste. Die Wahl h&auml;ngt vom Use Case ab.</p>
+    <div class="rate-grid">
+      <div class="rh"></div><div class="rh" style="text-align:center">Copilot</div><div class="rh" style="text-align:center">Cursor</div><div class="rh" style="text-align:center">Claude Code</div><div class="rh" style="text-align:center">Windsurf</div>
+      <div class="rh">Autonomie</div><div class="rc"><span class="dots"><span class="on">&bull;&bull;</span><span class="off">&bull;&bull;&bull;</span></span></div><div class="rc"><span class="dots"><span class="on">&bull;&bull;&bull;&bull;</span><span class="off">&bull;</span></span></div><div class="rc"><span class="dots"><span class="on">&bull;&bull;&bull;&bull;&bull;</span></span></div><div class="rc"><span class="dots"><span class="on">&bull;&bull;&bull;</span><span class="off">&bull;&bull;</span></span></div>
+      <div class="rh">Codebase-Verst&auml;ndnis</div><div class="rc"><span class="dots"><span class="on">&bull;&bull;</span><span class="off">&bull;&bull;&bull;</span></span></div><div class="rc"><span class="dots"><span class="on">&bull;&bull;&bull;&bull;</span><span class="off">&bull;</span></span></div><div class="rc"><span class="dots"><span class="on">&bull;&bull;&bull;&bull;&bull;</span></span></div><div class="rc"><span class="dots"><span class="on">&bull;&bull;&bull;</span><span class="off">&bull;&bull;</span></span></div>
+      <div class="rh">Komplexe Aufgaben</div><div class="rc"><span class="dots"><span class="on">&bull;</span><span class="off">&bull;&bull;&bull;&bull;</span></span></div><div class="rc"><span class="dots"><span class="on">&bull;&bull;&bull;</span><span class="off">&bull;&bull;</span></span></div><div class="rc"><span class="dots"><span class="on">&bull;&bull;&bull;&bull;&bull;</span></span></div><div class="rc"><span class="dots"><span class="on">&bull;&bull;&bull;</span><span class="off">&bull;&bull;</span></span></div>
+      <div class="rh">Enterprise-Features</div><div class="rc"><span class="dots"><span class="on">&bull;&bull;&bull;&bull;&bull;</span></span></div><div class="rc"><span class="dots"><span class="on">&bull;&bull;&bull;</span><span class="off">&bull;&bull;</span></span></div><div class="rc"><span class="dots"><span class="on">&bull;&bull;&bull;&bull;</span><span class="off">&bull;</span></span></div><div class="rc"><span class="dots"><span class="on">&bull;&bull;</span><span class="off">&bull;&bull;&bull;</span></span></div>
+      <div class="rh">Compliance</div><div class="rc"><span class="dots"><span class="on">&bull;&bull;&bull;</span><span class="off">&bull;&bull;</span></span></div><div class="rc"><span class="dots"><span class="on">&bull;&bull;</span><span class="off">&bull;&bull;&bull;</span></span></div><div class="rc"><span class="dots"><span class="on">&bull;&bull;&bull;&bull;</span><span class="off">&bull;</span></span></div><div class="rc"><span class="dots"><span class="on">&bull;&bull;</span><span class="off">&bull;&bull;&bull;</span></span></div>
+    </div>
+    <div class="co" style="margin-top:20px;"><p><strong>Meine Empfehlung:</strong> Cursor oder Windsurf als IDE-Einstieg. Claude Code f&uuml;r komplexe, autonome Aufgaben. Copilot nur, wenn es bereits im Unternehmen etabliert ist - ein Wechsel lohnt sich.</p></div>
+  </div>
+  <div class="snum">06</div>
+</div>
+
+<!-- 07 What Is an Agent -->
+<div class="s dk">
+  <div class="p">
+    <div class="sl">06 / AI Agents</div>
+    <h2>Was ist ein AI Agent?</h2>
+    <div class="cols">
+      <div>
+        <div class="co" style="margin-top:0;"><p style="font-size:15px;"><strong>Ein Chatbot antwortet auf Fragen.<br>Ein Agent erledigt Aufgaben.</strong></p></div>
+        <div class="g3" style="margin-top:20px;">
+          <div class="c"><div class="ic">1</div><h4>Zielverst&auml;ndnis</h4><p>Versteht komplexe Ziele, zerlegt sie selbstst&auml;ndig in Teilschritte.</p></div>
+          <div class="c"><div class="ic">2</div><h4>Tool-Nutzung</h4><p>Greift auf Dateisystem, APIs, Datenbanken, Browser, Terminal zu.</p></div>
+          <div class="c"><div class="ic">3</div><h4>Iteration</h4><p>Pr&uuml;ft Ergebnisse, korrigiert Fehler, versucht Alternativen.</p></div>
+        </div>
+      </div>
+      <div>
+        <h3 style="margin-top:0;">Der Agent-Loop</h3>
+        <div style="padding:24px;border:1px solid oklch(1 0 0/10%);background:oklch(0.18 0.01 250);">
+          <p style="font-family:'Geist Mono',monospace;font-size:12px;color:oklch(0.985 0.003 80/70%);margin-bottom:0;line-height:2;">
+            <span class="br">1.</span> Ziel verstehen<br>
+            <span class="br">2.</span> Plan erstellen<br>
+            <span class="br">3.</span> Tools ausw&auml;hlen<br>
+            <span class="br">4.</span> Ausf&uuml;hren<br>
+            <span class="br">5.</span> Ergebnis pr&uuml;fen<br>
+            <span class="br">6.</span> Korrigieren oder abschliessen<br>
+            <span style="color:oklch(0.985 0.003 80/30%);">&#x21BB; Wiederholen bis Ziel erreicht</span>
+          </p>
+        </div>
+        <p style="margin-top:14px;font-size:11.5px;color:oklch(0.985 0.003 80/50%);">Anders als ein Chatbot gibt sich ein Agent nicht mit der ersten Antwort zufrieden. Er iteriert, bis das Ziel nachweisbar erreicht ist.</p>
+      </div>
+    </div>
+  </div>
+  <div class="snum">07</div>
+</div>
+
+<!-- 08 MCP -->
+<div class="s wh">
+  <div class="p">
+    <div class="sl">07 / MCP</div>
+    <h2>Model Context Protocol - USB-C f&uuml;r AI</h2>
+    <div class="cols">
+      <div>
+        <p>MCP ist ein offener Standard, der definiert, wie AI-Modelle mit externen Tools kommunizieren. Ein Protokoll, alle Tools.</p>
+        <div class="g2" style="margin-top:16px;">
+          <div class="c"><h4>Vor MCP</h4><ul><li>Jedes Tool eigene Integration</li><li>Keine Standardisierung</li><li>Kein Austausch zwischen Tools</li></ul></div>
+          <div class="c"><h4>Mit MCP</h4><ul><li>Ein Protokoll f&uuml;r alle</li><li>Einmal bauen, &uuml;berall nutzen</li><li>Kein Vendor-Lock-in</li></ul></div>
+        </div>
+        <div class="co" style="margin-top:16px;"><p><strong>F&uuml;r Unternehmen:</strong> MCP-Server f&uuml;r interne Systeme werden einmal gebaut und von allen AI-Tools genutzt. Keine doppelten Integrationen.</p></div>
+      </div>
+      <div>
+        <h3 style="margin-top:0;">MCP-Server in der Praxis</h3>
+        <div style="border:1px solid var(--border);">
+          <div style="padding:14px 20px;border-bottom:1px solid var(--border);"><span class="br" style="font-weight:600;">Datenbank-Server</span><br><span style="font-size:11px;color:var(--muted-fg);">PostgreSQL, Redis, Elasticsearch - sicherer AI-Zugriff</span></div>
+          <div style="padding:14px 20px;border-bottom:1px solid var(--border);"><span class="br" style="font-weight:600;">Git-Server</span><br><span style="font-size:11px;color:var(--muted-fg);">Repository-Historie, Branches, Pull Requests</span></div>
+          <div style="padding:14px 20px;border-bottom:1px solid var(--border);"><span class="br" style="font-weight:600;">Jira/Linear-Server</span><br><span style="font-size:11px;color:var(--muted-fg);">Tickets lesen, erstellen, Status aktualisieren</span></div>
+          <div style="padding:14px 20px;border-bottom:1px solid var(--border);"><span class="br" style="font-weight:600;">Monitoring-Server</span><br><span style="font-size:11px;color:var(--muted-fg);">Grafana-Dashboards, Logs, Alerts analysieren</span></div>
+          <div style="padding:14px 20px;"><span class="br" style="font-weight:600;">Browser-Server</span><br><span style="font-size:11px;color:var(--muted-fg);">Webseiten navigieren, UIs testen, Daten extrahieren</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="snum">08</div>
+</div>
+
+<!-- 09 My Setup -->
+<div class="s dk">
+  <div class="p">
+    <div class="sl">08 / Mein Setup</div>
+    <h2>Claude Code + oh-my-claudecode</h2>
+    <div class="cols">
+      <div>
+        <h3 style="margin-top:0;">Claude Code</h3>
+        <p>L&auml;uft im Terminal. Zugriff auf das gesamte Projekt-Dateisystem, Git, Shell-Kommandos und MCP-Server. Mein prim&auml;res Entwicklungstool.</p>
+        <ul>
+          <li>Versteht die gesamte Codebase</li>
+          <li>Erstellt Commits, Branches, Pull Requests</li>
+          <li>F&uuml;hrt Tests und Builds aus</li>
+          <li>Greift auf Datenbanken und APIs zu (via MCP)</li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="margin-top:0;">oh-my-claudecode (OMC)</h3>
+        <p>Eine Orchestrierungsschicht auf Claude Code. Koordiniert spezialisierte Agents f&uuml;r verschiedene Aufgaben - automatisch.</p>
+        <ul>
+          <li>Multi-Agent-Koordination</li>
+          <li>Parallele Ausf&uuml;hrung</li>
+          <li>Spezialisierte Rollen (Architect, Reviewer...)</li>
+          <li>Skills-Integration</li>
+        </ul>
+      </div>
+    </div>
+    <div class="co" style="margin-top:20px;"><p><strong>Das ist kein Demo-Setup.</strong> So liefere ich Code - bei luca und bei webvise-Kundenprojekten.</p></div>
+  </div>
+  <div class="snum">09</div>
+</div>
+
+<!-- 10 Agent Catalog -->
+<div class="s lt">
+  <div class="p">
+    <div class="sl">09 / Spezialisierte Agents</div>
+    <h2>Agent-Katalog</h2>
+    <p class="si">Jeder Agent hat eine klare Rolle. Wie ein Team aus Spezialisten, die parallel arbeiten.</p>
+    <div class="g3">
+      <div class="c"><div class="ic">&#x25B3;</div><h4>Architect</h4><p>Strategische Architektur-Entscheidungen. Read-Only. Pr&uuml;ft Pl&auml;ne bevor Code geschrieben wird.</p></div>
+      <div class="c"><div class="ic">&#x25A0;</div><h4>Executor</h4><p>Fokussierte Implementierung. Arbeitet parallel an unabh&auml;ngigen Aufgaben. Schnell und pr&auml;zise.</p></div>
+      <div class="c"><div class="ic">&#x25C6;</div><h4>Code Reviewer</h4><p>Detaillierte Reviews mit Severity-Rating. Findet Patterns, die Menschen &uuml;bersehen.</p></div>
+      <div class="c"><div class="ic">&#x2713;</div><h4>Test Engineer</h4><p>Test-Strategie und TDD-Workflows. Schreibt und validiert Tests automatisch.</p></div>
+      <div class="c"><div class="ic">&#x26A0;</div><h4>Security Reviewer</h4><p>OWASP Top 10, Secrets-Detection, unsichere Patterns. Automatisierte Security-Checks.</p></div>
+      <div class="c"><div class="ic">&#x2605;</div><h4>Verifier</h4><p>Evidenz-basierte Completion-Checks. Tests bestanden, keine Regressionen, Deployment OK.</p></div>
+    </div>
+  </div>
+  <div class="snum">10</div>
+</div>
+
+<!-- 11 Workflow -->
+<div class="s dk">
+  <div class="p">
+    <div class="sl">10 / Workflow-Beispiel</div>
+    <h2>Von der Anforderung zum Deployment</h2>
+    <div class="cb"><span class="cm">// Anforderung: "Implementiere User-Authentifizierung f&uuml;r die API"</span>
+
+<span class="hl">1. Planner</span>    &#x2192; Analysiert bestehende Architektur, identifiziert Auth-Patterns
+<span class="hl">2. Architect</span>  &#x2192; Reviewt Plan, empfiehlt JWT + Session-Strategie
+<span class="hl">3. Executors</span>  &#x2192; Arbeiten parallel:
+   &#x251C; Agent 1: Auth-Middleware + Route Guards
+   &#x251C; Agent 2: User-Model + Migration
+   &#x2514; Agent 3: Test-Suite + Dokumentation
+<span class="hl">4. Reviewer</span>   &#x2192; Pr&uuml;ft Code-Qualit&auml;t, Security-Implikationen
+<span class="hl">5. Verifier</span>   &#x2192; Alle Tests gr&uuml;n, keine Regressionen, merge-ready</div>
+    <div class="cols" style="margin-top:16px;">
+      <div class="co" style="margin:0;"><p><strong>Zeitersparnis:</strong> ~45 Minuten f&uuml;r eine Aufgabe, die typischerweise 1-2 Tage dauert.</p></div>
+      <div class="co" style="margin:0;"><p><strong>Qualit&auml;t:</strong> Jeder Schritt wird von einem spezialisierten Agent gepr&uuml;ft. Menschliches Review bleibt Pflicht.</p></div>
+    </div>
+  </div>
+  <div class="snum">11</div>
+</div>
+
+<!-- 12 Skills -->
+<div class="s wh">
+  <div class="p">
+    <div class="sl">11 / Skills</div>
+    <h2>Wiederverwendbare Agent-F&auml;higkeiten</h2>
+    <div class="cols">
+      <div>
+        <p>Skills sind Markdown-basierte Anweisungen, die Agents spezifische F&auml;higkeiten verleihen.</p>
+        <ul>
+          <li><strong>Portabel</strong> - Claude Code, Cursor, Copilot, 19+ Tools</li>
+          <li><strong>Versionierbar</strong> - in Git, teilbar &uuml;ber Teams</li>
+          <li><strong>Komponierbar</strong> - Skills rufen andere Skills auf</li>
+        </ul>
+        <h3>skills.sh &Ouml;kosystem</h3>
+        <p>Offener Marktplatz f&uuml;r AI-Agent-Skills. Statt dass jedes Team eigene Prompts schreibt, gibt es eine wachsende Bibliothek wiederverwendbarer F&auml;higkeiten.</p>
+        <div class="co"><p><strong>F&uuml;r Unternehmen:</strong> Einmal einen Standard-Skill erstellen, und jeder Entwickler nutzt ihn - unabh&auml;ngig von IDE oder AI-Tool.</p></div>
+      </div>
+      <div>
+        <h3 style="margin-top:0;">Praxis-Beispiele</h3>
+        <div class="g2" style="margin-top:12px;">
+          <div class="c"><h4>webvise-conventions</h4><p>Tech-Stack, Design-System, Code-Patterns. Jeder Agent kennt unsere Standards.</p></div>
+          <div class="c"><h4>webvise-qa</h4><p>7-Kategorien QA: Performance, Accessibility, SEO, Responsive, Analytics.</p></div>
+          <div class="c"><h4>webvise-deliver</h4><p>6-Phasen Workflow: Discover, Plan, Build, SEO, QA, Deliver.</p></div>
+          <div class="c"><h4>Enterprise-Skills</h4><p>Coding-Standards, Checklisten, Onboarding. Versioniert, f&uuml;r alle Teams.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="snum">12</div>
+</div>
+
+<!-- 13 Case Study -->
+<div class="s dk">
+  <div class="p">
+    <div class="sl">12 / Praxisbeispiel</div>
+    <h2>Case Study: AI-gest&uuml;tzte Auslieferung</h2>
+    <div class="cols">
+      <div>
+        <h3 style="margin-top:0;">Die Aufgabe</h3>
+        <p>Komplette Webplattform mit AI-Chatbot, Mehrsprachigkeit (8 Sprachen) und automatisierten Content-Workflows f&uuml;r ein Bauunternehmen.</p>
+        <p>Klassische Sch&auml;tzung: 6-8 Wochen.</p>
+        <h3>Das Ergebnis</h3>
+        <ul>
+          <li>Next.js-Plattform mit dynamischer Projektgalerie</li>
+          <li>AI-Chatbot (Google Gemini) f&uuml;r Besucheranfragen</li>
+          <li>8-Sprachen-Support f&uuml;r internationales Team</li>
+          <li>Automatisierte Content-Pipelines</li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="margin-top:0;">Kennzahlen</h3>
+        <div class="sg" style="margin-top:12px;">
+          <div class="st"><div class="st-n">2</div><div class="st-l">Wochen<br>Delivery</div></div>
+          <div class="st"><div class="st-n">95+</div><div class="st-l">PageSpeed<br>Score</div></div>
+          <div class="st"><div class="st-n">8</div><div class="st-l">Sprachen<br>ab Launch</div></div>
+          <div class="st"><div class="st-n">AI</div><div class="st-l">Chatbot<br>integriert</div></div>
+        </div>
+        <div style="margin-top:16px;">
+          <span class="tg">Next.js</span><span class="tg">Gemini</span><span class="tg">i18n</span><span class="tg">Vercel</span><span class="tg">TailwindCSS</span>
+        </div>
+        <div class="co" style="margin-top:16px;"><p><strong>Schl&uuml;ssel:</strong> AI-gest&uuml;tzte Entwicklung mit webvise-Skills f&uuml;r QA und Delivery. Test-Coverage ab Tag 1.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="snum">13</div>
+</div>
+
+<!-- 14 Honest Limitations -->
+<div class="s lt">
+  <div class="p">
+    <div class="sl">13 / Ehrliche Einsch&auml;tzung</div>
+    <h2>Was AI kann - und was nicht</h2>
+    <p class="si">Glaubw&uuml;rdigkeit entsteht durch Ehrlichkeit. AI ist kein Zauberstab.</p>
+    <div class="g2">
+      <div class="c">
+        <h4 style="color:var(--brand);">AI ist stark bei</h4>
+        <ul>
+          <li>Code-Generierung und Boilerplate</li>
+          <li>Test-Erstellung und Coverage</li>
+          <li>Dokumentation generieren</li>
+          <li>Refactoring und Code-Migration</li>
+          <li>Pattern-Erkennung und Security-Scans</li>
+          <li>Dependency-Management</li>
+          <li>Code-Review-Unterst&uuml;tzung</li>
+        </ul>
+      </div>
+      <div class="c">
+        <h4>AI braucht Menschen f&uuml;r</h4>
+        <ul>
+          <li>Architektur-Entscheidungen</li>
+          <li>Business-Logik und Dom&auml;nenwissen</li>
+          <li>User Research und Produktstrategie</li>
+          <li>Edge-Case-Beurteilung</li>
+          <li>Team-Dynamik und Kommunikation</li>
+          <li>Ethische Abw&auml;gungen</li>
+          <li>Kreative Probleml&ouml;sung auf hohem Niveau</li>
+        </ul>
+      </div>
+    </div>
+    <div class="co" style="margin-top:16px;"><p><strong>Die besten Ergebnisse</strong> entstehen, wenn man AI wie einen sehr f&auml;higen Junior-Entwickler behandelt - schnell, gr&uuml;ndlich, aber braucht Richtung und Review.</p></div>
+  </div>
+  <div class="snum">14</div>
+</div>
+
+<!-- 15 EU AI Act -->
+<div class="s dk">
+  <div class="p">
+    <div class="sl">14 / EU AI Act</div>
+    <h2>EU AI Act: Was Sie wissen m&uuml;ssen</h2>
+    <p class="si">In Kraft seit August 2024, volle Anwendung ab August 2026.</p>
+    <div class="g3">
+      <div class="c"><h4>Minimales Risiko</h4><p>Die meisten AI-Coding-Tools: Autocomplete, Refactoring, Dokumentation. Keine besonderen Anforderungen, aber Transparenzpflichten.</p></div>
+      <div class="c"><h4>Begrenztes Risiko</h4><p>Agent-Systeme, die eigenst&auml;ndig deployen oder Infrastruktur-Entscheidungen treffen. Transparenz- und Dokumentationspflicht.</p></div>
+      <div class="c"><h4>Hohes Risiko</h4><p>AI in sicherheitskritischen Anwendungen. Wenn AI-Code in Pr&uuml;f- oder Zertifizierungssoftware fliesst. Menschliche Aufsicht erforderlich.</p></div>
+    </div>
+    <div class="co" style="margin-top:20px;"><p><strong>Empfehlung:</strong> Applikationen nach Risikoklassen klassifizieren. Richtlinien pro Risikoklasse definieren. AI-Governance-Board etablieren, das Standards setzt und &uuml;berwacht.</p></div>
+  </div>
+  <div class="snum">15</div>
+</div>
+
+<!-- 16 Data Privacy -->
+<div class="s wh">
+  <div class="p">
+    <div class="sl">15 / Datenschutz</div>
+    <h2>DSGVO, Datenfl&uuml;sse & Anbieter</h2>
+    <div class="cols">
+      <div>
+        <h3 style="margin-top:0;">Wo gehen die Daten hin?</h3>
+        <p>Wenn Entwickler AI-Tools nutzen, wird Quellcode an den Anbieter gesendet. Das ist relevant, wenn:</p>
+        <ul>
+          <li>Code personenbezogene Daten enth&auml;lt</li>
+          <li>Propriet&auml;re Gesch&auml;ftslogik betroffen ist</li>
+          <li>Regulatorische Vorgaben gelten</li>
+        </ul>
+        <h3>Empfehlungen</h3>
+        <ul>
+          <li>API-Zugang nutzen (kein Training auf Ihren Daten)</li>
+          <li>Data Processing Agreements abschliessen</li>
+          <li>Code-Scanning vor dem Senden (keine Secrets, keine PII)</li>
+          <li>EU-Hosting-Optionen pr&uuml;fen</li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="margin-top:0;">Anbieter-&Uuml;bersicht</h3>
+        <div style="border:1px solid var(--border);">
+          <div style="padding:14px 20px;border-bottom:1px solid var(--border);display:grid;grid-template-columns:1fr auto auto auto;gap:16px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;background:var(--muted);"><span>Anbieter</span><span>Training</span><span>DPA</span><span>EU</span></div>
+          <div style="padding:12px 20px;border-bottom:1px solid var(--border);display:grid;grid-template-columns:1fr auto auto auto;gap:16px;font-size:12px;"><strong>Anthropic</strong><span>Nein</span><span>Ja</span><span>Geplant</span></div>
+          <div style="padding:12px 20px;border-bottom:1px solid var(--border);display:grid;grid-template-columns:1fr auto auto auto;gap:16px;font-size:12px;"><strong>OpenAI</strong><span>Nein</span><span>Ja</span><span>Azure EU</span></div>
+          <div style="padding:12px 20px;border-bottom:1px solid var(--border);display:grid;grid-template-columns:1fr auto auto auto;gap:16px;font-size:12px;"><strong>GitHub</strong><span>Nein</span><span>Ja</span><span>Nein</span></div>
+          <div style="padding:12px 20px;display:grid;grid-template-columns:1fr auto auto auto;gap:16px;font-size:12px;"><strong>Google</strong><span>Nein</span><span>Ja</span><span>Ja</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="snum">16</div>
+</div>
+
+<!-- 17 Local Models -->
+<div class="s dk">
+  <div class="p">
+    <div class="sl">16 / Lokale Modelle</div>
+    <h2>Die Air-Gap-Option</h2>
+    <div class="cols">
+      <div>
+        <h3 style="margin-top:0;">Warum lokal?</h3>
+        <p>Vollst&auml;ndig on-premise. Kein Byte verl&auml;sst das Netzwerk. Ideal f&uuml;r:</p>
+        <ul>
+          <li>Sicherheitskritischer Code</li>
+          <li>IP-sensitive Projekte</li>
+          <li>Regulierte Branchen</li>
+        </ul>
+        <h3>Deployment-Tools</h3>
+        <ul>
+          <li><strong>Ollama</strong> - Einfachstes Setup, Mac/Linux/Windows</li>
+          <li><strong>llama.cpp</strong> - Maximale Performance, C++ basiert</li>
+          <li><strong>vLLM</strong> - Production-grade Serving f&uuml;r Teams</li>
+        </ul>
+        <div class="co"><p><strong>Hybrid-Ansatz:</strong> Lokale Modelle f&uuml;r sensiblen Code. Cloud-APIs f&uuml;r unkritische Entwicklung. Klare Richtlinien.</p></div>
+      </div>
+      <div>
+        <h3 style="margin-top:0;">Verf&uuml;gbare Modelle</h3>
+        <div style="border:1px solid oklch(1 0 0/10%);">
+          <div style="padding:18px 22px;border-bottom:1px solid oklch(1 0 0/10%);">
+            <h4 style="margin-bottom:2px;">Qwen 2.5 Coder</h4>
+            <p style="font-size:11px;margin:0;">Alibaba | 7B-32B | 16-64GB RAM</p>
+            <span class="tg" style="margin-top:6px;">Sehr gut</span>
+          </div>
+          <div style="padding:18px 22px;border-bottom:1px solid oklch(1 0 0/10%);">
+            <h4 style="margin-bottom:2px;">DeepSeek Coder V3</h4>
+            <p style="font-size:11px;margin:0;">DeepSeek | 16B-236B | 32-128GB+ RAM</p>
+            <span class="tg" style="margin-top:6px;">Exzellent</span>
+          </div>
+          <div style="padding:18px 22px;border-bottom:1px solid oklch(1 0 0/10%);">
+            <h4 style="margin-bottom:2px;">Mistral Codestral</h4>
+            <p style="font-size:11px;margin:0;">Mistral | 22B | 32-64GB RAM</p>
+            <span class="tg" style="margin-top:6px;">Sehr gut</span>
+          </div>
+          <div style="padding:18px 22px;">
+            <h4 style="margin-bottom:2px;">StarCoder2</h4>
+            <p style="font-size:11px;margin:0;">BigCode | 3B-15B | 8-32GB RAM</p>
+            <span class="tg" style="margin-top:6px;">Gut</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="snum">17</div>
+</div>
+
+<!-- 18 Audit Trails -->
+<div class="s lt">
+  <div class="p">
+    <div class="sl">17 / Nachvollziehbarkeit</div>
+    <h2>Audit-Trails & Governance</h2>
+    <p class="si">Nachvollziehbarkeit ist nicht optional. AI-generierter Code muss denselben Standards entsprechen.</p>
+    <div class="g3">
+      <div class="c"><div class="ic">G</div><h4>Git-Integration</h4><p>Alle AI-&Auml;nderungen gehen durch normale Git-Workflows. Branches, PRs, Reviews. Nichts umgeht den Prozess.</p></div>
+      <div class="c"><div class="ic">T</div><h4>Co-Author-Tags</h4><p>AI-generierte Commits werden markiert (Co-Authored-By: Claude). Volle Transparenz, welcher Code von welchem Tool stammt.</p></div>
+      <div class="c"><div class="ic">R</div><h4>Review-Pflicht</h4><p>Kein AI-Code geht ohne menschliches Review in Produktion. Derselbe Standard wie f&uuml;r jeden Entwickler.</p></div>
+      <div class="c"><div class="ic">L</div><h4>Logging</h4><p>Welches Modell, welcher Prompt, welcher Output. F&uuml;r kritische Systeme vollst&auml;ndig dokumentiert.</p></div>
+      <div class="c"><div class="ic">Q</div><h4>Test-Standards</h4><p>AI-Code erf&uuml;llt dieselben (oder h&ouml;here) Test-Anforderungen. Coverage-Ziele gelten unver&auml;ndert.</p></div>
+      <div class="c"><div class="ic">P</div><h4>Tooling</h4><p>Git-Hooks f&uuml;r Co-Author-Tags, CI/CD-Pipelines die AI-Code flaggen, Custom MCP-Server f&uuml;r Logging.</p></div>
+    </div>
+  </div>
+  <div class="snum">18</div>
+</div>
+
+<!-- 19 Crawl Walk Run -->
+<div class="s dk">
+  <div class="p">
+    <div class="sl">18 / Adoption</div>
+    <h2>Crawl - Walk - Run</h2>
+    <p class="si">Strukturierte Einf&uuml;hrung. Schritt f&uuml;r Schritt, messbar, kontrolliert.</p>
+    <div class="pg">
+      <div class="pc"><div class="pl">Phase 01 / Crawl</div><h4>Erfahrung sammeln</h4><p>Monate 1-3. 5-10 Entwickler.</p><ul><li>Cursor oder Windsurf (niedrige H&uuml;rde)</li><li>Code-Completion, Docs, Unit-Tests</li><li>Basis-Richtlinien definieren</li><li>Entwickler-Zufriedenheit messen</li></ul></div>
+      <div class="pc"><div class="pl">Phase 02 / Walk</div><h4>Standards etablieren</h4><p>Monate 4-9. 50-100 Entwickler.</p><ul><li>Claude Code f&uuml;r komplexe Aufgaben</li><li>Erste MCP-Server und Skills</li><li>AI-Richtlinie, DPA mit Anbietern</li><li>Proxy-Layer f&uuml;r Logging</li></ul></div>
+      <div class="pc"><div class="pl">Phase 03 / Run</div><h4>AI als Standard</h4><p>Ab Monat 10. Alle Teams.</p><ul><li>Multi-Agent-Workflows</li><li>Automatisierte QA-Pipelines</li><li>Governance-Framework, Audits</li><li>ROI pro Team messen</li></ul></div>
+    </div>
+  </div>
+  <div class="snum">19</div>
+</div>
+
+<!-- 20 Quick Wins -->
+<div class="s wh">
+  <div class="p">
+    <div class="sl">19 / Erste Schritte</div>
+    <h2>Quick Wins</h2>
+    <div class="cols">
+      <div>
+        <h3 style="margin-top:0;">Sofort umsetzbar</h3>
+        <div style="border:1px solid var(--border);">
+          <div style="padding:14px 20px;border-bottom:1px solid var(--border);"><strong>Legacy-Dokumentation</strong><br><span style="font-size:11px;color:var(--muted-fg);">AI generiert Docs f&uuml;r undokumentierten Code. Sofortiger Wissenstransfer.</span></div>
+          <div style="padding:14px 20px;border-bottom:1px solid var(--border);"><strong>Test-Coverage erh&ouml;hen</strong><br><span style="font-size:11px;color:var(--muted-fg);">AI-generierte Tests f&uuml;r bestehenden Code. Coverage-L&uuml;cken schliessen.</span></div>
+          <div style="padding:14px 20px;border-bottom:1px solid var(--border);"><strong>Code-Reviews beschleunigen</strong><br><span style="font-size:11px;color:var(--muted-fg);">AI als erster Reviewer. Menschliches Review bleibt, wird aber fokussierter.</span></div>
+          <div style="padding:14px 20px;"><strong>Dependency-Updates</strong><br><span style="font-size:11px;color:var(--muted-fg);">Automatisierte Updates und Security-Patches. Weniger manuelle Wartung.</span></div>
+        </div>
+      </div>
+      <div>
+        <h3 style="margin-top:0;">Mittelfristig</h3>
+        <div style="border:1px solid var(--border);">
+          <div style="padding:14px 20px;border-bottom:1px solid var(--border);"><strong>MCP-Server f&uuml;r interne Systeme</strong><br><span style="font-size:11px;color:var(--muted-fg);">Jira, CI/CD, Monitoring - AI-Zugriff auf bestehende Tools.</span></div>
+          <div style="padding:14px 20px;border-bottom:1px solid var(--border);"><strong>Shared Skills-Repository</strong><br><span style="font-size:11px;color:var(--muted-fg);">Unternehmensweite Standards als wiederverwendbare Skills.</span></div>
+          <div style="padding:14px 20px;border-bottom:1px solid var(--border);"><strong>AI-gest&uuml;tzte Incident-Response</strong><br><span style="font-size:11px;color:var(--muted-fg);">Agents analysieren Logs, identifizieren Root Causes.</span></div>
+          <div style="padding:14px 20px;"><strong>Legacy-Modernisierung</strong><br><span style="font-size:11px;color:var(--muted-fg);">AI versteht, dokumentiert und modernisiert Legacy-Code.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="snum">20</div>
+</div>
+
+<!-- 21 Outlook -->
+<div class="s dk">
+  <div class="p">
+    <div class="sl">20 / Ausblick</div>
+    <h2>Was kommt als N&auml;chstes?</h2>
+    <div class="cols">
+      <div>
+        <div class="g2" style="margin-top:8px;">
+          <div class="c"><h4>Kurzfristig (2026)</h4><ul><li>AI-Agents Standard in jeder IDE</li><li>MCP als De-facto-Standard</li><li>Lokale Modelle erreichen Cloud-Qualit&auml;t</li><li>Enterprise-Features bei allen Anbietern</li></ul></div>
+          <div class="c"><h4>Mittelfristig (2027)</h4><ul><li>Multi-Agent-Teams als Normalit&auml;t</li><li>AI-gest&uuml;tzte Legacy-Migration im grossen Stil</li><li>Spezialisierte Branchenmodelle</li><li>Compliance-Checks direkt in AI-Workflows</li></ul></div>
+        </div>
+        <h3>5 Empfehlungen</h3>
+        <ol>
+          <li><strong>Jetzt starten.</strong> Die Lernkurve ist flacher als gedacht.</li>
+          <li><strong>Klein starten.</strong> Ein Pilot-Team, ein Tool, klare Metriken.</li>
+          <li><strong>In Governance investieren.</strong> Jetzt einfacher als sp&auml;ter.</li>
+          <li><strong>Know-how aufbauen.</strong> Wissen, nicht nur Lizenzen.</li>
+          <li><strong>Ergebnisse messen.</strong> KPIs ab Tag 1.</li>
+        </ol>
+      </div>
+      <div>
+        <div style="padding:36px;border:1px solid oklch(1 0 0/10%);background:oklch(0.18 0.01 250);text-align:center;margin-top:8px;">
+          <p style="font-size:22px;font-weight:600;color:var(--bg);max-width:none;margin-bottom:8px;">Die Frage ist nicht ob,</p>
+          <p style="font-size:22px;font-weight:600;color:var(--brand);max-width:none;margin-bottom:0;">sondern wie schnell.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="snum">21</div>
+</div>
+
+<!-- 22 Contact -->
+<div class="s lt" style="page-break-after:avoid;">
+  <div class="p">
+    <div class="sl">Kontakt & Ressourcen</div>
+    <h2>Lassen Sie uns sprechen.</h2>
+    <div class="cols">
+      <div>
+        <p>Ich unterst&uuml;tze Unternehmen dabei, AI sinnvoll in Entwicklungsprozesse zu integrieren. Von der Strategie bis zur Implementierung.</p>
+        <div style="border:1px solid var(--border);padding:24px;margin-top:16px;">
+          <p style="margin-bottom:8px;"><strong>Sebastian Kehle</strong></p>
+          <p style="font-size:12px;color:var(--muted-fg);margin-bottom:4px;">sebastian.kehle@webvise.io</p>
+          <p style="font-size:12px;color:var(--muted-fg);margin-bottom:4px;">webvise.io / sebastiankehle.com</p>
+          <p style="font-size:12px;color:var(--muted-fg);margin-bottom:4px;">LinkedIn: /in/sebastiankehle</p>
+          <p style="font-size:12px;color:var(--muted-fg);margin-bottom:0;">GitHub: /sebastiankehle</p>
+        </div>
+      </div>
+      <div>
+        <h3 style="margin-top:0;">Weiterf&uuml;hrende Artikel</h3>
+        <ul style="font-size:12px;">
+          <li>Best Local AI Models for Compliant Businesses</li>
+          <li>How AI Agents Are Transforming Business Automation</li>
+          <li>What Is the Model Context Protocol (MCP)</li>
+          <li>AI Regulations and Certifications in Germany</li>
+          <li>AI Agent Skills Directory</li>
+          <li>How We Use AI to Build Better Software, Faster</li>
+        </ul>
+        <h3>Offizielle Docs</h3>
+        <ul style="font-size:12px;">
+          <li>Claude Code - claude.ai/claude-code</li>
+          <li>Model Context Protocol - modelcontextprotocol.io</li>
+          <li>skills.sh - Offener Skills-Marktplatz</li>
+          <li>EU AI Act - artificialintelligenceact.eu</li>
+        </ul>
+      </div>
+    </div>
+    <div style="position:absolute;bottom:14px;left:56px;font-size:10px;color:var(--muted-fg);opacity:0.4;">&copy; 2026 webvise - Design, Entwicklung und AI-Automatisierung</div>
+  </div>
+  <div class="snum">22</div>
+</div>
+
+</body>
+</html>

@@ -5,6 +5,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { Shield } from "lucide-react";
 
 import BlogShare from "@/components/marketing/blog-share";
+import ReportDownloadForm from "@/components/marketing/report-download-form";
 import JsonLd from "@/components/json-ld";
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import {
@@ -178,6 +179,14 @@ function RenderBlock({ block }: { block: Block }) {
 						</tbody>
 					</table>
 				</div>
+			);
+		case "download":
+			return (
+				<ReportDownloadForm
+					reportId={block.reportId}
+					title={block.title}
+					description={block.description}
+				/>
 			);
 		default:
 			return null;
