@@ -109,7 +109,11 @@ function getBlockKeys(blocks: Block[]) {
 				? block.text
 				: "items" in block
 					? block.items[0]
-					: block.headers.join());
+					: "headers" in block
+						? block.headers.join()
+						: "reportId" in block
+							? block.reportId
+							: "");
 		const n = counts.get(base) ?? 0;
 		counts.set(base, n + 1);
 		return n > 0 ? `${base}:${n}` : base;
