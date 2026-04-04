@@ -6,7 +6,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { getLegalPage } from "@/data/legal";
 import { generateAlternates } from "@/lib/seo";
 
-const EMAIL_RE = /([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g;
+const EMAIL_RE = /([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/;
 
 function renderLine(line: string) {
 	const parts = line.split(EMAIL_RE);

@@ -525,9 +525,10 @@ export default function WpHealthReport() {
 										state.isSubmitting,
 									]}
 								>
-									{([_canSubmit, isSubmitting]) => (
+									{([canSubmit, isSubmitting]) => (
 										<SubmitButton
 											isSubmitting={isSubmitting}
+											disabled={!canSubmit}
 											size="lg"
 											className="w-full border-transparent bg-brand text-white md:h-8 md:text-xs [&]:hover:bg-brand/80"
 										>

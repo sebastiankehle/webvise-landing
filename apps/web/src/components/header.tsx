@@ -1,15 +1,16 @@
 "use client";
-import Link from "next/link";
+
+import { Link } from "@/i18n/navigation";
 
 import { ModeToggle } from "./mode-toggle";
 import UserMenu from "./user-menu";
 
 export default function Header() {
 	const links = [
-		{ to: "/", label: "Home" },
-		{ to: "/dashboard", label: "Dashboard" },
-		{ to: "/todos", label: "Todos" },
-		{ to: "/ai", label: "AI Chat" },
+		{ to: "/" as const, label: "Home" },
+		{ to: "/dashboard" as const, label: "Dashboard" },
+		{ to: "/todos" as const, label: "Todos" },
+		{ to: "/ai" as const, label: "AI Chat" },
 	];
 
 	return (
@@ -18,7 +19,7 @@ export default function Header() {
 				<nav className="flex gap-4 text-lg">
 					{links.map(({ to, label }) => {
 						return (
-							<Link key={to} href={to as never}>
+							<Link key={to} href={to}>
 								{label}
 							</Link>
 						);

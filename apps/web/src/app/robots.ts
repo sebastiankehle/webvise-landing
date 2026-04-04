@@ -6,7 +6,17 @@ export default function robots(): MetadataRoute.Robots {
 			{
 				userAgent: "*",
 				allow: "/",
-				disallow: ["/api/", "/dashboard/", "/login/", "/todos/"],
+				disallow: [
+					"/api/",
+					"/dashboard/",
+					"/login/",
+					"/todos/",
+					"/ai/",
+					"/*/dashboard/",
+					"/*/login/",
+					"/*/todos/",
+					"/*/ai/",
+				],
 			},
 		],
 		sitemap: "https://webvise.io/sitemap.xml",

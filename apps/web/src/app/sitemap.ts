@@ -67,13 +67,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
 			alternates: alternates("/case-studies"),
 		},
 		{
-			url: `${baseUrl}/media`,
-			lastModified: new Date(),
-			changeFrequency: "monthly" as const,
-			priority: 0.5,
-			alternates: alternates("/media"),
-		},
-		{
 			url: `${baseUrl}/wp-health-report`,
 			lastModified: new Date(),
 			changeFrequency: "monthly" as const,
