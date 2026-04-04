@@ -1,0 +1,245 @@
+{
+	"date": "2026-03-31",
+	"readingTime": 11,
+	"keyword": "paperclip ai agent orchestration company",
+	"title": "Paperclip: The Open-Source Control Plane for AI-Agent Companies",
+	"excerpt": "Paperclip is not another task runner. Launched in March 2026, it gives multi-agent teams org charts, budgets, audit trails, and board-level governance. Here is what it is, how it works, and why it matters.",
+	"metaDescription": "Paperclip is an open-source orchestration platform that acts as the corporate control plane for AI-agent companies. Learn how it handles multi-agent coordination, budget enforcement, governance, and the adapter system that connects any AI runtime.",
+	"tags": ["AI Agents", "AI", "Open Source", "Automation"],
+	"blocks": [
+		{
+			"type": "p",
+			"text": "There is a useful analogy floating around the AI agent community: if [OpenClaw](/blog/openclaw-open-source-ai-agent) is an employee, **Paperclip is the company**. That single sentence explains what Paperclip is trying to do better than most technical descriptions. It is not a framework for building agents. It is the organizational layer that sits above them, handling coordination, accountability, and budget control across a fleet of AI workers."
+		},
+		{
+			"type": "p",
+			"text": "Paperclip launched in March 2026, created by **@dotta**, and accumulated over **46,700 GitHub stars** in its first weeks. The speed of adoption reflects a genuine gap in the current AI stack: most teams running multiple agents have no shared state, no cost visibility, and no way to prevent two agents from doing the same work twice."
+		},
+		{
+			"type": "h2",
+			"text": "The Problem Paperclip Solves"
+		},
+		{
+			"type": "p",
+			"text": "Running a single AI agent is straightforward enough. Running twenty of them simultaneously is a different problem entirely. Without coordination, you get duplicate work, runaway costs, and zero accountability for what each agent actually did."
+		},
+		{
+			"type": "p",
+			"text": "The specific failure modes are familiar to anyone who has tried to scale multi-agent workflows:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**No shared state**: Agent A finishes a task that Agent B has already started. Neither knows about the other.",
+				"**No cost visibility**: LLM API spend is distributed across many processes with no central accounting. You find out what things cost after the fact.",
+				"**No coordination**: Agents that should hand off work to each other instead operate in silos. Progress stalls because there is no authority to unblock dependencies.",
+				"**No audit trail**: When something goes wrong, there is no reliable record of what each agent did, why, and in what order."
+			]
+		},
+		{
+			"type": "p",
+			"text": "Paperclip addresses all of these at the infrastructure level, before you write any agent logic."
+		},
+		{
+			"type": "h2",
+			"text": "Not a Task Manager: A Corporate Structure"
+		},
+		{
+			"type": "p",
+			"text": "The framing that makes Paperclip click is that it models AI-agent teams the way you would model a real organization. Not with loose lists of tasks, but with **org charts, reporting hierarchies, defined roles, monthly budgets per agent, goal alignment, and board-level governance**."
+		},
+		{
+			"type": "p",
+			"text": "That last part matters. Paperclip puts the human in the role of the board. Agents execute within the company structure, but the human retains final authority over goals, budget allocation, and policy. This is not an autonomous AI company running without oversight. It is a structured delegation model where autonomy is bounded and auditable."
+		},
+		{
+			"type": "h2",
+			"text": "The Two-Layer Architecture"
+		},
+		{
+			"type": "p",
+			"text": "Paperclip separates its concerns cleanly into two layers."
+		},
+		{
+			"type": "h3",
+			"text": "Control Plane"
+		},
+		{
+			"type": "p",
+			"text": "Paperclip itself is the control plane. It manages agents, assigns tasks, enforces budgets, maintains the audit trail, and handles governance. Agents do not run inside Paperclip. They run externally and report back. Paperclip is the part that knows what is happening across the entire company at any given moment."
+		},
+		{
+			"type": "h3",
+			"text": "Execution Services"
+		},
+		{
+			"type": "p",
+			"text": "Agents are execution services. They live outside Paperclip, run on whatever infrastructure makes sense for each runtime, and connect to the control plane via **adapters**. The adapter pattern is how Paperclip avoids locking you into any particular AI stack. Agents \"phone home\" to report task status, consume work from the issue queue, and record their activity against the audit trail."
+		},
+		{
+			"type": "h2",
+			"text": "Core Primitives"
+		},
+		{
+			"type": "p",
+			"text": "Paperclip defines a small set of primitives that compose into the full corporate structure."
+		},
+		{
+			"type": "h3",
+			"text": "Company"
+		},
+		{
+			"type": "p",
+			"text": "The top-level container. A Company has goals, a roster of agents, and a governance policy. Everything else lives inside a Company."
+		},
+		{
+			"type": "h3",
+			"text": "Agents"
+		},
+		{
+			"type": "p",
+			"text": "Each agent has a defined role, a monthly budget in cents, and a status. Budget enforcement is **atomic**: when an agent hits its monthly limit, it stops. There is no graceful degradation or override. This is deliberate. Soft limits fail silently; hard limits do not."
+		},
+		{
+			"type": "h3",
+			"text": "Issues and Tasks"
+		},
+		{
+			"type": "p",
+			"text": "Work is modeled as Issues and Tasks. The key mechanism is **atomic checkout**: when an agent claims a task, it is locked to that agent until completion or explicit release. No other agent can pick it up. This is the specific feature that eliminates the duplicate-work problem, and it is implemented at the database level rather than left to application logic."
+		},
+		{
+			"type": "h3",
+			"text": "Heartbeats"
+		},
+		{
+			"type": "p",
+			"text": "Agents operate on scheduled wake cycles called heartbeats. Rather than running continuously, an agent wakes on a schedule, checks for assigned work, executes, reports back, and sleeps. This makes compute costs predictable and agent behavior auditable."
+		},
+		{
+			"type": "h3",
+			"text": "Governance"
+		},
+		{
+			"type": "p",
+			"text": "The governance layer formalizes the human-as-board model. Policy decisions, budget changes, and goal updates flow through governance. The audit trail is immutable: once recorded, agent actions cannot be altered or deleted. This matters for accountability, and it is increasingly relevant as AI agents take actions with real-world consequences."
+		},
+		{
+			"type": "h2",
+			"text": "The Adapter System"
+		},
+		{
+			"type": "p",
+			"text": "Paperclip ships with adapters for nine runtimes out of the box:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**Claude** (Anthropic)",
+				"**Codex** (OpenAI)",
+				"**Gemini** (Google)",
+				"**Cursor**",
+				"**OpenCode**",
+				"**OpenClaw**",
+				"**Hermes**",
+				"**Process** (any local subprocess)",
+				"**HTTP** (any API endpoint)"
+			]
+		},
+		{
+			"type": "p",
+			"text": "The HTTP and Process adapters are the escape hatches. Any runtime that can make an HTTP call or run as a subprocess integrates with Paperclip. The adapter pattern means the control plane stays stable while the agent ecosystem evolves. New AI runtimes ship as adapters without requiring changes to the core."
+		},
+		{
+			"type": "h2",
+			"text": "Tech Stack"
+		},
+		{
+			"type": "p",
+			"text": "The implementation choices reflect production-grade engineering rather than rapid prototyping:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**React 19** for the frontend",
+				"**Express.js 5** for the API layer",
+				"**PostgreSQL 17** for persistent storage, with **PGlite** as an embedded option for local development",
+				"**Drizzle ORM** for type-safe database access",
+				"**Better Auth** for authentication"
+			]
+		},
+		{
+			"type": "p",
+			"text": "The PGlite option is worth noting. It means you can run a full Paperclip instance locally without a separate database server. For development and single-machine deployments, the embedded option removes a significant operational dependency."
+		},
+		{
+			"type": "h2",
+			"text": "Budget Enforcement in Practice"
+		},
+		{
+			"type": "p",
+			"text": "Budget enforcement deserves its own section because it is one of the features most likely to matter in production. Paperclip tracks spend per agent in cents, with monthly reset cycles. The limits are hard."
+		},
+		{
+			"type": "p",
+			"text": "This is not a dashboard that shows you what you spent last month. It is a system that stops an agent when it reaches its limit mid-task. The implications are significant:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"Finance teams get predictable AI spend with no surprise invoices",
+				"Engineering teams can experiment with new agent configurations without risking runaway costs",
+				"Agents with higher responsibility or throughput get higher budgets; lower-priority agents get lower ones",
+				"Budget allocation becomes a governance decision, not an afterthought"
+			]
+		},
+		{
+			"type": "p",
+			"text": "For organisations running [AI automation](/services/ai-automation) at scale, this feature alone justifies the architectural overhead of adopting an orchestration layer."
+		},
+		{
+			"type": "h2",
+			"text": "Self-Hosted and MIT Licensed"
+		},
+		{
+			"type": "p",
+			"text": "Paperclip is fully self-hosted and released under the MIT license. No usage fees, no vendor lock-in, no external service dependencies. Your agent company runs on your infrastructure, and the data it generates stays there."
+		},
+		{
+			"type": "p",
+			"text": "For regulated industries or organisations with strict data handling requirements, this is not a bonus feature. It is a prerequisite. The same audit trail that helps you manage agents also helps you demonstrate compliance, because the records live in your own database."
+		},
+		{
+			"type": "h2",
+			"text": "Clipmart: The Coming Marketplace"
+		},
+		{
+			"type": "p",
+			"text": "**Clipmart** is the planned marketplace for pre-built AI companies. The concept is that you download a complete company configuration, including agent roles, task templates, governance policies, and budget allocations, and deploy it to your Paperclip instance."
+		},
+		{
+			"type": "p",
+			"text": "This is a significant bet on the idea that AI company configurations will become a shareable, reusable artifact the way software packages are. A pre-built \"customer support company\" or \"code review company\" that you deploy and customize rather than build from scratch. Whether Clipmart succeeds depends on whether the community produces configurations worth sharing, but the model is sound."
+		},
+		{
+			"type": "h2",
+			"text": "What This Represents"
+		},
+		{
+			"type": "p",
+			"text": "Individual AI agents are the first layer of this technological shift. They can execute tasks, use tools, and operate autonomously within defined boundaries. But individual agents hit a ceiling: they cannot coordinate, they cannot share resources efficiently, and they cannot be governed as a collective."
+		},
+		{
+			"type": "p",
+			"text": "Paperclip represents the second layer. It is infrastructure for **multi-agent organizations**, not multi-agent scripts. The distinction matters because organizations have properties that scripts do not: accountability, role definition, resource allocation, policy enforcement, and audit trails. These properties are what make agent deployments safe enough for production use in business-critical workflows."
+		},
+		{
+			"type": "p",
+			"text": "The project is at [paperclip.ing/docs](https://paperclip.ing/docs) and the source is on [GitHub](https://github.com/paperclipai/paperclip). If you are building multi-agent workflows and the coordination overhead has become the main problem, it is worth the time to evaluate."
+		},
+		{
+			"type": "p",
+			"text": "At **webvise**, we work with businesses to design and implement [AI automation](/services/ai-automation) architectures that hold up in production. If you are evaluating orchestration platforms or trying to structure a multi-agent deployment for real work, [get in touch](/#contact) and we will help you find the right approach."
+		}
+	]
+}

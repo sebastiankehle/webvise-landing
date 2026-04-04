@@ -1,0 +1,189 @@
+{
+	"date": "2026-04-02",
+	"readingTime": 10,
+	"keyword": "karpathy autoresearch ai experiments",
+	"title": "AutoResearch van Karpathy: wat er gebeurt als AI 's nachts het onderzoek doet",
+	"excerpt": "Andrej Karpathy bracht AutoResearch uit in maart 2026, een open source framework dat AI-agenten autonoom machine learning-experimenten laat uitvoeren terwijl je slaapt. 65.000 GitHub-sterren in enkele weken. Dit is wat het echt doet.",
+	"metaDescription": "AutoResearch van Andrej Karpathy laat AI-agenten autonoom ML-experimenten uitvoeren op één GPU. Leer hoe het werkt, de drie-bestandenarchitectuur en waarom het een nieuw tijdperk van zichzelf verbeterende AI-systemen inluidt.",
+	"tags": ["AI Agents", "AI", "Machine Learning", "Open Source"],
+	"cta": "Get in Touch",
+	"blocks": [
+		{
+			"type": "p",
+			"text": "In maart 2026 bracht Andrej Karpathy, medeoprichter van OpenAI en voormalig hoofd AI bij Tesla, een framework uit genaamd [AutoResearch](https://github.com/karpathy/autoresearch). Het uitgangspunt is eenvoudig: je beschrijft wat je wilt onderzoeken in een tekstbestand, start het systeem op voordat je gaat slapen en wordt wakker met zo'n 100 voltooide machine learning-experimenten, gerangschikt op prestaties. In drie weken bereikte het 65.000 GitHub-sterren. De snelheid van adoptie weerspiegelt iets echts over wat het project vertegenwoordigt, niet alleen wat het doet."
+		},
+		{
+			"type": "h2",
+			"text": "Wat AutoResearch werkelijk doet"
+		},
+		{
+			"type": "p",
+			"text": "AutoResearch zet een AI-coderagent in op één trainingsscript. De agent past het script aan, voert een trainingsexperiment van vijf minuten uit, meet het resultaat met behulp van een validatiemetric genaamd val_bpb (bits per byte, een maatstaf voor de efficiëntie van taalmodellen) en beslist dan of de wijziging bewaard of verworpen wordt. Als de wijziging de score verbetert, wordt het de nieuwe baseline. Als dat niet het geval is, draait de agent de wijziging terug en probeert iets anders. Deze lus draait continu en produceert ongeveer **12 experimenten per uur**, zo'n 100 gedurende een nacht."
+		},
+		{
+			"type": "p",
+			"text": "Het vaste budget van vijf minuten per experiment is een bewuste ontwerpkeuze. Het maakt resultaten vergelijkbaar over runs heen, voorkomt dat de agent onevenredig veel tijd besteedt aan één hypothese en past binnen het kostenprofiel van één H100-GPU die een nacht draait. De beperking dwingt het systeem efficiënt te werken in plaats van uitputtend."
+		},
+		{
+			"type": "h2",
+			"text": "De drie-bestandenarchitectuur"
+		},
+		{
+			"type": "p",
+			"text": "Het systeem is georganiseerd rond drie bestanden, elk met een eigen rol:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**prepare.py** is vast. Het verzorgt de datavoorbereiding en verandert nooit. Dit houdt het experimentele substraat stabiel, zodat variaties in resultaten echte modelverschillen weerspiegelen in plaats van wijzigingen in de datapipeline.",
+				"**train.py** is het canvas van de agent. Het begint als een baseline trainingsscript en wordt door de agent over honderden iteraties gewijzigd, uitgebreid en verfijnd. 's Ochtends kan het er substantieel anders uitzien dan waar je mee begon.",
+				"**program.md** wordt door de mens geschreven. Hier beschrijf je je onderzoeksstrategie: welke benaderingen te verkennen, welke beperkingen te respecteren, welke hypothesen te testen. Het is het enige dat de mens hoeft te schrijven."
+			]
+		},
+		{
+			"type": "p",
+			"text": "De eenvoud is opzettelijk. Door wijzigingen te beperken tot één bestand (train.py) is elke wijziging controleerbaar. Je kunt de diff bekijken tussen de ochtendversie en het startpunt en begrijpen wat de agent daadwerkelijk heeft gedaan. Dit is moeilijker te bereiken wanneer agenten tegelijkertijd veel bestanden aanraken."
+		},
+		{
+			"type": "h2",
+			"text": "Je schrijft de onderzoeksstrategie, niet de code"
+		},
+		{
+			"type": "p",
+			"text": "Karpathy's formulering van de menselijke rol is het waard direct te citeren. Hij beschrijft het zo: **\"Je schrijft de code 99% van de tijd niet direct. Je orkestreert agenten.\"** De taak van de mens is program.md schrijven, wat hij de \"research org code\" noemt, de strategie op hoog niveau die bepaalt wat de agent moet nastreven."
+		},
+		{
+			"type": "p",
+			"text": "Dit is een betekenisvolle verschuiving ten opzichte van hoe de meeste mensen momenteel denken over AI-coderingstools. De gangbare opvatting positioneert AI als een assistent die helpt code sneller te schrijven. AutoResearch draait dit om: de agent schrijft de code, voert de experimenten uit en evalueert de resultaten. De mens schrijft de onderzoeksrichting. Het werkproduct van de mens is het strategiedocument, niet de implementatie."
+		},
+		{
+			"type": "p",
+			"text": "Of dit perspectief zich generaliseert buiten ML-onderzoek is een open vraag. Maar binnen het domein van iteratieve experimentatie, waar het doel is een grote ruimte van mogelijke benaderingen te doorzoeken en te identificeren wat werkt, past het uitstekend. De agent kan die ruimte veel sneller doorzoeken dan welk menselijk team dan ook."
+		},
+		{
+			"type": "h2",
+			"text": "Wat de cijfers laten zien"
+		},
+		{
+			"type": "p",
+			"text": "Karpathy draaide AutoResearch twee dagen op een persoonlijk project en rapporteerde ongeveer **700 autonome codewijzigingen**. Van deze resulteerden er ongeveer **20 in additieve verbeteringen** die samengesteld tot betekenisvolle vooruitgang. Het cumulatieve effect was een **efficiëntiewinst van 11%** op het Time to GPT-2 leaderboard, een benchmark die meet hoe efficiënt een model GPT-2-niveau prestaties kan bereiken."
+		},
+		{
+			"type": "p",
+			"text": "Het slagingspercentage van ongeveer 3% klinkt misschien laag. Maar overweeg het alternatief: een menselijke onderzoeker die 700 experimenten handmatig uitvoert zou maanden nodig hebben. De agent voert ze in één nacht uit. De economie verandert volledig wanneer de kosten van een mislukt experiment dalen naar vijf minuten GPU-tijd in plaats van dagen menselijke inspanning."
+		},
+		{
+			"type": "h3",
+			"text": "Een eerlijk vergelijkingsmechanisme"
+		},
+		{
+			"type": "p",
+			"text": "Het vaste budget van vijf minuten lost ook een subtiel probleem in ML-onderzoek op: hoe vergelijk je eerlijk benaderingen die variëren in computationele complexiteit? Als een techniek twee keer zoveel rekenkracht vereist, zou een langere trainingsrun het er beter uit laten zien dan het is. Door de tijd constant te houden, zorgt AutoResearch ervoor dat verbeteringen echte algoritmische winsten weerspiegelen in plaats van simpelweg \"meer rekenkracht uitgeven\"-strategieën."
+		},
+		{
+			"type": "h2",
+			"text": "Ontwerpbeslissingen die ertoe doen"
+		},
+		{
+			"type": "p",
+			"text": "Verschillende keuzes in het ontwerp van AutoResearch weerspiegelen lessen uit ML-systemen in productie die het vermelden waard zijn:"
+		},
+		{
+			"type": "ol",
+			"items": [
+				"**Eén GPU als doel.** Het systeem is ontworpen voor één H100, geen cluster. Dit maakt de setup toegankelijk en de kosten voorspelbaar. Een enkele nachtelijke run kost ongeveer wat je zou betalen voor een middelgrote cloud-instantie.",
+				"**Wijziging van één bestand.** De agent beperken tot train.py maakt diffs leesbaar en wijzigingen controleerbaar. Als er iets misgaat, of onverwacht goed gaat, kun je achterhalen waarom.",
+				"**Vaste evaluatiemetric.** val_bpb geeft de agent een ondubbelzinnig signaal. De agent hoeft de kwaliteit niet subjectief te beoordelen; er is een getal om te optimaliseren.",
+				"**Rollback bij regressie.** Mislukte experimenten stapelen zich niet op. De agent draait wijzigingen terug die dingen verslechteren, zodat de baseline alleen voorwaarts beweegt."
+			]
+		},
+		{
+			"type": "p",
+			"text": "Deze beperkingen maken het systeem begrijpelijk. Een krachtigere agent met minder beperkingen zou snellere maar moeilijker te begrijpen resultaten kunnen produceren. AutoResearch ruilt wat ruwe capaciteit in voor interpreteerbaarheid, wat belangrijk is als je daadwerkelijk wilt leren van wat de agent ontdekt."
+		},
+		{
+			"type": "h2",
+			"text": "Het bredere signaal: zichzelf verbeterende AI"
+		},
+		{
+			"type": "p",
+			"text": "Karpathy's beschrijving van wat AutoResearch vertegenwoordigt is betekenisvoller dan de tool zelf. Hij noemt het het begin van het **\"zichzelf verbeterende loop-tijdperk van AI\"**: systemen waarbij AI-agenten het onderzoek uitvoeren dat toekomstige AI-systemen beter maakt. De lus is: betere agenten voeren betere experimenten uit, vinden betere trainingstechnieken, produceren betere modellen, die betere agenten worden."
+		},
+		{
+			"type": "p",
+			"text": "Dit is niet nieuw als concept. Onderzoekers theoretiseren al decennia over recursieve zelfverbetering. Wat nieuw is, is dat de infrastructuur om dit te doen, tenminste in een beperkt domein, nu op één GPU past en in een middag opgezet kan worden. AutoResearch is niet de volledige zelfverbeteringslus. Maar het demonstreert een concreet stuk ervan: AI-gestuurde experimentele zoektocht die echte, meetbare verbeteringen oplevert in de efficiëntie van AI-training."
+		},
+		{
+			"type": "p",
+			"text": "De implicaties reiken verder dan ML-onderzoek. Elk domein met een duidelijke evaluatiemetric, een aanpasbaar artefact en een grote zoekruimte van mogelijke benaderingen is een kandidaat voor dit patroon. Softwareoptimalisatie, geneesmiddelenontdekking, materiaalwetenschap, financiële modellering. Het knelpunt in elk geval zijn de kosten van het uitvoeren van experimenten; het verlagen van die kosten verandert wat haalbaar is."
+		},
+		{
+			"type": "h2",
+			"text": "Community-uitbreidingen"
+		},
+		{
+			"type": "p",
+			"text": "Binnen dagen na de release had de community AutoResearch uitgebreid naar hardware die niet in het originele ontwerp was opgenomen:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**macOS met Apple Silicon** via MLX, waardoor het toegankelijk is zonder cloud-GPU-kosten voor gebruikers op Macs met M-chips",
+				"**Windows met RTX-GPU's** via community-forks die de trainingspipeline aanpassen aan CUDA op consumentenhardware",
+				"**AMD-GPU's** via ROCm-gebaseerde aanpassingen voor gebruikers buiten het NVIDIA-ecosysteem"
+			]
+		},
+		{
+			"type": "p",
+			"text": "De breedte van de community-aanpassing weerspiegelt oprechte interesse buiten de ML-onderzoeksgemeenschap. Ontwikkelaars die geen ML-specialisten zijn maar willen experimenteren met trainingsoptimalisatie hebben nu een toegangspad, op hardware die ze al bezitten."
+		},
+		{
+			"type": "h2",
+			"text": "Wat dit betekent voor teams die met AI werken"
+		},
+		{
+			"type": "p",
+			"text": "AutoResearch is een onderzoekstool, geen productieplatform. Maar het patroon dat het demonstreert is direct relevant voor hoe teams bredere AI-ondersteunde werkzaamheden zouden moeten beschouwen."
+		},
+		{
+			"type": "h3",
+			"text": "De menselijke rol verandert"
+		},
+		{
+			"type": "p",
+			"text": "Als de agent de experimenten uitvoert, ligt de waarde van de mens in het stellen van de juiste vragen. Een goede program.md schrijven vereist begrip van welke benaderingen de moeite waard zijn om te verkennen, welke beperkingen er toe doen en hoe succes er daadwerkelijk uitziet. Dit is werk op een hoger niveau dan code schrijven, maar het is niet makkelijker. Het vereist domeinkennis en oordeelsvermogen."
+		},
+		{
+			"type": "h3",
+			"text": "Nachtelijke rekencapaciteit is onderbenutt"
+		},
+		{
+			"type": "p",
+			"text": "De meeste teams die cloudinfrastructuur draaien hebben 's nachts inactieve GPU-capaciteit. AutoResearch maakt het argument dat deze capaciteit productief experimenteel werk zou kunnen doen in plaats van ongebruikt te blijven. De vraag voor elk team met een duidelijk optimalisatiedoel en een testbare metric is of hetzelfde patroon van toepassing is op hun probleem."
+		},
+		{
+			"type": "h3",
+			"text": "Leesbaarheid moet worden ingebouwd"
+		},
+		{
+			"type": "p",
+			"text": "De enkelvoudige bestandsbeperking in AutoResearch is niet alleen een technische beperking; het is een leesbaarheidsfeature. Als agenten alles kunnen aanraken, vereist begrijpen wat ze deden aanzienlijk reverse engineering. Systemen ontwerpen waarbij agentacties afgebakend en controleerbaar zijn, wordt steeds belangrijker naarmate de autonomie toeneemt."
+		},
+		{
+			"type": "h2",
+			"text": "Hoe te beginnen"
+		},
+		{
+			"type": "p",
+			"text": "AutoResearch is beschikbaar op [github.com/karpathy/autoresearch](https://github.com/karpathy/autoresearch). De repository bevat installatie-instructies, voorbeeldbestanden voor program.md en documentatie over het aanpassen aan verschillende trainingstaken. Als je toegang hebt tot een H100 of een door de community ondersteunde GPU, is de drempel voor het uitvoeren van je eerste nachtelijke experiment laag."
+		},
+		{
+			"type": "p",
+			"text": "De interessantere vraag is wat je zou onderzoeken. AutoResearch geeft je het mechanisme. De onderzoeksrichting komt, zoals altijd, voort uit begrip van welke problemen de moeite waard zijn om op te lossen."
+		},
+		{
+			"type": "p",
+			"text": "Bij **webvise** werken we met teams die AI integreren in hun ontwikkel- en onderzoeksworkflows. Als je nadenkt over hoe autonome agenten in jouw processen passen, [neem contact op](/#contact) en we bespreken wat er echt zinvol is voor jouw context."
+		}
+	]
+}

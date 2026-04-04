@@ -1,0 +1,192 @@
+{
+	"date": "2026-04-01",
+	"readingTime": 11,
+	"keyword": "hermes agent self-improving ai autonomous",
+	"title": "Hermes Agent: Der KI-Agent, der sich selbst verbessert und aus jeder Aufgabe lernt",
+	"excerpt": "Nous Research hat Hermes Agent im Februar 2026 veröffentlicht und er hat bereits 24.600 GitHub-Sterne. Es ist ein persistenter, serverseitiger autonomer Agent, der kontinuierlich eine eigene Skill-Bibliothek aufbaut. Was ihn unterscheidet und warum das wichtig ist.",
+	"metaDescription": "Hermes Agent von Nous Research ist ein quelloffener autonomer KI-Agent mit integriertem Lernzyklus. Er läuft dauerhaft auf einem Server, erstellt durchsuchbare Skill-Dokumente aus Erfahrungen und unterstützt 40+ Tools, 6 Ausführungsbackends und plattformübergreifendes Messaging.",
+	"tags": ["AI Agents", "AI", "Open Source", "Automation"],
+	"blocks": [
+		{
+			"type": "p",
+			"text": "Die meisten KI-Coding-Tools teilen dieselbe grundlegende Einschränkung: Sie vergessen alles, wenn die Sitzung endet. Nous Research hat Hermes Agent genau für dieses Problem entwickelt. Im Februar 2026 veröffentlicht, hat er bereits rund **24.600 GitHub-Sterne** und einen Slogan, den man wörtlich nehmen sollte: \"the agent that grows with you.\" Das ist kein Chatbot mit einem Gedächtnisschalter. Es ist ein persistenter, serverseitiger Agent mit einem geschlossenen Lernzyklus, der ihn mit zunehmendem Einsatz tatsächlich leistungsfähiger macht."
+		},
+		{
+			"type": "h2",
+			"text": "Was Hermes Agent wirklich ist"
+		},
+		{
+			"type": "p",
+			"text": "Hermes Agent ist ein kostenloser, quelloffener **autonomer KI-Agent**, entwickelt von Nous Research, dem Team hinter der Hermes-Modellfamilie. Er läuft dauerhaft auf einem Server statt in einer IDE oder einem Browser-Tab. Jede abgeschlossene Aufgabe kann zu einer wachsenden Skill-Bibliothek beitragen, auf die der Agent in zukünftigen Sitzungen zurückgreift. Das praktische Ergebnis ist ein Agent, der von Anfang an leistungsfähig ist und sich im Laufe der Zeit zunehmend an die spezifischen Arbeitsabläufe und die Umgebung des Nutzers anpasst."
+		},
+		{
+			"type": "p",
+			"text": "Das Projekt basiert auf der [Hermes-Modellfamilie](https://hermes-agent.nousresearch.com/) (Hermes-3, basierend auf Llama 3.1) und wurde mit Atropos Reinforcement Learning für hohe Tool-Calling-Genauigkeit trainiert. Zudem ist er modellunabhängig: Man kann ihn auf Nous Portal, OpenRouter (mit Zugang zu 200+ Modellen), OpenAI, Anthropic oder einen benutzerdefinierten Endpunkt ausrichten. Die Architektur ist so gestaltet, dass die zentrale Agentenlogik unabhängig vom darunter liegenden Modell funktioniert."
+		},
+		{
+			"type": "h2",
+			"text": "Die Gedächtnisarchitektur"
+		},
+		{
+			"type": "p",
+			"text": "Das Gedächtnis ist der Bereich, in dem Hermes Agent am deutlichsten von herkömmlichen Agenten abweicht. Er arbeitet auf drei verschiedenen Ebenen, und das Verständnis dieser Ebenen erklärt, warum der Anspruch auf Selbstverbesserung glaubwürdig ist und nicht nur Marketing."
+		},
+		{
+			"type": "h3",
+			"text": "Kurzfristiger Kontext"
+		},
+		{
+			"type": "p",
+			"text": "Standard-In-Context-Gedächtnis für die aktuelle Aufgabe. Nichts Ungewöhnliches, aber es fließt in das ein, was als Nächstes kommt."
+		},
+		{
+			"type": "h3",
+			"text": "Skill-Dokumente"
+		},
+		{
+			"type": "p",
+			"text": "Das ist das Herzstück des Lernzyklus. Hermes Agent erstellt **Skill-Dokumente** aus abgeschlossenen Aufgaben: durchsuchbare Markdown-Dateien, die dem [agentskills.io](https://hermes-agent.nousresearch.com/)-Standard folgen. Bei einem neuen Problem durchsucht der Agent seine Skill-Bibliothek per Volltextsuche (FTS5) und ruft relevante Verfahren aus früheren Erfahrungen ab. Skills sind dabei nicht statisch, der Agent verbessert sie während der Nutzung und motiviert sich selbst dazu, neues Wissen nach jeder Sitzung zu speichern. Es ist der einzige große quelloffene Agent mit dieser Art von prozeduralem Gedächtnis."
+		},
+		{
+			"type": "h3",
+			"text": "Nutzermodellierung über Honcho"
+		},
+		{
+			"type": "p",
+			"text": "Hermes Agent integriert Honcho für die Nutzermodellierung, was bedeutet, dass er ein Bild Ihrer Präferenzen, Ihres Arbeitsstils und Ihres Kontexts aufbaut, das sitzungsübergreifend bestehen bleibt. Kombiniert mit der FTS5-Suche über vergangene Konversationen kann er relevante Verläufe abrufen, ohne dass Sie bereits bereitgestellten Kontext erneut erklären müssen."
+		},
+		{
+			"type": "h2",
+			"text": "Der geschlossene Lernzyklus"
+		},
+		{
+			"type": "p",
+			"text": "Der Lernzyklus ist das, was Hermes Agent von Tools unterscheidet, die lediglich persistentes Gedächtnis haben. Die meisten Agenten erinnern sich an das, was man ihnen gesagt hat. Hermes Agent lernt aus dem, was er getan hat. Die Abfolge sieht so aus:"
+		},
+		{
+			"type": "ol",
+			"items": [
+				"Der Agent schließt eine Aufgabe mit verfügbaren Tools und Kontext ab",
+				"Er bewertet, was funktioniert hat und was nicht",
+				"Er erstellt oder aktualisiert ein Skill-Dokument, das das effektive Verfahren festhält",
+				"Wenn ein ähnliches Problem auftaucht, ruft er diesen Skill ab und wendet ihn an",
+				"Falls der Skill verfeinert werden muss, aktualisiert er das Dokument erneut"
+			]
+		},
+		{
+			"type": "p",
+			"text": "Nous Research bezeichnet dies als \"the only agent with a built-in learning loop\", und die Architektur bestätigt diesen Anspruch. Der Nudge-Mechanismus, bei dem der Agent sich aktiv selbst dazu veranlasst, Wissen zu persistieren, anstatt auf explizite Anweisung zu warten, ist besonders gut durchdacht. Er sorgt dafür, dass die Skill-Akkumulation automatisch erfolgt, ohne manuelle Pflege zu erfordern."
+		},
+		{
+			"type": "h2",
+			"text": "Plattformübergreifendes Messaging über ein einziges Gateway"
+		},
+		{
+			"type": "p",
+			"text": "Hermes Agent verbindet sich mit **Telegram, Discord, Slack, WhatsApp, Signal und CLI** über einen einzigen Gateway-Prozess. Es sind keine separaten Integrationen für jede Plattform erforderlich. Das Gateway leitet Nachrichten unabhängig von ihrer Herkunft an das Agenten-Runtime weiter, was bedeutet, dass derselbe persistente Agent mit derselben Skill-Bibliothek antwortet, egal ob man ihn über Slack am Schreibtisch oder Telegram am Smartphone erreicht."
+		},
+		{
+			"type": "p",
+			"text": "Das ist wichtiger als es auf den ersten Blick erscheinen mag. Die größte Adoptionsbarriere für KI-Agenten in Teams ist meist, dass der Agent irgendwo separat von den eigentlichen Arbeitsorten lebt. Ein Agent, der die Menschen in ihren bestehenden Kommunikationskanälen trifft, beseitigt diese Reibung vollständig."
+		},
+		{
+			"type": "h2",
+			"text": "Ausführungsbackends"
+		},
+		{
+			"type": "p",
+			"text": "Hermes Agent unterstützt **sechs Ausführungsbackends**, was ihm eine ungewöhnlich breite Deployment-Flexibilität für ein Open-Source-Projekt verleiht:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**Local** - läuft direkt auf Ihrem Rechner",
+				"**Docker** - containerisierte Ausführung für Isolation",
+				"**SSH** - Remote-Ausführung auf beliebigen zugänglichen Servern",
+				"**Daytona** - verwaltete Entwicklungsumgebungen",
+				"**Singularity** - HPC- und Forschungsrechencluster",
+				"**Modal** - serverlose Cloud-Ausführung"
+			]
+		},
+		{
+			"type": "p",
+			"text": "Das Singularity-Backend ist besonders hervorzuheben. Es macht Hermes Agent praktikabel für akademische und wissenschaftliche Rechenumgebungen, in denen Docker oft nicht verfügbar ist. Kombiniert mit den unten beschriebenen Forschungs-Tools positioniert dies ihn als echtes Werkzeug für Forschungsteams, nicht nur für Softwareentwickler."
+		},
+		{
+			"type": "h2",
+			"text": "40+ integrierte Tools und MCP-Integration"
+		},
+		{
+			"type": "p",
+			"text": "Von Anfang an liefert Hermes Agent mehr als **40 integrierte Tools** für Dateioperationen, Shell-Ausführung, Web-Browsing, API-Aufrufe und mehr. Er unterstützt auch das Model Context Protocol (MCP), was bedeutet, dass er mit jedem MCP-kompatiblen Tool-Server erweitert werden kann. Die natürlichsprachliche Cron-Planung ermöglicht die Definition von wiederkehrenden Aufgaben in einfachem Englisch statt in Cron-Syntax, was den Einrichtungsaufwand für nicht-technische Nutzer erheblich reduziert."
+		},
+		{
+			"type": "h2",
+			"text": "Forschungs-Tools: Batch-Trajectories und Fine-Tuning"
+		},
+		{
+			"type": "p",
+			"text": "Nous Research hat Hermes Agent mit Blick auf die eigenen Forschungsbedürfnisse entwickelt, und die Forschungs-Tools spiegeln das wider. Der Agent unterstützt **Batch-Trajectory-Generierung** für die Erfassung von Agentenverhalten in großem Maßstab, native **Atropos-RL-Integration** für Reinforcement Learning aus Agentenerfahrungen und **ShareGPT-Export** für die Umwandlung von Agenten-Konversationen in Fine-Tuning-Datensätze."
+		},
+		{
+			"type": "p",
+			"text": "Das ist ein bedeutsames Detail. Die meisten quelloffenen Agenten-Frameworks behandeln die Sammlung von Trainingsdaten als Nachgedanken. Hermes Agent macht sie zu einer erstklassigen Funktion. Wer ein Modell auf eine spezifische Domäne fine-tunen möchte, findet die Infrastruktur für die Generierung und den Export von Trainingsdaten bereits integriert."
+		},
+		{
+			"type": "h2",
+			"text": "Der Zusammenhang mit AutoResearch"
+		},
+		{
+			"type": "p",
+			"text": "Hermes Agent bewegt sich im selben konzeptionellen Bereich wie AutoResearch: Beide repräsentieren den Wandel hin zu KI-Systemen, die sich selbst verbessern, anstatt statische Tools zu bleiben. AutoResearch konzentriert sich auf autonome wissenschaftliche Untersuchungen, iteriert durch Hypothesengenerierung und experimentelle Validierung. Hermes Agent konzentriert sich auf die Akkumulation prozeduraler Skills und lernt, wie Aufgaben im Laufe der Zeit effektiver erfüllt werden können."
+		},
+		{
+			"type": "p",
+			"text": "Der gemeinsame Nenner ist, dass keines der Systeme als festes Tool konzipiert ist, das man einmal konfiguriert. Beide sind darauf ausgelegt, mit der Zeit an Wert zu gewinnen. Das ist ein grundlegend anderes Paradigma als die aktuelle Generation von KI-Assistenten, mit erheblichen Auswirkungen darauf, wie Unternehmen über den Einsatz von KI nachdenken sollten."
+		},
+		{
+			"type": "h2",
+			"text": "Was das für Unternehmen bedeutet"
+		},
+		{
+			"type": "h3",
+			"text": "Der Compounding-Value-Ansatz"
+		},
+		{
+			"type": "p",
+			"text": "Herkömmliche Softwaretools liefern an Tag eins in etwa denselben Wert wie an Tag hundert. Ein Agent mit einem Lernzyklus ist anders. Die Skill-Bibliothek, die er aus spezifischen Arbeitsabläufen, der eigenen Codebasis und internen Prozessen aufbaut, wird zu einem Wettbewerbsvorteil. Ein gut betriebener Hermes-Agent-Einsatz nach sechs Monaten wird bei bestimmten Aufgaben erheblich effektiver sein als zu Beginn, weil er domänenspezifische Verfahren angesammelt hat, die kein Standard-Tool replizieren kann."
+		},
+		{
+			"type": "h3",
+			"text": "Die Infrastrukturverpflichtung"
+		},
+		{
+			"type": "p",
+			"text": "Persistente serverseitige Agenten erfordern Infrastruktur, die sitzungsbasierte Tools nicht benötigen. Man braucht kontinuierlich laufende Rechenleistung, Speicher für Skill-Dokumente und Konversationsverläufe, Monitoring für ein autonomes System, das Code ausführt und APIs aufruft, sowie eine Sicherheitshaltung, die einem Agenten mit umfassendem Tool-Zugang angemessen ist. Das Open-Source-Modell bedeutet keine Lizenzkosten, aber der Betriebsaufwand ist real. Teams, die Hermes Agent evaluieren, sollten den erforderlichen Engineering-Aufwand für einen zuverlässigen Betrieb einkalkulieren."
+		},
+		{
+			"type": "h3",
+			"text": "Modellflexibilität als Risiko-Absicherung"
+		},
+		{
+			"type": "p",
+			"text": "Die modellunabhängige Architektur ist über den offensichtlichen Flexibilitätsvorteil hinaus ein praktischer Vorzug. KI-Modellleistung und -preise verändern sich rapide. Ein Agenten-Framework, das einen an einen einzigen Anbieter bindet, setzt einen den Preisentscheidungen und Modell-Deprecations dieses Anbieters aus. Die Unterstützung von Hermes Agent für OpenRouter, OpenAI, Anthropic und benutzerdefinierte Endpunkte bedeutet, dass das zugrundeliegende Modell gewechselt werden kann, ohne die Agentenkonfiguration neu zu erstellen oder die akkumulierte Skill-Bibliothek zu verlieren."
+		},
+		{
+			"type": "h2",
+			"text": "Erste Schritte"
+		},
+		{
+			"type": "p",
+			"text": "Das [Hermes Agent GitHub-Repository](https://github.com/NousResearch/hermes-agent) und die [offizielle Dokumentation](https://hermes-agent.nousresearch.com/) sind die richtigen Ausgangspunkte. Das Projekt ist aktiv, Nous Research iteriert schnell. Wer es für einen Produktionseinsatz evaluiert, sollte die aktuellen Release Notes prüfen, anstatt sich auf Dokumentation zu verlassen, die möglicherweise hinter den neuesten Änderungen zurückliegt."
+		},
+		{
+			"type": "p",
+			"text": "Die plattformübergreifende Messaging-Unterstützung macht einen ersten Test unkompliziert: Man verbindet ihn mit einem Slack-Kanal oder Telegram-Bot, gibt ihm eine kleine Menge wiederkehrender Aufgaben und beobachtet, wie sich die Skill-Bibliothek über zwei bis drei Wochen entwickelt. Das ist ein niedrigschwelliger Weg, den Lernzyklus-Anspruch zu validieren, ohne einen vollständigen Produktionseinsatz zu wagen."
+		},
+		{
+			"type": "p",
+			"text": "Bei **webvise** helfen wir Unternehmen, KI-Agenten-Architekturen zu evaluieren und zu implementieren, von der ersten Machbarkeitsbewertung bis zur Produktionsumsetzung. Wenn Sie selbstverbessernde Agenten wie Hermes Agent erkunden oder verstehen möchten, wie autonome KI in Ihre spezifischen Arbeitsabläufe passt, [nehmen Sie Kontakt auf](/#contact) und wir helfen Ihnen, den Ansatz zu finden, der Ihren Anforderungen und Ihrer Infrastruktur entspricht."
+		}
+	]
+}

@@ -1,0 +1,189 @@
+{
+	"date": "2026-04-02",
+	"readingTime": 10,
+	"keyword": "karpathy autoresearch ai experiments",
+	"title": "Karpathy's AutoResearch: What Happens When AI Does the Research Overnight",
+	"excerpt": "Andrej Karpathy released AutoResearch in March 2026, an open-source framework that sends AI coding agents to run machine learning experiments autonomously while you sleep. 65k GitHub stars in weeks. Here is what it actually does and why it matters.",
+	"metaDescription": "AutoResearch by Andrej Karpathy lets AI agents run ML experiments autonomously overnight on a single GPU. Learn how it works, its three-file architecture, and why it signals a new era of self-improving AI systems.",
+	"tags": ["AI Agents", "AI", "Machine Learning", "Open Source"],
+	"cta": "Get in Touch",
+	"blocks": [
+		{
+			"type": "p",
+			"text": "In March 2026, Andrej Karpathy, OpenAI co-founder and former head of AI at Tesla, released a framework called [AutoResearch](https://github.com/karpathy/autoresearch). The premise is straightforward: you describe what you want to investigate in a text file, start the system before you go to sleep, and wake up to roughly 100 completed machine learning experiments with results ranked by performance. In three weeks, it reached 65,000 GitHub stars. The speed of adoption reflects something real about what the project represents, not just what it does."
+		},
+		{
+			"type": "h2",
+			"text": "What AutoResearch Actually Does"
+		},
+		{
+			"type": "p",
+			"text": "AutoResearch deploys an AI coding agent against a single training script. The agent modifies the script, runs a five-minute training experiment, measures the result using a validation metric called val_bpb (bits per byte, a measure of language model efficiency), and then decides whether to keep the change or discard it. If the change improves the score, it becomes the new baseline. If it does not, the agent rolls back and tries something else. This loop runs continuously, producing roughly **12 experiments per hour**, or about 100 overnight."
+		},
+		{
+			"type": "p",
+			"text": "The fixed five-minute time budget per experiment is a deliberate design choice. It makes results comparable across runs, prevents the agent from spending disproportionate time on any single hypothesis, and fits within the cost profile of a single H100 GPU running overnight. The constraint forces the system to work efficiently rather than exhaustively."
+		},
+		{
+			"type": "h2",
+			"text": "The Three-File Architecture"
+		},
+		{
+			"type": "p",
+			"text": "The system is organized around three files, each with a distinct role:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**prepare.py** is fixed. It handles data preparation and never changes. This keeps the experimental substrate stable so that variations in results reflect actual model differences rather than data pipeline changes.",
+				"**train.py** is the agent's canvas. It starts as a baseline training script and gets modified, extended, and refined by the agent over hundreds of iterations. By morning, it may look substantially different from what you started with.",
+				"**program.md** is written by the human. This is where you describe your research strategy: what approaches to explore, what constraints to respect, what hypotheses to test. It is the only thing the human needs to write."
+			]
+		},
+		{
+			"type": "p",
+			"text": "The simplicity is intentional. Keeping modifications to a single file (train.py) means every change is reviewable. You can look at the diff between the morning version and the starting point and understand what the agent actually did. This is harder to achieve when agents touch many files simultaneously."
+		},
+		{
+			"type": "h2",
+			"text": "You Are Writing the Research Strategy, Not the Code"
+		},
+		{
+			"type": "p",
+			"text": "Karpathy's framing of the human role is worth quoting directly. He describes it this way: **\"You are not writing the code directly 99% of the time. You are orchestrating agents.\"** The human's job is to write program.md, which he calls the \"research org code\" - the high-level strategy that defines what the agent should pursue."
+		},
+		{
+			"type": "p",
+			"text": "This is a meaningful shift from how most people currently think about AI coding tools. The popular framing positions AI as an assistant that helps you write code faster. AutoResearch inverts this: the agent writes the code, runs the experiments, and evaluates the results. The human writes the research direction. The work product of the human is the strategy document, not the implementation."
+		},
+		{
+			"type": "p",
+			"text": "Whether this framing generalizes beyond ML research is an open question. But within the domain of iterative experimentation, where the goal is to search a large space of possible approaches and identify what works, it fits cleanly. The agent can search that space far faster than any human team."
+		},
+		{
+			"type": "h2",
+			"text": "What the Numbers Look Like"
+		},
+		{
+			"type": "p",
+			"text": "Karpathy ran AutoResearch on a personal project for two days and reported approximately **700 autonomous code changes**. Of those, about **20 resulted in additive improvements** that compounded into meaningful progress. The cumulative effect was an **11% efficiency gain** on the Time to GPT-2 leaderboard, a benchmark that measures how efficiently a model can reach GPT-2-level performance."
+		},
+		{
+			"type": "p",
+			"text": "The hit rate, roughly 3%, might sound low. But consider the alternative: a human researcher running 700 experiments manually would take months. The agent runs them overnight. The economics change completely when the cost of a failed experiment drops to five minutes of GPU time rather than days of human effort."
+		},
+		{
+			"type": "h3",
+			"text": "A Fair Comparison Mechanism"
+		},
+		{
+			"type": "p",
+			"text": "The fixed five-minute budget also solves a subtle problem in ML research: how do you fairly compare approaches that vary in computational complexity? If one technique requires twice as much compute, a longer training run would make it look better than it is. By holding time constant, AutoResearch ensures that improvements reflect genuine algorithmic gains rather than just \"spend more compute\" strategies."
+		},
+		{
+			"type": "h2",
+			"text": "Design Decisions That Matter"
+		},
+		{
+			"type": "p",
+			"text": "Several choices in AutoResearch's design reflect lessons from production ML systems that are worth noting:"
+		},
+		{
+			"type": "ol",
+			"items": [
+				"**Single GPU targeting.** The system is designed for one H100, not a cluster. This keeps the setup accessible and the costs predictable. A single overnight run costs roughly what you would pay for a mid-range cloud instance.",
+				"**Single file modification.** Restricting the agent to train.py makes diffs readable and changes auditable. When something goes wrong, or unexpectedly right, you can trace why.",
+				"**Fixed evaluation metric.** val_bpb gives the agent an unambiguous signal. The agent does not need to judge quality subjectively; it has a number to optimize.",
+				"**Rollback on regression.** Failed experiments do not accumulate. The agent reverts changes that make things worse, so the baseline only moves forward."
+			]
+		},
+		{
+			"type": "p",
+			"text": "These constraints make the system legible. A more powerful agent with fewer restrictions might produce faster results but harder-to-understand ones. AutoResearch trades some raw capability for interpretability, which matters if you want to actually learn from what the agent discovers."
+		},
+		{
+			"type": "h2",
+			"text": "The Broader Signal: Self-Improving AI"
+		},
+		{
+			"type": "p",
+			"text": "Karpathy's description of what AutoResearch represents is more significant than the tool itself. He calls it the beginning of the **\"self-improvement loopy era of AI\"**: systems where AI agents conduct the research that makes future AI systems better. The loop is: better agents run better experiments, find better training techniques, produce better models, which become better agents."
+		},
+		{
+			"type": "p",
+			"text": "This is not new as a concept. Researchers have theorized about recursive self-improvement for decades. What is new is that the infrastructure to do it, at least in a limited domain, now fits on a single GPU and can be set up in an afternoon. AutoResearch is not the full self-improvement loop. But it demonstrates one concrete piece of it: AI-driven experimental search producing real, measurable improvements in AI training efficiency."
+		},
+		{
+			"type": "p",
+			"text": "The implications extend beyond ML research. Any domain with a clear evaluation metric, a modifiable artifact, and a large search space of possible approaches is a candidate for this pattern. Software optimization, drug discovery, materials science, financial modeling. The bottleneck in each case is the cost of running experiments; reducing that cost changes what is tractable."
+		},
+		{
+			"type": "h2",
+			"text": "Community Extensions"
+		},
+		{
+			"type": "p",
+			"text": "Within days of release, the community had extended AutoResearch to hardware that was not in the original design:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**macOS with Apple Silicon** via MLX, making it accessible without cloud GPU costs for users already on M-series Macs",
+				"**Windows with RTX GPUs** via community forks that adapt the training pipeline to CUDA on consumer hardware",
+				"**AMD GPUs** via ROCm-based adaptations for users outside the NVIDIA ecosystem"
+			]
+		},
+		{
+			"type": "p",
+			"text": "The breadth of community adaptation reflects genuine interest beyond the ML research community. Developers who are not ML specialists but want to experiment with training optimization now have a path in, on hardware they already own."
+		},
+		{
+			"type": "h2",
+			"text": "What This Means for Teams Building with AI"
+		},
+		{
+			"type": "p",
+			"text": "AutoResearch is a research tool, not a production platform. But the pattern it demonstrates is directly relevant to how teams should think about AI-assisted work more broadly."
+		},
+		{
+			"type": "h3",
+			"text": "The Human Role Is Shifting"
+		},
+		{
+			"type": "p",
+			"text": "If the agent runs the experiments, the human's value is in asking the right questions. Writing a good program.md requires understanding what approaches are worth exploring, what constraints matter, and what success actually looks like. This is higher-level work than writing the code, but it is not easier. It requires domain knowledge and judgment. The shift is not from human work to no human work; it is from implementation to direction."
+		},
+		{
+			"type": "h3",
+			"text": "Overnight Compute Is Underutilized"
+		},
+		{
+			"type": "p",
+			"text": "Most teams running cloud infrastructure have idle GPU capacity overnight. AutoResearch makes the case that this capacity could be doing productive experimental work rather than sitting unused. The question for any team with a clear optimization target and a testable metric is whether the same pattern applies to their problem."
+		},
+		{
+			"type": "h3",
+			"text": "Legibility Has to Be Designed In"
+		},
+		{
+			"type": "p",
+			"text": "The single-file constraint in AutoResearch is not just a technical limitation; it is a legibility feature. When agents can touch anything, understanding what they did requires significant reverse engineering. Designing systems where agent actions are scoped and auditable is increasingly important as autonomy increases. The teams that will be able to trust and iterate on agent-produced work are those that built interpretability in from the start."
+		},
+		{
+			"type": "h2",
+			"text": "Getting Started"
+		},
+		{
+			"type": "p",
+			"text": "AutoResearch is available at [github.com/karpathy/autoresearch](https://github.com/karpathy/autoresearch). The repository includes setup instructions, example program.md files, and documentation on adapting it to different training tasks. If you have access to an H100 or a community-supported GPU, the barrier to running your first overnight experiment is low."
+		},
+		{
+			"type": "p",
+			"text": "The more interesting question is what you would investigate. AutoResearch gives you the mechanism. The research direction, as always, comes from understanding what problems are worth solving."
+		},
+		{
+			"type": "p",
+			"text": "At **webvise**, we work with teams integrating AI into their development and research workflows. If you are thinking about how autonomous agents fit into your processes, [get in touch](/#contact) and we can talk through what actually makes sense for your context."
+		}
+	]
+}
