@@ -59,6 +59,22 @@ function renderInline(text: string) {
 	return tokens.map((token) => {
 		const boldMatch = token.match(/^\*\*(.*?)\*\*$/);
 		if (boldMatch) {
+			const innerLink = boldMatch[1].match(/^\[(.*?)\]\((.*?)\)$/);
+			if (innerLink) {
+				return (
+					<strong key={token} className="font-medium text-foreground">
+						<a
+							href={innerLink[2]}
+							className="text-brand underline underline-offset-4 transition-colors hover:text-brand/80"
+							{...(innerLink[2].startsWith("http")
+								? { target: "_blank", rel: "noopener noreferrer" }
+								: {})}
+						>
+							{innerLink[1]}
+						</a>
+					</strong>
+				);
+			}
 			return (
 				<strong key={token} className="font-medium text-foreground">
 					{boldMatch[1]}
