@@ -15,6 +15,7 @@ const categories = [
 			"shadcn/ui",
 			"Motion",
 			"Stitch",
+			"tRPC",
 		],
 	},
 	{
@@ -23,7 +24,6 @@ const categories = [
 			"Node.js",
 			"Bun",
 			"Hono",
-			"tRPC",
 			"Convex",
 			"Drizzle",
 			"Redis",
@@ -37,15 +37,14 @@ const categories = [
 			"OpenAI",
 			"Anthropic",
 			"Google AI Studio",
+			"n8n",
 			"Vercel AI SDK",
 			"Mastra",
-			"Inngest",
-			"n8n",
 		],
 	},
 	{
 		key: "infrastructure",
-		items: ["Vercel", "Docker", "Turborepo", "Redis", "Sentry", "PostHog", "Greptile", "Coderabbit"],
+		items: ["Vercel", "Docker", "Turborepo", "Sentry", "PostHog", "Neon", "Greptile", "Coderabbit"],
 	},
 ];
 

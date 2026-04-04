@@ -36,6 +36,7 @@ const descriptions: Record<string, string> = {
 	Sentry: "Error monitoring and performance tracking",
 	PostHog: "Open-source product analytics and feature flags",
 	Stitch: "Google's AI-powered web development platform",
+	Neon: "Serverless Postgres with branching and autoscaling",
 	Greptile: "AI-powered codebase understanding and code review",
 	Coderabbit: "AI-driven automated code review tool",
 };
