@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Link } from "@/i18n/navigation";
 
 interface FooterCtaBannerProps {
 	headline: string;
@@ -28,7 +29,7 @@ export default function FooterCtaBanner({
 					data-ph-capture-attribute-cta-location="footer"
 					data-ph-capture-attribute-cta-variant="primary"
 					// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
-					render={<a href="/#contact" />}
+					render={<Link href={"/#contact" as "/"} />}
 				>
 					{buttonText}
 				</Button>

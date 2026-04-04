@@ -62,17 +62,27 @@ function renderInline(text: string) {
 		if (boldMatch) {
 			const innerLink = boldMatch[1].match(/^\[(.*?)\]\((.*?)\)$/);
 			if (innerLink) {
+				if (innerLink[2].startsWith("http")) {
+					return (
+						<a
+							key={token}
+							href={innerLink[2]}
+							className="font-medium text-brand underline underline-offset-4 transition-colors hover:text-brand/80"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							{innerLink[1]}
+						</a>
+					);
+				}
 				return (
-					<a
+					<Link
 						key={token}
-						href={innerLink[2]}
+						href={innerLink[2] as "/blog"}
 						className="font-medium text-brand underline underline-offset-4 transition-colors hover:text-brand/80"
-						{...(innerLink[2].startsWith("http")
-							? { target: "_blank", rel: "noopener noreferrer" }
-							: {})}
 					>
 						{innerLink[1]}
-					</a>
+					</Link>
 				);
 			}
 			return (
@@ -83,17 +93,27 @@ function renderInline(text: string) {
 		}
 		const linkMatch = token.match(/^\[(.*?)\]\((.*?)\)$/);
 		if (linkMatch) {
+			if (linkMatch[2].startsWith("http")) {
+				return (
+					<a
+						key={token}
+						href={linkMatch[2]}
+						className="text-brand underline underline-offset-4 transition-colors hover:text-brand/80"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						{linkMatch[1]}
+					</a>
+				);
+			}
 			return (
-				<a
+				<Link
 					key={token}
-					href={linkMatch[2]}
+					href={linkMatch[2] as "/blog"}
 					className="text-brand underline underline-offset-4 transition-colors hover:text-brand/80"
-					{...(linkMatch[2].startsWith("http")
-						? { target: "_blank", rel: "noopener noreferrer" }
-						: {})}
 				>
 					{linkMatch[1]}
-				</a>
+				</Link>
 			);
 		}
 		return token;
@@ -371,8 +391,8 @@ export default async function BlogPostPage({
 							</h2>
 							<div className="mt-10 grid gap-6 md:grid-cols-2">
 								{prev && (
-									<a
-										href={`/blog/${prev.slug}`}
+									<Link
+										href={`/blog/${prev.slug}` as "/blog"}
 										className="group border border-border/40 p-6 transition-colors hover:border-brand/30"
 									>
 										<span className="text-brand text-xs">
@@ -384,11 +404,11 @@ export default async function BlogPostPage({
 										<p className="mt-2 text-muted-foreground text-sm leading-relaxed line-clamp-2">
 											{prev.excerpt}
 										</p>
-									</a>
+									</Link>
 								)}
 								{next && (
-									<a
-										href={`/blog/${next.slug}`}
+									<Link
+										href={`/blog/${next.slug}` as "/blog"}
 										className="group border border-border/40 p-6 transition-colors hover:border-brand/30"
 									>
 										<span className="text-brand text-xs">
@@ -400,7 +420,7 @@ export default async function BlogPostPage({
 										<p className="mt-2 text-muted-foreground text-sm leading-relaxed line-clamp-2">
 											{next.excerpt}
 										</p>
-									</a>
+									</Link>
 								)}
 							</div>
 						</>

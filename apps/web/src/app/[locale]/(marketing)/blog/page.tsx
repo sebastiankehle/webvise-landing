@@ -87,9 +87,9 @@ export default async function BlogPage({
 
 					<div className="mt-16 grid gap-px overflow-hidden border border-border/40 md:grid-cols-3">
 						{paginatedPosts.map((post) => (
-							<a
+							<Link
 								key={post.slug}
-								href={`/blog/${post.slug}`}
+								href={`/blog/${post.slug}` as "/blog"}
 								className="group flex flex-col p-8 transition-colors hover:bg-muted/30 md:p-10"
 							>
 								<div className="flex items-center gap-3 text-muted-foreground text-xs">
@@ -114,7 +114,7 @@ export default async function BlogPage({
 								<span className="mt-8 text-brand text-sm transition-opacity group-hover:opacity-80">
 									{t("readMore")}
 								</span>
-							</a>
+							</Link>
 						))}
 					</div>
 
