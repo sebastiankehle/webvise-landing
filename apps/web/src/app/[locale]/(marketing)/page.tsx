@@ -55,17 +55,17 @@ export default function HomePage() {
 			<JsonLd data={jsonLd} />
 			<Hero />
 			<TechStack />
-			<Benefits />
-			<WpHealthCta />
 			<Metrics />
 			<Services />
-			<Process />
+			<Benefits />
 			<CaseStudiesPreview />
 			<Testimonials />
-			<BlogPreview />
+			<Process />
+			<WpHealthCta />
 			<Pricing />
-			<Contact />
 			<FAQ />
+			<BlogPreview />
+			<Contact />
 		</>
 	);
 }

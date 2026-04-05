@@ -94,8 +94,8 @@ export default function Navbar({
 	const navLinks: { hash: NavHash; label: string }[] = [
 		{ hash: "services", label: t("services") },
 		{ hash: "case-studies", label: t("caseStudies") },
-		{ hash: "blog", label: t("blog") },
 		{ hash: "pricing", label: t("pricing") },
+		{ hash: "blog", label: t("blog") },
 	];
 
 	return (

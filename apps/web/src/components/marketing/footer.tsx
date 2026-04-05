@@ -13,6 +13,7 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 
 
 	const companyLinks = [
+		{ hash: "services", label: t("links.services") },
 		{ hash: "benefits", label: t("links.benefits") },
 		{ hash: "process", label: t("links.process") },
 		{ hash: "pricing", label: t("links.pricing") },
