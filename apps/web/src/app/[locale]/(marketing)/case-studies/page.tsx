@@ -67,7 +67,7 @@ export default async function CaseStudiesPage() {
 							className="group flex flex-col justify-between border-border/40 not-last:border-b p-8 transition-all hover:bg-muted/30 md:not-nth-[3n]:border-r md:nth-[-n+3]:border-b md:not-last:border-b-0 md:p-10"
 						>
 							{cs.coverImage && (
-								<div className="relative mb-5 aspect-[8/5] w-full overflow-hidden border border-border/40">
+								<div className="relative mb-5 aspect-[2/1] w-full overflow-hidden border border-border/40">
 									<Image
 										src={cs.coverImage}
 										alt={`${cs.client} – ${cs.title}`}
