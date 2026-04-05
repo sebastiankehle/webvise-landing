@@ -4,7 +4,7 @@ import MiniChart from "@/components/marketing/mini-chart";
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import StaggerChildren from "@/components/marketing/stagger-children";
 
-const metricKeys = ["projects", "satisfaction", "launch", "support"];
+const metricKeys = ["projects", "raised", "users", "launch"];
 
 export default async function Metrics() {
 	const t = await getTranslations("metrics");
