@@ -1,0 +1,158 @@
+{
+	"date": "2026-04-07",
+	"readingTime": 8,
+	"keyword": "zakelijke kennisbank zonder RAG",
+	"title": "De meeste zakelijke kennisbanken hebben geen RAG nodig",
+	"excerpt": "Wij draaien onze interne wiki op vijf shell-commando's en een handmatig bijgehouden indexbestand, zonder vector database. Voor een kennisbank van 200 documenten is die opzet goedkoper, sneller te bouwen en nauwkeuriger dan een RAG-pipeline. Hier leest u waarom wij RAG hebben overgeslagen en wanneer u het werkelijk nodig hebt.",
+	"metaDescription": "Waarom de meeste zakelijke kennisbanken onder de 1.000 documenten geen RAG-pipeline nodig hebben. Concrete cijfers uit onze interne vault, de vijf commando's die het vervangen, en wanneer RAG toch de juiste keuze is.",
+	"tags": ["AI Agents", "AI", "Automation", "Business Strategy"],
+	"cta": "Neem contact op",
+	"blocks": [
+		{
+			"type": "p",
+			"text": "Wij draaien onze interne bedrijfswiki op vijf shell-commando's en een handmatig bijgehouden indexbestand. Geen embeddings, geen vector database, geen herindexeringstaak. Voor een kennisbank van circa 200 documenten is die opzet sneller te bouwen, goedkoper te draaien en nauwkeuriger dan een gemiddelde RAG-pipeline. De afweging wordt pas interessant ergens boven de duizend documenten, niet eerder."
+		},
+		{
+			"type": "h2",
+			"text": "Een korte noot over Karpathy en Obsidian"
+		},
+		{
+			"type": "p",
+			"text": "Twee zaken maakten deze aanpak voor ons vanzelfsprekend. De eerste is het consistente standpunt van Andrej Karpathy dat AI-agents tools moeten krijgen in plaats van opgehaalde fragmenten. Zijn [AutoResearch](https://github.com/karpathy/autoresearch)-project, uitgebracht in maart 2026, maakt dit argument letterlijk: de agent voert code uit in plaats van embeddings te bevragen, en voortgang ontstaat door executie. We bespraken AutoResearch uitgebreid in [een eerder artikel](/nl/blog/karpathy-autoresearch-ai-experiments)."
+		},
+		{
+			"type": "p",
+			"text": "De tweede is Obsidian. Een Obsidian vault is gewoon een map met gewone markdown-bestanden. Er is geen proprietary database, geen schema om te migreren, geen SDK om te leren. In combinatie met de lokale REST API-plugin van Obsidian staat de volledige kennisbank achter een normaal HTTP-endpoint dat elk proces kan lezen of schrijven. Die combinatie maakt het patroon \"geef de agent tools\" triviaal te implementeren: een handvol shell-commando's en u hebt een LLM dat een gestructureerde kennisbank direct kan lezen, schrijven en doorzoeken."
+		},
+		{
+			"type": "h2",
+			"text": "Wat wij daadwerkelijk draaien"
+		},
+		{
+			"type": "p",
+			"text": "Onze interne wiki bestaat vandaag uit 22 pagina's gestructureerde kennis: entiteiten (personen, bedrijven, projecten), concepten (frameworks en principes), bronnen (ruwe onderzoeksnotities) en synthesepagina's die alles verbinden. Elke pagina verwijst naar andere pagina's via Obsidian wikilinks, en een handmatig bijgehouden `index.md` in de root somt alles op per categorie met een beschrijving van één regel."
+		},
+		{
+			"type": "p",
+			"text": "De agent doorzoekt de vault niet met embeddings. Hij voert vijf commando's uit:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**`wiki read <path>`**. Haal een enkele markdown-pagina op.",
+				"**`wiki write <path> -`**. Maak een pagina aan of overschrijf deze vanuit stdin.",
+				"**`wiki append <path> <text>`**. Voeg een regel toe aan een pagina (gebruikt voor het lopende activiteitenlogboek).",
+				"**`wiki search <query>`**. Gebruik de ingebouwde full-text search van Obsidian.",
+				"**`wiki list <dir>`**. Toon bestanden in een map."
+			]
+		},
+		{
+			"type": "p",
+			"text": "De volledige implementatie beslaat ongeveer 80 regels bash en curl. Geen vector database, geen embedding-model, geen chunking-strategie, geen reranker, geen nachtelijke herindexeringstaak. Een nieuwe notitie toevoegen betekent het bestand schrijven. De agent pakt het op bij de volgende query, zonder tussenliggende pipeline-stap."
+		},
+		{
+			"type": "h2",
+			"text": "Het indexbestand is het ophaalsysteem"
+		},
+		{
+			"type": "p",
+			"text": "Dit is het onderdeel dat we een tijdje hebben moeten accepteren. Wanneer de agent een vraag krijgt, begint hij niet met het ophalen van iets. Hij begint met het lezen van `wiki/index.md`, een gecureerde inhoudsopgave geschreven door een mens (of door een onderhoudende agent die periodiek wordt uitgevoerd). De index somt elke pagina op met een beschrijving van één zin, gegroepeerd per categorie. Na die ene leesbeurt van circa 400 tokens weet de agent al welke één of twee pagina's relevant zijn."
+		},
+		{
+			"type": "p",
+			"text": "De volgende stap is één of twee gerichte leesacties om de relevante pagina's volledig op te halen. Elke pagina telt tussen de 200 en 800 tokens. De meeste queries eindigen met twee of drie leesacties en circa duizend tokens aan vault-inhoud in het contextvenster. Dat is minder dan wat een standaard RAG-configuratie injecteert, en de inhoud is samenhangend (volledige pagina's) in plaats van opgeknipt (fragmenten losgerukt uit hun context)."
+		},
+		{
+			"type": "p",
+			"text": "Een bijgehouden index doet het werk dat een vector database doet in een RAG-pipeline: het koppelt een query aan de juiste documenten. Het verschil is dat een mens die koppeling eenmalig heeft gecureerd, in plaats van een embedding-model dat de koppeling bij elke query benadert."
+		},
+		{
+			"type": "h2",
+			"text": "De vergelijking in tokens en kosten"
+		},
+		{
+			"type": "p",
+			"text": "Voor een kleine zakelijke kennisbank van circa 200 documenten ziet u hier wat een standaard RAG-opzet kost tegenover het index-gestuurde bestandstoegangspatroon. De tokenaantallen zijn gebaseerd op wat wij in onze eigen vault waarnemen. De infrastructuurcijfers zijn ontleend aan publieke prijslijsten van de meest gebruikte beheerde services."
+		},
+		{
+			"type": "table",
+			"headers": ["Onderdeel", "RAG-pipeline", "Index + tools"],
+			"rows": [
+				["Tokens per query", "~3.000 (5 tot 10 fragmenten)", "~1.000 (1 indexlezing + 1 tot 2 pagina's)"],
+				["Vector database (per maand)", "$25 tot $80 (Pinecone, Weaviate, Qdrant Cloud)", "$0"],
+				["Embedding API (initieel + updates)", "$10 tot $40", "$0"],
+				["Herindexering bij documentwijziging", "Vereist, batchproces", "Niet nodig, direct beschikbaar"],
+				["Opzettijd", "Dagen (chunking, ophalen, evaluatie)", "Uren (schrijf een kleine CLI-wrapper)"],
+				["Antwoordnauwkeurigheid op kleine corpora", "Variabel, gevoelig voor fragmentgrenzen", "Hoog, volledige pagina's bewaard"]
+			]
+		},
+		{
+			"type": "p",
+			"text": "Een besparing van circa 30 tot 60 procent per query op tokens is reëel, maar dat is niet het hoofdpunt. Het hoofdpunt is alles in de tweede kolom dat verdwijnt. Geen vector database-regel op de maandelijkse factuur. Geen embedding-model om te onderhouden. Geen debugsessie van het type \"we hebben onze chunking-strategie gewijzigd en de antwoorden zijn verschoven\". Voor een kennisbank die comfortabel in het hoofd van één persoon past, is elk van die bewegende onderdelen overhead zonder bijbehorend voordeel."
+		},
+		{
+			"type": "h2",
+			"text": "Wat u niet meer hoeft na te denken"
+		},
+		{
+			"type": "p",
+			"text": "De scherpste manier om voor dit patroon te pleiten is het opsommen van de beslissingen die wegvallen:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**Chunking-strategie.** Geen discussie over \"moeten we opsplitsen per alinea, per zin of per aantal tokens?\". De pagina is de eenheid.",
+				"**Keuze van het embedding-model.** Geen onderzoeksproject waarbij text-embedding-3-small wordt vergeleken met fijngestemde alternatieven.",
+				"**Beheer van de vector database.** Geen beheerde service om te monitoren, te upgraden of voor te begroten.",
+				"**Herindexeringspipelines.** Geen nachtelijke batchtaak, geen Slack-berichten over een verouderde index.",
+				"**Evaluatiesuite voor ophalen.** Geen precision-and-recall-testsuite die naast de kennisbank draait.",
+				"**Afstemming van hybrid search.** Geen BM25-plus-vector-plus-rerank-pipeline om in balans te houden."
+			]
+		},
+		{
+			"type": "p",
+			"text": "Dat is grofweg het volledige RAG-operationshandboek, verwijderd. Wat ervoor in de plaats komt, is één shellscript en de discipline om een indexbestand accuraat te houden. Die discipline is reëel, maar het is dezelfde discipline die een wiki in de eerste plaats waardevol maakt voor mensen."
+		},
+		{
+			"type": "h2",
+			"text": "Wanneer RAG toch de juiste keuze is"
+		},
+		{
+			"type": "p",
+			"text": "Dit patroon heeft duidelijke grenzen. Een bijgehouden index werkt niet meer ergens rond de duizend documenten, wanneer een mens de structuur niet langer in zijn hoofd kan houden en het indexbestand te lang wordt voor de agent om bij elke query efficiënt te scannen. Boven die schaal verdienen embeddings en een echte ophaallaag hun plaats."
+		},
+		{
+			"type": "p",
+			"text": "Andere gevallen waarin RAG het juiste instrument blijft:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**Multimodale corpora.** PDF's met tabellen, gescande documenten, audiotranscripties, beeldrijke rapporten. Een markdown-vault veronderstelt dat alles teruggebracht kan worden tot tekst.",
+				"**Hoogfrequente updates op schaal.** Als u duizenden publieke documenten indexeert die elke minuut wijzigen en direct doorzoekbaar moeten zijn.",
+				"**Strikte metadatafiltering bij ophalen.** Wanneer queries gestructureerde filters vereisen (datumbereiken, auteur, documenttype) die ingebakken zijn in de ophaalstap, is een vector database met metadata de schonere oplossing.",
+				"**Onbetrouwbare of adversariale inhoud.** Wanneer het corpus afkomstig is van veel schrijvers met conflicterende agenda's en geen enkele mens vertrouwd kan worden om een gecureerde index bij te houden."
+			]
+		},
+		{
+			"type": "p",
+			"text": "Voor de meeste interne zakelijke kennisbanken (bedrijfswiki's, productdocumentatie, verkoophandboeken, onboardinggidsen, interne SOPs) gelden geen van die voorwaarden. Het corpus is klein, het aantal schrijvers is beperkt, de structuur is stabiel, en de mensen die de documentatie onderhouden zijn degenen die het meest belang hebben bij correctheid. RAG is de verkeerde standaard."
+		},
+		{
+			"type": "h2",
+			"text": "Wat dit betekent voor de meeste bedrijven"
+		},
+		{
+			"type": "p",
+			"text": "Als u een klein of middelgroot bedrijf bent dat naar uw bestaande documentatie kijkt en zich afvraagt hoe u die doorzoekbaar kunt maken voor AI, is het eerlijke antwoord meestal dat u geen vector database nodig hebt. U hebt een indexbestand nodig, een kort script dat uw documenten leest en schrijft, en een LLM met toegang tot tools. De onderdelen zijn allemaal beschikbaar. Het werk zit in het accuraat houden van de index."
+		},
+		{
+			"type": "p",
+			"text": "De bedrijven die RAG-as-a-service verkopen hebben het niet mis over de technologie. Ze hebben het mis over de standaard. RAG is het juiste instrument voor problemen op een schaal die de meeste bedrijven niet hebben, bij inhoudstypen die de meeste bedrijven niet opslaan. Er als eerste naar grijpen is hoe interne AI-projecten eindigen met een roadmap van zes maanden en een terugkerende infrastructuurfactuur voordat ze hun eerste echte vraag beantwoorden."
+		},
+		{
+			"type": "p",
+			"text": "Bij **[webvise](/nl/#contact)** bouwen we interne AI-tools op dit soort pragmatische basis: gestructureerde kennis, eenvoudige tools, agents die direct lezen en schrijven. Als u naar een RAG-project kijkt voor de documentatie van uw team en een tweede mening wilt over of de complexiteit gerechtvaardigd is, [neem dan contact op](/nl/#contact) en we bespreken uw concrete corpus voordat u zich vastlegt op de infrastructuur."
+		}
+	]
+}
