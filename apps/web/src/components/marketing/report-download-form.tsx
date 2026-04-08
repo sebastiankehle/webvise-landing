@@ -1,23 +1,31 @@
 "use client";
 
-import { useState } from "react";
+import { useForm } from "@tanstack/react-form";
+import { Check, Mail } from "lucide-react";
 import { useLocale } from "next-intl";
-import { Mail, ArrowRight, Check, Loader2 } from "lucide-react";
+import { useState } from "react";
+import z from "zod";
+
+import { FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { SubmitButton } from "@/components/ui/submit-button";
 
 const LABELS = {
 	en: {
+		emailLabel: "Email",
 		placeholder: "Your email address",
 		button: "Get the Report",
-		sending: "Sending...",
 		success: "Check your inbox!",
 		error: "Something went wrong. Please try again.",
+		emailInvalid: "Please enter a valid email address.",
 	},
 	de: {
+		emailLabel: "E-Mail",
 		placeholder: "Ihre E-Mail-Adresse",
 		button: "Report anfordern",
-		sending: "Wird gesendet...",
 		success: "Prüfen Sie Ihr Postfach!",
 		error: "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.",
+		emailInvalid: "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
 	},
 } as const;
 
@@ -31,27 +39,42 @@ export default function ReportDownloadForm({
 	description: string;
 }) {
 	const locale = useLocale();
-	const l = locale in LABELS ? LABELS[locale as keyof typeof LABELS] : LABELS.en;
-	const [email, setEmail] = useState("");
-	const [state, setState] = useState<"idle" | "loading" | "success" | "error">("idle");
+	const l =
+		locale in LABELS ? LABELS[locale as keyof typeof LABELS] : LABELS.en;
+	const [submitStatus, setSubmitStatus] = useState<
+		"idle" | "success" | "error"
+	>("idle");
 
-	async function handleSubmit(e: React.FormEvent) {
-		e.preventDefault();
-		if (!email || state === "loading") return;
-
-		setState("loading");
-		try {
-			const res = await fetch("/api/report-download", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ email, reportId, locale }),
-			});
-			if (!res.ok) throw new Error();
-			setState("success");
-		} catch {
-			setState("error");
-		}
-	}
+	const form = useForm({
+		defaultValues: { email: "" },
+		validators: {
+			onSubmit: z.object({
+				email: z.email(l.emailInvalid),
+			}),
+		},
+		onSubmit: async ({ value }) => {
+			setSubmitStatus("idle");
+			try {
+				const res = await fetch("/api/report-download", {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({
+						email: value.email.trim(),
+						reportId,
+						locale,
+					}),
+				});
+				if (res.ok) {
+					setSubmitStatus("success");
+					form.reset();
+				} else {
+					setSubmitStatus("error");
+				}
+			} catch {
+				setSubmitStatus("error");
+			}
+		},
+	});
 
 	return (
 		<div className="my-10 border border-brand/20 bg-brand/[0.03]">
@@ -61,54 +84,74 @@ export default function ReportDownloadForm({
 						<Mail className="h-5 w-5 text-brand" strokeWidth={1.5} />
 					</div>
 					<div className="min-w-0">
-						<h3 className="text-base font-medium tracking-tight">{title}</h3>
-						<p className="mt-1 text-sm text-muted-foreground leading-relaxed">
+						<h3 className="font-medium text-base tracking-tight">{title}</h3>
+						<p className="mt-1 text-muted-foreground text-sm leading-relaxed">
 							{description}
 						</p>
 					</div>
 				</div>
 
-				{state === "success" ? (
+				{submitStatus === "success" ? (
 					<div className="mt-6 flex items-center gap-3 border border-brand/20 bg-brand/5 p-4">
 						<Check className="h-4 w-4 shrink-0 text-brand" strokeWidth={2} />
-						<span className="text-sm font-medium">{l.success}</span>
+						<span className="font-medium text-sm">{l.success}</span>
 					</div>
 				) : (
-					<form onSubmit={handleSubmit} className="mt-6 flex gap-3">
-						<input
-							type="email"
-							required
-							value={email}
-							onChange={(e) => {
-								setEmail(e.target.value);
-								if (state === "error") setState("idle");
-							}}
-							placeholder={l.placeholder}
-							className="h-10 flex-1 border border-border bg-background px-3 text-sm outline-none transition-colors placeholder:text-muted-foreground focus:border-brand focus:ring-1 focus:ring-brand/50"
-						/>
-						<button
-							type="submit"
-							disabled={state === "loading"}
-							className="inline-flex h-10 items-center gap-2 border border-transparent bg-brand px-5 text-sm font-medium text-white transition-colors hover:bg-brand/80 disabled:opacity-50"
-						>
-							{state === "loading" ? (
-								<>
-									<Loader2 className="h-3.5 w-3.5 animate-spin" />
-									{l.sending}
-								</>
-							) : (
-								<>
-									{l.button}
-									<ArrowRight className="h-3.5 w-3.5" />
-								</>
+					<form
+						onSubmit={(e) => {
+							e.preventDefault();
+							e.stopPropagation();
+							form.handleSubmit();
+						}}
+						className="mt-6 flex flex-col gap-3 sm:flex-row"
+						noValidate
+					>
+						<form.Field name="email">
+							{(field) => (
+								<FormItem className="flex-1">
+									<FormLabel htmlFor={field.name} className="sr-only">
+										{l.emailLabel}
+									</FormLabel>
+									<Input
+										id={field.name}
+										name={field.name}
+										type="email"
+										value={field.state.value}
+										onBlur={field.handleBlur}
+										onChange={(e) => {
+											field.handleChange(e.target.value);
+											if (submitStatus === "error") setSubmitStatus("idle");
+										}}
+										placeholder={l.placeholder}
+										autoComplete="email"
+										aria-invalid={field.state.meta.errors.length > 0}
+										className="h-10 text-base md:text-sm"
+									/>
+									<FormMessage errors={field.state.meta.errors} />
+								</FormItem>
 							)}
-						</button>
+						</form.Field>
+						<form.Subscribe
+							selector={(state) => [state.canSubmit, state.isSubmitting]}
+						>
+							{([canSubmit, isSubmitting]) => (
+								<SubmitButton
+									isSubmitting={isSubmitting}
+									disabled={!canSubmit}
+									className="h-10 border-transparent bg-brand text-white [&]:hover:bg-brand/80"
+								>
+									{l.button}
+								</SubmitButton>
+							)}
+						</form.Subscribe>
 					</form>
 				)}
 
-				{state === "error" && (
-					<p className="mt-3 text-sm text-destructive">{l.error}</p>
-				)}
+				<output aria-live="polite" aria-atomic="true">
+					{submitStatus === "error" && (
+						<p className="mt-3 text-destructive text-sm">{l.error}</p>
+					)}
+				</output>
 			</div>
 		</div>
 	);

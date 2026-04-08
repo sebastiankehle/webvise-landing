@@ -3,13 +3,12 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import z from "zod";
 
+import Loader from "@/components/loader";
+import { Button } from "@/components/ui/button";
+import { FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { SubmitButton } from "@/components/ui/submit-button";
 import { authClient } from "@/lib/auth-client";
-
-import Loader from "./loader";
-import { Button } from "./ui/button";
-import { FormItem, FormLabel, FormMessage } from "./ui/form";
-import { Input } from "./ui/input";
-import { SubmitButton } from "./ui/submit-button";
 
 export default function SignUpForm({
 	onSwitchToSignIn,

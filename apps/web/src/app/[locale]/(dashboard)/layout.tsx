@@ -1,7 +1,7 @@
 "use client";
 
-import DashboardProviders from "@/components/dashboard-providers";
-import Header from "@/components/header";
+import DashboardProviders from "@/components/dashboard/dashboard-providers";
+import Header from "@/components/dashboard/header";
 
 export default function DashboardLayout({
 	children,
