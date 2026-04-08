@@ -48,8 +48,8 @@ function renderCustomIcon(icon: SimpleIcon) {
 		icon: effectiveIcon,
 		size: 42,
 		aProps: {
-			href: undefined,
-			target: undefined,
+			href: "/",
+			target: "_self",
 			rel: undefined,
 			onClick: (e: ReactMouseEvent<HTMLAnchorElement>) => e.preventDefault(),
 			style: {
@@ -67,7 +67,7 @@ const iconSlugs = [
 	"nextdotjs",
 	"tailwindcss",
 	"vercel",
-	"nodejs",
+	"nodedotjs",
 	"docker",
 	"github",
 	"linear",
@@ -79,13 +79,11 @@ const iconSlugs = [
 	"redis",
 	"trpc",
 	"postgresql",
-	"inngest",
 	"hono",
-	"convex",
 	"pnpm",
 	"openai",
 	"claude",
-	"gemini",
+	"googlegemini",
 ];
 
 type IconData = Awaited<ReturnType<typeof fetchSimpleIcons>>;
