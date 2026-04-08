@@ -1,0 +1,153 @@
+{
+	"date": "2026-04-08",
+	"readingTime": 9,
+	"keyword": "business ai agent security",
+	"title": "Warum wir keine AI Agents ausliefern, die das offene Web lesen",
+	"excerpt": "Am 5. April 2026 veröffentlichte Google DeepMind die bisher größte empirische Studie zur Manipulation von AI Agents. 502 Teilnehmer, 8 Länder, 23 Angriffstypen, jede derzeit verfügbare Schutzmaßnahme als unzureichend bewertet. Hier ist die technische Position, die Webvise am nächsten Morgen eingenommen hat.",
+	"metaDescription": "Googles DeepMind-Studie vom April 2026 dokumentierte 23 Wege, einen Business-AI-Agent zu kapern. Die Regel bei Webvise: Agents, die von Angreifern kontrollierte Inhalte lesen, werden nicht an Kunden ausgeliefert.",
+	"tags": ["AI Agents", "AI", "Security", "B2B"],
+	"cta": "Mit Webvise über AI sprechen",
+	"blocks": [
+		{
+			"type": "p",
+			"text": "Am 5. April 2026 veröffentlichte Google DeepMind die bisher größte empirische Studie zur Manipulation von AI Agents: 502 echte Teilnehmer aus 8 Ländern, 23 verschiedene Angriffstypen, Frontier-Modelle darunter GPT-4o, Claude, und Gemini. Der einzige Satz, den wir daraus gezogen und am nächsten Morgen in unserem Engineering-Channel angepinnt haben, ist der einzige, der für jeden zählt, der 2026 einen Business-Chatbot ausliefert: **Wenn Ihr AI Agent von Angreifern kontrollierten Text liest und dann Aktionen mit Nutzerrechten ausführt, haben Sie bereits eine Datenleck-Sicherheitslücke ausgeliefert.** Das ist der Grund, weshalb webvise für keinen Kunden zu keinem Preis einen AI Agent baut, der das offene Web durchsucht."
+		},
+		{
+			"type": "h2",
+			"text": "Was DeepMind tatsächlich gemessen hat"
+		},
+		{
+			"type": "p",
+			"text": "Der Großteil der Presseberichterstattung zur Studie zitierte die Schlagzahl von 23 Angriffstypen und ließ es dabei. Die Zahlen darunter sind das, was für jeden zählt, der ein AI-Feature in der Produktion betreibt:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**502 Teilnehmer** unter realen Bedingungen, keine simulierten Labortests",
+				"**8 Länder**, sodass die Angriffe nicht auf einen kulturellen oder sprachlichen Kontext optimiert waren",
+				"**23 Angriffstypen in 10 Kategorien**, darunter direkte Prompt-Injection, indirekte Injection über Web-Inhalte, multimodale Pixel-Injection, Dokument-Injection, Umgebungsmanipulation, Jailbreak-Einbettung, Memory-Poisoning, Goal Hijacking, Exfiltration und Cross-Agent-Injection",
+				"**Alle vier Klassen von Schutzmaßnahmen** (Input-Sanitization, Prompt-Level-Guards, Sandboxing, menschliche Aufsicht) wurden als unzureichend für den Produktivbetrieb eingestuft"
+			]
+		},
+		{
+			"type": "p",
+			"text": "Die Kategorie, auf die wir immer wieder zurückkommen, ist die achte: *Goal Hijacking durch schleichende Instruktionsdrift über mehrere Interaktionen hinweg.* Jede Demo eines Agent-Systems, die Sie je gesehen haben, übersteht einen einzelnen adversarialen Prompt. Keine übersteht hundert sorgfältig verteilte."
+		},
+		{
+			"type": "h2",
+			"text": "Der Kaskadeneffekt, den die meisten Berichte übersehen haben"
+		},
+		{
+			"type": "p",
+			"text": "In der Studie findet sich der Befund, der darüber entscheidet, ob Multi-Agent-Produkte überhaupt sicher ausgeliefert werden können. In jeder Pipeline, in der Agent A Inhalte abruft, Agent B sie verarbeitet und Agent C eine Aktion ausführt, **propagiert eine einzelne Injection in den Datenfeed von Agent A durch jeden nachgelagerten Agent.** Agent B vertraut dem Output von A. Agent C vertraut dem Output von B. Der Angreifer musste das Modell nicht kompromittieren. Er musste nur einmal die Daten kompromittieren, die das Modell konsumiert hat."
+		},
+		{
+			"type": "p",
+			"text": "Wir betreiben intern ein Multi-Agent-System namens **Hermes**, einen NousResearch-Agent auf Telegram, der 14 Cron-Jobs für tägliche Nachrichten, medizinische Leitlinienzusammenfassungen und persönliche Logistik steuert. Jeder einzelne dieser 14 Jobs liest aus einer Quelle, der wir explizit vertrauen und die wir von Hand kuratiert haben. Keiner folgt Links. Keiner führt externe Anweisungen aus. Nachdem das DeepMind-Paper erschien, haben wir jeden Cron auditiert, und die Regel hat gehalten. Sie hat gehalten, weil wir sie vor zwei Jahren schriftlich festgelegt und nie gelockert haben. Die meisten Produktiv-Agent-Stacks, die wir in Kundenbriefings sehen, haben diese Regel nicht, und die Entwickler, die sie bauen, wurden nie gebeten, sie aufzuschreiben."
+		},
+		{
+			"type": "h2",
+			"text": "Wie \"das offene Web lesen\" in einem Kundenbriefing aussieht"
+		},
+		{
+			"type": "p",
+			"text": "Wir sehen jeden Monat drei Varianten derselben Anfrage:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**\"Der Chatbot soll Fragen beantworten, indem er die Website meines Wettbewerbers durchsucht.\"** Übersetzung: Bitte geben Sie einem Angreifer, der einen Konkurrenten-Blogpost kontrolliert, einen schreibbaren Kanal in die Session unseres Kunden.",
+				"**\"Nutzer sollen beliebige URLs einfügen können, damit der Agent sie zusammenfasst.\"** Übersetzung: Bitte erlauben Sie jedem Nutzer, irgendwo, eine URL einzufügen, deren HTML versteckte Anweisungen enthält, die die nächsten zehn Gesprächsnachrichten exfiltrieren.",
+				"**\"RAG über die externe Dokumentation eines Lieferanten hinzufügen, die wir nicht selbst hosten.\"** Übersetzung: Bitte übergeben Sie die Tool-Calling-Berechtigungen unseres Agents an den Marketing-Praktikanten beim Lieferanten, der als nächstes eine Dokumentationsseite bearbeitet."
+			]
+		},
+		{
+			"type": "p",
+			"text": "Jede dieser Anfragen verdrahtet einen von Angreifern kontrollierten Textkanal direkt mit einem System, das Nutzerdaten, Tool-Calls und ausgehende Netzwerkzugriffe auf derselben Seite der Vertrauensgrenze hat. Keine davon ist böswillig auf Seiten des Kunden. Jede ist eine vertretbare Produktidee. Sie sind alle nach dem 5. April 2026 nicht mehr auslieferbar."
+		},
+		{
+			"type": "h2",
+			"text": "Jede derzeit verfügbare Schutzmaßnahme versagt"
+		},
+		{
+			"type": "p",
+			"text": "DeepMind hat alle vier naheliegenden Schutzmaßnahmen-Familien getestet. Hier ist ihre Bewertung, mit unserer Einschätzung zu jeder einzelnen:"
+		},
+		{
+			"type": "table",
+			"headers": ["Schutzmaßnahme", "DeepMind-Urteil", "Warum sie in der Praxis versagt"],
+			"rows": [
+				[
+					"Input-Sanitization",
+					"Unzureichend",
+					"Sie können Bildpixel, Dokument-Metadaten oder Sprechernotizen in einem PDF zur Inferenzzeit nicht bereinigen. Die Angriffsfläche ist Text und jede andere Modalität, die der Agent aufnimmt."
+				],
+				[
+					"Prompt-Level-Guards",
+					"Unzureichend",
+					"Injizierter Inhalt ist darauf ausgelegt, wie ein legitimer Teil der Seite auszusehen. Wenn das Modell ihn zu sehen bekommt, hat der Guard ihm bereits vertraut."
+				],
+				[
+					"Sandboxing",
+					"Reduziert den Schadensradius, verhindert die Injection nicht",
+					"Sandboxing hilft, wenn das Ergebnis des Angriffs eingedämmt ist. Es hilft nicht, wenn das Ziel des Angriffs darin besteht, Nutzerdaten zu lesen und sie über einen legal wirkenden API-Aufruf zurückzuschreiben."
+				],
+				[
+					"Menschliche Aufsicht",
+					"Unzureichend bei Skalierung",
+					"Ein Betreiber, der einen Agent über 50 Quellen hinweg betreibt, kann nicht jede Seite auf versteckte Anweisungen prüfen. Der ganze Zweck des Agents war, dass der Mensch aus der Schleife herausgetreten ist."
+				]
+			]
+		},
+		{
+			"type": "p",
+			"text": "Wer die Tabelle ernst nimmt, findet keinen verantwortungsvollen Weg, einen Agent auszuliefern, der von Angreifern kontrollierten Text liest und gleichzeitig Aktionen mit Nutzerrechten ausführt. Der einzig verfügbare Schritt besteht darin, eine dieser beiden Eigenschaften zu entfernen."
+		},
+		{
+			"type": "h2",
+			"text": "Was wir stattdessen ausliefern"
+		},
+		{
+			"type": "p",
+			"text": "Webvise hat AI-Features in die Kundenproduktion gebracht, darunter die [MP Bau](https://mpbau.vercel.app)-Baulanding-Page, die ihre Modellaufrufe über das **Vercel AI Gateway** für Provider-Routing und Observability leitet. Die fünf Regeln unten sind das, was diesen Build vertretbar gemacht hat, und sie sind jetzt harte Voraussetzungen für jede AI-Arbeit, die wir annehmen:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**Nur Closed-Input-Agents.** Der Agent liest aus einer endlichen, von Hand kuratierten Menge von Quellen, die wir kontrollieren. Kein offenes Web. Keine vom Nutzer eingefügten URLs. Kein externes RAG über unkontrollierte Dokumentation.",
+				"**Standardmäßig nur lesend.** Wenn der Agent etwas lesen muss, dem wir nicht vollständig vertrauen, darf er in derselben Session keine Tools aufrufen, keine E-Mails versenden, nicht in eine Datenbank schreiben oder ausgehende Netzwerkanfragen erzeugen. Sie bekommen eines von beidem, niemals beides gleichzeitig.",
+				"**Cross-Agent-Isolation.** Wenn der Output von Agent A in Agent B fließt, behandelt B den Output von A als Nutzereingabe, nicht als Systeminstruktion. Das ist eine Zeile Code im Prompt und die einzige Verteidigung gegen den Kaskadeneffekt.",
+				"**Capability-Budgets pro Agent.** Jeder Agent hat eine feste Liste von Tools und ein Token-Limit. Das Limit ist klein genug, dass selbst eine erfolgreiche Injection nicht mehr als eine kurze Nachricht exfiltrieren kann.",
+				"**Provider-Isolation durch ein Gateway.** Wir leiten jeden Modellaufruf durch das Vercel AI Gateway, damit wir Provider tauschen, jeden Prompt und jede Antwort protokollieren und einen Key in Sekunden widerrufen können. Wenn etwas in den Logs auffällt, können wir die Situation in derselben Minute stoppen, in der wir es bemerken."
+			]
+		},
+		{
+			"type": "p",
+			"text": "Das ist nichts Exotisches. Es kostet einige Stunden Designarbeit, bevor eine Zeile Code geschrieben wird. Der Grund, weshalb die meisten Agent-Produkte 2026 das nicht haben, ist, dass niemand im Team dafür bezahlt wurde, die Vertrauensgrenze zu zeichnen."
+		},
+		{
+			"type": "h2",
+			"text": "Das ist eine Verkaufsposition, keine Bescheidenheitsgeste"
+		},
+		{
+			"type": "p",
+			"text": "Es wäre leicht, diesen Artikel als eine Agentur zu lesen, die sagt: *Wir sind zu vorsichtig, um Ihr Geld anzunehmen.* Das Gegenteil ist wahr. Das DeepMind-Paper gibt jedem Team, das vor dem Agent-Boom technische Glaubwürdigkeit aufgebaut hat, einen unfairen Vorteil: Wir können zu bestimmten Feature-Anfragen *Nein* sagen, schriftlich, mit Quellenangabe, und der Kunde bedankt sich dafür. Die Agenturen, die kein Nein sagen, werden Ende 2026 in den Nachrichten sein, wenn dem ersten Datenleck eines Business-Chatbots ein Name gegeben wird."
+		},
+		{
+			"type": "p",
+			"text": "Dieselbe Chance, die gerade jetzt im Content-Marketing besteht, besteht auch im Agent-Engineering. Der Markt wird in Kürze mit kaperbaren Chatbots überschwemmt, genauso wie er gerade mit LLM-generiertem SEO-Slop überschwemmt wird. Die Prämie geht an die Teams, die im Voraus beweisen können, dass ihres keines davon ist."
+		},
+		{
+			"type": "h2",
+			"text": "Wo wir die Grenze ziehen"
+		},
+		{
+			"type": "p",
+			"text": "Die kürzeste Version der Regel, die wir jetzt in jeden Projekt-Kickoff-Doc schreiben, lautet: Ein Agent kann nicht vertrauenswürdige Inhalte lesen, oder er kann mit Nutzerrechten handeln, aber nicht in derselben Session. Alles andere ergibt sich daraus. Wenn eine Feature-Anfrage die Grenze überschreitet, wird sie nicht gebaut. Wenn sie so umgestaltet werden kann, dass sie auf einer Seite bleibt, gestalten wir sie gemeinsam mit dem Kunden um und liefern die umgestaltete Version aus. Das DeepMind-Paper hat diese Disziplin nicht erfunden. Es hat nur jede Ausrede beseitigt, sie nicht zu haben."
+		},
+		{
+			"type": "p",
+			"text": "Bei **webvise** bauen wir AI-Features für Unternehmen, bei denen die Kosten einer einzigen geleakten Kundennachricht höher sind als die Kosten, eine Feature-Anfrage abzulehnen. Wenn das auf Ihr Projekt zutrifft, [nehmen Sie Kontakt auf](/#contact) und wir zeichnen die Vertrauensgrenze gemeinsam, bevor eine Zeile Code geschrieben wird."
+		}
+	]
+}

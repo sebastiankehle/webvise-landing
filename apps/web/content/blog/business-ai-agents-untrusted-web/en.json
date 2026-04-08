@@ -1,0 +1,153 @@
+{
+	"date": "2026-04-08",
+	"readingTime": 9,
+	"keyword": "business ai agent security",
+	"title": "Why We Won't Ship AI Agents That Read the Open Web",
+	"excerpt": "On April 5, 2026, Google DeepMind published the largest empirical study of AI agent manipulation ever conducted. 502 participants, 8 countries, 23 attack types, every defense currently on offer rated insufficient. Here is the engineering position Webvise took the next morning.",
+	"metaDescription": "Google DeepMind's April 2026 study measured 23 ways to hijack a business AI agent. Webvise's rule: agents that read attacker-controlled content do not ship to clients.",
+	"tags": ["AI Agents", "AI", "Security", "B2B"],
+	"cta": "Talk to Webvise About AI",
+	"blocks": [
+		{
+			"type": "p",
+			"text": "On April 5, 2026, Google DeepMind published the largest empirical study of AI agent manipulation ever run: 502 real participants across 8 countries, 23 distinct attack types, frontier models including GPT-4o, Claude, and Gemini. The single sentence we took from it and pinned in our engineering channel the next morning is the only one that matters for anyone shipping a business chatbot in 2026: **if your AI agent reads attacker-controlled text and then performs any action with user privileges, you have already shipped a data exfiltration vulnerability.** This is the reason webvise will not build, for any client at any price, an AI agent that browses the open web."
+		},
+		{
+			"type": "h2",
+			"text": "What DeepMind Actually Measured"
+		},
+		{
+			"type": "p",
+			"text": "Most of the press coverage of the study reported the headline number, 23 attack types, and moved on. The numbers underneath are what matter for anyone running an AI feature in production:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**502 participants** in real conditions, not simulated lab runs",
+				"**8 countries**, so the attacks were not optimized for one cultural or linguistic context",
+				"**23 attack types across 10 categories**, including direct prompt injection, indirect injection via web content, multimodal pixel injection, document injection, environment manipulation, jailbreak embedding, memory poisoning, goal hijacking, exfiltration, and cross-agent injection",
+				"**All four classes of defense** (input sanitization, prompt-level guards, sandboxing, human oversight) rated insufficient at scale"
+			]
+		},
+		{
+			"type": "p",
+			"text": "The category we keep coming back to is the eighth one, *goal hijacking through gradual instruction drift across interactions.* Every demo of an agent system you have ever seen survives a single adversarial prompt. None of them survive a hundred carefully spaced ones."
+		},
+		{
+			"type": "h2",
+			"text": "The Cascade Insight Most Coverage Missed"
+		},
+		{
+			"type": "p",
+			"text": "Buried in the study is the finding that decides whether multi-agent products are safe to ship at all. In any pipeline where agent A retrieves content, agent B processes it, and agent C executes an action, **a single injection into agent A's data feed propagates through every downstream agent.** Agent B trusts A's output. Agent C trusts B's output. The attacker did not need to compromise the model. They only needed to compromise the data the model consumed, once."
+		},
+		{
+			"type": "p",
+			"text": "We run an internal multi-agent system called **Hermes**, a NousResearch agent on Telegram that drives 14 cron jobs across daily news, medical guideline summaries, and personal logistics. Every single one of those 14 jobs reads from a source we explicitly trust and curated by hand. None of them follow links. None of them execute external instructions. After the DeepMind paper landed we audited every cron and the rule held. It held because we wrote it down two years ago and refused to relax it. Most production agent stacks we see in client briefs do not have this rule, and the engineers building them have never been asked to write it down."
+		},
+		{
+			"type": "h2",
+			"text": "What 'Reading the Open Web' Looks Like in a Client Brief"
+		},
+		{
+			"type": "p",
+			"text": "We see three variants of the same request, every month:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**'Have the chatbot answer questions by browsing my competitor's website.'** Translation: please give an attacker who controls a competitor blog post a writable channel into our customer's session.",
+				"**'Let users paste any URL and have the agent summarize it.'** Translation: please let any user, anywhere, paste a URL whose HTML contains hidden instructions that exfiltrate the next ten messages of conversation.",
+				"**'Add RAG over an external vendor's documentation that we don't host.'** Translation: please grant our agent's tool-calling permissions to whichever marketing intern at the vendor edits a docs page next."
+			]
+		},
+		{
+			"type": "p",
+			"text": "Each one wires an attacker-controlled text channel directly into a system that has user data, tool calls, and outbound network access on the same side of the trust boundary. None of them is malicious on the part of the client. Every one of them is a defensible product idea. They are all also, after April 5, 2026, unshippable."
+		},
+		{
+			"type": "h2",
+			"text": "Every Defense Currently on Offer Fails"
+		},
+		{
+			"type": "p",
+			"text": "DeepMind tested all four of the obvious defense families. Here is their assessment, with our gloss on each one:"
+		},
+		{
+			"type": "table",
+			"headers": ["Defense", "DeepMind verdict", "Why it fails in practice"],
+			"rows": [
+				[
+					"Input sanitization",
+					"Insufficient",
+					"You cannot sanitize image pixels, document metadata, or speaker notes inside a PDF at inference time. The attack surface is text and every other modality the agent ingests."
+				],
+				[
+					"Prompt-level guards",
+					"Insufficient",
+					"Injected content is designed to look like a legitimate part of the page. By the time the model sees it, the guard has already trusted it."
+				],
+				[
+					"Sandboxing",
+					"Reduces blast radius, does not prevent injection",
+					"Sandboxing helps if the result of the attack is contained. It does not help when the goal of the attack is to read user data and write it back through a legal-looking API call."
+				],
+				[
+					"Human oversight",
+					"Insufficient at scale",
+					"An operator running an agent across 50 sources cannot review every page for hidden instructions. The whole point of the agent was that the human stepped out of the loop."
+				]
+			]
+		},
+		{
+			"type": "p",
+			"text": "If you take the table seriously, there is no responsible way to ship an agent that reads attacker-controlled text and also takes user-privileged actions. The only available move is to remove one of those two properties."
+		},
+		{
+			"type": "h2",
+			"text": "What We Ship Instead"
+		},
+		{
+			"type": "p",
+			"text": "Webvise has shipped AI features into client production, including the [MP Bau](https://mpbau.vercel.app) construction landing page, which routes its model calls through the **Vercel AI Gateway** for provider routing and observability. The five rules below are what made that build defensible, and they are now hard preconditions for any AI work we take on:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**Closed-input agents only.** The agent reads from a finite, hand-curated set of sources we control. No open web. No user-pasted URLs. No external RAG over uncontrolled documentation.",
+				"**Read-only by default.** If the agent must read something we do not fully trust, it cannot also call tools, send email, write to a database, or generate outbound network requests in the same session. You get one or the other, never both at once.",
+				"**Cross-agent isolation.** When agent A's output flows into agent B, B treats A's output as user input, not as system instructions. This is one line of code in the prompt and it is the entire defense against the cascade attack.",
+				"**Capability budgets per agent.** Every agent has a fixed list of tools and a token cap. The cap is small enough that even a successful injection cannot exfiltrate more than one short message.",
+				"**Provider isolation through a gateway.** We route every model call through Vercel AI Gateway so we can swap providers, log every prompt and completion, and revoke a key in seconds. If something looks wrong in the logs we can stop the bleeding the same minute we notice."
+			]
+		},
+		{
+			"type": "p",
+			"text": "These are not exotic. They cost a few hours of design work, before any code is written. The reason most agent products in 2026 do not have them is that nobody on the team was paid to draw the trust boundary."
+		},
+		{
+			"type": "h2",
+			"text": "This Is a Sales Position, Not a Humility Flex"
+		},
+		{
+			"type": "p",
+			"text": "It would be easy to read this article as an agency saying *we are too cautious to take your money.* The opposite is true. The DeepMind paper hands every team that built engineering credibility before the agent boom an unfair advantage: we get to say *no* to specific feature requests, in writing, with a citation, and have the client thank us for it. The agencies that do not say no are the ones who will be in the news in late 2026 when the first business chatbot data leak gets a name."
+		},
+		{
+			"type": "p",
+			"text": "The same opportunity that exists in content marketing right now exists in agent engineering. The market is about to be flooded with hijackable chatbots, in the same way it is being flooded with LLM-generated SEO slop. The premium will go to the teams that can prove, in advance, that theirs is not one of them."
+		},
+		{
+			"type": "h2",
+			"text": "Where We Draw the Line"
+		},
+		{
+			"type": "p",
+			"text": "The shortest version of the rule, the one we now write into every project kickoff doc, is this: an agent can read untrusted content, or it can act with user privileges, but not in the same session. Everything else flows from that. If a feature request crosses the line, it does not get built. If it can be reshaped to stay on one side, we reshape it together with the client and ship the reshaped version. The DeepMind paper did not invent this discipline. It just took away every excuse for not having one."
+		},
+		{
+			"type": "p",
+			"text": "At **webvise** we build AI features for businesses where the cost of a single leaked customer message is higher than the cost of saying no to a feature request. If that describes your project, [get in touch](/#contact) and we will draw the trust boundary together before any code is written."
+		}
+	]
+}
