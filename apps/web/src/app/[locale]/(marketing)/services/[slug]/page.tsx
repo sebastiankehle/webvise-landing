@@ -192,7 +192,7 @@ export default async function ServicePage({
 							<span className="text-brand text-xs">
 								{t(`${key}.price`)} &middot; {t(`${key}.timeline`)}
 							</span>
-							<h1 className="mt-3 font-display text-4xl tracking-tight md:text-5xl">
+							<h1 className="mt-3 font-display text-[30px] leading-[1.05] tracking-[-0.028em] md:text-[42px]">
 								{t(`${key}.title`)}
 							</h1>
 							<p className="mt-4 text-lg text-muted-foreground leading-relaxed">

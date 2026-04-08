@@ -144,25 +144,25 @@ function RenderBlock({ block }: { block: Block }) {
 	switch (block.type) {
 		case "h2":
 			return (
-				<h2 className="mt-14 mb-4 font-display text-2xl tracking-tight first:mt-0">
+				<h2 className="mt-14 mb-4 font-display text-[26px] leading-[1.2] tracking-[-0.022em] first:mt-0 md:text-[28px]">
 					{block.text}
 				</h2>
 			);
 		case "h3":
 			return (
-				<h3 className="mt-8 mb-3 text-base tracking-tight">
+				<h3 className="mt-8 mb-3 font-medium text-[17px] tracking-[-0.015em]">
 					{block.text}
 				</h3>
 			);
 		case "p":
 			return (
-				<p className="mb-5 text-muted-foreground leading-relaxed last:mb-0">
+				<p className="mb-5 text-[16px] text-muted-foreground leading-[1.7] last:mb-0">
 					{renderInline(block.text)}
 				</p>
 			);
 		case "ul":
 			return (
-				<ul className="mb-5 space-y-2 text-muted-foreground text-sm leading-relaxed">
+				<ul className="mb-5 space-y-2 text-[15px] text-muted-foreground leading-[1.65]">
 					{block.items.map((item) => (
 						<li key={item} className="flex gap-3">
 							<span className="mt-1.5 h-1.5 w-1.5 shrink-0 bg-brand" />
@@ -326,10 +326,10 @@ export default async function BlogPostPage({
 								{" \u00B7 "}
 								{post.readingTime} {t("minRead")}
 							</span>
-							<h1 className="mt-3 font-display text-4xl tracking-tight md:text-5xl">
+							<h1 className="mt-3 font-display text-[30px] leading-[1.05] tracking-[-0.028em] md:text-[42px]">
 								{post.title}
 							</h1>
-							<p className="mt-4 text-lg text-muted-foreground leading-relaxed">
+							<p className="mt-5 max-w-[620px] text-[17px] text-muted-foreground leading-[1.55]">
 								{post.excerpt}
 							</p>
 						</div>
@@ -386,7 +386,7 @@ export default async function BlogPostPage({
 
 					{(prev || next) && (
 						<>
-							<h2 className="mt-12 font-display text-2xl tracking-tight">
+							<h2 className="mt-12 font-display text-2xl tracking-[-0.02em]">
 								{t("moreArticles")}
 							</h2>
 							<div className="mt-10 grid gap-6 md:grid-cols-2">

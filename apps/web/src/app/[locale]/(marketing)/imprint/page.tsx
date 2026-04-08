@@ -45,7 +45,7 @@ export default async function ImprintPage() {
 	return (
 		<article className="mx-auto max-w-[1320px] px-6 py-32 md:py-44">
 			<div className="max-w-2xl">
-				<h1 className="font-display text-4xl tracking-tight md:text-5xl">
+				<h1 className="font-display text-[30px] leading-[1.05] tracking-[-0.028em] md:text-[42px]">
 					{page.title}
 				</h1>
 				<p className="mt-4 text-muted-foreground leading-relaxed">{page.subtitle}</p>

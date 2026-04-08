@@ -20,10 +20,10 @@ export default async function WpHealthCta() {
 							{t("badge")}
 						</span>
 					</div>
-					<h2 className="mt-6 font-display text-3xl tracking-tight md:text-4xl">
+					<h2 className="mt-6 font-display text-[24px] leading-[1.1] tracking-[-0.022em] md:text-[32px]">
 						{t("title")}
 					</h2>
-					<p className="mt-4 text-muted-foreground leading-relaxed">
+					<p className="mt-5 max-w-[520px] text-[15px] text-muted-foreground leading-[1.6]">
 						{t("description")}
 					</p>
 					<div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">

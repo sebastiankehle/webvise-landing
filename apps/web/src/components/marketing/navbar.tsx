@@ -110,7 +110,7 @@ export default function Navbar({
 				<div className="mx-auto flex h-16 max-w-[1320px] items-center justify-between px-6 md:h-20">
 					<Link
 						href="/"
-						className="flex items-center gap-2.5 font-medium text-xl tracking-tight"
+						className="flex items-center gap-2.5"
 						aria-label="webvise - home"
 						onClick={(e) => {
 							if (pathname === "/") {
@@ -121,7 +121,9 @@ export default function Navbar({
 						}}
 					>
 						<Logo className="h-7 w-7" animated />
-						<span className="font-display text-[22px]">webvise</span>
+						<span className="font-display text-[22px] tracking-[-0.022em]">
+							webvise
+						</span>
 					</Link>
 
 					<nav
@@ -372,7 +374,7 @@ export default function Navbar({
 											<p className="mt-1 text-muted-foreground text-xs leading-relaxed">
 												{tpr(`tiers.${key}.description`)}
 											</p>
-											<p className="mt-auto pt-3 font-display text-xl tracking-tight">
+											<p className="mt-auto pt-3 font-display text-xl tracking-[-0.02em]">
 												{tpr(`tiers.${key}.price`)}
 											</p>
 											<span className="text-muted-foreground text-xs">

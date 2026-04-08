@@ -10,11 +10,13 @@ export default async function Testimonials() {
 
 	return (
 		<SectionWrapper id="testimonials">
-			<div className="max-w-2xl">
-				<h2 className="font-display text-3xl tracking-tight md:text-4xl">
+			<div className="max-w-[640px]">
+				<h2 className="font-display text-[24px] leading-[1.1] tracking-[-0.022em] md:text-[32px]">
 					{t("title")}
 				</h2>
-				<p className="mt-4 text-muted-foreground leading-relaxed">{t("subtitle")}</p>
+				<p className="mt-5 max-w-[520px] text-[15px] text-muted-foreground leading-[1.6]">
+					{t("subtitle")}
+				</p>
 			</div>
 			<StaggerChildren className="mt-14 grid gap-px overflow-hidden border border-border/40 md:grid-cols-2 lg:grid-cols-3">
 				{testimonialKeys.map((key) => (
@@ -26,7 +28,7 @@ export default async function Testimonials() {
 							<span className="block font-display text-5xl text-brand/30 leading-none select-none">
 								&ldquo;
 							</span>
-							<p className="mt-3 text-muted-foreground text-sm leading-relaxed italic">
+							<p className="mt-3 text-muted-foreground text-sm leading-[1.65] italic">
 								{t(`items.${key}.quote`)}
 							</p>
 						</div>

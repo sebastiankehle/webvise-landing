@@ -154,9 +154,21 @@
 	}
 	body {
 		@apply font-sans bg-background text-foreground antialiased;
+		font-feature-settings: "rlig" 1, "calt" 1, "ss01" 1, "ss03" 1;
+		letter-spacing: -0.011em;
 	}
 	html {
 		@apply font-sans scroll-smooth;
+	}
+	/* Vercel/Linear-style display defaults: medium (500), tight tracking.
+	   Vercel uses ~500 on Geist for display — semibold reads too heavy. Utility
+	   classes can still override via font-normal / font-semibold / tracking-*. */
+	.font-display {
+		font-weight: 500;
+		letter-spacing: -0.022em;
+	}
+	.font-mono {
+		letter-spacing: 0;
 	}
 }
 

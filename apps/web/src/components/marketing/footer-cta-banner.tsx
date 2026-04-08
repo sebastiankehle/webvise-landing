@@ -16,10 +16,10 @@ export default function FooterCtaBanner({
 		<div className="border-[--border] border-b">
 			<div className="mx-auto flex max-w-[1320px] flex-col items-start justify-between gap-8 px-6 py-20 md:flex-row md:items-center md:py-24">
 				<div>
-					<p className="font-display text-3xl tracking-tight md:text-4xl">
+					<p className="font-display text-[24px] leading-[1.1] tracking-[-0.022em] md:text-[32px]">
 						{headline}
 					</p>
-					<p className="mt-3 text-muted-foreground text-sm md:text-base">
+					<p className="mt-4 max-w-[560px] text-[15px] text-muted-foreground leading-[1.6]">
 						{subtext}
 					</p>
 				</div>

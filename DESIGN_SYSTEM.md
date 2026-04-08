@@ -99,6 +99,8 @@ For data visualization, five chart tokens are defined (light mode uses warm oran
 
 ## 3. Typography
 
+Aligned with Vercel/Linear's typographic approach on Geist: **medium (500) weight for display**, tight tracking, and character-width–tuned paragraph max-widths. The goal is a crisp, engineered feel without the "bolded marketing" heaviness.
+
 ### 3.1 Font Stack
 
 | Role | Font | CSS Variable | Usage |
@@ -107,31 +109,71 @@ For data visualization, five chart tokens are defined (light mode uses warm oran
 | Display | Geist Sans | `--font-geist-sans` → `--font-display` | Headlines, brand wordmark, section titles |
 | Mono | Geist Mono | `--font-geist-mono` → `--font-mono` | Code blocks, technical labels, footer section headings |
 
-Both fonts are loaded via `next/font/google` with CSS variable injection in the root layout.
+Both fonts are loaded via `next/font/google` with CSS variable injection in the root layout. Geist ligatures and stylistic alternates are enabled globally via:
+
+```css
+body {
+  font-feature-settings: "rlig" 1, "calt" 1, "ss01" 1, "ss03" 1;
+  letter-spacing: -0.011em;
+}
+.font-display {
+  font-weight: 500;     /* Vercel default — semibold reads too heavy */
+  letter-spacing: -0.022em;
+}
+```
 
 ### 3.2 Type Scale & Usage
 
-| Context | Classes | Example |
+| Context | Classes | Notes |
 |---|---|---|
-| Hero title | `font-display text-3xl md:text-[52px] leading-[1.12] tracking-tight` | Main page headline |
-| Section heading | `font-display text-3xl md:text-4xl tracking-tight` | Section titles (Benefits, Services, etc.) |
-| Card/subsection heading | `font-display text-xl` | Benefit card titles, pricing tier names |
-| Brand wordmark | `font-display text-[22px]` | "webvise" in navbar and footer |
-| Body text | `text-lg text-muted-foreground leading-relaxed` | Hero subtitle, section descriptions |
-| Card body | `text-sm text-muted-foreground leading-relaxed` | Benefit descriptions, service taglines |
-| Default UI text | `text-xs/relaxed` | Cards, dialogs, inputs, general UI |
-| Micro labels | `font-mono text-[10px] uppercase tracking-widest text-muted-foreground/50` | Footer section headings |
-| Nav links | `text-[13px] uppercase tracking-wider` | Desktop navigation items |
+| Hero title (h1) | `font-display text-[30px] md:text-[48px] leading-[1.05] tracking-[-0.028em]` | Home hero only |
+| Page title (h1) | `font-display text-[30px] md:text-[42px] leading-[1.05] tracking-[-0.028em]` | Blog, case-studies, about, legal |
+| Section heading (h2) | `font-display text-[24px] md:text-[32px] leading-[1.1] tracking-[-0.022em]` | All `SectionWrapper` intro headings |
+| Card/subsection (h3) | `font-display text-xl leading-[1.25] tracking-[-0.018em]` | Benefit/service/blog/case cards |
+| Pricing tier name (h3) | `font-display text-2xl tracking-[-0.02em]` | Pricing cards |
+| Metrics value | `font-display text-4xl md:text-6xl leading-[1] tracking-[-0.04em]` | Big stat numbers |
+| Brand wordmark | `font-display text-[22px] tracking-[-0.022em]` | "webvise" in navbar/footer |
+| Hero subtitle | `text-[16px] max-w-[500px] leading-[1.55]` | ~60 chars per line |
+| Section subtitle | `text-[15px] max-w-[520px] leading-[1.6]` | ~65 chars per line |
+| Card body | `text-sm leading-[1.6]` | Descriptions in cards |
+| Article prose (body) | `text-[16px] leading-[1.7]` | Blog article `<p>` |
+| Article prose (list) | `text-[15px] leading-[1.65]` | Blog article `<ul>` |
+| Default UI text | `text-xs/relaxed` | Cards, dialogs, inputs |
+| Micro labels | `font-mono text-[10px] uppercase tracking-widest text-muted-foreground/50` | Footer column headings |
+| Nav links | `text-sm` | Desktop navigation items (no uppercase) |
 | Metadata | `text-xs text-muted-foreground` | Dates, reading times, legal copy |
 
-### 3.3 Typography Rules
+### 3.3 Weight Hierarchy
+
+| Weight | Use |
+|---|---|
+| `font-normal` (400) | Body copy, paragraphs, list items |
+| `font-medium` (500) | All `.font-display` headings (auto-applied via base CSS), UI emphasis, FAQ questions, navbar labels |
+| `font-semibold` (600) | Reserved — not used by default. Only if a specific element needs extra visual weight |
+| `font-bold` (700) | Avoid. Too heavy against Geist's optical spacing |
+
+### 3.4 Paragraph Width Rule
+
+Body copy is constrained to **~60–65 characters per line** for optimal reading:
+
+| Font size | Max width | Characters/line |
+|---|---|---|
+| 17px (hero subtitle) | `max-w-[500px]` | ~60 |
+| 16px (article prose) | `max-w-2xl` (672px) | ~65 |
+| 15px (section subtitle) | `max-w-[520px]` | ~65 |
+| 14px (card body) | Natural card flow | — |
+
+### 3.5 Typography Rules
 
 - **Never use pure black.** Text is `--foreground` (`oklch(0.13 ...)`), a warm near-black.
-- **Relaxed line-height** for body copy. Use `/relaxed` suffix (1.625) or `leading-relaxed` for readability.
-- **Tight leading** for display type. Hero titles use `leading-[1.12]` for visual density.
-- **Tight tracking** on display type. Use `tracking-tight` on headings.
-- **Wide tracking** on labels. Uppercase micro-copy uses `tracking-wider` or `tracking-widest`.
-- `text-balance` on hero headlines for even line breaks.
+- **Display defaults to weight 500.** `.font-display` automatically applies `font-weight: 500` via base CSS — do not add `font-semibold` unless intentional.
+- **Tight tracking on display.** Use `tracking-[-0.022em]` to `tracking-[-0.04em]` depending on size. Bigger text → tighter tracking.
+- **Tight leading on display.** Hero uses `leading-[1.05]`, section h2 uses `leading-[1.1]`, card h3 uses `leading-[1.25]`.
+- **Body line-height is 1.6, not 1.625.** Avoid `leading-relaxed` on new code — use explicit `leading-[1.6]` or `leading-[1.55]`.
+- **Paragraphs have an explicit `max-w-[…]`** tuned to their font size. Don't let body copy stretch to full column width.
+- **Wide tracking on labels.** Uppercase micro-copy uses `tracking-wider` or `tracking-widest`.
+- **`text-balance`** on hero headlines for even line breaks.
+- **Geist Mono** is reserved for footer micro-labels. Don't sprinkle it elsewhere.
 
 ---
 

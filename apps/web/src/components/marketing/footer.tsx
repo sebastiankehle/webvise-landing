@@ -36,9 +36,11 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 							className="flex items-center gap-2.5"
 						>
 							<Logo className="h-7 w-7" animated />
-							<span className="font-display text-[22px]">webvise</span>
+							<span className="font-display text-[22px] tracking-[-0.022em]">
+								webvise
+							</span>
 						</Link>
-						<p className="mt-5 max-w-xs text-sm leading-relaxed text-muted-foreground">
+						<p className="mt-5 max-w-[260px] text-sm leading-[1.6] text-muted-foreground">
 							{t("tagline")}
 						</p>
 						<p className="mt-1 text-sm text-muted-foreground/60">

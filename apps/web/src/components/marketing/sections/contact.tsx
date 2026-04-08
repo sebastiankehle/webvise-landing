@@ -75,16 +75,18 @@ export default function Contact() {
 		<SectionWrapper id="contact">
 			<div className="grid gap-12 md:grid-cols-2 md:gap-20">
 				<div>
-					<h2 className="font-display text-3xl tracking-tight md:text-4xl">
+					<h2 className="font-display text-[24px] leading-[1.1] tracking-[-0.022em] md:text-[32px]">
 						{t("title")}
 					</h2>
-					<p className="mt-4 text-muted-foreground leading-relaxed">
+					<p className="mt-5 max-w-[520px] text-[15px] text-muted-foreground leading-[1.6]">
 						{t("subtitle")}
 					</p>
 
 					<div className="mt-10 border border-border/40 border-l-2 border-l-brand p-6 md:mt-14 md:p-8">
-						<h3 className="font-display text-xl">{t("booking.title")}</h3>
-						<p className="mt-3 text-muted-foreground text-sm leading-relaxed">
+						<h3 className="font-display text-xl tracking-[-0.018em]">
+							{t("booking.title")}
+						</h3>
+						<p className="mt-3 text-muted-foreground text-sm leading-[1.6]">
 							{t("booking.description")}
 						</p>
 						<Button

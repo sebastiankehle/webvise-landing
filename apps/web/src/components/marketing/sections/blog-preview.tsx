@@ -14,11 +14,11 @@ export default async function BlogPreview() {
 	return (
 		<SectionWrapper id="blog" alternate>
 			<div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-end">
-				<div className="max-w-2xl">
-					<h2 className="font-display text-3xl tracking-tight md:text-4xl">
+				<div className="max-w-[640px]">
+					<h2 className="font-display text-[24px] leading-[1.1] tracking-[-0.022em] md:text-[32px]">
 						{t("title")}
 					</h2>
-					<p className="mt-4 text-muted-foreground leading-relaxed">
+					<p className="mt-5 max-w-[520px] text-[15px] text-muted-foreground leading-[1.6]">
 						{t("subtitle")}
 					</p>
 				</div>
@@ -49,10 +49,10 @@ export default async function BlogPreview() {
 								{post.readingTime} {t("minRead")}
 							</span>
 						</div>
-						<h3 className="mt-5 font-display text-xl leading-snug tracking-tight transition-colors group-hover:text-brand">
+						<h3 className="mt-5 font-display text-xl leading-[1.25] tracking-[-0.018em] transition-colors group-hover:text-brand">
 							{post.title}
 						</h3>
-						<p className="mt-3 line-clamp-3 text-muted-foreground text-sm leading-relaxed">
+						<p className="mt-3 line-clamp-3 text-muted-foreground text-sm leading-[1.6]">
 							{post.excerpt}
 						</p>
 						<span className="mt-auto pt-8 text-brand text-sm transition-opacity group-hover:opacity-80">
