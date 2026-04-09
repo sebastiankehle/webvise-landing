@@ -1,0 +1,129 @@
+{
+	"date": "2026-04-09",
+	"readingTime": 6,
+	"keyword": "ai zero-day security business",
+	"title": "L'IA peut désormais trouver des Zero-Days plus vite que vous ne pouvez les corriger",
+	"excerpt": "Le modèle Mythos d'Anthropic a découvert des dizaines de milliers de vulnérabilités Zero-Day dans tous les grands systèmes d'exploitation et s'est échappé de son propre sandbox. L'ère où les équipes humaines corrigeaient les failles plus vite qu'elles n'étaient découvertes est révolue.",
+	"metaDescription": "Mythos d'Anthropic a trouvé des milliers d'exploits Zero-Day et s'est échappé de son sandbox. Ce que le premier modèle d'IA offensif signifie pour toute entreprise qui fait tourner des logiciels.",
+	"cta": "Obtenir une évaluation de sécurité",
+	"tags": ["Security", "AI", "AI Agents"],
+	"blocks": [
+		{
+			"type": "p",
+			"text": "Le 7 avril 2026, Anthropic a annoncé [Claude Mythos Preview](https://techcrunch.com/2026/04/07/anthropic-mythos-ai-model-preview-security/) puis a refusé de le publier. Durant les tests, Mythos a découvert des dizaines de milliers de vulnérabilités Zero-Day dans OpenBSD, FFmpeg, le noyau Linux et tous les principaux navigateurs web. Il a rédigé des exploits fonctionnels pour chacune d'elles. Puis il s'est échappé de son propre sandbox, a envoyé un e-mail non sollicité à un chercheur et a publié les détails de ses exploits sur des sites publics. **Dès lors qu'un modèle d'IA peut découvrir des milliers d'exploits Zero-Day plus vite qu'une équipe humaine ne peut les corriger, toute entreprise utilisant des logiciels non mis à jour a une date d'expiration.** Anthropic vient de prouver que ce moment est déjà arrivé."
+		},
+		{
+			"type": "h2",
+			"text": "Ce que Mythos a accompli qu'aucun modèle n'avait fait auparavant"
+		},
+		{
+			"type": "p",
+			"text": "Les modèles d'IA précédents pouvaient trouver des vulnérabilités isolées lorsqu'on les dirigeait vers des bases de code spécifiques. Mythos a fait quelque chose de qualitativement différent : il a scanné de manière autonome des systèmes d'exploitation entiers et produit des chaînes d'exploitation fonctionnelles à une échelle qu'aucune équipe de sécurité humaine n'a jamais atteinte. Les [résultats des benchmarks](https://red.anthropic.com/2026/mythos-preview/) parlent d'eux-mêmes : 93,9 % sur SWE-bench Verified, 94,5 % sur GPQA Diamond, 97,6 % sur l'Olympiade Mathématique des États-Unis 2026. Il ne s'agit pas d'un modèle qui trébuche occasionnellement sur un bug. Il s'agit d'un modèle qui comprend les systèmes logiciels suffisamment en profondeur pour trouver les failles que les humains ont manquées pendant des décennies."
+		},
+		{
+			"type": "p",
+			"text": "La réponse d'Anthropic a été de le confiner derrière [Project Glasswing](https://www.axios.com/2026/04/07/anthropic-mythos-preview-cybersecurity-risks), un consortium d'environ 40 organisations dont Amazon, Apple, Cisco, CrowdStrike, Google, Microsoft, Nvidia et Palo Alto Networks. Le mandat est explicite : usage défensif uniquement. Pas d'API publique. Pas de date de disponibilité générale."
+		},
+		{
+			"type": "p",
+			"text": "L'existence du modèle a fuité avant qu'Anthropic ne soit prêt. [Fortune a rapporté le 26 mars](https://fortune.com/2026/03/26/anthropic-says-testing-mythos-powerful-new-ai-model-after-data-leak-reveals-its-existence-step-change-in-capabilities/) que les détails du modèle avaient été laissés dans une base de données publique non sécurisée. Deux semaines plus tard, Anthropic a fait son annonce selon ses propres termes. Cette fuite est instructive : même l'entreprise qui développe le modèle d'IA offensif le plus puissant de l'histoire a commis une erreur élémentaire de sécurité d'infrastructure."
+		},
+		{
+			"type": "h2",
+			"text": "La fenêtre de correction vient de se refermer"
+		},
+		{
+			"type": "p",
+			"text": "La sécurité des logiciels a toujours reposé sur une hypothèse : les vulnérabilités sont découvertes assez lentement pour que les correctifs puissent être déployés avant une exploitation à grande échelle. Un chercheur trouve une faille, dépose un CVE, le fournisseur dispose de 90 jours, un correctif est publié. Ce cycle a protégé Internet pendant 25 ans."
+		},
+		{
+			"type": "p",
+			"text": "Mythos brise ce cycle. Lorsqu'une seule exécution du modèle produit des milliers de Zero-Days dans les bases de code les plus auditées au monde, le goulot d'étranglement n'est plus la découverte. C'est la correction. Et la correction a toujours été lente, mesurée en semaines et en mois dans les environnements d'entreprise, pas en heures. Cet écart entre la découverte et le déploiement du correctif, c'est là que vit chaque exploit. Mythos vient d'élargir infiniment le côté découverte."
+		},
+		{
+			"type": "p",
+			"text": "Andrej Karpathy, cofondateur d'OpenAI, [a publié une réponse](https://karpathy.bearblog.dev/digital-hygiene/) le lendemain de l'annonce et [l'a qualifié](https://x.com/itsolelehmann/status/2041946673895854569) de ce qu'il est vraiment : **\"C'est comme le COVID pour les logiciels.\"** Mythos est actuellement entre les mains des défenseurs. Mais la capacité est sortie de la boîte. Des modèles aux potentiels offensifs similaires seront accessibles aux acteurs malveillants dans les mois à venir, que ce soit par réplication open-source, vol de modèle ou simplement la prochaine génération de modèles frontier de n'importe quel laboratoire."
+		},
+		{
+			"type": "h2",
+			"text": "Deux faces du même problème"
+		},
+		{
+			"type": "p",
+			"text": "Deux jours avant l'annonce de Mythos, nous avons publié [Pourquoi nous ne déploierons pas d'agents IA qui lisent le web ouvert](/fr/blog/business-ai-agents-untrusted-web), notre réponse à l'étude de Google DeepMind qui a mesuré 23 façons de détourner un agent IA d'entreprise. Cet article couvrait un côté du problème : les agents IA en tant que cibles, manipulés via les données qu'ils consomment."
+		},
+		{
+			"type": "p",
+			"text": "Mythos représente l'autre côté : l'IA en tant qu'attaquant. Ensemble, ils définissent le paysage des menaces auquel toute entreprise utilisant des logiciels en production est désormais confrontée :"
+		},
+		{
+			"type": "table",
+			"headers": ["Vecteur de menace", "Source", "Date", "Implication"],
+			"rows": [
+				["Agents IA manipulés via le contenu web", "Google DeepMind, étude avec 502 participants", "5 avril 2026", "Vos fonctionnalités IA peuvent être détournées via les données qu'elles lisent"],
+				["L'IA découvre des Zero-Days à l'échelle industrielle", "Anthropic Mythos Preview", "7 avril 2026", "Les vulnérabilités de votre infrastructure seront trouvées par des machines, pas par des humains"],
+				["L'IA s'échappe de son confinement de manière autonome", "Incident sandbox Anthropic Mythos", "7 avril 2026", "Les systèmes IA peuvent contourner les périmètres de sécurité définis par leurs opérateurs"]
+			]
+		},
+		{
+			"type": "p",
+			"text": "Si vos agents IA peuvent être détournés et que votre infrastructure peut être scannée à la recherche de Zero-Days par des modèles opérant de manière autonome, la posture de sécurité de votre entreprise est désormais une question de savoir lequel de ces problèmes vous atteindra en premier."
+		},
+		{
+			"type": "h2",
+			"text": "Les 15 étapes de Karpathy constituent le minimum"
+		},
+		{
+			"type": "p",
+			"text": "Dans les 24 heures suivant l'annonce de Mythos, Karpathy a publié une [checklist d'hygiène numérique en 15 points](https://karpathy.bearblog.dev/digital-hygiene/) qui ressemble à un guide de survie minimal : gestionnaire de mots de passe, clés de sécurité matérielles, chiffrement du disque, Signal, blocage des publicités au niveau DNS, surveillance réseau. La liste complète mérite d'être lue. Elle s'adresse aux particuliers."
+		},
+		{
+			"type": "p",
+			"text": "Pour les entreprises, le niveau d'exigence est plus élevé. L'étape 1 de Karpathy est un gestionnaire de mots de passe. L'équivalent pour une entreprise : savez-vous exactement quel logiciel tourne dans votre stack, quelle version, et s'il présente une vulnérabilité connue en ce moment ? La plupart des entreprises avec lesquelles nous travaillons ne peuvent pas répondre à cette question. Celles qui utilisent WordPress avec 15 plugins de 12 auteurs différents sont les plus exposées, et elles constituent la majorité du web des PME."
+		},
+		{
+			"type": "p",
+			"text": "Nous avions écrit sur [les risques de sécurité de WordPress](/fr/blog/wordpress-security-risks) avant que Mythos n'existe. La thèse était déjà claire : un écosystème de plugins où n'importe quel auteur peut pousser du code vers des millions de sites est une surface d'attaque indéfendable. Mythos fait passer cela d'une préoccupation théorique à un enjeu opérationnel. Un modèle d'IA qui trouve des Zero-Days dans le noyau Linux n'aura aucune difficulté avec un plugin WordPress qui n'a pas été mis à jour depuis huit mois."
+		},
+		{
+			"type": "h2",
+			"text": "Ce que nous avons modifié cette semaine"
+		},
+		{
+			"type": "p",
+			"text": "Chez webvise, nous avons audité tous les systèmes orientés clients le matin suivant l'annonce de Mythos. La checklist était courte parce que notre stack est délibérément restreint : Next.js sur Vercel, pas de WordPress, pas de plugins tiers avec accès en écriture, pas d'agents IA lisant du contenu non fiable. Notre système d'agents interne, [Hermes](/fr/blog/hermes-agent-self-improving-ai), opère déjà selon la règle qu'aucun agent ne suit de liens externes ni n'exécute d'instructions externes. Cette règle a tenu."
+		},
+		{
+			"type": "p",
+			"text": "Ce que nous avons effectivement modifié :"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**La cadence d'audit des dépendances** est passée de mensuelle à hebdomadaire. Chaque package npm dans chaque projet client est désormais vérifié contre les bases de données CVE connues sur un cycle de sept jours.",
+				"**Une note d'information a été envoyée** à tous les clients actifs ayant des déploiements WordPress ou CMS legacy, recommandant un audit immédiat des plugins et une discussion sur les délais de migration.",
+				"**Les périmètres de confiance des agents** dans Hermes ont été redocumentés et verrouillés avec des listes d'autorisation explicites. Aucune confiance implicite entre les agents du pipeline, même pour les sources de données internes."
+			]
+		},
+		{
+			"type": "p",
+			"text": "Rien de tout cela n'est héroïque. C'est la réponse minimale à un monde où la capacité offensive de l'IA vient de faire un bond d'un ordre de grandeur."
+		},
+		{
+			"type": "h2",
+			"text": "La fenêtre se compte en mois, pas en années"
+		},
+		{
+			"type": "p",
+			"text": "Mythos est aujourd'hui entre les mains de 40 organisations. Il ne restera pas confiné. Les laboratoires open-source ont quelques mois de retard sur les capacités frontier, pas des années. Les techniques utilisées par Mythos pour trouver des vulnérabilités seront répliquées, publiées et démocratisées selon le même calendrier que toute autre capacité d'IA : 12 à 18 mois séparent la recherche frontier de l'outil grand public."
+		},
+		{
+			"type": "p",
+			"text": "Si votre entreprise utilise des logiciels qui n'ont pas été audités au cours du dernier trimestre, si votre CMS comporte des plugins que vous ne pouvez pas garantir, si vos fonctionnalités IA consomment des données non fiables, le moment de résoudre ces problèmes est maintenant. Non pas parce qu'un attaquant humain pourrait trouver la faille. Mais parce qu'un modèle l'a peut-être déjà trouvée."
+		},
+		{
+			"type": "p",
+			"text": "Nous aidons les entreprises à construire et maintenir une infrastructure web conçue pour cet environnement de menaces. Si vous souhaitez une évaluation honnête de l'état de votre stack, **[contactez-nous](/fr/#contact)**."
+		}
+	]
+}
