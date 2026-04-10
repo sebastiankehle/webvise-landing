@@ -28,7 +28,7 @@ export const services: Service[] = [
 		deliverableCount: 5,
 		toolCount: 5,
 		painPointCount: 3,
-		faqCount: 3,
+		faqCount: 4,
 	},
 	{
 		slug: "wordpress-migration",
@@ -38,7 +38,7 @@ export const services: Service[] = [
 		deliverableCount: 5,
 		toolCount: 5,
 		painPointCount: 3,
-		faqCount: 4,
+		faqCount: 5,
 	},
 	{
 		slug: "ai-consulting",
@@ -48,7 +48,7 @@ export const services: Service[] = [
 		deliverableCount: 5,
 		toolCount: 6,
 		painPointCount: 3,
-		faqCount: 3,
+		faqCount: 4,
 	},
 	{
 		slug: "mvp-development",
@@ -58,7 +58,7 @@ export const services: Service[] = [
 		deliverableCount: 5,
 		toolCount: 6,
 		painPointCount: 3,
-		faqCount: 3,
+		faqCount: 4,
 	},
 	{
 		slug: "ai-automation",
@@ -68,7 +68,7 @@ export const services: Service[] = [
 		deliverableCount: 5,
 		toolCount: 6,
 		painPointCount: 3,
-		faqCount: 3,
+		faqCount: 4,
 	},
 	{
 		slug: "full-stack-applications",
@@ -78,7 +78,7 @@ export const services: Service[] = [
 		deliverableCount: 5,
 		toolCount: 6,
 		painPointCount: 3,
-		faqCount: 3,
+		faqCount: 4,
 	},
 ];
 
