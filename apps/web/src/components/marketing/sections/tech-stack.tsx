@@ -61,11 +61,11 @@ export default async function TechStack() {
 					{t("subtitle")}
 				</p>
 			</div>
-			<StaggerChildren className="mt-14 grid grid-cols-2 gap-px overflow-hidden border border-border/40 lg:grid-cols-4">
+			<StaggerChildren className="mt-14 grid gap-px overflow-hidden border border-border/40 md:grid-cols-2 lg:grid-cols-4">
 				{categories.map((cat) => (
 					<div
 						key={cat.key}
-						className="border-border/40 nth-[-n+2]:border-b p-6 odd:border-r md:p-8 lg:not-last:border-r lg:nth-[-n+2]:border-b-0 lg:odd:border-r-0"
+						className="border-border/40 not-last:border-b p-6 md:odd:border-r md:nth-[-n+2]:border-b md:not-last:border-b-0 md:p-8 lg:not-last:border-r lg:nth-[-n+2]:border-b-0 lg:odd:border-r-0"
 					>
 						<p className="mb-5 font-mono text-muted-foreground/50 text-xs">
 							{t(cat.key)}
