@@ -1,5 +1,8 @@
 # Component Patterns Reference
 
+> **Design system source of truth:** `/DESIGN_SYSTEM.md` at the repository root.
+> Typography, spacing, and visual token values below may drift -- always verify against `DESIGN_SYSTEM.md`.
+
 Exact component architecture and patterns from the webvise-landing codebase.
 
 ## SectionWrapper
@@ -65,10 +68,10 @@ Built with `class-variance-authority` on a `@base-ui/react` primitive.
 ### Brand CTA (composed, not a variant)
 
 ```tsx
-<Button className="border-transparent bg-brand px-8 text-white [&]:hover:bg-brand/80" />
+<Button className="border-transparent bg-brand px-8 font-mono text-white [&]:hover:bg-brand/80" />
 ```
 
-Brand CTAs in hero and navbar use `size="lg"` with additional `px-6` or `px-8`.
+Brand CTAs use `font-mono` for the Exalt-style uppercase chrome treatment. Hero and navbar CTAs use `size="lg"` with additional `px-6` or `px-8`. See `DESIGN_SYSTEM.md` section 7.1 for full button patterns.
 
 ### Sizes
 
@@ -222,8 +225,10 @@ Usage: wrap any container whose children should animate in sequentially.
 ### Nav Links
 
 ```
-text-[13px] uppercase tracking-wider
+text-sm
 ```
+
+Nav links use `text-sm` without uppercase or tracking overrides. See `DESIGN_SYSTEM.md` for the current typography scale.
 
 ## Footer Pattern
 
@@ -236,10 +241,10 @@ text-[13px] uppercase tracking-wider
 ### Section Headings
 
 ```
-font-mono text-[10px] uppercase tracking-widest text-muted-foreground/50
+font-mono text-xs text-muted-foreground/50
 ```
 
-This creates a technical, blueprint-like label aesthetic. Used exclusively for footer column headings.
+`font-mono` auto-applies `uppercase` and `letter-spacing: 0` via base CSS -- do not add explicit `uppercase` or `tracking-*` classes. See `DESIGN_SYSTEM.md` section 7.8 for the full two-font system usage table.
 
 ### Footer Content
 

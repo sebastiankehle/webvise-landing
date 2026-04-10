@@ -1,7 +1,8 @@
 ---
 name: webvise-conventions
 description: "Webvise engineering practices for client projects. Tech stack, code patterns, project structure, SEO, and quality standards. Use when starting a client project, building UI, or needing Webvise stack reference. Triggers: 'webvise project', 'new client site', 'webvise stack', 'conventions', 'client project'."
-synced-from: "webvise-landing @ 2026-04-03"
+metadata:
+  synced-from: "webvise-landing @ 2026-04-10"
 ---
 
 # Webvise Engineering Conventions
@@ -12,7 +13,7 @@ This skill encodes how Webvise builds client projects — the tech stack, code p
 
 **Key distinction:**
 - **Engineering practices** (this skill) → apply to ALL client projects
-- **Webvise visual design** (brand orange, Geist fonts, zero radius) → Webvise's own site only, stored in `references/design-tokens.md` as an example
+- **Webvise visual design** (brand orange, Inter + Geist Mono two-font system, zero radius) → Webvise's own site only, authoritative source is `/DESIGN_SYSTEM.md` at repo root; `references/design-tokens.md` is a pointer to it
 
 ## 2. When to Use
 
@@ -185,8 +186,9 @@ For full quality audit, invoke `/webvise-qa`.
 
 ## 9. Reference Files
 
-- **Webvise's own design tokens** (example of a well-structured design system): `references/design-tokens.md`
+- **Design system** (authoritative, always current): `/DESIGN_SYSTEM.md` at repo root
+- **Design tokens pointer** (summary + pointer to DESIGN_SYSTEM.md): `references/design-tokens.md`
 - **Component architecture patterns** (SectionWrapper, Button, Card, Grid, Nav, Footer): `references/component-patterns.md`
-- **SEO implementation patterns** (metadata, JSON-LD, sitemap, robots): `references/seo-patterns.md`
+- **SEO implementation patterns** (metadata, JSON-LD, sitemap, robots, llms.txt): `references/seo-patterns.md`
 
-The design tokens file documents Webvise's own site — use it as an EXAMPLE of how to structure a client's design tokens, not as values to apply to client projects.
+The design system documents Webvise's own site -- use it as an EXAMPLE of how to structure a client's design tokens, not as values to apply to client projects. For current token values, typography rules, and component patterns, always read `/DESIGN_SYSTEM.md`.

@@ -172,57 +172,25 @@ export default async function Page({ params }: Props) {
 
 ## Sitemap Pattern
 
-```tsx
-// src/app/sitemap.ts
-import type { MetadataRoute } from "next";
-import { routing } from "@/i18n/routing";
-import { localizedUrl } from "@/lib/seo";
-
-const locales = routing.locales;
-
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const pages = [
-    "/",
-    "/blog",
-    "/services/web-development",
-    "/services/web-design",
-    // ... all static pages
-  ];
-
-  return pages.flatMap((page) =>
-    locales.map((locale) => ({
-      url: localizedUrl(page, locale),
-      lastModified: new Date(),
-      alternates: {
-        languages: Object.fromEntries(
-          locales.map((l) => [l, localizedUrl(page, l)]),
-        ),
-      },
-    })),
-  );
-}
-```
+> **Always read `src/app/sitemap.ts` for the current implementation.**
+> The sitemap dynamically includes blog posts, case studies, services, and other content pages.
 
 Key points:
 - Every page generates one entry per locale
 - Each entry includes `alternates.languages` with all locale variants
-- Dynamic pages (blog posts) should be fetched and included
+- Dynamic pages (blog posts, case studies) are fetched from `@/data/*` modules and included automatically
+- Static pages include `/`, `/blog`, `/services/*`, `/case-studies`, `/wp-health-report`, `/media`, etc.
+- Uses an `entriesForPath` helper with `EntryOptions` interface for consistent entry generation
 
 ## robots.ts Pattern
 
-```tsx
-// src/app/robots.ts
-import type { MetadataRoute } from "next";
+> **Always read `src/app/robots.ts` for the current implementation.**
 
-const BASE_URL = "https://webvise.io";
+The robots.ts disallows private routes (`/api/`, `/dashboard/`, `/login/`, `/todos/`, `/ai/`) and their locale-prefixed variants. It allows `/` and points to `/sitemap.xml`.
 
-export default function robots(): MetadataRoute.Robots {
-  return {
-    rules: [{ userAgent: "*", allow: "/" }],
-    sitemap: `${BASE_URL}/sitemap.xml`,
-  };
-}
-```
+## llms.txt Pattern
+
+The site exposes an LLM-friendly discovery endpoint at `src/app/llms.txt/route.ts`. This is a `GET` route handler (not a static file) that returns a plain-text summary of the site structure for LLM crawlers.
 
 ## OG Image Generation
 
