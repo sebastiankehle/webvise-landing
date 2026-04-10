@@ -144,13 +144,13 @@ function RenderBlock({ block }: { block: Block }) {
 	switch (block.type) {
 		case "h2":
 			return (
-				<h2 className="mt-14 mb-4 font-display text-[26px] leading-[1.2] tracking-[-0.022em] first:mt-0 md:text-[28px]">
+				<h2 className="mt-14 mb-4 font-display text-[26px] leading-[1.2] first:mt-0 md:text-[28px]">
 					{block.text}
 				</h2>
 			);
 		case "h3":
 			return (
-				<h3 className="mt-8 mb-3 font-medium text-[17px] tracking-[-0.015em]">
+				<h3 className="mt-8 mb-3 font-medium text-[17px] tracking-[-0.04em]">
 					{block.text}
 				</h3>
 			);
@@ -326,7 +326,7 @@ export default async function BlogPostPage({
 								{" \u00B7 "}
 								{post.readingTime} {t("minRead")}
 							</span>
-							<h1 className="mt-3 font-display text-[30px] leading-[1.05] tracking-[-0.028em] md:text-[42px]">
+							<h1 className="mt-3 font-display text-[32px] leading-[1.05] md:text-[48px]">
 								{post.title}
 							</h1>
 							<p className="mt-5 max-w-[620px] text-[17px] text-muted-foreground leading-[1.55]">
@@ -386,7 +386,7 @@ export default async function BlogPostPage({
 
 					{(prev || next) && (
 						<>
-							<h2 className="mt-12 font-display text-2xl tracking-[-0.02em]">
+							<h2 className="mt-12 font-display text-2xl tracking-[-0.04em]">
 								{t("moreArticles")}
 							</h2>
 							<div className="mt-10 grid gap-6 md:grid-cols-2">

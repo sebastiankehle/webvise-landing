@@ -17,7 +17,7 @@ export default async function Pricing() {
 	return (
 		<SectionWrapper id="pricing" alternate>
 			<div className="max-w-[640px]">
-				<h2 className="font-display text-[24px] leading-[1.1] tracking-[-0.022em] md:text-[32px]">
+				<h2 className="font-display text-[28px] leading-[1.15] md:text-[40px]">
 					{t("title")}
 				</h2>
 				<p className="mt-5 max-w-[520px] text-[15px] text-muted-foreground leading-[1.6]">
@@ -41,7 +41,7 @@ export default async function Pricing() {
 						>
 							<div>
 								<div className="flex items-center gap-3">
-									<h3 className="font-display text-2xl tracking-[-0.02em]">
+									<h3 className="font-display text-2xl tracking-[-0.04em]">
 										{t(`tiers.${key}.name`)}
 									</h3>
 									{hasBadge && (
@@ -65,10 +65,10 @@ export default async function Pricing() {
 								</ul>
 							</div>
 							<div className="mt-10">
-								<p className="font-display text-3xl tracking-[-0.03em]">
+								<p className="font-display text-3xl tracking-[-0.04em]">
 									{t(`tiers.${key}.price`)}
 								</p>
-								<p className="mt-1 text-muted-foreground text-xs">
+								<p className="mt-1 font-mono text-muted-foreground text-xs">
 									{t(`tiers.${key}.basis`)}
 								</p>
 								<Button

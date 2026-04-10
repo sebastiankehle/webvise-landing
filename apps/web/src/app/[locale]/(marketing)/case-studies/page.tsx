@@ -45,7 +45,7 @@ export default async function CaseStudiesPage() {
 			<section className="py-24 md:py-44">
 				<div className="mx-auto max-w-[1320px] px-6">
 					<div className="max-w-[720px]">
-						<h1 className="font-display text-[30px] leading-[1.05] tracking-[-0.028em] md:text-[42px]">
+						<h1 className="font-display text-[32px] leading-[1.05] md:text-[48px]">
 							{t("title")}
 						</h1>
 						<p className="mt-5 max-w-[560px] text-[17px] text-muted-foreground leading-[1.55]">
@@ -80,7 +80,7 @@ export default async function CaseStudiesPage() {
 								<span className="text-brand text-xs">
 									{cs.industry}
 								</span>
-								<h2 className="mt-2 font-display text-xl leading-[1.25] tracking-[-0.018em]">
+								<h2 className="mt-2 font-display text-xl leading-[1.25] tracking-[-0.04em]">
 									{cs.title}
 								</h2>
 								<p className="mt-3 text-muted-foreground text-sm leading-[1.6]">

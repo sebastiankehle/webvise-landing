@@ -134,7 +134,7 @@ export default async function AboutPage() {
 									<span className="text-brand text-xs">
 										{t("intro.role")}
 									</span>
-									<h1 className="mt-1 font-display text-[30px] leading-[1.05] tracking-[-0.028em] md:text-[42px]">
+									<h1 className="mt-1 font-display text-[32px] leading-[1.05] md:text-[48px]">
 										{t("intro.name")}
 									</h1>
 								</div>

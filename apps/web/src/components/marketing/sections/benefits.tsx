@@ -16,7 +16,7 @@ export default async function Benefits() {
 	return (
 		<SectionWrapper id="benefits">
 			<div className="max-w-[640px]">
-				<h2 className="font-display text-[24px] leading-[1.1] tracking-[-0.022em] md:text-[32px]">
+				<h2 className="font-display text-[28px] leading-[1.15] md:text-[40px]">
 					{t("title")}
 				</h2>
 				<p className="mt-5 max-w-[520px] text-[15px] text-muted-foreground leading-[1.6]">
@@ -32,7 +32,7 @@ export default async function Benefits() {
 						<div className="flex h-10 w-10 items-center justify-center border border-brand/20 bg-brand/5">
 							<Icon className="h-5 w-5 text-brand" strokeWidth={1.5} />
 						</div>
-						<h3 className="mt-5 font-display text-xl tracking-[-0.018em]">
+						<h3 className="mt-5 font-display text-xl tracking-[-0.04em]">
 							{t(`${key}.title`)}
 						</h3>
 						<p className="mt-3 text-muted-foreground text-sm leading-[1.6]">

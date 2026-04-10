@@ -14,7 +14,7 @@ export default async function Hero() {
 				<HeroContent>
 					<div className="grid items-center gap-16 md:grid-cols-2">
 						<div>
-							<h1 className="text-balance font-display text-[30px] leading-[1.05] tracking-[-0.028em] md:text-[48px]">
+							<h1 className="text-balance font-display text-[32px] leading-[1.05] md:text-[48px]">
 								{t.rich("title", {
 									brand: (chunks) => (
 										<span className="text-brand">{chunks}</span>

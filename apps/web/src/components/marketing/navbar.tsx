@@ -121,7 +121,7 @@ export default function Navbar({
 						}}
 					>
 						<Logo className="h-7 w-7" animated />
-						<span className="font-display text-[22px] tracking-[-0.022em]">
+						<span className="font-display text-[22px]">
 							webvise
 						</span>
 					</Link>
@@ -374,7 +374,7 @@ export default function Navbar({
 											<p className="mt-1 text-muted-foreground text-xs leading-relaxed">
 												{tpr(`tiers.${key}.description`)}
 											</p>
-											<p className="mt-auto pt-3 font-display text-xl tracking-[-0.02em]">
+											<p className="mt-auto pt-3 font-display text-xl tracking-[-0.04em]">
 												{tpr(`tiers.${key}.price`)}
 											</p>
 											<span className="text-muted-foreground text-xs">

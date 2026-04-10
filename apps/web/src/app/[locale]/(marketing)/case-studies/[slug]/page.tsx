@@ -185,7 +185,7 @@ export default async function CaseStudyPage({
 							<span className="text-brand text-xs">
 								{cs.client} &middot; {cs.industry}
 							</span>
-							<h1 className="mt-3 font-display text-[30px] leading-[1.05] tracking-[-0.028em] md:text-[42px]">
+							<h1 className="mt-3 font-display text-[32px] leading-[1.05] md:text-[48px]">
 								{cs.title}
 							</h1>
 							<p className="mt-4 text-lg text-muted-foreground leading-relaxed">
@@ -271,7 +271,7 @@ export default async function CaseStudyPage({
 									<span className="block select-none font-display text-5xl text-brand/30 leading-none">
 										&ldquo;
 									</span>
-									<blockquote className="mt-3 text-muted-foreground text-sm italic leading-relaxed">
+									<blockquote className="mt-3 text-muted-foreground text-sm leading-relaxed">
 										{cs.testimonial.quote}
 									</blockquote>
 								</div>

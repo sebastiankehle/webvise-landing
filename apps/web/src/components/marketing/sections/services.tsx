@@ -12,7 +12,7 @@ export default async function Services() {
 	return (
 		<SectionWrapper id="services">
 			<div className="max-w-[640px]">
-				<h2 className="font-display text-[24px] leading-[1.1] tracking-[-0.022em] md:text-[32px]">
+				<h2 className="font-display text-[28px] leading-[1.15] md:text-[40px]">
 					{t("title")}
 				</h2>
 				<p className="mt-5 max-w-[520px] text-[15px] text-muted-foreground leading-[1.6]">
@@ -34,7 +34,7 @@ export default async function Services() {
 								<div className="flex h-10 w-10 items-center justify-center border border-brand/20 bg-brand/5 transition-colors group-hover:border-brand/40 group-hover:bg-brand/10">
 									<service.icon className="h-5 w-5 text-brand" strokeWidth={1.5} />
 								</div>
-								<h3 className="font-display text-xl tracking-[-0.018em]">
+								<h3 className="font-display text-xl tracking-[-0.04em]">
 									{t(`${service.translationKey}.title`)}
 								</h3>
 							</div>
@@ -43,7 +43,7 @@ export default async function Services() {
 							</p>
 						</div>
 						<div className="mt-8 flex items-center justify-between border-border/40 border-t pt-5">
-							<span className="text-muted-foreground text-xs">
+							<span className="font-mono text-muted-foreground text-xs">
 								{t(`${service.translationKey}.timeline`)}
 							</span>
 							<ArrowRight className="h-4 w-4 text-muted-foreground transition-all group-hover:translate-x-1 group-hover:text-brand" />

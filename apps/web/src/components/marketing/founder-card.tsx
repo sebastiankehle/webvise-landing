@@ -19,7 +19,7 @@ export default async function FounderCard() {
 			/>
 			<div className="min-w-0">
 				<div className="flex items-center gap-3">
-					<h3 className="font-display text-lg tracking-tight">
+					<h3 className="font-display text-lg tracking-[-0.04em]">
 						{t("name")}
 					</h3>
 					<span className="text-brand text-xs">{t("role")}</span>

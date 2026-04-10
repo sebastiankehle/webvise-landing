@@ -192,7 +192,7 @@ export default async function ServicePage({
 							<span className="text-brand text-xs">
 								{t(`${key}.price`)} &middot; {t(`${key}.timeline`)}
 							</span>
-							<h1 className="mt-3 font-display text-[30px] leading-[1.05] tracking-[-0.028em] md:text-[42px]">
+							<h1 className="mt-3 font-display text-[32px] leading-[1.05] md:text-[48px]">
 								{t(`${key}.title`)}
 							</h1>
 							<p className="mt-4 text-lg text-muted-foreground leading-relaxed">
@@ -234,7 +234,7 @@ export default async function ServicePage({
 
 			<SectionWrapper id="why">
 				<div className="max-w-2xl">
-					<h2 className="font-display text-3xl tracking-tight md:text-4xl">
+					<h2 className="font-display text-[28px] leading-[1.15] md:text-[40px]">
 						{td("painPointsTitle")}
 					</h2>
 				</div>

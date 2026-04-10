@@ -36,7 +36,7 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 							className="flex items-center gap-2.5"
 						>
 							<Logo className="h-7 w-7" animated />
-							<span className="font-display text-[22px] tracking-[-0.022em]">
+							<span className="font-display text-[22px]">
 								webvise
 							</span>
 						</Link>
@@ -66,7 +66,7 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 					<div className="grid grid-cols-2 gap-x-8 gap-y-10 md:col-span-6">
 						{/* Company */}
 						<div>
-							<h3 className="mb-5 text-muted-foreground/50 text-xs">
+							<h3 className="mb-5 font-mono text-muted-foreground/50 text-xs">
 								{t("sections.company")}
 							</h3>
 							<ul className="space-y-3">
@@ -85,7 +85,7 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 
 						{/* Services */}
 						<div>
-							<h3 className="mb-5 text-muted-foreground/50 text-xs">
+							<h3 className="mb-5 font-mono text-muted-foreground/50 text-xs">
 								{t("sections.services")}
 							</h3>
 							<ul className="space-y-3">
@@ -104,7 +104,7 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 
 						{/* Explore */}
 						<div>
-							<h3 className="mb-5 text-muted-foreground/50 text-xs">
+							<h3 className="mb-5 font-mono text-muted-foreground/50 text-xs">
 								{t("sections.explore")}
 							</h3>
 							<ul className="space-y-3">
@@ -137,7 +137,7 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 
 						{/* Resources */}
 						<div>
-							<h3 className="mb-5 text-muted-foreground/50 text-xs">
+							<h3 className="mb-5 font-mono text-muted-foreground/50 text-xs">
 								{t("sections.resources")}
 							</h3>
 							<ul className="space-y-3">
@@ -163,7 +163,7 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 
 					{/* Contact */}
 					<div className="md:col-span-3">
-						<h3 className="mb-5 text-muted-foreground/50 text-xs">
+						<h3 className="mb-5 font-mono text-muted-foreground/50 text-xs">
 							{t("sections.contact")}
 						</h3>
 						<ul className="space-y-3 text-sm">

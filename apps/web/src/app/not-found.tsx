@@ -1,9 +1,9 @@
-import { Geist } from "next/font/google";
+import { Inter } from "next/font/google";
 import { getTranslations } from "next-intl/server";
 import "../index.css";
 
-const geistSans = Geist({
-	variable: "--font-geist-sans",
+const inter = Inter({
+	variable: "--font-inter",
 	subsets: ["latin"],
 });
 
@@ -11,12 +11,12 @@ export default async function GlobalNotFound() {
 	const t = await getTranslations("notFound");
 
 	return (
-		<html lang="en" className={geistSans.variable}>
+		<html lang="en" className={inter.variable}>
 			<body className="flex min-h-screen flex-col items-center justify-center bg-background px-6 font-sans antialiased">
 				<p className="font-medium text-muted-foreground/50 text-sm">
 					404
 				</p>
-				<h1 className="mt-4 font-normal text-4xl tracking-tight md:text-5xl">
+				<h1 className="mt-4 font-display text-[32px] leading-[1.05] md:text-[48px]">
 					{t("title")}
 				</h1>
 				<p className="mt-4 max-w-md text-center font-light text-muted-foreground">

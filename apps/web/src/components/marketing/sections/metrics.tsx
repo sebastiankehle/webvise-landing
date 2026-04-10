@@ -12,7 +12,7 @@ export default async function Metrics() {
 	return (
 		<SectionWrapper id="metrics" dark>
 			<div className="max-w-[640px]">
-				<h2 className="font-display text-[24px] leading-[1.1] tracking-[-0.022em] md:text-[32px]">
+				<h2 className="font-display text-[28px] leading-[1.15] md:text-[40px]">
 					{t("title")}
 				</h2>
 				<p className="mt-5 max-w-[520px] text-[15px] text-muted-foreground leading-[1.6]">
@@ -25,7 +25,7 @@ export default async function Metrics() {
 						key={key}
 						className="border-border nth-[-n+2]:border-b p-6 odd:border-r md:not-last:border-r md:nth-[-n+2]:border-b-0 md:p-10 md:odd:border-r-0"
 					>
-						<p className="font-display text-4xl leading-[1] tracking-[-0.04em] md:text-6xl">
+						<p className="font-display text-[36px] leading-[1] tracking-[-0.04em] md:text-[48px]">
 							{t(`${key}.value`)}
 						</p>
 						<p className="mt-3 text-muted-foreground text-sm">

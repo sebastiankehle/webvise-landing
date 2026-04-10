@@ -111,7 +111,7 @@ function ReportResults({ data }: { data: ReportData }) {
 		<div>
 			{/* Header */}
 				<div className="flex flex-col gap-1 md:flex-row md:items-baseline md:justify-between">
-					<h2 className="font-normal text-3xl tracking-tight md:text-4xl">
+					<h2 className="font-display text-[28px] leading-[1.15] md:text-[40px]">
 						{t("results.title")}
 					</h2>
 					<p className="font-light text-muted-foreground text-sm">
@@ -294,7 +294,7 @@ function TeaserResults({
 	return (
 		<div>
 			<div className="flex flex-col gap-1 md:flex-row md:items-baseline md:justify-between">
-				<h2 className="font-normal text-3xl tracking-tight md:text-4xl">
+				<h2 className="font-display text-[28px] leading-[1.15] md:text-[40px]">
 					{t("results.title")}
 				</h2>
 				<p className="font-light text-muted-foreground text-sm">
@@ -452,7 +452,7 @@ export default function WpHealthReport() {
 					<>
 						<div className="grid items-start gap-12 md:grid-cols-2 md:gap-16">
 							<div>
-								<h1 className="font-normal text-3xl leading-[1.15] tracking-tight md:text-[48px]">
+								<h1 className="font-display text-[32px] leading-[1.05] md:text-[48px]">
 									{t.rich("hero.title", {
 										brand: (chunks) => (
 											<span className="text-brand">{chunks}</span>

@@ -15,7 +15,7 @@ export default async function BlogPreview() {
 		<SectionWrapper id="blog" alternate>
 			<div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-end">
 				<div className="max-w-[640px]">
-					<h2 className="font-display text-[24px] leading-[1.1] tracking-[-0.022em] md:text-[32px]">
+					<h2 className="font-display text-[28px] leading-[1.15] md:text-[40px]">
 						{t("title")}
 					</h2>
 					<p className="mt-5 max-w-[520px] text-[15px] text-muted-foreground leading-[1.6]">
@@ -36,7 +36,7 @@ export default async function BlogPreview() {
 						href={{ pathname: "/blog/[slug]", params: { slug: post.slug } }}
 						className="group flex flex-col border-border/40 not-last:border-b p-8 transition-colors hover:bg-muted/30 md:not-[:nth-last-child(-n+3)]:border-b md:[&:nth-child(3n+1)]:border-r md:[&:nth-child(3n+2)]:border-r md:p-10"
 					>
-						<div className="flex items-center gap-3 text-muted-foreground text-xs">
+						<div className="flex items-center gap-3 font-mono text-muted-foreground text-xs">
 							<time dateTime={post.date}>
 								{new Date(post.date).toLocaleDateString(locale, {
 									day: "numeric",
@@ -49,7 +49,7 @@ export default async function BlogPreview() {
 								{post.readingTime} {t("minRead")}
 							</span>
 						</div>
-						<h3 className="mt-5 font-display text-xl leading-[1.25] tracking-[-0.018em] transition-colors group-hover:text-brand">
+						<h3 className="mt-5 font-display text-xl leading-[1.25] tracking-[-0.04em] transition-colors group-hover:text-brand">
 							{post.title}
 						</h3>
 						<p className="mt-3 line-clamp-3 text-muted-foreground text-sm leading-[1.6]">

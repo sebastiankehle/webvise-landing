@@ -47,7 +47,7 @@ export default function FAQ() {
 		<SectionWrapper id="faq">
 			<div className="grid gap-12 md:grid-cols-[1fr_2fr] md:gap-20">
 				<div>
-					<h2 className="font-display text-[24px] leading-[1.1] tracking-[-0.022em] md:text-[32px]">
+					<h2 className="font-display text-[28px] leading-[1.15] md:text-[40px]">
 						{t("title")}
 					</h2>
 					<p className="mt-5 text-[15px] text-muted-foreground leading-[1.6]">

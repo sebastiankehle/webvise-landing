@@ -54,7 +54,7 @@ export default async function TechStack() {
 	return (
 		<SectionWrapper id="tech-stack" alternate>
 			<div className="max-w-[640px]">
-				<h2 className="font-display text-[24px] leading-[1.1] tracking-[-0.022em] md:text-[32px]">
+				<h2 className="font-display text-[28px] leading-[1.15] md:text-[40px]">
 					{t("title")}
 				</h2>
 				<p className="mt-5 max-w-[520px] text-[15px] text-muted-foreground leading-[1.6]">
@@ -67,7 +67,7 @@ export default async function TechStack() {
 						key={cat.key}
 						className="border-border/40 nth-[-n+2]:border-b p-6 odd:border-r md:p-8 lg:not-last:border-r lg:nth-[-n+2]:border-b-0 lg:odd:border-r-0"
 					>
-						<p className="mb-5 text-muted-foreground/50 text-xs">
+						<p className="mb-5 font-mono text-muted-foreground/50 text-xs">
 							{t(cat.key)}
 						</p>
 						<div className="flex flex-wrap gap-2">
