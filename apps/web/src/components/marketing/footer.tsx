@@ -186,8 +186,8 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 			{/* Bottom bar */}
 			<div className="border-[--border] border-t">
 				<div className="mx-auto flex max-w-[1320px] flex-col items-center justify-between gap-4 px-6 py-6 md:flex-row">
-					<p className="text-xs text-muted-foreground/60">{t("legal.copyright", { year })}</p>
-					<div className="flex gap-6 text-xs text-muted-foreground/60">
+					<p className="font-mono text-xs text-muted-foreground/60">{t("legal.copyright", { year })}</p>
+					<div className="flex gap-6 font-mono text-xs text-muted-foreground/60">
 						<Link
 							href="/privacy"
 							className="transition-colors hover:text-[--foreground]"

@@ -34,7 +34,7 @@ export default async function Testimonials() {
 						</div>
 						<div className="mt-8 border-border/40 border-t pt-5">
 							<p className="text-sm">{t(`items.${key}.author`)}</p>
-							<p className="mt-0.5 text-muted-foreground text-xs">
+							<p className="mt-0.5 font-mono text-muted-foreground text-xs">
 								{t(`items.${key}.role`)}
 								{t(`items.${key}.company`) && `, ${t(`items.${key}.company`)}`}
 							</p>

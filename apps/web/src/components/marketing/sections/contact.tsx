@@ -91,7 +91,7 @@ export default function Contact() {
 						</p>
 						<Button
 							size="sm"
-							className="mt-5"
+							className="mt-5 font-mono"
 							onClick={() => track("book_call_clicked", { location: "contact_section" })}
 							render={
 								// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
@@ -263,7 +263,7 @@ export default function Contact() {
 								isSubmitting={isSubmitting}
 								disabled={!canSubmit}
 								size="lg"
-								className="w-full border-transparent bg-brand text-white [&]:hover:bg-brand/80 md:h-10 md:text-sm"
+								className="w-full border-transparent bg-brand font-mono text-white [&]:hover:bg-brand/80 md:h-10 md:text-sm"
 							>
 								{t("form.submit")}
 							</SubmitButton>

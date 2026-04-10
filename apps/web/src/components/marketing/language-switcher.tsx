@@ -48,7 +48,7 @@ export default function LanguageSwitcher({ id }: { id?: string }) {
 
 	return (
 		<DropdownMenu>
-			<DropdownMenuTrigger id={id} className="flex cursor-pointer items-center gap-1.5 text-muted-foreground text-xs uppercase tracking-wider transition-colors hover:text-foreground">
+			<DropdownMenuTrigger id={id} className="flex cursor-pointer items-center gap-1.5 font-mono text-muted-foreground text-xs transition-colors hover:text-foreground">
 				<Globe className="size-4" />
 				{locale}
 			</DropdownMenuTrigger>
@@ -59,7 +59,7 @@ export default function LanguageSwitcher({ id }: { id?: string }) {
 						className={locale === loc ? "font-medium text-foreground" : ""}
 						onClick={() => switchLocale(loc)}
 					>
-						<span className="w-6 text-muted-foreground uppercase">{loc}</span>
+						<span className="w-6 font-mono text-muted-foreground">{loc}</span>
 						{localeLabels[loc]}
 					</DropdownMenuItem>
 				))}

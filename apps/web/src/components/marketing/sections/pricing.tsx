@@ -45,7 +45,7 @@ export default async function Pricing() {
 										{t(`tiers.${key}.name`)}
 									</h3>
 									{hasBadge && (
-										<span className="border border-brand bg-brand px-2 py-0.5 text-[10px] text-white">
+										<span className="border border-brand bg-brand px-2 py-0.5 font-mono text-[10px] text-white">
 											{t(`tiers.${key}.badge`)}
 										</span>
 									)}
@@ -73,7 +73,7 @@ export default async function Pricing() {
 								</p>
 								<Button
 									size="sm"
-									className="mt-5 w-full border-transparent bg-brand text-white [&]:hover:bg-brand/80"
+									className="mt-5 w-full border-transparent bg-brand font-mono text-white [&]:hover:bg-brand/80"
 									data-ph-capture-attribute-cta-location="pricing"
 									data-ph-capture-attribute-cta-variant={key}
 									render={<Link href={{ pathname: "/", hash: "contact" }} />}

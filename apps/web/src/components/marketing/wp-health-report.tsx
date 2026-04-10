@@ -99,7 +99,7 @@ function ScoreRing({
 					{score}
 				</span>
 			</div>
-			<span className="text-muted-foreground text-xs">{label}</span>
+			<span className="font-mono text-muted-foreground text-xs">{label}</span>
 		</div>
 	);
 }
@@ -135,7 +135,7 @@ function ReportResults({ data }: { data: ReportData }) {
 
 				{/* Projected score - visually separated */}
 				<div className="mt-4 border-2 border-brand bg-brand/5 p-5">
-					<p className="mb-3 text-center font-medium text-brand text-xs">
+					<p className="mb-3 text-center font-mono text-brand text-xs">
 						{t("results.projectedLabel")}
 					</p>
 					<div className="flex justify-center">
@@ -154,7 +154,7 @@ function ReportResults({ data }: { data: ReportData }) {
 				{data.vitals && data.vitals.length > 0 && (
 					<div className="mt-px border border-border/40 border-t-0">
 						<div className="border-border/40 border-b px-5 py-3">
-							<h3 className="font-medium text-muted-foreground text-xs">
+							<h3 className="font-mono text-muted-foreground text-xs">
 								{t("results.webVitalsTitle")}
 							</h3>
 							<p className="mt-1 text-muted-foreground text-xs">
@@ -178,7 +178,7 @@ function ReportResults({ data }: { data: ReportData }) {
 											<span className={cn("font-medium text-sm", text)}>
 												{vital.displayValue}
 											</span>
-											<span className="text-muted-foreground text-xs">
+											<span className="font-mono text-muted-foreground text-xs">
 												{vital.label}
 											</span>
 										</div>
@@ -197,7 +197,7 @@ function ReportResults({ data }: { data: ReportData }) {
 				{/* Security flags - only show if present */}
 				{data.securityFlags.length > 0 && (
 					<div className="mt-px border border-border/40 border-t-0 p-5">
-						<h3 className="font-medium text-muted-foreground text-xs">
+						<h3 className="font-mono text-muted-foreground text-xs">
 							{t("results.securityRisks")}
 						</h3>
 						<ul className="mt-3 space-y-2">
@@ -217,7 +217,7 @@ function ReportResults({ data }: { data: ReportData }) {
 				{/* Migration estimate + CTA */}
 				<div className="mt-px grid items-center gap-6 border border-border/40 border-t-2 border-t-brand p-6 md:grid-cols-[1fr_auto]">
 					<div>
-						<h3 className="font-medium text-muted-foreground text-xs">
+						<h3 className="font-mono text-muted-foreground text-xs">
 							{t("results.migrationEstimate")}
 						</h3>
 						<p className="mt-2 font-light text-muted-foreground text-sm leading-relaxed">
@@ -232,7 +232,7 @@ function ReportResults({ data }: { data: ReportData }) {
 					</div>
 					<div className="flex flex-wrap gap-3">
 						<Button
-							className="border-brand bg-brand text-white [&]:hover:bg-brand/80"
+							className="border-brand bg-brand font-mono text-white [&]:hover:bg-brand/80"
 							onClick={() => track("book_call_clicked", { location: "analyzer_results" })}
 							render={
 								// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
@@ -247,6 +247,7 @@ function ReportResults({ data }: { data: ReportData }) {
 						</Button>
 						<Button
 							variant="outline"
+							className="font-mono"
 							onClick={() => track("cta_clicked", { location: "analyzer_results", variant: "contact" })}
 							render={<Link href={{ pathname: "/", hash: "contact" }} />}
 						>
@@ -315,7 +316,7 @@ function TeaserResults({
 
 			{/* Projected score */}
 			<div className="mt-4 border-2 border-brand bg-brand/5 p-5">
-				<p className="mb-3 text-center font-medium text-brand text-xs">
+				<p className="mb-3 text-center font-mono text-brand text-xs">
 					{t("results.projectedLabel")}
 				</p>
 				<div className="flex justify-center">
@@ -359,7 +360,7 @@ function TeaserResults({
 					/>
 					<Button
 						type="submit"
-						className="border-transparent bg-brand text-white md:h-8 md:text-xs [&]:hover:bg-brand/80"
+						className="border-transparent bg-brand font-mono text-white md:h-8 md:text-xs [&]:hover:bg-brand/80"
 					>
 						{t("gate.unlock")}
 					</Button>
@@ -530,7 +531,7 @@ export default function WpHealthReport() {
 											isSubmitting={isSubmitting}
 											disabled={!canSubmit}
 											size="lg"
-											className="w-full border-transparent bg-brand text-white md:h-8 md:text-xs [&]:hover:bg-brand/80"
+											className="w-full border-transparent bg-brand font-mono text-white md:h-8 md:text-xs [&]:hover:bg-brand/80"
 										>
 											{t("form.submit")}
 										</SubmitButton>

@@ -92,7 +92,7 @@ export default async function BlogPage({
 								href={`/blog/${post.slug}` as "/blog"}
 								className="group flex flex-col p-8 transition-colors hover:bg-muted/30 md:p-10"
 							>
-								<div className="flex items-center gap-3 text-muted-foreground text-xs">
+								<div className="flex items-center gap-3 font-mono text-muted-foreground text-xs">
 									<time dateTime={post.date}>
 										{new Date(post.date).toLocaleDateString(locale, {
 											day: "numeric",

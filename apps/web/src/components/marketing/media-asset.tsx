@@ -236,7 +236,7 @@ export function LogoAsset({
 			</div>
 			<canvas ref={initCanvas} className="hidden" />
 			<div className="flex items-center justify-between">
-				<p className="text-muted-foreground text-xs">
+				<p className="font-mono text-muted-foreground text-xs">
 					{size} x {size}px
 				</p>
 				<button
@@ -377,7 +377,7 @@ export function BannerAsset({
 			</div>
 			<canvas ref={initCanvas} className="hidden" />
 			<div className="flex items-center justify-between">
-				<p className="text-muted-foreground text-xs">
+				<p className="font-mono text-muted-foreground text-xs">
 					{width} x {height}px
 				</p>
 				<button
@@ -505,7 +505,7 @@ export function WallpaperAsset({
 			</div>
 			<canvas ref={initCanvas} className="hidden" />
 			<div className="flex items-center justify-between">
-				<p className="text-muted-foreground text-xs">
+				<p className="font-mono text-muted-foreground text-xs">
 					{width} x {height}px
 				</p>
 				<button

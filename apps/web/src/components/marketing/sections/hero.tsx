@@ -33,7 +33,7 @@ export default async function Hero() {
 							<div className="mt-12 flex flex-col gap-4 sm:flex-row">
 								<Button
 									size="lg"
-									className="border-transparent bg-brand px-8 text-white [&]:hover:bg-brand/80"
+									className="border-transparent bg-brand px-8 font-mono text-white [&]:hover:bg-brand/80"
 									data-ph-capture-attribute-cta-location="hero"
 									data-ph-capture-attribute-cta-variant="primary"
 									render={<Link href={{ pathname: "/", hash: "contact" }} />}
@@ -43,6 +43,7 @@ export default async function Hero() {
 								<Button
 									size="lg"
 									variant="outline"
+									className="font-mono"
 									data-ph-capture-attribute-cta-location="hero"
 									data-ph-capture-attribute-cta-variant="secondary"
 									render={<Link href={{ pathname: "/", hash: "services" }} />}

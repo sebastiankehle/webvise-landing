@@ -131,7 +131,7 @@ export default async function AboutPage() {
 									priority
 								/>
 								<div>
-									<span className="text-brand text-xs">
+									<span className="font-mono text-brand text-xs">
 										{t("intro.role")}
 									</span>
 									<h1 className="mt-1 font-display text-[32px] leading-[1.05] md:text-[48px]">
@@ -153,7 +153,7 @@ export default async function AboutPage() {
 
 						{/* Connect card */}
 						<div className="border border-border/40 p-6 md:p-8">
-							<p className="mb-5 text-muted-foreground/50 text-xs">
+							<p className="mb-5 font-mono text-muted-foreground/50 text-xs">
 								{t("connect.title")}
 							</p>
 							<div className="flex flex-wrap gap-2">
@@ -215,10 +215,10 @@ export default async function AboutPage() {
 											</h3>
 										</div>
 										<div className="shrink-0 text-right">
-											<p className="text-xs text-muted-foreground">
+											<p className="font-mono text-xs text-muted-foreground">
 												{t(`experience.items.${i}.period`)}
 											</p>
-											<p className="text-xs text-muted-foreground/60">
+											<p className="font-mono text-xs text-muted-foreground/60">
 												{t(`experience.items.${i}.location`)}
 											</p>
 										</div>
@@ -242,7 +242,7 @@ export default async function AboutPage() {
 					<div className="mt-10 space-y-8">
 						{(["languages", "frontend", "backend", "data", "ai", "platform"] as const).map((section) => (
 							<div key={section}>
-								<p className="mb-3 text-xs text-muted-foreground/50">
+								<p className="mb-3 font-mono text-xs text-muted-foreground/50">
 									{t(`stack.sections.${section}.label`)}
 								</p>
 								<div className="flex flex-wrap gap-2">

@@ -25,7 +25,7 @@ export default function FooterCtaBanner({
 				</div>
 				<Button
 					size="lg"
-					className="[a]:hover:!bg-brand/80 shrink-0 border-transparent bg-brand px-8 text-white"
+					className="[a]:hover:!bg-brand/80 shrink-0 border-transparent bg-brand px-8 font-mono text-white"
 					data-ph-capture-attribute-cta-location="footer"
 					data-ph-capture-attribute-cta-variant="primary"
 					// biome-ignore lint/a11y/useAnchorContent: content provided by Button children

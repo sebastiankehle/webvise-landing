@@ -16,7 +16,7 @@ export default async function WpHealthCta() {
 						<div className="flex h-8 w-8 items-center justify-center border border-brand/20 bg-brand/5">
 							<Activity className="h-4 w-4 text-brand" strokeWidth={1.5} />
 						</div>
-						<span className="text-brand text-xs">
+						<span className="font-mono text-brand text-xs">
 							{t("badge")}
 						</span>
 					</div>
@@ -29,7 +29,7 @@ export default async function WpHealthCta() {
 					<div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
 						<Button
 							size="lg"
-							className="border-transparent bg-brand px-8 text-white [&]:hover:bg-brand/80"
+							className="border-transparent bg-brand px-8 font-mono text-white [&]:hover:bg-brand/80"
 							data-ph-capture-attribute-cta-location="wp-health-cta"
 							data-ph-capture-attribute-cta-variant="analyzer"
 							render={<Link href="/wp-health-report" />}
@@ -44,7 +44,7 @@ export default async function WpHealthCta() {
 				<div className="flex items-center justify-center">
 					<div className="w-full max-w-xs space-y-5 border border-border/40 p-8">
 						<div className="flex items-center justify-between">
-							<span className="text-muted-foreground text-xs">
+							<span className="font-mono text-muted-foreground text-xs">
 								PageSpeed Score
 							</span>
 							<span className="font-display text-lg text-orange-600">32</span>
@@ -58,7 +58,7 @@ export default async function WpHealthCta() {
 							<span className="h-px flex-1 bg-border/40" />
 						</div>
 						<div className="flex items-center justify-between">
-							<span className="text-muted-foreground text-xs">
+							<span className="font-mono text-muted-foreground text-xs">
 								After Next.js
 							</span>
 							<span className="font-display text-lg text-green-600">95</span>

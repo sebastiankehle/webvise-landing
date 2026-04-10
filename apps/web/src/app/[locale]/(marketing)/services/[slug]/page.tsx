@@ -189,7 +189,7 @@ export default async function ServicePage({
 					<div className="grid items-start gap-12 md:grid-cols-3 md:gap-16">
 						{/* Title + info */}
 						<div className="md:col-span-2">
-							<span className="text-brand text-xs">
+							<span className="font-mono text-brand text-xs">
 								{t(`${key}.price`)} &middot; {t(`${key}.timeline`)}
 							</span>
 							<h1 className="mt-3 font-display text-[32px] leading-[1.05] md:text-[48px]">
@@ -202,7 +202,7 @@ export default async function ServicePage({
 							{/* Metadata bar */}
 							<div className="mt-10 flex flex-wrap items-start gap-x-8 gap-y-4 border-border/40 border-t pt-6">
 								<div>
-									<span className="block text-muted-foreground text-xs">
+									<span className="block font-mono text-muted-foreground text-xs">
 										{td("aboutTitle")}
 									</span>
 									<p className="mt-1 max-w-lg text-sm leading-relaxed">
@@ -214,7 +214,7 @@ export default async function ServicePage({
 
 						{/* Tools box */}
 						<div className="border border-border/40 p-6 md:p-8">
-							<p className="mb-5 text-muted-foreground/50 text-xs">
+							<p className="mb-5 font-mono text-muted-foreground/50 text-xs">
 								{td("toolsTitle")}
 							</p>
 							<div className="flex flex-wrap gap-2">
@@ -281,7 +281,7 @@ export default async function ServicePage({
 							key={t(`${key}.deliverables.${i}`)}
 							className="flex gap-4 not-last:border-border/40 not-last:border-b px-6 py-5"
 						>
-							<span className="font-display text-brand/50 text-xs">
+							<span className="font-mono text-brand/50 text-xs">
 								{String(i + 1).padStart(2, "0")}
 							</span>
 							<span className="text-sm leading-relaxed">
@@ -374,7 +374,7 @@ export default async function ServicePage({
 										/>
 									)}
 									<div className="p-6">
-										<span className="text-brand text-xs">
+										<span className="font-mono text-brand text-xs">
 											{cs!.client} &middot; {cs!.industry}
 										</span>
 										<h3 className="mt-2 font-display text-lg tracking-tight transition-colors group-hover:text-brand">

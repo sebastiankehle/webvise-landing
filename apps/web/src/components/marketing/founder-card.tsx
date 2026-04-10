@@ -22,7 +22,7 @@ export default async function FounderCard() {
 					<h3 className="font-display text-lg tracking-[-0.04em]">
 						{t("name")}
 					</h3>
-					<span className="text-brand text-xs">{t("role")}</span>
+					<span className="font-mono text-brand text-xs">{t("role")}</span>
 				</div>
 				<p className="mt-1 text-muted-foreground text-sm leading-relaxed">
 					{t("description")}
@@ -30,7 +30,7 @@ export default async function FounderCard() {
 				<div className="mt-3 flex items-center gap-4">
 					<Link
 						href="/about"
-						className="group inline-flex items-center gap-1.5 text-brand text-xs transition-opacity hover:opacity-80"
+						className="group inline-flex items-center gap-1.5 font-mono text-brand text-xs transition-opacity hover:opacity-80"
 					>
 						{t("link")}
 						<ArrowUpRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -39,7 +39,7 @@ export default async function FounderCard() {
 						href="https://linkedin.com/in/sebastiankehle"
 						target="_blank"
 						rel="noopener noreferrer"
-						className="text-muted-foreground text-xs transition-colors hover:text-foreground"
+						className="font-mono text-muted-foreground text-xs transition-colors hover:text-foreground"
 					>
 						LinkedIn
 					</a>

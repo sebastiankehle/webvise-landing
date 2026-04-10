@@ -315,7 +315,7 @@ export default async function BlogPostPage({
 					<div className="grid items-start gap-12 md:grid-cols-3 md:gap-16">
 						{/* Title + info */}
 						<div className="md:col-span-2">
-							<span className="text-brand text-xs">
+							<span className="font-mono text-brand text-xs">
 								<time dateTime={post.date}>
 									{new Date(post.date).toLocaleDateString(locale, {
 										day: "numeric",
@@ -337,7 +337,7 @@ export default async function BlogPostPage({
 						{/* Tags box */}
 						{post.tags && post.tags.length > 0 && (
 							<div className="border border-border/40 p-6 md:p-8">
-								<p className="mb-5 text-muted-foreground/50 text-xs">
+								<p className="mb-5 font-mono text-muted-foreground/50 text-xs">
 									{t("tagsLabel")}
 								</p>
 								<div className="flex flex-wrap gap-2">
@@ -395,7 +395,7 @@ export default async function BlogPostPage({
 										href={`/blog/${prev.slug}` as "/blog"}
 										className="group border border-border/40 p-6 transition-colors hover:border-brand/30"
 									>
-										<span className="text-brand text-xs">
+										<span className="font-mono text-brand text-xs">
 											{t("prevPost")}
 										</span>
 										<h3 className="mt-2 font-display text-lg tracking-tight transition-colors group-hover:text-brand">
@@ -411,7 +411,7 @@ export default async function BlogPostPage({
 										href={`/blog/${next.slug}` as "/blog"}
 										className="group border border-border/40 p-6 transition-colors hover:border-brand/30"
 									>
-										<span className="text-brand text-xs">
+										<span className="font-mono text-brand text-xs">
 											{t("nextPost")}
 										</span>
 										<h3 className="mt-2 font-display text-lg tracking-tight transition-colors group-hover:text-brand">
