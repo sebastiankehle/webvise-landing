@@ -6,7 +6,7 @@
 
 This design system is built on the intersection of Swiss-style precision and restrained digital craftsmanship. It achieves distinction through sharp geometry, a monochromatic foundation punctured by a singular warm accent, and generous use of whitespace as a structural element.
 
-The system uses **Geist** as its typographic backbone, **OKLCH** for perceptually uniform color, and **zero border-radius** as a defining geometric choice. Every surface, component, and interaction is designed to feel engineered rather than decorated.
+The system uses a **strict two-font system** inspired by Exalt Studio: **Inter** for all content (headings, body, links) and **Geist Mono** for all UI chrome (labels, metadata, buttons, badges) with auto-uppercase. **OKLCH** provides perceptually uniform color, and **zero border-radius** is a defining geometric choice. Every surface, component, and interaction is designed to feel engineered rather than decorated.
 
 **Core Principles:**
 - **Sharp geometry** - `border-radius: 0` everywhere. No rounded corners. No pills.
@@ -99,7 +99,7 @@ For data visualization, five chart tokens are defined (light mode uses warm oran
 
 ## 3. Typography
 
-Inter-based typography system: **medium (500) weight for display**, tight negative tracking (-0.05em for headings, -0.04em for sub-headings), and character-width-tuned paragraph max-widths. The goal is a crisp, modern feel with strong visual hierarchy.
+A strict two-font system inspired by Exalt Studio. **Inter** handles all content with medium (500) weight for display and tight negative tracking. **Geist Mono** handles all UI chrome (labels, metadata, buttons, badges) with auto-uppercase enforced via CSS. This creates a clear visual hierarchy between "chrome" (mono/uppercase) and "content" (Inter/mixed-case).
 
 ### 3.1 Font Stack
 
@@ -107,7 +107,7 @@ Inter-based typography system: **medium (500) weight for display**, tight negati
 |---|---|---|---|
 | Sans (body) | Inter | `--font-inter` → `--font-sans` | All body text, UI elements |
 | Display | Inter | `--font-inter` → `--font-display` | Headlines, brand wordmark, section titles |
-| Mono | Geist Mono | `--font-geist-mono` → `--font-mono` | Code blocks, technical labels, footer section headings |
+| Mono | Geist Mono | `--font-geist-mono` → `--font-mono` | All UI chrome: labels, metadata, buttons, badges, section headers (auto-uppercase via CSS) |
 
 Inter is loaded via `next/font/google` with CSS variable injection in the root layout. Ligatures and contextual alternates are enabled globally via:
 
@@ -119,6 +119,10 @@ body {
 .font-display {
   font-weight: 500;
   letter-spacing: -0.05em;
+}
+.font-mono {
+  letter-spacing: 0;
+  text-transform: uppercase;
 }
 ```
 
@@ -139,9 +143,11 @@ body {
 | Article prose (body) | `text-[16px] leading-[1.7]` | Blog article `<p>` |
 | Article prose (list) | `text-[15px] leading-[1.65]` | Blog article `<ul>` |
 | Default UI text | `text-xs/relaxed` | Cards, dialogs, inputs |
-| Micro labels | `font-mono text-[10px] uppercase tracking-widest text-muted-foreground/50` | Footer column headings |
-| Nav links | `text-sm` | Desktop navigation items (no uppercase) |
-| Metadata | `text-xs text-muted-foreground` | Dates, reading times, legal copy |
+| UI chrome labels | `font-mono text-xs text-muted-foreground/50` | Section headers, category labels, footer headings (auto-uppercase) |
+| Eyebrow labels | `font-mono text-xs text-brand` | Industry tags, role labels, date metadata |
+| CTA buttons | `font-mono` added to Button className | All marketing buttons (auto-uppercase) |
+| Nav links | `text-sm` | Desktop navigation items (Inter, no uppercase) |
+| Metadata | `font-mono text-xs text-muted-foreground` | Dates, reading times, score labels, dimensions |
 
 ### 3.3 Weight Hierarchy
 
@@ -172,7 +178,7 @@ Body copy is constrained to **~60-65 characters per line** for optimal reading:
 - **Body line-height is 1.6, not 1.625.** Avoid `leading-relaxed` on new code — use explicit `leading-[1.6]` or `leading-[1.5]`.
 - **Paragraphs have an explicit `max-w-[...]`** tuned to their font size. Don't let body copy stretch to full column width.
 - **`text-balance`** on hero headlines for even line breaks.
-- **Geist Mono** is reserved for footer micro-labels. Don't sprinkle it elsewhere.
+- **Geist Mono** is used for all UI chrome: eyebrow labels, metadata, buttons, badges, section headers. `.font-mono` auto-applies `uppercase` and `letter-spacing: 0`. Never use it for headings, body text, or nav links (those stay in Inter).
 
 ---
 
@@ -291,9 +297,9 @@ Built with `class-variance-authority` on a `@base-ui/react` primitive.
 | `destructive` | `bg-destructive/10 text-destructive` | Delete, remove |
 | `link` | `text-primary underline-offset-4` → hover underline | Inline text links |
 
-**Brand CTA buttons** are not a variant - they're composed inline:
+**Brand CTA buttons** are not a variant - they're composed inline with `font-mono` for the Exalt-style uppercase chrome treatment:
 ```tsx
-<Button className="border-transparent bg-brand px-8 text-white [&]:hover:bg-brand/80" />
+<Button className="border-transparent bg-brand px-8 font-mono text-white [&]:hover:bg-brand/80" />
 ```
 
 **Sizes:**
@@ -391,13 +397,19 @@ The mega-menu style dropdown is a custom component (not shadcn):
 | Icon container | `h-10 w-10 border border-brand/20 bg-brand/5` |
 | Icon | `h-5 w-5 text-brand` (lucide, `strokeWidth={1.5}`) |
 
-### 7.8 Footer Section Headings
+### 7.8 UI Chrome Labels (Two-Font System)
 
-A distinctive pattern using monospace type:
-```
-font-mono text-[10px] uppercase tracking-widest text-muted-foreground/50
-```
-Creates a technical, blueprint-like label aesthetic. Used exclusively in the footer for column headings.
+All UI chrome uses Geist Mono with auto-uppercase (enforced via `.font-mono` base CSS):
+
+| Pattern | Classes | Usage |
+|---|---|---|
+| Section header | `font-mono text-muted-foreground/50 text-xs` | Footer columns, tech stack categories, sidebar labels |
+| Eyebrow label | `font-mono text-brand text-xs` | Industry tags, roles, date metadata, prev/next |
+| Metadata label | `font-mono text-muted-foreground text-xs` | Location, timeline, score labels, dimensions |
+| Badge | `font-mono text-[10px]` | Pricing badges, status indicators |
+| Button text | `font-mono` on Button className | All marketing CTA buttons |
+
+The `.font-mono` class auto-applies `text-transform: uppercase` and `letter-spacing: 0`. No need for explicit `uppercase` or `tracking-*` classes.
 
 ---
 
@@ -513,7 +525,7 @@ The `.section-dark` class allows dark sections within a light page without toggl
 - **Use rings for containment.** `ring-1 ring-foreground/10` is the primary card/dialog boundary pattern.
 - **Use opacity variants** for border lightness (`border-border/40`, `ring-foreground/10`).
 - **Use brand orange sparingly.** CTAs, icon accents, active indicators, featured links.
-- **Use the monospace label pattern** (`font-mono text-[10px] uppercase tracking-widest`) for technical section labels.
+- **Use `font-mono`** for all UI chrome (labels, metadata, buttons, badges). It auto-applies uppercase and letter-spacing: 0.
 - **Use `section-dark`** for locally inverted sections instead of toggling dark mode.
 - **Scale spacing aggressively** between mobile and desktop (`py-20` → `py-36`).
 - **Use `text-balance`** on hero headlines.
@@ -533,7 +545,7 @@ The `.section-dark` class allows dark sections within a light page without toggl
 | File | Purpose |
 |---|---|
 | `apps/web/src/index.css` | All CSS custom properties, theme tokens, base styles, animations |
-| `apps/web/src/app/[locale]/layout.tsx` | Font loading (Geist Sans, Geist Mono), theme provider setup |
+| `apps/web/src/app/[locale]/layout.tsx` | Font loading (Inter, Geist Mono), theme provider setup |
 | `apps/web/src/components/ui/button.tsx` | Button variants and sizes (CVA + base-ui) |
 | `apps/web/src/components/ui/card.tsx` | Card component family |
 | `apps/web/src/components/ui/input.tsx` | Input field (base-ui) |
