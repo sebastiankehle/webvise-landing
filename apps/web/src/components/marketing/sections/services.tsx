@@ -11,11 +11,11 @@ export default async function Services() {
 
 	return (
 		<SectionWrapper id="services">
-			<div className="max-w-[640px]">
-				<h2 className="font-display text-[28px] leading-[1.15] md:text-[40px]">
+			<div className="grid items-start gap-12 md:grid-cols-[1fr_1.2fr]">
+				<h2 className="font-display text-[28px] leading-[34px] md:text-[36px] md:leading-[42px]">
 					{t("title")}
 				</h2>
-				<p className="mt-5 max-w-[520px] text-[15px] text-muted-foreground leading-[1.6]">
+				<p className="text-[17px] text-muted-foreground leading-[26px] tracking-[-0.011em]">
 					{t("subtitle")}
 				</p>
 			</div>
@@ -34,16 +34,16 @@ export default async function Services() {
 								<div className="flex h-10 w-10 items-center justify-center border border-brand/20 bg-brand/5 transition-colors group-hover:border-brand/40 group-hover:bg-brand/10">
 									<service.icon className="h-5 w-5 text-brand" strokeWidth={1.5} />
 								</div>
-								<h3 className="font-display text-xl tracking-[-0.04em]">
+								<h3 className="font-display text-[16px] leading-[21px] tracking-[-0.011em]">
 									{t(`${service.translationKey}.title`)}
 								</h3>
 							</div>
-							<p className="mt-4 text-muted-foreground text-sm leading-[1.6]">
+							<p className="mt-4 text-muted-foreground text-sm leading-[1.5]">
 								{t(`${service.translationKey}.tagline`)}
 							</p>
 						</div>
 						<div className="mt-8 flex items-center justify-between border-border/40 border-t pt-5">
-							<span className="font-mono text-muted-foreground text-xs">
+							<span className="text-muted-foreground text-xs tracking-[-0.011em]">
 								{t(`${service.translationKey}.timeline`)}
 							</span>
 							<ArrowRight className="h-4 w-4 text-muted-foreground transition-all group-hover:translate-x-1 group-hover:text-brand" />

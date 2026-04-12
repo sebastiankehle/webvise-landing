@@ -1,0 +1,162 @@
+{
+	"date": "2026-04-12",
+	"readingTime": 7,
+	"keyword": "vibe coding IA ingegneria del software",
+	"title": "Il Vibe Coding è una trappola - Perché il software costruito dall'IA ha ancora bisogno di ingegneri",
+	"excerpt": "Andrej Karpathy ha coniato il termine \"vibe coding\" nel febbraio 2025. Da allora, un'ondata di app generate dall'IA funziona nelle demo e si rompe in produzione. Il problema non sono gli strumenti IA - è usarli senza disciplina ingegneristica.",
+	"metaDescription": "Il vibe coding crea una nuova classe di debito tecnico più difficile da correggere del codice scritto male a mano. Perché l'IA amplifica le competenze ingegneristiche invece di sostituirle.",
+	"tags": [
+		"AI",
+		"Web Development",
+		"Business Strategy"
+	],
+	"blocks": [
+		{
+			"type": "p",
+			"text": "Andrej Karpathy ha coniato il termine **vibe coding** nel [febbraio 2025](https://x.com/karpathy/status/1886192184808149370) per descrivere una modalità di sviluppo software in cui si descrive ciò che si vuole, si accetta ciò che l'IA produce e non si legge il codice. La sua formulazione era generosa - una modalità hobby del fine settimana per progetti personali. Ciò che è seguito non lo era. Entro la metà del 2025, un'ondata di non-ingegneri aveva pubblicato app SaaS di produzione costruite interamente in Cursor, Replit Agent, v0 e bolt.new, senza mai capire cosa avevano costruito. Le app sembravano buone nelle demo. Stanno andando in pezzi in produzione proprio adesso."
+		},
+		{
+			"type": "h2",
+			"text": "Cosa sia realmente il vibe coding"
+		},
+		{
+			"type": "p",
+			"text": "La descrizione originale di Karpathy è precisa: si è «nella zona», si dice all'IA cosa si vuole, lei produce codice, si preme per lo più accetta e non si capisce completamente cosa sta girando. Lo ha riconosciuto esplicitamente - «Non leggo il codice, ci vibo e basta.» Per uno strumento personale o un prototipo usa e getta, va bene. Il vibe coder non pretende di essere un ingegnere. Il problema è che l'ecosistema di strumenti - lo «ship your startup in a weekend» di Replit Agent, i deploy con un clic di v0, la generazione full-stack istantanea di bolt.new - ha confezionato questa modalità come un percorso legittimo verso il software di produzione."
+		},
+		{
+			"type": "p",
+			"text": "Non lo è. E il debito tecnico risultante è qualitativamente diverso dal normale codice scadente."
+		},
+		{
+			"type": "h2",
+			"text": "Perché il vibe code è peggio del codice scritto male a mano"
+		},
+		{
+			"type": "p",
+			"text": "Quando uno sviluppatore junior scrive codice scadente, capisce cosa intendeva fare. Si può sedersi con lui, tracciare la logica e correggerlo. Quando un'IA genera codice scadente che l'operatore non ha mai letto, non c'è nessun modello mentale da recuperare. Lo sviluppatore non può spiegare perché l'autenticazione è strutturata nel modo in cui lo è, perché non ha mai letto l'autenticazione. Non può dirvi quale libreria di terze parti gestisce i pagamenti, perché ha accettato il file senza aprirlo. Il codice è una scatola nera che possiede ma su cui non può ragionare."
+		},
+		{
+			"type": "p",
+			"text": "I pattern di guasto che vediamo costantemente nelle app di produzione generate dall'IA:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**Bypass di autenticazione incorporati nello scaffold.** Il codice di autenticazione generato dall'IA copia frequentemente pattern dai dati di addestramento senza comprendere il modello di sicurezza. Sicurezza a livello di riga disabilitata «temporaneamente» durante lo sviluppo, lasciata in produzione. Segreti JWT hardcoded in esempi di variabili d'ambiente committati in repository pubblici. Controlli di ruolo che confrontano letterali stringa e si rompono nel momento in cui un campo viene rinominato.",
+				"**Nessuna gestione degli errori oltre il percorso felice.** L'IA ha scritto il caso di successo. Cosa succede quando il fornitore di pagamenti restituisce un 402? Cosa succede quando la connessione al database cade a metà di una transazione? Nelle app vibe-coded, la risposta è solitamente un rifiuto di promise non gestito che appare come uno schermo bianco.",
+				"**Lock-in del fornitore sui pattern generati dall'IA.** Quando l'IA ha scelto di strutturare il modello di dati in un certo modo, il vibe coder lo ha accettato. Ora l'intera app è costruita attorno a quella struttura. Migrare via da essa richiede di capire il codice che lo sviluppatore non ha mai letto.",
+				"**Nessun test.** Non perché i test siano difficili, ma perché il vibe coder non li ha mai richiesti e l'IA non li ha offerti spontaneamente. Quando qualcosa si rompe in produzione, non c'è nessuna suite di test per rilevare le regressioni nella correzione."
+			]
+		},
+		{
+			"type": "h2",
+			"text": "Il divario demo-verso-produzione"
+		},
+		{
+			"type": "p",
+			"text": "Gli strumenti IA sono genuinamente bravi a generare codice che funziona su un percorso felice con input puliti, una rete cooperativa e un singolo utente concorrente. Questa è esattamente la condizione in cui gira una demo. La produzione è l'opposto: input malformati, connessioni interrotte, scritture concorrenti, casi limite che non sono mai stati specificati nel prompt."
+		},
+		{
+			"type": "p",
+			"text": "Il pattern si svolge in modo prevedibile. Un'app vibe-coded viene lanciata, sembra rifinita, ottiene i primi utenti. Poi: un utente con un carattere non-ASCII nel nome rompe la query del database. Un utente mobile su una connessione lenta innesca una race condition nella gestione dello stato. Un concorrente si registra e scopre che gli endpoint API restituiscono i dati di altri utenti perché il controllo di autorizzazione era nel frontend, non nel server. Non sono guasti esotici. Sono la conseguenza basilare della consegna di codice che non si è mai letto."
+		},
+		{
+			"type": "h2",
+			"text": "L'IA rende migliori i bravi ingegneri - non rende inutili i cattivi ingegneri"
+		},
+		{
+			"type": "p",
+			"text": "Questa è l'affermazione che la narrativa del vibe coding inverte. Gli strumenti sono reali e i guadagni di produttività sono reali. In webvise, usiamo Claude Code, Cursor e l'orchestrazione multi-agent su ogni progetto che consegniamo. Un ingegnere senior con Claude Code consegna in ore ciò che prima richiedeva giorni. Gli stessi strumenti nelle mani di qualcuno senza fondamenti ingegneristici producono una demo che non sopravvive al suo primo utente reale."
+		},
+		{
+			"type": "p",
+			"text": "La differenza non è nello strumento - è in ciò che l'ingegnere porta allo strumento. I fondamenti ingegneristici non riguardano la scrittura di codice a mano. Riguardano la comprensione dei confini di sistema, dei modi di guasto, dei modelli di sicurezza e dell'integrità dei dati. Un ingegnere che usa Claude Code legge il codice di autenticazione generato e riconosce quando è sbagliato. Un vibe coder preme accetta e lo consegna."
+		},
+		{
+			"type": "table",
+			"headers": [
+				"Capacità",
+				"Ingegnere + strumenti IA",
+				"Vibe coder + strumenti IA"
+			],
+			"rows": [
+				[
+					"Velocità di prototipazione",
+					"Veloce",
+					"Veloce"
+				],
+				[
+					"Legge il codice generato",
+					"Sì - individua errori, problemi di sicurezza",
+					"No - accetta e consegna"
+				],
+				[
+					"Gestisce i casi limite",
+					"Li specifica proattivamente nei prompt",
+					"Li scopre in produzione"
+				],
+				[
+					"Revisione della sicurezza",
+					"Integrata nel ciclo di revisione",
+					"Assente"
+				],
+				[
+					"Può fare debug dei guasti in produzione",
+					"Sì - comprende la codebase",
+					"No - scatola nera che possiede"
+				],
+				[
+					"Scala oltre la demo",
+					"Sì",
+					"Raramente"
+				]
+			]
+		},
+		{
+			"type": "h2",
+			"text": "Il rischio specifico per il software aziendale"
+		},
+		{
+			"type": "p",
+			"text": "Le app hobby per i consumatori possono assorbire i modi di guasto del vibe coding. Se un tracker di finanze personali perde alcuni dati, è fastidioso. Se un SaaS B2B che gestisce record di clienti, flussi di pagamento o flussi di lavoro interni viene consegnato con i problemi di autenticazione e gestione degli errori descritti sopra, le conseguenze sono legali, contrattuali e reputazionali. Il GDPR non vi esenta perché non avete letto il vostro codice di gestione dei dati."
+		},
+		{
+			"type": "p",
+			"text": "L'ondata di app SaaS generate dall'IA del 2025-2026 ha prodotto una classe prevedibile di startup: impressionanti in una demo, hanno acquisito clienti precoci sulla promessa, poi hanno urtato un muro quando il primo prospect enterprise ha eseguito una revisione della sicurezza o il primo giorno di alto traffico ha esposto la gestione degli errori mancante. I fondatori non sono truffatori - genuinamente non sapevano cosa avevano costruito."
+		},
+		{
+			"type": "h2",
+			"text": "Cosa cercare in un partner di sviluppo potenziato dall'IA"
+		},
+		{
+			"type": "p",
+			"text": "Se state valutando un partner di sviluppo che afferma di usare strumenti IA, ponete queste domande:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**Eseguono test automatizzati sul codice generato dall'IA?** Se la risposta è «ci fidiamo dell'output dell'IA», andate altrove. La copertura dei test è il modo per rilevare la gestione degli errori che l'IA ha omesso.",
+				"**Eseguono revisioni della sicurezza sul codice di autenticazione e autorizzazione generato?** Gli strumenti IA copiano pattern di auth dai dati di addestramento. Quei pattern includono vulnerabilità reali da codebase reali.",
+				"**Possono spiegare l'architettura di ciò che hanno costruito?** Se uno sviluppatore non riesce a guidarvi attraverso il modello di dati e a spiegare perché è strutturato nel modo in cui lo è, non lo ha progettato - lo ha accettato.",
+				"**Versionano i loro prompt insieme al codice?** La disciplina ingegneristica applicata agli strumenti IA significa trattare il prompt come parte della codebase, non come un input usa e getta.",
+				"**Hanno un processo per gestire le allucinazioni dell'IA?** Gli strumenti IA generano con sicurezza chiamate API errate, metodi deprecati e funzioni di libreria inesistenti. Un team esperto ha un ciclo di revisione per questo. Un vibe coder lo scopre a runtime."
+			]
+		},
+		{
+			"type": "h2",
+			"text": "Il quadro corretto: l'IA come moltiplicatore di forza, non come sostituto"
+		},
+		{
+			"type": "p",
+			"text": "La narrativa del vibe coding è seducente perché è parzialmente vera. Gli strumenti IA hanno genuinamente abbassato la soglia per la costruzione di software. Un non-ingegnere motivato può consegnare un prototipo funzionante in un fine settimana. Questo è prezioso per la validazione, gli MVP, il tooling interno a basso rischio. L'errore è trattare il pavimento come il soffitto - assumere che poiché si può far funzionare qualcosa, lo si può far funzionare in modo affidabile alla scala, in modo sicuro e manutenibile."
+		},
+		{
+			"type": "p",
+			"text": "Gli ingegneri che hanno beneficiato di più degli strumenti di codifica IA sono quelli che li usano per eliminare le parti noiose dell'ingegneria - boilerplate, scaffolding, refactor ripetitivi - mentre applicano il loro giudizio alle parti che contano: architettura, sicurezza, gestione degli errori e prontezza alla produzione. L'IA accelera il lavoro. L'ingegnere si assicura che sia corretto."
+		},
+		{
+			"type": "p",
+			"text": "In [webvise](/#contact), utilizziamo lo sviluppo potenziato dall'IA su ogni progetto - Claude Code, Cursor, pipeline multi-agent - ma con la disciplina ingegneristica che rende l'output pronto per la produzione. Se state costruendo software che deve sopravvivere a utenti reali, casi limite reali e requisiti di sicurezza reali, [parliamo di come lavoriamo](/it/#contact)."
+		}
+	]
+}

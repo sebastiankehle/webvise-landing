@@ -24,13 +24,13 @@ export default function ProcessSteps({ steps }: { steps: Step[] }) {
 						key={step.number}
 						className="group border-border/40 not-last:border-b p-8 transition-colors hover:bg-muted/30 md:not-last:border-r md:not-last:border-b-0 md:p-10"
 					>
-						<span className="font-display text-2xl tracking-[-0.04em] text-brand/40">
+						<span className="font-display text-2xl tracking-[-0.011em] text-brand/40">
 							{step.number}
 						</span>
-						<h3 className="mt-3 font-display text-lg tracking-[-0.04em]">
+						<h3 className="mt-3 font-display text-[16px] leading-[21px] tracking-[-0.011em]">
 							{step.title}
 						</h3>
-						<p className="mt-2 text-muted-foreground text-sm leading-[1.6]">
+						<p className="mt-2 text-muted-foreground text-sm leading-[1.5]">
 							{step.description}
 						</p>
 					</div>

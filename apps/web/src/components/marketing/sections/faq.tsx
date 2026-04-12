@@ -47,10 +47,10 @@ export default function FAQ() {
 		<SectionWrapper id="faq">
 			<div className="grid gap-12 md:grid-cols-[1fr_2fr] md:gap-20">
 				<div>
-					<h2 className="font-display text-[28px] leading-[1.15] md:text-[40px]">
+					<h2 className="font-display text-[28px] leading-[34px] md:text-[36px] md:leading-[42px]">
 						{t("title")}
 					</h2>
-					<p className="mt-5 text-[15px] text-muted-foreground leading-[1.6]">
+					<p className="mt-5 text-[15px] text-muted-foreground leading-[1.5]">
 						{t("subtitle")}
 					</p>
 				</div>
@@ -68,7 +68,7 @@ export default function FAQ() {
 									onClick={() => setOpenIndex(isOpen ? null : i)}
 									aria-expanded={isOpen}
 								>
-									<span className="flex-1 text-[15px] font-medium leading-snug tracking-[-0.011em]">
+									<span className="flex-1 text-[15px] font-[510] leading-snug tracking-[-0.011em]">
 										{t(`items.${item.key}.question`)}
 									</span>
 									<span
@@ -81,7 +81,7 @@ export default function FAQ() {
 									className={`grid transition-[grid-template-rows] duration-200 ease-out ${isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}
 								>
 									<div className="overflow-hidden">
-										<p className="px-6 pb-6 text-muted-foreground text-sm leading-[1.65]">
+										<p className="px-6 pb-6 text-muted-foreground text-sm leading-[1.5]">
 											{t(`items.${item.key}.answer`)}
 										</p>
 									</div>

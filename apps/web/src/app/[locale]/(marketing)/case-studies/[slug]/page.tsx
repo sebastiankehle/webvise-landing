@@ -182,13 +182,13 @@ export default async function CaseStudyPage({
 					<div className="grid items-start gap-12 md:grid-cols-3 md:gap-16">
 						{/* Title + info */}
 						<div className="md:col-span-2">
-							<span className="font-mono text-brand text-xs">
+							<span className="font-[510] text-brand text-xs tracking-[-0.011em]">
 								{cs.client} &middot; {cs.industry}
 							</span>
-							<h1 className="mt-3 font-display text-[32px] leading-[1.05] md:text-[48px]">
+							<h1 className="mt-3 font-display text-[40px] leading-[1.1] md:text-[56px]">
 								{cs.title}
 							</h1>
-							<p className="mt-4 text-lg text-muted-foreground leading-relaxed">
+							<p className="mt-4 text-lg text-muted-foreground leading-[1.5]">
 								{cs.excerpt}
 							</p>
 
@@ -196,7 +196,7 @@ export default async function CaseStudyPage({
 							<div className="mt-10 flex flex-wrap items-start gap-x-8 gap-y-4 border-border/40 border-t pt-6">
 								{cs.location && (
 									<div>
-										<span className="block font-mono text-muted-foreground text-xs">
+										<span className="block text-muted-foreground text-xs tracking-[-0.011em]">
 											{t("location")}
 										</span>
 										<span className="mt-1 block text-sm">{cs.location}</span>
@@ -204,7 +204,7 @@ export default async function CaseStudyPage({
 								)}
 								{cs.deliveryTime && (
 									<div>
-										<span className="block font-mono text-muted-foreground text-xs">
+										<span className="block text-muted-foreground text-xs tracking-[-0.011em]">
 											{t("deliveryTime")}
 										</span>
 										<span className="mt-1 block text-sm">
@@ -213,7 +213,7 @@ export default async function CaseStudyPage({
 									</div>
 								)}
 								<div>
-									<span className="block font-mono text-muted-foreground text-xs">
+									<span className="block text-muted-foreground text-xs tracking-[-0.011em]">
 										{t("liveProject")}
 									</span>
 									{cs.liveUrl ? (
@@ -237,7 +237,7 @@ export default async function CaseStudyPage({
 
 						{/* Tech stack box */}
 						<div className="border border-border/40 p-6 md:p-8">
-							<p className="mb-5 font-mono text-muted-foreground/50 text-xs">
+							<p className="mb-5 text-muted-foreground/50 text-xs tracking-[-0.011em]">
 								{t("techStackLabel")}
 							</p>
 							<div className="flex flex-wrap gap-2">
@@ -271,13 +271,13 @@ export default async function CaseStudyPage({
 									<span className="block select-none font-display text-5xl text-brand/30 leading-none">
 										&ldquo;
 									</span>
-									<blockquote className="mt-3 text-muted-foreground text-sm leading-relaxed">
+									<blockquote className="mt-3 text-muted-foreground text-sm leading-[1.5]">
 										{cs.testimonial.quote}
 									</blockquote>
 								</div>
 								<figcaption className="mt-8 border-border/40 border-t pt-5">
 									<p className="text-sm">{cs.testimonial.author}</p>
-									<p className="mt-0.5 font-mono text-muted-foreground text-xs">
+									<p className="mt-0.5 text-muted-foreground text-xs tracking-[-0.011em]">
 										{cs.testimonial.role}
 									</p>
 								</figcaption>
@@ -292,18 +292,18 @@ export default async function CaseStudyPage({
 				<div className="mx-auto max-w-[1320px] px-6">
 					<div className="grid gap-16 md:grid-cols-2 md:gap-20">
 						<div>
-							<h2 className="font-display text-2xl tracking-tight">
+							<h2 className="font-display text-2xl tracking-[-0.011em]">
 								{t("challenge")}
 							</h2>
-							<p className="mt-4 text-muted-foreground leading-relaxed">
+							<p className="mt-4 text-muted-foreground leading-[1.5]">
 								{cs.challenge}
 							</p>
 						</div>
 						<div>
-							<h2 className="font-display text-2xl tracking-tight">
+							<h2 className="font-display text-2xl tracking-[-0.011em]">
 								{t("solution")}
 							</h2>
-							<p className="mt-4 text-muted-foreground leading-relaxed">
+							<p className="mt-4 text-muted-foreground leading-[1.5]">
 								{cs.solution}
 							</p>
 						</div>
@@ -321,7 +321,7 @@ export default async function CaseStudyPage({
 									key={metric.label}
 									className="border-border/40 not-last:border-b p-8 text-center md:not-last:border-r md:not-last:border-b-0"
 								>
-									<dd className="block font-display text-3xl text-brand tracking-tight">
+									<dd className="block font-display text-3xl text-brand tracking-[-0.022em]">
 										{metric.value}
 									</dd>
 									<dt className="mt-2 block text-muted-foreground text-sm">
@@ -347,7 +347,7 @@ export default async function CaseStudyPage({
 			{relatedCaseStudies.length > 0 && (
 				<section className="border-border/40 border-t pb-28 pt-20">
 					<div className="mx-auto max-w-[1320px] px-6">
-						<h2 className="font-display text-2xl tracking-tight">
+						<h2 className="font-display text-2xl tracking-[-0.011em]">
 							{t("relatedTitle")}
 						</h2>
 						<div className="mt-10 grid gap-6 md:grid-cols-2">
@@ -372,11 +372,11 @@ export default async function CaseStudyPage({
 										/>
 									)}
 									<div className="p-6">
-										<span className="font-mono text-brand text-xs">
+										<span className="font-[510] text-brand text-xs tracking-[-0.011em]">
 											{related.client} &middot;{" "}
 											{related.industry}
 										</span>
-										<h3 className="mt-2 font-display text-lg tracking-tight transition-colors group-hover:text-brand">
+										<h3 className="mt-2 font-display text-[16px] leading-[21px] tracking-[-0.011em] transition-colors group-hover:text-brand">
 											{related.title}
 										</h3>
 									</div>

@@ -131,21 +131,21 @@ export default async function AboutPage() {
 									priority
 								/>
 								<div>
-									<span className="font-mono text-brand text-xs">
+									<span className="font-[510] text-brand text-xs tracking-[-0.011em]">
 										{t("intro.role")}
 									</span>
-									<h1 className="mt-1 font-display text-[32px] leading-[1.05] md:text-[48px]">
+									<h1 className="mt-1 font-display text-[40px] leading-[1.1] md:text-[56px]">
 										{t("intro.name")}
 									</h1>
 								</div>
 							</div>
-							<p className="mt-6 text-lg text-muted-foreground leading-relaxed">
+							<p className="mt-6 text-lg text-muted-foreground leading-[1.5]">
 								{t("intro.tagline")}
 							</p>
 
 							{/* Description bar */}
 							<div className="mt-10 border-border/40 border-t pt-6">
-								<p className="max-w-lg text-sm text-muted-foreground leading-relaxed">
+								<p className="max-w-lg text-sm text-muted-foreground leading-[1.5]">
 									{t("intro.description")}
 								</p>
 							</div>
@@ -153,7 +153,7 @@ export default async function AboutPage() {
 
 						{/* Connect card */}
 						<div className="border border-border/40 p-6 md:p-8">
-							<p className="mb-5 font-mono text-muted-foreground/50 text-xs">
+							<p className="mb-5 text-muted-foreground/50 text-xs tracking-[-0.011em]">
 								{t("connect.title")}
 							</p>
 							<div className="flex flex-wrap gap-2">
@@ -178,10 +178,10 @@ export default async function AboutPage() {
 			{/* Bio */}
 			<SectionWrapper id="background" alternate>
 				<div className="max-w-2xl">
-					<h2 className="font-display text-2xl tracking-tight">
+					<h2 className="font-display text-2xl tracking-[-0.011em]">
 						{t("bio.title")}
 					</h2>
-					<div className="mt-8 space-y-5 text-muted-foreground leading-relaxed">
+					<div className="mt-8 space-y-5 text-muted-foreground leading-[1.5]">
 						{Array.from({ length: bioCount }, (_, i) => (
 							<p key={i}>{t(`bio.paragraphs.${i}`)}</p>
 						))}
@@ -192,7 +192,7 @@ export default async function AboutPage() {
 			{/* Experience - vertical timeline like personal site */}
 			<SectionWrapper id="experience">
 				<div className="max-w-2xl">
-					<h2 className="font-display text-2xl tracking-tight">
+					<h2 className="font-display text-2xl tracking-[-0.011em]">
 						{t("experience.title")}
 					</h2>
 					<div className="mt-10 space-y-10">
@@ -210,20 +210,20 @@ export default async function AboutPage() {
 											<p className="text-sm font-medium">
 												{t(`experience.items.${i}.company`)}
 											</p>
-											<h3 className="mt-0.5 font-display text-lg tracking-tight">
+											<h3 className="mt-0.5 font-display text-[16px] leading-[21px] tracking-[-0.011em]">
 												{t(`experience.items.${i}.role`)}
 											</h3>
 										</div>
 										<div className="shrink-0 text-right">
-											<p className="font-mono text-xs text-muted-foreground">
+											<p className="text-xs text-muted-foreground tracking-[-0.011em]">
 												{t(`experience.items.${i}.period`)}
 											</p>
-											<p className="font-mono text-xs text-muted-foreground/60">
+											<p className="text-xs text-muted-foreground/60 tracking-[-0.011em]">
 												{t(`experience.items.${i}.location`)}
 											</p>
 										</div>
 									</div>
-									<p className="mt-3 text-sm text-muted-foreground leading-relaxed">
+									<p className="mt-3 text-sm text-muted-foreground leading-[1.5]">
 										{t(`experience.items.${i}.description`)}
 									</p>
 								</div>
@@ -236,13 +236,13 @@ export default async function AboutPage() {
 			{/* Skills */}
 			<SectionWrapper id="skills" alternate>
 				<div className="max-w-2xl">
-					<h2 className="font-display text-2xl tracking-tight">
+					<h2 className="font-display text-2xl tracking-[-0.011em]">
 						{t("stack.title")}
 					</h2>
 					<div className="mt-10 space-y-8">
 						{(["languages", "frontend", "backend", "data", "ai", "platform"] as const).map((section) => (
 							<div key={section}>
-								<p className="mb-3 font-mono text-xs text-muted-foreground/50">
+								<p className="mb-3 text-xs text-muted-foreground/50 tracking-[-0.011em]">
 									{t(`stack.sections.${section}.label`)}
 								</p>
 								<div className="flex flex-wrap gap-2">

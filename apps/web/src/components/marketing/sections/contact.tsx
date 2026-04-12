@@ -75,23 +75,23 @@ export default function Contact() {
 		<SectionWrapper id="contact">
 			<div className="grid gap-12 md:grid-cols-2 md:gap-20">
 				<div>
-					<h2 className="font-display text-[28px] leading-[1.15] md:text-[40px]">
+					<h2 className="font-display text-[28px] leading-[34px] md:text-[36px] md:leading-[42px]">
 						{t("title")}
 					</h2>
-					<p className="mt-5 max-w-[520px] text-[15px] text-muted-foreground leading-[1.6]">
+					<p className="mt-5 max-w-[520px] text-[15px] text-muted-foreground leading-[1.5]">
 						{t("subtitle")}
 					</p>
 
 					<div className="mt-10 border border-border/40 border-l-2 border-l-brand p-6 md:mt-14 md:p-8">
-						<h3 className="font-display text-xl tracking-[-0.04em]">
+						<h3 className="font-display text-[16px] leading-[21px] tracking-[-0.011em]">
 							{t("booking.title")}
 						</h3>
-						<p className="mt-3 text-muted-foreground text-sm leading-[1.6]">
+						<p className="mt-3 text-muted-foreground text-sm leading-[1.5]">
 							{t("booking.description")}
 						</p>
 						<Button
 							size="sm"
-							className="mt-5 font-mono"
+							className="mt-5 font-[510]"
 							onClick={() => track("book_call_clicked", { location: "contact_section" })}
 							render={
 								// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
@@ -263,7 +263,7 @@ export default function Contact() {
 								isSubmitting={isSubmitting}
 								disabled={!canSubmit}
 								size="lg"
-								className="w-full border-transparent bg-brand font-mono text-white [&]:hover:bg-brand/80 md:h-10 md:text-sm"
+								className="w-full border-transparent bg-brand font-[510] text-white [&]:hover:bg-brand/80 md:h-10 md:text-sm"
 							>
 								{t("form.submit")}
 							</SubmitButton>

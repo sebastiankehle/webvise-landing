@@ -154,7 +154,7 @@ export default function Navbar({
 					<div className="hidden items-center gap-4 md:flex">
 						<LanguageSwitcher id="lang-desktop" />
 						<Button
-							className="border-transparent bg-brand px-6 font-mono text-white [&]:hover:bg-brand/80"
+							className="border-transparent bg-brand px-6 font-[510] text-white [&]:hover:bg-brand/80"
 							onClick={() => track("cta_clicked", { location: "navbar", variant: "get_started" })}
 							render={
 								<Link href={{ pathname: "/", hash: "contact" }} />
@@ -226,7 +226,7 @@ export default function Navbar({
 													`${service.translationKey}.title`,
 												)}
 											</p>
-											<p className="mt-1 text-muted-foreground text-xs leading-relaxed">
+											<p className="mt-1 text-muted-foreground text-xs leading-[1.5]">
 												{ts(
 													`${service.translationKey}.tagline`,
 												)}
@@ -240,7 +240,7 @@ export default function Navbar({
 								className="group flex items-center justify-between border-border/40 border-t p-4 px-5 transition-colors hover:bg-muted/40"
 								onClick={(e) => handleNavClick(e, "services")}
 							>
-								<span className="font-mono text-brand text-xs">
+								<span className="font-[510] text-brand text-xs tracking-[-0.011em]">
 									{ts("viewAll")}
 								</span>
 								<ArrowRight className="h-3 w-3 text-brand transition-transform group-hover:translate-x-0.5" />
@@ -273,7 +273,7 @@ export default function Navbar({
 											</div>
 										)}
 										<div className="flex flex-1 flex-col p-4">
-											<span className="font-mono text-muted-foreground text-xs">
+											<span className="text-muted-foreground text-xs tracking-[-0.011em]">
 												{cs.client}
 											</span>
 											<p className="mt-1.5 text-sm leading-snug transition-colors group-hover:text-brand">
@@ -288,7 +288,7 @@ export default function Navbar({
 								className="group flex items-center justify-between border-border/40 border-t p-4 px-5 transition-colors hover:bg-muted/40"
 								onClick={close}
 							>
-								<span className="font-mono text-brand text-xs">
+								<span className="font-[510] text-brand text-xs tracking-[-0.011em]">
 									{tcs("viewAll")}
 								</span>
 								<ArrowRight className="h-3 w-3 text-brand transition-transform group-hover:translate-x-0.5" />
@@ -313,7 +313,7 @@ export default function Navbar({
 									>
 										<time
 											dateTime={post.date}
-											className="font-mono text-muted-foreground text-xs"
+											className="text-muted-foreground text-xs tracking-[-0.011em]"
 										>
 											{new Date(
 												post.date,
@@ -326,7 +326,7 @@ export default function Navbar({
 										<p className="mt-2 text-sm leading-snug transition-colors group-hover:text-brand">
 											{post.title}
 										</p>
-										<span className="mt-auto pt-3 font-mono text-muted-foreground text-xs">
+										<span className="mt-auto pt-3 text-muted-foreground text-xs tracking-[-0.011em]">
 											{post.readingTime}{" "}
 											{tb("minRead")}
 										</span>
@@ -338,7 +338,7 @@ export default function Navbar({
 								className="group flex items-center justify-between border-border/40 border-t p-4 px-5 transition-colors hover:bg-muted/40"
 								onClick={close}
 							>
-								<span className="font-mono text-brand text-xs">
+								<span className="font-[510] text-brand text-xs tracking-[-0.011em]">
 									{tb("viewAll")}
 								</span>
 								<ArrowRight className="h-3 w-3 text-brand transition-transform group-hover:translate-x-0.5" />
@@ -364,20 +364,20 @@ export default function Navbar({
 													{tpr(`tiers.${key}.name`)}
 												</p>
 												{key === "growth" && (
-													<span className="border border-brand bg-brand px-1.5 py-0.5 font-mono text-[10px] text-white">
+													<span className="border border-brand bg-brand px-1.5 py-0.5 font-[510] text-[10px] text-white tracking-[-0.011em]">
 														{tpr(
 															`tiers.${key}.badge`,
 														)}
 													</span>
 												)}
 											</div>
-											<p className="mt-1 text-muted-foreground text-xs leading-relaxed">
+											<p className="mt-1 text-muted-foreground text-xs leading-[1.5]">
 												{tpr(`tiers.${key}.description`)}
 											</p>
-											<p className="mt-auto pt-3 font-display text-xl tracking-[-0.04em]">
+											<p className="mt-auto pt-3 font-display text-[16px] leading-[21px] tracking-[-0.011em]">
 												{tpr(`tiers.${key}.price`)}
 											</p>
-											<span className="font-mono text-muted-foreground text-xs">
+											<span className="text-muted-foreground text-xs tracking-[-0.011em]">
 												{tpr(`tiers.${key}.basis`)}
 											</span>
 										</Link>
@@ -389,7 +389,7 @@ export default function Navbar({
 								className="group flex items-center justify-between border-border/40 border-t p-4 px-5 transition-colors hover:bg-muted/40"
 								onClick={(e) => handleNavClick(e, "pricing")}
 							>
-								<span className="font-mono text-brand text-xs">
+								<span className="font-[510] text-brand text-xs tracking-[-0.011em]">
 									{tpr("cta")}
 								</span>
 								<ArrowRight className="h-3 w-3 text-brand transition-transform group-hover:translate-x-0.5" />
@@ -413,7 +413,7 @@ export default function Navbar({
 									setMobileServicesOpen(!mobileServicesOpen)
 								}
 							>
-								<span className="font-display text-xl">{t("services")}</span>
+								<span className="font-display text-[16px] leading-[21px] tracking-[-0.011em]">{t("services")}</span>
 								<ChevronDown
 									className={`h-4 w-4 text-muted-foreground transition-transform duration-200 ${mobileServicesOpen ? "rotate-180" : ""}`}
 								/>
@@ -449,7 +449,7 @@ export default function Navbar({
 
 							<Link
 								href={{ pathname: "/", hash: "case-studies" }}
-								className="py-4 text-left font-display text-xl text-foreground transition-colors hover:text-brand"
+								className="py-4 text-left font-display text-xl tracking-[-0.011em] text-foreground transition-colors hover:text-brand"
 								onClick={(e) => handleNavClick(e, "case-studies")}
 							>
 								{t("caseStudies")}
@@ -457,7 +457,7 @@ export default function Navbar({
 
 							<Link
 								href={{ pathname: "/", hash: "blog" }}
-								className="py-4 text-left font-display text-xl text-foreground transition-colors hover:text-brand"
+								className="py-4 text-left font-display text-xl tracking-[-0.011em] text-foreground transition-colors hover:text-brand"
 								onClick={(e) => handleNavClick(e, "blog")}
 							>
 								{t("blog")}
@@ -465,7 +465,7 @@ export default function Navbar({
 
 							<Link
 								href={{ pathname: "/", hash: "pricing" }}
-								className="py-4 text-left font-display text-xl text-foreground transition-colors hover:text-brand"
+								className="py-4 text-left font-display text-xl tracking-[-0.011em] text-foreground transition-colors hover:text-brand"
 								onClick={(e) => handleNavClick(e, "pricing")}
 							>
 								{t("pricing")}
@@ -474,7 +474,7 @@ export default function Navbar({
 
 						<div className="mt-auto space-y-6 border-border/40 border-t pt-6">
 							<Button
-								className="w-full border-transparent bg-brand font-mono text-white [&]:hover:bg-brand/80"
+								className="w-full border-transparent bg-brand font-[510] text-white [&]:hover:bg-brand/80"
 								size="lg"
 								render={
 									<Link

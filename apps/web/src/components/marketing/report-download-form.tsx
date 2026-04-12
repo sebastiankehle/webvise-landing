@@ -84,8 +84,8 @@ export default function ReportDownloadForm({
 						<Mail className="h-5 w-5 text-brand" strokeWidth={1.5} />
 					</div>
 					<div className="min-w-0">
-						<h3 className="font-medium text-base tracking-tight">{title}</h3>
-						<p className="mt-1 text-muted-foreground text-sm leading-relaxed">
+						<h3 className="font-[510] text-[16px] leading-[21px] tracking-[-0.011em]">{title}</h3>
+						<p className="mt-1 text-muted-foreground text-sm leading-[1.5]">
 							{description}
 						</p>
 					</div>

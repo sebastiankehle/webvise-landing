@@ -144,25 +144,25 @@ function RenderBlock({ block }: { block: Block }) {
 	switch (block.type) {
 		case "h2":
 			return (
-				<h2 className="mt-14 mb-4 font-display text-[26px] leading-[1.2] first:mt-0 md:text-[28px]">
+				<h2 className="mt-14 mb-4 font-display text-[24px] leading-[1.2] tracking-[-0.011em] first:mt-0 md:text-[28px]">
 					{block.text}
 				</h2>
 			);
 		case "h3":
 			return (
-				<h3 className="mt-8 mb-3 font-medium text-[17px] tracking-[-0.04em]">
+				<h3 className="mt-8 mb-3 font-[510] text-[16px] leading-[21px] tracking-[-0.011em]">
 					{block.text}
 				</h3>
 			);
 		case "p":
 			return (
-				<p className="mb-5 text-[16px] text-muted-foreground leading-[1.7] last:mb-0">
+				<p className="mb-5 text-[16px] text-muted-foreground leading-[1.6] last:mb-0">
 					{renderInline(block.text)}
 				</p>
 			);
 		case "ul":
 			return (
-				<ul className="mb-5 space-y-2 text-[15px] text-muted-foreground leading-[1.65]">
+				<ul className="mb-5 space-y-2 text-[15px] text-muted-foreground leading-[1.5]">
 					{block.items.map((item) => (
 						<li key={item} className="flex gap-3">
 							<span className="mt-1.5 h-1.5 w-1.5 shrink-0 bg-brand" />
@@ -315,7 +315,7 @@ export default async function BlogPostPage({
 					<div className="grid items-start gap-12 md:grid-cols-3 md:gap-16">
 						{/* Title + info */}
 						<div className="md:col-span-2">
-							<span className="font-mono text-brand text-xs">
+							<span className="font-[510] text-brand text-xs tracking-[-0.011em]">
 								<time dateTime={post.date}>
 									{new Date(post.date).toLocaleDateString(locale, {
 										day: "numeric",
@@ -326,10 +326,10 @@ export default async function BlogPostPage({
 								{" \u00B7 "}
 								{post.readingTime} {t("minRead")}
 							</span>
-							<h1 className="mt-3 font-display text-[32px] leading-[1.05] md:text-[48px]">
+							<h1 className="mt-3 font-display text-[40px] leading-[1.1] md:text-[56px]">
 								{post.title}
 							</h1>
-							<p className="mt-5 max-w-[620px] text-[17px] text-muted-foreground leading-[1.55]">
+							<p className="mt-5 max-w-[620px] text-[17px] text-muted-foreground leading-[1.5]">
 								{post.excerpt}
 							</p>
 						</div>
@@ -337,7 +337,7 @@ export default async function BlogPostPage({
 						{/* Tags box */}
 						{post.tags && post.tags.length > 0 && (
 							<div className="border border-border/40 p-6 md:p-8">
-								<p className="mb-5 font-mono text-muted-foreground/50 text-xs">
+								<p className="mb-5 text-muted-foreground/50 text-xs tracking-[-0.011em]">
 									{t("tagsLabel")}
 								</p>
 								<div className="flex flex-wrap gap-2">
@@ -386,7 +386,7 @@ export default async function BlogPostPage({
 
 					{(prev || next) && (
 						<>
-							<h2 className="mt-12 font-display text-2xl tracking-[-0.04em]">
+							<h2 className="mt-12 font-display text-2xl tracking-[-0.011em]">
 								{t("moreArticles")}
 							</h2>
 							<div className="mt-10 grid gap-6 md:grid-cols-2">
@@ -395,13 +395,13 @@ export default async function BlogPostPage({
 										href={`/blog/${prev.slug}` as "/blog"}
 										className="group border border-border/40 p-6 transition-colors hover:border-brand/30"
 									>
-										<span className="font-mono text-brand text-xs">
+										<span className="font-[510] text-brand text-xs tracking-[-0.011em]">
 											{t("prevPost")}
 										</span>
-										<h3 className="mt-2 font-display text-lg tracking-tight transition-colors group-hover:text-brand">
+										<h3 className="mt-2 font-display text-[16px] leading-[21px] tracking-[-0.011em] transition-colors group-hover:text-brand">
 											{prev.title}
 										</h3>
-										<p className="mt-2 text-muted-foreground text-sm leading-relaxed line-clamp-2">
+										<p className="mt-2 text-muted-foreground text-sm leading-[1.5] line-clamp-2">
 											{prev.excerpt}
 										</p>
 									</Link>
@@ -411,13 +411,13 @@ export default async function BlogPostPage({
 										href={`/blog/${next.slug}` as "/blog"}
 										className="group border border-border/40 p-6 transition-colors hover:border-brand/30"
 									>
-										<span className="font-mono text-brand text-xs">
+										<span className="font-[510] text-brand text-xs tracking-[-0.011em]">
 											{t("nextPost")}
 										</span>
-										<h3 className="mt-2 font-display text-lg tracking-tight transition-colors group-hover:text-brand">
+										<h3 className="mt-2 font-display text-[16px] leading-[21px] tracking-[-0.011em] transition-colors group-hover:text-brand">
 											{next.title}
 										</h3>
-										<p className="mt-2 text-muted-foreground text-sm leading-relaxed line-clamp-2">
+										<p className="mt-2 text-muted-foreground text-sm leading-[1.5] line-clamp-2">
 											{next.excerpt}
 										</p>
 									</Link>

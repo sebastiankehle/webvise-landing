@@ -21,7 +21,7 @@ export default function SectionWrapper({
 				dark
 					? "section-dark"
 					: alternate
-						? "bg-white"
+						? "bg-card"
 						: "bg-background",
 				className,
 			)}

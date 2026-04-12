@@ -236,7 +236,7 @@ export function LogoAsset({
 			</div>
 			<canvas ref={initCanvas} className="hidden" />
 			<div className="flex items-center justify-between">
-				<p className="font-mono text-muted-foreground text-xs">
+				<p className="text-muted-foreground text-xs tracking-[-0.011em]">
 					{size} x {size}px
 				</p>
 				<button
@@ -305,7 +305,7 @@ export function BannerAsset({
 			const subFontSize = Math.round(22 * scaleFactor);
 
 			ctx.fillStyle = style.canvasText;
-			ctx.font = `400 ${mainFontSize}px system-ui, -apple-system, sans-serif`;
+			ctx.font = `510 ${mainFontSize}px system-ui, -apple-system, sans-serif`;
 			ctx.fillText(
 				tagline,
 				textRightEdge,
@@ -313,7 +313,7 @@ export function BannerAsset({
 			);
 
 			ctx.fillStyle = style.canvasSub;
-			ctx.font = `300 ${subFontSize}px system-ui, -apple-system, sans-serif`;
+			ctx.font = `400 ${subFontSize}px system-ui, -apple-system, sans-serif`;
 			ctx.fillText(
 				subtitle,
 				textRightEdge,
@@ -358,7 +358,7 @@ export function BannerAsset({
 					<div className="flex items-center gap-6">
 						<div className="text-right">
 							<p
-								className={`font-normal text-[clamp(12px,2.2vw,32px)] leading-tight tracking-tight ${style.text}`}
+								className={`font-[510] text-[clamp(12px,2.2vw,32px)] leading-tight tracking-[-0.022em] ${style.text}`}
 							>
 								{tagline}
 							</p>
@@ -377,7 +377,7 @@ export function BannerAsset({
 			</div>
 			<canvas ref={initCanvas} className="hidden" />
 			<div className="flex items-center justify-between">
-				<p className="font-mono text-muted-foreground text-xs">
+				<p className="text-muted-foreground text-xs tracking-[-0.011em]">
 					{width} x {height}px
 				</p>
 				<button
@@ -447,11 +447,11 @@ export function WallpaperAsset({
 			const subFontSize = Math.round(24 * scale);
 
 			ctx.fillStyle = style.canvasText;
-			ctx.font = `400 ${mainFontSize}px system-ui, -apple-system, sans-serif`;
+			ctx.font = `510 ${mainFontSize}px system-ui, -apple-system, sans-serif`;
 			ctx.fillText(tagline, width / 2, height / 2 + Math.round(30 * scale));
 
 			ctx.fillStyle = style.canvasSub;
-			ctx.font = `300 ${subFontSize}px system-ui, -apple-system, sans-serif`;
+			ctx.font = `400 ${subFontSize}px system-ui, -apple-system, sans-serif`;
 			ctx.fillText(subtitle, width / 2, height / 2 + Math.round(70 * scale));
 
 			ctx.fillStyle = "#e8862f";
@@ -490,7 +490,7 @@ export function WallpaperAsset({
 					<WebviseLogo size={64} />
 					<div className="text-center">
 						<p
-							className={`font-normal text-[clamp(12px,2vw,28px)] leading-tight tracking-tight ${style.text}`}
+							className={`font-[510] text-[clamp(12px,2vw,28px)] leading-tight tracking-[-0.022em] ${style.text}`}
 						>
 							{tagline}
 						</p>
@@ -505,7 +505,7 @@ export function WallpaperAsset({
 			</div>
 			<canvas ref={initCanvas} className="hidden" />
 			<div className="flex items-center justify-between">
-				<p className="font-mono text-muted-foreground text-xs">
+				<p className="text-muted-foreground text-xs tracking-[-0.011em]">
 					{width} x {height}px
 				</p>
 				<button

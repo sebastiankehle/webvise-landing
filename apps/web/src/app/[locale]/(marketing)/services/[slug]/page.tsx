@@ -189,23 +189,23 @@ export default async function ServicePage({
 					<div className="grid items-start gap-12 md:grid-cols-3 md:gap-16">
 						{/* Title + info */}
 						<div className="md:col-span-2">
-							<span className="font-mono text-brand text-xs">
+							<span className="font-[510] text-brand text-xs tracking-[-0.011em]">
 								{t(`${key}.price`)} &middot; {t(`${key}.timeline`)}
 							</span>
-							<h1 className="mt-3 font-display text-[32px] leading-[1.05] md:text-[48px]">
+							<h1 className="mt-3 font-display text-[40px] leading-[1.1] md:text-[56px]">
 								{t(`${key}.title`)}
 							</h1>
-							<p className="mt-4 text-lg text-muted-foreground leading-relaxed">
+							<p className="mt-4 text-lg text-muted-foreground leading-[1.5]">
 								{t(`${key}.tagline`)}
 							</p>
 
 							{/* Metadata bar */}
 							<div className="mt-10 flex flex-wrap items-start gap-x-8 gap-y-4 border-border/40 border-t pt-6">
 								<div>
-									<span className="block font-mono text-muted-foreground text-xs">
+									<span className="block text-muted-foreground text-xs tracking-[-0.011em]">
 										{td("aboutTitle")}
 									</span>
-									<p className="mt-1 max-w-lg text-sm leading-relaxed">
+									<p className="mt-1 max-w-lg text-sm leading-[1.5]">
 										{t(`${key}.description`)}
 									</p>
 								</div>
@@ -214,7 +214,7 @@ export default async function ServicePage({
 
 						{/* Tools box */}
 						<div className="border border-border/40 p-6 md:p-8">
-							<p className="mb-5 font-mono text-muted-foreground/50 text-xs">
+							<p className="mb-5 text-muted-foreground/50 text-xs tracking-[-0.011em]">
 								{td("toolsTitle")}
 							</p>
 							<div className="flex flex-wrap gap-2">
@@ -244,10 +244,10 @@ export default async function ServicePage({
 							key={t(`${key}.painPoints.${i}.heading`)}
 							className="border-border/40 border-t-2 border-t-brand not-last:border-b p-8 md:not-last:border-r md:not-last:border-b-0 md:p-10"
 						>
-							<h3 className="font-display text-lg">
+							<h3 className="font-display text-[16px] leading-[21px] tracking-[-0.011em]">
 								{t(`${key}.painPoints.${i}.heading`)}
 							</h3>
-							<p className="mt-3 text-muted-foreground text-sm leading-relaxed">
+							<p className="mt-3 text-muted-foreground text-sm leading-[1.5]">
 								{t(`${key}.painPoints.${i}.description`)}
 							</p>
 						</div>
@@ -256,7 +256,7 @@ export default async function ServicePage({
 			</SectionWrapper>
 
 			<SectionWrapper id="features" alternate>
-				<h2 className="font-display text-2xl tracking-tight">
+				<h2 className="font-display text-2xl tracking-[-0.011em]">
 					{td("featuresTitle")}
 				</h2>
 				<div className="mt-10 grid gap-px overflow-hidden border border-border/40 md:grid-cols-2">
@@ -272,7 +272,7 @@ export default async function ServicePage({
 			</SectionWrapper>
 
 			<SectionWrapper id="deliverables">
-				<h2 className="font-display text-2xl tracking-tight">
+				<h2 className="font-display text-2xl tracking-[-0.011em]">
 					{td("deliverablesTitle")}
 				</h2>
 				<div className="mt-10 max-w-2xl border border-border/40">
@@ -281,10 +281,10 @@ export default async function ServicePage({
 							key={t(`${key}.deliverables.${i}`)}
 							className="flex gap-4 not-last:border-border/40 not-last:border-b px-6 py-5"
 						>
-							<span className="font-mono text-brand/50 text-xs">
+							<span className="text-brand/50 text-xs tracking-[-0.011em]">
 								{String(i + 1).padStart(2, "0")}
 							</span>
-							<span className="text-sm leading-relaxed">
+							<span className="text-sm leading-[1.5]">
 								{t(`${key}.deliverables.${i}`)}
 							</span>
 						</div>
@@ -294,7 +294,7 @@ export default async function ServicePage({
 
 			{service.faqCount > 0 && (
 				<SectionWrapper id="faq" alternate>
-					<h2 className="font-display text-2xl tracking-tight">
+					<h2 className="font-display text-2xl tracking-[-0.011em]">
 						{td("faqTitle")}
 					</h2>
 					<div className="mt-10 max-w-2xl border border-border/40">
@@ -309,7 +309,7 @@ export default async function ServicePage({
 										+
 									</span>
 								</summary>
-								<div className="px-6 pb-5 text-muted-foreground text-sm leading-relaxed">
+								<div className="px-6 pb-5 text-muted-foreground text-sm leading-[1.5]">
 									{t(`${key}.faq.${i}.answer`)}
 								</div>
 							</details>
@@ -328,10 +328,10 @@ export default async function ServicePage({
 								<Shield className="h-5 w-5 text-brand" strokeWidth={1.5} />
 							</div>
 							<div>
-								<h3 className="font-display text-lg tracking-tight">
+								<h3 className="font-display text-[16px] leading-[21px] tracking-[-0.011em]">
 									{tt("title")}
 								</h3>
-								<p className="mt-1 max-w-lg text-muted-foreground text-sm leading-relaxed">
+								<p className="mt-1 max-w-lg text-muted-foreground text-sm leading-[1.5]">
 									{tt("description")}
 								</p>
 							</div>
@@ -349,7 +349,7 @@ export default async function ServicePage({
 			{relatedCaseStudies.length > 0 && (
 				<section className="border-border/40 border-t pb-28 pt-20">
 					<div className="mx-auto max-w-[1320px] px-6">
-						<h2 className="font-display text-2xl tracking-tight">
+						<h2 className="font-display text-2xl tracking-[-0.011em]">
 							{td("relatedWorkTitle")}
 						</h2>
 						<div className="mt-10 grid gap-6 md:grid-cols-2">
@@ -374,10 +374,10 @@ export default async function ServicePage({
 										/>
 									)}
 									<div className="p-6">
-										<span className="font-mono text-brand text-xs">
+										<span className="font-[510] text-brand text-xs tracking-[-0.011em]">
 											{cs!.client} &middot; {cs!.industry}
 										</span>
-										<h3 className="mt-2 font-display text-lg tracking-tight transition-colors group-hover:text-brand">
+										<h3 className="mt-2 font-display text-[16px] leading-[21px] tracking-[-0.011em] transition-colors group-hover:text-brand">
 											{cs!.title}
 										</h3>
 									</div>
@@ -391,7 +391,7 @@ export default async function ServicePage({
 			{relatedServiceData.length > 0 && (
 				<section className="border-border/40 border-t pb-28 pt-20">
 					<div className="mx-auto max-w-[1320px] px-6">
-						<h2 className="font-display text-2xl tracking-tight">
+						<h2 className="font-display text-2xl tracking-[-0.011em]">
 							{td("relatedServicesTitle")}
 						</h2>
 						<div className="mt-10 grid gap-6 md:grid-cols-2">
@@ -410,10 +410,10 @@ export default async function ServicePage({
 											<RsIcon className="h-5 w-5 text-brand" strokeWidth={1.5} />
 										</div>
 										<div>
-											<h3 className="font-display text-lg tracking-tight transition-colors group-hover:text-brand">
+											<h3 className="font-display text-[16px] leading-[21px] tracking-[-0.011em] transition-colors group-hover:text-brand">
 												{t(`${rs!.translationKey}.title`)}
 											</h3>
-											<p className="mt-1 line-clamp-2 text-muted-foreground text-sm leading-relaxed">
+											<p className="mt-1 line-clamp-2 text-muted-foreground text-sm leading-[1.5]">
 												{t(`${rs!.translationKey}.tagline`)}
 											</p>
 									</div>

@@ -6,6 +6,7 @@ import Contact from "@/components/marketing/sections/contact";
 import FAQ from "@/components/marketing/sections/faq";
 import Hero from "@/components/marketing/sections/hero";
 import Metrics from "@/components/marketing/sections/metrics";
+import ProblemStatement from "@/components/marketing/sections/problem-statement";
 import Pricing from "@/components/marketing/sections/pricing";
 import Process from "@/components/marketing/sections/process";
 import Services from "@/components/marketing/sections/services";
@@ -54,6 +55,7 @@ export default function HomePage() {
 		<>
 			<JsonLd data={jsonLd} />
 			<Hero />
+			<ProblemStatement />
 			<TechStack />
 			<Metrics />
 			<Services />
