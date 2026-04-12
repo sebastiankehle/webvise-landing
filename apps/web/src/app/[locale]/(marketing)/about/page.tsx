@@ -175,13 +175,28 @@ export default async function AboutPage() {
 				</div>
 			</section>
 
+			{/* Problem Statement */}
+			<section className="py-20 md:py-36">
+				<div className="mx-auto max-w-[1320px] px-6">
+					<p className="max-w-[960px] font-display text-[28px] leading-[1.3] md:text-[36px]">
+						<span className="text-foreground">{t("statement.known")}</span>{" "}
+						<span className="text-muted-foreground">{t("statement.pain")}</span>
+					</p>
+				</div>
+			</section>
+
 			{/* Bio */}
 			<SectionWrapper id="background" alternate>
-				<div className="max-w-2xl">
+				<div className="grid items-start gap-12 md:grid-cols-[1fr_1.2fr]">
 					<h2 className="font-display text-[28px] leading-[34px] md:text-[36px] md:leading-[42px]">
 						{t("bio.title")}
 					</h2>
-					<div className="mt-8 space-y-5 text-muted-foreground leading-[1.5]">
+					<p className="text-[17px] text-muted-foreground leading-[26px] tracking-[-0.011em]">
+						{t("bio.subtitle")}
+					</p>
+				</div>
+				<div className="mt-14 max-w-2xl">
+					<div className="space-y-5 text-muted-foreground leading-[1.5]">
 						{Array.from({ length: bioCount }, (_, i) => (
 							<p key={i}>{t(`bio.paragraphs.${i}`)}</p>
 						))}
@@ -191,11 +206,16 @@ export default async function AboutPage() {
 
 			{/* Experience - vertical timeline like personal site */}
 			<SectionWrapper id="experience">
-				<div className="max-w-2xl">
+				<div className="grid items-start gap-12 md:grid-cols-[1fr_1.2fr]">
 					<h2 className="font-display text-[28px] leading-[34px] md:text-[36px] md:leading-[42px]">
 						{t("experience.title")}
 					</h2>
-					<div className="mt-10 space-y-10">
+					<p className="text-[17px] text-muted-foreground leading-[26px] tracking-[-0.011em]">
+						{t("experience.subtitle")}
+					</p>
+				</div>
+				<div className="mt-14 max-w-2xl">
+					<div className="space-y-10">
 						{Array.from({ length: experienceCount }, (_, i) => (
 							<div key={i} className="flex gap-6">
 								<div className="flex w-1 shrink-0 flex-col items-center pt-2">
@@ -235,11 +255,16 @@ export default async function AboutPage() {
 
 			{/* Skills */}
 			<SectionWrapper id="skills" alternate>
-				<div className="max-w-2xl">
+				<div className="grid items-start gap-12 md:grid-cols-[1fr_1.2fr]">
 					<h2 className="font-display text-[28px] leading-[34px] md:text-[36px] md:leading-[42px]">
 						{t("stack.title")}
 					</h2>
-					<div className="mt-10 space-y-8">
+					<p className="text-[17px] text-muted-foreground leading-[26px] tracking-[-0.011em]">
+						{t("stack.subtitle")}
+					</p>
+				</div>
+				<div className="mt-14 max-w-2xl">
+					<div className="space-y-8">
 						{(["languages", "frontend", "backend", "data", "ai", "platform"] as const).map((section) => (
 							<div key={section}>
 								<p className="mb-3 text-xs text-muted-foreground/50 tracking-[-0.011em]">

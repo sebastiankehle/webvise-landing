@@ -233,10 +233,13 @@ export default async function ServicePage({
 			</section>
 
 			<SectionWrapper id="why">
-				<div className="max-w-2xl">
+				<div className="grid items-start gap-12 md:grid-cols-[1fr_1.2fr]">
 					<h2 className="font-display text-[28px] leading-[34px] md:text-[36px] md:leading-[42px]">
 						{td("painPointsTitle")}
 					</h2>
+					<p className="text-[17px] text-muted-foreground leading-[26px] tracking-[-0.011em]">
+						{td("painPointsSubtitle")}
+					</p>
 				</div>
 				<div className="mt-14 grid gap-px overflow-hidden border border-border/40 md:grid-cols-3">
 					{Array.from({ length: service.painPointCount }, (_, i) => (
@@ -256,10 +259,15 @@ export default async function ServicePage({
 			</SectionWrapper>
 
 			<SectionWrapper id="features" alternate>
-				<h2 className="font-display text-[28px] leading-[34px] md:text-[36px] md:leading-[42px]">
-					{td("featuresTitle")}
-				</h2>
-				<div className="mt-10 grid gap-px overflow-hidden border border-border/40 md:grid-cols-2">
+				<div className="grid items-start gap-12 md:grid-cols-[1fr_1.2fr]">
+					<h2 className="font-display text-[28px] leading-[34px] md:text-[36px] md:leading-[42px]">
+						{td("featuresTitle")}
+					</h2>
+					<p className="text-[17px] text-muted-foreground leading-[26px] tracking-[-0.011em]">
+						{td("featuresSubtitle")}
+					</p>
+				</div>
+				<div className="mt-14 grid gap-px overflow-hidden border border-border/40 md:grid-cols-2">
 					{Array.from({ length: service.featureCount }, (_, i) => (
 						<div
 							key={t(`${key}.features.${i}`)}
@@ -272,10 +280,15 @@ export default async function ServicePage({
 			</SectionWrapper>
 
 			<SectionWrapper id="deliverables">
-				<h2 className="font-display text-[28px] leading-[34px] md:text-[36px] md:leading-[42px]">
-					{td("deliverablesTitle")}
-				</h2>
-				<div className="mt-10 max-w-2xl border border-border/40">
+				<div className="grid items-start gap-12 md:grid-cols-[1fr_1.2fr]">
+					<h2 className="font-display text-[28px] leading-[34px] md:text-[36px] md:leading-[42px]">
+						{td("deliverablesTitle")}
+					</h2>
+					<p className="text-[17px] text-muted-foreground leading-[26px] tracking-[-0.011em]">
+						{td("deliverablesSubtitle")}
+					</p>
+				</div>
+				<div className="mt-14 max-w-2xl border border-border/40">
 					{Array.from({ length: service.deliverableCount }, (_, i) => (
 						<div
 							key={t(`${key}.deliverables.${i}`)}

@@ -55,6 +55,16 @@ export default async function CaseStudiesPage() {
 				</div>
 			</section>
 
+			{/* Problem Statement */}
+			<section className="py-20 md:py-36">
+				<div className="mx-auto max-w-[1320px] px-6">
+					<p className="max-w-[960px] font-display text-[28px] leading-[1.3] md:text-[36px]">
+						<span className="text-foreground">{t("statement.known")}</span>{" "}
+						<span className="text-muted-foreground">{t("statement.pain")}</span>
+					</p>
+				</div>
+			</section>
+
 			<SectionWrapper id="case-studies-list" alternate>
 				<StaggerChildren className="grid gap-px overflow-hidden border border-border/40 md:grid-cols-2 lg:grid-cols-3">
 					{caseStudies.map((cs) => (

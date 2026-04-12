@@ -434,6 +434,8 @@ A large mixed-emphasis paragraph that creates emotional impact by splitting "kno
 
 The foreground span states a truth the reader accepts. The muted span reveals the problem. The size shift from hero (56px) to problem statement (36px) creates a natural reading rhythm.
 
+This pattern is used on the landing page (between hero and tech stack), the about page (between header and bio), and the case studies listing (between header and grid). It works best where there's an emotional "known truth / pain" narrative to establish.
+
 ### 7.10 Split Heading Pattern
 
 Section introductions use a two-column grid with the heading left and a heavier subtitle right:
@@ -450,6 +452,8 @@ Section introductions use a two-column grid with the heading left and a heavier 
 ```
 
 The subtitle uses normal weight at 17px -- slightly larger than body text but understated. This creates a Linear-inspired hierarchy where the heading carries authority and the subtitle provides context without competing. This is the default section introduction pattern for all marketing sections.
+
+Used on: landing page (all sections), about page (bio, experience, stack), service pages (pain points, features, deliverables). Not used on small end-of-page sections (related items, FAQ) where a simple H2 is sufficient.
 
 ---
 
