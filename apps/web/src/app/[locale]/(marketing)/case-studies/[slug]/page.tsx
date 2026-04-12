@@ -188,7 +188,7 @@ export default async function CaseStudyPage({
 							<h1 className="mt-3 font-display text-[40px] leading-[1.1] md:text-[56px]">
 								{cs.title}
 							</h1>
-							<p className="mt-4 text-lg text-muted-foreground leading-[1.5]">
+							<p className="mt-4 text-[17px] text-muted-foreground leading-[1.5]">
 								{cs.excerpt}
 							</p>
 
@@ -292,7 +292,7 @@ export default async function CaseStudyPage({
 				<div className="mx-auto max-w-[1320px] px-6">
 					<div className="grid gap-16 md:grid-cols-2 md:gap-20">
 						<div>
-							<h2 className="font-display text-2xl tracking-[-0.011em]">
+							<h2 className="font-display text-[28px] leading-[34px] md:text-[36px] md:leading-[42px]">
 								{t("challenge")}
 							</h2>
 							<p className="mt-4 text-muted-foreground leading-[1.5]">
@@ -300,7 +300,7 @@ export default async function CaseStudyPage({
 							</p>
 						</div>
 						<div>
-							<h2 className="font-display text-2xl tracking-[-0.011em]">
+							<h2 className="font-display text-[28px] leading-[34px] md:text-[36px] md:leading-[42px]">
 								{t("solution")}
 							</h2>
 							<p className="mt-4 text-muted-foreground leading-[1.5]">
@@ -347,7 +347,7 @@ export default async function CaseStudyPage({
 			{relatedCaseStudies.length > 0 && (
 				<section className="border-border/40 border-t pb-28 pt-20">
 					<div className="mx-auto max-w-[1320px] px-6">
-						<h2 className="font-display text-2xl tracking-[-0.011em]">
+						<h2 className="font-display text-[28px] leading-[34px] md:text-[36px] md:leading-[42px]">
 							{t("relatedTitle")}
 						</h2>
 						<div className="mt-10 grid gap-6 md:grid-cols-2">

@@ -386,7 +386,7 @@ export default async function BlogPostPage({
 
 					{(prev || next) && (
 						<>
-							<h2 className="mt-12 font-display text-2xl tracking-[-0.011em]">
+							<h2 className="mt-12 font-display text-[28px] leading-[34px] md:text-[36px] md:leading-[42px]">
 								{t("moreArticles")}
 							</h2>
 							<div className="mt-10 grid gap-6 md:grid-cols-2">

@@ -195,7 +195,7 @@ export default async function ServicePage({
 							<h1 className="mt-3 font-display text-[40px] leading-[1.1] md:text-[56px]">
 								{t(`${key}.title`)}
 							</h1>
-							<p className="mt-4 text-lg text-muted-foreground leading-[1.5]">
+							<p className="mt-4 text-[17px] text-muted-foreground leading-[1.5]">
 								{t(`${key}.tagline`)}
 							</p>
 
@@ -234,7 +234,7 @@ export default async function ServicePage({
 
 			<SectionWrapper id="why">
 				<div className="max-w-2xl">
-					<h2 className="font-display text-[28px] leading-[1.15] md:text-[40px]">
+					<h2 className="font-display text-[28px] leading-[34px] md:text-[36px] md:leading-[42px]">
 						{td("painPointsTitle")}
 					</h2>
 				</div>
@@ -256,7 +256,7 @@ export default async function ServicePage({
 			</SectionWrapper>
 
 			<SectionWrapper id="features" alternate>
-				<h2 className="font-display text-2xl tracking-[-0.011em]">
+				<h2 className="font-display text-[28px] leading-[34px] md:text-[36px] md:leading-[42px]">
 					{td("featuresTitle")}
 				</h2>
 				<div className="mt-10 grid gap-px overflow-hidden border border-border/40 md:grid-cols-2">
@@ -272,7 +272,7 @@ export default async function ServicePage({
 			</SectionWrapper>
 
 			<SectionWrapper id="deliverables">
-				<h2 className="font-display text-2xl tracking-[-0.011em]">
+				<h2 className="font-display text-[28px] leading-[34px] md:text-[36px] md:leading-[42px]">
 					{td("deliverablesTitle")}
 				</h2>
 				<div className="mt-10 max-w-2xl border border-border/40">
@@ -294,7 +294,7 @@ export default async function ServicePage({
 
 			{service.faqCount > 0 && (
 				<SectionWrapper id="faq" alternate>
-					<h2 className="font-display text-2xl tracking-[-0.011em]">
+					<h2 className="font-display text-[28px] leading-[34px] md:text-[36px] md:leading-[42px]">
 						{td("faqTitle")}
 					</h2>
 					<div className="mt-10 max-w-2xl border border-border/40">
@@ -349,7 +349,7 @@ export default async function ServicePage({
 			{relatedCaseStudies.length > 0 && (
 				<section className="border-border/40 border-t pb-28 pt-20">
 					<div className="mx-auto max-w-[1320px] px-6">
-						<h2 className="font-display text-2xl tracking-[-0.011em]">
+						<h2 className="font-display text-[28px] leading-[34px] md:text-[36px] md:leading-[42px]">
 							{td("relatedWorkTitle")}
 						</h2>
 						<div className="mt-10 grid gap-6 md:grid-cols-2">
@@ -391,7 +391,7 @@ export default async function ServicePage({
 			{relatedServiceData.length > 0 && (
 				<section className="border-border/40 border-t pb-28 pt-20">
 					<div className="mx-auto max-w-[1320px] px-6">
-						<h2 className="font-display text-2xl tracking-[-0.011em]">
+						<h2 className="font-display text-[28px] leading-[34px] md:text-[36px] md:leading-[42px]">
 							{td("relatedServicesTitle")}
 						</h2>
 						<div className="mt-10 grid gap-6 md:grid-cols-2">

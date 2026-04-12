@@ -139,7 +139,7 @@ export default async function AboutPage() {
 									</h1>
 								</div>
 							</div>
-							<p className="mt-6 text-lg text-muted-foreground leading-[1.5]">
+							<p className="mt-6 text-[17px] text-muted-foreground leading-[1.5]">
 								{t("intro.tagline")}
 							</p>
 
@@ -178,7 +178,7 @@ export default async function AboutPage() {
 			{/* Bio */}
 			<SectionWrapper id="background" alternate>
 				<div className="max-w-2xl">
-					<h2 className="font-display text-2xl tracking-[-0.011em]">
+					<h2 className="font-display text-[28px] leading-[34px] md:text-[36px] md:leading-[42px]">
 						{t("bio.title")}
 					</h2>
 					<div className="mt-8 space-y-5 text-muted-foreground leading-[1.5]">
@@ -192,7 +192,7 @@ export default async function AboutPage() {
 			{/* Experience - vertical timeline like personal site */}
 			<SectionWrapper id="experience">
 				<div className="max-w-2xl">
-					<h2 className="font-display text-2xl tracking-[-0.011em]">
+					<h2 className="font-display text-[28px] leading-[34px] md:text-[36px] md:leading-[42px]">
 						{t("experience.title")}
 					</h2>
 					<div className="mt-10 space-y-10">
@@ -236,7 +236,7 @@ export default async function AboutPage() {
 			{/* Skills */}
 			<SectionWrapper id="skills" alternate>
 				<div className="max-w-2xl">
-					<h2 className="font-display text-2xl tracking-[-0.011em]">
+					<h2 className="font-display text-[28px] leading-[34px] md:text-[36px] md:leading-[42px]">
 						{t("stack.title")}
 					</h2>
 					<div className="mt-10 space-y-8">

@@ -460,7 +460,7 @@ export default function WpHealthReport() {
 										),
 									})}
 								</h1>
-								<p className="mt-4 font-light text-lg text-muted-foreground leading-[1.5]">
+								<p className="mt-5 text-[17px] text-muted-foreground leading-[1.5]">
 									{t("hero.subtitle")}
 								</p>
 

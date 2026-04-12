@@ -138,7 +138,8 @@ body {
 | Pricing tier name (h3) | `font-display text-[16px] leading-[21px] tracking-[-0.011em]` | Pricing cards |
 | Metrics value | `font-display text-[48px] md:text-[64px] leading-[1] tracking-[-0.022em]` | Big stat numbers |
 | Brand wordmark | `font-display text-[22px]` | "webvise" in navbar/footer; tracking inherited |
-| Hero subtitle | `text-[18px] max-w-[500px] leading-[1.5]` | ~60 chars per line |
+| Hero subtitle | `text-[16px] max-w-[500px] leading-[1.5]` | Home hero, ~55 chars per line |
+| Page intro text | `text-[17px] text-muted-foreground leading-[1.5]` | Subpage headers (blog, case studies, services, about, legal), page-level descriptions |
 | Section subtitle | `text-[15px] max-w-[520px] leading-[1.5]` | ~65 chars per line |
 | Card body | `text-sm leading-[1.5]` | Descriptions in cards |
 | Article prose (body) | `text-[16px] leading-[1.6]` | Blog article `<p>` |
@@ -520,7 +521,40 @@ Variants:
 - `alternate` - `bg-white` instead of `bg-background` (creates subtle tonal shift)
 - `dark` - Applies `.section-dark` class for inverted sections
 
-### 9.2 Grid Patterns
+### 9.2 Subpage Header Pattern
+
+All subpages (blog, case studies, services, about, legal) follow a consistent header structure:
+
+```tsx
+{/* Breadcrumb (optional) */}
+<nav className="mx-auto max-w-[1320px] px-6 pt-24 md:pt-36">
+  <ol className="flex items-center gap-2 text-sm text-muted-foreground">...</ol>
+</nav>
+
+{/* Header */}
+<section className="pb-24 pt-10 md:pb-36">
+  <div className="mx-auto max-w-[1320px] px-6">
+    <span className="font-[510] text-brand text-xs tracking-[-0.011em]">{eyebrow}</span>
+    <h1 className="mt-3 font-display text-[40px] leading-[1.1] md:text-[56px]">{title}</h1>
+    <p className="mt-5 text-[17px] text-muted-foreground leading-[1.5]">{intro}</p>
+  </div>
+</section>
+```
+
+**Key rules:**
+- Eyebrow: `font-[510] text-brand text-xs tracking-[-0.011em]` (date, client, price, role)
+- H1: Always `font-display text-[40px] md:text-[56px] leading-[1.1]`
+- Intro text: Always `text-[17px] text-muted-foreground leading-[1.5]` (never `text-lg`)
+- Title-to-intro gap: `mt-5` (blog/listing pages) or `mt-4` (detail pages with metadata bar)
+- Listing pages without breadcrumb use hero padding: `py-24 md:py-44`
+
+**Section-level H2s on subpages** must match the landing page scale:
+```tsx
+<h2 className="font-display text-[28px] leading-[34px] md:text-[36px] md:leading-[42px]">
+```
+Never use `text-2xl` for section headings. Reserve `text-2xl` only for in-article content headings (blog RenderBlock h2).
+
+### 9.3 Grid Patterns
 
 | Pattern | Classes | Usage |
 |---|---|---|
@@ -530,7 +564,7 @@ Variants:
 | Pricing grid | `grid grid-cols-3` | Pricing dropdown |
 | Service grid | `grid grid-cols-2` | Services dropdown |
 
-### 9.3 Content Width Constraints
+### 9.4 Content Width Constraints
 
 | Element | Max Width |
 |---|---|
