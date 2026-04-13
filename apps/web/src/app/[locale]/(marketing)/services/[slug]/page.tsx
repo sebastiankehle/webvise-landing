@@ -210,7 +210,7 @@ export default async function ServicePage({
 				</div>
 			</SectionWrapper>
 
-			<SectionWrapper id="why">
+			<SectionWrapper id="why" className="pt-8 md:pt-12">
 				<div className="grid gap-px overflow-hidden border border-border/40 md:grid-cols-3">
 					{Array.from({ length: service.painPointCount }, (_, i) => {
 						const PainIcon = service.painPointIcons[i];
