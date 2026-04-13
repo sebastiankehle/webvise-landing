@@ -6,6 +6,7 @@ import { useRef, useState } from "react";
 import z from "zod";
 
 import SectionWrapper from "@/components/marketing/section-wrapper";
+import { Button } from "@/components/ui/button";
 import { FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { SubmitButton } from "@/components/ui/submit-button";
@@ -86,16 +87,21 @@ export default function Contact() {
 						>
 							{t("founder.name")}
 						</Link>
-						{" · "}
-						<a
-							href="https://cal.com/webvise"
-							target="_blank"
-							rel="noopener noreferrer"
-							className="text-brand transition-opacity hover:opacity-80"
-						>
-							{t("booking.cta")}
-						</a>
 					</Muted>
+					<Button
+						size="lg"
+						variant="outline"
+						className="mt-6"
+						render={
+							<a
+								href="https://cal.com/webvise"
+								target="_blank"
+								rel="noopener noreferrer"
+							/>
+						}
+					>
+						{t("booking.cta")}
+					</Button>
 				</div>
 
 				<form

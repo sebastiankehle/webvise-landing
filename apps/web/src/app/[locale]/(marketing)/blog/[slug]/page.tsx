@@ -367,8 +367,7 @@ export default async function BlogPostPage({
 
 					{(prev || next) && (
 						<>
-							<H2 className="mt-12">{t("moreArticles")}</H2>
-							<div className="mt-10 grid gap-6 md:grid-cols-2">
+							<div className="mt-12 grid gap-6 md:grid-cols-2">
 								{prev && (
 									<Link
 										href={`/blog/${prev.slug}` as "/blog"}

@@ -197,7 +197,20 @@ export default async function ServicePage({
 				</div>
 			</section>
 
-			<SectionWrapper id="why" className="pt-8 md:pt-12">
+			<SectionWrapper id="approach" className="pt-8 md:pt-12">
+				<div className="grid gap-16 md:grid-cols-2 md:gap-20">
+					<div>
+						<H2 className="text-2xl md:text-[30px]">{td("approachTitle")}</H2>
+						<Lead className="mt-4 leading-relaxed">{t(`${key}.approach`)}</Lead>
+					</div>
+					<div>
+						<H2 className="text-2xl md:text-[30px]">{td("outcomeTitle")}</H2>
+						<Lead className="mt-4 leading-relaxed">{t(`${key}.outcome`)}</Lead>
+					</div>
+				</div>
+			</SectionWrapper>
+
+			<SectionWrapper id="why">
 				<div className="grid gap-px overflow-hidden border border-border/40 md:grid-cols-3">
 					{Array.from({ length: service.painPointCount }, (_, i) => (
 						<div
@@ -210,19 +223,6 @@ export default async function ServicePage({
 							</Muted>
 						</div>
 					))}
-				</div>
-			</SectionWrapper>
-
-			<SectionWrapper id="approach">
-				<div className="grid gap-16 md:grid-cols-2 md:gap-20">
-					<div>
-						<H2 className="text-2xl md:text-[30px]">{td("approachTitle")}</H2>
-						<Lead className="mt-4 leading-relaxed">{t(`${key}.approach`)}</Lead>
-					</div>
-					<div>
-						<H2 className="text-2xl md:text-[30px]">{td("outcomeTitle")}</H2>
-						<Lead className="mt-4 leading-relaxed">{t(`${key}.outcome`)}</Lead>
-					</div>
 				</div>
 			</SectionWrapper>
 
@@ -245,10 +245,7 @@ export default async function ServicePage({
 						</ul>
 					</div>
 
-					<div
-						id="deliverables"
-						className="lg:border-border/40 lg:border-l lg:pl-10"
-					>
+					<div id="deliverables">
 						<H2 className="text-2xl md:text-[30px]">
 							{td("deliverablesTitle")}
 						</H2>
