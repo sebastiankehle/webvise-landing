@@ -9,9 +9,9 @@ import { Button } from "@/components/ui/button";
 import { FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { SubmitButton } from "@/components/ui/submit-button";
+import { Caption, H1, H2, Lead, Muted } from "@/components/ui/typography";
 import { Link } from "@/i18n/navigation";
 import { track } from "@/lib/track";
-import { H1, H2, Caption, Muted, Lead } from "@/components/ui/typography";
 import { cn } from "@/lib/utils";
 
 interface ReportIssue {
@@ -111,137 +111,145 @@ function ReportResults({ data }: { data: ReportData }) {
 	return (
 		<div>
 			{/* Header */}
-				<div className="flex flex-col gap-1 md:flex-row md:items-baseline md:justify-between">
-					<H2>
-						{t("results.title")}
-					</H2>
-					<Muted>
-						{t("results.resultsFor")}{" "}
-						<span className="font-medium text-foreground">{data.url}</span>
+			<div className="flex flex-col gap-1 md:flex-row md:items-baseline md:justify-between">
+				<H2>{t("results.title")}</H2>
+				<Muted>
+					{t("results.resultsFor")}{" "}
+					<span className="font-medium text-foreground">{data.url}</span>
+				</Muted>
+			</div>
+
+			{/* Scores row */}
+			<div className="mt-8 grid grid-cols-2 gap-px overflow-hidden border border-border/40">
+				<div className="flex flex-col items-center justify-center p-4">
+					<ScoreRing score={data.mobile.score} label={t("results.mobile")} />
+				</div>
+				<div className="flex flex-col items-center justify-center border-border/40 border-l p-4">
+					<ScoreRing score={data.desktop.score} label={t("results.desktop")} />
+				</div>
+			</div>
+
+			{/* Projected score - visually separated */}
+			<div className="mt-4 border-2 border-brand bg-brand/5 p-5">
+				<Caption className="mb-3 block text-center text-brand">
+					{t("results.projectedLabel")}
+				</Caption>
+				<div className="flex justify-center">
+					<ScoreRing
+						score={data.projectedScore}
+						label={t("results.afterNextjs")}
+						size={88}
+					/>
+				</div>
+				<Caption className="mt-3 block text-center">
+					{t("results.projectedHint")}
+				</Caption>
+			</div>
+
+			{/* Core Web Vitals with explanations */}
+			{data.vitals && data.vitals.length > 0 && (
+				<div className="mt-px border border-border/40 border-t-0">
+					<div className="border-border/40 border-b px-5 py-3">
+						<Caption className="block">{t("results.webVitalsTitle")}</Caption>
+						<Caption className="mt-1 block">
+							{t("results.webVitalsSubtitle")}
+						</Caption>
+					</div>
+					<div className="divide-y divide-border/40">
+						{data.vitals.map((vital) => {
+							const { text } = scoreColor(vital.score);
+							const explanationKey =
+								`results.vitalExplanations.${vital.label}` as const;
+							return (
+								<div
+									key={vital.label}
+									className="flex items-start gap-4 px-5 py-3"
+								>
+									<div
+										className="flex shrink-0 flex-col items-center gap-0.5"
+										style={{ minWidth: 48 }}
+									>
+										<span className={cn("font-medium text-sm", text)}>
+											{vital.displayValue}
+										</span>
+										<Caption>{vital.label}</Caption>
+									</div>
+									<Caption className="leading-relaxed">
+										{t.has(explanationKey)
+											? t(explanationKey)
+											: t("results.vitalExplanations.default")}
+									</Caption>
+								</div>
+							);
+						})}
+					</div>
+				</div>
+			)}
+
+			{/* Security flags - only show if present */}
+			{data.securityFlags.length > 0 && (
+				<div className="mt-px border border-border/40 border-t-0 p-5">
+					<Caption className="block">{t("results.securityRisks")}</Caption>
+					<ul className="mt-3 space-y-2">
+						{data.securityFlags.map((flag) => (
+							<li
+								key={flag}
+								className="flex items-start gap-3 font-light text-sm"
+							>
+								<span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-yellow-500" />
+								<span className="text-foreground">{flag}</span>
+							</li>
+						))}
+					</ul>
+				</div>
+			)}
+
+			{/* Migration estimate + CTA */}
+			<div className="mt-px grid items-center gap-6 border border-border/40 border-t-2 border-t-brand p-6 md:grid-cols-[1fr_auto]">
+				<div>
+					<Caption className="block">{t("results.migrationEstimate")}</Caption>
+					<Muted className="mt-2 leading-relaxed">
+						{t.rich("results.migrationText", {
+							strong: (chunks) => (
+								<span className="font-medium text-foreground">{chunks}</span>
+							),
+							min: data.migrationEstimate.min.toLocaleString(),
+							max: data.migrationEstimate.max.toLocaleString(),
+						})}
 					</Muted>
 				</div>
-
-				{/* Scores row */}
-				<div className="mt-8 grid grid-cols-2 gap-px overflow-hidden border border-border/40">
-					<div className="flex flex-col items-center justify-center p-4">
-						<ScoreRing score={data.mobile.score} label={t("results.mobile")} />
-					</div>
-					<div className="flex flex-col items-center justify-center border-border/40 border-l p-4">
-						<ScoreRing
-							score={data.desktop.score}
-							label={t("results.desktop")}
-						/>
-					</div>
+				<div className="flex flex-wrap gap-3">
+					<Button
+						className="border-brand bg-brand text-white [&]:hover:bg-brand/80"
+						onClick={() =>
+							track("book_call_clicked", { location: "analyzer_results" })
+						}
+						render={
+							// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
+							<a
+								href="https://cal.com/webvise"
+								target="_blank"
+								rel="noopener noreferrer"
+							/>
+						}
+					>
+						{t("results.bookCall")}
+					</Button>
+					<Button
+						variant="outline"
+						className=""
+						onClick={() =>
+							track("cta_clicked", {
+								location: "analyzer_results",
+								variant: "contact",
+							})
+						}
+						render={<Link href={{ pathname: "/", hash: "contact" }} />}
+					>
+						{t("results.getInTouch")}
+					</Button>
 				</div>
-
-				{/* Projected score - visually separated */}
-				<div className="mt-4 border-2 border-brand bg-brand/5 p-5">
-					<Caption className="mb-3 block text-center text-brand">{t("results.projectedLabel")}</Caption>
-					<div className="flex justify-center">
-						<ScoreRing
-							score={data.projectedScore}
-							label={t("results.afterNextjs")}
-							size={88}
-						/>
-					</div>
-					<Caption className="mt-3 block text-center">{t("results.projectedHint")}</Caption>
-				</div>
-
-				{/* Core Web Vitals with explanations */}
-				{data.vitals && data.vitals.length > 0 && (
-					<div className="mt-px border border-border/40 border-t-0">
-						<div className="border-border/40 border-b px-5 py-3">
-							<Caption className="block">{t("results.webVitalsTitle")}</Caption>
-							<Caption className="mt-1 block">{t("results.webVitalsSubtitle")}</Caption>
-						</div>
-						<div className="divide-y divide-border/40">
-							{data.vitals.map((vital) => {
-								const { text } = scoreColor(vital.score);
-								const explanationKey =
-									`results.vitalExplanations.${vital.label}` as const;
-								return (
-									<div
-										key={vital.label}
-										className="flex items-start gap-4 px-5 py-3"
-									>
-										<div
-											className="flex shrink-0 flex-col items-center gap-0.5"
-											style={{ minWidth: 48 }}
-										>
-											<span className={cn("font-medium text-sm", text)}>
-												{vital.displayValue}
-											</span>
-											<Caption>{vital.label}</Caption>
-										</div>
-										<Caption className="leading-relaxed">
-											{t.has(explanationKey)
-												? t(explanationKey)
-												: t("results.vitalExplanations.default")}
-										</Caption>
-									</div>
-								);
-							})}
-						</div>
-					</div>
-				)}
-
-				{/* Security flags - only show if present */}
-				{data.securityFlags.length > 0 && (
-					<div className="mt-px border border-border/40 border-t-0 p-5">
-						<Caption className="block">{t("results.securityRisks")}</Caption>
-						<ul className="mt-3 space-y-2">
-							{data.securityFlags.map((flag) => (
-								<li
-									key={flag}
-									className="flex items-start gap-3 font-light text-sm"
-								>
-									<span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-yellow-500" />
-									<span className="text-foreground">{flag}</span>
-								</li>
-							))}
-						</ul>
-					</div>
-				)}
-
-				{/* Migration estimate + CTA */}
-				<div className="mt-px grid items-center gap-6 border border-border/40 border-t-2 border-t-brand p-6 md:grid-cols-[1fr_auto]">
-					<div>
-						<Caption className="block">{t("results.migrationEstimate")}</Caption>
-						<Muted className="mt-2 leading-relaxed">
-							{t.rich("results.migrationText", {
-								strong: (chunks) => (
-									<span className="font-medium text-foreground">{chunks}</span>
-								),
-								min: data.migrationEstimate.min.toLocaleString(),
-								max: data.migrationEstimate.max.toLocaleString(),
-							})}
-						</Muted>
-					</div>
-					<div className="flex flex-wrap gap-3">
-						<Button
-							className="border-brand bg-brand text-white [&]:hover:bg-brand/80"
-							onClick={() => track("book_call_clicked", { location: "analyzer_results" })}
-							render={
-								// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
-								<a
-									href="https://cal.com/webvise"
-									target="_blank"
-									rel="noopener noreferrer"
-								/>
-							}
-						>
-							{t("results.bookCall")}
-						</Button>
-						<Button
-							variant="outline"
-							className=""
-							onClick={() => track("cta_clicked", { location: "analyzer_results", variant: "contact" })}
-							render={<Link href={{ pathname: "/", hash: "contact" }} />}
-						>
-							{t("results.getInTouch")}
-						</Button>
-					</div>
-				</div>
+			</div>
 		</div>
 	);
 }
@@ -282,9 +290,7 @@ function TeaserResults({
 	return (
 		<div>
 			<div className="flex flex-col gap-1 md:flex-row md:items-baseline md:justify-between">
-				<H2>
-					{t("results.title")}
-				</H2>
+				<H2>{t("results.title")}</H2>
 				<Muted>
 					{t("results.resultsFor")}{" "}
 					<span className="font-medium text-foreground">{data.url}</span>
@@ -303,7 +309,9 @@ function TeaserResults({
 
 			{/* Projected score */}
 			<div className="mt-4 border-2 border-brand bg-brand/5 p-5">
-				<Caption className="mb-3 block text-center text-brand">{t("results.projectedLabel")}</Caption>
+				<Caption className="mb-3 block text-center text-brand">
+					{t("results.projectedLabel")}
+				</Caption>
 				<div className="flex justify-center">
 					<ScoreRing
 						score={data.projectedScore}
@@ -311,7 +319,9 @@ function TeaserResults({
 						size={88}
 					/>
 				</div>
-				<Caption className="mt-3 block text-center">{t("results.projectedHint")}</Caption>
+				<Caption className="mt-3 block text-center">
+					{t("results.projectedHint")}
+				</Caption>
 			</div>
 
 			{/* Email gate */}
@@ -320,9 +330,7 @@ function TeaserResults({
 				className="mt-6 border border-border/40 p-6"
 				noValidate
 			>
-				<p className="font-medium text-sm">
-					{t("gate.title")}
-				</p>
+				<p className="font-medium text-sm">{t("gate.title")}</p>
 				<Caption className="mt-1 block">{t("gate.subtitle")}</Caption>
 				<div className="mt-4 grid gap-3 md:grid-cols-[1fr_1fr_auto]">
 					<Input
@@ -446,7 +454,7 @@ export default function WpHealthReport() {
 								<ul className="mt-6 space-y-2">
 									{[0, 1, 2, 3].map((i) => (
 										<li key={i} className="flex items-start gap-3 text-sm">
-											<span className="mt-1 h-1.5 w-1.5 shrink-0 bg-brand" />
+											<span className="mt-1.5 h-1.5 w-1.5 shrink-0 bg-brand" />
 											<span>{t(`hero.benefits.${i}`)}</span>
 										</li>
 									))}
@@ -498,10 +506,7 @@ export default function WpHealthReport() {
 									)}
 								</form.Field>
 								<form.Subscribe
-									selector={(state) => [
-										state.canSubmit,
-										state.isSubmitting,
-									]}
+									selector={(state) => [state.canSubmit, state.isSubmitting]}
 								>
 									{([canSubmit, isSubmitting]) => (
 										<SubmitButton
@@ -514,7 +519,9 @@ export default function WpHealthReport() {
 										</SubmitButton>
 									)}
 								</form.Subscribe>
-								<Caption className="block text-center">{t("form.noSignup")}</Caption>
+								<Caption className="block text-center">
+									{t("form.noSignup")}
+								</Caption>
 								<div aria-live="polite" aria-atomic="true">
 									{errorMessage && (
 										<p role="alert" className="text-destructive text-sm">
@@ -542,9 +549,7 @@ export default function WpHealthReport() {
 					<TeaserResults data={report} onUnlock={handleUnlock} />
 				)}
 
-				{phase === "full" && report && (
-					<ReportResults data={report} />
-				)}
+				{phase === "full" && report && <ReportResults data={report} />}
 			</div>
 
 			{/* Trust footer */}

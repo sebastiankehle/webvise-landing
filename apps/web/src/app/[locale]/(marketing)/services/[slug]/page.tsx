@@ -1,10 +1,9 @@
 import { Shield } from "lucide-react";
 import type { Metadata } from "next";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
+
 import JsonLd from "@/components/json-ld";
-import FounderCard from "@/components/marketing/founder-card";
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import { FaqAccordion } from "@/components/marketing/sections/faq";
 import WpHealthCta from "@/components/marketing/sections/wp-health-cta";
@@ -13,17 +12,11 @@ import {
 	H1,
 	H2,
 	H3,
-	Label,
 	Lead,
 	Muted,
+	Small,
 } from "@/components/ui/typography";
-import { getCaseStudyBySlug } from "@/data/case-studies";
-import {
-	getServiceBySlug,
-	relatedServices,
-	serviceCaseStudies,
-	services,
-} from "@/data/services";
+import { getServiceBySlug, relatedServices, services } from "@/data/services";
 import { Link } from "@/i18n/navigation";
 import { generateAlternates, localizedUrl } from "@/lib/seo";
 
@@ -79,21 +72,11 @@ export default async function ServicePage({
 		notFound();
 	}
 
-	const locale = await getLocale();
 	const t = await getTranslations("services");
 	const td = await getTranslations("serviceDetail");
 	const tt = await getTranslations("trust.serviceCallout");
 	const key = service.translationKey;
 	const ServiceIcon = service.icon;
-	const relatedSlugs = serviceCaseStudies[slug] ?? [];
-	const relatedCaseStudies = relatedSlugs
-		.map((csSlug) => getCaseStudyBySlug(csSlug, locale))
-		.filter(
-			(
-				caseStudy,
-			): caseStudy is NonNullable<ReturnType<typeof getCaseStudyBySlug>> =>
-				Boolean(caseStudy),
-		);
 
 	const relatedServiceSlugs = relatedServices[slug] ?? [];
 	const relatedServiceData = relatedServiceSlugs
@@ -181,13 +164,19 @@ export default async function ServicePage({
 							<ServiceIcon className="h-5 w-5 text-brand" strokeWidth={1.5} />
 							<H1 className="mt-6 max-w-3xl">{t(`${key}.title`)}</H1>
 							<Lead className="mt-5 max-w-lg">{t(`${key}.description`)}</Lead>
-							<div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2">
-								<Caption>
-									{td("pricingLabel")} {t(`${key}.price`)}
-								</Caption>
-								<Caption>
-									{td("timelineLabel")} {t(`${key}.timeline`)}
-								</Caption>
+							<div className="mt-10 flex flex-wrap items-start gap-x-8 gap-y-4 border-border/40 border-t pt-6">
+								<div>
+									<Caption className="block">{td("pricingLabel")}</Caption>
+									<Small className="mt-1 block text-foreground">
+										{t(`${key}.price`)}
+									</Small>
+								</div>
+								<div>
+									<Caption className="block">{td("timelineLabel")}</Caption>
+									<Small className="mt-1 block text-foreground">
+										{t(`${key}.timeline`)}
+									</Small>
+								</div>
 							</div>
 						</div>
 
@@ -238,8 +227,8 @@ export default async function ServicePage({
 				</div>
 			</SectionWrapper>
 
-			<SectionWrapper id="features" alternate className="py-16 md:py-24">
-				<div className="grid items-start gap-10 lg:grid-cols-[minmax(0,1.3fr)_minmax(320px,0.9fr)] lg:gap-12">
+			<SectionWrapper id="features" dark className="py-16 md:py-24">
+				<div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-14">
 					<div>
 						<H2 className="text-2xl md:text-[30px]">{td("featuresTitle")}</H2>
 						<ul className="mt-6 space-y-3">
@@ -248,7 +237,7 @@ export default async function ServicePage({
 									key={t(`${key}.features.${i}`)}
 									className="flex items-start gap-3 text-sm"
 								>
-									<span className="mt-1 h-1.5 w-1.5 shrink-0 bg-brand" />
+									<span className="mt-1.5 h-1.5 w-1.5 shrink-0 bg-brand" />
 									<span className="leading-relaxed">
 										{t(`${key}.features.${i}`)}
 									</span>
@@ -257,7 +246,10 @@ export default async function ServicePage({
 						</ul>
 					</div>
 
-					<div id="deliverables">
+					<div
+						id="deliverables"
+						className="lg:border-border/40 lg:border-l lg:pl-10"
+					>
 						<H2 className="text-2xl md:text-[30px]">
 							{td("deliverablesTitle")}
 						</H2>
@@ -267,7 +259,7 @@ export default async function ServicePage({
 									key={t(`${key}.deliverables.${i}`)}
 									className="flex items-start gap-3 text-sm"
 								>
-									<span className="mt-1 h-1.5 w-1.5 shrink-0 bg-brand" />
+									<span className="mt-1.5 h-1.5 w-1.5 shrink-0 bg-brand" />
 									<span className="leading-relaxed">
 										{t(`${key}.deliverables.${i}`)}
 									</span>
@@ -312,52 +304,6 @@ export default async function ServicePage({
 									{tt("description")}
 								</Muted>
 							</div>
-						</div>
-					</div>
-				</section>
-			)}
-
-			<section className="border-border/40 border-t pt-20 pb-20">
-				<div className="mx-auto max-w-[1320px] px-6">
-					<FounderCard />
-				</div>
-			</section>
-
-			{relatedCaseStudies.length > 0 && (
-				<section className="border-border/40 border-t pt-20 pb-28">
-					<div className="mx-auto max-w-[1320px] px-6">
-						<H2>{td("relatedWorkTitle")}</H2>
-						<div className="mt-10 grid gap-6 md:grid-cols-2">
-							{relatedCaseStudies.map((cs) => (
-								<Link
-									key={cs.slug}
-									href={{
-										pathname: "/case-studies/[slug]",
-										params: { slug: cs.slug },
-									}}
-									className="group border border-border/40 transition-colors hover:border-brand/30"
-								>
-									{cs.coverImage && (
-										<Image
-											src={cs.coverImage}
-											alt={`${cs.client} - ${cs.title}`}
-											width={756}
-											height={383}
-											className="h-auto w-full"
-											sizes="(max-width: 768px) 100vw, 50vw"
-											quality={80}
-										/>
-									)}
-									<div className="p-6">
-										<Label>
-											{cs.client} &middot; {cs.industry}
-										</Label>
-										<H3 className="mt-2 text-lg transition-colors group-hover:text-brand">
-											{cs.title}
-										</H3>
-									</div>
-								</Link>
-							))}
 						</div>
 					</div>
 				</section>
