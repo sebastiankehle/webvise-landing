@@ -8,6 +8,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Streamdown } from "streamdown";
 
 import Logo from "@/components/logo";
+import { Body, Caption } from "@/components/ui/typography";
 import { track } from "@/lib/track";
 import { cn } from "@/lib/utils";
 
@@ -139,10 +140,10 @@ export default function ChatWidget() {
 							<div className="flex items-center gap-2.5">
 								<Logo className="h-5 w-5" />
 								<div>
-									<p className="font-medium text-sm leading-none">webvise AI</p>
-									<p className="mt-0.5 text-muted-foreground text-xs">
-										Ask us anything
-									</p>
+									<Body className="font-medium text-sm leading-none">
+										webvise AI
+									</Body>
+									<Caption className="mt-0.5 block">Ask us anything</Caption>
 								</div>
 							</div>
 							<button
@@ -158,10 +159,10 @@ export default function ChatWidget() {
 						<div className="flex-1 space-y-3 overflow-y-auto px-4 py-4">
 							{messages.length === 0 ? (
 								<div className="flex h-full flex-col justify-end gap-3">
-									<p className="text-center text-muted-foreground text-xs">
+									<Caption className="text-center">
 										Hi! I can answer questions about our services, pricing,
 										process, and tech stack.
-									</p>
+									</Caption>
 									<div className="flex flex-wrap justify-center gap-1.5">
 										{SUGGESTED_QUESTIONS.map((q) => (
 											<button
@@ -189,15 +190,15 @@ export default function ChatWidget() {
 										{message.parts?.map((part) => {
 											if (part.type === "text") {
 												return (
-												<Streamdown
-													key={part.text}
-													isAnimating={
-														isStreaming && message.role === "assistant"
-													}
-													components={{ a: ChatLink }}
-												>
-													{part.text}
-												</Streamdown>
+													<Streamdown
+														key={part.text}
+														isAnimating={
+															isStreaming && message.role === "assistant"
+														}
+														components={{ a: ChatLink }}
+													>
+														{part.text}
+													</Streamdown>
 												);
 											}
 											return null;

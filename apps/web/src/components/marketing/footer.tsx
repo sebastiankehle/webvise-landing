@@ -1,7 +1,8 @@
-import type { ReactNode } from "react";
 import { getTranslations } from "next-intl/server";
+import type { ReactNode } from "react";
 
 import Logo from "@/components/logo";
+import { Caption, Label, Muted, Small } from "@/components/ui/typography";
 import { services } from "@/data/services";
 import { socials } from "@/data/socials";
 import { Link } from "@/i18n/navigation";
@@ -10,7 +11,6 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 	const t = await getTranslations("footer");
 	const ts = await getTranslations("services");
 	const tw = await getTranslations("wpHealthReport.cta");
-
 
 	const companyLinks = [
 		{ hash: "services", label: t("links.services") },
@@ -31,21 +31,18 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 				<div className="grid gap-12 md:grid-cols-12">
 					{/* Brand column */}
 					<div className="md:col-span-3">
-						<Link
-							href="/"
-							className="flex items-center gap-2.5"
-						>
+						<Link href="/" className="flex items-center gap-2.5">
 							<Logo className="h-7 w-7" animated />
-							<span className="font-display text-[22px]">
+							<Label className="font-display text-[22px] text-foreground">
 								webvise
-							</span>
+							</Label>
 						</Link>
-						<p className="mt-5 max-w-[260px] text-sm leading-[1.6] text-muted-foreground">
+						<Muted className="mt-5 max-w-[260px] leading-[1.6]">
 							{t("tagline")}
-						</p>
-						<p className="mt-1 text-sm text-muted-foreground/60">
+						</Muted>
+						<Small className="mt-1 block text-muted-foreground/60">
 							{t("location")}
-						</p>
+						</Small>
 						<div className="mt-8 flex items-center gap-3">
 							{socials.map((social) => (
 								<a
@@ -66,15 +63,15 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 					<div className="grid grid-cols-2 gap-x-8 gap-y-10 md:col-span-6">
 						{/* Company */}
 						<div>
-							<h3 className="mb-5 text-xs text-muted-foreground/50">
+							<Caption className="mb-5 block text-muted-foreground/50">
 								{t("sections.company")}
-							</h3>
+							</Caption>
 							<ul className="space-y-3">
 								{companyLinks.map(({ hash, label }) => (
 									<li key={hash}>
 										<Link
 											href={{ pathname: "/", hash }}
-											className="text-sm text-muted-foreground transition-colors hover:text-[--foreground]"
+											className="text-muted-foreground text-sm transition-colors hover:text-[--foreground]"
 										>
 											{label}
 										</Link>
@@ -85,15 +82,15 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 
 						{/* Services */}
 						<div>
-							<h3 className="mb-5 text-xs text-muted-foreground/50">
+							<Caption className="mb-5 block text-muted-foreground/50">
 								{t("sections.services")}
-							</h3>
+							</Caption>
 							<ul className="space-y-3">
 								{services.map(({ slug, translationKey }) => (
 									<li key={slug}>
 										<Link
 											href={{ pathname: "/services/[slug]", params: { slug } }}
-											className="text-sm text-muted-foreground transition-colors hover:text-[--foreground]"
+											className="text-muted-foreground text-sm transition-colors hover:text-[--foreground]"
 										>
 											{ts(`${translationKey}.title`)}
 										</Link>
@@ -104,14 +101,14 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 
 						{/* Explore */}
 						<div>
-							<h3 className="mb-5 text-xs text-muted-foreground/50">
+							<Caption className="mb-5 block text-muted-foreground/50">
 								{t("sections.explore")}
-							</h3>
+							</Caption>
 							<ul className="space-y-3">
 								<li>
 									<Link
 										href="/about"
-										className="text-sm text-muted-foreground transition-colors hover:text-[--foreground]"
+										className="text-muted-foreground text-sm transition-colors hover:text-[--foreground]"
 									>
 										{t("links.about")}
 									</Link>
@@ -119,7 +116,7 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 								<li>
 									<Link
 										href="/blog"
-										className="text-sm text-muted-foreground transition-colors hover:text-[--foreground]"
+										className="text-muted-foreground text-sm transition-colors hover:text-[--foreground]"
 									>
 										{t("links.blog")}
 									</Link>
@@ -127,7 +124,7 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 								<li>
 									<Link
 										href="/case-studies"
-										className="text-sm text-muted-foreground transition-colors hover:text-[--foreground]"
+										className="text-muted-foreground text-sm transition-colors hover:text-[--foreground]"
 									>
 										{t("links.caseStudies")}
 									</Link>
@@ -137,14 +134,14 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 
 						{/* Resources */}
 						<div>
-							<h3 className="mb-5 text-xs text-muted-foreground/50">
+							<Caption className="mb-5 block text-muted-foreground/50">
 								{t("sections.resources")}
-							</h3>
+							</Caption>
 							<ul className="space-y-3">
 								<li>
 									<Link
 										href="/media"
-										className="text-sm text-muted-foreground transition-colors hover:text-[--foreground]"
+										className="text-muted-foreground text-sm transition-colors hover:text-[--foreground]"
 									>
 										{t("links.media")}
 									</Link>
@@ -163,9 +160,9 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 
 					{/* Contact */}
 					<div className="md:col-span-3">
-						<h3 className="mb-5 text-xs text-muted-foreground/50">
+						<Caption className="mb-5 block text-muted-foreground/50">
 							{t("sections.contact")}
-						</h3>
+						</Caption>
 						<ul className="space-y-3 text-sm">
 							<li>
 								<a
@@ -186,8 +183,10 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 			{/* Bottom bar */}
 			<div className="border-[--border] border-t">
 				<div className="mx-auto flex max-w-[1320px] flex-col items-center justify-between gap-4 px-6 py-6 md:flex-row">
-					<p className="text-xs text-muted-foreground/60">{t("legal.copyright", { year })}</p>
-					<div className="flex gap-6 text-xs text-muted-foreground/60">
+					<Caption className="text-muted-foreground/60">
+						{t("legal.copyright", { year })}
+					</Caption>
+					<div className="flex gap-6 text-muted-foreground/60 text-xs">
 						<Link
 							href="/privacy"
 							className="transition-colors hover:text-[--foreground]"

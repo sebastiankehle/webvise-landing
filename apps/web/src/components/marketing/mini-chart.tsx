@@ -10,6 +10,7 @@ import {
 	XAxis,
 	YAxis,
 } from "recharts";
+import { Body, Caption } from "@/components/ui/typography";
 
 interface ChartTranslations {
 	conversionLabel: string;
@@ -144,14 +145,12 @@ function CustomTooltip({
 
 	return (
 		<div className="border border-border bg-[--surface-dark-secondary] px-4 py-3 backdrop-blur-sm">
-			<p className="mb-1.5 text-xs text-[--foreground]">
+			<Caption className="mb-1.5 block text-[--foreground]">
 				{phase}
 				{label && label.trim() !== "" && (
-					<span className="ml-2 text-muted-foreground/60">
-						{label}
-					</span>
+					<span className="ml-2 text-muted-foreground/60">{label}</span>
 				)}
-			</p>
+			</Caption>
 			{valid.map((entry) => (
 				<div
 					key={entry.dataKey}
@@ -162,14 +161,14 @@ function CustomTooltip({
 							className="size-1.5 rounded-full"
 							style={{ backgroundColor: entry.color }}
 						/>
-						<span className="text-muted-foreground text-xs">
+						<Caption>
 							{entry.dataKey === "before" ? beforeLabel : afterLabel}
-						</span>
+						</Caption>
 					</div>
-					<span className="text-xs text-[--foreground] tabular-nums">
+					<Caption className="text-[--foreground] tabular-nums">
 						{entry.value}
 						{unit}
-					</span>
+					</Caption>
 				</div>
 			))}
 		</div>
@@ -190,16 +189,12 @@ export default function MiniChart({
 			<div className="flex flex-col gap-3 border-border border-b px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
 				<div>
 					<div className="flex items-center gap-3">
-						<p className="text-sm text-[--foreground]">
-							{current.label}
-						</p>
-						<span className="text-brand text-sm tabular-nums">
+						<Body className="text-[--foreground] text-sm">{current.label}</Body>
+						<Body className="text-brand text-sm tabular-nums">
 							{current.lift}
-						</span>
+						</Body>
 					</div>
-					<p className="mt-0.5 text-muted-foreground text-xs">
-						{current.description}
-					</p>
+					<Caption className="mt-0.5 block">{current.description}</Caption>
 				</div>
 				<div className="flex gap-1">
 					{metricOrder.map((key) => (
@@ -238,16 +233,8 @@ export default function MiniChart({
 								/>
 							</linearGradient>
 							<linearGradient id="beforeFill" x1="0" y1="0" x2="0" y2="1">
-								<stop
-									offset="0%"
-									stopColor="oklch(1 0 0)"
-									stopOpacity={0.06}
-								/>
-								<stop
-									offset="100%"
-									stopColor="oklch(1 0 0)"
-									stopOpacity={0}
-								/>
+								<stop offset="0%" stopColor="oklch(1 0 0)" stopOpacity={0.06} />
+								<stop offset="100%" stopColor="oklch(1 0 0)" stopOpacity={0} />
 							</linearGradient>
 						</defs>
 						<XAxis

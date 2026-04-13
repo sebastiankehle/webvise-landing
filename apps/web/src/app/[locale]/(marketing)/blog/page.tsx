@@ -1,9 +1,8 @@
+import { ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
-
 import JsonLd from "@/components/json-ld";
-import { ArrowRight } from "lucide-react";
-import { H1, H3, Caption, Muted, Lead } from "@/components/ui/typography";
+import { Caption, H1, H3, Lead, Muted } from "@/components/ui/typography";
 import { getBlogPosts } from "@/data/blog";
 import { Link } from "@/i18n/navigation";
 import { generateAlternates, localizedUrl } from "@/lib/seo";
@@ -11,10 +10,7 @@ import { generateAlternates, localizedUrl } from "@/lib/seo";
 const POSTS_PER_PAGE = 9;
 
 export async function generateMetadata(): Promise<Metadata> {
-	const [t, locale] = await Promise.all([
-		getTranslations("blog"),
-		getLocale(),
-	]);
+	const [t, locale] = await Promise.all([getTranslations("blog"), getLocale()]);
 	const title = t("title");
 	const description = t("subtitle");
 
@@ -100,18 +96,16 @@ export default async function BlogPage({
 											year: "numeric",
 										})}
 									</time>
-									<span className="text-border">/</span>
-									<span>
+									<Caption className="text-border">/</Caption>
+									<Caption className="text-current">
 										{post.readingTime} {t("minRead")}
-									</span>
+									</Caption>
 								</Caption>
 								<H3 className="mt-5 transition-colors group-hover:text-brand">
 									{post.title}
 								</H3>
-								<Muted className="mt-3 leading-[1.6]">
-									{post.excerpt}
-								</Muted>
-								<div className="mt-auto flex items-center justify-end border-border/40 border-t pt-5 mt-6">
+								<Muted className="mt-3 leading-[1.6]">{post.excerpt}</Muted>
+								<div className="mt-6 mt-auto flex items-center justify-end border-border/40 border-t pt-5">
 									<ArrowRight className="h-4 w-4 text-muted-foreground transition-all group-hover:translate-x-1 group-hover:text-brand" />
 								</div>
 							</Link>
@@ -131,24 +125,22 @@ export default async function BlogPage({
 									{t("pagination.previous")}
 								</Link>
 							)}
-							{Array.from({ length: totalPages }, (_, i) => i + 1).map(
-								(p) => (
-									<Link
-										key={p}
-										href={{
-											pathname: "/blog",
-											query: p === 1 ? undefined : { page: String(p) },
-										}}
-										className={`border px-3 py-2 text-sm transition-colors ${
-											p === page
-												? "border-brand bg-brand text-white"
-												: "border-border/40 hover:bg-muted/30"
-										}`}
-									>
-										{p}
-									</Link>
-								),
-							)}
+							{Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+								<Link
+									key={p}
+									href={{
+										pathname: "/blog",
+										query: p === 1 ? undefined : { page: String(p) },
+									}}
+									className={`border px-3 py-2 text-sm transition-colors ${
+										p === page
+											? "border-brand bg-brand text-white"
+											: "border-border/40 hover:bg-muted/30"
+									}`}
+								>
+									{p}
+								</Link>
+							))}
 							{page < totalPages && (
 								<Link
 									href={{

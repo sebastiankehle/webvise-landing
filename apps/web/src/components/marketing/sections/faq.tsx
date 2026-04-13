@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 import SectionWrapper from "@/components/marketing/section-wrapper";
-import { H2, Lead } from "@/components/ui/typography";
+import { H2, Label, Lead, Muted } from "@/components/ui/typography";
 
 const defaultFaqItems = [
 	{ key: "0", category: "general" },
@@ -65,9 +65,9 @@ export function FaqAccordion({ items }: { items: FaqItem[] }) {
 							onClick={() => setOpenIndex(isOpen ? null : i)}
 							aria-expanded={isOpen}
 						>
-							<span className="flex-1 text-[15px] font-medium leading-snug tracking-[-0.011em]">
+							<Label className="flex-1 font-medium text-[15px] text-foreground leading-snug tracking-[-0.011em]">
 								{item.question}
-							</span>
+							</Label>
 							<span
 								className={`ml-4 ${isOpen ? "text-brand" : "text-muted-foreground/50"}`}
 							>
@@ -78,9 +78,9 @@ export function FaqAccordion({ items }: { items: FaqItem[] }) {
 							className={`grid transition-[grid-template-rows] duration-200 ease-out ${isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}
 						>
 							<div className="overflow-hidden">
-								<p className="px-6 pb-6 text-muted-foreground text-sm leading-[1.65]">
+								<Muted className="px-6 pb-6 leading-[1.65]">
 									{item.answer}
-								</p>
+								</Muted>
 							</div>
 						</div>
 					</div>

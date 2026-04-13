@@ -2,7 +2,7 @@ import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
-import { H3, Caption } from "@/components/ui/typography";
+import { H3, Caption, Muted } from "@/components/ui/typography";
 import { Link } from "@/i18n/navigation";
 
 export default async function FounderCard() {
@@ -23,9 +23,9 @@ export default async function FounderCard() {
 					<H3 className="text-lg">{t("name")}</H3>
 					<Caption>{t("role")}</Caption>
 				</div>
-				<p className="mt-1 text-muted-foreground text-sm leading-relaxed">
+				<Muted className="mt-1 leading-relaxed">
 					{t("description")}
-				</p>
+				</Muted>
 				<div className="mt-3 flex items-center gap-4">
 					<Link
 						href="/about"

@@ -9,7 +9,15 @@ import { Button } from "@/components/ui/button";
 import { FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { SubmitButton } from "@/components/ui/submit-button";
-import { Caption, H1, H2, Lead, Muted } from "@/components/ui/typography";
+import {
+	Body,
+	Caption,
+	H1,
+	H2,
+	Label,
+	Lead,
+	Muted,
+} from "@/components/ui/typography";
 import { Link } from "@/i18n/navigation";
 import { track } from "@/lib/track";
 import { cn } from "@/lib/utils";
@@ -91,14 +99,14 @@ function ScoreRing({
 						className={cn("transition-all duration-1000", stroke)}
 					/>
 				</svg>
-				<span
+				<Body
 					className={cn(
 						"absolute inset-0 flex items-center justify-center font-medium text-base",
 						text,
 					)}
 				>
 					{score}
-				</span>
+				</Body>
 			</div>
 			<Caption>{label}</Caption>
 		</div>
@@ -115,7 +123,7 @@ function ReportResults({ data }: { data: ReportData }) {
 				<H2>{t("results.title")}</H2>
 				<Muted>
 					{t("results.resultsFor")}{" "}
-					<span className="font-medium text-foreground">{data.url}</span>
+					<Label className="font-medium text-foreground">{data.url}</Label>
 				</Muted>
 			</div>
 
@@ -169,9 +177,9 @@ function ReportResults({ data }: { data: ReportData }) {
 										className="flex shrink-0 flex-col items-center gap-0.5"
 										style={{ minWidth: 48 }}
 									>
-										<span className={cn("font-medium text-sm", text)}>
+										<Body className={cn("font-medium text-sm", text)}>
 											{vital.displayValue}
-										</span>
+										</Body>
 										<Caption>{vital.label}</Caption>
 									</div>
 									<Caption className="leading-relaxed">
@@ -197,7 +205,7 @@ function ReportResults({ data }: { data: ReportData }) {
 								className="flex items-start gap-3 font-light text-sm"
 							>
 								<span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-yellow-500" />
-								<span className="text-foreground">{flag}</span>
+								<Body className="text-foreground text-sm">{flag}</Body>
 							</li>
 						))}
 					</ul>
@@ -211,7 +219,7 @@ function ReportResults({ data }: { data: ReportData }) {
 					<Muted className="mt-2 leading-relaxed">
 						{t.rich("results.migrationText", {
 							strong: (chunks) => (
-								<span className="font-medium text-foreground">{chunks}</span>
+								<Label className="font-medium text-foreground">{chunks}</Label>
 							),
 							min: data.migrationEstimate.min.toLocaleString(),
 							max: data.migrationEstimate.max.toLocaleString(),
@@ -293,7 +301,7 @@ function TeaserResults({
 				<H2>{t("results.title")}</H2>
 				<Muted>
 					{t("results.resultsFor")}{" "}
-					<span className="font-medium text-foreground">{data.url}</span>
+					<Label className="font-medium text-foreground">{data.url}</Label>
 				</Muted>
 			</div>
 
@@ -330,7 +338,7 @@ function TeaserResults({
 				className="mt-6 border border-border/40 p-6"
 				noValidate
 			>
-				<p className="font-medium text-sm">{t("gate.title")}</p>
+				<Body className="font-medium text-sm">{t("gate.title")}</Body>
 				<Caption className="mt-1 block">{t("gate.subtitle")}</Caption>
 				<div className="mt-4 grid gap-3 md:grid-cols-[1fr_1fr_auto]">
 					<Input
@@ -355,7 +363,9 @@ function TeaserResults({
 					</Button>
 				</div>
 				{emailError && (
-					<p className="mt-2 text-destructive text-xs">{emailError}</p>
+					<Caption className="mt-2 block text-destructive">
+						{emailError}
+					</Caption>
 				)}
 				<Caption className="mt-3 block">{t("gate.privacy")}</Caption>
 			</form>
@@ -455,7 +465,7 @@ export default function WpHealthReport() {
 									{[0, 1, 2, 3].map((i) => (
 										<li key={i} className="flex items-start gap-3 text-sm">
 											<span className="mt-1.5 h-1.5 w-1.5 shrink-0 bg-brand" />
-											<span>{t(`hero.benefits.${i}`)}</span>
+											<Body className="text-sm">{t(`hero.benefits.${i}`)}</Body>
 										</li>
 									))}
 								</ul>
@@ -524,9 +534,9 @@ export default function WpHealthReport() {
 								</Caption>
 								<div aria-live="polite" aria-atomic="true">
 									{errorMessage && (
-										<p role="alert" className="text-destructive text-sm">
+										<Body role="alert" className="text-destructive text-sm">
 											{errorMessage}
-										</p>
+										</Body>
 									)}
 								</div>
 							</form>

@@ -3,7 +3,15 @@ import { getTranslations } from "next-intl/server";
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import StaggerChildren from "@/components/marketing/stagger-children";
 import { Button } from "@/components/ui/button";
-import { Caption, H2, H3, Lead, Muted } from "@/components/ui/typography";
+import {
+	Caption,
+	H2,
+	H3,
+	Label,
+	Lead,
+	Muted,
+	Stat,
+} from "@/components/ui/typography";
 import { Link } from "@/i18n/navigation";
 
 const tiers = [
@@ -42,9 +50,9 @@ export default async function Pricing() {
 										{t(`tiers.${key}.name`)}
 									</H3>
 									{hasBadge && (
-										<span className="border border-brand bg-brand px-2 py-0.5 text-[10px] font-medium text-white">
+										<Label className="border border-brand bg-brand px-2 py-0.5 text-[10px] text-white">
 											{t(`tiers.${key}.badge`)}
-										</span>
+										</Label>
 									)}
 								</div>
 								<Muted className="mt-3">{t(`tiers.${key}.description`)}</Muted>
@@ -60,10 +68,12 @@ export default async function Pricing() {
 								</ul>
 							</div>
 							<div className="mt-10">
-								<p className="font-display text-3xl tracking-[-0.04em]">
+								<Stat className="text-foreground">
 									{t(`tiers.${key}.price`)}
-								</p>
-								<Caption className="mt-1 block">{t(`tiers.${key}.basis`)}</Caption>
+								</Stat>
+								<Caption className="mt-1 block">
+									{t(`tiers.${key}.basis`)}
+								</Caption>
 								<Button
 									size="sm"
 									className="mt-5 w-full border-transparent bg-brand text-white [&]:hover:bg-brand/80"

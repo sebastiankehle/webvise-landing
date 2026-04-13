@@ -2,7 +2,7 @@ import { getTranslations } from "next-intl/server";
 
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import { Button } from "@/components/ui/button";
-import { Caption, H2, Lead, Mono } from "@/components/ui/typography";
+import { Body, Caption, H2, Lead, Mono } from "@/components/ui/typography";
 import { Link } from "@/i18n/navigation";
 
 export default async function WpHealthCta() {
@@ -27,12 +27,12 @@ export default async function WpHealthCta() {
 					</div>
 					<div className="flex items-center gap-3 py-1">
 						<span className="h-px flex-1 bg-border/40" />
-						<span className="text-muted-foreground/50 text-xs">vs</span>
+						<Caption className="text-muted-foreground/50">vs</Caption>
 						<span className="h-px flex-1 bg-border/40" />
 					</div>
 					<div className="flex items-center justify-between">
 						<Caption>After Next.js</Caption>
-						<Mono className="text-lg text-green-600">95</Mono>
+						<Mono className="text-green-600 text-lg">95</Mono>
 					</div>
 					<div className="h-1.5 w-full bg-muted">
 						<div className="h-full w-[95%] bg-green-600" />
@@ -41,9 +41,7 @@ export default async function WpHealthCta() {
 
 				{/* CTA */}
 				<div className="flex flex-col items-start justify-center p-8 md:p-10">
-					<p className="text-sm leading-[1.6]">
-						{t("trustLine")}
-					</p>
+					<Body className="text-sm leading-[1.6]">{t("trustLine")}</Body>
 					<Button
 						size="lg"
 						className="mt-6 border-transparent bg-brand px-8 text-white [&]:hover:bg-brand/80"

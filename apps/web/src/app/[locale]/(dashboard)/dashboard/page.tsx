@@ -2,6 +2,7 @@ import { auth } from "@webvise-app/auth";
 import { headers } from "next/headers";
 import { getLocale } from "next-intl/server";
 
+import { Body, H1 } from "@/components/ui/typography";
 import { redirect } from "@/i18n/navigation";
 
 import PrivateData from "./private-data";
@@ -18,8 +19,8 @@ export default async function DashboardPage() {
 
 	return (
 		<div>
-			<h1>Dashboard</h1>
-			<p>Welcome {session.user.name}</p>
+			<H1 className="text-3xl md:text-3xl">Dashboard</H1>
+			<Body className="mt-2">Welcome {session.user.name}</Body>
 			<PrivateData />
 		</div>
 	);

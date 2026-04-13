@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { SubmitButton } from "@/components/ui/submit-button";
+import { H1 } from "@/components/ui/typography";
 import { authClient } from "@/lib/auth-client";
 
 export default function SignInForm({
@@ -54,7 +55,7 @@ export default function SignInForm({
 
 	return (
 		<div className="mx-auto mt-10 w-full max-w-md p-6">
-			<h1 className="mb-6 text-center font-bold text-3xl">Welcome Back</h1>
+			<H1 className="mb-6 text-center text-3xl md:text-3xl">Welcome Back</H1>
 
 			<form
 				onSubmit={(e) => {

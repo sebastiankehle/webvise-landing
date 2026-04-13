@@ -155,6 +155,50 @@ function Mono({ className, ...props }: React.ComponentProps<"span">) {
 	);
 }
 
+/* ── Stat (metric values, price displays) ───────────────── */
+function Stat({ className, ...props }: React.ComponentProps<"span">) {
+	return (
+		<span
+			data-slot="stat"
+			className={cn(
+				"font-display text-3xl tracking-tight text-brand md:text-[48px] md:leading-[1]",
+				className,
+			)}
+			{...props}
+		/>
+	);
+}
+
+/* ── Quote mark (decorative quotation mark) ─────────────── */
+function QuoteMark({ children = "\u201C", className, ...props }: React.ComponentProps<"span">) {
+	return (
+		<span
+			data-slot="quote-mark"
+			className={cn(
+				"block select-none font-display text-5xl leading-none text-brand/30",
+				className,
+			)}
+			{...props}
+		>
+			{children}
+		</span>
+	);
+}
+
+/* ── DisplayH2 (large split headings, problem statements) ─ */
+function DisplayH2({ className, ...props }: React.ComponentProps<"h2">) {
+	return (
+		<h2
+			data-slot="display-h2"
+			className={cn(
+				"font-display text-[32px] leading-[1.2] tracking-[-0.03em] md:text-[36px]",
+				className,
+			)}
+			{...props}
+		/>
+	);
+}
+
 /* ── Inline link ─────────────────────────────────────────── */
 function InlineLink({ className, ...props }: React.ComponentProps<"a">) {
 	return (
@@ -182,5 +226,8 @@ export {
 	Caption,
 	Label,
 	Mono,
+	Stat,
+	QuoteMark,
+	DisplayH2,
 	InlineLink,
 };

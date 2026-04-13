@@ -1,9 +1,8 @@
 "use client";
 
 import { Globe } from "lucide-react";
-import { useLocale } from "next-intl";
-
 import { usePathname } from "next/navigation";
+import { useLocale } from "next-intl";
 
 import {
 	DropdownMenu,
@@ -11,6 +10,7 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Mono } from "@/components/ui/typography";
 import { routing } from "@/i18n/routing";
 
 const localeLabels: Record<string, string> = {
@@ -48,7 +48,10 @@ export default function LanguageSwitcher({ id }: { id?: string }) {
 
 	return (
 		<DropdownMenu>
-			<DropdownMenuTrigger id={id} className="flex cursor-pointer items-center gap-1.5 uppercase text-muted-foreground text-xs transition-colors hover:text-foreground">
+			<DropdownMenuTrigger
+				id={id}
+				className="flex cursor-pointer items-center gap-1.5 text-muted-foreground text-xs uppercase transition-colors hover:text-foreground"
+			>
 				<Globe className="size-4" />
 				{locale}
 			</DropdownMenuTrigger>
@@ -59,7 +62,7 @@ export default function LanguageSwitcher({ id }: { id?: string }) {
 						className={locale === loc ? "font-medium text-foreground" : ""}
 						onClick={() => switchLocale(loc)}
 					>
-						<span className="w-6 uppercase text-muted-foreground">{loc}</span>
+						<Mono className="w-6 uppercase">{loc}</Mono>
 						{localeLabels[loc]}
 					</DropdownMenuItem>
 				))}

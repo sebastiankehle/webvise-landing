@@ -1,8 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import { ExpandIcon } from "lucide-react";
+import Image from "next/image";
 import { useState } from "react";
+import { Body, Caption } from "@/components/ui/typography";
 import CaseStudyLightbox from "./case-study-lightbox";
 
 interface CaseStudyHeroImageProps {
@@ -40,15 +41,15 @@ export default function CaseStudyHeroImage({
 				{clickable && (
 					<>
 						<span className="pointer-events-none absolute inset-0 hidden items-center justify-center bg-black/5 opacity-0 transition-opacity group-hover:opacity-100 sm:flex">
-							<span className="flex items-center gap-2 rounded-full bg-background/90 px-4 py-2 text-sm text-foreground ring-1 ring-border/40 backdrop-blur-sm">
+							<Body className="flex items-center gap-2 rounded-full bg-background/90 px-4 py-2 text-foreground text-sm ring-1 ring-border/40 backdrop-blur-sm">
 								<ExpandIcon className="size-4" />
 								Click to expand
-							</span>
+							</Body>
 						</span>
-						<span className="absolute right-3 bottom-3 flex items-center gap-1.5 rounded-full bg-background/80 px-3 py-1.5 text-xs text-muted-foreground ring-1 ring-border/40 backdrop-blur-sm sm:hidden">
+						<Caption className="absolute right-3 bottom-3 flex items-center gap-1.5 rounded-full bg-background/80 px-3 py-1.5 text-muted-foreground ring-1 ring-border/40 backdrop-blur-sm sm:hidden">
 							<ExpandIcon className="size-3.5" />
 							Tap to expand
-						</span>
+						</Caption>
 					</>
 				)}
 			</button>

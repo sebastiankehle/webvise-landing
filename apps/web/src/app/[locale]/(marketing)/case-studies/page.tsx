@@ -5,7 +5,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import StaggerChildren from "@/components/marketing/stagger-children";
-import { H1, H3, Label, Muted, Lead } from "@/components/ui/typography";
+import { H1, H3, Label, Lead, Muted } from "@/components/ui/typography";
 import { getCaseStudies } from "@/data/case-studies";
 import { Link } from "@/i18n/navigation";
 import { generateAlternates, localizedUrl } from "@/lib/seo";
@@ -83,12 +83,12 @@ export default async function CaseStudiesPage() {
 							<div className="mt-6 flex items-center justify-between border-border/40 border-t pt-5">
 								<div className="flex flex-wrap gap-1.5">
 									{cs.techStack.slice(0, 3).map((tech) => (
-										<span
+										<Label
 											key={tech}
-											className="border border-border/40 px-2 py-0.5 text-muted-foreground text-xs"
+											className="border border-border/40 px-2 py-0.5 text-muted-foreground"
 										>
 											{tech}
-										</span>
+										</Label>
 									))}
 								</div>
 								<ArrowRight className="h-4 w-4 text-muted-foreground transition-all group-hover:translate-x-1 group-hover:text-brand" />
@@ -97,7 +97,6 @@ export default async function CaseStudiesPage() {
 					))}
 				</StaggerChildren>
 			</SectionWrapper>
-
 		</>
 	);
 }

@@ -23,12 +23,8 @@ export default async function MediaPage() {
 	return (
 		<section className="py-20 md:py-32">
 			<div className="mx-auto max-w-[1200px] px-6">
-				<h1 className="font-display text-[32px] leading-[1.05] md:text-[48px]">
-					{t("title")}
-				</h1>
-				<p className="mt-4 text-[16px] text-muted-foreground leading-[1.6]">
-					{t("description")}
-				</p>
+				<H1>{t("title")}</H1>
+				<Lead className="mt-4">{t("description")}</Lead>
 
 				<MediaContent heroSlogan={heroTitle} />
 			</div>

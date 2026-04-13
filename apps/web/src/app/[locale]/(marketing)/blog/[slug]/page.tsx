@@ -1,14 +1,20 @@
+import { Shield } from "lucide-react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
-
-import { Shield } from "lucide-react";
-
+import JsonLd from "@/components/json-ld";
 import BlogShare from "@/components/marketing/blog-share";
 import ReportDownloadForm from "@/components/marketing/report-download-form";
-import JsonLd from "@/components/json-ld";
 import SectionWrapper from "@/components/marketing/section-wrapper";
-import { Caption, H1, H2, H3, Lead, Muted } from "@/components/ui/typography";
+import {
+	Caption,
+	H1,
+	H2,
+	H3,
+	Label,
+	Lead,
+	Muted,
+} from "@/components/ui/typography";
 import {
 	type Block,
 	getAdjacentPosts,
@@ -58,7 +64,11 @@ export async function generateMetadata({
 
 function renderInline(text: string) {
 	const tokens = text.split(/(\*\*.*?\*\*|\[.*?\]\(.*?\))/g);
-	return tokens.map((token, idx) => {
+	const seen = new Map<string, number>();
+	return tokens.map((token) => {
+		const count = seen.get(token) ?? 0;
+		seen.set(token, count + 1);
+		const key = count > 0 ? `${token}:${count}` : token;
 		const boldMatch = token.match(/^\*\*(.*?)\*\*$/);
 		if (boldMatch) {
 			const innerLink = boldMatch[1].match(/^\[(.*?)\]\((.*?)\)$/);
@@ -66,7 +76,7 @@ function renderInline(text: string) {
 				if (innerLink[2].startsWith("http")) {
 					return (
 						<a
-							key={`${idx}-${token}`}
+							key={key}
 							href={innerLink[2]}
 							className="font-medium text-brand underline underline-offset-4 transition-colors hover:text-brand/80"
 							target="_blank"
@@ -78,7 +88,7 @@ function renderInline(text: string) {
 				}
 				return (
 					<Link
-						key={`${idx}-${token}`}
+						key={key}
 						href={innerLink[2] as "/blog"}
 						className="font-medium text-brand underline underline-offset-4 transition-colors hover:text-brand/80"
 					>
@@ -87,7 +97,7 @@ function renderInline(text: string) {
 				);
 			}
 			return (
-				<strong key={`${idx}-${token}`} className="font-medium text-foreground">
+				<strong key={key} className="font-medium text-foreground">
 					{boldMatch[1]}
 				</strong>
 			);
@@ -97,7 +107,7 @@ function renderInline(text: string) {
 			if (linkMatch[2].startsWith("http")) {
 				return (
 					<a
-						key={`${idx}-${token}`}
+						key={key}
 						href={linkMatch[2]}
 						className="text-brand underline underline-offset-4 transition-colors hover:text-brand/80"
 						target="_blank"
@@ -109,7 +119,7 @@ function renderInline(text: string) {
 			}
 			return (
 				<Link
-					key={`${idx}-${token}`}
+					key={key}
 					href={linkMatch[2] as "/blog"}
 					className="text-brand underline underline-offset-4 transition-colors hover:text-brand/80"
 				>
@@ -150,16 +160,12 @@ function RenderBlock({ block }: { block: Block }) {
 				</H2>
 			);
 		case "h3":
-			return (
-				<h3 className="mt-8 mb-3 font-medium text-[17px] tracking-[-0.04em]">
-					{block.text}
-				</h3>
-			);
+			return <H3 className="mt-8 mb-3 text-[17px]">{block.text}</H3>;
 		case "p":
 			return (
-				<p className="mb-5 text-[16px] text-muted-foreground leading-[1.7] last:mb-0">
+				<Muted className="mb-5 text-[16px] leading-[1.7] last:mb-0">
 					{renderInline(block.text)}
-				</p>
+				</Muted>
 			);
 		case "ul":
 			return (
@@ -167,7 +173,9 @@ function RenderBlock({ block }: { block: Block }) {
 					{block.items.map((item) => (
 						<li key={item} className="flex gap-3">
 							<span className="mt-1.5 h-1.5 w-1.5 shrink-0 bg-brand" />
-							<span>{renderInline(item)}</span>
+							<Muted className="text-[15px] text-foreground leading-[1.65]">
+								{renderInline(item)}
+							</Muted>
 						</li>
 					))}
 				</ul>
@@ -181,7 +189,7 @@ function RenderBlock({ block }: { block: Block }) {
 								{block.headers.map((h) => (
 									<th
 										key={h}
-										className="px-4 py-3 text-left text-foreground text-xs font-medium"
+										className="px-4 py-3 text-left font-medium text-foreground text-xs"
 									>
 										{h}
 									</th>
@@ -189,13 +197,16 @@ function RenderBlock({ block }: { block: Block }) {
 							</tr>
 						</thead>
 						<tbody>
-							{block.rows.map((row, ri) => (
+							{block.rows.map((row) => (
 								<tr
-									key={`row-${ri}`}
+									key={row.join("|")}
 									className="border-border/40 border-b last:border-0"
 								>
 									{row.map((cell, ci) => (
-										<td key={`${ri}-${ci}`} className="px-4 py-3 text-muted-foreground">
+										<td
+											key={`${block.headers[ci] ?? ci}:${cell}`}
+											className="px-4 py-3 text-muted-foreground"
+										>
 											{renderInline(cell)}
 										</td>
 									))}
@@ -283,7 +294,7 @@ export default async function BlogPostPage({
 			<JsonLd data={jsonLd} />
 
 			{/* Header */}
-			<section className="pb-24 pt-24 md:pb-36 md:pt-36">
+			<section className="pt-24 pb-24 md:pt-36 md:pb-36">
 				<div className="mx-auto max-w-[1320px] px-6">
 					<div className="grid items-start gap-12 md:grid-cols-3 md:gap-16">
 						{/* Title + info */}
@@ -300,9 +311,7 @@ export default async function BlogPostPage({
 								{post.readingTime} {t("minRead")}
 							</Caption>
 							<H1 className="mt-3">{post.title}</H1>
-							<Lead className="mt-5 max-w-[620px]">
-								{post.excerpt}
-							</Lead>
+							<Lead className="mt-5 max-w-[620px]">{post.excerpt}</Lead>
 						</div>
 
 						{/* Tags box */}
@@ -311,12 +320,12 @@ export default async function BlogPostPage({
 								<Caption className="mb-5 block">{t("tagsLabel")}</Caption>
 								<div className="flex flex-wrap gap-2">
 									{post.tags.map((tag) => (
-										<span
+										<Label
 											key={tag}
-											className="border border-border/40 px-3 py-1.5 text-sm transition-all hover:border-brand hover:bg-brand hover:text-white"
+											className="border border-border/40 px-3 py-1.5 text-foreground text-sm transition-all hover:border-brand hover:bg-brand hover:text-white"
 										>
 											{tag}
-										</span>
+										</Label>
 									))}
 								</div>
 							</div>
@@ -338,18 +347,21 @@ export default async function BlogPostPage({
 						));
 					})()}
 
-					{post.tags?.some((tag) => ["ai", "security"].some((t) => tag.toLowerCase().includes(t))) && (
+					{post.tags?.some((tag) =>
+						["ai", "security"].some((t) => tag.toLowerCase().includes(t)),
+					) && (
 						<div className="mt-14 flex items-center gap-3 border border-border/40 p-5 text-sm">
-							<Shield className="h-4 w-4 shrink-0 text-brand" strokeWidth={1.5} />
-							<span className="text-muted-foreground">
-								{tt("text")}
-							</span>
+							<Shield
+								className="h-4 w-4 shrink-0 text-brand"
+								strokeWidth={1.5}
+							/>
+							<Muted>{tt("text")}</Muted>
 						</div>
 					)}
 				</div>
 			</SectionWrapper>
 
-			<section className="border-border/40 border-t pb-28 pt-12">
+			<section className="border-border/40 border-t pt-12 pb-28">
 				<div className="mx-auto max-w-[1320px] px-6">
 					<BlogShare url={postUrl} title={post.title} />
 
@@ -366,7 +378,7 @@ export default async function BlogPostPage({
 										<H3 className="mt-2 text-lg transition-colors group-hover:text-brand">
 											{prev.title}
 										</H3>
-										<Muted className="mt-2 leading-relaxed line-clamp-2">
+										<Muted className="mt-2 line-clamp-2 leading-relaxed">
 											{prev.excerpt}
 										</Muted>
 									</Link>
@@ -380,7 +392,7 @@ export default async function BlogPostPage({
 										<H3 className="mt-2 text-lg transition-colors group-hover:text-brand">
 											{next.title}
 										</H3>
-										<Muted className="mt-2 leading-relaxed line-clamp-2">
+										<Muted className="mt-2 line-clamp-2 leading-relaxed">
 											{next.excerpt}
 										</Muted>
 									</Link>

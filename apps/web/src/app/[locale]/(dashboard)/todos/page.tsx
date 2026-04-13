@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
+import { Body } from "@/components/ui/typography";
 import { trpc } from "@/utils/trpc";
 
 export default function TodosPage() {
@@ -93,7 +94,9 @@ export default function TodosPage() {
 							<Loader2 className="h-6 w-6 animate-spin" />
 						</div>
 					) : todos.data?.length === 0 ? (
-						<p className="py-4 text-center">No todos yet. Add one above!</p>
+						<Body className="py-4 text-center">
+							No todos yet. Add one above!
+						</Body>
 					) : (
 						<ul className="space-y-2">
 							{todos.data?.map((todo) => (

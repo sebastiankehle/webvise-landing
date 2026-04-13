@@ -92,9 +92,9 @@ export default function BlogShare({
 						) : (
 							<Copy className="h-3.5 w-3.5" />
 						)}
-						<span className="text-xs">
+						<Caption className="text-current">
 							{copied ? t("linkCopied") : t("copyLink")}
-						</span>
+						</Caption>
 					</button>
 				</div>
 			</div>

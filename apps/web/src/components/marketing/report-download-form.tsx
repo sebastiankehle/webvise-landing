@@ -81,19 +81,24 @@ export default function ReportDownloadForm({
 		<div className="my-10 border border-brand/20 bg-brand/[0.03]">
 			<div className="p-6 md:p-8">
 				<div className="flex items-start gap-4">
-					<Mail className="h-5 w-5 shrink-0 text-brand mt-0.5" strokeWidth={1.5} />
+					<Mail
+						className="mt-0.5 h-5 w-5 shrink-0 text-brand"
+						strokeWidth={1.5}
+					/>
 					<div className="min-w-0">
-						<h3 className="font-medium text-base tracking-tight">{title}</h3>
-						<p className="mt-1 text-muted-foreground text-sm leading-relaxed">
+						<H3 className="text-base tracking-tight">{title}</H3>
+						<Muted className="mt-1 text-sm leading-relaxed">
 							{description}
-						</p>
+						</Muted>
 					</div>
 				</div>
 
 				{submitStatus === "success" ? (
 					<div className="mt-6 flex items-center gap-3 border border-brand/20 bg-brand/5 p-4">
 						<Check className="h-4 w-4 shrink-0 text-brand" strokeWidth={2} />
-						<span className="font-medium text-sm">{l.success}</span>
+						<Muted className="font-medium text-foreground text-sm">
+							{l.success}
+						</Muted>
 					</div>
 				) : (
 					<form
@@ -148,7 +153,7 @@ export default function ReportDownloadForm({
 
 				<output aria-live="polite" aria-atomic="true">
 					{submitStatus === "error" && (
-						<p className="mt-3 text-destructive text-sm">{l.error}</p>
+						<Muted className="mt-3 text-destructive text-sm">{l.error}</Muted>
 					)}
 				</output>
 			</div>

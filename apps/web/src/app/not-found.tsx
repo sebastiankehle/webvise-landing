@@ -1,5 +1,6 @@
 import { Geist } from "next/font/google";
 import { getTranslations } from "next-intl/server";
+import { H1, Lead, Mono } from "@/components/ui/typography";
 import "../index.css";
 
 const geist = Geist({
@@ -13,15 +14,11 @@ export default async function GlobalNotFound() {
 	return (
 		<html lang="en" className={geist.variable}>
 			<body className="flex min-h-screen flex-col items-center justify-center bg-background px-6 font-sans antialiased">
-				<p className="text-muted-foreground/50 text-sm">
-					404
-				</p>
-				<h1 className="mt-4 font-display text-[32px] leading-[1.05] md:text-[48px]">
-					{t("title")}
-				</h1>
-				<p className="mt-4 max-w-md text-center font-light text-muted-foreground">
+				<Mono className="text-muted-foreground/50">404</Mono>
+				<H1 className="mt-4">{t("title")}</H1>
+				<Lead className="mt-4 max-w-md text-center font-light">
 					{t("description")}
-				</p>
+				</Lead>
 				<div className="mt-8 flex gap-3">
 					<a
 						href="/"

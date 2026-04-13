@@ -7,9 +7,9 @@ import z from "zod";
 
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import { FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { H2, Lead } from "@/components/ui/typography";
 import { Input } from "@/components/ui/input";
 import { SubmitButton } from "@/components/ui/submit-button";
+import { H2, Lead, Muted } from "@/components/ui/typography";
 import { services } from "@/data/services";
 import { Link } from "@/i18n/navigation";
 import { track } from "@/lib/track";
@@ -78,7 +78,7 @@ export default function Contact() {
 					<H2>{t("title")}</H2>
 					<Lead className="mt-5 max-w-[520px]">{t("subtitle")}</Lead>
 
-					<p className="mt-6 text-sm text-muted-foreground">
+					<Muted className="mt-6">
 						{t("founder.text")}{" "}
 						<Link
 							href="/about"
@@ -95,7 +95,7 @@ export default function Contact() {
 						>
 							{t("booking.cta")}
 						</a>
-					</p>
+					</Muted>
 				</div>
 
 				<form
@@ -119,9 +119,7 @@ export default function Contact() {
 						<form.Field name="name">
 							{(field) => (
 								<FormItem>
-									<FormLabel htmlFor={field.name}>
-										{t("form.name")}
-									</FormLabel>
+									<FormLabel htmlFor={field.name}>{t("form.name")}</FormLabel>
 									<Input
 										id={field.name}
 										name={field.name}
@@ -140,9 +138,7 @@ export default function Contact() {
 						<form.Field name="email">
 							{(field) => (
 								<FormItem>
-									<FormLabel htmlFor={field.name}>
-										{t("form.email")}
-									</FormLabel>
+									<FormLabel htmlFor={field.name}>{t("form.email")}</FormLabel>
 									<Input
 										id={field.name}
 										name={field.name}
@@ -194,9 +190,7 @@ export default function Contact() {
 										onChange={(e) => field.handleChange(e.target.value)}
 										className="flex h-10 w-full border border-border bg-background px-3 text-base outline-none transition-colors focus:border-ring focus:ring-1 focus:ring-ring/50 md:h-9 md:text-sm"
 									>
-										<option value="">
-											{t("form.servicePlaceholder")}
-										</option>
+										<option value="">{t("form.servicePlaceholder")}</option>
 										{services.map((s) => (
 											<option key={s.slug} value={s.slug}>
 												{ts(`${s.translationKey}.title`)}
@@ -210,9 +204,7 @@ export default function Contact() {
 					<form.Field name="message">
 						{(field) => (
 							<FormItem>
-								<FormLabel htmlFor={field.name}>
-									{t("form.message")}
-								</FormLabel>
+								<FormLabel htmlFor={field.name}>{t("form.message")}</FormLabel>
 								<textarea
 									id={field.name}
 									name={field.name}
@@ -237,7 +229,7 @@ export default function Contact() {
 								isSubmitting={isSubmitting}
 								disabled={!canSubmit}
 								size="lg"
-								className="w-full border-transparent bg-brand text-white [&]:hover:bg-brand/80 md:h-10 md:text-sm"
+								className="w-full border-transparent bg-brand text-white md:h-10 md:text-sm [&]:hover:bg-brand/80"
 							>
 								{t("form.submit")}
 							</SubmitButton>
@@ -245,12 +237,12 @@ export default function Contact() {
 					</form.Subscribe>
 					<output aria-live="polite" aria-atomic="true">
 						{submitStatus === "success" && (
-							<p className="text-muted-foreground text-sm">
-								{t("form.success")}
-							</p>
+							<Muted className="text-sm">{t("form.success")}</Muted>
 						)}
 						{submitStatus === "error" && (
-							<p className="text-destructive text-sm">{t("form.error")}</p>
+							<Muted className="text-destructive text-sm">
+								{t("form.error")}
+							</Muted>
 						)}
 					</output>
 				</form>

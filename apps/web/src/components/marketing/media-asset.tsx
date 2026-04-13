@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { useCallback, useRef } from "react";
+import { Body, Caption } from "@/components/ui/typography";
 
 type Variant = "light" | "dark" | "brand";
 
@@ -236,9 +237,9 @@ export function LogoAsset({
 			</div>
 			<canvas ref={initCanvas} className="hidden" />
 			<div className="flex items-center justify-between">
-				<p className="text-muted-foreground text-xs">
+				<Caption>
 					{size} x {size}px
-				</p>
+				</Caption>
 				<button
 					type="button"
 					onClick={handleDownload}
@@ -357,16 +358,16 @@ export function BannerAsset({
 				<div className="absolute inset-0 flex items-center justify-end pr-[8%]">
 					<div className="flex items-center gap-6">
 						<div className="text-right">
-							<p
+							<Body
 								className={`font-normal text-[clamp(12px,2.2vw,32px)] leading-tight tracking-tight ${style.text}`}
 							>
 								{tagline}
-							</p>
-							<p
+							</Body>
+							<Body
 								className={`mt-1 font-light text-[clamp(8px,1.2vw,16px)] ${style.sub}`}
 							>
 								{subtitle}
-							</p>
+							</Body>
 						</div>
 						<div className="shrink-0">
 							<WebviseLogo size={48} />
@@ -377,9 +378,9 @@ export function BannerAsset({
 			</div>
 			<canvas ref={initCanvas} className="hidden" />
 			<div className="flex items-center justify-between">
-				<p className="text-muted-foreground text-xs">
+				<Caption>
 					{width} x {height}px
-				</p>
+				</Caption>
 				<button
 					type="button"
 					onClick={handleDownload}
@@ -489,25 +490,25 @@ export function WallpaperAsset({
 				<div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
 					<WebviseLogo size={64} />
 					<div className="text-center">
-						<p
+						<Body
 							className={`font-normal text-[clamp(12px,2vw,28px)] leading-tight tracking-tight ${style.text}`}
 						>
 							{tagline}
-						</p>
-						<p
+						</Body>
+						<Body
 							className={`mt-1 font-light text-[clamp(8px,1vw,14px)] ${style.sub}`}
 						>
 							{subtitle}
-						</p>
+						</Body>
 					</div>
 				</div>
 				<div className="absolute right-0 bottom-0 left-0 h-1 bg-brand" />
 			</div>
 			<canvas ref={initCanvas} className="hidden" />
 			<div className="flex items-center justify-between">
-				<p className="text-muted-foreground text-xs">
+				<Caption>
 					{width} x {height}px
-				</p>
+				</Caption>
 				<button
 					type="button"
 					onClick={handleDownload}

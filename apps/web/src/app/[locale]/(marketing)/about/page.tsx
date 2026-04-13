@@ -5,7 +5,16 @@ import { getLocale, getTranslations } from "next-intl/server";
 
 import JsonLd from "@/components/json-ld";
 import SectionWrapper from "@/components/marketing/section-wrapper";
-import { Caption, H1, H2, H3, Lead, Muted } from "@/components/ui/typography";
+import {
+	Body,
+	Caption,
+	H1,
+	H2,
+	H3,
+	Label,
+	Lead,
+	Muted,
+} from "@/components/ui/typography";
 import { generateAlternates, localizedUrl } from "@/lib/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -149,7 +158,11 @@ export default async function AboutPage() {
 					<div className="mt-8 space-y-5 text-muted-foreground leading-relaxed">
 						{Array.from({ length: bioCount }, (_, i) => {
 							const paragraph = t(`bio.paragraphs.${i}`);
-							return <p key={paragraph}>{paragraph}</p>;
+							return (
+								<Body key={paragraph} className="text-muted-foreground">
+									{paragraph}
+								</Body>
+							);
 						})}
 					</div>
 				</div>
@@ -181,7 +194,7 @@ export default async function AboutPage() {
 									<div className="flex-1 pb-2">
 										<div className="flex items-start justify-between gap-4">
 											<div>
-												<p className="font-medium text-sm">{company}</p>
+												<Body className="font-medium text-sm">{company}</Body>
 												<H3 className="mt-0.5 text-lg">{role}</H3>
 											</div>
 											<div className="shrink-0 text-right">
@@ -225,12 +238,12 @@ export default async function AboutPage() {
 									{t(`stack.sections.${section}.items`)
 										.split(", ")
 										.map((tool) => (
-											<span
+											<Label
 												key={tool}
-												className="border border-border/40 px-3 py-1.5 text-sm transition-all hover:border-brand hover:bg-brand hover:text-white"
+												className="border border-border/40 px-3 py-1.5 text-foreground text-sm transition-all hover:border-brand hover:bg-brand hover:text-white"
 											>
 												{tool}
-											</span>
+											</Label>
 										))}
 								</div>
 							</div>

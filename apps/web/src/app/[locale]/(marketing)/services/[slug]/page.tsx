@@ -7,6 +7,7 @@ import JsonLd from "@/components/json-ld";
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import { FaqAccordion } from "@/components/marketing/sections/faq";
 import WpHealthCta from "@/components/marketing/sections/wp-health-cta";
+import { TechBadge } from "@/components/marketing/tech-badge";
 import {
 	Caption,
 	H1,
@@ -185,12 +186,10 @@ export default async function ServicePage({
 							<Caption className="mb-5 block">{td("toolsTitle")}</Caption>
 							<div className="flex flex-wrap gap-2">
 								{Array.from({ length: service.toolCount }, (_, i) => (
-									<span
+									<TechBadge
 										key={t(`${key}.tools.${i}`)}
-										className="border border-border/40 px-3 py-1.5 text-sm transition-all hover:border-brand hover:bg-brand hover:text-white"
-									>
-										{t(`${key}.tools.${i}`)}
-									</span>
+										name={t(`${key}.tools.${i}`)}
+									/>
 								))}
 							</div>
 						</div>
@@ -238,9 +237,9 @@ export default async function ServicePage({
 									className="flex items-start gap-3 text-sm"
 								>
 									<span className="mt-1.5 h-1.5 w-1.5 shrink-0 bg-brand" />
-									<span className="leading-relaxed">
+									<Muted className="text-foreground leading-relaxed">
 										{t(`${key}.features.${i}`)}
-									</span>
+									</Muted>
 								</li>
 							))}
 						</ul>
@@ -260,9 +259,9 @@ export default async function ServicePage({
 									className="flex items-start gap-3 text-sm"
 								>
 									<span className="mt-1.5 h-1.5 w-1.5 shrink-0 bg-brand" />
-									<span className="leading-relaxed">
+									<Muted className="text-foreground leading-relaxed">
 										{t(`${key}.deliverables.${i}`)}
-									</span>
+									</Muted>
 								</li>
 							))}
 						</ul>

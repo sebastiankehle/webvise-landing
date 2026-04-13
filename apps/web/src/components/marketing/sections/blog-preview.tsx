@@ -32,7 +32,7 @@ export default async function BlogPreview() {
 					<Link
 						key={post.slug}
 						href={{ pathname: "/blog/[slug]", params: { slug: post.slug } }}
-						className="group flex flex-col border-border/40 not-last:border-b p-8 transition-colors hover:bg-muted/30 md:not-[:nth-last-child(-n+3)]:border-b md:[&:nth-child(3n+1)]:border-r md:[&:nth-child(3n+2)]:border-r md:p-10"
+						className="group flex flex-col border-border/40 not-last:border-b p-8 transition-colors hover:bg-muted/30 md:not-[:nth-last-child(-n+3)]:border-b md:p-10 md:[&:nth-child(3n+1)]:border-r md:[&:nth-child(3n+2)]:border-r"
 					>
 						<div className="flex items-center gap-3">
 							<Caption>
@@ -44,7 +44,7 @@ export default async function BlogPreview() {
 									})}
 								</time>
 							</Caption>
-							<span className="text-xs text-border">/</span>
+							<Caption className="text-border">/</Caption>
 							<Caption>
 								{post.readingTime} {t("minRead")}
 							</Caption>
@@ -53,7 +53,7 @@ export default async function BlogPreview() {
 							{post.title}
 						</H3>
 						<Muted className="mt-3 line-clamp-3">{post.excerpt}</Muted>
-						<div className="mt-auto flex items-center justify-end border-border/40 border-t pt-5 mt-6">
+						<div className="mt-6 mt-auto flex items-center justify-end border-border/40 border-t pt-5">
 							<ArrowRight className="h-4 w-4 text-muted-foreground transition-all group-hover:translate-x-1 group-hover:text-brand" />
 						</div>
 					</Link>

@@ -6,6 +6,7 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Label } from "@/components/ui/typography";
 
 const descriptions: Record<string, string> = {
 	"Next.js": "React framework for production-grade web apps",
@@ -39,6 +40,9 @@ const descriptions: Record<string, string> = {
 	Neon: "Serverless Postgres with branching and autoscaling",
 	Greptile: "AI-powered codebase understanding and code review",
 	Coderabbit: "AI-driven automated code review tool",
+	"Drizzle ORM": "TypeScript ORM with SQL-like query builder",
+	LangChain: "Framework for building LLM-powered applications",
+	Gemini: "Google's multimodal AI model family",
 };
 
 export function TechBadge({ name }: { name: string }) {
@@ -46,9 +50,9 @@ export function TechBadge({ name }: { name: string }) {
 
 	if (!description) {
 		return (
-			<span className="border border-border/40 px-3 py-1.5 text-sm transition-all hover:border-brand hover:bg-brand hover:text-white">
+			<Label className="border border-border/40 px-3 py-1.5 text-foreground text-sm transition-all hover:border-brand hover:bg-brand hover:text-white">
 				{name}
-			</span>
+			</Label>
 		);
 	}
 
