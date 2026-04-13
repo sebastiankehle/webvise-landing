@@ -110,7 +110,7 @@ export default function Navbar({
 			<header
 				className={`sticky top-0 z-50 transition-all duration-500 ${
 					scrolled
-						? "border-border/40 border-b bg-background/80 backdrop-blur-xl"
+						? "border-border/40 border-b bg-background"
 						: "border-transparent border-b bg-transparent"
 				}`}
 			>
@@ -214,7 +214,7 @@ export default function Navbar({
 				onMouseEnter={() => activeDropdown && open(activeDropdown)}
 				onMouseLeave={scheduleClose}
 			>
-				<div className="w-full max-w-[720px] border border-border/40 bg-background/95 shadow-xl backdrop-blur-xl transition-all duration-200 ease-out">
+				<div className="w-full max-w-[720px] border border-border/40 bg-background shadow-xl transition-all duration-200 ease-out">
 					{activeDropdown === "services" && (
 						<div>
 							<div className="grid grid-cols-3">
@@ -393,10 +393,10 @@ export default function Navbar({
 			</nav>
 
 			{mobileOpen && (
-				<div className="fixed inset-x-0 top-16 bottom-0 z-50 overflow-y-auto bg-background/95 px-6 pb-6 backdrop-blur-xl md:hidden">
+				<div className="fixed inset-x-0 top-16 bottom-0 z-50 overflow-y-auto bg-background md:hidden">
 					<nav
 						aria-label="Mobile navigation"
-						className="flex min-h-full flex-col pt-6"
+						className="mx-auto flex min-h-full max-w-[1320px] flex-col px-6 pt-6 pb-6"
 					>
 						<div className="flex flex-col gap-0.5">
 							<button
