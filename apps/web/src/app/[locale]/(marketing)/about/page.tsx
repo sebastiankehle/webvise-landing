@@ -1,11 +1,11 @@
+import { ArrowUpRight } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
-import { ArrowUpRight } from "lucide-react";
 import { getLocale, getTranslations } from "next-intl/server";
 
 import JsonLd from "@/components/json-ld";
 import SectionWrapper from "@/components/marketing/section-wrapper";
-import { H1, H2, Caption, Lead } from "@/components/ui/typography";
+import { Caption, H1, H2, H3, Lead, Muted } from "@/components/ui/typography";
 import { generateAlternates, localizedUrl } from "@/lib/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -96,7 +96,7 @@ export default async function AboutPage() {
 			<JsonLd data={jsonLd} />
 
 			{/* Header */}
-			<section className="pb-24 pt-24 md:pb-36 md:pt-36">
+			<section className="pt-24 pb-24 md:pt-36 md:pb-36">
 				<div className="mx-auto max-w-[1320px] px-6">
 					<div className="grid items-start gap-12 md:grid-cols-3 md:gap-16">
 						{/* Title + intro */}
@@ -117,7 +117,7 @@ export default async function AboutPage() {
 								</div>
 							</div>
 							<Lead className="mt-6">{t("intro.tagline")}</Lead>
-							<Lead className="mt-3 text-sm">{t("intro.description")}</Lead>
+							<Lead className="mt-3">{t("intro.description")}</Lead>
 						</div>
 
 						{/* Connect card */}
@@ -147,9 +147,10 @@ export default async function AboutPage() {
 				<div className="max-w-2xl">
 					<H2>{t("bio.title")}</H2>
 					<div className="mt-8 space-y-5 text-muted-foreground leading-relaxed">
-						{Array.from({ length: bioCount }, (_, i) => (
-							<p key={i}>{t(`bio.paragraphs.${i}`)}</p>
-						))}
+						{Array.from({ length: bioCount }, (_, i) => {
+							const paragraph = t(`bio.paragraphs.${i}`);
+							return <p key={paragraph}>{paragraph}</p>;
+						})}
 					</div>
 				</div>
 			</SectionWrapper>
@@ -159,39 +160,44 @@ export default async function AboutPage() {
 				<div className="max-w-2xl">
 					<H2>{t("experience.title")}</H2>
 					<div className="mt-10 space-y-10">
-						{Array.from({ length: experienceCount }, (_, i) => (
-							<div key={i} className="flex gap-6">
-								<div className="flex w-1 shrink-0 flex-col items-center pt-2">
-									<div className="h-2 w-2 bg-brand" />
-									{i < experienceCount - 1 && (
-										<div className="mt-1 w-px flex-1 bg-border/40" />
-									)}
-								</div>
-								<div className="flex-1 pb-2">
-									<div className="flex items-start justify-between gap-4">
-										<div>
-											<p className="text-sm font-medium">
-												{t(`experience.items.${i}.company`)}
-											</p>
-											<h3 className="mt-0.5 font-display text-lg tracking-tight">
-												{t(`experience.items.${i}.role`)}
-											</h3>
-										</div>
-										<div className="shrink-0 text-right">
-											<p className="text-xs text-muted-foreground">
-												{t(`experience.items.${i}.period`)}
-											</p>
-											<p className="text-xs text-muted-foreground/60">
-												{t(`experience.items.${i}.location`)}
-											</p>
-										</div>
+						{Array.from({ length: experienceCount }, (_, i) => {
+							const company = t(`experience.items.${i}.company`);
+							const role = t(`experience.items.${i}.role`);
+							const period = t(`experience.items.${i}.period`);
+							const location = t(`experience.items.${i}.location`);
+							const description = t(`experience.items.${i}.description`);
+
+							return (
+								<div
+									key={`${company}-${role}-${period}`}
+									className="flex gap-6"
+								>
+									<div className="flex w-1 shrink-0 flex-col items-center pt-2">
+										<div className="h-2 w-2 bg-brand" />
+										{i < experienceCount - 1 && (
+											<div className="mt-1 w-px flex-1 bg-border/40" />
+										)}
 									</div>
-									<p className="mt-3 text-sm text-muted-foreground leading-relaxed">
-										{t(`experience.items.${i}.description`)}
-									</p>
+									<div className="flex-1 pb-2">
+										<div className="flex items-start justify-between gap-4">
+											<div>
+												<p className="font-medium text-sm">{company}</p>
+												<H3 className="mt-0.5 text-lg">{role}</H3>
+											</div>
+											<div className="shrink-0 text-right">
+												<Caption className="block">{period}</Caption>
+												<Caption className="mt-1 block text-muted-foreground/60">
+													{location}
+												</Caption>
+											</div>
+										</div>
+										<Muted className="mt-3 leading-relaxed">
+											{description}
+										</Muted>
+									</div>
 								</div>
-							</div>
-						))}
+							);
+						})}
 					</div>
 				</div>
 			</SectionWrapper>
@@ -201,11 +207,20 @@ export default async function AboutPage() {
 				<div className="max-w-2xl">
 					<H2>{t("stack.title")}</H2>
 					<div className="mt-10 space-y-8">
-						{(["languages", "frontend", "backend", "data", "ai", "platform"] as const).map((section) => (
+						{(
+							[
+								"languages",
+								"frontend",
+								"backend",
+								"data",
+								"ai",
+								"platform",
+							] as const
+						).map((section) => (
 							<div key={section}>
-								<p className="mb-3 text-xs text-muted-foreground">
+								<Caption className="mb-3 block">
 									{t(`stack.sections.${section}.label`)}
-								</p>
+								</Caption>
 								<div className="flex flex-wrap gap-2">
 									{t(`stack.sections.${section}.items`)
 										.split(", ")

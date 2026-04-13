@@ -1,16 +1,22 @@
+import { Shield } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
-
-import { Shield } from "lucide-react";
-
-import FounderCard from "@/components/marketing/founder-card";
 import JsonLd from "@/components/json-ld";
+import FounderCard from "@/components/marketing/founder-card";
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import { FaqAccordion } from "@/components/marketing/sections/faq";
 import WpHealthCta from "@/components/marketing/sections/wp-health-cta";
-import { Caption, H1, H2, H3, Label, Lead, Mono, Muted } from "@/components/ui/typography";
+import {
+	Caption,
+	H1,
+	H2,
+	H3,
+	Label,
+	Lead,
+	Muted,
+} from "@/components/ui/typography";
 import { getCaseStudyBySlug } from "@/data/case-studies";
 import {
 	getServiceBySlug,
@@ -78,15 +84,26 @@ export default async function ServicePage({
 	const td = await getTranslations("serviceDetail");
 	const tt = await getTranslations("trust.serviceCallout");
 	const key = service.translationKey;
+	const ServiceIcon = service.icon;
 	const relatedSlugs = serviceCaseStudies[slug] ?? [];
 	const relatedCaseStudies = relatedSlugs
 		.map((csSlug) => getCaseStudyBySlug(csSlug, locale))
-		.filter(Boolean);
+		.filter(
+			(
+				caseStudy,
+			): caseStudy is NonNullable<ReturnType<typeof getCaseStudyBySlug>> =>
+				Boolean(caseStudy),
+		);
 
 	const relatedServiceSlugs = relatedServices[slug] ?? [];
 	const relatedServiceData = relatedServiceSlugs
 		.map((s) => getServiceBySlug(s))
-		.filter(Boolean);
+		.filter(
+			(
+				relatedService,
+			): relatedService is NonNullable<ReturnType<typeof getServiceBySlug>> =>
+				Boolean(relatedService),
+		);
 
 	const faqEntries =
 		service.faqCount > 0
@@ -156,25 +173,27 @@ export default async function ServicePage({
 			<JsonLd data={jsonLd} />
 
 			{/* Header */}
-			<section className="pb-24 pt-24 md:pb-36 md:pt-36">
+			<section className="pt-24 pb-24 md:pt-36 md:pb-36">
 				<div className="mx-auto max-w-[1320px] px-6">
 					<div className="grid items-start gap-12 md:grid-cols-3 md:gap-16">
 						{/* Title + info */}
 						<div className="md:col-span-2">
-							<Caption>
-								{t(`${key}.tagline`)} &middot; {t(`${key}.price`)} &middot; {t(`${key}.timeline`)}
-							</Caption>
-							<H1 className="mt-6">{t(`${key}.title`)}</H1>
-							<Lead className="mt-5 max-w-lg">
-								{t(`${key}.description`)}
-							</Lead>
+							<ServiceIcon className="h-5 w-5 text-brand" strokeWidth={1.5} />
+							<H1 className="mt-6 max-w-3xl">{t(`${key}.title`)}</H1>
+							<Lead className="mt-5 max-w-lg">{t(`${key}.description`)}</Lead>
+							<div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2">
+								<Caption>
+									{td("pricingLabel")} {t(`${key}.price`)}
+								</Caption>
+								<Caption>
+									{td("timelineLabel")} {t(`${key}.timeline`)}
+								</Caption>
+							</div>
 						</div>
 
 						{/* Tools box */}
 						<div className="border border-border/40 p-6 md:p-8">
-							<Caption className="mb-5 block">
-								{td("toolsTitle")}
-							</Caption>
+							<Caption className="mb-5 block">{td("toolsTitle")}</Caption>
 							<div className="flex flex-wrap gap-2">
 								{Array.from({ length: service.toolCount }, (_, i) => (
 									<span
@@ -190,11 +209,8 @@ export default async function ServicePage({
 				</div>
 			</section>
 
-			<SectionWrapper id="why">
-				<div className="max-w-2xl">
-					<H2>{td("painPointsTitle")}</H2>
-				</div>
-				<div className="mt-14 grid gap-px overflow-hidden border border-border/40 md:grid-cols-3">
+			<SectionWrapper id="why" className="pt-8 md:pt-12">
+				<div className="grid gap-px overflow-hidden border border-border/40 md:grid-cols-3">
 					{Array.from({ length: service.painPointCount }, (_, i) => (
 						<div
 							key={t(`${key}.painPoints.${i}.heading`)}
@@ -209,36 +225,56 @@ export default async function ServicePage({
 				</div>
 			</SectionWrapper>
 
-			<SectionWrapper id="features" alternate>
-				<H2>{td("featuresTitle")}</H2>
-				<div className="mt-10 grid gap-px overflow-hidden border border-border/40 md:grid-cols-2">
-					{Array.from({ length: service.featureCount }, (_, i) => (
-						<div
-							key={t(`${key}.features.${i}`)}
-							className="border-border/40 not-last:border-b p-5 text-sm md:nth-last-[-n+2]:border-b-0 md:odd:not-last:border-r"
-						>
-							{t(`${key}.features.${i}`)}
-						</div>
-					))}
+			<SectionWrapper id="approach">
+				<div className="grid gap-16 md:grid-cols-2 md:gap-20">
+					<div>
+						<H2 className="text-2xl md:text-[30px]">{td("approachTitle")}</H2>
+						<Lead className="mt-4 leading-relaxed">{t(`${key}.approach`)}</Lead>
+					</div>
+					<div>
+						<H2 className="text-2xl md:text-[30px]">{td("outcomeTitle")}</H2>
+						<Lead className="mt-4 leading-relaxed">{t(`${key}.outcome`)}</Lead>
+					</div>
 				</div>
 			</SectionWrapper>
 
-			<SectionWrapper id="deliverables">
-				<H2>{td("deliverablesTitle")}</H2>
-				<div className="mt-10 max-w-2xl border border-border/40">
-					{Array.from({ length: service.deliverableCount }, (_, i) => (
-						<div
-							key={t(`${key}.deliverables.${i}`)}
-							className="flex items-baseline gap-4 not-last:border-border/40 not-last:border-b px-6 py-5"
-						>
-							<Mono className="text-brand/50">
-								{String(i + 1).padStart(2, "0")}
-							</Mono>
-							<span className="text-sm leading-relaxed">
-								{t(`${key}.deliverables.${i}`)}
-							</span>
-						</div>
-					))}
+			<SectionWrapper id="features" alternate className="py-16 md:py-24">
+				<div className="grid items-start gap-10 lg:grid-cols-[minmax(0,1.3fr)_minmax(320px,0.9fr)] lg:gap-12">
+					<div>
+						<H2 className="text-2xl md:text-[30px]">{td("featuresTitle")}</H2>
+						<ul className="mt-6 space-y-3">
+							{Array.from({ length: service.featureCount }, (_, i) => (
+								<li
+									key={t(`${key}.features.${i}`)}
+									className="flex items-start gap-3 text-sm"
+								>
+									<span className="mt-1 h-1.5 w-1.5 shrink-0 bg-brand" />
+									<span className="leading-relaxed">
+										{t(`${key}.features.${i}`)}
+									</span>
+								</li>
+							))}
+						</ul>
+					</div>
+
+					<div id="deliverables">
+						<H2 className="text-2xl md:text-[30px]">
+							{td("deliverablesTitle")}
+						</H2>
+						<ul className="mt-6 space-y-3">
+							{Array.from({ length: service.deliverableCount }, (_, i) => (
+								<li
+									key={t(`${key}.deliverables.${i}`)}
+									className="flex items-start gap-3 text-sm"
+								>
+									<span className="mt-1 h-1.5 w-1.5 shrink-0 bg-brand" />
+									<span className="leading-relaxed">
+										{t(`${key}.deliverables.${i}`)}
+									</span>
+								</li>
+							))}
+						</ul>
+					</div>
 				</div>
 			</SectionWrapper>
 
@@ -260,11 +296,16 @@ export default async function ServicePage({
 
 			{slug === "wordpress-migration" && <WpHealthCta />}
 
-			{(slug === "ai-automation" || slug === "ai-consulting" || slug === "full-stack-applications") && (
-				<section className="border-border/40 border-t pb-20 pt-20">
+			{(slug === "ai-automation" ||
+				slug === "ai-consulting" ||
+				slug === "full-stack-applications") && (
+				<section className="border-border/40 border-t pt-20 pb-20">
 					<div className="mx-auto max-w-[1320px] px-6">
 						<div className="flex items-start gap-5 border border-border/40 p-6 md:p-8">
-							<Shield className="h-5 w-5 shrink-0 text-brand mt-0.5" strokeWidth={1.5} />
+							<Shield
+								className="mt-0.5 h-5 w-5 shrink-0 text-brand"
+								strokeWidth={1.5}
+							/>
 							<div>
 								<H3 className="text-lg">{tt("title")}</H3>
 								<Muted className="mt-1 max-w-lg leading-relaxed">
@@ -276,30 +317,30 @@ export default async function ServicePage({
 				</section>
 			)}
 
-			<section className="border-border/40 border-t pb-20 pt-20">
+			<section className="border-border/40 border-t pt-20 pb-20">
 				<div className="mx-auto max-w-[1320px] px-6">
 					<FounderCard />
 				</div>
 			</section>
 
 			{relatedCaseStudies.length > 0 && (
-				<section className="border-border/40 border-t pb-28 pt-20">
+				<section className="border-border/40 border-t pt-20 pb-28">
 					<div className="mx-auto max-w-[1320px] px-6">
 						<H2>{td("relatedWorkTitle")}</H2>
 						<div className="mt-10 grid gap-6 md:grid-cols-2">
 							{relatedCaseStudies.map((cs) => (
 								<Link
-									key={cs!.slug}
+									key={cs.slug}
 									href={{
 										pathname: "/case-studies/[slug]",
-										params: { slug: cs!.slug },
+										params: { slug: cs.slug },
 									}}
 									className="group border border-border/40 transition-colors hover:border-brand/30"
 								>
-									{cs!.coverImage && (
+									{cs.coverImage && (
 										<Image
-											src={cs!.coverImage}
-											alt={`${cs!.client} - ${cs!.title}`}
+											src={cs.coverImage}
+											alt={`${cs.client} - ${cs.title}`}
 											width={756}
 											height={383}
 											className="h-auto w-full"
@@ -308,9 +349,11 @@ export default async function ServicePage({
 										/>
 									)}
 									<div className="p-6">
-										<Label>{cs!.client} &middot; {cs!.industry}</Label>
+										<Label>
+											{cs.client} &middot; {cs.industry}
+										</Label>
 										<H3 className="mt-2 text-lg transition-colors group-hover:text-brand">
-											{cs!.title}
+											{cs.title}
 										</H3>
 									</div>
 								</Link>
@@ -321,38 +364,40 @@ export default async function ServicePage({
 			)}
 
 			{relatedServiceData.length > 0 && (
-				<section className="border-border/40 border-t pb-28 pt-20">
+				<section className="border-border/40 border-t pt-20 pb-28">
 					<div className="mx-auto max-w-[1320px] px-6">
 						<H2>{td("relatedServicesTitle")}</H2>
 						<div className="mt-10 grid gap-6 md:grid-cols-2">
 							{relatedServiceData.map((rs) => {
-								const RsIcon = rs!.icon;
+								const RsIcon = rs.icon;
 								return (
 									<Link
-										key={rs!.slug}
+										key={rs.slug}
 										href={{
 											pathname: "/services/[slug]",
-											params: { slug: rs!.slug },
+											params: { slug: rs.slug },
 										}}
 										className="group flex items-start gap-5 border border-border/40 p-6 transition-colors hover:border-brand/30"
 									>
-										<RsIcon className="h-5 w-5 shrink-0 text-brand mt-0.5" strokeWidth={1.5} />
+										<RsIcon
+											className="mt-0.5 h-5 w-5 shrink-0 text-brand"
+											strokeWidth={1.5}
+										/>
 										<div>
 											<H3 className="text-lg transition-colors group-hover:text-brand">
-												{t(`${rs!.translationKey}.title`)}
+												{t(`${rs.translationKey}.title`)}
 											</H3>
 											<Muted className="mt-1 line-clamp-2 leading-relaxed">
-												{t(`${rs!.translationKey}.tagline`)}
+												{t(`${rs.translationKey}.tagline`)}
 											</Muted>
-									</div>
-								</Link>
-							);
-						})}
+										</div>
+									</Link>
+								);
+							})}
+						</div>
 					</div>
-				</div>
-			</section>
-		)}
-
+				</section>
+			)}
 		</>
 	);
 }
