@@ -93,6 +93,7 @@ export default function Contact() {
 						variant="outline"
 						className="mt-6"
 						render={
+							// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
 							<a
 								href="https://cal.com/webvise"
 								target="_blank"

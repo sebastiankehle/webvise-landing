@@ -4,7 +4,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import StaggerChildren from "@/components/marketing/stagger-children";
-import { Caption, H2, H3, Label, Lead, Muted } from "@/components/ui/typography";
+import { H2, H3, Label, Lead, Muted } from "@/components/ui/typography";
 import { getCaseStudies } from "@/data/case-studies";
 import { Link } from "@/i18n/navigation";
 

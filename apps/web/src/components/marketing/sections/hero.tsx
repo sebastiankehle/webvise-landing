@@ -31,9 +31,7 @@ export default async function Hero() {
 									),
 								})}
 							</Display>
-							<Lead className="mt-6 max-w-[500px]">
-								{t("subtitle")}
-							</Lead>
+							<Lead className="mt-6 max-w-[500px]">{t("subtitle")}</Lead>
 							<div className="mt-12 flex flex-col gap-4 sm:flex-row">
 								<Button
 									size="lg"

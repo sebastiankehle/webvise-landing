@@ -1,8 +1,8 @@
-import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
+import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 
-import { H3, Caption, Muted } from "@/components/ui/typography";
+import { Caption, H3, Muted } from "@/components/ui/typography";
 import { Link } from "@/i18n/navigation";
 
 export default async function FounderCard() {
@@ -23,13 +23,11 @@ export default async function FounderCard() {
 					<H3 className="text-lg">{t("name")}</H3>
 					<Caption>{t("role")}</Caption>
 				</div>
-				<Muted className="mt-1 leading-relaxed">
-					{t("description")}
-				</Muted>
+				<Muted className="mt-1 leading-relaxed">{t("description")}</Muted>
 				<div className="mt-3 flex items-center gap-4">
 					<Link
 						href="/about"
-						className="group inline-flex items-center gap-1.5 text-xs text-brand transition-opacity hover:opacity-80"
+						className="group inline-flex items-center gap-1.5 text-brand text-xs transition-opacity hover:opacity-80"
 					>
 						{t("link")}
 						<ArrowUpRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -38,7 +36,7 @@ export default async function FounderCard() {
 						href="https://linkedin.com/in/sebastiankehle"
 						target="_blank"
 						rel="noopener noreferrer"
-						className="text-xs text-muted-foreground transition-colors hover:text-foreground"
+						className="text-muted-foreground text-xs transition-colors hover:text-foreground"
 					>
 						LinkedIn
 					</a>

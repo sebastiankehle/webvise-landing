@@ -1,7 +1,7 @@
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
-import { Inter, Geist_Mono } from "next/font/google";
+import { Geist_Mono, Inter } from "next/font/google";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
@@ -101,9 +101,7 @@ export default async function LocaleLayout({
 
 	return (
 		<html lang={locale} suppressHydrationWarning>
-			<body
-				className={`${inter.variable} ${geistMono.variable} antialiased`}
-			>
+			<body className={`${inter.variable} ${geistMono.variable} antialiased`}>
 				<ThemeProvider
 					attribute="class"
 					defaultTheme="light"

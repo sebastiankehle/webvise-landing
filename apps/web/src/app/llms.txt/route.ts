@@ -32,7 +32,8 @@ export function GET() {
 
 	const blogLines = blogPosts
 		.map(
-			(post) => `- [${post.title}](${baseUrl}/blog/${post.slug}): ${post.excerpt}`,
+			(post) =>
+				`- [${post.title}](${baseUrl}/blog/${post.slug}): ${post.excerpt}`,
 		)
 		.join("\n");
 

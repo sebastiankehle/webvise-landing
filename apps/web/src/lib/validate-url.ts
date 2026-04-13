@@ -54,12 +54,18 @@ export async function validateUrl(url: string): Promise<void> {
 	const hostname = parsed.hostname.toLowerCase();
 
 	// Block known metadata hostnames
-	if (BLOCKED_HOSTNAMES.some((h) => hostname === h || hostname.endsWith(`.${h}`))) {
+	if (
+		BLOCKED_HOSTNAMES.some((h) => hostname === h || hostname.endsWith(`.${h}`))
+	) {
 		throw new UrlValidationError("This URL is not allowed.");
 	}
 
 	// Block dangerous TLDs
-	if (BLOCKED_TLDS.some((tld) => hostname === tld.slice(1) || hostname.endsWith(tld))) {
+	if (
+		BLOCKED_TLDS.some(
+			(tld) => hostname === tld.slice(1) || hostname.endsWith(tld),
+		)
+	) {
 		throw new UrlValidationError("This URL is not allowed.");
 	}
 

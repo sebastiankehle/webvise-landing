@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next";
 
 import { blogPosts } from "@/data/blog";
 import { getCaseStudies } from "@/data/case-studies";
-import { routing } from "@/i18n/routing";
 import { services } from "@/data/services";
+import { routing } from "@/i18n/routing";
 
 const baseUrl = "https://webvise.io";
 

@@ -18,11 +18,7 @@ export default function SectionWrapper({
 			id={id}
 			className={cn(
 				"relative py-20 md:py-36",
-				dark
-					? "section-dark"
-					: alternate
-						? "bg-white"
-						: "bg-background",
+				dark ? "section-dark" : alternate ? "bg-white" : "bg-background",
 				className,
 			)}
 		>

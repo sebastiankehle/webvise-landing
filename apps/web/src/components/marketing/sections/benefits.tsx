@@ -26,7 +26,7 @@ export default async function Benefits() {
 						key={key}
 						className="group border-border/40 not-last:border-b p-8 transition-colors hover:bg-muted/30 md:not-last:border-r md:not-last:border-b-0 md:p-10"
 					>
-						<Icon className="h-5 w-5 text-brand shrink-0" strokeWidth={1.5} />
+						<Icon className="h-5 w-5 shrink-0 text-brand" strokeWidth={1.5} />
 						<H3 className="mt-5">{t(`${key}.title`)}</H3>
 						<Muted className="mt-3">{t(`${key}.description`)}</Muted>
 					</div>

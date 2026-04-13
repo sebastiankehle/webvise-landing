@@ -49,9 +49,7 @@ export default async function BlogCta({
 		? t(`ctas.${category}.description`)
 		: t("ctaDescription");
 
-	const buttonText = category
-		? t(`ctas.${category}.button`)
-		: t("ctaButton");
+	const buttonText = category ? t(`ctas.${category}.button`) : t("ctaButton");
 
 	return (
 		<FooterCtaBanner

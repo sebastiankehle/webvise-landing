@@ -1,146 +1,186 @@
 {
-  "date": "2026-04-13",
-  "readingTime": 7,
-  "keyword": "AI coding behavioral contracts",
-  "title": "Von Regeln zu Ergebnissen: Was 22.000 Sterne für eine einzige CLAUDE.md über KI-gestützte Entwicklung verraten",
-  "excerpt": "Das karpathy-skills-Repo beweist: Der Engpass beim KI-gestützten Programmieren liegt nicht in der Modellkapazität, sondern im Verhaltensvertrag zwischen Mensch und LLM.",
-  "metaDescription": "22.000 GitHub-Sterne für eine einzige CLAUDE.md-Datei. Warum Verhaltensverträge zwischen Menschen und LLMs mehr zählen als Modellkapazität beim KI-gestützten Entwickeln.",
-  "tags": ["AI Agents", "AI", "Open Source", "Business Strategy"],
-  "blocks": [
-    {
-      "type": "p",
-      "text": "Der Engpass beim KI-gestützten Programmieren ist nicht die Leistungsfähigkeit des Modells. Es ist die Qualität des Verhaltensvertrags zwischen Mensch und LLM. Teams, die diese Verträge in ihre Toolchain einbetten, erzielen kumulative Gewinne. Teams, die das nicht tun, stellen weiterhin dieselben Bug-Reports ein: \"Die KI hat wieder halluziniert.\""
-    },
-    {
-      "type": "p",
-      "text": "Der Beweis: [forrestchang/andrej-karpathy-skills](https://github.com/forrestchang/andrej-karpathy-skills) auf GitHub. Eine einzige CLAUDE.md-Datei, die Andrej Karpathys Beobachtungen zu LLM-Programmierfallen in handlungsrelevante Regeln für Claude Code überführt. 22.700 Sterne. 1.800 Forks. Für eine Datei."
-    },
-    {
-      "type": "p",
-      "text": "Diese Sternezahl ist keine Begeisterung für Karpathys persönliche Marke. Es sind 22.000 Entwicklerinnen und Entwickler, die denselben Schmerz bestätigen: KI-Coding-Assistenten sind leistungsfähig, aber unberechenbar, und ein gut formulierter Verhaltensvertrag behebt das."
-    },
-    {
-      "type": "h2",
-      "text": "Die vier Prinzipien hinter 22.000 Sternen"
-    },
-    {
-      "type": "p",
-      "text": "Das Repo kodiert vier Prinzipien, die jeweils auf einen spezifischen Fehlertyp beim LLM-gestützten Programmieren abzielen:"
-    },
-    {
-      "type": "ul",
-      "items": [
-        "**Erst denken, dann coden.** Annahmen offenlegen, Abwägungen darstellen, fragen statt raten. Zielt auf den Fehlertyp, bei dem LLMs mit der Implementierung beginnen, bevor sie das Problem verstanden haben.",
-        "**Einfachheit zuerst.** Minimaler funktionsfähiger Code, keine spekulativen Funktionen oder Abstraktionen. Zielt auf den Fehlertyp, bei dem LLMs Lösungen mit unnötiger Komplexität überdesignen.",
-        "**Zielorientierte Ausführung.** Erfolgskriterien definieren, keine schrittweisen Anweisungen. Das LLM iteriert, bis die Kriterien erfüllt sind. Zielt auf den Fehlertyp, bei dem imperative Anweisungen spröden, wörtlich ausgeführten Code produzieren.",
-        "**Explizite Kommunikation.** Keine stillen Annahmen. Jede Entscheidung dokumentiert. Zielt auf den Fehlertyp, bei dem LLMs Entscheidungen treffen, die plausibel wirken, aber unausgesprochene Anforderungen verletzen."
-      ]
-    },
-    {
-      "type": "p",
-      "text": "Jedes dieser Prinzipien ist für sich genommen nicht überraschend. Was überrascht: Sie in einer einzigen Datei zu kodieren, macht den Unterschied zwischen \"Die KI hat meinen Nachmittag verschwendet\" und \"Die KI hat das Feature fertiggestellt, während ich es reviewed habe.\""
-    },
-    {
-      "type": "h2",
-      "text": "CLAUDE.md ist kein Style Guide"
-    },
-    {
-      "type": "p",
-      "text": "Die meisten Teams behandeln ihre CLAUDE.md (oder eine vergleichbare System-Prompt-Datei) als Code-Style-Guide: Formatierungspräferenzen, Namenskonventionen, vielleicht einige projektspezifische Hinweise. Damit verfehlen sie den Kern vollständig."
-    },
-    {
-      "type": "p",
-      "text": "Eine CLAUDE.md ist ein **Verhaltensvertrag**. Sie definiert, wie der KI-Agent Probleme durchdenkt, wann er um Klärung bittet statt Annahmen zu treffen, wie er Arbeitspakete abgrenzt und was er verifiziert, bevor er eine Aufgabe als erledigt erklärt. Style Guides sagen der KI, wie Code aussehen soll. Verhaltensverträge sagen der KI, wie sie denken soll."
-    },
-    {
-      "type": "p",
-      "text": "Karpathys eigener KI-gestützter Coding-Workflow bestätigt das. Seine Schleife (Kontext befüllen, die Änderung beschreiben, einen Ansatz wählen, reviewen, testen, committen, wiederholen) behandelt die KI als das, was er einen \"übereiferigen Junior-Intern-Savant\" nennt: enzyklopädisches Wissen, null Urteilsvermögen. Der Verhaltensvertrag liefert das Urteilsvermögen, das dem Modell fehlt."
-    },
-    {
-      "type": "p",
-      "text": "Diese Neuperspektive hat eine konkrete Konsequenz. Wenn der KI-Agent schlechten Output produziert, verschiebt sich die Frage von \"Ist das Modell gut genug?\" zu \"Ist der Vertrag präzise genug?\" Eine Frage führt dazu, auf GPT-5 zu warten. Die andere führt zu einem Pull Request, den man heute noch ausliefern kann."
-    },
-    {
-      "type": "h2",
-      "text": "Verhaltensverträge auf Multi-Agent-Systeme skalieren"
-    },
-    {
-      "type": "p",
-      "text": "Karpathys Prinzipien wurden für eine einzelne Entwicklerin oder einen einzelnen Entwickler konzipiert, der mit einem einzigen KI-Assistenten arbeitet. Dasselbe Muster skaliert jedoch auf Multi-Agent-Orchestrierung, bei der spezialisierte Agents komplexe Aufgaben koordinieren."
-    },
-    {
-      "type": "p",
-      "text": "Wir verwenden [oh-my-claudecode](https://github.com/yeachan-heo/oh-my-claudecode) (OMC), eine Open-Source-Multi-Agent-Orchestrierungsschicht für Claude Code, um 19 spezialisierte Sub-Agents zu koordinieren: architect, executor, reviewer, security auditor, test engineer und weitere. Jeder Agent verfügt über einen eigenen Verhaltensvertrag, der seine Denkmuster, Scope-Grenzen und Verifikationsanforderungen definiert."
-    },
-    {
-      "type": "table",
-      "headers": ["Dimension", "Einzelner Agent", "Mehrere Agents"],
-      "rows": [
-        ["Scope", "Eine Entwicklerin/ein Entwickler, ein Assistent", "19 spezialisierte Agents mit klar definierten Rollen"],
-        ["Verifikation", "Mensch reviewt KI-Output", "Reviewer-Agent prüft Executor; Mensch reviewt das Endergebnis"],
-        ["Kontext", "Gesamte Codebasis in einem Fenster", "Jeder Agent erhält nur den für seine Aufgabe relevanten Kontext"],
-        ["Fehlertyp", "KI überkompliziert eine Datei", "Agents duplizieren Arbeit oder widersprechen sich"],
-        ["Vertragsfokus", "Wie man über diesen Code nachdenkt", "Wer welche Entscheidungen trifft und wie Übergaben funktionieren"]
-      ]
-    },
-    {
-      "type": "p",
-      "text": "Der Proof of Concept: Eine vollständige Produktintegration (ca. 25.000 Zeilen Code über 252 Dateien), vollständig aus einer Produktspezifikation durch OMCs Agent-Pipeline generiert. Kein manuelles Code-Schreiben. Die in den System-Prompts jedes Agents definierten Verhaltensverträge waren der einzige menschlich verfasste Input neben der Spezifikation selbst."
-    },
-    {
-      "type": "p",
-      "text": "Dieses Ergebnis ist nicht darauf zurückzuführen, dass das Modell smart genug war. Claude war bereits smart genug. Es liegt daran, dass die Verträge präzise genug waren, damit 19 Agents koordinieren konnten, ohne sich gegenseitig in die Quere zu kommen."
-    },
-    {
-      "type": "h2",
-      "text": "Wo der Wettbewerbsvorteil tatsächlich liegt"
-    },
-    {
-      "type": "p",
-      "text": "Wenn KI-Infrastruktur zur Commodity wird (und das tut sie, mit verwalteten Agent-Runtimes, die inzwischen für 0,08 USD pro Session-Stunde verfügbar sind), stellt sich die Frage: Wo liegt dauerhafter Wettbewerbsvorteil?"
-    },
-    {
-      "type": "p",
-      "text": "Wir denken darüber als fünfschichtigen Stack nach:"
-    },
-    {
-      "type": "table",
-      "headers": ["Schicht", "Funktion", "Verteidigbarkeit"],
-      "rows": [
-        ["Infrastruktur", "Model-Hosting, Sandboxing, Persistenz", "Niedrig. Commodity. Mehrere Anbieter."],
-        ["Orchestrierung", "Multi-Agent-Koordination, Verhaltensverträge", "Mittel. Erfordert angesammeltes Know-how."],
-        ["Design-Regeln", "Agent-first Produktentwicklung", "Mittel-hoch. Erfordert Domain-Erfahrung."],
-        ["Produktthese", "Was für wen gebaut wird", "Hoch. Erfordert Marktkenntnis."],
-        ["Geschäftsmodell", "Wie die Arbeit Umsatz generiert", "Am höchsten. Erfordert Kundenbeziehungen."]
-      ]
-    },
-    {
-      "type": "p",
-      "text": "Verhaltensverträge befinden sich auf der Orchestrierungsschicht. Sie sind nicht die Schicht mit dem höchsten Wettbewerbsvorteil, aber sie ist die Schicht, an der die meisten Teams derzeit scheitern. Orchestrierung richtig zu gestalten trennt \"Wir haben mit KI-Coding experimentiert\" von \"KI-Coding ist unser Lieferprozess.\""
-    },
-    {
-      "type": "p",
-      "text": "[PostHogs Regeln für agent-first Produktentwicklung](https://posthog.com/blog/building-for-ai-agents) bestätigen das von der Produktseite. Ihre fünfte Regel (\"Agents wie echte Nutzer behandeln\") ist im Kern dieselbe Erkenntnis: Die KI braucht explizite, getestete, verifizierte Rahmenbedingungen, keine Bauchgefühle."
-    },
-    {
-      "type": "h2",
-      "text": "Drei Muster, die sich lohnen"
-    },
-    {
-      "type": "p",
-      "text": "Wenn Sie eine Sache aus dem karpathy-skills-Repo mitnehmen, dann diese drei Muster für Ihr eigenes Team:"
-    },
-    {
-      "type": "ul",
-      "items": [
-        "**Erfolgskriterien formulieren, keine Anweisungen.** Karpathys Prinzip der zielorientierten Ausführung funktioniert, weil LLMs besser darin sind, auf ein messbares Ziel hinzuarbeiten, als prozedurale Schritte zu befolgen. Definieren Sie, wie \"fertig\" aussieht. Lassen Sie den Agent den Weg dorthin selbst finden.",
-        "**Erstellung und Review trennen.** In Multi-Agent-Systemen sollte der Agent, der Code schreibt, niemals derselbe sein, der ihn abnimmt. In Einzelagenten-Workflows gilt dasselbe für Sie: Reviewen Sie KI-Output mit derselben Sorgfalt, die Sie auf den Pull Request eines Junior-Entwicklers anwenden würden.",
-        "**Verträge wie Code versionieren.** Ihre CLAUDE.md, System-Prompts und Agent-Definitionen sind Produktionsartefakte. Sie gehören in die Versionskontrolle, verdienen Code-Review und sollten sich auf Basis beobachteter Fehler weiterentwickeln. Das karpathy-skills-Repo selbst ist der Beweis: Es ist ein versionierter, community-reviewter Verhaltensvertrag."
-      ]
-    },
-    {
-      "type": "p",
-      "text": "Die 22.000 Sterne gelten nicht Karpathys Programmiertipps. Sie gelten der Idee, dass der Abstand zwischen \"KI, die Ihre Zeit verschwendet\" und \"KI, die Ihre Features ausliefert\" eine gut geschriebene Datei ist. Bei [webvise](https://webvise.io) bauen wir täglich auf dieser Idee auf. Wenn Sie erkunden möchten, was Verhaltensverträge und Multi-Agent-Orchestrierung für Ihren Entwicklungsprozess leisten könnten, [sprechen Sie uns an](/de/#contact)."
-    }
-  ]
+	"date": "2026-04-13",
+	"readingTime": 7,
+	"keyword": "AI coding behavioral contracts",
+	"title": "Von Regeln zu Ergebnissen: Was 22.000 Sterne für eine einzige CLAUDE.md über KI-gestützte Entwicklung verraten",
+	"excerpt": "Das karpathy-skills-Repo beweist: Der Engpass beim KI-gestützten Programmieren liegt nicht in der Modellkapazität, sondern im Verhaltensvertrag zwischen Mensch und LLM.",
+	"metaDescription": "22.000 GitHub-Sterne für eine einzige CLAUDE.md-Datei. Warum Verhaltensverträge zwischen Menschen und LLMs mehr zählen als Modellkapazität beim KI-gestützten Entwickeln.",
+	"tags": ["AI Agents", "AI", "Open Source", "Business Strategy"],
+	"blocks": [
+		{
+			"type": "p",
+			"text": "Der Engpass beim KI-gestützten Programmieren ist nicht die Leistungsfähigkeit des Modells. Es ist die Qualität des Verhaltensvertrags zwischen Mensch und LLM. Teams, die diese Verträge in ihre Toolchain einbetten, erzielen kumulative Gewinne. Teams, die das nicht tun, stellen weiterhin dieselben Bug-Reports ein: \"Die KI hat wieder halluziniert.\""
+		},
+		{
+			"type": "p",
+			"text": "Der Beweis: [forrestchang/andrej-karpathy-skills](https://github.com/forrestchang/andrej-karpathy-skills) auf GitHub. Eine einzige CLAUDE.md-Datei, die Andrej Karpathys Beobachtungen zu LLM-Programmierfallen in handlungsrelevante Regeln für Claude Code überführt. 22.700 Sterne. 1.800 Forks. Für eine Datei."
+		},
+		{
+			"type": "p",
+			"text": "Diese Sternezahl ist keine Begeisterung für Karpathys persönliche Marke. Es sind 22.000 Entwicklerinnen und Entwickler, die denselben Schmerz bestätigen: KI-Coding-Assistenten sind leistungsfähig, aber unberechenbar, und ein gut formulierter Verhaltensvertrag behebt das."
+		},
+		{
+			"type": "h2",
+			"text": "Die vier Prinzipien hinter 22.000 Sternen"
+		},
+		{
+			"type": "p",
+			"text": "Das Repo kodiert vier Prinzipien, die jeweils auf einen spezifischen Fehlertyp beim LLM-gestützten Programmieren abzielen:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**Erst denken, dann coden.** Annahmen offenlegen, Abwägungen darstellen, fragen statt raten. Zielt auf den Fehlertyp, bei dem LLMs mit der Implementierung beginnen, bevor sie das Problem verstanden haben.",
+				"**Einfachheit zuerst.** Minimaler funktionsfähiger Code, keine spekulativen Funktionen oder Abstraktionen. Zielt auf den Fehlertyp, bei dem LLMs Lösungen mit unnötiger Komplexität überdesignen.",
+				"**Zielorientierte Ausführung.** Erfolgskriterien definieren, keine schrittweisen Anweisungen. Das LLM iteriert, bis die Kriterien erfüllt sind. Zielt auf den Fehlertyp, bei dem imperative Anweisungen spröden, wörtlich ausgeführten Code produzieren.",
+				"**Explizite Kommunikation.** Keine stillen Annahmen. Jede Entscheidung dokumentiert. Zielt auf den Fehlertyp, bei dem LLMs Entscheidungen treffen, die plausibel wirken, aber unausgesprochene Anforderungen verletzen."
+			]
+		},
+		{
+			"type": "p",
+			"text": "Jedes dieser Prinzipien ist für sich genommen nicht überraschend. Was überrascht: Sie in einer einzigen Datei zu kodieren, macht den Unterschied zwischen \"Die KI hat meinen Nachmittag verschwendet\" und \"Die KI hat das Feature fertiggestellt, während ich es reviewed habe.\""
+		},
+		{
+			"type": "h2",
+			"text": "CLAUDE.md ist kein Style Guide"
+		},
+		{
+			"type": "p",
+			"text": "Die meisten Teams behandeln ihre CLAUDE.md (oder eine vergleichbare System-Prompt-Datei) als Code-Style-Guide: Formatierungspräferenzen, Namenskonventionen, vielleicht einige projektspezifische Hinweise. Damit verfehlen sie den Kern vollständig."
+		},
+		{
+			"type": "p",
+			"text": "Eine CLAUDE.md ist ein **Verhaltensvertrag**. Sie definiert, wie der KI-Agent Probleme durchdenkt, wann er um Klärung bittet statt Annahmen zu treffen, wie er Arbeitspakete abgrenzt und was er verifiziert, bevor er eine Aufgabe als erledigt erklärt. Style Guides sagen der KI, wie Code aussehen soll. Verhaltensverträge sagen der KI, wie sie denken soll."
+		},
+		{
+			"type": "p",
+			"text": "Karpathys eigener KI-gestützter Coding-Workflow bestätigt das. Seine Schleife (Kontext befüllen, die Änderung beschreiben, einen Ansatz wählen, reviewen, testen, committen, wiederholen) behandelt die KI als das, was er einen \"übereiferigen Junior-Intern-Savant\" nennt: enzyklopädisches Wissen, null Urteilsvermögen. Der Verhaltensvertrag liefert das Urteilsvermögen, das dem Modell fehlt."
+		},
+		{
+			"type": "p",
+			"text": "Diese Neuperspektive hat eine konkrete Konsequenz. Wenn der KI-Agent schlechten Output produziert, verschiebt sich die Frage von \"Ist das Modell gut genug?\" zu \"Ist der Vertrag präzise genug?\" Eine Frage führt dazu, auf GPT-5 zu warten. Die andere führt zu einem Pull Request, den man heute noch ausliefern kann."
+		},
+		{
+			"type": "h2",
+			"text": "Verhaltensverträge auf Multi-Agent-Systeme skalieren"
+		},
+		{
+			"type": "p",
+			"text": "Karpathys Prinzipien wurden für eine einzelne Entwicklerin oder einen einzelnen Entwickler konzipiert, der mit einem einzigen KI-Assistenten arbeitet. Dasselbe Muster skaliert jedoch auf Multi-Agent-Orchestrierung, bei der spezialisierte Agents komplexe Aufgaben koordinieren."
+		},
+		{
+			"type": "p",
+			"text": "Wir verwenden [oh-my-claudecode](https://github.com/yeachan-heo/oh-my-claudecode) (OMC), eine Open-Source-Multi-Agent-Orchestrierungsschicht für Claude Code, um 19 spezialisierte Sub-Agents zu koordinieren: architect, executor, reviewer, security auditor, test engineer und weitere. Jeder Agent verfügt über einen eigenen Verhaltensvertrag, der seine Denkmuster, Scope-Grenzen und Verifikationsanforderungen definiert."
+		},
+		{
+			"type": "table",
+			"headers": ["Dimension", "Einzelner Agent", "Mehrere Agents"],
+			"rows": [
+				[
+					"Scope",
+					"Eine Entwicklerin/ein Entwickler, ein Assistent",
+					"19 spezialisierte Agents mit klar definierten Rollen"
+				],
+				[
+					"Verifikation",
+					"Mensch reviewt KI-Output",
+					"Reviewer-Agent prüft Executor; Mensch reviewt das Endergebnis"
+				],
+				[
+					"Kontext",
+					"Gesamte Codebasis in einem Fenster",
+					"Jeder Agent erhält nur den für seine Aufgabe relevanten Kontext"
+				],
+				[
+					"Fehlertyp",
+					"KI überkompliziert eine Datei",
+					"Agents duplizieren Arbeit oder widersprechen sich"
+				],
+				[
+					"Vertragsfokus",
+					"Wie man über diesen Code nachdenkt",
+					"Wer welche Entscheidungen trifft und wie Übergaben funktionieren"
+				]
+			]
+		},
+		{
+			"type": "p",
+			"text": "Der Proof of Concept: Eine vollständige Produktintegration (ca. 25.000 Zeilen Code über 252 Dateien), vollständig aus einer Produktspezifikation durch OMCs Agent-Pipeline generiert. Kein manuelles Code-Schreiben. Die in den System-Prompts jedes Agents definierten Verhaltensverträge waren der einzige menschlich verfasste Input neben der Spezifikation selbst."
+		},
+		{
+			"type": "p",
+			"text": "Dieses Ergebnis ist nicht darauf zurückzuführen, dass das Modell smart genug war. Claude war bereits smart genug. Es liegt daran, dass die Verträge präzise genug waren, damit 19 Agents koordinieren konnten, ohne sich gegenseitig in die Quere zu kommen."
+		},
+		{
+			"type": "h2",
+			"text": "Wo der Wettbewerbsvorteil tatsächlich liegt"
+		},
+		{
+			"type": "p",
+			"text": "Wenn KI-Infrastruktur zur Commodity wird (und das tut sie, mit verwalteten Agent-Runtimes, die inzwischen für 0,08 USD pro Session-Stunde verfügbar sind), stellt sich die Frage: Wo liegt dauerhafter Wettbewerbsvorteil?"
+		},
+		{
+			"type": "p",
+			"text": "Wir denken darüber als fünfschichtigen Stack nach:"
+		},
+		{
+			"type": "table",
+			"headers": ["Schicht", "Funktion", "Verteidigbarkeit"],
+			"rows": [
+				[
+					"Infrastruktur",
+					"Model-Hosting, Sandboxing, Persistenz",
+					"Niedrig. Commodity. Mehrere Anbieter."
+				],
+				[
+					"Orchestrierung",
+					"Multi-Agent-Koordination, Verhaltensverträge",
+					"Mittel. Erfordert angesammeltes Know-how."
+				],
+				[
+					"Design-Regeln",
+					"Agent-first Produktentwicklung",
+					"Mittel-hoch. Erfordert Domain-Erfahrung."
+				],
+				[
+					"Produktthese",
+					"Was für wen gebaut wird",
+					"Hoch. Erfordert Marktkenntnis."
+				],
+				[
+					"Geschäftsmodell",
+					"Wie die Arbeit Umsatz generiert",
+					"Am höchsten. Erfordert Kundenbeziehungen."
+				]
+			]
+		},
+		{
+			"type": "p",
+			"text": "Verhaltensverträge befinden sich auf der Orchestrierungsschicht. Sie sind nicht die Schicht mit dem höchsten Wettbewerbsvorteil, aber sie ist die Schicht, an der die meisten Teams derzeit scheitern. Orchestrierung richtig zu gestalten trennt \"Wir haben mit KI-Coding experimentiert\" von \"KI-Coding ist unser Lieferprozess.\""
+		},
+		{
+			"type": "p",
+			"text": "[PostHogs Regeln für agent-first Produktentwicklung](https://posthog.com/blog/building-for-ai-agents) bestätigen das von der Produktseite. Ihre fünfte Regel (\"Agents wie echte Nutzer behandeln\") ist im Kern dieselbe Erkenntnis: Die KI braucht explizite, getestete, verifizierte Rahmenbedingungen, keine Bauchgefühle."
+		},
+		{
+			"type": "h2",
+			"text": "Drei Muster, die sich lohnen"
+		},
+		{
+			"type": "p",
+			"text": "Wenn Sie eine Sache aus dem karpathy-skills-Repo mitnehmen, dann diese drei Muster für Ihr eigenes Team:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**Erfolgskriterien formulieren, keine Anweisungen.** Karpathys Prinzip der zielorientierten Ausführung funktioniert, weil LLMs besser darin sind, auf ein messbares Ziel hinzuarbeiten, als prozedurale Schritte zu befolgen. Definieren Sie, wie \"fertig\" aussieht. Lassen Sie den Agent den Weg dorthin selbst finden.",
+				"**Erstellung und Review trennen.** In Multi-Agent-Systemen sollte der Agent, der Code schreibt, niemals derselbe sein, der ihn abnimmt. In Einzelagenten-Workflows gilt dasselbe für Sie: Reviewen Sie KI-Output mit derselben Sorgfalt, die Sie auf den Pull Request eines Junior-Entwicklers anwenden würden.",
+				"**Verträge wie Code versionieren.** Ihre CLAUDE.md, System-Prompts und Agent-Definitionen sind Produktionsartefakte. Sie gehören in die Versionskontrolle, verdienen Code-Review und sollten sich auf Basis beobachteter Fehler weiterentwickeln. Das karpathy-skills-Repo selbst ist der Beweis: Es ist ein versionierter, community-reviewter Verhaltensvertrag."
+			]
+		},
+		{
+			"type": "p",
+			"text": "Die 22.000 Sterne gelten nicht Karpathys Programmiertipps. Sie gelten der Idee, dass der Abstand zwischen \"KI, die Ihre Zeit verschwendet\" und \"KI, die Ihre Features ausliefert\" eine gut geschriebene Datei ist. Bei [webvise](https://webvise.io) bauen wir täglich auf dieser Idee auf. Wenn Sie erkunden möchten, was Verhaltensverträge und Multi-Agent-Orchestrierung für Ihren Entwicklungsprozess leisten könnten, [sprechen Sie uns an](/de/#contact)."
+		}
+	]
 }

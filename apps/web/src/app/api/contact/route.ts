@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { escapeHtml } from "@/lib/escape-html";
 import {
 	createRateLimiter,
 	getClientIP,
 	rateLimitResponse,
 } from "@/lib/rate-limit";
-import { escapeHtml } from "@/lib/escape-html";
 
 const limiter = createRateLimiter({
 	name: "contact",
@@ -126,9 +126,7 @@ export async function POST(request: Request) {
 			: null;
 
 		const subject = [
-			data.company
-				? `${data.name} (${data.company})`
-				: data.name,
+			data.company ? `${data.name} (${data.company})` : data.name,
 			serviceLabel ? `- ${serviceLabel}` : null,
 		]
 			.filter(Boolean)

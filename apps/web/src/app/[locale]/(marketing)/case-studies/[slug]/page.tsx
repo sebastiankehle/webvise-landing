@@ -7,7 +7,17 @@ import JsonLd from "@/components/json-ld";
 import CaseStudyGallery from "@/components/marketing/case-study-gallery";
 import CaseStudyHeroImage from "@/components/marketing/case-study-hero-image";
 import { TechBadge } from "@/components/marketing/tech-badge";
-import { Caption, H1, H2, H3, Label, Lead, Muted, QuoteMark, Small, Stat } from "@/components/ui/typography";
+import {
+	Caption,
+	H1,
+	H2,
+	H3,
+	Lead,
+	Muted,
+	QuoteMark,
+	Small,
+	Stat,
+} from "@/components/ui/typography";
 import { getCaseStudies, getCaseStudyBySlug } from "@/data/case-studies";
 import { Link } from "@/i18n/navigation";
 import { generateAlternates, localizedUrl } from "@/lib/seo";
@@ -150,7 +160,7 @@ export default async function CaseStudyPage({
 			<JsonLd data={jsonLd} />
 
 			{/* Header */}
-			<section className="pb-24 pt-24 md:pb-36 md:pt-36">
+			<section className="pt-24 pb-24 md:pt-36 md:pb-36">
 				<div className="mx-auto max-w-[1320px] px-6">
 					<div className="grid items-start gap-12 md:grid-cols-3 md:gap-16">
 						{/* Title + info */}
@@ -158,37 +168,29 @@ export default async function CaseStudyPage({
 							<Caption>
 								{cs.client} &middot; {cs.industry}
 							</Caption>
-							<H1 className="mt-3">
-								{cs.title}
-							</H1>
-							<Lead className="mt-5 max-w-[620px]">
-								{cs.excerpt}
-							</Lead>
+							<H1 className="mt-3">{cs.title}</H1>
+							<Lead className="mt-5 max-w-[620px]">{cs.excerpt}</Lead>
 
 							{/* Metadata bar */}
 							<div className="mt-10 flex flex-wrap items-start gap-x-8 gap-y-4 border-border/40 border-t pt-6">
 								{cs.location && (
 									<div>
-										<Caption className="block">
-											{t("location")}
-										</Caption>
-										<Small className="mt-1 block text-foreground">{cs.location}</Small>
+										<Caption className="block">{t("location")}</Caption>
+										<Small className="mt-1 block text-foreground">
+											{cs.location}
+										</Small>
 									</div>
 								)}
 								{cs.deliveryTime && (
 									<div>
-										<Caption className="block">
-											{t("deliveryTime")}
-										</Caption>
+										<Caption className="block">{t("deliveryTime")}</Caption>
 										<Small className="mt-1 block text-foreground">
 											{cs.deliveryTime}
 										</Small>
 									</div>
 								)}
 								<div>
-									<Caption className="block">
-										{t("liveProject")}
-									</Caption>
+									<Caption className="block">{t("liveProject")}</Caption>
 									{cs.liveUrl ? (
 										<a
 											href={cs.liveUrl}
@@ -200,9 +202,7 @@ export default async function CaseStudyPage({
 											<ExternalLink className="h-3 w-3" />
 										</a>
 									) : (
-										<Small className="mt-1 block">
-											{t("launchingSoon")}
-										</Small>
+										<Small className="mt-1 block">{t("launchingSoon")}</Small>
 									)}
 								</div>
 							</div>
@@ -210,9 +210,7 @@ export default async function CaseStudyPage({
 
 						{/* Tech stack box */}
 						<div className="border border-border/40 p-6 md:p-8">
-							<Caption className="mb-5 block">
-								{t("techStackLabel")}
-							</Caption>
+							<Caption className="mb-5 block">{t("techStackLabel")}</Caption>
 							<div className="flex flex-wrap gap-2">
 								{cs.techStack.map((tech) => (
 									<TechBadge key={tech} name={tech} />
@@ -247,7 +245,9 @@ export default async function CaseStudyPage({
 									</blockquote>
 								</div>
 								<figcaption className="mt-8 border-border/40 border-t pt-5">
-									<Small className="text-foreground">{cs.testimonial.author}</Small>
+									<Small className="text-foreground">
+										{cs.testimonial.author}
+									</Small>
 									<Caption className="mt-0.5 block">
 										{cs.testimonial.role}
 									</Caption>
@@ -263,20 +263,12 @@ export default async function CaseStudyPage({
 				<div className="mx-auto max-w-[1320px] px-6">
 					<div className="grid gap-16 md:grid-cols-2 md:gap-20">
 						<div>
-							<H2>
-								{t("challenge")}
-							</H2>
-							<Lead className="mt-4 leading-relaxed">
-								{cs.challenge}
-							</Lead>
+							<H2>{t("challenge")}</H2>
+							<Lead className="mt-4 leading-relaxed">{cs.challenge}</Lead>
 						</div>
 						<div>
-							<H2>
-								{t("solution")}
-							</H2>
-							<Lead className="mt-4 leading-relaxed">
-								{cs.solution}
-							</Lead>
+							<H2>{t("solution")}</H2>
+							<Lead className="mt-4 leading-relaxed">{cs.solution}</Lead>
 						</div>
 					</div>
 				</div>
@@ -292,8 +284,12 @@ export default async function CaseStudyPage({
 									key={metric.label}
 									className="border-border/40 not-last:border-b p-8 text-center md:not-last:border-r md:not-last:border-b-0"
 								>
-									<dd><Stat className="md:text-3xl">{metric.value}</Stat></dd>
-									<dt><Muted className="mt-2">{metric.label}</Muted></dt>
+									<dd>
+										<Stat className="md:text-3xl">{metric.value}</Stat>
+									</dd>
+									<dt>
+										<Muted className="mt-2">{metric.label}</Muted>
+									</dt>
 								</div>
 							))}
 						</dl>
@@ -312,11 +308,9 @@ export default async function CaseStudyPage({
 
 			{/* Related case studies */}
 			{relatedCaseStudies.length > 0 && (
-				<section className="border-border/40 border-t pb-28 pt-20">
+				<section className="border-border/40 border-t pt-20 pb-28">
 					<div className="mx-auto max-w-[1320px] px-6">
-						<H2>
-							{t("relatedTitle")}
-						</H2>
+						<H2>{t("relatedTitle")}</H2>
 						<div className="mt-10 grid gap-6 md:grid-cols-2">
 							{relatedCaseStudies.map((related) => (
 								<Link
@@ -340,8 +334,7 @@ export default async function CaseStudyPage({
 									)}
 									<div className="p-6">
 										<Caption>
-											{related.client} &middot;{" "}
-											{related.industry}
+											{related.client} &middot; {related.industry}
 										</Caption>
 										<H3 className="mt-2 text-lg transition-colors group-hover:text-brand">
 											{related.title}

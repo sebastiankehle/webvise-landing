@@ -68,7 +68,7 @@ export default async function Pricing() {
 								</ul>
 							</div>
 							<div className="mt-10">
-								<Stat className="text-foreground">
+								<Stat className="text-foreground text-2xl md:text-3xl">
 									{t(`tiers.${key}.price`)}
 								</Stat>
 								<Caption className="mt-1 block">

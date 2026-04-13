@@ -19,10 +19,7 @@ function getLeafKeys(obj: Record<string, unknown>, prefix = ""): string[] {
 	return keys.sort();
 }
 
-function getLeafValue(
-	obj: Record<string, unknown>,
-	key: string,
-): unknown {
+function getLeafValue(obj: Record<string, unknown>, key: string): unknown {
 	const parts = key.split(".");
 	let val: unknown = obj;
 	for (const p of parts) {
@@ -146,10 +143,7 @@ describe("all content JSON files are valid", () => {
 	];
 
 	for (const filePath of allJsonFiles) {
-		const relativePath = filePath.replace(
-			join(__dirname, "../..") + "/",
-			"",
-		);
+		const relativePath = filePath.replace(`${join(__dirname, "../..")}/`, "");
 		it(`${relativePath} parses as valid JSON`, () => {
 			expect(() => {
 				JSON.parse(readFileSync(filePath, "utf-8"));

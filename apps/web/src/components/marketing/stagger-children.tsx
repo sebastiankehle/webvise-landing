@@ -21,10 +21,7 @@ export default function StaggerChildren({
 	return (
 		<div
 			ref={ref}
-			className={cn(
-				className,
-				isInView ? "stagger-visible" : "stagger-hidden",
-			)}
+			className={cn(className, isInView ? "stagger-visible" : "stagger-hidden")}
 		>
 			{children}
 		</div>

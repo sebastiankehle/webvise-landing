@@ -24,11 +24,21 @@ export default async function MarketingLayout({
 		}));
 
 	const allCaseStudies = getCaseStudies(locale);
-	const featuredSlugs = ["old-world-labs", "ohyp-fintech", "mp-bau-construction"];
+	const featuredSlugs = [
+		"old-world-labs",
+		"ohyp-fintech",
+		"mp-bau-construction",
+	];
 	const featuredCaseStudies = featuredSlugs
 		.map((s) => allCaseStudies.find((cs) => cs.slug === s))
 		.filter((cs): cs is NonNullable<typeof cs> => cs != null)
-		.map(({ slug, client, title, excerpt, coverImage }) => ({ slug, client, title, excerpt, coverImage }));
+		.map(({ slug, client, title, excerpt, coverImage }) => ({
+			slug,
+			client,
+			title,
+			excerpt,
+			coverImage,
+		}));
 
 	return (
 		<>
@@ -38,7 +48,10 @@ export default async function MarketingLayout({
 			>
 				Skip to content
 			</a>
-			<Navbar recentPosts={recentPosts} featuredCaseStudies={featuredCaseStudies} />
+			<Navbar
+				recentPosts={recentPosts}
+				featuredCaseStudies={featuredCaseStudies}
+			/>
 			<main id="main-content">{children}</main>
 			<Footer ctaBanner={cta} />
 			<ChatWidget />

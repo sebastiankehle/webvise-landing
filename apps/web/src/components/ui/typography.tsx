@@ -75,7 +75,7 @@ function Lead({ className, ...props }: React.ComponentProps<"p">) {
 		<p
 			data-slot="lead"
 			className={cn(
-				"text-[16px] leading-[1.6] text-muted-foreground",
+				"text-[16px] text-muted-foreground leading-[1.6]",
 				className,
 			)}
 			{...props}
@@ -99,10 +99,7 @@ function Muted({ className, ...props }: React.ComponentProps<"p">) {
 	return (
 		<p
 			data-slot="muted"
-			className={cn(
-				"text-sm leading-[1.6] text-muted-foreground",
-				className,
-			)}
+			className={cn("text-muted-foreground text-sm leading-[1.6]", className)}
 			{...props}
 		/>
 	);
@@ -113,7 +110,7 @@ function Small({ className, ...props }: React.ComponentProps<"span">) {
 	return (
 		<span
 			data-slot="small"
-			className={cn("text-sm text-muted-foreground", className)}
+			className={cn("text-muted-foreground text-sm", className)}
 			{...props}
 		/>
 	);
@@ -124,7 +121,7 @@ function Caption({ className, ...props }: React.ComponentProps<"span">) {
 	return (
 		<span
 			data-slot="caption"
-			className={cn("text-xs text-muted-foreground", className)}
+			className={cn("text-muted-foreground text-xs", className)}
 			{...props}
 		/>
 	);
@@ -135,10 +132,7 @@ function Label({ className, ...props }: React.ComponentProps<"span">) {
 	return (
 		<span
 			data-slot="label"
-			className={cn(
-				"text-xs text-muted-foreground",
-				className,
-			)}
+			className={cn("text-muted-foreground text-xs", className)}
 			{...props}
 		/>
 	);
@@ -149,7 +143,7 @@ function Mono({ className, ...props }: React.ComponentProps<"span">) {
 	return (
 		<span
 			data-slot="mono"
-			className={cn("font-mono text-xs text-muted-foreground", className)}
+			className={cn("font-mono text-muted-foreground text-xs", className)}
 			{...props}
 		/>
 	);
@@ -161,7 +155,7 @@ function Stat({ className, ...props }: React.ComponentProps<"span">) {
 		<span
 			data-slot="stat"
 			className={cn(
-				"font-display text-3xl tracking-tight text-brand md:text-[48px] md:leading-[1]",
+				"font-display text-3xl text-brand tracking-tight md:text-[48px] md:leading-[1]",
 				className,
 			)}
 			{...props}
@@ -170,12 +164,16 @@ function Stat({ className, ...props }: React.ComponentProps<"span">) {
 }
 
 /* ── Quote mark (decorative quotation mark) ─────────────── */
-function QuoteMark({ children = "\u201C", className, ...props }: React.ComponentProps<"span">) {
+function QuoteMark({
+	children = "\u201C",
+	className,
+	...props
+}: React.ComponentProps<"span">) {
 	return (
 		<span
 			data-slot="quote-mark"
 			className={cn(
-				"block select-none font-display text-5xl leading-none text-brand/30",
+				"block select-none font-display text-5xl text-brand/30 leading-none",
 				className,
 			)}
 			{...props}
@@ -205,7 +203,7 @@ function InlineLink({ className, ...props }: React.ComponentProps<"a">) {
 		<a
 			data-slot="inline-link"
 			className={cn(
-				"text-sm text-foreground underline underline-offset-4 transition-colors hover:text-brand",
+				"text-foreground text-sm underline underline-offset-4 transition-colors hover:text-brand",
 				className,
 			)}
 			{...props}

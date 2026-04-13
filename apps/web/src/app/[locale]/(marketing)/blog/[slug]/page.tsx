@@ -366,38 +366,36 @@ export default async function BlogPostPage({
 					<BlogShare url={postUrl} title={post.title} />
 
 					{(prev || next) && (
-						<>
-							<div className="mt-12 grid gap-6 md:grid-cols-2">
-								{prev && (
-									<Link
-										href={`/blog/${prev.slug}` as "/blog"}
-										className="group border border-border/40 p-6 transition-colors hover:border-brand/30"
-									>
-										<Caption>{t("prevPost")}</Caption>
-										<H3 className="mt-2 text-lg transition-colors group-hover:text-brand">
-											{prev.title}
-										</H3>
-										<Muted className="mt-2 line-clamp-2 leading-relaxed">
-											{prev.excerpt}
-										</Muted>
-									</Link>
-								)}
-								{next && (
-									<Link
-										href={`/blog/${next.slug}` as "/blog"}
-										className="group border border-border/40 p-6 transition-colors hover:border-brand/30"
-									>
-										<Caption>{t("nextPost")}</Caption>
-										<H3 className="mt-2 text-lg transition-colors group-hover:text-brand">
-											{next.title}
-										</H3>
-										<Muted className="mt-2 line-clamp-2 leading-relaxed">
-											{next.excerpt}
-										</Muted>
-									</Link>
-								)}
-							</div>
-						</>
+						<div className="mt-12 grid gap-6 md:grid-cols-2">
+							{prev && (
+								<Link
+									href={`/blog/${prev.slug}` as "/blog"}
+									className="group border border-border/40 p-6 transition-colors hover:border-brand/30"
+								>
+									<Caption>{t("prevPost")}</Caption>
+									<H3 className="mt-2 text-lg transition-colors group-hover:text-brand">
+										{prev.title}
+									</H3>
+									<Muted className="mt-2 line-clamp-2 leading-relaxed">
+										{prev.excerpt}
+									</Muted>
+								</Link>
+							)}
+							{next && (
+								<Link
+									href={`/blog/${next.slug}` as "/blog"}
+									className="group border border-border/40 p-6 transition-colors hover:border-brand/30"
+								>
+									<Caption>{t("nextPost")}</Caption>
+									<H3 className="mt-2 text-lg transition-colors group-hover:text-brand">
+										{next.title}
+									</H3>
+									<Muted className="mt-2 line-clamp-2 leading-relaxed">
+										{next.excerpt}
+									</Muted>
+								</Link>
+							)}
+						</div>
 					)}
 				</div>
 			</section>

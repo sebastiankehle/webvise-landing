@@ -25,13 +25,11 @@ export default function ProcessSteps({ steps }: { steps: Step[] }) {
 						key={step.number}
 						className="group border-border/40 not-last:border-b p-8 transition-colors hover:bg-muted/30 md:not-last:border-r md:not-last:border-b-0 md:p-10"
 					>
-						<Mono className="text-sm text-muted-foreground/40">
+						<Mono className="text-muted-foreground/40 text-sm">
 							{step.number}
 						</Mono>
 						<H3 className="mt-2 text-base">{step.title}</H3>
-						<Muted className="mt-3 leading-[1.6]">
-							{step.description}
-						</Muted>
+						<Muted className="mt-3 leading-[1.6]">{step.description}</Muted>
 					</div>
 				))}
 			</StaggerChildren>

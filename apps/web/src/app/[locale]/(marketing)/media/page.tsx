@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-
-import MediaContent from "./media-content";
 import { H1, Lead } from "@/components/ui/typography";
+import MediaContent from "./media-content";
 
 export const metadata: Metadata = {
 	title: "Media",

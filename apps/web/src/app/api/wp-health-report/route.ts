@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { validateUrl, UrlValidationError } from "@/lib/validate-url";
+import { escapeHtml } from "@/lib/escape-html";
 import {
 	createRateLimiter,
 	getClientIP,
 	rateLimitResponse,
 } from "@/lib/rate-limit";
-import { escapeHtml } from "@/lib/escape-html";
+import { UrlValidationError, validateUrl } from "@/lib/validate-url";
 
 export const maxDuration = 60;
 
@@ -176,8 +176,13 @@ function scoreBadge(score: number): string {
 }
 
 function urgencyLabel(mobileScore: number): { text: string; color: string } {
-	if (mobileScore < 40) return { text: "HOT LEAD - score critical", color: "#dc2626" };
-	if (mobileScore < 60) return { text: "WARM LEAD - clear improvement opportunity", color: "#ca8a04" };
+	if (mobileScore < 40)
+		return { text: "HOT LEAD - score critical", color: "#dc2626" };
+	if (mobileScore < 60)
+		return {
+			text: "WARM LEAD - clear improvement opportunity",
+			color: "#ca8a04",
+		};
 	return { text: "COOL LEAD - already decent performance", color: "#6b7280" };
 }
 
@@ -551,24 +556,24 @@ export async function POST(request: Request) {
 							timestamp,
 						}),
 						text: [
-							`WP Health Report Lead`,
-							``,
+							"WP Health Report Lead",
+							"",
 							`URL: ${data.url}`,
 							`Email: ${data.email}`,
 							data.firstName ? `Name: ${data.firstName}` : null,
 							`Received: ${timestamp}`,
 							`Est. Value: €${estimateMin.toLocaleString()}–€${estimateMax.toLocaleString()}`,
-							``,
+							"",
 							`Mobile: ${mobileScore}/100`,
 							`Desktop: ${desktopScore}/100`,
 							`Projected: ${projectedScore}/100`,
-							``,
-							`Issues:`,
+							"",
+							"Issues:",
 							...issues.map(
 								(i) =>
 									`- ${i.title}${i.displayValue ? ` (${i.displayValue})` : ""}`,
 							),
-							``,
+							"",
 							`Security: ${securityFlags.length ? securityFlags.join(", ") : "None"}`,
 						]
 							.filter(Boolean)
@@ -603,25 +608,25 @@ export async function POST(request: Request) {
 						}),
 						text: [
 							`Hi ${data.firstName || "there"},`,
-							``,
+							"",
 							`Here's your free WordPress health report for ${data.url}.`,
-							``,
+							"",
 							`Mobile score: ${mobileScore}/100`,
 							`Desktop score: ${desktopScore}/100`,
 							`After migrating to Next.js: ${projectedScore}/100`,
-							``,
-							`Top issues found:`,
+							"",
+							"Top issues found:",
 							...issues.map(
 								(i) =>
 									`- ${i.title}${i.displayValue ? ` (${i.displayValue})` : ""}`,
 							),
-							``,
+							"",
 							`Migration estimate: €${estimateMin.toLocaleString()}–€${estimateMax.toLocaleString()}`,
-							``,
-							`Ready to talk? Book a free call: https://cal.com/webvise`,
-							`Or reply to this email with any questions.`,
-							``,
-							`- The webvise team`,
+							"",
+							"Ready to talk? Book a free call: https://cal.com/webvise",
+							"Or reply to this email with any questions.",
+							"",
+							"- The webvise team",
 						].join("\n"),
 					}),
 				}).then(async (r) => {

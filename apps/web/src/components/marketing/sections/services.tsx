@@ -28,10 +28,15 @@ export default async function Services() {
 					>
 						<div>
 							<div className="flex flex-col gap-4">
-								<service.icon className="h-5 w-5 text-brand shrink-0" strokeWidth={1.5} />
+								<service.icon
+									className="h-5 w-5 shrink-0 text-brand"
+									strokeWidth={1.5}
+								/>
 								<H3>{t(`${service.translationKey}.title`)}</H3>
 							</div>
-							<Muted className="mt-4">{t(`${service.translationKey}.tagline`)}</Muted>
+							<Muted className="mt-4">
+								{t(`${service.translationKey}.tagline`)}
+							</Muted>
 						</div>
 						<div className="mt-8 flex items-center justify-between border-border/40 border-t pt-5">
 							<Caption>{t(`${service.translationKey}.timeline`)}</Caption>

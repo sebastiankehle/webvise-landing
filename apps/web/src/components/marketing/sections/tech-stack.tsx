@@ -45,7 +45,16 @@ const categories = [
 	},
 	{
 		key: "infrastructure",
-		items: ["Vercel", "Docker", "Turborepo", "Sentry", "PostHog", "Neon", "Greptile", "Coderabbit"],
+		items: [
+			"Vercel",
+			"Docker",
+			"Turborepo",
+			"Sentry",
+			"PostHog",
+			"Neon",
+			"Greptile",
+			"Coderabbit",
+		],
 	},
 ];
 
@@ -62,9 +71,11 @@ export default async function TechStack() {
 				{categories.map((cat) => (
 					<div
 						key={cat.key}
-						className="border-border/40 not-last:border-b p-6 md:odd:border-r md:nth-[-n+2]:border-b md:not-last:border-b-0 md:p-8 lg:not-last:border-r lg:nth-[-n+2]:border-b-0 lg:odd:border-r-0"
+						className="border-border/40 not-last:border-b p-6 md:nth-[-n+2]:border-b md:not-last:border-b-0 md:p-8 md:odd:border-r lg:not-last:border-r lg:nth-[-n+2]:border-b-0 lg:odd:border-r-0"
 					>
-						<Label className="mb-5 block text-muted-foreground/50">{t(cat.key)}</Label>
+						<Label className="mb-5 block text-muted-foreground/50">
+							{t(cat.key)}
+						</Label>
 						<div className="flex flex-wrap gap-2">
 							{cat.items.map((tech) => (
 								<TechBadge key={tech} name={tech} />
