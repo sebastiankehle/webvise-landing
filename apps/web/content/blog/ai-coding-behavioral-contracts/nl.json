@@ -1,0 +1,146 @@
+{
+  "date": "2026-04-13",
+  "readingTime": 7,
+  "keyword": "AI coding gedragscontracten",
+  "title": "Van regels naar resultaten: wat 22K sterren voor één CLAUDE.md onthullen over AI-ondersteunde ontwikkeling",
+  "excerpt": "De karpathy-skills repo bewijst dat knelpunten bij AI-ondersteund coderen niets te maken hebben met de capaciteit van het model. Ze gaan over het gedragscontract tussen mens en LLM.",
+  "metaDescription": "22K GitHub-sterren voor één CLAUDE.md-bestand. Waarom gedragscontracten tussen mensen en LLM's meer uitmaken dan modelcapaciteit bij AI-ondersteunde ontwikkeling.",
+  "tags": ["AI Agents", "AI", "Open Source", "Business Strategy"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Het knelpunt bij AI-ondersteund coderen is niet de capaciteit van het model. Het is de kwaliteit van het gedragscontract tussen mens en LLM. Teams die deze contracten in hun toolchain vastleggen, profiteren van cumulatieve rendementen. Teams die dat niet doen, blijven dezelfde bugrapporten indienen over \"de AI hallucineert weer.\""
+    },
+    {
+      "type": "p",
+      "text": "Het bewijs: [forrestchang/andrej-karpathy-skills](https://github.com/forrestchang/andrej-karpathy-skills) op GitHub. Één CLAUDE.md-bestand dat Andrej Karpathy's observaties over LLM-coderingsvalkuilen destilleert tot bruikbare regels voor Claude Code. 22.700 sterren. 1.800 forks. Voor één bestand."
+    },
+    {
+      "type": "p",
+      "text": "Die sterrenaantallen drukken geen enthousiasme uit voor Karpathy's persoonlijke merk. Het zijn 22.000 ontwikkelaars die bevestigen dat zij dezelfde pijn delen: AI-codeerassistenten zijn krachtig maar onvoorspelbaar, en een goed geschreven gedragscontract lost dat op."
+    },
+    {
+      "type": "h2",
+      "text": "De vier principes achter 22.000 sterren"
+    },
+    {
+      "type": "p",
+      "text": "De repo legt vier principes vast, elk gericht op een specifiek faalpatroon bij LLM-ondersteund coderen:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Denk voor het coderen.** Breng aannames aan de oppervlakte, presenteer afwegingen en vraag door in plaats van te gissen. Richt zich op het faalpatroon waarbij LLM's aan de implementatie beginnen voordat ze het probleem begrijpen.",
+        "**Eenvoud eerst.** Minimaal werkende code, geen speculatieve functies of abstracties. Richt zich op het faalpatroon waarbij LLM's oplossingen overontwikkelen met onnodige complexiteit.",
+        "**Doelgerichte uitvoering.** Specificeer succescriteria, geen stapsgewijze instructies. Laat de LLM herhalen totdat aan de criteria is voldaan. Richt zich op het faalpatroon waarbij imperatieve instructies kwetsbare, letterlijk-denkende code opleveren.",
+        "**Expliciete communicatie.** Geen stilzwijgende aannames. Elke beslissing gedocumenteerd. Richt zich op het faalpatroon waarbij LLM's keuzes maken die redelijk lijken maar onuitgesproken beperkingen schenden."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Geen van deze principes is op zichzelf verrassend. Wat verrassend is, is dat ze vastleggen in één bestand het verschil maakt tussen \"de AI heeft mijn middag verspild\" en \"de AI heeft de functie opgeleverd terwijl ik reviewde.\""
+    },
+    {
+      "type": "h2",
+      "text": "CLAUDE.md is geen stijlgids"
+    },
+    {
+      "type": "p",
+      "text": "De meeste teams behandelen hun CLAUDE.md (of equivalent systeempromptbestand) als een stijlgids voor code: opmaakvoorkeuren, naamgevingsconventies, misschien een paar projectspecifieke notities. Dat mist volledig het punt."
+    },
+    {
+      "type": "p",
+      "text": "Een CLAUDE.md is een **gedragscontract**. Het definieert hoe de AI-agent over problemen redeneert, wanneer het om verduidelijking vraagt versus aannames doet, hoe het werk afbakent, en wat het verifieert voordat het voltooiing aangeeft. Stijlgidsen vertellen de AI hoe de code eruit moet zien. Gedragscontracten vertellen de AI hoe het moet denken."
+    },
+    {
+      "type": "p",
+      "text": "Karpathy's eigen AI-ondersteunde codeerwerkstroom versterkt dit. Zijn loop (context instoppen, de wijziging beschrijven, een aanpak kiezen, reviewen, testen, committen, herhalen) behandelt de AI als wat hij een \"overeageren junior stagiair-savant\" noemt: encyclopedische kennis, nul oordeel. Het gedragscontract levert het oordeelsvermogen dat het model mist."
+    },
+    {
+      "type": "p",
+      "text": "Dit andere perspectief heeft een concrete consequentie. Wanneer uw AI-agent slechte output levert, verschuift de vraag van \"is het model goed genoeg?\" naar \"is het contract specifiek genoeg?\" De ene vraag leidt tot wachten op GPT-5. De andere leidt tot een pull request dat u vandaag kunt opleveren."
+    },
+    {
+      "type": "h2",
+      "text": "Gedragscontracten schalen naar multi-agent systemen"
+    },
+    {
+      "type": "p",
+      "text": "Karpathy's principes waren ontworpen voor een solo-ontwikkelaar die met één AI-assistent werkt. Maar hetzelfde patroon schaalt naar multi-agent orkestratie, waarbij gespecialiseerde agents samenwerken aan complexe taken."
+    },
+    {
+      "type": "p",
+      "text": "Wij gebruiken [oh-my-claudecode](https://github.com/yeachan-heo/oh-my-claudecode) (OMC), een open-source multi-agent orkestratielaag voor Claude Code, om 19 gespecialiseerde sub-agents te coördineren: architect, executor, reviewer, security auditor, test engineer en meer. Elke agent heeft zijn eigen gedragscontract dat zijn redeneerpatronen, scopegrenzen en verificatievereisten definieert."
+    },
+    {
+      "type": "table",
+      "headers": ["Dimensie", "Single-agent contract", "Multi-agent contract"],
+      "rows": [
+        ["Scope", "Één ontwikkelaar, één assistent", "19 gespecialiseerde agents met afzonderlijke rollen"],
+        ["Verificatie", "Mens beoordeelt AI-output", "Reviewer agent controleert executor; mens beoordeelt eindresultaat"],
+        ["Context", "Volledige codebase in één venster", "Elke agent ontvangt alleen relevante context voor zijn taak"],
+        ["Faalpatroon", "AI maakt één bestand te ingewikkeld", "Agents dupliceren werk of spreken elkaar tegen"],
+        ["Contractfocus", "Hoe over deze code te denken", "Wie welke beslissingen neemt en hoe overdrachten werken"]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Het proof of concept: een volledige productintegratie (circa 25.000 regels code verspreid over 252 bestanden) volledig gegenereerd vanuit een productspecificatie via de agentpipeline van OMC. Nul handmatig geschreven code. De gedragscontracten gedefinieerd in de systeemprompt van elke agent waren de enige door mensen geschreven input buiten de specificatie zelf."
+    },
+    {
+      "type": "p",
+      "text": "Dat resultaat gaat niet over het model dat slim genoeg is. Claude was al slim genoeg. Het gaat over de contracten die precies genoeg zijn zodat 19 agents konden coördineren zonder elkaar in de weg te zitten."
+    },
+    {
+      "type": "h2",
+      "text": "Waar de slotgracht werkelijk ligt"
+    },
+    {
+      "type": "p",
+      "text": "Als AI-infrastructuur aan het commoditiseren is (en dat is het, met beheerde agent-runtimes die nu beschikbaar zijn voor $0,08 per sessie-uur), wordt de vraag: waar ligt duurzaam concurrentievoordeel?"
+    },
+    {
+      "type": "p",
+      "text": "Wij denken hierover als een vijflaagse stapel:"
+    },
+    {
+      "type": "table",
+      "headers": ["Laag", "Functie", "Verdedigbaarheid"],
+      "rows": [
+        ["Infrastructuur", "Modelhosting, sandboxing, persistentie", "Laag. Gecommoditiseerd. Meerdere aanbieders."],
+        ["Orkestratie", "Multi-agent coördinatie, gedragscontracten", "Gemiddeld. Vereist opgebouwde kennis."],
+        ["Ontwerpregels", "Agent-first productontwikkeling", "Gemiddeld-hoog. Vereist domeinervaring."],
+        ["Productthese", "Wat te bouwen en voor wie", "Hoog. Vereist marktinzicht."],
+        ["Businessmodel", "Hoe het werk omzet genereert", "Hoogst. Vereist klantrelaties."]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Gedragscontracten bevinden zich in de orkestratielaag. Het is niet de laag met de hoogste slotgracht, maar het is de laag waar de meeste teams momenteel falen. Orkestratie goed krijgen is wat \"we hebben geëxperimenteerd met AI-coderen\" scheidt van \"AI-coderen is hoe wij opleveren.\""
+    },
+    {
+      "type": "p",
+      "text": "[PostHog's agent-first productontwikkelingsregels](https://posthog.com/blog/building-for-ai-agents) bevestigen dit vanuit de productkant. Hun vijfde regel (\"behandel agents als echte gebruikers\") is in wezen hetzelfde inzicht: de AI heeft expliciete, geteste, geverifieerde beperkingen nodig, geen vaag gevoel."
+    },
+    {
+      "type": "h2",
+      "text": "Drie patronen die de moeite waard zijn om over te nemen"
+    },
+    {
+      "type": "p",
+      "text": "Als u één ding meeneemt uit de karpathy-skills repo, laat het dan deze drie patronen zijn voor uw eigen team:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Schrijf succescriteria, geen instructies.** Karpathy's principe van doelgerichte uitvoering werkt omdat LLM's beter zijn in het herhalen naar een meetbaar doel dan in het volgen van procedurele stappen. Definieer hoe \"klaar\" eruitziet. Laat de agent uitzoeken hoe het daar komt.",
+        "**Scheid het schrijven van het reviewen.** In multi-agent systemen mag de agent die code schrijft nooit de agent zijn die het goedkeurt. In single-agent workflows geldt hetzelfde voor u: beoordeel AI-output met dezelfde nauwgezetheid die u zou toepassen op de pull request van een junior ontwikkelaar.",
+        "**Versiebeheer uw contracten zoals code.** Uw CLAUDE.md, systeemprompts en agentdefinities zijn productie-artefacten. Ze horen in versiebeheer, verdienen code review en moeten evolueren op basis van waargenomen fouten. De karpathy-skills repo zelf is het bewijs: het is een in versie beheerd, community-beoordeeld gedragscontract."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "De 22.000 sterren gaan niet naar Karpathy's codeeradvies. Ze gaan naar het idee dat het verschil tussen \"AI die uw tijd verspilt\" en \"AI die uw features oplevert\" een goed geschreven bestand is. Bij [webvise](https://webvise.io) bouwen wij elke dag op dat idee. Als u wilt verkennen wat gedragscontracten en multi-agent orkestratie voor uw ontwikkelwerkstroom kunnen betekenen, [neem dan contact op](/nl/#contact)."
+    }
+  ]
+}
