@@ -8,6 +8,7 @@ import BlogShare from "@/components/marketing/blog-share";
 import ReportDownloadForm from "@/components/marketing/report-download-form";
 import JsonLd from "@/components/json-ld";
 import SectionWrapper from "@/components/marketing/section-wrapper";
+import { Caption, H1, H2, H3, Lead, Muted } from "@/components/ui/typography";
 import {
 	type Block,
 	getAdjacentPosts,
@@ -144,9 +145,9 @@ function RenderBlock({ block }: { block: Block }) {
 	switch (block.type) {
 		case "h2":
 			return (
-				<h2 className="mt-14 mb-4 font-display text-[26px] leading-[1.2] first:mt-0 md:text-[28px]">
+				<H2 className="mt-14 mb-4 text-[26px] leading-[1.2] first:mt-0 md:text-[28px]">
 					{block.text}
-				</h2>
+				</H2>
 			);
 		case "h3":
 			return (
@@ -281,41 +282,13 @@ export default async function BlogPostPage({
 		<>
 			<JsonLd data={jsonLd} />
 
-			{/* Breadcrumb */}
-			<nav
-				aria-label="Breadcrumb"
-				className="mx-auto max-w-[1320px] px-6 pt-24 md:pt-36"
-			>
-				<ol className="flex items-center gap-2 text-sm text-muted-foreground">
-					<li>
-						<Link
-							href="/"
-							className="transition-colors hover:text-foreground"
-						>
-							Home
-						</Link>
-					</li>
-					<li aria-hidden="true">/</li>
-					<li>
-						<Link
-							href="/blog"
-							className="transition-colors hover:text-foreground"
-						>
-							{t("title")}
-						</Link>
-					</li>
-					<li aria-hidden="true">/</li>
-					<li className="truncate text-foreground">{post.title}</li>
-				</ol>
-			</nav>
-
 			{/* Header */}
-			<section className="pb-24 pt-10 md:pb-36">
+			<section className="pb-24 pt-24 md:pb-36 md:pt-36">
 				<div className="mx-auto max-w-[1320px] px-6">
 					<div className="grid items-start gap-12 md:grid-cols-3 md:gap-16">
 						{/* Title + info */}
 						<div className="md:col-span-2">
-							<span className="font-mono text-brand text-xs">
+							<Caption>
 								<time dateTime={post.date}>
 									{new Date(post.date).toLocaleDateString(locale, {
 										day: "numeric",
@@ -325,21 +298,17 @@ export default async function BlogPostPage({
 								</time>
 								{" \u00B7 "}
 								{post.readingTime} {t("minRead")}
-							</span>
-							<h1 className="mt-3 font-display text-[32px] leading-[1.05] md:text-[48px]">
-								{post.title}
-							</h1>
-							<p className="mt-5 max-w-[620px] text-[17px] text-muted-foreground leading-[1.55]">
+							</Caption>
+							<H1 className="mt-3">{post.title}</H1>
+							<Lead className="mt-5 max-w-[620px]">
 								{post.excerpt}
-							</p>
+							</Lead>
 						</div>
 
 						{/* Tags box */}
 						{post.tags && post.tags.length > 0 && (
 							<div className="border border-border/40 p-6 md:p-8">
-								<p className="mb-5 font-mono text-muted-foreground/50 text-xs">
-									{t("tagsLabel")}
-								</p>
+								<Caption className="mb-5 block">{t("tagsLabel")}</Caption>
 								<div className="flex flex-wrap gap-2">
 									{post.tags.map((tag) => (
 										<span
@@ -386,24 +355,20 @@ export default async function BlogPostPage({
 
 					{(prev || next) && (
 						<>
-							<h2 className="mt-12 font-display text-2xl tracking-[-0.04em]">
-								{t("moreArticles")}
-							</h2>
+							<H2 className="mt-12">{t("moreArticles")}</H2>
 							<div className="mt-10 grid gap-6 md:grid-cols-2">
 								{prev && (
 									<Link
 										href={`/blog/${prev.slug}` as "/blog"}
 										className="group border border-border/40 p-6 transition-colors hover:border-brand/30"
 									>
-										<span className="font-mono text-brand text-xs">
-											{t("prevPost")}
-										</span>
-										<h3 className="mt-2 font-display text-lg tracking-tight transition-colors group-hover:text-brand">
+										<Caption>{t("prevPost")}</Caption>
+										<H3 className="mt-2 text-lg transition-colors group-hover:text-brand">
 											{prev.title}
-										</h3>
-										<p className="mt-2 text-muted-foreground text-sm leading-relaxed line-clamp-2">
+										</H3>
+										<Muted className="mt-2 leading-relaxed line-clamp-2">
 											{prev.excerpt}
-										</p>
+										</Muted>
 									</Link>
 								)}
 								{next && (
@@ -411,15 +376,13 @@ export default async function BlogPostPage({
 										href={`/blog/${next.slug}` as "/blog"}
 										className="group border border-border/40 p-6 transition-colors hover:border-brand/30"
 									>
-										<span className="font-mono text-brand text-xs">
-											{t("nextPost")}
-										</span>
-										<h3 className="mt-2 font-display text-lg tracking-tight transition-colors group-hover:text-brand">
+										<Caption>{t("nextPost")}</Caption>
+										<H3 className="mt-2 text-lg transition-colors group-hover:text-brand">
 											{next.title}
-										</h3>
-										<p className="mt-2 text-muted-foreground text-sm leading-relaxed line-clamp-2">
+										</H3>
+										<Muted className="mt-2 leading-relaxed line-clamp-2">
 											{next.excerpt}
-										</p>
+										</Muted>
 									</Link>
 								)}
 							</div>

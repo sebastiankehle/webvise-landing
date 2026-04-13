@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import StaggerChildren from "@/components/marketing/stagger-children";
+import { Caption, H2, Lead } from "@/components/ui/typography";
 
 const testimonialKeys = ["0", "1", "2", "3", "4", "5"];
 
@@ -11,12 +12,8 @@ export default async function Testimonials() {
 	return (
 		<SectionWrapper id="testimonials">
 			<div className="max-w-[640px]">
-				<h2 className="font-display text-[28px] leading-[1.15] md:text-[40px]">
-					{t("title")}
-				</h2>
-				<p className="mt-5 max-w-[520px] text-[15px] text-muted-foreground leading-[1.6]">
-					{t("subtitle")}
-				</p>
+				<H2>{t("title")}</H2>
+				<Lead className="mt-5 max-w-[520px]">{t("subtitle")}</Lead>
 			</div>
 			<StaggerChildren className="mt-14 grid gap-px overflow-hidden border border-border/40 md:grid-cols-2 lg:grid-cols-3">
 				{testimonialKeys.map((key) => (
@@ -34,10 +31,10 @@ export default async function Testimonials() {
 						</div>
 						<div className="mt-8 border-border/40 border-t pt-5">
 							<p className="text-sm">{t(`items.${key}.author`)}</p>
-							<p className="mt-0.5 font-mono text-muted-foreground text-xs">
+							<Caption className="mt-0.5 block">
 								{t(`items.${key}.role`)}
 								{t(`items.${key}.company`) && `, ${t(`items.${key}.company`)}`}
-							</p>
+							</Caption>
 						</div>
 					</div>
 				))}

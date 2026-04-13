@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import HeroContent from "@/components/marketing/hero-content";
 import IconCloud from "@/components/marketing/icon-cloud";
 import { Button } from "@/components/ui/button";
+import { Display, Lead } from "@/components/ui/typography";
 import { Link } from "@/i18n/navigation";
 
 export default async function Hero() {
@@ -14,10 +15,13 @@ export default async function Hero() {
 				<HeroContent>
 					<div className="grid items-center gap-16 md:grid-cols-2">
 						<div>
-							<h1 className="text-balance font-display text-[32px] leading-[1.05] md:text-[48px]">
+							<Display>
 								{t.rich("title", {
 									brand: (chunks) => (
 										<span className="text-brand">{chunks}</span>
+									),
+									muted: (chunks) => (
+										<span className="text-muted-foreground">{chunks}</span>
 									),
 									br: () => (
 										<>
@@ -26,14 +30,14 @@ export default async function Hero() {
 										</>
 									),
 								})}
-							</h1>
-							<p className="mt-6 max-w-[500px] text-[16px] text-muted-foreground leading-[1.55]">
+							</Display>
+							<Lead className="mt-6 max-w-[500px]">
 								{t("subtitle")}
-							</p>
+							</Lead>
 							<div className="mt-12 flex flex-col gap-4 sm:flex-row">
 								<Button
 									size="lg"
-									className="border-transparent bg-brand px-8 font-mono text-white [&]:hover:bg-brand/80"
+									className="border-transparent bg-brand px-8 text-white [&]:hover:bg-brand/80"
 									data-ph-capture-attribute-cta-location="hero"
 									data-ph-capture-attribute-cta-variant="primary"
 									render={<Link href={{ pathname: "/", hash: "contact" }} />}
@@ -43,7 +47,6 @@ export default async function Hero() {
 								<Button
 									size="lg"
 									variant="outline"
-									className="font-mono"
 									data-ph-capture-attribute-cta-location="hero"
 									data-ph-capture-attribute-cta-variant="secondary"
 									render={<Link href={{ pathname: "/", hash: "services" }} />}

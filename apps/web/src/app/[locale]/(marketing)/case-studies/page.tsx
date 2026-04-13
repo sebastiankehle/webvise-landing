@@ -5,6 +5,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import StaggerChildren from "@/components/marketing/stagger-children";
+import { H1, H3, Label, Muted, Lead } from "@/components/ui/typography";
 import { getCaseStudies } from "@/data/case-studies";
 import { Link } from "@/i18n/navigation";
 import { generateAlternates, localizedUrl } from "@/lib/seo";
@@ -45,12 +46,10 @@ export default async function CaseStudiesPage() {
 			<section className="py-24 md:py-44">
 				<div className="mx-auto max-w-[1320px] px-6">
 					<div className="max-w-[720px]">
-						<h1 className="font-display text-[32px] leading-[1.05] md:text-[48px]">
-							{t("title")}
-						</h1>
-						<p className="mt-5 max-w-[560px] text-[17px] text-muted-foreground leading-[1.55]">
+						<H1>{t("title")}</H1>
+						<Lead className="mt-5 max-w-[560px] text-[17px] leading-[1.55]">
 							{t("subtitle")}
-						</p>
+						</Lead>
 					</div>
 				</div>
 			</section>
@@ -77,15 +76,9 @@ export default async function CaseStudiesPage() {
 								</div>
 							)}
 							<div>
-								<span className="font-mono text-brand text-xs">
-									{cs.industry}
-								</span>
-								<h2 className="mt-2 font-display text-xl leading-[1.25] tracking-[-0.04em]">
-									{cs.title}
-								</h2>
-								<p className="mt-3 text-muted-foreground text-sm leading-[1.6]">
-									{cs.excerpt}
-								</p>
+								<Label>{cs.industry}</Label>
+								<H3 className="mt-2">{cs.title}</H3>
+								<Muted className="mt-3 leading-[1.6]">{cs.excerpt}</Muted>
 							</div>
 							<div className="mt-6 flex items-center justify-between border-border/40 border-t pt-5">
 								<div className="flex flex-wrap gap-1.5">

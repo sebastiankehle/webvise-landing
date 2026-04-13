@@ -19,7 +19,7 @@ export default async function NotFound() {
 			</p>
 			<div className="mt-8 flex gap-3">
 				<Button
-					className="font-mono"
+					className=""
 					// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
 					render={<Link href="/" />}
 				>
@@ -27,7 +27,7 @@ export default async function NotFound() {
 				</Button>
 				<Button
 					variant="outline"
-					className="font-mono"
+					className=""
 					// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
 					render={<Link href={{ pathname: "/", hash: "contact" }} />}
 				>

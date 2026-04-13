@@ -162,7 +162,7 @@ function CustomTooltip({
 							className="size-1.5 rounded-full"
 							style={{ backgroundColor: entry.color }}
 						/>
-						<span className="font-mono text-muted-foreground text-xs">
+						<span className="text-muted-foreground text-xs">
 							{entry.dataKey === "before" ? beforeLabel : afterLabel}
 						</span>
 					</div>

@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { Link } from "@/i18n/navigation";
 import { track } from "@/lib/track";
+import { H1, H2, Caption, Muted, Lead } from "@/components/ui/typography";
 import { cn } from "@/lib/utils";
 
 interface ReportIssue {
@@ -99,7 +100,7 @@ function ScoreRing({
 					{score}
 				</span>
 			</div>
-			<span className="font-mono text-muted-foreground text-xs">{label}</span>
+			<Caption>{label}</Caption>
 		</div>
 	);
 }
@@ -111,13 +112,13 @@ function ReportResults({ data }: { data: ReportData }) {
 		<div>
 			{/* Header */}
 				<div className="flex flex-col gap-1 md:flex-row md:items-baseline md:justify-between">
-					<h2 className="font-display text-[28px] leading-[1.15] md:text-[40px]">
+					<H2>
 						{t("results.title")}
-					</h2>
-					<p className="font-light text-muted-foreground text-sm">
+					</H2>
+					<Muted>
 						{t("results.resultsFor")}{" "}
 						<span className="font-medium text-foreground">{data.url}</span>
-					</p>
+					</Muted>
 				</div>
 
 				{/* Scores row */}
@@ -135,9 +136,7 @@ function ReportResults({ data }: { data: ReportData }) {
 
 				{/* Projected score - visually separated */}
 				<div className="mt-4 border-2 border-brand bg-brand/5 p-5">
-					<p className="mb-3 text-center font-mono text-brand text-xs">
-						{t("results.projectedLabel")}
-					</p>
+					<Caption className="mb-3 block text-center text-brand">{t("results.projectedLabel")}</Caption>
 					<div className="flex justify-center">
 						<ScoreRing
 							score={data.projectedScore}
@@ -145,21 +144,15 @@ function ReportResults({ data }: { data: ReportData }) {
 							size={88}
 						/>
 					</div>
-					<p className="mt-3 text-center text-muted-foreground text-xs">
-						{t("results.projectedHint")}
-					</p>
+					<Caption className="mt-3 block text-center">{t("results.projectedHint")}</Caption>
 				</div>
 
 				{/* Core Web Vitals with explanations */}
 				{data.vitals && data.vitals.length > 0 && (
 					<div className="mt-px border border-border/40 border-t-0">
 						<div className="border-border/40 border-b px-5 py-3">
-							<h3 className="font-mono text-muted-foreground text-xs">
-								{t("results.webVitalsTitle")}
-							</h3>
-							<p className="mt-1 text-muted-foreground text-xs">
-								{t("results.webVitalsSubtitle")}
-							</p>
+							<Caption className="block">{t("results.webVitalsTitle")}</Caption>
+							<Caption className="mt-1 block">{t("results.webVitalsSubtitle")}</Caption>
 						</div>
 						<div className="divide-y divide-border/40">
 							{data.vitals.map((vital) => {
@@ -178,15 +171,13 @@ function ReportResults({ data }: { data: ReportData }) {
 											<span className={cn("font-medium text-sm", text)}>
 												{vital.displayValue}
 											</span>
-											<span className="font-mono text-muted-foreground text-xs">
-												{vital.label}
-											</span>
+											<Caption>{vital.label}</Caption>
 										</div>
-										<p className="font-light text-muted-foreground text-xs leading-relaxed">
+										<Caption className="leading-relaxed">
 											{t.has(explanationKey)
 												? t(explanationKey)
 												: t("results.vitalExplanations.default")}
-										</p>
+										</Caption>
 									</div>
 								);
 							})}
@@ -197,9 +188,7 @@ function ReportResults({ data }: { data: ReportData }) {
 				{/* Security flags - only show if present */}
 				{data.securityFlags.length > 0 && (
 					<div className="mt-px border border-border/40 border-t-0 p-5">
-						<h3 className="font-mono text-muted-foreground text-xs">
-							{t("results.securityRisks")}
-						</h3>
+						<Caption className="block">{t("results.securityRisks")}</Caption>
 						<ul className="mt-3 space-y-2">
 							{data.securityFlags.map((flag) => (
 								<li
@@ -217,10 +206,8 @@ function ReportResults({ data }: { data: ReportData }) {
 				{/* Migration estimate + CTA */}
 				<div className="mt-px grid items-center gap-6 border border-border/40 border-t-2 border-t-brand p-6 md:grid-cols-[1fr_auto]">
 					<div>
-						<h3 className="font-mono text-muted-foreground text-xs">
-							{t("results.migrationEstimate")}
-						</h3>
-						<p className="mt-2 font-light text-muted-foreground text-sm leading-relaxed">
+						<Caption className="block">{t("results.migrationEstimate")}</Caption>
+						<Muted className="mt-2 leading-relaxed">
 							{t.rich("results.migrationText", {
 								strong: (chunks) => (
 									<span className="font-medium text-foreground">{chunks}</span>
@@ -228,11 +215,11 @@ function ReportResults({ data }: { data: ReportData }) {
 								min: data.migrationEstimate.min.toLocaleString(),
 								max: data.migrationEstimate.max.toLocaleString(),
 							})}
-						</p>
+						</Muted>
 					</div>
 					<div className="flex flex-wrap gap-3">
 						<Button
-							className="border-brand bg-brand font-mono text-white [&]:hover:bg-brand/80"
+							className="border-brand bg-brand text-white [&]:hover:bg-brand/80"
 							onClick={() => track("book_call_clicked", { location: "analyzer_results" })}
 							render={
 								// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
@@ -247,7 +234,7 @@ function ReportResults({ data }: { data: ReportData }) {
 						</Button>
 						<Button
 							variant="outline"
-							className="font-mono"
+							className=""
 							onClick={() => track("cta_clicked", { location: "analyzer_results", variant: "contact" })}
 							render={<Link href={{ pathname: "/", hash: "contact" }} />}
 						>
@@ -295,13 +282,13 @@ function TeaserResults({
 	return (
 		<div>
 			<div className="flex flex-col gap-1 md:flex-row md:items-baseline md:justify-between">
-				<h2 className="font-display text-[28px] leading-[1.15] md:text-[40px]">
+				<H2>
 					{t("results.title")}
-				</h2>
-				<p className="font-light text-muted-foreground text-sm">
+				</H2>
+				<Muted>
 					{t("results.resultsFor")}{" "}
 					<span className="font-medium text-foreground">{data.url}</span>
-				</p>
+				</Muted>
 			</div>
 
 			{/* Scores row */}
@@ -316,9 +303,7 @@ function TeaserResults({
 
 			{/* Projected score */}
 			<div className="mt-4 border-2 border-brand bg-brand/5 p-5">
-				<p className="mb-3 text-center font-mono text-brand text-xs">
-					{t("results.projectedLabel")}
-				</p>
+				<Caption className="mb-3 block text-center text-brand">{t("results.projectedLabel")}</Caption>
 				<div className="flex justify-center">
 					<ScoreRing
 						score={data.projectedScore}
@@ -326,9 +311,7 @@ function TeaserResults({
 						size={88}
 					/>
 				</div>
-				<p className="mt-3 text-center text-muted-foreground text-xs">
-					{t("results.projectedHint")}
-				</p>
+				<Caption className="mt-3 block text-center">{t("results.projectedHint")}</Caption>
 			</div>
 
 			{/* Email gate */}
@@ -340,9 +323,7 @@ function TeaserResults({
 				<p className="font-medium text-sm">
 					{t("gate.title")}
 				</p>
-				<p className="mt-1 text-muted-foreground text-xs">
-					{t("gate.subtitle")}
-				</p>
+				<Caption className="mt-1 block">{t("gate.subtitle")}</Caption>
 				<div className="mt-4 grid gap-3 md:grid-cols-[1fr_1fr_auto]">
 					<Input
 						type="email"
@@ -360,7 +341,7 @@ function TeaserResults({
 					/>
 					<Button
 						type="submit"
-						className="border-transparent bg-brand font-mono text-white md:h-8 md:text-xs [&]:hover:bg-brand/80"
+						className="border-transparent bg-brand text-white md:h-8 md:text-xs [&]:hover:bg-brand/80"
 					>
 						{t("gate.unlock")}
 					</Button>
@@ -368,9 +349,7 @@ function TeaserResults({
 				{emailError && (
 					<p className="mt-2 text-destructive text-xs">{emailError}</p>
 				)}
-				<p className="mt-3 text-muted-foreground text-xs">
-					{t("gate.privacy")}
-				</p>
+				<Caption className="mt-3 block">{t("gate.privacy")}</Caption>
 			</form>
 		</div>
 	);
@@ -453,16 +432,16 @@ export default function WpHealthReport() {
 					<>
 						<div className="grid items-start gap-12 md:grid-cols-2 md:gap-16">
 							<div>
-								<h1 className="font-display text-[32px] leading-[1.05] md:text-[48px]">
+								<H1>
 									{t.rich("hero.title", {
 										brand: (chunks) => (
 											<span className="text-brand">{chunks}</span>
 										),
 									})}
-								</h1>
-								<p className="mt-4 font-light text-lg text-muted-foreground leading-relaxed">
+								</H1>
+								<Lead className="mt-4 font-light text-lg">
 									{t("hero.subtitle")}
-								</p>
+								</Lead>
 
 								<ul className="mt-6 space-y-2">
 									{[0, 1, 2, 3].map((i) => (
@@ -473,9 +452,7 @@ export default function WpHealthReport() {
 									))}
 								</ul>
 
-								<p className="mt-6 text-muted-foreground text-xs">
-									{t("hero.trustLine")}
-								</p>
+								<Caption className="mt-6 block">{t("hero.trustLine")}</Caption>
 							</div>
 
 							<form
@@ -531,15 +508,13 @@ export default function WpHealthReport() {
 											isSubmitting={isSubmitting}
 											disabled={!canSubmit}
 											size="lg"
-											className="w-full border-transparent bg-brand font-mono text-white md:h-8 md:text-xs [&]:hover:bg-brand/80"
+											className="w-full border-transparent bg-brand text-white md:h-8 md:text-xs [&]:hover:bg-brand/80"
 										>
 											{t("form.submit")}
 										</SubmitButton>
 									)}
 								</form.Subscribe>
-								<p className="text-center text-muted-foreground text-xs">
-									{t("form.noSignup")}
-								</p>
+								<Caption className="block text-center">{t("form.noSignup")}</Caption>
 								<div aria-live="polite" aria-atomic="true">
 									{errorMessage && (
 										<p role="alert" className="text-destructive text-sm">
@@ -555,9 +530,7 @@ export default function WpHealthReport() {
 								isSubmitting ? (
 									<div className="mt-12 flex flex-col items-center gap-3">
 										<div className="h-6 w-6 animate-spin border-2 border-brand border-t-transparent" />
-										<p className="text-muted-foreground text-sm">
-											{t("loading")}
-										</p>
+										<Muted>{t("loading")}</Muted>
 									</div>
 								) : null
 							}
@@ -576,7 +549,7 @@ export default function WpHealthReport() {
 
 			{/* Trust footer */}
 			<div className="mx-auto mt-12 max-w-[1200px] border-border/40 border-t px-6 pt-8 text-center">
-				<p className="text-muted-foreground text-xs">{t("trust")}</p>
+				<Caption>{t("trust")}</Caption>
 			</div>
 		</section>
 	);

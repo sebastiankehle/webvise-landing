@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 
 import ProcessSteps from "@/components/marketing/process-steps";
 import SectionWrapper from "@/components/marketing/section-wrapper";
+import { H2, Lead } from "@/components/ui/typography";
 
 const stepKeys = [
 	"discovery",
@@ -15,7 +16,7 @@ export default async function Process() {
 	const t = await getTranslations("process");
 
 	const steps = stepKeys.map((key, i) => ({
-		number: String(i + 1).padStart(2, "0"),
+		number: `${i + 1}.0`,
 		title: t(`steps.${key}.title`),
 		description: t(`steps.${key}.description`),
 	}));
@@ -23,12 +24,8 @@ export default async function Process() {
 	return (
 		<SectionWrapper id="process" alternate>
 			<div className="max-w-[640px]">
-				<h2 className="font-display text-[28px] leading-[1.15] md:text-[40px]">
-					{t("title")}
-				</h2>
-				<p className="mt-5 max-w-[520px] text-[15px] text-muted-foreground leading-[1.6]">
-					{t("subtitle")}
-				</p>
+				<H2>{t("title")}</H2>
+				<Lead className="mt-5 max-w-[520px]">{t("subtitle")}</Lead>
 			</div>
 			<ProcessSteps steps={steps} />
 		</SectionWrapper>

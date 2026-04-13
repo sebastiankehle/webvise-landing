@@ -6,8 +6,8 @@ import { useRef, useState } from "react";
 import z from "zod";
 
 import SectionWrapper from "@/components/marketing/section-wrapper";
-import { Button } from "@/components/ui/button";
 import { FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { H2, Lead } from "@/components/ui/typography";
 import { Input } from "@/components/ui/input";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { services } from "@/data/services";
@@ -75,52 +75,26 @@ export default function Contact() {
 		<SectionWrapper id="contact">
 			<div className="grid gap-12 md:grid-cols-2 md:gap-20">
 				<div>
-					<h2 className="font-display text-[28px] leading-[1.15] md:text-[40px]">
-						{t("title")}
-					</h2>
-					<p className="mt-5 max-w-[520px] text-[15px] text-muted-foreground leading-[1.6]">
-						{t("subtitle")}
-					</p>
-
-					<div className="mt-10 border border-border/40 border-l-2 border-l-brand p-6 md:mt-14 md:p-8">
-						<h3 className="font-display text-xl tracking-[-0.04em]">
-							{t("booking.title")}
-						</h3>
-						<p className="mt-3 text-muted-foreground text-sm leading-[1.6]">
-							{t("booking.description")}
-						</p>
-						<Button
-							size="sm"
-							className="mt-5 font-mono"
-							onClick={() => track("book_call_clicked", { location: "contact_section" })}
-							render={
-								// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
-								<a
-									href="https://cal.com/webvise"
-									target="_blank"
-									rel="noopener noreferrer"
-								/>
-							}
-						>
-							{t("booking.cta")}
-						</Button>
-					</div>
+					<H2>{t("title")}</H2>
+					<Lead className="mt-5 max-w-[520px]">{t("subtitle")}</Lead>
 
 					<p className="mt-6 text-sm text-muted-foreground">
 						{t("founder.text")}{" "}
 						<Link
 							href="/about"
-							className="text-foreground underline-offset-4 hover:underline"
+							className="text-brand transition-opacity hover:opacity-80"
 						>
 							{t("founder.name")}
 						</Link>
-						.{" "}
-						<Link
-							href="/about"
+						{" · "}
+						<a
+							href="https://cal.com/webvise"
+							target="_blank"
+							rel="noopener noreferrer"
 							className="text-brand transition-opacity hover:opacity-80"
 						>
-							{t("founder.link")} &rarr;
-						</Link>
+							{t("booking.cta")}
+						</a>
 					</p>
 				</div>
 
@@ -263,7 +237,7 @@ export default function Contact() {
 								isSubmitting={isSubmitting}
 								disabled={!canSubmit}
 								size="lg"
-								className="w-full border-transparent bg-brand font-mono text-white [&]:hover:bg-brand/80 md:h-10 md:text-sm"
+								className="w-full border-transparent bg-brand text-white [&]:hover:bg-brand/80 md:h-10 md:text-sm"
 							>
 								{t("form.submit")}
 							</SubmitButton>

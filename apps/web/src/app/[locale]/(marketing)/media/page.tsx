@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 
 import MediaContent from "./media-content";
+import { H1, Lead } from "@/components/ui/typography";
 
 export const metadata: Metadata = {
 	title: "Media",
@@ -25,7 +26,7 @@ export default async function MediaPage() {
 				<h1 className="font-display text-[32px] leading-[1.05] md:text-[48px]">
 					{t("title")}
 				</h1>
-				<p className="mt-4 font-light text-lg text-muted-foreground">
+				<p className="mt-4 text-[16px] text-muted-foreground leading-[1.6]">
 					{t("description")}
 				</p>
 

@@ -9,6 +9,7 @@ import z from "zod";
 import { FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { SubmitButton } from "@/components/ui/submit-button";
+import { H3, Muted } from "@/components/ui/typography";
 
 const LABELS = {
 	en: {
@@ -80,9 +81,7 @@ export default function ReportDownloadForm({
 		<div className="my-10 border border-brand/20 bg-brand/[0.03]">
 			<div className="p-6 md:p-8">
 				<div className="flex items-start gap-4">
-					<div className="flex h-10 w-10 shrink-0 items-center justify-center border border-brand/20 bg-brand/5">
-						<Mail className="h-5 w-5 text-brand" strokeWidth={1.5} />
-					</div>
+					<Mail className="h-5 w-5 shrink-0 text-brand mt-0.5" strokeWidth={1.5} />
 					<div className="min-w-0">
 						<h3 className="font-medium text-base tracking-tight">{title}</h3>
 						<p className="mt-1 text-muted-foreground text-sm leading-relaxed">

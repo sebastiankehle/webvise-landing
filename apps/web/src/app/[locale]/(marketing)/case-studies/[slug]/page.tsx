@@ -7,6 +7,7 @@ import JsonLd from "@/components/json-ld";
 import CaseStudyGallery from "@/components/marketing/case-study-gallery";
 import CaseStudyHeroImage from "@/components/marketing/case-study-hero-image";
 import { TechBadge } from "@/components/marketing/tech-badge";
+import { Caption, H1, H2, H3, Label, Lead } from "@/components/ui/typography";
 import { getCaseStudies, getCaseStudyBySlug } from "@/data/case-studies";
 import { Link } from "@/i18n/navigation";
 import { generateAlternates, localizedUrl } from "@/lib/seo";
@@ -148,55 +149,27 @@ export default async function CaseStudyPage({
 		<>
 			<JsonLd data={jsonLd} />
 
-			{/* Breadcrumb */}
-			<nav
-				aria-label="Breadcrumb"
-				className="mx-auto max-w-[1320px] px-6 pt-24 md:pt-36"
-			>
-				<ol className="flex items-center gap-2 text-sm text-muted-foreground">
-					<li>
-						<Link
-							href="/"
-							className="transition-colors hover:text-foreground"
-						>
-							Home
-						</Link>
-					</li>
-					<li aria-hidden="true">/</li>
-					<li>
-						<Link
-							href="/case-studies"
-							className="transition-colors hover:text-foreground"
-						>
-							{t("title")}
-						</Link>
-					</li>
-					<li aria-hidden="true">/</li>
-					<li className="truncate text-foreground">{cs.client}</li>
-				</ol>
-			</nav>
-
 			{/* Header */}
-			<section className="pb-24 pt-10 md:pb-36">
+			<section className="pb-24 pt-24 md:pb-36 md:pt-36">
 				<div className="mx-auto max-w-[1320px] px-6">
 					<div className="grid items-start gap-12 md:grid-cols-3 md:gap-16">
 						{/* Title + info */}
 						<div className="md:col-span-2">
-							<span className="font-mono text-brand text-xs">
+							<Caption>
 								{cs.client} &middot; {cs.industry}
-							</span>
+							</Caption>
 							<h1 className="mt-3 font-display text-[32px] leading-[1.05] md:text-[48px]">
 								{cs.title}
 							</h1>
-							<p className="mt-4 text-lg text-muted-foreground leading-relaxed">
+							<Lead className="mt-5 max-w-[620px]">
 								{cs.excerpt}
-							</p>
+							</Lead>
 
 							{/* Metadata bar */}
 							<div className="mt-10 flex flex-wrap items-start gap-x-8 gap-y-4 border-border/40 border-t pt-6">
 								{cs.location && (
 									<div>
-										<span className="block font-mono text-muted-foreground text-xs">
+										<span className="block text-xs text-muted-foreground">
 											{t("location")}
 										</span>
 										<span className="mt-1 block text-sm">{cs.location}</span>
@@ -204,7 +177,7 @@ export default async function CaseStudyPage({
 								)}
 								{cs.deliveryTime && (
 									<div>
-										<span className="block font-mono text-muted-foreground text-xs">
+										<span className="block text-xs text-muted-foreground">
 											{t("deliveryTime")}
 										</span>
 										<span className="mt-1 block text-sm">
@@ -213,7 +186,7 @@ export default async function CaseStudyPage({
 									</div>
 								)}
 								<div>
-									<span className="block font-mono text-muted-foreground text-xs">
+									<span className="block text-xs text-muted-foreground">
 										{t("liveProject")}
 									</span>
 									{cs.liveUrl ? (
@@ -237,7 +210,7 @@ export default async function CaseStudyPage({
 
 						{/* Tech stack box */}
 						<div className="border border-border/40 p-6 md:p-8">
-							<p className="mb-5 font-mono text-muted-foreground/50 text-xs">
+							<p className="mb-5 text-xs text-muted-foreground">
 								{t("techStackLabel")}
 							</p>
 							<div className="flex flex-wrap gap-2">
@@ -277,7 +250,7 @@ export default async function CaseStudyPage({
 								</div>
 								<figcaption className="mt-8 border-border/40 border-t pt-5">
 									<p className="text-sm">{cs.testimonial.author}</p>
-									<p className="mt-0.5 font-mono text-muted-foreground text-xs">
+									<p className="mt-0.5 text-xs text-muted-foreground">
 										{cs.testimonial.role}
 									</p>
 								</figcaption>
@@ -292,7 +265,7 @@ export default async function CaseStudyPage({
 				<div className="mx-auto max-w-[1320px] px-6">
 					<div className="grid gap-16 md:grid-cols-2 md:gap-20">
 						<div>
-							<h2 className="font-display text-2xl tracking-tight">
+							<h2 className="font-display text-[28px] md:text-[40px] leading-[1.1] tracking-[-0.03em]">
 								{t("challenge")}
 							</h2>
 							<p className="mt-4 text-muted-foreground leading-relaxed">
@@ -300,7 +273,7 @@ export default async function CaseStudyPage({
 							</p>
 						</div>
 						<div>
-							<h2 className="font-display text-2xl tracking-tight">
+							<h2 className="font-display text-[28px] md:text-[40px] leading-[1.1] tracking-[-0.03em]">
 								{t("solution")}
 							</h2>
 							<p className="mt-4 text-muted-foreground leading-relaxed">
@@ -347,7 +320,7 @@ export default async function CaseStudyPage({
 			{relatedCaseStudies.length > 0 && (
 				<section className="border-border/40 border-t pb-28 pt-20">
 					<div className="mx-auto max-w-[1320px] px-6">
-						<h2 className="font-display text-2xl tracking-tight">
+						<h2 className="font-display text-[28px] md:text-[40px] leading-[1.1] tracking-[-0.03em]">
 							{t("relatedTitle")}
 						</h2>
 						<div className="mt-10 grid gap-6 md:grid-cols-2">
@@ -372,10 +345,10 @@ export default async function CaseStudyPage({
 										/>
 									)}
 									<div className="p-6">
-										<span className="font-mono text-brand text-xs">
+										<Caption>
 											{related.client} &middot;{" "}
 											{related.industry}
-										</span>
+										</Caption>
 										<h3 className="mt-2 font-display text-lg tracking-tight transition-colors group-hover:text-brand">
 											{related.title}
 										</h3>

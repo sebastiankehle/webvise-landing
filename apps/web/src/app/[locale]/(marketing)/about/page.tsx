@@ -5,7 +5,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 
 import JsonLd from "@/components/json-ld";
 import SectionWrapper from "@/components/marketing/section-wrapper";
-import { Link } from "@/i18n/navigation";
+import { H1, H2, Caption, Lead } from "@/components/ui/typography";
 import { generateAlternates, localizedUrl } from "@/lib/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -95,27 +95,8 @@ export default async function AboutPage() {
 		<>
 			<JsonLd data={jsonLd} />
 
-			{/* Breadcrumb */}
-			<nav
-				aria-label="Breadcrumb"
-				className="mx-auto max-w-[1320px] px-6 pt-24 md:pt-36"
-			>
-				<ol className="flex items-center gap-2 text-sm text-muted-foreground">
-					<li>
-						<Link
-							href="/"
-							className="transition-colors hover:text-foreground"
-						>
-							Home
-						</Link>
-					</li>
-					<li aria-hidden="true">/</li>
-					<li className="text-foreground">{t("title")}</li>
-				</ol>
-			</nav>
-
 			{/* Header */}
-			<section className="pb-24 pt-10 md:pb-36">
+			<section className="pb-24 pt-24 md:pb-36 md:pt-36">
 				<div className="mx-auto max-w-[1320px] px-6">
 					<div className="grid items-start gap-12 md:grid-cols-3 md:gap-16">
 						{/* Title + intro */}
@@ -124,38 +105,24 @@ export default async function AboutPage() {
 								<Image
 									src="/images/founder.jpeg"
 									alt={t("intro.name")}
-									width={80}
-									height={80}
-									className="h-20 w-20 shrink-0 object-cover"
+									width={72}
+									height={72}
+									className="h-[72px] w-[72px] shrink-0 object-cover"
 									quality={85}
 									priority
 								/>
 								<div>
-									<span className="font-mono text-brand text-xs">
-										{t("intro.role")}
-									</span>
-									<h1 className="mt-1 font-display text-[32px] leading-[1.05] md:text-[48px]">
-										{t("intro.name")}
-									</h1>
+									<Caption>{t("intro.role")}</Caption>
+									<H1 className="mt-1">{t("intro.name")}</H1>
 								</div>
 							</div>
-							<p className="mt-6 text-lg text-muted-foreground leading-relaxed">
-								{t("intro.tagline")}
-							</p>
-
-							{/* Description bar */}
-							<div className="mt-10 border-border/40 border-t pt-6">
-								<p className="max-w-lg text-sm text-muted-foreground leading-relaxed">
-									{t("intro.description")}
-								</p>
-							</div>
+							<Lead className="mt-6">{t("intro.tagline")}</Lead>
+							<Lead className="mt-3 text-sm">{t("intro.description")}</Lead>
 						</div>
 
 						{/* Connect card */}
 						<div className="border border-border/40 p-6 md:p-8">
-							<p className="mb-5 font-mono text-muted-foreground/50 text-xs">
-								{t("connect.title")}
-							</p>
+							<Caption className="mb-5 block">{t("connect.title")}</Caption>
 							<div className="flex flex-wrap gap-2">
 								{connectLinks.map(({ key, href }) => (
 									<a
@@ -178,9 +145,7 @@ export default async function AboutPage() {
 			{/* Bio */}
 			<SectionWrapper id="background" alternate>
 				<div className="max-w-2xl">
-					<h2 className="font-display text-2xl tracking-tight">
-						{t("bio.title")}
-					</h2>
+					<H2>{t("bio.title")}</H2>
 					<div className="mt-8 space-y-5 text-muted-foreground leading-relaxed">
 						{Array.from({ length: bioCount }, (_, i) => (
 							<p key={i}>{t(`bio.paragraphs.${i}`)}</p>
@@ -192,9 +157,7 @@ export default async function AboutPage() {
 			{/* Experience - vertical timeline like personal site */}
 			<SectionWrapper id="experience">
 				<div className="max-w-2xl">
-					<h2 className="font-display text-2xl tracking-tight">
-						{t("experience.title")}
-					</h2>
+					<H2>{t("experience.title")}</H2>
 					<div className="mt-10 space-y-10">
 						{Array.from({ length: experienceCount }, (_, i) => (
 							<div key={i} className="flex gap-6">
@@ -215,10 +178,10 @@ export default async function AboutPage() {
 											</h3>
 										</div>
 										<div className="shrink-0 text-right">
-											<p className="font-mono text-xs text-muted-foreground">
+											<p className="text-xs text-muted-foreground">
 												{t(`experience.items.${i}.period`)}
 											</p>
-											<p className="font-mono text-xs text-muted-foreground/60">
+											<p className="text-xs text-muted-foreground/60">
 												{t(`experience.items.${i}.location`)}
 											</p>
 										</div>
@@ -236,13 +199,11 @@ export default async function AboutPage() {
 			{/* Skills */}
 			<SectionWrapper id="skills" alternate>
 				<div className="max-w-2xl">
-					<h2 className="font-display text-2xl tracking-tight">
-						{t("stack.title")}
-					</h2>
+					<H2>{t("stack.title")}</H2>
 					<div className="mt-10 space-y-8">
 						{(["languages", "frontend", "backend", "data", "ai", "platform"] as const).map((section) => (
 							<div key={section}>
-								<p className="mb-3 font-mono text-xs text-muted-foreground/50">
+								<p className="mb-3 text-xs text-muted-foreground">
 									{t(`stack.sections.${section}.label`)}
 								</p>
 								<div className="flex flex-wrap gap-2">

@@ -6,13 +6,14 @@
 
 This design system is built on the intersection of Swiss-style precision and restrained digital craftsmanship. It achieves distinction through sharp geometry, a monochromatic foundation punctured by a singular warm accent, and generous use of whitespace as a structural element.
 
-The system uses a **strict two-font system** inspired by Exalt Studio: **Inter** for all content (headings, body, links) and **Geist Mono** for all UI chrome (labels, metadata, buttons, badges) with auto-uppercase. **OKLCH** provides perceptually uniform color, and **zero border-radius** is a defining geometric choice. Every surface, component, and interaction is designed to feel engineered rather than decorated.
+The system uses a **Geist Sans + Geist Mono (restricted)** font pairing: Geist Sans for all content and headings, Geist Mono strictly limited to numbers, step indicators, and technical labels. **OKLCH** provides perceptually uniform color, and **zero border-radius** is a defining geometric choice. Every surface, component, and interaction is designed to feel engineered rather than decorated.
 
 **Core Principles:**
 - **Sharp geometry** - `border-radius: 0` everywhere. No rounded corners. No pills.
 - **Restrained color** - A near-monochromatic palette with a single warm orange accent used sparingly for action and emphasis.
 - **Tonal depth** - Elevation is achieved through background shifts and subtle rings, not drop shadows.
 - **Generous spacing** - Whitespace is a first-class structural element, not leftover space.
+- **Max 3-4 font styles per section** - Heading + body/lead + small/caption + mono (only if numbers present).
 
 ---
 
@@ -77,7 +78,6 @@ Used for: footer sections, CTA banners, and other high-contrast zones within a l
 The brand color (`oklch(0.75 0.18 55)`) is a high-energy accent. Use it for:
 - Primary CTA buttons (`bg-brand text-white`)
 - Active state indicators (e.g., nav underlines)
-- Icon containers (`border-brand/20 bg-brand/5`)
 - Links that need emphasis (e.g., email addresses, featured links)
 - Hover accents on social icons and interactive elements
 
@@ -99,17 +99,17 @@ For data visualization, five chart tokens are defined (light mode uses warm oran
 
 ## 3. Typography
 
-A strict two-font system inspired by Exalt Studio. **Inter** handles all content with medium (500) weight for display and tight negative tracking. **Geist Mono** handles all UI chrome (labels, metadata, buttons, badges) with auto-uppercase enforced via CSS. This creates a clear visual hierarchy between "chrome" (mono/uppercase) and "content" (Inter/mixed-case).
+A two-font system: **Geist Sans** handles all content and headings with medium (500) weight and tight negative tracking. **Geist Mono** is strictly restricted to numbers, step indicators, and technical labels only.
 
 ### 3.1 Font Stack
 
 | Role | Font | CSS Variable | Usage |
 |---|---|---|---|
-| Sans (body) | Inter | `--font-inter` → `--font-sans` | All body text, UI elements |
-| Display | Inter | `--font-inter` → `--font-display` | Headlines, brand wordmark, section titles |
-| Mono | Geist Mono | `--font-geist-mono` → `--font-mono` | All UI chrome: labels, metadata, buttons, badges, section headers (auto-uppercase via CSS) |
+| Sans (body) | Geist Sans | `--font-geist` → `--font-sans` | All body text, UI elements |
+| Display | Geist Sans | `--font-geist` → `--font-display` | Headlines, brand wordmark, section titles |
+| Mono | Geist Mono | `--font-geist-mono` → `--font-mono` | **Restricted**: numbers, step indicators, tech labels only |
 
-Inter is loaded via `next/font/google` with CSS variable injection in the root layout. Ligatures and contextual alternates are enabled globally via:
+Geist Sans is loaded via `next/font/google` with CSS variable injection in the root layout.
 
 ```css
 body {
@@ -118,47 +118,85 @@ body {
 }
 .font-display {
   font-weight: 500;
-  letter-spacing: -0.05em;
+  letter-spacing: -0.04em;
 }
 .font-mono {
   letter-spacing: 0;
-  text-transform: uppercase;
 }
 ```
 
-### 3.2 Type Scale & Usage
+### 3.2 Typography Components
 
-| Context | Classes | Notes |
-|---|---|---|
-| Hero title (h1) | `font-display text-[36px] md:text-[64px] leading-[1.05]` | Home hero only; tracking inherited from `.font-display` (-0.05em) |
-| Page title (h1) | `font-display text-[32px] md:text-[48px] leading-[1.05]` | Blog, case-studies, about, legal |
-| Section heading (h2) | `font-display text-[28px] md:text-[40px] leading-[1.15]` | All `SectionWrapper` intro headings |
-| Card/subsection (h3) | `font-display text-xl leading-[1.3] tracking-[-0.04em]` | Benefit/service/blog/case cards |
-| Pricing tier name (h3) | `font-display text-2xl tracking-[-0.04em]` | Pricing cards |
-| Metrics value | `font-display text-[36px] md:text-[48px] leading-[1] tracking-[-0.04em]` | Big stat numbers |
-| Brand wordmark | `font-display text-[22px]` | "webvise" in navbar/footer; tracking inherited |
-| Hero subtitle | `text-[18px] max-w-[500px] leading-[1.5]` | ~60 chars per line |
-| Section subtitle | `text-[15px] max-w-[520px] leading-[1.6]` | ~65 chars per line |
-| Card body | `text-sm leading-[1.6]` | Descriptions in cards |
-| Article prose (body) | `text-[16px] leading-[1.7]` | Blog article `<p>` |
-| Article prose (list) | `text-[15px] leading-[1.65]` | Blog article `<ul>` |
-| Default UI text | `text-xs/relaxed` | Cards, dialogs, inputs |
-| UI chrome labels | `font-mono text-xs text-muted-foreground/50` | Section headers, category labels, footer headings (auto-uppercase) |
-| Eyebrow labels | `font-mono text-xs text-brand` | Industry tags, role labels, date metadata |
-| CTA buttons | `font-mono` added to Button className | All marketing buttons (auto-uppercase) |
-| Nav links | `text-sm` | Desktop navigation items (Inter, no uppercase) |
-| Metadata | `font-mono text-xs text-muted-foreground` | Dates, reading times, score labels, dimensions |
+Import path: `@/components/ui/typography`
 
-### 3.3 Weight Hierarchy
+| Component | Element | Key Classes | Usage |
+|-----------|---------|-------------|-------|
+| `Display` | h1 | text-[36px] md:text-[56px], tracking-[-0.04em], leading-[1.05] | Hero headings only |
+| `H1` | h1 | text-[32px] md:text-[48px], tracking-[-0.04em], leading-[1.08] | Page titles |
+| `H2` | h2 | text-[28px] md:text-[40px], tracking-[-0.03em], leading-[1.1] | Section headings |
+| `H3` | h3 | text-xl, tracking-[-0.02em], leading-[1.25] | Card titles, subsections |
+| `H4` | h4 | text-base | Minor headings |
+| `Lead` | p | text-[16px], text-muted-foreground, leading-[1.6] | Section subtitles |
+| `Body` | p | text-[15px], leading-[1.6] | Paragraphs |
+| `Muted` | p | text-sm, text-muted-foreground, leading-[1.6] | Card descriptions, secondary text |
+| `Small` | span | text-sm, text-muted-foreground | Inline secondary text |
+| `Caption` | span | text-xs, text-muted-foreground | Metadata, timestamps |
+| `Label` | span | text-xs, uppercase, tracking-widest, text-muted-foreground | Category labels, section labels |
+| `Mono` | span | font-mono, text-xs, text-muted-foreground | Numbers, step indicators, tech labels ONLY |
+| `InlineLink` | a | text-sm, underline, hover:text-brand | Inline text links |
+
+### 3.3 Mono Usage Rules
+
+**ONLY use `font-mono` / `<Mono>` for:**
+- Step numbers (e.g., "01", "02")
+- Technical metrics
+- Date stamps
+- Price suffixes (e.g., "/mo")
+
+**NEVER use `font-mono` / `<Mono>` for:**
+- Buttons or CTAs
+- Badges
+- Category labels
+- Navigation items
+- "View All" links
+
+For category labels and section labels: use the `<Label>` component (`text-xs uppercase tracking-widest text-muted-foreground`).
+
+### 3.4 Section Rules
+
+**Max 3-4 typography components per visible section:**
+1. **Heading** (`Display`, `H1`, `H2`, or `H3`)
+2. **Body/Lead** (`Lead` or `Body`)
+3. **Small/Caption** (`Muted`, `Small`, or `Caption`)
+4. **Mono** (only if section has numbers/steps)
+
+**Additional rules:**
+- No eyebrow labels above headings
+- No icon-in-box pattern (use bare icons)
+- FAQ sections on subpages must reuse the `FaqAccordion` component from `@/components/marketing/sections/faq`
+
+### 3.5 Component Reuse Strategy
+
+Reuse existing marketing section components rather than reimplementing them on subpages:
+
+| Component | Export | Reuse on |
+|-----------|--------|----------|
+| `FaqAccordion` | `@/components/marketing/sections/faq` | Any page with FAQ content |
+| `CaseStudiesPreview` | landing page section | Subpages needing social proof |
+| `Contact` | landing page section | Any page with a contact CTA |
+| `BlogPreview` | landing page section | Subpages needing blog teasers |
+| `Testimonials` | landing page section | Any page needing testimonials |
+
+### 3.6 Weight Hierarchy
 
 | Weight | Use |
 |---|---|
 | `font-normal` (400) | Body copy, paragraphs, list items |
-| `font-medium` (500) | All `.font-display` headings (auto-applied via base CSS), UI emphasis, FAQ questions, navbar labels |
-| `font-semibold` (600) | Reserved — not used by default. Only if a specific element needs extra visual weight |
-| `font-bold` (700) | Avoid. Too heavy against Inter's optical spacing at display sizes |
+| `font-medium` (500) | All `.font-display` headings (auto-applied), UI emphasis, FAQ questions |
+| `font-semibold` (600) | Reserved, not used by default |
+| `font-bold` (700) | Avoid |
 
-### 3.4 Paragraph Width Rule
+### 3.7 Paragraph Width Rule
 
 Body copy is constrained to **~60-65 characters per line** for optimal reading:
 
@@ -169,16 +207,14 @@ Body copy is constrained to **~60-65 characters per line** for optimal reading:
 | 15px (section subtitle) | `max-w-[520px]` | ~65 |
 | 14px (card body) | Natural card flow | - |
 
-### 3.5 Typography Rules
+### 3.8 Typography Rules
 
 - **Never use pure black.** Text is `--foreground` (`oklch(0.13 ...)`), a warm near-black.
-- **Display defaults to weight 500.** `.font-display` automatically applies `font-weight: 500` and `letter-spacing: -0.05em` via base CSS.
-- **Tracking hierarchy.** H1/H2 inherit `-0.05em` from `.font-display`. H3 and smaller display text use `tracking-[-0.04em]` (slightly looser). Do not add tracking classes to h1/h2 unless overriding.
-- **Tight leading on display.** Hero uses `leading-[1.05]`, section h2 uses `leading-[1.15]`, card h3 uses `leading-[1.3]`.
-- **Body line-height is 1.6, not 1.625.** Avoid `leading-relaxed` on new code — use explicit `leading-[1.6]` or `leading-[1.5]`.
-- **Paragraphs have an explicit `max-w-[...]`** tuned to their font size. Don't let body copy stretch to full column width.
+- **Display defaults to weight 500.** `.font-display` automatically applies `font-weight: 500` and `letter-spacing: -0.04em` via base CSS.
+- **Tight leading on display.** Hero uses `leading-[1.05]`, section h2 uses `leading-[1.1]`, card h3 uses `leading-[1.25]`.
+- **Body line-height is 1.6.** Use explicit `leading-[1.6]` or `leading-[1.5]`, not `leading-relaxed`.
 - **`text-balance`** on hero headlines for even line breaks.
-- **Geist Mono** is used for all UI chrome: eyebrow labels, metadata, buttons, badges, section headers. `.font-mono` auto-applies `uppercase` and `letter-spacing: 0`. Never use it for headings, body text, or nav links (those stay in Inter).
+- **Geist Mono** is reserved for numbers, step indicators, and tech labels only. Never for headings, body text, nav links, or metadata labels.
 
 ---
 
@@ -274,7 +310,7 @@ All computed radius tokens (`--radius-sm` through `--radius-4xl`) cascade from t
 | Card boundary | `ring-1 ring-foreground/10` | Cards, dialogs |
 | Section boundary | `border-border/40` | Navbar border, dropdown grid cells |
 | Input boundary | `border border-input` | Form fields |
-| Brand accent border | `border-brand/20` | Icon containers, featured CTAs |
+| Brand accent border | `border-brand/20` | Featured CTAs |
 | Focus indicator | `ring-1 ring-ring/50` | All focusable elements |
 | Error indicator | `ring-1 ring-destructive/20` | Invalid form fields |
 
@@ -297,9 +333,9 @@ Built with `class-variance-authority` on a `@base-ui/react` primitive.
 | `destructive` | `bg-destructive/10 text-destructive` | Delete, remove |
 | `link` | `text-primary underline-offset-4` → hover underline | Inline text links |
 
-**Brand CTA buttons** are not a variant - they're composed inline with `font-mono` for the Exalt-style uppercase chrome treatment:
+**Brand CTA buttons** are composed inline:
 ```tsx
-<Button className="border-transparent bg-brand px-8 font-mono text-white [&]:hover:bg-brand/80" />
+<Button className="border-transparent bg-brand px-8 text-white [&]:hover:bg-brand/80" />
 ```
 
 **Sizes:**
@@ -314,8 +350,6 @@ Built with `class-variance-authority` on a `@base-ui/react` primitive.
 | `icon-xs` | `size-6` | - |
 | `icon-sm` | `size-7` | - |
 | `icon-lg` | `size-9` | - |
-
-Brand CTAs in the hero and navbar use `size="lg"` with additional `px-6` or `px-8` for wider touch targets and visual weight.
 
 ### 7.2 Cards
 
@@ -391,25 +425,17 @@ The mega-menu style dropdown is a custom component (not shadcn):
 |---|---|
 | Grid layout | `grid gap-px md:grid-cols-3` |
 | Outer border | `border border-border/40` |
-| Cell dividers | `border-border/40` between cells (not `gap-px` dividers) |
+| Cell dividers | `border-border/40` between cells |
 | Cell padding | `p-8 md:p-10` |
 | Hover | `bg-muted/30` |
-| Icon container | `h-10 w-10 border border-brand/20 bg-brand/5` |
-| Icon | `h-5 w-5 text-brand` (lucide, `strokeWidth={1.5}`) |
+| Icons | Bare: `h-5 w-5 text-brand` or `h-5 w-5 text-muted-foreground` (no container box) |
 
-### 7.8 UI Chrome Labels (Two-Font System)
+### 7.8 Icons
 
-All UI chrome uses Geist Mono with auto-uppercase (enforced via `.font-mono` base CSS):
-
-| Pattern | Classes | Usage |
-|---|---|---|
-| Section header | `font-mono text-muted-foreground/50 text-xs` | Footer columns, tech stack categories, sidebar labels |
-| Eyebrow label | `font-mono text-brand text-xs` | Industry tags, roles, date metadata, prev/next |
-| Metadata label | `font-mono text-muted-foreground text-xs` | Location, timeline, score labels, dimensions |
-| Badge | `font-mono text-[10px]` | Pricing badges, status indicators |
-| Button text | `font-mono` on Button className | All marketing CTA buttons |
-
-The `.font-mono` class auto-applies `text-transform: uppercase` and `letter-spacing: 0`. No need for explicit `uppercase` or `tracking-*` classes.
+Use bare icons without container boxes:
+- Inline icons: `h-5 w-5 text-brand` or `h-5 w-5 text-muted-foreground`
+- Card header icons: `h-6 w-6`
+- Do **not** wrap icons in `border border-brand/20 bg-brand/5` containers
 
 ---
 
@@ -524,11 +550,13 @@ The `.section-dark` class allows dark sections within a light page without toggl
 - **Use sharp corners everywhere.** The `--radius: 0rem` base is non-negotiable.
 - **Use rings for containment.** `ring-1 ring-foreground/10` is the primary card/dialog boundary pattern.
 - **Use opacity variants** for border lightness (`border-border/40`, `ring-foreground/10`).
-- **Use brand orange sparingly.** CTAs, icon accents, active indicators, featured links.
-- **Use `font-mono`** for all UI chrome (labels, metadata, buttons, badges). It auto-applies uppercase and letter-spacing: 0.
+- **Use brand orange sparingly.** CTAs, active indicators, featured links.
+- **Use `font-mono` only for numbers/steps/tech labels.** Never for metadata labels or category text.
 - **Use `section-dark`** for locally inverted sections instead of toggling dark mode.
 - **Scale spacing aggressively** between mobile and desktop (`py-20` → `py-36`).
 - **Use `text-balance`** on hero headlines.
+- **Max 3-4 font styles per section.**
+- **Use bare icons** without container boxes.
 
 ### Don't:
 - **Don't use border-radius.** No `rounded-md`, no `rounded-full`, no pills.
@@ -536,7 +564,10 @@ The `.section-dark` class allows dark sections within a light page without toggl
 - **Don't use pure black** for text. `--foreground` is a warm near-black.
 - **Don't overuse brand orange.** If it covers more than ~10% of the viewport, it loses its accent power.
 - **Don't use default grey shadows.** If a floating element needs depth, use glassmorphism (`bg-*/80 backdrop-blur-xl`) or tonal rings.
-- **Don't add rounded corners** to new components. Check that `rounded-none` is explicitly applied or inherited.
+- **Don't add rounded corners** to new components.
+- **Don't use `font-mono` for eyebrows, metadata labels, or category text** — use `text-xs text-muted-foreground` instead.
+- **Don't wrap icons in border/bg containers** (no icon-in-box pattern).
+- **Don't exceed 4 font styles in a single section.**
 
 ---
 
@@ -545,7 +576,8 @@ The `.section-dark` class allows dark sections within a light page without toggl
 | File | Purpose |
 |---|---|
 | `apps/web/src/index.css` | All CSS custom properties, theme tokens, base styles, animations |
-| `apps/web/src/app/[locale]/layout.tsx` | Font loading (Inter, Geist Mono), theme provider setup |
+| `apps/web/src/app/[locale]/layout.tsx` | Font loading (Geist Sans, Geist Mono), theme provider setup |
+| `apps/web/src/components/ui/typography.tsx` | Typography component system (Display, H1-H4, Lead, Body, Muted, Small, Caption, Label, Mono, InlineLink) |
 | `apps/web/src/components/ui/button.tsx` | Button variants and sizes (CVA + base-ui) |
 | `apps/web/src/components/ui/card.tsx` | Card component family |
 | `apps/web/src/components/ui/input.tsx` | Input field (base-ui) |

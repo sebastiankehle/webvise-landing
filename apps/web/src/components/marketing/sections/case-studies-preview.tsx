@@ -4,6 +4,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import StaggerChildren from "@/components/marketing/stagger-children";
+import { Caption, H2, H3, Label, Lead, Muted } from "@/components/ui/typography";
 import { getCaseStudies } from "@/data/case-studies";
 import { Link } from "@/i18n/navigation";
 
@@ -24,13 +25,17 @@ export default async function CaseStudiesPreview() {
 		.filter(Boolean) as typeof caseStudies;
 	return (
 		<SectionWrapper id="case-studies" dark>
-			<div className="max-w-[640px]">
-				<h2 className="font-display text-[28px] leading-[1.15] md:text-[40px]">
-					{t("title")}
-				</h2>
-				<p className="mt-5 max-w-[520px] text-[15px] text-muted-foreground leading-[1.6]">
-					{t("subtitle")}
-				</p>
+			<div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-end">
+				<div className="max-w-[640px]">
+					<H2>{t("title")}</H2>
+					<Lead className="mt-5 max-w-[520px]">{t("subtitle")}</Lead>
+				</div>
+				<Link
+					href="/case-studies"
+					className="shrink-0 text-brand text-sm transition-opacity hover:opacity-80"
+				>
+					{t("viewAll")}
+				</Link>
 			</div>
 
 			<StaggerChildren className="mt-14 grid gap-px overflow-hidden border border-border md:grid-cols-2 lg:grid-cols-3">
@@ -54,20 +59,11 @@ export default async function CaseStudiesPreview() {
 							</div>
 						)}
 						<div>
-							<span className="font-mono text-brand text-xs">
-								{cs.industry}
-							</span>
-							<h3 className="mt-2 font-display text-xl leading-[1.25] tracking-[-0.04em]">
-								{cs.title}
-							</h3>
-							<p className="mt-3 text-muted-foreground text-sm leading-[1.6]">
-								{cs.excerpt}
-							</p>
+							<Label>{cs.industry}</Label>
+							<H3 className="mt-2 tracking-[-0.04em]">{cs.title}</H3>
+							<Muted className="mt-3">{cs.excerpt}</Muted>
 						</div>
-						<div className="mt-6 flex items-center justify-between border-border border-t pt-5">
-							<span className="font-mono text-muted-foreground text-xs">
-								{t("readMore")}
-							</span>
+						<div className="mt-6 flex items-center justify-end border-border border-t pt-5">
 							<ArrowRight className="h-4 w-4 text-muted-foreground transition-all group-hover:translate-x-1 group-hover:text-brand" />
 						</div>
 					</Link>

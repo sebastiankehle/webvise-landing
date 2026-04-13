@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import StaggerChildren from "@/components/marketing/stagger-children";
+import { H2, H3, Lead, Muted } from "@/components/ui/typography";
 
 const benefitKeys = [
 	{ key: "speed", icon: Gauge },
@@ -16,12 +17,8 @@ export default async function Benefits() {
 	return (
 		<SectionWrapper id="benefits">
 			<div className="max-w-[640px]">
-				<h2 className="font-display text-[28px] leading-[1.15] md:text-[40px]">
-					{t("title")}
-				</h2>
-				<p className="mt-5 max-w-[520px] text-[15px] text-muted-foreground leading-[1.6]">
-					{t("subtitle")}
-				</p>
+				<H2>{t("title")}</H2>
+				<Lead className="mt-5 max-w-[520px]">{t("subtitle")}</Lead>
 			</div>
 			<StaggerChildren className="mt-14 grid gap-px overflow-hidden border border-border/40 md:grid-cols-3">
 				{benefitKeys.map(({ key, icon: Icon }) => (
@@ -29,15 +26,9 @@ export default async function Benefits() {
 						key={key}
 						className="group border-border/40 not-last:border-b p-8 transition-colors hover:bg-muted/30 md:not-last:border-r md:not-last:border-b-0 md:p-10"
 					>
-						<div className="flex h-10 w-10 items-center justify-center border border-brand/20 bg-brand/5">
-							<Icon className="h-5 w-5 text-brand" strokeWidth={1.5} />
-						</div>
-						<h3 className="mt-5 font-display text-xl tracking-[-0.04em]">
-							{t(`${key}.title`)}
-						</h3>
-						<p className="mt-3 text-muted-foreground text-sm leading-[1.6]">
-							{t(`${key}.description`)}
-						</p>
+						<Icon className="h-5 w-5 text-brand shrink-0" strokeWidth={1.5} />
+						<H3 className="mt-5">{t(`${key}.title`)}</H3>
+						<Muted className="mt-3">{t(`${key}.description`)}</Muted>
 					</div>
 				))}
 			</StaggerChildren>

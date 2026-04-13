@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import StaggerChildren from "@/components/marketing/stagger-children";
+import { Caption, H2, H3, Lead, Muted } from "@/components/ui/typography";
 import { services } from "@/data/services";
 import { Link } from "@/i18n/navigation";
 
@@ -12,12 +13,8 @@ export default async function Services() {
 	return (
 		<SectionWrapper id="services">
 			<div className="max-w-[640px]">
-				<h2 className="font-display text-[28px] leading-[1.15] md:text-[40px]">
-					{t("title")}
-				</h2>
-				<p className="mt-5 max-w-[520px] text-[15px] text-muted-foreground leading-[1.6]">
-					{t("subtitle")}
-				</p>
+				<H2>{t("title")}</H2>
+				<Lead className="mt-5 max-w-[520px]">{t("subtitle")}</Lead>
 			</div>
 			<StaggerChildren className="mt-14 grid gap-px overflow-hidden border border-border/40 md:grid-cols-2 lg:grid-cols-3">
 				{services.map((service) => (
@@ -31,21 +28,13 @@ export default async function Services() {
 					>
 						<div>
 							<div className="flex flex-col gap-4">
-								<div className="flex h-10 w-10 items-center justify-center border border-brand/20 bg-brand/5 transition-colors group-hover:border-brand/40 group-hover:bg-brand/10">
-									<service.icon className="h-5 w-5 text-brand" strokeWidth={1.5} />
-								</div>
-								<h3 className="font-display text-xl tracking-[-0.04em]">
-									{t(`${service.translationKey}.title`)}
-								</h3>
+								<service.icon className="h-5 w-5 text-brand shrink-0" strokeWidth={1.5} />
+								<H3>{t(`${service.translationKey}.title`)}</H3>
 							</div>
-							<p className="mt-4 text-muted-foreground text-sm leading-[1.6]">
-								{t(`${service.translationKey}.tagline`)}
-							</p>
+							<Muted className="mt-4">{t(`${service.translationKey}.tagline`)}</Muted>
 						</div>
 						<div className="mt-8 flex items-center justify-between border-border/40 border-t pt-5">
-							<span className="font-mono text-muted-foreground text-xs">
-								{t(`${service.translationKey}.timeline`)}
-							</span>
+							<Caption>{t(`${service.translationKey}.timeline`)}</Caption>
 							<ArrowRight className="h-4 w-4 text-muted-foreground transition-all group-hover:translate-x-1 group-hover:text-brand" />
 						</div>
 					</Link>

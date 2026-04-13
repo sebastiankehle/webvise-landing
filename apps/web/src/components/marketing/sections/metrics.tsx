@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import MiniChart from "@/components/marketing/mini-chart";
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import StaggerChildren from "@/components/marketing/stagger-children";
+import { H2, Lead, Small } from "@/components/ui/typography";
 
 const metricKeys = ["projects", "raised", "users", "launch"];
 
@@ -12,12 +13,8 @@ export default async function Metrics() {
 	return (
 		<SectionWrapper id="metrics" dark>
 			<div className="max-w-[640px]">
-				<h2 className="font-display text-[28px] leading-[1.15] md:text-[40px]">
-					{t("title")}
-				</h2>
-				<p className="mt-5 max-w-[520px] text-[15px] text-muted-foreground leading-[1.6]">
-					{t("subtitle")}
-				</p>
+				<H2>{t("title")}</H2>
+				<Lead className="mt-5 max-w-[520px]">{t("subtitle")}</Lead>
 			</div>
 			<StaggerChildren className="mt-14 grid grid-cols-2 gap-px overflow-hidden border border-border md:grid-cols-4">
 				{metricKeys.map((key) => (
@@ -28,9 +25,7 @@ export default async function Metrics() {
 						<p className="font-display text-[36px] leading-[1] tracking-[-0.04em] md:text-[48px]">
 							{t(`${key}.value`)}
 						</p>
-						<p className="mt-3 text-muted-foreground text-sm">
-							{t(`${key}.label`)}
-						</p>
+						<Small className="mt-3 block">{t(`${key}.label`)}</Small>
 					</div>
 				))}
 			</StaggerChildren>

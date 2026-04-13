@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import StaggerChildren from "@/components/marketing/stagger-children";
 import { TechBadge } from "@/components/marketing/tech-badge";
+import { H2, Label, Lead } from "@/components/ui/typography";
 
 const categories = [
 	{
@@ -54,12 +55,8 @@ export default async function TechStack() {
 	return (
 		<SectionWrapper id="tech-stack" alternate>
 			<div className="max-w-[640px]">
-				<h2 className="font-display text-[28px] leading-[1.15] md:text-[40px]">
-					{t("title")}
-				</h2>
-				<p className="mt-5 max-w-[520px] text-[15px] text-muted-foreground leading-[1.6]">
-					{t("subtitle")}
-				</p>
+				<H2>{t("title")}</H2>
+				<Lead className="mt-5 max-w-[520px]">{t("subtitle")}</Lead>
 			</div>
 			<StaggerChildren className="mt-14 grid gap-px overflow-hidden border border-border/40 md:grid-cols-2 lg:grid-cols-4">
 				{categories.map((cat) => (
@@ -67,9 +64,7 @@ export default async function TechStack() {
 						key={cat.key}
 						className="border-border/40 not-last:border-b p-6 md:odd:border-r md:nth-[-n+2]:border-b md:not-last:border-b-0 md:p-8 lg:not-last:border-r lg:nth-[-n+2]:border-b-0 lg:odd:border-r-0"
 					>
-						<p className="mb-5 font-mono text-muted-foreground/50 text-xs">
-							{t(cat.key)}
-						</p>
+						<Label className="mb-5 block text-muted-foreground/50">{t(cat.key)}</Label>
 						<div className="flex flex-wrap gap-2">
 							{cat.items.map((tech) => (
 								<TechBadge key={tech} name={tech} />
