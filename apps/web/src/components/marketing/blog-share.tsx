@@ -31,7 +31,7 @@ export default function BlogShare({
 
 	return (
 		<div className="flex items-center gap-3">
-			<span className="text-muted-foreground/50 text-xs tracking-[-0.011em]">
+			<span className="font-mono text-muted-foreground/50 text-xs">
 				{t("shareArticle")}
 			</span>
 			<div className="flex items-center gap-1.5">

@@ -45,23 +45,13 @@ export default async function CaseStudiesPage() {
 			<section className="py-24 md:py-44">
 				<div className="mx-auto max-w-[1320px] px-6">
 					<div className="max-w-[720px]">
-						<h1 className="font-display text-[40px] leading-[1.1] md:text-[56px]">
+						<h1 className="font-display text-[32px] leading-[1.05] md:text-[48px]">
 							{t("title")}
 						</h1>
-						<p className="mt-5 max-w-[560px] text-[17px] text-muted-foreground leading-[1.5]">
+						<p className="mt-5 max-w-[560px] text-[17px] text-muted-foreground leading-[1.55]">
 							{t("subtitle")}
 						</p>
 					</div>
-				</div>
-			</section>
-
-			{/* Problem Statement */}
-			<section className="py-20 md:py-36">
-				<div className="mx-auto max-w-[1320px] px-6">
-					<p className="max-w-[960px] font-display text-[28px] leading-[1.3] md:text-[36px]">
-						<span className="text-foreground">{t("statement.known")}</span>{" "}
-						<span className="text-muted-foreground">{t("statement.pain")}</span>
-					</p>
 				</div>
 			</section>
 
@@ -87,13 +77,13 @@ export default async function CaseStudiesPage() {
 								</div>
 							)}
 							<div>
-								<span className="font-[510] text-brand text-xs tracking-[-0.011em]">
+								<span className="font-mono text-brand text-xs">
 									{cs.industry}
 								</span>
-								<h2 className="mt-2 font-display text-[16px] leading-[21px] tracking-[-0.011em]">
+								<h2 className="mt-2 font-display text-xl leading-[1.25] tracking-[-0.04em]">
 									{cs.title}
 								</h2>
-								<p className="mt-3 text-muted-foreground text-sm leading-[1.5]">
+								<p className="mt-3 text-muted-foreground text-sm leading-[1.6]">
 									{cs.excerpt}
 								</p>
 							</div>

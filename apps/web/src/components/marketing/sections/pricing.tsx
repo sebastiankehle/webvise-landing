@@ -16,11 +16,11 @@ export default async function Pricing() {
 
 	return (
 		<SectionWrapper id="pricing" alternate>
-			<div className="grid items-start gap-12 md:grid-cols-[1fr_1.2fr]">
-				<h2 className="font-display text-[28px] leading-[34px] md:text-[36px] md:leading-[42px]">
+			<div className="max-w-[640px]">
+				<h2 className="font-display text-[28px] leading-[1.15] md:text-[40px]">
 					{t("title")}
 				</h2>
-				<p className="text-[17px] text-muted-foreground leading-[26px] tracking-[-0.011em]">
+				<p className="mt-5 max-w-[520px] text-[15px] text-muted-foreground leading-[1.6]">
 					{t("subtitle")}
 				</p>
 			</div>
@@ -41,16 +41,16 @@ export default async function Pricing() {
 						>
 							<div>
 								<div className="flex items-center gap-3">
-									<h3 className="font-display text-[16px] leading-[21px] tracking-[-0.011em]">
+									<h3 className="font-display text-2xl tracking-[-0.04em]">
 										{t(`tiers.${key}.name`)}
 									</h3>
 									{hasBadge && (
-										<span className="border border-brand bg-brand px-2 py-0.5 font-[510] text-[10px] text-white tracking-[-0.011em]">
+										<span className="border border-brand bg-brand px-2 py-0.5 font-mono text-[10px] text-white">
 											{t(`tiers.${key}.badge`)}
 										</span>
 									)}
 								</div>
-								<p className="mt-3 text-muted-foreground text-sm leading-[1.5]">
+								<p className="mt-3 text-muted-foreground text-sm leading-[1.6]">
 									{t(`tiers.${key}.description`)}
 								</p>
 								<ul className="mt-8 space-y-3">
@@ -65,15 +65,15 @@ export default async function Pricing() {
 								</ul>
 							</div>
 							<div className="mt-10">
-								<p className="font-display text-[32px] leading-[38px] tracking-[-0.022em]">
+								<p className="font-display text-3xl tracking-[-0.04em]">
 									{t(`tiers.${key}.price`)}
 								</p>
-								<p className="mt-1 text-muted-foreground text-xs tracking-[-0.011em]">
+								<p className="mt-1 font-mono text-muted-foreground text-xs">
 									{t(`tiers.${key}.basis`)}
 								</p>
 								<Button
 									size="sm"
-									className="mt-5 w-full border-transparent bg-brand font-[510] text-white [&]:hover:bg-brand/80"
+									className="mt-5 w-full border-transparent bg-brand font-mono text-white [&]:hover:bg-brand/80"
 									data-ph-capture-attribute-cta-location="pricing"
 									data-ph-capture-attribute-cta-variant={key}
 									render={<Link href={{ pathname: "/", hash: "contact" }} />}

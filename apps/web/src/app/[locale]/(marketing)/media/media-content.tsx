@@ -17,14 +17,14 @@ export default function MediaContent({ heroSlogan }: { heroSlogan: string }) {
 		<div className="mt-16 space-y-24">
 			{/* Logo */}
 			<div>
-				<h2 className="mb-2 font-display text-[16px] leading-[21px] tracking-[-0.011em]">{t("logoTitle")}</h2>
+				<h2 className="mb-2 font-medium text-lg">{t("logoTitle")}</h2>
 				<p className="mb-8 text-muted-foreground text-sm">
 					{t("logoDescription")}
 				</p>
 				<div className="grid gap-12 sm:grid-cols-3">
 					{VARIANTS.map((v) => (
 						<div key={v}>
-							<p className="mb-3 font-[450] text-sm tracking-[-0.011em]">
+							<p className="mb-3 font-medium text-sm">
 								{t(
 									`variant${v[0].toUpperCase()}${v.slice(1)}` as
 										| "variantLight"
@@ -40,14 +40,14 @@ export default function MediaContent({ heroSlogan }: { heroSlogan: string }) {
 
 			{/* LinkedIn Banners - Tagline */}
 			<div>
-				<h2 className="mb-2 font-display text-[16px] leading-[21px] tracking-[-0.011em]">{t("linkedinBanners")}</h2>
+				<h2 className="mb-2 font-medium text-lg">{t("linkedinBanners")}</h2>
 				<p className="mb-8 text-muted-foreground text-sm">
 					{t("linkedinBannersDescription")}
 				</p>
 				<div className="grid gap-16">
 					{VARIANTS.map((v) => (
 						<div key={v}>
-							<p className="mb-3 font-[450] text-sm tracking-[-0.011em]">
+							<p className="mb-3 font-medium text-sm">
 								{t(
 									`variant${v[0].toUpperCase()}${v.slice(1)}` as
 										| "variantLight"
@@ -70,14 +70,14 @@ export default function MediaContent({ heroSlogan }: { heroSlogan: string }) {
 
 			{/* LinkedIn Banners - Hero Slogan */}
 			<div>
-				<h2 className="mb-2 font-display text-[16px] leading-[21px] tracking-[-0.011em]">{t("linkedinBannersHero")}</h2>
+				<h2 className="mb-2 font-medium text-lg">{t("linkedinBannersHero")}</h2>
 				<p className="mb-8 text-muted-foreground text-sm">
 					{t("linkedinBannersHeroDescription")}
 				</p>
 				<div className="grid gap-16">
 					{VARIANTS.map((v) => (
 						<div key={v}>
-							<p className="mb-3 font-[450] text-sm tracking-[-0.011em]">
+							<p className="mb-3 font-medium text-sm">
 								{t(
 									`variant${v[0].toUpperCase()}${v.slice(1)}` as
 										| "variantLight"
@@ -100,14 +100,14 @@ export default function MediaContent({ heroSlogan }: { heroSlogan: string }) {
 
 			{/* Desktop Wallpapers */}
 			<div>
-				<h2 className="mb-2 font-display text-[16px] leading-[21px] tracking-[-0.011em]">{t("desktopWallpapers")}</h2>
+				<h2 className="mb-2 font-medium text-lg">{t("desktopWallpapers")}</h2>
 				<p className="mb-8 text-muted-foreground text-sm">
 					{t("desktopWallpapersDescription")}
 				</p>
 				<div className="grid gap-16">
 					{VARIANTS.map((v) => (
 						<div key={v}>
-							<p className="mb-3 font-[450] text-sm tracking-[-0.011em]">
+							<p className="mb-3 font-medium text-sm">
 								{t(
 									`variant${v[0].toUpperCase()}${v.slice(1)}` as
 										| "variantLight"
@@ -130,14 +130,14 @@ export default function MediaContent({ heroSlogan }: { heroSlogan: string }) {
 
 			{/* Mobile Wallpapers */}
 			<div>
-				<h2 className="mb-2 font-display text-[16px] leading-[21px] tracking-[-0.011em]">{t("mobileWallpapers")}</h2>
+				<h2 className="mb-2 font-medium text-lg">{t("mobileWallpapers")}</h2>
 				<p className="mb-8 text-muted-foreground text-sm">
 					{t("mobileWallpapersDescription")}
 				</p>
 				<div className="grid gap-12 sm:grid-cols-3">
 					{VARIANTS.map((v) => (
 						<div key={v}>
-							<p className="mb-3 font-[450] text-sm tracking-[-0.011em]">
+							<p className="mb-3 font-medium text-sm">
 								{t(
 									`variant${v[0].toUpperCase()}${v.slice(1)}` as
 										| "variantLight"

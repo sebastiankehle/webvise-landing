@@ -25,13 +25,13 @@ export default async function TermsPage() {
 	return (
 		<article className="mx-auto max-w-[1320px] px-6 py-32 md:py-44">
 			<div className="max-w-2xl">
-				<h1 className="font-display text-[40px] leading-[1.1] md:text-[56px]">
+				<h1 className="font-display text-[32px] leading-[1.05] md:text-[48px]">
 					{page.title}
 				</h1>
-				<p className="mt-5 text-[17px] text-muted-foreground leading-[1.5]">{page.subtitle}</p>
+				<p className="mt-4 text-muted-foreground leading-relaxed">{page.subtitle}</p>
 			</div>
 
-			<div className="mt-16 max-w-2xl space-y-12 text-muted-foreground leading-[1.5] [&_h2]:mb-4 [&_h2]:font-display [&_h2]:text-foreground [&_h2]:text-[16px] [&_h2]:leading-[21px] [&_h2]:tracking-[-0.011em] [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:pl-5">
+			<div className="mt-16 max-w-2xl space-y-12 text-muted-foreground leading-relaxed [&_h2]:mb-4 [&_h2]:font-display [&_h2]:text-foreground [&_h2]:text-lg [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:pl-5">
 				{page.sections.map((section) => (
 					<section key={section.heading}>
 						<h2>{section.heading}</h2>

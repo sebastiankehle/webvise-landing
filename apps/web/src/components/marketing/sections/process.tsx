@@ -22,11 +22,11 @@ export default async function Process() {
 
 	return (
 		<SectionWrapper id="process" alternate>
-			<div className="grid items-start gap-12 md:grid-cols-[1fr_1.2fr]">
-				<h2 className="font-display text-[28px] leading-[34px] md:text-[36px] md:leading-[42px]">
+			<div className="max-w-[640px]">
+				<h2 className="font-display text-[28px] leading-[1.15] md:text-[40px]">
 					{t("title")}
 				</h2>
-				<p className="text-[17px] text-muted-foreground leading-[26px] tracking-[-0.011em]">
+				<p className="mt-5 max-w-[520px] text-[15px] text-muted-foreground leading-[1.6]">
 					{t("subtitle")}
 				</p>
 			</div>

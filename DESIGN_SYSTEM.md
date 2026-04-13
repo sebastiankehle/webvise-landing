@@ -4,7 +4,7 @@
 
 **Design Philosophy: "Engineered Minimalism"**
 
-This design system is built on the intersection of Swiss-style precision and restrained digital craftsmanship. It achieves distinction through sharp geometry, a cool slate foundation punctured by a singular warm accent, and generous use of whitespace as a structural element.
+This design system is built on the intersection of Swiss-style precision and restrained digital craftsmanship. It achieves distinction through sharp geometry, a monochromatic foundation punctured by a singular warm accent, and generous use of whitespace as a structural element.
 
 The system uses a **strict two-font system** inspired by Exalt Studio: **Inter** for all content (headings, body, links) and **Geist Mono** for all UI chrome (labels, metadata, buttons, badges) with auto-uppercase. **OKLCH** provides perceptually uniform color, and **zero border-radius** is a defining geometric choice. Every surface, component, and interaction is designed to feel engineered rather than decorated.
 
@@ -24,24 +24,24 @@ Colors are defined as CSS custom properties using the **OKLCH** color space for 
 
 | Token | Value | Usage |
 |---|---|---|
-| `--background` | `oklch(0.968 0.007 264.5)` | Primary canvas / page background (cool grey) |
-| `--foreground` | `oklch(0.279 0.041 260)` | Primary text color (slate-800, never pure black) |
-| `--card` | `oklch(0.99 0.003 260)` | Card surfaces, lifted from background |
-| `--popover` | `oklch(0.99 0.003 260)` | Popover / dropdown surfaces |
-| `--primary` | `oklch(0.279 0.041 260)` | Primary UI actions |
-| `--primary-foreground` | `oklch(0.968 0.007 264.5)` | Text on primary surfaces |
-| `--secondary` | `oklch(0.94 0.007 260)` | Secondary surfaces and buttons |
-| `--muted` | `oklch(0.94 0.007 260)` | Muted backgrounds, hover states |
-| `--muted-foreground` | `oklch(0.554 0.046 257.4)` | Secondary text, metadata, descriptions (slate-500) |
-| `--accent` | `oklch(0.94 0.007 260)` | Accent surfaces |
-| `--border` | `oklch(0.869 0.022 252.9)` | Default border color (slate-300) |
-| `--input` | `oklch(0.869 0.022 252.9)` | Input field borders |
-| `--ring` | `oklch(0.554 0.046 257.4)` | Focus ring color |
+| `--background` | `oklch(0.985 0.003 80)` | Primary canvas / page background |
+| `--foreground` | `oklch(0.13 0.01 250)` | Primary text color (near-black, never pure black) |
+| `--card` | `oklch(1 0.003 80)` | Card surfaces, lifted from background |
+| `--popover` | `oklch(1 0.003 80)` | Popover / dropdown surfaces |
+| `--primary` | `oklch(0.13 0.01 250)` | Primary UI actions (dark-on-light) |
+| `--primary-foreground` | `oklch(0.985 0.003 80)` | Text on primary surfaces |
+| `--secondary` | `oklch(0.96 0.005 80)` | Secondary surfaces and buttons |
+| `--muted` | `oklch(0.96 0.005 80)` | Muted backgrounds, hover states |
+| `--muted-foreground` | `oklch(0.48 0.01 250)` | Secondary text, metadata, descriptions |
+| `--accent` | `oklch(0.96 0.005 80)` | Accent surfaces |
+| `--border` | `oklch(0.90 0.005 80)` | Default border color |
+| `--input` | `oklch(0.90 0.005 80)` | Input field borders |
+| `--ring` | `oklch(0.48 0.01 250)` | Focus ring color |
 | `--destructive` | `oklch(0.58 0.22 27)` | Error states and destructive actions |
 | `--brand` | `oklch(0.75 0.18 55)` | Brand orange - the singular accent color |
 | `--brand-subtle` | `oklch(0.75 0.18 55 / 8%)` | Low-opacity brand tint for backgrounds |
-| `--surface-dark` | `oklch(0.16 0.02 260)` | Dark section base |
-| `--surface-dark-secondary` | `oklch(0.21 0.02 260)` | Dark section secondary surface |
+| `--surface-dark` | `oklch(0.13 0.01 250)` | Dark section base |
+| `--surface-dark-secondary` | `oklch(0.18 0.01 250)` | Dark section secondary surface |
 
 ### 2.2 Dark Mode Tokens
 
@@ -66,7 +66,7 @@ The `.section-dark` class creates a locally inverted color context without toggl
 
 ```css
 .section-dark {
-  background: linear-gradient(165deg, oklch(0.17 0.02 260), oklch(0.13 0.012 260));
+  background: linear-gradient(165deg, oklch(0.14 0.015 250), oklch(0.11 0.008 250));
 }
 ```
 
@@ -81,7 +81,7 @@ The brand color (`oklch(0.75 0.18 55)`) is a high-energy accent. Use it for:
 - Links that need emphasis (e.g., email addresses, featured links)
 - Hover accents on social icons and interactive elements
 
-**Restraint rule:** Brand orange should never dominate the viewport. It appears on action elements and small accent surfaces only. The majority of the interface is cool slate grey + white cards.
+**Restraint rule:** Brand orange should never dominate the viewport. It appears on action elements and small accent surfaces only. The majority of the interface is neutral.
 
 ### 2.5 Chart Colors
 
@@ -99,15 +99,15 @@ For data visualization, five chart tokens are defined (light mode uses warm oran
 
 ## 3. Typography
 
-A single-font system. **Inter** handles everything -- headings, body, links, labels, buttons, metadata -- with weight 510 for display emphasis and tight negative tracking (-0.022em for display, -0.011em for content). No secondary typeface. This creates a clean, consistent reading experience without jarring font switches.
+A strict two-font system inspired by Exalt Studio. **Inter** handles all content with medium (500) weight for display and tight negative tracking. **Geist Mono** handles all UI chrome (labels, metadata, buttons, badges) with auto-uppercase enforced via CSS. This creates a clear visual hierarchy between "chrome" (mono/uppercase) and "content" (Inter/mixed-case).
 
 ### 3.1 Font Stack
 
 | Role | Font | CSS Variable | Usage |
 |---|---|---|---|
 | Sans (body) | Inter | `--font-inter` → `--font-sans` | All body text, UI elements |
-| Display | Inter | `--font-inter` → `--font-display` | Headlines, brand wordmark, section titles (weight 510, tight tracking) |
-| Mono | Geist Mono | `--font-geist-mono` → `--font-mono` | Available but not used. The system is single-font (Inter only). |
+| Display | Inter | `--font-inter` → `--font-display` | Headlines, brand wordmark, section titles |
+| Mono | Geist Mono | `--font-geist-mono` → `--font-mono` | All UI chrome: labels, metadata, buttons, badges, section headers (auto-uppercase via CSS) |
 
 Inter is loaded via `next/font/google` with CSS variable injection in the root layout. Ligatures and contextual alternates are enabled globally via:
 
@@ -117,12 +117,11 @@ body {
   letter-spacing: -0.011em;
 }
 .font-display {
-  font-weight: 510;
-  letter-spacing: -0.022em;
+  font-weight: 500;
+  letter-spacing: -0.05em;
 }
 .font-mono {
-  font-weight: 510;
-  letter-spacing: 0.05em;
+  letter-spacing: 0;
   text-transform: uppercase;
 }
 ```
@@ -131,45 +130,35 @@ body {
 
 | Context | Classes | Notes |
 |---|---|---|
-| Hero title (h1) | `font-display text-[40px] md:text-[56px] leading-[1.1]` | Home hero only; tracking inherited from `.font-display` (-0.022em) |
-| Page title (h1) | `font-display text-[40px] md:text-[56px] leading-[1.1]` | Blog, case-studies, about, legal; tracking inherited from `.font-display` (-0.022em) |
-| Section heading (h2) | `font-display text-[28px] md:text-[36px] leading-[34px] md:leading-[42px]` | All `SectionWrapper` intro headings |
-| Card/subsection (h3) | `font-display text-[16px] leading-[21px] tracking-[-0.011em]` | Benefit/service/blog/case cards; `tracking-[-0.011em]` overrides `.font-display` |
-| Pricing tier name (h3) | `font-display text-[16px] leading-[21px] tracking-[-0.011em]` | Pricing cards |
-| Metrics value | `font-display text-[48px] md:text-[64px] leading-[1] tracking-[-0.022em]` | Big stat numbers |
+| Hero title (h1) | `font-display text-[36px] md:text-[64px] leading-[1.05]` | Home hero only; tracking inherited from `.font-display` (-0.05em) |
+| Page title (h1) | `font-display text-[32px] md:text-[48px] leading-[1.05]` | Blog, case-studies, about, legal |
+| Section heading (h2) | `font-display text-[28px] md:text-[40px] leading-[1.15]` | All `SectionWrapper` intro headings |
+| Card/subsection (h3) | `font-display text-xl leading-[1.3] tracking-[-0.04em]` | Benefit/service/blog/case cards |
+| Pricing tier name (h3) | `font-display text-2xl tracking-[-0.04em]` | Pricing cards |
+| Metrics value | `font-display text-[36px] md:text-[48px] leading-[1] tracking-[-0.04em]` | Big stat numbers |
 | Brand wordmark | `font-display text-[22px]` | "webvise" in navbar/footer; tracking inherited |
-| Hero subtitle | `text-[16px] max-w-[500px] leading-[1.5]` | Home hero, ~55 chars per line |
-| Page intro text | `text-[17px] text-muted-foreground leading-[1.5]` | Subpage headers (blog, case studies, services, about, legal), page-level descriptions |
-| Section subtitle | `text-[15px] max-w-[520px] leading-[1.5]` | ~65 chars per line |
-| Card body | `text-sm leading-[1.5]` | Descriptions in cards |
-| Article prose (body) | `text-[16px] leading-[1.6]` | Blog article `<p>` |
-| Article prose (list) | `text-[15px] leading-[1.5]` | Blog article `<ul>` |
+| Hero subtitle | `text-[18px] max-w-[500px] leading-[1.5]` | ~60 chars per line |
+| Section subtitle | `text-[15px] max-w-[520px] leading-[1.6]` | ~65 chars per line |
+| Card body | `text-sm leading-[1.6]` | Descriptions in cards |
+| Article prose (body) | `text-[16px] leading-[1.7]` | Blog article `<p>` |
+| Article prose (list) | `text-[15px] leading-[1.65]` | Blog article `<ul>` |
 | Default UI text | `text-xs/relaxed` | Cards, dialogs, inputs |
-| Footer headings | `font-[510] text-[13px] text-muted-foreground/50 tracking-[-0.011em]` | Footer column titles |
-| Eyebrow labels | `font-[510] text-brand text-xs tracking-[-0.011em]` | Industry tags, role labels |
-| CTA buttons | `font-[510]` added to Button className | All marketing buttons (Inter, normal case) |
-| Nav links | `text-sm` | Desktop navigation items |
-| Metadata | `text-muted-foreground text-xs tracking-[-0.011em]` | Dates, reading times, score labels, dimensions |
+| UI chrome labels | `font-mono text-xs text-muted-foreground/50` | Section headers, category labels, footer headings (auto-uppercase) |
+| Eyebrow labels | `font-mono text-xs text-brand` | Industry tags, role labels, date metadata |
+| CTA buttons | `font-mono` added to Button className | All marketing buttons (auto-uppercase) |
+| Nav links | `text-sm` | Desktop navigation items (Inter, no uppercase) |
+| Metadata | `font-mono text-xs text-muted-foreground` | Dates, reading times, score labels, dimensions |
 
 ### 3.3 Weight Hierarchy
 
 | Weight | Use |
 |---|---|
 | `font-normal` (400) | Body copy, paragraphs, list items |
-| `font-[450]` | Supporting subtitles, detail text (slightly above normal) |
-| `font-[510]` | All `.font-display` headings (auto-applied via base CSS), UI emphasis, CTA buttons, card titles |
+| `font-medium` (500) | All `.font-display` headings (auto-applied via base CSS), UI emphasis, FAQ questions, navbar labels |
+| `font-semibold` (600) | Reserved — not used by default. Only if a specific element needs extra visual weight |
+| `font-bold` (700) | Avoid. Too heavy against Inter's optical spacing at display sizes |
 
-The system uses numeric `font-[510]` instead of Tailwind's `font-medium` (500) for a slightly heavier optical weight that pairs well with Inter's negative tracking at display sizes.
-
-### 3.4 Tracking Rules
-
-| Context | Tracking | Notes |
-|---|---|---|
-| Display text (h1, h2, metrics) | `tracking-[-0.022em]` | Tight - Inter's spacing is generous at large sizes. Inherited from `.font-display` |
-| Content text (h3, body, links) | `tracking-[-0.011em]` | Subtle tightening for body readability |
-| Mono labels | `tracking-[0.05em]` | Wide - compensates for uppercase condensation |
-
-### 3.5 Paragraph Width Rule
+### 3.4 Paragraph Width Rule
 
 Body copy is constrained to **~60-65 characters per line** for optimal reading:
 
@@ -180,16 +169,16 @@ Body copy is constrained to **~60-65 characters per line** for optimal reading:
 | 15px (section subtitle) | `max-w-[520px]` | ~65 |
 | 14px (card body) | Natural card flow | - |
 
-### 3.6 Typography Rules
+### 3.5 Typography Rules
 
 - **Never use pure black.** Text is `--foreground` (`oklch(0.13 ...)`), a warm near-black.
-- **Display defaults to weight 510.** `.font-display` automatically applies `font-weight: 510` and `letter-spacing: -0.022em` via base CSS.
-- **Tracking hierarchy.** H1/H2 inherit `-0.022em` from `.font-display`. H3 and smaller display text use `tracking-[-0.011em]`. Do not add tracking classes to h1/h2 unless overriding.
-- **Tight leading on display.** Hero uses `leading-[1.1]`, section h2 uses pixel leading, card h3 uses `leading-[21px]`.
-- **Body line-height is 1.5.** Avoid `leading-relaxed` on new code — use explicit `leading-[1.5]` or `leading-[1.6]` for long-form prose.
+- **Display defaults to weight 500.** `.font-display` automatically applies `font-weight: 500` and `letter-spacing: -0.05em` via base CSS.
+- **Tracking hierarchy.** H1/H2 inherit `-0.05em` from `.font-display`. H3 and smaller display text use `tracking-[-0.04em]` (slightly looser). Do not add tracking classes to h1/h2 unless overriding.
+- **Tight leading on display.** Hero uses `leading-[1.05]`, section h2 uses `leading-[1.15]`, card h3 uses `leading-[1.3]`.
+- **Body line-height is 1.6, not 1.625.** Avoid `leading-relaxed` on new code — use explicit `leading-[1.6]` or `leading-[1.5]`.
 - **Paragraphs have an explicit `max-w-[...]`** tuned to their font size. Don't let body copy stretch to full column width.
 - **`text-balance`** on hero headlines for even line breaks.
-- **No secondary typeface.** The system uses Inter exclusively. Geist Mono is loaded but not used -- do not add `font-mono` to new components.
+- **Geist Mono** is used for all UI chrome: eyebrow labels, metadata, buttons, badges, section headers. `.font-mono` auto-applies `uppercase` and `letter-spacing: 0`. Never use it for headings, body text, or nav links (those stay in Inter).
 
 ---
 
@@ -308,9 +297,9 @@ Built with `class-variance-authority` on a `@base-ui/react` primitive.
 | `destructive` | `bg-destructive/10 text-destructive` | Delete, remove |
 | `link` | `text-primary underline-offset-4` → hover underline | Inline text links |
 
-**Brand CTA buttons** are not a variant - they're composed inline with `font-[510]` for emphasis:
+**Brand CTA buttons** are not a variant - they're composed inline with `font-mono` for the Exalt-style uppercase chrome treatment:
 ```tsx
-<Button className="border-transparent bg-brand px-8 font-[510] text-white [&]:hover:bg-brand/80" />
+<Button className="border-transparent bg-brand px-8 font-mono text-white [&]:hover:bg-brand/80" />
 ```
 
 **Sizes:**
@@ -408,52 +397,19 @@ The mega-menu style dropdown is a custom component (not shadcn):
 | Icon container | `h-10 w-10 border border-brand/20 bg-brand/5` |
 | Icon | `h-5 w-5 text-brand` (lucide, `strokeWidth={1.5}`) |
 
-### 7.8 UI Labels
+### 7.8 UI Chrome Labels (Two-Font System)
 
-All UI labels use Inter. Geist Mono is not used for labels, buttons, or general chrome.
+All UI chrome uses Geist Mono with auto-uppercase (enforced via `.font-mono` base CSS):
 
 | Pattern | Classes | Usage |
 |---|---|---|
-| Footer heading | `font-[510] text-[13px] text-muted-foreground/50 tracking-[-0.011em]` | Footer column titles |
-| Eyebrow label | `font-[510] text-brand text-xs tracking-[-0.011em]` | Industry tags, roles, prev/next |
-| Metadata label | `text-muted-foreground text-xs tracking-[-0.011em]` | Location, timeline, non-numeric metadata |
-| Numeric metadata | `text-muted-foreground text-xs tracking-[-0.011em]` | Dates, reading times, dimensions, scores (Inter, same as other metadata) |
-| Badge | `font-[510] text-[10px] tracking-[-0.011em]` | Pricing badges, status indicators |
-| Button text | `font-[510]` on Button className | All marketing CTA buttons (normal case) |
+| Section header | `font-mono text-muted-foreground/50 text-xs` | Footer columns, tech stack categories, sidebar labels |
+| Eyebrow label | `font-mono text-brand text-xs` | Industry tags, roles, date metadata, prev/next |
+| Metadata label | `font-mono text-muted-foreground text-xs` | Location, timeline, score labels, dimensions |
+| Badge | `font-mono text-[10px]` | Pricing badges, status indicators |
+| Button text | `font-mono` on Button className | All marketing CTA buttons |
 
-### 7.9 Problem Statement
-
-A large mixed-emphasis paragraph that creates emotional impact by splitting "known truth" from "pain point." Used between hero and first content section.
-
-```tsx
-<p className="max-w-[960px] font-display text-[28px] leading-[1.3] md:text-[36px]">
-  <span className="text-foreground">{t("known")}</span>{" "}
-  <span className="text-muted-foreground">{t("pain")}</span>
-</p>
-```
-
-The foreground span states a truth the reader accepts. The muted span reveals the problem. The size shift from hero (56px) to problem statement (36px) creates a natural reading rhythm.
-
-This pattern is used on the landing page (between hero and tech stack), the about page (between header and bio), and the case studies listing (between header and grid). It works best where there's an emotional "known truth / pain" narrative to establish.
-
-### 7.10 Split Heading Pattern
-
-Section introductions use a two-column grid with the heading left and a heavier subtitle right:
-
-```tsx
-<div className="grid items-start gap-12 md:grid-cols-[1fr_1.2fr]">
-  <h2 className="font-display text-[28px] leading-[34px] md:text-[36px] md:leading-[42px]">
-    {t("title")}
-  </h2>
-  <p className="text-[17px] text-muted-foreground leading-[26px] tracking-[-0.011em]">
-    {t("subtitle")}
-  </p>
-</div>
-```
-
-The subtitle uses normal weight at 17px -- slightly larger than body text but understated. This creates a Linear-inspired hierarchy where the heading carries authority and the subtitle provides context without competing. This is the default section introduction pattern for all marketing sections.
-
-Used on: landing page (all sections), about page (bio, experience, stack), service pages (pain points, features, deliverables). Not used on small end-of-page sections (related items, FAQ) where a simple H2 is sufficient.
+The `.font-mono` class auto-applies `text-transform: uppercase` and `letter-spacing: 0`. No need for explicit `uppercase` or `tracking-*` classes.
 
 ---
 
@@ -525,40 +481,7 @@ Variants:
 - `alternate` - `bg-white` instead of `bg-background` (creates subtle tonal shift)
 - `dark` - Applies `.section-dark` class for inverted sections
 
-### 9.2 Subpage Header Pattern
-
-All subpages (blog, case studies, services, about, legal) follow a consistent header structure:
-
-```tsx
-{/* Breadcrumb (optional) */}
-<nav className="mx-auto max-w-[1320px] px-6 pt-24 md:pt-36">
-  <ol className="flex items-center gap-2 text-sm text-muted-foreground">...</ol>
-</nav>
-
-{/* Header */}
-<section className="pb-24 pt-10 md:pb-36">
-  <div className="mx-auto max-w-[1320px] px-6">
-    <span className="font-[510] text-brand text-xs tracking-[-0.011em]">{eyebrow}</span>
-    <h1 className="mt-3 font-display text-[40px] leading-[1.1] md:text-[56px]">{title}</h1>
-    <p className="mt-5 text-[17px] text-muted-foreground leading-[1.5]">{intro}</p>
-  </div>
-</section>
-```
-
-**Key rules:**
-- Eyebrow: `font-[510] text-brand text-xs tracking-[-0.011em]` (date, client, price, role)
-- H1: Always `font-display text-[40px] md:text-[56px] leading-[1.1]`
-- Intro text: Always `text-[17px] text-muted-foreground leading-[1.5]` (never `text-lg`)
-- Title-to-intro gap: `mt-5` (blog/listing pages) or `mt-4` (detail pages with metadata bar)
-- Listing pages without breadcrumb use hero padding: `py-24 md:py-44`
-
-**Section-level H2s on subpages** must match the landing page scale:
-```tsx
-<h2 className="font-display text-[28px] leading-[34px] md:text-[36px] md:leading-[42px]">
-```
-Never use `text-2xl` for section headings. Reserve `text-2xl` only for in-article content headings (blog RenderBlock h2).
-
-### 9.3 Grid Patterns
+### 9.2 Grid Patterns
 
 | Pattern | Classes | Usage |
 |---|---|---|
@@ -568,7 +491,7 @@ Never use `text-2xl` for section headings. Reserve `text-2xl` only for in-articl
 | Pricing grid | `grid grid-cols-3` | Pricing dropdown |
 | Service grid | `grid grid-cols-2` | Services dropdown |
 
-### 9.4 Content Width Constraints
+### 9.3 Content Width Constraints
 
 | Element | Max Width |
 |---|---|
@@ -602,7 +525,7 @@ The `.section-dark` class allows dark sections within a light page without toggl
 - **Use rings for containment.** `ring-1 ring-foreground/10` is the primary card/dialog boundary pattern.
 - **Use opacity variants** for border lightness (`border-border/40`, `ring-foreground/10`).
 - **Use brand orange sparingly.** CTAs, icon accents, active indicators, featured links.
-- **Use `font-[510]`** for emphasis on labels, buttons, and eyebrow text. Use `font-mono` only for step-counter labels.
+- **Use `font-mono`** for all UI chrome (labels, metadata, buttons, badges). It auto-applies uppercase and letter-spacing: 0.
 - **Use `section-dark`** for locally inverted sections instead of toggling dark mode.
 - **Scale spacing aggressively** between mobile and desktop (`py-20` → `py-36`).
 - **Use `text-balance`** on hero headlines.
@@ -610,8 +533,7 @@ The `.section-dark` class allows dark sections within a light page without toggl
 ### Don't:
 - **Don't use border-radius.** No `rounded-md`, no `rounded-full`, no pills.
 - **Don't use box shadows** on cards, inputs, or buttons. Shadows are only for floating overlays (dropdowns).
-- **Don't use pure black** for text. `--foreground` is slate-800.
-- **Don't use `font-mono`.** The system is single-font (Inter). Do not introduce Geist Mono or any secondary typeface.
+- **Don't use pure black** for text. `--foreground` is a warm near-black.
 - **Don't overuse brand orange.** If it covers more than ~10% of the viewport, it loses its accent power.
 - **Don't use default grey shadows.** If a floating element needs depth, use glassmorphism (`bg-*/80 backdrop-blur-xl`) or tonal rings.
 - **Don't add rounded corners** to new components. Check that `rounded-none` is explicitly applied or inherited.

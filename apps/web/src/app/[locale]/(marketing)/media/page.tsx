@@ -20,12 +20,12 @@ export default async function MediaPage() {
 		.trim();
 
 	return (
-		<section className="py-24 md:py-44">
-			<div className="mx-auto max-w-[1320px] px-6">
-				<h1 className="font-display text-[40px] leading-[1.1] md:text-[56px]">
+		<section className="py-20 md:py-32">
+			<div className="mx-auto max-w-[1200px] px-6">
+				<h1 className="font-display text-[32px] leading-[1.05] md:text-[48px]">
 					{t("title")}
 				</h1>
-				<p className="mt-5 text-[17px] text-muted-foreground leading-[1.5]">
+				<p className="mt-4 font-light text-lg text-muted-foreground">
 					{t("description")}
 				</p>
 

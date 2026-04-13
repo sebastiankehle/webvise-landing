@@ -162,7 +162,7 @@ function CustomTooltip({
 							className="size-1.5 rounded-full"
 							style={{ backgroundColor: entry.color }}
 						/>
-						<span className="text-muted-foreground text-xs tracking-[-0.011em]">
+						<span className="font-mono text-muted-foreground text-xs">
 							{entry.dataKey === "before" ? beforeLabel : afterLabel}
 						</span>
 					</div>
@@ -193,7 +193,7 @@ export default function MiniChart({
 						<p className="text-sm text-[--foreground]">
 							{current.label}
 						</p>
-						<span className="font-[510] text-brand text-sm tracking-[-0.011em]">
+						<span className="text-brand text-sm tabular-nums">
 							{current.lift}
 						</span>
 					</div>

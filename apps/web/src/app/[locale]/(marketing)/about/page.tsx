@@ -131,21 +131,21 @@ export default async function AboutPage() {
 									priority
 								/>
 								<div>
-									<span className="font-[510] text-brand text-xs tracking-[-0.011em]">
+									<span className="font-mono text-brand text-xs">
 										{t("intro.role")}
 									</span>
-									<h1 className="mt-1 font-display text-[40px] leading-[1.1] md:text-[56px]">
+									<h1 className="mt-1 font-display text-[32px] leading-[1.05] md:text-[48px]">
 										{t("intro.name")}
 									</h1>
 								</div>
 							</div>
-							<p className="mt-6 text-[17px] text-muted-foreground leading-[1.5]">
+							<p className="mt-6 text-lg text-muted-foreground leading-relaxed">
 								{t("intro.tagline")}
 							</p>
 
 							{/* Description bar */}
 							<div className="mt-10 border-border/40 border-t pt-6">
-								<p className="max-w-lg text-sm text-muted-foreground leading-[1.5]">
+								<p className="max-w-lg text-sm text-muted-foreground leading-relaxed">
 									{t("intro.description")}
 								</p>
 							</div>
@@ -153,7 +153,7 @@ export default async function AboutPage() {
 
 						{/* Connect card */}
 						<div className="border border-border/40 p-6 md:p-8">
-							<p className="mb-5 text-muted-foreground/50 text-xs tracking-[-0.011em]">
+							<p className="mb-5 font-mono text-muted-foreground/50 text-xs">
 								{t("connect.title")}
 							</p>
 							<div className="flex flex-wrap gap-2">
@@ -175,28 +175,13 @@ export default async function AboutPage() {
 				</div>
 			</section>
 
-			{/* Problem Statement */}
-			<section className="py-20 md:py-36">
-				<div className="mx-auto max-w-[1320px] px-6">
-					<p className="max-w-[960px] font-display text-[28px] leading-[1.3] md:text-[36px]">
-						<span className="text-foreground">{t("statement.known")}</span>{" "}
-						<span className="text-muted-foreground">{t("statement.pain")}</span>
-					</p>
-				</div>
-			</section>
-
 			{/* Bio */}
 			<SectionWrapper id="background" alternate>
-				<div className="grid items-start gap-12 md:grid-cols-[1fr_1.2fr]">
-					<h2 className="font-display text-[28px] leading-[34px] md:text-[36px] md:leading-[42px]">
+				<div className="max-w-2xl">
+					<h2 className="font-display text-2xl tracking-tight">
 						{t("bio.title")}
 					</h2>
-					<p className="text-[17px] text-muted-foreground leading-[26px] tracking-[-0.011em]">
-						{t("bio.subtitle")}
-					</p>
-				</div>
-				<div className="mt-14 max-w-2xl">
-					<div className="space-y-5 text-muted-foreground leading-[1.5]">
+					<div className="mt-8 space-y-5 text-muted-foreground leading-relaxed">
 						{Array.from({ length: bioCount }, (_, i) => (
 							<p key={i}>{t(`bio.paragraphs.${i}`)}</p>
 						))}
@@ -206,16 +191,11 @@ export default async function AboutPage() {
 
 			{/* Experience - vertical timeline like personal site */}
 			<SectionWrapper id="experience">
-				<div className="grid items-start gap-12 md:grid-cols-[1fr_1.2fr]">
-					<h2 className="font-display text-[28px] leading-[34px] md:text-[36px] md:leading-[42px]">
+				<div className="max-w-2xl">
+					<h2 className="font-display text-2xl tracking-tight">
 						{t("experience.title")}
 					</h2>
-					<p className="text-[17px] text-muted-foreground leading-[26px] tracking-[-0.011em]">
-						{t("experience.subtitle")}
-					</p>
-				</div>
-				<div className="mt-14 max-w-2xl">
-					<div className="space-y-10">
+					<div className="mt-10 space-y-10">
 						{Array.from({ length: experienceCount }, (_, i) => (
 							<div key={i} className="flex gap-6">
 								<div className="flex w-1 shrink-0 flex-col items-center pt-2">
@@ -230,20 +210,20 @@ export default async function AboutPage() {
 											<p className="text-sm font-medium">
 												{t(`experience.items.${i}.company`)}
 											</p>
-											<h3 className="mt-0.5 font-display text-[16px] leading-[21px] tracking-[-0.011em]">
+											<h3 className="mt-0.5 font-display text-lg tracking-tight">
 												{t(`experience.items.${i}.role`)}
 											</h3>
 										</div>
 										<div className="shrink-0 text-right">
-											<p className="text-xs text-muted-foreground tracking-[-0.011em]">
+											<p className="font-mono text-xs text-muted-foreground">
 												{t(`experience.items.${i}.period`)}
 											</p>
-											<p className="text-xs text-muted-foreground/60 tracking-[-0.011em]">
+											<p className="font-mono text-xs text-muted-foreground/60">
 												{t(`experience.items.${i}.location`)}
 											</p>
 										</div>
 									</div>
-									<p className="mt-3 text-sm text-muted-foreground leading-[1.5]">
+									<p className="mt-3 text-sm text-muted-foreground leading-relaxed">
 										{t(`experience.items.${i}.description`)}
 									</p>
 								</div>
@@ -255,19 +235,14 @@ export default async function AboutPage() {
 
 			{/* Skills */}
 			<SectionWrapper id="skills" alternate>
-				<div className="grid items-start gap-12 md:grid-cols-[1fr_1.2fr]">
-					<h2 className="font-display text-[28px] leading-[34px] md:text-[36px] md:leading-[42px]">
+				<div className="max-w-2xl">
+					<h2 className="font-display text-2xl tracking-tight">
 						{t("stack.title")}
 					</h2>
-					<p className="text-[17px] text-muted-foreground leading-[26px] tracking-[-0.011em]">
-						{t("stack.subtitle")}
-					</p>
-				</div>
-				<div className="mt-14 max-w-2xl">
-					<div className="space-y-8">
+					<div className="mt-10 space-y-8">
 						{(["languages", "frontend", "backend", "data", "ai", "platform"] as const).map((section) => (
 							<div key={section}>
-								<p className="mb-3 text-xs text-muted-foreground/50 tracking-[-0.011em]">
+								<p className="mb-3 font-mono text-xs text-muted-foreground/50">
 									{t(`stack.sections.${section}.label`)}
 								</p>
 								<div className="flex flex-wrap gap-2">

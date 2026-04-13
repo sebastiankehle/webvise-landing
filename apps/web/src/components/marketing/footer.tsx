@@ -40,7 +40,7 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 								webvise
 							</span>
 						</Link>
-						<p className="mt-5 max-w-[260px] text-sm leading-[1.5] text-muted-foreground">
+						<p className="mt-5 max-w-[260px] text-sm leading-[1.6] text-muted-foreground">
 							{t("tagline")}
 						</p>
 						<p className="mt-1 text-sm text-muted-foreground/60">
@@ -66,7 +66,7 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 					<div className="grid grid-cols-2 gap-x-8 gap-y-10 md:col-span-6">
 						{/* Company */}
 						<div>
-							<h3 className="mb-5 font-[510] text-[13px] text-muted-foreground/50 tracking-[-0.011em]">
+							<h3 className="mb-5 font-mono text-muted-foreground/50 text-xs">
 								{t("sections.company")}
 							</h3>
 							<ul className="space-y-3">
@@ -85,7 +85,7 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 
 						{/* Services */}
 						<div>
-							<h3 className="mb-5 font-[510] text-[13px] text-muted-foreground/50 tracking-[-0.011em]">
+							<h3 className="mb-5 font-mono text-muted-foreground/50 text-xs">
 								{t("sections.services")}
 							</h3>
 							<ul className="space-y-3">
@@ -104,7 +104,7 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 
 						{/* Explore */}
 						<div>
-							<h3 className="mb-5 font-[510] text-[13px] text-muted-foreground/50 tracking-[-0.011em]">
+							<h3 className="mb-5 font-mono text-muted-foreground/50 text-xs">
 								{t("sections.explore")}
 							</h3>
 							<ul className="space-y-3">
@@ -137,7 +137,7 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 
 						{/* Resources */}
 						<div>
-							<h3 className="mb-5 font-[510] text-[13px] text-muted-foreground/50 tracking-[-0.011em]">
+							<h3 className="mb-5 font-mono text-muted-foreground/50 text-xs">
 								{t("sections.resources")}
 							</h3>
 							<ul className="space-y-3">
@@ -163,7 +163,7 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 
 					{/* Contact */}
 					<div className="md:col-span-3">
-						<h3 className="mb-5 font-[510] text-[13px] text-muted-foreground/50 tracking-[-0.011em]">
+						<h3 className="mb-5 font-mono text-muted-foreground/50 text-xs">
 							{t("sections.contact")}
 						</h3>
 						<ul className="space-y-3 text-sm">
@@ -186,8 +186,8 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 			{/* Bottom bar */}
 			<div className="border-[--border] border-t">
 				<div className="mx-auto flex max-w-[1320px] flex-col items-center justify-between gap-4 px-6 py-6 md:flex-row">
-					<p className="text-xs text-muted-foreground/60">{t("legal.copyright", { year })}</p>
-					<div className="flex gap-6 text-xs text-muted-foreground/60">
+					<p className="font-mono text-xs text-muted-foreground/60">{t("legal.copyright", { year })}</p>
+					<div className="flex gap-6 font-mono text-xs text-muted-foreground/60">
 						<Link
 							href="/privacy"
 							className="transition-colors hover:text-[--foreground]"

@@ -15,11 +15,11 @@ export default async function Benefits() {
 
 	return (
 		<SectionWrapper id="benefits">
-			<div className="grid items-start gap-12 md:grid-cols-[1fr_1.2fr]">
-				<h2 className="font-display text-[28px] leading-[34px] md:text-[36px] md:leading-[42px]">
+			<div className="max-w-[640px]">
+				<h2 className="font-display text-[28px] leading-[1.15] md:text-[40px]">
 					{t("title")}
 				</h2>
-				<p className="text-[17px] text-muted-foreground leading-[26px] tracking-[-0.011em]">
+				<p className="mt-5 max-w-[520px] text-[15px] text-muted-foreground leading-[1.6]">
 					{t("subtitle")}
 				</p>
 			</div>
@@ -32,10 +32,10 @@ export default async function Benefits() {
 						<div className="flex h-10 w-10 items-center justify-center border border-brand/20 bg-brand/5">
 							<Icon className="h-5 w-5 text-brand" strokeWidth={1.5} />
 						</div>
-						<h3 className="mt-5 font-display text-[16px] leading-[21px] tracking-[-0.011em]">
+						<h3 className="mt-5 font-display text-xl tracking-[-0.04em]">
 							{t(`${key}.title`)}
 						</h3>
-						<p className="mt-3 text-muted-foreground text-sm leading-[1.5]">
+						<p className="mt-3 text-muted-foreground text-sm leading-[1.6]">
 							{t(`${key}.description`)}
 						</p>
 					</div>

@@ -16,20 +16,20 @@ export default async function WpHealthCta() {
 						<div className="flex h-8 w-8 items-center justify-center border border-brand/20 bg-brand/5">
 							<Activity className="h-4 w-4 text-brand" strokeWidth={1.5} />
 						</div>
-						<span className="font-[510] text-brand text-xs tracking-[-0.011em]">
+						<span className="font-mono text-brand text-xs">
 							{t("badge")}
 						</span>
 					</div>
-					<h2 className="mt-6 font-display text-[28px] leading-[34px] md:text-[36px] md:leading-[42px]">
+					<h2 className="mt-6 font-display text-[28px] leading-[1.15] md:text-[40px]">
 						{t("title")}
 					</h2>
-					<p className="mt-5 text-[17px] text-muted-foreground leading-[26px] tracking-[-0.011em]">
+					<p className="mt-5 max-w-[520px] text-[15px] text-muted-foreground leading-[1.6]">
 						{t("description")}
 					</p>
 					<div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
 						<Button
 							size="lg"
-							className="border-transparent bg-brand px-8 font-[510] text-white [&]:hover:bg-brand/80"
+							className="border-transparent bg-brand px-8 font-mono text-white [&]:hover:bg-brand/80"
 							data-ph-capture-attribute-cta-location="wp-health-cta"
 							data-ph-capture-attribute-cta-variant="analyzer"
 							render={<Link href="/wp-health-report" />}
@@ -44,10 +44,10 @@ export default async function WpHealthCta() {
 				<div className="flex items-center justify-center">
 					<div className="w-full max-w-xs space-y-5 border border-border/40 p-8">
 						<div className="flex items-center justify-between">
-							<span className="text-muted-foreground text-xs tracking-[-0.011em]">
+							<span className="font-mono text-muted-foreground text-xs">
 								PageSpeed Score
 							</span>
-							<span className="font-[510] text-lg text-orange-600">32</span>
+							<span className="font-display text-lg text-orange-600">32</span>
 						</div>
 						<div className="h-1.5 w-full bg-muted">
 							<div className="h-full w-[32%] bg-orange-600" />
@@ -58,10 +58,10 @@ export default async function WpHealthCta() {
 							<span className="h-px flex-1 bg-border/40" />
 						</div>
 						<div className="flex items-center justify-between">
-							<span className="text-muted-foreground text-xs tracking-[-0.011em]">
+							<span className="font-mono text-muted-foreground text-xs">
 								After Next.js
 							</span>
-							<span className="font-[510] text-lg text-green-600">95</span>
+							<span className="font-display text-lg text-green-600">95</span>
 						</div>
 						<div className="h-1.5 w-full bg-muted">
 							<div className="h-full w-[95%] bg-green-600" />

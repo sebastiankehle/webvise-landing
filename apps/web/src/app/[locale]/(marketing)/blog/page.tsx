@@ -77,10 +77,10 @@ export default async function BlogPage({
 			<section className="py-24 md:py-44">
 				<div className="mx-auto max-w-[1320px] px-6">
 					<div className="max-w-[720px]">
-						<h1 className="font-display text-[40px] leading-[1.1] md:text-[56px]">
+						<h1 className="font-display text-[32px] leading-[1.05] md:text-[48px]">
 							{t("title")}
 						</h1>
-						<p className="mt-5 max-w-[560px] text-[17px] text-muted-foreground leading-[1.5]">
+						<p className="mt-5 max-w-[560px] text-[17px] text-muted-foreground leading-[1.55]">
 							{t("subtitle")}
 						</p>
 					</div>
@@ -92,7 +92,7 @@ export default async function BlogPage({
 								href={`/blog/${post.slug}` as "/blog"}
 								className="group flex flex-col p-8 transition-colors hover:bg-muted/30 md:p-10"
 							>
-								<div className="flex items-center gap-3 text-muted-foreground text-xs tracking-[-0.011em]">
+								<div className="flex items-center gap-3 font-mono text-muted-foreground text-xs">
 									<time dateTime={post.date}>
 										{new Date(post.date).toLocaleDateString(locale, {
 											day: "numeric",
@@ -105,10 +105,10 @@ export default async function BlogPage({
 										{post.readingTime} {t("minRead")}
 									</span>
 								</div>
-								<h2 className="mt-5 font-display text-[16px] leading-[21px] tracking-[-0.011em] transition-colors group-hover:text-brand">
+								<h2 className="mt-5 font-display text-xl leading-[1.25] tracking-[-0.04em] transition-colors group-hover:text-brand">
 									{post.title}
 								</h2>
-								<p className="mt-3 text-muted-foreground text-sm leading-[1.5]">
+								<p className="mt-3 text-muted-foreground text-sm leading-[1.6]">
 									{post.excerpt}
 								</p>
 								<span className="mt-8 text-brand text-sm transition-opacity group-hover:opacity-80">
