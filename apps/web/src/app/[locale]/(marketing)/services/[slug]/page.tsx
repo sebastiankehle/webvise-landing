@@ -212,17 +212,24 @@ export default async function ServicePage({
 
 			<SectionWrapper id="why">
 				<div className="grid gap-px overflow-hidden border border-border/40 md:grid-cols-3">
-					{Array.from({ length: service.painPointCount }, (_, i) => (
-						<div
-							key={t(`${key}.painPoints.${i}.heading`)}
-							className="border-border/40 not-last:border-b p-8 transition-colors hover:bg-muted/30 md:not-last:border-r md:not-last:border-b-0 md:p-10"
-						>
-							<H3>{t(`${key}.painPoints.${i}.heading`)}</H3>
-							<Muted className="mt-3 leading-relaxed">
-								{t(`${key}.painPoints.${i}.description`)}
-							</Muted>
-						</div>
-					))}
+					{Array.from({ length: service.painPointCount }, (_, i) => {
+						const PainIcon = service.painPointIcons[i];
+						return (
+							<div
+								key={t(`${key}.painPoints.${i}.heading`)}
+								className="border-border/40 not-last:border-b p-8 transition-colors hover:bg-muted/30 md:not-last:border-r md:not-last:border-b-0 md:p-10"
+							>
+								<PainIcon
+									className="mb-4 h-5 w-5 text-brand"
+									strokeWidth={1.5}
+								/>
+								<H3>{t(`${key}.painPoints.${i}.heading`)}</H3>
+								<Muted className="mt-3 leading-relaxed">
+									{t(`${key}.painPoints.${i}.description`)}
+								</Muted>
+							</div>
+						);
+					})}
 				</div>
 			</SectionWrapper>
 

@@ -1,17 +1,34 @@
 import type { LucideIcon } from "lucide-react";
 import {
 	ArrowLeftRight,
+	BarChart3,
+	Blocks,
 	BrainCircuit,
+	Clock,
 	Database,
+	DollarSign,
+	Flame,
 	FlaskConical,
+	Gauge,
+	Layers,
 	LayoutTemplate,
+	Map,
+	PackageX,
+	Repeat,
+	Rocket,
+	ShieldAlert,
 	Sparkles,
+	TrendingUp,
+	UserMinus,
+	Users,
+	Wrench,
 } from "lucide-react";
 
 export interface Service {
 	slug: string;
 	translationKey: string;
 	icon: LucideIcon;
+	painPointIcons: [LucideIcon, LucideIcon, LucideIcon];
 	featureCount: number;
 	deliverableCount: number;
 	toolCount: number;
@@ -24,6 +41,7 @@ export const services: Service[] = [
 		slug: "landing-pages",
 		translationKey: "landingPages",
 		icon: LayoutTemplate,
+		painPointIcons: [UserMinus, Clock, BarChart3],
 		featureCount: 6,
 		deliverableCount: 5,
 		toolCount: 5,
@@ -34,6 +52,7 @@ export const services: Service[] = [
 		slug: "wordpress-migration",
 		translationKey: "wordpressMigration",
 		icon: ArrowLeftRight,
+		painPointIcons: [DollarSign, Gauge, ShieldAlert],
 		featureCount: 6,
 		deliverableCount: 5,
 		toolCount: 5,
@@ -44,6 +63,7 @@ export const services: Service[] = [
 		slug: "ai-consulting",
 		translationKey: "aiConsulting",
 		icon: Sparkles,
+		painPointIcons: [Layers, Map, PackageX],
 		featureCount: 6,
 		deliverableCount: 5,
 		toolCount: 6,
@@ -54,6 +74,7 @@ export const services: Service[] = [
 		slug: "mvp-development",
 		translationKey: "mvpDevelopment",
 		icon: FlaskConical,
+		painPointIcons: [Blocks, Flame, Rocket],
 		featureCount: 6,
 		deliverableCount: 5,
 		toolCount: 6,
@@ -64,6 +85,7 @@ export const services: Service[] = [
 		slug: "ai-automation",
 		translationKey: "aiAutomation",
 		icon: BrainCircuit,
+		painPointIcons: [Repeat, Database, Wrench],
 		featureCount: 6,
 		deliverableCount: 5,
 		toolCount: 6,
@@ -74,6 +96,7 @@ export const services: Service[] = [
 		slug: "full-stack-applications",
 		translationKey: "fullStackApps",
 		icon: Database,
+		painPointIcons: [TrendingUp, Users, Wrench],
 		featureCount: 6,
 		deliverableCount: 5,
 		toolCount: 6,
