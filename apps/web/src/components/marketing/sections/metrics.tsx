@@ -11,20 +11,15 @@ export default async function Metrics() {
 	const t = await getTranslations("metrics");
 
 	return (
-		<SectionWrapper id="metrics" dark>
+		<SectionWrapper id="metrics" dark hatch>
 			<div className="max-w-[640px]">
 				<H2>{t("title")}</H2>
 				<Lead className="mt-5 max-w-[520px]">{t("subtitle")}</Lead>
 			</div>
-			<StaggerChildren className="mt-14 grid grid-cols-2 gap-px overflow-hidden border border-border md:grid-cols-4">
+			<StaggerChildren className="mt-16 -mx-6 grid grid-cols-2 border-t border-grid-line md:grid-cols-4">
 				{metricKeys.map((key) => (
-					<div
-						key={key}
-						className="border-border nth-[-n+2]:border-b p-6 odd:border-r md:not-last:border-r md:nth-[-n+2]:border-b-0 md:p-10 md:odd:border-r-0"
-					>
-						<Stat className="text-[36px] text-foreground">
-							{t(`${key}.value`)}
-						</Stat>
+					<div key={key} className="border-b border-grid-line p-6 md:border-r md:p-8 md:[&:nth-child(4n)]:border-r-0">
+						<Stat className="text-foreground">{t(`${key}.value`)}</Stat>
 						<Small className="mt-3 block">{t(`${key}.label`)}</Small>
 					</div>
 				))}

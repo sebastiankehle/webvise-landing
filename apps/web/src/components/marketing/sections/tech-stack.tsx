@@ -62,18 +62,15 @@ export default async function TechStack() {
 	const t = await getTranslations("techStack");
 
 	return (
-		<SectionWrapper id="tech-stack" alternate>
+		<SectionWrapper id="tech-stack" alternate hatch>
 			<div className="max-w-[640px]">
 				<H2>{t("title")}</H2>
 				<Lead className="mt-5 max-w-[520px]">{t("subtitle")}</Lead>
 			</div>
-			<StaggerChildren className="mt-14 grid gap-px overflow-hidden border border-border/40 md:grid-cols-2 lg:grid-cols-4">
+			<StaggerChildren className="mt-16 -mx-6 grid border-t border-grid-line md:grid-cols-2 lg:grid-cols-4">
 				{categories.map((cat) => (
-					<div
-						key={cat.key}
-						className="border-border/40 not-last:border-b p-6 md:nth-[-n+2]:border-b md:not-last:border-b-0 md:p-8 md:odd:border-r lg:not-last:border-r lg:nth-[-n+2]:border-b-0 lg:odd:border-r-0"
-					>
-						<Label className="mb-5 block text-muted-foreground/50">
+					<div key={cat.key} className="border-b border-grid-line p-6 md:border-r md:p-8 md:[&:nth-child(2n)]:border-r-0 lg:[&:nth-child(2n)]:border-r lg:[&:nth-child(4n)]:border-r-0">
+						<Label className="mb-5 block text-muted-foreground">
 							{t(cat.key)}
 						</Label>
 						<div className="flex flex-wrap gap-2">

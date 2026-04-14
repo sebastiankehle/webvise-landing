@@ -2,6 +2,7 @@ import { ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 import JsonLd from "@/components/json-ld";
+import { GridFrame } from "@/components/marketing/section-wrapper";
 import { Caption, H1, H3, Lead, Muted } from "@/components/ui/typography";
 import { getBlogPosts } from "@/data/blog";
 import { Link } from "@/i18n/navigation";
@@ -72,8 +73,15 @@ export default async function BlogPage({
 	return (
 		<>
 			<JsonLd data={jsonLd} />
-			<section className="py-24 md:py-44">
-				<div className="mx-auto max-w-[1320px] px-6">
+			<section className="relative pt-32 pb-24 md:pt-44 md:pb-44">
+				<div className="pointer-events-none absolute inset-y-0 left-0 hidden grid-hatch md:block md:w-[calc((100%-1320px)/2)]" aria-hidden="true" />
+				<div className="pointer-events-none absolute inset-y-0 right-0 hidden grid-hatch md:block md:w-[calc((100%-1320px)/2)]" aria-hidden="true" />
+				<div className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block" aria-hidden="true">
+					<div className="h-full border-x border-grid-line" />
+				</div>
+				<div className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block" aria-hidden="true" />
+				<GridFrame className="inset-0" />
+				<div className="relative mx-auto max-w-[1320px] px-6">
 					<div className="max-w-[720px]">
 						<H1>{t("title")}</H1>
 						<Lead className="mt-5 max-w-[560px] text-[17px] leading-[1.55]">
@@ -81,12 +89,12 @@ export default async function BlogPage({
 						</Lead>
 					</div>
 
-					<div className="mt-16 grid gap-px overflow-hidden border border-border/40 md:grid-cols-3">
+					<div className="mt-16 -mx-6 grid border-t border-grid-line md:grid-cols-3">
 						{paginatedPosts.map((post) => (
 							<Link
 								key={post.slug}
 								href={`/blog/${post.slug}` as "/blog"}
-								className="group flex flex-col p-8 transition-colors hover:bg-muted/30 md:p-10"
+								className="group flex flex-col border-b border-grid-line p-6 transition-colors hover:bg-muted/30 md:border-r md:p-8 md:[&:nth-child(3n)]:border-r-0"
 							>
 								<Caption className="flex items-center gap-3">
 									<time dateTime={post.date}>

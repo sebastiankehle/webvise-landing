@@ -18,13 +18,10 @@ export default function ProcessSteps({ steps }: { steps: Step[] }) {
 	const beamEndRef = useRef<HTMLDivElement>(null);
 
 	return (
-		<div className="relative mt-14" ref={containerRef}>
-			<StaggerChildren className="grid gap-px overflow-hidden border border-border/40 md:grid-cols-5">
+		<div className="relative mt-16" ref={containerRef}>
+			<StaggerChildren className="-mx-6 grid border-t border-grid-line md:grid-cols-5">
 				{steps.map((step) => (
-					<div
-						key={step.number}
-						className="group border-border/40 not-last:border-b p-8 transition-colors hover:bg-muted/30 md:not-last:border-r md:not-last:border-b-0 md:p-10"
-					>
+					<div key={step.number} className="group border-b border-grid-line p-6 md:border-r md:[&:nth-child(5n)]:border-r-0">
 						<Mono className="text-muted-foreground/40 text-sm">
 							{step.number}
 						</Mono>

@@ -33,7 +33,7 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 					<div className="md:col-span-3">
 						<Link href="/" className="flex items-center gap-2.5">
 							<Logo className="h-7 w-7" animated />
-							<Label className="font-display text-[22px] text-foreground">
+							<Label className="font-display text-foreground text-xl tracking-[-0.02em]">
 								webvise
 							</Label>
 						</Link>
@@ -63,7 +63,7 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 					<div className="grid grid-cols-2 gap-x-8 gap-y-10 md:col-span-6">
 						{/* Company */}
 						<div>
-							<Caption className="mb-5 block text-muted-foreground/50">
+							<Caption className="mb-5 block text-muted-foreground/40">
 								{t("sections.company")}
 							</Caption>
 							<ul className="space-y-3">
@@ -82,7 +82,7 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 
 						{/* Services */}
 						<div>
-							<Caption className="mb-5 block text-muted-foreground/50">
+							<Caption className="mb-5 block text-muted-foreground/40">
 								{t("sections.services")}
 							</Caption>
 							<ul className="space-y-3">
@@ -101,7 +101,7 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 
 						{/* Explore */}
 						<div>
-							<Caption className="mb-5 block text-muted-foreground/50">
+							<Caption className="mb-5 block text-muted-foreground/40">
 								{t("sections.explore")}
 							</Caption>
 							<ul className="space-y-3">
@@ -134,7 +134,7 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 
 						{/* Resources */}
 						<div>
-							<Caption className="mb-5 block text-muted-foreground/50">
+							<Caption className="mb-5 block text-muted-foreground/40">
 								{t("sections.resources")}
 							</Caption>
 							<ul className="space-y-3">
@@ -160,7 +160,7 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 
 					{/* Contact */}
 					<div className="md:col-span-3">
-						<Caption className="mb-5 block text-muted-foreground/50">
+						<Caption className="mb-5 block text-muted-foreground/40">
 							{t("sections.contact")}
 						</Caption>
 						<ul className="space-y-3 text-sm">
@@ -181,7 +181,7 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 			</div>
 
 			{/* Bottom bar */}
-			<div className="border-[--border] border-t">
+			<div className="relative border-[--border] border-t">
 				<div className="mx-auto flex max-w-[1320px] flex-col items-center justify-between gap-4 px-6 py-6 md:flex-row">
 					<Caption className="text-muted-foreground/60">
 						{t("legal.copyright", { year })}

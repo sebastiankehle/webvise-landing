@@ -4,7 +4,9 @@ import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 
 import JsonLd from "@/components/json-ld";
-import SectionWrapper from "@/components/marketing/section-wrapper";
+import SectionWrapper, {
+	GridFrame,
+} from "@/components/marketing/section-wrapper";
 import { FaqAccordion } from "@/components/marketing/sections/faq";
 import WpHealthCta from "@/components/marketing/sections/wp-health-cta";
 import { TechBadge } from "@/components/marketing/tech-badge";
@@ -157,15 +159,21 @@ export default async function ServicePage({
 			<JsonLd data={jsonLd} />
 
 			{/* Header */}
-			<section className="pt-24 pb-24 md:pt-36 md:pb-36">
-				<div className="mx-auto max-w-[1320px] px-6">
+			<section className="relative pt-32 pb-24 md:pt-44 md:pb-36">
+				{/* Constructed grid */}
+				<div className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block" aria-hidden="true">
+					<div className="h-full border-x border-grid-line" />
+				</div>
+				<div className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block" aria-hidden="true" />
+				<GridFrame className="inset-0" />
+				<div className="relative mx-auto max-w-[1320px] px-6">
 					<div className="grid items-start gap-12 md:grid-cols-3 md:gap-16">
 						{/* Title + info */}
 						<div className="md:col-span-2">
 							<ServiceIcon className="h-5 w-5 text-brand" strokeWidth={1.5} />
 							<H1 className="mt-6 max-w-3xl">{t(`${key}.title`)}</H1>
 							<Lead className="mt-5 max-w-lg">{t(`${key}.description`)}</Lead>
-							<div className="mt-10 flex flex-wrap items-start gap-x-8 gap-y-4 border-border/40 border-t pt-6">
+							<div className="mt-10 flex flex-wrap items-start gap-x-8 gap-y-4 border-grid-line border-t pt-6">
 								<div>
 									<Caption className="block">{td("pricingLabel")}</Caption>
 									<Small className="mt-1 block text-foreground">
@@ -200,27 +208,24 @@ export default async function ServicePage({
 			<SectionWrapper id="approach" className="pt-8 md:pt-12">
 				<div className="grid gap-16 md:grid-cols-2 md:gap-20">
 					<div>
-						<H2 className="text-2xl md:text-[30px]">{td("approachTitle")}</H2>
+						<H2>{td("approachTitle")}</H2>
 						<Lead className="mt-4 leading-relaxed">{t(`${key}.approach`)}</Lead>
 					</div>
 					<div>
-						<H2 className="text-2xl md:text-[30px]">{td("outcomeTitle")}</H2>
+						<H2>{td("outcomeTitle")}</H2>
 						<Lead className="mt-4 leading-relaxed">{t(`${key}.outcome`)}</Lead>
 					</div>
 				</div>
 			</SectionWrapper>
 
 			<SectionWrapper id="why" className="pt-8 md:pt-12">
-				<div className="grid gap-px overflow-hidden border border-border/40 md:grid-cols-3">
+				<div className="grid gap-x-8 gap-y-10 md:grid-cols-3">
 					{Array.from({ length: service.painPointCount }, (_, i) => {
 						const PainIcon = service.painPointIcons[i];
 						return (
-							<div
-								key={t(`${key}.painPoints.${i}.heading`)}
-								className="border-border/40 not-last:border-b p-8 transition-colors hover:bg-muted/30 md:not-last:border-r md:not-last:border-b-0 md:p-10"
-							>
+							<div key={t(`${key}.painPoints.${i}.heading`)} className="group">
 								<PainIcon
-									className="mb-4 h-5 w-5 text-brand"
+									className="mb-3 h-5 w-5 text-brand"
 									strokeWidth={1.5}
 								/>
 								<H3>{t(`${key}.painPoints.${i}.heading`)}</H3>
@@ -236,7 +241,7 @@ export default async function ServicePage({
 			<SectionWrapper id="features" dark className="py-16 md:py-24">
 				<div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-14">
 					<div>
-						<H2 className="text-2xl md:text-[30px]">{td("featuresTitle")}</H2>
+						<H2>{td("featuresTitle")}</H2>
 						<ul className="mt-6 space-y-3">
 							{Array.from({ length: service.featureCount }, (_, i) => (
 								<li
@@ -253,9 +258,7 @@ export default async function ServicePage({
 					</div>
 
 					<div id="deliverables">
-						<H2 className="text-2xl md:text-[30px]">
-							{td("deliverablesTitle")}
-						</H2>
+						<H2>{td("deliverablesTitle")}</H2>
 						<ul className="mt-6 space-y-3">
 							{Array.from({ length: service.deliverableCount }, (_, i) => (
 								<li
@@ -294,15 +297,21 @@ export default async function ServicePage({
 			{(slug === "ai-automation" ||
 				slug === "ai-consulting" ||
 				slug === "full-stack-applications") && (
-				<section className="border-border/40 border-t pt-20 pb-20">
-					<div className="mx-auto max-w-[1320px] px-6">
+				<section className="relative border-grid-line border-t pt-20 pb-20">
+					{/* Constructed grid */}
+					<div className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block" aria-hidden="true">
+						<div className="h-full border-x border-grid-line" />
+					</div>
+					<div className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block" aria-hidden="true" />
+					<GridFrame className="inset-0" />
+					<div className="relative mx-auto max-w-[1320px] px-6">
 						<div className="flex items-start gap-5 border border-border/40 p-6 md:p-8">
 							<Shield
 								className="mt-0.5 h-5 w-5 shrink-0 text-brand"
 								strokeWidth={1.5}
 							/>
 							<div>
-								<H3 className="text-lg">{tt("title")}</H3>
+								<H3>{tt("title")}</H3>
 								<Muted className="mt-1 max-w-lg leading-relaxed">
 									{tt("description")}
 								</Muted>
@@ -313,8 +322,14 @@ export default async function ServicePage({
 			)}
 
 			{relatedServiceData.length > 0 && (
-				<section className="border-border/40 border-t pt-20 pb-28">
-					<div className="mx-auto max-w-[1320px] px-6">
+				<section className="relative border-grid-line border-t pt-20 pb-28">
+					{/* Constructed grid */}
+					<div className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block" aria-hidden="true">
+						<div className="h-full border-x border-grid-line" />
+					</div>
+					<div className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block" aria-hidden="true" />
+					<GridFrame className="inset-0" />
+					<div className="relative mx-auto max-w-[1320px] px-6">
 						<H2>{td("relatedServicesTitle")}</H2>
 						<div className="mt-10 grid gap-6 md:grid-cols-2">
 							{relatedServiceData.map((rs) => {
@@ -333,7 +348,7 @@ export default async function ServicePage({
 											strokeWidth={1.5}
 										/>
 										<div>
-											<H3 className="text-lg transition-colors group-hover:text-brand">
+											<H3 className="transition-colors group-hover:text-brand">
 												{t(`${rs.translationKey}.title`)}
 											</H3>
 											<Muted className="mt-1 line-clamp-2 leading-relaxed">

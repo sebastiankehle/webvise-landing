@@ -73,7 +73,7 @@ export default function Contact() {
 	});
 
 	return (
-		<SectionWrapper id="contact">
+		<SectionWrapper id="contact" hatch>
 			<div className="grid gap-12 md:grid-cols-2 md:gap-20">
 				<div>
 					<H2>{t("title")}</H2>
@@ -117,7 +117,7 @@ export default function Contact() {
 							track("contact_form_started");
 						}
 					}}
-					className="space-y-5 border border-border/40 p-6 md:space-y-6 md:p-10"
+					className="space-y-5 border border-border/20 p-6 md:space-y-6 md:p-10"
 					aria-label={t("title")}
 					noValidate
 					autoComplete="off"

@@ -18,7 +18,7 @@ export default function FooterCtaBanner({
 			<div className="mx-auto flex max-w-[1320px] flex-col items-start justify-between gap-8 px-6 py-20 md:flex-row md:items-center md:py-24">
 				<div>
 					<H2>{headline}</H2>
-					<Lead className="mt-4 max-w-[560px]">{subtext}</Lead>
+					<Lead className="mt-4 max-w-[480px]">{subtext}</Lead>
 				</div>
 				<Button
 					size="lg"

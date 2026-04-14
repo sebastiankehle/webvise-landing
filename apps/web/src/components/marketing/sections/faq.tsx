@@ -57,7 +57,7 @@ export function FaqAccordion({ items }: { items: FaqItem[] }) {
 				return (
 					<div
 						key={item.question}
-						className={`border-border/40 border-b transition-colors duration-200 ${isOpen ? "border-l-2 border-l-brand" : "border-l-2 border-l-transparent"}`}
+						className={`border-border/40 border-b transition-colors duration-200 ${isOpen ? "border-l-2 border-l-foreground" : "border-l-2 border-l-transparent"}`}
 					>
 						<button
 							type="button"
@@ -69,7 +69,7 @@ export function FaqAccordion({ items }: { items: FaqItem[] }) {
 								{item.question}
 							</Label>
 							<span
-								className={`ml-4 ${isOpen ? "text-brand" : "text-muted-foreground/50"}`}
+								className={`ml-4 ${isOpen ? "text-foreground" : "text-muted-foreground/50"}`}
 							>
 								<ChevronIcon open={isOpen} />
 							</span>

@@ -15,9 +15,9 @@ export default async function WpHealthCta() {
 				<Lead className="mt-4 max-w-[520px]">{t("description")}</Lead>
 			</div>
 
-			<div className="mt-14 grid items-center gap-px overflow-hidden border border-border/40 md:grid-cols-2">
+			<div className="mt-16 grid items-center gap-12 md:grid-cols-2">
 				{/* Score comparison */}
-				<div className="space-y-5 border-border/40 p-8 md:border-r md:p-10">
+				<div className="space-y-5">
 					<div className="flex items-center justify-between">
 						<Caption>PageSpeed Score</Caption>
 						<Mono className="text-lg text-orange-600">32</Mono>
@@ -40,7 +40,7 @@ export default async function WpHealthCta() {
 				</div>
 
 				{/* CTA */}
-				<div className="flex flex-col items-start justify-center p-8 md:p-10">
+				<div className="flex flex-col items-start justify-center">
 					<Body className="text-sm leading-[1.6]">{t("trustLine")}</Body>
 					<Button
 						size="lg"

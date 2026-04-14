@@ -5,7 +5,9 @@ import { getLocale, getTranslations } from "next-intl/server";
 import JsonLd from "@/components/json-ld";
 import BlogShare from "@/components/marketing/blog-share";
 import ReportDownloadForm from "@/components/marketing/report-download-form";
-import SectionWrapper from "@/components/marketing/section-wrapper";
+import SectionWrapper, {
+	GridFrame,
+} from "@/components/marketing/section-wrapper";
 import {
 	Caption,
 	H1,
@@ -155,7 +157,7 @@ function RenderBlock({ block }: { block: Block }) {
 	switch (block.type) {
 		case "h2":
 			return (
-				<H2 className="mt-14 mb-4 text-[26px] leading-[1.2] first:mt-0 md:text-[28px]">
+				<H2 className="mt-14 mb-4 text-[24px] leading-[1.2] first:mt-0 md:text-[28px]">
 					{block.text}
 				</H2>
 			);
@@ -163,7 +165,7 @@ function RenderBlock({ block }: { block: Block }) {
 			return <H3 className="mt-8 mb-3 text-[17px]">{block.text}</H3>;
 		case "p":
 			return (
-				<Muted className="mb-5 text-[16px] leading-[1.7] last:mb-0">
+				<Muted className="mb-5 text-[16px] leading-[1.75] last:mb-0">
 					{renderInline(block.text)}
 				</Muted>
 			);
@@ -294,8 +296,14 @@ export default async function BlogPostPage({
 			<JsonLd data={jsonLd} />
 
 			{/* Header */}
-			<section className="pt-24 pb-24 md:pt-36 md:pb-36">
-				<div className="mx-auto max-w-[1320px] px-6">
+			<section className="relative pt-32 pb-24 md:pt-44 md:pb-36">
+				{/* Constructed grid */}
+				<div className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block" aria-hidden="true">
+					<div className="h-full border-x border-grid-line" />
+				</div>
+				<div className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block" aria-hidden="true" />
+				<GridFrame className="inset-0" />
+				<div className="relative mx-auto max-w-[1320px] px-6">
 					<div className="grid items-start gap-12 md:grid-cols-3 md:gap-16">
 						{/* Title + info */}
 						<div className="md:col-span-2">
@@ -333,7 +341,7 @@ export default async function BlogPostPage({
 					</div>
 				</div>
 
-				<div className="mx-auto mt-10 max-w-[1320px] px-6">
+				<div className="relative mx-auto mt-10 max-w-[1320px] px-6">
 					<BlogShare url={postUrl} title={post.title} />
 				</div>
 			</section>
@@ -361,8 +369,14 @@ export default async function BlogPostPage({
 				</div>
 			</SectionWrapper>
 
-			<section className="border-border/40 border-t pt-12 pb-28">
-				<div className="mx-auto max-w-[1320px] px-6">
+			<section className="relative border-grid-line border-t pt-12 pb-28">
+				{/* Constructed grid */}
+				<div className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block" aria-hidden="true">
+					<div className="h-full border-x border-grid-line" />
+				</div>
+				<div className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block" aria-hidden="true" />
+				<GridFrame className="inset-0" />
+				<div className="relative mx-auto max-w-[1320px] px-6">
 					<BlogShare url={postUrl} title={post.title} />
 
 					{(prev || next) && (

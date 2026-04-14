@@ -115,11 +115,7 @@ export default function Navbar({
 	return (
 		<>
 			<header
-				className={`sticky top-0 z-50 transition-all duration-500 ${
-					scrolled || mobileOpen
-						? "border-border/40 border-b bg-background"
-						: "border-transparent border-b bg-transparent"
-				}`}
+				className="sticky top-0 z-50 border-b border-grid-line bg-background"
 			>
 				<div className="mx-auto flex h-16 max-w-[1320px] items-center justify-between px-6 md:h-20">
 					<Link

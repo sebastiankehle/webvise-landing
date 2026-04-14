@@ -31,6 +31,8 @@
 	--chart-5: oklch(0.424 0.199 265.638);
 	--brand: oklch(0.75 0.18 55);
 	--brand-subtle: oklch(0.75 0.18 55 / 8%);
+	--grid-line: oklch(0 0 0 / 5%);
+	--grid-line-strong: oklch(0 0 0 / 8%);
 	--surface-dark: oklch(0.145 0 0);
 	--surface-dark-secondary: oklch(0.205 0 0);
 	--radius: 0.625rem;
@@ -78,8 +80,15 @@
 	--sidebar-ring: oklch(0.556 0 0);
 }
 
+.dark {
+	--grid-line: oklch(1 0 0 / 6%);
+	--grid-line-strong: oklch(1 0 0 / 10%);
+}
+
 /* Dark section variant - inverts semantic tokens locally */
 .section-dark {
+	--grid-line: oklch(1 0 0 / 6%);
+	--grid-line-strong: oklch(1 0 0 / 10%);
 	--background: oklch(0.13 0.01 250);
 	--foreground: oklch(0.94 0.005 80);
 	--card: oklch(0.18 0.01 250);
@@ -138,6 +147,8 @@
 	--color-brand-subtle: var(--brand-subtle);
 	--color-surface-dark: var(--surface-dark);
 	--color-surface-dark-secondary: var(--surface-dark-secondary);
+	--color-grid-line: var(--grid-line);
+	--color-grid-line-strong: var(--grid-line-strong);
 	--color-background: var(--background);
 	--radius-sm: calc(var(--radius) - 4px);
 	--radius-md: calc(var(--radius) - 2px);
@@ -162,16 +173,32 @@
 	html {
 		@apply font-sans scroll-smooth;
 	}
-	/* Display defaults: medium (500), tight tracking (-0.05em).
-	   Utility classes can override via font-normal / font-semibold / tracking-*. */
+	/* Display defaults: medium (500), premium tracking.
+	   Looser than before — large type breathes better at -0.025em. */
 	.font-display {
 		font-weight: 500;
-		letter-spacing: -0.04em;
+		letter-spacing: -0.025em;
 	}
 	.font-mono {
 		letter-spacing: 0;
 		text-transform: uppercase;
 	}
+}
+
+/* ── Constructed grid: diagonal hatch fill ──────────────── */
+.grid-hatch {
+	background-image: repeating-linear-gradient(
+		-45deg,
+		transparent,
+		transparent 8px,
+		var(--grid-hatch-color, oklch(0 0 0 / 2.5%)) 8px,
+		var(--grid-hatch-color, oklch(0 0 0 / 2.5%)) 8.5px
+	);
+}
+
+.section-dark .grid-hatch,
+.dark .grid-hatch {
+	--grid-hatch-color: oklch(1 0 0 / 3%);
 }
 
 /* ── Stagger reveal animation ────────────────────────────── */

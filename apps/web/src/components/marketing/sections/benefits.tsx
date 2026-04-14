@@ -20,13 +20,13 @@ export default async function Benefits() {
 				<H2>{t("title")}</H2>
 				<Lead className="mt-5 max-w-[520px]">{t("subtitle")}</Lead>
 			</div>
-			<StaggerChildren className="mt-14 grid gap-px overflow-hidden border border-border/40 md:grid-cols-3">
+			<StaggerChildren className="mt-16 -mx-6 grid border-t border-grid-line md:grid-cols-3">
 				{benefitKeys.map(({ key, icon: Icon }) => (
-					<div
-						key={key}
-						className="group border-border/40 not-last:border-b p-8 transition-colors hover:bg-muted/30 md:not-last:border-r md:not-last:border-b-0 md:p-10"
-					>
-						<Icon className="h-5 w-5 shrink-0 text-brand" strokeWidth={1.5} />
+					<div key={key} className="group border-b border-grid-line p-6 md:border-r md:p-8 md:[&:nth-child(3n)]:border-r-0">
+						<Icon
+							className="h-5 w-5 shrink-0 text-brand opacity-60"
+							strokeWidth={1.5}
+						/>
 						<H3 className="mt-5">{t(`${key}.title`)}</H3>
 						<Muted className="mt-3">{t(`${key}.description`)}</Muted>
 					</div>

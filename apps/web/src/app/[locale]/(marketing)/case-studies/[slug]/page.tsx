@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 import JsonLd from "@/components/json-ld";
 import CaseStudyGallery from "@/components/marketing/case-study-gallery";
+import { GridFrame } from "@/components/marketing/section-wrapper";
 import CaseStudyHeroImage from "@/components/marketing/case-study-hero-image";
 import { TechBadge } from "@/components/marketing/tech-badge";
 import {
@@ -160,8 +161,15 @@ export default async function CaseStudyPage({
 			<JsonLd data={jsonLd} />
 
 			{/* Header */}
-			<section className="pt-24 pb-24 md:pt-36 md:pb-36">
-				<div className="mx-auto max-w-[1320px] px-6">
+			<section className="relative pt-32 pb-24 md:pt-44 md:pb-36">
+				<div className="pointer-events-none absolute inset-y-0 left-0 hidden grid-hatch md:block md:w-[calc((100%-1320px)/2)]" aria-hidden="true" />
+				<div className="pointer-events-none absolute inset-y-0 right-0 hidden grid-hatch md:block md:w-[calc((100%-1320px)/2)]" aria-hidden="true" />
+				<div className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block" aria-hidden="true">
+					<div className="h-full border-x border-grid-line" />
+				</div>
+				<div className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block" aria-hidden="true" />
+				<GridFrame className="inset-0" />
+				<div className="relative mx-auto max-w-[1320px] px-6">
 					<div className="grid items-start gap-12 md:grid-cols-3 md:gap-16">
 						{/* Title + info */}
 						<div className="md:col-span-2">
@@ -222,8 +230,14 @@ export default async function CaseStudyPage({
 			</section>
 
 			{/* Hero image + Testimonial */}
-			<section className="pb-28">
-				<div className="mx-auto max-w-[1320px] px-6">
+			<section className="relative py-20 md:py-28">
+				<div className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block" aria-hidden="true" />
+				<div className="pointer-events-none absolute inset-y-0 left-0 hidden grid-hatch md:block md:w-[calc((100%-1320px)/2)]" aria-hidden="true" />
+				<div className="pointer-events-none absolute inset-y-0 right-0 hidden grid-hatch md:block md:w-[calc((100%-1320px)/2)]" aria-hidden="true" />
+				<div className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block" aria-hidden="true">
+					<div className="h-full border-x border-grid-line" />
+				</div>
+				<div className="relative mx-auto max-w-[1320px]">
 					<div className="grid items-start gap-3 md:grid-cols-3">
 						{/* Hero - spans 2 cols */}
 						{cs.coverImage && (
@@ -259,8 +273,14 @@ export default async function CaseStudyPage({
 			</section>
 
 			{/* Challenge / Solution */}
-			<section className="pb-28">
-				<div className="mx-auto max-w-[1320px] px-6">
+			<section className="relative py-20 md:py-28">
+				<div className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block" aria-hidden="true" />
+				<div className="pointer-events-none absolute inset-y-0 left-0 hidden grid-hatch md:block md:w-[calc((100%-1320px)/2)]" aria-hidden="true" />
+				<div className="pointer-events-none absolute inset-y-0 right-0 hidden grid-hatch md:block md:w-[calc((100%-1320px)/2)]" aria-hidden="true" />
+				<div className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block" aria-hidden="true">
+					<div className="h-full border-x border-grid-line" />
+				</div>
+				<div className="relative mx-auto max-w-[1320px] px-6">
 					<div className="grid gap-16 md:grid-cols-2 md:gap-20">
 						<div>
 							<H2>{t("challenge")}</H2>
@@ -276,16 +296,19 @@ export default async function CaseStudyPage({
 
 			{/* Metrics */}
 			{cs.metrics && cs.metrics.length > 0 && (
-				<section className="pb-28" aria-label="Project metrics">
-					<div className="mx-auto max-w-[1320px] px-6">
-						<dl className="grid gap-px overflow-hidden border border-border/40 md:grid-cols-4">
+				<section className="relative py-20 md:py-28" aria-label="Project metrics">
+					<div className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block" aria-hidden="true" />
+					<div className="pointer-events-none absolute inset-y-0 left-0 hidden grid-hatch md:block md:w-[calc((100%-1320px)/2)]" aria-hidden="true" />
+					<div className="pointer-events-none absolute inset-y-0 right-0 hidden grid-hatch md:block md:w-[calc((100%-1320px)/2)]" aria-hidden="true" />
+					<div className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block" aria-hidden="true">
+						<div className="h-full border-x border-grid-line" />
+					</div>
+					<div className="relative mx-auto max-w-[1320px] px-6">
+						<dl className="grid grid-cols-2 gap-8 md:grid-cols-4">
 							{cs.metrics.map((metric) => (
-								<div
-									key={metric.label}
-									className="border-border/40 not-last:border-b p-8 text-center md:not-last:border-r md:not-last:border-b-0"
-								>
+								<div key={metric.label} className="text-center">
 									<dd>
-										<Stat className="md:text-3xl">{metric.value}</Stat>
+										<Stat>{metric.value}</Stat>
 									</dd>
 									<dt>
 										<Muted className="mt-2">{metric.label}</Muted>
@@ -299,8 +322,14 @@ export default async function CaseStudyPage({
 
 			{/* Image gallery */}
 			{cs.images && cs.images.length > 0 && (
-				<section className="pb-28">
-					<div className="mx-auto max-w-[1320px] px-6">
+				<section className="relative py-20 md:py-28">
+					<div className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block" aria-hidden="true" />
+					<div className="pointer-events-none absolute inset-y-0 left-0 hidden grid-hatch md:block md:w-[calc((100%-1320px)/2)]" aria-hidden="true" />
+					<div className="pointer-events-none absolute inset-y-0 right-0 hidden grid-hatch md:block md:w-[calc((100%-1320px)/2)]" aria-hidden="true" />
+					<div className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block" aria-hidden="true">
+						<div className="h-full border-x border-grid-line" />
+					</div>
+					<div className="relative mx-auto max-w-[1320px] px-6">
 						<CaseStudyGallery images={cs.images} alt={cs.client} />
 					</div>
 				</section>
@@ -308,8 +337,14 @@ export default async function CaseStudyPage({
 
 			{/* Related case studies */}
 			{relatedCaseStudies.length > 0 && (
-				<section className="border-border/40 border-t pt-20 pb-28">
-					<div className="mx-auto max-w-[1320px] px-6">
+				<section className="relative border-grid-line border-t pt-20 pb-28">
+					{/* Constructed grid */}
+					<div className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block" aria-hidden="true">
+						<div className="h-full border-x border-grid-line" />
+					</div>
+					<div className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block" aria-hidden="true" />
+					<GridFrame className="inset-0" />
+					<div className="relative mx-auto max-w-[1320px] px-6">
 						<H2>{t("relatedTitle")}</H2>
 						<div className="mt-10 grid gap-6 md:grid-cols-2">
 							{relatedCaseStudies.map((related) => (

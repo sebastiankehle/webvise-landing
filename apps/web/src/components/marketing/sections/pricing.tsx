@@ -29,7 +29,7 @@ export default async function Pricing() {
 				<H2>{t("title")}</H2>
 				<Lead className="mt-5 max-w-[520px]">{t("subtitle")}</Lead>
 			</div>
-			<StaggerChildren className="mt-14 grid items-stretch gap-px overflow-hidden border border-border/40 md:grid-cols-3">
+			<StaggerChildren className="mt-16 -mx-6 grid items-stretch border-t border-grid-line md:grid-cols-3">
 				{tiers.map(({ key, featureCount, hasBadge }) => {
 					const featureKeys = Array.from({ length: featureCount }, (_, i) =>
 						String(i),
@@ -38,17 +38,13 @@ export default async function Pricing() {
 					return (
 						<div
 							key={key}
-							className={`flex flex-col justify-between border-border/40 not-last:border-b p-8 md:not-last:border-r md:not-last:border-b-0 md:p-10 ${
-								hasBadge
-									? "border-t-2 border-t-brand bg-muted/30 md:-my-4 md:py-14"
-									: ""
+							className={`flex flex-col justify-between border-b border-grid-line p-6 md:border-r md:p-8 md:[&:nth-child(3n)]:border-r-0 ${
+								hasBadge ? "bg-muted/20" : ""
 							}`}
 						>
 							<div>
 								<div className="flex items-center gap-3">
-									<H3 className="text-2xl tracking-[-0.04em]">
-										{t(`tiers.${key}.name`)}
-									</H3>
+									<H3 className="text-xl">{t(`tiers.${key}.name`)}</H3>
 									{hasBadge && (
 										<Label className="border border-brand bg-brand px-2 py-0.5 text-[10px] text-white">
 											{t(`tiers.${key}.badge`)}
@@ -60,7 +56,7 @@ export default async function Pricing() {
 									{featureKeys.map((i) => (
 										<li
 											key={i}
-											className="border-border/40 border-b pb-3 text-sm last:border-b-0 last:pb-0"
+											className="border-grid-line border-b pb-3 text-sm last:border-b-0 last:pb-0"
 										>
 											{t(`tiers.${key}.features.${i}`)}
 										</li>
@@ -68,7 +64,7 @@ export default async function Pricing() {
 								</ul>
 							</div>
 							<div className="mt-10">
-								<Stat className="text-foreground text-2xl md:text-3xl">
+								<Stat className="text-2xl text-foreground md:text-3xl">
 									{t(`tiers.${key}.price`)}
 								</Stat>
 								<Caption className="mt-1 block">

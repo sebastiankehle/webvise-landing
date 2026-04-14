@@ -185,8 +185,8 @@ export default function MiniChart({
 	const current = datasets[active];
 
 	return (
-		<div className="mt-14 border border-border">
-			<div className="flex flex-col gap-3 border-border border-b px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
+		<div className="-mx-6 mt-14 border border-grid-line">
+			<div className="flex flex-col gap-3 border-grid-line border-b px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
 				<div>
 					<div className="flex items-center gap-3">
 						<Body className="text-[--foreground] text-sm">{current.label}</Body>

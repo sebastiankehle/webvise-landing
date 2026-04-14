@@ -52,7 +52,9 @@ export default async function MarketingLayout({
 				recentPosts={recentPosts}
 				featuredCaseStudies={featuredCaseStudies}
 			/>
-			<main id="main-content">{children}</main>
+			<main id="main-content" className="border-x border-grid-line">
+				{children}
+			</main>
 			<Footer ctaBanner={cta} />
 			<ChatWidget />
 		</>
