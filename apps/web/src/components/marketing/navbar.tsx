@@ -63,6 +63,13 @@ export default function Navbar({
 		return () => window.removeEventListener("scroll", onScroll);
 	}, []);
 
+	useEffect(() => {
+		document.body.style.overflow = mobileOpen ? "hidden" : "";
+		return () => {
+			document.body.style.overflow = "";
+		};
+	}, [mobileOpen]);
+
 	const open = useCallback((id: NavHash) => {
 		clearTimeout(closeRef.current);
 		setActiveDropdown(id);
@@ -109,7 +116,7 @@ export default function Navbar({
 		<>
 			<header
 				className={`sticky top-0 z-50 transition-all duration-500 ${
-					scrolled
+					scrolled || mobileOpen
 						? "border-border/40 border-b bg-background"
 						: "border-transparent border-b bg-transparent"
 				}`}
@@ -132,7 +139,7 @@ export default function Navbar({
 						}}
 					>
 						<Logo className="h-7 w-7" animated />
-						<Label className="font-display text-[22px] text-foreground">
+						<Label className="font-display text-foreground text-xl tracking-[-0.02em]">
 							webvise
 						</Label>
 					</Link>
@@ -145,7 +152,7 @@ export default function Navbar({
 							<Link
 								key={hash}
 								href={{ pathname: "/", hash }}
-								className={`relative inline-flex h-full items-center px-4 text-sm transition-colors hover:text-foreground ${
+								className={`relative inline-flex h-full items-center px-4 text-[13px] transition-colors hover:text-foreground ${
 									activeDropdown === hash
 										? "text-foreground"
 										: "text-muted-foreground"
@@ -180,7 +187,7 @@ export default function Navbar({
 
 					<button
 						type="button"
-						className="flex h-9 w-9 items-center justify-center transition-colors hover:text-brand md:hidden"
+						className="flex h-9 w-9 items-center justify-center border-0 transition-colors hover:text-brand md:hidden"
 						onClick={() => setMobileOpen(!mobileOpen)}
 						aria-label={mobileOpen ? "Close menu" : "Open menu"}
 					>
@@ -393,7 +400,7 @@ export default function Navbar({
 			</nav>
 
 			{mobileOpen && (
-				<div className="fixed inset-x-0 top-16 bottom-0 z-50 overflow-y-auto bg-background md:hidden">
+				<div className="fixed inset-0 top-16 z-50 overflow-x-hidden overflow-y-auto bg-background md:hidden">
 					<nav
 						aria-label="Mobile navigation"
 						className="mx-auto flex min-h-full max-w-[1320px] flex-col px-6 pt-6 pb-6"
@@ -404,12 +411,14 @@ export default function Navbar({
 								className="flex items-center justify-between py-4 text-foreground transition-colors hover:text-brand"
 								onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
 							>
-								<Label className="font-display text-foreground text-xl">
+								<Label className="font-display text-foreground text-lg">
 									{t("services")}
 								</Label>
-								<ChevronDown
-									className={`h-4 w-4 text-muted-foreground transition-transform duration-200 ${mobileServicesOpen ? "rotate-180" : ""}`}
-								/>
+								<span className="flex h-9 w-9 items-center justify-center">
+									<ChevronDown
+										className={`h-4 w-4 text-muted-foreground transition-transform duration-200 ${mobileServicesOpen ? "rotate-180" : ""}`}
+									/>
+								</span>
 							</button>
 							{mobileServicesOpen && (
 								<div className="mb-2 ml-1 flex flex-col gap-0.5 border-border/40 border-l pl-4">
@@ -432,7 +441,7 @@ export default function Navbar({
 
 							<Link
 								href={{ pathname: "/", hash: "case-studies" }}
-								className="py-4 text-left font-display text-foreground text-xl transition-colors hover:text-brand"
+								className="py-4 text-left font-display text-foreground text-lg transition-colors hover:text-brand"
 								onClick={(e) => handleNavClick(e, "case-studies")}
 							>
 								{t("caseStudies")}
@@ -440,7 +449,7 @@ export default function Navbar({
 
 							<Link
 								href={{ pathname: "/", hash: "blog" }}
-								className="py-4 text-left font-display text-foreground text-xl transition-colors hover:text-brand"
+								className="py-4 text-left font-display text-foreground text-lg transition-colors hover:text-brand"
 								onClick={(e) => handleNavClick(e, "blog")}
 							>
 								{t("blog")}
@@ -448,7 +457,7 @@ export default function Navbar({
 
 							<Link
 								href={{ pathname: "/", hash: "pricing" }}
-								className="py-4 text-left font-display text-foreground text-xl transition-colors hover:text-brand"
+								className="py-4 text-left font-display text-foreground text-lg transition-colors hover:text-brand"
 								onClick={(e) => handleNavClick(e, "pricing")}
 							>
 								{t("pricing")}

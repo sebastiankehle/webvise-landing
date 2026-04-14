@@ -10,11 +10,17 @@ export default async function Hero() {
 	const t = await getTranslations("hero");
 
 	return (
-		<section id="hero" className="py-24 md:py-44">
+		<section id="hero" className="relative overflow-hidden py-48 md:py-52">
+			{/* Mobile: subtle cloud in top-right, partially off-screen as depth layer */}
+			<div className="pointer-events-none absolute top-12 right-[-24px] opacity-25 md:hidden">
+				<div className="h-[220px] w-[180px]">
+					<IconCloud />
+				</div>
+			</div>
 			<div className="mx-auto max-w-[1320px] px-6">
 				<HeroContent>
-					<div className="grid items-center gap-16 md:grid-cols-2">
-						<div>
+					<div className="grid items-center gap-12 md:grid-cols-12">
+						<div className="md:col-span-7">
 							<Display>
 								{t.rich("title", {
 									brand: (chunks) => (
@@ -32,7 +38,7 @@ export default async function Hero() {
 								})}
 							</Display>
 							<Lead className="mt-6 max-w-[500px]">{t("subtitle")}</Lead>
-							<div className="mt-12 flex flex-col gap-4 sm:flex-row">
+							<div className="mt-10 flex flex-col gap-4 sm:flex-row">
 								<Button
 									size="lg"
 									className="border-transparent bg-brand px-8 text-white [&]:hover:bg-brand/80"
@@ -45,6 +51,7 @@ export default async function Hero() {
 								<Button
 									size="lg"
 									variant="outline"
+									className="hidden sm:inline-flex"
 									data-ph-capture-attribute-cta-location="hero"
 									data-ph-capture-attribute-cta-variant="secondary"
 									render={<Link href={{ pathname: "/", hash: "services" }} />}
@@ -53,8 +60,8 @@ export default async function Hero() {
 								</Button>
 							</div>
 						</div>
-						<div className="flex items-center justify-center">
-							<div className="relative w-full max-w-sm">
+						<div className="hidden items-center justify-center md:col-span-5 md:flex">
+							<div className="relative w-full max-w-[300px]">
 								<IconCloud />
 							</div>
 						</div>
