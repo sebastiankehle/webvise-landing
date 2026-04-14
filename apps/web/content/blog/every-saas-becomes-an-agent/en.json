@@ -1,0 +1,144 @@
+{
+	"date": "2026-04-14",
+	"readingTime": 7,
+	"keyword": "AI agents replacing SaaS",
+	"title": "Every SaaS Becomes an Agent Harness",
+	"excerpt": "A sales team replaced an entire sales SaaS with one Claude skill and three MCP servers. This is not an edge case  -  it's the pattern that will define which software categories survive 2026.",
+	"metaDescription": "AI agents are collapsing entire SaaS categories. Learn which tools are most at risk, what the new competitive moats look like, and how to audit your stack before you overpay.",
+	"tags": ["AI Agents", "AI", "Business Strategy", "Automation"],
+	"blocks": [
+		{
+			"type": "p",
+			"text": "The businesses buying SaaS in 2026 are asking a question that didn't exist two years ago: can an agent do this instead? In most cases, the honest answer is yes  -  and the cost difference is not marginal. It's an order of magnitude."
+		},
+		{
+			"type": "h2",
+			"text": "The Skill That Killed a SaaS"
+		},
+		{
+			"type": "p",
+			"text": "A sales team we worked with was paying for a dedicated sales intelligence platform. Its main value proposition: automated pre-call research. Before every meeting, it pulled together attendee profiles, company news, and booking context into a brief."
+		},
+		{
+			"type": "p",
+			"text": "They replaced it with one Claude skill connected to three [MCP servers](/blog/what-is-model-context-protocol): Google Calendar (for meeting context), Crustdata (for live company and contact data), and Slack (to surface any prior internal discussion about the account). Before every call, the agent runs automatically  -  pulling attendee LinkedIn profiles, recent company funding or news, the booking reason, and any internal Slack thread mentioning the company. The output is a structured brief, ready in the calendar invite."
+		},
+		{
+			"type": "p",
+			"text": "Total cost: a few cents per session, covered by their existing Claude API access. The SaaS subscription was $200/month per seat. The replacement took one afternoon to build. This is not a niche engineering feat  -  it is what the pre-call research category looked like as a standalone product less than a year ago."
+		},
+		{
+			"type": "h2",
+			"text": "Why This Keeps Happening"
+		},
+		{
+			"type": "p",
+			"text": "The underlying dynamic is structural. SaaS products were built in an era when automation required bespoke code. Every workflow had to be designed, hardcoded, and shipped as a feature. The result was software that charged for the engineering effort embedded in the product  -  not just the outcome."
+		},
+		{
+			"type": "p",
+			"text": "Agents flip this equation. A capable model with access to the right tools can compose workflows on the fly, reason about edge cases, and handle variation without a developer writing a new branch for every scenario. The cost of the automation collapses to the cost of the model call plus the tool infrastructure  -  which is now commodity."
+		},
+		{
+			"type": "p",
+			"text": "Anthropic's [Claude Managed Agents](https://www.anthropic.com/claude) pricing is $0.08 per session per hour. Notion, Rakuten, and Asana are already building on this infrastructure. The implication: the platforms that survive are not the ones with the most features. They're the ones most deeply embedded in workflows, with data that gets more valuable the more it's used."
+		},
+		{
+			"type": "p",
+			"text": "This is the SaaS-to-agent-harness thesis in one sentence: **value shifts from feature sets to workflow orchestration, and the moat moves from what the product does to how deeply it's embedded in how you work.**"
+		},
+		{
+			"type": "table",
+			"headers": ["Old Moat", "New Moat"],
+			"rows": [
+				["Feature count", "Workflow embedding depth"],
+				["Data lock-in", "Data flywheel (learning from usage)"],
+				["UI polish", "Latency, reliability, eval loops"],
+				["Integration breadth", "Handoff design between agents"],
+				["Brand / trust", "Feedback loop speed"]
+			]
+		},
+		{
+			"type": "p",
+			"text": "Agents make switching cheaper  -  you can rebuild a workflow in an afternoon. But domain expertise, proprietary data, and deep workflow embedding are harder to replicate. There will be no winner-take-all. The question is which category of product gets replaced first."
+		},
+		{
+			"type": "h2",
+			"text": "What Businesses Should Ask Before Buying SaaS in 2026"
+		},
+		{
+			"type": "p",
+			"text": "Before signing any new SaaS contract  -  or renewing an existing one  -  five questions are worth working through:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**Could an agent compose this from existing APIs?** If the product primarily orchestrates calls to third-party services and formats the output, an agent with MCP access can replicate the core function.",
+				"**Am I paying for UI I don't need?** Polished dashboards have value. But if the workflow is mostly automated, the UI cost is overhead.",
+				"**Is my data locked in or accessible?** Data portability determines whether you can move to an agent-native workflow without rebuilding from scratch. If you can't export your data, that's the real switching cost.",
+				"**Would a $0.08/hr agent session replace a $200/mo seat?** The math is blunt. At scale, the cost difference compounds fast. Run the numbers for your specific seat count and usage pattern.",
+				"**Is the vendor building agent-native or bolting on AI features?** An AI button added to an existing product is not the same as an agent-first architecture. The distinction matters for long-term viability."
+			]
+		},
+		{
+			"type": "h2",
+			"text": "The Categories Most at Risk"
+		},
+		{
+			"type": "p",
+			"text": "Not every SaaS category is equally exposed. The highest-risk categories are those built around **repetitive, rule-based workflows with structured data inputs and outputs**  -  exactly what agents handle best:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**Sales intelligence**  -  pre-call research, contact enrichment, company profiling. Already being replaced, as the case above shows.",
+				"**Content scheduling**  -  editorial calendars, social publishing queues, basic repurposing. Agents connected to publishing APIs handle this end-to-end.",
+				"**CRM automation**  -  follow-up sequencing, deal stage updates, activity logging. High-volume, low-variance workflows that agents execute reliably.",
+				"**Expense reporting**  -  receipt parsing, category assignment, policy checking, submission. Structured data with clear rules  -  a strong fit for agent automation.",
+				"**Meeting notes and action tracking**  -  transcription, summary, action item extraction, CRM sync. Multiple point solutions already being collapsed into single agent pipelines.",
+				"**Lead qualification**  -  scoring leads against ICP criteria, routing, initial outreach personalisation. Agents with access to enrichment data and CRM APIs handle the full loop."
+			]
+		},
+		{
+			"type": "h2",
+			"text": "What Survives"
+		},
+		{
+			"type": "p",
+			"text": "The agent wave does not flatten everything. Several categories remain structurally durable:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**Complex compliance and regulated workflows**  -  financial reporting, healthcare records management, legal document processing. Auditability, liability, and regulatory requirements keep humans and structured systems in the loop.",
+				"**Deeply embedded ERPs and operational systems**  -  when a platform is the system of record for years of business data and processes, replacement costs outweigh any per-session savings.",
+				"**Platforms with genuine network effects**  -  tools whose value comes from the network (marketplaces, collaboration platforms, industry-specific ecosystems) are harder to replicate because the product is the people using it.",
+				"**Agent harnesses that embed deeply**  -  paradoxically, the SaaS products most likely to survive are the ones that become agent orchestration layers themselves, embedding into workflows rather than sitting above them."
+			]
+		},
+		{
+			"type": "p",
+			"text": "The pattern is consistent: survival correlates with depth of embedding, proprietary data accumulation, and network effects. Features alone are not a moat anymore."
+		},
+		{
+			"type": "h2",
+			"text": "How to Start"
+		},
+		{
+			"type": "p",
+			"text": "The practical starting point is an audit. Pull your current SaaS stack and categorise each tool by its primary function: Is it a system of record, a workflow automator, or a reporting layer? Workflow automators are the highest-risk category  -  and the best candidates for an agent replacement prototype."
+		},
+		{
+			"type": "p",
+			"text": "Pick one. Identify the repetitive workflow it handles, map the APIs it calls, and build a simple agent that replicates the core loop. Measure the output quality against the existing tool over two weeks. In most cases, the agent matches or exceeds performance at a fraction of the cost."
+		},
+		{
+			"type": "p",
+			"text": "There are 310 million companies globally with zero automation in their workflows. Most of them are paying for SaaS products that an agent could replace today. The gap between knowing that and acting on it is where the competitive advantage sits right now."
+		},
+		{
+			"type": "p",
+			"text": "**webvise** is an AI automation agency specializing in Claude-based agent workflows. We help businesses audit their SaaS stack, identify which categories agent workflows can replace, and build the replacements, including the tool integrations, eval loops, and handoff design that make them production-ready. If you want to run this analysis on your stack, [get in touch](/#contact)."
+		}
+	]
+}
