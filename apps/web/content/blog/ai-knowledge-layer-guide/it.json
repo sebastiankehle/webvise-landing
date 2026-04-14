@@ -1,0 +1,168 @@
+{
+	"date": "2026-04-15",
+	"readingTime": 8,
+	"keyword": "knowledge layer IA",
+	"title": "Il Knowledge Layer IA: 127 pagine, zero vector database, e cosa abbiamo capito nel modo sbagliato",
+	"excerpt": "Il gist di Karpathy sull'LLM wiki ha raggiunto 99.000 bookmark in una settimana. Ha risuonato perché ha dato un nome a quello che ogni utente IA sente: i tuoi agenti non hanno memoria. Noi gestiamo un knowledge layer in produzione. Ecco cosa funziona, cosa non funziona, e come costruirne uno in 20 minuti.",
+	"metaDescription": "Guida pratica alla costruzione di un knowledge layer IA da un team che lo usa in produzione. Architettura, setup, dati reali e quello che abbiamo imparato sulla nostra pelle.",
+	"tags": ["AI Agents", "AI", "Automation", "Business Strategy"],
+	"cta": "Contattaci",
+	"blocks": [
+		{
+			"type": "p",
+			"text": "Andrej Karpathy ha pubblicato un [gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) nell'aprile 2026 descrivendo un pattern per costruire knowledge base personali con LLM. Ha ottenuto 99.000 bookmark in una settimana. Più implementazioni sono diventate open source in pochi giorni. [graphify](https://github.com/paulpierre/graphify) è uscito in 48 ore e ne ha guadagnati altri 27.000. Il pattern ha risuonato perché ha dato un nome a un problema che ogni utente IA sentiva già: i tuoi agenti non hanno memoria. Ogni conversazione riparte da zero. Rispieghi il tuo business, i tuoi obiettivi, il tuo tono, il tuo contesto, e il risultato torna generico perché l'input non aveva niente su cui lavorare."
+		},
+		{
+			"type": "p",
+			"text": "Noi gestiamo un knowledge layer in webvise che alimenta la nostra ricerca interna, la documentazione dei clienti e la pipeline di contenuti che produce questo blog. Questo è quello che abbiamo imparato."
+		},
+		{
+			"type": "h2",
+			"text": "Il problema non è il prompting. È l'amnesia."
+		},
+		{
+			"type": "p",
+			"text": "Il workflow IA standard è stateless. Apri una chat, spieghi cosa ti serve, ottieni una risposta, chiudi la chat. Sessione successiva, stessa spiegazione. Il contesto che avevi costruito è scomparso. La maggior parte delle persone compensa scrivendo prompt più lunghi, incollando documenti di background, o caricando file all'inizio di ogni sessione. Funziona, ma non scala. A un certo punto la context window si riempie, la qualità degrada, e passi più tempo a preparare il prompt che a fare il lavoro."
+		},
+		{
+			"type": "p",
+			"text": "Il knowledge layer risolve questo a livello infrastrutturale. Invece di imbottire ogni prompt di contesto, dai all'agente accesso a una knowledge base persistente e strutturata che legge prima di fare qualsiasi cosa. L'agente conosce già il tuo business, il tuo tono, i tuoi progetti, la tua storia. Salti la rispiegazione e vai direttamente al lavoro."
+		},
+		{
+			"type": "h2",
+			"text": "Tre layer, zero vector database"
+		},
+		{
+			"type": "p",
+			"text": "L'architettura ha tre parti:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**Sorgenti raw.** Una cartella di documenti immutabili: articoli, note, trascrizioni, PDF, registrazioni di riunioni, ricerche. L'agente li legge ma non li modifica mai. Sono la tua fonte di verità.",
+				"**Il wiki.** Una directory di file markdown generati dall'LLM con cross-reference. Pagine sulle entità, pagine sui concetti, sintesi, confronti, playbook. L'agente gestisce questo layer interamente. Crea pagine, le aggiorna quando arrivano nuove sorgenti, mantiene i cross-reference e tiene tutto coerente. Tu lo leggi. L'agente lo scrive.",
+				"**Lo schema.** Un documento di configurazione (CLAUDE.md, AGENTS.md, o equivalente) che dice all'agente come è strutturato il wiki, quali convenzioni seguire e quali workflow eseguire. Questo è ciò che trasforma un LLM generico in un mantainer disciplinato del wiki."
+			]
+		},
+		{
+			"type": "p",
+			"text": "Il wiki è un **artefatto compilato**. L'agente non ri-deriva la conoscenza ad ogni query. Compila una volta, crea cross-reference e resta aggiornato. Quando aggiungi una nuova sorgente, l'agente la integra nel wiki esistente, aggiornando ogni pagina rilevante. Quando fai una domanda, l'agente legge pagine pre-compilate invece di cercare tra i documenti raw."
+		},
+		{
+			"type": "h2",
+			"text": "Perché batte il RAG nella maggior parte dei casi"
+		},
+		{
+			"type": "p",
+			"text": "Il RAG ri-deriva le risposte al momento della query dividendo i documenti in chunk e cercando i frammenti rilevanti. L'approccio del wiki compilato salta tutto questo. graphify ha misurato **71,5 volte meno token per query** rispetto alla ricerca nei file raw. Le nostre misurazioni mostrano circa 1.000 token di contenuto del vault per query, rispetto ai 3.000 o più token che una pipeline RAG tipica inietta."
+		},
+		{
+			"type": "p",
+			"text": "Abbiamo scritto un [confronto tecnico completo](/it/blog/business-knowledge-base-without-rag) tra RAG e recupero basato su indice. La versione breve: per knowledge base sotto i 1.000 documenti, il wiki compilato supera il RAG in accuratezza, costo e complessità. Nessun vector database, nessun modello di embedding, nessuna strategia di chunking, nessun job di re-indicizzazione. Cinque comandi shell e un file indice ben mantenuto."
+		},
+		{
+			"type": "p",
+			"text": "L'evoluzione è avvenuta in tre fasi: RAG one-shot dal 2020 al 2023, RAG agentivo con retrieval multi-hop dal 2023 al 2024, e context engineering dal 2025 in poi, dove l'agente costruisce il proprio contesto da più sorgenti. Il knowledge layer è l'infrastruttura per quella terza fase. La maggior parte dei team sta ancora costruendo per la fase uno."
+		},
+		{
+			"type": "h2",
+			"text": "Quello che abbiamo imparato gestendo il nostro"
+		},
+		{
+			"type": "p",
+			"text": "Il nostro wiki interno contiene attualmente 127 pagine strutturate in sette categorie: persone, aziende, concetti, playbook, collezioni, sintesi e strumenti. Ogni pagina segue un template standard con frontmatter YAML, cross-reference tramite wikilink di Obsidian e attribuzione delle sorgenti. L'agente esegue sei operazioni definite: ingest, aggiornamento conversazionale, query, lint, enrich e riorganizzazione."
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**Il file schema è tutto.** Tutto il resto ne deriva. Uno schema ben scritto produce un wiki disciplinato con convenzioni coerenti. Uno schema vago produce allucinazioni e sprawl. La versione attuale è circa 200 righe e copre struttura delle directory, formato delle pagine, tutte e sei le operazioni, convenzioni di naming e gestione delle contraddizioni. Ci sono volute diverse iterazioni per farlo funzionare.",
+				"**Il dedup-first previene lo sprawl delle pagine.** La nostra regola: prima di creare qualsiasi nuova pagina, cerca nel wiki esistente contenuti sovrapposti. Se una pagina esistente copre il 60% o più dello stesso terreno, arricchisci quella pagina invece di crearne una nuova. Senza questa regola, il wiki si riempie di pagine ridondanti che frammentano la conoscenza in pezzi inutilizzabili.",
+				"**Le query si compongono nella knowledge base.** Quando fai una buona domanda e ottieni una risposta utile, quella risposta viene archiviata come nuova pagina del wiki. La prossima volta che qualcuno fa una domanda correlata, l'agente ha già una sintesi pre-compilata da cui attingere. Questo è l'effetto compounding che rende il sistema migliore nel tempo, non solo più grande.",
+				"**La qualità dell'ingest dipende interamente dalla disciplina.** Scaricare un articolo raw e dire \"ingest this\" produce un riassunto superficiale. Analizzare la sorgente con l'agente, discutere i takeaway e indicare cosa enfatizzare produce pagine che restano utili man mano che il wiki cresce. Imponiamo un workflow rigoroso: pulisci il file raw, discuti i takeaway principali, aspetta l'approvazione, poi estrai completamente.",
+				"**Il file indice è il sistema di retrieval.** Il nostro indice root ha 22 righe. Ogni sottodirectory ha il proprio indice che elenca ogni pagina con una descrizione di una riga. L'agente legge l'indice root a circa 400 token, identifica la sottodirectory giusta, legge quell'indice, poi recupera le pagine specifiche di cui ha bisogno. La maggior parte delle query si completa con tre letture e circa 1.000 token di contenuto del vault."
+			]
+		},
+		{
+			"type": "h2",
+			"text": "Lo schema è il file più importante che scriverai"
+		},
+		{
+			"type": "p",
+			"text": "Karpathy lo chiama schema. Noi lo chiamiamo CLAUDE.md. Il framework [LLM Wikid di shannholmberg](https://github.com/shannhk/llm-wikid) lo divide in un Knowledge Base Layer e un Brand Foundation. Il nome non conta. Quello che conta è che questo unico file controlla come si comporta l'agente in ogni sessione."
+		},
+		{
+			"type": "p",
+			"text": "Uno schema valido definisce:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**Struttura delle directory.** Dove vanno le sorgenti raw, dove vanno le pagine del wiki, come sono organizzate in categorie.",
+				"**Formato delle pagine.** Campi del frontmatter, struttura delle sezioni, regole di attribuzione delle sorgenti, convenzioni di cross-reference.",
+				"**Operazioni.** Workflow step-by-step per l'ingest delle sorgenti, rispondere alle query, eseguire health check e mantenere il wiki nel tempo.",
+				"**Quality gate.** Cosa rende una pagina completa. Quando segnalare l'incertezza. Come gestire le sorgenti in conflitto. La regola che ogni claim deve tracciare indietro fino a una sorgente."
+			]
+		},
+		{
+			"type": "p",
+			"text": "Senza questi, l'agente improvvisa. Crea pagine in posizioni casuali, usa formati inconsistenti, duplica contenuti tra le pagine e devia dalle tue convenzioni a ogni sessione. Lo schema previene la deriva. Trattiamo il nostro come codice di produzione: ogni modifica è deliberata e testata contro ingest reali."
+		},
+		{
+			"type": "h2",
+			"text": "Come costruirne uno in 20 minuti"
+		},
+		{
+			"type": "p",
+			"text": "Non hai bisogno di 17 file, un content skill graph o una pipeline di embedding personalizzata. Ti servono quattro cose:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**Un vault Obsidian con due cartelle.** `raw/` per i documenti sorgente e `wiki/` per le pagine generate dall'agente. Aprilo in Obsidian per la graph view e la navigazione.",
+				"**Un file schema.** Parti dal [gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) di Karpathy o dal template [LLM Wikid](https://github.com/shannhk/llm-wikid) di shannholmberg. Personalizza la struttura delle directory e il formato delle pagine per il tuo dominio. Tienilo sotto le 200 righe per iniziare.",
+				"**Un agente LLM con accesso ai file.** [Claude Code](https://docs.anthropic.com/en/docs/claude-code), OpenAI Codex o qualsiasi agente che può leggere e scrivere file markdown. Puntalo sul vault. Legge lo schema all'avvio.",
+				"**La tua prima sorgente.** Metti un articolo, un insieme di note o un documento in `raw/`. Di' all'agente di ingestirlo. Guardalo creare pagine wiki, costruire cross-reference e aggiornare l'indice."
+			]
+		},
+		{
+			"type": "p",
+			"text": "Questo è l'intero loop. Il sistema migliora ogni giorno perché ogni sorgente che aggiungi e ogni domanda che fai arricchisce il wiki. Il primo ingest richiede 10 minuti di attenzione attiva. Al ventesimo, l'agente conosce il tuo dominio abbastanza bene da estrarre e fare cross-reference con una guida minima."
+		},
+		{
+			"type": "p",
+			"text": "Tooling opzionale man mano che scala: [qmd](https://github.com/tobi/qmd) di Tobi Lutke per la ricerca ibrida locale con BM25 e retrieval vettoriale una volta superati i 300 pagine. L'estensione Obsidian Web Clipper per portare rapidamente articoli web nella cartella raw. Dataview per eseguire query sul frontmatter delle pagine. Git per la storia delle versioni. Niente di tutto ciò è necessario per iniziare."
+		},
+		{
+			"type": "h2",
+			"text": "Cosa non conta"
+		},
+		{
+			"type": "p",
+			"text": "La maggior parte della complessità che le persone associano ai sistemi di knowledge IA è overhead per problemi che non hanno ancora. Un vector database per 200 documenti, un modello di embedding personalizzato quando un indice ben mantenuto fa il retrieval, una pipeline di re-indicizzazione quando aggiungere un documento significa scrivere un file, una strategia di chunking quando la pagina è l'unità. Niente di tutto ciò è necessario alla scala in cui operano la maggior parte delle aziende."
+		},
+		{
+			"type": "p",
+			"text": "Il pattern funziona perché il markdown è semplice e gli LLM sono bravi a leggerlo e scriverlo. Il costo infrastrutturale è zero. Il costo di manutenzione è quasi zero perché l'LLM fa la contabilità. L'unico costo reale è la disciplina di mantenere lo schema onesto e la qualità dell'ingest alta. Quello è un problema umano, non tecnologico."
+		},
+		{
+			"type": "h2",
+			"text": "Cosa significa per le aziende"
+		},
+		{
+			"type": "p",
+			"text": "La stessa architettura funziona a scala aziendale. Sostituisci le note personali con documentazione dei clienti, playbook di vendita, guide di onboarding e SOP interni. Sostituisci l'agente di una persona con l'agente di ogni membro del team che legge da una knowledge base condivisa."
+		},
+		{
+			"type": "p",
+			"text": "Il pattern è identico: le sorgenti raw entrano, l'agente compila pagine strutturate, i cross-reference si costruiscono automaticamente, gli umani validano. La differenza è che un knowledge layer condiviso rende i nuovi membri del team produttivi immediatamente. Il loro agente conosce già la storia del cliente, le convenzioni interne e il contesto del progetto. Nessun onboarding di sei settimane. Nessuna conoscenza tribale bloccata nella testa di qualcuno."
+		},
+		{
+			"type": "p",
+			"text": "Karpathy lo chiama LLM wiki. shannholmberg lo chiama AI knowledge layer. Eric Osiu lo chiama shared brain. Cody Schneider lo chiama data warehouse. Il nome continua a cambiare. Il pattern no: gli agenti hanno bisogno di conoscenza compilata e strutturata per fare lavoro utile. Tutto il resto è fare prompting nel vuoto."
+		},
+		{
+			"type": "p",
+			"text": "In **[webvise](/#contact)**, costruiamo knowledge layer per le aziende che vogliono che i loro agenti IA sappiano davvero di cosa stanno parlando. Se stai passando più tempo a spiegare il contesto ai tuoi strumenti che a ricevere valore da loro, questo è il problema che risolviamo. [Contattaci](/#contact)."
+		}
+	]
+}

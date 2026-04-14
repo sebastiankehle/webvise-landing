@@ -52,16 +52,29 @@ Focus on:
 - `wiki/synthesis/` — cross-cutting analyses
 - `wiki/playbooks/` — actionable frameworks
 - `wiki/companies/webvise/` — agency positioning, product updates
-- `wiki/collections/tweet-log.md` — which tweet topics got high engagement (check `perf` field)
 
 Also check `raw/articles/` for recently ingested sources that haven't been turned into blog content yet.
+
+### Step 2b: Scan Tweet Performance for Escalation Candidates
+Read the tweet log and individual tweet files for performance signals:
+```
+~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Vault/wiki/collections/professional/tweet-log.md
+~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Vault/wiki/collections/professional/twitter-posts/
+```
+
+For each tweet with `status: tracked` (meaning perf data is filled in), check if it qualifies for long-form escalation:
+- **High engagement:** impressions > 5K, or likes > 100, or replies > 20
+- **Topic depth:** the tweet's source pages contain enough material for a 1500+ word article
+- **No existing coverage:** the topic hasn't already been covered in a blog post
+
+High-performing tweets are strong blog article candidates because the topic is already validated by audience engagement. The tweet's core insight becomes the article's claim; the source pages become the research base.
 
 ### Step 3: Find Connections
 Cross-reference vault pages to find non-obvious bridges:
 - A concept that reframes a webvise service offering
 - A recently ingested article that validates or challenges a webvise position
 - Two vault pages whose intersection produces a contrarian thesis
-- A high-performing tweet topic that deserves long-form treatment
+- A tweet escalation candidate (from Step 2b) that deserves long-form treatment
 
 ### Step 4: Generate 3 Candidate Briefs
 For each candidate, produce:
@@ -316,3 +329,20 @@ done
 ```
 
 All 7 files must parse and the block counts must match across locales.
+
+## Content Pipeline Chaining
+
+After the blog article is complete and validated, prompt Sebastian:
+
+```
+Blog article complete: <slug>
+
+Generate an X Article from this post?
+→ /twitter-article <slug>
+
+This will transform the blog post into an opinionated X Article with a generated header image
+and create an announcement tweet. The X Article reaches a different audience with a different
+tone — it's not a copy, it's a rethink for the platform.
+```
+
+Only suggest this after all validation passes. Sebastian decides whether to chain.

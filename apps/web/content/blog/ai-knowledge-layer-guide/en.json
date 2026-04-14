@@ -1,0 +1,168 @@
+{
+	"date": "2026-04-15",
+	"readingTime": 8,
+	"keyword": "ai knowledge layer",
+	"title": "The AI Knowledge Layer: 127 Pages, Zero Vector Databases, and What We Got Wrong",
+	"excerpt": "Karpathy's LLM wiki gist hit 99,000 bookmarks in a week. It resonated because it named what every AI user feels: your agents have no memory. We run a knowledge layer in production. Here is what works, what does not, and how to build one in 20 minutes.",
+	"metaDescription": "Practical guide to building an AI knowledge layer from a team that runs one in production. Architecture, setup, real numbers, and what we learned the hard way.",
+	"tags": ["AI Agents", "AI", "Automation", "Business Strategy"],
+	"cta": "Get in Touch",
+	"blocks": [
+		{
+			"type": "p",
+			"text": "Andrej Karpathy published a [gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) in April 2026 describing a pattern for building personal knowledge bases with LLMs. It got 99,000 bookmarks in a week. Multiple implementations went open source within days. [graphify](https://github.com/paulpierre/graphify) shipped in 48 hours and got 27,000 more. The pattern resonated because it named a problem every AI user already felt: your agents have no memory. Every conversation starts from zero. You re-explain your business, your goals, your voice, your context, and the output comes back generic because the input had nothing to work with."
+		},
+		{
+			"type": "p",
+			"text": "We run a knowledge layer at webvise that powers our internal research, our client documentation, and the content pipeline that produces this blog. This is what we learned."
+		},
+		{
+			"type": "h2",
+			"text": "The Problem Is Not Prompting. It Is Amnesia."
+		},
+		{
+			"type": "p",
+			"text": "The standard AI workflow is stateless. You open a chat, explain what you need, get an answer, close the chat. Next session, same explanation. The context you built up is gone. Most people compensate by writing longer prompts, copy-pasting background documents, or uploading files at the start of every session. This works, but it does not scale. At some point the context window fills up, the quality degrades, and you spend more time preparing the prompt than doing the work."
+		},
+		{
+			"type": "p",
+			"text": "The knowledge layer solves this at the infrastructure level. Instead of stuffing context into every prompt, you give the agent access to a persistent, structured knowledge base that it reads before doing anything. The agent already knows your business, your voice, your projects, your history. You skip the re-explanation and go straight to the work."
+		},
+		{
+			"type": "h2",
+			"text": "Three Layers, No Vector Database"
+		},
+		{
+			"type": "p",
+			"text": "The architecture has three parts:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**Raw sources.** A folder of immutable documents: articles, notes, transcripts, PDFs, meeting recordings, research. The agent reads these but never modifies them. They are your source of truth.",
+				"**The wiki.** A directory of LLM-generated markdown files with cross-references. Entity pages, concept pages, synthesis, comparisons, playbooks. The agent owns this layer entirely. It creates pages, updates them when new sources arrive, maintains cross-references, and keeps everything consistent. You read it. The agent writes it.",
+				"**The schema.** A configuration document (CLAUDE.md, AGENTS.md, or equivalent) that tells the agent how the wiki is structured, what conventions to follow, and what workflows to run. This is what turns a generic LLM into a disciplined wiki maintainer."
+			]
+		},
+		{
+			"type": "p",
+			"text": "The wiki is a **compiled artifact**. The agent does not re-derive knowledge on every query. It compiles once, cross-references, and keeps current. When you add a new source, the agent integrates it into the existing wiki, updating every relevant page. When you ask a question, the agent reads pre-compiled pages instead of searching through raw documents."
+		},
+		{
+			"type": "h2",
+			"text": "Why This Beats RAG for Most Use Cases"
+		},
+		{
+			"type": "p",
+			"text": "RAG re-derives answers at query time by chunking documents and searching for relevant fragments. The compiled wiki approach skips that entirely. graphify measured **71.5x fewer tokens per query** compared to searching raw files. Our own measurements show roughly 1,000 tokens of vault content per query, compared to the 3,000 or more tokens a typical RAG pipeline injects."
+		},
+		{
+			"type": "p",
+			"text": "We wrote a [full technical comparison](/blog/business-knowledge-base-without-rag) of RAG versus index-based retrieval. The short version: for knowledge bases under 1,000 documents, the compiled wiki outperforms RAG on accuracy, cost, and complexity. No vector database, no embedding model, no chunking strategy, no re-indexing job. Five shell commands and a maintained index file."
+		},
+		{
+			"type": "p",
+			"text": "The evolution happened in three phases: one-shot RAG from 2020 to 2023, agentic RAG with multi-hop retrieval from 2023 to 2024, and context engineering from 2025 onward where the agent builds its own context from multiple sources. The knowledge layer is the infrastructure for that third phase. Most teams are still building for phase one."
+		},
+		{
+			"type": "h2",
+			"text": "What We Learned Running Ours"
+		},
+		{
+			"type": "p",
+			"text": "Our internal wiki currently holds 127 structured pages across seven categories: people, companies, concepts, playbooks, collections, synthesis, and tools. Every page follows a standard template with YAML frontmatter, cross-references via Obsidian wikilinks, and source attribution. The agent runs six defined operations: ingest, conversational update, query, lint, enrich, and reorganize."
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**The schema file is the whole game.** Everything else follows from it. A well-written schema produces a disciplined wiki with consistent conventions. A vague schema produces hallucination and sprawl. The current version is roughly 200 lines and covers directory structure, page format, all six operations, naming conventions, and contradiction handling. It took several iterations to get right.",
+				"**Dedup-first prevents page sprawl.** Our rule: before creating any new page, search the existing wiki for overlapping content. If an existing page covers 60% or more of the same ground, enrich that page instead of creating a new one. Without this rule, the wiki fills with redundant pages that fragment knowledge into unusable pieces.",
+				"**Queries compound into the knowledge base.** When you ask a good question and get a useful answer, that answer gets filed back as a new wiki page. The next time someone asks a related question, the agent already has a pre-compiled synthesis to draw from. This is the compounding effect that makes the system better over time, not just bigger.",
+				"**Ingest quality depends entirely on discipline.** Dumping a raw article and saying \"ingest this\" produces a thin summary. Walking through the source with the agent, discussing takeaways, and directing what to emphasize produces pages that stay useful as the wiki grows. We enforce a strict workflow: clean the raw file, discuss key takeaways, wait for approval, then extract completely.",
+				"**The index file is the retrieval system.** Our root index is 22 lines. Each subdirectory has its own index listing every page with a one-line description. The agent reads the root index at roughly 400 tokens, identifies the right subdirectory, reads that index, then pulls the specific pages it needs. Most queries finish with three reads and about 1,000 tokens of vault content."
+			]
+		},
+		{
+			"type": "h2",
+			"text": "The Schema Is the Most Important File You Will Write"
+		},
+		{
+			"type": "p",
+			"text": "Karpathy calls it the schema. We call it CLAUDE.md. [shannholmberg's LLM Wikid](https://github.com/shannhk/llm-wikid) framework splits it into a Knowledge Base Layer and a Brand Foundation. The name does not matter. What matters is that this one file controls how the agent behaves across every session."
+		},
+		{
+			"type": "p",
+			"text": "A good schema defines:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**Directory structure.** Where raw sources go, where wiki pages go, how they are organized into categories.",
+				"**Page format.** Frontmatter fields, section structure, source attribution rules, cross-referencing conventions.",
+				"**Operations.** Step-by-step workflows for ingesting sources, answering queries, running health checks, and maintaining the wiki over time.",
+				"**Quality gates.** What makes a page complete. When to flag uncertainty. How to handle conflicting sources. The rule that every claim must trace back to a source."
+			]
+		},
+		{
+			"type": "p",
+			"text": "Without these, the agent improvises. It creates pages in random locations, uses inconsistent formats, duplicates content across pages, and drifts from your conventions with every session. The schema prevents drift. We treat ours like production code: every change is deliberate and tested against real ingest."
+		},
+		{
+			"type": "h2",
+			"text": "How to Build One in 20 Minutes"
+		},
+		{
+			"type": "p",
+			"text": "You do not need 17 files, a content skill graph, or a custom embedding pipeline. You need four things:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**An Obsidian vault with two folders.** `raw/` for source documents and `wiki/` for agent-generated pages. Open it in Obsidian for the graph view and navigation.",
+				"**A schema file.** Start with Karpathy's [gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) or shannholmberg's [LLM Wikid](https://github.com/shannhk/llm-wikid) template. Customize the directory structure and page format for your domain. Keep it under 200 lines to start.",
+				"**An LLM agent with file access.** [Claude Code](https://docs.anthropic.com/en/docs/claude-code), OpenAI Codex, or any agent that can read and write markdown files. Point it at the vault. It reads the schema on startup.",
+				"**Your first source.** Drop an article, a set of notes, or a document into `raw/`. Tell the agent to ingest it. Watch it create wiki pages, build cross-references, and update the index."
+			]
+		},
+		{
+			"type": "p",
+			"text": "That is the whole loop. The system gets better every day because every source you add and every question you ask enriches the wiki. The first ingest takes 10 minutes of active attention. By the twentieth, the agent knows your domain well enough to extract and cross-reference with minimal guidance."
+		},
+		{
+			"type": "p",
+			"text": "Optional tooling as you scale: [qmd](https://github.com/tobi/qmd) by Tobi Lutke for local hybrid search with BM25 and vector retrieval once you pass 300 pages. The Obsidian Web Clipper extension for quickly getting web articles into your raw folder. Dataview for running queries over page frontmatter. Git for version history. None of these are required to start."
+		},
+		{
+			"type": "h2",
+			"text": "What Does Not Matter"
+		},
+		{
+			"type": "p",
+			"text": "Most of the complexity people associate with AI knowledge systems is overhead for problems they do not have yet. A vector database for 200 documents, a custom embedding model when a maintained index does the retrieval, a re-indexing pipeline when adding a document means writing a file, a chunking strategy when the page is the unit. None of it is necessary at the scale most businesses operate."
+		},
+		{
+			"type": "p",
+			"text": "The pattern works because markdown is simple and LLMs are good at reading and writing it. The infrastructure cost is zero. The maintenance cost is near zero because the LLM does the bookkeeping. The only real cost is the discipline to keep the schema honest and the ingest quality high. That is a human problem, not a technology problem."
+		},
+		{
+			"type": "h2",
+			"text": "What This Means for Businesses"
+		},
+		{
+			"type": "p",
+			"text": "The same architecture works at company scale. Replace personal notes with client documentation, sales playbooks, onboarding guides, and internal SOPs. Replace one person's agent with every team member's agent reading from a shared knowledge base."
+		},
+		{
+			"type": "p",
+			"text": "The pattern is identical: raw sources go in, the agent compiles structured pages, cross-references build automatically, humans validate. The difference is that a shared knowledge layer means new team members are productive immediately. Their agent already knows the client history, the internal conventions, and the project context. No six-week ramp-up. No tribal knowledge locked in someone's head."
+		},
+		{
+			"type": "p",
+			"text": "Karpathy calls it an LLM wiki. shannholmberg calls it an AI knowledge layer. Eric Osiu calls it a shared brain. Cody Schneider calls it a data warehouse. The name keeps changing. The pattern does not: agents need compiled, structured knowledge to do useful work. Everything else is prompting into the void."
+		},
+		{
+			"type": "p",
+			"text": "At **[webvise](/#contact)**, we build knowledge layers for businesses that want their AI agents to actually know what they are talking about. If you are spending more time explaining context to your tools than getting value from them, that is the problem this solves. [Get in touch](/#contact)."
+		}
+	]
+}
