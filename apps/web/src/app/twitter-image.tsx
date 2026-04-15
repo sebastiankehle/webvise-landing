@@ -13,7 +13,7 @@ export default function TwitterImage() {
 				display: "flex",
 				alignItems: "center",
 				justifyContent: "center",
-				background: "#fafafa",
+				background: "#0c0c0f",
 				gap: 40,
 			}}
 		>
@@ -46,7 +46,7 @@ export default function TwitterImage() {
 					style={{
 						fontSize: 64,
 						fontWeight: 600,
-						color: "#0a0a0a",
+						color: "#ededed",
 						letterSpacing: "-0.02em",
 					}}
 				>
@@ -55,7 +55,7 @@ export default function TwitterImage() {
 				<span
 					style={{
 						fontSize: 28,
-						color: "#737373",
+						color: "#919195",
 						fontWeight: 400,
 					}}
 				>
