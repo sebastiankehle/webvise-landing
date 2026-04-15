@@ -1,6 +1,7 @@
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Geist_Mono, Inter } from "next/font/google";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
@@ -101,6 +102,20 @@ export default async function LocaleLayout({
 
 	return (
 		<html lang={locale} suppressHydrationWarning>
+			<head>
+				<Script
+					src="https://www.googletagmanager.com/gtag/js?id=G-D5466MRK51"
+					strategy="afterInteractive"
+				/>
+				<Script id="gtag-init" strategy="afterInteractive">
+					{`
+						window.dataLayer = window.dataLayer || [];
+						function gtag(){dataLayer.push(arguments);}
+						gtag('js', new Date());
+						gtag('config', 'G-D5466MRK51');
+					`}
+				</Script>
+			</head>
 			<body className={`${inter.variable} ${geistMono.variable} antialiased`}>
 				<ThemeProvider
 					attribute="class"
