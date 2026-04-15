@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import HeroContent from "@/components/marketing/hero-content";
 import IconCloud from "@/components/marketing/icon-cloud";
 import { GridFrame } from "@/components/marketing/section-wrapper";
+import { TrackClick } from "@/components/marketing/track-click";
 import { Button } from "@/components/ui/button";
 import { Display, Lead } from "@/components/ui/typography";
 import { Link } from "@/i18n/navigation";
@@ -57,25 +58,25 @@ export default async function Hero() {
 							</Display>
 							<Lead className="mt-6 max-w-[500px]">{t("subtitle")}</Lead>
 							<div className="mt-10 flex flex-col gap-4 sm:flex-row">
-								<Button
-									size="lg"
-									className="border-transparent bg-brand px-8 text-white [&]:hover:bg-brand/80"
-									data-ph-capture-attribute-cta-location="hero"
-									data-ph-capture-attribute-cta-variant="primary"
-									render={<Link href={{ pathname: "/", hash: "contact" }} />}
-								>
-									{t("cta")}
-								</Button>
-								<Button
-									size="lg"
-									variant="outline"
-									className="hidden sm:inline-flex"
-									data-ph-capture-attribute-cta-location="hero"
-									data-ph-capture-attribute-cta-variant="secondary"
-									render={<Link href={{ pathname: "/", hash: "services" }} />}
-								>
-									{t("ctaSecondary")}
-								</Button>
+								<TrackClick event="cta_clicked" properties={{ location: "hero", variant: "primary", destination: "contact" }}>
+									<Button
+										size="lg"
+										className="border-transparent bg-brand px-8 text-white [&]:hover:bg-brand/80"
+										render={<Link href={{ pathname: "/", hash: "contact" }} />}
+									>
+										{t("cta")}
+									</Button>
+								</TrackClick>
+								<TrackClick event="cta_clicked" properties={{ location: "hero", variant: "secondary", destination: "services" }}>
+									<Button
+										size="lg"
+										variant="outline"
+										className="hidden sm:inline-flex"
+										render={<Link href={{ pathname: "/", hash: "services" }} />}
+									>
+										{t("ctaSecondary")}
+									</Button>
+								</TrackClick>
 							</div>
 						</div>
 						<div className="hidden items-center justify-center md:col-span-5 md:flex">

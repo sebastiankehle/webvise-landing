@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import StaggerChildren from "@/components/marketing/stagger-children";
+import { TrackClick } from "@/components/marketing/track-click";
 import { Button } from "@/components/ui/button";
 import {
 	Caption,
@@ -70,15 +71,15 @@ export default async function Pricing() {
 								<Caption className="mt-1 block">
 									{t(`tiers.${key}.basis`)}
 								</Caption>
-								<Button
-									size="sm"
-									className="mt-5 w-full border-transparent bg-brand text-white [&]:hover:bg-brand/80"
-									data-ph-capture-attribute-cta-location="pricing"
-									data-ph-capture-attribute-cta-variant={key}
-									render={<Link href={{ pathname: "/", hash: "contact" }} />}
-								>
-									{t("cta")}
-								</Button>
+								<TrackClick event="cta_clicked" properties={{ location: "pricing", variant: key, destination: "contact" }}>
+									<Button
+										size="sm"
+										className="mt-5 w-full border-transparent bg-brand text-white [&]:hover:bg-brand/80"
+										render={<Link href={{ pathname: "/", hash: "contact" }} />}
+									>
+										{t("cta")}
+									</Button>
+								</TrackClick>
 							</div>
 						</div>
 					);

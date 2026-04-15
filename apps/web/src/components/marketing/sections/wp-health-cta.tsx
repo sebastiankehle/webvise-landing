@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 
 import SectionWrapper from "@/components/marketing/section-wrapper";
+import { TrackClick } from "@/components/marketing/track-click";
 import { Button } from "@/components/ui/button";
 import { Body, Caption, H2, Lead, Mono } from "@/components/ui/typography";
 import { Link } from "@/i18n/navigation";
@@ -42,15 +43,15 @@ export default async function WpHealthCta() {
 				{/* CTA */}
 				<div className="flex flex-col items-start justify-center">
 					<Body className="text-sm leading-[1.6]">{t("trustLine")}</Body>
-					<Button
-						size="lg"
-						className="mt-6 border-transparent bg-brand px-8 text-white [&]:hover:bg-brand/80"
-						data-ph-capture-attribute-cta-location="wp-health-cta"
-						data-ph-capture-attribute-cta-variant="analyzer"
-						render={<Link href="/wp-health-report" />}
-					>
-						{t("button")}
-					</Button>
+					<TrackClick event="cta_clicked" properties={{ location: "wp-health-cta", variant: "analyzer", destination: "wp-health-report" }}>
+						<Button
+							size="lg"
+							className="mt-6 border-transparent bg-brand px-8 text-white [&]:hover:bg-brand/80"
+							render={<Link href="/wp-health-report" />}
+						>
+							{t("button")}
+						</Button>
+					</TrackClick>
 				</div>
 			</div>
 		</SectionWrapper>

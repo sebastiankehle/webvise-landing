@@ -1,3 +1,4 @@
+import { TrackClick } from "@/components/marketing/track-click";
 import { Button } from "@/components/ui/button";
 import { H2, Lead } from "@/components/ui/typography";
 import { Link } from "@/i18n/navigation";
@@ -20,15 +21,15 @@ export default function FooterCtaBanner({
 					<H2>{headline}</H2>
 					<Lead className="mt-4 max-w-[480px]">{subtext}</Lead>
 				</div>
-				<Button
-					size="lg"
-					className="[a]:hover:!bg-brand/80 shrink-0 border-transparent bg-brand px-8 text-white"
-					data-ph-capture-attribute-cta-location="footer"
-					data-ph-capture-attribute-cta-variant="primary"
-					render={<Link href={{ pathname: "/", hash: "contact" }} />}
-				>
-					{buttonText}
-				</Button>
+				<TrackClick event="cta_clicked" properties={{ location: "footer", variant: "primary", destination: "contact" }}>
+					<Button
+						size="lg"
+						className="[a]:hover:!bg-brand/80 shrink-0 border-transparent bg-brand px-8 text-white"
+						render={<Link href={{ pathname: "/", hash: "contact" }} />}
+					>
+						{buttonText}
+					</Button>
+				</TrackClick>
 			</div>
 		</div>
 	);
