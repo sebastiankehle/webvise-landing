@@ -18,26 +18,26 @@ const variantStyles: Record<
 	}
 > = {
 	light: {
-		bg: "bg-white",
-		text: "text-[#1a1a1a]",
-		sub: "text-[#737373]",
+		bg: "bg-background",
+		text: "text-foreground",
+		sub: "text-muted-foreground",
 		canvasBg: "#ffffff",
-		canvasText: "#1a1a1a",
+		canvasText: "#0a0a0a",
 		canvasSub: "#737373",
 	},
 	dark: {
-		bg: "bg-[#1a1a1a]",
-		text: "text-white",
-		sub: "text-[#a3a3a3]",
-		canvasBg: "#1a1a1a",
-		canvasText: "#ffffff",
-		canvasSub: "#a3a3a3",
+		bg: "bg-surface-dark",
+		text: "text-[#eeede9]",
+		sub: "text-[#8b8fa0]",
+		canvasBg: "#161923",
+		canvasText: "#eeede9",
+		canvasSub: "#8b8fa0",
 	},
 	brand: {
 		bg: "bg-brand",
 		text: "text-white",
 		sub: "text-white/80",
-		canvasBg: "#e8862f",
+		canvasBg: "#e88730",
 		canvasText: "#ffffff",
 		canvasSub: "rgba(255,255,255,0.8)",
 	},
@@ -306,7 +306,7 @@ export function BannerAsset({
 			const subFontSize = Math.round(22 * scaleFactor);
 
 			ctx.fillStyle = style.canvasText;
-			ctx.font = `400 ${mainFontSize}px system-ui, -apple-system, sans-serif`;
+			ctx.font = `400 ${mainFontSize}px "Inter", sans-serif`;
 			ctx.fillText(
 				tagline,
 				textRightEdge,
@@ -314,14 +314,14 @@ export function BannerAsset({
 			);
 
 			ctx.fillStyle = style.canvasSub;
-			ctx.font = `300 ${subFontSize}px system-ui, -apple-system, sans-serif`;
+			ctx.font = `300 ${subFontSize}px "Inter", sans-serif`;
 			ctx.fillText(
 				subtitle,
 				textRightEdge,
 				height / 2 + Math.round(24 * scaleFactor),
 			);
 
-			ctx.fillStyle = "#e8862f";
+			ctx.fillStyle = "#e88730";
 			ctx.fillRect(
 				0,
 				height - Math.round(4 * scaleFactor),
@@ -448,14 +448,14 @@ export function WallpaperAsset({
 			const subFontSize = Math.round(24 * scale);
 
 			ctx.fillStyle = style.canvasText;
-			ctx.font = `400 ${mainFontSize}px system-ui, -apple-system, sans-serif`;
+			ctx.font = `400 ${mainFontSize}px "Inter", sans-serif`;
 			ctx.fillText(tagline, width / 2, height / 2 + Math.round(30 * scale));
 
 			ctx.fillStyle = style.canvasSub;
-			ctx.font = `300 ${subFontSize}px system-ui, -apple-system, sans-serif`;
+			ctx.font = `300 ${subFontSize}px "Inter", sans-serif`;
 			ctx.fillText(subtitle, width / 2, height / 2 + Math.round(70 * scale));
 
-			ctx.fillStyle = "#e8862f";
+			ctx.fillStyle = "#e88730";
 			ctx.fillRect(0, height - 4, width, 4);
 		},
 		[style, width, height, tagline, subtitle],
