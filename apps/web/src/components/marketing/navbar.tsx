@@ -1,9 +1,10 @@
 "use client";
 
-import { ArrowRight, ChevronDown, Menu, X } from "lucide-react";
+import { ArrowRight, ChevronDown } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import IconCloud from "@/components/marketing/icon-cloud";
 import Logo from "@/components/logo";
 import LanguageSwitcher from "@/components/marketing/language-switcher";
 import { Button } from "@/components/ui/button";
@@ -183,15 +184,15 @@ export default function Navbar({
 
 					<button
 						type="button"
-						className="flex h-9 w-9 items-center justify-center border-0 transition-colors hover:text-brand md:hidden"
+						className="flex h-9 w-9 items-center justify-center border-0 md:hidden"
 						onClick={() => setMobileOpen(!mobileOpen)}
 						aria-label={mobileOpen ? "Close menu" : "Open menu"}
 					>
-						{mobileOpen ? (
-							<X className="h-5 w-5" />
-						) : (
-							<Menu className="h-5 w-5" />
-						)}
+						<div className="flex w-[18px] flex-col gap-[5px]">
+							<span className={`block h-[1.5px] w-full origin-center bg-current transition-all duration-300 ${mobileOpen ? "translate-y-[6px] rotate-45" : ""}`} />
+							<span className={`block h-[1.5px] w-full bg-current transition-all duration-300 ${mobileOpen ? "scale-x-0 opacity-0" : ""}`} />
+							<span className={`block h-[1.5px] w-full origin-center bg-current transition-all duration-300 ${mobileOpen ? "-translate-y-[6px] -rotate-45" : ""}`} />
+						</div>
 					</button>
 				</div>
 			</header>
@@ -395,11 +396,18 @@ export default function Navbar({
 				</div>
 			</nav>
 
-			{mobileOpen && (
-				<div className="fixed inset-0 top-16 z-50 overflow-x-hidden overflow-y-auto bg-background md:hidden">
+			<div className={`fixed inset-0 top-16 z-50 bg-background transition-opacity duration-300 md:hidden ${
+					mobileOpen ? "opacity-100" : "pointer-events-none opacity-0"
+				}`}>
+					{/* Decorative icon cloud — mirrors hero placement, non-interactive */}
+					<div className="pointer-events-none absolute top-12 right-[-24px] opacity-25" aria-hidden="true">
+						<div className="h-[220px] w-[180px]">
+							{mobileOpen && <IconCloud />}
+						</div>
+					</div>
 					<nav
 						aria-label="Mobile navigation"
-						className="mx-auto flex min-h-full max-w-[1320px] flex-col px-6 pt-6 pb-6"
+						className="relative mx-auto flex h-full max-w-[1320px] flex-col overflow-y-auto px-6 pt-6 pb-6"
 					>
 						<div className="flex flex-col gap-0.5">
 							<button
@@ -502,7 +510,6 @@ export default function Navbar({
 						</div>
 					</nav>
 				</div>
-			)}
 		</>
 	);
 }
