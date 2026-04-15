@@ -37,7 +37,7 @@ export default function Contact() {
 				email: z.email(t("form.errors.emailInvalid")),
 				company: z.string(),
 				service: z.string(),
-				message: z.string().min(1, t("form.errors.messageRequired")),
+				message: z.string(),
 			}),
 		},
 		onSubmit: async ({ value }) => {
@@ -78,6 +78,9 @@ export default function Contact() {
 				<div>
 					<H2>{t("title")}</H2>
 					<Lead className="mt-5 max-w-[520px]">{t("subtitle")}</Lead>
+					<Muted className="mt-3 text-sm font-medium text-brand">
+						{t("promise")}
+					</Muted>
 
 					<Muted className="mt-6">
 						{t("founder.text")}{" "}
@@ -92,6 +95,7 @@ export default function Contact() {
 						size="lg"
 						variant="outline"
 						className="mt-6"
+						onClick={() => track("cal_booking_clicked", { location: "contact" })}
 						render={
 							// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
 							<a

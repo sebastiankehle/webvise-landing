@@ -18,7 +18,7 @@ const contactSchema = z.object({
 	email: z.string().email().max(200),
 	company: z.string().max(200).optional(),
 	service: z.string().max(100).optional(),
-	message: z.string().min(1).max(5000),
+	message: z.string().max(5000).optional(),
 });
 
 const SERVICE_LABELS: Record<string, string> = {
@@ -35,13 +35,13 @@ function buildContactHtml(data: {
 	email: string;
 	company?: string;
 	service?: string;
-	message: string;
+	message?: string;
 	timestamp: string;
 }) {
 	const name = escapeHtml(data.name);
 	const email = escapeHtml(data.email);
 	const company = data.company ? escapeHtml(data.company) : undefined;
-	const message = escapeHtml(data.message);
+	const message = data.message ? escapeHtml(data.message) : null;
 	const serviceLabel = data.service
 		? escapeHtml(SERVICE_LABELS[data.service] ?? data.service)
 		: null;
@@ -81,10 +81,11 @@ function buildContactHtml(data: {
       <table style="border-collapse:collapse;width:100%">
         ${tableRows}
       </table>
+      ${message ? `
       <div style="margin:24px 0 0;border-top:1px solid #e5e7eb;padding-top:20px">
         <p style="margin:0 0 8px;font-size:12px;color:#6b7280;text-transform:uppercase;letter-spacing:0.05em;font-weight:500">Message</p>
         <p style="margin:0;font-size:14px;color:#111827;line-height:1.6;white-space:pre-wrap">${message}</p>
-      </div>
+      </div>` : ""}
       <div style="margin:24px 0 0">
         <a href="mailto:${email}?subject=Re: Your webvise inquiry" style="display:inline-block;background:#7c3aed;color:#ffffff;text-decoration:none;padding:10px 20px;font-size:13px;font-weight:500">
           Reply to ${escapeHtml(data.name.split(" ")[0])}
@@ -156,8 +157,7 @@ export async function POST(request: Request) {
 					data.company ? `Company: ${data.company}` : null,
 					serviceLabel ? `Service: ${serviceLabel}` : null,
 					`Received: ${timestamp}`,
-					"",
-					data.message,
+					data.message ? `\n${data.message}` : null,
 				]
 					.filter(Boolean)
 					.join("\n"),
