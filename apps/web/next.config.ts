@@ -14,9 +14,14 @@ const nextConfig: NextConfig = {
 	async redirects() {
 		return [
 			{
-				source: "/analyze",
-				destination: "/wp-health-report",
-				permanent: true,
+				source: "/apple-touch-icon.png",
+				destination: "/apple-icon",
+				permanent: false,
+			},
+			{
+				source: "/apple-touch-icon-precomposed.png",
+				destination: "/apple-icon",
+				permanent: false,
 			},
 		];
 	},
