@@ -26,12 +26,12 @@ const variantStyles: Record<
 		canvasSub: "#737373",
 	},
 	dark: {
-		bg: "bg-surface-dark",
-		text: "text-[#eeede9]",
-		sub: "text-[#8b8fa0]",
-		canvasBg: "#161923",
-		canvasText: "#eeede9",
-		canvasSub: "#8b8fa0",
+		bg: "section-dark",
+		text: "text-[#ededed]",
+		sub: "text-[#919195]",
+		canvasBg: "#0c0c0f",
+		canvasText: "#ededed",
+		canvasSub: "#919195",
 	},
 	brand: {
 		bg: "bg-brand",
