@@ -43,12 +43,21 @@ export const metadata: Metadata = {
 		title: "webvise - Design. Development. Automation.",
 		description:
 			"We turn ideas into production-ready software. Design, engineering, and AI. Shipped in weeks, built to scale.",
+		images: [
+			{
+				url: "/opengraph-image",
+				width: 1200,
+				height: 630,
+				alt: "webvise - Design. Development. Automation.",
+			},
+		],
 	},
 	twitter: {
 		card: "summary_large_image",
 		title: "webvise - Design. Development. Automation.",
 		description:
 			"We turn ideas into production-ready software. Design, engineering, and AI. Shipped in weeks, built to scale.",
+		images: ["/twitter-image"],
 	},
 	formatDetection: {
 		telephone: false,
