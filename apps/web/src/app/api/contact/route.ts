@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { escapeHtml } from "@/lib/escape-html";
 import {
 	createRateLimiter,
 	getClientIP,
 	rateLimitResponse,
 } from "@/lib/rate-limit";
+import { c, emailLayout, escapeHtml, s, tableRow } from "@/lib/email-template";
 
 const limiter = createRateLimiter({
 	name: "contact",
@@ -47,54 +47,27 @@ function buildContactHtml(data: {
 		: null;
 
 	const rows = [
-		["Name", name],
-		["Email", `<a href="mailto:${email}" style="color:#7c3aed">${email}</a>`],
-		company ? ["Company", company] : null,
-		serviceLabel ? ["Service", serviceLabel] : null,
-		["Received", data.timestamp],
-	].filter(Boolean) as [string, string][];
+		tableRow("Name", name),
+		tableRow("Email", `<a href="mailto:${email}" style="${s.link}">${email}</a>`),
+		company ? tableRow("Company", company) : "",
+		serviceLabel ? tableRow("Service", serviceLabel) : "",
+		tableRow("Received", data.timestamp),
+	].join("");
 
-	const tableRows = rows
-		.map(
-			([label, value]) => `
-      <tr>
-        <td style="padding:8px 16px 8px 0;color:#6b7280;font-size:13px;white-space:nowrap;vertical-align:top">${label}</td>
-        <td style="padding:8px 0;color:#111827;font-size:13px">${value}</td>
-      </tr>`,
-		)
-		.join("");
-
-	return `<!DOCTYPE html>
-<html>
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
-<body style="margin:0;padding:0;background:#f9fafb;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
-  <div style="max-width:560px;margin:40px auto;background:#ffffff;border:1px solid #e5e7eb">
-    <div style="background:#7c3aed;padding:20px 28px">
-      <span style="color:#ffffff;font-size:14px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase">webvise</span>
-      <span style="color:#c4b5fd;font-size:14px;margin-left:8px">- New Inquiry</span>
-    </div>
-    <div style="padding:28px">
-      <h1 style="margin:0 0 4px;font-size:20px;font-weight:600;color:#111827">
-        ${name}${company ? ` · ${company}` : ""}
-      </h1>
-      ${serviceLabel ? `<p style="margin:0 0 20px;font-size:13px;color:#7c3aed;font-weight:500">${serviceLabel}</p>` : '<div style="margin-bottom:20px"></div>'}
-      <table style="border-collapse:collapse;width:100%">
-        ${tableRows}
-      </table>
+	return emailLayout({
+		label: "New Inquiry",
+		content: `
+      <h1 style="${s.h1}">${name}${company ? ` · ${company}` : ""}</h1>
+      ${serviceLabel ? `<p style="${s.label};color:${c.brand};margin-bottom:20px">${serviceLabel}</p>` : '<div style="margin-bottom:20px"></div>'}
+      <table style="border-collapse:collapse;width:100%">${rows}</table>
       ${message ? `
-      <div style="margin:24px 0 0;border-top:1px solid #e5e7eb;padding-top:20px">
-        <p style="margin:0 0 8px;font-size:12px;color:#6b7280;text-transform:uppercase;letter-spacing:0.05em;font-weight:500">Message</p>
-        <p style="margin:0;font-size:14px;color:#111827;line-height:1.6;white-space:pre-wrap">${message}</p>
-      </div>` : ""}
+      <hr style="${s.hr}">
+      <p style="${s.label}">Message</p>
+      <p style="margin:0;font-size:14px;color:#1a1a1a;line-height:1.6;white-space:pre-wrap">${message}</p>` : ""}
       <div style="margin:24px 0 0">
-        <a href="mailto:${email}?subject=Re: Your webvise inquiry" style="display:inline-block;background:#7c3aed;color:#ffffff;text-decoration:none;padding:10px 20px;font-size:13px;font-weight:500">
-          Reply to ${escapeHtml(data.name.split(" ")[0])}
-        </a>
-      </div>
-    </div>
-  </div>
-</body>
-</html>`;
+        <a href="mailto:${email}?subject=Re: Your webvise inquiry" style="${s.button}">Reply to ${escapeHtml(data.name.split(" ")[0])}</a>
+      </div>`,
+	});
 }
 
 export async function POST(request: Request) {

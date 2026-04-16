@@ -5,6 +5,7 @@ import {
 	getClientIP,
 	rateLimitResponse,
 } from "@/lib/rate-limit";
+import { emailLayout, s } from "@/lib/email-template";
 
 const limiter = createRateLimiter({
 	name: "newsletter",
@@ -15,6 +16,22 @@ const limiter = createRateLimiter({
 const schema = z.object({
 	email: z.string().email().max(200),
 });
+
+function buildWelcomeHtml() {
+	return emailLayout({
+		label: "Newsletter",
+		unsubscribe: true,
+		content: `
+      <h1 style="${s.h1}">Welcome to the webvise newsletter</h1>
+      <p style="${s.p}">You're in. We'll send you occasional updates on web performance, modern development, and what we're building.</p>
+      <p style="${s.p}">No spam, no fluff. Unsubscribe anytime by replying to any email.</p>
+      <hr style="${s.hr}">
+      <p style="${s.p};margin-bottom:0">If you have a project in mind, we'd love to hear about it.</p>
+      <div style="margin-top:16px">
+        <a href="https://cal.com/webvise" style="${s.button}">Book a Free Call</a>
+      </div>`,
+	});
+}
 
 export async function POST(request: Request) {
 	const { limited, retryAfterSec } = limiter.check(getClientIP(request));
@@ -34,7 +51,8 @@ export async function POST(request: Request) {
 			);
 		}
 
-		const res = await fetch("https://api.resend.com/contacts", {
+		// Add contact to Resend
+		const contactRes = await fetch("https://api.resend.com/contacts", {
 			method: "POST",
 			headers: {
 				Authorization: `Bearer ${resendApiKey}`,
@@ -43,12 +61,49 @@ export async function POST(request: Request) {
 			body: JSON.stringify({ email, unsubscribed: false }),
 		});
 
-		if (!res.ok) {
-			const error = await res.text();
+		if (!contactRes.ok) {
+			const error = await contactRes.text();
 			console.error("Resend contacts error:", error);
 			return NextResponse.json(
 				{ error: "Failed to subscribe" },
 				{ status: 500 },
+			);
+		}
+
+		// Send welcome email
+		const emailRes = await fetch("https://api.resend.com/emails", {
+			method: "POST",
+			headers: {
+				Authorization: `Bearer ${resendApiKey}`,
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				from: "webvise <hello@webvise.io>",
+				to: [email],
+				subject: "Welcome to the webvise newsletter",
+				headers: {
+					"List-Unsubscribe": "<mailto:hello@webvise.io?subject=Unsubscribe>",
+				},
+				html: buildWelcomeHtml(),
+				text: [
+					"Welcome to the webvise newsletter",
+					"",
+					"You're in. We'll send you occasional updates on web performance, modern development, and what we're building.",
+					"",
+					"No spam, no fluff. Unsubscribe anytime by replying to any email.",
+					"",
+					"If you have a project in mind, we'd love to hear about it.",
+					"Book a free call: https://cal.com/webvise",
+					"",
+					"- The webvise team",
+				].join("\n"),
+			}),
+		});
+
+		if (!emailRes.ok) {
+			console.error(
+				"Failed to send welcome email:",
+				await emailRes.text(),
 			);
 		}
 

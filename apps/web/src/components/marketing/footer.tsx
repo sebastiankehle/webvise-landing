@@ -61,8 +61,8 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 						</div>
 					</div>
 
-					{/* Navigation 2x2 grid */}
-					<div className="grid grid-cols-2 gap-x-8 gap-y-10 md:col-span-6">
+					{/* Navigation grid */}
+					<div className="grid grid-cols-2 gap-x-8 gap-y-10 md:col-span-9 md:grid-cols-3">
 						{/* Company */}
 						<div>
 							<Caption className="mb-5 block text-muted-foreground/40">
@@ -98,6 +98,28 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 										</Link>
 									</li>
 								))}
+							</ul>
+						</div>
+
+						{/* Contact */}
+						<div>
+							<Caption className="mb-5 block text-muted-foreground/40">
+								{t("sections.contact")}
+							</Caption>
+							<ul className="space-y-3 text-sm">
+								<li>
+									<a
+										href={`mailto:${t("address.email")}`}
+										className="text-brand transition-opacity hover:opacity-80"
+									>
+										{t("address.email")}
+									</a>
+								</li>
+								<li className="text-muted-foreground">{t("address.street")}</li>
+								<li className="text-muted-foreground">{t("address.city")}</li>
+								<li className="text-muted-foreground/60">
+									{t("address.hours")}
+								</li>
 							</ul>
 						</div>
 
@@ -158,28 +180,10 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 								</li>
 							</ul>
 						</div>
-					</div>
 
-					{/* Contact */}
-					<div className="md:col-span-3">
-						<Caption className="mb-5 block text-muted-foreground/40">
-							{t("sections.contact")}
-						</Caption>
-						<ul className="space-y-3 text-sm">
-							<li>
-								<a
-									href={`mailto:${t("address.email")}`}
-									className="text-brand transition-opacity hover:opacity-80"
-								>
-									{t("address.email")}
-								</a>
-							</li>
-							<li className="text-muted-foreground">{t("address.street")}</li>
-							<li className="text-muted-foreground">{t("address.city")}</li>
-							<li className="text-muted-foreground/60">{t("address.hours")}</li>
-						</ul>
-						<div className="mt-8">
-							<Caption className="mb-3 block text-muted-foreground/40">
+						{/* Newsletter */}
+						<div>
+							<Caption className="mb-5 block text-muted-foreground/40">
 								{tb("divider")}
 							</Caption>
 							<NewsletterForm

@@ -7,6 +7,7 @@ import {
 	getClientIP,
 	rateLimitResponse,
 } from "@/lib/rate-limit";
+import { emailLayout, s } from "@/lib/email-template";
 
 const limiter = createRateLimiter({
 	name: "report-download",
@@ -64,33 +65,27 @@ export async function POST(request: Request) {
 				from: "webvise <noreply@webvise.io>",
 				to: [email],
 				subject: report.subject,
-				html: `<!DOCTYPE html>
-<html>
-<head><meta charset="utf-8"></head>
-<body style="margin:0;padding:0;background:#f9fafb;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
-  <div style="max-width:560px;margin:40px auto;background:#ffffff;border:1px solid #e5e7eb">
-    <div style="background:#111827;padding:20px 28px">
-      <span style="color:#ffffff;font-size:14px;font-weight:600;letter-spacing:0.05em">webvise</span>
-      <span style="color:#f97316;font-size:14px;margin-left:8px">/ Report</span>
-    </div>
-    <div style="padding:28px">
-      <h1 style="margin:0 0 16px;font-size:20px;font-weight:600;color:#111827">
+				headers: {
+					"List-Unsubscribe":
+						"<mailto:hello@webvise.io?subject=Unsubscribe>",
+				},
+				html: emailLayout({
+					label: "Report",
+					unsubscribe: true,
+					content: `
+      <h1 style="${s.h1}">
         ${lang === "de" ? "Ihr Report ist da." : "Your report is ready."}
       </h1>
-      <p style="margin:0 0 20px;font-size:14px;color:#6b7280;line-height:1.6">
+      <p style="${s.p}">
         ${lang === "de" ? "Vielen Dank für Ihr Interesse. Den Report finden Sie im Anhang dieser E-Mail." : "Thank you for your interest. You'll find the report attached to this email."}
       </p>
-      <p style="margin:0 0 20px;font-size:14px;color:#6b7280;line-height:1.6">
+      <p style="${s.p}">
         ${lang === "de" ? "Bei Fragen stehe ich gerne zur Verfügung." : "If you have any questions, feel free to reach out."}
       </p>
-      <div style="border-top:1px solid #e5e7eb;padding-top:16px;margin-top:16px">
-        <p style="margin:0;font-size:13px;color:#111827;font-weight:500">Sebastian Kehle</p>
-        <p style="margin:4px 0 0;font-size:12px;color:#6b7280">sebastian.kehle@webvise.io</p>
-      </div>
-    </div>
-  </div>
-</body>
-</html>`,
+      <hr style="${s.hr}">
+      <p style="margin:0;font-size:13px;color:#1a1a1a;font-weight:500">Sebastian Kehle</p>
+      <p style="margin:4px 0 0;font-size:12px;color:#7a7a7a">sebastian.kehle@webvise.io</p>`,
+				}),
 				attachments: [{ filename, content: pdfContent }],
 			}),
 		});
