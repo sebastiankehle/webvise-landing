@@ -1,78 +1,57 @@
-# Webvise
+# webvise
 
-Digital product agency - design, engineering, AI.
+**Design. Development. Automation.**
+
+Source for [webvise.com](https://webvise.com) — a digital product agency shipping marketing sites, full-stack applications, and AI-powered tools for ambitious teams.
+
+## Services
+
+| Service                   | Starting at | Timeline   |
+| ------------------------- | ----------- | ---------- |
+| Landing Pages             | €1,000      | 1–2 weeks  |
+| WordPress → Next.js       | €1,500      | 1–2 weeks  |
+| AI Consulting             | €2,500      | 2–4 weeks  |
+| MVP Development           | €5,000      | 3–5 weeks  |
+| AI & Automation           | €5,000      | 3–6 weeks  |
+| Full-Stack Applications   | €7,500      | 4–10 weeks |
+
+See [webvise.com/services](https://webvise.com/services) for full details.
+
+## Free Tools
+
+- **[WordPress Health Report](https://webvise.com/wp-health-report)** — instant PageSpeed, SEO, security, and AI-readability audit for any WordPress site.
 
 ## Tech Stack
 
-- **Next.js 15** with React 19
-- **tRPC 11** for end-to-end type-safe APIs
-- **Drizzle ORM** with PostgreSQL
-- **TailwindCSS 4** and **shadcn/ui**
-- **Better-Auth** for authentication
-- **7-locale i18n** - en, de, fr, es, nl, pl, it
-- **Biome** for linting and formatting
-- **Turborepo** for monorepo orchestration
+- **Next.js 16** · React 19.2 · TypeScript
+- **tRPC 11** · **Drizzle ORM** · PostgreSQL
+- **TailwindCSS 4** · **shadcn/ui** · Motion
+- **Better-Auth** for auth, **Resend** for email
+- **AI SDK 6** via **Vercel AI Gateway**
+- **next-intl** with 7 locales (en, de, es, fr, it, nl, pl)
+- **Biome** · **Vitest** · **Turborepo** · **pnpm**
+
+Deployed on Vercel with Analytics and Speed Insights.
 
 ## Monorepo Structure
 
 ```
 webvise-app/
 ├── apps/
-│   └── web/            # Next.js application
-├── packages/
-│   ├── api/            # tRPC API layer
-│   ├── auth/           # Authentication config
-│   ├── config/         # Shared configuration
-│   ├── db/             # Database schema and migrations
-│   └── env/            # Environment variable validation
+│   └── web/            # Next.js marketing site + dashboard
+└── packages/
+    ├── api/            # tRPC routers
+    ├── auth/           # Better-Auth config
+    ├── config/         # Shared tooling config
+    ├── db/             # Drizzle schema and migrations
+    └── env/            # Typed environment variables
 ```
 
-## Getting Started
+## Contact
 
-1. Install dependencies:
+- Website: [webvise.com](https://webvise.com)
+- Email: [hello@webvise.com](mailto:hello@webvise.com)
 
-```bash
-pnpm install
-```
+## License
 
-2. Copy the example environment file and fill in your values:
-
-```bash
-cp apps/web/.env.example apps/web/.env
-```
-
-See [`apps/web/.env.example`](apps/web/.env.example) for all available variables.
-
-3. Set up the database:
-
-```bash
-pnpm db:push
-```
-
-4. Start the development server:
-
-```bash
-pnpm dev
-```
-
-The app runs at [http://localhost:3001](http://localhost:3001).
-
-## Scripts
-
-| Command              | Description                              |
-| -------------------- | ---------------------------------------- |
-| `pnpm dev`           | Start all apps in development mode       |
-| `pnpm dev:web`       | Start web app only                       |
-| `pnpm dev:native`    | Start native app only                    |
-| `pnpm build`         | Build all apps                           |
-| `pnpm check-types`   | TypeScript type checking across all apps |
-| `pnpm test`          | Run test suite                           |
-| `pnpm db:start`      | Start database (Docker)                  |
-| `pnpm db:stop`       | Stop database                            |
-| `pnpm db:down`       | Tear down database                       |
-| `pnpm db:push`       | Push schema changes to database          |
-| `pnpm db:generate`   | Generate database client/types           |
-| `pnpm db:migrate`    | Run database migrations                  |
-| `pnpm db:studio`     | Open Drizzle Studio                      |
-| `pnpm db:watch`      | Watch database for changes               |
-| `pnpm check`         | Run Biome formatting and linting         |
+Proprietary — all rights reserved. See [LICENSE](LICENSE).
