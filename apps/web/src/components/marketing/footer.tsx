@@ -110,7 +110,7 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 								<li>
 									<a
 										href={`mailto:${t("address.email")}`}
-										className="text-brand transition-opacity hover:opacity-80"
+										className="text-muted-foreground transition-colors hover:text-[--foreground]"
 									>
 										{t("address.email")}
 									</a>
@@ -173,7 +173,7 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 								<li>
 									<Link
 										href="/wp-health-report"
-										className="text-brand text-sm transition-opacity hover:opacity-80"
+										className="text-muted-foreground text-sm transition-colors hover:text-[--foreground]"
 									>
 										{tw("button")}
 									</Link>
@@ -183,7 +183,7 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 
 						{/* Newsletter */}
 						<div>
-							<Caption className="mb-5 block text-muted-foreground/40">
+							<Caption className="mb-5 block text-brand">
 								{tb("divider")}
 							</Caption>
 							<NewsletterForm
