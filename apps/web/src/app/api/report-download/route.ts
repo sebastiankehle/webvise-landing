@@ -65,13 +65,8 @@ export async function POST(request: Request) {
 				from: "webvise <noreply@webvise.io>",
 				to: [email],
 				subject: report.subject,
-				headers: {
-					"List-Unsubscribe":
-						"<mailto:hello@webvise.io?subject=Unsubscribe>",
-				},
 				html: emailLayout({
 					label: "Report",
-					unsubscribe: true,
 					content: `
       <h1 style="${s.h1}">
         ${lang === "de" ? "Ihr Report ist da." : "Your report is ready."}

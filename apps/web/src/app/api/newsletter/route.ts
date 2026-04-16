@@ -5,7 +5,7 @@ import {
 	getClientIP,
 	rateLimitResponse,
 } from "@/lib/rate-limit";
-import { emailLayout, s } from "@/lib/email-template";
+import { emailLayout, s, unsubscribeUrl } from "@/lib/email-template";
 
 const limiter = createRateLimiter({
 	name: "newsletter",
@@ -17,10 +17,10 @@ const schema = z.object({
 	email: z.string().email().max(200),
 });
 
-function buildWelcomeHtml() {
+function buildWelcomeHtml(email: string) {
 	return emailLayout({
 		label: "Newsletter",
-		unsubscribe: true,
+		unsubscribeEmail: email,
 		content: `
       <h1 style="${s.h1}">Welcome to the webvise newsletter</h1>
       <p style="${s.p}">You're in. We'll send you occasional updates on web performance, modern development, and what we're building.</p>
@@ -82,9 +82,10 @@ export async function POST(request: Request) {
 				to: [email],
 				subject: "Welcome to the webvise newsletter",
 				headers: {
-					"List-Unsubscribe": "<mailto:hello@webvise.io?subject=Unsubscribe>",
+					"List-Unsubscribe": `<${unsubscribeUrl(email)}>`,
+					"List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
 				},
-				html: buildWelcomeHtml(),
+				html: buildWelcomeHtml(email),
 				text: [
 					"Welcome to the webvise newsletter",
 					"",

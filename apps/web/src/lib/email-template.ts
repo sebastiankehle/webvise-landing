@@ -24,15 +24,20 @@ const font =
 	"Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
 const mono = "'Geist Mono', ui-monospace, SFMono-Regular, monospace";
 
+export function unsubscribeUrl(email: string): string {
+	const token = Buffer.from(email, "utf-8").toString("base64url");
+	return `https://webvise.io/api/unsubscribe?token=${token}`;
+}
+
 export function emailLayout(opts: {
 	label?: string;
 	content: string;
 	footer?: string;
-	unsubscribe?: boolean;
+	unsubscribeEmail?: string;
 }) {
-	const unsubscribeHtml = opts.unsubscribe
+	const unsubscribeHtml = opts.unsubscribeEmail
 		? `<div style="padding:12px 28px;border-top:1px solid ${c.border}">
-      <a href="mailto:hello@webvise.io?subject=Unsubscribe" style="font-size:11px;color:${c.textFaint};font-family:${mono};letter-spacing:0.04em;text-decoration:none">UNSUBSCRIBE</a>
+      <a href="${unsubscribeUrl(opts.unsubscribeEmail)}" style="font-size:11px;color:${c.textFaint};font-family:${mono};letter-spacing:0.04em;text-decoration:none">UNSUBSCRIBE</a>
     </div>`
 		: "";
 

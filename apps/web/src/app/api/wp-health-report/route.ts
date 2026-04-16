@@ -284,7 +284,6 @@ function buildProspectHtml(data: {
 
 	return emailLayout({
 		label: "Health Report",
-		unsubscribe: true,
 		content: `
       <h1 style="${s.h1}">Hi ${firstName}, here's your report</h1>
       <p style="${s.p}">We've analysed <strong style="color:${c.text}">${url}</strong>. Here's what we found - and what's possible.</p>
@@ -527,10 +526,6 @@ export async function POST(request: Request) {
 						to: [data.email],
 						reply_to: adminEmail,
 						subject: `Your website report: ${data.url}`,
-						headers: {
-							"List-Unsubscribe":
-								"<mailto:hello@webvise.io?subject=Unsubscribe>",
-						},
 						html: buildProspectHtml({
 							url: data.url,
 							firstName: data.firstName,
