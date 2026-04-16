@@ -1,0 +1,197 @@
+{
+	"date": "2026-04-16",
+	"readingTime": 10,
+	"keyword": "agentische KI-Architektur",
+	"title": "Warum Ihr KI-Agent 50x langsamer ist als er sein könnte",
+	"excerpt": "Der Unterschied zwischen 2x und 100x KI-Produktivität liegt nicht am Modell. Er liegt an der Architektur, die es umhüllt. Fünf Entwickler haben dieselbe These in einer Woche veröffentlicht.",
+	"metaDescription": "Der Unterschied zwischen 2x und 100x KI-Produktivität liegt nicht am Modell. Es kommt darauf an, wo die Intelligenz platziert wird. Die Architektur, auf die sich führende Entwickler einigen.",
+	"tags": ["AI Agents", "AI", "Automation", "Web Development"],
+	"blocks": [
+		{
+			"type": "p",
+			"text": "Der Unterschied zwischen einem Entwickler, der 2x Mehrwert aus KI-Tools zieht, und einem, der 100x erreicht, liegt nicht am verwendeten Modell. Er liegt an der Architektur, die dieses Modell umhüllt. Steve Yegge [stellte Anfang 2026 fest](https://asksurf.ai/pulse/en/thin-harnesses-beat-thick-wrappers-garry-tan), dass Entwickler, die KI-Coding-Agenten einsetzen, 10x bis 100x produktiver sind als jene, die noch Chat-Interfaces und Autocomplete verwenden. Dieselben Modelle. Dieselbe zugrundeliegende Intelligenz. Die Variable ist die Struktur."
+		},
+		{
+			"type": "p",
+			"text": "In einer einzigen Woche im April 2026 veröffentlichten fünf unabhängige Entwickler Frameworks für KI-Agentenarchitektur. [Garry Tan](https://x.com/garrytan) (Y Combinator), Andrej Karpathy, Viv Trivedy, Daniel Miessler und ein [Community-Repository](https://github.com/anthropics/claude-code-best-practice) mit 19.700 GitHub-Stars kamen alle zur selben Kernthese: Intelligenz gehört in portable Markdown-Dateien, die Orchestrierungsinfrastruktur sollte so schlank wie möglich bleiben, das Modell soll das Reasoning übernehmen. Dieser Artikel analysiert, worin sie übereinstimmen, wo sie sich unterscheiden und was das für alle bedeutet, die mit KI bauen."
+		},
+		{
+			"type": "h2",
+			"text": "Die wichtigsten Erkenntnisse"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**Intelligenz gehört in Markdown-Skill-Dateien, nicht in Framework-Code.** Skills sind portabel, versionierbar und verbessern sich automatisch, wenn das Modell besser wird.",
+				"**Das Harness sollte genau vier Dinge tun und nichts weiter.** Das Modell in einer Schleife ausführen, Dateien lesen und schreiben, Kontext verwalten, Sicherheit durchsetzen. Jedes Feature darüber hinaus kostet Kontext und verlangsamt das Reasoning.",
+				"**Fünf Entwickler veröffentlichten dieselbe These unabhängig voneinander innerhalb von drei Tagen (12. bis 15. April 2026).** Garry Tan, Andrej Karpathy, Viv Trivedy, Daniel Miessler und ein Community-Repo mit 19.700 Stars. Diese Konvergenz ist das Signal.",
+				"**LangChain widerspricht und hat Benchmarks als Beweis.** Harrison Chase argumentiert, das Harness IS das Produkt. Die Antwort hängt möglicherweise davon ab, ob Sie Consumer-Tools oder Enterprise-Pipelines bauen.",
+				"**Präskriptive Anweisungen laufen ab. Kontext nicht.** Jede Schritt-für-Schritt-Anleitung, die Sie für eine KI schreiben, verliert mit dem nächsten Modell-Release an Wert. Kontext darüber, wer Sie sind und was Sie wollen, wächst mit der Zeit."
+			]
+		},
+		{
+			"type": "h2",
+			"text": "Die gesamte Architektur passt auf eine Karteikarte"
+		},
+		{
+			"type": "p",
+			"text": "Am 31. März 2026 veröffentlichte Anthropic versehentlich den vollständigen Claude Code-Quellcode im npm-Registry. 512.000 Zeilen. Garry Tan hat ihn gelesen. Was er fand, bestätigte ein Muster, das er bei Y Combinator seit Monaten lehrte: Der Produktivitätsunterschied liegt nicht an der Modell-Intelligenz. Er liegt daran, was das Modell umhüllt."
+		},
+		{
+			"type": "p",
+			"text": "Tan destillierte die [Architektur](https://asksurf.ai/pulse/en/thin-harnesses-beat-thick-wrappers-garry-tan) in drei Schichten:"
+		},
+		{
+			"type": "table",
+			"headers": ["Schicht", "Inhalt", "Kerneigenschaft"],
+			"rows": [
+				["Fat Skills", "Markdown-Prozeduren mit Urteilsvermögen, Prozessen und Domänenwissen", "Portabel. Sie gehören Ihnen."],
+				["Thin CLI Harness", "~200 Zeilen: JSON rein, Text raus, Kontextverwaltung, Sicherheit", "Minimal. Der Anbieter stellt es bereit."],
+				["Ihre Anwendung", "QueryDB, ReadDoc, Search, Timeline. Deterministische Operationen.", "Zuverlässig. Gleicher Input, gleicher Output."]
+			]
+		},
+		{
+			"type": "p",
+			"text": "Das Prinzip ist gerichtet. Intelligenz nach oben in Skills verlagern. Ausführung nach unten in deterministische Werkzeuge. Das Harness schlank halten. 90% des Mehrwerts liegt in der Skill-Schicht. Das Harness ist ein Dirigent, der Dateien liest. Es besitzt sie nicht."
+		},
+		{
+			"type": "p",
+			"text": "Tans eigene Erfahrung illustriert den Punkt. Sein persönliches CLAUDE.md begann mit 20.000 Zeilen. Jede Eigenheit, jede Konvention, jede Lektion, die er je gemacht hatte. Das Ergebnis: Claude Codes Aufmerksamkeit verschlechterte sich. Das Modell bat ihn buchstäblich, es zu kürzen. Seine Lösung waren [200 Zeilen Verweise](https://codex.danielvaughan.com/2026/03/30/gstack-garry-tan-production-skills-toolkit/) auf Dokumente, die bei Bedarf geladen werden. Die vollen 20.000 Zeilen Wissen existieren noch. Sie laden nur dann, wenn sie relevant sind, statt bei jedem Turn das Kontextfenster zu belasten."
+		},
+		{
+			"type": "p",
+			"text": "Wenn Sie KI-gestützte Tools oder Workflows für Ihr Unternehmen bauen, entscheidet [die richtige Architektur von Anfang an](/#contact) darüber, ob Sie mit einer beeindruckenden Demo oder einem System enden, das wirklich ausgeliefert wird."
+		},
+		{
+			"type": "h2",
+			"text": "Fünf Konzepte trennen 100x-Entwickler vom Rest"
+		},
+		{
+			"type": "p",
+			"text": "Die Architektur beruht auf fünf Konzepten. Lassen Sie eines aus, und das System liefert nicht."
+		},
+		{
+			"type": "h3",
+			"text": "1. Skill-Dateien"
+		},
+		{
+			"type": "p",
+			"text": "Ein Skill ist ein wiederverwendbares Markdown-Dokument, das dem Modell beibringt, wie es etwas tun soll. Nicht was es tun soll. Der Nutzer liefert die Aufgabe. Der Skill liefert den Prozess. Er funktioniert wie ein Methodenaufruf: dieselbe Prozedur, unterschiedliche Argumente, radikal unterschiedliche Outputs."
+		},
+		{
+			"type": "p",
+			"text": "Tans Beispiel: Ein Skill namens /investigate hat sieben Schritte (Datensatz eingrenzen, Timeline erstellen, jedes Dokument diarisieren, synthetisieren, beide Seiten argumentieren, Quellen zitieren). Richten Sie ihn auf einen Sicherheitswissenschaftler und 2,1 Millionen Discovery-E-Mails: Sie erhalten einen medizinischen Forschungsanalysten. Richten Sie ihn auf eine Briefkastenfirma und FEC-Einreichungen: Sie erhalten einen forensischen Ermittler. Dieselben sieben Schritte. Der Aufruf liefert die Welt."
+		},
+		{
+			"type": "h3",
+			"text": "2. Resolver"
+		},
+		{
+			"type": "p",
+			"text": "Ein Resolver ist eine Routing-Tabelle für Kontext. Wenn Aufgabentyp X erscheint, lade zuerst Dokument Y. Ohne Resolver ändert ein Entwickler einen Prompt und liefert ihn aus. Mit einem Resolver liest das Modell zuerst die Eval-Suite-Dokumentation, führt Benchmarks aus und macht die Änderung rückgängig, wenn die Genauigkeit um mehr als 2% sinkt. Der Entwickler wusste nicht, dass die Eval-Suite existiert. Der Resolver hat den richtigen Kontext zum richtigen Zeitpunkt geladen."
+		},
+		{
+			"type": "h3",
+			"text": "3. Latent vs. deterministisch"
+		},
+		{
+			"type": "p",
+			"text": "Jeder Schritt in einem System ist eines von beidem. Sie zu verwechseln ist der häufigste Fehler im Agenten-Design. Ein LLM kann 8 Personen an einem Esstisch platzieren, unter Berücksichtigung der Persönlichkeiten. Bitten Sie ihn, 800 Personen zu platzieren, halluziniert er einen Sitzplan, der plausibel aussieht, aber komplett falsch ist. Das ist ein deterministisches Problem, das in den latenten Raum gezwungen wird. Die besten Systeme ziehen diese Grenze konsequent."
+		},
+		{
+			"type": "h3",
+			"text": "4. Diarisierung"
+		},
+		{
+			"type": "p",
+			"text": "Das Modell liest alles über ein Thema und schreibt ein strukturiertes Profil. Keine SQL-Abfrage liefert das. Keine RAG-Pipeline liefert das. Das Modell muss lesen, Widersprüche im Kopf behalten, bemerken, was sich wann geändert hat, und strukturierte Intelligenz synthetisieren."
+		},
+		{
+			"type": "p",
+			"text": "Tans Team baute ein System für YC Startup School, das auf diese Weise 6.000 Gründerprofile verwaltet. Die Diarisierungs-Outputs entdecken Dinge, die keine Keyword-Suche finden würde: eine Gründerin, die sagt \"Datadog für KI-Agenten\", deren GitHub-Commits aber zu 80% Billing-Code sind. Sie baut ein FinOps-Tool, das als Observability verkleidet ist. Diese Lücke zwischen \"sagt\" und \"baut tatsächlich\" erfordert, die Commit-Historie, die Bewerbung und das Berater-Transkript gleichzeitig zu lesen. Keine Embedding-Similarity-Suche findet das."
+		},
+		{
+			"type": "h3",
+			"text": "5. Permanente Upgrades"
+		},
+		{
+			"type": "p",
+			"text": "Tans Anweisung an seine KI: \"Wenn ich Sie bitte, etwas zu tun, und es ist die Art von Aufgabe, die wieder vorkommen wird, kodifizieren Sie es in eine Skill-Datei. Wenn es automatisch laufen soll, legen Sie einen Cron an. Wenn ich Sie zweimal um dasselbe bitten muss, haben Sie versagt.\" Jeder geschriebene Skill ist ein permanentes Upgrade. Er degeneriert nie. Wenn das nächste Modell erscheint, wird jeder Skill sofort besser. Das System wächst."
+		},
+		{
+			"type": "h2",
+			"text": "Fünf in einer Woche veröffentlichte Frameworks sagen dasselbe"
+		},
+		{
+			"type": "p",
+			"text": "Die Konvergenz ist das stärkste Signal. Diese fünf Arbeiten entstanden unabhängig voneinander zwischen dem 12. und 15. April 2026. Keiner dieser Entwickler arbeitet zusammen. Sie kamen von unterschiedlichen Ausgangspunkten zur selben Architektur."
+		},
+		{
+			"type": "table",
+			"headers": ["Framework", "Wo die Intelligenz liegt", "Was schlank bleibt"],
+			"rows": [
+				["Tan (Fat Skills)", "Markdown-Skill-Dateien, SOUL.md", "Das Harness: Dirigent, nicht Gehirn"],
+				["Karpathy (CLAUDE.md)", "Verhaltens-Anweisungsdateien", "Kein Framework nötig. Eine .md-Datei"],
+				["Trivedy (Context Fragments)", "Externalisiertes Gedächtnis, Retrieval-Schicht", "Harness verwaltet Kontext, besitzt kein Wissen"],
+				["Miessler (Bitter Lesson)", "Kontext über Identität, Ziele, Geschmack", "Anweisungen zur Ausführung"],
+				["Community (19.700-Star-Repo)", "Skills, Slash-Commands, CLAUDE.md-Regeln", "Subagenten ersetzen Komprimierung. Grep ersetzt RAG"]
+			]
+		},
+		{
+			"type": "p",
+			"text": "Tan gelangte dorthin durch die Auslieferung von [600.000 Zeilen Produktionscode in 60 Tagen](https://codex.danielvaughan.com/2026/03/30/gstack-garry-tan-production-skills-toolkit/) mit gstack (23.000+ GitHub-Stars in der ersten Woche). Karpathy gelangte dorthin durch die Analyse der drei persistenten Fehlermodi von KI-Coding-Assistenten. Trivedy gelangte dorthin durch Iteration über 30+ Harness-Versionen. Miessler gelangte dorthin durch die Anwendung von [Richard Suttons Bitter Lesson](http://www.incompleteideas.net/IncIdeas/BitterLesson.html) auf KI-Tooling."
+		},
+		{
+			"type": "p",
+			"text": "Wenn fünf unabhängige Quellen innerhalb von 72 Stunden zur selben Architektur konvergieren, ist diese Architektur wahrscheinlich richtig."
+		},
+		{
+			"type": "h2",
+			"text": "LangChain widerspricht und hat Benchmarks als Beweis"
+		},
+		{
+			"type": "p",
+			"text": "Harrison Chase (LangChain CEO) veröffentlichte Deep Agents in derselben Woche und argumentierte das Gegenteil: Das Harness IS das Produkt. Eingebaute Aufgabenplanung, Sub-Agenten-Spawning, Middleware, Hooks, vollständige Orchestrierungsinfrastruktur. Sein Beweis: Allein durch den Wechsel des Harness stieg LangChains DeepAgent auf TerminalBench 2.0 von außerhalb der Top 30 in die Top 5."
+		},
+		{
+			"type": "p",
+			"text": "Das ist kein Randeinwand. LangChain verarbeitet täglich Millionen von Agenten-Aufrufen. Ihre Benchmarks sind öffentlich. Die echte Spaltung: Tans Position ist, dass jedes Stück Logik im Harness das Reasoning begrenzt, das das Modell selbst hätte durchführen können. Je besser das Modell wird, desto schlanker sollte das Harness sein. Chases Position ist, dass Harness-Engineering die Modell-Fähigkeit erweitert, anstatt sie zu ersetzen."
+		},
+		{
+			"type": "p",
+			"text": "Beide Positionen können in unterschiedlichen Kontexten richtig sein. Consumer- und persönliche Agenten, bei denen Portabilität und Langlebigkeit zählen, bevorzugen ein schlankes Harness. Enterprise-Pipelines, bei denen Zuverlässigkeit und Nachvollziehbarkeit zählen, rechtfertigen möglicherweise ein fettes Harness. Keine Seite bestreitet, dass Skills fett sein sollten. Die Frage für Ihr Projekt ist nicht, welches Lager recht hat. Sondern auf welcher Seite Ihr Anwendungsfall liegt."
+		},
+		{
+			"type": "p",
+			"text": "Die meisten Unternehmen, die zum ersten Mal KI-Features bauen, sollten schlank starten und Infrastruktur nur dann hinzufügen, wenn sie auf konkrete Zuverlässigkeitsprobleme stoßen. Unsicher, wo Ihr Projekt einzuordnen ist? [Sprechen Sie mit unserem Team](/#contact) über die passende Architektur."
+		},
+		{
+			"type": "h2",
+			"text": "Ihre Anweisungen laufen ab. Ihr Kontext nicht."
+		},
+		{
+			"type": "p",
+			"text": "Daniel Miessler veröffentlichte das schärfste Diagnose-Framework der Woche. Er nennt es das Bitter-Lesson-Engineering-Audit, nach [Richard Suttons Beobachtung von 2019](http://www.incompleteideas.net/IncIdeas/BitterLesson.html), dass allgemeine Ansätze, die mit Rechenleistung skalieren, handkodierte Ansätze auf lange Sicht konsistent schlagen."
+		},
+		{
+			"type": "p",
+			"text": "Angewendet auf KI-Tools: Schlechtes Harness-Engineering sind präskriptive Anweisungen. \"Kopieren Sie zuerst diese Datei, dann laden Sie das, dann tun Sie dies, dann das.\" Schritt-für-Schritt-Mikromanagement der Ausführung der KI. Dieser Ansatz degeneriert, je smarter Modelle werden. Übermäßig starre Schritte verhindern, dass das Modell sein eigenes Reasoning anwendet."
+		},
+		{
+			"type": "p",
+			"text": "Gutes Harness-Engineering ist kontextuell. Wer Sie sind, woran Sie arbeiten, was Sie erreichen wollen, wie gut und schlecht aussieht. Identität, Geschmack, Standards, Ziele. Das Modell findet das Wie."
+		},
+		{
+			"type": "p",
+			"text": "Miesslers Diagnose ist einfach. Wenn Ihre Konfiguration wie ein Rezept klingt (Schritt 1, Schritt 2, Schritt 3), betreiben Sie schlechtes Harness-Engineering. Wenn sie wie ein Briefing-Dokument klingt (hier bin ich, hier ist, was zählt, hier sind die Werkzeuge), betreiben Sie gutes Harness-Engineering. Kontext darüber, wer Sie sind, läuft nie ab. Präskriptive Anweisungen werden mit jeder Modellverbesserung obsolet."
+		},
+		{
+			"type": "p",
+			"text": "Die Architektur ist nicht kompliziert. Fat Skills, Thin Harness, konsequente Trennung von latenter und deterministischer Arbeit. Das Schwierige ist die Disziplin: Urteilsvermögen in wiederverwendbare Skills kodieren statt einmalige Aufgaben zu erledigen, das Harness schlank halten, wenn die Versuchung ist, Features hinzuzufügen, und dem Modell vertrauen, das Wie herauszufinden, wenn Sie ihm das richtige Was und Warum geben."
+		},
+		{
+			"type": "p",
+			"text": "Bei [webvise](/#contact) bauen wir KI-gestützte Systeme nach diesen Architekturprinzipien. Ob Sie einen Agenten-Workflow, eine automatisierte Pipeline oder eine produktionsreife KI-Integration benötigen: [die Architektur zählt mehr als das Modell](/#contact)."
+		}
+	]
+}
