@@ -78,9 +78,6 @@ export default function Contact() {
 				<div>
 					<H2>{t("title")}</H2>
 					<Lead className="mt-5 max-w-[520px]">{t("subtitle")}</Lead>
-					<Muted className="mt-3 text-sm font-medium text-brand">
-						{t("promise")}
-					</Muted>
 
 					<Muted className="mt-6">
 						{t("founder.text")}{" "}

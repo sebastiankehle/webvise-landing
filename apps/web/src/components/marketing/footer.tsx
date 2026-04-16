@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import type { ReactNode } from "react";
 
 import Logo from "@/components/logo";
+import { NewsletterForm } from "@/components/marketing/newsletter-form";
 import { Caption, Label, Muted, Small } from "@/components/ui/typography";
 import { services } from "@/data/services";
 import { socials } from "@/data/socials";
@@ -9,6 +10,7 @@ import { Link } from "@/i18n/navigation";
 
 export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 	const t = await getTranslations("footer");
+	const tb = await getTranslations("blog.newsletter");
 	const ts = await getTranslations("services");
 	const tw = await getTranslations("wpHealthReport.cta");
 
@@ -176,6 +178,17 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 							<li className="text-muted-foreground">{t("address.city")}</li>
 							<li className="text-muted-foreground/60">{t("address.hours")}</li>
 						</ul>
+						<div className="mt-8">
+							<Caption className="mb-3 block text-muted-foreground/40">
+								{tb("divider")}
+							</Caption>
+							<NewsletterForm
+								placeholder={tb("placeholder")}
+								buttonLabel={tb("button")}
+								success={tb("success")}
+								error={tb("error")}
+							/>
+						</div>
 					</div>
 				</div>
 			</div>

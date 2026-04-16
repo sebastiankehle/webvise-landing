@@ -55,13 +55,6 @@ export default async function BlogCta({
 			headline={headline}
 			subtext={subtext}
 			buttonText={buttonText}
-			newsletter={{
-				divider: t("newsletter.divider"),
-				placeholder: t("newsletter.placeholder"),
-				buttonLabel: t("newsletter.button"),
-				success: t("newsletter.success"),
-				error: t("newsletter.error"),
-			}}
 		/>
 	);
 }
