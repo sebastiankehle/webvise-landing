@@ -266,11 +266,14 @@ Every article opens with this sequence:
    - Include the primary keyword naturally. No clickbait.
 5. **Write English version.** Create `en.json`. Open with direct answer + hook + APP + key takeaways. Every section carries first-party signal. Enforce prose constraints (max 4 sentences/paragraph, max 25 words avg/sentence, no em dashes).
 6. **Content scrub.** Before quality check, scrub the English draft for:
-   - **AI phrase patterns:** remove "It's important to note that," "In today's landscape," "It's worth mentioning," "This is particularly relevant," "At the end of the day," "When it comes to," "In terms of"
+   - **AI phrase patterns:** remove "It's important to note that," "In today's landscape," "It's worth mentioning," "This is particularly relevant," "At the end of the day," "When it comes to," "In terms of," "Due to the fact," "In order to," "This highlights," "This underscores," "Stands as," "Serves as," "Marks as a turning point"
+   - **AI word blacklist:** cut these words entirely: additionally, furthermore, moreover, enhance, intricacies, tapestry, robust, vibrant, dynamic, seamless, align, leverage, game-changer, unlock, delve, revolutionize, cutting-edge, harness, empower, navigate, landscape, paradigm, synergy, streamline, supercharge, elevate, transform, innovative, powerful
    - **Em/en dashes and spaced hyphens:** replace `—`, `–`, ` - `, and `  -  ` with periods, commas, or colons. Never use any dash-like separator between clauses
    - **Filler transitions:** cut "Furthermore," "Additionally," "Moreover," "In conclusion," "That being said"
+   - **Sentence structure bans:** (1) no stacked short sentences under 12 words with the same subject — combine them; (2) no more than two sentences in a paragraph starting with the same word; (3) every paragraph needs rhythm — at least one sentence under 15 words and one over 25 words; (4) no vague optimism endings — end on facts, consequences, or tension; (5) no forced rule-of-three — use as many points as the argument needs; (6) no synonym swapping for variety — repeat the clearest noun; (7) let paragraphs have texture — asides, turns, slight mess are fine
    - **Passive voice:** flag and rewrite where active voice is stronger
    - **Generic qualifiers:** cut "very," "really," "extremely," "highly," "incredibly" unless they add meaning
+   - **Read-aloud test:** read each section aloud. If it sounds robotic or formal when spoken, rewrite it
 7. **Quality score.** Rate the English draft on a 0-100 composite before proceeding:
 
    | Dimension | Weight | What it measures |

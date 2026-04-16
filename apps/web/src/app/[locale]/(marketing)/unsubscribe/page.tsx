@@ -29,10 +29,10 @@ export default async function UnsubscribePage({
 							We couldn&apos;t process your unsubscribe request. Please try
 							again or contact us at{" "}
 							<a
-								href="mailto:hello@webvise.io"
+								href="mailto:mail@webvise.io"
 								className="text-brand underline underline-offset-4 transition-opacity hover:opacity-80"
 							>
-								hello@webvise.io
+								mail@webvise.io
 							</a>
 							.
 						</Body>
@@ -43,7 +43,9 @@ export default async function UnsubscribePage({
 							className="mx-auto mb-6 h-8 w-8 text-muted-foreground"
 							strokeWidth={1.5}
 						/>
-						<H1 className="text-2xl md:text-2xl">You&apos;ve been unsubscribed</H1>
+						<H1 className="text-2xl md:text-2xl">
+							You&apos;ve been unsubscribed
+						</H1>
 						<Body className="mt-4 text-muted-foreground">
 							You won&apos;t receive any more emails from us. If this was a
 							mistake, you can re-subscribe anytime from our website.

@@ -220,10 +220,16 @@ function buildAdminHtml(data: {
 
 	const rows = [
 		tableRow("Name", firstName),
-		tableRow("Email", `<a href="mailto:${email}" style="${s.link}">${email}</a>`),
+		tableRow(
+			"Email",
+			`<a href="mailto:${email}" style="${s.link}">${email}</a>`,
+		),
 		tableRow("Website", `<a href="${url}" style="${s.link}">${url}</a>`),
 		tableRow("Received", data.timestamp),
-		tableRow("Est. Value", `<strong>${"€"}${data.estimateMin.toLocaleString()}${"–€"}${data.estimateMax.toLocaleString()}</strong>`),
+		tableRow(
+			"Est. Value",
+			`<strong>${"€"}${data.estimateMin.toLocaleString()}${"–€"}${data.estimateMax.toLocaleString()}</strong>`,
+		),
 	].join("");
 
 	return emailLayout({
@@ -307,10 +313,14 @@ function buildProspectHtml(data: {
           </tr>
         </table>
       </div>
-      ${data.issues.length > 0 ? `<div style="margin-bottom:24px">
+      ${
+				data.issues.length > 0
+					? `<div style="margin-bottom:24px">
         <p style="${s.label}">What's Slowing You Down</p>
         <ul style="margin:0;padding:0 0 0 20px">${issueRows}</ul>
-      </div>` : ""}
+      </div>`
+					: ""
+			}
       <div style="${s.box}">
         <p style="${s.label};color:${c.brand}">Migration Estimate</p>
         <p style="margin:0;font-size:22px;font-weight:600;color:${c.text}">${"€"}${data.estimateMin.toLocaleString()} ${"–"} ${"€"}${data.estimateMax.toLocaleString()}</p>
@@ -522,7 +532,7 @@ export async function POST(request: Request) {
 						"Content-Type": "application/json",
 					},
 					body: JSON.stringify({
-						from: "webvise <hello@webvise.io>",
+						from: "webvise <mail@webvise.io>",
 						to: [data.email],
 						reply_to: adminEmail,
 						subject: `Your website report: ${data.url}`,
