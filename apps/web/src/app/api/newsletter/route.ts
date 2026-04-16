@@ -25,31 +25,27 @@ export async function POST(request: Request) {
 		const { email } = schema.parse(body);
 
 		const resendApiKey = process.env.RESEND_API_KEY;
-		const audienceId = process.env.RESEND_AUDIENCE_ID;
 
-		if (!resendApiKey || !audienceId) {
-			console.error("RESEND_API_KEY or RESEND_AUDIENCE_ID not configured");
+		if (!resendApiKey) {
+			console.error("RESEND_API_KEY not configured");
 			return NextResponse.json(
 				{ error: "Newsletter service not configured" },
 				{ status: 500 },
 			);
 		}
 
-		const res = await fetch(
-			`https://api.resend.com/audiences/${audienceId}/contacts`,
-			{
-				method: "POST",
-				headers: {
-					Authorization: `Bearer ${resendApiKey}`,
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({ email, unsubscribed: false }),
+		const res = await fetch("https://api.resend.com/contacts", {
+			method: "POST",
+			headers: {
+				Authorization: `Bearer ${resendApiKey}`,
+				"Content-Type": "application/json",
 			},
-		);
+			body: JSON.stringify({ email, unsubscribed: false }),
+		});
 
 		if (!res.ok) {
 			const error = await res.text();
-			console.error("Resend Audiences error:", error);
+			console.error("Resend contacts error:", error);
 			return NextResponse.json(
 				{ error: "Failed to subscribe" },
 				{ status: 500 },
