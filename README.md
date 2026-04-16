@@ -50,7 +50,7 @@ webvise-app/
 ## Contact
 
 - Website: [webvise.com](https://webvise.com)
-- Email: [hello@webvise.com](mailto:hello@webvise.com)
+- Email: [mail@webvise.com](mailto:mail@webvise.com)
 
 ## License
 
