@@ -189,9 +189,9 @@ export default function Navbar({
 						aria-label={mobileOpen ? "Close menu" : "Open menu"}
 					>
 						<div className="flex w-[18px] flex-col gap-[5px]">
-							<span className={`block h-[1.5px] w-full origin-center bg-current transition-all duration-300 ${mobileOpen ? "translate-y-[6px] rotate-45" : ""}`} />
+							<span className={`block h-[1.5px] w-full origin-center bg-current transition-all duration-300 ${mobileOpen ? "translate-y-[6.5px] rotate-45" : ""}`} />
 							<span className={`block h-[1.5px] w-full bg-current transition-all duration-300 ${mobileOpen ? "scale-x-0 opacity-0" : ""}`} />
-							<span className={`block h-[1.5px] w-full origin-center bg-current transition-all duration-300 ${mobileOpen ? "-translate-y-[6px] -rotate-45" : ""}`} />
+							<span className={`block h-[1.5px] w-full origin-center bg-current transition-all duration-300 ${mobileOpen ? "-translate-y-[6.5px] -rotate-45" : ""}`} />
 						</div>
 					</button>
 				</div>
@@ -469,6 +469,23 @@ export default function Navbar({
 						</div>
 
 						<div className="mt-auto space-y-6 border-border/40 border-t pt-6">
+							<div className="flex items-center justify-between">
+								<div className="flex items-center gap-2">
+									{socials.map((social) => (
+										<a
+											key={social.name}
+											href={social.href}
+											target="_blank"
+											rel="noopener noreferrer"
+											className="flex h-8 w-8 items-center justify-center border border-border/40 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+											aria-label={social.name}
+										>
+											{social.icon}
+										</a>
+									))}
+								</div>
+								<LanguageSwitcher id="lang-mobile" />
+							</div>
 							<Button
 								className="w-full border-transparent bg-brand text-white [&]:hover:bg-brand/80"
 								size="lg"
@@ -490,23 +507,6 @@ export default function Navbar({
 							>
 								{t("getStarted")}
 							</Button>
-							<div className="flex items-center justify-between">
-								<div className="flex items-center gap-2">
-									{socials.map((social) => (
-										<a
-											key={social.name}
-											href={social.href}
-											target="_blank"
-											rel="noopener noreferrer"
-											className="flex h-8 w-8 items-center justify-center border border-border/40 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-											aria-label={social.name}
-										>
-											{social.icon}
-										</a>
-									))}
-								</div>
-								<LanguageSwitcher id="lang-mobile" />
-							</div>
 						</div>
 					</nav>
 				</div>

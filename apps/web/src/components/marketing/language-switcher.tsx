@@ -50,9 +50,11 @@ export default function LanguageSwitcher({ id }: { id?: string }) {
 		<DropdownMenu>
 			<DropdownMenuTrigger
 				id={id}
-				className="flex cursor-pointer items-center gap-1.5 text-muted-foreground text-xs uppercase transition-colors hover:text-foreground"
+				className="group flex cursor-pointer items-center gap-1.5 text-muted-foreground text-xs uppercase transition-colors hover:text-foreground"
 			>
-				<Globe className="size-4" />
+				<span className="inline-flex [perspective:80px]">
+					<Globe className="size-4 transition-transform duration-700 ease-in-out group-hover:[transform:rotateY(360deg)]" />
+				</span>
 				{locale}
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="end" sideOffset={8}>
