@@ -121,7 +121,7 @@ export default async function BlogPage({
 					</div>
 
 					{totalPages > 1 && (
-						<nav className="mt-14 flex items-center justify-center gap-2">
+						<nav className="mt-14 flex flex-wrap items-center justify-center gap-2">
 							{page > 1 && (
 								<Link
 									href={{
