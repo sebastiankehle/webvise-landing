@@ -1,0 +1,178 @@
+{
+	"date": "2026-04-17",
+	"readingTime": 9,
+	"keyword": "hermes agent production deployment",
+	"title": "Hermes Agent im Produktionseinsatz: Der Day-30-Operator-Layer",
+	"excerpt": "Die meisten 4-Profil-Teams mit Hermes Agent funktionieren am ersten Tag gut und verwischen bis Tag 30 zu einer einzigen Stimme. Der Operator-Layer, der das verhindert: Handoff-Verträge, Memory-KPI-Audits und Policy-Gates pro Rolle.",
+	"metaDescription": "Multi-Agenten-Teams mit Hermes Agent verwischen bis Tag 30. Der Operator-Layer: Handoff-Verträge, Memory-KPI-Audits und rollenspezifische Policy-Gates, die das verhindern.",
+	"tags": ["AI Agents", "AI", "Open Source", "Process"],
+	"blocks": [
+		{
+			"type": "p",
+			"text": "**Der Hermes Agent Operator-Layer ist das Regelwerk, das ein Multi-Profil-Team über Tag 30 hinaus kohärent hält.** Vier Grundbausteine: Handoff-Verträge, die blockieren können, Memory-KPI-Audits pro Profil, Policy-Gates pro Rolle und koordinierter Cron-State. Ohne sie verwischt ein 4-Profil-Team (Hermes + Alan + Mira + Turing) innerhalb eines Monats zu einem einzigen unklaren Agenten."
+		},
+		{
+			"type": "p",
+			"text": "Jeder Hermes-Operator-Leitfaden im Netz endet beim 4-Profil-Bootstrap. Niemand postet Screenshots von Tag 30, weil Tag 30 der Zeitpunkt ist, an dem die Profile anfangen gleich zu klingen, die Handoffs lautlos brechen und ein Setup, auf das man stolz war, von einem Solo-Agenten nicht mehr zu unterscheiden ist."
+		},
+		{
+			"type": "p",
+			"text": "Wenn Sie [Hermes Agent](/blog/hermes-agent-self-improving-ai) Version 0.9.0 mit den Profilen Alan, Mira und Turing betreiben, ist das grundlegende Setup erledigt. Was jetzt folgt, ist der Operator-Layer. Jeder der folgenden Bausteine stammt aus realen Deployment-Mustern und ist mit dem konkreten Fehlerbild verknüpft, das ihn notwendig macht."
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**Handoff-Verträge sind nur real, wenn sie blockieren.** Stimmt die Eingabeform des empfangenden Profils nicht, muss der Handoff scheitern, nicht nur warnen.",
+				"**Gedächtnis fault pro Profil aus.** Führen Sie wöchentlich ein `memory-kpi`-Audit durch. Überschreitet der Wert 15% veralteter Notizen, ist ein `brain-resolve`-Durchlauf fällig.",
+				"**Policy-Gates verhindern stillen Berechtigungsdrift.** Alan bekommt niemals Shell-Zugang. Nur der Orchestrator darf Commits auf main genehmigen.",
+				"**Vier Day-30-Fehlermodi zerstören die meisten Deployments.** Profil-Drift, Handoff-Rot, SOUL.md-Bloat, Cron-Kollision. Für jeden gibt es eine konkrete Gegenmaßnahme.",
+				"**Lesen Sie zuerst den [Hermes-Agent-Überblick](/blog/hermes-agent-self-improving-ai)**, wenn Sie noch den Was-ist-das-Kontext benötigen, bevor Sie zum Operator-Layer übergehen."
+			]
+		},
+		{
+			"type": "h2",
+			"text": "Die 4-Profil-Grundkonfiguration (Zusammenfassung)"
+		},
+		{
+			"type": "p",
+			"text": "Bevor der Operator-Layer greift, muss das 4-Profil-Starter-Team laufen. Dank an [@neoaiforecast](https://x.com/neoaiforecast) für die Benennung der kanonischen Aufteilung und an [@nyk_builderz](https://x.com/nyk_builderz) für den Operator-Guide-Rahmen, den dieser Artikel erweitert."
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**Hermes** (orchestrator). Plant, zerlegt, leitet, synthetisiert. Verkehrsregler, kein Engpass.",
+				"**Alan** (research specialist). Quellenorientiert, skeptisch, unsicherheitsbewusst. Schützt das Team vor halluzinierter Gewissheit.",
+				"**Mira** (narrative architect). Klarheit, Struktur, Publikumsbewusstsein. Verwandelt validiertes Material in Kommunikation.",
+				"**Turing** (builder and debugger). Implementierung, Logs, Diffs, Reproduzierbarkeit. Kümmert sich um Tests, nicht um Textpflege."
+			]
+		},
+		{
+			"type": "p",
+			"text": "Profile isolieren sieben Zustandsebenen gleichzeitig: Konfiguration, Sitzungen, Gedächtnis, Skills, Persönlichkeit, Cron-State und Gateway-State. Diese Isolation ist der Grundbaustein, auf dem der Operator-Layer aufbaut. Wer noch ein einziges Profil mit fünf Rollen betreibt, dem helfen die folgenden Muster nicht. Erst den Grundbaustein korrigieren."
+		},
+		{
+			"type": "p",
+			"text": "Wenn Sie Hilfe dabei brauchen, ob ein 4-Profil-Hermes-Deployment zur tatsächlichen Arbeitslast Ihres Teams passt, [führt webvise Sie gerne durch die Entscheidung](/#contact)."
+		},
+		{
+			"type": "h2",
+			"text": "Handoff-Verträge: Das Einzige, das Profil-Drift aufhält"
+		},
+		{
+			"type": "p",
+			"text": "Ein Handoff-Vertrag ist eine Vier-Felder-Spezifikation, die unter `~/.hermes/team/handoffs/<from>-to-<to>.md` gespeichert wird. Der Vertrag ist nur real, wenn er blockieren kann. Stimmt die Eingabe nicht mit der deklarierten Form überein, lässt das Harness den Handoff scheitern und verlangt menschliche Prüfung. Die vier Pflichtfelder:"
+		},
+		{
+			"type": "table",
+			"headers": ["Feld", "Definition", "Beispiel (Alan an Mira)"],
+			"rows": [
+				["Input shape", "Was das empfangende Profil erwartet", "Gerankte Aussagen mit Quell-URLs, keine rohen Auszüge"],
+				["Output shape", "Was das empfangende Profil zurückgibt", "Entworfener Abschnitt plus Änderungsprotokoll, kein fertiger Artikel"],
+				["Failure action", "Was bei fehlerhafter Eingabe passiert", "block, require-human-review oder retry"],
+				["Verification gate", "Eine Bedingung, die vor dem Handoff erfüllt sein muss", "Jede Aussage hat eine Quell-URL"]
+			]
+		},
+		{
+			"type": "p",
+			"text": "Das Gate trägt Gewicht. Die meisten Teams schreiben Handoff-Dokumente als Empfehlungen und wundern sich, warum die Profile driften. Eine Empfehlung blockiert nie. Ohne Blockierung sendet Alan irgendwann rohe Transkripte an Mira, Mira beginnt Entwürfe ohne Quellenangaben zu erstellen, und die Ausgabequalität des Teams erodiert einen stillen Handoff nach dem anderen."
+		},
+		{
+			"type": "h2",
+			"text": "Memory-KPI: Der 15%-Schwellenwert für veraltete Notizen"
+		},
+		{
+			"type": "p",
+			"text": "Das Gedächtnis fault in jedem Profil auf dieselbe Weise aus wie ein gemeinsames Wiki ab 100 Seiten. Ein wöchentliches Audit erkennt den Verfall, bevor das Profil beginnt, sich selbst aus veraltetem Kontext zu zitieren. Drei Metriken pro Profil sind relevant:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**`source_backed_pct`** - Anteil der Notizen, die noch eine abrufbare Quelle haben. Sinkt, wenn Quellen 404 zurückgeben oder gelöscht werden.",
+				"**`stale_notes`** - Anzahl der Notizen, deren referenzierter Code, URL oder Konfiguration nicht mehr der Realität entspricht.",
+				"**`contradiction_notes`** - Anzahl der Notizen, die etwas anderem im Gedächtnis desselben Profils widersprechen."
+			]
+		},
+		{
+			"type": "p",
+			"text": "Der wöchentliche Audit-Befehl läuft über alle Spezialistenprofile: `for p in alan mira turing; do hermes -p $p memory-kpi --json | jq '.source_backed_pct, .stale_notes, .contradiction_notes'; done`. Beobachten Sie `stale_notes`. Sobald dieser Wert 15% der Gesamtnotizen eines Profils übersteigt, ist ein `brain-resolve`-Durchlauf einzuplanen, bevor das Profil beginnt, sich selbst aus veraltetem Kontext zu zitieren."
+		},
+		{
+			"type": "h2",
+			"text": "Policy-Gates: Berechtigungen nach Rolle"
+		},
+		{
+			"type": "p",
+			"text": "Kein Profil erhält mehr Berechtigungen, als seine Rolle benötigt. Der Orchestrator ist das einzige Profil, das den Umfang eines anderen Profils erweitern darf. Diese Regeln wöchentlich in einer Tabelle zu prüfen ist der Unterschied zwischen einem geführten Team und vier Agenten, die langsam alle zu Admins werden."
+		},
+		{
+			"type": "table",
+			"headers": ["Profil", "Risikoklasse", "Berechtigungen"],
+			"rows": [
+				["Alan (research)", "sicher", "Web und Repo lesen, nur in research/ schreiben. Kein Shell, keine Schreibzugriffe außerhalb der Sandbox."],
+				["Mira (writer)", "sicher", "Research-Outputs lesen, nur in drafts/ schreiben. Kein Zugriff auf Secrets, keine Code-Ausführung."],
+				["Turing (engineer)", "Prüfung erforderlich", "Repo lesen, Tests in der Sandbox ausführen, in feature branch schreiben. Jeder Commit auf main erfordert Orchestrator-Genehmigung."],
+				["Hermes (orchestrator)", "kritisch", "Einziges Profil, das Turings Commits genehmigen, Branches mergen oder kostenpflichtige API-Aufrufe über dem Budget-Ceiling auslösen darf."]
+			]
+		},
+		{
+			"type": "p",
+			"text": "Das Prinzip ist tragend. Ein Research-Agent mit Shell-Zugang wird irgendwann einen Befehl ausführen, den er nicht hätte ausführen sollen. Ein Writer-Profil mit Secrets-Zugang wird diese irgendwann in einen Entwurf einarbeiten. Berechtigungs-Drift passiert lautlos und fällt immer erst im Nachhinein auf, was der falsche Zeitpunkt ist."
+		},
+		{
+			"type": "h2",
+			"text": "Die vier Day-30-Fehlermodi"
+		},
+		{
+			"type": "p",
+			"text": "Vier konkrete Fehlermodi sind für die meisten Multi-Agenten-Hermes-Zusammenbrüche verantwortlich. Für jeden gibt es eine direkte Gegenmaßnahme. Wer einen davon überspringt, hat am ersten Tag ein gutes Team und am Tag 30 ein verwischtes."
+		},
+		{
+			"type": "h3",
+			"text": "1. Profil-Drift"
+		},
+		{
+			"type": "p",
+			"text": "SOUL.md-Änderungen häufen sich lautlos an. Mira wird langsam zu Turing. Gegenmaßnahme: Jede SOUL.md wöchentlich gegen die Version von Tag eins vergleichen. Jede neue Verantwortung erhält einen protokollierten Genehmigungseintrag, oder sie wird rückgängig gemacht. Keine Ausnahmen für kleine Änderungen, denn kleine Änderungen sind der Weg, auf dem Drift entsteht."
+		},
+		{
+			"type": "h3",
+			"text": "2. Handoff-Rot"
+		},
+		{
+			"type": "p",
+			"text": "Die Vertragsdatei existiert, aber niemand erzwingt sie. Alan schickt wieder rohe Transkripte an Mira. Gegenmaßnahme: Jede Handoff-Datei ins Harness einbinden, sodass falsche Eingaben blockieren. Ein Vertrag, der nicht blockieren kann, ist Dokumentation, keine Kontrolle."
+		},
+		{
+			"type": "h3",
+			"text": "3. SOUL.md-Bloat"
+		},
+		{
+			"type": "p",
+			"text": "Jede Rolle wächst um Sonderfallabsätze, bis der Agent seine ursprüngliche Identität im Rauschen verliert. Gegenmaßnahme: SOUL.md auf 400 Wörter begrenzen. Alles darüber hinaus gehört in AGENTS.md oder eine domänenspezifische Referenzdatei. Die Beschränkung zwingt das Team dazu, die Identität scharf zu halten."
+		},
+		{
+			"type": "h3",
+			"text": "4. Cron-Kollision"
+		},
+		{
+			"type": "p",
+			"text": "Mehrere Profile planen Jobs für 3 Uhr morgens ohne Abstimmung. Der Orchestrator wacht auf und findet vier Agenten, die um dasselbe API-Kontingent kämpfen. Gegenmaßnahme: Eine gemeinsame `~/.hermes/team/cron.md`, die jede geplante Aufgabe aller Profile mit genauer Uhrzeit, Dauer und Abhängigkeit auflistet. Diese Datei prüfen, bevor ein neuer Cron-Job hinzugefügt wird."
+		},
+		{
+			"type": "h2",
+			"text": "Was das für Unternehmensteams bedeutet"
+		},
+		{
+			"type": "p",
+			"text": "Der Operator-Layer ist der Teil, der aus einer Hermes-Demo dauerhafte Produktionsinfrastruktur macht. Die meisten Teams, die Multi-Agenten-Frameworks evaluieren, konzentrieren sich auf die initiale Einrichtung und übersehen das Wartungsmodell. Ein 4-Profil-Team ohne Handoff-Verträge, Gedächtnisaudits und Policy-Gates hat dieselbe Absturzkurve wie ein Solo-Profil-Agent mit sechs Wochen Verzögerung: funktioniert anfangs hervorragend, degradiert unsichtbar, versagt genau dann, wenn man es am meisten braucht."
+		},
+		{
+			"type": "p",
+			"text": "Der Compounding-Value-Ansatz für Hermes, der Grund, [warum die Skill-Bibliothek wichtig ist](/blog/hermes-agent-self-improving-ai), gilt nur, wenn der Operator-Layer gilt. Skills, die von einem Profil angesammelt wurden, das lautlos in eine andere Rolle gedriftet ist, sind Skills für eine Rolle, die Sie nicht mehr haben."
+		},
+		{
+			"type": "p",
+			"text": "Bei **webvise** helfen wir Unternehmen, KI-Agenten-Architekturen zu konzipieren und zu betreiben, einschließlich Hermes-Multi-Profil-Teams mit der Governance-Disziplin, die Tag 30 übersteht. Wenn Sie ein Hermes-Deployment evaluieren oder bereits eines haben, das anfängt zu verwischen, [nehmen Sie Kontakt auf](/#contact) und wir helfen Ihnen, den Operator-Layer zu festigen, bevor sich die Fehlermodi aufschaukeln."
+		}
+	]
+}

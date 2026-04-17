@@ -1,15 +1,30 @@
 {
 	"date": "2026-04-01",
-	"readingTime": 11,
-	"keyword": "hermes agent self-improving ai autonomous",
-	"title": "Hermes Agent: autonomiczny agent AI, który się samouczy i doskonali przy każdym zadaniu",
-	"excerpt": "Nous Research uruchomił Hermes Agent w lutym 2026 roku i ma już 24 600 gwiazdek na GitHub. To persistentny, serwerowy agent autonomiczny, który z czasem buduje własną bibliotekę umiejętności. Co go wyróżnia i dlaczego ma to znaczenie.",
-	"metaDescription": "Hermes Agent od Nous Research to open-source'owy autonomiczny agent AI z wbudowaną pętlą uczenia. Działa w sposób ciągły na serwerze, tworzy przeszukiwalne dokumenty umiejętności na podstawie doświadczenia i obsługuje ponad 40 narzędzi, 6 backendów wykonawczych oraz komunikację wieloplatformową.",
+	"readingTime": 12,
+	"keyword": "hermes agent",
+	"title": "Czym jest Hermes Agent? Definicja, funkcje i pętla uczenia (2026)",
+	"excerpt": "Hermes Agent to open-source'owy autonomiczny agent AI od Nous Research z wbudowaną pętlą uczenia. Czym jest, jak działa i dlaczego 24 600 zespołów dodało go do ulubionych w osiem tygodni.",
+	"metaDescription": "Hermes Agent to samouczący się agent AI od Nous Research z ponad 24 000 gwiazdek na GitHub. Pełne omówienie: funkcje, architektura, pętla uczenia i zastosowania biznesowe.",
 	"tags": ["AI Agents", "AI", "Open Source", "Automation"],
 	"blocks": [
 		{
 			"type": "p",
-			"text": "Większość narzędzi AI do programowania ma to samo fundamentalne ograniczenie: zapominają wszystko, gdy sesja się kończy. Nous Research stworzył Hermes Agent właśnie po to, by rozwiązać ten problem. Uruchomiony w lutym 2026 roku ma już około **24 600 gwiazdek na GitHub** i hasło, które warto brać dosłownie: \"the agent that grows with you.\" To nie chatbot z przełącznikiem pamięci. To persistentny, serwerowy agent z zamkniętą pętlą uczenia, który staje się naprawdę bardziej zdolny, im więcej się go używa."
+			"text": "**Hermes Agent to open-source'owy, samouczący się autonomiczny agent AI od Nous Research.** Działa w sposób ciągły na serwerze, łączy się z Telegramem, Slackiem, Discordem, WhatsAppem, Signalem i CLI przez jedną bramkę i buduje własną bibliotekę umiejętności z wykonanych zadań. Projekt wystartował w lutym 2026 roku i przekroczył **24 600 gwiazdek na GitHub** w ciągu ośmiu tygodni. Jest niezależny od modelu, bezpłatny i wyróżnia się na tle innych agentów jedną konkretną cechą: zamkniętą pętlą uczenia, która sprawia, że staje się bardziej zdolny, im więcej się go używa."
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**Kto go stworzył?** Nous Research, zespół stojący za rodziną modeli Hermes (Hermes-3, bazujący na Llama 3.1).",
+				"**Czy jest open source?** Tak, w pełni open source na [GitHub](https://github.com/NousResearch/hermes-agent).",
+				"**Co go wyróżnia?** Zamknięta pętla uczenia. Tworzy Skill Documents z wykonanych zadań i pobiera je automatycznie, gdy pojawiają się podobne problemy.",
+				"**Jakie platformy obsługuje?** Telegram, Slack, Discord, WhatsApp, Signal, Matrix, iMessage (przez BlueBubbles), WeChat i CLI przez jedną bramkę.",
+				"**Z jakimi modelami współpracuje?** Jest niezależny od modelu. Nous Portal, OpenRouter (ponad 200 modeli), OpenAI, Anthropic lub dowolny niestandardowy endpoint.",
+				"**Jaka jest aktualna wersja?** Wersja 0.9.0 (\"Everywhere\"), wydana w kwietniu 2026. Dodaje profile dla izolowanych zespołów wieloagentowych. Szczegóły wdrożenia produkcyjnego: [przewodnik po warstwie operatorskiej na dzień 30](/blog/hermes-agent-production-deployment)."
+			]
+		},
+		{
+			"type": "p",
+			"text": "Większość narzędzi AI do programowania ma to samo fundamentalne ograniczenie: zapominają wszystko, gdy sesja się kończy. Nous Research stworzył Hermes Agent właśnie po to, by rozwiązać ten problem. To nie chatbot z przełącznikiem pamięci. To persistentny, serwerowy agent z hasłem wartym brania dosłownie: \"the agent that grows with you.\""
 		},
 		{
 			"type": "h2",
@@ -45,7 +60,7 @@
 		},
 		{
 			"type": "p",
-			"text": "To serce pętli uczenia. Hermes Agent tworzy **Dokumenty umiejętności** z wykonanych zadań: przeszukiwalne pliki Markdown zgodne ze standardem [agentskills.io](https://hermes-agent.nousresearch.com/). Gdy pojawia się nowy problem, agent przeszukuje bibliotekę umiejętności przy użyciu pełnotekstowego wyszukiwania (FTS5) i pobiera odpowiednie procedury zbudowane z wcześniejszych doświadczeń. Umiejętności nie są też statyczne. Agent doskonali je podczas użycia i motywuje się do utrwalania nowej wiedzy po każdej sesji. To jedyny duży open-source'owy agent z tym rodzajem wbudowanej pamięci proceduralnej."
+			"text": "To serce pętli uczenia. Hermes Agent tworzy **Skill Documents** z wykonanych zadań: przeszukiwalne pliki Markdown zgodne ze standardem [agentskills.io](https://hermes-agent.nousresearch.com/). Gdy pojawia się nowy problem, agent przeszukuje bibliotekę umiejętności przy użyciu pełnotekstowego wyszukiwania (FTS5) i pobiera odpowiednie procedury zbudowane z wcześniejszych doświadczeń. Umiejętności nie są też statyczne. Agent doskonali je podczas użycia i motywuje się do utrwalania nowej wiedzy po każdej sesji. To jedyny duży open-source'owy agent z tym rodzajem wbudowanej pamięci proceduralnej."
 		},
 		{
 			"type": "h3",
@@ -53,7 +68,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Hermes Agent integruje Honcho do modelowania użytkownika, co oznacza, że buduje reprezentację Twoich preferencji, stylu pracy i kontekstu, która utrzymuje się między sesjami. W połączeniu z wyszukiwaniem FTS5 po poprzednich rozmowach może przywołać istotną historię bez konieczności ponownego tłumaczenia kontekstu, który już podałeś."
+			"text": "Hermes Agent integruje Honcho do modelowania użytkownika, co oznacza, że buduje reprezentację preferencji, stylu pracy i kontekstu użytkownika, która utrzymuje się między sesjami. W połączeniu z wyszukiwaniem FTS5 po poprzednich rozmowach może przywołać istotną historię bez konieczności ponownego tłumaczenia kontekstu, który już został podany."
 		},
 		{
 			"type": "h2",
@@ -68,7 +83,7 @@
 			"items": [
 				"Agent wykonuje zadanie, korzystając z dostępnych narzędzi i kontekstu",
 				"Ocenia, co zadziałało, a co nie",
-				"Tworzy lub aktualizuje Dokument umiejętności, który uchwytuje skuteczną procedurę",
+				"Tworzy lub aktualizuje Skill Document, który uchwytuje skuteczną procedurę",
 				"Następnym razem, gdy pojawi się podobny problem, pobiera i stosuje tę umiejętność",
 				"Jeśli umiejętność wymaga dopracowania, ponownie aktualizuje dokument"
 			]
@@ -126,7 +141,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Nous Research zbudował Hermes Agent z myślą o własnych potrzebach badawczych, i narzędzia badawcze to odzwierciedlają. Agent obsługuje **generowanie trajektorii wsadowych** do zbierania zachowania agenta na dużą skalę, natywną **integrację Atropos RL** do uczenia przez wzmacnianie z doświadczenia agenta oraz **eksport ShareGPT** do przekształcania rozmów agenta w zestawy danych do fine-tuningu."
+			"text": "Nous Research zbudował Hermes Agent z myślą o własnych potrzebach badawczych i narzędzia badawcze to odzwierciedlają. Agent obsługuje **generowanie trajektorii wsadowych** do zbierania zachowania agenta na dużą skalę, natywną **integrację Atropos RL** do uczenia przez wzmacnianie z doświadczenia agenta oraz **eksport ShareGPT** do przekształcania rozmów agenta w zestawy danych do fine-tuningu."
 		},
 		{
 			"type": "p",
@@ -154,7 +169,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Tradycyjne narzędzia software'owe dostarczają mniej więcej tej samej wartości w pierwszym dniu co w setnym. Agent z pętlą uczenia jest inny. Biblioteka umiejętności, którą buduje ze specyficznych przepływów pracy, bazy kodu, wewnętrznych procesów, staje się przewagą konkurencyjną. Dobrze prowadzone wdrożenie Hermes Agent po sześciu miesiącach użytkowania będzie znacznie skuteczniejsze w konkretnych zadaniach niż na początku, bo zgromadzi specyficzne dla domeny procedury, których żadne standardowe narzędzie nie może odtworzyć."
+			"text": "Tradycyjne narzędzia software'owe dostarczają mniej więcej tej samej wartości w pierwszym dniu co w setnym. Agent z pętlą uczenia jest inny. Biblioteka umiejętności, którą buduje ze specyficznych przepływów pracy, bazy kodu i wewnętrznych procesów, staje się przewagą konkurencyjną. Dobrze prowadzone wdrożenie Hermes Agent po sześciu miesiącach użytkowania będzie znacznie skuteczniejsze w konkretnych zadaniach niż na początku, bo zgromadzi specyficzne dla domeny procedury, których żadne standardowe narzędzie nie może odtworzyć."
 		},
 		{
 			"type": "h3",
@@ -162,7 +177,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Persistentne agenty serwerowe wymagają infrastruktury, której narzędzia oparte na sesjach nie potrzebują. Potrzebna jest moc obliczeniowa działająca ciągle, pamięć masowa dla dokumentów umiejętności i historii rozmów, monitoring dla autonomicznego systemu wykonującego kod i wywołującego API, a także odpowiednia postawa bezpieczeństwa dla agenta z szerokim dostępem do narzędzi. Model open-source oznacza brak kosztów licencji, ale koszty operacyjne są realne. Zespoły oceniające Hermes Agent powinny uwzględnić czas inżynierski potrzebny do niezawodnego prowadzenia."
+			"text": "Persistentne agenty serwerowe wymagają infrastruktury, której narzędzia oparte na sesjach nie potrzebują. Potrzebna jest moc obliczeniowa działająca ciągle, pamięć masowa dla Skill Documents i historii rozmów, monitoring dla autonomicznego systemu wykonującego kod i wywołującego API, a także odpowiednia postawa bezpieczeństwa dla agenta z szerokim dostępem do narzędzi. Model open-source oznacza brak kosztów licencji, ale koszty operacyjne są realne. Zespoły oceniające Hermes Agent powinny uwzględnić czas inżynierski potrzebny do niezawodnego prowadzenia."
 		},
 		{
 			"type": "h3",
@@ -170,7 +185,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Architektura niezależna od modelu to praktyczna zaleta wykraczająca poza oczywistą korzyść z elastyczności. Wydajność i ceny modeli AI zmieniają się szybko. Framework agenta, który wiąże Cię z jednym dostawcą, naraża Cię na decyzje cenowe i wycofywanie modeli tego dostawcy. Wsparcie Hermes Agent dla OpenRouter, OpenAI, Anthropic i niestandardowych endpointów oznacza, że możesz zmienić model bazowy bez przebudowywania konfiguracji agenta ani utraty skumulowanej biblioteki umiejętności."
+			"text": "Architektura niezależna od modelu to praktyczna zaleta wykraczająca poza oczywistą korzyść z elastyczności. Wydajność i ceny modeli AI zmieniają się szybko. Framework agenta, który wiąże użytkownika z jednym dostawcą, naraża go na decyzje cenowe i wycofywanie modeli tego dostawcy. Wsparcie Hermes Agent dla OpenRouter, OpenAI, Anthropic i niestandardowych endpointów oznacza, że można zmienić model bazowy bez przebudowywania konfiguracji agenta ani utraty skumulowanej biblioteki umiejętności."
 		},
 		{
 			"type": "h2",
@@ -178,15 +193,15 @@
 		},
 		{
 			"type": "p",
-			"text": "Repozytorium [Hermes Agent na GitHub](https://github.com/NousResearch/hermes-agent) i [oficjalna dokumentacja](https://hermes-agent.nousresearch.com/) to właściwe punkty startowe. Projekt jest aktywny, Nous Research iteruje szybko. Jeśli oceniasz go do wdrożenia produkcyjnego, warto sprawdzić aktualne informacje o wydaniu zamiast polegać na dokumentacji, która może być w tyle za ostatnimi zmianami."
+			"text": "Repozytorium [Hermes Agent na GitHub](https://github.com/NousResearch/hermes-agent) i [oficjalna dokumentacja](https://hermes-agent.nousresearch.com/) to właściwe punkty startowe. Projekt jest aktywny, Nous Research iteruje szybko. Jeśli ocenia się go do wdrożenia produkcyjnego, warto sprawdzić aktualne informacje o wydaniu zamiast polegać na dokumentacji, która może być w tyle za ostatnimi zmianami."
 		},
 		{
 			"type": "p",
-			"text": "Obsługa komunikacji wieloplatformowej ułatwia wstępne testy: podłącz go do kanału Slack lub bota Telegram, daj mu mały zestaw cyklicznych zadań i obserwuj, jak biblioteka umiejętności rozwija się przez dwa do trzech tygodni. To mniej zobowiązujący sposób na weryfikację twierdzenia o pętli uczenia niż pełne wdrożenie produkcyjne."
+			"text": "Obsługa komunikacji wieloplatformowej ułatwia wstępne testy: wystarczy podłączyć agenta do kanału Slack lub bota Telegram, dać mu mały zestaw cyklicznych zadań i obserwować, jak biblioteka umiejętności rozwija się przez dwa do trzech tygodni. To mniej zobowiązujący sposób na weryfikację twierdzenia o pętli uczenia niż pełne wdrożenie produkcyjne."
 		},
 		{
 			"type": "p",
-			"text": "W **webvise** pomagamy firmom oceniać i wdrażać architektury agentów AI, od wstępnej oceny wykonalności po wdrożenie produkcyjne. Jeśli badasz samodoskonalące się agenty takie jak Hermes Agent lub chcesz zrozumieć, jak autonomiczna AI pasuje do Twoich konkretnych procesów, [skontaktuj się z nami](/#contact), a pomożemy Ci znaleźć podejście odpowiadające Twoim wymaganiom i infrastrukturze."
+			"text": "W **webvise** pomagamy firmom oceniać i wdrażać architektury agentów AI, od wstępnej oceny wykonalności po wdrożenie produkcyjne. Jeśli badają Państwo samodoskonalące się agenty takie jak Hermes Agent lub chcą zrozumieć, jak autonomiczna AI pasuje do konkretnych procesów, [skontaktujcie się z nami](/#contact), a pomożemy znaleźć podejście odpowiadające wymaganiom i infrastrukturze."
 		}
 	]
 }

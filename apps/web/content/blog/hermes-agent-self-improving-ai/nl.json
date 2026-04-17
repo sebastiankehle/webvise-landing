@@ -1,15 +1,30 @@
 {
 	"date": "2026-04-01",
-	"readingTime": 11,
-	"keyword": "hermes agent self-improving ai autonomous",
-	"title": "Hermes Agent: de zelfverbeterende AI-agent die leert van elke taak",
-	"excerpt": "Nous Research lanceerde Hermes Agent in februari 2026 en het heeft al 24.600 GitHub-sterren. Het is een persistente, serversijdige autonome agent die in de loop van de tijd een eigen vaardigheidsbibliotheek opbouwt. Wat het onderscheidt en waarom dat belangrijk is.",
-	"metaDescription": "Hermes Agent van Nous Research is een open-source autonome AI-agent met een ingebouwde leerlus. Het draait persistent op een server, maakt doorzoekbare vaardigheidsdocumenten op basis van ervaring en ondersteunt meer dan 40 tools, 6 uitvoeringsbackends en cross-platform messaging.",
+	"readingTime": 12,
+	"keyword": "hermes agent",
+	"title": "Wat is Hermes Agent? Definitie, functies en leerlus (2026)",
+	"excerpt": "Hermes Agent is Nous Research's open-source autonome AI met een ingebouwde leerlus. Wat het is, hoe het werkt en waarom 24.600+ teams het in acht weken een ster gaven.",
+	"metaDescription": "Hermes Agent is de zelfverbeterende AI van Nous Research met 24.000+ GitHub-sterren. Volledig overzicht: functies, architectuur, leerlus en zakelijke toepassingen.",
 	"tags": ["AI Agents", "AI", "Open Source", "Automation"],
 	"blocks": [
 		{
 			"type": "p",
-			"text": "De meeste AI-tools voor ontwikkeling delen dezelfde fundamentele beperking: ze vergeten alles wanneer de sessie eindigt. Nous Research bouwde Hermes Agent precies om dat probleem op te lossen. Gelanceerd in februari 2026 heeft het al ongeveer **24.600 GitHub-sterren** en een tagline die letterlijk genomen moet worden: \"the agent that grows with you.\" Dit is geen chatbot met een geheugenschakelaar. Het is een persistente, serversijdige agent met een gesloten leerlus die hem genuïen capabeler maakt naarmate je hem meer gebruikt."
+			"text": "**Hermes Agent is de open-source, zelfverbeterende autonome AI-agent van Nous Research.** Het draait persistent op een server, verbindt zich via één gateway met Telegram, Slack, Discord, WhatsApp, Signal en CLI, en bouwt een eigen vaardigheidsbibliotheek op uit voltooide taken. Het project lanceerde in februari 2026 en haalde **24.600 GitHub-sterren** binnen acht weken. Het is modelonafhankelijk, gratis en onderscheidt zich van elke andere agent op de markt door één specifiek kenmerk: een gesloten leerlus die het capabeler maakt naarmate u het meer gebruikt."
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**Wie heeft het gebouwd?** Nous Research, het team achter de Hermes-modelfamilie (Hermes-3, gebaseerd op Llama 3.1).",
+				"**Is het open source?** Ja, volledig open source op [GitHub](https://github.com/NousResearch/hermes-agent).",
+				"**Wat maakt het anders?** Een gesloten leerlus. Het maakt Skill Documents van voltooide taken en haalt ze automatisch op wanneer vergelijkbare problemen zich voordoen.",
+				"**Welke platforms ondersteunt het?** Telegram, Slack, Discord, WhatsApp, Signal, Matrix, iMessage (via BlueBubbles), WeChat en CLI via één gateway.",
+				"**Met welke modellen werkt het?** Modelonafhankelijk. Nous Portal, OpenRouter (200+ modellen), OpenAI, Anthropic of elk aangepast eindpunt.",
+				"**Wat is de huidige versie?** Versie 0.9.0 (\"Everywhere\"), uitgebracht in april 2026. Voegt profiles toe voor geïsoleerde multi-agent teams. Voor productie-deployment, zie onze [day-30 operator layer guide](/blog/hermes-agent-production-deployment)."
+			]
+		},
+		{
+			"type": "p",
+			"text": "De meeste AI-tools voor ontwikkeling delen dezelfde fundamentele beperking: ze vergeten alles wanneer de sessie eindigt. Nous Research bouwde Hermes Agent precies om dat probleem op te lossen. Het is geen chatbot met een geheugenschakelaar. Het is een persistente, serversijdige agent met een tagline die letterlijk genomen moet worden: \"the agent that grows with you.\""
 		},
 		{
 			"type": "h2",
@@ -21,7 +36,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Het project is gebouwd op de [Hermes-modelfamilie](https://hermes-agent.nousresearch.com/) (Hermes-3, gebaseerd op Llama 3.1) en getraind met Atropos-reinforcement learning voor hoge nauwkeurigheid bij tool-aanroepen. Het is ook modelonafhankelijk: je kunt het richten op Nous Portal, OpenRouter (dat toegang geeft tot meer dan 200 modellen), OpenAI, Anthropic of een aangepast eindpunt. De architectuur is zo ontworpen dat de kernlogica van de agent niet afhankelijk is van welk model er onder draait."
+			"text": "Het project is gebouwd op de [Hermes-modelfamilie](https://hermes-agent.nousresearch.com/) (Hermes-3, gebaseerd op Llama 3.1) en getraind met Atropos reinforcement learning voor hoge nauwkeurigheid bij tool-aanroepen. Het is ook modelonafhankelijk: u kunt het richten op Nous Portal, OpenRouter (dat toegang geeft tot meer dan 200 modellen), OpenAI, Anthropic of een aangepast eindpunt. De architectuur is zo ontworpen dat de kernlogica van de agent niet afhankelijk is van welk model er onder draait."
 		},
 		{
 			"type": "h2",
@@ -41,11 +56,11 @@
 		},
 		{
 			"type": "h3",
-			"text": "Vaardigheidsdocumenten"
+			"text": "Skill Documents"
 		},
 		{
 			"type": "p",
-			"text": "Dit is de kern van de leerlus. Hermes Agent maakt **Vaardigheidsdocumenten** van voltooide taken: doorzoekbare Markdown-bestanden die de [agentskills.io](https://hermes-agent.nousresearch.com/)-standaard volgen. Bij een nieuw probleem doorzoekt de agent zijn vaardigheidsbibliotheek met volledige tekstzoekopdrachten (FTS5) en haalt relevante procedures op die zijn opgebouwd uit eerdere ervaring. Vaardigheden zijn ook niet statisch. De agent verbetert ze tijdens gebruik en duwt zichzelf om nieuwe kennis na elke sessie te persisteren. Het is de enige grote open-source agent met dit soort ingebouwd procedureel geheugen."
+			"text": "Dit is de kern van de leerlus. Hermes Agent maakt **Skill Documents** van voltooide taken: doorzoekbare Markdown-bestanden die de [agentskills.io](https://hermes-agent.nousresearch.com/)-standaard volgen. Bij een nieuw probleem doorzoekt de agent zijn vaardigheidsbibliotheek met volledige tekstzoekopdrachten (FTS5) en haalt relevante procedures op die zijn opgebouwd uit eerdere ervaring. Vaardigheden zijn ook niet statisch. De agent verbetert ze tijdens gebruik en zet zichzelf aan om nieuwe kennis na elke sessie te bewaren. Het is de enige grote open-source agent met dit soort ingebouwd procedureel geheugen."
 		},
 		{
 			"type": "h3",
@@ -53,7 +68,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Hermes Agent integreert Honcho voor gebruikersmodellering, wat betekent dat het een representatie opbouwt van je voorkeuren, werkstijl en context die tussen sessies blijft bestaan. In combinatie met FTS5-zoeken over eerdere gesprekken kan het relevante geschiedenis ophalen zonder dat je context die je al hebt verstrekt opnieuw hoeft uit te leggen."
+			"text": "Hermes Agent integreert Honcho voor gebruikersmodellering, wat betekent dat het een representatie opbouwt van uw voorkeuren, werkstijl en context die tussen sessies blijft bestaan. In combinatie met FTS5-zoeken over eerdere gesprekken kan het relevante geschiedenis ophalen zonder dat u context die u al hebt verstrekt opnieuw hoeft uit te leggen."
 		},
 		{
 			"type": "h2",
@@ -61,21 +76,21 @@
 		},
 		{
 			"type": "p",
-			"text": "De leerlus is wat Hermes Agent onderscheidt van tools die simpelweg persistent geheugen hebben. De meeste agents onthouden wat je ze hebt verteld. Hermes Agent leert van wat het heeft gedaan. De volgorde ziet er zo uit:"
+			"text": "De leerlus is wat Hermes Agent onderscheidt van tools die simpelweg persistent geheugen hebben. De meeste agents onthouden wat u ze hebt verteld. Hermes Agent leert van wat het heeft gedaan. De volgorde ziet er zo uit:"
 		},
 		{
 			"type": "ol",
 			"items": [
 				"De agent voltooit een taak met behulp van beschikbare tools en context",
 				"Het evalueert wat werkte en wat niet",
-				"Het maakt of werkt een Vaardigheidsdocument bij dat de effectieve procedure vastlegt",
+				"Het maakt of werkt een Skill Document bij dat de effectieve procedure vastlegt",
 				"De volgende keer dat een soortgelijk probleem verschijnt, haalt het die vaardigheid op en past die toe",
 				"Als de vaardigheid verfijning nodig heeft, werkt het het document opnieuw bij"
 			]
 		},
 		{
 			"type": "p",
-			"text": "Nous Research beschrijft dit als \"the only agent with a built-in learning loop\", en als je naar de architectuur kijkt, houdt de claim stand. Het nudge-mechanisme, waarbij de agent zichzelf actief aanzet om kennis te persisteren in plaats van te wachten op expliciete instructie, is bijzonder goed ontworpen. Dit betekent dat vaardigheidopbouw automatisch plaatsvindt zonder handmatige curation te vereisen."
+			"text": "Nous Research beschrijft dit als \"the only agent with a built-in learning loop\", en als u naar de architectuur kijkt, houdt de claim stand. Het nudge-mechanisme, waarbij de agent zichzelf actief aanzet om kennis te bewaren in plaats van te wachten op expliciete instructie, is bijzonder goed ontworpen. Vaardigheidopbouw vindt daardoor automatisch plaats zonder handmatige curation."
 		},
 		{
 			"type": "h2",
@@ -83,7 +98,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Hermes Agent verbindt zich met **Telegram, Discord, Slack, WhatsApp, Signal en CLI** via één gateway-proces. Je hoeft geen afzonderlijke integraties voor elk platform te configureren. De gateway stuurt berichten door naar de agent-runtime ongeacht de oorsprong, wat betekent dat dezelfde persistente agent met dezelfde vaardigheidsbibliotheek antwoordt of je hem nu via Slack aan je bureau of Telegram op je telefoon bereikt."
+			"text": "Hermes Agent verbindt zich met **Telegram, Discord, Slack, WhatsApp, Signal en CLI** via één gateway-proces. U hoeft geen afzonderlijke integraties voor elk platform te configureren. De gateway stuurt berichten door naar de agent-runtime ongeacht de oorsprong, wat betekent dat dezelfde persistente agent met dezelfde vaardigheidsbibliotheek antwoordt of u hem nu via Slack aan uw bureau of Telegram op uw telefoon bereikt."
 		},
 		{
 			"type": "p",
@@ -100,11 +115,11 @@
 		{
 			"type": "ul",
 			"items": [
-				"**Local** - draait direct op je machine",
+				"**Local** - draait direct op uw machine",
 				"**Docker** - gecontaineriseerde uitvoering voor isolatie",
 				"**SSH** - externe uitvoering op elke toegankelijke server",
 				"**Daytona** - beheerde ontwikkelomgevingen",
-				"**Singularity** - HPC- en onderzoeksrekencluster",
+				"**Singularity** - HPC- en onderzoeksrekenclusters",
 				"**Modal** - serverloze cloud-uitvoering"
 			]
 		},
@@ -118,7 +133,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Meteen al beschikt Hermes Agent over meer dan **40 ingebouwde tools** die bestandsbewerkingen, shell-uitvoering, webbrowsen, API-aanroepen en meer omvatten. Het ondersteunt ook het Model Context Protocol (MCP), wat betekent dat je het kunt uitbreiden met elke MCP-compatibele toolserver. Natuurlijke taal cron-planning laat je terugkerende taken definiëren in gewoon Engels in plaats van cron-syntaxis, wat de installatielast aanzienlijk vermindert voor niet-technische gebruikers."
+			"text": "Meteen al beschikt Hermes Agent over meer dan **40 ingebouwde tools** die bestandsbewerkingen, shell-uitvoering, webbrowsen, API-aanroepen en meer omvatten. Het ondersteunt ook het Model Context Protocol (MCP), wat betekent dat u het kunt uitbreiden met elke MCP-compatibele toolserver. Natuurlijke taal cron-planning laat u terugkerende taken definiëren in gewone taal in plaats van cron-syntaxis, wat de installatielast aanzienlijk vermindert voor niet-technische gebruikers."
 		},
 		{
 			"type": "h2",
@@ -130,7 +145,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Dit is een betekenisvol detail. De meeste open-source agent-frameworks behandelen het verzamelen van trainingsdata als een bijgedachte. Hermes Agent maakt er een eersteklas functie van. Als je een model wilt finetunen op je specifieke domein, is de infrastructuur voor het genereren en exporteren van trainingsdata al ingebouwd."
+			"text": "Dit is een betekenisvol detail. De meeste open-source agent-frameworks behandelen het verzamelen van trainingsdata als een bijgedachte. Hermes Agent maakt er een eersteklas functie van. Als u een model wilt finetunen op uw specifieke domein, is de infrastructuur voor het genereren en exporteren van trainingsdata al ingebouwd."
 		},
 		{
 			"type": "h2",
@@ -142,7 +157,7 @@
 		},
 		{
 			"type": "p",
-			"text": "De rode draad is dat geen van beide systemen is ontworpen als een vaste tool die je één keer configureert. Beide zijn ontworpen om in waarde toe te nemen naarmate ze langer draaien. Dit is een echt ander paradigma dan de huidige generatie AI-assistenten, met significante implicaties voor hoe bedrijven moeten nadenken over het inzetten van AI."
+			"text": "De rode draad is dat geen van beide systemen is ontworpen als een vaste tool die u één keer configureert. Beide zijn ontworpen om in waarde toe te nemen naarmate ze langer draaien. Dit is een wezenlijk ander paradigma dan de huidige generatie AI-assistenten, met significante implicaties voor hoe bedrijven moeten nadenken over het inzetten van AI."
 		},
 		{
 			"type": "h2",
@@ -154,7 +169,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Traditionele softwaretools leveren op dag één ongeveer dezelfde waarde als op dag honderd. Een agent met een leerlus is anders. De vaardigheidsbibliotheek die het opbouwt uit je specifieke werkstromen, je codebase, je interne processen, wordt een concurrentievoordeel. Een goed gerund Hermes Agent-deployment na zes maanden gebruik zal aanzienlijk effectiever zijn bij je specifieke taken dan aan het begin, omdat het domeinspecifieke procedures heeft opgebouwd die geen standaardtool kan repliceren."
+			"text": "Traditionele softwaretools leveren op dag één ongeveer dezelfde waarde als op dag honderd. Een agent met een leerlus is anders. De vaardigheidsbibliotheek die het opbouwt uit uw specifieke werkstromen, uw codebase, uw interne processen, wordt een concurrentievoordeel. Een goed gerund Hermes Agent-deployment na zes maanden gebruik zal aanzienlijk effectiever zijn bij uw specifieke taken dan aan het begin, omdat het domeinspecifieke procedures heeft opgebouwd die geen standaardtool kan repliceren."
 		},
 		{
 			"type": "h3",
@@ -162,7 +177,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Persistente serversijdige agents vereisen infrastructuur die sessie-gebaseerde tools niet nodig hebben. Je hebt rekenkracht nodig die continu draait, opslag voor vaardigheidsdocumenten en gesprekshistorie, monitoring voor een autonoom systeem dat code uitvoert en API's aanroept, en een beveiligingshouding die past bij een agent met brede toegang tot tools. Het open-source model betekent geen licentiekosten, maar de operationele overhead is reëel. Teams die Hermes Agent evalueren, moeten de engineering-tijd inkalkuleren die nodig is om het betrouwbaar te laten draaien."
+			"text": "Persistente serversijdige agents vereisen infrastructuur die sessiegebaseerde tools niet nodig hebben. U heeft rekenkracht nodig die continu draait, opslag voor Skill Documents en gesprekshistorie, monitoring voor een autonoom systeem dat code uitvoert en API's aanroept, en een beveiligingshouding die past bij een agent met brede toegang tot tools. Het open-source model betekent geen licentiekosten, maar de operationele overhead is reëel. Teams die Hermes Agent evalueren, moeten de benodigde engineering-tijd inkalkuleren om het betrouwbaar te laten draaien."
 		},
 		{
 			"type": "h3",
@@ -170,7 +185,7 @@
 		},
 		{
 			"type": "p",
-			"text": "De modelonafhankelijke architectuur is een praktisch voordeel naast het voor de hand liggende flexibiliteitsvoordeel. AI-modelprestaties en -prijzen veranderen snel. Een agent-framework dat je aan één provider bindt, stelt je bloot aan de prijsbeslissingen en modelverouderingen van die provider. De ondersteuning van Hermes Agent voor OpenRouter, OpenAI, Anthropic en aangepaste eindpunten betekent dat je het onderliggende model kunt wisselen zonder je agentconfiguratie opnieuw op te bouwen of de opgebouwde vaardigheidsbibliotheek te verliezen."
+			"text": "De modelonafhankelijke architectuur is een praktisch voordeel naast het voor de hand liggende flexibiliteitsvoordeel. AI-modelprestaties en -prijzen veranderen snel. Een agent-framework dat u aan één provider bindt, stelt u bloot aan de prijsbeslissingen en modelverouderingen van die provider. De ondersteuning van Hermes Agent voor OpenRouter, OpenAI, Anthropic en aangepaste eindpunten betekent dat u het onderliggende model kunt wisselen zonder uw agentconfiguratie opnieuw op te bouwen of de opgebouwde vaardigheidsbibliotheek te verliezen."
 		},
 		{
 			"type": "h2",
@@ -178,7 +193,7 @@
 		},
 		{
 			"type": "p",
-			"text": "De [Hermes Agent GitHub-repository](https://github.com/NousResearch/hermes-agent) en de [officiële documentatie](https://hermes-agent.nousresearch.com/) zijn de juiste startpunten. Het project is actief, met Nous Research die snel itereert. Als je het evalueert voor een productie-deployment, is het de moeite waard om de huidige release-notities te bekijken in plaats van te vertrouwen op documentatie die mogelijk achterloopt op recente wijzigingen."
+			"text": "De [Hermes Agent GitHub-repository](https://github.com/NousResearch/hermes-agent) en de [officiële documentatie](https://hermes-agent.nousresearch.com/) zijn de juiste startpunten. Het project is actief, met Nous Research die snel itereert. Als u het evalueert voor een productie-deployment, is het de moeite waard om de huidige release-notities te bekijken in plaats van te vertrouwen op documentatie die mogelijk achterloopt op recente wijzigingen."
 		},
 		{
 			"type": "p",
@@ -186,7 +201,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Bij **webvise** helpen we bedrijven bij het evalueren en implementeren van AI-agentarchitecturen, van initiële haalbaarheidsbeoordelingen tot productie-deployments. Als je zelfverbeterende agents zoals Hermes Agent verkent of wilt begrijpen hoe autonome AI past bij je specifieke werkstromen, [neem dan contact op](/#contact) en we helpen je de aanpak te vinden die past bij je vereisten en infrastructuur."
+			"text": "Bij **webvise** helpen we bedrijven bij het evalueren en implementeren van AI-agentarchitecturen, van initiële haalbaarheidsbeoordelingen tot productie-deployments. Als u zelfverbeterende agents zoals Hermes Agent verkent of wilt begrijpen hoe autonome AI past bij uw specifieke werkstromen, [neem dan contact op](/#contact) en we helpen u de aanpak te vinden die past bij uw vereisten en infrastructuur."
 		}
 	]
 }
