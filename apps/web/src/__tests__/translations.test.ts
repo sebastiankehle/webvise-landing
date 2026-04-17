@@ -72,7 +72,7 @@ describe("UI message translations", () => {
 describe("blog content translations", () => {
 	const blogDir = join(CONTENT_DIR, "blog");
 	const slugs = readdirSync(blogDir, { withFileTypes: true })
-		.filter((d) => d.isDirectory())
+		.filter((d) => d.isDirectory() && !d.name.startsWith("."))
 		.map((d) => d.name);
 
 	for (const slug of slugs) {
