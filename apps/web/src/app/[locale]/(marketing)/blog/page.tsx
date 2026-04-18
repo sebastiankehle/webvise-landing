@@ -1,8 +1,9 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 import JsonLd from "@/components/json-ld";
 import { GridFrame } from "@/components/marketing/section-wrapper";
+import { Button } from "@/components/ui/button";
 import { Caption, H1, H3, Lead, Muted } from "@/components/ui/typography";
 import { getBlogPosts } from "@/data/blog";
 import { Link } from "@/i18n/navigation";
@@ -70,6 +71,33 @@ export default async function BlogPage({
 		page * POSTS_PER_PAGE,
 	);
 
+	const pageItems: Array<number | "ellipsis"> = [];
+	if (totalPages <= 7) {
+		for (let i = 1; i <= totalPages; i++) pageItems.push(i);
+	} else {
+		const siblings = 1;
+		const leftDots = page - siblings > 3;
+		const rightDots = page + siblings < totalPages - 2;
+		const windowSize = 3 + 2 * siblings;
+
+		if (!leftDots && rightDots) {
+			for (let i = 1; i <= windowSize; i++) pageItems.push(i);
+			pageItems.push("ellipsis");
+			pageItems.push(totalPages);
+		} else if (leftDots && !rightDots) {
+			pageItems.push(1);
+			pageItems.push("ellipsis");
+			for (let i = totalPages - windowSize + 1; i <= totalPages; i++)
+				pageItems.push(i);
+		} else {
+			pageItems.push(1);
+			pageItems.push("ellipsis");
+			for (let i = page - siblings; i <= page + siblings; i++) pageItems.push(i);
+			pageItems.push("ellipsis");
+			pageItems.push(totalPages);
+		}
+	}
+
 	return (
 		<>
 			<JsonLd data={jsonLd} />
@@ -133,54 +161,115 @@ export default async function BlogPage({
 					</div>
 
 					{totalPages > 1 && (
-						<nav className="-mx-6 flex items-center justify-between gap-3 border-grid-line border-t p-6 md:p-8">
-							<div className="flex-1">
-								{page > 1 && (
-									<Link
-										href={{
-											pathname: "/blog",
-											query:
-												page === 2 ? undefined : { page: String(page - 1) },
-										}}
-										className="inline-block border border-border/40 px-4 py-2 text-sm transition-colors hover:bg-muted/30"
-									>
-										{t("pagination.previous")}
-									</Link>
-								)}
-							</div>
-							<div className="flex items-center gap-2">
-								{Array.from({ length: totalPages }, (_, i) => i + 1).map(
-									(p) => (
+						<nav
+							aria-label="Pagination"
+							className="-mx-6 flex items-center justify-between gap-2 border-grid-line border-t p-6 md:p-8"
+						>
+							{page > 1 ? (
+								<Button
+									variant="outline"
+									size="sm"
+									render={
 										<Link
-											key={p}
 											href={{
 												pathname: "/blog",
-												query: p === 1 ? undefined : { page: String(p) },
+												query:
+													page === 2 ? undefined : { page: String(page - 1) },
 											}}
-											className={`border px-3 py-2 text-sm transition-colors ${
-												p === page
-													? "border-brand bg-brand text-white"
-													: "border-border/40 hover:bg-muted/30"
-											}`}
+										/>
+									}
+								>
+									<ChevronLeft data-icon="inline-start" />
+									<span className="hidden sm:inline">
+										{t("pagination.previous")}
+									</span>
+								</Button>
+							) : (
+								<Button
+									variant="outline"
+									size="sm"
+									disabled
+									aria-hidden="true"
+									tabIndex={-1}
+								>
+									<ChevronLeft data-icon="inline-start" />
+									<span className="hidden sm:inline">
+										{t("pagination.previous")}
+									</span>
+								</Button>
+							)}
+
+							<ol className="flex items-center gap-1.5">
+								{pageItems.map((item, idx) =>
+									item === "ellipsis" ? (
+										<li
+											// biome-ignore lint/suspicious/noArrayIndexKey: ellipsis position is stable
+											key={`ellipsis-${idx}`}
+											aria-hidden="true"
+											className="px-1 text-muted-foreground text-xs"
 										>
-											{p}
-										</Link>
+											…
+										</li>
+									) : (
+										<li key={item}>
+											<Button
+												variant={item === page ? "default" : "outline"}
+												size="icon-sm"
+												aria-current={item === page ? "page" : undefined}
+												className={
+													item === page
+														? "border-brand bg-brand text-white [a]:hover:!bg-brand/80"
+														: undefined
+												}
+												render={
+													<Link
+														href={{
+															pathname: "/blog",
+															query:
+																item === 1 ? undefined : { page: String(item) },
+														}}
+													/>
+												}
+											>
+												{item}
+											</Button>
+										</li>
 									),
 								)}
-							</div>
-							<div className="flex flex-1 justify-end">
-								{page < totalPages && (
-									<Link
-										href={{
-											pathname: "/blog",
-											query: { page: String(page + 1) },
-										}}
-										className="inline-block border border-border/40 px-4 py-2 text-sm transition-colors hover:bg-muted/30"
-									>
+							</ol>
+
+							{page < totalPages ? (
+								<Button
+									variant="outline"
+									size="sm"
+									render={
+										<Link
+											href={{
+												pathname: "/blog",
+												query: { page: String(page + 1) },
+											}}
+										/>
+									}
+								>
+									<span className="hidden sm:inline">
 										{t("pagination.next")}
-									</Link>
-								)}
-							</div>
+									</span>
+									<ChevronRight data-icon="inline-end" />
+								</Button>
+							) : (
+								<Button
+									variant="outline"
+									size="sm"
+									disabled
+									aria-hidden="true"
+									tabIndex={-1}
+								>
+									<span className="hidden sm:inline">
+										{t("pagination.next")}
+									</span>
+									<ChevronRight data-icon="inline-end" />
+								</Button>
+							)}
 						</nav>
 					)}
 				</div>
