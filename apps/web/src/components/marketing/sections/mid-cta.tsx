@@ -31,7 +31,7 @@ export default async function MidCta() {
 				>
 					<Button
 						size="lg"
-						className="shrink-0 border-transparent bg-brand px-8 text-white md:h-10 md:text-sm [&]:hover:bg-brand/80"
+						className="[a]:hover:!bg-brand/80 shrink-0 border-transparent bg-brand px-8 text-white"
 						render={<Link href={{ pathname: "/", hash: "contact" }} />}
 					>
 						{t("cta")}
