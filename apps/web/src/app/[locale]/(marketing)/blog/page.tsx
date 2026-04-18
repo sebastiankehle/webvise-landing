@@ -74,12 +74,24 @@ export default async function BlogPage({
 		<>
 			<JsonLd data={jsonLd} />
 			<section className="relative pt-32 pb-24 md:pt-44 md:pb-44">
-				<div className="pointer-events-none absolute inset-y-0 left-0 hidden grid-hatch md:block md:w-[calc((100%-1320px)/2)]" aria-hidden="true" />
-				<div className="pointer-events-none absolute inset-y-0 right-0 hidden grid-hatch md:block md:w-[calc((100%-1320px)/2)]" aria-hidden="true" />
-				<div className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block" aria-hidden="true">
-					<div className="h-full border-x border-grid-line" />
+				<div
+					className="grid-hatch pointer-events-none absolute inset-y-0 left-0 hidden md:block md:w-[calc((100%-1320px)/2)]"
+					aria-hidden="true"
+				/>
+				<div
+					className="grid-hatch pointer-events-none absolute inset-y-0 right-0 hidden md:block md:w-[calc((100%-1320px)/2)]"
+					aria-hidden="true"
+				/>
+				<div
+					className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block"
+					aria-hidden="true"
+				>
+					<div className="h-full border-grid-line border-x" />
 				</div>
-				<div className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block" aria-hidden="true" />
+				<div
+					className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block"
+					aria-hidden="true"
+				/>
 				<GridFrame className="inset-0" />
 				<div className="relative mx-auto max-w-[1320px] px-6">
 					<div className="max-w-[720px]">
@@ -89,12 +101,12 @@ export default async function BlogPage({
 						</Lead>
 					</div>
 
-					<div className="mt-16 -mx-6 grid border-t border-grid-line md:grid-cols-3">
+					<div className="-mx-6 mt-16 grid border-grid-line border-t md:grid-cols-3">
 						{paginatedPosts.map((post) => (
 							<Link
 								key={post.slug}
 								href={`/blog/${post.slug}` as "/blog"}
-								className="group flex flex-col border-b border-grid-line p-6 transition-colors hover:bg-muted/30 md:border-r md:p-8 md:[&:nth-child(3n)]:border-r-0"
+								className="group flex flex-col border-grid-line border-b p-6 transition-colors hover:bg-muted/30 md:border-r md:p-8 md:[&:nth-child(3n)]:border-r-0"
 							>
 								<Caption className="flex items-center gap-3">
 									<time dateTime={post.date}>
@@ -121,45 +133,54 @@ export default async function BlogPage({
 					</div>
 
 					{totalPages > 1 && (
-						<nav className="mt-14 flex flex-wrap items-center justify-center gap-2">
-							{page > 1 && (
-								<Link
-									href={{
-										pathname: "/blog",
-										query: page === 2 ? undefined : { page: String(page - 1) },
-									}}
-									className="border border-border/40 px-4 py-2 text-sm transition-colors hover:bg-muted/30"
-								>
-									{t("pagination.previous")}
-								</Link>
-							)}
-							{Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
-								<Link
-									key={p}
-									href={{
-										pathname: "/blog",
-										query: p === 1 ? undefined : { page: String(p) },
-									}}
-									className={`border px-3 py-2 text-sm transition-colors ${
-										p === page
-											? "border-brand bg-brand text-white"
-											: "border-border/40 hover:bg-muted/30"
-									}`}
-								>
-									{p}
-								</Link>
-							))}
-							{page < totalPages && (
-								<Link
-									href={{
-										pathname: "/blog",
-										query: { page: String(page + 1) },
-									}}
-									className="border border-border/40 px-4 py-2 text-sm transition-colors hover:bg-muted/30"
-								>
-									{t("pagination.next")}
-								</Link>
-							)}
+						<nav className="-mx-6 flex items-center justify-between gap-3 border-grid-line border-t p-6 md:p-8">
+							<div className="flex-1">
+								{page > 1 && (
+									<Link
+										href={{
+											pathname: "/blog",
+											query:
+												page === 2 ? undefined : { page: String(page - 1) },
+										}}
+										className="inline-block border border-border/40 px-4 py-2 text-sm transition-colors hover:bg-muted/30"
+									>
+										{t("pagination.previous")}
+									</Link>
+								)}
+							</div>
+							<div className="flex items-center gap-2">
+								{Array.from({ length: totalPages }, (_, i) => i + 1).map(
+									(p) => (
+										<Link
+											key={p}
+											href={{
+												pathname: "/blog",
+												query: p === 1 ? undefined : { page: String(p) },
+											}}
+											className={`border px-3 py-2 text-sm transition-colors ${
+												p === page
+													? "border-brand bg-brand text-white"
+													: "border-border/40 hover:bg-muted/30"
+											}`}
+										>
+											{p}
+										</Link>
+									),
+								)}
+							</div>
+							<div className="flex flex-1 justify-end">
+								{page < totalPages && (
+									<Link
+										href={{
+											pathname: "/blog",
+											query: { page: String(page + 1) },
+										}}
+										className="inline-block border border-border/40 px-4 py-2 text-sm transition-colors hover:bg-muted/30"
+									>
+										{t("pagination.next")}
+									</Link>
+								)}
+							</div>
 						</nav>
 					)}
 				</div>
