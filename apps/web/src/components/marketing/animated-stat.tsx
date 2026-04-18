@@ -25,7 +25,7 @@ export default function AnimatedStat({
 	const parsed = parseStatValue(value);
 	const motionVal = useMotionValue(0);
 	const rounded = useTransform(motionVal, (v) => Math.round(v));
-	const isInView = useInView(ref, { once: true, margin: "-100px" });
+	const isInView = useInView(ref, { once: true, margin: "-100px 0px" });
 
 	useEffect(() => {
 		if (!isInView || !parsed) return;
