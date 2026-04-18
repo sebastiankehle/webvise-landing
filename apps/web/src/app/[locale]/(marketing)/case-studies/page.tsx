@@ -80,6 +80,7 @@ export default async function CaseStudiesPage() {
 										src={cs.coverImage}
 										alt={`${cs.client} – ${cs.title}`}
 										fill
+										sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
 										className="object-cover transition-all duration-500 group-hover:brightness-110"
 									/>
 								</div>
