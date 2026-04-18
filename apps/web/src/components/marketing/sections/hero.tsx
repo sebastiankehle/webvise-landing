@@ -18,15 +18,15 @@ export default async function Hero() {
 				className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block"
 				aria-hidden="true"
 			>
-				<div className="h-full border-x border-grid-line" />
+				<div className="h-full border-grid-line border-x" />
 			</div>
 			{/* Side gutter hatch */}
 			<div
-				className="pointer-events-none absolute inset-y-0 left-0 hidden grid-hatch md:block md:w-[calc((100%-1320px)/2)]"
+				className="grid-hatch pointer-events-none absolute inset-y-0 left-0 hidden md:block md:w-[calc((100%-1320px)/2)]"
 				aria-hidden="true"
 			/>
 			<div
-				className="pointer-events-none absolute inset-y-0 right-0 hidden grid-hatch md:block md:w-[calc((100%-1320px)/2)]"
+				className="grid-hatch pointer-events-none absolute inset-y-0 right-0 hidden md:block md:w-[calc((100%-1320px)/2)]"
 				aria-hidden="true"
 			/>
 			<GridFrame className="inset-0" />
@@ -58,7 +58,14 @@ export default async function Hero() {
 							</Display>
 							<Lead className="mt-6 max-w-[500px]">{t("subtitle")}</Lead>
 							<div className="mt-10 flex flex-col gap-4 sm:flex-row">
-								<TrackClick event="cta_clicked" properties={{ location: "hero", variant: "primary", destination: "contact" }}>
+								<TrackClick
+									event="cta_clicked"
+									properties={{
+										location: "hero",
+										variant: "primary",
+										destination: "contact",
+									}}
+								>
 									<Button
 										size="lg"
 										className="border-transparent bg-brand px-8 text-white [&]:hover:bg-brand/80"
@@ -67,11 +74,18 @@ export default async function Hero() {
 										{t("cta")}
 									</Button>
 								</TrackClick>
-								<TrackClick event="cta_clicked" properties={{ location: "hero", variant: "secondary", destination: "services" }}>
+								<TrackClick
+									event="cta_clicked"
+									properties={{
+										location: "hero",
+										variant: "secondary",
+										destination: "services",
+									}}
+								>
 									<Button
 										size="lg"
-										variant="outline"
-										className="hidden sm:inline-flex"
+										variant="ghost"
+										className="hidden text-muted-foreground sm:inline-flex"
 										render={<Link href={{ pathname: "/", hash: "services" }} />}
 									>
 										{t("ctaSecondary")}
