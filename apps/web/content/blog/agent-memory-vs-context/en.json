@@ -1,0 +1,74 @@
+{
+  "date": "2026-04-18",
+  "readingTime": 6,
+  "keyword": "agent memory vs context",
+  "title": "Memory Is Not the Agent Primitive You Think It Is",
+  "excerpt": "Most production agents do not need memory. They need context retrieval. Here is the two-camp taxonomy that separates the two markets, with the public signals most buyers are missing.",
+  "metaDescription": "Your agents don't need memory. They need context. Why the agent-memory market is building the wrong layer, and what to buy instead.",
+  "tags": ["AI Agents", "AI", "Business Strategy", "Process"],
+  "blocks": [
+    { "type": "p", "text": "Most production agents do not need memory. They need **context retrieval**, and those two things are not the same." },
+    { "type": "p", "text": "If you have been evaluating Zep, Mem0, or Letta this year, you are shopping in a market that fused two different products under one word." },
+    { "type": "p", "text": "You are right to want your agents to get smarter across sessions. The problem is that half the tools on your shortlist were built to solve a different problem: fact recall in a single conversation, not compounding knowledge across months of work. This article separates the two camps, shows you which one your agent actually needs, and points out the market signals that most buyers are missing." },
+    { "type": "ul", "items": [
+      "**The market is two markets.** Camp 1 optimizes for *recall*. Camp 2 optimizes for *compounding*. Most buyers conflate them.",
+      "**Zep rebranded.** In 2026 the company changed its positioning from 'memory' to 'context engineering'. That is the clearest public signal in the space.",
+      "**Zilliz shipped MemSearch.** A vector database company shipped a system where markdown files are upstream of their own vector database.",
+      "**Most business agents need Camp 2.** If your agent should get better at its job over weeks and months, recall infrastructure is the wrong layer.",
+      "**Stacking both is expensive.** Two systems with overlapping write paths produce contradictory memories that corrupt each other."
+    ] },
+    { "type": "h2", "text": "The Market Is Selling Recall. Your Agents Probably Need Compounding." },
+    { "type": "p", "text": "Walk through GitHub. There are over 450 repositories tagged `agent-memory` and over 460 tagged `context-management`. Almost none of them draw a clean line between the two." },
+    { "type": "p", "text": "That fuzziness is the market's core problem. Memory sounds like one thing, so buyers treat it like one thing, so vendors sell it as one thing. The result: builders pay for vector infrastructure they then have to rebuild in markdown anyway." },
+    { "type": "p", "text": "The split is not academic. Camp 1 asks *what should the AI remember?* and ships a database. Camp 2 asks *what context should the AI work inside?* and ships a substrate. Both are useful. They are not interchangeable." },
+    { "type": "p", "text": "If you are picking agent infrastructure for a business that relies on the agent actually getting smarter over months of work, [webvise can help you scope the right layer](/#contact) before you sign an annual contract." },
+    { "type": "h2", "text": "Camp 1: Memory Backends (Optimized for Recall)" },
+    { "type": "p", "text": "Camp 1 tools do one thing well. They take a conversation, pull out the facts that matter, stash them in a vector database, and retrieve them when the next conversation needs them. The loop is simple." },
+    { "type": "p", "text": "This is what most people mean when they say 'agent memory'. It is the biggest camp by GitHub stars, and it is the camp most buyers default to because the pitch is easy: your chatbot will remember that the user lives in San Francisco." },
+    { "type": "table", "headers": ["Product", "Stars", "What it does well"], "rows": [
+      ["Mem0", "53.1K", "Four operations: add, search, update, delete. Model agnostic."],
+      ["MemPalace", "46.2K", "Local-first verbatim storage. 96.6% retrieval recall on LongMemEval."],
+      ["Supermemory", "21.8K", "Temporal awareness. Supersedes stale facts when users update them."],
+      ["Cognee", "15.4K", "Vector search plus graph database for relational reasoning."],
+      ["Honcho", "2.4K", "Async service that builds a psychological model of each user."]
+    ] },
+    { "type": "p", "text": "Camp 1 is the right answer for chatbots, user-preference persistence, and drop-in fact recall with sub-200ms latency. It is the wrong answer for agents that need to understand the *state* of ongoing work across five projects, three tools, and two months." },
+    { "type": "p", "text": "The limit is architectural, not implementation. A vector database tells you the nearest match to a query. It does not tell you what has changed since last week, or why, or how that affects the decision you are about to make." },
+    { "type": "h2", "text": "Camp 2: Context Substrates (Optimized for Compounding)" },
+    { "type": "p", "text": "Camp 2 inverts the loop. Instead of extracting facts out of conversations and into a database, the agent reads structured, human-readable context files, does its work inside them, and writes back. Next session the context is richer. Nothing gets 'extracted'." },
+    { "type": "p", "text": "This is the pattern Andrej Karpathy described as the **LLM Wiki**: a personal knowledge base the model compiles once and keeps current, instead of re-deriving answers from chunks on every query. The key property is compounding. The context gets better with use." },
+    { "type": "table", "headers": ["Product", "Stars", "What it does well"], "rows": [
+      ["OpenClaw", "358K", "Plain markdown memory (MEMORY.md, daily notes). Background consolidation promotes durable patterns to long-term memory."],
+      ["Zep", "4.4K", "Temporal knowledge graph with `valid_at` and `invalid_at` timestamps. Sub-200ms retrieval, SOC2 and HIPAA compliant."],
+      ["TrustGraph", "2.0K", "Portable 'Context Cores': versioned bundles of domain schemas, knowledge graphs, and retrieval policies. Version context like code."],
+      ["MemSearch", "1.2K", "Markdown-first. Shipped by Zilliz with their own Milvus vector DB positioned as an access layer on top of the files."],
+      ["Thoth", "145", "Deep architecture: 10 entity types, 67 typed relations, nightly consolidation with confidence decay on old relationships."]
+    ] },
+    { "type": "p", "text": "Camp 2 is the right answer when you run an agent continuously, when multiple tools or multiple agents write to the same knowledge base, or when you need the system to get demonstrably better over weeks and months without rebuilding the pipeline every time." },
+    { "type": "p", "text": "The simplest test: does the agent need to know what happened last Tuesday, or does it need to know the *shape* of your business right now? The second one is a Camp 2 problem." },
+    { "type": "h2", "text": "The Rebrand That Tells You Everything" },
+    { "type": "p", "text": "You do not need an analyst to read this market. Two public moves, both from companies that sell memory, explain which camp is winning." },
+    { "type": "p", "text": "Zep used to call itself a memory company. In 2026 it changed that positioning to **context engineering**. A funded company in this space does not rebrand for fun. They did it because the buyers paying the most had stopped asking for memory and started asking for context that compounds." },
+    { "type": "p", "text": "Zilliz, the company behind Milvus, shipped MemSearch. MemSearch is a system where markdown files are the source of truth and Zilliz's own vector database sits downstream as an access layer. That is a vector database company publicly conceding that markdown belongs upstream of vectors." },
+    { "type": "p", "text": "Prediction: within six months, 'context engineering' replaces 'memory' as the default label for any serious agent infrastructure. Start reading product pages with that substitution in mind and the real positioning becomes obvious." },
+    { "type": "h2", "text": "How to Tell Which Camp You Actually Need" },
+    { "type": "p", "text": "Here is the decision framework, reduced to practical rules." },
+    { "type": "table", "headers": ["You need Camp 1 (Memory Backend) if...", "You need Camp 2 (Context Substrate) if..."], "rows": [
+      ["Your agent is a chatbot whose users expect it to remember their preferences.", "Your agent runs continuously or across multiple sessions on the same body of work."],
+      ["You need sub-200ms fact retrieval with a clean SDK.", "Multiple tools or multiple agents write to the same knowledge base."],
+      ["The job is to answer user questions, not to get better at the job over time.", "You want measurable improvement over weeks and months without rebuilding the pipeline."],
+      ["A vendor-locked database is fine as the source of truth.", "Portability matters. The substrate should survive a vendor swap."]
+    ] },
+    { "type": "p", "text": "Most business-facing agents land in Camp 2. If your agent handles sales research, client account work, content operations, or anything where the output should sharpen over time, you are buying Camp 1 as a component at best, not as the system." },
+    { "type": "p", "text": "The expensive mistake is the reverse. A customer-support bot built on a heavyweight Camp 2 substrate will feel slow and over-engineered. Match the camp to the job, not the other way round." },
+    { "type": "h2", "text": "What This Means for Your Buy Decision" },
+    { "type": "p", "text": "Three concrete recommendations before you sign a contract." },
+    { "type": "ul", "items": [
+      "**Prototype on markdown first.** Before you buy any memory product, prototype the use case on a plain markdown substrate plus a retrieval layer. If that prototype solves your problem, you never needed Camp 1 in the first place.",
+      "**Score vendors on compounding, not recall.** Recall benchmarks (LongMemEval and similar) tell you about Camp 1. They do not tell you whether the system is smarter in week 12 than it was in week 1. Design evaluations that measure that directly.",
+      "**Pick one write path.** If you stack Camp 1 and Camp 2, define which layer owns the writes. Two systems with overlapping writes is how you end up with contradictory facts that corrupt each other."
+    ] },
+    { "type": "p", "text": "The [AI knowledge layer is the infrastructure this sits on](/blog/ai-knowledge-layer-guide), and most businesses we work with do not need a new vector database to get one. They need the right substrate, the right schema, and the discipline to let it compound." },
+    { "type": "p", "text": "If you are planning agent infrastructure and want a second opinion before you sign, [webvise helps businesses scope agent knowledge layers that compound](/#contact). Talk to us before you pick a camp." }
+  ]
+}

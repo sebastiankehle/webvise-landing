@@ -1,0 +1,74 @@
+{
+  "date": "2026-04-18",
+  "readingTime": 6,
+  "keyword": "KI-Agenten Memory vs Kontext",
+  "title": "Memory ist nicht das Agent-Grundelement, für das Sie es halten",
+  "excerpt": "Die meisten produktiven Agenten brauchen kein Memory. Sie brauchen Kontext-Retrieval. Hier ist die Zwei-Lager-Taxonomie, die beide Märkte trennt, mit den öffentlichen Signalen, die die meisten Käufer übersehen.",
+  "metaDescription": "Ihre Agenten brauchen kein Memory. Sie brauchen Kontext. Warum der Agent-Memory-Markt die falsche Schicht baut und was Sie stattdessen kaufen sollten.",
+  "tags": ["AI Agents", "AI", "Business Strategy", "Process"],
+  "blocks": [
+    { "type": "p", "text": "Die meisten produktiven Agenten brauchen kein Memory. Sie brauchen **Kontext-Retrieval**, und das sind zwei verschiedene Dinge." },
+    { "type": "p", "text": "Wenn Sie in diesem Jahr Zep, Mem0 oder Letta evaluiert haben, shoppen Sie in einem Markt, der zwei unterschiedliche Produkte unter einem Begriff zusammengefasst hat." },
+    { "type": "p", "text": "Sie haben recht, wenn Sie möchten, dass Ihre Agenten über Sessions hinweg besser werden. Das Problem ist, dass die Hälfte der Tools auf Ihrer Shortlist gebaut wurde, um ein anderes Problem zu lösen: Faktenabruf in einem einzelnen Gespräch, nicht kumulatives Wissen über Monate hinweg. Dieser Artikel trennt die beiden Lager, zeigt Ihnen, welches Ihr Agent tatsächlich braucht, und benennt die Marktsignale, die die meisten Käufer übersehen." },
+    { "type": "ul", "items": [
+      "**Der Markt sind zwei Märkte.** Camp 1 optimiert für *Recall*. Camp 2 optimiert für *Kompoundierung*. Die meisten Käufer vermischen beides.",
+      "**Zep hat sich neu positioniert.** In 2026 wechselte das Unternehmen seine Positionierung von \"memory\" zu \"Context Engineering\". Das ist das klarste öffentliche Signal in diesem Bereich.",
+      "**Zilliz hat MemSearch ausgeliefert.** Ein Vektordatenbank-Unternehmen lieferte ein System aus, in dem Markdown-Dateien der eigenen Vektordatenbank vorgelagert sind.",
+      "**Die meisten Business-Agenten brauchen Camp 2.** Wenn Ihr Agent über Wochen und Monate besser in seiner Arbeit werden soll, ist Recall-Infrastruktur die falsche Schicht.",
+      "**Beide Systeme zu kombinieren ist teuer.** Zwei Systeme mit überlappenden Schreibpfaden erzeugen widersprüchliche Einträge, die sich gegenseitig korrumpieren."
+    ] },
+    { "type": "h2", "text": "Der Markt verkauft Recall. Ihre Agenten brauchen wahrscheinlich Kompoundierung." },
+    { "type": "p", "text": "Gehen Sie durch GitHub. Es gibt über 450 Repositories mit dem Tag `agent-memory` und über 460 mit `context-management`. Fast keines davon zieht eine saubere Trennlinie zwischen beiden." },
+    { "type": "p", "text": "Diese Unschärfe ist das Kernproblem des Markts. Memory klingt nach einer Sache, also behandeln Käufer es als eine Sache, also verkaufen Anbieter es als eine Sache. Das Ergebnis: Entwickler zahlen für Vektor-Infrastruktur, die sie danach trotzdem in Markdown neu aufbauen müssen." },
+    { "type": "p", "text": "Die Trennung ist nicht akademisch. Camp 1 fragt *Was soll die KI erinnern?* und liefert eine Datenbank. Camp 2 fragt *In welchem Kontext soll die KI arbeiten?* und liefert ein Substrat. Beide sind nützlich. Sie sind nicht austauschbar." },
+    { "type": "p", "text": "Wenn Sie Agent-Infrastruktur für ein Unternehmen auswählen, das darauf angewiesen ist, dass der Agent über Monate hinweg tatsächlich besser wird, [hilft webvise Ihnen, die richtige Schicht zu definieren](/#contact), bevor Sie einen Jahresvertrag unterzeichnen." },
+    { "type": "h2", "text": "Camp 1: Memory Backends (optimiert für Recall)" },
+    { "type": "p", "text": "Camp-1-Tools machen eine Sache gut. Sie nehmen ein Gespräch, extrahieren die relevanten Fakten, legen sie in einer Vektordatenbank ab und rufen sie ab, wenn das nächste Gespräch sie benötigt. Der Kreislauf ist einfach." },
+    { "type": "p", "text": "Das meinen die meisten Menschen, wenn sie von \"Agent Memory\" sprechen. Es ist das größte Lager nach GitHub-Stars, und es ist das Lager, zu dem die meisten Käufer standardmäßig greifen, weil das Versprechen eingängig ist: Ihr Chatbot wird sich merken, dass der Nutzer in San Francisco lebt." },
+    { "type": "table", "headers": ["Produkt", "Stars", "Stärken"], "rows": [
+      ["Mem0", "53.1K", "Vier Operationen: add, search, update, delete. Modell-agnostisch."],
+      ["MemPalace", "46.2K", "Local-first verbatim storage. 96.6% Retrieval-Recall auf LongMemEval."],
+      ["Supermemory", "21.8K", "Zeitliches Bewusstsein. Veraltete Fakten werden überschrieben, wenn Nutzer sie aktualisieren."],
+      ["Cognee", "15.4K", "Vektorsuche plus Graph-Datenbank für relationales Reasoning."],
+      ["Honcho", "2.4K", "Asynchroner Service, der ein psychologisches Modell jedes Nutzers aufbaut."]
+    ] },
+    { "type": "p", "text": "Camp 1 ist die richtige Antwort für Chatbots, Nutzereinstellungen-Persistenz und direkten Faktenabruf mit unter 200 ms Latenz. Es ist die falsche Antwort für Agenten, die den *Zustand* laufender Arbeit über fünf Projekte, drei Tools und zwei Monate hinweg verstehen müssen." },
+    { "type": "p", "text": "Die Grenze ist architektonischer Natur, nicht implementierungsbedingt. Eine Vektordatenbank liefert Ihnen die nächste Übereinstimmung zu einer Anfrage. Sie sagt Ihnen nicht, was sich seit letzter Woche geändert hat, warum das so ist, oder wie das die Entscheidung beeinflusst, die Sie gleich treffen werden." },
+    { "type": "h2", "text": "Camp 2: Context Substrates (optimiert für Kompoundierung)" },
+    { "type": "p", "text": "Camp 2 dreht den Kreislauf um. Statt Fakten aus Gesprächen zu extrahieren und in eine Datenbank zu schreiben, liest der Agent strukturierte, menschenlesbare Kontext-Dateien, arbeitet in ihnen und schreibt zurück. In der nächsten Session ist der Kontext reicher. Es wird nichts \"extrahiert\"." },
+    { "type": "p", "text": "Das ist das Muster, das Andrej Karpathy als **LLM Wiki** beschrieben hat: eine persönliche Wissensbasis, die das Modell einmal zusammenstellt und aktuell hält, anstatt bei jeder Anfrage Antworten aus Chunks neu abzuleiten. Die entscheidende Eigenschaft ist die Kompoundierung. Der Kontext wird durch Nutzung besser." },
+    { "type": "table", "headers": ["Produkt", "Stars", "Stärken"], "rows": [
+      ["OpenClaw", "358K", "Plain-Markdown-Memory (MEMORY.md, tägliche Notizen). Hintergrundkonsolidierung überführt dauerhafte Muster in das Langzeitgedächtnis."],
+      ["Zep", "4.4K", "Temporaler Wissensgraph mit `valid_at`- und `invalid_at`-Zeitstempeln. Retrieval unter 200 ms, SOC2- und HIPAA-konform."],
+      ["TrustGraph", "2.0K", "Portable \"Context Cores\": versionierte Bündel aus Domänen-Schemata, Wissensgraphen und Retrieval-Richtlinien. Kontext versionieren wie Code."],
+      ["MemSearch", "1.2K", "Markdown-first. Von Zilliz ausgeliefert, mit der eigenen Milvus-Vektordatenbank als Zugriffsschicht über den Dateien."],
+      ["Thoth", "145", "Tiefe Architektur: 10 Entity-Typen, 67 typisierte Relationen, nächtliche Konsolidierung mit Konfidenz-Decay für alte Beziehungen."]
+    ] },
+    { "type": "p", "text": "Camp 2 ist die richtige Antwort, wenn Sie einen Agenten kontinuierlich betreiben, wenn mehrere Tools oder mehrere Agenten in dieselbe Wissensbasis schreiben, oder wenn das System über Wochen und Monate nachweislich besser werden soll, ohne die Pipeline jedes Mal neu zu bauen." },
+    { "type": "p", "text": "Der einfachste Test: Muss der Agent wissen, was letzten Dienstag passiert ist, oder muss er den *Zustand* Ihres Unternehmens kennen, so wie er gerade ist? Das zweite ist ein Camp-2-Problem." },
+    { "type": "h2", "text": "Das Rebranding, das alles erklärt" },
+    { "type": "p", "text": "Sie brauchen keinen Analysten, um diesen Markt zu lesen. Zwei öffentliche Schritte, beide von Unternehmen, die Memory verkaufen, erklären, welches Lager gewinnt." },
+    { "type": "p", "text": "Zep nannte sich einmal ein Memory-Unternehmen. In 2026 wechselte es diese Positionierung zu **Context Engineering**. Ein finanziertes Unternehmen in diesem Bereich rebrandet nicht zum Spaß. Es tat das, weil die Käufer, die am meisten zahlten, aufgehört hatten, nach Memory zu fragen, und stattdessen nach Kontext fragten, der sich kompoundiert." },
+    { "type": "p", "text": "Zilliz, das Unternehmen hinter Milvus, hat MemSearch ausgeliefert. MemSearch ist ein System, in dem Markdown-Dateien die einzige Quelle der Wahrheit sind und Zilliz' eigene Vektordatenbank nachgelagert als Zugriffsschicht fungiert. Das ist ein Vektordatenbank-Unternehmen, das öffentlich einräumt, dass Markdown den Vektoren vorgelagert gehört." },
+    { "type": "p", "text": "Prognose: Innerhalb von sechs Monaten ersetzt \"Context Engineering\" \"Memory\" als Standardbezeichnung für ernsthafte Agent-Infrastruktur. Fangen Sie an, Produktseiten mit dieser Substitution zu lesen, und die echte Positionierung wird sofort offensichtlich." },
+    { "type": "h2", "text": "Wie Sie herausfinden, welches Lager Sie wirklich brauchen" },
+    { "type": "p", "text": "Hier ist das Entscheidungsframework, auf praktische Regeln reduziert." },
+    { "type": "table", "headers": ["Sie brauchen Camp 1 (Memory Backend) wenn...", "Sie brauchen Camp 2 (Context Substrate) wenn..."], "rows": [
+      ["Ihr Agent ein Chatbot ist, dessen Nutzer erwarten, dass er sich ihre Einstellungen merkt.", "Ihr Agent kontinuierlich oder über mehrere Sessions an demselben Arbeitsbereich läuft."],
+      ["Sie Faktenabruf unter 200 ms mit einem sauberen SDK benötigen.", "Mehrere Tools oder mehrere Agenten in dieselbe Wissensbasis schreiben."],
+      ["Der Job darin besteht, Nutzerfragen zu beantworten, nicht über die Zeit besser darin zu werden.", "Sie messbare Verbesserung über Wochen und Monate wollen, ohne die Pipeline neu zu bauen."],
+      ["Eine Anbieter-gebundene Datenbank als einzige Quelle der Wahrheit in Ordnung ist.", "Portabilität wichtig ist. Das Substrat soll einen Anbieterwechsel überstehen."]
+    ] },
+    { "type": "p", "text": "Die meisten Business-Agenten landen in Camp 2. Wenn Ihr Agent Vertriebsrecherche, Kunden-Account-Arbeit, Content-Operationen oder irgendetwas übernimmt, bei dem der Output mit der Zeit schärfer werden soll, kaufen Sie Camp 1 bestenfalls als Komponente, nicht als das System." },
+    { "type": "p", "text": "Der teure Fehler ist der umgekehrte. Ein Kundensupport-Bot, der auf einem gewichtigen Camp-2-Substrat aufgebaut ist, wird sich langsam und übertechnisiert anfühlen. Passen Sie das Lager an die Aufgabe an, nicht umgekehrt." },
+    { "type": "h2", "text": "Was das für Ihre Kaufentscheidung bedeutet" },
+    { "type": "p", "text": "Drei konkrete Empfehlungen, bevor Sie einen Vertrag unterzeichnen." },
+    { "type": "ul", "items": [
+      "**Prototyp zuerst auf Markdown.** Bevor Sie ein Memory-Produkt kaufen, erstellen Sie einen Prototyp des Anwendungsfalls auf einem einfachen Markdown-Substrat plus einer Retrieval-Schicht. Wenn dieser Prototyp Ihr Problem löst, haben Sie Camp 1 von Anfang an nicht gebraucht.",
+      "**Bewerten Sie Anbieter nach Kompoundierung, nicht nach Recall.** Recall-Benchmarks (LongMemEval und ähnliche) informieren über Camp 1. Sie sagen Ihnen nicht, ob das System in Woche 12 intelligenter ist als in Woche 1. Entwerfen Sie Evaluierungen, die das direkt messen.",
+      "**Wählen Sie einen Schreibpfad.** Wenn Sie Camp 1 und Camp 2 kombinieren, legen Sie fest, welche Schicht die Schreibvorgänge besitzt. Zwei Systeme mit überlappenden Schreibvorgängen sind der Weg zu widersprüchlichen Fakten, die sich gegenseitig korrumpieren."
+    ] },
+    { "type": "p", "text": "Die [KI-Wissensschicht ist die Infrastruktur, auf der das aufbaut](/de/blog/ai-knowledge-layer-guide), und die meisten Unternehmen, mit denen wir arbeiten, brauchen keine neue Vektordatenbank, um sie aufzubauen. Sie brauchen das richtige Substrat, das richtige Schema und die Disziplin, es sich kompoundieren zu lassen." },
+    { "type": "p", "text": "Wenn Sie Agent-Infrastruktur planen und vor der Unterzeichnung eine zweite Meinung möchten, [hilft webvise Unternehmen dabei, Agent-Wissensschichten zu definieren, die sich kompoundieren](/#contact). Sprechen Sie mit uns, bevor Sie ein Lager wählen." }
+  ]
+}
