@@ -274,6 +274,26 @@ Every article opens with this sequence:
    - **Passive voice:** flag and rewrite where active voice is stronger
    - **Generic qualifiers:** cut "very," "really," "extremely," "highly," "incredibly" unless they add meaning
    - **Read-aloud test:** read each section aloud. If it sounds robotic or formal when spoken, rewrite it
+
+   **Mechanical scrub script (run and report numeric results before proceeding):**
+
+   ```bash
+   node -e "
+   const fs=require('fs');
+   const p=JSON.parse(fs.readFileSync('apps/web/content/blog/<slug>/en.json','utf8'));
+   let t=p.title+'\n'+p.excerpt+'\n'+(p.metaDescription||'')+'\n';
+   p.blocks.forEach(b=>{if(b.text)t+=b.text+'\n';if(b.items)b.items.forEach(i=>t+=i+'\n');if(b.rows)b.rows.forEach(r=>r.forEach(c=>t+=c+'\n'))});
+   console.log('dashes em/en/spaced:', (t.match(/—/g)||[]).length, (t.match(/–/g)||[]).length, (t.match(/ - /g)||[]).length);
+   const bl=['additionally','furthermore','moreover','enhance','intricacies','tapestry','robust','vibrant','dynamic','seamless','align','leverage','game-changer','unlock','delve','revolutionize','cutting-edge','harness','empower','navigate','landscape','paradigm','synergy','streamline','supercharge','elevate','transform','innovative','utilize','powerful'];
+   const hits=[]; bl.forEach(w=>{const m=t.match(new RegExp('\\\\b'+w+'\\\\w*\\\\b','gi'));if(m)hits.push(w+':'+m.length)});
+   console.log('blacklist:', hits.length?hits:'clean');
+   const longParas=[]; p.blocks.filter(b=>b.type==='p').forEach((b,i)=>{const s=b.text.split(/(?<=[.!?])\\s+/).filter(x=>x.trim());if(s.length>4)longParas.push(i+':'+s.length)});
+   console.log('paragraphs>4 sentences:', longParas.length?longParas:'clean');
+   console.log('words:', t.split(/\\s+/).filter(w=>w).length);
+   "
+   ```
+
+   All three counts must be zero/clean before proceeding. If a blacklisted word is a direct citation of a framework name (e.g. Kenyon's "Transformation" section), rename in the draft rather than overriding the gate.
 7. **Quality score.** Rate the English draft on a 0-100 composite before proceeding:
 
    | Dimension | Weight | What it measures |
@@ -290,11 +310,35 @@ Every article opens with this sequence:
 
    Show the score breakdown to Sebastian before proceeding.
 
-8. **Self-check (slop smell).** Run the checklist below. If any answer is "no," fix the draft before continuing.
+8. **Self-check (slop smell).** Walk the checklist below **item by item**, explicitly ticking each box. Do not collapse the walk into a single "all good" assertion — the quality score does not substitute for this gate. If any answer is "no," fix the draft and re-walk before continuing.
 9. **Add tags.** Pick 2-4, most relevant first.
-10. **Create translations.** Generate the 6 locale files in parallel using executor agents. Enforce the no-generic-fication rule. Translate the selected title and meta description, not all options.
-11. **Validate JSON.** Run the validation command below.
-12. **Type check.** Run `npx tsc --noEmit --project apps/web/tsconfig.json`.
+10. **Create translations.** Generate the 6 locale files in parallel using executor agents. Enforce the no-generic-fication rule in each agent prompt. Translate the selected title and meta description, not all options.
+11. **No-genericification audit (translations).** Build a list of first-party anchors from the English draft (named entities, numeric claims, dates, framework names, client references). Run the audit script below across all 6 translations. Every anchor must survive, either verbatim or as a defensible localization (e.g. `$1T` → `1 000 milliards $`, `$50K` → `50 000 €` or `50 tys. zł`). Flag and fix any translation where an anchor was softened to a generic ("large numbers", "a leading CRO expert", "thousands of brands"). Do **not** declare done until this audit reports clean.
+
+    ```bash
+    node -e "
+    const fs=require('fs');
+    const base='apps/web/content/blog/<slug>/';
+    // Edit the anchor list to reflect THIS article's first-party specifics
+    const anchors=[
+      {name:'Princeton',     pattern:/Princeton/},
+      {name:'Stripe',        pattern:/Stripe/},
+      {name:'Kenyon',        pattern:/Kenyon/},
+      {name:'webvise',       pattern:/webvise/},
+      // add: named numbers, dates, clients, frameworks for this article
+    ];
+    for(const l of ['de','fr','es','nl','pl','it']){
+      const p=JSON.parse(fs.readFileSync(base+l+'.json','utf8'));
+      let t=''; p.blocks.forEach(b=>{if(b.text)t+=b.text+' ';if(b.items)b.items.forEach(i=>t+=i+' ');if(b.rows)b.rows.forEach(r=>r.forEach(c=>t+=c+' '))});
+      const missing=anchors.filter(a=>!a.pattern.test(t)).map(a=>a.name);
+      console.log(l+':',missing.length?'MISSING: '+missing.join(', '):'all anchors present');
+    }
+    "
+    ```
+
+    Also verify per-locale: (a) zero em/en/spaced dashes, (b) every internal link prefixed with the locale (`/{locale}/blog/...`, `/{locale}/#contact`), (c) block count matches English.
+12. **Validate JSON.** Run the validation command below.
+13. **Type check.** Run `npx tsc --noEmit --project apps/web/tsconfig.json`.
 
 ## Slop Smell Self-Check (mandatory before declaring done)
 
@@ -320,6 +364,13 @@ Answer "yes" to **all** or fix the draft:
 - [ ] No paragraph longer than 4 sentences?
 - [ ] No filler transitions? ("Furthermore," "Additionally," "Moreover")
 - [ ] Quality score >= 70?
+
+**Translations (mandatory before declaring done):**
+- [ ] Every first-party anchor from the English draft survives in each of de, fr, es, nl, pl, it (verbatim or as a defensible localization — never softened to a generic)?
+- [ ] No em dashes, en dashes, or spaced hyphens in any locale?
+- [ ] Every internal link in each translation is prefixed with its locale (`/de/blog/...`, `/fr/#contact`, etc.)?
+- [ ] Block count matches the English source for every locale?
+- [ ] No-genericification audit script (step 11) reported "all anchors present" for every locale?
 
 ## Validation Command
 
