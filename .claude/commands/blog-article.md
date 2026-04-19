@@ -249,7 +249,7 @@ Every article opens with this sequence:
 - `keyword`, `title`, `excerpt`, `metaDescription`, `cta` are translated per locale
 - All block text is translated to natural, fluent prose in each language
 - **Bold** and [link](url) markdown syntax must be preserved
-- Internal links must be prefixed with the locale: `/blog/foo` → `/de/blog/foo`, `/fr/blog/foo`, etc.
+- **Internal links MUST be locale-agnostic.** Always write `/blog/foo`, `/services/ai-automation`, `/#contact` — never prefix with a locale. The blog renderer uses next-intl `<Link>`, which auto-prepends the current locale at render time. Writing `/de/blog/foo` produces `/de/de/blog/foo` (double-locale) → 404. This rule applies identically to every locale file (en, de, fr, es, nl, pl, it): the path is the same across all translations.
 - External URLs (starting with `http`) stay unchanged
 - Technical terms, product names, acronyms stay in English
 - Formal register: Sie (German), vouvoiement (French), usted (Spanish), u-vorm (Dutch), formal Polish, Lei (Italian)
@@ -336,7 +336,7 @@ Every article opens with this sequence:
     "
     ```
 
-    Also verify per-locale: (a) zero em/en/spaced dashes, (b) every internal link prefixed with the locale (`/{locale}/blog/...`, `/{locale}/#contact`), (c) block count matches English.
+    Also verify per-locale: (a) zero em/en/spaced dashes, (b) every internal link is locale-agnostic — zero occurrences of `/en/`, `/de/`, `/fr/`, `/es/`, `/nl/`, `/pl/`, `/it/` anywhere inside a markdown `](...)` target; paths must start with a bare segment like `/blog/`, `/services/`, `/#contact` (c) block count matches English.
 12. **Validate JSON.** Run the validation command below.
 13. **Type check.** Run `npx tsc --noEmit --project apps/web/tsconfig.json`.
 
@@ -368,7 +368,7 @@ Answer "yes" to **all** or fix the draft:
 **Translations (mandatory before declaring done):**
 - [ ] Every first-party anchor from the English draft survives in each of de, fr, es, nl, pl, it (verbatim or as a defensible localization — never softened to a generic)?
 - [ ] No em dashes, en dashes, or spaced hyphens in any locale?
-- [ ] Every internal link in each translation is prefixed with its locale (`/de/blog/...`, `/fr/#contact`, etc.)?
+- [ ] Every internal link in each translation is locale-agnostic (e.g. `/blog/slug`, `/#contact`, `/services/ai-automation`)? `grep -E '\]\(/(en\|de\|fr\|es\|nl\|pl\|it)/' apps/web/content/blog/<slug>/` MUST return zero matches. next-intl `<Link>` auto-prepends the current locale; any locale-prefixed link produces a double-locale 404.
 - [ ] Block count matches the English source for every locale?
 - [ ] No-genericification audit script (step 11) reported "all anchors present" for every locale?
 
