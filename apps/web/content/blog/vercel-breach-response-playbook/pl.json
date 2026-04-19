@@ -1,0 +1,171 @@
+{
+  "date": "2026-04-20",
+  "readingTime": 8,
+  "keyword": "reakcja na incydent vercel bezpieczeństwo",
+  "title": "Rotuj, wdróż ponownie, cofnij: nasza reakcja na incydent bezpieczeństwa Vercel",
+  "excerpt": "Vercel ujawnił naruszenie łańcucha dostaw 19 kwietnia 2026. Przeprowadziliśmy 5-etapową reakcję w każdym zarządzanym projekcie. Trzy kroki, które większość zespołów pominęła, i dlaczego mają największe znaczenie.",
+  "metaDescription": "Vercel ujawnił naruszenie łańcucha dostaw 19 kwietnia 2026. 5-etapowa reakcja przeprowadzona w każdym zarządzanym projekcie oraz trzy kroki, które większość zespołów pominęła.",
+  "cta": "Zamów audyt bezpieczeństwa",
+  "tags": ["Security", "Process", "Web Development", "Enterprise"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "19 kwietnia 2026 Vercel [ujawnił incydent bezpieczeństwa](https://x.com/vercel/status/2045865072074035664) powiązany z przejęciem zewnętrznej aplikacji OAuth działającej wewnątrz ich Google Workspace. Przeprowadziliśmy 5-etapową reakcję w każdym projekcie zarządzanym przez webvise, zanim minął weekend. Nasze logi audytowe nie wykazały żadnych nieprawidłowości, bez śladów naruszenia w jakimkolwiek miejscu stosu. **Procedura zadziałała, ponieważ wykonaliśmy trzy kroki, które większość zespołów nadal pomija: ponowne wdrożenie po rotacji, audyt Google Workspace pod kątem wskaźnika naruszenia OAuth opublikowanego przez Vercel oraz zmianę domyślnego ustawienia zespołu tak, by nowe zmienne środowiskowe były oznaczane jako poufne.**"
+    },
+    {
+      "type": "p",
+      "text": "Jeśli rotacja sekretów Vercel zakończyła się zamknięciem zakładki, każda uruchomiona funkcja w stosie nadal przetwarza stare wartości."
+    },
+    {
+      "type": "p",
+      "text": "Najtrudniejsze już za Państwem. Zapoznali się Państwo z komunikatem, otworzyli panel Vercel i zmienili każdy klucz, jaki udało się znaleźć. Niniejszy artykuł przedstawia kompletną 5-etapową procedurę, którą przeprowadziliśmy, wyjaśnia, dlaczego trzy z tych kroków mają większe znaczenie niż sama rotacja, oraz pokazuje, co kształt tego naruszenia powinien zmienić w planie reagowania na przyszłe incydenty."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Rotacja zmiennych środowiskowych Vercel zmienia wartości w panelu, nie w działających funkcjach.** Każdy projekt wymaga nowego wdrożenia, aby nowe wartości faktycznie weszły w życie.",
+        "**Audyt OAuth w Google Workspace to ta połowa działań, o której nikt nie mówi.** Właśnie tą ścieżką zaufania atakujący faktycznie dotarł do Vercel.",
+        "**Ustaw domyślne oznaczanie jako poufne na poziomie zespołu** zanim kolejny incydent zmusi do tego działania. Interfejs Vercel skłania ku odwrotnemu rozwiązaniu.",
+        "**Traktuj to jako naruszenie łańcucha dostaw SaaS do SaaS**, nie jako podatność Vercel. Model reagowania różni się od reakcji na naruszenie w stylu CVE.",
+        "**Miesięczne audyty uprawnień OAuth firm zewnętrznych** w dostawcy tożsamości to teraz absolutne minimum dla każdego zespołu korzystającego ze stosu opartego na SaaS."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Co dokładnie ujawnił Vercel"
+    },
+    {
+      "type": "p",
+      "text": "W skrócie: zewnętrzna aplikacja SaaS z dostępem OAuth wewnątrz Google Workspace Vercel została przejęta, a atakujący wykorzystał tę granicę zaufania, by uzyskać dostęp do wartości zmiennych środowiskowych w wybranym zbiorze projektów klientów. Vercel [opublikował identyfikator klienta OAuth jako wskaźnik naruszenia](https://x.com/vercel/status/2045865072074035664) i poprosił każdego klienta o rotację sekretów przechowywanych jako zmienne środowiskowe. Sprawa nie dotyczyła podatności we własnym kodzie Vercel. Powierzchnią ataku był graf zaufania tożsamości między dwoma narzędziami SaaS."
+    },
+    {
+      "type": "p",
+      "text": "Ten ostatni punkt ma kluczowe znaczenie dla sposobu reagowania. Jeśli podatność tkwi we własnym kodzie platformy, należy ją załatać, zmienić klucze, które wyciekły, i działać dalej. Jeśli podatność leży w ścieżce zaufania między platformami, rotacja jest konieczna, ale nie zamyka luki. Trzeba też cofnąć uprawnienie, którym posłużył się atakujący, i przeprowadzić audyt pozostałych zanim kolejne naruszenie powtórzy ten sam zasięg szkód."
+    },
+    {
+      "type": "p",
+      "text": "Jeśli potrzebują Państwo niezależnego spojrzenia na konfigurację Vercel, zanim czyjś post-mortem napisze się o Państwa projekcie, [przeprowadzamy przeglądy bezpieczeństwa dla zespołów Vercel, Google Workspace i uprawnień SaaS do SaaS](/#contact)."
+    },
+    {
+      "type": "h2",
+      "text": "Krok pierwszy: rotacja sekretów, które naprawdę mają znaczenie"
+    },
+    {
+      "type": "p",
+      "text": "Każdą zmienną środowiskową, która mogła dawać dostęp do czegokolwiek, traktowaliśmy domyślnie jako narażoną. Takie założenie wymusza komunikat o naruszeniu. Poniżej klasy sekretów, które ponownie wygenerowaliśmy we wszystkich zarządzanych projektach."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Dane uwierzytelniające bazy danych.** Ciągi połączeń, hasła replik tylko do odczytu i klucze ról administracyjnych w każdym projekcie z backendem bazodanowym.",
+        "**Klucze API Resend** do transakcyjnej poczty elektronicznej w każdym projekcie wysyłającym wiadomości weryfikacyjne, powiadomienia lub potwierdzenia rejestracji.",
+        "**Dane uwierzytelniające Google APIs** dla integracji z Workspace, Calendar, Drive i Analytics działających po stronie serwera.",
+        "**Klucze AI Gateway**, w tym tokeny dostępu do modeli, dane uwierzytelniające dostawców oraz tokeny limitów dla wszystkich żądań kierowanych przez bramę.",
+        "**Dane uwierzytelniające integracji ingestowych** dla punktów końcowych webhooków, potoków zdarzeń oraz wszystkich źródeł danych zewnętrznych zasilających projekt."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Kilka pozycji wymagało podwójnego sprawdzenia: zmienne nieoznaczone jako poufne. Flaga poufności w Vercel zmienia wyłącznie widoczność w panelu, nie wpływa na to, czy wartość była dostępna podczas okna incydentu. Zmieniliśmy również zwykłe zmienne, obok tych oznaczonych jako poufne, bo atakujący odczytujący zmienne środowiskowe nie zwraca uwagi na wybraną flagę. Dwa najczęściej pomijane przypadki podczas samodzielnej rotacji to zmienne kończące się na `_URL`, osadzające dane uwierzytelniające w ciągach połączeń, oraz te oznaczone `_TEST` lub `_DEV`, które w rzeczywistości wskazują na środowisko produkcyjne."
+    },
+    {
+      "type": "h2",
+      "text": "Krok drugi: ponowne wdrożenie (krok, który większość zespołów pominęła)"
+    },
+    {
+      "type": "p",
+      "text": "W tym miejscu większość reakcji zawiodła. Vercel stosuje zmiany zmiennych środowiskowych podczas budowania i wdrażania, nie w czasie działania aplikacji. Projekt zaktualizowany i pozostawiony bez nowego wdrożenia nadal uruchamia build z wczoraj, w którym stary sekret jest wbudowany w środowisko wykonawcze. Dokonano rotacji w panelu, nie w systemie."
+    },
+    {
+      "type": "p",
+      "text": "Konkretny przykład: rotacja klucza API Resend następuje o 10:14, po czym otwierana jest nowa zakładka. O 10:17 funkcja próbuje wysłać wiadomość weryfikacyjną, wywołuje Resend ze starym kluczem wbudowanym w wdrożone środowisko, a Resend odrzuca żądanie. Użytkownik nie otrzymuje wiadomości. Pomnożyć to przez każdą funkcję, każde zadanie cron i każdy handler webhooka działający na starym buildzie."
+    },
+    {
+      "type": "table",
+      "headers": ["Co wykonano", "Co się zmieniło", "Co nadal korzysta ze starego sekretu"],
+      "rows": [
+        ["Rotacja zmiennej środowiskowej wyłącznie w panelu", "Wartość w panelu", "Każda działająca funkcja, zadanie cron i instancja middleware"],
+        ["Rotacja i ponowne wdrożenie produkcji", "Build i środowisko wykonawcze produkcji", "Buildy podglądu, gałęzie PR i staging"],
+        ["Rotacja i ponowne wdrożenie każdego środowiska", "Wszystkie buildy i środowiska wykonawcze", "Nic, gdy wdrożenia są aktywne"]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Aby zweryfikować własną reakcję, należy otworzyć zakładkę Deployments w każdym projekcie i znaleźć wdrożenie z datą późniejszą niż rotacja. Jeśli górny wiersz pokazuje znacznik czasu wcześniejszy niż moment rotacji, zmieniono panel, nie system. Drugim jawnym krokiem naszej reakcji było wymuszone ponowne wdrożenie produkcji w każdym zarządzanym projekcie po rotacji, przed przejściem do czegokolwiek innego."
+    },
+    {
+      "type": "h2",
+      "text": "Krok trzeci: cofnięcie uprawnień OAuth w Google Workspace"
+    },
+    {
+      "type": "p",
+      "text": "To ta połowa reakcji, która prawie nie pojawiła się w weekendowych wątkach. Incydent wywodzi się z Google Workspace. Atakujący uzyskał dostęp przez zewnętrzną aplikację OAuth z przyznanym zakresem wewnątrz Workspace, a następnie przeniósł się do Vercel przez ścieżkę zaufania SaaS do SaaS. Jeśli rotacja dotyczyła wyłącznie strony Vercel, ta sama aplikacja OAuth nadal tam siedzi z tym samym zakresem, gotowa do nadużycia przy kolejnym naruszeniu."
+    },
+    {
+      "type": "p",
+      "text": "Ścieżka w konsoli administracyjnej: admin.google.com, zabezpieczenia, kontrola API, kontrola dostępu aplikacji, aplikacje firm zewnętrznych. Należy wyszukać identyfikator klienta OAuth opublikowany przez Vercel jako wskaźnik naruszenia. Jeśli jest obecny, cofnąć uprawnienie. Następnie wykonać trudniejsze zadanie: przejrzeć każde inne uprawnienie OAuth na liście, potwierdzić celowość każdego zakresu i cofnąć wszystko, dla czego nie ma aktualnego uzasadnienia."
+    },
+    {
+      "type": "p",
+      "text": "Przeprowadziliśmy ten audyt w każdym administrowanym przez nas Workspace. Wskaźnik nie był obecny, a większość uprawnień miała uzasadniony cel biznesowy. Kilka nie miało, i te cofnęliśmy. To jest rytm, który teraz egzekwujemy: audyt uprawnień OAuth na początku każdego miesiąca, cofanie wszystkiego nieużywanego przez 30 dni."
+    },
+    {
+      "type": "h2",
+      "text": "Krok czwarty: zmiana domyślnego ustawienia zespołu na poufne"
+    },
+    {
+      "type": "p",
+      "text": "Nowe zmienne środowiskowe w Vercel domyślnie nie są oznaczone jako poufne. Flaga poufności ukrywa wartość w interfejsie i ogranicza jej dostępność w niektórych ścieżkach logowania. W panelu z trzydziestoma zmiennymi bez żadnego wizualnego rozróżnienia cicha wartość domyślna prowadzi do pozostawiania wszystkiego jako zwykłe. To właśnie ten incydent ujawnił na dużą skalę, i to jest ustawienie domyślne, które zmieniliśmy."
+    },
+    {
+      "type": "p",
+      "text": "Na poziomie zespołu można ustawić domyślne oznaczanie jako poufne dla nowych zmiennych środowiskowych w każdym projekcie. Włączyliśmy to we wszystkich administrowanych przez nas zespołach w ramach naszej reakcji. Zmienne istniejące to te, które mogły zostać odczytane podczas okna incydentu, i te podlegały rotacji. Zmiana ustawienia dotyczy następnego incydentu, który nastąpi, oraz nowych zmiennych, które w przeciwnym razie cicho pojawiłyby się jako zwykłe."
+    },
+    {
+      "type": "h2",
+      "text": "Krok piąty: działania długoterminowe (zacznij w tym tygodniu)"
+    },
+    {
+      "type": "p",
+      "text": "Rotacja i cofanie uprawnień usuwają bezpośrednie zagrożenie. Dalsze działania sprawiają, że następnym razem nie będzie weekendowego zamieszania. Wdrażamy pięć zmian w zarządzanych projektach w nadchodzących tygodniach i rekomendujemy je każdemu zespołowi korzystającemu ze stosu opartego na SaaS."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Pobieranie sekretów w czasie działania z menedżera sekretów** zamiast wbudowywania ich w zmienne środowiskowe. Rotacja staje się operacją push, nie ponownym wdrożeniem.",
+        "**Krótkotrwałe dane uwierzytelniające dla baz danych i API** wszędzie tam, gdzie dostawca to obsługuje. Ważność liczona w minutach, nie miesiącach.",
+        "**Zaplanowana rotacja** dla danych uwierzytelniających, których nie można uczynić krótkotrwałymi. Sterowana kalendarzem, nie incydentem.",
+        "**Odporne na phishing MFA na każdym koncie administracyjnym**, które może instalować aplikacje OAuth w dostawcy tożsamości. Passkeys lub tokeny sprzętowe, żadnych rozwiązań SMS.",
+        "**Miesięczne audyty uprawnień OAuth** w Workspace, Microsoft 365 lub innym używanym dostawcy tożsamości. Ścieżka atakującego prowadziła tym razem przez uprawnienie OAuth, następnym razem będzie podobnie."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Jeśli w zespole nie ma wyraźnego właściciela któregokolwiek z tych zadań, nie zostaną wykonane. To jest cicha przyczyna, dla której większość incydentów kończy się tymi samymi pięcioma punktami w post-mortem. [Porozmawiajmy](/#contact) o tym, jak webvise wbudowuje te elementy w abonament utrzymaniowy każdego zarządzanego projektu."
+    },
+    {
+      "type": "h2",
+      "text": "Dlaczego to naruszenie jest inne (i co nie pojawiło się w naszych logach)"
+    },
+    {
+      "type": "p",
+      "text": "Nasze logi audytowe w zarządzanych projektach Vercel i administrowanych Google Workspace nie wykazały żadnych nieprawidłowości. Żadnych zdarzeń dostępu, których nie autoryzowaliśmy, żadnych zmian konfiguracji, których nie wprowadziliśmy, żadnych uprawnień OAuth, które nie powinny tam być. To nie przypadek. To efekt stosowania zawężonych danych uwierzytelniających, ścisłego zarządzania członkostwem w zespołach i miesięcznego cyklu przeglądów poufnych ustawień."
+    },
+    {
+      "type": "p",
+      "text": "Czysty log dzisiaj oznacza, że zasięg tego konkretnego incydentu nie dotarł do zarządzanych przez nas projektów. Nie oznacza, że bylibyśmy bezpieczni przy innym incydencie w tym samym modelu reagowania. Model naruszenia, na który zbudowana jest większość programów bezpieczeństwa, zakłada: atakujący znajduje CVE w uruchamianym serwerze, wykorzystuje podatność i eksfiltruje dane. Rotacja, łatanie i monitorowanie obwodu pokrywają ten model."
+    },
+    {
+      "type": "p",
+      "text": "Naruszenie, które pojawiło się 19 kwietnia 2026, ma inny kształt. Atakujący przejmuje jedno narzędzie SaaS autoryzowane przez zespół, a następnie wykorzystuje relację zaufania między tym narzędziem a innymi narzędziami SaaS, by dotrzeć do danych, których żadne z nich nie przekazałoby obcemu. Konto Vercel nie zostało przejęte, Google Workspace również. Przejęte zostało narzędzie firmy zewnętrznej, które ktoś z zespołu podłączył miesiące temu, a zakresy przyznane temu narzędziu propagowały naruszenie dalej."
+    },
+    {
+      "type": "p",
+      "text": "Model obronny musi odpowiadać modelowi ataku. Oznacza to traktowanie uprawnień OAuth jako zależności produkcyjnych, audytowanie ich według harmonogramu i przenoszenie sekretów poza zmienne środowiskowe, gdzie atakujący dysponujący takim uprawnieniem może je odczytać. Zespoły, które nadal stosują stary schemat wobec nowego kształtu ataku, będą pisać ten sam post-mortem."
+    },
+    {
+      "type": "p",
+      "text": "Przeprowadzamy przeglądy bezpieczeństwa dla zespołów Vercel, Google Workspace i grafów tożsamości SaaS do SaaS w ramach każdego zarządzanego projektu w webvise. Jeśli przed kolejnym ujawnieniem chcą Państwo uzyskać niezależną ocenę konfiguracji, [zapraszamy do rozmowy](/#contact)."
+    }
+  ]
+}
