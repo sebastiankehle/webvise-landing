@@ -1,50 +1,50 @@
 {
   "date": "2026-04-20",
-  "readingTime": 8,
-  "keyword": "risposta incidente vercel",
+  "readingTime": 7,
+  "keyword": "risposta all'incidente Vercel",
   "title": "Ruotare, ridistribuire, revocare: la nostra risposta all'incidente Vercel",
-  "excerpt": "Il 19 aprile 2026 Vercel ha comunicato una violazione della supply chain. Abbiamo eseguito una risposta in 5 fasi su ogni progetto gestito. I tre passaggi che la maggior parte dei team ha saltato, e perché sono i più importanti.",
-  "metaDescription": "Il 19 aprile 2026 Vercel ha comunicato una violazione della supply chain. La risposta in 5 fasi che abbiamo eseguito su ogni progetto gestito, e i tre passaggi che la maggior parte ha saltato.",
+  "excerpt": "Vercel ha comunicato una compromissione della supply chain il 19 aprile 2026. La risposta che abbiamo eseguito su ogni progetto gestito e perché questa tipologia di incidente richiede un modello di risposta diverso.",
+  "metaDescription": "Vercel ha comunicato una compromissione della supply chain il 19 aprile 2026. La risposta che abbiamo eseguito su ogni progetto gestito e perché questa forma di incidente cambia il modello di risposta.",
   "cta": "Richiedi un audit di sicurezza",
   "tags": ["Security", "Process", "Web Development", "Enterprise"],
   "blocks": [
     {
       "type": "p",
-      "text": "Il 19 aprile 2026, Vercel [ha comunicato un incidente di sicurezza](https://x.com/vercel/status/2045865072074035664) riconducibile a un'applicazione OAuth di terze parti compromessa all'interno del loro Google Workspace. Abbiamo eseguito una risposta in 5 fasi su ogni progetto Vercel gestito da webvise prima che il fine settimana terminasse. I log di audit sono risultati puliti: nessuna traccia di compromissione in alcun punto dello stack. **Il piano ha funzionato perché abbiamo eseguito tre passaggi che la maggior parte dei team ancora salta: ridistribuire dopo la rotazione, verificare il nostro Google Workspace per l'indicatore OAuth pubblicato da Vercel, e impostare il valore predefinito del team affinché le nuove variabili d'ambiente siano marcate come sensibili.**"
+      "text": "Il 19 aprile 2026, Vercel ha [comunicato un incidente di sicurezza](https://x.com/vercel/status/2045865072074035664) riconducibile a un'applicazione OAuth di terze parti compromessa all'interno del proprio Google Workspace. Abbiamo eseguito la risposta su ogni progetto Vercel gestito da webvise prima della fine del weekend, e i log di audit sia su Vercel sia sui Google Workspace che amministriamo sono risultati puliti. **Non si è trattato di una vulnerabilità nel codice proprio di Vercel. È stata una compromissione della supply chain SaaS-to-SaaS attraverso un confine di fiducia OAuth, e la sua forma cambia l'aspetto di una risposta adeguata.**"
     },
     {
       "type": "p",
-      "text": "Se ha ruotato i segreti Vercel questo fine settimana e ha chiuso la scheda, ogni funzione in esecuzione nel suo stack sta ancora usando i valori precedenti."
+      "text": "Ruotare i segreti nella dashboard di Vercel costituisce forse la metà della risposta. L'altra metà risiede in Google Workspace, e la maggior parte degli articoli pubblicati non la tratta."
     },
     {
       "type": "p",
-      "text": "La parte difficile è già fatta. Ha letto la comunicazione, aperto la dashboard Vercel e rinnovato ogni chiave che riusciva a trovare. Questo articolo illustra il piano completo in 5 fasi che abbiamo eseguito, perché tre di questi passaggi contano più della rotazione stessa, e come la natura di questa violazione dovrebbe cambiare il suo piano di risposta per la prossima volta."
+      "text": "Ha letto la comunicazione e ha aggiornato ogni chiave che riusciva a trovare. Questa è la prima mossa giusta. Questo articolo illustra ciò che abbiamo eseguito concretamente dall'inizio alla fine, il dettaglio tecnico che rende la rotazione efficace anche sulle funzioni in esecuzione, e perché la forma di questa compromissione cambia il modo in cui il piano di risposta dovrebbe essere strutturato la prossima volta."
     },
     {
       "type": "ul",
       "items": [
-        "**Ruotare le variabili d'ambiente in Vercel modifica la dashboard, non le funzioni in esecuzione.** Ogni progetto richiede un nuovo deploy perché i nuovi valori abbiano effetto.",
-        "**L'audit OAuth su Google Workspace è la metà di cui nessuno parla.** Quel percorso di fiducia è il modo in cui l'attaccante ha raggiunto Vercel.",
-        "**Impostare sensitive-by-default a livello di team** prima che il prossimo incidente lo imponga. L'interfaccia Vercel spinge nella direzione opposta.",
-        "**Trattare questo come una compromissione SaaS-to-SaaS della supply chain**, non come una vulnerabilità Vercel. Il modello di risposta è diverso da una violazione in stile CVE.",
-        "**Audit mensili dei grant OAuth di terze parti** nel proprio identity provider sono ora il minimo indispensabile per qualsiasi team che gestisce uno stack con molti SaaS."
+        "**La rotazione delle env var di Vercel modifica la dashboard, non le funzioni in esecuzione.** I valori entrano in vigore solo al deploy successivo.",
+        "**L'audit OAuth di Google Workspace è la metà della risposta di cui quasi nessuno parla.** È il percorso di fiducia che l'attaccante ha utilizzato per raggiungere Vercel.",
+        "**Non si è trattato di una vulnerabilità di Vercel.** È stata una compromissione SaaS-to-SaaS tramite un grant OAuth, e una risposta classica in stile CVE non chiude il cerchio.",
+        "**Nel lungo periodo, spostare i segreti fuori dalle env var** e in un gestore di segreti a runtime. Richiedere MFA anti-phishing su chiunque possa installare applicazioni OAuth.",
+        "**Audit mensili dei grant OAuth di terze parti** nel proprio identity provider sono ora parte della baseline, non un aggiornamento di maturità opzionale."
       ]
     },
     {
       "type": "h2",
-      "text": "Cosa ha effettivamente comunicato Vercel"
+      "text": "Cosa ha comunicato Vercel"
     },
     {
       "type": "p",
-      "text": "In sintesi: un'applicazione SaaS di terze parti con accesso OAuth all'interno del Google Workspace di Vercel è stata compromessa, e l'attaccante ha sfruttato quel confine di fiducia per raggiungere i valori delle variabili d'ambiente in un sottoinsieme di progetti cliente. Vercel [ha pubblicato un OAuth client ID come indicatore di compromissione](https://x.com/vercel/status/2045865072074035664) e ha chiesto a ogni cliente di ruotare qualsiasi segreto memorizzato come variabile d'ambiente. Nulla di tutto ciò riguardava una vulnerabilità nel codice proprietario di Vercel. La superficie di attacco era il grafo di fiducia delle identità tra due strumenti SaaS."
+      "text": "In sintesi: un'applicazione SaaS di terze parti con accesso OAuth all'interno del Google Workspace di Vercel è stata compromessa, e l'attaccante ha sfruttato quel confine di fiducia per raggiungere i valori delle variabili d'ambiente su un sottoinsieme di progetti clienti. Vercel ha [pubblicato un OAuth client ID come indicatore di compromissione](https://x.com/vercel/status/2045865072074035664) e ha chiesto a ogni cliente di ruotare qualsiasi segreto memorizzato come variabile d'ambiente. Nulla di tutto ciò ha coinvolto una vulnerabilità nel codice proprio di Vercel. La superficie d'attacco era il grafo di fiducia dell'identità tra due strumenti SaaS."
     },
     {
       "type": "p",
-      "text": "Quest'ultimo punto è determinante per la risposta. Se la vulnerabilità è nel codice della piattaforma, si corregge, si ruota ciò che è trapelato e si va avanti. Se la vulnerabilità è nel percorso di fiducia tra piattaforme, la rotazione è necessaria ma non chiude la falla. Occorre anche revocare il grant su cui l'attaccante ha fatto leva, e verificare il resto prima che la prossima compromissione ripeta lo stesso raggio d'impatto."
+      "text": "Questo è rilevante per il modo in cui si risponde. Se la vulnerabilità è nel codice della piattaforma, si applica una patch, si ruota ciò che è trapelato e si va avanti. Se la vulnerabilità è nel percorso di fiducia tra piattaforme, la rotazione è necessaria ma non chiude il varco. Occorre anche revocare il grant su cui l'attaccante si è mosso, altrimenti la prossima compromissione dello stesso strumento replica lo stesso raggio d'impatto."
     },
     {
       "type": "p",
-      "text": "Se desidera un secondo sguardo sulla sua configurazione Vercel prima che la prossima post-mortem riguardi il suo team, [eseguiamo security review su team Vercel, Google Workspace e grant SaaS-to-SaaS](/#contact)."
+      "text": "Se desidera un secondo sguardo sulla configurazione Vercel prima che il post-mortem del prossimo weekend venga scritto sulla Sua azienda, [eseguiamo security review su team Vercel, Google Workspace e grant SaaS-to-SaaS](/it/#contact)."
     },
     {
       "type": "h2",
@@ -52,120 +52,104 @@
     },
     {
       "type": "p",
-      "text": "Abbiamo trattato ogni variabile d'ambiente che potesse concedere accesso a qualsiasi risorsa come compromessa per default. È l'assunzione che la comunicazione richiede. Di seguito le categorie di segreti che abbiamo rinnovato su tutti i progetti gestiti."
+      "text": "Abbiamo trattato ogni variabile d'ambiente in grado di concedere accesso a qualsiasi risorsa come compromessa per default. Questa è l'assunzione che la comunicazione richiede. Di seguito sono riportate le categorie di segreti che abbiamo riemesso sui progetti gestiti."
     },
     {
       "type": "ul",
       "items": [
-        "**Credenziali del database.** Stringhe di connessione, password delle repliche in sola lettura e chiavi di ruolo admin su ogni progetto con un backend di database.",
-        "**API key Resend** per l'email transazionale su ogni progetto che invia messaggi di verifica, notifica o registrazione.",
+        "**Credenziali di database.** Stringhe di connessione, password delle repliche di sola lettura e chiavi di ruolo admin su ogni progetto con un backend database.",
+        "**Chiavi API Resend** per l'email transazionale su ogni progetto che invia messaggi di verifica, notifica o registrazione.",
         "**Credenziali Google API** per le integrazioni con Workspace, Calendar, Drive e Analytics che operano lato server.",
-        "**Chiavi AI Gateway** inclusi i token di accesso ai modelli, le credenziali dei provider e i token di rate-limit per tutto ciò che transita attraverso il gateway.",
-        "**Credenziali di integrazione ingest** per endpoint webhook, pipeline di eventi e qualsiasi flusso che importi dati nel progetto dall'esterno."
+        "**Chiavi AI Gateway** inclusi token di accesso ai modelli, credenziali dei provider e token di rate-limit per tutto ciò che transita attraverso il gateway.",
+        "**Credenziali di integrazione per l'ingest** per endpoint webhook, pipeline di eventi e qualsiasi sistema che inserisce dati nel progetto dall'esterno."
       ]
     },
     {
       "type": "p",
-      "text": "Alcune variabili hanno richiesto un'analisi più attenta: quelle non marcate come sensibili. Il flag sensitive in Vercel modifica solo la visibilità nella dashboard; non cambia se il valore era accessibile durante la finestra dell'incidente. Abbiamo ruotato anche quelle in chiaro, insieme a quelle marcate come sensibili, perché un attaccante che legge le variabili d'ambiente non si preoccupa del flag impostato. Due errori frequenti quando i team agiscono da soli sono le variabili che terminano in `_URL` con credenziali incorporate nella stringa di connessione, e quelle etichettate `_TEST` o `_DEV` che in realtà puntano alla produzione."
+      "text": "Due categorie che vale la pena verificare con attenzione: variabili che terminano con `_URL` e che incorporano credenziali nelle stringhe di connessione, e qualsiasi variabile etichettata `_TEST` o `_DEV` che punta a produzione. Ruotare anche queste insieme alle altre. Un attaccante che legge le env var non si cura del flag scelto né di ciò che il nome della variabile suggerisce."
     },
     {
       "type": "h2",
-      "text": "Fase due: ridistribuire (il passaggio che la maggior parte ha saltato)"
+      "text": "Fase due: ridistribuire (il dettaglio tecnico che rende reale la rotazione)"
     },
     {
       "type": "p",
-      "text": "È qui che la maggior parte delle risposte si è interrotta. Vercel applica le modifiche alle variabili d'ambiente al momento del build e del deploy, non in fase di esecuzione. Un progetto aggiornato ma non ridistribuito sta ancora eseguendo il build precedente, che contiene il vecchio segreto nel suo runtime. Si è ruotata la dashboard, non il sistema."
+      "text": "Questo è l'aspetto più importante e quello che riceve meno attenzione. Vercel applica le modifiche alle variabili d'ambiente al momento del build e del deploy, non a runtime. Un progetto aggiornato e lasciato invariato sta ancora eseguendo il build distribuito il giorno prima, che contiene ancora il vecchio segreto incorporato nel suo runtime. Ha ruotato la dashboard, non il sistema."
     },
     {
       "type": "p",
-      "text": "Un esempio concreto: si ruota la API key Resend alle 10:14 e si apre una nuova scheda per altro. Alle 10:17 una funzione tenta di inviare un'email di verifica, chiama Resend con la vecchia chiave ancora incorporata nel deploy, e Resend rifiuta la richiesta. L'utente non riceve l'email. Moltiplichi questo per ogni funzione, ogni cron e ogni webhook handler che gira sul vecchio build."
+      "text": "Esempio concreto: si ruota la chiave API Resend alle 10:14 e si apre una nuova scheda per verificare qualcos'altro. Una funzione tenta di inviare un'email di verifica alle 10:17, chiama Resend con la vecchia chiave ancora incorporata nel deploy attivo, e Resend rifiuta la richiesta. L'utente non riceve la sua email. Si moltiplichi questo per ogni funzione, ogni cron job e ogni webhook handler in esecuzione sul build precedente."
     },
     {
       "type": "table",
-      "headers": ["Cosa ha fatto", "Cosa è cambiato", "Cosa usa ancora il vecchio segreto"],
+      "headers": ["Azione eseguita", "Cosa è cambiato", "Cosa esegue ancora il vecchio segreto"],
       "rows": [
-        ["Rotazione della variabile d'ambiente solo nella dashboard", "Il valore nella dashboard", "Ogni funzione in esecuzione, ogni cron job e ogni istanza middleware"],
-        ["Rotazione e ridistribuzione in produzione", "Il build e il runtime di produzione", "I build di preview, i branch delle PR e lo staging"],
+        ["Rotazione della env var solo nella dashboard", "Il valore nella dashboard", "Ogni funzione in esecuzione, ogni cron job e ogni istanza middleware"],
+        ["Rotazione e ridistribuzione in produzione", "Il build e il runtime di produzione", "I build di anteprima, i branch delle PR e lo staging"],
         ["Rotazione e ridistribuzione in ogni ambiente", "Tutti i build e i runtime", "Nulla, una volta che i deploy sono attivi"]
       ]
     },
     {
       "type": "p",
-      "text": "Per verificare la propria risposta, apra la scheda Deployments su ogni progetto e cerchi un deploy con timestamp successivo alla rotazione. Se la prima riga mostra un timestamp precedente al momento della rotazione, ha ruotato la dashboard ma non il sistema. Il secondo passaggio esplicito della nostra risposta è stato un redeploy forzato in produzione su ogni progetto gestito dopo la rotazione, prima di procedere con qualsiasi altra operazione."
+      "text": "Per verificare la risposta, si apra la scheda Deployments su ogni progetto e si individui un deploy con timestamp successivo alla rotazione. Se la riga in cima mostra un timestamp precedente alla rotazione, la rotazione non è entrata in alcun processo in esecuzione. Il secondo passaggio esplicito della nostra risposta è stato un redeploy forzato in produzione su ogni progetto gestito dopo la rotazione, prima di procedere."
     },
     {
       "type": "h2",
-      "text": "Fase tre: revocare il grant OAuth su Google Workspace"
+      "text": "Fase tre: revocare il grant OAuth di Google Workspace"
     },
     {
       "type": "p",
-      "text": "Questa è la metà della risposta che è quasi assente nei thread del fine settimana. L'incidente ha avuto origine in Google Workspace. L'attaccante è entrato tramite un'applicazione OAuth di terze parti con uno scope concesso all'interno di Workspace, poi ha sfruttato il percorso di fiducia SaaS-to-SaaS per raggiungere Vercel. Se ha ruotato solo dal lato Vercel, la stessa applicazione OAuth è ancora lì con lo stesso scope, pronta a essere sfruttata la prossima volta che viene compromessa."
+      "text": "Questa è la metà della risposta che è quasi assente nei thread del weekend. L'incidente ha avuto origine in Google Workspace. L'attaccante è entrato tramite un'applicazione OAuth di terze parti con uno scope concesso all'interno di Workspace, per poi spostarsi su Vercel attraverso un percorso di fiducia SaaS-to-SaaS. Se si è ruotato solo dal lato Vercel, la stessa applicazione OAuth è ancora lì con lo stesso scope, pronta a essere sfruttata la prossima volta che viene compromessa."
     },
     {
       "type": "p",
-      "text": "Il percorso nella console di amministrazione: admin.google.com, sicurezza, controlli API, controllo accesso alle app, app di terze parti. Cerchi l'OAuth client ID che Vercel ha pubblicato come indicatore. Se è presente, lo revochi. Poi faccia la cosa più difficile: esamini ogni altro grant OAuth nell'elenco, verifichi che ogni scope fosse intenzionale, e revochi tutto ciò per cui non ha una ragione attiva."
+      "text": "Il percorso nella console di amministrazione: admin.google.com, sicurezza, controlli API, controllo accesso app, app di terze parti. Cercare l'OAuth client ID pubblicato da Vercel come indicatore. Revocarlo se presente. Poi fare la cosa più difficile: esaminare ogni altro grant OAuth nell'elenco, confermare che ogni scope fosse intenzionale e revocare tutto ciò per cui non esiste una ragione attiva."
     },
     {
       "type": "p",
-      "text": "Abbiamo eseguito questo audit su ogni Workspace che amministriamo. L'indicatore non era presente, e la maggior parte dei grant aveva uno scopo di business legittimo. Alcuni non ce l'avevano, e li abbiamo revocati. Questa è la cadenza che ora applichiamo: audit dei grant OAuth all'inizio di ogni mese, revoca di tutto ciò che non viene utilizzato da 30 giorni."
+      "text": "Abbiamo eseguito questo audit su ogni Workspace che amministriamo. L'indicatore non era presente, e la maggior parte dei grant aveva uno scopo aziendale legittimo. Una manciata no, e li abbiamo revocati. Da allora abbiamo adottato una cadenza mensile: audit dei grant OAuth all'inizio di ogni mese, revoca di tutto ciò che non è stato utilizzato nei 30 giorni precedenti."
     },
     {
       "type": "h2",
-      "text": "Fase quattro: impostare il default del team su Sensitive"
+      "text": "Fase quattro: le azioni a lungo termine"
     },
     {
       "type": "p",
-      "text": "Le nuove variabili d'ambiente in Vercel hanno come default plain, non sensitive. Il flag sensitive nasconde il valore dall'interfaccia e lo esclude da alcuni percorsi di logging. In una dashboard con trenta variabili senza alcun segnale visivo che le distingua, il comportamento predefinito silenzioso diventa lasciare tutto in chiaro. È ciò che questo incidente ha reso evidente su larga scala, ed è il default che abbiamo modificato."
-    },
-    {
-      "type": "p",
-      "text": "A livello di team, è possibile impostare sensitive-by-default per le nuove variabili d'ambiente su ogni progetto. Lo abbiamo attivato su ogni team che amministriamo come parte della nostra risposta. Le variabili esistenti sono quelle che sarebbero state lette durante la finestra dell'incidente, e quelle le abbiamo ruotate. La modifica dell'impostazione serve per il prossimo incidente, che avverrà, e per le nuove variabili che altrimenti verrebbero silenziosamente aggiunte come plain."
-    },
-    {
-      "type": "h2",
-      "text": "Fase cinque: le azioni a lungo termine (da avviare questa settimana)"
-    },
-    {
-      "type": "p",
-      "text": "Rotazione e revoca gestiscono l'esposizione immediata. Le azioni strutturali sono ciò che impedisce che la prossima volta diventi nuovamente una corsa del fine settimana. Stiamo introducendo cinque modifiche sui progetti gestiti nelle prossime settimane, e le raccomandiamo a qualsiasi team che gestisce uno stack con molti SaaS."
+      "text": "La rotazione e la revoca hanno gestito l'esposizione immediata. Le azioni a lungo termine sono ciò che impedisce al prossimo incidente di diventare una corsa contro il tempo nel weekend. Stiamo implementando queste misure sui progetti gestiti nelle prossime settimane, e le raccomandiamo a qualsiasi team che operi con uno stack SaaS intensivo."
     },
     {
       "type": "ul",
       "items": [
-        "**Recuperare i segreti in fase di esecuzione da un secret manager** invece di incorporarli nelle variabili d'ambiente. La rotazione diventa una push, non un redeploy.",
-        "**Credenziali di breve durata per database e API** dove il provider le supporta. Validità di minuti, non di mesi.",
-        "**Rotazione pianificata** per le credenziali che non possono essere rese di breve durata. Guidata dal calendario, non dagli incidenti.",
-        "**MFA resistente al phishing su ogni account admin** che può installare applicazioni OAuth nel proprio identity provider. Passkeys o token hardware, niente SMS.",
-        "**Audit mensili dei grant OAuth** in Workspace, Microsoft 365 o qualsiasi identity provider in uso. Il percorso dell'attaccante questa volta era un grant OAuth; la prossima volta sarà uguale."
+        "**Recuperare i segreti a runtime da un gestore di segreti** invece di incorporarli nelle env var. La rotazione diventa un aggiornamento push, non un redeploy.",
+        "**Credenziali a breve durata per database e API** ovunque il provider le supporti. Validità di minuti, non di mesi.",
+        "**Rotazione pianificata** per le credenziali che non possono essere rese a breve durata. Guidata dal calendario, non dagli incidenti.",
+        "**MFA anti-phishing su ogni account admin** che può installare applicazioni OAuth nel proprio identity provider. Passkeys o token hardware, nulla basato su SMS.",
+        "**Audit mensili dei grant OAuth** in Workspace, Microsoft 365 o qualsiasi identity provider in uso. Il percorso dell'attaccante questa volta era un grant OAuth; lo sarà anche la prossima."
       ]
     },
     {
       "type": "p",
-      "text": "Se nel suo team non c'è un responsabile chiaro per nessuna di queste azioni, non verranno mai eseguite. Questo è il motivo silenzioso per cui la maggior parte degli incidenti si chiude con gli stessi cinque punti nella post-mortem. [Parli con noi](/#contact) su come webvise integra queste pratiche nel retainer di manutenzione di ogni progetto gestito."
+      "text": "La maggior parte dei team non ha un singolo responsabile per nessuna di queste misure. Questa è la ragione silenziosa per cui gli incidenti continuano a concludersi con gli stessi punti nel post-mortem. [Parli con noi](/it/#contact) su come webvise integra queste misure nel retainer di manutenzione per ogni progetto gestito."
     },
     {
       "type": "h2",
-      "text": "Perché questa violazione è diversa (e cosa non è apparso nei nostri log)"
+      "text": "Perché questa compromissione è diversa"
     },
     {
       "type": "p",
-      "text": "I log di audit sui progetti Vercel gestiti e sui Google Workspace amministrati sono risultati puliti. Nessun evento di accesso non autorizzato, nessuna modifica di configurazione non eseguita da noi, nessun grant OAuth non previsto. Non è fortuna. È il risultato dell'uso di credenziali con scope limitato, di un'appartenenza ristretta ai team e di una cadenza di revisione mensile sulle impostazioni sensibili."
+      "text": "Il modello di compromissione per cui la maggior parte dei programmi di sicurezza è costruita: un attaccante trova un CVE in un server che si gestisce, lo sfrutta e scarica i dati. Rotazione, patch e monitoraggio perimetrale coprono quel modello. L'incidente del 19 aprile 2026 ha una forma diversa."
     },
     {
       "type": "p",
-      "text": "Un log pulito oggi significa che il raggio d'impatto di questo specifico incidente non ha raggiunto i progetti che gestiamo. Non significa che saremmo puliti per un incidente diverso con lo stesso modello di risposta. Il modello di violazione per cui la maggior parte dei programmi di sicurezza è costruita è: un attaccante trova un CVE in un server che gestisce, lo sfrutta e scarica i dati. Rotazione, patching e monitoraggio perimetrale coprono quel modello."
+      "text": "Un attaccante compromette uno strumento SaaS autorizzato dal team, poi si muove sfruttando la relazione di fiducia tra quello strumento e gli altri strumenti SaaS per raggiungere dati che nessuno dei due avrebbe fornito a un estraneo. L'account Vercel non è stato violato, e nemmeno il Google Workspace. Uno strumento terzo connesso mesi fa è stato compromesso, e gli scope concessi a quello strumento hanno propagato la compromissione a valle."
     },
     {
       "type": "p",
-      "text": "La violazione apparsa il 19 aprile ha una forma diversa. Un attaccante compromette uno strumento SaaS che il suo team ha autorizzato, poi sfrutta la relazione di fiducia tra quello strumento e gli altri strumenti SaaS per raggiungere dati che nessuno dei due avrebbe condiviso con uno sconosciuto. Il suo account Vercel non è stato violato, né il suo Google Workspace. Uno strumento di terze parti che qualcuno nel suo team ha collegato mesi fa è stato compromesso, e gli scope concessi a quello strumento hanno propagato la compromissione a valle."
+      "text": "Il modello difensivo deve corrispondere al modello d'attacco. Questo significa trattare i grant OAuth come dipendenze di produzione, verificarli con una cadenza pianificata e spostare i segreti fuori dalle variabili d'ambiente, dove un attaccante con quel grant può leggerli. I nostri log di audit sono risultati puliti questo weekend, ma questo è il risultato per questo specifico incidente, non la prova che il modello di risposta sia a prova di futuro."
     },
     {
       "type": "p",
-      "text": "Il modello difensivo deve corrispondere al modello di attacco. Questo significa trattare i grant OAuth come dipendenze di produzione, verificarli con regolarità e spostare i segreti fuori dalle variabili d'ambiente dove un attaccante con quel grant può leggerli. I team che continuano ad applicare il vecchio schema al nuovo tipo di attacco continueranno a scrivere la stessa post-mortem."
-    },
-    {
-      "type": "p",
-      "text": "Eseguiamo security review su team Vercel, Google Workspace e grafi di identità SaaS-to-SaaS come parte di ogni engagement gestito da webvise. Se desidera uno sguardo esterno sulla sua configurazione prima che la prossima comunicazione arrivi di fine settimana, [avvii una conversazione](/#contact)."
+      "text": "Eseguiamo security review su team Vercel, Google Workspace e grafi di identità SaaS-to-SaaS come parte di ogni engagement gestito da webvise. Se desidera uno sguardo esterno sulla Sua configurazione prima che la prossima comunicazione arrivi nel weekend, [avvii una conversazione](/it/#contact)."
     }
   ]
 }

@@ -1,171 +1,155 @@
 {
   "date": "2026-04-20",
-  "readingTime": 8,
-  "keyword": "vercel incident reactie beveiliging",
-  "title": "Roteren, redeployen, intrekken: onze reactie op het Vercel-incident",
-  "excerpt": "Vercel maakte op 19 april 2026 een supply-chain-inbreuk bekend. Wij voerden een reactie van 5 stappen uit voor elk beheerd project. De drie stappen die de meeste teams overslaan, en waarom die het belangrijkst zijn.",
-  "metaDescription": "Vercel maakte op 19 april 2026 een supply-chain-inbreuk bekend. De reactie van 5 stappen die wij uitvoerden voor elk beheerd project, en de drie stappen die de meeste teams overslaan.",
+  "readingTime": 7,
+  "keyword": "vercel breach response",
+  "title": "Roteren, opnieuw deployen, intrekken: onze reactie op het Vercel-incident",
+  "excerpt": "Vercel maakte op 19 april 2026 een supply-chain-inbreuk openbaar. De aanpak die wij op elk beheerd project hebben uitgevoerd, en waarom dit type inbreuk een ander responsmodel vereist.",
+  "metaDescription": "Vercel maakte op 19 april 2026 een supply-chain-inbreuk openbaar. De aanpak die wij op elk beheerd project hebben uitgevoerd, en waarom de vorm van deze inbreuk het model verandert.",
   "cta": "Vraag een beveiligingsaudit aan",
   "tags": ["Security", "Process", "Web Development", "Enterprise"],
   "blocks": [
     {
       "type": "p",
-      "text": "Op 19 april 2026 [maakte Vercel een beveiligingsincident bekend](https://x.com/vercel/status/2045865072074035664) dat terug te herleiden was tot een gecompromitteerde OAuth-applicatie van een derde partij binnen hun Google Workspace. Wij voerden een reactie van 5 stappen uit voor elk door webvise beheerd Vercel-project voordat het weekend voorbij was. Onze auditlogboeken kwamen schoon terug: nergens in de stack een spoor van een inbreuk. **De aanpak werkte omdat wij drie stappen uitvoerden die de meeste teams nog altijd overslaan: redeployen na rotatie, een audit van onze Google Workspace op de OAuth-indicator die Vercel publiceerde, en het teamstandaard instellen zodat nieuwe omgevingsvariabelen als gevoelig worden gemarkeerd.**"
+      "text": "Op 19 april 2026 [maakte Vercel een beveiligingsincident openbaar](https://x.com/vercel/status/2045865072074035664) dat te herleiden was naar een gecompromitteerde OAuth-applicatie van een derde partij binnen de Google Workspace van Vercel. Wij hebben de respons uitgevoerd op elk door webvise beheerd Vercel-project voordat het weekend voorbij was, en de auditlogs van zowel Vercel als de Google Workspaces die wij beheren kwamen schoon terug. **Dit was geen kwetsbaarheid in de eigen code van Vercel. Het was een SaaS-to-SaaS supply-chain-compromis via een OAuth-vertrouwensgrens, en de aard ervan verandert hoe een correcte respons er uitziet.**"
     },
     {
       "type": "p",
-      "text": "Als u dit weekend uw Vercel-geheimen heeft geroteerd en daarna het tabblad heeft gesloten, verwerkt elke actieve functie in uw stack nog steeds de oude waarden."
+      "text": "Secrets roteren in uw Vercel-dashboard is misschien de helft van de respons. De andere helft bevindt zich in Google Workspace, en de meeste analyses besteden daar nauwelijks aandacht aan."
     },
     {
       "type": "p",
-      "text": "U heeft het moeilijkste al gedaan. U las de bekendmaking, opende uw Vercel-dashboard en vernieuwde elke sleutel die u kon vinden. Dit artikel beschrijft het volledige stappenplan van 5 stappen dat wij uitvoerden, waarom drie van die stappen zwaarder wegen dan de rotatie zelf, en hoe de vorm van dit incident uw reactieplan voor een volgende keer zou moeten veranderen."
+      "text": "U hebt de disclosure gelezen en elke sleutel die u kon vinden doorgedraaid. Dat is de juiste eerste stap. Dit artikel beschrijft wat wij van begin tot eind hebben uitgevoerd, de technische valkuil die rotatie van toepassing maakt op lopende functies, en waarom de aard van deze inbreuk bepaalt hoe uw responsplan er de volgende keer uit moet zien."
     },
     {
       "type": "ul",
       "items": [
-        "**Het roteren van Vercel env vars wijzigt het dashboard, niet de actieve functies.** Elk project heeft een nieuwe deploy nodig voordat de nieuwe waarden daadwerkelijk van kracht worden.",
-        "**De Google Workspace OAuth-audit is het deel waar niemand het over heeft.** Dat vertrouwenspad is hoe de aanvaller Vercel daadwerkelijk heeft bereikt.",
-        "**Stel gevoelig-als-standaard in op teamniveau** voordat het volgende incident u daartoe dwingt. De Vercel-interface stuurt de andere kant op.",
-        "**Behandel dit als een SaaS-naar-SaaS supply-chain-compromittering**, niet als een Vercel-kwetsbaarheid. Het reactiemodel verschilt van een CVE-stijl inbreuk.",
-        "**Maandelijkse audits van OAuth-machtigingen bij derden** in uw identiteitsprovider zijn nu het minimale vereiste voor elk team dat een SaaS-intensieve stack gebruikt."
+        "**Het roteren van Vercel env vars wijzigt het dashboard, niet de lopende functies.** Waarden worden pas van kracht bij de volgende deploy.",
+        "**De Google Workspace OAuth-audit is de helft die nauwelijks besproken wordt.** Dat is het vertrouwenspad dat de aanvaller heeft gebruikt om Vercel te bereiken.",
+        "**Dit was geen Vercel-kwetsbaarheid.** Het was een SaaS-to-SaaS-compromis via een OAuth-verlening, en een normale CVE-respons sluit de lus niet.",
+        "**Op de lange termijn: verplaats secrets uit env vars** naar een runtime secret manager. Vereis phishing-resistente MFA voor iedereen die OAuth-apps kan installeren.",
+        "**Maandelijkse audits van OAuth-verleningen van derden** in uw identiteitsprovider maken nu deel uit van de basis, niet van een volwassenheidsupgrade."
       ]
     },
     {
       "type": "h2",
-      "text": "Wat Vercel precies bekendmaakte"
+      "text": "Wat Vercel daadwerkelijk heeft bekendgemaakt"
     },
     {
       "type": "p",
-      "text": "De korte versie: een SaaS-applicatie van een derde partij met OAuth-toegang binnen de Google Workspace van Vercel werd gecompromitteerd, en de aanvaller gebruikte die vertrouwensgrens om de waarden van omgevingsvariabelen in een deel van de klantprojecten te bereiken. Vercel [publiceerde een OAuth-client-ID als indicator van compromittering](https://x.com/vercel/status/2045865072074035664) en vroeg elke klant om elk geheim dat als omgevingsvariabele was opgeslagen te roteren. Dit hield geen kwetsbaarheid in de eigen code van Vercel in. Het aanvalsoppervlak was de identiteitsvertrouwensgraph tussen twee SaaS-tools."
+      "text": "De korte versie: een SaaS-applicatie van een derde partij met OAuth-toegang binnen de Google Workspace van Vercel werd gecompromitteerd, en de aanvaller gebruikte die vertrouwensgrens om de waarden van omgevingsvariabelen op te vragen van een deel van de klantprojecten. Vercel [publiceerde een OAuth client ID als indicator van compromis](https://x.com/vercel/status/2045865072074035664) en vroeg elke klant om elk secret dat als omgevingsvariabele is opgeslagen te roteren. Niets hiervan had te maken met een kwetsbaarheid in de eigen code van Vercel. Het aanvalsoppervlak was de identiteitsvertrouwensgraph tussen twee SaaS-tools."
     },
     {
       "type": "p",
-      "text": "Dat laatste punt is bepalend voor uw reactie. Als de kwetsbaarheid in de eigen code van het platform zit, patcht u, roteert u wat er uitgelekt is, en gaat u verder. Als de kwetsbaarheid in het vertrouwenspad tussen platforms zit, is rotatie noodzakelijk maar sluit het de opening niet. U moet ook de machtiging intrekken waarlangs de aanvaller binnenkwam, en de rest controleren voordat een volgende compromittering dezelfde schade aanricht."
+      "text": "Dat is van belang voor de manier waarop u reageert. Als de kwetsbaarheid in de eigen code van het platform zit, patcht u, roteert u wat er is uitgelekt en gaat u verder. Als de kwetsbaarheid in het vertrouwenspad tussen platforms zit, is rotatie noodzakelijk, maar sluit het de opening niet. U moet ook de verlening intrekken waarop de aanvaller is meegelift, anders herhaalt de volgende compromittering van datzelfde tool dezelfde schade."
     },
     {
       "type": "p",
-      "text": "Als u een tweede paar ogen op uw Vercel-configuratie wilt voordat de volgende post-mortem over u wordt geschreven, [voeren wij beveiligingsreviews uit voor Vercel-teams, Google Workspaces en SaaS-naar-SaaS-machtigingen](/#contact)."
+      "text": "Als u een tweede paar ogen wilt op uw Vercel-configuratie voordat het post-mortem van komend weekend over u gaat, [voeren wij beveiligingsreviews uit voor Vercel-teams, Google Workspaces en SaaS-to-SaaS-verleningen](/nl/#contact)."
     },
     {
       "type": "h2",
-      "text": "Stap een: roteer de geheimen die er werkelijk toe doen"
+      "text": "Stap een: roteer de secrets die er echt toe doen"
     },
     {
       "type": "p",
-      "text": "Wij behandelden elke omgevingsvariabele die toegang tot iets kon verlenen standaard als gecompromitteerd. Dat is de aanname die de bekendmaking vereist. Hieronder staan de categorieën geheimen die wij opnieuw hebben uitgegeven voor alle beheerde projecten."
+      "text": "Wij hebben elke omgevingsvariabele die toegang kan verlenen tot wat dan ook standaard als gecompromitteerd behandeld. Dat is de aanname die de disclosure vereist. Hieronder staan de secretklassen die wij op de beheerde projecten opnieuw hebben aangemaakt."
     },
     {
       "type": "ul",
       "items": [
-        "**Databasereferenties.** Verbindingsstrings, wachtwoorden voor alleen-lezen replica's en admin-rolsleutels voor elk project met een database-backend.",
+        "**Databasereferenties.** Verbindingsstrings, wachtwoorden van read-only replica's en admin-tier rolsleutels op elk project met een database-backend.",
         "**Resend API-sleutels** voor transactionele e-mail op elk project dat verificatie-, meldings- of aanmeldingsberichten verstuurt.",
         "**Google API-referenties** voor Workspace-, Agenda-, Drive- en Analytics-integraties die server-side draaien.",
-        "**AI Gateway-sleutels** inclusief modeltoegangstokens, providerreferenties en snelheidslimiettokens voor alles dat via de gateway wordt gerouteerd.",
-        "**Ingest-integratiereferenties** voor webhook-eindpunten, gebeurtenispijplijnen en alles dat gegevens van buiten het project binnenhaalt."
+        "**AI Gateway-sleutels** inclusief modeltoegangstoken, providerreferenties en rate-limittokens voor alles dat via de gateway wordt gerouteerd.",
+        "**Ingest-integratiereferenties** voor webhookendpoints, eventpipelines en alles dat gegevens van buiten in het project trekt."
       ]
     },
     {
       "type": "p",
-      "text": "Een paar categorieën vroegen extra aandacht: de variabelen die niet als gevoelig waren gemarkeerd. De gevoelig-markering in Vercel wijzigt alleen de zichtbaarheid in het dashboard; zij bepaalt niet of de waarde toegankelijk was tijdens het incident. Wij roteerden de ongemarkeerde variabelen samen met de als gevoelig gemarkeerde, omdat een aanvaller die env vars uitleest zich niets aantrekt van welke markering u heeft gekozen. Twee veelvoorkomende missers wanneer teams dit zelfstandig doen: variabelen eindigend op `_URL` die referenties bevatten in verbindingsstrings, en alles met het label `_TEST` of `_DEV` dat blijkt te verwijzen naar productie."
+      "text": "Twee categorieën die extra controle verdienen: variabelen die eindigen op `_URL` en referenties insluiten in verbindingsstrings, en alles met het label `_TEST` of `_DEV` dat toch naar productie blijkt te verwijzen. Roteer die samen met de rest. Een aanvaller die env vars leest, geeft niet om welke vlag u heeft gekozen of wat de variabelenaam suggereert dat hij doet."
     },
     {
       "type": "h2",
-      "text": "Stap twee: redeployen (de stap die de meeste teams overslaan)"
+      "text": "Stap twee: opnieuw deployen (de technische valkuil die rotatie werkelijk maakt)"
     },
     {
       "type": "p",
-      "text": "Hier liepen de meeste reacties vast. Vercel past omgevingsvariabelen toe op het moment van bouwen en deployen, niet tijdens runtime. Een project dat u heeft bijgewerkt maar verder met rust heeft gelaten, voert nog steeds de build van gisteren uit, met het oude geheim ingebakken in zijn runtime. U heeft het dashboard geroteerd, niet het systeem."
+      "text": "Dit is het onderdeel dat het meeste belang heeft en de minste aandacht krijgt. Vercel past wijzigingen in omgevingsvariabelen toe op het moment van bouwen en deployen, niet tijdens runtime. Een project dat u heeft bijgewerkt maar onaangepast heeft gelaten, draait nog steeds de build die u gisteren heeft opgeleverd, met het oude secret nog steeds ingebakken in zijn runtime. U heeft het dashboard geroteerd, niet het systeem."
     },
     {
       "type": "p",
-      "text": "Concreet voorbeeld: u roteert uw Resend API-sleutel om 10:14 en opent een nieuw tabblad om iets anders te controleren. Om 10:17 probeert een functie een verificatiemail te versturen, roept Resend aan met de oude sleutel die nog in de gedeployde omgeving zit, en Resend weigert het verzoek. Uw gebruiker ontvangt geen e-mail. Vermenigvuldig dat met elke functie, elke cron-taak en elke webhook-handler die de oude build gebruikt."
+      "text": "Concreet voorbeeld: u roteert uw Resend API-sleutel om 10:14 en opent een nieuw tabblad om iets anders te controleren. Een functie probeert om 10:17 een verificatiemailte te versturen, roept Resend aan met de oude sleutel die nog in de gedeployde omgeving is ingebakken, en Resend weigert het verzoek. Uw gebruiker ontvangt zijn e-mail niet. Vermenigvuldig dat met elke functie, elke cron en elke webhookhandler die de oude build draait."
     },
     {
       "type": "table",
-      "headers": ["Wat u deed", "Wat er veranderde", "Wat nog steeds het oude geheim gebruikt"],
+      "headers": ["Wat u heeft gedaan", "Wat er is gewijzigd", "Wat nog steeds het oude secret gebruikt"],
       "rows": [
-        ["Env var alleen in dashboard roteren", "Dashboardwaarde", "Elke actieve functie, cron-taak en middleware-instantie"],
-        ["Roteren en productie redeployen", "Productiebuild en runtime", "Preview-builds, PR-branches en staging"],
-        ["Roteren en elke omgeving redeployen", "Alle builds en runtimes", "Niets zodra de deploys live zijn"]
+        ["Env var alleen in dashboard roteren", "Dashboardwaarde", "Elke lopende functie, cronjob en middleware-instantie"],
+        ["Roteren en productie opnieuw deployen", "Productiebuild en runtime", "Previewbuilds, PR-branches en staging"],
+        ["Roteren en elke omgeving opnieuw deployen", "Alle builds en runtimes", "Niets zodra de deploys live zijn"]
       ]
     },
     {
       "type": "p",
-      "text": "Om uw eigen reactie te verifiëren: open het tabblad Deployments van elk project en zoek een deploy met een tijdstempel na uw rotatie. Als de bovenste rij een tijdstempel toont van voor de rotatie, heeft u het dashboard geroteerd maar niet het systeem. De tweede expliciete stap in onze reactie was een geforceerde productie-redeploy voor elk beheerd project na de rotatie, voordat we verder gingen met iets anders."
+      "text": "Om uw respons te verifiëren, opent u het tabblad Deployments op elk project en zoekt u een deployment met een tijdstempel na uw rotatie. Als de bovenste rij een tijdstempel toont van voor het moment van rotatie, heeft de rotatie geen enkel lopend proces bereikt. De tweede expliciete stap in onze aanpak was een geforceerde herdeployment naar productie op elk beheerd project na de rotatie, voordat we verder gingen."
     },
     {
       "type": "h2",
-      "text": "Stap drie: trek de Google Workspace OAuth-machtiging in"
+      "text": "Stap drie: trek de Google Workspace OAuth-verlening in"
     },
     {
       "type": "p",
-      "text": "Dit is het deel van de reactie dat nauwelijks ter sprake kwam in de weekenddiscussies. Het incident begon in Google Workspace. De aanvaller kwam binnen via een OAuth-applicatie van een derde partij met een verleend bereik binnen Workspace, en pivoerde vervolgens via een SaaS-naar-SaaS-vertrouwenspad naar Vercel. Als u alleen aan de Vercel-kant heeft geroteerd, staat dezelfde OAuth-app er nog steeds met hetzelfde bereik, klaar om misbruikt te worden de volgende keer dat hij wordt gecompromitteerd."
+      "text": "Dit is de helft van de respons die in de weekendthreads nauwelijks besproken werd. Het incident is ontstaan in Google Workspace. De aanvaller is binnengekomen via een OAuth-applicatie van een derde partij met een verleend bereik binnen Workspace, en heeft vervolgens via een SaaS-to-SaaS-vertrouwenspad naar Vercel gepivoteerd. Als u alleen aan de Vercel-kant heeft geroteerd, staat diezelfde OAuth-app er nog steeds met hetzelfde bereik, klaar om misbruikt te worden zodra deze de volgende keer wordt gecompromitteerd."
     },
     {
       "type": "p",
-      "text": "Het pad in uw beheerconsole: admin.google.com, beveiliging, API-beheer, app-toegangsbeheer, apps van derden. Zoek naar de OAuth-client-ID die Vercel als indicator publiceerde. Trek hem in als hij er staat. Doe daarna het moeilijkere werk: controleer elke andere OAuth-machtiging in de lijst, bevestig dat elk bereik bewust is verleend, en trek alles in waarvoor u geen actuele reden heeft om het te bewaren."
+      "text": "Het pad in uw beheerconsole: admin.google.com, beveiliging, API-beheer, app-toegangsbeheer, apps van derden. Zoek naar de OAuth client ID die Vercel als indicator heeft gepubliceerd. Trek deze in als hij er staat. Doe daarna het moeilijkere werk: bekijk elke andere OAuth-verlening in de lijst, bevestig dat elk bereik opzettelijk is, en trek in wat u geen levende reden heeft om te bewaren."
     },
     {
       "type": "p",
-      "text": "Wij voerden deze audit uit voor elke Workspace die wij beheren. De indicator was niet aanwezig en de meeste machtigingen hadden een legitiem zakelijk doel. Een handvol niet, en die hebben wij ingetrokken. Dit is de cadans die wij nu handhaven: OAuth-machtigingen controleren aan het begin van elke maand, alles intrekken dat 30 dagen ongebruikt is."
+      "text": "Wij hebben deze audit uitgevoerd op elke Workspace die wij beheren. De indicator was niet aanwezig en de meeste verleningen hadden een legitiem zakelijk doel. Een handvol niet, en die hebben wij ingetrokken. Sindsdien werken wij met een maandelijkse cadans: audit OAuth-verleningen aan het begin van elke maand en trek in wat de afgelopen 30 dagen niet is gebruikt."
     },
     {
       "type": "h2",
-      "text": "Stap vier: stel de teamstandaard in op gevoelig"
+      "text": "Stap vier: de stappen voor de lange termijn"
     },
     {
       "type": "p",
-      "text": "Nieuwe omgevingsvariabelen in Vercel zijn standaard gewoon, niet gevoelig. De gevoelig-markering verbergt de waarde in de UI en beperkt deze voor sommige logpaden. In een dashboard van dertig variabelen zonder visuele aanwijzing die de twee onderscheidt, wordt de stille standaard om alles gewoon te laten staan. Dit is wat dit incident op grote schaal blootlegde, en het is de standaard die wij hebben omgezet."
-    },
-    {
-      "type": "p",
-      "text": "Op teamniveau kunt u gevoelig-als-standaard instellen voor nieuwe omgevingsvariabelen in elk project. Wij hebben dit ingeschakeld voor elk team dat wij beheren als onderdeel van onze reactie. De bestaande variabelen zijn degene die tijdens het incidentvenster gelezen hadden kunnen worden, en die hebben wij geroteerd. De instellingswijziging is voor het volgende incident, dat zal komen, en voor de nieuwe variabelen die anders stilletjes als gewoon zouden worden aangemaakt."
-    },
-    {
-      "type": "h2",
-      "text": "Stap vijf: de langetermijnmaatregelen (begin deze week)"
-    },
-    {
-      "type": "p",
-      "text": "Rotatie en intrekking lossen de directe blootstelling op. De langetermijnmaatregelen voorkomen dat dit de volgende keer opnieuw een weekendcrisis wordt. Wij voeren vijf wijzigingen door voor beheerde projecten in de komende weken, en wij bevelen ze aan voor elk team met een SaaS-intensieve stack."
+      "text": "Rotatie en intrekking hebben de directe blootstelling aangepakt. De stappen voor de lange termijn zijn wat voorkomt dat het volgende incident een weekendcrisis wordt. Wij implementeren deze op de beheerde projecten in de komende weken, en wij bevelen ze aan elk team aan dat een SaaS-zwaar stack draait."
     },
     {
       "type": "ul",
       "items": [
-        "**Haal geheimen bij runtime op uit een secret manager** in plaats van ze in env vars te bakken. Rotatie wordt dan een push, geen redeploy.",
-        "**Kortlevende referenties voor databases en API's** waar de provider dat ondersteunt. Geldigheid van minuten, niet van maanden.",
+        "**Haal secrets tijdens runtime op uit een secret manager** in plaats van ze in env vars te bakken. Rotatie wordt een push, geen redeploy.",
+        "**Kortlevende referenties voor databases en API's** waar de provider ze ondersteunt. Minuten geldigheid, geen maanden.",
         "**Geplande rotatie** voor de referenties die niet kortlevend kunnen worden gemaakt. Kalendergestuurd, niet incidentgestuurd.",
-        "**Phishing-bestendige MFA op elk beheerdersaccount** dat OAuth-applicaties kan installeren in uw identiteitsprovider. Passkeys of hardwaretokens, niets op basis van SMS.",
-        "**Maandelijkse OAuth-machtigingsaudits** in Workspace, Microsoft 365 of welke identiteitsprovider u ook gebruikt. Het pad van de aanvaller was deze keer een OAuth-machtiging; de volgende keer ook."
+        "**Phishing-resistente MFA op elk adminaccount** dat OAuth-applicaties kan installeren in uw identiteitsprovider. Passkeys of hardwaretokens, niets op basis van SMS.",
+        "**Maandelijkse OAuth-verlening-audits** in Workspace, Microsoft 365 of welke identiteitsprovider u ook gebruikt. Het pad van de aanvaller was dit keer een OAuth-verlening; de volgende keer ook."
       ]
     },
     {
       "type": "p",
-      "text": "Als uw team geen duidelijke eigenaar heeft voor een van deze punten, worden ze niet uitgevoerd. Dat is de stille reden waarom de meeste incidents eindigen met dezelfde vijf punten in de post-mortem. [Praat met ons](/#contact) over hoe webvise deze maatregelen integreert in het onderhoudscontract voor elk beheerd project."
+      "text": "De meeste teams hebben voor geen van deze punten een duidelijke eigenaar. Dat is de stille reden waarom incidenten keer op keer eindigen met dezelfde punten in het post-mortem. [Neem contact met ons op](/nl/#contact) over hoe webvise deze onderdelen integreert in het onderhoudsretainer voor elk beheerd project."
     },
     {
       "type": "h2",
-      "text": "Waarom dit incident anders is (en wat er niet in onze logs stond)"
+      "text": "Waarom deze inbreuk anders is"
     },
     {
       "type": "p",
-      "text": "Onze auditlogboeken voor beheerde Vercel-projecten en geadministreerde Google Workspaces kwamen schoon terug. Geen toegangsgebeurtenissen die wij niet hebben geautoriseerd, geen configuratiewijzigingen die wij niet hebben doorgevoerd, geen OAuth-machtigingen die er niet zouden mogen zijn. Dat is geen geluk. Het is het resultaat van het werken met beperkte referenties, strikte teamleden en een maandelijkse reviewcyclus voor gevoelige instellingen."
+      "text": "Het inbreukmodel waarvoor de meeste beveiligingsprogramma's zijn gebouwd: een aanvaller vindt een CVE in een server die u beheert, misbruikt die, en dumpt uw gegevens. Rotatie, patching en perimetermonitoring dekken dat model. Het incident van 19 april heeft een andere vorm."
     },
     {
       "type": "p",
-      "text": "Een schone log vandaag betekent dat de impact van dit specifieke incident de projecten die wij beheren niet heeft bereikt. Het betekent niet dat wij schoon zouden zijn bij een ander incident onder hetzelfde reactiemodel. Het inbreukmodel waarvoor de meeste beveiligingsprogramma's zijn gebouwd is: een aanvaller vindt een CVE in een server die u beheert, misbruikt die, en dumpt uw data. Rotatie, patching en perimetermonitoring dekken dat model."
+      "text": "Een aanvaller compromitteert een SaaS-tool die uw team heeft geautoriseerd, en maakt vervolgens gebruik van de vertrouwensrelatie tussen die tool en uw andere SaaS-tools om gegevens te bereiken die geen van beide aan een buitenstaander zou hebben gegeven. Uw Vercel-account is niet gecompromitteerd, en uw Google Workspace ook niet. Een derde tool die iemand maanden geleden heeft gekoppeld, werd gecompromitteerd, en de bereiken die u aan die tool heeft verleend, hebben het compromis stroomafwaarts doorgegeven."
     },
     {
       "type": "p",
-      "text": "De inbreuk die op 19 april verscheen heeft een andere vorm. Een aanvaller compromitteert een SaaS-tool die uw team heeft geautoriseerd, en rijdt vervolgens mee op de vertrouwensrelatie tussen die tool en uw andere SaaS-tools om data te bereiken die geen van beide aan een vreemde zouden hebben gegeven. Uw Vercel-account werd niet gecompromitteerd, uw Google Workspace ook niet. Een derde tool die iemand in uw team maanden geleden heeft gekoppeld werd gecompromitteerd, en de bereiken die u die tool heeft verleend, verspreidden de compromittering stroomafwaarts."
+      "text": "Het defensieve model moet overeenkomen met het aanvalsmodel. Dat betekent OAuth-verleningen behandelen als productie-afhankelijkheden, ze op een schema auditen en secrets uit omgevingsvariabelen halen waar een aanvaller met die verlening ze kan lezen. Onze auditlogs kwamen dit weekend schoon terug, maar dat is de opbrengst van dit specifieke incident, geen bewijs dat het responsmodel toekomstbestendig is."
     },
     {
       "type": "p",
-      "text": "Het defensieve model moet overeenkomen met het aanvalsmodel. Dat betekent OAuth-machtigingen behandelen als productie-afhankelijkheden, ze op een schema controleren, en geheimen uit omgevingsvariabelen halen waar een aanvaller met die machtiging ze kan lezen. De teams die het oude stappenplan blijven toepassen op de nieuwe aanvalsvorm, blijven dezelfde post-mortem schrijven."
-    },
-    {
-      "type": "p",
-      "text": "Wij voeren beveiligingsreviews uit voor Vercel-teams, Google Workspaces en SaaS-naar-SaaS-identiteitsgraphs als onderdeel van elk beheerd engagement bij webvise. Als u een extern paar ogen op uw configuratie wilt voordat de volgende bekendmaking op een weekend valt, [start dan een gesprek](/#contact)."
+      "text": "Wij voeren beveiligingsreviews uit op Vercel-teams, Google Workspaces en SaaS-to-SaaS-identiteitsgraphs als onderdeel van elk beheerd engagement bij webvise. Als u een extern paar ogen op uw configuratie wilt voordat de volgende disclosure in een weekend valt, [start dan een gesprek](/nl/#contact)."
     }
   ]
 }

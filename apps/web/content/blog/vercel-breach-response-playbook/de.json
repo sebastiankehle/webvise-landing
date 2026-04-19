@@ -1,33 +1,33 @@
 {
   "date": "2026-04-20",
-  "readingTime": 8,
-  "keyword": "vercel sicherheitsvorfall reaktion",
-  "title": "Rotieren, neu deployen, widerrufen: Unsere Reaktion auf den Vercel-Sicherheitsvorfall",
-  "excerpt": "Vercel hat am 19. April 2026 einen Supply-Chain-Vorfall offengelegt. Wir haben eine 5-stufige Reaktion über alle verwalteten Projekte hinweg durchgeführt. Die drei Schritte, die die meisten Teams ausgelassen haben, und warum gerade sie entscheidend sind.",
-  "metaDescription": "Vercel hat am 19. April 2026 einen Supply-Chain-Vorfall offengelegt. Die 5-stufige Reaktion, die wir über alle verwalteten Projekte hinweg durchgeführt haben, und die drei Schritte, die die meisten Teams ausgelassen haben.",
+  "readingTime": 7,
+  "keyword": "vercel vorfall reaktion",
+  "title": "Rotieren, Neu deployen, Widerrufen: Unsere Reaktion auf den Vercel-Vorfall",
+  "excerpt": "Vercel hat am 19. April 2026 einen Supply-Chain-Vorfall offengelegt. Die Maßnahmen, die wir über alle verwalteten Projekte hinweg durchgeführt haben, und warum diese Art von Vorfall ein anderes Reaktionsmodell erfordert.",
+  "metaDescription": "Vercel hat am 19. April 2026 einen Supply-Chain-Vorfall offengelegt. Die Maßnahmen, die wir über alle verwalteten Projekte hinweg durchgeführt haben, und warum diese Angriffsform das Reaktionsmodell verändert.",
   "cta": "Sicherheitsprüfung anfordern",
   "tags": ["Security", "Process", "Web Development", "Enterprise"],
   "blocks": [
     {
       "type": "p",
-      "text": "Am 19. April 2026 hat Vercel [einen Sicherheitsvorfall offengelegt](https://x.com/vercel/status/2045865072074035664), dessen Ursache eine kompromittierte OAuth-Drittanwendung innerhalb von Vercels Google Workspace war. Wir haben eine 5-stufige Reaktion über alle von webvise verwalteten Vercel-Projekte durchgeführt, bevor das Wochenende vorbei war. Unsere Audit-Logs kamen sauber zurück: kein Anzeichen einer Kompromittierung an irgendeiner Stelle im Stack. **Das Playbook hat funktioniert, weil wir drei Schritte ausgeführt haben, die die meisten Teams noch immer auslassen: nach der Rotation neu deployen, unseren Google Workspace auf den von Vercel veröffentlichten OAuth-Indikator prüfen und den Team-Standard so setzen, dass neue Umgebungsvariablen standardmäßig als vertraulich markiert werden.**"
+      "text": "Am 19. April 2026 [offenbarte Vercel einen Sicherheitsvorfall](https://x.com/vercel/status/2045865072074035664), der auf eine kompromittierte OAuth-Drittanwendung innerhalb von Vercel's Google Workspace zurückzuführen ist. Wir führten die Reaktionsmaßnahmen über alle webvise-verwalteten Vercel-Projekte durch, bevor das Wochenende vorbei war, und die Audit-Logs sowohl von Vercel als auch der von uns administrierten Google Workspaces kamen sauber zurück. **Dies war keine Schwachstelle in Vercel's eigenem Code. Es handelte sich um eine SaaS-to-SaaS Supply-Chain-Kompromittierung über eine OAuth-Vertrauensgrenze, und die Art dieses Vorfalls verändert, wie eine angemessene Reaktion aussehen muss.**"
     },
     {
       "type": "p",
-      "text": "Wer dieses Wochenende seine Vercel-Secrets rotiert und den Tab geschlossen hat: Jede laufende Funktion im Stack liefert noch immer die alten Werte aus."
+      "text": "Das Rotieren von Secrets im Vercel-Dashboard ist vielleicht die Hälfte der Reaktion. Die andere Hälfte liegt in Google Workspace, und die meisten Berichte gehen darauf nicht ein."
     },
     {
       "type": "p",
-      "text": "Den schwierigen Teil haben Sie bereits erledigt. Sie haben die Offenlegung gelesen, das Vercel-Dashboard geöffnet und jeden Schlüssel rotiert, den Sie finden konnten. Dieser Artikel beschreibt das vollständige 5-stufige Playbook, das wir durchgeführt haben, warum drei dieser Schritte wichtiger sind als die Rotation selbst, und wie die Art dieses Vorfalls Ihren Reaktionsplan für das nächste Mal verändern sollte."
+      "text": "Sie haben die Offenlegung gelesen und jeden Key rotiert, den Sie finden konnten. Das ist der richtige erste Schritt. Dieser Artikel beschreibt, was wir tatsächlich von Anfang bis Ende durchgeführt haben, die technische Besonderheit, die dafür sorgt, dass Rotation auch auf laufende Funktionen angewendet werden muss, und warum die Art dieses Vorfalls Ihren Reaktionsplan für das nächste Mal verändern sollte."
     },
     {
       "type": "ul",
       "items": [
-        "**Das Rotieren von Vercel-Umgebungsvariablen ändert das Dashboard, nicht die laufenden Funktionen.** Jedes Projekt braucht ein neues Deployment, damit neue Werte tatsächlich wirksam werden.",
-        "**Der Google Workspace OAuth-Audit ist die Hälfte, über die kaum jemand spricht.** Über diesen Vertrauenspfad hat der Angreifer Vercel tatsächlich erreicht.",
-        "**Stellen Sie \"vertraulich\" als Standard auf Team-Ebene ein**, bevor der nächste Vorfall Sie dazu zwingt. Die Vercel-Oberfläche drängt in die entgegengesetzte Richtung.",
-        "**Behandeln Sie dies als SaaS-zu-SaaS-Supply-Chain-Kompromittierung**, nicht als Vercel-Schwachstelle. Das Reaktionsmodell unterscheidet sich grundlegend von einem CVE-basierten Vorfall.",
-        "**Monatliche Audits von OAuth-Drittanbieter-Berechtigungen** in Ihrem Identity Provider sind für jedes Team mit einem SaaS-lastigen Stack heute Pflicht."
+        "**Das Rotieren von Vercel env vars verändert das Dashboard, nicht die laufenden Funktionen.** Werte werden erst beim nächsten Deploy wirksam.",
+        "**Das Google Workspace OAuth-Audit ist die Hälfte, über die kaum gesprochen wird.** Das ist der Vertrauenspfad, den der Angreifer genutzt hat, um Vercel zu erreichen.",
+        "**Dies war keine Vercel-Schwachstelle.** Es war eine SaaS-to-SaaS-Kompromittierung über einen OAuth-Grant, und eine normale CVE-artige Reaktion schließt die Lücke nicht.",
+        "**Langfristig: Secrets aus env vars herausverlagern** in einen Runtime-Secret-Manager. Phishing-resistente MFA für alle, die OAuth-Apps installieren können, ist Pflicht.",
+        "**Monatliche Audits von OAuth-Grants Dritter** in Ihrem Identity Provider sind jetzt Bestandteil der Baseline, keine optionale Reifegrad-Maßnahme."
       ]
     },
     {
@@ -36,136 +36,120 @@
     },
     {
       "type": "p",
-      "text": "Kurzfassung: Eine SaaS-Drittanwendung mit OAuth-Zugriff innerhalb von Vercels Google Workspace wurde kompromittiert. Der Angreifer nutzte diese Vertrauensgrenze, um auf Umgebungsvariablen einer Teilmenge von Kundenprojekten zuzugreifen. Vercel [veröffentlichte eine OAuth-Client-ID als Kompromittierungsindikator](https://x.com/vercel/status/2045865072074035664) und bat alle Kunden, jeden als Umgebungsvariable gespeicherten Secret zu rotieren. Eine Schwachstelle im eigenen Code von Vercel war nicht beteiligt. Die Angriffsfläche war der Identitäts-Vertrauensgraph zwischen zwei SaaS-Werkzeugen."
+      "text": "Die Kurzfassung: Eine SaaS-Drittanwendung mit OAuth-Zugriff innerhalb von Vercel's Google Workspace wurde kompromittiert, und der Angreifer nutzte diese Vertrauensgrenze, um auf Environment-Variable-Werte in einer Teilmenge von Kundenprojekten zuzugreifen. Vercel [veröffentlichte eine OAuth-Client-ID als Indicator of Compromise](https://x.com/vercel/status/2045865072074035664) und bat alle Kunden, jeden als Environment Variable gespeicherten Secret zu rotieren. Nichts davon betraf eine Schwachstelle in Vercel's eigenem Code. Die Angriffsfläche war der Identity-Trust-Graph zwischen zwei SaaS-Tools."
     },
     {
       "type": "p",
-      "text": "Dieser letzte Punkt bestimmt, wie Sie reagieren sollten. Liegt die Schwachstelle im eigenen Code der Plattform, patchen Sie, rotieren das Geleakte und machen weiter. Liegt die Schwachstelle im Vertrauenspfad zwischen Plattformen, ist Rotation zwar notwendig, schließt das Loch aber nicht vollständig. Sie müssen auch die Berechtigung widerrufen, über die der Angreifer eingedrungen ist, und alle übrigen prüfen, bevor eine erneute Kompromittierung denselben Schaden anrichten kann."
+      "text": "Das ist entscheidend für die Reaktion. Liegt die Schwachstelle im eigenen Code der Plattform, patchen Sie, rotieren das Geleakte und machen weiter. Liegt die Schwachstelle im Vertrauenspfad zwischen Plattformen, ist Rotation zwar notwendig, schließt aber die Lücke nicht. Sie müssen auch den Grant widerrufen, über den der Angreifer eingedrungen ist, sonst wiederholt die nächste Kompromittierung desselben Tools denselben Schadensradius."
     },
     {
       "type": "p",
-      "text": "Wenn Sie eine unabhängige Prüfung Ihres Vercel-Setups wünschen, bevor das nächste Post-Mortem über Sie geschrieben wird, [führen wir Sicherheitsreviews für Vercel-Teams, Google Workspaces und SaaS-zu-SaaS-Berechtigungen durch](/#contact)."
+      "text": "Wenn Sie vor dem nächsten Wochenend-Post-Mortem ein zweites Augenpaar auf Ihr Vercel-Setup möchten, [führen wir Security Reviews über Vercel-Teams, Google Workspaces und SaaS-to-SaaS-Grants durch](/de/#contact)."
     },
     {
       "type": "h2",
-      "text": "Schritt eins: Die Secrets rotieren, die wirklich zählen"
+      "text": "Schritt 1: Die Secrets rotieren, die tatsächlich wichtig sind"
     },
     {
       "type": "p",
-      "text": "Wir haben jede Umgebungsvariable, die Zugriff auf irgendetwas gewähren könnte, standardmäßig als kompromittiert behandelt. Das ist die Annahme, die die Offenlegung voraussetzt. Hier sind die Secret-Klassen, die wir über alle verwalteten Projekte hinweg neu ausgestellt haben."
+      "text": "Wir behandelten jede Environment Variable, die Zugriff auf irgendetwas gewähren könnte, standardmäßig als kompromittiert. Das ist die Annahme, die die Offenlegung erfordert. Hier sind die Secret-Klassen, die wir über alle verwalteten Projekte hinweg neu ausgestellt haben."
     },
     {
       "type": "ul",
       "items": [
-        "**Datenbank-Zugangsdaten.** Verbindungsstrings, Read-Only-Replica-Passwörter und Admin-Rollenschlüssel für jedes Projekt mit Datenbank-Backend.",
-        "**Resend-API-Schlüssel** für transaktionale E-Mails in jedem Projekt, das Verifizierungs-, Benachrichtigungs- oder Registrierungsnachrichten versendet.",
-        "**Google API-Zugangsdaten** für Workspace-, Calendar-, Drive- und Analytics-Integrationen, die serverseitig ausgeführt werden.",
-        "**AI Gateway-Schlüssel**, einschließlich Modell-Zugangstokens, Provider-Zugangsdaten und Rate-Limit-Tokens für alles, was über das Gateway geleitet wird.",
-        "**Ingest-Integrationszugangsdaten** für Webhook-Endpunkte, Event-Pipelines und alles, was Daten von außen ins Projekt zieht."
+        "**Datenbank-Credentials.** Connection Strings, Read-Only-Replica-Passwörter und Admin-Tier-Rollenschlüssel für jedes Projekt mit einem Datenbank-Backend.",
+        "**Resend API-Keys** für transaktionale E-Mails in jedem Projekt, das Verifikations-, Benachrichtigungs- oder Anmeldenachrichten versendet.",
+        "**Google API-Credentials** für Workspace-, Calendar-, Drive- und Analytics-Integrationen, die serverseitig laufen.",
+        "**AI Gateway-Keys** einschließlich Modellzugriffstoken, Provider-Credentials und Rate-Limit-Token für alles, was über das Gateway geroutet wird.",
+        "**Ingest-Integrations-Credentials** für Webhook-Endpoints, Event-Pipelines und alles, was Daten von außen in das Projekt zieht."
       ]
     },
     {
       "type": "p",
-      "text": "Einige mussten wir zweimal prüfen: die Variablen, die nicht als vertraulich markiert waren. Das Vertraulich-Flag in Vercel ändert nur die Sichtbarkeit im Dashboard; es ändert nicht, ob der Wert während des Vorfalls zugänglich war. Wir haben auch die nicht markierten rotiert, zusammen mit den als vertraulich gekennzeichneten, denn ein Angreifer, der Umgebungsvariablen liest, interessiert sich nicht für das Flag. Zwei häufige Versäumnisse, wenn Teams das alleine tun: Variablen mit der Endung `_URL`, die Zugangsdaten in Verbindungsstrings einbetten, und alles mit `_TEST` oder `_DEV` im Namen, das sich tatsächlich auf Produktionssysteme bezieht."
+      "text": "Zwei Kategorien verdienen besondere Aufmerksamkeit: Variablen, die auf `_URL` enden und Credentials in Connection Strings einbetten, sowie alles, was mit `_TEST` oder `_DEV` bezeichnet ist, aber tatsächlich auf Production zeigt. Rotieren Sie diese zusammen mit den anderen. Ein Angreifer, der env vars liest, interessiert sich nicht dafür, welchen Flag Sie gewählt haben oder was der Variablenname vermuten lässt."
     },
     {
       "type": "h2",
-      "text": "Schritt zwei: Neu deployen (der Schritt, den die meisten Teams ausgelassen haben)"
+      "text": "Schritt 2: Neu deployen (die technische Besonderheit, die Rotation erst wirksam macht)"
     },
     {
       "type": "p",
-      "text": "Hier sind die meisten Reaktionen ins Stocken geraten. Vercel wendet Änderungen an Umgebungsvariablen zum Build- und Deploy-Zeitpunkt an, nicht zur Laufzeit. Ein Projekt, das Sie aktualisiert und sich selbst überlassen haben, läuft noch immer auf dem gestrigen Build, der noch immer das alte Secret in seine Laufzeit eingebettet hat. Sie haben das Dashboard rotiert, nicht das System."
+      "text": "Das ist der Teil, der am meisten zählt und am wenigsten Aufmerksamkeit bekommt. Vercel wendet Änderungen an Environment Variables zum Build- und Deploy-Zeitpunkt an, nicht zur Laufzeit. Ein Projekt, das Sie aktualisiert und sich selbst überlassen haben, läuft noch immer auf dem Build, den Sie gestern ausgeliefert haben, der noch den alten Secret in seiner Laufzeit eingebaut hat. Sie haben das Dashboard rotiert, nicht das System."
     },
     {
       "type": "p",
-      "text": "Konkret: Sie rotieren Ihren Resend-API-Schlüssel um 10:14 Uhr und öffnen einen neuen Tab für etwas anderes. Eine Funktion versucht um 10:17 Uhr, eine Verifizierungs-E-Mail zu senden, ruft Resend mit dem alten, noch in der Deployment-Umgebung eingebetteten Schlüssel auf, und Resend lehnt die Anfrage ab. Ihr Nutzer bekommt seine E-Mail nicht. Multiplizieren Sie das mit jeder Funktion, jedem Cron-Job und jedem Webhook-Handler, der auf dem alten Build läuft."
+      "text": "Konkretes Beispiel: Sie rotieren Ihren Resend API-Key um 10:14 und öffnen einen neuen Tab, um etwas anderes zu prüfen. Eine Funktion versucht um 10:17, eine Verifikations-E-Mail zu senden, ruft Resend mit dem alten, noch in die deployed Umgebung eingebauten Key auf, und Resend lehnt die Anfrage ab. Ihr Nutzer erhält seine E-Mail nicht. Multiplizieren Sie das mit jeder Funktion, jedem Cron und jedem Webhook-Handler, der den alten Build ausführt."
     },
     {
       "type": "table",
-      "headers": ["Was Sie getan haben", "Was sich geändert hat", "Was noch mit dem alten Secret läuft"],
+      "headers": ["Was Sie getan haben", "Was sich geändert hat", "Was noch den alten Secret verwendet"],
       "rows": [
-        ["Umgebungsvariable nur im Dashboard rotiert", "Dashboard-Wert", "Jede laufende Funktion, jeder Cron-Job und jede Middleware-Instanz"],
-        ["Rotiert und Produktion neu deployt", "Produktions-Build und Laufzeit", "Preview-Builds, PR-Branches und Staging"],
-        ["Rotiert und jede Umgebung neu deployt", "Alle Builds und Laufzeiten", "Nichts, sobald die Deployments aktiv sind"]
+        ["Env var nur im Dashboard rotiert", "Dashboard-Wert", "Jede laufende Funktion, jeder Cron-Job und jede Middleware-Instanz"],
+        ["Rotiert und Production neu deployed", "Production-Build und Laufzeit", "Preview-Builds, PR-Branches und Staging"],
+        ["Rotiert und jede Umgebung neu deployed", "Alle Builds und Laufzeiten", "Nichts, sobald die Deploys live sind"]
       ]
     },
     {
       "type": "p",
-      "text": "Um Ihre eigene Reaktion zu überprüfen, öffnen Sie den Deployments-Tab jedes Projekts und suchen Sie ein Deployment, das nach Ihrer Rotation erstellt wurde. Zeigt die oberste Zeile einen Zeitstempel vor Ihrer Rotation, haben Sie das Dashboard rotiert, nicht das System. Der zweite explizite Schritt unserer Reaktion war ein erzwungenes Produktions-Redeploy für jedes verwaltete Projekt nach der Rotation, bevor wir mit irgendetwas anderem fortgefahren sind."
+      "text": "Um Ihre Reaktion zu verifizieren, öffnen Sie den Deployments-Tab bei jedem Projekt und suchen Sie ein Deployment mit einem Zeitstempel nach Ihrer Rotation. Zeigt die oberste Zeile einen Zeitstempel vor Ihrer Rotation, hat die Rotation keinen laufenden Prozess erreicht. Der zweite explizite Schritt in unserer Reaktion war ein erzwungener Production-Redeploy auf jedem verwalteten Projekt nach der Rotation, bevor wir weitermachten."
     },
     {
       "type": "h2",
-      "text": "Schritt drei: Die Google Workspace OAuth-Berechtigung widerrufen"
+      "text": "Schritt 3: Den Google Workspace OAuth-Grant widerrufen"
     },
     {
       "type": "p",
-      "text": "Das ist die Hälfte der Reaktion, die in den Wochenend-Threads kaum auftauchte. Der Vorfall hat seinen Ursprung in Google Workspace. Der Angreifer gelangte über eine OAuth-Drittanwendung mit einer gewährten Berechtigung in Workspace herein und wechselte dann über einen SaaS-zu-SaaS-Vertrauenspfad zu Vercel. Wer nur auf der Vercel-Seite rotiert hat, lässt dieselbe OAuth-Anwendung mit denselben Berechtigungen weiter bestehen, bereit für den nächsten Missbrauch."
+      "text": "Das ist die Hälfte der Reaktion, über die in den Wochenend-Threads kaum gesprochen wurde. Der Vorfall hat seinen Ursprung in Google Workspace. Der Angreifer gelangte über eine Drittanwendung mit einem gewährten Scope in Workspace hinein und pivotierte dann über einen SaaS-to-SaaS-Vertrauenspfad in Vercel. Wer nur auf der Vercel-Seite rotiert hat, lässt dieselbe OAuth-App noch immer dort mit demselben Scope sitzen, bereit, beim nächsten Mal missbraucht zu werden."
     },
     {
       "type": "p",
-      "text": "Der Weg in Ihrer Admin-Konsole: admin.google.com, Sicherheit, API-Steuerung, App-Zugangskontrolle, Drittanbieter-Apps. Suchen Sie nach der OAuth-Client-ID, die Vercel als Kompromittierungsindikator veröffentlicht hat. Widerrufen Sie sie, falls sie vorhanden ist. Dann kommt der schwierigere Teil: Überprüfen Sie jede andere OAuth-Berechtigung in der Liste, bestätigen Sie, dass jede Berechtigung bewusst gewährt wurde, und widerrufen Sie alles, wofür Sie keinen aktuellen Grund haben."
+      "text": "Der Pfad in Ihrer Admin-Konsole: admin.google.com, Sicherheit, API-Steuerung, App-Zugriffskontrolle, Drittanbieter-Apps. Suchen Sie nach der OAuth-Client-ID, die Vercel als Indicator of Compromise veröffentlicht hat. Widerrufen Sie sie, falls sie vorhanden ist. Dann das Schwierigere: Überprüfen Sie jeden anderen OAuth-Grant in der Liste, bestätigen Sie, dass jeder Scope absichtlich vergeben wurde, und widerrufen Sie alles, für das Sie keinen aktiven Grund haben, es zu behalten."
     },
     {
       "type": "p",
-      "text": "Wir haben diesen Audit für jeden Workspace durchgeführt, den wir verwalten. Der Indikator war nicht vorhanden, und die meisten Berechtigungen hatten einen legitimen geschäftlichen Zweck. Eine Handvoll nicht, und diese haben wir widerrufen. Das ist der Rhythmus, den wir jetzt durchsetzen: OAuth-Berechtigungen zu Beginn jeden Monats prüfen und alles widerrufen, das seit 30 Tagen ungenutzt ist."
+      "text": "Wir führten dieses Audit auf jeder Workspace durch, die wir administrieren. Der Indicator war nicht vorhanden, und die meisten Grants hatten einen legitimen Geschäftszweck. Einige hatten keinen, und wir widerriefen sie. Seitdem haben wir einen monatlichen Rhythmus eingeführt: Audit der OAuth-Grants am Anfang jedes Monats, Widerruf von allem, das seit 30 Tagen nicht genutzt wurde."
     },
     {
       "type": "h2",
-      "text": "Schritt vier: Den Team-Standard auf \"vertraulich\" setzen"
+      "text": "Schritt 4: Die langfristigen Maßnahmen"
     },
     {
       "type": "p",
-      "text": "Neue Umgebungsvariablen in Vercel sind standardmäßig nicht vertraulich. Das Vertraulich-Flag blendet den Wert in der Benutzeroberfläche aus und schränkt ihn in einigen Logging-Pfaden ein. In einem Dashboard mit dreißig Variablen ohne visuellen Hinweis, der beide unterscheidet, entsteht der stille Standard, alles offen zu lassen. Genau das hat dieser Vorfall im großen Maßstab offengelegt, und das ist der Standard, den wir geändert haben."
-    },
-    {
-      "type": "p",
-      "text": "Auf Team-Ebene können Sie \"vertraulich\" als Standard für neue Umgebungsvariablen in allen Projekten festlegen. Wir haben das für jedes Team aktiviert, das wir verwalten, als Teil unserer Reaktion. Die bestehenden Variablen sind diejenigen, die während des Vorfalls hätten ausgelesen werden können, und diese haben wir rotiert. Die Einstellungsänderung gilt für den nächsten Vorfall, der kommen wird, und für neue Variablen, die sonst still als nicht vertraulich angelegt würden."
-    },
-    {
-      "type": "h2",
-      "text": "Schritt fünf: Die langfristigen Maßnahmen (diese Woche beginnen)"
-    },
-    {
-      "type": "p",
-      "text": "Rotation und Widerruf behandeln die unmittelbare Exposition. Die längerfristigen Maßnahmen verhindern, dass das nächste Mal wieder ein Wochenend-Notfall entsteht. Wir rollen fünf Änderungen über verwaltete Projekte in den kommenden Wochen aus und empfehlen sie jedem Team mit einem SaaS-lastigen Stack."
+      "text": "Rotation und Widerruf haben die unmittelbare Exposition bewältigt. Die längerfristigen Maßnahmen sind das, was verhindert, dass der nächste Vorfall zum Wochenend-Notfallbetrieb wird. Wir setzen diese über die verwalteten Projekte in den kommenden Wochen um, und wir empfehlen sie jedem Team, das einen SaaS-lastigen Stack betreibt."
     },
     {
       "type": "ul",
       "items": [
-        "**Secrets zur Laufzeit aus einem Secret Manager laden** statt sie in Umgebungsvariablen einzubacken. Rotation wird zu einem Push-Vorgang, nicht zu einem Redeploy.",
-        "**Kurzlebige Zugangsdaten für Datenbanken und APIs** überall dort, wo der Provider sie unterstützt. Minuten an Gültigkeit, keine Monate.",
-        "**Geplante Rotation** für Zugangsdaten, die nicht kurzlebig gemacht werden können. Kalendergesteuert, nicht vorfallsgetrieben.",
-        "**Phishing-resistente MFA für jeden Admin-Account**, der OAuth-Anwendungen in Ihrem Identity Provider installieren kann. Passkeys oder Hardware-Token, nichts SMS-basiertes.",
-        "**Monatliche OAuth-Berechtigungs-Audits** in Workspace, Microsoft 365 oder welchem Identity Provider Sie auch nutzen. Der Angriffspfad war diesmal eine OAuth-Berechtigung, und er wird es beim nächsten Mal wieder sein."
+        "**Secrets zur Laufzeit aus einem Secret Manager beziehen** statt sie in env vars einzubacken. Rotation wird zu einem Push, nicht zu einem Redeploy.",
+        "**Kurzlebige Credentials für Datenbanken und APIs**, wo immer der Provider sie unterstützt. Gültigkeitsdauer in Minuten, nicht in Monaten.",
+        "**Geplante Rotation** für Credentials, die nicht kurzlebig gemacht werden können. Kalendergesteuert, nicht vorfallsgesteuert.",
+        "**Phishing-resistente MFA auf jedem Admin-Konto**, das OAuth-Anwendungen in Ihrem Identity Provider installieren kann. Passkeys oder Hardware-Token, nichts SMS-basiertes.",
+        "**Monatliche OAuth-Grant-Audits** in Workspace, Microsoft 365 oder welchem Identity Provider Sie auch betreiben. Der Angriffsweg diesmal war ein OAuth-Grant; der Angriffsweg beim nächsten Mal wird es auch sein."
       ]
     },
     {
       "type": "p",
-      "text": "Wenn Ihr Team für keines dieser Punkte einen klaren Verantwortlichen hat, werden sie nicht umgesetzt. Das ist der stille Grund, warum die meisten Post-Mortems dieselben fünf Punkte enthalten. [Sprechen Sie mit uns](/#contact) darüber, wie webvise diese Maßnahmen in das Wartungs-Retainer jedes verwalteten Projekts integriert."
+      "text": "Die meisten Teams haben für keines dieser Themen einen klaren Verantwortlichen. Das ist der stille Grund, warum Vorfälle immer wieder mit denselben Punkten im Post-Mortem enden. [Sprechen Sie mit uns](/de/#contact) darüber, wie webvise diese Maßnahmen in das Wartungsretainer für jedes verwaltete Projekt integriert."
     },
     {
       "type": "h2",
-      "text": "Warum dieser Vorfall anders ist (und was in unseren Logs nicht aufgetaucht ist)"
+      "text": "Warum dieser Vorfall anders ist"
     },
     {
       "type": "p",
-      "text": "Unsere Audit-Logs über verwaltete Vercel-Projekte und administrierte Google Workspaces kamen sauber zurück. Keine Zugriffsereignisse, die wir nicht autorisiert haben, keine Konfigurationsänderungen, die wir nicht vorgenommen haben, keine OAuth-Berechtigungen, die nicht vorhanden sein sollten. Das ist kein Zufall. Es ist das Ergebnis des konsequenten Einsatzes bereichsbeschränkter Zugangsdaten, einer engen Team-Mitgliedschaft und eines monatlichen Review-Rhythmus für sensible Einstellungen."
+      "text": "Das Angriffsmodell, für das die meisten Sicherheitsprogramme ausgelegt sind: Ein Angreifer findet einen CVE in einem Server, den Sie betreiben, nutzt ihn aus und entwendet Ihre Daten. Rotation, Patching und Perimeter-Monitoring decken dieses Modell ab. Der Vorfall vom 19. April hat eine andere Form."
     },
     {
       "type": "p",
-      "text": "Ein sauberes Log bedeutet heute, dass der Wirkungsbereich dieses konkreten Vorfalls die von uns verwalteten Projekte nicht erreicht hat. Es bedeutet nicht, dass wir bei einem anderen Vorfall unter demselben Reaktionsmodell sauber wären. Das Angriffsmodell, für das die meisten Sicherheitsprogramme ausgelegt sind, lautet: Ein Angreifer findet einen CVE in einem Server, den Sie betreiben, nutzt ihn aus und entwendet Ihre Daten. Rotation, Patching und Perimeter-Monitoring decken dieses Modell ab."
+      "text": "Ein Angreifer kompromittiert ein SaaS-Tool, das Ihr Team autorisiert hat, und nutzt dann die Vertrauensbeziehung zwischen diesem Tool und Ihren anderen SaaS-Tools, um Daten zu erreichen, die keines der Tools einem Fremden direkt gegeben hätte. Ihr Vercel-Konto wurde nicht kompromittiert, und Ihr Google Workspace auch nicht. Ein drittes Tool, das jemand vor Monaten verbunden hatte, wurde kompromittiert, und die Scopes, die Sie diesem Tool gewährt hatten, propagierten die Kompromittierung weiter."
     },
     {
       "type": "p",
-      "text": "Der Vorfall vom 19. April hat eine andere Form. Ein Angreifer kompromittiert ein SaaS-Werkzeug, das Ihr Team autorisiert hat, und nutzt dann die Vertrauensbeziehung zwischen diesem Werkzeug und Ihren anderen SaaS-Werkzeugen, um an Daten zu gelangen, die kein Werkzeug einem Fremden direkt gegeben hätte. Ihr Vercel-Account wurde nicht kompromittiert, Ihr Google Workspace auch nicht. Ein Drittanbieter-Werkzeug, das jemand in Ihrem Team vor Monaten verbunden hat, wurde kompromittiert, und die Berechtigungen, die Sie diesem Werkzeug erteilt hatten, haben die Kompromittierung weitergegeben."
+      "text": "Das Verteidigungsmodell muss zum Angriffsmodell passen. Das bedeutet, OAuth-Grants als Produktionsabhängigkeiten zu behandeln, sie nach Zeitplan zu auditieren und Secrets aus Environment Variables zu verlagern, wo ein Angreifer mit diesem Grant sie lesen kann. Unsere Audit-Logs kamen dieses Wochenende sauber zurück, aber das ist die Auszahlung für diesen spezifischen Vorfall, kein Beweis dafür, dass das Reaktionsmodell zukunftssicher ist."
     },
     {
       "type": "p",
-      "text": "Das defensive Modell muss zum Angriffsmodell passen. Das bedeutet, OAuth-Berechtigungen wie Produktions-Abhängigkeiten zu behandeln, sie nach einem festen Zeitplan zu prüfen und Secrets aus Umgebungsvariablen herauszubewegen, wo ein Angreifer mit dieser Berechtigung sie auslesen kann. Teams, die das alte Playbook weiter gegen das neue Angriffsmuster einsetzen, werden weiterhin dasselbe Post-Mortem schreiben."
-    },
-    {
-      "type": "p",
-      "text": "Wir führen Sicherheitsreviews für Vercel-Teams, Google Workspaces und SaaS-zu-SaaS-Identitätsgraphen als Teil jedes verwalteten Engagements bei webvise durch. Wenn Sie eine externe Prüfung Ihres Setups wünschen, bevor die nächste Offenlegung an einem Wochenende landet, [starten Sie ein Gespräch](/#contact)."
+      "text": "Wir führen Security Reviews zu Vercel-Teams, Google Workspaces und SaaS-to-SaaS-Identity-Graphs als Teil jedes verwalteten Engagements bei webvise durch. Wenn Sie vor der nächsten Offenlegung an einem Wochenende ein externes Augenpaar auf Ihr Setup möchten, [starten Sie ein Gespräch](/de/#contact)."
     }
   ]
 }

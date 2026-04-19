@@ -1,33 +1,33 @@
 {
   "date": "2026-04-20",
-  "readingTime": 8,
+  "readingTime": 7,
   "keyword": "vercel breach response",
   "title": "Rotate, Redeploy, Revoke: Our Response to the Vercel Breach",
-  "excerpt": "Vercel disclosed a supply-chain breach on April 19, 2026. We ran a 5-step response across every managed project. The three steps most teams skipped, and why they matter most.",
-  "metaDescription": "Vercel disclosed a supply-chain breach on April 19, 2026. The 5-step response we ran across every managed project, and the three most teams skipped.",
+  "excerpt": "Vercel disclosed a supply-chain breach on April 19, 2026. The response we ran across every managed project, and why this breach shape needs a different response model.",
+  "metaDescription": "Vercel disclosed a supply-chain breach on April 19, 2026. The response we ran across every managed project, and why this breach shape changes the model.",
   "cta": "Get a Security Review",
   "tags": ["Security", "Process", "Web Development", "Enterprise"],
   "blocks": [
     {
       "type": "p",
-      "text": "On April 19, 2026, Vercel [disclosed a security incident](https://x.com/vercel/status/2045865072074035664) traced to a compromised third-party OAuth application inside their Google Workspace. We ran a 5-step response across every webvise-managed Vercel project before the weekend was out. Our audit logs came back clean, no sign of compromise anywhere in the stack. **The playbook worked because we ran three steps most teams are still skipping: redeploying after rotation, auditing our Google Workspace for the OAuth indicator Vercel published, and flipping the team default so new environment variables are marked sensitive.**"
+      "text": "On April 19, 2026, Vercel [disclosed a security incident](https://x.com/vercel/status/2045865072074035664) traced to a compromised third-party OAuth application inside their Google Workspace. We ran the response across every webvise-managed Vercel project before the weekend was out, and audit logs on both Vercel and the Google Workspaces we administer came back clean. **This wasn't a vulnerability in Vercel's own code. It was a SaaS-to-SaaS supply-chain compromise through an OAuth trust boundary, and the shape of it changes what a proper response looks like.**"
     },
     {
       "type": "p",
-      "text": "If you rotated your Vercel secrets this weekend and closed the tab, every running function in your stack is still serving the old values."
+      "text": "Rotating secrets in your Vercel dashboard is maybe half the response. The other half lives in Google Workspace, and most writeups are not covering it."
     },
     {
       "type": "p",
-      "text": "You did the hard part already. You read the disclosure, opened your Vercel dashboard, and cycled every key you could find. This article walks through the full 5-step playbook we ran, why three of those steps matter more than the rotation itself, and how the shape of this breach should change your response plan next time."
+      "text": "You read the disclosure and cycled every key you could find. That is the right first move. This article walks through what we actually ran end-to-end, the technical gotcha that makes rotation apply to running functions, and why the shape of this breach changes how your response plan should look next time."
     },
     {
       "type": "ul",
       "items": [
-        "**Rotating Vercel env vars changes the dashboard, not the running functions.** Every project needs a fresh deploy for new values to actually take effect.",
-        "**The Google Workspace OAuth audit is the half nobody talks about.** That trust path is how the attacker actually reached Vercel.",
-        "**Set sensitive-by-default at the team level** before the next incident forces you to. The Vercel UI pushes the opposite.",
-        "**Treat this as a SaaS-to-SaaS supply-chain compromise**, not a Vercel vulnerability. The response model is different from a CVE-style breach.",
-        "**Monthly audits of third-party OAuth grants** in your identity provider are now table stakes for any team running a SaaS-heavy stack."
+        "**Rotating Vercel env vars changes the dashboard, not the running functions.** Values only take effect on the next deploy.",
+        "**The Google Workspace OAuth audit is the half that barely gets discussed.** That is the trust path the attacker used to reach Vercel.",
+        "**This wasn't a Vercel vulnerability.** It was a SaaS-to-SaaS compromise through an OAuth grant, and a normal CVE-style response doesn't close the loop.",
+        "**Long-term, move secrets out of env vars** and into a runtime secret manager. Require phishing-resistant MFA on anyone who can install OAuth apps.",
+        "**Monthly audits of third-party OAuth grants** in your identity provider are now part of the baseline, not a maturity upgrade."
       ]
     },
     {
@@ -40,7 +40,7 @@
     },
     {
       "type": "p",
-      "text": "That last point matters for how you respond. If the vulnerability is in the platform's own code, you patch, rotate what leaked, and move on. If the vulnerability is in the trust path between platforms, rotation is necessary but it does not close the hole. You also have to revoke the grant the attacker rode in on, and audit the rest before the next compromise repeats the same blast radius."
+      "text": "That matters for how you respond. If the vulnerability is in the platform's own code, you patch, rotate what leaked, and move on. If the vulnerability is in the trust path between platforms, rotation is necessary but it does not close the hole. You also have to revoke the grant the attacker rode in on, or the next compromise of that same tool repeats the same blast radius."
     },
     {
       "type": "p",
@@ -66,15 +66,15 @@
     },
     {
       "type": "p",
-      "text": "A few we had to look at twice: the variables that were not marked as sensitive. The sensitive flag in Vercel only changes dashboard visibility; it does not change whether the value was accessible during the incident window. We rotated the plain ones too, along with the sensitive-flagged ones, because an attacker reading env vars does not care which flag you picked. Two common misses when teams do this alone are variables ending in `_URL` that embed credentials inside connection strings, and anything labeled `_TEST` or `_DEV` that turns out to point at production."
+      "text": "Two categories worth double-checking: variables ending in `_URL` that embed credentials inside connection strings, and anything labeled `_TEST` or `_DEV` that turns out to point at production. Rotate those with the rest. An attacker reading env vars does not care which flag you picked or what the variable name suggests it does."
     },
     {
       "type": "h2",
-      "text": "Step Two: Redeploy (The Step Most Teams Skipped)"
+      "text": "Step Two: Redeploy (The Technical Gotcha That Makes Rotation Real)"
     },
     {
       "type": "p",
-      "text": "This is where most responses broke down. Vercel applies environment variable changes at build and deploy time, not at runtime. A project you updated and left alone is still running the build you shipped yesterday, which still has the old secret baked into its runtime. You rotated the dashboard, not the system."
+      "text": "This is the part that matters most and gets the least airtime. Vercel applies environment variable changes at build and deploy time, not at runtime. A project you updated and left alone is still running the build you shipped yesterday, which still has the old secret baked into its runtime. You rotated the dashboard, not the system."
     },
     {
       "type": "p",
@@ -91,7 +91,7 @@
     },
     {
       "type": "p",
-      "text": "To verify your own response, open the Deployments tab on each project and find a deployment timestamped after your rotation. If the top row shows a timestamp earlier than when you rotated, you rotated the dashboard but not the system. The second explicit step in our response was a forced production redeploy on every managed project after rotation, before we moved on to anything else."
+      "text": "To verify your response, open the Deployments tab on each project and find a deployment timestamped after your rotation. If the top row shows a timestamp earlier than when you rotated, the rotation didn't make it into any running process. The second explicit step in our response was a forced production redeploy on every managed project after rotation, before moving on."
     },
     {
       "type": "h2",
@@ -99,7 +99,7 @@
     },
     {
       "type": "p",
-      "text": "This is the half of the response that barely showed up in weekend threads. The incident originated in Google Workspace. The attacker got in via a third-party OAuth application with a granted scope inside Workspace, then pivoted into Vercel through a SaaS-to-SaaS trust path. If you only rotated on the Vercel side, the same OAuth app is still sitting there with the same scope, ready to be abused the next time it gets compromised."
+      "text": "This is the half of the response that barely got discussed in weekend threads. The incident originated in Google Workspace. The attacker got in via a third-party OAuth application with a granted scope inside Workspace, then pivoted into Vercel through a SaaS-to-SaaS trust path. If you only rotated on the Vercel side, the same OAuth app is still sitting there with the same scope, ready to be abused the next time it gets compromised."
     },
     {
       "type": "p",
@@ -107,27 +107,15 @@
     },
     {
       "type": "p",
-      "text": "We ran this audit on every Workspace we administer. The indicator was not present, and most grants had legitimate business purpose. A handful did not, and we revoked them. That is the cadence we now enforce: audit OAuth grants at the start of every month, revoke anything unused in 30 days."
+      "text": "We ran this audit on every Workspace we administer. The indicator was not present, and most grants had legitimate business purpose. A handful did not, and we revoked them. We've since moved to a monthly cadence: audit OAuth grants at the start of every month, revoke anything unused in 30 days."
     },
     {
       "type": "h2",
-      "text": "Step Four: Change the Team Default to Sensitive"
+      "text": "Step Four: The Long-Term Moves"
     },
     {
       "type": "p",
-      "text": "New environment variables in Vercel default to plain, not sensitive. The sensitive flag hides the value from the UI and restricts it from some logging paths. In a dashboard of thirty variables with no visual cue distinguishing the two, the quiet default becomes to leave everything plain. That is what this incident exposed at scale, and it is the default we flipped."
-    },
-    {
-      "type": "p",
-      "text": "At the team level, you can set sensitive-by-default for new environment variables across every project. We enabled it across every team we administer as part of our response. The existing variables are the ones that would have been read during the incident window, and those we rotated. The setting change is for the next incident, which will happen, and for the new variables that would otherwise quietly land as plain."
-    },
-    {
-      "type": "h2",
-      "text": "Step Five: The Long-Term Moves (Start This Week)"
-    },
-    {
-      "type": "p",
-      "text": "Rotation and revocation handle the immediate exposure. The longer moves are what stop this from being a weekend scramble next time. We are pushing five changes across managed projects over the coming weeks, and we recommend them to any team running a SaaS-heavy stack."
+      "text": "Rotation and revocation handled the immediate exposure. The longer moves are what stop the next incident from being a weekend scramble. We are pushing these across managed projects over the coming weeks, and they are what we recommend to any team running a SaaS-heavy stack."
     },
     {
       "type": "ul",
@@ -141,27 +129,23 @@
     },
     {
       "type": "p",
-      "text": "If your team does not have an obvious owner for any of these, they do not get done. That is the quiet reason most incidents end with the same five bullets in the post-mortem. [Talk to us](/#contact) about how webvise builds these into the maintenance retainer on every managed project."
+      "text": "Most teams do not have a single owner for any of these. That is the quiet reason incidents keep ending with the same bullets in the post-mortem. [Talk to us](/#contact) about how webvise builds these into the maintenance retainer on every managed project."
     },
     {
       "type": "h2",
-      "text": "Why This Breach Is Different (And What Didn't Show Up in Our Logs)"
+      "text": "Why This Breach Is Different"
     },
     {
       "type": "p",
-      "text": "Our audit logs across managed Vercel projects and administered Google Workspaces came back clean. No access events we did not authorize, no configuration changes we did not make, no OAuth grants that should not be there. That is not luck. It is the payoff for running scoped credentials, tight team membership, and a monthly review cadence on sensitive settings."
+      "text": "The breach model most security programs are built for: an attacker finds a CVE in a server you run, exploits it, and dumps your data. Rotation, patching, and perimeter monitoring cover that model. The incident that showed up on April 19 is a different shape."
     },
     {
       "type": "p",
-      "text": "A clean log today means the blast radius of this specific incident did not reach the projects we manage. It does not mean we would be clean for a different incident under the same response model. The breach model most security programs are built for is: an attacker finds a CVE in a server you run, exploits it, and dumps your data. Rotation, patching, and perimeter monitoring cover that model."
+      "text": "An attacker compromises one SaaS tool your team authorized, then rides the trust relationship between that tool and your other SaaS tools to reach data neither would have given a stranger. Your Vercel account didn't get popped, and your Google Workspace didn't either. A third tool someone connected months ago got popped, and the scopes you granted that tool propagated the compromise downstream."
     },
     {
       "type": "p",
-      "text": "The breach that showed up on April 19 is a different shape. An attacker compromises one SaaS tool your team authorized, then rides the trust relationship between that tool and your other SaaS tools to reach data neither would have given a stranger. Your Vercel account did not get popped, and your Google Workspace did not either. A third tool someone on your team connected months ago got popped, and the scopes you granted that tool propagated the compromise downstream."
-    },
-    {
-      "type": "p",
-      "text": "The defensive model has to match the attack model. That means treating OAuth grants as production dependencies, auditing them on a schedule, and moving secrets out of environment variables where an attacker with that grant can read them. The teams who keep running the old playbook against the new attack shape are going to keep writing the same post-mortem."
+      "text": "The defensive model has to match the attack model. That means treating OAuth grants as production dependencies, auditing them on a schedule, and moving secrets out of environment variables where an attacker with that grant can read them. Our audit logs came back clean this weekend, but that is the payoff for this specific incident, not proof the response model is future-proof."
     },
     {
       "type": "p",
