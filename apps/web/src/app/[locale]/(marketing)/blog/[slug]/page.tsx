@@ -55,11 +55,20 @@ export async function generateMetadata({
 			url: localizedUrl(path, locale),
 			type: "article",
 			publishedTime: post.date,
+			images: [
+				{
+					url: "/opengraph-image",
+					width: 1200,
+					height: 630,
+					alt: post.title,
+				},
+			],
 		},
 		twitter: {
 			card: "summary_large_image",
 			title: `${post.title} | webvise`,
 			description,
+			images: ["/twitter-image"],
 		},
 	};
 }
