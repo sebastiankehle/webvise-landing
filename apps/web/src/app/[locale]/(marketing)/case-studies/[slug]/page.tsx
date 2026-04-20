@@ -4,9 +4,11 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 import JsonLd from "@/components/json-ld";
+import AnimatedStat from "@/components/marketing/animated-stat";
 import CaseStudyGallery from "@/components/marketing/case-study-gallery";
 import { GridFrame } from "@/components/marketing/section-wrapper";
 import CaseStudyHeroImage from "@/components/marketing/case-study-hero-image";
+import StaggerChildren from "@/components/marketing/stagger-children";
 import { TechBadge } from "@/components/marketing/tech-badge";
 import {
 	Caption,
@@ -14,10 +16,8 @@ import {
 	H2,
 	H3,
 	Lead,
-	Muted,
 	QuoteMark,
 	Small,
-	Stat,
 } from "@/components/ui/typography";
 import { getCaseStudies, getCaseStudyBySlug } from "@/data/case-studies";
 import { Link } from "@/i18n/navigation";
@@ -304,18 +304,17 @@ export default async function CaseStudyPage({
 						<div className="h-full border-x border-grid-line" />
 					</div>
 					<div className="relative mx-auto max-w-[1320px] px-6">
-						<dl className="grid grid-cols-2 gap-8 md:grid-cols-4">
+						<StaggerChildren className="-mx-6 grid grid-cols-2 border-grid-line border-t md:grid-cols-4">
 							{cs.metrics.map((metric) => (
-								<div key={metric.label} className="text-center">
-									<dd>
-										<Stat>{metric.value}</Stat>
-									</dd>
-									<dt>
-										<Muted className="mt-2">{metric.label}</Muted>
-									</dt>
+								<div
+									key={metric.label}
+									className="border-grid-line border-b p-6 md:border-r md:p-8 md:[&:nth-child(4n)]:border-r-0"
+								>
+									<AnimatedStat value={metric.value} />
+									<Small className="mt-3 block">{metric.label}</Small>
 								</div>
 							))}
-						</dl>
+						</StaggerChildren>
 					</div>
 				</section>
 			)}
