@@ -1,0 +1,186 @@
+{
+	"date": "2026-04-23",
+	"readingTime": 9,
+	"keyword": "rag in 2026",
+	"title": "When Clients Ask For RAG in 2026: Our Decision Tree (And Why We Rarely Start There)",
+	"excerpt": "We still build RAG pipelines when clients insist, but we rarely recommend them first in 2026. Most of the 2024 LLM tooling stack got obsoleted between January and April. Here is the decision tree we walk every prospect through, and what we ship when the tree points away from RAG.",
+	"metaDescription": "Clients still ask for RAG pipelines. We'll build them, but only after the decision tree. Here's the 2026 agent stack webvise recommends first.",
+	"tags": ["AI Agents", "AI", "Automation", "Business Strategy"],
+	"cta": "Get in Touch",
+	"blocks": [
+		{
+			"type": "p",
+			"text": "We still build RAG pipelines for clients who ask for one, but in 2026 we rarely recommend them first. The 2024 agent tooling stack, the one that made retrieval-augmented generation the default answer to every knowledge question, got largely obsoleted between January and April of this year. This post is the decision tree we walk every prospect through and the stack we ship when the tree points away from RAG."
+		},
+		{
+			"type": "p",
+			"text": "Most agencies pitching RAG today are pitching a 2024 playbook. You have likely been sold one: a vector database line item, a chunking strategy, a re-indexing cron, a six-month roadmap before the system answers its first question. If you already have a proposal on your desk, [send it to us before you sign](/#contact) and we will run the tree with you. Here is why the way you were told to build knowledge-aware agents has changed, and what we ship in its place."
+		},
+		{
+			"type": "h2",
+			"text": "Key Takeaways"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**We build RAG when clients insist. We rarely recommend it first in 2026.** The tooling shift is real, and our job is to flag it before you sign.",
+				"**Sam Hogan declared most of the 2024 LLM tooling stack obsolete on April 18, 2026.** RAG, multi-agent orchestration, ReAct frameworks, prompt management, LLMOps, eval tools, gateways, finetuning libraries. The concepts are still valid. The popular implementations lagged the model leap.",
+				"**Zep rebranded from memory to context engineering.** One funded company renaming their own category is the strongest market signal of where agent infrastructure is heading.",
+				"**Skill graphs replaced vector search as our default substrate.** A folder of markdown files plus five shell commands handles more client jobs than any RAG pipeline we have shipped.",
+				"**RAG still earns its seat on four specific jobs.** Multimodal corpora, millions of documents with high update frequency, strict retrieval-time metadata filters, and untrusted adversarial content. Everything else is a skill graph."
+			]
+		},
+		{
+			"type": "h2",
+			"text": "The Decision Tree We Run Before Building Anything"
+		},
+		{
+			"type": "p",
+			"text": "Every client engagement starts with the same four questions, and nine times out of ten the answers point away from RAG. We built this tree from a 450-repo survey of agent-memory and context-management tools on GitHub published April 15, 2026. Almost no one draws the line between the two explicitly. We do, because the line determines the bill."
+		},
+		{
+			"type": "table",
+			"headers": ["Question", "If yes", "If no"],
+			"rows": [
+				[
+					"Is the corpus under about 1,000 documents?",
+					"Skill graph. Period.",
+					"Keep going."
+				],
+				[
+					"Is the content mostly text written by a few people who care about keeping it correct?",
+					"Skill graph. Index file plus markdown.",
+					"RAG becomes a candidate."
+				],
+				[
+					"Do queries need strict metadata filters at retrieval time (date ranges, document type, author)?",
+					"Vector database with metadata filtering. RAG wins here.",
+					"Keep going."
+				],
+				[
+					"Will the corpus grow to millions of documents with updates every minute?",
+					"RAG with a real retrieval layer. This is what it was built for.",
+					"Skill graph wins on every axis."
+				]
+			]
+		},
+		{
+			"type": "p",
+			"text": "Most client corpora we see are internal wikis, sales playbooks, onboarding guides, product documentation, and SOPs. Small, stable, maintained by a few people. Every one of those is a skill-graph job. The [small-corpus argument with real numbers](/blog/business-knowledge-base-without-rag) and the [full knowledge-layer setup guide](/blog/ai-knowledge-layer-guide) cover the practitioner version."
+		},
+		{
+			"type": "h2",
+			"text": "What Actually Got Obsoleted Between January and April 2026"
+		},
+		{
+			"type": "p",
+			"text": "Sam Hogan posted the sharpest diagnostic of the shift on April 18, 2026. His claim: most of the LLM tooling category was built for a world that largely does not exist anymore, and much of it was obsoleted in the previous three months. The list he named:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**RAG and GraphRAG.** The retrieval approach built for sub-32K context windows.",
+				"**Multi-agent orchestration frameworks.** Early hand-coded coordination layers displaced by runtime-level coordination.",
+				"**ReAct frameworks.** Structured reasoning scaffolds the newer models produce without scaffolding.",
+				"**Prompt management and versioning tools.** Built for a world where prompts were the asset. Skills and context substrates are the asset now.",
+				"**LLMOps stacks.** Now more about agent tracing than single-turn prompt management.",
+				"**Eval tools, gateways, finetuning libraries.** Each built for a model behavior that changed."
+			]
+		},
+		{
+			"type": "p",
+			"text": "Important qualifier from Hogan himself: the concepts are still valuable. What got obsoleted is the current popular implementations. Some tools, he conceded CrewAI explicitly, still have staying power. His deeper claim is the one that matters for clients: recent frontier models with very long context windows pretty much solved the fact-recall problem that RAG was engineered to work around."
+		},
+		{
+			"type": "p",
+			"text": "The strongest market signal came from Zep, a funded company in the agent-memory space. They changed their entire positioning from memory to context engineering. MemSearch, from vector database company Zilliz, shipped a system where their own vector database sits downstream of plain markdown files. A vector DB vendor conceding that files own the knowledge, and the index is the access layer, is the kind of signal that takes years to read in a press release and weeks to read in a product update."
+		},
+		{
+			"type": "h2",
+			"text": "What Replaced RAG For Most Agent Work"
+		},
+		{
+			"type": "p",
+			"text": "The 450-repo survey sorted agent memory into two camps. Camp one is memory backends: extract facts from conversations, store in vector databases, retrieve on request. Mem0 (53,100 GitHub stars), MemPalace (46,200), Honcho, Cognee. Optimize for recall."
+		},
+		{
+			"type": "p",
+			"text": "Camp two is context substrates: structured, human-readable context that accumulates across sessions. Zep sits here now. OpenClaw (358,000 stars) is the reference implementation. The vault producing this post is a camp-two system."
+		},
+		{
+			"type": "p",
+			"text": "The common loop for camp two: agent reads structured context, works inside it, writes back, next session the context is richer. No chunking strategy, no embedding model to maintain, no re-indexing batch job, no retrieval evaluation suite. A folder of markdown files with wikilinks between them, an index file at the root, and a handful of read and write commands. That is the substrate."
+		},
+		{
+			"type": "p",
+			"text": "Shiv Sakhuja published the composition model for this substrate on April 23, 2026, as Skill Graphs 2.0. Three tiers: atoms (single-purpose primitives, near-deterministic), molecules (scoped tasks composing 2 to 10 atoms with explicit chaining), compounds (multi-molecule orchestrators with real agent autonomy, human-driven today). The framework caps the depth of the dependency graph, which is what makes it reliable where flat skill graphs silently drift past three or four hops. For clients, it maps to the cost structure: atoms are cheap and deterministic, molecules are where the engineering work lives, compounds are where you budget a human operator."
+		},
+		{
+			"type": "h2",
+			"text": "The Edge Cases Where RAG Still Earns Its Seat"
+		},
+		{
+			"type": "p",
+			"text": "We are an agency. We ship what the job needs. RAG still beats a skill graph on four specific classes of work, and we will pitch it when the decision tree lands there:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**Multimodal corpora.** PDFs with tables, scanned documents, audio transcripts, image-heavy reports. A markdown graph assumes everything reduces to text. When it does not, retrieval plus multimodal embedding is the cleaner fit.",
+				"**High-frequency updates at scale.** Millions of documents that change by the minute and need to be queryable within seconds of publication. The re-indexing cost of a vector database is lower than the human cost of maintaining an index file past that volume.",
+				"**Strict retrieval-time metadata filtering.** When queries must filter by date ranges, document type, or author before semantic search runs, metadata-aware vector databases like Pinecone and Qdrant do the composition cleanly.",
+				"**Untrusted or adversarial content.** When the corpus comes from many writers with conflicting agendas and no single human can be trusted to maintain a curated index, you want retrieval that does not assume editorial oversight."
+			]
+		},
+		{
+			"type": "p",
+			"text": "If your project falls into one of those four cases, RAG is the right tool and we will build it. If it does not, the skill graph is cheaper to ship, cheaper to run, and easier to maintain. [Talk to us before you commission either one](/#contact) and we will walk the decision tree on your specific corpus."
+		},
+		{
+			"type": "h2",
+			"text": "What We Run Internally And What We Have Shipped For Clients"
+		},
+		{
+			"type": "p",
+			"text": "Our internal wiki is 22 pages of structured knowledge, maintained by five shell commands. No vector database, no embeddings, no re-indexing cron. The [full setup is in our earlier post](/blog/business-knowledge-base-without-rag)."
+		},
+		{
+			"type": "p",
+			"text": "This same substrate produces the webvise blog you are reading: 76 posts translated into 7 locales through a single content skill graph. No content team. No freelance roster. One skill, seven outputs per post, shipped from the same folder as the engineering documentation."
+		},
+		{
+			"type": "p",
+			"text": "On the client side, our production agent work sits on the same architecture. Hermes, the [self-improving agent platform we documented last month](/blog/hermes-agent-self-improving-ai), runs on fat skills and a thin runtime. Paperclip, our [company-wide AI orchestration system](/blog/paperclip-ai-company-orchestration), composes molecules over a markdown knowledge base. Neither has a vector database in the production stack, and neither has needed one."
+		},
+		{
+			"type": "p",
+			"text": "Garry Tan tells the same story from YC. His personal CLAUDE.md started at 20,000 lines, with every quirk, every pattern, every lesson he had ever encountered. The model's attention degraded under the weight, and Claude Code itself told him to cut it back."
+		},
+		{
+			"type": "p",
+			"text": "His fix was 200 lines of pointers to documents that load on demand. The full 20,000 lines still exist, but the model reads them only when relevant. His gstack library hit 23,000 GitHub stars in its first week and shipped 600,000 lines of production code in 60 days. The substrate scales because the substrate is files, not infrastructure."
+		},
+		{
+			"type": "h2",
+			"text": "What To Ask A Vendor Before Signing A RAG Contract In 2026"
+		},
+		{
+			"type": "p",
+			"text": "If you already have a RAG proposal on your desk, run these five questions against it before the signature:"
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**How big is the corpus today and in 24 months?** Under 1,000 documents either way means the vector database is a line item you do not need.",
+				"**Who writes the content?** If it is a few internal people who care about accuracy, a maintained index file outperforms embeddings on retrieval quality. If it is thousands of adversarial or anonymous writers, RAG wins.",
+				"**What is the update frequency?** Changes once a week means you do not need a re-indexing pipeline. Changes every minute at scale means you do.",
+				"**Does the query require strict metadata filters at retrieval time?** If yes, a metadata-aware vector database earns its seat. If no, the filter logic is cheaper to run in the skill layer.",
+				"**What does the vendor quote look like 18 months from now?** Vector database costs compound with document growth. Skill graph costs do not. The difference matters at renewal."
+			]
+		},
+		{
+			"type": "p",
+			"text": "If the answers point toward RAG, build RAG. If they point toward a skill graph, the hard part is unlearning the 2024 playbook. At **[webvise](/#contact)**, we walk the decision tree with you on your actual corpus, ship the architecture the tree points to, and put the savings toward the work that actually needs the budget. [Get in touch](/#contact) before the vendor you heard on a podcast sends over the invoice."
+		}
+	]
+}
