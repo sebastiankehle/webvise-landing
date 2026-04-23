@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import type { ReactNode } from "react";
 
 import Logo from "@/components/logo";
+import { CookiePreferencesLink } from "@/components/marketing/cookie-preferences-link";
 import { NewsletterForm } from "@/components/marketing/newsletter-form";
 import { Caption, Label, Muted, Small } from "@/components/ui/typography";
 import { services } from "@/data/services";
@@ -222,6 +223,7 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 						>
 							{t("legal.imprint")}
 						</Link>
+						<CookiePreferencesLink />
 					</div>
 				</div>
 			</div>

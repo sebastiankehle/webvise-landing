@@ -1,12 +1,13 @@
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
-import Script from "next/script";
 import { Geist_Mono, Inter } from "next/font/google";
 import { notFound } from "next/navigation";
+import Script from "next/script";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import "../../index.css";
+import { ConsentBanner } from "@/components/marketing/consent-banner";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -140,6 +141,7 @@ export default async function LocaleLayout({
 				>
 					<NextIntlClientProvider messages={messages}>
 						<TooltipProvider>{children}</TooltipProvider>
+						<ConsentBanner />
 					</NextIntlClientProvider>
 					<Toaster richColors />
 					<Analytics />
