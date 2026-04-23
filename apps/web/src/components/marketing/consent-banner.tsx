@@ -1,5 +1,6 @@
 "use client";
 
+import { Cookie } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 
@@ -67,37 +68,48 @@ export function ConsentBanner() {
 			role="dialog"
 			aria-live="polite"
 			aria-label={t("ariaLabel")}
-			className="slide-in-from-bottom-2 fixed inset-x-0 bottom-0 z-30 animate-in border-border border-t bg-background shadow-lg duration-300 ease-out"
+			className="slide-in-from-bottom-4 fade-in fixed inset-x-0 bottom-0 z-[60] animate-in px-4 pb-4 duration-500 ease-out md:inset-x-auto md:right-6 md:bottom-6 md:left-auto md:max-w-[420px] md:px-0 md:pb-0"
 		>
-			<div className="mx-auto flex max-w-[1320px] flex-col items-start gap-4 px-4 py-5 pr-20 md:flex-row md:items-center md:justify-between md:gap-8 md:px-6 md:py-5 md:pr-24">
-				<p className="text-foreground text-sm leading-relaxed">
-					{t("body")}{" "}
-					<Link
-						href="/privacy"
-						className="font-medium underline underline-offset-4 transition-colors hover:text-brand"
-					>
-						{t("privacyLink")}
-					</Link>
-					.
-				</p>
-				<div className="flex shrink-0 items-center gap-2">
-					<Button
-						size="lg"
-						onClick={handleAccept}
-						nativeButton
-						className="border-transparent bg-brand px-6 text-white [&]:hover:bg-brand/80"
-					>
-						{t("accept")}
-					</Button>
-					<Button
-						size="lg"
-						variant="ghost"
-						onClick={handleDecline}
-						nativeButton
-						className="text-muted-foreground"
-					>
-						{t("decline")}
-					</Button>
+			<div className="relative bg-background ring-1 ring-foreground/10">
+				<div className="h-px bg-brand" />
+				<div className="p-6 md:p-7">
+					<Cookie
+						className="h-5 w-5 shrink-0 text-brand opacity-60"
+						strokeWidth={1.5}
+					/>
+					<p className="mt-5 font-medium text-foreground text-sm">
+						{t("title")}
+					</p>
+					<p className="mt-3 text-muted-foreground text-sm leading-relaxed">
+						{t("body")}{" "}
+						<Link
+							href="/privacy"
+							className="text-foreground underline underline-offset-4 transition-colors hover:text-brand"
+						>
+							{t("privacyLink")}
+						</Link>
+						.
+					</p>
+
+					<div className="mt-6 flex items-center gap-2">
+						<Button
+							size="lg"
+							onClick={handleAccept}
+							nativeButton
+							className="flex-1 border-transparent bg-brand px-5 text-white [&]:hover:bg-brand/80"
+						>
+							{t("accept")}
+						</Button>
+						<Button
+							size="lg"
+							variant="outline"
+							onClick={handleDecline}
+							nativeButton
+							className="flex-1"
+						>
+							{t("decline")}
+						</Button>
+					</div>
 				</div>
 			</div>
 		</div>
