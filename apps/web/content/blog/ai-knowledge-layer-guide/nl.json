@@ -10,7 +10,7 @@
 	"blocks": [
 		{
 			"type": "p",
-			"text": "Andrej Karpathy publiceerde in april 2026 een [gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) met een patroon voor het bouwen van persoonlijke kennisbanken met LLMs. In een week tijd: 99.000 bladwijzers. Meerdere implementaties gingen binnen dagen open source. [graphify](https://github.com/safishamsi/graphify) was er in 48 uur en haalde nog eens 27.000 meer. Het patroon sloeg aan omdat het een probleem benoemt dat elke AI-gebruiker al voelde: je agents hebben geen geheugen. Elk gesprek begint bij nul. Je legt opnieuw uit wat je bedrijf doet, wat je doelen zijn, hoe je schrijft, wat de context is, en de output komt generiek terug omdat de input niets had om mee te werken."
+			"text": "Andrej Karpathy publiceerde in april 2026 een [gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) met een patroon voor het bouwen van persoonlijke kennisbanken met LLMs. In een week tijd: 99.000 bladwijzers. Meerdere implementaties gingen binnen dagen open source. [graphify](https://github.com/safishamsi/graphify) was er in 48 uur en haalde nog eens 27.000 meer. Het patroon sloeg aan omdat het een vertrouwd probleem benoemt: de meeste agents missen persistent geheugen tussen sessies. Elk gesprek begint bij nul. Je legt opnieuw uit wat je bedrijf doet, wat je doelen zijn, hoe je schrijft, wat de context is, en de output komt generiek terug omdat de input niets had om mee te werken."
 		},
 		{
 			"type": "p",
@@ -54,11 +54,11 @@
 		},
 		{
 			"type": "p",
-			"text": "RAG leidt antwoorden opnieuw af op het moment van de query door documenten op te knippen en naar relevante fragmenten te zoeken. De gecompileerde wiki-aanpak slaat dat volledig over. graphify mat **71,5x minder tokens per query** vergeleken met zoeken door ruwe bestanden. Onze eigen metingen laten ruwweg 1.000 tokens vault-inhoud per query zien, tegenover de 3.000 of meer tokens die een typische RAG-pipeline injecteert."
+			"text": "RAG leidt antwoorden opnieuw af op het moment van de query door documenten op te knippen en naar relevante fragmenten te zoeken. De gecompileerde wiki-aanpak slaat dat volledig over. graphify mat **71,5x minder tokens per query** vergeleken met zoeken door ruwe bestanden in hun gepubliceerde vergelijking; de resultaten zijn afhankelijk van de corpuskenmerken en queryverdeling. Onze eigen metingen laten ruwweg 1.000 tokens vault-inhoud per query zien, tegenover de 3.000 of meer tokens die een typische RAG-pipeline injecteert."
 		},
 		{
 			"type": "p",
-			"text": "We schreven een [uitgebreide technische vergelijking](/blog/business-knowledge-base-without-rag) van RAG versus index-gebaseerde retrieval. De korte versie: voor kennisbanken onder de 1.000 documenten presteert de gecompileerde wiki beter dan RAG op nauwkeurigheid, kosten en complexiteit. Geen vector database, geen embedding-model, geen chunking-strategie, geen re-indexeringstaak. Vijf shell-commando's en een bijgehouden indexbestand."
+			"text": "We schreven een [uitgebreide technische vergelijking](/blog/business-knowledge-base-without-rag) van RAG versus index-gebaseerde retrieval. De korte versie: in de geanalyseerde workloads presteerde de gecompileerde wiki beter dan RAG op nauwkeurigheid, kosten en complexiteit voor kennisbanken onder de 1.000 documenten. Geen vector database, geen embedding-model, geen chunking-strategie, geen re-indexeringstaak. Vijf shell-commando's en een bijgehouden indexbestand."
 		},
 		{
 			"type": "p",
@@ -142,7 +142,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Het patroon werkt omdat markdown eenvoudig is en LLMs er goed in zijn om het te lezen en te schrijven. De infrastructuurkosten zijn nul. De onderhoudskosten zijn bijna nul omdat de LLM het bijhoudt. De enige echte kosten zijn de discipline om het schema eerlijk te houden en de ingest-kwaliteit hoog. Dat is een mensenprobleem, geen technologieprobleem."
+			"text": "Het patroon werkt omdat markdown eenvoudig is en LLMs er goed in zijn om het te lezen en te schrijven. De infrastructuurkosten zijn nul. De onderhoudskosten zijn laag omdat de LLM het bijhoudt, hoewel periodieke menselijke review nog steeds aanbevolen wordt. De enige echte kosten zijn de discipline om het schema eerlijk te houden en de ingest-kwaliteit hoog. Dat is een mensenprobleem, geen technologieprobleem."
 		},
 		{
 			"type": "h2",
@@ -158,7 +158,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Karpathy noemt het een LLM wiki. Eric Osiu noemt het een shared brain. Cody Schneider noemt het een data warehouse. De naam blijft veranderen. Het patroon niet: agents hebben gecompileerde, gestructureerde kennis nodig om nuttig werk te doen. Al het andere is prompting in het luchtledige."
+			"text": "Karpathy noemt het een LLM wiki. Eric Osiu noemt het een shared brain. Cody Schneider noemt het een data warehouse. De naam blijft veranderen. Het patroon niet: agents hebben gecompileerde, gestructureerde kennis nodig om nuttig werk te doen. Zonder persistent context werken prompts zonder de institutionele kennis die ze nodig hebben."
 		},
 		{
 			"type": "p",

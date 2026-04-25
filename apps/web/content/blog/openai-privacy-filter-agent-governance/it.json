@@ -9,7 +9,7 @@
   "blocks": [
     {
       "type": "p",
-      "text": "OpenAI ha rilasciato uno strumento, non un modello. **openai/privacy-filter** è un classificatore bidirezionale di token a 1,5 miliardi di parametri, pubblicato sotto Apache 2.0, che gira nel browser, rileva otto categorie di informazioni personalmente identificabili in un singolo forward pass e colma il livello di governance che la maggior parte degli stack agent salta."
+      "text": "OpenAI ha rilasciato uno strumento, non un modello. **openai/privacy-filter** è un classificatore bidirezionale di token a 1,5 miliardi di parametri, pubblicato sotto Apache 2.0, che gira nel browser, rileva otto categorie di informazioni personalmente identificabili in un singolo forward pass e copre un livello di governance che la maggior parte degli stack agent sottovaluta."
     },
     {
       "type": "p",
@@ -17,7 +17,7 @@
     },
     {
       "type": "p",
-      "text": "Se oggi si gestiscono agent su dati client, la redazione dei dati PII è probabilmente una libreria regex da mantenere o una chiamata LLM che si preferirebbe non dover pagare. Questo articolo illustra cosa sia effettivamente openai/privacy-filter, le scelte architetturali rilevanti e dove si colloca in uno stack di governance agent reale. Spiegheremo inoltre perché questa release aggiorna la nostra posizione sugli agent che leggono input non attendibili e cosa fare con essa se si distribuiscono workload regolamentati."
+      "text": "Se oggi si gestiscono agent su dati client, la redazione dei dati PII viene comunemente gestita con una libreria regex da mantenere o instradando le richieste attraverso un LLM — entrambe con i propri trade-off. Questo articolo illustra cosa sia effettivamente openai/privacy-filter, le scelte architetturali rilevanti e dove si colloca in uno stack di governance agent reale. Spiegheremo inoltre perché questa release aggiorna la nostra posizione sugli agent che leggono input non attendibili e cosa fare con essa se si distribuiscono workload regolamentati."
     },
     {
       "type": "h2",
@@ -47,7 +47,7 @@
     },
     {
       "type": "p",
-      "text": "Questo è rilevante perché il settore ha trascorso tre anni a trattare gli LLM generativi come primitiva predefinita per ogni problema testuale, inclusi quelli a cui gli LLM sono poco adatti. La redazione dei dati PII è un problema di classificazione. Eseguire un modello general-purpose da 70 miliardi di parametri su ogni richiesta in ingresso per chiedergli gentilmente di mascherare le email è un workaround costoso. Un classificatore da 1,5 miliardi di parametri con 50 milioni di parametri MoE attivi svolge lo stesso compito in un singolo forward pass, gira su un laptop e non può allucinare nuove email."
+      "text": "Questo è rilevante perché il settore ha trascorso tre anni a trattare gli LLM generativi come primitiva predefinita per ogni problema testuale, inclusi quelli per cui gli LLM sono meno indicati. La redazione dei dati PII è un problema di classificazione. Eseguire un modello general-purpose da 70 miliardi di parametri su ogni richiesta in ingresso per chiedergli gentilmente di mascherare le email è computazionalmente oneroso per un compito che è fondamentalmente di classificazione. Un classificatore da 1,5 miliardi di parametri con 50 milioni di parametri MoE attivi svolge lo stesso compito in un singolo forward pass, gira su un laptop e non può allucinare nuove email."
     },
     {
       "type": "p",
@@ -249,7 +249,7 @@
     },
     {
       "type": "p",
-      "text": "Se il proprio stack agent non dispone di un livello di minimizzazione dei dati, questo è il rilascio su cui costruire quel livello. Se si desidera aiuto per integrarlo in qualcosa su cui i clienti possano concretamente fare affidamento in produzione, [webvise lo costruisce](/#contact)."
+      "text": "Se il proprio stack agent non dispone di un livello di minimizzazione dei dati, questo offre un solido punto di partenza open-weight su cui costruire quel livello. Se si desidera aiuto per integrarlo in qualcosa su cui i clienti possano concretamente fare affidamento in produzione, [webvise lo costruisce](/#contact)."
     }
   ]
 }

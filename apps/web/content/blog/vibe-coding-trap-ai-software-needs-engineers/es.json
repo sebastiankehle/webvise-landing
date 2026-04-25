@@ -2,14 +2,14 @@
 	"date": "2026-04-12",
 	"readingTime": 7,
 	"keyword": "vibe coding IA ingeniería de software",
-	"title": "El Vibe Coding es una trampa - Por qué el software construido con IA todavía necesita ingenieros",
+	"title": "Por qué el software generado por IA todavía necesita revisión de ingeniería",
 	"excerpt": "Andrej Karpathy acuñó el término \"vibe coding\" en febrero de 2025. Desde entonces, una oleada de aplicaciones generadas por IA funciona en demostraciones y falla en producción. El problema no son las herramientas de IA - es usarlas sin disciplina de ingeniería.",
 	"metaDescription": "El vibe coding crea una nueva clase de deuda técnica más difícil de corregir que el código malo escrito a mano. Por qué la IA amplifica las habilidades de ingeniería en lugar de reemplazarlas.",
 	"tags": ["AI", "Web Development", "Business Strategy"],
 	"blocks": [
 		{
 			"type": "p",
-			"text": "Andrej Karpathy acuñó el término **vibe coding** en [febrero de 2025](https://x.com/karpathy/status/1886192184808149370) para describir un modo de desarrollo de software donde uno describe lo que quiere, acepta lo que la IA produce y no lee el código. Su planteamiento era generoso - un modo de hobby de fin de semana para proyectos personales. Lo que siguió no lo fue. A mediados de 2025, una oleada de no ingenieros había publicado aplicaciones SaaS de producción construidas enteramente en Cursor, Replit Agent, v0 y bolt.new, sin entender nunca lo que habían construido. Las aplicaciones se veían bien en las demostraciones. Están fallando en producción ahora mismo."
+			"text": "Andrej Karpathy acuñó el término **vibe coding** en [febrero de 2025](https://x.com/karpathy/status/1886192184808149370) para describir un modo de desarrollo de software donde uno describe lo que quiere, acepta lo que la IA produce y no lee el código. Su planteamiento era generoso - un modo de hobby de fin de semana para proyectos personales. Lo que siguió no lo fue. A mediados de 2025, una oleada de no ingenieros había publicado aplicaciones SaaS de producción construidas enteramente en Cursor, Replit Agent, v0 y bolt.new, sin entender nunca lo que habían construido. Las aplicaciones se veían bien en las demostraciones. Algunas están fallando en producción."
 		},
 		{
 			"type": "h2",
@@ -38,7 +38,7 @@
 		{
 			"type": "ul",
 			"items": [
-				"**Bypasses de autenticación integrados en el scaffold.** El código de autenticación generado por IA frecuentemente copia patrones de datos de entrenamiento sin entender el modelo de seguridad. Seguridad a nivel de filas desactivada «temporalmente» durante el desarrollo, dejada en producción. Secretos JWT codificados en ejemplos de variables de entorno commiteados en repositorios públicos. Verificaciones de roles que comparan literales de cadena y se rompen en el momento en que se renombra un campo.",
+				"**Bypasses de autenticación integrados en el scaffold; secretos JWT presentes en ejemplos de variables de entorno commiteados en repositorios públicos** — estos son hallazgos habituales en revisiones de código de proyectos asistidos por IA sin supervisión de ingeniería. El código de autenticación generado por IA frecuentemente copia patrones de datos de entrenamiento sin entender el modelo de seguridad. Seguridad a nivel de filas desactivada «temporalmente» durante el desarrollo, dejada en producción. Verificaciones de roles que comparan literales de cadena y se rompen en el momento en que se renombra un campo.",
 				"**Sin manejo de errores más allá del camino feliz.** La IA escribió el caso de éxito. ¿Qué sucede cuando el proveedor de pagos devuelve un 402? ¿Qué sucede cuando la conexión a la base de datos se cae en medio de una transacción? En las aplicaciones vibe-codificadas, la respuesta suele ser un rechazo de promesa no manejado que aparece como una pantalla en blanco.",
 				"**Bloqueo de proveedor en patrones generados por IA.** Cuando la IA eligió estructurar el modelo de datos de una manera particular, el vibe coder lo aceptó. Ahora toda la aplicación está construida alrededor de esa estructura. Migrar a otra requiere entender código que el desarrollador nunca leyó.",
 				"**Sin pruebas.** No porque las pruebas sean difíciles, sino porque el vibe coder nunca las pidió y la IA no las ofreció voluntariamente. Cuando algo falla en producción, no hay suite de pruebas que detecte regresiones en el arreglo."
@@ -54,7 +54,7 @@
 		},
 		{
 			"type": "p",
-			"text": "El patrón se desarrolla de manera predecible. Una aplicación vibe-codificada se lanza, se ve pulida, consigue usuarios tempranos. Luego: un usuario con un carácter no ASCII en su nombre rompe la consulta de la base de datos. Un usuario móvil con conexión lenta desencadena una condición de carrera en la gestión de estado. Un competidor se registra y descubre que los endpoints de la API devuelven datos de otros usuarios porque la verificación de autorización estaba en el frontend, no en el servidor. Estos no son fallos exóticos. Son la consecuencia básica de enviar código que nunca se leyó."
+			"text": "El patrón se desarrolla de manera predecible. Una aplicación vibe-codificada se lanza, se ve pulida, consigue usuarios tempranos. Luego: un usuario con un carácter no ASCII en su nombre rompe la consulta de la base de datos. Un usuario móvil con conexión lenta desencadena una condición de carrera en la gestión de estado. Hemos visto escenarios en que los endpoints de la API filtran datos entre cuentas de usuario porque las verificaciones de autorización estaban ausentes o incompletas, consecuencia de enviar código que nunca se revisó para su aplicación en el servidor. Estos no son fallos exóticos. Son la consecuencia básica de enviar código que nunca se leyó."
 		},
 		{
 			"type": "h2",
@@ -62,11 +62,11 @@
 		},
 		{
 			"type": "p",
-			"text": "Esta es la afirmación que el relato del vibe coding invierte. Las herramientas son reales y las ganancias de productividad son reales. En webvise, usamos Claude Code, Cursor y orquestación multi-agente en cada proyecto que entregamos. Un ingeniero senior con Claude Code entrega en horas lo que antes llevaba días. Las mismas herramientas en manos de alguien sin fundamentos de ingeniería producen una demostración que no puede sobrevivir a su primer usuario real."
+			"text": "Esta es la afirmación que el relato del vibe coding invierte. Las herramientas son reales y las ganancias de productividad son reales. En webvise, usamos Claude Code, Cursor y orquestación multi-agente en cada proyecto que entregamos. Los ingenieros senior que usan Claude Code reportan ahorros de tiempo significativos en tareas que de otro modo llevarían días. Las mismas herramientas en manos de alguien sin fundamentos de ingeniería producen una demostración que no puede sobrevivir a su primer usuario real."
 		},
 		{
 			"type": "p",
-			"text": "La diferencia no está en la herramienta - está en lo que el ingeniero aporta a la herramienta. Los fundamentos de ingeniería no consisten en escribir código a mano. Consisten en entender los límites del sistema, los modos de fallo, los modelos de seguridad y la integridad de los datos. Un ingeniero que usa Claude Code lee el código de autenticación generado y reconoce cuando está mal. Un vibe coder presiona aceptar y lo envía."
+			"text": "La diferencia no está en la herramienta - está en lo que el ingeniero aporta a la herramienta. Los fundamentos de ingeniería no consisten en escribir código a mano. Consisten en entender los límites del sistema, los modos de fallo, los modelos de seguridad y la integridad de los datos. Un ingeniero que usa Claude Code lee el código de autenticación generado y reconoce cuando está mal. Un desarrollador sin experiencia acepta la sugerencia y la envía."
 		},
 		{
 			"type": "table",
@@ -106,11 +106,11 @@
 		},
 		{
 			"type": "p",
-			"text": "Las aplicaciones de hobby para consumidores pueden absorber los modos de fallo del vibe coding. Si un rastreador de finanzas personales pierde algunos datos, es molesto. Si un SaaS B2B que maneja registros de clientes, flujos de pago o flujos de trabajo internos se envía con los problemas de autenticación y manejo de errores descritos anteriormente, las consecuencias son legales, contractuales y reputacionales. El RGPD no le exime porque no haya leído su propio código de manejo de datos."
+			"text": "Las aplicaciones de hobby para consumidores pueden absorber los modos de fallo del vibe coding. Si un rastreador de finanzas personales pierde algunos datos, es molesto. Si un SaaS B2B que maneja registros de clientes, flujos de pago o flujos de trabajo internos se envía con los problemas de autenticación y manejo de errores descritos anteriormente, las consecuencias son legales, contractuales y reputacionales. La responsabilidad bajo el RGPD aplica independientemente de cómo se generó el código; el código de manejo de datos requiere revisión."
 		},
 		{
 			"type": "p",
-			"text": "La oleada de aplicaciones SaaS generadas por IA de 2025-2026 ha producido una clase predecible de startups: impresionantes en una demostración, consiguieron clientes tempranos con la promesa, luego chocaron contra una pared cuando el primer prospecto empresarial realizó una revisión de seguridad o el primer día de alto tráfico expuso el manejo de errores faltante. Los fundadores no son defraudadores - genuinamente no sabían lo que habían construido."
+			"text": "Varios productos SaaS recientes asistidos por IA han seguido un patrón similar: impresionantes en una demostración, consiguieron clientes tempranos con la promesa, luego chocaron contra una pared cuando el primer prospecto empresarial realizó una revisión de seguridad o el primer día de alto tráfico expuso el manejo de errores faltante. Los fundadores no son defraudadores - genuinamente no sabían lo que habían construido."
 		},
 		{
 			"type": "h2",

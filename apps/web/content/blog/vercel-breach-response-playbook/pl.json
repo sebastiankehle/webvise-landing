@@ -23,7 +23,7 @@
     {
       "type": "ul",
       "items": [
-        "**Rotacja zmiennych środowiskowych Vercel zmienia wartości w panelu, nie w działających funkcjach.** Wartości wchodzą w życie dopiero przy kolejnym wdrożeniu.",
+        "**Rotacja zmiennych środowiskowych Vercel aktualizuje konfigurację, a nie działające instancje funkcji; aby zmiany weszły w życie, wymagane jest ponowne wdrożenie.**",
         "**Audyt OAuth w Google Workspace to ta połowa, o której prawie nikt nie pisze.** To właśnie ta ścieżka zaufania umożliwiła atakującemu dotarcie do Vercel.",
         "**Nie była to luka w Vercel.** Był to kompromis SaaS-to-SaaS przez nadanie OAuth, a standardowa reakcja w stylu CVE nie zamknęła pętli.",
         "**Długoterminowo należy przenieść sekrety z env vars** do menedżera sekretów uruchamianego w czasie rzeczywistym. Na każdym koncie, które może instalować aplikacje OAuth, należy wymagać odpornego na phishing MFA.",
@@ -44,7 +44,7 @@
     },
     {
       "type": "p",
-      "text": "Jeśli chcą Państwo, żeby ktoś z zewnątrz przejrzał Państwa konfigurację Vercel, zanim napisze się o niej post-mortem, [przeprowadzamy przeglądy bezpieczeństwa dla zespołów Vercel, Google Workspaces i nadań SaaS-to-SaaS](/pl/#contact)."
+      "text": "Jeśli chcą Państwo przeprowadzić drugą weryfikację konfiguracji Vercel przed kolejnym incydentem, [przeprowadzamy przeglądy bezpieczeństwa dla zespołów Vercel, Google Workspaces i nadań SaaS-to-SaaS](/pl/#contact)."
     },
     {
       "type": "h2",
@@ -74,7 +74,7 @@
     },
     {
       "type": "p",
-      "text": "To najważniejsza część, o której mówi się najmniej. Vercel stosuje zmiany zmiennych środowiskowych w momencie budowania i wdrażania, nie w czasie wykonywania. Projekt, który zaktualizowano, ale nie wdrożono ponownie, nadal uruchamia build ze wczoraj, który ma stary sekret wbudowany w swoje środowisko uruchomieniowe. Dokonano rotacji w panelu, nie w systemie."
+      "text": "To krok, który większość list kontrolnych reagowania traktuje zbyt pobieżnie. Vercel stosuje zmiany zmiennych środowiskowych w momencie budowania i wdrażania, nie w czasie wykonywania. Projekt, który zaktualizowano, ale nie wdrożono ponownie, nadal uruchamia build ze wczoraj, który ma stary sekret wbudowany w swoje środowisko uruchomieniowe. Dokonano rotacji w panelu, nie w systemie."
     },
     {
       "type": "p",
@@ -129,7 +129,7 @@
     },
     {
       "type": "p",
-      "text": "Większość zespołów nie ma jednego właściciela dla żadnego z tych punktów. To cicha przyczyna, dla której incydenty wciąż kończą się tymi samymi podpunktami w post-mortem. [Porozmawiajmy](/pl/#contact) o tym, jak webvise wbudowuje te elementy w retainer utrzymaniowy każdego zarządzanego projektu."
+      "text": "Wiele zespołów nie ma wyznaczonego właściciela dla tych zadań; ta luka powtarza się w post-mortemach incydentów. [Porozmawiajmy](/pl/#contact) o tym, jak webvise wbudowuje te elementy w retainer utrzymaniowy każdego zarządzanego projektu."
     },
     {
       "type": "h2",
@@ -149,7 +149,7 @@
     },
     {
       "type": "p",
-      "text": "Przeprowadzamy przeglądy bezpieczeństwa dla zespołów Vercel, Google Workspaces i grafów tożsamości SaaS-to-SaaS w ramach każdego zaangażowania zarządzanego przez webvise. Jeśli przed kolejnym ujawnieniem chcą Państwo zewnętrznego spojrzenia na swoją konfigurację, [zacznijmy rozmowę](/pl/#contact)."
+      "text": "Przeprowadzamy przeglądy bezpieczeństwa dla zespołów Vercel, Google Workspaces i grafów tożsamości SaaS-to-SaaS w ramach każdego zaangażowania zarządzanego przez webvise. Jeśli chcą Państwo przeprowadzić drugą weryfikację konfiguracji Vercel przed kolejnym incydentem, [skontaktujmy się](/pl/#contact)."
     }
   ]
 }

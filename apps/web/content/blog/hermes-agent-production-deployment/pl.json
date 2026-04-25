@@ -3,21 +3,21 @@
 	"readingTime": 9,
 	"keyword": "hermes agent wdrożenie produkcyjne",
 	"title": "Wdrożenie Hermes Agent w produkcji: warstwa operatorska na dzień 30",
-	"excerpt": "Większość 4-profilowych zespołów Hermes Agent działa sprawnie w pierwszym dniu i zlewa się w jeden głos do dnia 30. Warstwa operatorska, która temu zapobiega: handoff contracts, audyty memory-KPI i bramki uprawnień per rola.",
-	"metaDescription": "Wieloprofilowe zespoły Hermes Agent rozmazują się do dnia 30. Warstwa operatorska: handoff contracts, audyty memory-KPI i bramki uprawnień per rola, które temu zapobiegają.",
+	"excerpt": "Większość 4-profilowych zespołów Hermes Agent działa sprawnie w pierwszym dniu i wykazuje oznaki konwergencji głosów do dnia 30 w realnych wdrożeniach. Warstwa operatorska, która temu zapobiega: handoff contracts, audyty memory-KPI i bramki uprawnień per rola.",
+	"metaDescription": "Wieloprofilowe zespoły Hermes Agent wykazują konwergencję głosów do dnia 30. Warstwa operatorska: handoff contracts, audyty memory-KPI i bramki uprawnień per rola, które temu zapobiegają.",
 	"tags": ["AI Agents", "AI", "Open Source", "Process"],
 	"blocks": [
 		{
 			"type": "p",
-			"text": "**Warstwa operatorska Hermes Agent to zbiór dyscyplin, które utrzymują spójność zespołu wieloprofilowego po dniu 30.** Cztery prymitywy: handoff contracts z możliwością blokowania, audyty memory-KPI per profil, bramki uprawnień per rola i skoordynowany stan cron. Bez nich 4-profilowy zespół (Hermes, Alan, Mira, Turing) zlewa się w jednego rozmytego agenta w ciągu miesiąca."
+			"text": "**Warstwa operatorska Hermes Agent to zbiór dyscyplin, które utrzymują spójność zespołu wieloprofilowego po dniu 30.** Cztery prymitywy: handoff contracts z możliwością blokowania, audyty memory-KPI per profil, bramki uprawnień per rola i skoordynowany stan cron. Bez nich 4-profilowy zespół (Hermes, Alan, Mira, Turing) wykazuje oznaki konwergencji głosów w ciągu miesiąca."
 		},
 		{
 			"type": "p",
-			"text": "Każdy przewodnik operatorski Hermes online kończy się na bootstrapie 4-profilowym. Nikt nie publikuje zrzutów ekranu z dnia 30, bo dzień 30 to moment, w którym profile zaczynają brzmieć tak samo, handoffy po cichu przestają działać, a build, z którego byliśmy dumni, staje się nie do odróżnienia od konfiguracji z jednym agentem."
+			"text": "Większość przewodników operatorskich Hermes zatrzymuje się obecnie na bootstrapie 4-profilowym; materiał dotyczący wdrożenia na dzień 30 jest rzadki w publicznej dokumentacji. Dzień 30 to moment, w którym profile zaczynają brzmieć tak samo, handoffy po cichu przestają działać, a build, z którego byliśmy dumni, staje się nie do odróżnienia od konfiguracji z jednym agentem."
 		},
 		{
 			"type": "p",
-			"text": "Jeśli Państwo mają [Hermes Agent](/blog/hermes-agent-self-improving-ai) w wersji 0.9.0 działający z profilami Alan, Mira i Turing, podstawowy build jest gotowy. To, co następuje, to warstwa operatorska. Każdy prymityw poniżej pochodzi z rzeczywistych wzorców wdrożeniowych i jest powiązany z konkretnym trybem awarii, który wymusza jego istnienie."
+			"text": "Jeśli [Hermes Agent](/blog/hermes-agent-self-improving-ai) w wersji 0.9.0 działa ze standardowym bootstrapem obejmującym profile Alan, Mira i Turing, podstawowy build jest kompletny; praca na dzień 30 zaczyna się od tego momentu. Każdy prymityw poniżej pochodzi z rzeczywistych wzorców wdrożeniowych i jest powiązany z konkretnym trybem awarii, który wymusza jego istnienie."
 		},
 		{
 			"type": "ul",
@@ -25,7 +25,7 @@
 				"**Handoff contracts są prawdziwe tylko wtedy, gdy mogą blokować.** Jeśli kształt wejścia odbierającego profilu jest nieprawidłowy, handoff musi zakończyć się niepowodzeniem, nie tylko ostrzeżeniem.",
 				"**Pamięć gnije per profil.** Uruchamiaj cotygodniowy audyt `memory-kpi`. Przekroczenie 15% nieaktualnych notatek wyzwala przebieg `brain-resolve`.",
 				"**Bramki uprawnień zapobiegają cichemu rozszerzaniu przywilejów.** Alan nigdy nie otrzymuje dostępu do powłoki. Tylko orchestrator może zatwierdzać commity do main.",
-				"**Cztery tryby awarii na dzień 30 niszczą większość wdrożeń.** Dryf profili, rotacja handoffów, rozrost SOUL.md, kolizja cron. Każdy ma konkretne przeciwdziałanie.",
+				"**Cztery tryby awarii na dzień 30 wyjaśniają większość regresji wdrożeniowych, które zaobserwowaliśmy.** Dryf profili, rotacja handoffów, rozrost SOUL.md, kolizja cron. Każdy ma konkretne przeciwdziałanie.",
 				"**Przeczytaj najpierw [przewodnik po definicji Hermes Agent](/blog/hermes-agent-self-improving-ai)**, jeśli potrzebny jest kontekst dotyczący czym jest ten agent przed warstwą operatorską."
 			]
 		},
@@ -116,7 +116,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Zasada jest nośna. Agent badawczy z dostępem do powłoki w końcu uruchomi polecenie, którego nie powinien był uruchamiać. Profil pisarza z dostępem do sekretów w końcu wycieknie je do szkicu. Dryf uprawnień dzieje się cicho i jest oczywisty dopiero z perspektywy czasu, co jest złym momentem na zauważenie."
+			"text": "Zasada jest nośna. Agent badawczy z dostępem do powłoki w końcu uruchomi polecenie, którego nie powinien był uruchamiać. Profil pisarza z dostępem do sekretów w końcu wycieknie je do szkicu. Dryf uprawnień dzieje się cicho i jest oczywisty dopiero z perspektywy czasu, co jest trudnym momentem na odkrycie luki."
 		},
 		{
 			"type": "h2",

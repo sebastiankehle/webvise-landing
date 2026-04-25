@@ -3,21 +3,21 @@
 	"readingTime": 9,
 	"keyword": "hermes agent production deployment",
 	"title": "Deploying Hermes Agent in Production: The Day-30 Operator Layer",
-	"excerpt": "Most Hermes Agent 4-profile teams work on day one and blur into a single voice by day 30. The operator layer that prevents it: handoff contracts, memory-KPI audits, and policy gates per role.",
-	"metaDescription": "Multi-agent Hermes Agent teams blur by day 30. The operator layer: handoff contracts, memory-KPI audits, and per-role policy gates that prevent it.",
+	"excerpt": "Most Hermes Agent 4-profile teams work on day one and show signs of voice convergence by day 30 in production deployments. The operator layer that prevents it: handoff contracts, memory-KPI audits, and policy gates per role.",
+	"metaDescription": "Multi-agent Hermes Agent teams show voice convergence by day 30. The operator layer: handoff contracts, memory-KPI audits, and per-role policy gates that prevent it.",
 	"tags": ["AI Agents", "AI", "Open Source", "Process"],
 	"blocks": [
 		{
 			"type": "p",
-			"text": "**The Hermes Agent operator layer is the set of disciplines that keeps a multi-profile team coherent past day 30.** Four primitives: handoff contracts that can block, memory-KPI audits per profile, policy gates per role, and coordinated cron state. Without them, a 4-profile team (Hermes + Alan + Mira + Turing) blurs into a single blurry agent within a month."
+			"text": "**The Hermes Agent operator layer is the set of disciplines that keeps a multi-profile team coherent past day 30.** Four primitives: handoff contracts that can block, memory-KPI audits per profile, policy gates per role, and coordinated cron state. Without them, a 4-profile team (Hermes + Alan + Mira + Turing) shows signs of voice convergence within a month."
 		},
 		{
 			"type": "p",
-			"text": "Every Hermes operator guide online stops at the 4-profile bootstrap. Nobody posts screenshots of day 30, because day 30 is when the profiles start sounding the same, the handoffs silently break, and a build you were proud of becomes indistinguishable from a solo-agent setup."
+			"text": "Most Hermes operator guides currently stop at the 4-profile bootstrap; day-30 deployment material is sparse in public documentation. Day 30 is when the profiles start sounding the same, the handoffs silently break, and a build you were proud of becomes indistinguishable from a solo-agent setup."
 		},
 		{
 			"type": "p",
-			"text": "If you have [Hermes Agent](/blog/hermes-agent-self-improving-ai) version 0.9.0 running with Alan, Mira, and Turing profiles, the table-stakes build is done. What comes next is the operator layer. Every primitive below is drawn from real deployment patterns, paired with the specific failure mode that forces it into existence."
+			"text": "If [Hermes Agent](/blog/hermes-agent-self-improving-ai) version 0.9.0 is running with the standard bootstrap including Alan, Mira, and Turing profiles, the foundational build is complete; the day-30 work begins from there. Every primitive below is drawn from real deployment patterns, paired with the specific failure mode that forces it into existence."
 		},
 		{
 			"type": "ul",
@@ -25,7 +25,7 @@
 				"**Handoff contracts are only real if they block.** If the receiving profile's input shape is wrong, the handoff must fail, not just warn.",
 				"**Memory rots per profile.** Run a weekly `memory-kpi` audit. Crossing 15% stale notes triggers a `brain-resolve` pass.",
 				"**Policy gates prevent silent privilege drift.** Alan never gets shell access. Only the orchestrator can approve commits to main.",
-				"**Four day-30 failure modes kill most deployments.** Profile drift, handoff rot, SOUL.md bloat, cron collision. Each has a specific countermeasure.",
+				"**Four day-30 failure modes account for most deployment regressions we have observed.** Profile drift, handoff rot, SOUL.md bloat, cron collision. Each has a specific countermeasure.",
 				"**Read the [Hermes Agent definition guide](/blog/hermes-agent-self-improving-ai) first** if you need the what-is-it context before the operator layer."
 			]
 		},
@@ -116,7 +116,7 @@
 		},
 		{
 			"type": "p",
-			"text": "The principle is load-bearing. A research agent with shell access will eventually run a command it should not have. A writer profile with secrets access will eventually leak them into a draft. Permission drift happens silently and is only obvious in retrospect, which is the wrong time to notice."
+			"text": "The principle is load-bearing. A research agent with shell access will eventually run a command it should not have. A writer profile with secrets access will eventually leak them into a draft. Permission drift happens silently and is only obvious in retrospect, which is a difficult moment to discover the gap."
 		},
 		{
 			"type": "h2",
@@ -124,7 +124,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Four specific failure modes account for most multi-agent Hermes collapses. Each has a direct countermeasure. Skip any of them and the team looks good on day one, blurred on day 30."
+			"text": "Four specific failure modes account for most deployment regressions we have observed in multi-agent Hermes setups. Each has a direct countermeasure. Skip any of them and the team looks good on day one, degraded on day 30."
 		},
 		{
 			"type": "h3",

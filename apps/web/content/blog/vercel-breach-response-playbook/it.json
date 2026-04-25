@@ -23,7 +23,7 @@
     {
       "type": "ul",
       "items": [
-        "**La rotazione delle env var di Vercel modifica la dashboard, non le funzioni in esecuzione.** I valori entrano in vigore solo al deploy successivo.",
+        "**La rotazione delle variabili d'ambiente di Vercel aggiorna la configurazione, non le istanze delle funzioni in esecuzione; è necessario un nuovo deploy per propagare le modifiche.**",
         "**L'audit OAuth di Google Workspace è la metà della risposta di cui quasi nessuno parla.** È il percorso di fiducia che l'attaccante ha utilizzato per raggiungere Vercel.",
         "**Non si è trattato di una vulnerabilità di Vercel.** È stata una compromissione SaaS-to-SaaS tramite un grant OAuth, e una risposta classica in stile CVE non chiude il cerchio.",
         "**Nel lungo periodo, spostare i segreti fuori dalle env var** e in un gestore di segreti a runtime. Richiedere MFA anti-phishing su chiunque possa installare applicazioni OAuth.",
@@ -44,7 +44,7 @@
     },
     {
       "type": "p",
-      "text": "Se desidera un secondo sguardo sulla configurazione Vercel prima che il post-mortem del prossimo weekend venga scritto sulla Sua azienda, [eseguiamo security review su team Vercel, Google Workspace e grant SaaS-to-SaaS](/it/#contact)."
+      "text": "Se desidera una seconda revisione della configurazione Vercel prima del prossimo incidente, [eseguiamo security review su team Vercel, Google Workspace e grant SaaS-to-SaaS](/it/#contact)."
     },
     {
       "type": "h2",
@@ -74,7 +74,7 @@
     },
     {
       "type": "p",
-      "text": "Questo è l'aspetto più importante e quello che riceve meno attenzione. Vercel applica le modifiche alle variabili d'ambiente al momento del build e del deploy, non a runtime. Un progetto aggiornato e lasciato invariato sta ancora eseguendo il build distribuito il giorno prima, che contiene ancora il vecchio segreto incorporato nel suo runtime. Ha ruotato la dashboard, non il sistema."
+      "text": "Questo è il passaggio che la maggior parte delle checklist di risposta tratta in modo insufficiente. Vercel applica le modifiche alle variabili d'ambiente al momento del build e del deploy, non a runtime. Un progetto aggiornato e lasciato invariato sta ancora eseguendo il build distribuito il giorno prima, che contiene ancora il vecchio segreto incorporato nel suo runtime. Ha ruotato la dashboard, non il sistema."
     },
     {
       "type": "p",
@@ -129,7 +129,7 @@
     },
     {
       "type": "p",
-      "text": "La maggior parte dei team non ha un singolo responsabile per nessuna di queste misure. Questa è la ragione silenziosa per cui gli incidenti continuano a concludersi con gli stessi punti nel post-mortem. [Parli con noi](/it/#contact) su come webvise integra queste misure nel retainer di manutenzione per ogni progetto gestito."
+      "text": "Molti team non hanno un responsabile nominato per queste attività; questa lacuna ricorre nei post-mortem degli incidenti. [Parli con noi](/it/#contact) su come webvise integra queste misure nel retainer di manutenzione per ogni progetto gestito."
     },
     {
       "type": "h2",
@@ -149,7 +149,7 @@
     },
     {
       "type": "p",
-      "text": "Eseguiamo security review su team Vercel, Google Workspace e grafi di identità SaaS-to-SaaS come parte di ogni engagement gestito da webvise. Se desidera uno sguardo esterno sulla Sua configurazione prima che la prossima comunicazione arrivi nel weekend, [avvii una conversazione](/it/#contact)."
+      "text": "Eseguiamo security review su team Vercel, Google Workspace e grafi di identità SaaS-to-SaaS come parte di ogni engagement gestito da webvise. Se desidera una seconda revisione della configurazione Vercel prima del prossimo incidente, [ci contatti](/it/#contact)."
     }
   ]
 }

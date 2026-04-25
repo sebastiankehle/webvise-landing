@@ -46,7 +46,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Chaque agent s'exécute avec un niveau de modèle approprié. Les recherches rapides utilisent Haiku pour la rapidité et l'efficacité des coûts. L'implémentation standard utilise Sonnet. Les décisions architecturales complexes et les analyses approfondies sont acheminées vers Opus. Ce routage automatique des modèles permet d'économiser 30 à 50 % sur les coûts de tokens par rapport à l'utilisation systématique du modèle le plus performant."
+			"text": "Chaque agent s'exécute avec un niveau de modèle approprié. Les recherches rapides utilisent Haiku pour la rapidité et l'efficacité des coûts. L'implémentation standard utilise Sonnet. Les décisions architecturales complexes et les analyses approfondies sont acheminées vers Opus. Ce routage automatique des modèles réduit les coûts de tokens par rapport à l'utilisation systématique du modèle le plus performant ; dans nos pipelines, nous observons des économies de l'ordre de 30 à 50 %, selon la répartition des tâches."
 		},
 		{
 			"type": "h3",
@@ -160,7 +160,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Les workers 1, 2 et 3 s'exécutent en parallèle, chacun dans des worktrees git isolés. La couche d'orchestration fusionne leurs modifications, résout les éventuels conflits et transmet le résultat pour révision. Ce qui pourrait prendre à un seul agent une heure de travail séquentiel se termine en quelques minutes."
+			"text": "Les workers 1, 2 et 3 s'exécutent en parallèle, chacun dans des worktrees git isolés. La couche d'orchestration fusionne leurs modifications, résout les éventuels conflits et transmet le résultat pour révision. La parallélisation comprime le temps écoulé par rapport à l'exécution séquentielle d'un agent unique ; la durée réelle dépend de la complexité de la tâche et des temps de réponse du modèle."
 		},
 		{
 			"type": "h2",
@@ -184,7 +184,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Le passage d'un agent unique à plusieurs agents ne concerne pas seulement la vitesse. Il introduit la **séparation des responsabilités** dans le développement assisté par l'IA. Lorsqu'un agent de révision de sécurité dédié analyse chaque modification, il détecte des vulnérabilités qu'un assistant généraliste manquerait. Lorsqu'un agent architecte valide les décisions structurelles avant le début de l'implémentation, vous évitez des réécritures coûteuses."
+			"text": "Le passage d'un agent unique à plusieurs agents ne concerne pas seulement la vitesse. Il introduit la **séparation des responsabilités** dans le développement assisté par l'IA. Lorsqu'un agent de révision de sécurité dédié analyse chaque modification, des vulnérabilités ont été détectées dans notre pipeline qu'un assistant généraliste n'avait pas identifiées. Lorsqu'un agent architecte valide les décisions structurelles avant le début de l'implémentation, vous évitez des réécritures coûteuses."
 		},
 		{
 			"type": "p",
@@ -200,7 +200,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Les flux de travail multi-agents consomment plus de tokens qu'un simple cycle prompt-réponse. OMC atténue cela grâce au routage automatique des modèles : les tâches simples sont dirigées vers des modèles moins coûteux, et le raisonnement complexe vers les modèles les plus performants. Les économies de 30 à 50 % sur les tokens grâce au routage intelligent compensent souvent la surcharge liée à l'exécution de plusieurs agents. Pour les tâches importantes, le temps gagné grâce à l'exécution parallèle justifie généralement le coût."
+			"text": "Les flux de travail multi-agents consomment plus de tokens qu'un simple cycle prompt-réponse. OMC atténue cela grâce au routage automatique des modèles : les tâches simples sont dirigées vers des modèles moins coûteux, et le raisonnement complexe vers les modèles les plus performants. Les économies de tokens grâce au routage intelligent compensent généralement la surcharge d'orchestration dans nos pipelines. Pour les tâches importantes, le temps gagné grâce à l'exécution parallèle justifie généralement le coût."
 		},
 		{
 			"type": "h3",
@@ -250,7 +250,7 @@
 		},
 		{
 			"type": "p",
-			"text": "L'évolution est claire. La première phase était l'autocomplétion (GitHub Copilot, 2022). La deuxième phase était la programmation par chat (ChatGPT, Claude, 2023). La troisième phase était les agents natifs dans le terminal (Claude Code, Codex CLI, 2025). La quatrième phase, qui se déroule maintenant, est l'orchestration multi-agents. Des projets comme oh-my-claudecode et oh-my-codex représentent la première vague d'outils qui traitent la programmation IA non pas comme un assistant unique, mais comme une équipe coordonnée."
+			"text": "L'évolution est claire. La première phase était l'autocomplétion (GitHub Copilot, 2022). La deuxième phase était la programmation par chat (ChatGPT, Claude, 2023). La troisième phase était les agents natifs dans le terminal (Claude Code, Codex CLI, 2025). Nous voyons la prochaine phase comme l'orchestration multi-agents. Des projets comme oh-my-claudecode et oh-my-codex représentent la première vague d'outils qui traitent la programmation IA non pas comme un assistant unique, mais comme une équipe coordonnée."
 		},
 		{
 			"type": "p",

@@ -3,13 +3,13 @@
   "readingTime": 10,
   "keyword": "OpenAI Privacy Filter",
   "title": "OpenAI Privacy Filter: The Open-Weight PII Model That Runs in Your Browser (And Where It Belongs in an Agent Stack)",
-  "excerpt": "OpenAI's new open-weight PII classifier runs in your browser and fills the governance layer most agent stacks skip. Here's how the model works, where it fits, and what it breaks.",
+  "excerpt": "OpenAI's new open-weight PII classifier runs in your browser and fills a governance layer that many agent stacks underweight. Here's how the model works, where it fits, and what it breaks.",
   "metaDescription": "Most agent stacks have no data-minimization layer. OpenAI's new Apache 2.0 PII classifier runs in the browser and fixes that. Here's how to wire it in.",
   "tags": ["AI Agents", "Security", "Open Source", "Self-Hosted"],
   "blocks": [
     {
       "type": "p",
-      "text": "OpenAI just shipped a tool, not a model. **openai/privacy-filter** is a 1.5 billion parameter bidirectional token classifier published under Apache 2.0 that runs in your browser, detects eight categories of personally identifiable information in a single forward pass, and fills the governance layer most agent stacks skip."
+      "text": "OpenAI just shipped a tool, not a model. **openai/privacy-filter** is a 1.5 billion parameter bidirectional token classifier published under Apache 2.0 that runs in your browser, detects eight categories of personally identifiable information in a single forward pass, and fills a governance layer that many agent stacks underweight."
     },
     {
       "type": "p",
@@ -17,7 +17,7 @@
     },
     {
       "type": "p",
-      "text": "If you are running agents on client data today, PII redaction is probably a regex library you maintain or an LLM call you would rather not pay for. This article walks through what openai/privacy-filter actually is, the architectural choices that matter, and where it belongs in a real agent governance stack. We will also explain why this release updates our position on agents that read untrusted inputs, and what to do with it if you are shipping regulated workloads."
+      "text": "If you are running agents on client data today, PII redaction is commonly handled by an in-house regex library or by routing requests through an LLM, both of which carry trade-offs. This article walks through what openai/privacy-filter actually is, the architectural choices that matter, and where it belongs in a real agent governance stack. We will also explain why this release updates our position on agents that read untrusted inputs, and what to do with it if you are shipping regulated workloads."
     },
     {
       "type": "h2",
@@ -47,7 +47,7 @@
     },
     {
       "type": "p",
-      "text": "That matters because the field has spent three years treating generative LLMs as the default primitive for every text problem, including ones LLMs are poorly suited to. PII redaction is a classification problem. Running a general-purpose 70B-parameter model on every inbound request to ask it nicely to mask emails is an expensive workaround. A 1.5B-parameter classifier with 50 million active MoE parameters does the same job in one forward pass, runs on a laptop, and cannot hallucinate new emails."
+      "text": "That matters because the field has tended to default to generative LLMs for tasks better served by purpose-trained classifiers, including PII detection. Running a general-purpose 70B-parameter model on every inbound request to perform PII masking is computationally expensive for what is fundamentally a classification task. A 1.5B-parameter classifier with 50 million active MoE parameters does the same job in one forward pass, runs on a laptop, and cannot hallucinate new emails."
     },
     {
       "type": "p",
@@ -249,7 +249,7 @@
     },
     {
       "type": "p",
-      "text": "If your agent stack does not have a data-minimization layer, this is the release to build that layer on. If you want help wiring it into something clients can actually stand on in production, [webvise builds that](/#contact)."
+      "text": "Agent stacks without a data-minimization layer have a strong open-weight starting point in this release. If you want help wiring it into something clients can actually stand on in production, [webvise builds that](/#contact)."
     }
   ]
 }

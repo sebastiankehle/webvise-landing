@@ -3,11 +3,11 @@
   "readingTime": 6,
   "keyword": "mémoire agent vs contexte",
   "title": "La mémoire n'est pas le primitif d'agent que vous croyez",
-  "excerpt": "La plupart des agents en production n'ont pas besoin de mémoire. Ils ont besoin de récupération de contexte. Voici la taxonomie en deux camps qui sépare ces deux marchés, avec les signaux publics que la majorité des acheteurs négligent.",
+  "excerpt": "De nombreux agents en production n'ont pas besoin de mémoire persistante au sens strict ; ils ont besoin d'une récupération de contexte fiable entre les sessions. Voici la taxonomie en deux camps qui sépare ces deux marchés, avec les signaux publics que la majorité des acheteurs négligent.",
   "metaDescription": "Vos agents n'ont pas besoin de mémoire. Ils ont besoin de contexte. Pourquoi le marché de la mémoire pour agents construit la mauvaise couche, et ce qu'il faut acheter à la place.",
   "tags": ["AI Agents", "AI", "Business Strategy", "Process"],
   "blocks": [
-    { "type": "p", "text": "La plupart des agents en production n'ont pas besoin de mémoire. Ils ont besoin de **récupération de contexte**, et ces deux choses ne sont pas identiques." },
+    { "type": "p", "text": "De nombreux agents en production n'ont pas besoin de mémoire persistante au sens strict ; ils ont besoin d'une **récupération de contexte** fiable entre les sessions, et ces deux choses ne sont pas identiques." },
     { "type": "p", "text": "Si vous avez évalué Zep, Mem0 ou Letta cette année, vous faites vos achats sur un marché qui a fusionné deux produits distincts sous un seul mot." },
     { "type": "p", "text": "Vous avez raison de vouloir que vos agents progressent d'une session à l'autre. Le problème, c'est que la moitié des outils de votre liste ont été conçus pour résoudre un problème différent : le rappel de faits au sein d'une seule conversation, et non la capitalisation de connaissances sur des mois de travail. Cet article distingue les deux camps, vous indique lequel votre agent requiert réellement, et signale les indicateurs de marché que la plupart des acheteurs manquent." },
     { "type": "ul", "items": [
@@ -47,10 +47,10 @@
     { "type": "p", "text": "Camp 2 est la bonne réponse quand vous faites tourner un agent en continu, quand plusieurs outils ou plusieurs agents écrivent dans la même base de connaissances, ou quand vous avez besoin que le système s'améliore de façon mesurable sur des semaines et des mois sans reconstruire le pipeline à chaque fois." },
     { "type": "p", "text": "Le test le plus simple : l'agent a-t-il besoin de savoir ce qui s'est passé mardi dernier, ou a-t-il besoin de connaître la *structure* de votre activité en ce moment ? La seconde question relève de Camp 2." },
     { "type": "h2", "text": "Le repositionnement qui dit tout" },
-    { "type": "p", "text": "Vous n'avez pas besoin d'un analyste pour lire ce marché. Deux mouvements publics, tous deux de sociétés qui vendent de la mémoire, expliquent quel camp est en train de gagner." },
+    { "type": "p", "text": "Le signal de marché ici est assez clair. Deux mouvements publics, tous deux de sociétés qui vendent de la mémoire, expliquent quel camp est en train de gagner." },
     { "type": "p", "text": "Zep se présentait autrefois comme une société de mémoire. En 2026, elle a changé ce positionnement pour l'**Context Engineering**. Une société financée dans cet espace ne se repositionne pas pour le plaisir. Elle l'a fait parce que les acheteurs qui payaient le plus avaient cessé de demander de la mémoire et avaient commencé à demander un contexte qui se capitalise." },
     { "type": "p", "text": "Zilliz, la société derrière Milvus, a lancé MemSearch. MemSearch est un système où les fichiers markdown sont la source de vérité et où la propre base de données vectorielle de Zilliz se trouve en aval comme couche d'accès. C'est une société de base de données vectorielle qui reconnaît publiquement que le markdown appartient en amont des vecteurs." },
-    { "type": "p", "text": "Prédiction : dans six mois, l'«Context Engineering» remplacera la «mémoire» comme étiquette par défaut pour toute infrastructure d'agent sérieuse. Commencez à lire les pages produits avec cette substitution en tête et le positionnement réel deviendra évident." },
+    { "type": "p", "text": "Nous nous attendons à ce que l'«Context Engineering» s'impose comme terme par défaut pour cette couche d'infrastructure d'agent au cours de l'année à venir. Commencez à lire les pages produits avec cette substitution en tête et le positionnement réel deviendra évident." },
     { "type": "h2", "text": "Comment déterminer de quel camp vous avez réellement besoin" },
     { "type": "p", "text": "Voici le cadre de décision, réduit à des règles pratiques." },
     { "type": "table", "headers": ["Vous avez besoin de Camp 1 (Memory Backend) si...", "Vous avez besoin de Camp 2 (Context Substrate) si..."], "rows": [

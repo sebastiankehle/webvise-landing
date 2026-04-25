@@ -9,7 +9,7 @@
   "blocks": [
     {
       "type": "p",
-      "text": "OpenAI hat gerade ein Werkzeug geliefert, kein Modell. **openai/privacy-filter** ist ein bidirektionaler Token-Classifier mit 1.5 Milliarden Parametern, veröffentlicht unter Apache 2.0, der in Ihrem Browser läuft, acht Kategorien personenbezogener Daten in einem einzigen Forward Pass erkennt und die Governance-Schicht schließt, die die meisten Agent-Stacks überspringen."
+      "text": "OpenAI hat gerade ein Werkzeug geliefert, kein Modell. **openai/privacy-filter** ist ein bidirektionaler Token-Classifier mit 1.5 Milliarden Parametern, veröffentlicht unter Apache 2.0, der in Ihrem Browser läuft, acht Kategorien personenbezogener Daten in einem einzigen Forward Pass erkennt und eine Governance-Schicht füllt, die die meisten Agent-Stacks zu wenig gewichten."
     },
     {
       "type": "p",
@@ -17,7 +17,7 @@
     },
     {
       "type": "p",
-      "text": "Wenn Sie heute Agents auf Kundendaten betreiben, ist PII-Redaktion wahrscheinlich eine Regex-Bibliothek, die Sie pflegen, oder ein LLM-Aufruf, für den Sie lieber nicht zahlen würden. Dieser Artikel beschreibt, was openai/privacy-filter tatsächlich ist, welche architektonischen Entscheidungen wichtig sind und wo es in einen echten Agent-Governance-Stack gehört. Außerdem erklären wir, warum dieses Release unsere Position zu Agents, die nicht vertrauenswürdige Eingaben lesen, aktualisiert, und was Sie damit tun sollten, wenn Sie regulierte Workloads ausliefern."
+      "text": "Wenn Sie heute Agents auf Kundendaten betreiben, wird PII-Redaktion häufig mit einer Regex-Bibliothek gelöst, die Sie pflegen, oder durch Routing über ein LLM – beides mit Trade-offs. Dieser Artikel beschreibt, was openai/privacy-filter tatsächlich ist, welche architektonischen Entscheidungen wichtig sind und wo es in einen echten Agent-Governance-Stack gehört. Außerdem erklären wir, warum dieses Release unsere Position zu Agents, die nicht vertrauenswürdige Eingaben lesen, aktualisiert, und was Sie damit tun sollten, wenn Sie regulierte Workloads ausliefern."
     },
     {
       "type": "h2",
@@ -47,7 +47,7 @@
     },
     {
       "type": "p",
-      "text": "Das ist bedeutsam, weil die Branche drei Jahre damit verbracht hat, generative LLMs als Standardprimitive für jedes Textproblem zu behandeln, einschließlich solcher, für die LLMs schlecht geeignet sind. PII-Redaktion ist ein Klassifikationsproblem. Ein allgemeines 70-Milliarden-Parameter-Modell auf jede eingehende Anfrage anzusetzen und es freundlich zu bitten, E-Mail-Adressen zu maskieren, ist ein teurer Umweg. Ein 1.5-Milliarden-Parameter-Classifier mit 50 Millionen aktiven MoE-Parametern erledigt dieselbe Aufgabe in einem Forward Pass, läuft auf einem Laptop und kann keine neuen E-Mail-Adressen halluzinieren."
+      "text": "Das ist bedeutsam, weil die Branche drei Jahre damit verbracht hat, generative LLMs als Standardprimitive für jedes Textproblem zu behandeln, einschließlich solcher, für die LLMs weniger geeignet sind. PII-Redaktion ist ein Klassifikationsproblem. Ein allgemeines 70-Milliarden-Parameter-Modell auf jede eingehende Anfrage anzusetzen und es freundlich zu bitten, E-Mail-Adressen zu maskieren, ist rechenintensiv für ein im Grunde klassifikatorisches Problem. Ein 1.5-Milliarden-Parameter-Classifier mit 50 Millionen aktiven MoE-Parametern erledigt dieselbe Aufgabe in einem Forward Pass, läuft auf einem Laptop und kann keine neuen E-Mail-Adressen halluzinieren."
     },
     {
       "type": "p",
@@ -249,7 +249,7 @@
     },
     {
       "type": "p",
-      "text": "Wenn Ihr Agent-Stack keine Datensparsamkeits-Schicht hat, ist dies das Release, auf dem Sie diese Schicht aufbauen sollten. Wenn Sie Hilfe dabei benötigen, es in etwas einzubinden, auf dem Kunden in der Produktion tatsächlich stehen können, [baut webvise das](/#contact)."
+      "text": "Wenn Ihr Agent-Stack keine Datensparsamkeits-Schicht hat, bietet dieses Release einen soliden Open-Weight-Ausgangspunkt zum Aufbau dieser Schicht. Wenn Sie Hilfe dabei benötigen, es in etwas einzubinden, auf dem Kunden in der Produktion tatsächlich stehen können, [baut webvise das](/#contact)."
     }
   ]
 }

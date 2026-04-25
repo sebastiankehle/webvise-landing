@@ -3,21 +3,21 @@
 	"readingTime": 9,
 	"keyword": "hermes agent production deployment",
 	"title": "Hermes Agent in productie: de day-30 operator layer",
-	"excerpt": "De meeste Hermes Agent-teams met 4 profiles werken goed op dag één en vervagen tot één stem tegen dag 30. De operator layer die dat voorkomt: handoff contracts, memory-KPI-audits en policy gates per rol.",
-	"metaDescription": "Multi-agent Hermes Agent-teams vervagen tegen dag 30. De operator layer: handoff contracts, memory-KPI-audits en per-rol policy gates die dat voorkomen.",
+	"excerpt": "De meeste Hermes Agent-teams met 4 profiles werken goed op dag één en tonen tekenen van stemconvergentie tegen dag 30 in productiedeployments. De operator layer die dat voorkomt: handoff contracts, memory-KPI-audits en policy gates per rol.",
+	"metaDescription": "Multi-agent Hermes Agent-teams tonen stemconvergentie tegen dag 30. De operator layer: handoff contracts, memory-KPI-audits en per-rol policy gates die dat voorkomen.",
 	"tags": ["AI Agents", "AI", "Open Source", "Process"],
 	"blocks": [
 		{
 			"type": "p",
-			"text": "**De Hermes Agent operator layer is het geheel van disciplines dat een multi-profile team coherent houdt na dag 30.** Vier primitieven: handoff contracts die kunnen blokkeren, memory-KPI-audits per profile, policy gates per rol en gecoördineerde cron-status. Zonder deze primitieven vervaagt een team van 4 profiles (Hermes + Alan + Mira + Turing) binnen een maand tot één vage agent."
+			"text": "**De Hermes Agent operator layer is het geheel van disciplines dat een multi-profile team coherent houdt na dag 30.** Vier primitieven: handoff contracts die kunnen blokkeren, memory-KPI-audits per profile, policy gates per rol en gecoördineerde cron-status. Zonder deze primitieven toont een team van 4 profiles (Hermes + Alan + Mira + Turing) binnen een maand tekenen van stemconvergentie."
 		},
 		{
 			"type": "p",
-			"text": "Elke Hermes operator guide online stopt bij de 4-profile bootstrap. Niemand plaatst schermafbeeldingen van dag 30, want dag 30 is het moment waarop de profiles hetzelfde beginnen te klinken, de handoffs stilletjes breken en een build waarop u trots was ononderscheidbaar wordt van een solo-agent setup."
+			"text": "De meeste Hermes operator guides stoppen momenteel bij de 4-profile bootstrap; dag-30-deployment materiaal is schaars in de publieke documentatie. Dag 30 is het moment waarop de profiles hetzelfde beginnen te klinken, de handoffs stilletjes breken en een build waarop u trots was ononderscheidbaar wordt van een solo-agent setup."
 		},
 		{
 			"type": "p",
-			"text": "Als u [Hermes Agent](/blog/hermes-agent-self-improving-ai) versie 0.9.0 draait met Alan-, Mira- en Turing-profiles, is de basisopzet klaar. Wat nu volgt is de operator layer. Elk primitief hieronder is ontleend aan echte deployment-patronen, gekoppeld aan het specifieke faalpatroon dat het noodzakelijk maakt."
+			"text": "Als [Hermes Agent](/blog/hermes-agent-self-improving-ai) versie 0.9.0 draait met de standaard bootstrap inclusief de Alan-, Mira- en Turing-profiles, is de basisopzet compleet; het dag-30-werk begint vanaf dat punt. Elk primitief hieronder is ontleend aan echte deployment-patronen, gekoppeld aan het specifieke faalpatroon dat het noodzakelijk maakt."
 		},
 		{
 			"type": "ul",
@@ -25,7 +25,7 @@
 				"**Handoff contracts zijn alleen reëel als ze blokkeren.** Als de invoervorm van het ontvangende profile onjuist is, moet de handoff mislukken en niet alleen waarschuwen.",
 				"**Geheugen vergaat per profile.** Voer wekelijks een `memory-kpi`-audit uit. Wanneer 15% van de notities verouderd is, is een `brain-resolve`-doorgang vereist.",
 				"**Policy gates voorkomen stille privileges-uitbreiding.** Alan krijgt nooit shell-toegang. Alleen de orchestrator mag commits naar main goedkeuren.",
-				"**Vier day-30 faalpatronen zijn verantwoordelijk voor de meeste mislukkingen.** Profile drift, handoff rot, SOUL.md bloat, cron collision. Elk heeft een specifiek tegenmiddel.",
+				"**Vier day-30 faalpatronen verklaren de meeste deployment-regressies die wij hebben waargenomen.** Profile drift, handoff rot, SOUL.md bloat, cron collision. Elk heeft een specifiek tegenmiddel.",
 				"**Lees eerst de [Hermes Agent definitiegids](/blog/hermes-agent-self-improving-ai)** als u de wat-is-het context nodig heeft voordat u de operator layer ingaat."
 			]
 		},
@@ -116,7 +116,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Het principe is structureel essentieel. Een onderzoeksagent met shell-toegang voert uiteindelijk een commando uit dat het niet had mogen uitvoeren. Een schrijversprofiel met toegang tot geheimen lekt ze uiteindelijk in een concept. Rechten-drift verloopt stilletjes en wordt pas achteraf opgemerkt, wat het verkeerde moment is."
+			"text": "Het principe is structureel essentieel. Een onderzoeksagent met shell-toegang voert uiteindelijk een commando uit dat het niet had mogen uitvoeren. Een schrijversprofiel met toegang tot geheimen lekt ze uiteindelijk in een concept. Rechten-drift verloopt stilletjes en wordt pas achteraf opgemerkt, wat een moeilijk moment is om de lacune te ontdekken."
 		},
 		{
 			"type": "h2",
@@ -124,7 +124,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Vier specifieke faalpatronen zijn verantwoordelijk voor de meeste multi-agent Hermes-instortingen. Elk heeft een direct tegenmiddel. Sla er één over en het team ziet er goed uit op dag één, maar is vervaagd op dag 30."
+			"text": "Vier specifieke faalpatronen verklaren de meeste deployment-regressies die wij hebben waargenomen in multi-agent Hermes-setups. Elk heeft een direct tegenmiddel. Sla er één over en het team ziet er goed uit op dag één, maar is gedegradeerd op dag 30."
 		},
 		{
 			"type": "h3",

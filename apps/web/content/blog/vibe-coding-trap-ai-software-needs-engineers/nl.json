@@ -2,14 +2,14 @@
 	"date": "2026-04-12",
 	"readingTime": 7,
 	"keyword": "vibe coding AI software engineering",
-	"title": "Vibe Coding is een val - Waarom AI-gebouwde software nog steeds engineers nodig heeft",
+	"title": "Waarom AI-gegenereerde software nog steeds engineering-review nodig heeft",
 	"excerpt": "Andrej Karpathy muntte de term \"vibe coding\" in februari 2025. Sindsdien is er een golf van AI-gegenereerde apps verschenen die werken in demo's en falen in productie. Het probleem zijn niet de AI-tools - het is ze gebruiken zonder engineering-discipline.",
 	"metaDescription": "Vibe coding creëert een nieuwe klasse technische schuld die moeilijker te corrigeren is dan slecht handgeschreven code. Waarom AI engineering-vaardigheden vergroot in plaats van vervangt.",
 	"tags": ["AI", "Web Development", "Business Strategy"],
 	"blocks": [
 		{
 			"type": "p",
-			"text": "Andrej Karpathy muntte de term **vibe coding** in [februari 2025](https://x.com/karpathy/status/1886192184808149370) om een manier van softwareontwikkeling te beschrijven waarbij u beschrijft wat u wilt, accepteert wat de AI produceert, en de code niet leest. Zijn formulering was grootmoedig - een weekendhobbymodus voor persoonlijke projecten. Wat volgde was dat niet. Tegen midden 2025 had een golf van niet-engineers productie-SaaS-applicaties gepubliceerd die volledig waren gebouwd in Cursor, Replit Agent, v0 en bolt.new, zonder ooit te begrijpen wat ze hadden gebouwd. De applicaties zagen er goed uit in demo's. Ze falen nu op dit moment in productie."
+			"text": "Andrej Karpathy muntte de term **vibe coding** in [februari 2025](https://x.com/karpathy/status/1886192184808149370) om een manier van softwareontwikkeling te beschrijven waarbij u beschrijft wat u wilt, accepteert wat de AI produceert, en de code niet leest. Zijn formulering was grootmoedig - een weekendhobbymodus voor persoonlijke projecten. Wat volgde was dat niet. Tegen midden 2025 had een golf van niet-engineers productie-SaaS-applicaties gepubliceerd die volledig waren gebouwd in Cursor, Replit Agent, v0 en bolt.new, zonder ooit te begrijpen wat ze hadden gebouwd. De applicaties zagen er goed uit in demo's. Sommige falen in productie."
 		},
 		{
 			"type": "h2",
@@ -38,7 +38,7 @@
 		{
 			"type": "ul",
 			"items": [
-				"**Auth-bypasses ingebakken in het scaffold.** AI-gegenereerde auth-code kopieert frequent patronen uit trainingsdata zonder het beveiligingsmodel te begrijpen. Row-level security «tijdelijk» uitgeschakeld tijdens ontwikkeling, in productie gelaten. JWT-secrets hardcoded in voorbeelden van omgevingsvariabelen die naar publieke repo's zijn gecommit. Rolcontroles die stringliteralen vergelijken en kapotgaan zodra een veld wordt hernoemd.",
+				"**Auth-bypasses ingebakken in het scaffold; JWT-secrets aanwezig in voorbeelden van omgevingsvariabelen die naar publieke repositories zijn gecommit** — dit zijn veelvoorkomende bevindingen in code-reviews van AI-ondersteunde projecten zonder engineering-toezicht. AI-gegenereerde auth-code kopieert frequent patronen uit trainingsdata zonder het beveiligingsmodel te begrijpen. Row-level security «tijdelijk» uitgeschakeld tijdens ontwikkeling, in productie gelaten. Rolcontroles die stringliteralen vergelijken en kapotgaan zodra een veld wordt hernoemd.",
 				"**Geen foutafhandeling voorbij het happy path.** De AI schreef het successcenario. Wat gebeurt er wanneer de betalingsprovider een 402 teruggeeft? Wat gebeurt er wanneer de databaseverbinding halverwege een transactie wegvalt? In vibe-gecodeerde applicaties is het antwoord meestal een niet-afgehandelde promise rejection die verschijnt als een leeg scherm.",
 				"**Vendor lock-in op AI-gegenereerde patronen.** Toen de AI koos om het datamodel op een bepaalde manier te structureren, accepteerde de vibe coder dit. Nu is de hele applicatie rondom die structuur gebouwd. Migreren weg ervan vereist inzicht in code die de developer nooit heeft gelezen.",
 				"**Geen tests.** Niet omdat tests moeilijk zijn, maar omdat de vibe coder er nooit om vroeg en de AI ze niet vrijwillig aanbood. Wanneer er iets kapotgaat in productie, is er geen testsuite om regressies in de fix op te vangen."
@@ -54,7 +54,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Het patroon speelt zich voorspelbaar af. Een vibe-gecodeerde applicatie wordt gelanceerd, ziet er gepolijst uit, krijgt vroege gebruikers. Dan: een gebruiker met een niet-ASCII-teken in zijn naam breekt de databasequery. Een mobiele gebruiker op een trage verbinding triggert een race condition in het state management. Een concurrent meldt zich aan en ontdekt dat de API-endpoints data van andere gebruikers retourneren omdat de autorisatiecontrole aan de frontend-kant zat, niet op de server. Dit zijn geen exotische fouten. Ze zijn de basale consequentie van het uitleveren van code die men nooit heeft gelezen."
+			"text": "Het patroon speelt zich voorspelbaar af. Een vibe-gecodeerde applicatie wordt gelanceerd, ziet er gepolijst uit, krijgt vroege gebruikers. Dan: een gebruiker met een niet-ASCII-teken in zijn naam breekt de databasequery. Een mobiele gebruiker op een trage verbinding triggert een race condition in het state management. Wij hebben scenario's gezien waarbij API-endpoints data lekken tussen gebruikersaccounts omdat autorisatiecontroles ontbraken of onvolledig waren — een gevolg van het uitleveren van code die nooit is gecontroleerd op server-side handhaving. Dit zijn geen exotische fouten. Ze zijn de basale consequentie van het uitleveren van code die men nooit heeft gelezen."
 		},
 		{
 			"type": "h2",
@@ -62,11 +62,11 @@
 		},
 		{
 			"type": "p",
-			"text": "Dit is de claim die het vibe coding-verhaal omkeert. De tools zijn echt en de productiviteitswinsten zijn echt. Bij webvise gebruiken we Claude Code, Cursor en multi-agent orchestratie op elk project dat we leveren. Een senior engineer met Claude Code levert in uren wat eerder dagen kostte. Dezelfde tools in de handen van iemand zonder engineering-fundamentals produceren een demo die de eerste echte gebruiker niet overleeft."
+			"text": "Dit is de claim die het vibe coding-verhaal omkeert. De tools zijn echt en de productiviteitswinsten zijn echt. Bij webvise gebruiken we Claude Code, Cursor en multi-agent orchestratie op elk project dat we leveren. Senior engineers die Claude Code gebruiken rapporteren betekenisvolle tijdsbesparingen op taken die anders dagen zouden kosten. Dezelfde tools in de handen van iemand zonder engineering-fundamentals produceren een demo die de eerste echte gebruiker niet overleeft."
 		},
 		{
 			"type": "p",
-			"text": "Het verschil zit niet in de tool - het zit in wat de engineer meebrengt naar de tool. Engineering-fundamentals gaan niet over het met de hand schrijven van code. Ze gaan over het begrijpen van systeemgrenzen, faalmodi, beveiligingsmodellen en data-integriteit. Een engineer die Claude Code gebruikt leest de gegenereerde authenticatiecode en herkent wanneer die onjuist is. Een vibe coder drukt op accepteren en levert het af."
+			"text": "Het verschil zit niet in de tool - het zit in wat de engineer meebrengt naar de tool. Engineering-fundamentals gaan niet over het met de hand schrijven van code. Ze gaan over het begrijpen van systeemgrenzen, faalmodi, beveiligingsmodellen en data-integriteit. Een engineer die Claude Code gebruikt leest de gegenereerde authenticatiecode en herkent wanneer die onjuist is. Een onervaren developer accepteert de suggestie en levert het af."
 		},
 		{
 			"type": "table",
@@ -98,11 +98,11 @@
 		},
 		{
 			"type": "p",
-			"text": "Consumenten-hobbytoepassingen kunnen de faalmodi van vibe coding absorberen. Als een persoonlijke financiëntracker wat data verliest, is dat vervelend. Als een B2B-SaaS die klantgegevens, betalingsstromen of interne workflows afhandelt wordt uitgeleverd met de hierboven beschreven auth- en foutafhandelingsproblemen, zijn de gevolgen juridisch, contractueel en reputatieschade. De AVG vrijstelt u niet omdat u uw eigen dataverwerkingscode niet heeft gelezen."
+			"text": "Consumenten-hobbytoepassingen kunnen de faalmodi van vibe coding absorberen. Als een persoonlijke financiëntracker wat data verliest, is dat vervelend. Als een B2B-SaaS die klantgegevens, betalingsstromen of interne workflows afhandelt wordt uitgeleverd met de hierboven beschreven auth- en foutafhandelingsproblemen, zijn de gevolgen juridisch, contractueel en reputatieschade. AVG-aansprakelijkheid geldt ongeacht hoe de code is gegenereerd; dataverwerkingscode vereist review."
 		},
 		{
 			"type": "p",
-			"text": "De golf van AI-gegenereerde SaaS-applicaties van 2025-2026 heeft een voorspelbare klasse startups voortgebracht: indrukwekkend in een demo, vroege klanten gewonnen op de belofte, dan tegen een muur gelopen toen de eerste enterprise-prospect een beveiligingsreview uitvoerde of de eerste dag met hoog verkeer de ontbrekende foutafhandeling blootlegde. De oprichters zijn geen fraudeurs - ze wisten oprecht niet wat ze hadden gebouwd."
+			"text": "Verschillende recente AI-ondersteunde SaaS-producten hebben een vergelijkbaar patroon gevolgd: indrukwekkend in een demo, vroege klanten gewonnen op de belofte, dan tegen een muur gelopen toen de eerste enterprise-prospect een beveiligingsreview uitvoerde of de eerste dag met hoog verkeer de ontbrekende foutafhandeling blootlegde. De oprichters zijn geen fraudeurs - ze wisten oprecht niet wat ze hadden gebouwd."
 		},
 		{
 			"type": "h2",

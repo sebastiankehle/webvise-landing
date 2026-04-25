@@ -9,7 +9,7 @@
   "blocks": [
     {
       "type": "p",
-      "text": "OpenAI heeft zojuist een tool uitgebracht, geen model. **openai/privacy-filter** is een bidirectionele token-classifier met 1,5 miljard parameters, gepubliceerd onder Apache 2.0, die in uw browser draait, acht categorieën persoonsgegevens detecteert in één forward pass en de governance-laag vult die de meeste agent stacks overslaan."
+      "text": "OpenAI heeft zojuist een tool uitgebracht, geen model. **openai/privacy-filter** is een bidirectionele token-classifier met 1,5 miljard parameters, gepubliceerd onder Apache 2.0, die in uw browser draait, acht categorieën persoonsgegevens detecteert in één forward pass en een governance-laag dekt die de meeste agent stacks onderschatten."
     },
     {
       "type": "p",
@@ -17,7 +17,7 @@
     },
     {
       "type": "p",
-      "text": "Als u vandaag agents laat werken op klantdata, is PII-redactie waarschijnlijk een regex-bibliotheek die u zelf onderhoudt of een LLM-aanroep waarvoor u liever niet betaalt. Dit artikel bespreekt wat openai/privacy-filter werkelijk is, de architectuurkeuzes die ertoe doen en waar het thuishoort in een serieuze agent governance stack. We leggen ook uit waarom deze release ons standpunt bijstelt over agents die onbetrouwbare invoer verwerken, en wat u daarmee doet als u gereguleerde workloads in productie brengt."
+      "text": "Als u vandaag agents laat werken op klantdata, wordt PII-redactie doorgaans geregeld via een regex-bibliotheek die u zelf onderhoudt of door aanvragen via een LLM te routeren — beide met hun eigen afwegingen. Dit artikel bespreekt wat openai/privacy-filter werkelijk is, de architectuurkeuzes die ertoe doen en waar het thuishoort in een serieuze agent governance stack. We leggen ook uit waarom deze release ons standpunt bijstelt over agents die onbetrouwbare invoer verwerken, en wat u daarmee doet als u gereguleerde workloads in productie brengt."
     },
     {
       "type": "h2",
@@ -47,7 +47,7 @@
     },
     {
       "type": "p",
-      "text": "Dat is van belang omdat het vakgebied drie jaar lang generatieve LLMs heeft behandeld als het standaard primitief voor elk tekstprobleem, inclusief problemen waarvoor LLMs slecht geschikt zijn. PII-redactie is een classificatieprobleem. Een generiek model van 70 miljard parameters uitvoeren op elk inkomend verzoek om het vriendelijk te vragen e-mailadressen te maskeren, is een kostbaar noodmiddel. Een classifier met 1,5 miljard parameters en 50 miljoen actieve MoE-parameters voert dezelfde taak uit in één forward pass, draait op een laptop en kan geen nieuwe e-mailadressen hallucineren."
+      "text": "Dat is van belang omdat het vakgebied drie jaar lang generatieve LLMs heeft behandeld als het standaard primitief voor elk tekstprobleem, inclusief problemen waarvoor LLMs minder geschikt zijn. PII-redactie is een classificatieprobleem. Een generiek model van 70 miljard parameters uitvoeren op elk inkomend verzoek om het vriendelijk te vragen e-mailadressen te maskeren, is rekenkundig kostbaar voor een taak die in de kern een classificatieprobleem is. Een classifier met 1,5 miljard parameters en 50 miljoen actieve MoE-parameters voert dezelfde taak uit in één forward pass, draait op een laptop en kan geen nieuwe e-mailadressen hallucineren."
     },
     {
       "type": "p",
@@ -249,7 +249,7 @@
     },
     {
       "type": "p",
-      "text": "Als uw agent stack geen dataminimalisatielaag heeft, is dit de release om die laag op te bouwen. Als u hulp wilt bij de integratie ervan in iets waarop klanten daadwerkelijk kunnen vertrouwen in productie, [bouwt webvise dat](/#contact)."
+      "text": "Als uw agent stack geen dataminimalisatielaag heeft, biedt dit een solide open-weight startpunt om die laag op te bouwen. Als u hulp wilt bij de integratie ervan in iets waarop klanten daadwerkelijk kunnen vertrouwen in productie, [bouwt webvise dat](/#contact)."
     }
   ]
 }

@@ -2,14 +2,14 @@
 	"date": "2026-04-12",
 	"readingTime": 7,
 	"keyword": "vibe coding AI inżynieria oprogramowania",
-	"title": "Vibe Coding to pułapka - Dlaczego oprogramowanie budowane przez AI nadal potrzebuje inżynierów",
+	"title": "Dlaczego oprogramowanie generowane przez AI nadal wymaga przeglądu inżynierskiego",
 	"excerpt": "Andrej Karpathy ukuł termin \"vibe coding\" w lutym 2025 roku. Od tamtej pory pojawiła się fala aplikacji generowanych przez AI, które działają w demonstracjach i zawodzą w produkcji. Problem nie leży w narzędziach AI - lecz w ich stosowaniu bez dyscypliny inżynierskiej.",
 	"metaDescription": "Vibe coding tworzy nową klasę długu technicznego, trudniejszego do naprawienia niż źle napisany ręcznie kod. Dlaczego AI wzmacnia kompetencje inżynierskie zamiast je zastępować.",
 	"tags": ["AI", "Web Development", "Business Strategy"],
 	"blocks": [
 		{
 			"type": "p",
-			"text": "Andrej Karpathy ukuł termin **vibe coding** w [lutym 2025 roku](https://x.com/karpathy/status/1886192184808149370), aby opisać tryb tworzenia oprogramowania, w którym opisuje się to, czego się chce, akceptuje to, co AI produkuje, i nie czyta kodu. Jego ujęcie było łaskawe - weekendowy tryb hobbystyczny dla osobistych projektów. To, co nastąpiło później, takie nie było. Do połowy 2025 roku fala niesinżynierów opublikowała produkcyjne aplikacje SaaS zbudowane całkowicie w Cursor, Replit Agent, v0 i bolt.new, nigdy nie rozumiejąc, co zbudowali. Aplikacje wyglądały dobrze w demonstracjach. Teraz w tej chwili padają w produkcji."
+			"text": "Andrej Karpathy ukuł termin **vibe coding** w [lutym 2025 roku](https://x.com/karpathy/status/1886192184808149370), aby opisać tryb tworzenia oprogramowania, w którym opisuje się to, czego się chce, akceptuje to, co AI produkuje, i nie czyta kodu. Jego ujęcie było łaskawe - weekendowy tryb hobbystyczny dla osobistych projektów. To, co nastąpiło później, takie nie było. Do połowy 2025 roku fala niesinżynierów opublikowała produkcyjne aplikacje SaaS zbudowane całkowicie w Cursor, Replit Agent, v0 i bolt.new, nigdy nie rozumiejąc, co zbudowali. Aplikacje wyglądały dobrze w demonstracjach. Niektóre zawodzą w produkcji."
 		},
 		{
 			"type": "h2",
@@ -38,7 +38,7 @@
 		{
 			"type": "ul",
 			"items": [
-				"**Obejścia uwierzytelniania wbudowane w scaffold.** Kod uwierzytelniania generowany przez AI często kopiuje wzorce z danych treningowych bez rozumienia modelu bezpieczeństwa. Bezpieczeństwo na poziomie wierszy wyłączone «tymczasowo» podczas development, pozostawione w produkcji. Sekrety JWT zakodowane na stałe w przykładach zmiennych środowiskowych zacommitowanych do publicznych repozytoriów. Sprawdzanie ról porównujące literały łańcuchów, które psuje się w momencie zmiany nazwy pola.",
+				"**Obejścia uwierzytelniania wbudowane w scaffold; sekrety JWT obecne w przykładach zmiennych środowiskowych zacommitowanych do publicznych repozytoriów** — to częste ustalenia w przeglądach kodu projektów wspomaganych AI bez nadzoru inżynierskiego. Kod uwierzytelniania generowany przez AI często kopiuje wzorce z danych treningowych bez rozumienia modelu bezpieczeństwa. Bezpieczeństwo na poziomie wierszy wyłączone «tymczasowo» podczas development, pozostawione w produkcji. Sprawdzanie ról porównujące literały łańcuchów, które psuje się w momencie zmiany nazwy pola.",
 				"**Brak obsługi błędów poza ścieżką sukcesu.** AI napisała przypadek sukcesu. Co się dzieje, gdy dostawca płatności zwraca 402? Co się dzieje, gdy połączenie z bazą danych spada w trakcie transakcji? W aplikacjach vibe-coded odpowiedzią jest zazwyczaj nieobsłużone odrzucenie promise, które pojawia się jako pusty ekran.",
 				"**Uzależnienie od dostawcy na wzorcach generowanych przez AI.** Gdy AI wybrała konkretny sposób strukturyzacji modelu danych, vibe coder to zaakceptował. Teraz cała aplikacja jest zbudowana wokół tej struktury. Migracja z niej wymaga zrozumienia kodu, którego developer nigdy nie czytał.",
 				"**Brak testów.** Nie dlatego, że testy są trudne, ale dlatego, że vibe coder nigdy o nie nie prosił, a AI nie zaproponowała ich dobrowolnie. Gdy coś psuje się w produkcji, nie ma zestawu testów, który wykryje regresje w naprawie."
@@ -54,7 +54,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Wzorzec rozgrywa się przewidywalnie. Aplikacja vibe-coded jest uruchamiana, wygląda dopracowanie, zdobywa wczesnych użytkowników. Następnie: użytkownik ze znakiem spoza ASCII w imieniu psuje zapytanie do bazy danych. Użytkownik mobilny z wolnym połączeniem wywołuje wyścig wątków w zarządzaniu stanem. Konkurent rejestruje się i odkrywa, że endpointy API zwracają dane innych użytkowników, bo sprawdzanie autoryzacji było po stronie frontendowej, nie na serwerze. Nie są to egzotyczne awarie. To podstawowa konsekwencja wysyłania kodu, którego się nigdy nie czytało."
+			"text": "Wzorzec rozgrywa się przewidywalnie. Aplikacja vibe-coded jest uruchamiana, wygląda dopracowanie, zdobywa wczesnych użytkowników. Następnie: użytkownik ze znakiem spoza ASCII w imieniu psuje zapytanie do bazy danych. Użytkownik mobilny z wolnym połączeniem wywołuje wyścig wątków w zarządzaniu stanem. Byliśmy świadkami scenariuszy, w których endpointy API ujawniają dane między kontami użytkowników, ponieważ sprawdzanie autoryzacji było nieobecne lub niekompletne — konsekwencja wysyłania kodu, który nigdy nie był sprawdzany pod kątem egzekwowania po stronie serwera. Nie są to egzotyczne awarie. To podstawowa konsekwencja wysyłania kodu, którego się nigdy nie czytało."
 		},
 		{
 			"type": "h2",
@@ -62,11 +62,11 @@
 		},
 		{
 			"type": "p",
-			"text": "To jest twierdzenie, które narracja vibe coding odwraca. Narzędzia są prawdziwe i wzrost produktywności jest prawdziwy. W webvise używamy Claude Code, Cursor i orkiestracji multi-agent przy każdym projekcie, który dostarczamy. Senior inżynier z Claude Code dostarcza w godzinach to, co wcześniej zajmowało dni. Te same narzędzia w rękach kogoś bez podstaw inżynierskich produkują demonstrację, która nie przeżyje pierwszego prawdziwego użytkownika."
+			"text": "To jest twierdzenie, które narracja vibe coding odwraca. Narzędzia są prawdziwe i wzrost produktywności jest prawdziwy. W webvise używamy Claude Code, Cursor i orkiestracji multi-agent przy każdym projekcie, który dostarczamy. Doświadczeni inżynierowie korzystający z Claude Code zgłaszają znaczące oszczędności czasu przy zadaniach, które w innym przypadku zajęłyby dni. Te same narzędzia w rękach kogoś bez podstaw inżynierskich produkują demonstrację, która nie przeżyje pierwszego prawdziwego użytkownika."
 		},
 		{
 			"type": "p",
-			"text": "Różnica nie leży w narzędziu - lecz w tym, co inżynier wnosi do narzędzia. Podstawy inżynierskie nie polegają na ręcznym pisaniu kodu. Polegają na rozumieniu granic systemów, trybów awarii, modeli bezpieczeństwa i integralności danych. Inżynier korzystający z Claude Code czyta wygenerowany kod uwierzytelniania i rozpoznaje, gdy jest nieprawidłowy. Vibe coder klika akceptuj i to wysyła."
+			"text": "Różnica nie leży w narzędziu - lecz w tym, co inżynier wnosi do narzędzia. Podstawy inżynierskie nie polegają na ręcznym pisaniu kodu. Polegają na rozumieniu granic systemów, trybów awarii, modeli bezpieczeństwa i integralności danych. Inżynier korzystający z Claude Code czyta wygenerowany kod uwierzytelniania i rozpoznaje, gdy jest nieprawidłowy. Niedoświadczony programista akceptuje sugestię i ją wysyła."
 		},
 		{
 			"type": "table",
@@ -106,11 +106,11 @@
 		},
 		{
 			"type": "p",
-			"text": "Konsumenckie aplikacje hobbystyczne mogą absorbować tryby awarii vibe codingu. Jeśli osobisty tracker finansów traci część danych, to irytujące. Jeśli B2B SaaS obsługujący dane klientów, przepływy płatności lub wewnętrzne przepływy pracy jest wysyłany z opisanymi powyżej problemami z uwierzytelnianiem i obsługą błędów, konsekwencje są prawne, umowne i reputacyjne. RODO nie zwalnia użytkownika z odpowiedzialności, bo nie przeczytał własnego kodu przetwarzania danych."
+			"text": "Konsumenckie aplikacje hobbystyczne mogą absorbować tryby awarii vibe codingu. Jeśli osobisty tracker finansów traci część danych, to irytujące. Jeśli B2B SaaS obsługujący dane klientów, przepływy płatności lub wewnętrzne przepływy pracy jest wysyłany z opisanymi powyżej problemami z uwierzytelnianiem i obsługą błędów, konsekwencje są prawne, umowne i reputacyjne. Odpowiedzialność wynikająca z RODO stosuje się niezależnie od tego, jak kod został wygenerowany; kod przetwarzania danych wymaga przeglądu."
 		},
 		{
 			"type": "p",
-			"text": "Fala aplikacji SaaS generowanych przez AI z lat 2025-2026 wyprodukowała przewidywalną klasę startupów: imponujące w demonstracji, zdobyły wczesnych klientów na obietnicę, następnie uderzyły w ścianę, gdy pierwszy potencjalny klient enterprise przeprowadził przegląd bezpieczeństwa lub gdy pierwszy dzień z dużym ruchem ujawnił brakującą obsługę błędów. Założyciele nie są oszustami - naprawdę nie wiedzieli, co zbudowali."
+			"text": "Kilka niedawnych produktów SaaS wspomaganych AI poszło podobną ścieżką: imponujące w demonstracji, zdobyły wczesnych klientów na obietnicę, następnie uderzyły w ścianę, gdy pierwszy potencjalny klient enterprise przeprowadził przegląd bezpieczeństwa lub gdy pierwszy dzień z dużym ruchem ujawnił brakującą obsługę błędów. Założyciele nie są oszustami - naprawdę nie wiedzieli, co zbudowali."
 		},
 		{
 			"type": "h2",

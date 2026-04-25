@@ -46,7 +46,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Cada agente se ejecuta con el nivel de modelo adecuado. Las consultas rápidas usan Haiku por velocidad y eficiencia de coste. La implementación estándar usa Sonnet. Las decisiones de arquitectura complejas y los análisis profundos se enrutan a Opus. Este enrutamiento automático de modelos ahorra entre un 30 % y un 50 % en costes de tokens en comparación con ejecutar todo en el modelo más potente."
+			"text": "Cada agente se ejecuta con el nivel de modelo adecuado. Las consultas rápidas usan Haiku por velocidad y eficiencia de coste. La implementación estándar usa Sonnet. Las decisiones de arquitectura complejas y los análisis profundos se enrutan a Opus. Este enrutamiento automático de modelos reduce los costes de tokens en comparación con ejecutar todo en el modelo más potente; en nuestros pipelines observamos ahorros en el rango del 30–50 %, según la combinación de tareas."
 		},
 		{
 			"type": "h3",
@@ -160,7 +160,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Los workers 1, 2 y 3 se ejecutan en paralelo, cada uno en worktrees de git aislados. La capa de orquestación fusiona sus cambios, resuelve cualquier conflicto y entrega el resultado para su revisión. Lo que a un único agente podría llevarle una hora de trabajo secuencial se completa en minutos."
+			"text": "Los workers 1, 2 y 3 se ejecutan en paralelo, cada uno en worktrees de git aislados. La capa de orquestación fusiona sus cambios, resuelve cualquier conflicto y entrega el resultado para su revisión. La paralelización comprime el tiempo transcurrido en comparación con la ejecución secuencial de un solo agente; la duración real depende de la complejidad de la tarea y los tiempos de respuesta del modelo."
 		},
 		{
 			"type": "h2",
@@ -184,7 +184,7 @@
 		},
 		{
 			"type": "p",
-			"text": "El cambio de agente único a multiagente no es solo cuestión de velocidad. Introduce la **separación de responsabilidades** en el desarrollo asistido por IA. Cuando un agente de revisión de seguridad dedicado analiza cada cambio, se detectan vulnerabilidades que un asistente de propósito general pasaría por alto. Cuando un agente arquitecto valida las decisiones estructurales antes de que comience la implementación, se evitan reescrituras costosas."
+			"text": "El cambio de agente único a multiagente no es solo cuestión de velocidad. Introduce la **separación de responsabilidades** en el desarrollo asistido por IA. Cuando un agente de revisión de seguridad dedicado analiza cada cambio, se han detectado vulnerabilidades en nuestro pipeline que un asistente de propósito general no identificó. Cuando un agente arquitecto valida las decisiones estructurales antes de que comience la implementación, se evitan reescrituras costosas."
 		},
 		{
 			"type": "p",
@@ -200,7 +200,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Los flujos de trabajo multiagente consumen más tokens que un ciclo de prompt-respuesta único. OMC mitiga esto con el enrutamiento automático de modelos: las tareas simples van a modelos más económicos y el razonamiento complejo va a los más capaces. El ahorro de entre un 30 % y un 50 % en tokens gracias al enrutamiento inteligente suele compensar la sobrecarga de ejecutar múltiples agentes. Para tareas grandes, el tiempo ahorrado por la ejecución en paralelo generalmente justifica el coste."
+			"text": "Los flujos de trabajo multiagente consumen más tokens que un ciclo de prompt-respuesta único. OMC mitiga esto con el enrutamiento automático de modelos: las tareas simples van a modelos más económicos y el razonamiento complejo va a los más capaces. Los ahorros en tokens gracias al enrutamiento inteligente suelen compensar la sobrecarga de orquestación en nuestros pipelines. Para tareas grandes, el tiempo ahorrado por la ejecución en paralelo generalmente justifica el coste."
 		},
 		{
 			"type": "h3",
@@ -250,7 +250,7 @@
 		},
 		{
 			"type": "p",
-			"text": "La evolución es clara. La primera fase fue el autocompletado (GitHub Copilot, 2022). La segunda fue la codificación basada en chat (ChatGPT, Claude, 2023). La tercera fueron los agentes nativos en la terminal (Claude Code, Codex CLI, 2025). La cuarta, que ocurre ahora, es la orquestación multiagente. Proyectos como oh-my-claudecode y oh-my-codex son la primera oleada de herramientas que tratan la codificación con IA no como un asistente único, sino como un equipo coordinado."
+			"text": "La evolución es clara. La primera fase fue el autocompletado (GitHub Copilot, 2022). La segunda fue la codificación basada en chat (ChatGPT, Claude, 2023). La tercera fueron los agentes nativos en la terminal (Claude Code, Codex CLI, 2025). La siguiente fase la vemos como la orquestación multiagente. Proyectos como oh-my-claudecode y oh-my-codex son la primera oleada de herramientas que tratan la codificación con IA no como un asistente único, sino como un equipo coordinado."
 		},
 		{
 			"type": "p",

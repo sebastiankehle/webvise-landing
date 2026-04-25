@@ -10,7 +10,7 @@
 	"blocks": [
 		{
 			"type": "p",
-			"text": "Andrej Karpathy published a [gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) in April 2026 describing a pattern for building personal knowledge bases with LLMs. It got 99,000 bookmarks in a week. Multiple implementations went open source within days. [graphify](https://github.com/safishamsi/graphify) shipped in 48 hours and got 27,000 more. The pattern resonated because it named a problem every AI user already felt: your agents have no memory. Every conversation starts from zero. You re-explain your business, your goals, your voice, your context, and the output comes back generic because the input had nothing to work with."
+			"text": "Andrej Karpathy published a [gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) in April 2026 describing a pattern for building personal knowledge bases with LLMs. It got 99,000 bookmarks in a week. Multiple implementations went open source within days. [graphify](https://github.com/safishamsi/graphify) shipped in 48 hours and got 27,000 more. The pattern resonated because it named a familiar problem: most agents lack persistent memory across sessions. Every conversation starts from zero. You re-explain your business, your goals, your voice, your context, and the output comes back generic because the input had nothing to work with."
 		},
 		{
 			"type": "p",
@@ -54,11 +54,11 @@
 		},
 		{
 			"type": "p",
-			"text": "RAG re-derives answers at query time by chunking documents and searching for relevant fragments. The compiled wiki approach skips that entirely. graphify measured **71.5x fewer tokens per query** compared to searching raw files. Our own measurements show roughly 1,000 tokens of vault content per query, compared to the 3,000 or more tokens a typical RAG pipeline injects."
+			"text": "RAG re-derives answers at query time by chunking documents and searching for relevant fragments. The compiled wiki approach skips that entirely. The graphify benchmark measured **71.5x fewer tokens per query** in their published comparison; results depend on corpus characteristics and query distribution. Our own measurements show roughly 1,000 tokens of vault content per query, compared to the 3,000 or more tokens a typical RAG pipeline injects."
 		},
 		{
 			"type": "p",
-			"text": "We wrote a [full technical comparison](/blog/business-knowledge-base-without-rag) of RAG versus index-based retrieval. The short version: for knowledge bases under 1,000 documents, the compiled wiki outperforms RAG on accuracy, cost, and complexity. No vector database, no embedding model, no chunking strategy, no re-indexing job. Five shell commands and a maintained index file."
+			"text": "We wrote a [full technical comparison](/blog/business-knowledge-base-without-rag) of RAG versus index-based retrieval. The short version: in the workloads we benchmarked, the compiled-wiki approach outperformed RAG on accuracy, cost, and operational complexity. No vector database, no embedding model, no chunking strategy, no re-indexing job. Five shell commands and a maintained index file."
 		},
 		{
 			"type": "p",
@@ -142,7 +142,7 @@
 		},
 		{
 			"type": "p",
-			"text": "The pattern works because markdown is simple and LLMs are good at reading and writing it. The infrastructure cost is zero. The maintenance cost is near zero because the LLM does the bookkeeping. The only real cost is the discipline to keep the schema honest and the ingest quality high. That is a human problem, not a technology problem."
+			"text": "The pattern works because markdown is simple and LLMs are good at reading and writing it. The infrastructure cost is zero. Maintenance cost is low because the LLM handles index updates; periodic human review is still recommended for accuracy. The only real cost is the discipline to keep the schema honest and the ingest quality high. That is a human problem, not a technology problem."
 		},
 		{
 			"type": "h2",
@@ -158,7 +158,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Karpathy calls it an LLM wiki. Eric Osiu calls it a shared brain. Cody Schneider calls it a data warehouse. The name keeps changing. The pattern does not: agents need compiled, structured knowledge to do useful work. Everything else is prompting into the void."
+			"text": "Karpathy calls it an LLM wiki. Eric Osiu calls it a shared brain. Cody Schneider calls it a data warehouse. The name keeps changing. The pattern does not: agents need compiled, structured knowledge to do useful work. Without persistent context, prompts operate without the institutional knowledge they need."
 		},
 		{
 			"type": "p",

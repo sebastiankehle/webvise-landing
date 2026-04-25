@@ -23,7 +23,7 @@
     {
       "type": "ul",
       "items": [
-        "**Faire tourner les variables d'environnement Vercel modifie le tableau de bord, pas les fonctions en cours d'exécution.** Les valeurs ne prennent effet qu'au prochain déploiement.",
+        "**La rotation des variables d'environnement Vercel met à jour la configuration, pas les instances de fonctions en cours d'exécution ; un redéploiement est nécessaire pour propager les modifications.**",
         "**L'audit OAuth Google Workspace est la moitié qui est à peine abordée.** C'est le chemin de confiance emprunté par l'attaquant pour atteindre Vercel.",
         "**Il ne s'agissait pas d'une vulnérabilité Vercel.** C'était une compromission SaaS-to-SaaS via un grant OAuth, et une réponse standard de type CVE ne ferme pas la boucle.",
         "**À long terme, sortez les secrets des variables d'environnement** et placez-les dans un gestionnaire de secrets à l'exécution. Exigez un MFA résistant au phishing pour toute personne pouvant installer des applications OAuth.",
@@ -44,7 +44,7 @@
     },
     {
       "type": "p",
-      "text": "Si vous souhaitez un regard extérieur sur votre configuration Vercel avant que le post-mortem du prochain week-end soit écrit à votre sujet, [nous réalisons des audits de sécurité sur les équipes Vercel, les Google Workspaces et les grants SaaS-to-SaaS](/fr/#contact)."
+      "text": "Si vous souhaitez une seconde revue de votre configuration Vercel avant le prochain incident, [nous réalisons des audits de sécurité sur les équipes Vercel, les Google Workspaces et les grants SaaS-to-SaaS](/fr/#contact)."
     },
     {
       "type": "h2",
@@ -74,7 +74,7 @@
     },
     {
       "type": "p",
-      "text": "C'est la partie qui importe le plus et qui reçoit le moins d'attention. Vercel applique les modifications de variables d'environnement au moment de la construction et du déploiement, pas à l'exécution. Un projet que vous avez mis à jour et laissé tel quel continue d'exécuter la construction que vous avez livrée hier, qui a toujours l'ancien secret intégré dans son environnement d'exécution. Vous avez fait tourner le tableau de bord, pas le système."
+      "text": "C'est l'étape que la plupart des listes de vérification de réponse traitent insuffisamment. Vercel applique les modifications de variables d'environnement au moment de la construction et du déploiement, pas à l'exécution. Un projet que vous avez mis à jour et laissé tel quel continue d'exécuter la construction que vous avez livrée hier, qui a toujours l'ancien secret intégré dans son environnement d'exécution. Vous avez fait tourner le tableau de bord, pas le système."
     },
     {
       "type": "p",
@@ -129,7 +129,7 @@
     },
     {
       "type": "p",
-      "text": "La plupart des équipes n'ont pas de responsable unique pour aucune de ces mesures. C'est la raison silencieuse pour laquelle les incidents continuent de se terminer avec les mêmes points dans le post-mortem. [Parlez-nous](/fr/#contact) de la façon dont webvise intègre ces éléments dans le contrat de maintenance de chaque projet géré."
+      "text": "De nombreuses équipes n'ont pas de responsable désigné pour ces tâches ; cet écart revient dans les post-mortems d'incidents. [Parlez-nous](/fr/#contact) de la façon dont webvise intègre ces éléments dans le contrat de maintenance de chaque projet géré."
     },
     {
       "type": "h2",
@@ -149,7 +149,7 @@
     },
     {
       "type": "p",
-      "text": "Nous réalisons des audits de sécurité sur les équipes Vercel, les Google Workspaces et les graphes d'identité SaaS-to-SaaS dans le cadre de chaque engagement géré chez webvise. Si vous souhaitez un regard extérieur sur votre configuration avant que la prochaine divulgation tombe un week-end, [commencez une conversation](/fr/#contact)."
+      "text": "Nous réalisons des audits de sécurité sur les équipes Vercel, les Google Workspaces et les graphes d'identité SaaS-to-SaaS dans le cadre de chaque engagement géré chez webvise. Si vous souhaitez une seconde revue de votre configuration Vercel avant le prochain incident, [contactez-nous](/fr/#contact)."
     }
   ]
 }

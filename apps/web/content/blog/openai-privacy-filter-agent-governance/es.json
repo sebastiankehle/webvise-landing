@@ -9,7 +9,7 @@
   "blocks": [
     {
       "type": "p",
-      "text": "OpenAI acaba de publicar una herramienta, no un modelo. **openai/privacy-filter** es un clasificador bidireccional de tokens con 1.500 millones de parámetros, publicado bajo Apache 2.0, que se ejecuta en su navegador, detecta ocho categorías de información de identificación personal en un único forward pass y cubre la capa de governance que la mayoría de los agent stacks omiten."
+      "text": "OpenAI acaba de publicar una herramienta, no un modelo. **openai/privacy-filter** es un clasificador bidireccional de tokens con 1.500 millones de parámetros, publicado bajo Apache 2.0, que se ejecuta en su navegador, detecta ocho categorías de información de identificación personal en un único forward pass y cubre una capa de governance que la mayoría de los agent stacks infravaloran."
     },
     {
       "type": "p",
@@ -17,7 +17,7 @@
     },
     {
       "type": "p",
-      "text": "Si hoy ejecuta agentes sobre datos de clientes, la redacción de PII probablemente sea una biblioteca de expresiones regulares que usted mantiene o una llamada a un LLM por la que preferiría no pagar. Este artículo explica qué es realmente openai/privacy-filter, las decisiones arquitectónicas que importan y dónde encaja en un agent governance stack real. También explicaremos por qué esta versión actualiza nuestra posición sobre los agentes que leen entradas no confiables, y qué hacer con ella si usted trabaja con cargas de trabajo reguladas."
+      "text": "Si hoy ejecuta agentes sobre datos de clientes, la redacción de PII suele resolverse con una biblioteca de expresiones regulares que usted mantiene o enrutando las solicitudes a través de un LLM, ambas opciones con sus propios trade-offs. Este artículo explica qué es realmente openai/privacy-filter, las decisiones arquitectónicas que importan y dónde encaja en un agent governance stack real. También explicaremos por qué esta versión actualiza nuestra posición sobre los agentes que leen entradas no confiables, y qué hacer con ella si usted trabaja con cargas de trabajo reguladas."
     },
     {
       "type": "h2",
@@ -47,7 +47,7 @@
     },
     {
       "type": "p",
-      "text": "Eso importa porque el sector ha pasado tres años tratando los LLMs generativos como el primitivo por defecto para cada problema de texto, incluidos aquellos para los que los LLMs son inadecuados. La redacción de PII es un problema de clasificación. Ejecutar un modelo de propósito general con 70.000 millones de parámetros sobre cada solicitud entrante para pedirle que enmascare correos electrónicos es una solución costosa. Un clasificador de 1.500 millones de parámetros con 50 millones de parámetros MoE activos realiza el mismo trabajo en un único forward pass, se ejecuta en un portátil y no puede alucinar nuevos correos electrónicos."
+      "text": "Eso importa porque el sector ha pasado tres años tratando los LLMs generativos como el primitivo por defecto para cada problema de texto, incluidos aquellos para los que los LLMs son menos adecuados. La redacción de PII es un problema de clasificación. Ejecutar un modelo de propósito general con 70.000 millones de parámetros sobre cada solicitud entrante para pedirle que enmascare correos electrónicos es computacionalmente costoso para lo que es fundamentalmente una tarea de clasificación. Un clasificador de 1.500 millones de parámetros con 50 millones de parámetros MoE activos realiza el mismo trabajo en un único forward pass, se ejecuta en un portátil y no puede alucinar nuevos correos electrónicos."
     },
     {
       "type": "p",
@@ -249,7 +249,7 @@
     },
     {
       "type": "p",
-      "text": "Si su agent stack no tiene una capa de minimización de datos, esta es la versión sobre la que construirla. Si desea ayuda para integrarlo en algo con lo que los clientes puedan operar de manera confiable en producción, [webvise lo construye](/#contact)."
+      "text": "Si su agent stack no tiene una capa de minimización de datos, esta versión ofrece un sólido punto de partida de código abierto para construirla. Si desea ayuda para integrarlo en algo con lo que los clientes puedan operar de manera confiable en producción, [webvise lo construye](/#contact)."
     }
   ]
 }

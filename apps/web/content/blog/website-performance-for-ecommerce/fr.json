@@ -8,11 +8,11 @@
 	"blocks": [
 		{
 			"type": "p",
-			"text": "Un site qui met 3 secondes à charger sur mobile perd environ 53 % de ses visiteurs avant qu'ils n'aient vu un seul produit. Ce n'est pas une hypothèse théorique. C'est une réalité mesurée à grande échelle sur des millions de transactions."
+			"text": "Un site qui met 3 secondes à charger sur mobile perd environ 53 % de ses visiteurs mobiles avant que le contenu produit soit visible (selon les données publiées par Google sur les seuils d'abandon mobile)."
 		},
 		{
 			"type": "p",
-			"text": "Parmi ceux qui restent, chaque seconde supplémentaire de chargement réduit le taux de conversion d'environ 7 %. Pour une boutique générant €10 000 par mois, c'est €700 perdus chaque mois pour chaque seconde de chargement en trop."
+			"text": "Parmi ceux qui restent, chaque seconde supplémentaire de chargement est corrélée à des baisses de conversion d'environ 7 % selon plusieurs études e-commerce (Akamai, Google, Portent). Pour une boutique générant €10 000 par mois, c'est €700 perdus chaque mois pour chaque seconde de chargement en trop."
 		},
 		{
 			"type": "p",
@@ -146,7 +146,7 @@
 				"Une page produit WooCommerce standard peut déclencher plus de 100 requêtes en base de données",
 				"Les bundles JavaScript de plusieurs plugins bloquent souvent le rendu",
 				"Les scripts tiers (avis clients, chat, analytics) allongent encore les chaînes de requêtes",
-				"LCP moyen de WooCommerce sur mobile : 4 à 6 secondes"
+				"Le LCP WooCommerce sur mobile est typiquement compris entre 4 et 6 secondes dans les audits que nous avons réalisés ; les résultats varient selon le thème et les plugins installés."
 			]
 		},
 		{
@@ -173,7 +173,7 @@
 			"type": "ul",
 			"items": [
 				"**Pages produit statiques/ISR :** pré-rendues au build et servies directement depuis un CDN edge - ni PHP, ni requêtes base de données au chargement",
-				"**Images produit en chargement différé :** les images hors écran ne chargent qu'au besoin, dans des formats modernes (WebP, AVIF) 30 à 50 % plus légers",
+				"**Images produit en chargement différé :** les images hors écran ne chargent qu'au besoin, dans des formats modernes (WebP, AVIF) 30 à 50 % plus légers que des JPEG équivalents à qualité comparable (mesures Cloudinary et Web.dev)",
 				"**JavaScript minimal :** pas de jQuery, pas de Bootstrap complet, bundles tree-shaked qui n'embarquent que le code vraiment nécessaire à chaque page",
 				"**Incremental Static Regeneration :** les pages produit se mettent à jour automatiquement lors de changements de stock ou de prix, sans rebuild complet"
 			]
@@ -194,7 +194,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Ce ne sont pas des cas idéaux théoriques. Ce sont des résultats cohérents observés sur des projets e-commerce en production avec des stacks modernes."
+			"text": "Ces plages reflètent des résultats typiques d'audits que nous avons réalisés ; les résultats dépendent du thème, de la sélection de plugins, du poids des images et des scripts tiers."
 		},
 		{
 			"type": "h2",
@@ -219,11 +219,11 @@
 		},
 		{
 			"type": "p",
-			"text": "Exemple : une boutique à €15 000/mois avec un taux de conversion de 1,5 %. Après un rebuild performance, le taux passe à 2,1 % - une amélioration réaliste soutenue par les données de recherche. Chiffre d'affaires mensuel à 2,1 % avec le même trafic : €21 000. Soit **€6 000 de chiffre d'affaires supplémentaire par mois** à nombre de visiteurs identique."
+			"text": "Scénario illustratif : un rebuild performance qui fait passer la conversion de 1,5 % à 2,1 % sur une boutique à €15 000/mois avec le même trafic représente environ **€6 000 de chiffre d'affaires supplémentaire par mois** avec un panier moyen de €100. Les résultats réels dépendent du niveau de départ."
 		},
 		{
 			"type": "p",
-			"text": "Même une amélioration plus prudente - de 1,5 % à 1,9 % - représente €4 000 de plus par mois. À ce rythme, un rebuild performance est rentabilisé en quelques semaines."
+			"text": "Même une amélioration plus conservative peut compenser significativement le coût du rebuild ; le délai de retour sur investissement dépend du volume de trafic et du panier moyen."
 		},
 		{
 			"type": "p",
@@ -282,7 +282,7 @@
 		},
 		{
 			"type": "p",
-			"text": "La règle approximative : si votre boutique génère plus de €5 000/mois et que votre score PageSpeed mobile est en dessous de 60, un rebuild performance se rentabilisera presque certainement en moins de 6 mois grâce aux seuls gains de conversion."
+			"text": "La règle approximative : si votre boutique génère plus de €5 000/mois et que votre score PageSpeed mobile est en dessous de 60, un rebuild performance se rentabilise typiquement en 6 mois à ce niveau de trafic ; il s'agit d'une heuristique, pas d'une garantie."
 		},
 		{
 			"type": "p",
@@ -290,7 +290,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Les boutiques dépassant €20 000/mois avec de mauvais scores de performance laissent chaque mois des sommes importantes sur la table. La période de retour sur investissement est souvent inférieure à 3 mois."
+			"text": "Les boutiques dépassant €20 000/mois avec de mauvais scores de performance ont chaque mois un potentiel de conversion non réalisé significatif. La période de retour sur investissement est souvent inférieure à 3 mois."
 		},
 		{
 			"type": "p",

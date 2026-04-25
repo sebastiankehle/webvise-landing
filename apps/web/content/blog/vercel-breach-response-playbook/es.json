@@ -23,7 +23,7 @@
     {
       "type": "ul",
       "items": [
-        "**Rotar las env vars de Vercel cambia el panel, no las funciones en ejecución.** Los valores solo tienen efecto en el siguiente despliegue.",
+        "**Rotar las variables de entorno de Vercel actualiza la configuración, no las instancias de funciones en ejecución; es necesario redesplegar para que los cambios surtan efecto.**",
         "**La auditoría OAuth de Google Workspace es la mitad que apenas se menciona.** Ese es el camino de confianza que usó el atacante para llegar a Vercel.",
         "**No fue una vulnerabilidad de Vercel.** Fue un compromiso SaaS-to-SaaS a través de un grant OAuth, y una respuesta normal al estilo CVE no cierra el ciclo.",
         "**A largo plazo, saque los secretos de las env vars** y llévelos a un gestor de secretos en tiempo de ejecución. Exija MFA resistente a phishing a quien pueda instalar aplicaciones OAuth.",
@@ -44,7 +44,7 @@
     },
     {
       "type": "p",
-      "text": "Si desea una segunda opinión sobre su configuración de Vercel antes de que se escriba el próximo post-mortem sobre usted, [realizamos revisiones de seguridad sobre equipos Vercel, Google Workspaces y grants SaaS-to-SaaS](/es/#contact)."
+      "text": "Si desea una segunda revisión de su configuración de Vercel antes del próximo incidente, [realizamos revisiones de seguridad sobre equipos Vercel, Google Workspaces y grants SaaS-to-SaaS](/es/#contact)."
     },
     {
       "type": "h2",
@@ -74,7 +74,7 @@
     },
     {
       "type": "p",
-      "text": "Esta es la parte que más importa y que menos protagonismo recibe. Vercel aplica los cambios de variables de entorno en el momento de compilación y despliegue, no en tiempo de ejecución. Un proyecto que usted actualizó y dejó en marcha sigue ejecutando la compilación que desplegó ayer, que todavía tiene el secreto antiguo integrado en su entorno de ejecución. Usted rotó el panel, no el sistema."
+      "text": "Este es el paso que la mayoría de las listas de verificación de respuesta tratan insuficientemente. Vercel aplica los cambios de variables de entorno en el momento de compilación y despliegue, no en tiempo de ejecución. Un proyecto que usted actualizó y dejó en marcha sigue ejecutando la compilación que desplegó ayer, que todavía tiene el secreto antiguo integrado en su entorno de ejecución. Usted rotó el panel, no el sistema."
     },
     {
       "type": "p",
@@ -129,7 +129,7 @@
     },
     {
       "type": "p",
-      "text": "La mayoría de los equipos no tienen un responsable único para ninguno de estos puntos. Esa es la razón silenciosa por la que los incidentes siguen terminando con los mismos puntos en el post-mortem. [Hable con nosotros](/es/#contact) sobre cómo webvise integra todo esto en el servicio de mantenimiento de cada proyecto gestionado."
+      "text": "Muchos equipos carecen de un responsable designado para estas tareas; esa brecha se repite en los post-mortems de incidentes. [Hable con nosotros](/es/#contact) sobre cómo webvise integra todo esto en el servicio de mantenimiento de cada proyecto gestionado."
     },
     {
       "type": "h2",
@@ -149,7 +149,7 @@
     },
     {
       "type": "p",
-      "text": "Realizamos revisiones de seguridad sobre equipos Vercel, Google Workspaces y grafos de identidad SaaS-to-SaaS como parte de cada servicio gestionado en webvise. Si desea una opinión externa sobre su configuración antes de que el próximo comunicado llegue un fin de semana, [inicie una conversación](/es/#contact)."
+      "text": "Realizamos revisiones de seguridad sobre equipos Vercel, Google Workspaces y grafos de identidad SaaS-to-SaaS como parte de cada servicio gestionado en webvise. Si desea una segunda revisión de su configuración de Vercel antes del próximo incidente, [contáctenos](/es/#contact)."
     }
   ]
 }

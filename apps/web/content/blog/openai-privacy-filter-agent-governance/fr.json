@@ -9,7 +9,7 @@
   "blocks": [
     {
       "type": "p",
-      "text": "OpenAI vient de publier un outil, et non un modèle. **openai/privacy-filter** est un classificateur de tokens bidirectionnel de 1,5 milliard de paramètres, publié sous licence Apache 2.0, qui s'exécute dans votre navigateur, détecte huit catégories d'informations personnellement identifiables en un seul passage direct et comble la couche de gouvernance que la plupart des architectures d'agents ignorent."
+      "text": "OpenAI vient de publier un outil, et non un modèle. **openai/privacy-filter** est un classificateur de tokens bidirectionnel de 1,5 milliard de paramètres, publié sous licence Apache 2.0, qui s'exécute dans votre navigateur, détecte huit catégories d'informations personnellement identifiables en un seul passage direct et comble une couche de gouvernance que la plupart des architectures d'agents sous-estiment."
     },
     {
       "type": "p",
@@ -17,7 +17,7 @@
     },
     {
       "type": "p",
-      "text": "Si vous faites tourner des agents sur des données clients aujourd'hui, la suppression des données personnelles repose probablement sur une bibliothèque regex que vous maintenez ou sur un appel LLM que vous préféreriez éviter de payer. Cet article explique ce qu'est réellement openai/privacy-filter, les choix architecturaux qui importent et la place qu'il occupe dans une véritable architecture de gouvernance d'agents. Nous expliquerons également pourquoi cette publication fait évoluer notre position sur les agents qui lisent des entrées non fiables, et ce que vous devez en faire si vous déployez des charges de travail réglementées."
+      "text": "Si vous faites tourner des agents sur des données clients aujourd'hui, la suppression des données personnelles est généralement gérée par une bibliothèque regex que vous maintenez ou en routant les requêtes via un LLM — les deux approches présentant des compromis. Cet article explique ce qu'est réellement openai/privacy-filter, les choix architecturaux qui importent et la place qu'il occupe dans une véritable architecture de gouvernance d'agents. Nous expliquerons également pourquoi cette publication fait évoluer notre position sur les agents qui lisent des entrées non fiables, et ce que vous devez en faire si vous déployez des charges de travail réglementées."
     },
     {
       "type": "h2",
@@ -47,7 +47,7 @@
     },
     {
       "type": "p",
-      "text": "Cela importe parce que le secteur a passé trois ans à traiter les LLM génératifs comme le primitif par défaut pour tout problème textuel, y compris ceux pour lesquels les LLM sont peu adaptés. La suppression des données personnelles est un problème de classification. Faire tourner un modèle généraliste de 70 milliards de paramètres sur chaque requête entrante pour lui demander de masquer des adresses e-mail est un contournement coûteux. Un classificateur de 1,5 milliard de paramètres avec 50 millions de paramètres MoE actifs accomplit le même travail en un seul passage direct, s'exécute sur un ordinateur portable et ne peut pas halluciner de nouvelles adresses e-mail."
+      "text": "Cela importe parce que le secteur a passé trois ans à traiter les LLM génératifs comme le primitif par défaut pour tout problème textuel, y compris ceux pour lesquels les LLM sont moins adaptés. La suppression des données personnelles est un problème de classification. Faire tourner un modèle généraliste de 70 milliards de paramètres sur chaque requête entrante pour lui demander de masquer des adresses e-mail est coûteux en calcul pour une tâche qui est fondamentalement un problème de classification. Un classificateur de 1,5 milliard de paramètres avec 50 millions de paramètres MoE actifs accomplit le même travail en un seul passage direct, s'exécute sur un ordinateur portable et ne peut pas halluciner de nouvelles adresses e-mail."
     },
     {
       "type": "p",
@@ -249,7 +249,7 @@
     },
     {
       "type": "p",
-      "text": "Si votre architecture d'agents ne dispose pas d'une couche de minimisation des données, cette publication est celle sur laquelle construire cette couche. Si vous souhaitez de l'aide pour l'intégrer dans quelque chose sur lequel vos clients peuvent réellement s'appuyer en production, [webvise s'en charge](/#contact)."
+      "text": "Si votre architecture d'agents ne dispose pas d'une couche de minimisation des données, cette publication offre un solide point de départ open-weight pour construire cette couche. Si vous souhaitez de l'aide pour l'intégrer dans quelque chose sur lequel vos clients peuvent réellement s'appuyer en production, [webvise s'en charge](/#contact)."
     }
   ]
 }

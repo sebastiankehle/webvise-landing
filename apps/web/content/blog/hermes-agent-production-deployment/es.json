@@ -3,21 +3,21 @@
 	"readingTime": 9,
 	"keyword": "hermes agent despliegue producción",
 	"title": "Desplegar Hermes Agent en producción: la capa de operador del día 30",
-	"excerpt": "La mayoría de los equipos con 4 profiles de Hermes Agent funcionan el primer día y se difuminan en una sola voz hacia el día 30. La capa de operador que lo previene: handoff contracts, auditorías memory-KPI y policy gates por rol.",
-	"metaDescription": "Los equipos multiagente de Hermes Agent se difuminan hacia el día 30. La capa de operador: handoff contracts, auditorías memory-KPI y policy gates por rol que lo previenen.",
+	"excerpt": "La mayoría de los equipos con 4 profiles de Hermes Agent funcionan el primer día y muestran signos de convergencia de voces hacia el día 30 en despliegues reales. La capa de operador que lo previene: handoff contracts, auditorías memory-KPI y policy gates por rol.",
+	"metaDescription": "Los equipos multiagente de Hermes Agent muestran convergencia de voces hacia el día 30. La capa de operador: handoff contracts, auditorías memory-KPI y policy gates por rol que lo previenen.",
 	"tags": ["AI Agents", "AI", "Open Source", "Process"],
 	"blocks": [
 		{
 			"type": "p",
-			"text": "**La capa de operador de Hermes Agent es el conjunto de disciplinas que mantiene coherente a un equipo multiprofile más allá del día 30.** Cuatro primitivas: handoff contracts que pueden bloquear, auditorías memory-KPI por profile, policy gates por rol y estado cron coordinado. Sin ellas, un equipo de 4 profiles (Hermes + Alan + Mira + Turing) se difumina en un único agente borroso en menos de un mes."
+			"text": "**La capa de operador de Hermes Agent es el conjunto de disciplinas que mantiene coherente a un equipo multiprofile más allá del día 30.** Cuatro primitivas: handoff contracts que pueden bloquear, auditorías memory-KPI por profile, policy gates por rol y estado cron coordinado. Sin ellas, un equipo de 4 profiles (Hermes + Alan + Mira + Turing) muestra signos de convergencia de voces en menos de un mes."
 		},
 		{
 			"type": "p",
-			"text": "Todas las guías de operador de Hermes disponibles en línea se detienen en el bootstrap de 4 profiles. Nadie publica capturas del día 30, porque el día 30 es cuando los profiles empiezan a sonar igual, los handoffs se rompen en silencio y una configuración de la que uno se enorgullecía se vuelve indistinguible de un agente en solitario."
+			"text": "La mayoría de las guías de operador de Hermes se detienen actualmente en el bootstrap de 4 profiles; el material de deployment del día 30 es escaso en la documentación pública. El día 30 es cuando los profiles empiezan a sonar igual, los handoffs se rompen en silencio y una configuración de la que uno se enorgullecía se vuelve indistinguible de un agente en solitario."
 		},
 		{
 			"type": "p",
-			"text": "Si tiene [Hermes Agent](/blog/hermes-agent-self-improving-ai) versión 0.9.0 funcionando con los profiles Alan, Mira y Turing, la configuración básica está hecha. Lo que viene a continuación es la capa de operador. Cada primitiva que se describe a continuación proviene de patrones de despliegue reales, emparejada con el modo de fallo concreto que la hace necesaria."
+			"text": "Si [Hermes Agent](/blog/hermes-agent-self-improving-ai) versión 0.9.0 está en marcha con el bootstrap estándar que incluye los profiles Alan, Mira y Turing, la configuración básica está completa; el trabajo del día 30 comienza a partir de ahí. Cada primitiva que se describe a continuación proviene de patrones de despliegue reales, emparejada con el modo de fallo concreto que la hace necesaria."
 		},
 		{
 			"type": "ul",
@@ -25,7 +25,7 @@
 				"**Los handoff contracts solo son reales si pueden bloquear.** Si la forma de entrada del profile receptor es incorrecta, el handoff debe fallar, no solo advertir.",
 				"**La memoria se deteriora por profile.** Ejecute una auditoría `memory-kpi` semanal. Superar el 15 % de notas obsoletas activa un pase `brain-resolve`.",
 				"**Los policy gates previenen la deriva silenciosa de privilegios.** Alan nunca obtiene acceso a shell. Solo el orchestrator puede aprobar commits a main.",
-				"**Cuatro modos de fallo del día 30 destruyen la mayoría de los despliegues.** Profile drift, handoff rot, SOUL.md bloat, cron collision. Cada uno tiene una contramedida específica.",
+				"**Cuatro modos de fallo del día 30 explican la mayoría de las regresiones de despliegue que hemos observado.** Profile drift, handoff rot, SOUL.md bloat, cron collision. Cada uno tiene una contramedida específica.",
 				"**Lea primero la [guía de definición de Hermes Agent](/blog/hermes-agent-self-improving-ai)** si necesita el contexto sobre qué es antes de abordar la capa de operador."
 			]
 		},
@@ -116,7 +116,7 @@
 		},
 		{
 			"type": "p",
-			"text": "El principio es estructural. Un agente de investigación con acceso a shell acabará ejecutando un comando que no debería. Un profile de redacción con acceso a secretos acabará filtrándolos en un borrador. La deriva de permisos ocurre en silencio y solo resulta evidente a posteriori, que es el momento equivocado para detectarla."
+			"text": "El principio es estructural. Un agente de investigación con acceso a shell acabará ejecutando un comando que no debería. Un profile de redacción con acceso a secretos acabará filtrándolos en un borrador. La deriva de permisos ocurre en silencio y solo resulta evidente a posteriori, que es un momento difícil para descubrir la brecha."
 		},
 		{
 			"type": "h2",
@@ -124,7 +124,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Cuatro modos de fallo específicos explican la mayoría de los colapsos de Hermes multiagente. Cada uno tiene una contramedida directa. Si se omite cualquiera de ellos, el equipo funciona bien el día uno y está difuminado el día 30."
+			"text": "Cuatro modos de fallo específicos explican la mayoría de las regresiones de despliegue observadas en configuraciones multiagente de Hermes. Cada uno tiene una contramedida directa. Si se omite cualquiera de ellos, el equipo funciona bien el día uno y está degradado el día 30."
 		},
 		{
 			"type": "h3",

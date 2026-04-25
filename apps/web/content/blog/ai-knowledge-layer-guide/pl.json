@@ -10,7 +10,7 @@
 	"blocks": [
 		{
 			"type": "p",
-			"text": "Andrej Karpathy opublikował [gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) w kwietniu 2026 roku opisujący wzorzec budowania osobistych baz wiedzy z LLM. Zebrał 99 000 zakładek w tydzień. W ciągu kilku dni powstało wiele open-source'owych implementacji. [graphify](https://github.com/safishamsi/graphify) pojawił się po 48 godzinach i zebrał kolejne 27 000. Wzorzec trafił w punkt, bo nazwał problem, który każdy użytkownik AI już czuł: twoje agenty nie mają pamięci. Każda rozmowa zaczyna się od zera. Ponownie tłumaczysz swój biznes, cele, głos, kontekst, a wynik wychodzi generyczny, bo na wejściu nie było nic konkretnego."
+			"text": "Andrej Karpathy opublikował [gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) w kwietniu 2026 roku opisujący wzorzec budowania osobistych baz wiedzy z LLM. Zebrał 99 000 zakładek w tydzień. W ciągu kilku dni powstało wiele open-source'owych implementacji. [graphify](https://github.com/safishamsi/graphify) pojawił się po 48 godzinach i zebrał kolejne 27 000. Wzorzec trafił w punkt, bo nazwał znany problem: większość agentów nie ma trwałej pamięci między sesjami. Każda rozmowa zaczyna się od zera. Ponownie tłumaczysz swój biznes, cele, głos, kontekst, a wynik wychodzi generyczny, bo na wejściu nie było nic konkretnego."
 		},
 		{
 			"type": "p",
@@ -54,11 +54,11 @@
 		},
 		{
 			"type": "p",
-			"text": "RAG wyprowadza odpowiedzi w czasie zapytania przez dzielenie dokumentów na fragmenty i wyszukiwanie trafnych części. Podejście ze skompilowaną wiki całkowicie to pomija. graphify zmierzył **71,5x mniej tokenów na zapytanie** w porównaniu do przeszukiwania surowych plików. Nasze własne pomiary pokazują około 1000 tokenów zawartości vault na zapytanie, w porównaniu do 3000 lub więcej tokenów, które typowy pipeline RAG wstrzykuje."
+			"text": "RAG wyprowadza odpowiedzi w czasie zapytania przez dzielenie dokumentów na fragmenty i wyszukiwanie trafnych części. Podejście ze skompilowaną wiki całkowicie to pomija. graphify zmierzył **71,5x mniej tokenów na zapytanie** w porównaniu do przeszukiwania surowych plików w opublikowanym porównaniu; wyniki zależą od charakterystyki korpusu i rozkładu zapytań. Nasze własne pomiary pokazują około 1000 tokenów zawartości vault na zapytanie, w porównaniu do 3000 lub więcej tokenów, które typowy pipeline RAG wstrzykuje."
 		},
 		{
 			"type": "p",
-			"text": "Napisaliśmy [pełne techniczne porównanie](/blog/business-knowledge-base-without-rag) RAG vs. wyszukiwanie oparte na indeksie. Krótka wersja: dla baz wiedzy poniżej 1000 dokumentów, skompilowana wiki bije RAG pod względem dokładności, kosztów i złożoności. Żadnej bazy wektorowej, modelu embeddingów, strategii chunkowania, zadania re-indeksowania. Pięć poleceń shell i utrzymywany plik indeksu."
+			"text": "Napisaliśmy [pełne techniczne porównanie](/blog/business-knowledge-base-without-rag) RAG vs. wyszukiwanie oparte na indeksie. Krótka wersja: w analizowanych obciążeniach roboczych, skompilowana wiki wypadła lepiej niż RAG pod względem dokładności, kosztów i złożoności dla baz wiedzy poniżej 1000 dokumentów. Żadnej bazy wektorowej, modelu embeddingów, strategii chunkowania, zadania re-indeksowania. Pięć poleceń shell i utrzymywany plik indeksu."
 		},
 		{
 			"type": "p",
@@ -142,7 +142,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Wzorzec działa, bo markdown jest prosty, a LLM dobrze go czyta i pisze. Koszt infrastruktury wynosi zero. Koszt utrzymania bliski zeru, bo LLM zajmuje się bookkeepingiem. Jedyny realny koszt to dyscyplina, żeby trzymać schemat w ryzach i utrzymywać jakość ingestu na poziomie. To problem ludzki, nie technologiczny."
+			"text": "Wzorzec działa, bo markdown jest prosty, a LLM dobrze go czyta i pisze. Koszt infrastruktury wynosi zero. Koszt utrzymania jest niski, bo LLM zajmuje się bookkeepingiem, choć okresowy przegląd ludzki jest nadal zalecany. Jedyny realny koszt to dyscyplina, żeby trzymać schemat w ryzach i utrzymywać jakość ingestu na poziomie. To problem ludzki, nie technologiczny."
 		},
 		{
 			"type": "h2",
@@ -158,7 +158,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Karpathy nazywa to LLM wiki. Eric Osiu nazywa to wspólnym mózgiem. Cody Schneider nazywa to hurtownią danych. Nazwa ciągle się zmienia. Wzorzec nie: agenty potrzebują skompilowanej, ustrukturyzowanej wiedzy, żeby robić użyteczną pracę. Wszystko inne to promptowanie w próżnię."
+			"text": "Karpathy nazywa to LLM wiki. Eric Osiu nazywa to wspólnym mózgiem. Cody Schneider nazywa to hurtownią danych. Nazwa ciągle się zmienia. Wzorzec nie: agenty potrzebują skompilowanej, ustrukturyzowanej wiedzy, żeby robić użyteczną pracę. Bez trwałego kontekstu, prompty działają bez wiedzy instytucjonalnej, której potrzebują."
 		},
 		{
 			"type": "p",

@@ -2,14 +2,14 @@
 	"date": "2026-04-12",
 	"readingTime": 7,
 	"keyword": "vibe coding IA génie logiciel",
-	"title": "Le Vibe Coding est un piège - Pourquoi les logiciels construits par l'IA ont encore besoin d'ingénieurs",
+	"title": "Pourquoi les logiciels générés par l'IA ont encore besoin d'une révision d'ingénierie",
 	"excerpt": "Andrej Karpathy a inventé le terme \"vibe coding\" en février 2025. Depuis, une vague d'applications générées par l'IA fonctionne en démo et tombe en panne en production. Le problème n'est pas les outils IA - c'est leur utilisation sans discipline d'ingénierie.",
 	"metaDescription": "Le vibe coding crée une nouvelle catégorie de dette technique plus difficile à corriger que le mauvais code écrit à la main. Pourquoi l'IA amplifie les compétences d'ingénierie au lieu de les remplacer.",
 	"tags": ["AI", "Web Development", "Business Strategy"],
 	"blocks": [
 		{
 			"type": "p",
-			"text": "Andrej Karpathy a inventé le terme **vibe coding** en [février 2025](https://x.com/karpathy/status/1886192184808149370) pour décrire un mode de développement logiciel où l'on décrit ce que l'on veut, on accepte ce que l'IA produit, et on ne lit pas le code. Sa formulation était généreuse - un mode de loisir du week-end pour des projets personnels. Ce qui a suivi ne l'était pas. À mi-2025, une vague de non-ingénieurs avait publié des applications SaaS de production entièrement construites dans Cursor, Replit Agent, v0 et bolt.new, sans jamais comprendre ce qu'ils avaient construit. Les applications semblaient bonnes dans les démos. Elles tombent en panne en production en ce moment même."
+			"text": "Andrej Karpathy a inventé le terme **vibe coding** en [février 2025](https://x.com/karpathy/status/1886192184808149370) pour décrire un mode de développement logiciel où l'on décrit ce que l'on veut, on accepte ce que l'IA produit, et on ne lit pas le code. Sa formulation était généreuse - un mode de loisir du week-end pour des projets personnels. Ce qui a suivi ne l'était pas. À mi-2025, une vague de non-ingénieurs avait publié des applications SaaS de production entièrement construites dans Cursor, Replit Agent, v0 et bolt.new, sans jamais comprendre ce qu'ils avaient construit. Les applications semblaient bonnes dans les démos. Certaines tombent en panne en production."
 		},
 		{
 			"type": "h2",
@@ -38,7 +38,7 @@
 		{
 			"type": "ul",
 			"items": [
-				"**Des contournements d'authentification intégrés dans le scaffold.** Le code d'authentification généré par l'IA copie fréquemment des patterns des données d'entraînement sans comprendre le modèle de sécurité. La sécurité au niveau des lignes désactivée « temporairement » pendant le développement, laissée en production. Les secrets JWT codés en dur dans des exemples de variables d'environnement commités dans des dépôts publics. Des vérifications de rôles qui comparent des littéraux de chaîne et se cassent dès qu'un champ est renommé.",
+				"**Des contournements d'authentification intégrés dans le scaffold ; des secrets JWT présents dans des exemples de variables d'environnement commités dans des dépôts publics** — ce sont des constatations courantes dans les revues de code de projets assistés par l'IA sans supervision d'ingénierie. Le code d'authentification généré par l'IA copie fréquemment des patterns des données d'entraînement sans comprendre le modèle de sécurité. La sécurité au niveau des lignes désactivée « temporairement » pendant le développement, laissée en production. Des vérifications de rôles qui comparent des littéraux de chaîne et se cassent dès qu'un champ est renommé.",
 				"**Pas de gestion des erreurs au-delà du chemin heureux.** L'IA a écrit le cas de succès. Que se passe-t-il lorsque le fournisseur de paiement renvoie un 402 ? Que se passe-t-il lorsque la connexion à la base de données s'interrompt en pleine transaction ? Dans les applications vibe-codées, la réponse est généralement un rejet de promesse non géré qui se manifeste comme un écran blanc.",
 				"**Verrouillage fournisseur sur les patterns générés par l'IA.** Quand l'IA a choisi de structurer le modèle de données d'une certaine façon, le vibe coder l'a accepté. Maintenant toute l'application est construite autour de cette structure. Migrer vers autre chose nécessite de comprendre du code que le développeur n'a jamais lu.",
 				"**Pas de tests.** Pas parce que les tests sont difficiles, mais parce que le vibe coder ne les a jamais demandés et que l'IA ne les a pas proposés spontanément. Quand quelque chose tombe en panne en production, il n'y a pas de suite de tests pour détecter les régressions dans le correctif."
@@ -54,7 +54,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Le pattern se déroule de manière prévisible. Une application vibe-codée est lancée, semble soignée, attire des premiers utilisateurs. Puis : un utilisateur avec un caractère non-ASCII dans son nom casse la requête de base de données. Un utilisateur mobile sur une connexion lente déclenche une condition de course dans la gestion d'état. Un concurrent s'inscrit et découvre que les endpoints de l'API renvoient les données d'autres utilisateurs parce que la vérification d'autorisation était dans le frontend, pas sur le serveur. Ce ne sont pas des défaillances exotiques. Elles sont la conséquence basique de livrer du code qu'on n'a jamais lu."
+			"text": "Le pattern se déroule de manière prévisible. Une application vibe-codée est lancée, semble soignée, attire des premiers utilisateurs. Puis : un utilisateur avec un caractère non-ASCII dans son nom casse la requête de base de données. Un utilisateur mobile sur une connexion lente déclenche une condition de course dans la gestion d'état. Nous avons observé des scénarios où des endpoints d'API laissent filtrer des données entre comptes utilisateurs parce que les vérifications d'autorisation étaient absentes ou incomplètes — conséquence de la livraison d'un code qui n'a jamais été contrôlé pour son application côté serveur. Ce ne sont pas des défaillances exotiques. Elles sont la conséquence basique de livrer du code qu'on n'a jamais lu."
 		},
 		{
 			"type": "h2",
@@ -62,11 +62,11 @@
 		},
 		{
 			"type": "p",
-			"text": "C'est la thèse que le récit du vibe coding inverse. Les outils sont réels et les gains de productivité sont réels. Chez webvise, nous utilisons Claude Code, Cursor et l'orchestration multi-agents sur chaque projet que nous livrons. Un ingénieur senior avec Claude Code livre en heures ce qui prenait auparavant des jours. Les mêmes outils entre les mains de quelqu'un sans fondamentaux d'ingénierie produisent une démo qui ne survit pas à son premier vrai utilisateur."
+			"text": "C'est la thèse que le récit du vibe coding inverse. Les outils sont réels et les gains de productivité sont réels. Chez webvise, nous utilisons Claude Code, Cursor et l'orchestration multi-agents sur chaque projet que nous livrons. Les ingénieurs seniors utilisant Claude Code font état de gains de temps significatifs sur des tâches qui auraient autrement pris des jours. Les mêmes outils entre les mains de quelqu'un sans fondamentaux d'ingénierie produisent une démo qui ne survit pas à son premier vrai utilisateur."
 		},
 		{
 			"type": "p",
-			"text": "La différence n'est pas l'outil - c'est ce que l'ingénieur apporte à l'outil. Les fondamentaux d'ingénierie ne consistent pas à écrire du code à la main. Ils consistent à comprendre les limites des systèmes, les modes de défaillance, les modèles de sécurité et l'intégrité des données. Un ingénieur utilisant Claude Code lit le code d'authentification généré et reconnaît quand il est incorrect. Un vibe coder appuie sur accepter et le livre."
+			"text": "La différence n'est pas l'outil - c'est ce que l'ingénieur apporte à l'outil. Les fondamentaux d'ingénierie ne consistent pas à écrire du code à la main. Ils consistent à comprendre les limites des systèmes, les modes de défaillance, les modèles de sécurité et l'intégrité des données. Un ingénieur utilisant Claude Code lit le code d'authentification généré et reconnaît quand il est incorrect. Un développeur inexpérimenté accepte la suggestion et la livre."
 		},
 		{
 			"type": "table",
@@ -102,11 +102,11 @@
 		},
 		{
 			"type": "p",
-			"text": "Les applications de loisir grand public peuvent absorber les modes de défaillance du vibe coding. Si un tracker de finances personnelles perd des données, c'est ennuyeux. Si un SaaS B2B gérant des enregistrements clients, des flux de paiement ou des workflows internes est livré avec les problèmes d'authentification et de gestion des erreurs décrits ci-dessus, les conséquences sont légales, contractuelles et réputationnelles. Le RGPD ne vous exempte pas parce que vous n'avez pas lu votre propre code de traitement des données."
+			"text": "Les applications de loisir grand public peuvent absorber les modes de défaillance du vibe coding. Si un tracker de finances personnelles perd des données, c'est ennuyeux. Si un SaaS B2B gérant des enregistrements clients, des flux de paiement ou des workflows internes est livré avec les problèmes d'authentification et de gestion des erreurs décrits ci-dessus, les conséquences sont légales, contractuelles et réputationnelles. La responsabilité au titre du RGPD s'applique quelle que soit la façon dont le code a été généré ; le code de traitement des données requiert une révision."
 		},
 		{
 			"type": "p",
-			"text": "La vague d'applications SaaS générées par l'IA de 2025-2026 a produit une classe prévisible de startups : impressionnantes dans une démo, ont acquis des clients précoces sur la promesse, puis ont heurté un mur quand le premier prospect entreprise a effectué une revue de sécurité ou quand le premier jour de fort trafic a exposé la gestion des erreurs manquante. Les fondateurs ne sont pas des fraudeurs - ils ne savaient genuinement pas ce qu'ils avaient construit."
+			"text": "Plusieurs produits SaaS récents assistés par l'IA ont suivi un schéma similaire : impressionnants dans une démo, ont acquis des clients précoces sur la promesse, puis ont heurté un mur quand le premier prospect entreprise a effectué une revue de sécurité ou quand le premier jour de fort trafic a exposé la gestion des erreurs manquante. Les fondateurs ne sont pas des fraudeurs - ils ne savaient genuinement pas ce qu'ils avaient construit."
 		},
 		{
 			"type": "h2",

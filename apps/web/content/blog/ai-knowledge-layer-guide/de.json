@@ -10,7 +10,7 @@
 	"blocks": [
 		{
 			"type": "p",
-			"text": "Andrej Karpathy veröffentlichte im April 2026 einen [Gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f), der ein Muster für den Aufbau persönlicher Wissensdatenbanken mit LLMs beschreibt. In einer Woche: 99.000 Bookmarks. Mehrere Implementierungen wurden innerhalb von Tagen Open Source. [graphify](https://github.com/safishamsi/graphify) erschien nach 48 Stunden und sammelte weitere 27.000. Das Muster traf einen Nerv, weil es ein Problem benennt, das jeder KI-Nutzer schon kennt: deine Agenten haben kein Gedächtnis. Jedes Gespräch beginnt bei null. Du erklärst dein Unternehmen, deine Ziele, deine Sprache, deinen Kontext immer wieder neu — und das Ergebnis ist generisch, weil der Input nichts hatte, womit er arbeiten konnte."
+			"text": "Andrej Karpathy veröffentlichte im April 2026 einen [Gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f), der ein Muster für den Aufbau persönlicher Wissensdatenbanken mit LLMs beschreibt. In einer Woche: 99.000 Bookmarks. Mehrere Implementierungen wurden innerhalb von Tagen Open Source. [graphify](https://github.com/safishamsi/graphify) erschien nach 48 Stunden und sammelte weitere 27.000. Das Muster traf einen Nerv, weil es ein bekanntes Problem benennt: Die meisten Agenten haben kein persistentes Gedächtnis über Sitzungen hinweg. Jedes Gespräch beginnt bei null. Du erklärst dein Unternehmen, deine Ziele, deine Sprache, deinen Kontext immer wieder neu — und das Ergebnis ist generisch, weil der Input nichts hatte, womit er arbeiten konnte."
 		},
 		{
 			"type": "p",
@@ -54,11 +54,11 @@
 		},
 		{
 			"type": "p",
-			"text": "RAG leitet Antworten zur Abfragezeit ab, indem es Dokumente in Chunks zerlegt und nach relevanten Fragmenten sucht. Der kompilierte Wiki-Ansatz überspringt das vollständig. graphify hat **71,5-mal weniger Tokens pro Anfrage** gemessen als beim Durchsuchen roher Dateien. Unsere eigenen Messungen zeigen rund 1.000 Tokens Vault-Inhalt pro Anfrage, verglichen mit den 3.000 oder mehr Tokens, die eine typische RAG-Pipeline injiziert."
+			"text": "RAG leitet Antworten zur Abfragezeit ab, indem es Dokumente in Chunks zerlegt und nach relevanten Fragmenten sucht. Der kompilierte Wiki-Ansatz überspringt das vollständig. Das graphify-Benchmark maß **71,5-mal weniger Tokens pro Anfrage** in ihrem veröffentlichten Vergleich; Ergebnisse hängen von den Korpuseigenschaften und der Abfrageverteilung ab. Unsere eigenen Messungen zeigen rund 1.000 Tokens Vault-Inhalt pro Anfrage, verglichen mit den 3.000 oder mehr Tokens, die eine typische RAG-Pipeline injiziert."
 		},
 		{
 			"type": "p",
-			"text": "Wir haben einen [ausführlichen technischen Vergleich](/blog/business-knowledge-base-without-rag) von RAG versus indexbasiertem Retrieval geschrieben. Die Kurzversion: Für Wissensdatenbanken unter 1.000 Dokumenten schlägt das kompilierte Wiki RAG in Genauigkeit, Kosten und Komplexität. Keine Vektordatenbank, kein Embedding-Modell, keine Chunking-Strategie, kein Re-Indexing-Job. Fünf Shell-Befehle und eine gepflegte Index-Datei."
+			"text": "Wir haben einen [ausführlichen technischen Vergleich](/blog/business-knowledge-base-without-rag) von RAG versus indexbasiertem Retrieval geschrieben. Die Kurzversion: In den von uns gemessenen Workloads übertraf der kompilierte Wiki-Ansatz RAG in Genauigkeit, Kosten und operativer Komplexität. Keine Vektordatenbank, kein Embedding-Modell, keine Chunking-Strategie, kein Re-Indexing-Job. Fünf Shell-Befehle und eine gepflegte Index-Datei."
 		},
 		{
 			"type": "p",
@@ -142,7 +142,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Das Muster funktioniert, weil Markdown einfach ist und LLMs gut darin sind, es zu lesen und zu schreiben. Die Infrastrukturkosten sind null. Die Wartungskosten sind nahezu null, weil das LLM die Buchhaltung übernimmt. Die einzigen echten Kosten sind die Disziplin, das Schema ehrlich zu halten und die Ingest-Qualität hoch. Das ist ein menschliches Problem, kein technologisches."
+			"text": "Das Muster funktioniert, weil Markdown einfach ist und LLMs gut darin sind, es zu lesen und zu schreiben. Die Infrastrukturkosten sind null. Die Wartungskosten sind niedrig, weil das LLM Index-Updates übernimmt; regelmäßige menschliche Überprüfung wird dennoch empfohlen, um die Genauigkeit zu gewährleisten. Die einzigen echten Kosten sind die Disziplin, das Schema ehrlich zu halten und die Ingest-Qualität hoch. Das ist ein menschliches Problem, kein technologisches."
 		},
 		{
 			"type": "h2",
@@ -158,7 +158,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Karpathy nennt es ein LLM-Wiki. Eric Osiu nennt es ein Shared Brain. Cody Schneider nennt es ein Data Warehouse. Der Name ändert sich. Das Muster nicht: Agenten brauchen kompiliertes, strukturiertes Wissen, um nützliche Arbeit zu leisten. Alles andere ist Prompting ins Nichts."
+			"text": "Karpathy nennt es ein LLM-Wiki. Eric Osiu nennt es ein Shared Brain. Cody Schneider nennt es ein Data Warehouse. Der Name ändert sich. Das Muster nicht: Agenten brauchen kompiliertes, strukturiertes Wissen, um nützliche Arbeit zu leisten. Ohne persistenten Kontext arbeiten Prompts ohne das institutionelle Wissen, das sie brauchen."
 		},
 		{
 			"type": "p",

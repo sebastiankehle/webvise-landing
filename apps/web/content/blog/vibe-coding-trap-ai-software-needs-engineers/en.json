@@ -2,14 +2,14 @@
 	"date": "2026-04-12",
 	"readingTime": 7,
 	"keyword": "vibe coding AI software engineering",
-	"title": "Vibe Coding Is a Trap - Why AI-Built Software Still Needs Engineers",
+	"title": "Why AI-Generated Software Still Needs Engineering Review",
 	"excerpt": "Andrej Karpathy coined \"vibe coding\" in February 2025. Since then, a wave of AI-generated apps has shipped that work in demos and break in production. The problem is not the AI tools - it is using them without engineering discipline.",
 	"metaDescription": "Vibe coding creates a new class of technical debt harder to fix than hand-written bad code. Why AI amplifies engineering skill instead of replacing it.",
 	"tags": ["AI", "Web Development", "Business Strategy"],
 	"blocks": [
 		{
 			"type": "p",
-			"text": "Andrej Karpathy coined the term **vibe coding** in [February 2025](https://x.com/karpathy/status/1886192184808149370) to describe a mode of software development where you describe what you want, accept whatever the AI outputs, and do not read the code. His framing was generous - a weekend hobby mode for personal projects. What followed was not. By mid-2025, a wave of non-engineers had shipped production SaaS apps built entirely in Cursor, Replit Agent, v0, and bolt.new, without ever understanding what they had built. The apps looked good in demos. They are breaking in production right now."
+			"text": "Andrej Karpathy coined the term **vibe coding** in [February 2025](https://x.com/karpathy/status/1886192184808149370) to describe a mode of software development where you describe what you want, accept whatever the AI outputs, and do not read the code. His framing was generous - a weekend hobby mode for personal projects. What followed was not. By mid-2025, a wave of non-engineers had shipped production SaaS apps built entirely in Cursor, Replit Agent, v0, and bolt.new, without ever understanding what they had built. The apps looked good in demos. Some are breaking in production."
 		},
 		{
 			"type": "h2",
@@ -38,7 +38,7 @@
 		{
 			"type": "ul",
 			"items": [
-				"**Auth bypasses baked into the scaffold.** AI-generated auth code frequently copies patterns from training data without understanding the security model. Row-level security disabled \"temporarily\" during development, left in production. JWT secrets hardcoded in environment variable examples committed to public repos. Role checks that compare string literals and break the moment a field is renamed.",
+				"**Auth bypasses baked into a scaffold; JWT secrets present in environment-variable examples committed to public repositories** — these are common findings in code reviews of AI-assisted projects without engineering oversight. AI-generated auth code frequently copies patterns from training data without understanding the security model. Row-level security disabled \"temporarily\" during development, left in production. Role checks that compare string literals and break the moment a field is renamed.",
 				"**No error handling past the happy path.** The AI wrote the success case. What happens when the payment provider returns a 402? What happens when the database connection drops mid-transaction? In vibe-coded apps, the answer is usually an unhandled promise rejection that surfaces as a blank screen.",
 				"**Vendor lock-in to AI-generated patterns.** When the AI chose to structure the data model a particular way, the vibe coder accepted it. Now the entire app is built around that structure. Migrating away from it requires understanding code the developer never read.",
 				"**No tests.** Not because tests are hard, but because the vibe coder never asked for them and the AI did not volunteer them. When something breaks in production, there is no test suite to catch regressions in the fix."
@@ -54,7 +54,7 @@
 		},
 		{
 			"type": "p",
-			"text": "The pattern plays out predictably. A vibe-coded app launches, looks polished, gets early users. Then: a user with a non-ASCII character in their name breaks the database query. A mobile user on a slow connection triggers a race condition in the state management. A competitor signs up and discovers the API endpoints return other users' data because the authorization check was on the frontend, not the server. None of these are exotic failures. They are the basic consequence of shipping code you never read."
+			"text": "The pattern plays out predictably. A vibe-coded app launches, looks polished, gets early users. Then: a user with a non-ASCII character in their name breaks the database query. A mobile user on a slow connection triggers a race condition in the state management. We have seen scenarios where API endpoints leak data across user accounts because authorization checks were missing or incomplete — a consequence of shipping code that was never reviewed for server-side enforcement. None of these are exotic failures. They are the basic consequence of shipping code you never read."
 		},
 		{
 			"type": "h2",
@@ -62,11 +62,11 @@
 		},
 		{
 			"type": "p",
-			"text": "This is the claim the vibe coding narrative inverts. The tools are real and the productivity gains are real. At webvise, we use Claude Code, Cursor, and multi-agent orchestration on every project we deliver. A senior engineer with Claude Code ships in hours what previously took days. The same tools in the hands of someone without engineering fundamentals produce a demo that cannot survive its first real user."
+			"text": "This is the claim the vibe coding narrative inverts. The tools are real and the productivity gains are real. At webvise, we use Claude Code, Cursor, and multi-agent orchestration on every project we deliver. Senior engineers using Claude Code report meaningful time savings on tasks that would otherwise take days. The same tools in the hands of someone without engineering fundamentals produce a demo that cannot survive its first real user."
 		},
 		{
 			"type": "p",
-			"text": "The difference is not the tool - it is what the engineer brings to the tool. Engineering fundamentals are not about writing code by hand. They are about understanding system boundaries, failure modes, security models, and data integrity. An engineer using Claude Code reads the generated authentication code and recognizes when it is wrong. A vibe coder hits accept and ships it."
+			"text": "The difference is not the tool - it is what the engineer brings to the tool. Engineering fundamentals are not about writing code by hand. They are about understanding system boundaries, failure modes, security models, and data integrity. An engineer using Claude Code reads the generated authentication code and recognizes when it is wrong. An inexperienced developer accepts the suggestion and ships it."
 		},
 		{
 			"type": "table",
@@ -98,11 +98,11 @@
 		},
 		{
 			"type": "p",
-			"text": "Consumer hobby apps can absorb vibe coding's failure modes. If a personal finance tracker loses some data, it is annoying. If a B2B SaaS handling customer records, payment flows, or internal workflows ships with the auth and error handling problems described above, the consequences are legal, contractual, and reputational. GDPR does not exempt you because you did not read your own data-handling code."
+			"text": "Consumer hobby apps can absorb vibe coding's failure modes. If a personal finance tracker loses some data, it is annoying. If a B2B SaaS handling customer records, payment flows, or internal workflows ships with the auth and error handling problems described above, the consequences are legal, contractual, and reputational. GDPR liability applies regardless of how the code was generated; data-handling code requires review."
 		},
 		{
 			"type": "p",
-			"text": "The 2025-2026 wave of AI-generated SaaS apps has produced a predictable class of startup: impressive in a demo, acquired early customers on the promise, then hit a wall when the first enterprise prospect ran a security review or the first high-traffic day exposed the missing error handling. The founders are not fraudsters - they genuinely did not know what they had built."
+			"text": "Several recent AI-assisted SaaS products have followed a similar pattern: impressive in a demo, acquired early customers on the promise, then hit a wall when the first enterprise prospect ran a security review or the first high-traffic day exposed the missing error handling. The founders are not fraudsters - they genuinely did not know what they had built."
 		},
 		{
 			"type": "h2",

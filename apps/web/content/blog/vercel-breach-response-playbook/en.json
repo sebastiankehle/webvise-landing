@@ -23,7 +23,7 @@
     {
       "type": "ul",
       "items": [
-        "**Rotating Vercel env vars changes the dashboard, not the running functions.** Values only take effect on the next deploy.",
+        "**Rotating Vercel environment variables updates configuration, not running function instances; redeploy to propagate.** Values only take effect on the next deploy.",
         "**The Google Workspace OAuth audit is the half that barely gets discussed.** That is the trust path the attacker used to reach Vercel.",
         "**This wasn't a Vercel vulnerability.** It was a SaaS-to-SaaS compromise through an OAuth grant, and a normal CVE-style response doesn't close the loop.",
         "**Long-term, move secrets out of env vars** and into a runtime secret manager. Require phishing-resistant MFA on anyone who can install OAuth apps.",
@@ -44,7 +44,7 @@
     },
     {
       "type": "p",
-      "text": "If you want a second pair of eyes on your Vercel setup before next weekend's post-mortem gets written about you, [we run security reviews across Vercel teams, Google Workspaces, and SaaS-to-SaaS grants](/#contact)."
+      "text": "If you want a second review of your Vercel setup before the next incident, [we run security reviews across Vercel teams, Google Workspaces, and SaaS-to-SaaS grants](/#contact)."
     },
     {
       "type": "h2",
@@ -74,7 +74,7 @@
     },
     {
       "type": "p",
-      "text": "This is the part that matters most and gets the least airtime. Vercel applies environment variable changes at build and deploy time, not at runtime. A project you updated and left alone is still running the build you shipped yesterday, which still has the old secret baked into its runtime. You rotated the dashboard, not the system."
+      "text": "This is the step most response checklists undertreat. Vercel applies environment variable changes at build and deploy time, not at runtime. A project you updated and left alone is still running the build you shipped yesterday, which still has the old secret baked into its runtime. You rotated the dashboard, not the system."
     },
     {
       "type": "p",
@@ -129,7 +129,7 @@
     },
     {
       "type": "p",
-      "text": "Most teams do not have a single owner for any of these. That is the quiet reason incidents keep ending with the same bullets in the post-mortem. [Talk to us](/#contact) about how webvise builds these into the maintenance retainer on every managed project."
+      "text": "Many teams lack a single named owner for these tasks; that gap recurs in incident post-mortems. [Talk to us](/#contact) about how webvise builds these into the maintenance retainer on every managed project."
     },
     {
       "type": "h2",
@@ -149,7 +149,7 @@
     },
     {
       "type": "p",
-      "text": "We run security reviews on Vercel teams, Google Workspaces, and SaaS-to-SaaS identity graphs as part of every managed engagement at webvise. If you want an external pair of eyes on your setup before the next disclosure lands on a weekend, [start a conversation](/#contact)."
+      "text": "We run security reviews on Vercel teams, Google Workspaces, and SaaS-to-SaaS identity graphs as part of every managed engagement at webvise. If you want a second review of your Vercel setup before the next incident, [contact us](/#contact)."
     }
   ]
 }

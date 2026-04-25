@@ -29,23 +29,23 @@
 		},
 		{
 			"type": "h3",
-			"text": "TYPO3: 6/10"
+			"text": "TYPO3"
 		},
 		{
 			"type": "p",
-			"text": "Los sitios TYPO3 tipicamente obtienen **35-60 en PageSpeed movil**. El pipeline de renderizado PHP, las consultas a la base de datos y el codigo frontend no siempre optimizado (estilos inline, imagenes sin optimizar, scripts que bloquean el renderizado) crean una linea base lenta. El cache ayuda, pero anade complejidad y no resuelve los problemas fundamentales de rendimiento del frontend."
+			"text": "Los sitios TYPO3 sin optimizacion frontend dedicada suelen obtener **entre 35 y 60 en PageSpeed movil**. El pipeline de renderizado PHP y las consultas a la base de datos generan sobrecarga, y las implementaciones mas antiguas pueden tener codigo frontend desactualizado. Con caching adecuado, configuracion de CDN y buenas practicas frontend, TYPO3 puede ofrecer un rendimiento respetable; las instalaciones bien optimizadas pueden puntuar considerablemente mas alto."
 		},
 		{
 			"type": "h3",
-			"text": "Next.js: 9/10"
+			"text": "Next.js"
 		},
 		{
 			"type": "p",
-			"text": "Los sitios Next.js consistentemente obtienen **90-99 en PageSpeed movil**. HTML estatico servido desde ubicaciones CDN en el edge, optimizacion automatica de imagenes (WebP/AVIF, dimensionado responsivo), division de codigo por pagina y cero sobrecarga de base de datos. El tiempo hasta el primer byte es tipicamente menor a 100ms a nivel global."
+			"text": "Los sitios Next.js modernos pueden alcanzar **90+ en PageSpeed movil** cuando estan correctamente arquitectados; los resultados dependen del peso del contenido y los scripts de terceros. El HTML estatico servido desde ubicaciones CDN en el edge, la optimizacion automatica de imagenes (WebP/AVIF, dimensionado responsivo) y la division de codigo por pagina contribuyen a una solida performance base. El tiempo hasta el primer byte es tipicamente menor a 100ms a nivel global."
 		},
 		{
 			"type": "p",
-			"text": "**Ganador: Next.js** - la ventaja arquitectonica es significativa."
+			"text": "**En terminos de rendimiento, los sitios Next.js tipicamente puntuan mas alto en PageSpeed movil que los sitios TYPO3; la diferencia refleja el modelo de renderizado, no la calidad de implementacion.**"
 		},
 		{
 			"type": "h2",
@@ -53,7 +53,7 @@
 		},
 		{
 			"type": "h3",
-			"text": "TYPO3: 8/10"
+			"text": "TYPO3"
 		},
 		{
 			"type": "p",
@@ -61,7 +61,7 @@
 		},
 		{
 			"type": "h3",
-			"text": "Next.js: 5/10 (varia segun la eleccion del CMS)"
+			"text": "Next.js (varia segun la eleccion del CMS)"
 		},
 		{
 			"type": "p",
@@ -77,7 +77,7 @@
 		},
 		{
 			"type": "h3",
-			"text": "TYPO3: 6/10"
+			"text": "TYPO3"
 		},
 		{
 			"type": "p",
@@ -85,15 +85,15 @@
 		},
 		{
 			"type": "h3",
-			"text": "Next.js: 9/10"
+			"text": "Next.js"
 		},
 		{
 			"type": "p",
-			"text": "Un sitio Next.js estatico tiene practicamente ninguna superficie de ataque. No hay servidor que comprometer, ni base de datos que vulnerar, ni panel de administracion al que hacer fuerza bruta. Si agregas un headless CMS, ese CMS se convierte en el limite de seguridad - pero es un servicio gestionado con su propio equipo de seguridad, no algo que tu mantengas."
+			"text": "Los despliegues Next.js con renderizado estatico reducen la superficie de ataque del lado del servidor en comparacion con un CMS dinamico con panel de administracion y ecosistema de plugins; no eliminan el riesgo - las dependencias npm, los pipelines de build y las edge functions siguen necesitando monitorizacion. Si agregas un headless CMS, ese CMS se convierte en el limite de seguridad - tipicamente un servicio gestionado con su propio equipo de seguridad."
 		},
 		{
 			"type": "p",
-			"text": "**Ganador: Next.js** - menos partes moviles significa menos vulnerabilidades."
+			"text": "**En cuanto a postura de seguridad, un despliegue Next.js estatico tiene menos componentes del lado del servidor que proteger que un stack TYPO3 completo; ambos enfoques requieren atencion continua.**"
 		},
 		{
 			"type": "h2",
@@ -101,7 +101,7 @@
 		},
 		{
 			"type": "h3",
-			"text": "TYPO3: 7/10"
+			"text": "TYPO3"
 		},
 		{
 			"type": "p",
@@ -109,7 +109,7 @@
 		},
 		{
 			"type": "h3",
-			"text": "Next.js: 8/10"
+			"text": "Next.js"
 		},
 		{
 			"type": "p",
@@ -130,14 +130,14 @@
 				[
 					"Hosting",
 					"€2.000-€8.000 (dedicado/gestionado)",
-					"€0 (Vercel free tier)"
+					"€0 Hobby / €20/usuario/mes Pro (Vercel)"
 				],
 				["SSL, CDN, cache", "€500-€2.000", "€0 (incluido)"],
 				["Actualizaciones y mantenimiento de TYPO3", "€3.000-€10.000", "€0"],
 				[
 					"Monitoreo de seguridad",
 					"€1.000-€3.000",
-					"€0 (superficie de ataque minima)"
+					"€500-€2.000 (dependencias, pipeline)"
 				],
 				["Headless CMS", "N/A", "€0-€3.000"],
 				[
@@ -149,7 +149,7 @@
 		},
 		{
 			"type": "p",
-			"text": "La diferencia en costes de infraestructura es notable. TYPO3 requiere hosting PHP dedicado, servidores de base de datos, capas de cache y mantenimiento regular. Un sitio Next.js estatico en el tier gratuito de Vercel no cuesta nada de alojar. La mayoria de las empresas nunca necesitan un plan de pago - despliegue gratuito, SSL y CDN global estan incluidos."
+			"text": "La diferencia en costes de infraestructura es significativa. TYPO3 requiere hosting PHP dedicado, servidores de base de datos, capas de cache y mantenimiento regular. Alojar un sitio Next.js en Vercel comienza en €0 en el tier Hobby; los despliegues comerciales tipicamente requieren el tier Pro (€20/usuario/mes) para SLA, analiticas y funciones de equipo."
 		},
 		{
 			"type": "h2",
@@ -157,7 +157,7 @@
 		},
 		{
 			"type": "p",
-			"text": "TYPO3 tiene una comunidad activa, particularmente en Alemania, Austria y Suiza. Pero el grupo de desarrolladores se esta reduciendo. La mayoria de los graduados en informatica aprenden JavaScript, no PHP. La mayoria de los nuevos proyectos web usan React, no plantillas Fluid."
+			"text": "TYPO3 tiene una comunidad activa, particularmente en Alemania, Austria y Suiza. JavaScript se enseña mas ampliamente que PHP a nivel universitario hoy en dia, lo que afecta al tamano del grupo de desarrolladores disponible a largo plazo. La mayoria de los nuevos proyectos web usan React, no plantillas Fluid."
 		},
 		{
 			"type": "p",
@@ -169,20 +169,19 @@
 		},
 		{
 			"type": "h2",
-			"text": "La tabla de puntuaciones"
+			"text": "Comparativa resumida"
 		},
 		{
 			"type": "table",
 			"headers": ["Categoria", "TYPO3", "Next.js"],
 			"rows": [
-				["Rendimiento", "5/10", "9/10"],
-				["Gestion de contenido", "8/10", "5/10"],
-				["Seguridad", "6/10", "9/10"],
-				["i18n", "7/10", "8/10"],
-				["Coste total de propiedad", "5/10", "8/10"],
-				["Ecosistema de desarrolladores", "5/10", "9/10"],
-				["Flexibilidad / funciones personalizadas", "5/10", "10/10"],
-				["**Promedio**", "**5,7/10**", "**8,3/10**"]
+				["Rendimiento", "Menor sin optimizacion", "Mayor por defecto"],
+				["Gestion de contenido", "Maduro, rico en funciones", "Depende de la eleccion de headless CMS"],
+				["Seguridad", "Mayor superficie de ataque en servidor", "Menor superficie de ataque en servidor"],
+				["i18n", "Solido, probado en produccion", "Solido, enrutamiento moderno"],
+				["Coste total de propiedad", "Mayor coste de infraestructura", "Menor coste de infraestructura"],
+				["Ecosistema de desarrolladores", "Pool de especialistas mas pequeno", "Pool de desarrolladores mas amplio"],
+				["Flexibilidad / funciones personalizadas", "Basado en extensiones", "Stack completo JavaScript/TypeScript"]
 			]
 		},
 		{
@@ -223,7 +222,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Un factor que a menudo se pasa por alto: Next.js proporciona la infraestructura base para futuras funcionalidades de IA - chatbots, contenido personalizado, búsqueda inteligente, flujos de trabajo automatizados - sin necesidad de migrar de plataforma. Incorporar estas capacidades en TYPO3 normalmente requiere un trabajo de extensión personalizado considerable o la integración de servicios externos. En Next.js, son extensiones naturales del stack existente."
+			"text": "Un factor que a menudo se pasa por alto: las herramientas de IA nativas de JavaScript (Vercel AI SDK, OpenAI/Anthropic SDKs) se integran de forma mas directa con las aplicaciones Next.js que con los CMS basados en PHP - chatbots, contenido personalizado, busqueda inteligente y flujos de trabajo automatizados pueden anadirse como extensiones naturales del stack existente. TYPO3 puede integrarse con las mismas APIs mediante llamadas HTTP estandar, aunque la integracion requiere mas trabajo de desarrollo personalizado."
 		},
 		{
 			"type": "h2",
@@ -246,5 +245,5 @@
 			"text": "Mide las puntuaciones PageSpeed de tu sitio actual, audita tus costes anuales de TYPO3 y calcula el tiempo que tu equipo dedica al mantenimiento. Los numeros guiaran la decision mejor que cualquier comparativa de frameworks."
 		}
 	],
-	"metaDescription": "TYPO3 vs Next.js para enterprise: PageSpeed (35–60 vs 90–99), costes anuales (€5K–€18K vs hosting casi gratis) y disponibilidad de desarrolladores."
+	"metaDescription": "TYPO3 vs Next.js para enterprise: comparativa de rendimiento PageSpeed, costes de infraestructura anuales, postura de seguridad y disponibilidad de desarrolladores."
 }

@@ -10,7 +10,7 @@
 	"blocks": [
 		{
 			"type": "p",
-			"text": "Andrej Karpathy a publié un [gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) en avril 2026 décrivant un pattern pour construire des bases de connaissance personnelles avec des LLMs. Il a récolté 99 000 bookmarks en une semaine. Plusieurs implémentations sont passées open source en quelques jours. [graphify](https://github.com/safishamsi/graphify) a été livré en 48 heures et en a attiré 27 000 de plus. Le pattern a résonné parce qu'il a nommé un problème que chaque utilisateur d'IA ressentait déjà : vos agents n'ont aucune mémoire. Chaque conversation repart de zéro. Vous réexpliquez votre business, vos objectifs, votre ton, votre contexte, et le résultat revient générique parce que l'entrée n'avait rien pour travailler."
+			"text": "Andrej Karpathy a publié un [gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) en avril 2026 décrivant un pattern pour construire des bases de connaissance personnelles avec des LLMs. Il a récolté 99 000 bookmarks en une semaine. Plusieurs implémentations sont passées open source en quelques jours. [graphify](https://github.com/safishamsi/graphify) a été livré en 48 heures et en a attiré 27 000 de plus. Le pattern a résonné parce qu'il a nommé un problème familier : la plupart des agents manquent de mémoire persistante entre les sessions. Chaque conversation repart de zéro. Vous réexpliquez votre business, vos objectifs, votre ton, votre contexte, et le résultat revient générique parce que l'entrée n'avait rien pour travailler."
 		},
 		{
 			"type": "p",
@@ -54,11 +54,11 @@
 		},
 		{
 			"type": "p",
-			"text": "RAG redérive les réponses au moment de la requête en découpant les documents et en cherchant les fragments pertinents. L'approche wiki compilé court-circuite tout ça. graphify a mesuré **71,5x moins de tokens par requête** comparé à la recherche dans des fichiers bruts. Nos propres mesures montrent environ 1 000 tokens de contenu du vault par requête, contre 3 000 tokens ou plus qu'injecte un pipeline RAG typique."
+			"text": "RAG redérive les réponses au moment de la requête en découpant les documents et en cherchant les fragments pertinents. L'approche wiki compilé court-circuite tout ça. graphify a mesuré **71,5x moins de tokens par requête** comparé à la recherche dans des fichiers bruts dans leur comparaison publiée ; les résultats dépendent des caractéristiques du corpus et de la distribution des requêtes. Nos propres mesures montrent environ 1 000 tokens de contenu du vault par requête, contre 3 000 tokens ou plus qu'injecte un pipeline RAG typique."
 		},
 		{
 			"type": "p",
-			"text": "Nous avons écrit une [comparaison technique complète](/blog/business-knowledge-base-without-rag) entre RAG et la récupération par index. Version courte : pour les bases de connaissance de moins de 1 000 documents, le wiki compilé surpasse RAG en précision, coût, et complexité. Pas de base vectorielle, pas de modèle d'embedding, pas de stratégie de chunking, pas de job de ré-indexation. Cinq commandes shell et un fichier d'index maintenu."
+			"text": "Nous avons écrit une [comparaison technique complète](/blog/business-knowledge-base-without-rag) entre RAG et la récupération par index. Version courte : dans les charges de travail analysées, le wiki compilé a surpassé RAG en précision, coût et complexité pour les bases de connaissance de moins de 1 000 documents. Pas de base vectorielle, pas de modèle d'embedding, pas de stratégie de chunking, pas de job de ré-indexation. Cinq commandes shell et un fichier d'index maintenu."
 		},
 		{
 			"type": "p",
@@ -142,7 +142,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Le pattern fonctionne parce que le markdown est simple et que les LLMs sont bons pour le lire et l'écrire. Le coût d'infrastructure est nul. Le coût de maintenance est quasi nul parce que le LLM fait la comptabilité. Le seul vrai coût, c'est la discipline pour garder le schéma honnête et la qualité de l'ingest élevée. C'est un problème humain, pas un problème technologique."
+			"text": "Le pattern fonctionne parce que le markdown est simple et que les LLMs sont bons pour le lire et l'écrire. Le coût d'infrastructure est nul. Le coût de maintenance est faible parce que le LLM fait la comptabilité, bien qu'une révision humaine périodique reste recommandée. Le seul vrai coût, c'est la discipline pour garder le schéma honnête et la qualité de l'ingest élevée. C'est un problème humain, pas un problème technologique."
 		},
 		{
 			"type": "h2",
@@ -158,7 +158,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Karpathy appelle ça un LLM wiki. Eric Osiu appelle ça un shared brain. Cody Schneider appelle ça un data warehouse. Le nom change sans cesse. Le pattern, non : les agents ont besoin d'une connaissance compilée et structurée pour faire un travail utile. Tout le reste, c'est du prompting dans le vide."
+			"text": "Karpathy appelle ça un LLM wiki. Eric Osiu appelle ça un shared brain. Cody Schneider appelle ça un data warehouse. Le nom change sans cesse. Le pattern, non : les agents ont besoin d'une connaissance compilée et structurée pour faire un travail utile. Sans contexte persistant, les prompts fonctionnent sans la connaissance institutionnelle dont ils ont besoin."
 		},
 		{
 			"type": "p",

@@ -3,21 +3,21 @@
 	"readingTime": 9,
 	"keyword": "hermes agent production deployment",
 	"title": "Hermes Agent in produzione: l'operator layer per il giorno 30",
-	"excerpt": "La maggior parte dei team con 4 profile in Hermes Agent funziona bene il primo giorno e si confonde in un'unica voce entro il giorno 30. L'operator layer che lo previene: handoff contracts, audit memory-KPI e policy gates per ruolo.",
-	"metaDescription": "I team multi-profile di Hermes Agent si confondono entro il giorno 30. L'operator layer: handoff contracts, audit memory-KPI e policy gates per ruolo per prevenirlo.",
+	"excerpt": "La maggior parte dei team con 4 profile in Hermes Agent funziona bene il primo giorno e mostra segni di convergenza vocale entro il giorno 30 nei deployment reali. L'operator layer che lo previene: handoff contracts, audit memory-KPI e policy gates per ruolo.",
+	"metaDescription": "I team multi-profile di Hermes Agent mostrano convergenza vocale entro il giorno 30. L'operator layer: handoff contracts, audit memory-KPI e policy gates per ruolo per prevenirlo.",
 	"tags": ["AI Agents", "AI", "Open Source", "Process"],
 	"blocks": [
 		{
 			"type": "p",
-			"text": "**L'operator layer di Hermes Agent è l'insieme di discipline che mantiene coerente un team multi-profile oltre il giorno 30.** Quattro primitive: handoff contracts che possono bloccare, audit memory-KPI per profile, policy gates per ruolo e stato cron coordinato. Senza di essi, un team a 4 profile (Hermes + Alan + Mira + Turing) si confonde in un unico agente indistinto nel giro di un mese."
+			"text": "**L'operator layer di Hermes Agent è l'insieme di discipline che mantiene coerente un team multi-profile oltre il giorno 30.** Quattro primitive: handoff contracts che possono bloccare, audit memory-KPI per profile, policy gates per ruolo e stato cron coordinato. Senza di essi, un team a 4 profile (Hermes + Alan + Mira + Turing) mostra segni di convergenza vocale nel giro di un mese."
 		},
 		{
 			"type": "p",
-			"text": "Ogni guida per operatori di Hermes disponibile online si ferma al bootstrap a 4 profile. Nessuno pubblica screenshot del giorno 30, perché il giorno 30 è quando i profile iniziano a suonare uguali, gli handoff si rompono silenziosamente, e una build di cui si era orgogliosi diventa indistinguibile da un setup a singolo agente."
+			"text": "La maggior parte delle guide per operatori di Hermes si ferma attualmente al bootstrap a 4 profile; il materiale di deployment per il giorno 30 è scarso nella documentazione pubblica. Il giorno 30 è quando i profile iniziano a suonare uguali, gli handoff si rompono silenziosamente, e una build di cui si era orgogliosi diventa indistinguibile da un setup a singolo agente."
 		},
 		{
 			"type": "p",
-			"text": "Se si ha [Hermes Agent](/blog/hermes-agent-self-improving-ai) versione 0.9.0 in esecuzione con i profile Alan, Mira e Turing, la build di base è completata. Quello che viene dopo è l'operator layer. Ogni primitiva qui sotto è tratta da pattern di deployment reali, abbinata al failure mode specifico che la rende necessaria."
+			"text": "Se [Hermes Agent](/blog/hermes-agent-self-improving-ai) versione 0.9.0 è in esecuzione con il bootstrap standard che include i profile Alan, Mira e Turing, la build di base è completa; il lavoro del giorno 30 inizia da lì. Ogni primitiva qui sotto è tratta da pattern di deployment reali, abbinata al failure mode specifico che la rende necessaria."
 		},
 		{
 			"type": "ul",
@@ -25,7 +25,7 @@
 				"**Gli handoff contracts sono reali solo se bloccano.** Se la forma dell'input del profile ricevente è errata, l'handoff deve fallire, non solo avvertire.",
 				"**La memoria si deteriora per ogni profile.** Eseguire un audit `memory-kpi` settimanale. Superare il 15% di note obsolete attiva un passaggio `brain-resolve`.",
 				"**I policy gates prevengono il privilege drift silenzioso.** Alan non ottiene mai accesso shell. Solo l'orchestrator può approvare commit su main.",
-				"**Quattro failure mode al giorno 30 distruggono la maggior parte dei deployment.** Profile drift, handoff rot, SOUL.md bloat, cron collision. Ognuno ha una contromisura specifica.",
+				"**Quattro failure mode al giorno 30 spiegano la maggior parte delle regressioni di deployment che abbiamo osservato.** Profile drift, handoff rot, SOUL.md bloat, cron collision. Ognuno ha una contromisura specifica.",
 				"**Leggere prima la [guida alla definizione di Hermes Agent](/blog/hermes-agent-self-improving-ai)** per il contesto cos'è-cosa-fa prima dell'operator layer."
 			]
 		},
@@ -116,7 +116,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Il principio è fondamentale. Un agente di ricerca con accesso shell alla fine eseguirà un comando che non avrebbe dovuto eseguire. Un profile writer con accesso ai segreti alla fine li farà trapelare in una bozza. Il privilege drift avviene silenziosamente ed è evidente solo a posteriori, che è il momento sbagliato per accorgersene."
+			"text": "Il principio è fondamentale. Un agente di ricerca con accesso shell alla fine eseguirà un comando che non avrebbe dovuto eseguire. Un profile writer con accesso ai segreti alla fine li farà trapelare in una bozza. Il privilege drift avviene silenziosamente ed è evidente solo a posteriori, il che è un momento difficile per scoprire il problema."
 		},
 		{
 			"type": "h2",
@@ -124,7 +124,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Quattro failure mode specifici sono responsabili della maggior parte dei collassi multi-agente di Hermes. Ognuno ha una contromisura diretta. Saltarne uno e il team funziona bene il primo giorno, si confonde entro il giorno 30."
+			"text": "Quattro failure mode specifici spiegano la maggior parte delle regressioni di deployment osservate nei setup multi-agente di Hermes. Ognuno ha una contromisura diretta. Saltarne uno e il team funziona bene il primo giorno, si degrada entro il giorno 30."
 		},
 		{
 			"type": "h3",

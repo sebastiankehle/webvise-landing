@@ -3,21 +3,21 @@
 	"readingTime": 9,
 	"keyword": "hermes agent production deployment",
 	"title": "Hermes Agent im Produktionseinsatz: Der Day-30-Operator-Layer",
-	"excerpt": "Die meisten 4-Profil-Teams mit Hermes Agent funktionieren am ersten Tag gut und verwischen bis Tag 30 zu einer einzigen Stimme. Der Operator-Layer, der das verhindert: Handoff-Verträge, Memory-KPI-Audits und Policy-Gates pro Rolle.",
-	"metaDescription": "Multi-Agenten-Teams mit Hermes Agent verwischen bis Tag 30. Der Operator-Layer: Handoff-Verträge, Memory-KPI-Audits und rollenspezifische Policy-Gates, die das verhindern.",
+	"excerpt": "Die meisten 4-Profil-Teams mit Hermes Agent funktionieren am ersten Tag gut und zeigen bis Tag 30 in produktiven Deployments Zeichen von Stimmenkonvergenz. Der Operator-Layer, der das verhindert: Handoff-Verträge, Memory-KPI-Audits und Policy-Gates pro Rolle.",
+	"metaDescription": "Multi-Agenten-Teams mit Hermes Agent zeigen bis Tag 30 Stimmenkonvergenz. Der Operator-Layer: Handoff-Verträge, Memory-KPI-Audits und rollenspezifische Policy-Gates, die das verhindern.",
 	"tags": ["AI Agents", "AI", "Open Source", "Process"],
 	"blocks": [
 		{
 			"type": "p",
-			"text": "**Der Hermes Agent Operator-Layer ist das Regelwerk, das ein Multi-Profil-Team über Tag 30 hinaus kohärent hält.** Vier Grundbausteine: Handoff-Verträge, die blockieren können, Memory-KPI-Audits pro Profil, Policy-Gates pro Rolle und koordinierter Cron-State. Ohne sie verwischt ein 4-Profil-Team (Hermes + Alan + Mira + Turing) innerhalb eines Monats zu einem einzigen unklaren Agenten."
+			"text": "**Der Hermes Agent Operator-Layer ist das Regelwerk, das ein Multi-Profil-Team über Tag 30 hinaus kohärent hält.** Vier Grundbausteine: Handoff-Verträge, die blockieren können, Memory-KPI-Audits pro Profil, Policy-Gates pro Rolle und koordinierter Cron-State. Ohne sie zeigt ein 4-Profil-Team (Hermes + Alan + Mira + Turing) innerhalb eines Monats Zeichen von Stimmenkonvergenz."
 		},
 		{
 			"type": "p",
-			"text": "Jeder Hermes-Operator-Leitfaden im Netz endet beim 4-Profil-Bootstrap. Niemand postet Screenshots von Tag 30, weil Tag 30 der Zeitpunkt ist, an dem die Profile anfangen gleich zu klingen, die Handoffs lautlos brechen und ein Setup, auf das man stolz war, von einem Solo-Agenten nicht mehr zu unterscheiden ist."
+			"text": "Die meisten Hermes-Operator-Leitfäden enden derzeit beim 4-Profil-Bootstrap; Material zum Tag-30-Deployment ist in der öffentlichen Dokumentation dünn. Tag 30 ist der Zeitpunkt, an dem die Profile anfangen gleich zu klingen, die Handoffs lautlos brechen und ein Setup, auf das man stolz war, von einem Solo-Agenten nicht mehr zu unterscheiden ist."
 		},
 		{
 			"type": "p",
-			"text": "Wenn Sie [Hermes Agent](/blog/hermes-agent-self-improving-ai) Version 0.9.0 mit den Profilen Alan, Mira und Turing betreiben, ist das grundlegende Setup erledigt. Was jetzt folgt, ist der Operator-Layer. Jeder der folgenden Bausteine stammt aus realen Deployment-Mustern und ist mit dem konkreten Fehlerbild verknüpft, das ihn notwendig macht."
+			"text": "Wenn [Hermes Agent](/blog/hermes-agent-self-improving-ai) Version 0.9.0 mit dem Standard-Bootstrap inklusive der Profile Alan, Mira und Turing läuft, ist das grundlegende Setup abgeschlossen; die Day-30-Arbeit beginnt ab diesem Punkt. Jeder der folgenden Bausteine stammt aus realen Deployment-Mustern und ist mit dem konkreten Fehlerbild verknüpft, das ihn notwendig macht."
 		},
 		{
 			"type": "ul",
@@ -25,7 +25,7 @@
 				"**Handoff-Verträge sind nur real, wenn sie blockieren.** Stimmt die Eingabeform des empfangenden Profils nicht, muss der Handoff scheitern, nicht nur warnen.",
 				"**Gedächtnis fault pro Profil aus.** Führen Sie wöchentlich ein `memory-kpi`-Audit durch. Überschreitet der Wert 15% veralteter Notizen, ist ein `brain-resolve`-Durchlauf fällig.",
 				"**Policy-Gates verhindern stillen Berechtigungsdrift.** Alan bekommt niemals Shell-Zugang. Nur der Orchestrator darf Commits auf main genehmigen.",
-				"**Vier Day-30-Fehlermodi zerstören die meisten Deployments.** Profil-Drift, Handoff-Rot, SOUL.md-Bloat, Cron-Kollision. Für jeden gibt es eine konkrete Gegenmaßnahme.",
+				"**Vier Day-30-Fehlermodi erklären die meisten Deployment-Regressionen, die wir beobachtet haben.** Profil-Drift, Handoff-Rot, SOUL.md-Bloat, Cron-Kollision. Für jeden gibt es eine konkrete Gegenmaßnahme.",
 				"**Lesen Sie zuerst den [Hermes-Agent-Überblick](/blog/hermes-agent-self-improving-ai)**, wenn Sie noch den Was-ist-das-Kontext benötigen, bevor Sie zum Operator-Layer übergehen."
 			]
 		},
@@ -116,7 +116,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Das Prinzip ist tragend. Ein Research-Agent mit Shell-Zugang wird irgendwann einen Befehl ausführen, den er nicht hätte ausführen sollen. Ein Writer-Profil mit Secrets-Zugang wird diese irgendwann in einen Entwurf einarbeiten. Berechtigungs-Drift passiert lautlos und fällt immer erst im Nachhinein auf, was der falsche Zeitpunkt ist."
+			"text": "Das Prinzip ist tragend. Ein Research-Agent mit Shell-Zugang wird irgendwann einen Befehl ausführen, den er nicht hätte ausführen sollen. Ein Writer-Profil mit Secrets-Zugang wird diese irgendwann in einen Entwurf einarbeiten. Berechtigungs-Drift passiert lautlos und fällt immer erst im Nachhinein auf – ein schwieriger Moment, um die Lücke zu entdecken."
 		},
 		{
 			"type": "h2",
@@ -124,7 +124,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Vier konkrete Fehlermodi sind für die meisten Multi-Agenten-Hermes-Zusammenbrüche verantwortlich. Für jeden gibt es eine direkte Gegenmaßnahme. Wer einen davon überspringt, hat am ersten Tag ein gutes Team und am Tag 30 ein verwischtes."
+			"text": "Vier konkrete Fehlermodi erklären die meisten Deployment-Regressionen, die wir in Multi-Agenten-Hermes-Setups beobachtet haben. Für jeden gibt es eine direkte Gegenmaßnahme. Wer einen davon überspringt, hat am ersten Tag ein gutes Team und am Tag 30 ein degradiertes."
 		},
 		{
 			"type": "h3",

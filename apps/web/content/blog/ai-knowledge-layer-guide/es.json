@@ -10,7 +10,7 @@
 	"blocks": [
 		{
 			"type": "p",
-			"text": "Andrej Karpathy publicó un [gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) en abril de 2026 describiendo un patrón para construir bases de conocimiento personales con LLMs. Acumuló 99.000 bookmarks en una semana. Varias implementaciones pasaron a ser open source en días. [graphify](https://github.com/safishamsi/graphify) se publicó en 48 horas y sumó 27.000 más. El patrón resonó porque puso nombre a un problema que todo usuario de IA ya sentía: tus agentes no tienen memoria. Cada conversación empieza desde cero. Vuelves a explicar tu negocio, tus objetivos, tu tono, tu contexto, y la respuesta llega genérica porque la entrada no tenía nada con qué trabajar."
+			"text": "Andrej Karpathy publicó un [gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) en abril de 2026 describiendo un patrón para construir bases de conocimiento personales con LLMs. Acumuló 99.000 bookmarks en una semana. Varias implementaciones pasaron a ser open source en días. [graphify](https://github.com/safishamsi/graphify) se publicó en 48 horas y sumó 27.000 más. El patrón resonó porque puso nombre a un problema familiar: la mayoría de los agentes carecen de memoria persistente entre sesiones. Cada conversación empieza desde cero. Vuelves a explicar tu negocio, tus objetivos, tu tono, tu contexto, y la respuesta llega genérica porque la entrada no tenía nada con qué trabajar."
 		},
 		{
 			"type": "p",
@@ -54,11 +54,11 @@
 		},
 		{
 			"type": "p",
-			"text": "RAG re-deriva respuestas en el momento de la consulta fragmentando documentos y buscando fragmentos relevantes. El enfoque del wiki compilado se salta ese paso por completo. graphify midió **71,5 veces menos tokens por consulta** comparado con buscar en archivos en bruto. Nuestras propias mediciones muestran aproximadamente 1.000 tokens de contenido del vault por consulta, frente a los 3.000 o más tokens que inyecta un pipeline RAG típico."
+			"text": "RAG re-deriva respuestas en el momento de la consulta fragmentando documentos y buscando fragmentos relevantes. El enfoque del wiki compilado se salta ese paso por completo. graphify midió **71,5 veces menos tokens por consulta** comparado con buscar en archivos en bruto en su comparativa publicada; los resultados dependen de las características del corpus y la distribución de consultas. Nuestras propias mediciones muestran aproximadamente 1.000 tokens de contenido del vault por consulta, frente a los 3.000 o más tokens que inyecta un pipeline RAG típico."
 		},
 		{
 			"type": "p",
-			"text": "Escribimos una [comparativa técnica completa](/blog/business-knowledge-base-without-rag) de RAG frente a recuperación basada en índices. La versión corta: para bases de conocimiento de menos de 1.000 documentos, el wiki compilado supera a RAG en precisión, coste y complejidad. Sin base de datos vectorial, sin modelo de embeddings, sin estrategia de chunking, sin job de re-indexación. Cinco comandos de shell y un archivo de índice mantenido."
+			"text": "Escribimos una [comparativa técnica completa](/blog/business-knowledge-base-without-rag) de RAG frente a recuperación basada en índices. La versión corta: en las cargas de trabajo analizadas, el wiki compilado superó a RAG en precisión, coste y complejidad para bases de conocimiento de menos de 1.000 documentos. Sin base de datos vectorial, sin modelo de embeddings, sin estrategia de chunking, sin job de re-indexación. Cinco comandos de shell y un archivo de índice mantenido."
 		},
 		{
 			"type": "p",
@@ -142,7 +142,7 @@
 		},
 		{
 			"type": "p",
-			"text": "El patrón funciona porque markdown es simple y los LLMs son buenos leyéndolo y escribiéndolo. El coste de infraestructura es cero. El coste de mantenimiento es casi cero porque el LLM hace las tareas administrativas. El único coste real es la disciplina para mantener el esquema honesto y la calidad del ingest alta. Eso es un problema humano, no tecnológico."
+			"text": "El patrón funciona porque markdown es simple y los LLMs son buenos leyéndolo y escribiéndolo. El coste de infraestructura es cero. El coste de mantenimiento es bajo porque el LLM hace las tareas administrativas, aunque se recomienda una revisión humana periódica. El único coste real es la disciplina para mantener el esquema honesto y la calidad del ingest alta. Eso es un problema humano, no tecnológico."
 		},
 		{
 			"type": "h2",
@@ -158,7 +158,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Karpathy lo llama LLM wiki. Eric Osiu lo llama shared brain. Cody Schneider lo llama data warehouse. El nombre sigue cambiando. El patrón no: los agentes necesitan conocimiento compilado y estructurado para hacer trabajo útil. Todo lo demás es prompting en el vacío."
+			"text": "Karpathy lo llama LLM wiki. Eric Osiu lo llama shared brain. Cody Schneider lo llama data warehouse. El nombre sigue cambiando. El patrón no: los agentes necesitan conocimiento compilado y estructurado para hacer trabajo útil. Sin contexto persistente, los prompts operan sin el conocimiento institucional que necesitan."
 		},
 		{
 			"type": "p",

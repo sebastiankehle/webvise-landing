@@ -3,21 +3,21 @@
 	"readingTime": 9,
 	"keyword": "hermes agent production deployment",
 	"title": "Déployer Hermes Agent en production : la couche opérateur à 30 jours",
-	"excerpt": "La plupart des équipes Hermes à 4 profiles fonctionnent bien le premier jour et finissent par se fondre en une seule voix au bout de 30 jours. La couche opérateur qui l'évite : contrats de handoff, audits memory-KPI et portes de politique par rôle.",
-	"metaDescription": "Les équipes multi-agents Hermes Agent se brouillent à 30 jours. La couche opérateur : contrats de handoff, audits memory-KPI et portes de politique par rôle pour l'éviter.",
+	"excerpt": "La plupart des équipes Hermes à 4 profiles fonctionnent bien le premier jour et montrent des signes de convergence de voix au bout de 30 jours dans les déploiements réels. La couche opérateur qui l'évite : contrats de handoff, audits memory-KPI et portes de politique par rôle.",
+	"metaDescription": "Les équipes multi-agents Hermes Agent montrent une convergence de voix à 30 jours. La couche opérateur : contrats de handoff, audits memory-KPI et portes de politique par rôle pour l'éviter.",
 	"tags": ["AI Agents", "AI", "Open Source", "Process"],
 	"blocks": [
 		{
 			"type": "p",
-			"text": "**La couche opérateur de Hermes Agent est l'ensemble des pratiques qui maintient la cohérence d'une équipe multi-profiles au-delà de 30 jours.** Quatre primitives : des contrats de handoff capables de bloquer, des audits memory-KPI par profile, des portes de politique par rôle, et un état cron coordonné. Sans elles, une équipe à 4 profiles (Hermes + Alan + Mira + Turing) se fond en un agent indistinct en l'espace d'un mois."
+			"text": "**La couche opérateur de Hermes Agent est l'ensemble des pratiques qui maintient la cohérence d'une équipe multi-profiles au-delà de 30 jours.** Quatre primitives : des contrats de handoff capables de bloquer, des audits memory-KPI par profile, des portes de politique par rôle, et un état cron coordonné. Sans elles, une équipe à 4 profiles (Hermes + Alan + Mira + Turing) montre des signes de convergence de voix en l'espace d'un mois."
 		},
 		{
 			"type": "p",
-			"text": "Tous les guides opérateurs Hermes disponibles en ligne s'arrêtent au bootstrap à 4 profiles. Personne ne publie de captures d'écran du jour 30, parce que c'est à ce moment-là que les profiles commencent à se ressembler, que les handoffs se brisent silencieusement, et qu'une configuration dont vous étiez fier devient indiscernable d'un agent solo."
+			"text": "La plupart des guides opérateurs Hermes s'arrêtent actuellement au bootstrap à 4 profiles ; le matériel de déploiement au jour 30 est rare dans la documentation publique. C'est à ce moment-là que les profiles commencent à se ressembler, que les handoffs se brisent silencieusement, et qu'une configuration dont vous étiez fier devient indiscernable d'un agent solo."
 		},
 		{
 			"type": "p",
-			"text": "Si vous avez [Hermes Agent](/blog/hermes-agent-self-improving-ai) version 0.9.0 en fonctionnement avec les profiles Alan, Mira et Turing, la base est posée. Ce qui suit, c'est la couche opérateur. Chaque primitive ci-dessous est tirée de patterns de déploiement réels, associée au mode d'échec précis qui l'a rendue nécessaire."
+			"text": "Si [Hermes Agent](/blog/hermes-agent-self-improving-ai) version 0.9.0 tourne avec le bootstrap standard incluant les profiles Alan, Mira et Turing, la base est posée ; le travail à 30 jours commence à partir de là. Chaque primitive ci-dessous est tirée de patterns de déploiement réels, associée au mode d'échec précis qui l'a rendue nécessaire."
 		},
 		{
 			"type": "ul",
@@ -25,7 +25,7 @@
 				"**Les contrats de handoff ne sont réels que s'ils bloquent.** Si la forme d'entrée du profile récepteur est incorrecte, le handoff doit échouer, pas seulement avertir.",
 				"**La mémoire se dégrade par profile.** Lancez un audit `memory-kpi` hebdomadaire. Dépasser 15% de notes obsolètes (`stale_notes`) déclenche une passe `brain-resolve`.",
 				"**Les portes de politique préviennent la dérive silencieuse des privilèges.** Alan n'obtient jamais d'accès shell. Seul l'orchestrateur peut approuver les commits sur main.",
-				"**Quatre modes d'échec à 30 jours tuent la plupart des déploiements.** Dérive de profile, rot de handoff, surcharge du SOUL.md, collision cron. Chacun a une contre-mesure précise.",
+				"**Quatre modes d'échec à 30 jours expliquent la plupart des régressions de déploiement que nous avons observées.** Dérive de profile, rot de handoff, surcharge du SOUL.md, collision cron. Chacun a une contre-mesure précise.",
 				"**Lisez d'abord le [guide de définition de Hermes Agent](/blog/hermes-agent-self-improving-ai)** si vous avez besoin du contexte sur ce qu'est l'outil avant d'aborder la couche opérateur."
 			]
 		},
@@ -116,7 +116,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Ce principe est structurellement nécessaire. Un agent de recherche avec accès shell finira par exécuter une commande qu'il n'aurait pas dû. Un profile rédacteur avec accès aux secrets finira par les laisser fuiter dans un brouillon. La dérive de permissions se produit silencieusement et n'est évidente qu'après coup, ce qui est le mauvais moment pour s'en rendre compte."
+			"text": "Ce principe est structurellement nécessaire. Un agent de recherche avec accès shell finira par exécuter une commande qu'il n'aurait pas dû. Un profile rédacteur avec accès aux secrets finira par les laisser fuiter dans un brouillon. La dérive de permissions se produit silencieusement et n'est évidente qu'après coup, ce qui est un moment difficile pour découvrir la faille."
 		},
 		{
 			"type": "h2",
@@ -124,7 +124,7 @@
 		},
 		{
 			"type": "p",
-			"text": "Quatre modes d'échec spécifiques expliquent la plupart des effondrements multi-agents Hermes. Chacun a une contre-mesure directe. Ignorez l'un d'eux et l'équipe est excellente le premier jour, brouillée au bout de 30 jours."
+			"text": "Quatre modes d'échec spécifiques expliquent la plupart des régressions de déploiement observées dans les configurations multi-agents Hermes. Chacun a une contre-mesure directe. Ignorez l'un d'eux et l'équipe est excellente le premier jour, dégradée au bout de 30 jours."
 		},
 		{
 			"type": "h3",

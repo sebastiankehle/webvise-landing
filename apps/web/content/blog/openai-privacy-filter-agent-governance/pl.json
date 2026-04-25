@@ -9,7 +9,7 @@
   "blocks": [
     {
       "type": "p",
-      "text": "OpenAI właśnie udostępnił narzędzie, nie model. **openai/privacy-filter** to bidirektywny klasyfikator tokenów o 1,5 miliarda parametrów, opublikowany na licencji Apache 2.0, działający w przeglądarce, wykrywający osiem kategorii danych osobowych w jednym forward pass i wypełniający warstwę governance, którą większość stosów agentów pomija."
+      "text": "OpenAI właśnie udostępnił narzędzie, nie model. **openai/privacy-filter** to bidirektywny klasyfikator tokenów o 1,5 miliarda parametrów, opublikowany na licencji Apache 2.0, działający w przeglądarce, wykrywający osiem kategorii danych osobowych w jednym forward pass i pokrywający warstwę governance, którą większość stosów agentów niedocenia."
     },
     {
       "type": "p",
@@ -17,7 +17,7 @@
     },
     {
       "type": "p",
-      "text": "Jeśli uruchamia Pan/Pani agenty na danych klientów, redakcja PII to prawdopodobnie biblioteka wyrażeń regularnych, którą Pan/Pani utrzymuje, lub wywołanie LLM, za które woli Pan/Pani nie płacić. Ten artykuł omawia, czym naprawdę jest openai/privacy-filter, jakie decyzje architektoniczne mają znaczenie i gdzie powinien on znaleźć się w rzeczywistym stosie agent governance. Wyjaśniamy również, dlaczego to wydanie zmienia nasze stanowisko dotyczące agentów odczytujących niezaufane dane wejściowe, oraz co z tym zrobić w przypadku regulowanych obciążeń."
+      "text": "Jeśli uruchamia Pan/Pani agenty na danych klientów, redakcja PII jest zazwyczaj obsługiwana przez bibliotekę wyrażeń regularnych, którą Pan/Pani utrzymuje, lub przez kierowanie żądań przez LLM — oba podejścia mają swoje kompromisy. Ten artykuł omawia, czym naprawdę jest openai/privacy-filter, jakie decyzje architektoniczne mają znaczenie i gdzie powinien on znaleźć się w rzeczywistym stosie agent governance. Wyjaśniamy również, dlaczego to wydanie zmienia nasze stanowisko dotyczące agentów odczytujących niezaufane dane wejściowe, oraz co z tym zrobić w przypadku regulowanych obciążeń."
     },
     {
       "type": "h2",
@@ -47,7 +47,7 @@
     },
     {
       "type": "p",
-      "text": "Ma to znaczenie, ponieważ branża przez trzy lata traktowała generatywne LLM jako domyślny prymityw dla każdego problemu tekstowego, w tym tych, do których LLM są słabo przystosowane. Redakcja PII to problem klasyfikacji. Uruchamianie ogólnego modelu o 70 miliardach parametrów dla każdego przychodzącego żądania, żeby uprzejmie poprosić go o maskowanie adresów e-mail, to kosztowne obejście. Klasyfikator o 1,5 miliarda parametrów z 50 milionami aktywnych parametrów MoE wykonuje tę samą pracę w jednym forward pass, działa na laptopie i nie może halucynować nowych adresów e-mail."
+      "text": "Ma to znaczenie, ponieważ branża przez trzy lata traktowała generatywne LLM jako domyślny prymityw dla każdego problemu tekstowego, w tym tych, do których LLM są mniej odpowiednie. Redakcja PII to problem klasyfikacji. Uruchamianie ogólnego modelu o 70 miliardach parametrów dla każdego przychodzącego żądania, żeby uprzejmie poprosić go o maskowanie adresów e-mail, jest obliczeniowo kosztowne dla zadania, które jest w istocie problemem klasyfikacji. Klasyfikator o 1,5 miliarda parametrów z 50 milionami aktywnych parametrów MoE wykonuje tę samą pracę w jednym forward pass, działa na laptopie i nie może halucynować nowych adresów e-mail."
     },
     {
       "type": "p",
@@ -249,7 +249,7 @@
     },
     {
       "type": "p",
-      "text": "Jeśli stos agentów nie posiada warstwy minimalizacji danych, to wydanie jest podstawą do jej zbudowania. Jeśli potrzebna jest pomoc przy integrowaniu tego w coś, na czym klienci mogą rzeczywiście polegać na produkcji, [webvise to zbuduje](/#contact)."
+      "text": "Jeśli stos agentów nie posiada warstwy minimalizacji danych, to wydanie stanowi solidny punkt wyjścia open-weight do jej zbudowania. Jeśli potrzebna jest pomoc przy integrowaniu tego w coś, na czym klienci mogą rzeczywiście polegać na produkcji, [webvise to zbuduje](/#contact)."
     }
   ]
 }
