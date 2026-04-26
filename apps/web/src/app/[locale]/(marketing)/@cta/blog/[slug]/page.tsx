@@ -1,4 +1,4 @@
-import { getLocale, getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import FooterCtaBanner from "@/components/marketing/footer-cta-banner";
 import { getBlogPostBySlug, getBlogPosts } from "@/data/blog";
@@ -36,10 +36,10 @@ function getCtaCategory(tags?: string[]): string | null {
 export default async function BlogCta({
 	params,
 }: {
-	params: Promise<{ slug: string }>;
+	params: Promise<{ locale: string; slug: string }>;
 }) {
-	const { slug } = await params;
-	const locale = await getLocale();
+	const { locale, slug } = await params;
+	setRequestLocale(locale);
 	const post = getBlogPostBySlug(slug, locale);
 	const t = await getTranslations("blog");
 

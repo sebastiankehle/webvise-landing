@@ -1,5 +1,6 @@
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
+import { cache } from "react";
 
 export type Block =
 	| { type: "p"; text: string }
@@ -45,8 +46,19 @@ interface LocaleContent {
 
 const contentDir = join(process.cwd(), "content/blog");
 
-// Cache parsed post files
 const postCache = new Map<string, PostFile | LocaleContent>();
+const collectionCache = new Map<string, BlogPost[]>();
+const indexCache = new Map<string, BlogIndexEntry[]>();
+let slugsCache: string[] | null = null;
+
+export interface BlogIndexEntry {
+	slug: string;
+	title: string;
+	date: string;
+	readingTime: number;
+	excerpt: string;
+	tags?: string[];
+}
 
 function cacheKey(slug: string, locale: string): string {
 	return `${slug}:${locale}`;
@@ -92,14 +104,19 @@ function loadContent(
 
 /** Discover all post slugs from content/blog directories */
 function getPostSlugs(): string[] {
-	if (!existsSync(contentDir)) return [];
-	return readdirSync(contentDir).filter((entry) => {
+	if (slugsCache) return slugsCache;
+	if (!existsSync(contentDir)) {
+		slugsCache = [];
+		return slugsCache;
+	}
+	slugsCache = readdirSync(contentDir).filter((entry) => {
 		const entryPath = join(contentDir, entry);
 		return (
 			statSync(entryPath).isDirectory() &&
 			existsSync(join(entryPath, "en.json"))
 		);
 	});
+	return slugsCache;
 }
 
 function toPost(slug: string, locale: string): BlogPost | null {
@@ -120,29 +137,49 @@ function toPost(slug: string, locale: string): BlogPost | null {
 }
 
 export function getBlogPosts(locale: string): BlogPost[] {
-	return getPostSlugs()
+	const cached = collectionCache.get(locale);
+	if (cached) return cached;
+	const posts = getPostSlugs()
 		.map((slug) => toPost(slug, locale))
 		.filter((post): post is BlogPost => post !== null)
 		.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+	collectionCache.set(locale, posts);
+	return posts;
 }
 
-export function getBlogPostBySlug(
-	slug: string,
-	locale: string,
-): BlogPost | undefined {
-	return toPost(slug, locale) ?? undefined;
+export function getBlogIndex(locale: string): BlogIndexEntry[] {
+	const cached = indexCache.get(locale);
+	if (cached) return cached;
+	const index = getBlogPosts(locale).map(
+		({ slug, title, date, readingTime, excerpt, tags }) => ({
+			slug,
+			title,
+			date,
+			readingTime,
+			excerpt,
+			tags,
+		}),
+	);
+	indexCache.set(locale, index);
+	return index;
 }
+
+export const getBlogPostBySlug = cache(
+	(slug: string, locale: string): BlogPost | undefined => {
+		return toPost(slug, locale) ?? undefined;
+	},
+);
 
 export function getAdjacentPosts(
 	slug: string,
 	locale: string,
-): { prev: BlogPost | null; next: BlogPost | null } {
-	const posts = getBlogPosts(locale);
-	const index = posts.findIndex((p) => p.slug === slug);
-	if (index === -1) return { prev: null, next: null };
+): { prev: BlogIndexEntry | null; next: BlogIndexEntry | null } {
+	const index = getBlogIndex(locale);
+	const i = index.findIndex((p) => p.slug === slug);
+	if (i === -1) return { prev: null, next: null };
 	return {
-		prev: index < posts.length - 1 ? posts[index + 1] : null,
-		next: index > 0 ? posts[index - 1] : null,
+		prev: i < index.length - 1 ? index[i + 1] : null,
+		next: i > 0 ? index[i - 1] : null,
 	};
 }
 

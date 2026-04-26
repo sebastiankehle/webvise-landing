@@ -1,7 +1,7 @@
 import { Shield } from "lucide-react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getLocale, getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import JsonLd from "@/components/json-ld";
 import BlogShare from "@/components/marketing/blog-share";
 import ReportDownloadForm from "@/components/marketing/report-download-form";
@@ -33,10 +33,10 @@ export function generateStaticParams() {
 export async function generateMetadata({
 	params,
 }: {
-	params: Promise<{ slug: string }>;
+	params: Promise<{ locale: string; slug: string }>;
 }): Promise<Metadata> {
-	const { slug } = await params;
-	const locale = await getLocale();
+	const { locale, slug } = await params;
+	setRequestLocale(locale);
 	const post = getBlogPostBySlug(slug, locale);
 	if (!post) return {};
 
@@ -243,10 +243,10 @@ function RenderBlock({ block }: { block: Block }) {
 export default async function BlogPostPage({
 	params,
 }: {
-	params: Promise<{ slug: string }>;
+	params: Promise<{ locale: string; slug: string }>;
 }) {
-	const { slug } = await params;
-	const locale = await getLocale();
+	const { locale, slug } = await params;
+	setRequestLocale(locale);
 	const post = getBlogPostBySlug(slug, locale);
 
 	if (!post) {

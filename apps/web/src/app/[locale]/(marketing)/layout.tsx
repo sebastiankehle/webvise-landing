@@ -1,9 +1,9 @@
 import { getLocale } from "next-intl/server";
 
-import ChatWidget from "@/components/marketing/chat-widget";
+import ChatWidgetMount from "@/components/marketing/chat-widget-mount";
 import Footer from "@/components/marketing/footer";
 import Navbar from "@/components/marketing/navbar";
-import { getBlogPosts } from "@/data/blog";
+import { getBlogIndex } from "@/data/blog";
 import { getCaseStudies } from "@/data/case-studies";
 
 export default async function MarketingLayout({
@@ -14,7 +14,7 @@ export default async function MarketingLayout({
 	cta: React.ReactNode;
 }) {
 	const locale = await getLocale();
-	const recentPosts = getBlogPosts(locale)
+	const recentPosts = getBlogIndex(locale)
 		.slice(0, 3)
 		.map(({ slug, title, date, readingTime }) => ({
 			slug,
@@ -56,7 +56,7 @@ export default async function MarketingLayout({
 				{children}
 			</main>
 			<Footer ctaBanner={cta} />
-			<ChatWidget />
+			<ChatWidgetMount />
 		</>
 	);
 }
