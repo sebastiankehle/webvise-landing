@@ -1,0 +1,297 @@
+{
+	"date": "2026-04-27",
+	"readingTime": 11,
+	"keyword": "intent debt dette technique IA",
+	"title": "Pourquoi les équipes IA livrent plus vite et lancent moins bien : le problème de l'intent debt",
+	"excerpt": "L'IA a rendu l'écriture de code presque gratuite. Décider quoi écrire est devenu plus difficile. Cet écart, c'est l'**intent debt** (la dette d'intention), et il s'accumule plus vite que n'importe quelle base de code héritée.",
+	"metaDescription": "L'IA a rendu le code presque gratuit à écrire. Décider quoi écrire est devenu plus difficile. Cet écart est l'intent debt, et c'est pourquoi votre équipe livre plus vite mais lance moins bien.",
+	"tags": ["AI", "Business Strategy", "Process"],
+	"blocks": [
+		{
+			"type": "p",
+			"text": "L'IA a rendu l'écriture de code presque gratuite. Décider quoi écrire est devenu plus difficile. Cet écart, c'est l'**intent debt** (la dette d'intention), et il s'accumule plus vite que n'importe quelle base de code héritée."
+		},
+		{
+			"type": "p",
+			"text": "Garry Tan rapporte avoir livré 37 000 lignes de code par jour sur cinq projets tout en dirigeant Y Combinator à plein temps. Les propres ingénieurs d'Anthropic ont accumulé 47 jours de régressions silencieuses dans Claude Code avant de les identifier dans un postmortem public le 23 avril 2026. Ces deux chiffres décrivent le même problème par ses deux extrémités."
+		},
+		{
+			"type": "p",
+			"text": "Si votre équipe écrit plus de code que jamais et livre de moins bons résultats qu'il y a un an, vous observez l'intent debt s'accumuler en temps réel. La dette technique était la taxe sur le codage lent. L'intent debt est la taxe sur la décision lente. Cet article nomme le goulot d'étranglement, explique pourquoi vos couches de revue et d'évaluation ne peuvent pas le détecter, et présente les quatre actions qui permettent de l'amortir."
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**L'IA a compressé le temps de codage de 30 à 100 fois.** Elle a compressé le temps de décision de 3 à 5 fois. Cet écart est le nouveau goulot d'étranglement.",
+				"**L'intent debt se situe en amont de chaque couche de revue.** Les outils de revue de code IA, les évaluations et les agents QA détectent le mauvais code ; ils ne détectent pas la mauvaise chose bien construite.",
+				"**Les 47 jours de régression silencieuse d'Anthropic dans Claude Code sont un postmortem d'intent debt déguisé en problème d'évaluation.** La dérive n'était pas dans le code : elle était dans ce à quoi l'équipe prêtait attention.",
+				"**Le correctif est structurel, pas tactique.** On ne peut pas en sortir en livrant davantage. On ne peut en sortir qu'en décidant mieux, plus vite et plus tôt.",
+				"**webvise traite la capture de l'intention comme le livrable**, et non comme une activité pré-vente gratuite. [Voyez où cela s'applique dans votre équipe](/#contact)."
+			]
+		},
+		{
+			"type": "h2",
+			"text": "Ce qu'est réellement l'intent debt"
+		},
+		{
+			"type": "p",
+			"text": "La dette technique est le terme que [Ward Cunningham a inventé en 1992](https://en.wikipedia.org/wiki/Technical_debt) pour décrire le coût futur du choix d'une solution rapide plutôt que d'une solution propre. L'échange avait une économie claire. Vous livriez plus tôt, vous payiez des intérêts sous forme d'une maintenance plus difficile, et le principal restait dans la base de code comme quelque chose à refactoriser quand vous en auriez le temps."
+		},
+		{
+			"type": "p",
+			"text": "L'intent debt a la même forme. L'échange est un code plus rapide contre des décisions plus floues. Vous livrez plus tôt parce que l'IA a écrit l'implémentation en 30 minutes au lieu de trois jours, et les intérêts représentent tout ce qui s'accumule en aval quand personne n'a défini dès le départ ce que devait être le bon résultat."
+		},
+		{
+			"type": "p",
+			"text": "Le vocabulaire manque parce que l'échange est nouveau. Les écrits de Martin Fowler sur la dénomination et l'intention de conception supposent un monde où écrire le code était l'étape coûteuse, de sorte que bien concevoir rentabilisait l'effort en évitant les réécritures."
+		},
+		{
+			"type": "p",
+			"text": "Cette hypothèse s'est inversée en 2024. Quand une réécriture prend une journée, l'étape de conception cesse de se rentabiliser comme avant. Les équipes le constatent et sautent l'étape de conception, qui était précisément l'endroit où l'intention était formalisée en quelque chose d'exploitable."
+		},
+		{
+			"type": "p",
+			"text": "Deux modes d'échec que j'ai observés personnellement."
+		},
+		{
+			"type": "p",
+			"text": "Le premier : une fonctionnalité est livrée en trois jours, là où il aurait fallu trois semaines avant l'IA. Elle fonctionne. Elle résout aussi un problème que personne n'avait, parce que la spécification était un message Slack et que l'implémenteur était un agent [Cursor](https://cursor.com). Le coût de construction était si faible que personne n'a remis en question l'intérêt de construire."
+		},
+		{
+			"type": "p",
+			"text": "Le second : un ingénieur senior tue six directions produit en une seule année. Aucune ne meurt pour des raisons techniques. Chacune meurt à l'étape de pré-vente, et l'ingénieur continue à sauter la pré-vente parce qu'écrire du code lui semble plus productif. Cet ingénieur, c'est moi, et le coût post-mortem de ces six directions était plus élevé que n'importe quelle dette technique que j'ai jamais amortie."
+		},
+		{
+			"type": "p",
+			"text": "Ces deux histoires sont de l'intent debt avec les reçus. La plupart des équipes d'ingénierie essaient encore de les résoudre au niveau de la construction, avec un autre outil de revue, une autre évaluation, un autre linter. Le correctif se situe un niveau au-dessus. Si votre équipe produit des reçus de ce type, [nous avons construit webvise autour de cette inversion](/#contact)."
+		},
+		{
+			"type": "h2",
+			"text": "Les chiffres derrière le changement"
+		},
+		{
+			"type": "p",
+			"text": "Les données de première main les plus claires sur l'asymétrie proviennent du fichier gstack ETHOS de Garry Tan, publié en avril 2026. Tan livre une boîte à outils d'agents open source depuis Y Combinator et instrumente ses agents avec des ratios explicites de compression humain/IA pour chaque type de tâche."
+		},
+		{
+			"type": "table",
+			"headers": ["Type de tâche", "Équipe humaine", "Assisté par IA", "Compression"],
+			"rows": [
+				["Boilerplate / scaffolding", "2 jours", "15 min", "~100x"],
+				["Écriture de tests", "1 jour", "15 min", "~50x"],
+				["Implémentation de fonctionnalité", "1 semaine", "30 min", "~30x"],
+				["Correction de bug + test de régression", "4 heures", "15 min", "~20x"],
+				["Architecture / conception", "2 jours", "4 heures", "~5x"],
+				["Recherche / exploration", "1 jour", "3 heures", "~3x"]
+			]
+		},
+		{
+			"type": "p",
+			"text": "Lisez le tableau colonne par colonne. Le boilerplate se compresse à 100x, l'écriture de tests à 50x, le travail sur les fonctionnalités à 30x. L'architecture et la recherche se compriment à 5x et 3x."
+		},
+		{
+			"type": "p",
+			"text": "Les trois dernières lignes sont le travail de décision. Elles se compriment, mais à un dixième du rythme des trois premières. C'est la source structurelle de l'intent debt : le codage est désormais presque gratuit, décider reste coûteux."
+		},
+		{
+			"type": "p",
+			"text": "Concrètement : si votre équipe consacrait auparavant 80 % d'une journée d'ingénierie au code et 20 % aux décisions, le nouveau ratio après une compression 30x du code ressemble à 12 % de code et 88 % de décisions. La plupart des équipes ont conservé les mêmes effectifs, le même rythme de réunions et la même structure de revue, puis ont vu la deuxième colonne déborder."
+		},
+		{
+			"type": "p",
+			"text": "Ce débordement, c'est ce à quoi ressemble l'intent debt en pratique."
+		},
+		{
+			"type": "h2",
+			"text": "Trois symptômes que vous le portez déjà"
+		},
+		{
+			"type": "p",
+			"text": "L'intent debt est invisible jusqu'à ce qu'on le nomme. Trois symptômes apparaissent dans les équipes avec lesquelles je travaille."
+		},
+		{
+			"type": "h3",
+			"text": "Réflexe de réduction de périmètre sur un travail au coût complété"
+		},
+		{
+			"type": "p",
+			"text": "Vous vous surprenez à écrire trois tests au lieu de dix, à sauter la documentation, à appeler 80 % \"suffisant\". Ce réflexe avait du sens quand le temps humain était la contrainte principale. Avec l'IA dans la boucle, la version complète coûte les mêmes minutes que le contournement."
+		},
+		{
+			"type": "p",
+			"text": "Ce réflexe est désormais une pensée héritée, appliquée automatiquement. Le coût n'est pas les tests manquants : c'est l'habitude de décision qui dit que livrer plus tôt vaut mieux que livrer juste, quand livrer plus tôt ne vous fait plus gagner de temps."
+		},
+		{
+			"type": "h3",
+			"text": "Plus de revues, moins de décisions"
+		},
+		{
+			"type": "p",
+			"text": "[Elie Steinbock](https://x.com/elie2222) a publié une thèse le 20 avril 2026 qui nomme la revue comme le nouveau goulot d'étranglement. Il liste sept couches de défense, des outils de revue de code IA comme Cubic et CodeRabbit aux agents QA dédiés et à l'observabilité ciblée. Les équipes adoptent ces couches et la surface de revue absorbe une part croissante de la journée."
+		},
+		{
+			"type": "p",
+			"text": "L'intent debt se situe en amont de chacun de ces outils. Les outils de revue IA détectent le mauvais code ; ils ne détectent pas la mauvaise chose bien construite. Un agent QA qui parcourt chaque flux à chaque version vous dira que le flux fonctionne, pas s'il devrait exister."
+		},
+		{
+			"type": "h3",
+			"text": "Dérive silencieuse que vous ne voyez qu'en postmortem"
+		},
+		{
+			"type": "p",
+			"text": "Anthropic a publié un postmortem le 23 avril 2026 documentant 47 jours de régressions silencieuses dans Claude Code. Le cadrage principal était \"les évaluations ne détectent pas la dérive\". Le cadrage plus profond est que la dérive s'accumule dans l'écart entre ce que l'équipe avait l'intention de faire et ce que le système faisait réellement."
+		},
+		{
+			"type": "p",
+			"text": "Chaque équipe qui utilise le développement assisté par IA a sa propre fenêtre de 47 jours ouverte en ce moment. La plupart des équipes ne la trouveront que dans un postmortem."
+		},
+		{
+			"type": "h2",
+			"text": "Pourquoi les revues et les évaluations ne peuvent pas le détecter"
+		},
+		{
+			"type": "p",
+			"text": "Les outils de revue répondent à la question : \"le code a-t-il fait ce que la spécification disait ?\" Les suites d'évaluation répondent à : \"le modèle s'est-il comporté comme l'évaluation l'attendait ?\" Ce sont des questions correctes et étroites. Les deux traitent la spécification et l'évaluation comme une vérité de référence."
+		},
+		{
+			"type": "p",
+			"text": "L'intent debt s'accumule à la couche supérieure. Le coût réside dans l'écart entre ce dont le client avait besoin, ce que le brief disait, et ce que la spécification a capturé. Au moment où le code arrive devant un outil de revue, la spécification a déjà figé l'intention. Le réviseur ne peut pas détecter un défaut de spécification : il ne peut que signaler des défauts d'implémentation par rapport à une spécification défectueuse."
+		},
+		{
+			"type": "p",
+			"text": "C'est la même forme que la dérive chez Anthropic. L'équipe Claude Code avait des évaluations. Les évaluations passaient."
+		},
+		{
+			"type": "p",
+			"text": "La dérive était dans ce que les évaluations mesuraient par rapport à ce que les utilisateurs vivaient réellement. 47 jours de feux verts, des utilisateurs réels touchant une régression chaque jour. Le correctif n'est pas davantage d'évaluations : c'est un retour d'information plus étroit entre les personnes qui décident quoi mesurer et celles qui observent le signal de production."
+		},
+		{
+			"type": "p",
+			"text": "La pensée centrée sur les goulots de revue traite cela comme un problème d'outillage. C'est un problème de couches. Associez cet article à notre précédent texte sur [pourquoi les logiciels générés par l'IA ont encore besoin d'une révision d'ingénierie](/blog/vibe-coding-trap-ai-software-needs-engineers) pour la moitié de l'argument relative à la couche de construction. Pour amortir l'intent debt, vous devez poser une question différente, plus tôt."
+		},
+		{
+			"type": "h2",
+			"text": "La couche de décision ne se comprime pas comme le code"
+		},
+		{
+			"type": "p",
+			"text": "Le cadrage de Tan sur la raison pour laquelle c'est structurel : \"vous apportez le goût en dialoguant avec l'agent\". L'agent apporte l'exhaustivité. L'humain apporte la direction et le jugement. Le goût ne suit pas la même courbe de compression que le code."
+		},
+		{
+			"type": "p",
+			"text": "Trois composantes du goût que la génération de code ne peut pas remplacer."
+		},
+		{
+			"type": "h3",
+			"text": "Choisir le bon problème"
+		},
+		{
+			"type": "p",
+			"text": "La thèse \"services-as-software\" d'Alex Vacca, publiée via Julien Bek (associé chez Sequoia) en avril 2026, capture la version élargie de cela. Les éditeurs de logiciels qui vendent l'outil courent éternellement après le modèle. Les entreprises qui possèdent le travail et utilisent le modèle pour le livrer s'améliorent à chaque fois que le modèle s'améliore."
+		},
+		{
+			"type": "p",
+			"text": "La même logique s'applique au sein des équipes. Les ingénieurs qui choisissent le bon problème s'améliorent à chaque fois que le modèle s'améliore. Les ingénieurs qui n'exécutent que des spécifications transmises deviennent une marchandise du jour au lendemain."
+		},
+		{
+			"type": "h3",
+			"text": "Savoir quand s'arrêter"
+		},
+		{
+			"type": "p",
+			"text": "Les outils IA ne vous disent jamais de vous arrêter. Un LLM s'engagera dans le dix-septième angle sur le même problème avec le même enthousiasme que le premier, et chaque réponse donnera l'impression d'être un progrès. Sans condition de sortie externe, la boucle tourne indéfiniment."
+		},
+		{
+			"type": "p",
+			"text": "Les ingénieurs expérimentés imposaient autrefois la sortie en s'ennuyant ou en manquant de temps. Ces deux budgets sont désormais infinis. La condition de sortie doit être définie explicitement à l'avance, avant le premier prompt."
+		},
+		{
+			"type": "h3",
+			"text": "Nommer ce que personne d'autre ne nommera"
+		},
+		{
+			"type": "p",
+			"text": "Le livrable de première main le plus difficile qu'un ingénieur senior produise est le désaccord : le message \"c'est la mauvaise chose à construire\" qui préempt un trimestre d'exécution. Les agents IA ne s'opposent pas. Ils construisent ce que vous demandez, complètement, sur une courbe de compression à 100x."
+		},
+		{
+			"type": "p",
+			"text": "Vous livrez ce que vous avez demandé, et vous réalisez seulement plus tard que vous avez demandé la mauvaise chose."
+		},
+		{
+			"type": "h2",
+			"text": "Quatre actions pour amortir l'intent debt"
+		},
+		{
+			"type": "p",
+			"text": "Ces actions sont tactiques. Elles supposent que votre équipe a déjà nommé le problème et cessé d'essayer de l'absorber au niveau de la revue."
+		},
+		{
+			"type": "h3",
+			"text": "Pré-vendre avant d'ouvrir l'éditeur"
+		},
+		{
+			"type": "p",
+			"text": "C'est l'action que j'ai dû réapprendre à la dure. Si vous construisez quoi que ce soit pour quelqu'un d'autre que vous-même, obtenez un engagement verbal, un acompte ou une lettre d'intention avant qu'un agent n'écrive une seule ligne."
+		},
+		{
+			"type": "p",
+			"text": "L'enthousiasme verbal n'est pas de la demande. Les votes positifs à un lancement ne sont pas de la demande. Une liste d'attente sans enjeu n'est pas de la demande. Le coût de construction est si faible que le seul filtre restant est de savoir si le client paiera."
+		},
+		{
+			"type": "h3",
+			"text": "Traiter la spécification comme le livrable, pas le code"
+		},
+		{
+			"type": "p",
+			"text": "Avant l'IA, la spécification était un document de travail et le code était le livrable. Après l'IA, le code est régénérable et la spécification est la chose durable."
+		},
+		{
+			"type": "p",
+			"text": "Rédigez des spécifications qui nomment explicitement le client, les modes d'échec et la métrique de succès. Stockez-les sous contrôle de version à côté du code. Quand la spécification change, la régénération est triviale ; quand la spécification est fausse, aucune régénération ne vous sauvera."
+		},
+		{
+			"type": "h3",
+			"text": "Conduire une revue de décision à deux modèles"
+		},
+		{
+			"type": "p",
+			"text": "Un seul LLM peut rationaliser n'importe quelle direction ; un second modèle invité à contester détecte la moitié des mauvais choix. Ce schéma fonctionne pour la revue de code, où nous utilisons Claude + Codex + Gemini en cross-check sur chaque fonctionnalité livrée."
+		},
+		{
+			"type": "p",
+			"text": "L'usage à plus forte valeur est la revue de décision. Montrez la spécification à deux modèles, demandez-leur de s'opposer, pesez le désaccord avant de construire. Le coût est négligeable comparé à la construction de la mauvaise chose."
+		},
+		{
+			"type": "h3",
+			"text": "Tenir un fichier des directions abandonnées"
+		},
+		{
+			"type": "p",
+			"text": "Chaque produit, fonctionnalité ou campagne que vous avez abandonné avant de livrer entre dans un document avec la raison. La raison importe plus que le nombre. Lisez-le avant de commencer quoi que ce soit de nouveau."
+		},
+		{
+			"type": "p",
+			"text": "Le schéma des raisons pour lesquelles les directions meurent est l'amortissement d'intent debt le moins coûteux disponible, et presque toutes les équipes le négligent. Si vous évaluez où appliquer ces actions dans votre équipe, [webvise peut vous aider](/#contact)."
+		},
+		{
+			"type": "h2",
+			"text": "Ce que cela signifie quand vous choisissez un partenaire web"
+		},
+		{
+			"type": "p",
+			"text": "L'erreur la plus coûteuse qu'une équipe à l'ère de l'IA puisse commettre est de recruter une agence qui ne possède que la couche de construction. La construction est désormais la partie bon marché. La couche de décision (quoi livrer, quand abandonner, qui est vraiment l'utilisateur) est là où se trouve le multiplicateur."
+		},
+		{
+			"type": "p",
+			"text": "La plupart des agences tarifent encore la construction parce que c'est ce que leur modèle de marge sait faire. Nous avons construit webvise autour de l'inversion."
+		},
+		{
+			"type": "p",
+			"text": "Nos engagements en [automatisation IA](/services/ai-automation) et en [applications full-stack](/services/full-stack-applications) démarrent par un sprint de découverte qui produit une spécification écrite, une liste de directions abandonnées, et une revue de décision à deux modèles sur chaque élément de périmètre validé. Nous pouvons livrer une fonctionnalité en une journée. Nous n'en livrerons pas une tant que l'équipe n'aura pas défini à quoi ressemble le succès en production."
+		},
+		{
+			"type": "p",
+			"text": "Si vous avez livré plus de code que jamais ce trimestre et vous sentez plus loin d'un produit fonctionnel qu'il y a six mois, [réservez un appel de découverte](/#contact). La façon la plus rapide d'amortir l'intent debt est de cesser d'en accumuler davantage."
+		}
+	]
+}

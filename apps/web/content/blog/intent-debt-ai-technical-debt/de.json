@@ -1,0 +1,297 @@
+{
+	"date": "2026-04-27",
+	"readingTime": 11,
+	"keyword": "Intent Debt KI technische Schulden",
+	"title": "Warum KI-Teams schneller liefern und schlechter launchen: Das Intent-Debt-Problem",
+	"excerpt": "KI hat das Schreiben von Code nahezu kostenlos gemacht. Zu entscheiden, was geschrieben werden soll, wurde schwieriger. Diese Lücke ist **Intent Debt**, und sie wächst schneller als jede Legacy-Codebasis.",
+	"metaDescription": "KI hat Code nahezu kostenlos gemacht. Zu entscheiden, was geschrieben werden soll, wurde schwieriger. Diese Lücke ist Intent Debt, und deshalb liefert Ihr Team schneller, aber launcht schlechter.",
+	"tags": ["AI", "Business Strategy", "Process"],
+	"blocks": [
+		{
+			"type": "p",
+			"text": "KI hat das Schreiben von Code nahezu kostenlos gemacht. Zu entscheiden, was geschrieben werden soll, wurde schwieriger. Diese Lücke ist **Intent Debt**, und sie wächst schneller als jede Legacy-Codebasis."
+		},
+		{
+			"type": "p",
+			"text": "Garry Tan berichtet, er liefere 37.000 Codezeilen pro Tag über fünf Projekte, während er Y Combinator vollzeit leitet. Anthropics eigene Ingenieure haben 47 Tage stille Regressionen in Claude Code gebaut, bevor diese in einem öffentlichen Post-mortem am 23. April 2026 aufgedeckt wurden. Beide Zahlen beschreiben dasselbe Problem von entgegengesetzten Seiten."
+		},
+		{
+			"type": "p",
+			"text": "Wenn Ihr Team mehr Code als je zuvor schreibt und schlechtere Ergebnisse als vor einem Jahr liefert, beobachten Sie **Intent Debt** in Echtzeit. Technische Schulden waren die Steuer auf langsames Programmieren. **Intent Debt** ist die Steuer auf langsames Entscheiden. Dieser Artikel benennt den Engpass, zeigt, warum Review- und Eval-Schichten ihn nicht abfangen können, und beschreibt die vier Maßnahmen, die ihn abbauen."
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**KI hat die Coding-Zeit um das 30- bis 100-Fache komprimiert.** Die Entscheidungszeit hat sie um das 3- bis 5-Fache komprimiert. Die Lücke ist der neue Engpass.",
+				"**Intent Debt liegt oberhalb jeder Review-Schicht.** KI-Code-Reviewer, Evals und QA-Agenten erkennen schlechten Code. Sie erkennen nicht, wenn das Falsche gut gebaut wurde.",
+				"**Anthropics 47 Tage stille Regressionen in Claude Code sind ein Intent-Debt-Post-mortem, das als Eval-Problem verkleidet ist.** Der Drift lag nicht im Code, sondern darin, worauf das Team achtete.",
+				"**Die Lösung ist strukturell, nicht taktisch.** Man kann sich nicht herausliefern. Man kann sich nur herausentscheiden: schneller und früher.",
+				"**webvise behandelt Intent-Capture als das eigentliche Ergebnis**, nicht als kostenlose Vorstufe. [Erfahren Sie, wo das für Ihr Team gilt](/#contact)."
+			]
+		},
+		{
+			"type": "h2",
+			"text": "Was Intent Debt wirklich ist"
+		},
+		{
+			"type": "p",
+			"text": "Technische Schulden war der Begriff, den [Ward Cunningham 1992 geprägt hat](https://en.wikipedia.org/wiki/Technical_debt), um die zukünftigen Kosten zu beschreiben, eine schnelle Lösung einer sauberen vorzuziehen. Das Tauschgeschäft hatte klare Ökonomie. Sie lieferten früher, zahlten Zinsen in Form von schwieriger zu wartendem Code, und das Kapital lag im Code als etwas, das Sie bei Gelegenheit refaktorieren konnten."
+		},
+		{
+			"type": "p",
+			"text": "**Intent Debt** hat dieselbe Form. Das Tauschgeschäft ist schnellerer Code gegen unschärfere Entscheidungen. Sie liefern früher, weil die KI die Implementierung in 30 Minuten statt in drei Tagen schrieb, und die Zinsen sind alles Nachgelagerte, das sich ansammelt, wenn niemand festgelegt hat, wie das richtige Ergebnis von Anfang an hätte aussehen sollen."
+		},
+		{
+			"type": "p",
+			"text": "Das Vokabular fehlt, weil das Tauschgeschäft neu ist. Martin Fowlers Schriften zu Benennung und Design-Intent setzen eine Welt voraus, in der das Schreiben von Code der teure Schritt war, sodass ein gutes Design sich durch weniger Nachbearbeitung bezahlt machte."
+		},
+		{
+			"type": "p",
+			"text": "Diese Annahme kehrte sich 2024 um. Wenn Neuprogrammieren einen Tag dauert, amortisiert sich der Design-Schritt nicht mehr wie früher. Teams bemerken das und überspringen den Design-Schritt, der die Stelle war, an der Intent in etwas verdichtet wurde, über das die nächste Person nachdenken konnte."
+		},
+		{
+			"type": "p",
+			"text": "Zwei Fehlerbilder, die ich persönlich beobachtet habe."
+		},
+		{
+			"type": "p",
+			"text": "Das erste: Ein Feature wird in drei Tagen geliefert, das vor der KI drei Wochen gedauert hätte. Es funktioniert. Es löst auch ein Problem, das niemand hatte, weil das Spec eine Slack-Nachricht war und der Umsetzer ein [Cursor](https://cursor.com)-Agent. Die Baukosten waren so niedrig, dass niemand hinterfragt hat, ob es sich zu bauen lohnt."
+		},
+		{
+			"type": "p",
+			"text": "Das zweite: Ein Senior-Ingenieur beendet sechs Produktrichtungen in einem einzigen Jahr. Keine stirbt aus technischen Gründen. Jede stirbt im Pre-Sell-Schritt, und der Ingenieur überspringt das Pre-Sell immer wieder, weil Code schreiben produktiver wirkt. Dieser Ingenieur bin ich, und die Post-mortem-Kosten dieser sechs Richtungen waren höher als alle technischen Schulden, die ich je abgebaut habe."
+		},
+		{
+			"type": "p",
+			"text": "Beide Geschichten sind **Intent Debt** mit Belegen. Die meisten Engineering-Teams versuchen immer noch, sie auf der Build-Schicht zu lösen: mit einem weiteren Reviewer, einem weiteren Eval, einem weiteren Linter. Die Lösung liegt eine Schicht höher. Wenn Ihr Team ähnliche Belege produziert, [haben wir webvise um diese Umkehrung gebaut](/#contact)."
+		},
+		{
+			"type": "h2",
+			"text": "Die Zahlen hinter dem Wandel"
+		},
+		{
+			"type": "p",
+			"text": "Die klarsten First-Party-Daten zur Asymmetrie kommen aus Garry Tans gstack-ETHOS-Datei, veröffentlicht im April 2026. Tan liefert ein Open-Source-Agent-Toolkit von Y Combinator und instrumentiert seine Agenten mit expliziten Mensch-KI-Kompressionsverhältnissen für jeden Aufgabentyp."
+		},
+		{
+			"type": "table",
+			"headers": ["Aufgabentyp", "Menschliches Team", "KI-unterstützt", "Kompression"],
+			"rows": [
+				["Boilerplate / Scaffolding", "2 Tage", "15 Min.", "~100x"],
+				["Tests schreiben", "1 Tag", "15 Min.", "~50x"],
+				["Feature-Implementierung", "1 Woche", "30 Min.", "~30x"],
+				["Bugfix + Regressionstest", "4 Stunden", "15 Min.", "~20x"],
+				["Architektur / Design", "2 Tage", "4 Stunden", "~5x"],
+				["Recherche / Exploration", "1 Tag", "3 Stunden", "~3x"]
+			]
+		},
+		{
+			"type": "p",
+			"text": "Lesen Sie die Tabelle spaltenweise. Boilerplate komprimiert 100x, Tests 50x, Feature-Arbeit 30x. Architektur und Recherche komprimieren 5x und 3x."
+		},
+		{
+			"type": "p",
+			"text": "Die unteren drei Zeilen sind Intent-Arbeit. Sie komprimieren, aber mit einem Zehntel der Rate der oberen drei. Das ist die strukturelle Quelle von **Intent Debt**: Coding ist jetzt nahezu kostenlos, Entscheiden ist noch immer teuer."
+		},
+		{
+			"type": "p",
+			"text": "Konkret ausgedrückt: Wenn Ihr Team früher 80 % eines Engineering-Tages mit Code und 20 % mit Entscheidungen verbracht hat, sieht das neue Verhältnis nach 30-facher Code-Kompression ungefähr so aus: 12 % Code und 88 % Entscheidungen. Die meisten Teams haben dieselbe Besetzung, dieselbe Meeting-Frequenz und dieselbe Review-Struktur beibehalten, und beobachten dann, wie die zweite Spalte überläuft."
+		},
+		{
+			"type": "p",
+			"text": "Dieser Überlauf ist **Intent Debt** in der Praxis."
+		},
+		{
+			"type": "h2",
+			"text": "Drei Symptome, die zeigen, dass Sie es bereits tragen"
+		},
+		{
+			"type": "p",
+			"text": "**Intent Debt** ist unsichtbar, bis Sie es benennen. Drei Symptome treten in Teams auf, mit denen ich arbeite."
+		},
+		{
+			"type": "h3",
+			"text": "Scope-Kürzungs-Reflex bei bereits erledigten Kosten"
+		},
+		{
+			"type": "p",
+			"text": "Sie ertappen sich dabei, drei Tests statt zehn zu schreiben, die Dokumentation zu überspringen, 80 % als \"gut genug\" zu bezeichnen. Der Instinkt war sinnvoll, als menschliche Zeit die knappe Ressource war. Mit KI im Prozess kostet die vollständige Version dieselben Minuten wie die Abkürzung."
+		},
+		{
+			"type": "p",
+			"text": "Der Reflex ist jetzt veraltetes Denken, das automatisch angewendet wird. Die Kosten sind nicht die fehlenden Tests. Es ist die Entscheidungsgewohnheit, die sagt, früher zu liefern sei besser als richtig zu liefern, obwohl früheres Liefern keine Zeit mehr einspart."
+		},
+		{
+			"type": "h3",
+			"text": "Mehr Review, weniger Entscheidung"
+		},
+		{
+			"type": "p",
+			"text": "[Elie Steinbock](https://x.com/elie2222) veröffentlichte am 20. April 2026 eine These, die Review als den neuen Engpass benennt. Er listet sieben Verteidigungsschichten auf, von KI-Code-Reviewern wie Cubic und CodeRabbit bis zu dedizierten QA-Agenten und gezielter Observability. Teams übernehmen die Schichten, und die Review-Fläche absorbiert mehr vom Tag."
+		},
+		{
+			"type": "p",
+			"text": "**Intent Debt** liegt oberhalb all dieser Tools. KI-Reviewer erkennen schlechten Code. Sie erkennen nicht, wenn das Falsche gut gebaut wurde. Ein QA-Agent, der jeden Ablauf bei jedem Release prüft, sagt Ihnen, ob der Ablauf funktioniert, nicht ob er existieren sollte."
+		},
+		{
+			"type": "h3",
+			"text": "Stiller Drift, den Sie nur in Post-mortems sehen"
+		},
+		{
+			"type": "p",
+			"text": "Anthropic veröffentlichte am 23. April 2026 ein Post-mortem, das 47 Tage stille Regressionen in Claude Code dokumentiert. Die Schlagzeile war: \"Evals erkennen keinen Drift.\" Der tiefere Befund ist, dass Drift sich in der Lücke zwischen dem, was das Team beabsichtigte, und dem, was das System tatsächlich tat, ansammelt."
+		},
+		{
+			"type": "p",
+			"text": "Jedes Team, das KI-unterstützte Entwicklung betreibt, hat gerade sein eigenes 47-Tage-Fenster offen. Die meisten werden es erst in einem Post-mortem finden."
+		},
+		{
+			"type": "h2",
+			"text": "Warum Reviews und Evals es nicht abfangen können"
+		},
+		{
+			"type": "p",
+			"text": "Review-Tools beantworten die Frage: \"Hat der Code das getan, was das Spec sagte?\" Eval-Suites beantworten: \"Hat sich das Modell so verhalten, wie das Eval erwartete?\" Beide sind korrekte, enge Fragen. Beide behandeln Spec und Eval als Grundwahrheit."
+		},
+		{
+			"type": "p",
+			"text": "**Intent Debt** entsteht auf der Schicht darüber. Die Kosten liegen in der Lücke zwischen dem, was der Kunde brauchte, was das Briefing sagte, und was das Spec erfasste. Wenn der Code vor einem Review-Tool landet, hat das Spec den Intent bereits festgeschrieben. Der Reviewer kann keinen Spec-Fehler erkennen, sondern nur Implementierungsfehler gegen ein fehlerhaftes Spec markieren."
+		},
+		{
+			"type": "p",
+			"text": "Das hat dieselbe Form wie Anthropics Drift. Das Claude-Code-Team hatte Evals. Die Evals bestanden."
+		},
+		{
+			"type": "p",
+			"text": "Der Drift lag darin, was die Evals maßen, verglichen mit dem, was Nutzer tatsächlich erlebten. 47 Tage grüne Lichter, echte Nutzer mit einer Regression jeden Tag. Die Lösung ist nicht mehr Evals. Es ist engeres Feedback zwischen den Personen, die entscheiden, was gemessen wird, und denen, die das Produktionssignal beobachten."
+		},
+		{
+			"type": "p",
+			"text": "Review-Engpass-Denken behandelt das als Tooling-Problem. Es ist ein Schichtungsproblem. Ergänzen Sie diesen Artikel mit unserem früheren Stück darüber, [warum KI-generierte Software weiterhin Engineering-Review braucht](/blog/vibe-coding-trap-ai-software-needs-engineers), für die Build-Schicht-Hälfte des Arguments. Um **Intent Debt** abzubauen, müssen Sie früher eine andere Frage stellen."
+		},
+		{
+			"type": "h2",
+			"text": "Die Entscheidungsschicht komprimiert nicht wie Code"
+		},
+		{
+			"type": "p",
+			"text": "Tans Formulierung, warum das strukturell ist: \"Sie liefern den Geschmack, während Sie mit dem Agenten sprechen.\" Der Agent liefert Vollständigkeit. Der Mensch liefert Richtung und Urteilsvermögen. Geschmack läuft nicht auf derselben Kompressionskurve wie Code."
+		},
+		{
+			"type": "p",
+			"text": "Drei Komponenten des Geschmacks, die Code-Generierung nicht ersetzen kann."
+		},
+		{
+			"type": "h3",
+			"text": "Das richtige Problem wählen"
+		},
+		{
+			"type": "p",
+			"text": "Alex Vaccas Services-as-Software-These, veröffentlicht über Sequoia-Partner Julien Bek im April 2026, erfasst die größere Version davon. Software-Anbieter, die das Tool verkaufen, rennen dem Modell für immer hinterher. Unternehmen, die die Arbeit besitzen und das Modell zur Lieferung nutzen, verbessern sich jedes Mal, wenn das Modell besser wird."
+		},
+		{
+			"type": "p",
+			"text": "Dieselbe Logik gilt innerhalb von Teams. Ingenieure, die das richtige Problem wählen, verbessern sich jedes Mal, wenn das Modell besser wird. Ingenieure, die nur gegen vorgegebene Specs ausführen, werden über Nacht zur Massenware."
+		},
+		{
+			"type": "h3",
+			"text": "Wissen, wann aufzuhören ist"
+		},
+		{
+			"type": "p",
+			"text": "KI-Tools sagen Ihnen nie, aufzuhören. Ein LLM wird sich mit dem siebzehnten Blickwinkel auf dasselbe Problem mit derselben Begeisterung wie beim ersten befassen, und jede Antwort wird sich wie Fortschritt anfühlen. Ohne eine externe Abbruchbedingung läuft die Schleife ewig."
+		},
+		{
+			"type": "p",
+			"text": "Erfahrene Ingenieure haben früher durch Langeweile oder Zeitdruck abgebrochen. Beide Budgets sind jetzt unbegrenzt. Die Abbruchbedingung muss explizit im Voraus festgelegt werden, vor dem ersten Prompt."
+		},
+		{
+			"type": "h3",
+			"text": "Benennen, was sonst niemand benennt"
+		},
+		{
+			"type": "p",
+			"text": "Der schwierigste First-Party-Output, den ein Senior-Ingenieur produziert, ist der Widerspruch: die Botschaft \"das ist das Falsche zu bauen\", die ein Quartal Execution im Voraus verhindert. KI-Agenten widersprechen nicht. Sie bauen, was Sie verlangen, vollständig, auf einer 100x-Kompressionskurve."
+		},
+		{
+			"type": "p",
+			"text": "Sie liefern, was Sie verlangt haben, und realisieren erst später, dass Sie das Falsche verlangt haben."
+		},
+		{
+			"type": "h2",
+			"text": "Vier Maßnahmen, die Intent Debt abbauen"
+		},
+		{
+			"type": "p",
+			"text": "Diese Maßnahmen sind taktisch. Sie setzen voraus, dass Ihr Team das Problem bereits benannt und aufgehört hat, es auf der Review-Schicht aufzufangen."
+		},
+		{
+			"type": "h3",
+			"text": "Pre-Sell, bevor Sie den Editor öffnen"
+		},
+		{
+			"type": "p",
+			"text": "Das ist die Maßnahme, die ich auf die harte Tour neu lernen musste. Wenn Sie etwas für jemand anderen als sich selbst bauen, holen Sie eine mündliche Zusage, eine Anzahlung oder einen Letter of Intent, bevor ein Agent eine Zeile schreibt."
+		},
+		{
+			"type": "p",
+			"text": "Mündliche Begeisterung ist keine Nachfrage. Upvotes bei einem Launch sind keine Nachfrage. Eine Warteliste ohne Einsatz ist keine Nachfrage. Die Baukosten sind so niedrig, dass der einzige verbleibende Filter ist, ob der Kunde zahlen wird."
+		},
+		{
+			"type": "h3",
+			"text": "Das Spec als Ergebnis behandeln, nicht den Code"
+		},
+		{
+			"type": "p",
+			"text": "Vor der KI war das Spec ein Arbeitsdokument, und der Code war das Ergebnis. Nach der KI ist der Code neu generierbar, und das Spec ist das Dauerhafte."
+		},
+		{
+			"type": "p",
+			"text": "Schreiben Sie Specs, die den Kunden, die Fehlerbilder und die Erfolgsmetrik explizit benennen. Legen Sie sie versionskontrolliert neben den Code. Wenn das Spec sich ändert, ist die Neugenerierung trivial. Wenn das Spec falsch ist, hilft keine Menge Neugenerierung."
+		},
+		{
+			"type": "h3",
+			"text": "Ein Zwei-Modell-Entscheidungs-Review durchführen"
+		},
+		{
+			"type": "p",
+			"text": "Ein einzelnes LLM kann jede Richtung rationalisieren. Ein zweites Modell, das gebeten wird zu widersprechen, erkennt die Hälfte der schlechten Entscheidungen. Das Muster funktioniert für Code-Review, wo wir Claude + Codex + Gemini gegenseitig für jedes ausgelieferte Feature prüfen lassen."
+		},
+		{
+			"type": "p",
+			"text": "Der höherwertige Einsatz ist das Entscheidungs-Review. Zeigen Sie zwei Modellen das Spec, bitten Sie sie zu widersprechen, und gewichten Sie den Widerspruch, bevor Sie bauen. Die Kosten sind Rundungsfehler im Vergleich zum Bauen des Falschen."
+		},
+		{
+			"type": "h3",
+			"text": "Eine Datei mit beendeten Richtungen führen"
+		},
+		{
+			"type": "p",
+			"text": "Jedes Produkt, Feature oder jede Kampagne, die Sie vor der Lieferung beendet haben, kommt mit dem Grund in ein Dokument. Der Grund zählt mehr als die Anzahl. Lesen Sie es, bevor Sie etwas Neues beginnen."
+		},
+		{
+			"type": "p",
+			"text": "Das Muster, warum Richtungen scheitern, ist die günstigste verfügbare **Intent-Debt**-Tilgung, und fast jedes Team überspringt sie. Wenn Sie prüfen möchten, wo Sie diese Maßnahmen in Ihrem Team anwenden können, [hilft webvise weiter](/#contact)."
+		},
+		{
+			"type": "h2",
+			"text": "Was das bedeutet, wenn Sie einen Web-Partner engagieren"
+		},
+		{
+			"type": "p",
+			"text": "Der teuerste Fehler, den ein KI-Ära-Team macht, ist die Beauftragung einer Agentur, die nur die Build-Schicht besitzt. Bauen ist jetzt der günstige Teil. Die Entscheidungsschicht (was zu liefern ist, wann abzubrechen, wer der Nutzer wirklich ist) ist der Ort, an dem der Multiplikator liegt."
+		},
+		{
+			"type": "p",
+			"text": "Die meisten Agenturen berechnen immer noch den Build, weil das ihr Margenmodell kennt. Wir haben webvise um die Umkehrung gebaut."
+		},
+		{
+			"type": "p",
+			"text": "Unsere Engagements für [KI-Automatisierung](/services/ai-automation) und [Full-Stack-Anwendungen](/services/full-stack-applications) beginnen mit einem Discovery-Sprint, der ein schriftliches Spec, eine Liste beendeter Richtungen und ein Zwei-Modell-Entscheidungs-Review für jeden festgelegten Scope-Punkt produziert. Wir können ein Feature an einem Tag liefern. Wir liefern keines, bevor das Team sich darauf geeinigt hat, wie Erfolg in der Produktion aussieht."
+		},
+		{
+			"type": "p",
+			"text": "Wenn Sie dieses Quartal mehr Code als je zuvor geliefert haben und sich weiter von einem funktionierenden Produkt entfernt fühlen als vor sechs Monaten, [buchen Sie ein Discovery-Gespräch](/#contact). Der schnellste Weg, **Intent Debt** abzubauen, ist, aufzuhören, mehr davon aufzubauen."
+		}
+	]
+}

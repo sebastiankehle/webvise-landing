@@ -1,0 +1,297 @@
+{
+	"date": "2026-04-27",
+	"readingTime": 11,
+	"keyword": "intent debt AI technical debt",
+	"title": "Why AI Teams Ship Faster and Launch Worse: The Intent Debt Problem",
+	"excerpt": "AI made writing code nearly free. Deciding what to write got harder. The gap is intent debt, and it compounds faster than any legacy codebase ever did.",
+	"metaDescription": "AI made code nearly free to write. Deciding what to write got harder. That gap is intent debt, and it's why your team ships faster but launches worse.",
+	"tags": ["AI", "Business Strategy", "Process"],
+	"blocks": [
+		{
+			"type": "p",
+			"text": "AI made writing code nearly free. Deciding what to write got harder. That gap is **intent debt**, and it compounds faster than any legacy codebase ever did."
+		},
+		{
+			"type": "p",
+			"text": "Garry Tan reports shipping 37,000 lines of code per day across five projects while running Y Combinator full time. Anthropic's own engineers shipped 47 days of silent regressions in Claude Code before catching them in a public postmortem on April 23, 2026. Both numbers describe the same problem from opposite ends."
+		},
+		{
+			"type": "p",
+			"text": "If your team writes more code than ever and ships worse outcomes than a year ago, you are watching intent debt compound in real time. Tech debt was the tax on slow coding. Intent debt is the tax on slow deciding. This article names the bottleneck, shows why your review and eval layers cannot catch it, and lays out the four moves that pay it down."
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**AI compressed coding time by 30 to 100 times.** It compressed decision time by 3 to 5 times. The gap is the new bottleneck.",
+				"**Intent debt lives upstream of every review layer.** AI code reviewers, evals, and QA agents catch bad code; they do not catch the wrong thing built well.",
+				"**Anthropic's 47-day silent regression in Claude Code is an intent-debt postmortem disguised as an eval problem.** The drift was not in the code; it was in what the team was paying attention to.",
+				"**The fix is structural, not tactical.** You cannot ship your way out. You can only decide your way out, faster and earlier.",
+				"**Webvise treats intent capture as the deliverable**, not as a free pre-sales activity. [See where this applies in your team](/#contact)."
+			]
+		},
+		{
+			"type": "h2",
+			"text": "What Intent Debt Actually Is"
+		},
+		{
+			"type": "p",
+			"text": "Tech debt was the term [Ward Cunningham coined in 1992](https://en.wikipedia.org/wiki/Technical_debt) to describe the future cost of choosing a fast solution over a clean one. The trade had clear economics. You shipped sooner, paid interest in the form of harder maintenance later, and the principal sat in the codebase as something you could refactor when you had time."
+		},
+		{
+			"type": "p",
+			"text": "Intent debt has the same shape. The trade is faster code in exchange for blurrier decisions. You ship sooner because the AI wrote the implementation in 30 minutes instead of three days, and the interest is everything downstream that compounds when nobody nailed down what the right output was supposed to be in the first place."
+		},
+		{
+			"type": "p",
+			"text": "The vocabulary is missing because the trade is new. Martin Fowler's writing on naming and design intent assumes a world where writing the code was the expensive step, so getting the design right paid for itself in less rewrite."
+		},
+		{
+			"type": "p",
+			"text": "That assumption inverted in 2024. When rewriting takes a day, the design step stops paying for itself the way it used to. Teams notice this and skip the design step, which was the place where intent got compressed into something the next person could reason about."
+		},
+		{
+			"type": "p",
+			"text": "Two failure modes I have watched personally."
+		},
+		{
+			"type": "p",
+			"text": "The first: a feature ships in three days that would have taken three weeks pre-AI. It works. It also solves a problem nobody had, because the spec was a Slack message and the implementer was a [Cursor](https://cursor.com) agent. The cost of building it was so low that nobody re-questioned whether it was worth building."
+		},
+		{
+			"type": "p",
+			"text": "The second: a senior engineer kills six product directions in a single year. None die for technical reasons. Every one dies at the pre-sell step, and the engineer keeps skipping the pre-sell because writing code feels more productive. That engineer is me, and the post-mortem cost of those six directions was higher than any technical debt I have ever paid down."
+		},
+		{
+			"type": "p",
+			"text": "Both stories are intent debt with the receipts. Most engineering teams are still trying to solve them at the build layer, with another reviewer, another eval, another linter. The fix sits one layer up. If your team is producing receipts like these, [we built webvise around the inversion](/#contact)."
+		},
+		{
+			"type": "h2",
+			"text": "The Numbers Behind the Shift"
+		},
+		{
+			"type": "p",
+			"text": "The clearest first-party data on the asymmetry comes from Garry Tan's gstack ETHOS file, published April 2026. Tan ships an open-source agent toolkit from Y Combinator and instruments his agents with explicit human-versus-AI compression ratios for each task type."
+		},
+		{
+			"type": "table",
+			"headers": ["Task type", "Human team", "AI-assisted", "Compression"],
+			"rows": [
+				["Boilerplate / scaffolding", "2 days", "15 min", "~100x"],
+				["Test writing", "1 day", "15 min", "~50x"],
+				["Feature implementation", "1 week", "30 min", "~30x"],
+				["Bug fix + regression test", "4 hours", "15 min", "~20x"],
+				["Architecture / design", "2 days", "4 hours", "~5x"],
+				["Research / exploration", "1 day", "3 hours", "~3x"]
+			]
+		},
+		{
+			"type": "p",
+			"text": "Read the table column by column. Boilerplate compresses 100x, test writing 50x, feature work 30x. Architecture and research compress 5x and 3x."
+		},
+		{
+			"type": "p",
+			"text": "The bottom three rows are intent work. They compress, but at a tenth the rate of the top three. That is the structural source of intent debt: coding is now nearly free, deciding is still expensive."
+		},
+		{
+			"type": "p",
+			"text": "Frame it concretely. If your team used to spend 80% of an engineering day on code and 20% on decisions, the new ratio after 30x compression on code looks roughly like 12% code and 88% decisions. Most teams kept the same staffing, the same meeting cadence, and the same review structure, then watched the second column overflow."
+		},
+		{
+			"type": "p",
+			"text": "That overflow is what intent debt looks like in practice."
+		},
+		{
+			"type": "h2",
+			"text": "Three Symptoms You Are Already Carrying It"
+		},
+		{
+			"type": "p",
+			"text": "Intent debt is invisible until you name it. Three symptoms show up across teams I work with."
+		},
+		{
+			"type": "h3",
+			"text": "Scope-Cutting Reflex on Completed-Cost Work"
+		},
+		{
+			"type": "p",
+			"text": "You catch yourself writing three tests instead of ten, skipping the doc, calling 80% \"good enough.\" The instinct made sense when human time was the binding constraint. With AI in the loop, the complete version costs the same minutes as the workaround."
+		},
+		{
+			"type": "p",
+			"text": "The reflex is now legacy thinking, applied automatically. The cost is not the missing tests; it is the decision habit that says shipping sooner is better than shipping right, when shipping sooner no longer buys you any time."
+		},
+		{
+			"type": "h3",
+			"text": "Reviewing More, Deciding Less"
+		},
+		{
+			"type": "p",
+			"text": "[Elie Steinbock](https://x.com/elie2222) published a thesis on April 20, 2026 that names review as the new bottleneck. He lists seven layers of defense, from AI code reviewers like Cubic and CodeRabbit to dedicated QA agents and scoped observability. Teams adopt the layers and the review surface absorbs more of the day."
+		},
+		{
+			"type": "p",
+			"text": "Intent debt lives upstream of every one of these tools. AI reviewers catch bad code; they do not catch the wrong thing built well. A QA agent that walks every flow on every release will tell you the flow works, not whether the flow should exist."
+		},
+		{
+			"type": "h3",
+			"text": "Silent Drift You Only See in Postmortems"
+		},
+		{
+			"type": "p",
+			"text": "Anthropic published a postmortem on April 23, 2026 documenting 47 days of silent regressions in Claude Code. The headline frame was \"evals do not catch drift.\" The deeper frame is that drift compounds in the gap between what the team intended and what the system was actually doing."
+		},
+		{
+			"type": "p",
+			"text": "Every team running AI-assisted development has its own 47-day window open right now. Most teams will only find it in a postmortem."
+		},
+		{
+			"type": "h2",
+			"text": "Why Reviews and Evals Cannot Catch It"
+		},
+		{
+			"type": "p",
+			"text": "Review tools answer the question \"did the code do what the spec said?\" Eval suites answer \"did the model behave the way the eval expected?\" Both are correct, narrow questions. Both treat the spec and the eval as ground truth."
+		},
+		{
+			"type": "p",
+			"text": "Intent debt accrues at the layer above. The cost lives in the gap between what the customer needed, what the brief said, and what the spec captured. By the time the code lands in front of a review tool, the spec already locked the intent. The reviewer cannot catch a spec defect; it can only flag implementation defects against a defective spec."
+		},
+		{
+			"type": "p",
+			"text": "This is the same shape as Anthropic's drift. The Claude Code team had evals. The evals passed."
+		},
+		{
+			"type": "p",
+			"text": "The drift was in what the evals measured versus what users were actually experiencing. Forty-seven days of green lights, real users hitting a regression every day. The fix is not more evals; it is closer feedback between the people deciding what to measure and the people watching the production signal."
+		},
+		{
+			"type": "p",
+			"text": "Review-bottleneck thinking treats this as a tooling problem. It is a layering problem. Pair this article with our earlier piece on [why AI-generated software still needs engineering review](/blog/vibe-coding-trap-ai-software-needs-engineers) for the build-layer half of the argument. To pay down intent debt, you have to ask a different question, earlier."
+		},
+		{
+			"type": "h2",
+			"text": "The Decision Layer Does Not Compress Like Code Does"
+		},
+		{
+			"type": "p",
+			"text": "Tan's framing for why this is structural: \"you supply the taste as you talk with the agent.\" The agent supplies completeness. The human supplies direction and judgment. Taste does not run on the same compression curve as code."
+		},
+		{
+			"type": "p",
+			"text": "Three components of taste that code generation cannot replace."
+		},
+		{
+			"type": "h3",
+			"text": "Picking the Right Problem"
+		},
+		{
+			"type": "p",
+			"text": "Alex Vacca's services-as-software thesis, published through Sequoia partner Julien Bek in April 2026, captures the larger version of this. Software vendors who sell the tool race the model forever. Companies that own the work and use the model to deliver it improve every time the model does."
+		},
+		{
+			"type": "p",
+			"text": "The same logic applies inside teams. Engineers who pick the right problem improve every time the model improves. Engineers who only execute against handed-down specs become commodity overnight."
+		},
+		{
+			"type": "h3",
+			"text": "Knowing When to Stop"
+		},
+		{
+			"type": "p",
+			"text": "AI tools never tell you to stop. An LLM will engage with the seventeenth angle on the same problem with the same enthusiasm as the first, and every response will feel like progress. Without an external exit condition, the loop runs forever."
+		},
+		{
+			"type": "p",
+			"text": "Skilled engineers used to impose the exit by getting bored or running out of time. Both budgets are now infinite. The exit condition has to be set explicitly upfront, before the first prompt."
+		},
+		{
+			"type": "h3",
+			"text": "Naming What Nobody Else Will Name"
+		},
+		{
+			"type": "p",
+			"text": "The hardest first-party output a senior engineer produces is the dissent: the \"this is the wrong thing to build\" message that pre-empts a quarter of execution. AI agents do not dissent. They build what you ask for, completely, on a 100x compression curve."
+		},
+		{
+			"type": "p",
+			"text": "You ship what you asked for, and only later realize you asked for the wrong thing."
+		},
+		{
+			"type": "h2",
+			"text": "Four Moves That Pay Down Intent Debt"
+		},
+		{
+			"type": "p",
+			"text": "These are tactical. They assume your team has already named the problem and stopped trying to absorb it at the review layer."
+		},
+		{
+			"type": "h3",
+			"text": "Pre-Sell Before You Open the Editor"
+		},
+		{
+			"type": "p",
+			"text": "This is the move I had to relearn the hard way. If you are building anything for someone other than yourself, get a verbal commitment, a deposit, or a letter of intent before any agent writes a line."
+		},
+		{
+			"type": "p",
+			"text": "Verbal enthusiasm is not demand. Upvotes on a launch are not demand. A waitlist with nothing at stake is not demand. The cost of building is so low that the only filter left is whether the customer will pay."
+		},
+		{
+			"type": "h3",
+			"text": "Treat the Spec as the Artifact, Not the Code"
+		},
+		{
+			"type": "p",
+			"text": "Pre-AI, the spec was a working document and the code was the artifact. Post-AI, the code is regenerable and the spec is the durable thing."
+		},
+		{
+			"type": "p",
+			"text": "Write specs that name the customer, the failure modes, and the success metric explicitly. Store them under version control next to the code. When the spec changes, the regen is trivial; when the spec is wrong, no amount of regen will save you."
+		},
+		{
+			"type": "h3",
+			"text": "Run a Two-Model Decision Review"
+		},
+		{
+			"type": "p",
+			"text": "A single LLM can rationalize any direction; a second model invited to disagree catches half the bad calls. The pattern works for code review, where we use Claude plus Codex plus Gemini cross-checking on every shipped feature."
+		},
+		{
+			"type": "p",
+			"text": "The higher-value use is decision review. Show two models the spec, ask them to disagree, weigh the disagreement before you build. The cost is rounding error compared to building the wrong thing."
+		},
+		{
+			"type": "h3",
+			"text": "Keep a Killed-Directions File"
+		},
+		{
+			"type": "p",
+			"text": "Every product, feature, or campaign you killed before shipping goes in one document with the reason. The reason matters more than the count. Read it before starting anything new."
+		},
+		{
+			"type": "p",
+			"text": "The pattern of why directions die is the cheapest intent-debt repayment available, and almost every team skips it. If you are evaluating where to apply these moves in your own team, [webvise can help](/#contact)."
+		},
+		{
+			"type": "h2",
+			"text": "What This Means When You Hire a Web Partner"
+		},
+		{
+			"type": "p",
+			"text": "The most expensive mistake an AI-era team makes is hiring an agency that owns only the build layer. Build is now the cheap part. The decision layer (what to ship, when to kill, who the user actually is) is where the multiplier sits."
+		},
+		{
+			"type": "p",
+			"text": "Most agencies still price the build because that is what their margin model knows how to do. We built webvise around the inversion."
+		},
+		{
+			"type": "p",
+			"text": "Our [AI automation](/services/ai-automation) and [full-stack application](/services/full-stack-applications) engagements start with a discovery sprint that produces a written spec, a killed-directions list, and a two-model decision review on every committed scope item. We can ship a feature in a day. We will not ship one until the team has agreed on what success looks like in production."
+		},
+		{
+			"type": "p",
+			"text": "If you have shipped more code than ever this quarter and feel further from a working product than you did six months ago, [book a discovery call](/#contact). The fastest way to pay down intent debt is to stop accruing more of it."
+		}
+	]
+}

@@ -1,0 +1,297 @@
+{
+	"date": "2026-04-27",
+	"readingTime": 11,
+	"keyword": "intent debt AI dług techniczny",
+	"title": "Dlaczego zespoły AI dostarczają szybciej, lecz wdrażają gorzej: problem intent debt",
+	"excerpt": "AI sprawiło, że pisanie kodu stało się niemal darmowe. Decydowanie, co pisać, stało się trudniejsze. Ta luka to **intent debt** (dług intencji), który narasta szybciej niż jakikolwiek legacy codebase.",
+	"metaDescription": "AI sprawiło, że kod jest niemal darmowy w wytwarzaniu. Decydowanie, co pisać, stało się trudniejsze. Ta luka to intent debt i właśnie dlatego Państwa zespół dostarcza szybciej, lecz wdraża gorzej.",
+	"tags": ["AI", "Business Strategy", "Process"],
+	"blocks": [
+		{
+			"type": "p",
+			"text": "AI sprawiło, że pisanie kodu stało się niemal darmowe. Decydowanie, co pisać, stało się trudniejsze. Ta luka to **intent debt** (dług intencji), który narasta szybciej niż jakikolwiek legacy codebase."
+		},
+		{
+			"type": "p",
+			"text": "Garry Tan informuje o dostarczaniu 37 000 linii kodu dziennie w pięciu projektach, prowadząc jednocześnie Y Combinator w pełnym wymiarze. Inżynierowie Anthropic wdrożyli 47 dni cichych regresji w Claude Code, zanim wychwycili je w publicznym postmortem 23 kwietnia 2026. Obie liczby opisują ten sam problem z przeciwnych stron."
+		},
+		{
+			"type": "p",
+			"text": "Jeśli zespół pisze więcej kodu niż kiedykolwiek, a rezultaty wdrożeń są gorsze niż rok temu, intent debt narasta w czasie rzeczywistym. Dług techniczny był podatkiem od wolnego kodowania. Intent debt jest podatkiem od wolnego decydowania. Niniejszy artykuł nazywa to wąskie gardło, wyjaśnia, dlaczego warstwy przeglądu i ewaluacji nie są w stanie go wychwycić, i przedstawia cztery działania pozwalające go spłacić."
+		},
+		{
+			"type": "ul",
+			"items": [
+				"**AI skompresowało czas kodowania od 30 do 100 razy.** Czas podejmowania decyzji skompresowało od 3 do 5 razy. Ta różnica jest nowym wąskim gardłem.",
+				"**Intent debt istnieje powyżej każdej warstwy przeglądu.** Narzędzia do przeglądu kodu oparte na AI, ewaluacje i agenci QA wychwytują zły kod, ale nie wychwytują rzeczy zbudowanej dobrze, lecz niepotrzebnej.",
+				"**47-dniowa cicha regresja Anthropic w Claude Code to postmortem intent debt ukryty pod pozorem problemu z ewaluacją.** Dryf nie tkwił w kodzie, lecz w tym, na co zespół zwracał uwagę.",
+				"**Rozwiązanie ma charakter strukturalny, nie taktyczny.** Nie można z tego wyjść przez szybsze dostarczanie. Można wyjść jedynie przez szybsze i wcześniejsze podejmowanie decyzji.",
+				"**webvise traktuje uchwycenie intencji jako produkt dostarczany**, a nie jako bezpłatną aktywność przedsprzedażową. [Sprawdź, gdzie to się stosuje w Państwa zespole](/#contact)."
+			]
+		},
+		{
+			"type": "h2",
+			"text": "Czym naprawdę jest intent debt"
+		},
+		{
+			"type": "p",
+			"text": "Dług techniczny to termin, który [Ward Cunningham ukuł w 1992 roku](https://en.wikipedia.org/wiki/Technical_debt) na opisanie przyszłego kosztu wyboru szybkiego rozwiązania zamiast czystego. Wymiana miała jasną ekonomię. Dostarczano szybciej, płacono odsetki w postaci trudniejszego utrzymania w przyszłości, a kapitał tkwił w kodzie jako coś, co można zrefaktoryzować, gdy znajdzie się czas."
+		},
+		{
+			"type": "p",
+			"text": "Intent debt ma ten sam kształt. Wymiana to szybszy kod w zamian za mniej precyzyjne decyzje. Dostarcza się szybciej, bo AI napisało implementację w 30 minut zamiast trzech dni, a odsetkami jest wszystko, co narasta dalej, gdy nikt nie ustalił z góry, jaki powinien być właściwy wynik."
+		},
+		{
+			"type": "p",
+			"text": "Brakuje słownictwa, bo wymiana jest nowa. Martin Fowler pisał o nazywaniu i intencji projektowej, zakładając świat, w którym pisanie kodu było kosztownym krokiem, a dopracowanie projektu zwracało się w mniejszej liczbie przepisywań."
+		},
+		{
+			"type": "p",
+			"text": "To założenie odwróciło się w 2024 roku. Gdy przepisanie zajmuje jeden dzień, krok projektowy przestaje się opłacać tak jak dawniej. Zespoły to zauważają i pomijają etap projektowania, w którym intencja była kompresowana do czegoś, co kolejna osoba mogła zrozumieć."
+		},
+		{
+			"type": "p",
+			"text": "Dwa wzorce błędów, które obserwowałem osobiście."
+		},
+		{
+			"type": "p",
+			"text": "Pierwszy: funkcja dostarczana w trzy dni, która przed erą AI zajęłaby trzy tygodnie. Działa. Rozwiązuje też problem, którego nikt nie miał, bo specyfikacja była wiadomością na Slacku, a wykonawcą był agent [Cursor](https://cursor.com). Koszt budowy był tak niski, że nikt nie zadał pytania, czy warto to w ogóle budować."
+		},
+		{
+			"type": "p",
+			"text": "Drugi: starszy inżynier eliminuje sześć kierunków produktowych w ciągu jednego roku. Żaden nie upada z powodów technicznych. Każdy upada na etapie przedsprzedaży, a inżynier ciągle pomija przedsprzedaż, bo pisanie kodu wydaje się bardziej produktywne. Tym inżynierem byłem ja, a koszt postmortem tych sześciu kierunków był wyższy niż jakikolwiek dług techniczny, jaki kiedykolwiek spłaciłem."
+		},
+		{
+			"type": "p",
+			"text": "Obie historie to intent debt poparty dowodami. Większość zespołów inżynierskich nadal próbuje rozwiązać ten problem na warstwie budowania: kolejnym recenzentem, kolejną ewaluacją, kolejnym linterem. Rozwiązanie leży o jedną warstwę wyżej. Jeśli Państwa zespół produkuje podobne dowody, [zbudowaliśmy webvise wokół tego odwrócenia](/#contact)."
+		},
+		{
+			"type": "h2",
+			"text": "Liczby stojące za tą zmianą"
+		},
+		{
+			"type": "p",
+			"text": "Najbardziej klarowne dane pierwszorzędowe dotyczące tej asymetrii pochodzą z pliku gstack ETHOS Garry'ego Tana, opublikowanego w kwietniu 2026. Tan dostarcza otwartoźródłowy zestaw narzędzi agentowych z Y Combinator i instrumentuje swoich agentów explicite podanymi współczynnikami kompresji człowiek kontra AI dla każdego typu zadania."
+		},
+		{
+			"type": "table",
+			"headers": ["Typ zadania", "Zespół ludzki", "Wsparcie AI", "Kompresja"],
+			"rows": [
+				["Boilerplate / szkielety", "2 dni", "15 min", "ok. 100x"],
+				["Pisanie testów", "1 dzień", "15 min", "ok. 50x"],
+				["Implementacja funkcji", "1 tydzień", "30 min", "ok. 30x"],
+				["Naprawa błędu i test regresji", "4 godziny", "15 min", "ok. 20x"],
+				["Architektura i projektowanie", "2 dni", "4 godziny", "ok. 5x"],
+				["Badania i eksploracja", "1 dzień", "3 godziny", "ok. 3x"]
+			]
+		},
+		{
+			"type": "p",
+			"text": "Kolumna po kolumnie: boilerplate kompresuje się 100x, pisanie testów 50x, praca nad funkcjami 30x. Architektura i badania kompresują się odpowiednio 5x i 3x."
+		},
+		{
+			"type": "p",
+			"text": "Trzy dolne wiersze to praca nad intencją. Kompresują się, ale dziesięciokrotnie wolniej niż trzy górne. To strukturalne źródło intent debt: kodowanie jest teraz niemal darmowe, decydowanie nadal kosztowne."
+		},
+		{
+			"type": "p",
+			"text": "Konkretny obraz: jeśli zespół poświęcał dawniej 80% dnia inżynierskiego na kod i 20% na decyzje, nowy podział po 30-krotnej kompresji kodu wynosi w przybliżeniu 12% na kod i 88% na decyzje. Większość zespołów zachowała te same zasoby, ten sam rytm spotkań i tę samą strukturę przeglądu, a następnie obserwowała, jak druga kolumna się przepełnia."
+		},
+		{
+			"type": "p",
+			"text": "To przepełnienie jest właśnie tym, jak intent debt wygląda w praktyce."
+		},
+		{
+			"type": "h2",
+			"text": "Trzy objawy, które wskazują, że już go Państwo dźwigacie"
+		},
+		{
+			"type": "p",
+			"text": "Intent debt jest niewidoczny, dopóki się go nie nazwie. Trzy objawy pojawiają się we wszystkich zespołach, z którymi pracuję."
+		},
+		{
+			"type": "h3",
+			"text": "Odruch cięcia zakresu przy pracy o zerowym koszcie"
+		},
+		{
+			"type": "p",
+			"text": "Pisze się trzy testy zamiast dziesięciu, pomija dokumentację, nazywa 80% \"wystarczająco dobrym\". Ten odruch miał sens, gdy czas ludzi był ograniczającym zasobem. Przy AI w pętli kompletna wersja kosztuje tyle samo minut co obejście."
+		},
+		{
+			"type": "p",
+			"text": "Odruch jest teraz archaicznym myśleniem stosowanym automatycznie. Kosztem nie są brakujące testy, lecz nawyk decyzyjny mówiący, że dostarczanie szybciej jest lepsze niż dostarczanie właściwie, podczas gdy szybsze dostarczanie nie kupuje już żadnego czasu."
+		},
+		{
+			"type": "h3",
+			"text": "Więcej przeglądania, mniej decydowania"
+		},
+		{
+			"type": "p",
+			"text": "[Elie Steinbock](https://x.com/elie2222) opublikował 20 kwietnia 2026 tezę, która wskazuje przegląd jako nowe wąskie gardło. Wymienia siedem warstw obrony: od narzędzi przeglądu kodu opartych na AI, takich jak Cubic i CodeRabbit, po dedykowanych agentów QA i ograniczoną obserwowalność. Zespoły przyjmują te warstwy, a powierzchnia przeglądu pochłania coraz więcej dnia."
+		},
+		{
+			"type": "p",
+			"text": "Intent debt istnieje powyżej każdego z tych narzędzi. Recenzenci AI wychwytują zły kod, ale nie wychwytują złej rzeczy zbudowanej dobrze. Agent QA, który przechodzi każdy przepływ przy każdym wydaniu, poinformuje, że przepływ działa, nie zaś czy powinien istnieć."
+		},
+		{
+			"type": "h3",
+			"text": "Cichy dryf widoczny dopiero w postmortem"
+		},
+		{
+			"type": "p",
+			"text": "Anthropic opublikowało 23 kwietnia 2026 postmortem dokumentujący 47 dni cichych regresji w Claude Code. Główna narracja brzmiała: \"ewaluacje nie wychwytują dryfu\". Głębsza narracja mówi, że dryf narasta w luce między tym, co zespół zamierzał, a tym, co system faktycznie robił."
+		},
+		{
+			"type": "p",
+			"text": "Każdy zespół prowadzący rozwój wspomagany AI ma teraz otwarte własne 47-dniowe okno. Większość znajdzie je dopiero w postmortem."
+		},
+		{
+			"type": "h2",
+			"text": "Dlaczego przeglądy i ewaluacje nie są w stanie tego wychwycić"
+		},
+		{
+			"type": "p",
+			"text": "Narzędzia do przeglądu odpowiadają na pytanie: \"czy kod zrobił to, co mówiła specyfikacja?\". Zestawy ewaluacyjne odpowiadają na pytanie: \"czy model zachował się zgodnie z oczekiwaniami ewaluacji?\". Oba to poprawne, wąskie pytania. Oba traktują specyfikację i ewaluację jako prawdę absolutną."
+		},
+		{
+			"type": "p",
+			"text": "Intent debt narasta na warstwie powyżej. Koszt tkwi w luce między tym, czego klient potrzebował, co zawierał brief i co uchwytywała specyfikacja. Zanim kod trafi przed narzędzie do przeglądu, specyfikacja zdążyła już zablokować intencję. Recenzent nie może wychwycić defektu specyfikacji, może jedynie oznaczyć defekty implementacyjne względem wadliwej specyfikacji."
+		},
+		{
+			"type": "p",
+			"text": "To ten sam kształt co dryf u Anthropic. Zespół Claude Code miał ewaluacje. Ewaluacje przechodziły."
+		},
+		{
+			"type": "p",
+			"text": "Dryf tkwił w tym, co ewaluacje mierzyły, w zestawieniu z tym, czego użytkownicy faktycznie doświadczali. 47 dni zielonych świateł, prawdziwi użytkownicy trafiający na regresję każdego dnia. Rozwiązaniem nie jest więcej ewaluacji, lecz ściślejsze sprzężenie zwrotne między osobami decydującymi, co mierzyć, a osobami obserwującymi sygnały produkcyjne."
+		},
+		{
+			"type": "p",
+			"text": "Myślenie o wąskim gardle przeglądu traktuje to jako problem narzędziowy. To problem warstwowy. Zestawcie ten artykuł z naszym wcześniejszym tekstem o tym, [dlaczego oprogramowanie generowane przez AI nadal wymaga przeglądu inżynierskiego](/blog/vibe-coding-trap-ai-software-needs-engineers), by uzyskać drugą połowę argumentu dotyczącą warstwy budowania. By spłacić intent debt, trzeba zadać inne pytanie, wcześniej."
+		},
+		{
+			"type": "h2",
+			"text": "Warstwa decyzyjna nie kompresuje się jak kod"
+		},
+		{
+			"type": "p",
+			"text": "Ujęcie Tana wyjaśniające, dlaczego jest to kwestia strukturalna: \"dostarczasz smak w rozmowie z agentem\". Agent dostarcza kompletność. Człowiek dostarcza kierunek i osąd. Smak nie podlega tej samej krzywej kompresji co kod."
+		},
+		{
+			"type": "p",
+			"text": "Trzy składniki smaku, których generowanie kodu nie może zastąpić."
+		},
+		{
+			"type": "h3",
+			"text": "Wybór właściwego problemu"
+		},
+		{
+			"type": "p",
+			"text": "Teza \"services-as-software\" Alexa Vacca, opublikowana przez Juliena Bek (partnera Sequoia) w kwietniu 2026, ujmuje szerszą wersję tego zagadnienia. Dostawcy oprogramowania, którzy sprzedają narzędzie, ścigają się z modelem na zawsze. Firmy, które są właścicielami pracy i używają modelu do jej dostarczania, poprawiają się za każdym razem, gdy poprawia się model."
+		},
+		{
+			"type": "p",
+			"text": "Ta sama logika stosuje się wewnątrz zespołów. Inżynierowie, którzy wybierają właściwy problem, poprawiają się za każdym razem, gdy model się poprawia. Inżynierowie, którzy jedynie wykonują odgórnie przekazane specyfikacje, stają się towarem z dnia na dzień."
+		},
+		{
+			"type": "h3",
+			"text": "Wiedzieć, kiedy przestać"
+		},
+		{
+			"type": "p",
+			"text": "Narzędzia AI nigdy nie mówią, żeby przestać. LLM zaangażuje się w siedemnaste podejście do tego samego problemu z takim samym entuzjazmem co w pierwsze, a każda odpowiedź będzie sprawiać wrażenie postępu. Bez zewnętrznego warunku zakończenia pętla działa w nieskończoność."
+		},
+		{
+			"type": "p",
+			"text": "Doświadczeni inżynierowie narzucali ten koniec, nudząc się lub kończąc czas. Oba budżety są teraz nieskończone. Warunek zakończenia trzeba ustalić explicite z góry, przed pierwszym promptem."
+		},
+		{
+			"type": "h3",
+			"text": "Nazywać to, czego nikt inny nie nazwie"
+		},
+		{
+			"type": "p",
+			"text": "Najtrudniejszym produktem pierwszorzędnym wytwarzanym przez starszego inżyniera jest sprzeciw: wiadomość \"to jest zła rzecz do zbudowania\", która wyprzedza cały kwartał wykonania. Agenci AI nie wyrażają sprzeciwu. Budują to, o co się prosi, kompletnie, na krzywej kompresji 100x."
+		},
+		{
+			"type": "p",
+			"text": "Dostarcza się to, o co się prosiło, i dopiero później zdaje sobie sprawę, że prosiło się o niewłaściwą rzecz."
+		},
+		{
+			"type": "h2",
+			"text": "Cztery działania spłacające intent debt"
+		},
+		{
+			"type": "p",
+			"text": "Są one taktyczne. Zakładają, że zespół nazwał już problem i przestał próbować absorbować go na warstwie przeglądu."
+		},
+		{
+			"type": "h3",
+			"text": "Przedsprzedaż przed otwarciem edytora"
+		},
+		{
+			"type": "p",
+			"text": "To działanie, które sam musiałem przepracować w trudny sposób. Przy budowaniu czegokolwiek dla kogoś innego niż siebie, przed napisaniem przez agenta choćby jednej linii, należy uzyskać ustne zobowiązanie, zaliczkę lub list intencyjny."
+		},
+		{
+			"type": "p",
+			"text": "Ustny entuzjazm to nie popyt. Pozytywne opinie przy starcie to nie popyt. Lista oczekujących bez żadnej stawki to nie popyt. Koszt budowania jest tak niski, że jedynym pozostałym filtrem jest pytanie, czy klient zapłaci."
+		},
+		{
+			"type": "h3",
+			"text": "Traktować specyfikację jako produkt, nie kod"
+		},
+		{
+			"type": "p",
+			"text": "Przed erą AI specyfikacja była dokumentem roboczym, a kod był produktem. Po erze AI kod można ponownie wygenerować, a specyfikacja jest trwałym elementem."
+		},
+		{
+			"type": "p",
+			"text": "Należy pisać specyfikacje, które explicite nazywają klienta, tryby awarii i metrykę sukcesu. Przechowywać je pod kontrolą wersji obok kodu. Gdy specyfikacja się zmienia, regeneracja jest trywialna. Gdy specyfikacja jest błędna, żadna regeneracja nie pomoże."
+		},
+		{
+			"type": "h3",
+			"text": "Przeprowadzać przegląd decyzji z dwoma modelami"
+		},
+		{
+			"type": "p",
+			"text": "Jeden LLM może racjonalizować każdy kierunek. Drugi model zaproszony do niezgody wychwytuje połowę złych decyzji. Wzorzec sprawdza się przy przeglądzie kodu, gdzie stosuje się Claude + Codex + Gemini do wzajemnej weryfikacji każdej dostarczonej funkcji."
+		},
+		{
+			"type": "p",
+			"text": "Bardziej wartościowe zastosowanie to przegląd decyzji. Należy pokazać dwóm modelom specyfikację, poprosić je o wyrażenie niezgody i rozważyć tę niezgodę przed przystąpieniem do budowania. Koszt jest pomijalny w porównaniu z budowaniem złej rzeczy."
+		},
+		{
+			"type": "h3",
+			"text": "Prowadzić plik zaniechanych kierunków"
+		},
+		{
+			"type": "p",
+			"text": "Każdy produkt, funkcja lub kampania porzucona przed dostarczeniem trafia do jednego dokumentu wraz z uzasadnieniem. Uzasadnienie ma większe znaczenie niż liczba wpisów. Warto go czytać przed rozpoczęciem czegokolwiek nowego."
+		},
+		{
+			"type": "p",
+			"text": "Wzorzec tego, dlaczego kierunki umierają, jest najtańszą dostępną formą spłaty intent debt, a niemal każdy zespół go pomija. Jeśli chcą Państwo ocenić, gdzie zastosować te działania we własnym zespole, [webvise może pomóc](/#contact)."
+		},
+		{
+			"type": "h2",
+			"text": "Co to oznacza przy wyborze partnera webowego"
+		},
+		{
+			"type": "p",
+			"text": "Najkosztowniejszy błąd, jaki popełnia zespół w erze AI, to zatrudnienie agencji, która jest właścicielem wyłącznie warstwy budowania. Budowanie jest teraz tanią częścią. Warstwa decyzyjna, co dostarczać, kiedy porzucać i kim naprawdę jest użytkownik, zawiera mnożnik."
+		},
+		{
+			"type": "p",
+			"text": "Większość agencji nadal wycenia budowanie, bo na tym opiera się ich model marżowy. webvise zbudowaliśmy wokół odwrócenia."
+		},
+		{
+			"type": "p",
+			"text": "Nasze zlecenia z zakresu [automatyzacji AI](/services/ai-automation) i [aplikacji full-stack](/services/full-stack-applications) rozpoczynają się od sprintu odkrywczego, który dostarcza pisemną specyfikację, listę zaniechanych kierunków i przegląd decyzji z dwoma modelami dla każdego zatwierdzonego elementu zakresu. Możemy dostarczyć funkcję w ciągu jednego dnia. Nie dostarczymy jej jednak, dopóki zespół nie uzgodni, jak wygląda sukces na produkcji."
+		},
+		{
+			"type": "p",
+			"text": "Jeśli w tym kwartale dostarczono więcej kodu niż kiedykolwiek, a poczucie odległości od działającego produktu jest większe niż sześć miesięcy temu, [warto zarezerwować rozmowę odkrywczą](/#contact). Najszybszy sposób na spłatę intent debt to zaprzestanie jego dalszego narastania."
+		}
+	]
+}
