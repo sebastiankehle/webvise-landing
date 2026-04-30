@@ -1,3 +1,8 @@
+---
+name: blog-article
+description: Create a new blog article for the webvise blog with full translations across all 7 supported locales. Use when the user wants a new blog post, mentions writing for the blog, or invokes /blog-article.
+---
+
 # Blog Article Creation Skill
 
 Create a new blog article for the webvise blog with full translations across all 7 supported locales.
