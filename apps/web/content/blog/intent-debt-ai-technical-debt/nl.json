@@ -1,297 +1,297 @@
 {
-	"date": "2026-04-27",
-	"readingTime": 11,
-	"keyword": "intent debt AI technische schuld",
-	"title": "Waarom AI-teams sneller opleveren maar slechter lanceren: het intent debt-probleem",
-	"excerpt": "AI maakte code schrijven vrijwel gratis. Bepalen wat u schrijft werd moeilijker. Dat verschil is **intent debt** (intentieschuld), en het groeit sneller dan welke legacy-codebase ooit deed.",
-	"metaDescription": "AI maakte code schrijven vrijwel gratis. Bepalen wat u schrijft werd moeilijker. Dat verschil is intent debt, en het is de reden waarom uw team sneller oplevert maar slechter lanceert.",
-	"tags": ["AI", "Business Strategy", "Process"],
-	"blocks": [
-		{
-			"type": "p",
-			"text": "AI maakte code schrijven vrijwel gratis. Bepalen wat u schrijft werd moeilijker. Dat verschil is **intent debt** (intentieschuld), en het groeit sneller dan welke legacy-codebase ooit deed."
-		},
-		{
-			"type": "p",
-			"text": "Garry Tan meldt dat hij 37.000 regels code per dag verzendt over vijf projecten, terwijl hij Y Combinator fulltime leidt. Anthropics eigen engineers leverden 47 dagen stille regressies in Claude Code op voordat ze deze ontdekten in een publieke postmortem op 23 april 2026. Beide cijfers beschrijven hetzelfde probleem van tegenovergestelde kanten."
-		},
-		{
-			"type": "p",
-			"text": "Als uw team meer code schrijft dan ooit en slechtere resultaten oplevert dan een jaar geleden, ziet u intent debt in real time groeien. Technische schuld was de belasting op traag coderen. Intent debt is de belasting op traag beslissen. Dit artikel benoemt de bottleneck, laat zien waarom uw review- en evallagen deze niet kunnen opvangen, en beschrijft de vier stappen waarmee u hem aflost."
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**AI heeft de coderingstijd met 30 tot 100 keer gecomprimeerd.** De besluitvormingstijd werd 3 tot 5 keer gecomprimeerd. Dat verschil is de nieuwe bottleneck.",
-				"**Intent debt bevindt zich stroomopwaarts van elke reviewlaag.** AI-codebeoordelaars, evals en QA-agents vangen slechte code op; zij vangen niet op dat het verkeerde ding goed gebouwd werd.",
-				"**Anthropics 47 dagen stille regressie in Claude Code is een intent debt-postmortem vermomd als een eval-probleem.** De afwijking zat niet in de code; die zat in waar het team aandacht aan besteedde.",
-				"**De oplossing is structureel, niet tactisch.** U kunt er niet uit leveren. U kunt er alleen sneller en eerder uit beslissen.",
-				"**Webvise behandelt het vastleggen van intent als het op te leveren product**, niet als een gratis pre-salesactiviteit. [Bekijk waar dit van toepassing is op uw team](/#contact)."
-			]
-		},
-		{
-			"type": "h2",
-			"text": "Wat intent debt werkelijk is"
-		},
-		{
-			"type": "p",
-			"text": "Technische schuld was de term die [Ward Cunningham in 1992 bedacht](https://en.wikipedia.org/wiki/Technical_debt) voor de toekomstige kosten van een snelle oplossing boven een schone. De afweging had duidelijke economie. U leverde eerder op, betaalde rente in de vorm van moeilijker onderhoud later, en de hoofdsom zat in de codebase als iets dat u kon refactoren als u tijd had."
-		},
-		{
-			"type": "p",
-			"text": "Intent debt heeft dezelfde vorm. De afweging is snellere code in ruil voor vagere beslissingen. U levert eerder op omdat de AI de implementatie in 30 minuten schreef in plaats van drie dagen, en de rente is alles stroomafwaarts dat zich ophoopt wanneer niemand van tevoren heeft vastgesteld wat de juiste uitkomst had moeten zijn."
-		},
-		{
-			"type": "p",
-			"text": "De woordenschat ontbreekt omdat de afweging nieuw is. Het schrijven van Martin Fowler over naamgeving en ontwerpintent gaat uit van een wereld waarin het schrijven van code de dure stap was, zodat een correct ontwerp zichzelf terugverdiende in minder herschrijfwerk."
-		},
-		{
-			"type": "p",
-			"text": "Die aanname keerde in 2024 om. Wanneer herschrijven een dag kost, verdient de ontwerpstap zichzelf niet meer terug op de manier zoals vroeger. Teams merken dit en slaan de ontwerpstap over: precies de plek waar intent werd samengevat tot iets waar de volgende persoon over kon redeneren."
-		},
-		{
-			"type": "p",
-			"text": "Twee patroonfouten die ik persoonlijk heb zien optreden."
-		},
-		{
-			"type": "p",
-			"text": "De eerste: een functie wordt in drie dagen opgeleverd die pre-AI drie weken had gekost. Het werkt. Het lost ook een probleem op dat niemand had, omdat de specificatie een Slack-bericht was en de uitvoerder een [Cursor](https://cursor.com)-agent. De bouwkosten waren zo laag dat niemand opnieuw heeft nagegaan of het de moeite waard was om te bouwen."
-		},
-		{
-			"type": "p",
-			"text": "De tweede: een senior engineer beëindigt zes productrichtingen in één jaar. Geen enkele sterft om technische redenen. Elke richting sterft bij de pre-sellfase, en de engineer blijft de pre-sell overslaan omdat code schrijven productiever aanvoelt. Die engineer ben ik, en de postmortemkosten van die zes richtingen waren hoger dan welke technische schuld ik ooit heb afgelost."
-		},
-		{
-			"type": "p",
-			"text": "Beide verhalen zijn intent debt met bewijs. De meeste engineeringteams proberen ze nog steeds op te lossen op de bouwlaag: met nog een reviewer, nog een eval, nog een linter. De oplossing ligt één laag hoger. Als uw team vergelijkbare bewijzen produceert, [hebben we webvise gebouwd rondom die inversie](/#contact)."
-		},
-		{
-			"type": "h2",
-			"text": "De cijfers achter de verschuiving"
-		},
-		{
-			"type": "p",
-			"text": "De duidelijkste first-party data over de asymmetrie komt uit Garry Tans gstack ETHOS-bestand, gepubliceerd in april 2026. Tan levert een open-source agenttoolkit vanuit Y Combinator en instrumenteert zijn agents met expliciete compressieverhouding mens-versus-AI per taaktype."
-		},
-		{
-			"type": "table",
-			"headers": ["Taaktype", "Menselijk team", "AI-ondersteund", "Compressie"],
-			"rows": [
-				["Boilerplate / scaffolding", "2 dagen", "15 min", "~100x"],
-				["Tests schrijven", "1 dag", "15 min", "~50x"],
-				["Functie-implementatie", "1 week", "30 min", "~30x"],
-				["Bugfix + regressietest", "4 uur", "15 min", "~20x"],
-				["Architectuur / ontwerp", "2 dagen", "4 uur", "~5x"],
-				["Onderzoek / verkenning", "1 dag", "3 uur", "~3x"]
-			]
-		},
-		{
-			"type": "p",
-			"text": "Lees de tabel kolom voor kolom. Boilerplate comprimeert 100x, tests schrijven 50x, functiewerk 30x. Architectuur en onderzoek comprimeren 5x en 3x."
-		},
-		{
-			"type": "p",
-			"text": "De onderste drie rijen zijn intent-werk. Ze comprimeren, maar op een tiende van het tempo van de bovenste drie. Dat is de structurele bron van intent debt: coderen is nu vrijwel gratis, beslissen blijft duur."
-		},
-		{
-			"type": "p",
-			"text": "Maak het concreet. Als uw team vroeger 80% van een engineeringdag aan code besteedde en 20% aan beslissingen, ziet de nieuwe verhouding na 30x compressie op code er ruwweg uit als 12% code en 88% beslissingen. De meeste teams behielden dezelfde bezetting, hetzelfde vergaderschema en dezelfde reviewstructuur, en zagen vervolgens de tweede kolom overlopen."
-		},
-		{
-			"type": "p",
-			"text": "Dat overlopen is hoe intent debt er in de praktijk uitziet."
-		},
-		{
-			"type": "h2",
-			"text": "Drie symptomen die aangeven dat u het al meedraagt"
-		},
-		{
-			"type": "p",
-			"text": "Intent debt is onzichtbaar totdat u het benoemt. Drie symptomen komen voor bij teams waarmee ik werk."
-		},
-		{
-			"type": "h3",
-			"text": "Scopeverminderingsreflex bij werk met afgeronde kosten"
-		},
-		{
-			"type": "p",
-			"text": "U betrapt uzelf op het schrijven van drie tests in plaats van tien, het overslaan van de documentatie, en het bestempelen van 80% als \"goed genoeg\". Het instinct was zinvol toen menselijke tijd de beperkende factor was. Met AI in de loop kost de complete versie dezelfde minuten als de noodoplossing."
-		},
-		{
-			"type": "p",
-			"text": "Het reflex is nu verouderd denken, automatisch toegepast. De kosten zijn niet de ontbrekende tests; het is de beslissingsgewoonte die zegt dat eerder leveren beter is dan correct leveren, terwijl eerder leveren u geen tijd meer oplevert."
-		},
-		{
-			"type": "h3",
-			"text": "Meer reviewen, minder beslissen"
-		},
-		{
-			"type": "p",
-			"text": "[Elie Steinbock](https://x.com/elie2222) publiceerde op 20 april 2026 een these die review als de nieuwe bottleneck benoemt. Hij somt zeven verdedigingslagen op, van AI-codebeoordelaars zoals Cubic en CodeRabbit tot toegewijde QA-agents en afgebakende observability. Teams nemen de lagen over en het reviewoppervlak absorbeert meer van de dag."
-		},
-		{
-			"type": "p",
-			"text": "Intent debt bevindt zich stroomopwaarts van al deze tools. AI-reviewers vangen slechte code op; zij vangen niet op dat het verkeerde ding goed gebouwd werd. Een QA-agent die elke flow bij elke release doorloopt, vertelt u dat de flow werkt, niet of de flow zou moeten bestaan."
-		},
-		{
-			"type": "h3",
-			"text": "Stille afwijking die u alleen in postmortems ziet"
-		},
-		{
-			"type": "p",
-			"text": "Anthropic publiceerde op 23 april 2026 een postmortem over 47 dagen stille regressies in Claude Code. Het centrale frame was \"evals vangen afwijking niet op\". Het diepere frame is dat afwijking zich ophoopt in de kloof tussen wat het team beoogde en wat het systeem daadwerkelijk deed."
-		},
-		{
-			"type": "p",
-			"text": "Elk team dat met AI-ondersteunde ontwikkeling werkt, heeft nu zijn eigen 47-dagen-venster open staan. De meeste teams zullen het pas in een postmortem ontdekken."
-		},
-		{
-			"type": "h2",
-			"text": "Waarom reviews en evals het niet kunnen opvangen"
-		},
-		{
-			"type": "p",
-			"text": "Reviewtools beantwoorden de vraag: \"deed de code wat de specificatie zei?\" Eval-suites beantwoorden: \"gedroeg het model zich zoals de eval verwachtte?\" Beide zijn correcte, smalle vragen. Beide behandelen de specificatie en de eval als de absolute waarheid."
-		},
-		{
-			"type": "p",
-			"text": "Intent debt groeit op de laag daarboven. De kosten zitten in de kloof tussen wat de klant nodig had, wat de briefing zei, en wat de specificatie vastlegde. Tegen de tijd dat de code voor een reviewtool belandt, heeft de specificatie de intent al vergrendeld. De reviewer kan een specificatiedefect niet opvangen; die kan alleen implementatiedefecten markeren ten opzichte van een gebrekkige specificatie."
-		},
-		{
-			"type": "p",
-			"text": "Dit heeft dezelfde vorm als Anthropics afwijking. Het Claude Code-team had evals. De evals slaagden."
-		},
-		{
-			"type": "p",
-			"text": "De afwijking zat in wat de evals maten versus wat gebruikers daadwerkelijk ervoeren. 47 dagen groene lichten, terwijl echte gebruikers elke dag een regressie tegenkwamen. De oplossing is niet meer evals; het is nauwere terugkoppeling tussen de mensen die bepalen wat er gemeten wordt en de mensen die het productiesignaal observeren."
-		},
-		{
-			"type": "p",
-			"text": "Review-bottleneck-denken behandelt dit als een toolingprobleem. Het is een laagstructuurprobleem. Combineer dit artikel met ons eerdere stuk over [waarom door AI gegenereerde software toch engineeringreview nodig heeft](/blog/vibe-coding-trap-ai-software-needs-engineers) voor de bouwlaaghelft van het argument. Om intent debt af te lossen, moet u eerder een andere vraag stellen."
-		},
-		{
-			"type": "h2",
-			"text": "De beslissingslaag comprimeert niet zoals code doet"
-		},
-		{
-			"type": "p",
-			"text": "Tans formulering waarom dit structureel is: \"u levert de smaak terwijl u met de agent praat\". De agent levert volledigheid. De mens levert richting en oordeel. Smaak loopt niet op dezelfde compressiecurve als code."
-		},
-		{
-			"type": "p",
-			"text": "Drie componenten van smaak die codegeneratie niet kan vervangen."
-		},
-		{
-			"type": "h3",
-			"text": "Het juiste probleem kiezen"
-		},
-		{
-			"type": "p",
-			"text": "De \"services-as-software\"-these van Alex Vacca, gepubliceerd via Julien Bek (partner bij Sequoia) in april 2026, geeft de bredere versie hiervan weer. Softwareleveranciers die de tool verkopen, concurreren eeuwig met het model. Bedrijven die het werk bezitten en het model gebruiken om het te leveren, verbeteren elke keer dat het model verbetert."
-		},
-		{
-			"type": "p",
-			"text": "Dezelfde logica geldt binnen teams. Engineers die het juiste probleem kiezen, verbeteren elke keer dat het model verbetert. Engineers die alleen uitvoeren op basis van doorgegeven specificaties worden van de ene op de andere dag een commodity."
-		},
-		{
-			"type": "h3",
-			"text": "Weten wanneer u moet stoppen"
-		},
-		{
-			"type": "p",
-			"text": "AI-tools vertellen u nooit om te stoppen. Een LLM benadert de zeventiende invalshoek op hetzelfde probleem met hetzelfde enthousiasme als de eerste, en elk antwoord voelt als vooruitgang. Zonder een externe stopconditie loopt de lus eindeloos door."
-		},
-		{
-			"type": "p",
-			"text": "Ervaren engineers legden vroeger de stopconditie op door verveeld te raken of tijd op te raken. Beide budgetten zijn nu oneindig. De stopconditie moet vooraf expliciet worden vastgesteld, vóór de eerste prompt."
-		},
-		{
-			"type": "h3",
-			"text": "Benoemen wat niemand anders benoemt"
-		},
-		{
-			"type": "p",
-			"text": "De moeilijkste first-party output die een senior engineer produceert, is het bezwaar: het bericht \"dit is het verkeerde ding om te bouwen\" dat een kwartaal aan uitvoering voorkomt. AI-agents maken geen bezwaar. Ze bouwen wat u vraagt, volledig, op een 100x compressiecurve."
-		},
-		{
-			"type": "p",
-			"text": "U levert op wat u vroeg, en realiseert zich pas later dat u om het verkeerde ding vroeg."
-		},
-		{
-			"type": "h2",
-			"text": "Vier stappen waarmee u intent debt aflost"
-		},
-		{
-			"type": "p",
-			"text": "Dit zijn tactische stappen. Ze gaan ervan uit dat uw team het probleem al heeft benoemd en gestopt is met het proberen te absorberen op de reviewlaag."
-		},
-		{
-			"type": "h3",
-			"text": "Pre-sell voordat u de editor opent"
-		},
-		{
-			"type": "p",
-			"text": "Dit is de stap die ik op de harde manier opnieuw moest leren. Als u iets bouwt voor iemand anders dan uzelf, haal dan een mondelinge toezegging, een aanbetaling of een intentieverklaring op voordat een agent een regel schrijft."
-		},
-		{
-			"type": "p",
-			"text": "Verbaal enthousiasme is geen vraag. Upvotes bij een lancering zijn geen vraag. Een wachtlijst zonder iets op het spel is geen vraag. De bouwkosten zijn zo laag dat het enige filter dat overblijft is of de klant bereid is te betalen."
-		},
-		{
-			"type": "h3",
-			"text": "Behandel de specificatie als het op te leveren product, niet de code"
-		},
-		{
-			"type": "p",
-			"text": "Pre-AI was de specificatie een werkdocument en de code het product. Post-AI is de code regenereerbaar en is de specificatie het duurzame element."
-		},
-		{
-			"type": "p",
-			"text": "Schrijf specificaties die de klant, de faalwijzen en de succesmaatstaf expliciet benoemen. Sla ze op onder versiebeheer naast de code. Wanneer de specificatie verandert, is de regeneratie triviaal; wanneer de specificatie verkeerd is, redt geen enkele hoeveelheid regeneratie u."
-		},
-		{
-			"type": "h3",
-			"text": "Voer een twee-model-beslissingsreview uit"
-		},
-		{
-			"type": "p",
-			"text": "Een enkel LLM kan elke richting rationaliseren; een tweede model dat wordt uitgenodigd om het oneens te zijn, vangt de helft van de slechte keuzes op. Het patroon werkt voor codereview, waarbij we Claude + Codex + Gemini kruislings laten controleren bij elke opgeleverde functie."
-		},
-		{
-			"type": "p",
-			"text": "Het hogere gebruik is beslissingsreview. Laat twee modellen de specificatie zien, vraag ze het oneens te zijn, en weeg het meningsverschil voordat u gaat bouwen. De kosten zijn verwaarloosbaar vergeleken met het bouwen van het verkeerde ding."
-		},
-		{
-			"type": "h3",
-			"text": "Houd een beëindigde-richtingen-bestand bij"
-		},
-		{
-			"type": "p",
-			"text": "Elk product, elke functie of campagne die u heeft beëindigd vóór oplevering gaat in één document met de reden. De reden telt zwaarder dan het aantal. Lees het voordat u aan iets nieuws begint."
-		},
-		{
-			"type": "p",
-			"text": "Het patroon van waarom richtingen sterven is de goedkoopste manier van intent debt-aflossing die beschikbaar is, en bijna elk team slaat het over. Als u wilt weten waar u deze stappen in uw eigen team kunt toepassen, [kan webvise helpen](/#contact)."
-		},
-		{
-			"type": "h2",
-			"text": "Wat dit betekent wanneer u een webpartner inhuurt"
-		},
-		{
-			"type": "p",
-			"text": "De duurste fout die een AI-tijdperkteam maakt, is het inhuren van een bureau dat alleen de bouwlaag beheerst. Bouwen is nu het goedkope deel. De beslissingslaag (wat op te leveren, wanneer te beëindigen, wie de gebruiker werkelijk is) is waar de vermenigvuldigingsfactor zit."
-		},
-		{
-			"type": "p",
-			"text": "De meeste bureaus prijzen nog steeds de bouw, omdat dat het enige is wat hun margemodel kent. Wij hebben webvise gebouwd rondom de inversie."
-		},
-		{
-			"type": "p",
-			"text": "Onze [AI-automatisering](/services/ai-automation) en [full-stack applicatie](/services/full-stack-applications)-trajecten beginnen met een discovery-sprint die een geschreven specificatie, een beëindigde-richtingen-lijst en een twee-model-beslissingsreview oplevert voor elk vastgelegd scopeonderdeel. We kunnen een functie in één dag opleveren. We leveren er geen op totdat het team het eens is over hoe succes er in productie uitziet."
-		},
-		{
-			"type": "p",
-			"text": "Als u dit kwartaal meer code dan ooit hebt opgeleverd en verder van een werkend product voelt dan zes maanden geleden, [boek dan een discovery call](/#contact). De snelste manier om intent debt af te lossen is stoppen met het verder ophopen ervan."
-		}
-	]
+  "date": "2026-04-27",
+  "readingTime": 11,
+  "keyword": "intent debt AI technische schuld",
+  "title": "Waarom AI-teams sneller opleveren maar slechter lanceren: het intent debt-probleem",
+  "excerpt": "AI maakte code schrijven vrijwel gratis. Bepalen wat u schrijft werd moeilijker. Dat verschil is **intent debt** (intentieschuld), en het groeit sneller dan welke legacy-codebase ooit deed.",
+  "metaDescription": "AI maakte code schrijven vrijwel gratis. Bepalen wat u schrijft werd moeilijker. Dat verschil is intent debt, en het is de reden waarom uw team sneller oplevert maar slechter lanceert.",
+  "tags": ["AI", "Business Strategy", "Process"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "AI maakte code schrijven vrijwel gratis. Bepalen wat u schrijft werd moeilijker. Dat verschil is **intent debt** (intentieschuld), en het groeit sneller dan welke legacy-codebase ooit deed."
+    },
+    {
+      "type": "p",
+      "text": "Garry Tan meldt dat hij 37.000 regels code per dag verzendt over vijf projecten, terwijl hij Y Combinator fulltime leidt. Anthropics eigen engineers leverden 47 dagen stille regressies in Claude Code op voordat ze deze ontdekten in een publieke postmortem op 23 april 2026. Beide cijfers beschrijven hetzelfde probleem van tegenovergestelde kanten."
+    },
+    {
+      "type": "p",
+      "text": "Als uw team meer code schrijft dan ooit en slechtere resultaten oplevert dan een jaar geleden, ziet u intent debt in real time groeien. Technische schuld was de belasting op traag coderen. Intent debt is de belasting op traag beslissen. Dit artikel benoemt de bottleneck, laat zien waarom uw review- en evallagen deze niet kunnen opvangen, en beschrijft de vier stappen waarmee u hem aflost."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**AI heeft de coderingstijd met 30 tot 100 keer gecomprimeerd.** De besluitvormingstijd werd 3 tot 5 keer gecomprimeerd. Dat verschil is de nieuwe bottleneck.",
+        "**Intent debt bevindt zich stroomopwaarts van elke reviewlaag.** AI-codebeoordelaars, evals en QA-agents vangen slechte code op; zij vangen niet op dat het verkeerde ding goed gebouwd werd.",
+        "**Anthropics 47 dagen stille regressie in Claude Code is een intent debt-postmortem vermomd als een eval-probleem.** De afwijking zat niet in de code; die zat in waar het team aandacht aan besteedde.",
+        "**De oplossing is structureel, niet tactisch.** U kunt er niet uit leveren. U kunt er alleen sneller en eerder uit beslissen.",
+        "**Webvise behandelt het vastleggen van intent als het op te leveren product**, niet als een gratis pre-salesactiviteit. [Bekijk waar dit van toepassing is op uw team](/#contact)."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Wat intent debt werkelijk is"
+    },
+    {
+      "type": "p",
+      "text": "Technische schuld was de term die [Ward Cunningham in 1992 bedacht](https://en.wikipedia.org/wiki/Technical_debt) voor de toekomstige kosten van een snelle oplossing boven een schone. De afweging had duidelijke economie. U leverde eerder op, betaalde rente in de vorm van moeilijker onderhoud later, en de hoofdsom zat in de codebase als iets dat u kon refactoren als u tijd had."
+    },
+    {
+      "type": "p",
+      "text": "Intent debt heeft dezelfde vorm. De afweging is snellere code in ruil voor vagere beslissingen. U levert eerder op omdat de AI de implementatie in 30 minuten schreef in plaats van drie dagen, en de rente is alles stroomafwaarts dat zich ophoopt wanneer niemand van tevoren heeft vastgesteld wat de juiste uitkomst had moeten zijn."
+    },
+    {
+      "type": "p",
+      "text": "De woordenschat ontbreekt omdat de afweging nieuw is. Het schrijven van Martin Fowler over naamgeving en ontwerpintent gaat uit van een wereld waarin het schrijven van code de dure stap was, zodat een correct ontwerp zichzelf terugverdiende in minder herschrijfwerk."
+    },
+    {
+      "type": "p",
+      "text": "Die aanname keerde in 2024 om. Wanneer herschrijven een dag kost, verdient de ontwerpstap zichzelf niet meer terug op de manier zoals vroeger. Teams merken dit en slaan de ontwerpstap over: precies de plek waar intent werd samengevat tot iets waar de volgende persoon over kon redeneren."
+    },
+    {
+      "type": "p",
+      "text": "Twee patroonfouten die ik persoonlijk heb zien optreden."
+    },
+    {
+      "type": "p",
+      "text": "De eerste: een functie wordt in drie dagen opgeleverd die pre-AI drie weken had gekost. Het werkt. Het lost ook een probleem op dat niemand had, omdat de specificatie een Slack-bericht was en de uitvoerder een [Cursor](https://cursor.com)-agent. De bouwkosten waren zo laag dat niemand opnieuw heeft nagegaan of het de moeite waard was om te bouwen."
+    },
+    {
+      "type": "p",
+      "text": "De tweede: een senior engineer beëindigt zes productrichtingen in één jaar. Geen enkele sterft om technische redenen. Elke richting sterft bij de pre-sellfase, en de engineer blijft de pre-sell overslaan omdat code schrijven productiever aanvoelt. Die engineer ben ik, en de postmortemkosten van die zes richtingen waren hoger dan welke technische schuld ik ooit heb afgelost."
+    },
+    {
+      "type": "p",
+      "text": "Beide verhalen zijn intent debt met bewijs. De meeste engineeringteams proberen ze nog steeds op te lossen op de bouwlaag: met nog een reviewer, nog een eval, nog een linter. De oplossing ligt één laag hoger. Als uw team vergelijkbare bewijzen produceert, [hebben we webvise gebouwd rondom die inversie](/#contact)."
+    },
+    {
+      "type": "h2",
+      "text": "De cijfers achter de verschuiving"
+    },
+    {
+      "type": "p",
+      "text": "De duidelijkste first-party data over de asymmetrie komt uit Garry Tans gstack ETHOS-bestand, gepubliceerd in april 2026. Tan levert een open-source agenttoolkit vanuit Y Combinator en instrumenteert zijn agents met expliciete compressieverhouding mens-versus-AI per taaktype."
+    },
+    {
+      "type": "table",
+      "headers": ["Taaktype", "Menselijk team", "AI-ondersteund", "Compressie"],
+      "rows": [
+        ["Boilerplate / scaffolding", "2 dagen", "15 min", "~100x"],
+        ["Tests schrijven", "1 dag", "15 min", "~50x"],
+        ["Functie-implementatie", "1 week", "30 min", "~30x"],
+        ["Bugfix + regressietest", "4 uur", "15 min", "~20x"],
+        ["Architectuur / ontwerp", "2 dagen", "4 uur", "~5x"],
+        ["Onderzoek / verkenning", "1 dag", "3 uur", "~3x"]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Lees de tabel kolom voor kolom. Boilerplate comprimeert 100x, tests schrijven 50x, functiewerk 30x. Architectuur en onderzoek comprimeren 5x en 3x."
+    },
+    {
+      "type": "p",
+      "text": "De onderste drie rijen zijn intent-werk. Ze comprimeren, maar op een tiende van het tempo van de bovenste drie. Dat is de structurele bron van intent debt: coderen is nu vrijwel gratis, beslissen blijft duur."
+    },
+    {
+      "type": "p",
+      "text": "Maak het concreet. Als uw team vroeger 80% van een engineeringdag aan code besteedde en 20% aan beslissingen, ziet de nieuwe verhouding na 30x compressie op code er ruwweg uit als 12% code en 88% beslissingen. De meeste teams behielden dezelfde bezetting, hetzelfde vergaderschema en dezelfde reviewstructuur, en zagen vervolgens de tweede kolom overlopen."
+    },
+    {
+      "type": "p",
+      "text": "Dat overlopen is hoe intent debt er in de praktijk uitziet."
+    },
+    {
+      "type": "h2",
+      "text": "Drie symptomen die aangeven dat u het al meedraagt"
+    },
+    {
+      "type": "p",
+      "text": "Intent debt is onzichtbaar totdat u het benoemt. Drie symptomen komen voor bij teams waarmee ik werk."
+    },
+    {
+      "type": "h3",
+      "text": "Scopeverminderingsreflex bij werk met afgeronde kosten"
+    },
+    {
+      "type": "p",
+      "text": "U betrapt uzelf op het schrijven van drie tests in plaats van tien, het overslaan van de documentatie, en het bestempelen van 80% als \"goed genoeg\". Het instinct was zinvol toen menselijke tijd de beperkende factor was. Met AI in de loop kost de complete versie dezelfde minuten als de noodoplossing."
+    },
+    {
+      "type": "p",
+      "text": "Het reflex is nu verouderd denken, automatisch toegepast. De kosten zijn niet de ontbrekende tests; het is de beslissingsgewoonte die zegt dat eerder leveren beter is dan correct leveren, terwijl eerder leveren u geen tijd meer oplevert."
+    },
+    {
+      "type": "h3",
+      "text": "Meer reviewen, minder beslissen"
+    },
+    {
+      "type": "p",
+      "text": "[Elie Steinbock](https://x.com/elie2222) publiceerde op 20 april 2026 een these die review als de nieuwe bottleneck benoemt. Hij somt zeven verdedigingslagen op, van AI-codebeoordelaars zoals Cubic en CodeRabbit tot toegewijde QA-agents en afgebakende observability. Teams nemen de lagen over en het reviewoppervlak absorbeert meer van de dag."
+    },
+    {
+      "type": "p",
+      "text": "Intent debt bevindt zich stroomopwaarts van al deze tools. AI-reviewers vangen slechte code op; zij vangen niet op dat het verkeerde ding goed gebouwd werd. Een QA-agent die elke flow bij elke release doorloopt, vertelt u dat de flow werkt, niet of de flow zou moeten bestaan."
+    },
+    {
+      "type": "h3",
+      "text": "Stille afwijking die u alleen in postmortems ziet"
+    },
+    {
+      "type": "p",
+      "text": "Anthropic publiceerde op 23 april 2026 een postmortem over 47 dagen stille regressies in Claude Code. Het centrale frame was \"evals vangen afwijking niet op\". Het diepere frame is dat afwijking zich ophoopt in de kloof tussen wat het team beoogde en wat het systeem daadwerkelijk deed."
+    },
+    {
+      "type": "p",
+      "text": "Elk team dat met AI-ondersteunde ontwikkeling werkt, heeft nu zijn eigen 47-dagen-venster open staan. De meeste teams zullen het pas in een postmortem ontdekken."
+    },
+    {
+      "type": "h2",
+      "text": "Waarom reviews en evals het niet kunnen opvangen"
+    },
+    {
+      "type": "p",
+      "text": "Reviewtools beantwoorden de vraag: \"deed de code wat de specificatie zei?\" Eval-suites beantwoorden: \"gedroeg het model zich zoals de eval verwachtte?\" Beide zijn correcte, smalle vragen. Beide behandelen de specificatie en de eval als de absolute waarheid."
+    },
+    {
+      "type": "p",
+      "text": "Intent debt groeit op de laag daarboven. De kosten zitten in de kloof tussen wat de klant nodig had, wat de briefing zei, en wat de specificatie vastlegde. Tegen de tijd dat de code voor een reviewtool belandt, heeft de specificatie de intent al vergrendeld. De reviewer kan een specificatiedefect niet opvangen; die kan alleen implementatiedefecten markeren ten opzichte van een gebrekkige specificatie."
+    },
+    {
+      "type": "p",
+      "text": "Dit heeft dezelfde vorm als Anthropics afwijking. Het Claude Code-team had evals. De evals slaagden."
+    },
+    {
+      "type": "p",
+      "text": "De afwijking zat in wat de evals maten versus wat gebruikers daadwerkelijk ervoeren. 47 dagen groene lichten, terwijl echte gebruikers elke dag een regressie tegenkwamen. De oplossing is niet meer evals; het is nauwere terugkoppeling tussen de mensen die bepalen wat er gemeten wordt en de mensen die het productiesignaal observeren."
+    },
+    {
+      "type": "p",
+      "text": "Review-bottleneck-denken behandelt dit als een toolingprobleem. Het is een laagstructuurprobleem. Combineer dit artikel met ons eerdere stuk over [waarom door AI gegenereerde software toch engineeringreview nodig heeft](/blog/vibe-coding-trap-ai-software-needs-engineers) voor de bouwlaaghelft van het argument. Om intent debt af te lossen, moet u eerder een andere vraag stellen."
+    },
+    {
+      "type": "h2",
+      "text": "De beslissingslaag comprimeert niet zoals code doet"
+    },
+    {
+      "type": "p",
+      "text": "Tans formulering waarom dit structureel is: \"u levert de smaak terwijl u met de agent praat\". De agent levert volledigheid. De mens levert richting en oordeel. Smaak loopt niet op dezelfde compressiecurve als code."
+    },
+    {
+      "type": "p",
+      "text": "Drie componenten van smaak die codegeneratie niet kan vervangen."
+    },
+    {
+      "type": "h3",
+      "text": "Het juiste probleem kiezen"
+    },
+    {
+      "type": "p",
+      "text": "De \"services-as-software\"-these van Alex Vacca, gepubliceerd via Julien Bek (partner bij Sequoia) in april 2026, geeft de bredere versie hiervan weer. Softwareleveranciers die de tool verkopen, concurreren eeuwig met het model. Bedrijven die het werk bezitten en het model gebruiken om het te leveren, verbeteren elke keer dat het model verbetert."
+    },
+    {
+      "type": "p",
+      "text": "Dezelfde logica geldt binnen teams. Engineers die het juiste probleem kiezen, verbeteren elke keer dat het model verbetert. Engineers die alleen uitvoeren op basis van doorgegeven specificaties worden van de ene op de andere dag een commodity."
+    },
+    {
+      "type": "h3",
+      "text": "Weten wanneer u moet stoppen"
+    },
+    {
+      "type": "p",
+      "text": "AI-tools vertellen u nooit om te stoppen. Een LLM benadert de zeventiende invalshoek op hetzelfde probleem met hetzelfde enthousiasme als de eerste, en elk antwoord voelt als vooruitgang. Zonder een externe stopconditie loopt de lus eindeloos door."
+    },
+    {
+      "type": "p",
+      "text": "Ervaren engineers legden vroeger de stopconditie op door verveeld te raken of tijd op te raken. Beide budgetten zijn nu oneindig. De stopconditie moet vooraf expliciet worden vastgesteld, vóór de eerste prompt."
+    },
+    {
+      "type": "h3",
+      "text": "Benoemen wat niemand anders benoemt"
+    },
+    {
+      "type": "p",
+      "text": "De moeilijkste first-party output die een senior engineer produceert, is het bezwaar: het bericht \"dit is het verkeerde ding om te bouwen\" dat een kwartaal aan uitvoering voorkomt. AI-agents maken geen bezwaar. Ze bouwen wat u vraagt, volledig, op een 100x compressiecurve."
+    },
+    {
+      "type": "p",
+      "text": "U levert op wat u vroeg, en realiseert zich pas later dat u om het verkeerde ding vroeg."
+    },
+    {
+      "type": "h2",
+      "text": "Vier stappen waarmee u intent debt aflost"
+    },
+    {
+      "type": "p",
+      "text": "Dit zijn tactische stappen. Ze gaan ervan uit dat uw team het probleem al heeft benoemd en gestopt is met het proberen te absorberen op de reviewlaag."
+    },
+    {
+      "type": "h3",
+      "text": "Pre-sell voordat u de editor opent"
+    },
+    {
+      "type": "p",
+      "text": "Dit is de stap die ik op de harde manier opnieuw moest leren. Als u iets bouwt voor iemand anders dan uzelf, haal dan een mondelinge toezegging, een aanbetaling of een intentieverklaring op voordat een agent een regel schrijft."
+    },
+    {
+      "type": "p",
+      "text": "Verbaal enthousiasme is geen vraag. Upvotes bij een lancering zijn geen vraag. Een wachtlijst zonder iets op het spel is geen vraag. De bouwkosten zijn zo laag dat het enige filter dat overblijft is of de klant bereid is te betalen."
+    },
+    {
+      "type": "h3",
+      "text": "Behandel de specificatie als het op te leveren product, niet de code"
+    },
+    {
+      "type": "p",
+      "text": "Pre-AI was de specificatie een werkdocument en de code het product. Post-AI is de code regenereerbaar en is de specificatie het duurzame element."
+    },
+    {
+      "type": "p",
+      "text": "Schrijf specificaties die de klant, de faalwijzen en de succesmaatstaf expliciet benoemen. Sla ze op onder versiebeheer naast de code. Wanneer de specificatie verandert, is de regeneratie triviaal; wanneer de specificatie verkeerd is, redt geen enkele hoeveelheid regeneratie u."
+    },
+    {
+      "type": "h3",
+      "text": "Voer een twee-model-beslissingsreview uit"
+    },
+    {
+      "type": "p",
+      "text": "Een enkel LLM kan elke richting rationaliseren; een tweede model dat wordt uitgenodigd om het oneens te zijn, vangt de helft van de slechte keuzes op. Het patroon werkt voor codereview, waarbij we Claude + Codex + Gemini kruislings laten controleren bij elke opgeleverde functie."
+    },
+    {
+      "type": "p",
+      "text": "Het hogere gebruik is beslissingsreview. Laat twee modellen de specificatie zien, vraag ze het oneens te zijn, en weeg het meningsverschil voordat u gaat bouwen. De kosten zijn verwaarloosbaar vergeleken met het bouwen van het verkeerde ding."
+    },
+    {
+      "type": "h3",
+      "text": "Houd een beëindigde-richtingen-bestand bij"
+    },
+    {
+      "type": "p",
+      "text": "Elk product, elke functie of campagne die u heeft beëindigd vóór oplevering gaat in één document met de reden. De reden telt zwaarder dan het aantal. Lees het voordat u aan iets nieuws begint."
+    },
+    {
+      "type": "p",
+      "text": "Het patroon van waarom richtingen sterven is de goedkoopste manier van intent debt-aflossing die beschikbaar is, en bijna elk team slaat het over. Als u wilt weten waar u deze stappen in uw eigen team kunt toepassen, [kan webvise helpen](/#contact)."
+    },
+    {
+      "type": "h2",
+      "text": "Wat dit betekent wanneer u een webpartner inhuurt"
+    },
+    {
+      "type": "p",
+      "text": "De duurste fout die een AI-tijdperkteam maakt, is het inhuren van een bureau dat alleen de bouwlaag beheerst. Bouwen is nu het goedkope deel. De beslissingslaag (wat op te leveren, wanneer te beëindigen, wie de gebruiker werkelijk is) is waar de vermenigvuldigingsfactor zit."
+    },
+    {
+      "type": "p",
+      "text": "De meeste bureaus prijzen nog steeds de bouw, omdat dat het enige is wat hun margemodel kent. Wij hebben webvise gebouwd rondom de inversie."
+    },
+    {
+      "type": "p",
+      "text": "Onze [AI-automatisering](/services/ai-automation) en [full-stack applicatie](/services/full-stack-applications)-trajecten beginnen met een discovery-sprint die een geschreven specificatie, een beëindigde-richtingen-lijst en een twee-model-beslissingsreview oplevert voor elk vastgelegd scopeonderdeel. We kunnen een functie in één dag opleveren. We leveren er geen op totdat het team het eens is over hoe succes er in productie uitziet."
+    },
+    {
+      "type": "p",
+      "text": "Als u dit kwartaal meer code dan ooit hebt opgeleverd en verder van een werkend product voelt dan zes maanden geleden, [boek dan een discovery call](/#contact). De snelste manier om intent debt af te lossen is stoppen met het verder ophopen ervan."
+    }
+  ]
 }

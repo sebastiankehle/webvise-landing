@@ -21,20 +21,20 @@ const defaultFaqItems = [
 function ChevronIcon({ open }: { open: boolean }) {
 	return (
 		<svg
-			width="16"
+			aria-hidden="true"
+			className={`shrink-0 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+			fill="none"
 			height="16"
 			viewBox="0 0 16 16"
-			fill="none"
+			width="16"
 			xmlns="http://www.w3.org/2000/svg"
-			className={`shrink-0 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
-			aria-hidden="true"
 		>
 			<path
 				d="M4 6L8 10L12 6"
 				stroke="currentColor"
-				strokeWidth="1.5"
 				strokeLinecap="round"
 				strokeLinejoin="round"
+				strokeWidth="1.5"
 			/>
 		</svg>
 	);
@@ -43,8 +43,8 @@ function ChevronIcon({ open }: { open: boolean }) {
 /* ── Reusable FAQ accordion ──────────────────────────────── */
 
 export interface FaqItem {
-	question: string;
 	answer: string;
+	question: string;
 }
 
 export function FaqAccordion({ items }: { items: FaqItem[] }) {
@@ -56,14 +56,14 @@ export function FaqAccordion({ items }: { items: FaqItem[] }) {
 				const isOpen = openIndex === i;
 				return (
 					<div
-						key={item.question}
 						className={`border-border/40 border-b transition-colors duration-200 ${isOpen ? "border-l-2 border-l-foreground" : "border-l-2 border-l-transparent"}`}
+						key={item.question}
 					>
 						<button
-							type="button"
+							aria-expanded={isOpen}
 							className="flex w-full items-center justify-between px-6 py-5 text-left transition-colors duration-150 hover:bg-muted/30"
 							onClick={() => setOpenIndex(isOpen ? null : i)}
-							aria-expanded={isOpen}
+							type="button"
 						>
 							<Label className="flex-1 font-medium text-[15px] text-foreground leading-snug tracking-[-0.011em]">
 								{item.question}

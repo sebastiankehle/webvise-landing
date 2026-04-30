@@ -10,19 +10,21 @@ const EMAIL_RE = /([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/;
 
 function renderLine(line: string) {
 	const parts = line.split(EMAIL_RE);
-	if (parts.length === 1) return line;
+	if (parts.length === 1) {
+		return line;
+	}
 	return parts.map((part) =>
 		EMAIL_RE.test(part) ? (
 			<a
-				key={part}
-				href={`mailto:${part}`}
 				className="text-brand underline underline-offset-4 transition-opacity hover:opacity-80"
+				href={`mailto:${part}`}
+				key={part}
 			>
 				{part}
 			</a>
 		) : (
 			part
-		),
+		)
 	);
 }
 
@@ -39,7 +41,9 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function ImprintPage() {
 	const locale = await getLocale();
 	const page = getLegalPage("imprint", locale);
-	if (!page) notFound();
+	if (!page) {
+		notFound();
+	}
 	const tt = await getTranslations("trust.blogBanner");
 
 	return (

@@ -1,137 +1,137 @@
 {
-	"title": "Waarom je Framer-website traag is (en wat je eraan kunt doen)",
-	"excerpt": "Framer-sites zien er geweldig uit in de editor, maar scoren vaak slecht op PageSpeed. Dit is waarom dat gebeurt en wat je opties zijn.",
-	"tags": ["Performance", "Framer", "Web Development"],
-	"blocks": [
-		{
-			"type": "p",
-			"text": "Je hebt een prachtige site gebouwd in [Framer](/blog/framer-vs-nextjs-business-website). De animaties zijn vloeiend in de editor, het ontwerp ziet er gepolijst uit, en alles voelt snel aan op je MacBook Pro. Dan voer je een PageSpeed-test uit en zie je een score van 45."
-		},
-		{
-			"type": "p",
-			"text": "Je bent niet de enige. Framer-sites presteren consequent ondermaats op Google's [Core Web Vitals](https://web.dev/vitals/) - met name op mobiel. Laten we bekijken waarom, en wat je eraan kunt doen."
-		},
-		{
-			"type": "h2",
-			"text": "De prestatiecijfers"
-		},
-		{
-			"type": "p",
-			"text": "We hebben het afgelopen jaar tientallen Framer-sites geaudit. Het patroon is consistent:"
-		},
-		{
-			"type": "table",
-			"headers": [
-				"Metric",
-				"Framer gemiddelde",
-				"Google's drempel voor \"goed\"",
-				"Next.js gemiddelde"
-			],
-			"rows": [
-				["Mobiele PageSpeed-score", "42-65", "90+", "92-99"],
-				["Largest Contentful Paint", "3,2-5,8s", "Onder 2,5s", "0,8-1,5s"],
-				["Total Blocking Time", "400-1.200ms", "Onder 200ms", "10-80ms"],
-				["Cumulative Layout Shift", "0,05-0,25", "Onder 0,1", "0-0,02"]
-			]
-		},
-		{
-			"type": "p",
-			"text": "Dit zijn geen geselecteerde voorbeelden. Dit is het typische bereik voor Framer-bedrijfssites met animaties, CMS-content en aangepaste componenten."
-		},
-		{
-			"type": "h2",
-			"text": "Waarom Framer-sites traag zijn"
-		},
-		{
-			"type": "h3",
-			"text": "Zware JavaScript-bundel"
-		},
-		{
-			"type": "p",
-			"text": "Framer stuurt een grote JavaScript-runtime naar elke pagina. Deze runtime voedt de animatie-engine, de CMS-rendering en het componentensysteem. Zelfs een eenvoudige landingspagina met minimale content laadt **200-400KB aan JavaScript** voordat je daadwerkelijke content verschijnt."
-		},
-		{
-			"type": "p",
-			"text": "Op een middenklasse Android-telefoon met een 4G-verbinding duurt het parsen en uitvoeren van dat JavaScript 1-3 seconden. Dat is voordat je afbeeldingen laden, voordat je lettertypen renderen, voordat de gebruiker iets nuttigs ziet."
-		},
-		{
-			"type": "h3",
-			"text": "Client-side rendering"
-		},
-		{
-			"type": "p",
-			"text": "Framer rendert pagina's voornamelijk aan de clientzijde. De browser downloadt HTML, vervolgens JavaScript, en vervolgens bouwt het JavaScript de pagina op. Vergelijk dit met [Next.js](/services/full-stack-applications), dat volledig gerenderde HTML vanaf de server stuurt - de browser toont content onmiddellijk terwijl JavaScript op de achtergrond laadt."
-		},
-		{
-			"type": "p",
-			"text": "Dit is waarom je Framer-site snel aanvoelt op je laptop maar slecht scoort op PageSpeed. De test simuleert een echt mobiel apparaat op een echte mobiele verbinding, niet een MacBook op glasvezel."
-		},
-		{
-			"type": "h3",
-			"text": "Animatie-overhead"
-		},
-		{
-			"type": "p",
-			"text": "Het animatiesysteem van Framer is krachtig maar kostbaar. Elke scroll-getriggerde animatie, hover-effect en paginatransitie draagt bij aan de JavaScript-uitvoeringskosten. Animaties die vloeiend aanvoelen op desktop kunnen zichtbare haperingen veroorzaken op mobiele apparaten met minder rekenkracht."
-		},
-		{
-			"type": "h3",
-			"text": "Beperkte beeldoptimalisatie"
-		},
-		{
-			"type": "p",
-			"text": "Framer biedt basisbeeldoptimalisatie, maar je hebt geen controle over formaten, kwaliteitsinstellingen of responsieve formaatstrategieen. Next.js's Image-component levert automatisch WebP/AVIF in de juiste afmetingen voor elk apparaat, met lazy loading en blur-up placeholders. Het verschil in beeldgrootte alleen al kan 50-80% zijn."
-		},
-		{
-			"type": "h2",
-			"text": "Wat je kunt doen binnen Framer"
-		},
-		{
-			"type": "p",
-			"text": "Als je op Framer wilt blijven, zijn er marginale verbeteringen mogelijk:"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"Verminder het aantal animaties - elke kost prestaties",
-				"Comprimeer afbeeldingen voor het uploaden in plaats van te vertrouwen op Framer's optimalisatie",
-				"Minimaliseer aangepaste code-overrides en ingebedde scripts",
-				"Verwijder ongebruikte componenten en secties",
-				"Vermijd diep geneste componentstructuren"
-			]
-		},
-		{
-			"type": "p",
-			"text": "Realistisch gezien kunnen deze optimalisaties je score met 10-15 punten verbeteren. Als je op 45 zit, kun je misschien 55-60 bereiken. Nog steeds onder Google's drempel voor \"goede\" prestaties."
-		},
-		{
-			"type": "h2",
-			"text": "Waarom dit belangrijk is voor je bedrijf"
-		},
-		{
-			"type": "p",
-			"text": "Google gebruikt Core Web Vitals als rankingsignaal. Een trage mobiele ervaring betekent lagere zoekposities. Naast SEO verlaat **53% van de mobiele bezoekers een site die langer dan 3 seconden laadt** (Google-data). Als de LCP van je Framer-site 4+ seconden is, verlies je bezoekers voordat ze je content zien."
-		},
-		{
-			"type": "p",
-			"text": "Voor sites die afhankelijk zijn van organisch verkeer of betaalde [advertentieconversies](/blog/website-speed-and-conversions) heeft slechte prestatie direct invloed op de omzet. Elke 100ms extra laadtijd verlaagt de conversieratio met ongeveer 1%."
-		},
-		{
-			"type": "h2",
-			"text": "Het alternatief"
-		},
-		{
-			"type": "p",
-			"text": "Een Next.js-rebuild behoudt je ontwerp terwijl de onderliggende prestatieproblemen worden opgelost. De visuele output blijft hetzelfde - dezelfde lay-out, dezelfde animaties, dezelfde merkidentiteit. Het leveringsmechanisme verandert van client-gerenderd JavaScript naar server-gerenderde HTML met geoptimaliseerde assets."
-		},
-		{
-			"type": "p",
-			"text": "Het resultaat is in onze migratieprojecten doorgaans een sprong van 45–65 op mobiele PageSpeed naar 92–99. Hetzelfde ontwerp, merkbaar betere prestaties. Betere rankings, lagere bouncepercentages, hogere conversies."
-		},
-		{
-			"type": "p",
-			"text": "Als je Framer-site een zakelijk hulpmiddel is - niet alleen een portfoliostuk - zou prestatie een prioriteit moeten zijn. Voer je site door PageSpeed Insights op mobiel en kijk waar je staat. De cijfers vertellen je of optimalisatie genoeg is of de platformarchitectuur de optimalisatiemogelijkheden beperkt."
-		}
-	],
-	"metaDescription": "Framer-sites scoren gemiddeld 42–65 op mobiele PageSpeed met 3–6s laadtijd. Begrijp de client-side rendering bottleneck en uw optimalisatiemogelijkheden."
+  "title": "Waarom je Framer-website traag is (en wat je eraan kunt doen)",
+  "excerpt": "Framer-sites zien er geweldig uit in de editor, maar scoren vaak slecht op PageSpeed. Dit is waarom dat gebeurt en wat je opties zijn.",
+  "tags": ["Performance", "Framer", "Web Development"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Je hebt een prachtige site gebouwd in [Framer](/blog/framer-vs-nextjs-business-website). De animaties zijn vloeiend in de editor, het ontwerp ziet er gepolijst uit, en alles voelt snel aan op je MacBook Pro. Dan voer je een PageSpeed-test uit en zie je een score van 45."
+    },
+    {
+      "type": "p",
+      "text": "Je bent niet de enige. Framer-sites presteren consequent ondermaats op Google's [Core Web Vitals](https://web.dev/vitals/) - met name op mobiel. Laten we bekijken waarom, en wat je eraan kunt doen."
+    },
+    {
+      "type": "h2",
+      "text": "De prestatiecijfers"
+    },
+    {
+      "type": "p",
+      "text": "We hebben het afgelopen jaar tientallen Framer-sites geaudit. Het patroon is consistent:"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Metric",
+        "Framer gemiddelde",
+        "Google's drempel voor \"goed\"",
+        "Next.js gemiddelde"
+      ],
+      "rows": [
+        ["Mobiele PageSpeed-score", "42-65", "90+", "92-99"],
+        ["Largest Contentful Paint", "3,2-5,8s", "Onder 2,5s", "0,8-1,5s"],
+        ["Total Blocking Time", "400-1.200ms", "Onder 200ms", "10-80ms"],
+        ["Cumulative Layout Shift", "0,05-0,25", "Onder 0,1", "0-0,02"]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Dit zijn geen geselecteerde voorbeelden. Dit is het typische bereik voor Framer-bedrijfssites met animaties, CMS-content en aangepaste componenten."
+    },
+    {
+      "type": "h2",
+      "text": "Waarom Framer-sites traag zijn"
+    },
+    {
+      "type": "h3",
+      "text": "Zware JavaScript-bundel"
+    },
+    {
+      "type": "p",
+      "text": "Framer stuurt een grote JavaScript-runtime naar elke pagina. Deze runtime voedt de animatie-engine, de CMS-rendering en het componentensysteem. Zelfs een eenvoudige landingspagina met minimale content laadt **200-400KB aan JavaScript** voordat je daadwerkelijke content verschijnt."
+    },
+    {
+      "type": "p",
+      "text": "Op een middenklasse Android-telefoon met een 4G-verbinding duurt het parsen en uitvoeren van dat JavaScript 1-3 seconden. Dat is voordat je afbeeldingen laden, voordat je lettertypen renderen, voordat de gebruiker iets nuttigs ziet."
+    },
+    {
+      "type": "h3",
+      "text": "Client-side rendering"
+    },
+    {
+      "type": "p",
+      "text": "Framer rendert pagina's voornamelijk aan de clientzijde. De browser downloadt HTML, vervolgens JavaScript, en vervolgens bouwt het JavaScript de pagina op. Vergelijk dit met [Next.js](/services/full-stack-applications), dat volledig gerenderde HTML vanaf de server stuurt - de browser toont content onmiddellijk terwijl JavaScript op de achtergrond laadt."
+    },
+    {
+      "type": "p",
+      "text": "Dit is waarom je Framer-site snel aanvoelt op je laptop maar slecht scoort op PageSpeed. De test simuleert een echt mobiel apparaat op een echte mobiele verbinding, niet een MacBook op glasvezel."
+    },
+    {
+      "type": "h3",
+      "text": "Animatie-overhead"
+    },
+    {
+      "type": "p",
+      "text": "Het animatiesysteem van Framer is krachtig maar kostbaar. Elke scroll-getriggerde animatie, hover-effect en paginatransitie draagt bij aan de JavaScript-uitvoeringskosten. Animaties die vloeiend aanvoelen op desktop kunnen zichtbare haperingen veroorzaken op mobiele apparaten met minder rekenkracht."
+    },
+    {
+      "type": "h3",
+      "text": "Beperkte beeldoptimalisatie"
+    },
+    {
+      "type": "p",
+      "text": "Framer biedt basisbeeldoptimalisatie, maar je hebt geen controle over formaten, kwaliteitsinstellingen of responsieve formaatstrategieen. Next.js's Image-component levert automatisch WebP/AVIF in de juiste afmetingen voor elk apparaat, met lazy loading en blur-up placeholders. Het verschil in beeldgrootte alleen al kan 50-80% zijn."
+    },
+    {
+      "type": "h2",
+      "text": "Wat je kunt doen binnen Framer"
+    },
+    {
+      "type": "p",
+      "text": "Als je op Framer wilt blijven, zijn er marginale verbeteringen mogelijk:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "Verminder het aantal animaties - elke kost prestaties",
+        "Comprimeer afbeeldingen voor het uploaden in plaats van te vertrouwen op Framer's optimalisatie",
+        "Minimaliseer aangepaste code-overrides en ingebedde scripts",
+        "Verwijder ongebruikte componenten en secties",
+        "Vermijd diep geneste componentstructuren"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Realistisch gezien kunnen deze optimalisaties je score met 10-15 punten verbeteren. Als je op 45 zit, kun je misschien 55-60 bereiken. Nog steeds onder Google's drempel voor \"goede\" prestaties."
+    },
+    {
+      "type": "h2",
+      "text": "Waarom dit belangrijk is voor je bedrijf"
+    },
+    {
+      "type": "p",
+      "text": "Google gebruikt Core Web Vitals als rankingsignaal. Een trage mobiele ervaring betekent lagere zoekposities. Naast SEO verlaat **53% van de mobiele bezoekers een site die langer dan 3 seconden laadt** (Google-data). Als de LCP van je Framer-site 4+ seconden is, verlies je bezoekers voordat ze je content zien."
+    },
+    {
+      "type": "p",
+      "text": "Voor sites die afhankelijk zijn van organisch verkeer of betaalde [advertentieconversies](/blog/website-speed-and-conversions) heeft slechte prestatie direct invloed op de omzet. Elke 100ms extra laadtijd verlaagt de conversieratio met ongeveer 1%."
+    },
+    {
+      "type": "h2",
+      "text": "Het alternatief"
+    },
+    {
+      "type": "p",
+      "text": "Een Next.js-rebuild behoudt je ontwerp terwijl de onderliggende prestatieproblemen worden opgelost. De visuele output blijft hetzelfde - dezelfde lay-out, dezelfde animaties, dezelfde merkidentiteit. Het leveringsmechanisme verandert van client-gerenderd JavaScript naar server-gerenderde HTML met geoptimaliseerde assets."
+    },
+    {
+      "type": "p",
+      "text": "Het resultaat is in onze migratieprojecten doorgaans een sprong van 45–65 op mobiele PageSpeed naar 92–99. Hetzelfde ontwerp, merkbaar betere prestaties. Betere rankings, lagere bouncepercentages, hogere conversies."
+    },
+    {
+      "type": "p",
+      "text": "Als je Framer-site een zakelijk hulpmiddel is - niet alleen een portfoliostuk - zou prestatie een prioriteit moeten zijn. Voer je site door PageSpeed Insights op mobiel en kijk waar je staat. De cijfers vertellen je of optimalisatie genoeg is of de platformarchitectuur de optimalisatiemogelijkheden beperkt."
+    }
+  ],
+  "metaDescription": "Framer-sites scoren gemiddeld 42–65 op mobiele PageSpeed met 3–6s laadtijd. Begrijp de client-side rendering bottleneck en uw optimalisatiemogelijkheden."
 }

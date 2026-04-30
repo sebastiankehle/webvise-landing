@@ -9,27 +9,41 @@ const BLOCKED_HOSTNAMES = [
 	"instance-data",
 ];
 
-function isPrivateIP(ip: string): boolean {
-	// IPv4 private/reserved ranges
+function isPrivateIPv4(ip: string): boolean {
 	const parts = ip.split(".").map(Number);
-	if (parts.length === 4) {
-		const [a, b] = parts;
-		if (a === 10) return true; // 10.0.0.0/8
-		if (a === 172 && b >= 16 && b <= 31) return true; // 172.16.0.0/12
-		if (a === 192 && b === 168) return true; // 192.168.0.0/16
-		if (a === 127) return true; // 127.0.0.0/8
-		if (a === 169 && b === 254) return true; // 169.254.0.0/16 (link-local + metadata)
-		if (a === 0) return true; // 0.0.0.0/8
+	if (parts.length !== 4) {
+		return false;
 	}
-
-	// IPv6 loopback and private ranges
-	const normalized = ip.toLowerCase();
-	if (normalized === "::1") return true;
-	if (normalized.startsWith("fc") || normalized.startsWith("fd")) return true; // fc00::/7
-	if (normalized.startsWith("fe80")) return true; // fe80::/10
-	if (normalized === "::") return true;
-
+	const [a, b] = parts;
+	if (a === 10 || a === 127 || a === 0) {
+		return true;
+	}
+	if (a === 172 && b >= 16 && b <= 31) {
+		return true;
+	}
+	if (a === 192 && b === 168) {
+		return true;
+	}
+	if (a === 169 && b === 254) {
+		return true;
+	}
 	return false;
+}
+
+function isPrivateIPv6(ip: string): boolean {
+	const normalized = ip.toLowerCase();
+	if (normalized === "::1" || normalized === "::") {
+		return true;
+	}
+	return (
+		normalized.startsWith("fc") ||
+		normalized.startsWith("fd") ||
+		normalized.startsWith("fe80")
+	);
+}
+
+function isPrivateIP(ip: string): boolean {
+	return isPrivateIPv4(ip) || isPrivateIPv6(ip);
 }
 
 export class UrlValidationError extends Error {
@@ -63,7 +77,7 @@ export async function validateUrl(url: string): Promise<void> {
 	// Block dangerous TLDs
 	if (
 		BLOCKED_TLDS.some(
-			(tld) => hostname === tld.slice(1) || hostname.endsWith(tld),
+			(tld) => hostname === tld.slice(1) || hostname.endsWith(tld)
 		)
 	) {
 		throw new UrlValidationError("This URL is not allowed.");
@@ -84,7 +98,9 @@ export async function validateUrl(url: string): Promise<void> {
 			throw new UrlValidationError("This URL is not allowed.");
 		}
 	} catch (err) {
-		if (err instanceof UrlValidationError) throw err;
+		if (err instanceof UrlValidationError) {
+			throw err;
+		}
 		throw new UrlValidationError("Could not resolve hostname.");
 	}
 }

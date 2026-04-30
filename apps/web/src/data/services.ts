@@ -25,15 +25,15 @@ import {
 } from "lucide-react";
 
 export interface Service {
-	slug: string;
-	translationKey: string;
-	icon: LucideIcon;
-	painPointIcons: [LucideIcon, LucideIcon, LucideIcon];
-	featureCount: number;
 	deliverableCount: number;
-	toolCount: number;
-	painPointCount: number;
 	faqCount: number;
+	featureCount: number;
+	icon: LucideIcon;
+	painPointCount: number;
+	painPointIcons: [LucideIcon, LucideIcon, LucideIcon];
+	slug: string;
+	toolCount: number;
+	translationKey: string;
 }
 
 export const services: Service[] = [

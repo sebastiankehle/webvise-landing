@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import {
 	animate,
 	motion,
@@ -8,19 +7,31 @@ import {
 	useMotionValue,
 	useTransform,
 } from "motion/react";
+import { useEffect, useRef } from "react";
 
 import { cn } from "@/lib/utils";
 
+const STAT_VALUE_RE = /^(\D*)(\d+)(.*)$/;
+
 function parseStatValue(value: string) {
-	const match = value.match(/^([^\d]*)(\d+)(.*)$/);
-	if (!match) return null;
-	return { prefix: match[1], number: Number.parseInt(match[2], 10), suffix: match[3] };
+	const match = value.match(STAT_VALUE_RE);
+	if (!match) {
+		return null;
+	}
+	return {
+		prefix: match[1],
+		number: Number.parseInt(match[2], 10),
+		suffix: match[3],
+	};
 }
 
 export default function AnimatedStat({
 	value,
 	className,
-}: { value: string; className?: string }) {
+}: {
+	value: string;
+	className?: string;
+}) {
 	const ref = useRef<HTMLSpanElement>(null);
 	const parsed = parseStatValue(value);
 	const motionVal = useMotionValue(0);
@@ -28,7 +39,9 @@ export default function AnimatedStat({
 	const isInView = useInView(ref, { once: true, margin: "-100px 0px" });
 
 	useEffect(() => {
-		if (!isInView || !parsed) return;
+		if (!(isInView && parsed)) {
+			return;
+		}
 		const controls = animate(motionVal, parsed.number, {
 			duration: 1.6,
 			ease: [0.16, 1, 0.3, 1],
@@ -39,11 +52,11 @@ export default function AnimatedStat({
 	if (!parsed) {
 		return (
 			<span
-				data-slot="stat"
 				className={cn(
 					"font-display text-3xl text-brand tracking-tight md:text-[48px] md:leading-[1]",
-					className,
+					className
 				)}
+				data-slot="stat"
 			>
 				{value}
 			</span>
@@ -52,12 +65,12 @@ export default function AnimatedStat({
 
 	return (
 		<span
-			ref={ref}
-			data-slot="stat"
 			className={cn(
 				"font-display text-3xl text-brand tracking-tight md:text-[48px] md:leading-[1]",
-				className,
+				className
 			)}
+			data-slot="stat"
+			ref={ref}
 		>
 			{parsed.prefix}
 			<motion.span>{rounded}</motion.span>

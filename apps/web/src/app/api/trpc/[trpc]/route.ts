@@ -11,4 +11,5 @@ function handler(req: NextRequest) {
 		createContext: () => createContext(req),
 	});
 }
+
 export { handler as GET, handler as POST };

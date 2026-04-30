@@ -19,9 +19,9 @@ export function CookiePreferencesLink() {
 
 	return (
 		<button
-			type="button"
-			onClick={handleClick}
 			className="cursor-pointer bg-transparent p-0 text-muted-foreground/60 text-xs transition-colors hover:text-[--foreground]"
+			onClick={handleClick}
+			type="button"
 		>
 			{t("preferencesLink")}
 		</button>

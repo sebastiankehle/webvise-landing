@@ -27,7 +27,9 @@ export function createRateLimiter(opts: {
 	setInterval(() => {
 		const now = Date.now();
 		for (const [key, entry] of store) {
-			if (entry.resetAt <= now) store.delete(key);
+			if (entry.resetAt <= now) {
+				store.delete(key);
+			}
 		}
 	}, opts.windowMs * 2).unref();
 
@@ -54,7 +56,9 @@ export function createRateLimiter(opts: {
 
 export function getClientIP(request: Request): string {
 	const forwarded = request.headers.get("x-forwarded-for");
-	if (forwarded) return forwarded.split(",")[0].trim();
+	if (forwarded) {
+		return forwarded.split(",")[0].trim();
+	}
 	return request.headers.get("x-real-ip") ?? "unknown";
 }
 
@@ -64,6 +68,6 @@ export function rateLimitResponse(retryAfterSec: number): NextResponse {
 		{
 			status: 429,
 			headers: { "Retry-After": String(retryAfterSec) },
-		},
+		}
 	);
 }

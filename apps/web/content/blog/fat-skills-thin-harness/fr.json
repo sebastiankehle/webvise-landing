@@ -1,197 +1,233 @@
 {
-	"date": "2026-04-16",
-	"readingTime": 9,
-	"keyword": "architecture agentique",
-	"title": "Pourquoi la plupart des configurations d'agents IA fonctionnent bien plus lentement qu'elles ne le pourraient",
-	"excerpt": "L'écart entre des résultats de productivité IA modestes et substantiels ne vient pas du modèle. Il vient de l'architecture qui l'entoure. Cinq développeurs ont publié la même thèse en une semaine.",
-	"metaDescription": "L'écart entre des résultats de productivité IA modestes et substantiels ne vient pas du modèle. Il vient de l'endroit où vous placez l'intelligence. L'architecture sur laquelle les meilleurs développeurs s'accordent.",
-	"tags": ["AI Agents", "AI", "Automation", "Web Development"],
-	"blocks": [
-		{
-			"type": "p",
-			"text": "L'écart entre un développeur qui tire des résultats modestes des outils IA et un autre qui en tire des résultats substantiellement supérieurs ne tient pas au modèle utilisé. Il tient à l'architecture qui entoure ce modèle. Steve Yegge [observait début 2026](https://asksurf.ai/pulse/en/thin-harnesses-beat-thick-wrappers-garry-tan) que les développeurs utilisant des agents de codage IA rapportent des gains de productivité significatifs sur les tâches appropriées ; les chiffres cités varient largement selon la méthodologie et le type de tâche. Mêmes modèles. Même intelligence sous-jacente. La variable, c'est la structure."
-		},
-		{
-			"type": "p",
-			"text": "En l'espace d'une semaine en avril 2026, cinq développeurs indépendants ont publié des cadres pour l'architecture d'agents IA. [Garry Tan](https://x.com/garrytan) (Y Combinator), Andrej Karpathy, Viv Trivedy, Daniel Miessler et un [dépôt communautaire](https://github.com/hesreallyhim/awesome-claude-code) ayant atteint 19 700 étoiles GitHub ont tous convergé vers la même thèse centrale : pousser l'intelligence dans des fichiers markdown portables, garder l'infrastructure d'orchestration aussi légère que possible, laisser le modèle raisonner. Cet article décortique les points d'accord, les désaccords et ce que cela implique pour quiconque développe avec l'IA."
-		},
-		{
-			"type": "h2",
-			"text": "Points clés"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**L'intelligence appartient aux fichiers de compétences markdown, pas au code du framework.** Les compétences sont portables, versionnables et s'améliorent automatiquement à mesure que le modèle progresse.",
-				"**Le harnais doit accomplir quatre choses et rien d'autre.** Exécuter le modèle en boucle, lire et écrire des fichiers, gérer le contexte, assurer la sécurité. Chaque fonctionnalité ajoutée au-delà consomme du contexte et ralentit le raisonnement.",
-				"**Cinq développeurs ont publié indépendamment la même thèse en trois jours (du 12 au 15 avril 2026).** Garry Tan, Andrej Karpathy, Viv Trivedy, Daniel Miessler et un dépôt communautaire à 19 700 étoiles. La convergence de plusieurs sources indépendantes est l'un des signaux, parmi d'autres, qu'un schéma architectural est solide.",
-				"**LangChain est en désaccord et dispose de benchmarks pour l'étayer.** Harrison Chase soutient que le harnais EST le produit. La réponse dépend peut-être de si vous développez des outils grand public ou des pipelines d'entreprise.",
-				"**Les instructions prescriptives deviennent obsolètes. Le contexte, lui, ne périme pas.** Chaque recette étape par étape que vous rédigez pour une IA se dégrade à la prochaine version du modèle. Le contexte sur qui vous êtes et ce que vous voulez, lui, se capitalise."
-			]
-		},
-		{
-			"type": "h2",
-			"text": "L'architecture est compacte"
-		},
-		{
-			"type": "p",
-			"text": "Les sources des harnais d'agents en production sont de plus en plus disponibles pour inspection, notamment un instantané du harnais de Claude Code publiquement observé en 2026. Garry Tan a examiné l'une de ces sources. Ce qu'il a trouvé confirme un schéma qu'il enseignait à Y Combinator depuis des mois : l'écart de productivité ne tient pas à l'intelligence du modèle. Il tient à ce qui entoure le modèle."
-		},
-		{
-			"type": "p",
-			"text": "Tan a résumé l'[architecture](https://asksurf.ai/pulse/en/thin-harnesses-beat-thick-wrappers-garry-tan) en trois couches :"
-		},
-		{
-			"type": "table",
-			"headers": ["Couche", "Ce qu'elle contient", "Propriété clé"],
-			"rows": [
-				["Compétences volumineuses", "Procédures markdown encodant le jugement, les processus, la connaissance métier", "Portable. Vous les possédez."],
-				["Harnais CLI léger", "~200 lignes : JSON en entrée, texte en sortie, gestion du contexte, sécurité", "Minimal. Le fournisseur le gère."],
-				["Votre application", "QueryDB, ReadDoc, Search, Timeline. Opérations déterministes.", "Fiable. Même entrée, même sortie."]
-			]
-		},
-		{
-			"type": "p",
-			"text": "Le principe est directionnel. Poussez l'intelligence vers le haut, dans les compétences. Poussez l'exécution vers le bas, dans des outils déterministes. Gardez le harnais léger. 90 % de la valeur réside dans la couche des compétences. Le harnais est un chef d'orchestre qui lit des fichiers. Il ne les possède pas."
-		},
-		{
-			"type": "p",
-			"text": "L'expérience personnelle de Tan illustre le propos. Son CLAUDE.md personnel a commencé à 20 000 lignes. Chaque particularité, chaque convention, chaque leçon qu'il avait jamais rencontrée. Résultat : l'attention de Claude Code s'est dégradée. Le modèle lui a littéralement dit de le réduire. Sa solution a été [200 lignes de pointeurs](https://codex.danielvaughan.com/2026/03/30/gstack-garry-tan-production-skills-toolkit/) vers des documents chargés à la demande. Les 20 000 lignes de connaissance existent toujours. Elles se chargent simplement au moment pertinent au lieu de polluer la fenêtre de contexte à chaque échange."
-		},
-		{
-			"type": "p",
-			"text": "Si vous développez des outils ou des flux de travail alimentés par l'IA pour votre entreprise, [choisir la bonne architecture dès le départ](/#contact) détermine si vous obtenez une démo impressionnante ou un système qui tient en production."
-		},
-		{
-			"type": "h2",
-			"text": "Cinq définitions qui distinguent les projets IA à haute performance"
-		},
-		{
-			"type": "p",
-			"text": "L'architecture repose sur cinq concepts. Ignorez-en un seul et le système sous-performe."
-		},
-		{
-			"type": "h3",
-			"text": "1. Les fichiers de compétences"
-		},
-		{
-			"type": "p",
-			"text": "Une compétence est un document markdown réutilisable qui apprend au modèle comment faire quelque chose. Non pas quoi faire. L'utilisateur fournit la tâche. La compétence fournit le processus. Elle fonctionne comme un appel de méthode : même procédure, arguments différents, résultats radicalement différents."
-		},
-		{
-			"type": "p",
-			"text": "L'exemple de Tan : une compétence appelée /investigate comporte sept étapes (délimiter le jeu de données, construire une chronologie, diariser chaque document, synthétiser, argumenter dans les deux sens, citer les sources). Pointez-la vers un scientifique spécialisé en sécurité et 2,1 millions d'e-mails de découverte : vous obtenez un analyste en recherche médicale. Pointez-la vers une société écran et des dossiers FEC : vous obtenez un enquêteur forensique. Mêmes sept étapes. L'invocation fournit le monde."
-		},
-		{
-			"type": "h3",
-			"text": "2. Les résolveurs"
-		},
-		{
-			"type": "p",
-			"text": "Un résolveur est une table de routage pour le contexte. Lorsque le type de tâche X apparaît, charger d'abord le document Y. Sans résolveur, un développeur modifie un prompt et le déploie. Avec un résolveur, le modèle lit d'abord la documentation de la suite d'évaluation, exécute les benchmarks et revient en arrière si la précision chute de plus de 2 %. Le développeur ne savait pas que la suite d'évaluation existait. Le résolveur a chargé le bon contexte au bon moment."
-		},
-		{
-			"type": "h3",
-			"text": "3. Latent ou déterministe"
-		},
-		{
-			"type": "p",
-			"text": "Chaque étape d'un système est l'une ou l'autre. Les confondre est l'erreur la plus courante dans la conception d'agents. Un LLM peut placer 8 personnes autour d'une table en tenant compte des personnalités. Demandez-lui d'en placer 800 et il produira un plan de table qui paraît plausible mais est totalement faux. C'est un problème déterministe forcé dans l'espace latent. Les meilleurs systèmes sont impitoyables sur cette ligne de démarcation."
-		},
-		{
-			"type": "h3",
-			"text": "4. La diarisation"
-		},
-		{
-			"type": "p",
-			"text": "Le modèle lit tout ce qui concerne un sujet et rédige un profil structuré. Aucune requête SQL ne produit cela. Aucun pipeline RAG ne produit cela. Le modèle doit lire, garder les contradictions à l'esprit, remarquer ce qui a changé et quand, et synthétiser une intelligence structurée."
-		},
-		{
-			"type": "p",
-			"text": "L'équipe de Tan a construit un système pour YC Startup School qui gère ainsi 6 000 profils de fondateurs. Les résultats de la diarisation détectent des éléments qu'aucune recherche par mots-clés ne pourrait trouver : un fondateur qui dit \"Datadog pour les agents IA\" mais dont les commits GitHub sont composés à 80 % de code de facturation. Elle construit un outil FinOps déguisé en observabilité. Cet écart entre ce qu'elle \"dit\" et ce qu'elle \"construit vraiment\" nécessite de lire simultanément l'historique des commits, la candidature et la transcription du conseiller. Aucune recherche par similarité d'embeddings ne le trouve."
-		},
-		{
-			"type": "h3",
-			"text": "5. Les améliorations permanentes"
-		},
-		{
-			"type": "p",
-			"text": "L'instruction de Tan à son IA : \"Si vous me demandez de faire quelque chose et que c'est le genre de chose qui devra se reproduire, codifiez-le dans un fichier de compétences. Si cela doit s'exécuter automatiquement, mettez-le sur un cron. Si vous devez me demander quelque chose deux fois, vous avez échoué.\" Chaque compétence rédigée est une amélioration permanente. Elle ne se dégrade jamais. À la sortie du prochain modèle, chaque compétence s'améliore instantanément. Le système se capitalise."
-		},
-		{
-			"type": "h2",
-			"text": "Cinq frameworks publiés en une semaine disent tous la même chose"
-		},
-		{
-			"type": "p",
-			"text": "La convergence est le signal le plus fort. Ces cinq corpus de travail ont émergé indépendamment entre le 12 et le 15 avril 2026. Aucun de ces développeurs ne collabore. Ils sont arrivés à la même architecture depuis des points de départ différents."
-		},
-		{
-			"type": "table",
-			"headers": ["Framework", "Où réside l'intelligence", "Ce qui reste léger"],
-			"rows": [
-				["Tan (compétences volumineuses)", "Fichiers de compétences markdown, SOUL.md", "Le harnais : chef d'orchestre, pas cerveau"],
-				["Karpathy (CLAUDE.md)", "Fichiers d'instructions comportementales", "Aucun framework nécessaire. Un seul fichier .md"],
-				["Trivedy (fragments de contexte)", "Mémoire externalisée, couche de récupération", "Le harnais gère le contexte, ne possède pas la connaissance"],
-				["Miessler (leçon amère)", "Contexte sur l'identité, les objectifs, le goût", "Instructions sur la manière d'exécuter"],
-				["Communauté (dépôt à 19 700 étoiles)", "Compétences, commandes slash, règles CLAUDE.md", "Les sous-agents remplacent la compaction. Grep remplace RAG"]
-			]
-		},
-		{
-			"type": "p",
-			"text": "Tan est arrivé ici après avoir livré [un volume élevé de code en production en deux mois — le nombre de lignes n'est pas une mesure de qualité, mais le débit est inhabituel](https://codex.danielvaughan.com/2026/03/30/gstack-garry-tan-production-skills-toolkit/) avec gstack (plus de 23 000 étoiles GitHub dès la première semaine ; le nombre d'étoiles mesure la visibilité, pas l'aptitude à la production). Karpathy est arrivé après avoir diagnostiqué les trois modes d'échec persistants des assistants de codage IA. Trivedy est arrivé après avoir itéré sur la conception du harnais à travers plus de 30 versions. Miessler est arrivé après avoir appliqué [la leçon amère de Richard Sutton](http://www.incompleteideas.net/IncIdeas/BitterLesson.html) aux outils IA."
-		},
-		{
-			"type": "p",
-			"text": "La convergence de plusieurs sources indépendantes est l'un des signaux, parmi d'autres, qu'un schéma architectural est solide."
-		},
-		{
-			"type": "h2",
-			"text": "LangChain est en désaccord, et dispose de benchmarks pour le prouver"
-		},
-		{
-			"type": "p",
-			"text": "Harrison Chase (PDG de LangChain) a publié Deep Agents la même semaine et a soutenu le contraire : le harnais EST le produit. Planification de tâches intégrée, création de sous-agents, middleware, hooks, infrastructure d'orchestration complète. Sa preuve : changer uniquement le harnais a fait passer le DeepAgent de LangChain de hors du top 30 au top 5 sur TerminalBench 2.0."
-		},
-		{
-			"type": "p",
-			"text": "Ce n'est pas une objection marginale. LangChain traite des millions d'appels d'agents quotidiennement. Leurs benchmarks sont publics. La véritable divergence : la position de Tan est que chaque morceau de logique dans le harnais plafonne le raisonnement que le modèle aurait pu effectuer. Plus le modèle s'améliore, plus le harnais devrait s'amincir. La position de Chase est que l'ingénierie du harnais étend les capacités du modèle plutôt que de les remplacer."
-		},
-		{
-			"type": "p",
-			"text": "Les deux positions peuvent être correctes selon le contexte. Les agents grand public et personnels, où la portabilité et la longévité comptent, favorisent un harnais léger. Les pipelines d'entreprise, où la fiabilité et l'auditabilité comptent, peuvent justifier un harnais plus dense. Aucun camp ne conteste que les compétences doivent être volumineuses. La question pour votre projet n'est pas de savoir quel camp a raison. C'est de savoir de quel côté de la ligne votre cas d'usage se situe."
-		},
-		{
-			"type": "p",
-			"text": "La plupart des entreprises qui développent des fonctionnalités IA pour la première fois devraient commencer léger et n'ajouter de l'infrastructure que lorsqu'elles se heurtent à des limitations de fiabilité précises. Vous n'êtes pas sûr de la position de votre projet ? [Parlez à notre équipe](/#contact) pour identifier l'architecture adaptée."
-		},
-		{
-			"type": "h2",
-			"text": "Vos instructions expireront. Votre contexte, non."
-		},
-		{
-			"type": "p",
-			"text": "Daniel Miessler a publié le diagnostic le plus percutant de la semaine. Il l'appelle l'audit d'ingénierie de la leçon amère, d'après [l'observation de Richard Sutton en 2019](http://www.incompleteideas.net/IncIdeas/BitterLesson.html) selon laquelle les approches générales qui s'étendent avec la puissance de calcul l'emportent systématiquement sur les approches codées à la main sur le long terme."
-		},
-		{
-			"type": "p",
-			"text": "Appliqué aux outils IA : la mauvaise ingénierie du harnais, ce sont des instructions prescriptives. \"Copiez d'abord ce fichier, chargez ensuite celui-ci, puis faites ceci, puis faites cela.\" Une microgestion étape par étape de l'exécution de l'IA. Cette approche se dégrade à mesure que les modèles deviennent plus intelligents. Des étapes trop rigides empêchent le modèle d'appliquer son propre raisonnement."
-		},
-		{
-			"type": "p",
-			"text": "La bonne ingénierie du harnais est contextuelle. Qui vous êtes, sur quoi vous travaillez, ce que vous cherchez à accomplir, à quoi ressemble le bon et le mauvais résultat. Identité, goût, standards, objectifs. Le modèle détermine le comment."
-		},
-		{
-			"type": "p",
-			"text": "Le diagnostic de Miessler est simple. Si votre configuration ressemble à une recette (étape 1, étape 2, étape 3), vous faites de la mauvaise ingénierie du harnais. Si elle ressemble à un document de briefing (voici qui je suis, voici ce qui compte, voici les outils), vous faites de la bonne ingénierie du harnais. Le contexte sur qui vous êtes n'expire jamais. Les instructions prescriptives deviennent obsolètes à chaque amélioration de modèle."
-		},
-		{
-			"type": "p",
-			"text": "L'architecture n'est pas compliquée. Compétences volumineuses, harnais léger, séparation rigoureuse du travail latent et déterministe. La partie difficile est la discipline : encoder le jugement dans des compétences réutilisables plutôt que de faire du travail ponctuel, garder le harnais léger quand la tentation est d'ajouter des fonctionnalités, et faire confiance au modèle pour trouver le \"comment\" quand vous lui fournissez le bon \"quoi\" et le bon \"pourquoi\"."
-		},
-		{
-			"type": "p",
-			"text": "Chez [webvise](/#contact), nous construisons des systèmes alimentés par l'IA en suivant ces principes d'architecture. Que vous ayez besoin d'un flux d'agents, d'un pipeline automatisé ou d'une intégration IA en production, [l'architecture compte davantage que le modèle](/#contact)."
-		}
-	]
+  "date": "2026-04-16",
+  "readingTime": 9,
+  "keyword": "architecture agentique",
+  "title": "Pourquoi la plupart des configurations d'agents IA fonctionnent bien plus lentement qu'elles ne le pourraient",
+  "excerpt": "L'écart entre des résultats de productivité IA modestes et substantiels ne vient pas du modèle. Il vient de l'architecture qui l'entoure. Cinq développeurs ont publié la même thèse en une semaine.",
+  "metaDescription": "L'écart entre des résultats de productivité IA modestes et substantiels ne vient pas du modèle. Il vient de l'endroit où vous placez l'intelligence. L'architecture sur laquelle les meilleurs développeurs s'accordent.",
+  "tags": ["AI Agents", "AI", "Automation", "Web Development"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "L'écart entre un développeur qui tire des résultats modestes des outils IA et un autre qui en tire des résultats substantiellement supérieurs ne tient pas au modèle utilisé. Il tient à l'architecture qui entoure ce modèle. Steve Yegge [observait début 2026](https://asksurf.ai/pulse/en/thin-harnesses-beat-thick-wrappers-garry-tan) que les développeurs utilisant des agents de codage IA rapportent des gains de productivité significatifs sur les tâches appropriées ; les chiffres cités varient largement selon la méthodologie et le type de tâche. Mêmes modèles. Même intelligence sous-jacente. La variable, c'est la structure."
+    },
+    {
+      "type": "p",
+      "text": "En l'espace d'une semaine en avril 2026, cinq développeurs indépendants ont publié des cadres pour l'architecture d'agents IA. [Garry Tan](https://x.com/garrytan) (Y Combinator), Andrej Karpathy, Viv Trivedy, Daniel Miessler et un [dépôt communautaire](https://github.com/hesreallyhim/awesome-claude-code) ayant atteint 19 700 étoiles GitHub ont tous convergé vers la même thèse centrale : pousser l'intelligence dans des fichiers markdown portables, garder l'infrastructure d'orchestration aussi légère que possible, laisser le modèle raisonner. Cet article décortique les points d'accord, les désaccords et ce que cela implique pour quiconque développe avec l'IA."
+    },
+    {
+      "type": "h2",
+      "text": "Points clés"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**L'intelligence appartient aux fichiers de compétences markdown, pas au code du framework.** Les compétences sont portables, versionnables et s'améliorent automatiquement à mesure que le modèle progresse.",
+        "**Le harnais doit accomplir quatre choses et rien d'autre.** Exécuter le modèle en boucle, lire et écrire des fichiers, gérer le contexte, assurer la sécurité. Chaque fonctionnalité ajoutée au-delà consomme du contexte et ralentit le raisonnement.",
+        "**Cinq développeurs ont publié indépendamment la même thèse en trois jours (du 12 au 15 avril 2026).** Garry Tan, Andrej Karpathy, Viv Trivedy, Daniel Miessler et un dépôt communautaire à 19 700 étoiles. La convergence de plusieurs sources indépendantes est l'un des signaux, parmi d'autres, qu'un schéma architectural est solide.",
+        "**LangChain est en désaccord et dispose de benchmarks pour l'étayer.** Harrison Chase soutient que le harnais EST le produit. La réponse dépend peut-être de si vous développez des outils grand public ou des pipelines d'entreprise.",
+        "**Les instructions prescriptives deviennent obsolètes. Le contexte, lui, ne périme pas.** Chaque recette étape par étape que vous rédigez pour une IA se dégrade à la prochaine version du modèle. Le contexte sur qui vous êtes et ce que vous voulez, lui, se capitalise."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "L'architecture est compacte"
+    },
+    {
+      "type": "p",
+      "text": "Les sources des harnais d'agents en production sont de plus en plus disponibles pour inspection, notamment un instantané du harnais de Claude Code publiquement observé en 2026. Garry Tan a examiné l'une de ces sources. Ce qu'il a trouvé confirme un schéma qu'il enseignait à Y Combinator depuis des mois : l'écart de productivité ne tient pas à l'intelligence du modèle. Il tient à ce qui entoure le modèle."
+    },
+    {
+      "type": "p",
+      "text": "Tan a résumé l'[architecture](https://asksurf.ai/pulse/en/thin-harnesses-beat-thick-wrappers-garry-tan) en trois couches :"
+    },
+    {
+      "type": "table",
+      "headers": ["Couche", "Ce qu'elle contient", "Propriété clé"],
+      "rows": [
+        [
+          "Compétences volumineuses",
+          "Procédures markdown encodant le jugement, les processus, la connaissance métier",
+          "Portable. Vous les possédez."
+        ],
+        [
+          "Harnais CLI léger",
+          "~200 lignes : JSON en entrée, texte en sortie, gestion du contexte, sécurité",
+          "Minimal. Le fournisseur le gère."
+        ],
+        [
+          "Votre application",
+          "QueryDB, ReadDoc, Search, Timeline. Opérations déterministes.",
+          "Fiable. Même entrée, même sortie."
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Le principe est directionnel. Poussez l'intelligence vers le haut, dans les compétences. Poussez l'exécution vers le bas, dans des outils déterministes. Gardez le harnais léger. 90 % de la valeur réside dans la couche des compétences. Le harnais est un chef d'orchestre qui lit des fichiers. Il ne les possède pas."
+    },
+    {
+      "type": "p",
+      "text": "L'expérience personnelle de Tan illustre le propos. Son CLAUDE.md personnel a commencé à 20 000 lignes. Chaque particularité, chaque convention, chaque leçon qu'il avait jamais rencontrée. Résultat : l'attention de Claude Code s'est dégradée. Le modèle lui a littéralement dit de le réduire. Sa solution a été [200 lignes de pointeurs](https://codex.danielvaughan.com/2026/03/30/gstack-garry-tan-production-skills-toolkit/) vers des documents chargés à la demande. Les 20 000 lignes de connaissance existent toujours. Elles se chargent simplement au moment pertinent au lieu de polluer la fenêtre de contexte à chaque échange."
+    },
+    {
+      "type": "p",
+      "text": "Si vous développez des outils ou des flux de travail alimentés par l'IA pour votre entreprise, [choisir la bonne architecture dès le départ](/#contact) détermine si vous obtenez une démo impressionnante ou un système qui tient en production."
+    },
+    {
+      "type": "h2",
+      "text": "Cinq définitions qui distinguent les projets IA à haute performance"
+    },
+    {
+      "type": "p",
+      "text": "L'architecture repose sur cinq concepts. Ignorez-en un seul et le système sous-performe."
+    },
+    {
+      "type": "h3",
+      "text": "1. Les fichiers de compétences"
+    },
+    {
+      "type": "p",
+      "text": "Une compétence est un document markdown réutilisable qui apprend au modèle comment faire quelque chose. Non pas quoi faire. L'utilisateur fournit la tâche. La compétence fournit le processus. Elle fonctionne comme un appel de méthode : même procédure, arguments différents, résultats radicalement différents."
+    },
+    {
+      "type": "p",
+      "text": "L'exemple de Tan : une compétence appelée /investigate comporte sept étapes (délimiter le jeu de données, construire une chronologie, diariser chaque document, synthétiser, argumenter dans les deux sens, citer les sources). Pointez-la vers un scientifique spécialisé en sécurité et 2,1 millions d'e-mails de découverte : vous obtenez un analyste en recherche médicale. Pointez-la vers une société écran et des dossiers FEC : vous obtenez un enquêteur forensique. Mêmes sept étapes. L'invocation fournit le monde."
+    },
+    {
+      "type": "h3",
+      "text": "2. Les résolveurs"
+    },
+    {
+      "type": "p",
+      "text": "Un résolveur est une table de routage pour le contexte. Lorsque le type de tâche X apparaît, charger d'abord le document Y. Sans résolveur, un développeur modifie un prompt et le déploie. Avec un résolveur, le modèle lit d'abord la documentation de la suite d'évaluation, exécute les benchmarks et revient en arrière si la précision chute de plus de 2 %. Le développeur ne savait pas que la suite d'évaluation existait. Le résolveur a chargé le bon contexte au bon moment."
+    },
+    {
+      "type": "h3",
+      "text": "3. Latent ou déterministe"
+    },
+    {
+      "type": "p",
+      "text": "Chaque étape d'un système est l'une ou l'autre. Les confondre est l'erreur la plus courante dans la conception d'agents. Un LLM peut placer 8 personnes autour d'une table en tenant compte des personnalités. Demandez-lui d'en placer 800 et il produira un plan de table qui paraît plausible mais est totalement faux. C'est un problème déterministe forcé dans l'espace latent. Les meilleurs systèmes sont impitoyables sur cette ligne de démarcation."
+    },
+    {
+      "type": "h3",
+      "text": "4. La diarisation"
+    },
+    {
+      "type": "p",
+      "text": "Le modèle lit tout ce qui concerne un sujet et rédige un profil structuré. Aucune requête SQL ne produit cela. Aucun pipeline RAG ne produit cela. Le modèle doit lire, garder les contradictions à l'esprit, remarquer ce qui a changé et quand, et synthétiser une intelligence structurée."
+    },
+    {
+      "type": "p",
+      "text": "L'équipe de Tan a construit un système pour YC Startup School qui gère ainsi 6 000 profils de fondateurs. Les résultats de la diarisation détectent des éléments qu'aucune recherche par mots-clés ne pourrait trouver : un fondateur qui dit \"Datadog pour les agents IA\" mais dont les commits GitHub sont composés à 80 % de code de facturation. Elle construit un outil FinOps déguisé en observabilité. Cet écart entre ce qu'elle \"dit\" et ce qu'elle \"construit vraiment\" nécessite de lire simultanément l'historique des commits, la candidature et la transcription du conseiller. Aucune recherche par similarité d'embeddings ne le trouve."
+    },
+    {
+      "type": "h3",
+      "text": "5. Les améliorations permanentes"
+    },
+    {
+      "type": "p",
+      "text": "L'instruction de Tan à son IA : \"Si vous me demandez de faire quelque chose et que c'est le genre de chose qui devra se reproduire, codifiez-le dans un fichier de compétences. Si cela doit s'exécuter automatiquement, mettez-le sur un cron. Si vous devez me demander quelque chose deux fois, vous avez échoué.\" Chaque compétence rédigée est une amélioration permanente. Elle ne se dégrade jamais. À la sortie du prochain modèle, chaque compétence s'améliore instantanément. Le système se capitalise."
+    },
+    {
+      "type": "h2",
+      "text": "Cinq frameworks publiés en une semaine disent tous la même chose"
+    },
+    {
+      "type": "p",
+      "text": "La convergence est le signal le plus fort. Ces cinq corpus de travail ont émergé indépendamment entre le 12 et le 15 avril 2026. Aucun de ces développeurs ne collabore. Ils sont arrivés à la même architecture depuis des points de départ différents."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Framework",
+        "Où réside l'intelligence",
+        "Ce qui reste léger"
+      ],
+      "rows": [
+        [
+          "Tan (compétences volumineuses)",
+          "Fichiers de compétences markdown, SOUL.md",
+          "Le harnais : chef d'orchestre, pas cerveau"
+        ],
+        [
+          "Karpathy (CLAUDE.md)",
+          "Fichiers d'instructions comportementales",
+          "Aucun framework nécessaire. Un seul fichier .md"
+        ],
+        [
+          "Trivedy (fragments de contexte)",
+          "Mémoire externalisée, couche de récupération",
+          "Le harnais gère le contexte, ne possède pas la connaissance"
+        ],
+        [
+          "Miessler (leçon amère)",
+          "Contexte sur l'identité, les objectifs, le goût",
+          "Instructions sur la manière d'exécuter"
+        ],
+        [
+          "Communauté (dépôt à 19 700 étoiles)",
+          "Compétences, commandes slash, règles CLAUDE.md",
+          "Les sous-agents remplacent la compaction. Grep remplace RAG"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Tan est arrivé ici après avoir livré [un volume élevé de code en production en deux mois — le nombre de lignes n'est pas une mesure de qualité, mais le débit est inhabituel](https://codex.danielvaughan.com/2026/03/30/gstack-garry-tan-production-skills-toolkit/) avec gstack (plus de 23 000 étoiles GitHub dès la première semaine ; le nombre d'étoiles mesure la visibilité, pas l'aptitude à la production). Karpathy est arrivé après avoir diagnostiqué les trois modes d'échec persistants des assistants de codage IA. Trivedy est arrivé après avoir itéré sur la conception du harnais à travers plus de 30 versions. Miessler est arrivé après avoir appliqué [la leçon amère de Richard Sutton](http://www.incompleteideas.net/IncIdeas/BitterLesson.html) aux outils IA."
+    },
+    {
+      "type": "p",
+      "text": "La convergence de plusieurs sources indépendantes est l'un des signaux, parmi d'autres, qu'un schéma architectural est solide."
+    },
+    {
+      "type": "h2",
+      "text": "LangChain est en désaccord, et dispose de benchmarks pour le prouver"
+    },
+    {
+      "type": "p",
+      "text": "Harrison Chase (PDG de LangChain) a publié Deep Agents la même semaine et a soutenu le contraire : le harnais EST le produit. Planification de tâches intégrée, création de sous-agents, middleware, hooks, infrastructure d'orchestration complète. Sa preuve : changer uniquement le harnais a fait passer le DeepAgent de LangChain de hors du top 30 au top 5 sur TerminalBench 2.0."
+    },
+    {
+      "type": "p",
+      "text": "Ce n'est pas une objection marginale. LangChain traite des millions d'appels d'agents quotidiennement. Leurs benchmarks sont publics. La véritable divergence : la position de Tan est que chaque morceau de logique dans le harnais plafonne le raisonnement que le modèle aurait pu effectuer. Plus le modèle s'améliore, plus le harnais devrait s'amincir. La position de Chase est que l'ingénierie du harnais étend les capacités du modèle plutôt que de les remplacer."
+    },
+    {
+      "type": "p",
+      "text": "Les deux positions peuvent être correctes selon le contexte. Les agents grand public et personnels, où la portabilité et la longévité comptent, favorisent un harnais léger. Les pipelines d'entreprise, où la fiabilité et l'auditabilité comptent, peuvent justifier un harnais plus dense. Aucun camp ne conteste que les compétences doivent être volumineuses. La question pour votre projet n'est pas de savoir quel camp a raison. C'est de savoir de quel côté de la ligne votre cas d'usage se situe."
+    },
+    {
+      "type": "p",
+      "text": "La plupart des entreprises qui développent des fonctionnalités IA pour la première fois devraient commencer léger et n'ajouter de l'infrastructure que lorsqu'elles se heurtent à des limitations de fiabilité précises. Vous n'êtes pas sûr de la position de votre projet ? [Parlez à notre équipe](/#contact) pour identifier l'architecture adaptée."
+    },
+    {
+      "type": "h2",
+      "text": "Vos instructions expireront. Votre contexte, non."
+    },
+    {
+      "type": "p",
+      "text": "Daniel Miessler a publié le diagnostic le plus percutant de la semaine. Il l'appelle l'audit d'ingénierie de la leçon amère, d'après [l'observation de Richard Sutton en 2019](http://www.incompleteideas.net/IncIdeas/BitterLesson.html) selon laquelle les approches générales qui s'étendent avec la puissance de calcul l'emportent systématiquement sur les approches codées à la main sur le long terme."
+    },
+    {
+      "type": "p",
+      "text": "Appliqué aux outils IA : la mauvaise ingénierie du harnais, ce sont des instructions prescriptives. \"Copiez d'abord ce fichier, chargez ensuite celui-ci, puis faites ceci, puis faites cela.\" Une microgestion étape par étape de l'exécution de l'IA. Cette approche se dégrade à mesure que les modèles deviennent plus intelligents. Des étapes trop rigides empêchent le modèle d'appliquer son propre raisonnement."
+    },
+    {
+      "type": "p",
+      "text": "La bonne ingénierie du harnais est contextuelle. Qui vous êtes, sur quoi vous travaillez, ce que vous cherchez à accomplir, à quoi ressemble le bon et le mauvais résultat. Identité, goût, standards, objectifs. Le modèle détermine le comment."
+    },
+    {
+      "type": "p",
+      "text": "Le diagnostic de Miessler est simple. Si votre configuration ressemble à une recette (étape 1, étape 2, étape 3), vous faites de la mauvaise ingénierie du harnais. Si elle ressemble à un document de briefing (voici qui je suis, voici ce qui compte, voici les outils), vous faites de la bonne ingénierie du harnais. Le contexte sur qui vous êtes n'expire jamais. Les instructions prescriptives deviennent obsolètes à chaque amélioration de modèle."
+    },
+    {
+      "type": "p",
+      "text": "L'architecture n'est pas compliquée. Compétences volumineuses, harnais léger, séparation rigoureuse du travail latent et déterministe. La partie difficile est la discipline : encoder le jugement dans des compétences réutilisables plutôt que de faire du travail ponctuel, garder le harnais léger quand la tentation est d'ajouter des fonctionnalités, et faire confiance au modèle pour trouver le \"comment\" quand vous lui fournissez le bon \"quoi\" et le bon \"pourquoi\"."
+    },
+    {
+      "type": "p",
+      "text": "Chez [webvise](/#contact), nous construisons des systèmes alimentés par l'IA en suivant ces principes d'architecture. Que vous ayez besoin d'un flux d'agents, d'un pipeline automatisé ou d'une intégration IA en production, [l'architecture compte davantage que le modèle](/#contact)."
+    }
+  ]
 }

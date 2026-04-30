@@ -1,189 +1,189 @@
 {
-	"date": "2026-04-02",
-	"readingTime": 10,
-	"keyword": "karpathy autoresearch ai experiments",
-	"title": "AutoResearch de Karpathy : ce qui se passe quand l'IA fait la recherche la nuit",
-	"excerpt": "Andrej Karpathy a publié AutoResearch en mars 2026, un framework open source qui envoie des agents IA réaliser des expériences de machine learning de façon autonome pendant la nuit. 65 000 étoiles GitHub en quelques semaines. Voici ce que ça fait vraiment.",
-	"metaDescription": "AutoResearch d'Andrej Karpathy permet à des agents IA de mener des expériences ML de façon autonome sur un seul GPU. Découvrez comment ça fonctionne, son architecture à trois fichiers, et pourquoi cela marque une nouvelle ère pour les systèmes d'IA auto-améliorants.",
-	"tags": ["AI Agents", "AI", "Machine Learning", "Open Source"],
-	"cta": "Get in Touch",
-	"blocks": [
-		{
-			"type": "p",
-			"text": "En mars 2026, Andrej Karpathy, co-fondateur d'OpenAI et ancien directeur de l'IA chez Tesla, a publié un framework appelé [AutoResearch](https://github.com/karpathy/autoresearch). Le principe est simple : vous décrivez ce que vous souhaitez investiguer dans un fichier texte, vous démarrez le système avant d'aller vous coucher, et vous vous réveillez avec environ 100 expériences de machine learning terminées, classées par performance. En trois semaines, le projet a atteint 65 000 étoiles GitHub. Cette adoption rapide reflète quelque chose de concret sur ce que représente le projet, pas seulement ce qu'il fait."
-		},
-		{
-			"type": "h2",
-			"text": "Ce qu'AutoResearch fait vraiment"
-		},
-		{
-			"type": "p",
-			"text": "AutoResearch déploie un agent IA de codage sur un script d'entraînement unique. L'agent modifie le script, lance une expérience d'entraînement de cinq minutes, mesure le résultat à l'aide d'une métrique de validation appelée val_bpb (bits par octet, une mesure de l'efficacité des modèles de langage), puis décide de conserver ou d'annuler le changement. Si le changement améliore le score, il devient la nouvelle référence. Sinon, l'agent revient en arrière et essaie autre chose. Cette boucle tourne en continu, produisant environ **12 expériences par heure**, soit environ 100 sur une nuit."
-		},
-		{
-			"type": "p",
-			"text": "Le budget fixe de cinq minutes par expérience est un choix de conception délibéré. Il rend les résultats comparables d'un run à l'autre, empêche l'agent de passer un temps disproportionné sur une hypothèse, et s'inscrit dans le profil de coût d'un seul GPU H100 fonctionnant toute la nuit. Cette contrainte force le système à travailler efficacement plutôt qu'exhaustivement."
-		},
-		{
-			"type": "h2",
-			"text": "L'architecture à trois fichiers"
-		},
-		{
-			"type": "p",
-			"text": "Le système s'organise autour de trois fichiers, chacun avec un rôle distinct :"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**prepare.py** est fixe. Il gère la préparation des données et ne change jamais. Cela maintient le substrat expérimental stable, de sorte que les variations de résultats reflètent de véritables différences de modèle plutôt que des changements dans le pipeline de données.",
-				"**train.py** est la toile de l'agent. Il commence comme un script d'entraînement de référence et est modifié, étendu et affiné par l'agent au fil de centaines d'itérations. Le matin, il peut sembler très différent de ce avec quoi vous avez commencé.",
-				"**program.md** est écrit par l'humain. C'est là que vous décrivez votre stratégie de recherche : quelles approches explorer, quelles contraintes respecter, quelles hypothèses tester. C'est la seule chose que l'humain doit écrire."
-			]
-		},
-		{
-			"type": "p",
-			"text": "La simplicité est intentionnelle. Limiter les modifications à un seul fichier (train.py) rend chaque changement vérifiable. Vous pouvez regarder le diff entre la version du matin et le point de départ et comprendre ce que l'agent a réellement fait. C'est plus difficile à obtenir quand les agents touchent de nombreux fichiers simultanément."
-		},
-		{
-			"type": "h2",
-			"text": "Vous écrivez la stratégie de recherche, pas le code"
-		},
-		{
-			"type": "p",
-			"text": "La façon dont Karpathy cadre le rôle humain mérite d'être citée directement. Il le décrit ainsi : **\"Vous n'écrivez pas le code directement 99% du temps. Vous orchestrez des agents.\"** Le travail de l'humain est d'écrire program.md, qu'il appelle le \"code de l'organisation de recherche\", la stratégie de haut niveau qui définit ce que l'agent doit poursuivre."
-		},
-		{
-			"type": "p",
-			"text": "C'est un changement significatif par rapport à la façon dont la plupart des gens pensent actuellement aux outils de codage IA. Le cadrage dominant positionne l'IA comme un assistant qui aide à écrire du code plus vite. AutoResearch inverse cela : l'agent écrit le code, mène les expériences et évalue les résultats. L'humain écrit la direction de recherche. Le livrable de l'humain est le document de stratégie, pas l'implémentation."
-		},
-		{
-			"type": "p",
-			"text": "La question de savoir si ce cadrage se généralise au-delà de la recherche en ML reste ouverte. Mais dans le domaine de l'expérimentation itérative, où l'objectif est d'explorer un grand espace d'approches possibles et d'identifier ce qui fonctionne, il s'adapte parfaitement. L'agent peut explorer cet espace bien plus vite que n'importe quelle équipe humaine."
-		},
-		{
-			"type": "h2",
-			"text": "Ce que les chiffres montrent"
-		},
-		{
-			"type": "p",
-			"text": "Karpathy a utilisé AutoResearch sur un projet personnel pendant deux jours et a rapporté environ **700 modifications de code autonomes**. Parmi celles-ci, environ **20 ont produit des améliorations additives** qui se sont composées en progrès significatifs. L'effet cumulatif a été un **gain d'efficacité de 11%** sur le leaderboard Time to GPT-2, un benchmark mesurant avec quelle efficacité un modèle peut atteindre le niveau GPT-2."
-		},
-		{
-			"type": "p",
-			"text": "Le taux de réussite d'environ 3% peut sembler faible. Mais considérez l'alternative : un chercheur humain menant 700 expériences manuellement prendrait des mois. L'agent les réalise en une nuit. L'économie change complètement quand le coût d'une expérience ratée tombe à cinq minutes de temps GPU plutôt que des jours d'effort humain."
-		},
-		{
-			"type": "h3",
-			"text": "Un mécanisme de comparaison équitable"
-		},
-		{
-			"type": "p",
-			"text": "Le budget fixe de cinq minutes résout également un problème subtil dans la recherche ML : comment comparer équitablement des approches qui varient en complexité computationnelle ? Si une technique nécessite deux fois plus de calcul, un run d'entraînement plus long la ferait paraître meilleure qu'elle ne l'est. En maintenant le temps constant, AutoResearch garantit que les améliorations reflètent de vrais gains algorithmiques plutôt que de simples stratégies \"dépenser plus de calcul\"."
-		},
-		{
-			"type": "h2",
-			"text": "Des décisions de conception qui comptent"
-		},
-		{
-			"type": "p",
-			"text": "Plusieurs choix dans la conception d'AutoResearch reflètent des leçons tirées des systèmes ML en production qui méritent d'être notées :"
-		},
-		{
-			"type": "ol",
-			"items": [
-				"**Ciblage d'un seul GPU.** Le système est conçu pour un H100, pas un cluster. Cela rend la configuration accessible et les coûts prévisibles. Un seul run nocturne coûte à peu près ce que vous paieriez pour une instance cloud de taille moyenne.",
-				"**Modification d'un seul fichier.** Restreindre l'agent à train.py rend les diffs lisibles et les changements auditables. Quand quelque chose va mal, ou étonnamment bien, vous pouvez retracer pourquoi.",
-				"**Métrique d'évaluation fixe.** val_bpb donne à l'agent un signal sans ambiguïté. L'agent n'a pas besoin de juger la qualité subjectivement ; il a un nombre à optimiser.",
-				"**Rollback sur régression.** Les expériences ratées ne s'accumulent pas. L'agent annule les changements qui aggravent les choses, donc la référence ne progresse que vers l'avant."
-			]
-		},
-		{
-			"type": "p",
-			"text": "Ces contraintes rendent le système lisible. Un agent plus puissant avec moins de restrictions pourrait produire des résultats plus rapides mais plus difficiles à comprendre. AutoResearch échange une certaine capacité brute contre de l'interprétabilité, ce qui compte si vous voulez vraiment apprendre de ce que l'agent découvre."
-		},
-		{
-			"type": "h2",
-			"text": "Le signal plus large : l'IA auto-améliorante"
-		},
-		{
-			"type": "p",
-			"text": "La description que fait Karpathy de ce que représente AutoResearch est plus significative que l'outil lui-même. Il appelle cela le début de **l'\"ère bouclée de l'auto-amélioration de l'IA\"** : des systèmes où des agents IA mènent la recherche qui rend les futurs systèmes IA meilleurs. La boucle est la suivante : de meilleurs agents mènent de meilleures expériences, trouvent de meilleures techniques d'entraînement, produisent de meilleurs modèles, qui deviennent de meilleurs agents."
-		},
-		{
-			"type": "p",
-			"text": "Ce n'est pas nouveau comme concept. Les chercheurs théorisent sur l'auto-amélioration récursive depuis des décennies. Ce qui est nouveau, c'est que l'infrastructure pour le faire, au moins dans un domaine limité, tient désormais sur un seul GPU et peut être mise en place en une après-midi. AutoResearch n'est pas la boucle complète d'auto-amélioration. Mais il en démontre un morceau concret : la recherche expérimentale pilotée par IA produisant des améliorations réelles et mesurables de l'efficacité de l'entraînement IA."
-		},
-		{
-			"type": "p",
-			"text": "Les implications vont au-delà de la recherche ML. Tout domaine avec une métrique d'évaluation claire, un artefact modifiable et un grand espace de recherche d'approches possibles est candidat à ce modèle. Optimisation logicielle, découverte de médicaments, science des matériaux, modélisation financière. Le goulot d'étranglement dans chaque cas est le coût de réalisation des expériences ; réduire ce coût change ce qui est faisable."
-		},
-		{
-			"type": "h2",
-			"text": "Extensions de la communauté"
-		},
-		{
-			"type": "p",
-			"text": "En quelques jours après la publication, la communauté avait étendu AutoResearch à du matériel qui n'était pas dans la conception originale :"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**macOS avec Apple Silicon** via MLX, le rendant accessible sans coûts de GPU cloud pour les utilisateurs déjà sur des Macs à puce M",
-				"**Windows avec des GPUs RTX** via des forks communautaires qui adaptent le pipeline d'entraînement à CUDA sur du matériel grand public",
-				"**GPUs AMD** via des adaptations basées sur ROCm pour les utilisateurs en dehors de l'écosystème NVIDIA"
-			]
-		},
-		{
-			"type": "p",
-			"text": "L'ampleur de l'adaptation communautaire reflète un intérêt réel au-delà de la communauté de recherche ML. Les développeurs qui ne sont pas des spécialistes ML mais qui souhaitent expérimenter avec l'optimisation d'entraînement ont maintenant une voie d'accès, sur du matériel qu'ils possèdent déjà."
-		},
-		{
-			"type": "h2",
-			"text": "Ce que cela signifie pour les équipes qui construisent avec l'IA"
-		},
-		{
-			"type": "p",
-			"text": "AutoResearch est un outil de recherche, pas une plateforme de production. Mais le modèle qu'il démontre est directement pertinent pour la façon dont les équipes devraient penser au travail assisté par IA plus largement."
-		},
-		{
-			"type": "h3",
-			"text": "Le rôle humain évolue"
-		},
-		{
-			"type": "p",
-			"text": "Si l'agent mène les expériences, la valeur de l'humain réside dans le fait de poser les bonnes questions. Écrire un bon program.md nécessite de comprendre quelles approches valent la peine d'être explorées, quelles contraintes comptent et à quoi ressemble réellement le succès. C'est un travail de plus haut niveau qu'écrire du code, mais ce n'est pas plus facile. Cela demande des connaissances du domaine et du jugement."
-		},
-		{
-			"type": "h3",
-			"text": "La capacité de calcul nocturne est sous-utilisée"
-		},
-		{
-			"type": "p",
-			"text": "La plupart des équipes exploitant une infrastructure cloud ont une capacité GPU inactive la nuit. AutoResearch plaide pour que cette capacité puisse effectuer un travail expérimental productif plutôt que de rester inutilisée. La question pour toute équipe avec un objectif d'optimisation clair et une métrique testable est de savoir si le même modèle s'applique à leur problème."
-		},
-		{
-			"type": "h3",
-			"text": "La lisibilité doit être conçue dès le départ"
-		},
-		{
-			"type": "p",
-			"text": "La contrainte de fichier unique dans AutoResearch n'est pas seulement une limitation technique ; c'est une fonctionnalité de lisibilité. Quand les agents peuvent tout toucher, comprendre ce qu'ils ont fait demande un reverse engineering significatif. Concevoir des systèmes où les actions des agents sont délimitées et auditables est de plus en plus important à mesure que l'autonomie augmente."
-		},
-		{
-			"type": "h2",
-			"text": "Par où commencer"
-		},
-		{
-			"type": "p",
-			"text": "AutoResearch est disponible sur [github.com/karpathy/autoresearch](https://github.com/karpathy/autoresearch). Le dépôt inclut des instructions de configuration, des exemples de fichiers program.md et une documentation sur l'adaptation à différentes tâches d'entraînement. Si vous avez accès à un H100 ou à un GPU pris en charge par la communauté, la barrière pour lancer votre première expérience nocturne est faible."
-		},
-		{
-			"type": "p",
-			"text": "La question plus intéressante est de savoir ce que vous investiguerez. AutoResearch vous donne le mécanisme. La direction de recherche, comme toujours, vient de la compréhension des problèmes qui valent la peine d'être résolus."
-		},
-		{
-			"type": "p",
-			"text": "Chez **webvise**, nous travaillons avec des équipes qui intègrent l'IA dans leurs workflows de développement et de recherche. Si vous réfléchissez à la façon dont les agents autonomes s'intègrent dans vos processus, [contactez-nous](/#contact) et nous discuterons de ce qui fait vraiment sens pour votre contexte."
-		}
-	]
+  "date": "2026-04-02",
+  "readingTime": 10,
+  "keyword": "karpathy autoresearch ai experiments",
+  "title": "AutoResearch de Karpathy : ce qui se passe quand l'IA fait la recherche la nuit",
+  "excerpt": "Andrej Karpathy a publié AutoResearch en mars 2026, un framework open source qui envoie des agents IA réaliser des expériences de machine learning de façon autonome pendant la nuit. 65 000 étoiles GitHub en quelques semaines. Voici ce que ça fait vraiment.",
+  "metaDescription": "AutoResearch d'Andrej Karpathy permet à des agents IA de mener des expériences ML de façon autonome sur un seul GPU. Découvrez comment ça fonctionne, son architecture à trois fichiers, et pourquoi cela marque une nouvelle ère pour les systèmes d'IA auto-améliorants.",
+  "tags": ["AI Agents", "AI", "Machine Learning", "Open Source"],
+  "cta": "Get in Touch",
+  "blocks": [
+    {
+      "type": "p",
+      "text": "En mars 2026, Andrej Karpathy, co-fondateur d'OpenAI et ancien directeur de l'IA chez Tesla, a publié un framework appelé [AutoResearch](https://github.com/karpathy/autoresearch). Le principe est simple : vous décrivez ce que vous souhaitez investiguer dans un fichier texte, vous démarrez le système avant d'aller vous coucher, et vous vous réveillez avec environ 100 expériences de machine learning terminées, classées par performance. En trois semaines, le projet a atteint 65 000 étoiles GitHub. Cette adoption rapide reflète quelque chose de concret sur ce que représente le projet, pas seulement ce qu'il fait."
+    },
+    {
+      "type": "h2",
+      "text": "Ce qu'AutoResearch fait vraiment"
+    },
+    {
+      "type": "p",
+      "text": "AutoResearch déploie un agent IA de codage sur un script d'entraînement unique. L'agent modifie le script, lance une expérience d'entraînement de cinq minutes, mesure le résultat à l'aide d'une métrique de validation appelée val_bpb (bits par octet, une mesure de l'efficacité des modèles de langage), puis décide de conserver ou d'annuler le changement. Si le changement améliore le score, il devient la nouvelle référence. Sinon, l'agent revient en arrière et essaie autre chose. Cette boucle tourne en continu, produisant environ **12 expériences par heure**, soit environ 100 sur une nuit."
+    },
+    {
+      "type": "p",
+      "text": "Le budget fixe de cinq minutes par expérience est un choix de conception délibéré. Il rend les résultats comparables d'un run à l'autre, empêche l'agent de passer un temps disproportionné sur une hypothèse, et s'inscrit dans le profil de coût d'un seul GPU H100 fonctionnant toute la nuit. Cette contrainte force le système à travailler efficacement plutôt qu'exhaustivement."
+    },
+    {
+      "type": "h2",
+      "text": "L'architecture à trois fichiers"
+    },
+    {
+      "type": "p",
+      "text": "Le système s'organise autour de trois fichiers, chacun avec un rôle distinct :"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**prepare.py** est fixe. Il gère la préparation des données et ne change jamais. Cela maintient le substrat expérimental stable, de sorte que les variations de résultats reflètent de véritables différences de modèle plutôt que des changements dans le pipeline de données.",
+        "**train.py** est la toile de l'agent. Il commence comme un script d'entraînement de référence et est modifié, étendu et affiné par l'agent au fil de centaines d'itérations. Le matin, il peut sembler très différent de ce avec quoi vous avez commencé.",
+        "**program.md** est écrit par l'humain. C'est là que vous décrivez votre stratégie de recherche : quelles approches explorer, quelles contraintes respecter, quelles hypothèses tester. C'est la seule chose que l'humain doit écrire."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "La simplicité est intentionnelle. Limiter les modifications à un seul fichier (train.py) rend chaque changement vérifiable. Vous pouvez regarder le diff entre la version du matin et le point de départ et comprendre ce que l'agent a réellement fait. C'est plus difficile à obtenir quand les agents touchent de nombreux fichiers simultanément."
+    },
+    {
+      "type": "h2",
+      "text": "Vous écrivez la stratégie de recherche, pas le code"
+    },
+    {
+      "type": "p",
+      "text": "La façon dont Karpathy cadre le rôle humain mérite d'être citée directement. Il le décrit ainsi : **\"Vous n'écrivez pas le code directement 99% du temps. Vous orchestrez des agents.\"** Le travail de l'humain est d'écrire program.md, qu'il appelle le \"code de l'organisation de recherche\", la stratégie de haut niveau qui définit ce que l'agent doit poursuivre."
+    },
+    {
+      "type": "p",
+      "text": "C'est un changement significatif par rapport à la façon dont la plupart des gens pensent actuellement aux outils de codage IA. Le cadrage dominant positionne l'IA comme un assistant qui aide à écrire du code plus vite. AutoResearch inverse cela : l'agent écrit le code, mène les expériences et évalue les résultats. L'humain écrit la direction de recherche. Le livrable de l'humain est le document de stratégie, pas l'implémentation."
+    },
+    {
+      "type": "p",
+      "text": "La question de savoir si ce cadrage se généralise au-delà de la recherche en ML reste ouverte. Mais dans le domaine de l'expérimentation itérative, où l'objectif est d'explorer un grand espace d'approches possibles et d'identifier ce qui fonctionne, il s'adapte parfaitement. L'agent peut explorer cet espace bien plus vite que n'importe quelle équipe humaine."
+    },
+    {
+      "type": "h2",
+      "text": "Ce que les chiffres montrent"
+    },
+    {
+      "type": "p",
+      "text": "Karpathy a utilisé AutoResearch sur un projet personnel pendant deux jours et a rapporté environ **700 modifications de code autonomes**. Parmi celles-ci, environ **20 ont produit des améliorations additives** qui se sont composées en progrès significatifs. L'effet cumulatif a été un **gain d'efficacité de 11%** sur le leaderboard Time to GPT-2, un benchmark mesurant avec quelle efficacité un modèle peut atteindre le niveau GPT-2."
+    },
+    {
+      "type": "p",
+      "text": "Le taux de réussite d'environ 3% peut sembler faible. Mais considérez l'alternative : un chercheur humain menant 700 expériences manuellement prendrait des mois. L'agent les réalise en une nuit. L'économie change complètement quand le coût d'une expérience ratée tombe à cinq minutes de temps GPU plutôt que des jours d'effort humain."
+    },
+    {
+      "type": "h3",
+      "text": "Un mécanisme de comparaison équitable"
+    },
+    {
+      "type": "p",
+      "text": "Le budget fixe de cinq minutes résout également un problème subtil dans la recherche ML : comment comparer équitablement des approches qui varient en complexité computationnelle ? Si une technique nécessite deux fois plus de calcul, un run d'entraînement plus long la ferait paraître meilleure qu'elle ne l'est. En maintenant le temps constant, AutoResearch garantit que les améliorations reflètent de vrais gains algorithmiques plutôt que de simples stratégies \"dépenser plus de calcul\"."
+    },
+    {
+      "type": "h2",
+      "text": "Des décisions de conception qui comptent"
+    },
+    {
+      "type": "p",
+      "text": "Plusieurs choix dans la conception d'AutoResearch reflètent des leçons tirées des systèmes ML en production qui méritent d'être notées :"
+    },
+    {
+      "type": "ol",
+      "items": [
+        "**Ciblage d'un seul GPU.** Le système est conçu pour un H100, pas un cluster. Cela rend la configuration accessible et les coûts prévisibles. Un seul run nocturne coûte à peu près ce que vous paieriez pour une instance cloud de taille moyenne.",
+        "**Modification d'un seul fichier.** Restreindre l'agent à train.py rend les diffs lisibles et les changements auditables. Quand quelque chose va mal, ou étonnamment bien, vous pouvez retracer pourquoi.",
+        "**Métrique d'évaluation fixe.** val_bpb donne à l'agent un signal sans ambiguïté. L'agent n'a pas besoin de juger la qualité subjectivement ; il a un nombre à optimiser.",
+        "**Rollback sur régression.** Les expériences ratées ne s'accumulent pas. L'agent annule les changements qui aggravent les choses, donc la référence ne progresse que vers l'avant."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Ces contraintes rendent le système lisible. Un agent plus puissant avec moins de restrictions pourrait produire des résultats plus rapides mais plus difficiles à comprendre. AutoResearch échange une certaine capacité brute contre de l'interprétabilité, ce qui compte si vous voulez vraiment apprendre de ce que l'agent découvre."
+    },
+    {
+      "type": "h2",
+      "text": "Le signal plus large : l'IA auto-améliorante"
+    },
+    {
+      "type": "p",
+      "text": "La description que fait Karpathy de ce que représente AutoResearch est plus significative que l'outil lui-même. Il appelle cela le début de **l'\"ère bouclée de l'auto-amélioration de l'IA\"** : des systèmes où des agents IA mènent la recherche qui rend les futurs systèmes IA meilleurs. La boucle est la suivante : de meilleurs agents mènent de meilleures expériences, trouvent de meilleures techniques d'entraînement, produisent de meilleurs modèles, qui deviennent de meilleurs agents."
+    },
+    {
+      "type": "p",
+      "text": "Ce n'est pas nouveau comme concept. Les chercheurs théorisent sur l'auto-amélioration récursive depuis des décennies. Ce qui est nouveau, c'est que l'infrastructure pour le faire, au moins dans un domaine limité, tient désormais sur un seul GPU et peut être mise en place en une après-midi. AutoResearch n'est pas la boucle complète d'auto-amélioration. Mais il en démontre un morceau concret : la recherche expérimentale pilotée par IA produisant des améliorations réelles et mesurables de l'efficacité de l'entraînement IA."
+    },
+    {
+      "type": "p",
+      "text": "Les implications vont au-delà de la recherche ML. Tout domaine avec une métrique d'évaluation claire, un artefact modifiable et un grand espace de recherche d'approches possibles est candidat à ce modèle. Optimisation logicielle, découverte de médicaments, science des matériaux, modélisation financière. Le goulot d'étranglement dans chaque cas est le coût de réalisation des expériences ; réduire ce coût change ce qui est faisable."
+    },
+    {
+      "type": "h2",
+      "text": "Extensions de la communauté"
+    },
+    {
+      "type": "p",
+      "text": "En quelques jours après la publication, la communauté avait étendu AutoResearch à du matériel qui n'était pas dans la conception originale :"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**macOS avec Apple Silicon** via MLX, le rendant accessible sans coûts de GPU cloud pour les utilisateurs déjà sur des Macs à puce M",
+        "**Windows avec des GPUs RTX** via des forks communautaires qui adaptent le pipeline d'entraînement à CUDA sur du matériel grand public",
+        "**GPUs AMD** via des adaptations basées sur ROCm pour les utilisateurs en dehors de l'écosystème NVIDIA"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "L'ampleur de l'adaptation communautaire reflète un intérêt réel au-delà de la communauté de recherche ML. Les développeurs qui ne sont pas des spécialistes ML mais qui souhaitent expérimenter avec l'optimisation d'entraînement ont maintenant une voie d'accès, sur du matériel qu'ils possèdent déjà."
+    },
+    {
+      "type": "h2",
+      "text": "Ce que cela signifie pour les équipes qui construisent avec l'IA"
+    },
+    {
+      "type": "p",
+      "text": "AutoResearch est un outil de recherche, pas une plateforme de production. Mais le modèle qu'il démontre est directement pertinent pour la façon dont les équipes devraient penser au travail assisté par IA plus largement."
+    },
+    {
+      "type": "h3",
+      "text": "Le rôle humain évolue"
+    },
+    {
+      "type": "p",
+      "text": "Si l'agent mène les expériences, la valeur de l'humain réside dans le fait de poser les bonnes questions. Écrire un bon program.md nécessite de comprendre quelles approches valent la peine d'être explorées, quelles contraintes comptent et à quoi ressemble réellement le succès. C'est un travail de plus haut niveau qu'écrire du code, mais ce n'est pas plus facile. Cela demande des connaissances du domaine et du jugement."
+    },
+    {
+      "type": "h3",
+      "text": "La capacité de calcul nocturne est sous-utilisée"
+    },
+    {
+      "type": "p",
+      "text": "La plupart des équipes exploitant une infrastructure cloud ont une capacité GPU inactive la nuit. AutoResearch plaide pour que cette capacité puisse effectuer un travail expérimental productif plutôt que de rester inutilisée. La question pour toute équipe avec un objectif d'optimisation clair et une métrique testable est de savoir si le même modèle s'applique à leur problème."
+    },
+    {
+      "type": "h3",
+      "text": "La lisibilité doit être conçue dès le départ"
+    },
+    {
+      "type": "p",
+      "text": "La contrainte de fichier unique dans AutoResearch n'est pas seulement une limitation technique ; c'est une fonctionnalité de lisibilité. Quand les agents peuvent tout toucher, comprendre ce qu'ils ont fait demande un reverse engineering significatif. Concevoir des systèmes où les actions des agents sont délimitées et auditables est de plus en plus important à mesure que l'autonomie augmente."
+    },
+    {
+      "type": "h2",
+      "text": "Par où commencer"
+    },
+    {
+      "type": "p",
+      "text": "AutoResearch est disponible sur [github.com/karpathy/autoresearch](https://github.com/karpathy/autoresearch). Le dépôt inclut des instructions de configuration, des exemples de fichiers program.md et une documentation sur l'adaptation à différentes tâches d'entraînement. Si vous avez accès à un H100 ou à un GPU pris en charge par la communauté, la barrière pour lancer votre première expérience nocturne est faible."
+    },
+    {
+      "type": "p",
+      "text": "La question plus intéressante est de savoir ce que vous investiguerez. AutoResearch vous donne le mécanisme. La direction de recherche, comme toujours, vient de la compréhension des problèmes qui valent la peine d'être résolus."
+    },
+    {
+      "type": "p",
+      "text": "Chez **webvise**, nous travaillons avec des équipes qui intègrent l'IA dans leurs workflows de développement et de recherche. Si vous réfléchissez à la façon dont les agents autonomes s'intègrent dans vos processus, [contactez-nous](/#contact) et nous discuterons de ce qui fait vraiment sens pour votre contexte."
+    }
+  ]
 }

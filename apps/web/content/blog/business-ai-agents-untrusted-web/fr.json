@@ -1,157 +1,157 @@
 {
-	"date": "2026-04-08",
-	"readingTime": 9,
-	"keyword": "sécurité agent ia entreprise",
-	"title": "Pourquoi Nous Ne Livrons Pas d'Agents AI Qui Lisent le Web Ouvert",
-	"excerpt": "Le 5 avril 2026, Google DeepMind a publié la plus grande étude empirique jamais menée sur la manipulation des agents AI. 502 participants, 8 pays, 23 types d'attaques, chaque défense actuellement disponible jugée insuffisante. Voici la position technique que Webvise a adoptée dès le lendemain matin.",
-	"metaDescription": "L'étude DeepMind d'avril 2026 a mesuré 23 façons de détourner un agent AI en entreprise. La règle de Webvise : les agents qui lisent du contenu contrôlé par des attaquants ne sont pas livrés aux clients.",
-	"tags": ["AI Agents", "AI", "Security", "B2B"],
-	"cta": "Parler à Webvise de l'AI",
-	"blocks": [
-		{
-			"type": "p",
-			"text": "Le 5 avril 2026, Google DeepMind a publié la plus grande étude empirique jamais conduite sur la manipulation des agents AI : 502 participants réels dans 8 pays, 23 types d'attaques distincts, des modèles de référence dont GPT-4o, Claude, et Gemini. La phrase que nous en avons extraite et épinglée dans notre canal technique dès le lendemain matin est la seule qui compte pour quiconque livre un chatbot en production en 2026 : **si votre agent AI lit du texte contrôlé par un attaquant et effectue ensuite une action avec les privilèges de l'utilisateur, vous avez déjà intégré une vulnérabilité d'exfiltration de données.** C'est la raison pour laquelle webvise ne construira pas, pour aucun client à aucun prix, un agent AI qui navigue sur le web ouvert."
-		},
-		{
-			"type": "h2",
-			"text": "Ce que DeepMind a Réellement Mesuré"
-		},
-		{
-			"type": "p",
-			"text": "La plupart des articles de presse sur l'étude ont rapporté le chiffre phare, 23 types d'attaques, puis sont passés à autre chose. Les données sous-jacentes sont ce qui compte pour quiconque exploite une fonctionnalité AI en production :"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**502 participants** dans des conditions réelles, pas des simulations en laboratoire",
-				"**8 pays**, de sorte que les attaques n'ont pas été optimisées pour un seul contexte culturel ou linguistique",
-				"**23 types d'attaques dans 10 catégories**, incluant l'injection directe de prompt, l'injection indirecte via du contenu web, l'injection par pixels multimodaux, l'injection par document, la manipulation d'environnement, l'intégration de jailbreak, l'empoisonnement de mémoire, le détournement d'objectif, l'exfiltration, et l'injection inter-agents",
-				"**Les quatre classes de défense** (assainissement des entrées, gardes au niveau du prompt, sandboxing, supervision humaine) jugées insuffisantes à grande échelle"
-			]
-		},
-		{
-			"type": "p",
-			"text": "La catégorie sur laquelle nous revenons sans cesse est la huitième, *le détournement d'objectif par dérive progressive des instructions au fil des interactions.* Chaque démo d'un système d'agents que vous avez jamais vue résiste à un seul prompt adversarial. Aucune ne résiste à cent prompts soigneusement espacés."
-		},
-		{
-			"type": "h2",
-			"text": "L'Insight en Cascade que la Plupart des Articles ont Raté"
-		},
-		{
-			"type": "p",
-			"text": "Enfoui dans l'étude se trouve le résultat qui détermine si les produits multi-agents peuvent être livrés en toute sécurité. Dans tout pipeline où l'agent A récupère du contenu, l'agent B le traite, et l'agent C exécute une action, **une seule injection dans le flux de données de l'agent A se propage à travers chaque agent en aval.** L'agent B fait confiance à la sortie de A. L'agent C fait confiance à la sortie de B. L'attaquant n'avait pas besoin de compromettre le modèle. Il lui suffisait de compromettre les données que le modèle consommait, une seule fois."
-		},
-		{
-			"type": "p",
-			"text": "Notre fondateur gère une configuration multi-agents personnelle avec **Hermes**, un agent NousResearch sur Telegram qui pilote 14 cron jobs couvrant les actualités quotidiennes, les résumés de recommandations médicales et la logistique personnelle. Chacun de ces 14 jobs lit depuis une source explicitement approuvée et sélectionnée à la main. Aucun ne suit de liens. Aucun n'exécute d'instructions externes. Après la publication de l'étude DeepMind, chaque cron a été audité et la règle a tenu. Elle a tenu parce qu'elle a été rédigée il y a deux ans et qu'il a été refusé de l'assouplir. La plupart des stacks d'agents en production que nous voyons dans les briefs clients n'ont pas cette règle, et les ingénieurs qui les construisent n'ont jamais été invités à la formuler."
-		},
-		{
-			"type": "h2",
-			"text": "À Quoi Ressemble 'Lire le Web Ouvert' dans un Brief Client"
-		},
-		{
-			"type": "p",
-			"text": "Nous voyons trois variantes de la même demande, chaque mois :"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**'Faites en sorte que le chatbot réponde aux questions en naviguant sur le site de mon concurrent.'** En pratique, cela accorderait à un attaquant qui contrôle un article de blog concurrent un canal d'écriture dans la session du client.",
-				"**'Laissez les utilisateurs coller n'importe quelle URL et demandez à l'agent de la résumer.'** En pratique, cela permettrait à n'importe quel utilisateur de coller une URL dont le HTML contient des instructions cachées qui exfiltrent des messages de la conversation.",
-				"**'Ajoutez du RAG sur la documentation d'un fournisseur externe que nous n'hébergeons pas.'** En pratique, cela accorderait les permissions d'appel d'outils de l'agent à toute personne qui modifie cette documentation."
-			]
-		},
-		{
-			"type": "p",
-			"text": "Chacune de ces demandes connecte un canal de texte contrôlé par un attaquant directement dans un système qui possède des données utilisateur, des appels d'outils et un accès réseau sortant du même côté de la frontière de confiance. Aucune n'est malveillante de la part du client. Chacune est une idée de produit défendable. Et pourtant, après le 5 avril 2026, elles sont toutes impossibles à livrer."
-		},
-		{
-			"type": "h2",
-			"text": "Chaque Défense Actuellement Disponible Échoue"
-		},
-		{
-			"type": "p",
-			"text": "DeepMind a testé les quatre grandes familles de défense évidentes. Voici leur évaluation, avec notre commentaire sur chacune :"
-		},
-		{
-			"type": "table",
-			"headers": [
-				"Défense",
-				"Verdict DeepMind",
-				"Pourquoi elle échoue en pratique"
-			],
-			"rows": [
-				[
-					"Assainissement des entrées",
-					"Insuffisant",
-					"Vous ne pouvez pas assainir les pixels d'une image, les métadonnées d'un document ou les notes du présentateur dans un PDF au moment de l'inférence. La surface d'attaque est le texte et chaque autre modalité que l'agent ingère."
-				],
-				[
-					"Gardes au niveau du prompt",
-					"Insuffisant",
-					"Le contenu injecté est conçu pour ressembler à une partie légitime de la page. Au moment où le modèle le voit, la garde lui a déjà fait confiance."
-				],
-				[
-					"Sandboxing",
-					"Réduit le rayon d'explosion, ne prévient pas l'injection",
-					"Le sandboxing aide si le résultat de l'attaque est contenu. Il n'aide pas quand l'objectif de l'attaque est de lire les données de l'utilisateur et de les réécrire via un appel API d'apparence légitime."
-				],
-				[
-					"Supervision humaine",
-					"Insuffisant à grande échelle",
-					"Un opérateur qui fait tourner un agent sur 50 sources ne peut pas vérifier chaque page pour y détecter des instructions cachées. Tout l'intérêt de l'agent était que l'humain sorte de la boucle."
-				]
-			]
-		},
-		{
-			"type": "p",
-			"text": "Si vous prenez ce tableau au sérieux, il n'existe aucune façon responsable de livrer un agent qui lit du texte contrôlé par un attaquant tout en exécutant des actions avec les privilèges de l'utilisateur. Le seul mouvement disponible est de supprimer l'une de ces deux propriétés."
-		},
-		{
-			"type": "h2",
-			"text": "Ce que Nous Livrons à la Place"
-		},
-		{
-			"type": "p",
-			"text": "Webvise a livré des fonctionnalités AI en production chez des clients, notamment la page d'accueil de construction [MP Bau](https://mpbau.vercel.app), qui achemine ses appels de modèles via le **Vercel AI Gateway** pour le routage de fournisseurs et l'observabilité. Les cinq règles ci-dessous sont ce qui a rendu cette réalisation défendable, et elles constituent désormais des prérequis non négociables pour tout travail AI que nous acceptons :"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Agents à entrées fermées uniquement.** L'agent lit depuis un ensemble fini de sources sélectionnées à la main que nous contrôlons. Pas de web ouvert. Pas d'URL collées par l'utilisateur. Pas de RAG externe sur une documentation non contrôlée.",
-				"**Lecture seule par défaut.** Si l'agent doit lire quelque chose en lequel nous n'avons pas confiance totale, il ne peut pas non plus appeler des outils, envoyer des emails, écrire dans une base de données ou générer des requêtes réseau sortantes dans la même session. Vous obtenez l'un ou l'autre, jamais les deux simultanément.",
-				"**Isolation inter-agents.** Lorsque la sortie de l'agent A est transmise à l'agent B, B traite cette sortie comme une entrée utilisateur, pas comme des instructions système. C'est une ligne de code dans le prompt et c'est l'intégralité de la défense contre l'attaque en cascade.",
-				"**Budgets de capacités par agent.** Chaque agent dispose d'une liste fixe d'outils et d'un plafond de tokens. Ce plafond est suffisamment bas pour qu'une injection réussie ne puisse pas exfiltrer plus d'un court message.",
-				"**Isolation du fournisseur via une gateway.** Nous acheminons chaque appel de modèle via Vercel AI Gateway afin de pouvoir changer de fournisseur, enregistrer chaque prompt et chaque complétion, et révoquer une clé en quelques secondes. Si quelque chose semble anormal dans les logs, nous pouvons arrêter l'hémorragie à la minute même où nous le remarquons."
-			]
-		},
-		{
-			"type": "p",
-			"text": "Ces pratiques ne sont pas exotiques. Elles coûtent quelques heures de conception, avant qu'une seule ligne de code soit écrite. Si la plupart des produits agents en 2026 ne les appliquent pas, c'est que personne dans l'équipe n'a été payé pour tracer la frontière de confiance."
-		},
-		{
-			"type": "h2",
-			"text": "Pourquoi Nous Déclinons Certaines Fonctionnalités"
-		},
-		{
-			"type": "p",
-			"text": "L'étude DeepMind permet à toute équipe disposant d'une expertise en ingénierie antérieure au boom des agents de décliner des demandes de fonctionnalités spécifiques avec une justification technique claire ; les clients l'apprécient généralement rétrospectivement. Les fournisseurs qui construisent des agents sans ces contraintes assument un risque d'exfiltration significatif, de plus en plus visible dans les rapports d'incidents."
-		},
-		{
-			"type": "p",
-			"text": "Le marché connaît un déploiement rapide de chatbots sans défenses contre l'injection de prompts, similaire à la récente prolifération de contenu de faible qualité généré par LLM. L'avantage concurrentiel ira aux équipes capables de démontrer, à l'avance, que le leur ne fait pas partie de cette tendance."
-		},
-		{
-			"type": "h2",
-			"text": "Où Nous Traçons la Ligne"
-		},
-		{
-			"type": "p",
-			"text": "La version la plus courte de la règle, celle que nous inscrivons désormais dans chaque document de lancement de projet, est la suivante : un agent peut lire du contenu non fiable, ou agir avec les privilèges de l'utilisateur, mais pas dans la même session. Tout le reste en découle. Si une demande de fonctionnalité franchit la ligne, elle n'est pas construite. Si elle peut être reformulée pour rester d'un seul côté, nous la reformulons avec le client et livrons la version reformulée. L'étude DeepMind n'a pas inventé cette discipline. Elle a simplement supprimé toutes les excuses pour ne pas l'avoir."
-		},
-		{
-			"type": "p",
-			"text": "Chez **webvise**, nous construisons des fonctionnalités AI pour des entreprises où le coût d'un seul message client divulgué est supérieur au coût de refuser une demande de fonctionnalité. Si c'est le cas de votre projet, [contactez-nous](/#contact) et nous tracerons ensemble la frontière de confiance avant qu'une seule ligne de code soit écrite."
-		}
-	]
+  "date": "2026-04-08",
+  "readingTime": 9,
+  "keyword": "sécurité agent ia entreprise",
+  "title": "Pourquoi Nous Ne Livrons Pas d'Agents AI Qui Lisent le Web Ouvert",
+  "excerpt": "Le 5 avril 2026, Google DeepMind a publié la plus grande étude empirique jamais menée sur la manipulation des agents AI. 502 participants, 8 pays, 23 types d'attaques, chaque défense actuellement disponible jugée insuffisante. Voici la position technique que Webvise a adoptée dès le lendemain matin.",
+  "metaDescription": "L'étude DeepMind d'avril 2026 a mesuré 23 façons de détourner un agent AI en entreprise. La règle de Webvise : les agents qui lisent du contenu contrôlé par des attaquants ne sont pas livrés aux clients.",
+  "tags": ["AI Agents", "AI", "Security", "B2B"],
+  "cta": "Parler à Webvise de l'AI",
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Le 5 avril 2026, Google DeepMind a publié la plus grande étude empirique jamais conduite sur la manipulation des agents AI : 502 participants réels dans 8 pays, 23 types d'attaques distincts, des modèles de référence dont GPT-4o, Claude, et Gemini. La phrase que nous en avons extraite et épinglée dans notre canal technique dès le lendemain matin est la seule qui compte pour quiconque livre un chatbot en production en 2026 : **si votre agent AI lit du texte contrôlé par un attaquant et effectue ensuite une action avec les privilèges de l'utilisateur, vous avez déjà intégré une vulnérabilité d'exfiltration de données.** C'est la raison pour laquelle webvise ne construira pas, pour aucun client à aucun prix, un agent AI qui navigue sur le web ouvert."
+    },
+    {
+      "type": "h2",
+      "text": "Ce que DeepMind a Réellement Mesuré"
+    },
+    {
+      "type": "p",
+      "text": "La plupart des articles de presse sur l'étude ont rapporté le chiffre phare, 23 types d'attaques, puis sont passés à autre chose. Les données sous-jacentes sont ce qui compte pour quiconque exploite une fonctionnalité AI en production :"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**502 participants** dans des conditions réelles, pas des simulations en laboratoire",
+        "**8 pays**, de sorte que les attaques n'ont pas été optimisées pour un seul contexte culturel ou linguistique",
+        "**23 types d'attaques dans 10 catégories**, incluant l'injection directe de prompt, l'injection indirecte via du contenu web, l'injection par pixels multimodaux, l'injection par document, la manipulation d'environnement, l'intégration de jailbreak, l'empoisonnement de mémoire, le détournement d'objectif, l'exfiltration, et l'injection inter-agents",
+        "**Les quatre classes de défense** (assainissement des entrées, gardes au niveau du prompt, sandboxing, supervision humaine) jugées insuffisantes à grande échelle"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "La catégorie sur laquelle nous revenons sans cesse est la huitième, *le détournement d'objectif par dérive progressive des instructions au fil des interactions.* Chaque démo d'un système d'agents que vous avez jamais vue résiste à un seul prompt adversarial. Aucune ne résiste à cent prompts soigneusement espacés."
+    },
+    {
+      "type": "h2",
+      "text": "L'Insight en Cascade que la Plupart des Articles ont Raté"
+    },
+    {
+      "type": "p",
+      "text": "Enfoui dans l'étude se trouve le résultat qui détermine si les produits multi-agents peuvent être livrés en toute sécurité. Dans tout pipeline où l'agent A récupère du contenu, l'agent B le traite, et l'agent C exécute une action, **une seule injection dans le flux de données de l'agent A se propage à travers chaque agent en aval.** L'agent B fait confiance à la sortie de A. L'agent C fait confiance à la sortie de B. L'attaquant n'avait pas besoin de compromettre le modèle. Il lui suffisait de compromettre les données que le modèle consommait, une seule fois."
+    },
+    {
+      "type": "p",
+      "text": "Notre fondateur gère une configuration multi-agents personnelle avec **Hermes**, un agent NousResearch sur Telegram qui pilote 14 cron jobs couvrant les actualités quotidiennes, les résumés de recommandations médicales et la logistique personnelle. Chacun de ces 14 jobs lit depuis une source explicitement approuvée et sélectionnée à la main. Aucun ne suit de liens. Aucun n'exécute d'instructions externes. Après la publication de l'étude DeepMind, chaque cron a été audité et la règle a tenu. Elle a tenu parce qu'elle a été rédigée il y a deux ans et qu'il a été refusé de l'assouplir. La plupart des stacks d'agents en production que nous voyons dans les briefs clients n'ont pas cette règle, et les ingénieurs qui les construisent n'ont jamais été invités à la formuler."
+    },
+    {
+      "type": "h2",
+      "text": "À Quoi Ressemble 'Lire le Web Ouvert' dans un Brief Client"
+    },
+    {
+      "type": "p",
+      "text": "Nous voyons trois variantes de la même demande, chaque mois :"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**'Faites en sorte que le chatbot réponde aux questions en naviguant sur le site de mon concurrent.'** En pratique, cela accorderait à un attaquant qui contrôle un article de blog concurrent un canal d'écriture dans la session du client.",
+        "**'Laissez les utilisateurs coller n'importe quelle URL et demandez à l'agent de la résumer.'** En pratique, cela permettrait à n'importe quel utilisateur de coller une URL dont le HTML contient des instructions cachées qui exfiltrent des messages de la conversation.",
+        "**'Ajoutez du RAG sur la documentation d'un fournisseur externe que nous n'hébergeons pas.'** En pratique, cela accorderait les permissions d'appel d'outils de l'agent à toute personne qui modifie cette documentation."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Chacune de ces demandes connecte un canal de texte contrôlé par un attaquant directement dans un système qui possède des données utilisateur, des appels d'outils et un accès réseau sortant du même côté de la frontière de confiance. Aucune n'est malveillante de la part du client. Chacune est une idée de produit défendable. Et pourtant, après le 5 avril 2026, elles sont toutes impossibles à livrer."
+    },
+    {
+      "type": "h2",
+      "text": "Chaque Défense Actuellement Disponible Échoue"
+    },
+    {
+      "type": "p",
+      "text": "DeepMind a testé les quatre grandes familles de défense évidentes. Voici leur évaluation, avec notre commentaire sur chacune :"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Défense",
+        "Verdict DeepMind",
+        "Pourquoi elle échoue en pratique"
+      ],
+      "rows": [
+        [
+          "Assainissement des entrées",
+          "Insuffisant",
+          "Vous ne pouvez pas assainir les pixels d'une image, les métadonnées d'un document ou les notes du présentateur dans un PDF au moment de l'inférence. La surface d'attaque est le texte et chaque autre modalité que l'agent ingère."
+        ],
+        [
+          "Gardes au niveau du prompt",
+          "Insuffisant",
+          "Le contenu injecté est conçu pour ressembler à une partie légitime de la page. Au moment où le modèle le voit, la garde lui a déjà fait confiance."
+        ],
+        [
+          "Sandboxing",
+          "Réduit le rayon d'explosion, ne prévient pas l'injection",
+          "Le sandboxing aide si le résultat de l'attaque est contenu. Il n'aide pas quand l'objectif de l'attaque est de lire les données de l'utilisateur et de les réécrire via un appel API d'apparence légitime."
+        ],
+        [
+          "Supervision humaine",
+          "Insuffisant à grande échelle",
+          "Un opérateur qui fait tourner un agent sur 50 sources ne peut pas vérifier chaque page pour y détecter des instructions cachées. Tout l'intérêt de l'agent était que l'humain sorte de la boucle."
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Si vous prenez ce tableau au sérieux, il n'existe aucune façon responsable de livrer un agent qui lit du texte contrôlé par un attaquant tout en exécutant des actions avec les privilèges de l'utilisateur. Le seul mouvement disponible est de supprimer l'une de ces deux propriétés."
+    },
+    {
+      "type": "h2",
+      "text": "Ce que Nous Livrons à la Place"
+    },
+    {
+      "type": "p",
+      "text": "Webvise a livré des fonctionnalités AI en production chez des clients, notamment la page d'accueil de construction [MP Bau](https://mpbau.vercel.app), qui achemine ses appels de modèles via le **Vercel AI Gateway** pour le routage de fournisseurs et l'observabilité. Les cinq règles ci-dessous sont ce qui a rendu cette réalisation défendable, et elles constituent désormais des prérequis non négociables pour tout travail AI que nous acceptons :"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Agents à entrées fermées uniquement.** L'agent lit depuis un ensemble fini de sources sélectionnées à la main que nous contrôlons. Pas de web ouvert. Pas d'URL collées par l'utilisateur. Pas de RAG externe sur une documentation non contrôlée.",
+        "**Lecture seule par défaut.** Si l'agent doit lire quelque chose en lequel nous n'avons pas confiance totale, il ne peut pas non plus appeler des outils, envoyer des emails, écrire dans une base de données ou générer des requêtes réseau sortantes dans la même session. Vous obtenez l'un ou l'autre, jamais les deux simultanément.",
+        "**Isolation inter-agents.** Lorsque la sortie de l'agent A est transmise à l'agent B, B traite cette sortie comme une entrée utilisateur, pas comme des instructions système. C'est une ligne de code dans le prompt et c'est l'intégralité de la défense contre l'attaque en cascade.",
+        "**Budgets de capacités par agent.** Chaque agent dispose d'une liste fixe d'outils et d'un plafond de tokens. Ce plafond est suffisamment bas pour qu'une injection réussie ne puisse pas exfiltrer plus d'un court message.",
+        "**Isolation du fournisseur via une gateway.** Nous acheminons chaque appel de modèle via Vercel AI Gateway afin de pouvoir changer de fournisseur, enregistrer chaque prompt et chaque complétion, et révoquer une clé en quelques secondes. Si quelque chose semble anormal dans les logs, nous pouvons arrêter l'hémorragie à la minute même où nous le remarquons."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Ces pratiques ne sont pas exotiques. Elles coûtent quelques heures de conception, avant qu'une seule ligne de code soit écrite. Si la plupart des produits agents en 2026 ne les appliquent pas, c'est que personne dans l'équipe n'a été payé pour tracer la frontière de confiance."
+    },
+    {
+      "type": "h2",
+      "text": "Pourquoi Nous Déclinons Certaines Fonctionnalités"
+    },
+    {
+      "type": "p",
+      "text": "L'étude DeepMind permet à toute équipe disposant d'une expertise en ingénierie antérieure au boom des agents de décliner des demandes de fonctionnalités spécifiques avec une justification technique claire ; les clients l'apprécient généralement rétrospectivement. Les fournisseurs qui construisent des agents sans ces contraintes assument un risque d'exfiltration significatif, de plus en plus visible dans les rapports d'incidents."
+    },
+    {
+      "type": "p",
+      "text": "Le marché connaît un déploiement rapide de chatbots sans défenses contre l'injection de prompts, similaire à la récente prolifération de contenu de faible qualité généré par LLM. L'avantage concurrentiel ira aux équipes capables de démontrer, à l'avance, que le leur ne fait pas partie de cette tendance."
+    },
+    {
+      "type": "h2",
+      "text": "Où Nous Traçons la Ligne"
+    },
+    {
+      "type": "p",
+      "text": "La version la plus courte de la règle, celle que nous inscrivons désormais dans chaque document de lancement de projet, est la suivante : un agent peut lire du contenu non fiable, ou agir avec les privilèges de l'utilisateur, mais pas dans la même session. Tout le reste en découle. Si une demande de fonctionnalité franchit la ligne, elle n'est pas construite. Si elle peut être reformulée pour rester d'un seul côté, nous la reformulons avec le client et livrons la version reformulée. L'étude DeepMind n'a pas inventé cette discipline. Elle a simplement supprimé toutes les excuses pour ne pas l'avoir."
+    },
+    {
+      "type": "p",
+      "text": "Chez **webvise**, nous construisons des fonctionnalités AI pour des entreprises où le coût d'un seul message client divulgué est supérieur au coût de refuser une demande de fonctionnalité. Si c'est le cas de votre projet, [contactez-nous](/#contact) et nous tracerons ensemble la frontière de confiance avant qu'une seule ligne de code soit écrite."
+    }
+  ]
 }

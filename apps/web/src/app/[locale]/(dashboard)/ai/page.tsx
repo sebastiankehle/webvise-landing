@@ -28,7 +28,9 @@ export default function AIPage() {
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const text = input.trim();
-		if (!text) return;
+		if (!text) {
+			return;
+		}
 		sendMessage({ text });
 		setInput("");
 	};
@@ -43,12 +45,12 @@ export default function AIPage() {
 				) : (
 					messages.map((message) => (
 						<div
-							key={message.id}
 							className={`rounded-lg p-3 ${
 								message.role === "user"
 									? "ml-8 bg-primary/10"
 									: "mr-8 bg-secondary/20"
 							}`}
+							key={message.id}
 						>
 							<Body className="mb-1 font-semibold text-sm">
 								{message.role === "user" ? "You" : "AI Assistant"}
@@ -57,10 +59,10 @@ export default function AIPage() {
 								if (part.type === "text") {
 									return (
 										<Streamdown
-											key={part.text}
 											isAnimating={
 												status === "streaming" && message.role === "assistant"
 											}
+											key={part.text}
 										>
 											{part.text}
 										</Streamdown>
@@ -75,19 +77,19 @@ export default function AIPage() {
 			</div>
 
 			<form
-				onSubmit={handleSubmit}
 				className="flex w-full items-center space-x-2 border-t pt-2"
+				onSubmit={handleSubmit}
 			>
 				<Input
-					name="prompt"
-					value={input}
-					onChange={(e) => setInput(e.target.value)}
-					placeholder="Type your message..."
-					className="flex-1"
 					autoComplete="off"
 					autoFocus
+					className="flex-1"
+					name="prompt"
+					onChange={(e) => setInput(e.target.value)}
+					placeholder="Type your message..."
+					value={input}
 				/>
-				<Button type="submit" size="icon">
+				<Button size="icon" type="submit">
 					<Send size={18} />
 				</Button>
 			</form>

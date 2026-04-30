@@ -128,9 +128,21 @@
       "type": "table",
       "headers": ["Placement", "Frontière de confiance", "Quand l'utiliser"],
       "rows": [
-        ["Côté client (navigateur + WebGPU)", "Le texte en clair ne quitte jamais l'appareil", "Applications web axées sur la conformité, secteurs réglementés, outils internes"],
-        ["Middleware serveur (Node + Transformers)", "Serveur de confiance, journaux audités", "API, agents backend, pipelines par lots"],
-        ["Filtre de sortie (post-réponse)", "La sortie du modèle n'atteint jamais le client en brut", "Agents de chat, contenus générés, flux RAG exposés aux utilisateurs"]
+        [
+          "Côté client (navigateur + WebGPU)",
+          "Le texte en clair ne quitte jamais l'appareil",
+          "Applications web axées sur la conformité, secteurs réglementés, outils internes"
+        ],
+        [
+          "Middleware serveur (Node + Transformers)",
+          "Serveur de confiance, journaux audités",
+          "API, agents backend, pipelines par lots"
+        ],
+        [
+          "Filtre de sortie (post-réponse)",
+          "La sortie du modèle n'atteint jamais le client en brut",
+          "Agents de chat, contenus générés, flux RAG exposés aux utilisateurs"
+        ]
       ]
     },
     {
@@ -153,14 +165,46 @@
       "type": "table",
       "headers": ["Catégorie", "Ce qui est détecté", "Mode d'échec connu"],
       "rows": [
-        ["private_person", "Noms de personnes", "Les noms régionaux peu courants, les initiales et les références avec titres honorifiques sont sous-détectés"],
-        ["private_email", "Adresses e-mail", "Couverture solide. Les formats obfusqués (\"nom arobase domaine\") peuvent passer inaperçus"],
-        ["private_phone", "Numéros de téléphone", "Les formats internationaux sont bien couverts. Les séparateurs non standard fragmentent parfois les résultats"],
-        ["private_address", "Adresses postales", "Les adresses multi-lignes dans des mises en page denses se fragmentent aux frontières"],
-        ["private_url", "URL identifiantes", "Sur-suppression des URL d'entités publiques lorsque le contexte local est ambigu"],
-        ["private_date", "Date de naissance, rendez-vous", "Sensible au contexte. Les dates calendaires dans les textes de planification sont parfois sur-supprimées"],
-        ["account_number", "Identifiants bancaires, clients, patients", "Sous-détection des schémas d'identifiants spécifiques à un domaine"],
-        ["secret", "Clés API, identifiants, tokens", "Les formats de credentials nouveaux et les secrets fragmentés sont manqués"]
+        [
+          "private_person",
+          "Noms de personnes",
+          "Les noms régionaux peu courants, les initiales et les références avec titres honorifiques sont sous-détectés"
+        ],
+        [
+          "private_email",
+          "Adresses e-mail",
+          "Couverture solide. Les formats obfusqués (\"nom arobase domaine\") peuvent passer inaperçus"
+        ],
+        [
+          "private_phone",
+          "Numéros de téléphone",
+          "Les formats internationaux sont bien couverts. Les séparateurs non standard fragmentent parfois les résultats"
+        ],
+        [
+          "private_address",
+          "Adresses postales",
+          "Les adresses multi-lignes dans des mises en page denses se fragmentent aux frontières"
+        ],
+        [
+          "private_url",
+          "URL identifiantes",
+          "Sur-suppression des URL d'entités publiques lorsque le contexte local est ambigu"
+        ],
+        [
+          "private_date",
+          "Date de naissance, rendez-vous",
+          "Sensible au contexte. Les dates calendaires dans les textes de planification sont parfois sur-supprimées"
+        ],
+        [
+          "account_number",
+          "Identifiants bancaires, clients, patients",
+          "Sous-détection des schémas d'identifiants spécifiques à un domaine"
+        ],
+        [
+          "secret",
+          "Clés API, identifiants, tokens",
+          "Les formats de credentials nouveaux et les secrets fragmentés sont manqués"
+        ]
       ]
     },
     {

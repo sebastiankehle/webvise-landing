@@ -2,12 +2,12 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { emailLayout, s } from "@/lib/email-template";
 import {
 	createRateLimiter,
 	getClientIP,
 	rateLimitResponse,
 } from "@/lib/rate-limit";
-import { emailLayout, s } from "@/lib/email-template";
 
 const limiter = createRateLimiter({
 	name: "report-download",
@@ -31,7 +31,9 @@ const schema = z.object({
 
 export async function POST(request: Request) {
 	const { limited, retryAfterSec } = limiter.check(getClientIP(request));
-	if (limited) return rateLimitResponse(retryAfterSec);
+	if (limited) {
+		return rateLimitResponse(retryAfterSec);
+	}
 
 	try {
 		const body = await request.json();
@@ -46,7 +48,7 @@ export async function POST(request: Request) {
 		if (!resendApiKey) {
 			return NextResponse.json(
 				{ error: "Email service not configured" },
-				{ status: 500 },
+				{ status: 500 }
 			);
 		}
 
@@ -90,7 +92,7 @@ export async function POST(request: Request) {
 			console.error("Resend error:", error);
 			return NextResponse.json(
 				{ error: "Failed to send email" },
-				{ status: 500 },
+				{ status: 500 }
 			);
 		}
 
@@ -99,13 +101,13 @@ export async function POST(request: Request) {
 		if (error instanceof z.ZodError) {
 			return NextResponse.json(
 				{ error: "Invalid input", details: error.issues },
-				{ status: 400 },
+				{ status: 400 }
 			);
 		}
 		console.error("Report download error:", error);
 		return NextResponse.json(
 			{ error: "Internal server error" },
-			{ status: 500 },
+			{ status: 500 }
 		);
 	}
 }

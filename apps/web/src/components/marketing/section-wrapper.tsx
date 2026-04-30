@@ -1,15 +1,28 @@
 import { cn } from "@/lib/utils";
 
+function sectionBackground(dark: boolean, alternate: boolean): string {
+	if (dark) {
+		return "section-dark";
+	}
+	return alternate ? "bg-white" : "bg-background";
+}
+
 export function CornerMarker({ className }: { className?: string }) {
 	return (
 		<span
-			className={cn(
-				"absolute h-3.5 w-3.5 text-muted-foreground/30 select-none",
-				className,
-			)}
 			aria-hidden="true"
+			className={cn(
+				"absolute h-3.5 w-3.5 select-none text-muted-foreground/30",
+				className
+			)}
 		>
-			<svg viewBox="0 0 14 14" fill="none" className="h-full w-full">
+			<svg
+				aria-hidden="true"
+				className="h-full w-full"
+				fill="none"
+				viewBox="0 0 14 14"
+			>
+				<title>corner marker</title>
 				<path d="M0 7h14M7 0v14" stroke="currentColor" strokeWidth="1" />
 			</svg>
 		</span>
@@ -19,20 +32,23 @@ export function CornerMarker({ className }: { className?: string }) {
 export function GridFrame({
 	children,
 	className,
-}: { children?: React.ReactNode; className?: string }) {
+}: {
+	children?: React.ReactNode;
+	className?: string;
+}) {
 	return (
 		<div
+			aria-hidden="true"
 			className={cn(
 				"pointer-events-none absolute mx-auto hidden max-w-[1320px] md:block",
-				className,
+				className
 			)}
-			aria-hidden="true"
 		>
-			<div className="relative h-full border-x border-grid-line">
+			<div className="relative h-full border-grid-line border-x">
 				<CornerMarker className="-top-[7px] -left-[7px]" />
 				<CornerMarker className="-top-[7px] -right-[7px]" />
 				<CornerMarker className="-bottom-[7px] -left-[7px]" />
-				<CornerMarker className="-bottom-[7px] -right-[7px]" />
+				<CornerMarker className="-right-[7px] -bottom-[7px]" />
 				{children}
 			</div>
 		</div>
@@ -56,28 +72,28 @@ export default function SectionWrapper({
 }) {
 	return (
 		<section
-			id={id}
 			className={cn(
 				"relative py-24 md:py-40",
-				dark ? "section-dark" : alternate ? "bg-white" : "bg-background",
-				className,
+				sectionBackground(dark, alternate),
+				className
 			)}
+			id={id}
 		>
 			{/* Full-width horizontal line at section top — clean separator */}
 			<div
-				className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block"
 				aria-hidden="true"
+				className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block"
 			/>
 			{/* Side gutter hatch */}
 			{hatch && (
 				<>
 					<div
-						className="pointer-events-none absolute inset-y-0 left-0 hidden grid-hatch md:block md:w-[calc((100%-1320px)/2)]"
 						aria-hidden="true"
+						className="grid-hatch pointer-events-none absolute inset-y-0 left-0 hidden md:block md:w-[calc((100%-1320px)/2)]"
 					/>
 					<div
-						className="pointer-events-none absolute inset-y-0 right-0 hidden grid-hatch md:block md:w-[calc((100%-1320px)/2)]"
 						aria-hidden="true"
+						className="grid-hatch pointer-events-none absolute inset-y-0 right-0 hidden md:block md:w-[calc((100%-1320px)/2)]"
 					/>
 				</>
 			)}

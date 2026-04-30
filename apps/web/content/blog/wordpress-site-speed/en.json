@@ -1,149 +1,149 @@
 {
-	"date": "2025-09-15",
-	"readingTime": 5,
-	"keyword": "is wordpress too slow",
-	"title": "Why WordPress Sites Often Struggle with Page Speed",
-	"excerpt": "Many WordPress sites score 45-65 on Google PageSpeed without dedicated optimization. That's below Google's recommended threshold - and most quick fixes only go so far. Here's what's really happening and what to do about it.",
-	"tags": ["WordPress", "Performance", "Web Development"],
-	"blocks": [
-		{
-			"type": "p",
-			"text": "You've invested time and money into your WordPress site. You've got a theme, some plugins, maybe even a page builder. But every time you check your Google [PageSpeed](https://pagespeed.web.dev/) score, you wince."
-		},
-		{
-			"type": "p",
-			"text": "You're not imagining it. WordPress sites often need significant hands-on optimization to score well on PageSpeed - and most quick fixes only go so far."
-		},
-		{
-			"type": "h2",
-			"text": "What the Data Shows"
-		},
-		{
-			"type": "p",
-			"text": "Many WordPress sites score **45-65 out of 100** on Google PageSpeed for [mobile](/blog/wordpress-slow-on-mobile) without dedicated performance optimization. That's below Google's recommended threshold. Anything below 90 can cost you real money in lost conversions and search rankings."
-		},
-		{
-			"type": "p",
-			"text": "Google's own data: a 1-second delay in page load time reduces [conversions](/blog/website-speed-and-conversions) by **7%**. A 3-second delay loses **53% of mobile visitors** before they even see your homepage."
-		},
-		{
-			"type": "p",
-			"text": "If your WordPress site is in that range, it may be costing you customers."
-		},
-		{
-			"type": "h2",
-			"text": "Why WordPress Sites Can Be Slow"
-		},
-		{
-			"type": "h3",
-			"text": "1. PHP renders every page on request"
-		},
-		{
-			"type": "p",
-			"text": "WordPress is server-rendered on every visit. A user hits your URL - your server runs PHP - PHP queries the database - a page is assembled - it's sent to the browser. Every single time."
-		},
-		{
-			"type": "p",
-			"text": "Modern frameworks pre-build pages as static HTML and serve them from a CDN. No database query. No PHP execution. Just a file delivered from a server 20ms away."
-		},
-		{
-			"type": "h3",
-			"text": "2. Plugins pile up"
-		},
-		{
-			"type": "p",
-			"text": "A typical WordPress site runs 20-30 plugins. Each plugin loads its own CSS, JavaScript, and database queries. They don't coordinate with each other. Without careful management, you can end up with multiple jQuery versions, numerous CSS files, and a waterfall of network requests that slows things down."
-		},
-		{
-			"type": "h3",
-			"text": "3. Shared hosting compounds the problem"
-		},
-		{
-			"type": "p",
-			"text": "Most WordPress sites live on shared hosting - servers where hundreds of sites compete for the same CPU and RAM. When traffic spikes, your site slows to a crawl. A €5/mo hosting plan cannot handle real traffic."
-		},
-		{
-			"type": "h3",
-			"text": "4. Images are almost never optimized correctly"
-		},
-		{
-			"type": "p",
-			"text": "WordPress image handling is reactive: it creates several sizes of your uploads but doesn't enforce modern formats like WebP or AVIF, doesn't lazy-load everything by default, and doesn't serve images from a CDN edge node near your visitor."
-		},
-		{
-			"type": "h3",
-			"text": "5. Caching helps, but barely"
-		},
-		{
-			"type": "p",
-			"text": "Yes, you can install WP Rocket or W3 Total Cache. These tools help. But they're working around architectural constraints rather than solving the root cause. There's a ceiling to what caching layers can achieve on top of a server-rendered stack."
-		},
-		{
-			"type": "h2",
-			"text": "What a Fast Site Actually Looks Like"
-		},
-		{
-			"type": "p",
-			"text": "In a representative WordPress-to-Next.js migration we have run, mobile PageSpeed moved from the low 40s to mid 90s, FCP from approximately 3.8s to under 1s, TTI from over 8s to under 1s, and bounce rate fell measurably in the first month. Specific outcomes vary by content weight, third-party scripts, and audience device profile."
-		},
-		{
-			"type": "p",
-			"text": "After [migration](/blog/should-i-migrate-wordpress-to-nextjs):"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Mobile score: mid 90s** (from low 40s)",
-				"**First Contentful Paint: under 1s** (from approximately 3.8s)",
-				"**Time to Interactive: under 1s** (from over 8s)",
-				"**Bounce rate fell measurably** in the first month"
-			]
-		},
-		{
-			"type": "p",
-			"text": "Same content. Same branding. Completely different architecture."
-		},
-		{
-			"type": "h2",
-			"text": "The Root Cause: An Architecture from a Different Era"
-		},
-		{
-			"type": "p",
-			"text": "WordPress was built in 2003 to power blogs. It's a remarkable piece of software that democratized the web. But its architecture requires more configuration and expertise to achieve the performance benchmarks that modern business websites need in 2026."
-		},
-		{
-			"type": "p",
-			"text": "Next.js sites are:"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Statically generated** - pages are HTML files, not PHP scripts",
-				"**Edge-deployed** - served from 100+ global locations, not one server",
-				"**JavaScript-native** - fast hydration, instant navigation between pages",
-				"**Image-optimized by default** - automatic WebP, lazy loading, correct sizing"
-			]
-		},
-		{
-			"type": "h2",
-			"text": "What You Should Do"
-		},
-		{
-			"type": "p",
-			"text": "If your site scores below 70 on PageSpeed, you have a business problem, not a technical one."
-		},
-		{
-			"type": "p",
-			"text": "**Option 1: Keep optimizing WordPress.** Caching plugins, image optimization, and lighter themes can yield meaningful improvements; expect ongoing maintenance time and a ceiling that depends on plugin count and theme architecture."
-		},
-		{
-			"type": "p",
-			"text": "**Option 2: Migrate.** Move to a modern stack. Pay once, get a site that loads in under a second, scores 90+ on PageSpeed, and requires zero plugin maintenance."
-		},
-		{
-			"type": "p",
-			"text": "We do these [migrations](/services/wordpress-migration) at webvise.io - AI-assisted implementation, fixed-scope quotes, predictable timelines. We audit your WordPress site for free first so you know exactly what you're getting."
-		}
-	],
-	"metaDescription": "Most WordPress sites score 45–65 on mobile PageSpeed. A representative Next.js migration moved scores from the low 40s to mid 90s and cut bounce rate measurably. See the data and how."
+  "date": "2025-09-15",
+  "readingTime": 5,
+  "keyword": "is wordpress too slow",
+  "title": "Why WordPress Sites Often Struggle with Page Speed",
+  "excerpt": "Many WordPress sites score 45-65 on Google PageSpeed without dedicated optimization. That's below Google's recommended threshold - and most quick fixes only go so far. Here's what's really happening and what to do about it.",
+  "tags": ["WordPress", "Performance", "Web Development"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "You've invested time and money into your WordPress site. You've got a theme, some plugins, maybe even a page builder. But every time you check your Google [PageSpeed](https://pagespeed.web.dev/) score, you wince."
+    },
+    {
+      "type": "p",
+      "text": "You're not imagining it. WordPress sites often need significant hands-on optimization to score well on PageSpeed - and most quick fixes only go so far."
+    },
+    {
+      "type": "h2",
+      "text": "What the Data Shows"
+    },
+    {
+      "type": "p",
+      "text": "Many WordPress sites score **45-65 out of 100** on Google PageSpeed for [mobile](/blog/wordpress-slow-on-mobile) without dedicated performance optimization. That's below Google's recommended threshold. Anything below 90 can cost you real money in lost conversions and search rankings."
+    },
+    {
+      "type": "p",
+      "text": "Google's own data: a 1-second delay in page load time reduces [conversions](/blog/website-speed-and-conversions) by **7%**. A 3-second delay loses **53% of mobile visitors** before they even see your homepage."
+    },
+    {
+      "type": "p",
+      "text": "If your WordPress site is in that range, it may be costing you customers."
+    },
+    {
+      "type": "h2",
+      "text": "Why WordPress Sites Can Be Slow"
+    },
+    {
+      "type": "h3",
+      "text": "1. PHP renders every page on request"
+    },
+    {
+      "type": "p",
+      "text": "WordPress is server-rendered on every visit. A user hits your URL - your server runs PHP - PHP queries the database - a page is assembled - it's sent to the browser. Every single time."
+    },
+    {
+      "type": "p",
+      "text": "Modern frameworks pre-build pages as static HTML and serve them from a CDN. No database query. No PHP execution. Just a file delivered from a server 20ms away."
+    },
+    {
+      "type": "h3",
+      "text": "2. Plugins pile up"
+    },
+    {
+      "type": "p",
+      "text": "A typical WordPress site runs 20-30 plugins. Each plugin loads its own CSS, JavaScript, and database queries. They don't coordinate with each other. Without careful management, you can end up with multiple jQuery versions, numerous CSS files, and a waterfall of network requests that slows things down."
+    },
+    {
+      "type": "h3",
+      "text": "3. Shared hosting compounds the problem"
+    },
+    {
+      "type": "p",
+      "text": "Most WordPress sites live on shared hosting - servers where hundreds of sites compete for the same CPU and RAM. When traffic spikes, your site slows to a crawl. A €5/mo hosting plan cannot handle real traffic."
+    },
+    {
+      "type": "h3",
+      "text": "4. Images are almost never optimized correctly"
+    },
+    {
+      "type": "p",
+      "text": "WordPress image handling is reactive: it creates several sizes of your uploads but doesn't enforce modern formats like WebP or AVIF, doesn't lazy-load everything by default, and doesn't serve images from a CDN edge node near your visitor."
+    },
+    {
+      "type": "h3",
+      "text": "5. Caching helps, but barely"
+    },
+    {
+      "type": "p",
+      "text": "Yes, you can install WP Rocket or W3 Total Cache. These tools help. But they're working around architectural constraints rather than solving the root cause. There's a ceiling to what caching layers can achieve on top of a server-rendered stack."
+    },
+    {
+      "type": "h2",
+      "text": "What a Fast Site Actually Looks Like"
+    },
+    {
+      "type": "p",
+      "text": "In a representative WordPress-to-Next.js migration we have run, mobile PageSpeed moved from the low 40s to mid 90s, FCP from approximately 3.8s to under 1s, TTI from over 8s to under 1s, and bounce rate fell measurably in the first month. Specific outcomes vary by content weight, third-party scripts, and audience device profile."
+    },
+    {
+      "type": "p",
+      "text": "After [migration](/blog/should-i-migrate-wordpress-to-nextjs):"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Mobile score: mid 90s** (from low 40s)",
+        "**First Contentful Paint: under 1s** (from approximately 3.8s)",
+        "**Time to Interactive: under 1s** (from over 8s)",
+        "**Bounce rate fell measurably** in the first month"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Same content. Same branding. Completely different architecture."
+    },
+    {
+      "type": "h2",
+      "text": "The Root Cause: An Architecture from a Different Era"
+    },
+    {
+      "type": "p",
+      "text": "WordPress was built in 2003 to power blogs. It's a remarkable piece of software that democratized the web. But its architecture requires more configuration and expertise to achieve the performance benchmarks that modern business websites need in 2026."
+    },
+    {
+      "type": "p",
+      "text": "Next.js sites are:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Statically generated** - pages are HTML files, not PHP scripts",
+        "**Edge-deployed** - served from 100+ global locations, not one server",
+        "**JavaScript-native** - fast hydration, instant navigation between pages",
+        "**Image-optimized by default** - automatic WebP, lazy loading, correct sizing"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "What You Should Do"
+    },
+    {
+      "type": "p",
+      "text": "If your site scores below 70 on PageSpeed, you have a business problem, not a technical one."
+    },
+    {
+      "type": "p",
+      "text": "**Option 1: Keep optimizing WordPress.** Caching plugins, image optimization, and lighter themes can yield meaningful improvements; expect ongoing maintenance time and a ceiling that depends on plugin count and theme architecture."
+    },
+    {
+      "type": "p",
+      "text": "**Option 2: Migrate.** Move to a modern stack. Pay once, get a site that loads in under a second, scores 90+ on PageSpeed, and requires zero plugin maintenance."
+    },
+    {
+      "type": "p",
+      "text": "We do these [migrations](/services/wordpress-migration) at webvise.io - AI-assisted implementation, fixed-scope quotes, predictable timelines. We audit your WordPress site for free first so you know exactly what you're getting."
+    }
+  ],
+  "metaDescription": "Most WordPress sites score 45–65 on mobile PageSpeed. A representative Next.js migration moved scores from the low 40s to mid 90s and cut bounce rate measurably. See the data and how."
 }

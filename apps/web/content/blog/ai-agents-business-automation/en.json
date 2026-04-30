@@ -1,171 +1,171 @@
 {
-	"date": "2026-03-28",
-	"readingTime": 10,
-	"keyword": "ai agents business automation",
-	"title": "How AI Agents Are Transforming Business Automation in 2026",
-	"excerpt": "AI agents go far beyond chatbots. They reason, use tools, escalate intelligently, and execute multi-step workflows autonomously. Here's how businesses are using them in production - and what separates a reliable agent from a demo.",
-	"tags": ["AI Agents", "Automation", "Business Strategy"],
-	"blocks": [
-		{
-			"type": "p",
-			"text": "Most businesses have experimented with AI chatbots by now. But chatbots that answer questions are a solved problem. The real shift happening in 2026 is the rise of **AI agents** - systems that don't just respond, but reason, take action, use external tools, and manage complex [workflows](/blog/ai-powered-development-workflow) end-to-end."
-		},
-		{
-			"type": "p",
-			"text": "An AI agent is not a chatbot with extra features. It is an autonomous system that receives a goal, breaks it into steps, executes those steps using real tools, evaluates results, and decides what to do next - all without human intervention for routine cases. The difference is meaningful: rule-based automation handles narrow, scripted paths; LLM agents handle ambiguous, context-rich requests."
-		},
-		{
-			"type": "h2",
-			"text": "What Makes an AI Agent Different from a Chatbot"
-		},
-		{
-			"type": "p",
-			"text": "A chatbot takes input and produces output. An agent operates in a **loop**: it analyses the situation, decides which tool to use, executes the tool, inspects the result, and then decides whether to take another action or deliver a final answer. This loop continues until the task is complete."
-		},
-		{
-			"type": "table",
-			"headers": ["Capability", "Traditional Chatbot", "AI Agent"],
-			"rows": [
-				[
-					"Decision-making",
-					"Pre-scripted flows",
-					"Reasons about next steps dynamically"
-				],
-				[
-					"Tool usage",
-					"None or hardcoded",
-					"Selects and calls tools based on context"
-				],
-				["Multi-step tasks", "Single turn", "Loops until goal is achieved"],
-				["Error handling", "Generic fallback", "Structured recovery and retry"],
-				[
-					"Escalation",
-					"Always or never",
-					"Intelligent criteria-based escalation"
-				]
-			]
-		},
-		{
-			"type": "p",
-			"text": "The key mechanism is the **agentic loop**. The agent sends a request to the AI model, which either requests a tool call or signals that the task is complete. When a tool is called, the result is fed back into the conversation, giving the agent new information to reason about. This continues until the model determines the goal has been achieved."
-		},
-		{
-			"type": "h2",
-			"text": "Real-World Use Cases in Production"
-		},
-		{
-			"type": "h3",
-			"text": "Customer Support Resolution"
-		},
-		{
-			"type": "p",
-			"text": "A well-built support agent connects to your backend systems - customer database, order management, refund processing - through [standardised tool interfaces](/blog/what-is-model-context-protocol). When a customer reports a problem, the agent verifies their identity, looks up the order, diagnoses the issue, and either resolves it or escalates with a complete summary."
-		},
-		{
-			"type": "p",
-			"text": "The critical insight is that **escalation logic must be programmatic, not prompt-based**. If your business rule says \"verify identity before processing refunds,\" you cannot rely on a prompt instruction alone - it will fail in a percentage of cases. Instead, programmatic prerequisites block downstream tool calls until verification is complete. This is the difference between a demo and a production system."
-		},
-		{
-			"type": "h3",
-			"text": "Multi-Agent Research and Analysis"
-		},
-		{
-			"type": "p",
-			"text": "Complex tasks benefit from a **coordinator-subagent architecture**. A coordinator agent receives the request, breaks it into subtasks, and delegates to specialised subagents - one for web research, one for document analysis, one for synthesis. Each subagent has its own focused tool set and context, which improves reliability."
-		},
-		{
-			"type": "p",
-			"text": "Why not give one agent all the tools? Because agents with access to too many tools (say 18 instead of [4–5](https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview)) make significantly more tool selection errors. Keeping each agent focused on its specialisation - with only the tools it needs - produces dramatically better results."
-		},
-		{
-			"type": "h3",
-			"text": "Structured Data Extraction"
-		},
-		{
-			"type": "p",
-			"text": "Agents can extract structured data from unstructured documents - invoices, contracts, reports - and validate the output against strict schemas. When extraction fails validation, the agent retries with specific error feedback, correcting format issues automatically. For documents where information is genuinely absent, the agent returns null rather than fabricating values."
-		},
-		{
-			"type": "h2",
-			"text": "The Architecture That Makes Agents Reliable"
-		},
-		{
-			"type": "p",
-			"text": "Building a demo agent takes a few hours. Building a production agent that handles edge cases reliably takes careful architecture. Here are the patterns that separate the two."
-		},
-		{
-			"type": "h3",
-			"text": "Programmatic Enforcement Over Prompt Instructions"
-		},
-		{
-			"type": "p",
-			"text": "When deterministic compliance is required - identity verification before financial operations, approval gates before deployments - prompt instructions have a non-zero failure rate. Production systems use **hooks** that intercept tool calls and enforce business rules programmatically. A hook can block a refund above a threshold and redirect to human escalation, with zero chance of the agent bypassing the rule."
-		},
-		{
-			"type": "h3",
-			"text": "Structured Error Handling"
-		},
-		{
-			"type": "p",
-			"text": "When a tool call fails, the agent needs to know *why* it failed to make the right recovery decision. A generic \"operation failed\" message is useless. Structured error responses should include the error category (transient, validation, or permission), whether it is retryable, and a human-readable explanation. This lets the agent retry timeouts, explain policy violations to the customer, and escalate permission issues appropriately."
-		},
-		{
-			"type": "h3",
-			"text": "Intelligent Escalation"
-		},
-		{
-			"type": "p",
-			"text": "The most common agent failure mode is getting escalation wrong - either escalating everything (defeating the purpose of [automation](/services/ai-automation)) or escalating nothing (frustrating customers). Effective escalation criteria are explicit and scenario-based:"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Escalate immediately** when a customer explicitly requests a human agent",
-				"**Escalate on policy gaps** when the customer's request falls outside documented policy",
-				"**Resolve autonomously** when the issue is within the agent's documented capability, even if the customer is frustrated",
-				"**Avoid sentiment analysis as the primary escalation signal** — sentiment correlates poorly with case complexity in customer-support data we have reviewed"
-			]
-		},
-		{
-			"type": "h2",
-			"text": "Context Management: The Hidden Challenge"
-		},
-		{
-			"type": "p",
-			"text": "Long conversations accumulate tool results that consume context disproportionately. An order lookup might return 40+ fields when only 5 are relevant. Without active context management, the agent's performance degrades as irrelevant information crowds out important details."
-		},
-		{
-			"type": "p",
-			"text": "Production agents solve this by **extracting key facts into a persistent block** - customer ID, order numbers, amounts, statuses - that stays consistent across the conversation, separate from summarised history. Verbose tool outputs are trimmed to only the fields relevant to the current task before they enter the conversation context."
-		},
-		{
-			"type": "p",
-			"text": "There is also the **\"lost in the middle\" effect**: AI models reliably process information at the beginning and end of long inputs but may miss details buried in the middle. Placing key summaries at the start and organising details with clear section headers mitigates this."
-		},
-		{
-			"type": "h2",
-			"text": "Cost Optimisation with Batch Processing"
-		},
-		{
-			"type": "p",
-			"text": "Not every AI workflow needs real-time processing. [Batch](https://docs.anthropic.com/en/docs/build-with-claude/batch-processing) APIs offer **50% cost savings** for workloads that can tolerate up to 24-hour processing windows - overnight reports, weekly audits, bulk data extraction. The key is matching the API approach to the latency requirement: real-time for blocking workflows, batch for everything else."
-		},
-		{
-			"type": "h2",
-			"text": "What This Means for Your Business"
-		},
-		{
-			"type": "p",
-			"text": "AI agents are deployed today in customer support, internal operations, and decision-support roles. Businesses adopting them often see faster response times, more consistent output quality, lower per-interaction operational cost, and reduced headcount pressure during growth; outcomes depend on use case fit and implementation quality."
-		},
-		{
-			"type": "p",
-			"text": "But the gap between a working demo and a reliable production system is significant. It requires understanding agentic architecture, tool design, error handling, escalation logic, and context management - the same skills that define production-grade AI engineering."
-		},
-		{
-			"type": "p",
-			"text": "At **webvise**, we design and build AI-powered automation systems alongside high-performance web applications. If you are considering AI agents for your business processes, [get in touch](/#contact) - we can help you assess the opportunity and build a system that works in production, not just in demos."
-		}
-	],
-	"metaDescription": "Discover how AI agents go beyond chatbots to automate complex business workflows in 2026. Learn production architecture patterns, cost optimization, and real-world use cases."
+  "date": "2026-03-28",
+  "readingTime": 10,
+  "keyword": "ai agents business automation",
+  "title": "How AI Agents Are Transforming Business Automation in 2026",
+  "excerpt": "AI agents go far beyond chatbots. They reason, use tools, escalate intelligently, and execute multi-step workflows autonomously. Here's how businesses are using them in production - and what separates a reliable agent from a demo.",
+  "tags": ["AI Agents", "Automation", "Business Strategy"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Most businesses have experimented with AI chatbots by now. But chatbots that answer questions are a solved problem. The real shift happening in 2026 is the rise of **AI agents** - systems that don't just respond, but reason, take action, use external tools, and manage complex [workflows](/blog/ai-powered-development-workflow) end-to-end."
+    },
+    {
+      "type": "p",
+      "text": "An AI agent is not a chatbot with extra features. It is an autonomous system that receives a goal, breaks it into steps, executes those steps using real tools, evaluates results, and decides what to do next - all without human intervention for routine cases. The difference is meaningful: rule-based automation handles narrow, scripted paths; LLM agents handle ambiguous, context-rich requests."
+    },
+    {
+      "type": "h2",
+      "text": "What Makes an AI Agent Different from a Chatbot"
+    },
+    {
+      "type": "p",
+      "text": "A chatbot takes input and produces output. An agent operates in a **loop**: it analyses the situation, decides which tool to use, executes the tool, inspects the result, and then decides whether to take another action or deliver a final answer. This loop continues until the task is complete."
+    },
+    {
+      "type": "table",
+      "headers": ["Capability", "Traditional Chatbot", "AI Agent"],
+      "rows": [
+        [
+          "Decision-making",
+          "Pre-scripted flows",
+          "Reasons about next steps dynamically"
+        ],
+        [
+          "Tool usage",
+          "None or hardcoded",
+          "Selects and calls tools based on context"
+        ],
+        ["Multi-step tasks", "Single turn", "Loops until goal is achieved"],
+        ["Error handling", "Generic fallback", "Structured recovery and retry"],
+        [
+          "Escalation",
+          "Always or never",
+          "Intelligent criteria-based escalation"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "The key mechanism is the **agentic loop**. The agent sends a request to the AI model, which either requests a tool call or signals that the task is complete. When a tool is called, the result is fed back into the conversation, giving the agent new information to reason about. This continues until the model determines the goal has been achieved."
+    },
+    {
+      "type": "h2",
+      "text": "Real-World Use Cases in Production"
+    },
+    {
+      "type": "h3",
+      "text": "Customer Support Resolution"
+    },
+    {
+      "type": "p",
+      "text": "A well-built support agent connects to your backend systems - customer database, order management, refund processing - through [standardised tool interfaces](/blog/what-is-model-context-protocol). When a customer reports a problem, the agent verifies their identity, looks up the order, diagnoses the issue, and either resolves it or escalates with a complete summary."
+    },
+    {
+      "type": "p",
+      "text": "The critical insight is that **escalation logic must be programmatic, not prompt-based**. If your business rule says \"verify identity before processing refunds,\" you cannot rely on a prompt instruction alone - it will fail in a percentage of cases. Instead, programmatic prerequisites block downstream tool calls until verification is complete. This is the difference between a demo and a production system."
+    },
+    {
+      "type": "h3",
+      "text": "Multi-Agent Research and Analysis"
+    },
+    {
+      "type": "p",
+      "text": "Complex tasks benefit from a **coordinator-subagent architecture**. A coordinator agent receives the request, breaks it into subtasks, and delegates to specialised subagents - one for web research, one for document analysis, one for synthesis. Each subagent has its own focused tool set and context, which improves reliability."
+    },
+    {
+      "type": "p",
+      "text": "Why not give one agent all the tools? Because agents with access to too many tools (say 18 instead of [4–5](https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview)) make significantly more tool selection errors. Keeping each agent focused on its specialisation - with only the tools it needs - produces dramatically better results."
+    },
+    {
+      "type": "h3",
+      "text": "Structured Data Extraction"
+    },
+    {
+      "type": "p",
+      "text": "Agents can extract structured data from unstructured documents - invoices, contracts, reports - and validate the output against strict schemas. When extraction fails validation, the agent retries with specific error feedback, correcting format issues automatically. For documents where information is genuinely absent, the agent returns null rather than fabricating values."
+    },
+    {
+      "type": "h2",
+      "text": "The Architecture That Makes Agents Reliable"
+    },
+    {
+      "type": "p",
+      "text": "Building a demo agent takes a few hours. Building a production agent that handles edge cases reliably takes careful architecture. Here are the patterns that separate the two."
+    },
+    {
+      "type": "h3",
+      "text": "Programmatic Enforcement Over Prompt Instructions"
+    },
+    {
+      "type": "p",
+      "text": "When deterministic compliance is required - identity verification before financial operations, approval gates before deployments - prompt instructions have a non-zero failure rate. Production systems use **hooks** that intercept tool calls and enforce business rules programmatically. A hook can block a refund above a threshold and redirect to human escalation, with zero chance of the agent bypassing the rule."
+    },
+    {
+      "type": "h3",
+      "text": "Structured Error Handling"
+    },
+    {
+      "type": "p",
+      "text": "When a tool call fails, the agent needs to know *why* it failed to make the right recovery decision. A generic \"operation failed\" message is useless. Structured error responses should include the error category (transient, validation, or permission), whether it is retryable, and a human-readable explanation. This lets the agent retry timeouts, explain policy violations to the customer, and escalate permission issues appropriately."
+    },
+    {
+      "type": "h3",
+      "text": "Intelligent Escalation"
+    },
+    {
+      "type": "p",
+      "text": "The most common agent failure mode is getting escalation wrong - either escalating everything (defeating the purpose of [automation](/services/ai-automation)) or escalating nothing (frustrating customers). Effective escalation criteria are explicit and scenario-based:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Escalate immediately** when a customer explicitly requests a human agent",
+        "**Escalate on policy gaps** when the customer's request falls outside documented policy",
+        "**Resolve autonomously** when the issue is within the agent's documented capability, even if the customer is frustrated",
+        "**Avoid sentiment analysis as the primary escalation signal** — sentiment correlates poorly with case complexity in customer-support data we have reviewed"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Context Management: The Hidden Challenge"
+    },
+    {
+      "type": "p",
+      "text": "Long conversations accumulate tool results that consume context disproportionately. An order lookup might return 40+ fields when only 5 are relevant. Without active context management, the agent's performance degrades as irrelevant information crowds out important details."
+    },
+    {
+      "type": "p",
+      "text": "Production agents solve this by **extracting key facts into a persistent block** - customer ID, order numbers, amounts, statuses - that stays consistent across the conversation, separate from summarised history. Verbose tool outputs are trimmed to only the fields relevant to the current task before they enter the conversation context."
+    },
+    {
+      "type": "p",
+      "text": "There is also the **\"lost in the middle\" effect**: AI models reliably process information at the beginning and end of long inputs but may miss details buried in the middle. Placing key summaries at the start and organising details with clear section headers mitigates this."
+    },
+    {
+      "type": "h2",
+      "text": "Cost Optimisation with Batch Processing"
+    },
+    {
+      "type": "p",
+      "text": "Not every AI workflow needs real-time processing. [Batch](https://docs.anthropic.com/en/docs/build-with-claude/batch-processing) APIs offer **50% cost savings** for workloads that can tolerate up to 24-hour processing windows - overnight reports, weekly audits, bulk data extraction. The key is matching the API approach to the latency requirement: real-time for blocking workflows, batch for everything else."
+    },
+    {
+      "type": "h2",
+      "text": "What This Means for Your Business"
+    },
+    {
+      "type": "p",
+      "text": "AI agents are deployed today in customer support, internal operations, and decision-support roles. Businesses adopting them often see faster response times, more consistent output quality, lower per-interaction operational cost, and reduced headcount pressure during growth; outcomes depend on use case fit and implementation quality."
+    },
+    {
+      "type": "p",
+      "text": "But the gap between a working demo and a reliable production system is significant. It requires understanding agentic architecture, tool design, error handling, escalation logic, and context management - the same skills that define production-grade AI engineering."
+    },
+    {
+      "type": "p",
+      "text": "At **webvise**, we design and build AI-powered automation systems alongside high-performance web applications. If you are considering AI agents for your business processes, [get in touch](/#contact) - we can help you assess the opportunity and build a system that works in production, not just in demos."
+    }
+  ],
+  "metaDescription": "Discover how AI agents go beyond chatbots to automate complex business workflows in 2026. Learn production architecture patterns, cost optimization, and real-world use cases."
 }

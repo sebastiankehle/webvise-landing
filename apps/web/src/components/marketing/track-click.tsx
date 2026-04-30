@@ -1,24 +1,35 @@
 "use client";
 
-import type { ReactNode } from "react";
+import {
+	Children,
+	cloneElement,
+	isValidElement,
+	type MouseEvent,
+	type ReactElement,
+	type ReactNode,
+} from "react";
 import { track } from "@/lib/track";
 
 interface TrackClickProps {
+	children: ReactNode;
 	event: string;
 	properties?: Record<string, string | number | boolean | null>;
-	children: ReactNode;
+}
+
+interface ClickableProps {
+	onClick?: (event: MouseEvent<HTMLElement>) => void;
 }
 
 export function TrackClick({ event, properties, children }: TrackClickProps) {
-	return (
-		<span
-			onClick={() => track(event, properties)}
-			onKeyDown={(e) => {
-				if (e.key === "Enter" || e.key === " ") track(event, properties);
-			}}
-			className="contents"
-		>
-			{children}
-		</span>
-	);
+	const child = Children.only(children);
+	if (!isValidElement<ClickableProps>(child)) {
+		return <>{children}</>;
+	}
+	const existing = child.props.onClick;
+	return cloneElement(child as ReactElement<ClickableProps>, {
+		onClick: (e: MouseEvent<HTMLElement>) => {
+			track(event, properties);
+			existing?.(e);
+		},
+	});
 }

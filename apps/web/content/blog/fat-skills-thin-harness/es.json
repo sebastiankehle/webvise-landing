@@ -1,197 +1,233 @@
 {
-	"date": "2026-04-16",
-	"readingTime": 9,
-	"keyword": "arquitectura de agentes de IA",
-	"title": "Por qué la mayoría de los setups de agentes de IA funcionan mucho más despacio de lo que podrían",
-	"excerpt": "La brecha entre resultados de productividad modestos y sustanciales con IA no está en el modelo. Está en la arquitectura que lo envuelve. Cinco builders publicaron la misma tesis en una semana.",
-	"metaDescription": "La brecha entre resultados de productividad modestos y sustanciales con IA no está en el modelo. Está en dónde colocas la inteligencia. La arquitectura en la que coinciden los mejores builders.",
-	"tags": ["AI Agents", "AI", "Automation", "Web Development"],
-	"blocks": [
-		{
-			"type": "p",
-			"text": "La diferencia entre un desarrollador que obtiene resultados modestos con herramientas de IA y uno que obtiene resultados sustancialmente mejores no está en el modelo que usa. Está en la arquitectura que envuelve ese modelo. Steve Yegge [observó a principios de 2026](https://asksurf.ai/pulse/en/thin-harnesses-beat-thick-wrappers-garry-tan) que los desarrolladores que usan agentes de codificación con IA reportan ganancias de productividad significativas en tareas apropiadas; las cifras reportadas varían ampliamente según la metodología y el tipo de tarea. Los mismos modelos. La misma inteligencia subyacente. La variable es la estructura."
-		},
-		{
-			"type": "p",
-			"text": "En una sola semana de abril de 2026, cinco builders independientes publicaron frameworks para arquitectura de agentes de IA. [Garry Tan](https://x.com/garrytan) (Y Combinator), Andrej Karpathy, Viv Trivedy, Daniel Miessler y un [repositorio comunitario](https://github.com/hesreallyhim/awesome-claude-code) que alcanzó 19.700 estrellas en GitHub coincidieron en la misma tesis central: llevar la inteligencia a archivos markdown portátiles, mantener la infraestructura de orquestación tan delgada como sea posible, dejar que el modelo haga el razonamiento. Este artículo analiza en qué coincidieron, dónde difieren y qué significa para cualquiera que construya con IA."
-		},
-		{
-			"type": "h2",
-			"text": "Puntos clave"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**La inteligencia pertenece a los archivos de skills en markdown, no al código del framework.** Los skills son portátiles, versionables y mejoran automáticamente cuando mejora el modelo.",
-				"**El harness debe hacer cuatro cosas y nada más.** Ejecutar el modelo en un bucle, leer y escribir archivos, gestionar el contexto, aplicar seguridad. Cada función que añades más allá de eso consume contexto y ralentiza el razonamiento.",
-				"**Cinco builders publicaron de forma independiente la misma tesis en tres días (12 al 15 de abril de 2026).** Garry Tan, Andrej Karpathy, Viv Trivedy, Daniel Miessler y un repositorio comunitario con 19.700 estrellas. La convergencia de múltiples fuentes independientes es una señal, entre otras, de que un patrón arquitectónico es sólido.",
-				"**LangChain no está de acuerdo y tiene benchmarks que lo demuestran.** Harrison Chase argumenta que el harness ES el producto. La respuesta puede depender de si estás construyendo herramientas para consumidores o pipelines empresariales.",
-				"**Las instrucciones prescriptivas caducan. El contexto no.** Cada receta paso a paso que escribes para una IA se degrada con el siguiente lanzamiento de modelo. El contexto sobre quién eres y qué quieres se acumula."
-			]
-		},
-		{
-			"type": "h2",
-			"text": "La arquitectura es compacta"
-		},
-		{
-			"type": "p",
-			"text": "Las fuentes de harnesses de agentes para producción están cada vez más disponibles para su inspección, incluida una instantánea observada públicamente del harness de Claude Code en 2026. Garry Tan revisó una de esas fuentes. Lo que encontró confirmó un patrón que llevaba meses enseñando en Y Combinator: la brecha de productividad no tiene que ver con la inteligencia del modelo. Tiene que ver con lo que envuelve al modelo."
-		},
-		{
-			"type": "p",
-			"text": "Tan resumió la [arquitectura](https://asksurf.ai/pulse/en/thin-harnesses-beat-thick-wrappers-garry-tan) en tres capas:"
-		},
-		{
-			"type": "table",
-			"headers": ["Capa", "Qué contiene", "Propiedad clave"],
-			"rows": [
-				["Fat skills", "Procedimientos en markdown que codifican criterio, proceso y conocimiento de dominio", "Portátil. Tú los posees."],
-				["Thin CLI harness", "~200 líneas: JSON de entrada, texto de salida, gestión de contexto, seguridad", "Mínimo. Lo provee el vendor."],
-				["Tu aplicación", "QueryDB, ReadDoc, Search, Timeline. Operaciones deterministas.", "Fiable. Misma entrada, misma salida."]
-			]
-		},
-		{
-			"type": "p",
-			"text": "El principio es direccional. Empuja la inteligencia hacia arriba, hacia los skills. Empuja la ejecución hacia abajo, hacia herramientas deterministas. Mantén el harness delgado. El 90% del valor vive en la capa de skills. El harness es un conductor que lee archivos. No los posee."
-		},
-		{
-			"type": "p",
-			"text": "La experiencia propia de Tan ilustra el punto. Su CLAUDE.md personal empezó con 20.000 líneas. Cada particularidad, cada convención, cada lección que había encontrado. El resultado: la atención de Claude Code se degradó. El modelo literalmente le dijo que lo recortara. Su solución fueron [200 líneas de punteros](https://codex.danielvaughan.com/2026/03/30/gstack-garry-tan-production-skills-toolkit/) a documentos que se cargan bajo demanda. Las 20.000 líneas completas de conocimiento siguen existiendo. Simplemente se cargan cuando son relevantes en lugar de contaminar la ventana de contexto en cada turno."
-		},
-		{
-			"type": "p",
-			"text": "Si estás construyendo herramientas o flujos de trabajo impulsados por IA para tu negocio, [tener la arquitectura correcta desde el principio](/#contact) determina si acabas con una demo que impresiona o con un sistema que llega a producción."
-		},
-		{
-			"type": "h2",
-			"text": "Cinco definiciones que distinguen los builds de IA de alto rendimiento"
-		},
-		{
-			"type": "p",
-			"text": "La arquitectura se sostiene sobre cinco conceptos. Omite cualquiera de ellos y el sistema rinde por debajo de su potencial."
-		},
-		{
-			"type": "h3",
-			"text": "1. Archivos de skill"
-		},
-		{
-			"type": "p",
-			"text": "Un skill es un documento markdown reutilizable que enseña al modelo cómo hacer algo. No qué hacer. El usuario aporta la tarea. El skill aporta el proceso. Funciona como una llamada a método: mismo procedimiento, argumentos distintos, resultados radicalmente diferentes."
-		},
-		{
-			"type": "p",
-			"text": "El ejemplo de Tan: un skill llamado /investigate tiene siete pasos (delimitar el conjunto de datos, construir una cronología, diarizar cada documento, sintetizar, argumentar ambos lados, citar fuentes). Apúntalo a un científico de seguridad y 2,1 millones de correos de discovery y obtienes un analista de investigación médica. Apúntalo a una sociedad pantalla y registros de la FEC y obtienes un investigador forense. Los mismos siete pasos. La invocación provee el mundo."
-		},
-		{
-			"type": "h3",
-			"text": "2. Resolvers"
-		},
-		{
-			"type": "p",
-			"text": "Un resolver es una tabla de enrutamiento para el contexto. Cuando aparece el tipo de tarea X, carga primero el documento Y. Sin un resolver, un desarrollador cambia un prompt y lo publica. Con un resolver, el modelo lee primero la documentación del conjunto de evaluación, ejecuta benchmarks y revierte si la precisión cae más de un 2%. El desarrollador no sabía que existía el conjunto de evaluación. El resolver cargó el contexto correcto en el momento correcto."
-		},
-		{
-			"type": "h3",
-			"text": "3. Latente vs. determinista"
-		},
-		{
-			"type": "p",
-			"text": "Cada paso en un sistema es uno u otro. Confundirlos es el error más común en el diseño de agentes. Un LLM puede sentar a 8 personas en una mesa, teniendo en cuenta sus personalidades. Pídele que siente a 800 y alucinará un plano de asientos que parece plausible pero es completamente incorrecto. Ese es un problema determinista forzado en el espacio latente. Los mejores sistemas son implacables con respecto a esta línea."
-		},
-		{
-			"type": "h3",
-			"text": "4. Diarización"
-		},
-		{
-			"type": "p",
-			"text": "El modelo lee todo sobre un tema y escribe un perfil estructurado. Ninguna consulta SQL produce esto. Ningún pipeline de RAG produce esto. El modelo tiene que leer, mantener contradicciones en mente, notar qué cambió y cuándo, y sintetizar inteligencia estructurada."
-		},
-		{
-			"type": "p",
-			"text": "El equipo de Tan construyó un sistema para YC Startup School que gestiona 6.000 perfiles de fundadores de esta manera. El resultado de la diarización detecta cosas que ninguna búsqueda por palabras clave podría: una fundadora que dice \"Datadog para agentes de IA\" pero cuyos commits en GitHub son un 80% código de facturación. Está construyendo una herramienta de FinOps disfrazada de observabilidad. Esa brecha entre \"dice\" y \"está construyendo realmente\" requiere leer simultáneamente el historial de commits, la solicitud y la transcripción del advisor. Ninguna búsqueda por similitud de embeddings la encuentra."
-		},
-		{
-			"type": "h3",
-			"text": "5. Mejoras permanentes"
-		},
-		{
-			"type": "p",
-			"text": "La instrucción de Tan a su IA: \"Si me pides que haga algo y es el tipo de cosa que tendrá que suceder de nuevo, codifícalo en un archivo de skill. Si debe ejecutarse automáticamente, ponlo en un cron. Si tengo que pedirte algo dos veces, has fallado.\" Cada skill escrito es una mejora permanente. Nunca se degrada. Cuando llega el siguiente modelo, cada skill mejora instantáneamente. El sistema se acumula."
-		},
-		{
-			"type": "h2",
-			"text": "Cinco frameworks publicados en una semana dicen lo mismo"
-		},
-		{
-			"type": "p",
-			"text": "La convergencia es la señal más fuerte. Estos cinco cuerpos de trabajo surgieron de forma independiente entre el 12 y el 15 de abril de 2026. Ninguno de estos builders colabora entre sí. Llegaron a la misma arquitectura desde puntos de partida diferentes."
-		},
-		{
-			"type": "table",
-			"headers": ["Framework", "Dónde vive la inteligencia", "Qué permanece delgado"],
-			"rows": [
-				["Tan (fat skills)", "Archivos de skill en markdown, SOUL.md", "El harness: conductor, no cerebro"],
-				["Karpathy (CLAUDE.md)", "Archivos de instrucciones de comportamiento", "No se necesita framework. Un solo archivo .md"],
-				["Trivedy (context fragments)", "Memoria externalizada, capa de recuperación", "El harness gestiona el contexto, no posee el conocimiento"],
-				["Miessler (bitter lesson)", "Contexto sobre identidad, objetivos y criterio", "Instrucciones sobre cómo ejecutar"],
-				["Community (repo con 19.700 estrellas)", "Skills, slash commands, reglas de CLAUDE.md", "Subagentes reemplazan la compactación. Grep reemplaza RAG"]
-			]
-		},
-		{
-			"type": "p",
-			"text": "Tan llegó aquí tras publicar [un alto volumen de código de producción en dos meses — el recuento de líneas no es una métrica de calidad, pero el throughput es inusual](https://codex.danielvaughan.com/2026/03/30/gstack-garry-tan-production-skills-toolkit/) con gstack (más de 23.000 estrellas en GitHub en su primera semana; los recuentos de estrellas miden visibilidad, no idoneidad para producción). Karpathy llegó tras depurar los tres modos de fallo persistentes de los asistentes de codificación con IA. Trivedy llegó tras iterar el diseño del harness en más de 30 versiones. Miessler llegó tras aplicar [la lección amarga de Richard Sutton](http://www.incompleteideas.net/IncIdeas/BitterLesson.html) a las herramientas de IA."
-		},
-		{
-			"type": "p",
-			"text": "La convergencia de múltiples fuentes independientes es una señal, entre otras, de que un patrón arquitectónico es sólido."
-		},
-		{
-			"type": "h2",
-			"text": "LangChain no está de acuerdo, y tiene benchmarks que lo demuestran"
-		},
-		{
-			"type": "p",
-			"text": "Harrison Chase (CEO de LangChain) publicó Deep Agents la misma semana y argumentó lo contrario: el harness ES el producto. Planificación de tareas integrada, lanzamiento de subagentes, middleware, hooks, infraestructura de orquestación completa. Su evidencia: cambiar únicamente el harness movió a DeepAgent de LangChain desde fuera del top 30 hasta el top 5 en TerminalBench 2.0."
-		},
-		{
-			"type": "p",
-			"text": "No es una objeción marginal. LangChain procesa millones de llamadas de agentes al día. Sus benchmarks son públicos. La división genuina: la posición de Tan es que cada pieza de lógica en el harness limita el razonamiento que el modelo podría haber hecho. Cuanto mejor sea el modelo, más delgado debería ser el harness. La posición de Chase es que la ingeniería del harness extiende la capacidad del modelo en lugar de reemplazarla."
-		},
-		{
-			"type": "p",
-			"text": "Ambas posiciones pueden ser correctas en contextos diferentes. Los agentes de consumo y personales, donde la portabilidad y la longevidad importan, favorecen el harness delgado. Los pipelines empresariales, donde la fiabilidad y la auditabilidad importan, pueden justificar un harness robusto. Ninguno de los dos lados discute que los skills deben ser ricos. La pregunta para tu proyecto no es qué posición es correcta. Es en qué lado de la línea cae tu caso de uso."
-		},
-		{
-			"type": "p",
-			"text": "La mayoría de las empresas que construyen funcionalidades de IA por primera vez deberían empezar con algo delgado y añadir infraestructura solo cuando encuentren limitaciones de fiabilidad concretas. ¿No sabes dónde encaja tu proyecto? [Habla con nuestro equipo](/#contact) sobre qué arquitectura se adapta mejor."
-		},
-		{
-			"type": "h2",
-			"text": "Tus instrucciones caducarán. Tu contexto no."
-		},
-		{
-			"type": "p",
-			"text": "Daniel Miessler publicó el diagnóstico más preciso de la semana. Lo llama auditoría de ingeniería de la lección amarga, basada en [la observación de Richard Sutton de 2019](http://www.incompleteideas.net/IncIdeas/BitterLesson.html) de que los enfoques generales que escalan con el cómputo superan sistemáticamente a los enfoques codificados a mano a largo plazo."
-		},
-		{
-			"type": "p",
-			"text": "Aplicado a las herramientas de IA: la mala ingeniería de harness son instrucciones prescriptivas. \"Primero copia este archivo, luego carga esto, luego haz esto, luego haz aquello.\" Microgestión paso a paso de la ejecución de la IA. Este enfoque se degrada a medida que los modelos se vuelven más inteligentes. Los pasos demasiado rígidos impiden que el modelo aplique su propio razonamiento."
-		},
-		{
-			"type": "p",
-			"text": "La buena ingeniería de harness es contextual. Quién eres, en qué estás trabajando, qué intentas lograr, cómo se ve lo bueno y lo malo. Identidad, criterio, estándares, objetivos. El modelo resuelve el cómo."
-		},
-		{
-			"type": "p",
-			"text": "El diagnóstico de Miessler es simple. Si tu configuración se lee como una receta (paso 1, paso 2, paso 3), estás haciendo mala ingeniería de harness. Si se lee como un documento de briefing (aquí está quién soy, aquí está lo que importa, aquí están las herramientas), estás haciendo buena ingeniería de harness. El contexto sobre quién eres nunca caduca. Las instrucciones prescriptivas quedan obsoletas con cada mejora de modelo."
-		},
-		{
-			"type": "p",
-			"text": "La arquitectura no es complicada. Fat skills, thin harness, separación implacable del trabajo latente y determinista. La parte difícil es la disciplina: codificar el criterio en skills reutilizables en lugar de hacer trabajo puntual, mantener el harness delgado cuando la tentación es añadir funciones, y confiar en que el modelo resuelva el \"cómo\" cuando le das el \"qué\" y el \"por qué\" correctos."
-		},
-		{
-			"type": "p",
-			"text": "En [webvise](/#contact), construimos sistemas impulsados por IA siguiendo estos principios de arquitectura. Tanto si necesitas un flujo de trabajo con agentes, un pipeline automatizado o una integración de IA lista para producción, [la arquitectura importa más que el modelo](/#contact)."
-		}
-	]
+  "date": "2026-04-16",
+  "readingTime": 9,
+  "keyword": "arquitectura de agentes de IA",
+  "title": "Por qué la mayoría de los setups de agentes de IA funcionan mucho más despacio de lo que podrían",
+  "excerpt": "La brecha entre resultados de productividad modestos y sustanciales con IA no está en el modelo. Está en la arquitectura que lo envuelve. Cinco builders publicaron la misma tesis en una semana.",
+  "metaDescription": "La brecha entre resultados de productividad modestos y sustanciales con IA no está en el modelo. Está en dónde colocas la inteligencia. La arquitectura en la que coinciden los mejores builders.",
+  "tags": ["AI Agents", "AI", "Automation", "Web Development"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "La diferencia entre un desarrollador que obtiene resultados modestos con herramientas de IA y uno que obtiene resultados sustancialmente mejores no está en el modelo que usa. Está en la arquitectura que envuelve ese modelo. Steve Yegge [observó a principios de 2026](https://asksurf.ai/pulse/en/thin-harnesses-beat-thick-wrappers-garry-tan) que los desarrolladores que usan agentes de codificación con IA reportan ganancias de productividad significativas en tareas apropiadas; las cifras reportadas varían ampliamente según la metodología y el tipo de tarea. Los mismos modelos. La misma inteligencia subyacente. La variable es la estructura."
+    },
+    {
+      "type": "p",
+      "text": "En una sola semana de abril de 2026, cinco builders independientes publicaron frameworks para arquitectura de agentes de IA. [Garry Tan](https://x.com/garrytan) (Y Combinator), Andrej Karpathy, Viv Trivedy, Daniel Miessler y un [repositorio comunitario](https://github.com/hesreallyhim/awesome-claude-code) que alcanzó 19.700 estrellas en GitHub coincidieron en la misma tesis central: llevar la inteligencia a archivos markdown portátiles, mantener la infraestructura de orquestación tan delgada como sea posible, dejar que el modelo haga el razonamiento. Este artículo analiza en qué coincidieron, dónde difieren y qué significa para cualquiera que construya con IA."
+    },
+    {
+      "type": "h2",
+      "text": "Puntos clave"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**La inteligencia pertenece a los archivos de skills en markdown, no al código del framework.** Los skills son portátiles, versionables y mejoran automáticamente cuando mejora el modelo.",
+        "**El harness debe hacer cuatro cosas y nada más.** Ejecutar el modelo en un bucle, leer y escribir archivos, gestionar el contexto, aplicar seguridad. Cada función que añades más allá de eso consume contexto y ralentiza el razonamiento.",
+        "**Cinco builders publicaron de forma independiente la misma tesis en tres días (12 al 15 de abril de 2026).** Garry Tan, Andrej Karpathy, Viv Trivedy, Daniel Miessler y un repositorio comunitario con 19.700 estrellas. La convergencia de múltiples fuentes independientes es una señal, entre otras, de que un patrón arquitectónico es sólido.",
+        "**LangChain no está de acuerdo y tiene benchmarks que lo demuestran.** Harrison Chase argumenta que el harness ES el producto. La respuesta puede depender de si estás construyendo herramientas para consumidores o pipelines empresariales.",
+        "**Las instrucciones prescriptivas caducan. El contexto no.** Cada receta paso a paso que escribes para una IA se degrada con el siguiente lanzamiento de modelo. El contexto sobre quién eres y qué quieres se acumula."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "La arquitectura es compacta"
+    },
+    {
+      "type": "p",
+      "text": "Las fuentes de harnesses de agentes para producción están cada vez más disponibles para su inspección, incluida una instantánea observada públicamente del harness de Claude Code en 2026. Garry Tan revisó una de esas fuentes. Lo que encontró confirmó un patrón que llevaba meses enseñando en Y Combinator: la brecha de productividad no tiene que ver con la inteligencia del modelo. Tiene que ver con lo que envuelve al modelo."
+    },
+    {
+      "type": "p",
+      "text": "Tan resumió la [arquitectura](https://asksurf.ai/pulse/en/thin-harnesses-beat-thick-wrappers-garry-tan) en tres capas:"
+    },
+    {
+      "type": "table",
+      "headers": ["Capa", "Qué contiene", "Propiedad clave"],
+      "rows": [
+        [
+          "Fat skills",
+          "Procedimientos en markdown que codifican criterio, proceso y conocimiento de dominio",
+          "Portátil. Tú los posees."
+        ],
+        [
+          "Thin CLI harness",
+          "~200 líneas: JSON de entrada, texto de salida, gestión de contexto, seguridad",
+          "Mínimo. Lo provee el vendor."
+        ],
+        [
+          "Tu aplicación",
+          "QueryDB, ReadDoc, Search, Timeline. Operaciones deterministas.",
+          "Fiable. Misma entrada, misma salida."
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "El principio es direccional. Empuja la inteligencia hacia arriba, hacia los skills. Empuja la ejecución hacia abajo, hacia herramientas deterministas. Mantén el harness delgado. El 90% del valor vive en la capa de skills. El harness es un conductor que lee archivos. No los posee."
+    },
+    {
+      "type": "p",
+      "text": "La experiencia propia de Tan ilustra el punto. Su CLAUDE.md personal empezó con 20.000 líneas. Cada particularidad, cada convención, cada lección que había encontrado. El resultado: la atención de Claude Code se degradó. El modelo literalmente le dijo que lo recortara. Su solución fueron [200 líneas de punteros](https://codex.danielvaughan.com/2026/03/30/gstack-garry-tan-production-skills-toolkit/) a documentos que se cargan bajo demanda. Las 20.000 líneas completas de conocimiento siguen existiendo. Simplemente se cargan cuando son relevantes en lugar de contaminar la ventana de contexto en cada turno."
+    },
+    {
+      "type": "p",
+      "text": "Si estás construyendo herramientas o flujos de trabajo impulsados por IA para tu negocio, [tener la arquitectura correcta desde el principio](/#contact) determina si acabas con una demo que impresiona o con un sistema que llega a producción."
+    },
+    {
+      "type": "h2",
+      "text": "Cinco definiciones que distinguen los builds de IA de alto rendimiento"
+    },
+    {
+      "type": "p",
+      "text": "La arquitectura se sostiene sobre cinco conceptos. Omite cualquiera de ellos y el sistema rinde por debajo de su potencial."
+    },
+    {
+      "type": "h3",
+      "text": "1. Archivos de skill"
+    },
+    {
+      "type": "p",
+      "text": "Un skill es un documento markdown reutilizable que enseña al modelo cómo hacer algo. No qué hacer. El usuario aporta la tarea. El skill aporta el proceso. Funciona como una llamada a método: mismo procedimiento, argumentos distintos, resultados radicalmente diferentes."
+    },
+    {
+      "type": "p",
+      "text": "El ejemplo de Tan: un skill llamado /investigate tiene siete pasos (delimitar el conjunto de datos, construir una cronología, diarizar cada documento, sintetizar, argumentar ambos lados, citar fuentes). Apúntalo a un científico de seguridad y 2,1 millones de correos de discovery y obtienes un analista de investigación médica. Apúntalo a una sociedad pantalla y registros de la FEC y obtienes un investigador forense. Los mismos siete pasos. La invocación provee el mundo."
+    },
+    {
+      "type": "h3",
+      "text": "2. Resolvers"
+    },
+    {
+      "type": "p",
+      "text": "Un resolver es una tabla de enrutamiento para el contexto. Cuando aparece el tipo de tarea X, carga primero el documento Y. Sin un resolver, un desarrollador cambia un prompt y lo publica. Con un resolver, el modelo lee primero la documentación del conjunto de evaluación, ejecuta benchmarks y revierte si la precisión cae más de un 2%. El desarrollador no sabía que existía el conjunto de evaluación. El resolver cargó el contexto correcto en el momento correcto."
+    },
+    {
+      "type": "h3",
+      "text": "3. Latente vs. determinista"
+    },
+    {
+      "type": "p",
+      "text": "Cada paso en un sistema es uno u otro. Confundirlos es el error más común en el diseño de agentes. Un LLM puede sentar a 8 personas en una mesa, teniendo en cuenta sus personalidades. Pídele que siente a 800 y alucinará un plano de asientos que parece plausible pero es completamente incorrecto. Ese es un problema determinista forzado en el espacio latente. Los mejores sistemas son implacables con respecto a esta línea."
+    },
+    {
+      "type": "h3",
+      "text": "4. Diarización"
+    },
+    {
+      "type": "p",
+      "text": "El modelo lee todo sobre un tema y escribe un perfil estructurado. Ninguna consulta SQL produce esto. Ningún pipeline de RAG produce esto. El modelo tiene que leer, mantener contradicciones en mente, notar qué cambió y cuándo, y sintetizar inteligencia estructurada."
+    },
+    {
+      "type": "p",
+      "text": "El equipo de Tan construyó un sistema para YC Startup School que gestiona 6.000 perfiles de fundadores de esta manera. El resultado de la diarización detecta cosas que ninguna búsqueda por palabras clave podría: una fundadora que dice \"Datadog para agentes de IA\" pero cuyos commits en GitHub son un 80% código de facturación. Está construyendo una herramienta de FinOps disfrazada de observabilidad. Esa brecha entre \"dice\" y \"está construyendo realmente\" requiere leer simultáneamente el historial de commits, la solicitud y la transcripción del advisor. Ninguna búsqueda por similitud de embeddings la encuentra."
+    },
+    {
+      "type": "h3",
+      "text": "5. Mejoras permanentes"
+    },
+    {
+      "type": "p",
+      "text": "La instrucción de Tan a su IA: \"Si me pides que haga algo y es el tipo de cosa que tendrá que suceder de nuevo, codifícalo en un archivo de skill. Si debe ejecutarse automáticamente, ponlo en un cron. Si tengo que pedirte algo dos veces, has fallado.\" Cada skill escrito es una mejora permanente. Nunca se degrada. Cuando llega el siguiente modelo, cada skill mejora instantáneamente. El sistema se acumula."
+    },
+    {
+      "type": "h2",
+      "text": "Cinco frameworks publicados en una semana dicen lo mismo"
+    },
+    {
+      "type": "p",
+      "text": "La convergencia es la señal más fuerte. Estos cinco cuerpos de trabajo surgieron de forma independiente entre el 12 y el 15 de abril de 2026. Ninguno de estos builders colabora entre sí. Llegaron a la misma arquitectura desde puntos de partida diferentes."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Framework",
+        "Dónde vive la inteligencia",
+        "Qué permanece delgado"
+      ],
+      "rows": [
+        [
+          "Tan (fat skills)",
+          "Archivos de skill en markdown, SOUL.md",
+          "El harness: conductor, no cerebro"
+        ],
+        [
+          "Karpathy (CLAUDE.md)",
+          "Archivos de instrucciones de comportamiento",
+          "No se necesita framework. Un solo archivo .md"
+        ],
+        [
+          "Trivedy (context fragments)",
+          "Memoria externalizada, capa de recuperación",
+          "El harness gestiona el contexto, no posee el conocimiento"
+        ],
+        [
+          "Miessler (bitter lesson)",
+          "Contexto sobre identidad, objetivos y criterio",
+          "Instrucciones sobre cómo ejecutar"
+        ],
+        [
+          "Community (repo con 19.700 estrellas)",
+          "Skills, slash commands, reglas de CLAUDE.md",
+          "Subagentes reemplazan la compactación. Grep reemplaza RAG"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Tan llegó aquí tras publicar [un alto volumen de código de producción en dos meses — el recuento de líneas no es una métrica de calidad, pero el throughput es inusual](https://codex.danielvaughan.com/2026/03/30/gstack-garry-tan-production-skills-toolkit/) con gstack (más de 23.000 estrellas en GitHub en su primera semana; los recuentos de estrellas miden visibilidad, no idoneidad para producción). Karpathy llegó tras depurar los tres modos de fallo persistentes de los asistentes de codificación con IA. Trivedy llegó tras iterar el diseño del harness en más de 30 versiones. Miessler llegó tras aplicar [la lección amarga de Richard Sutton](http://www.incompleteideas.net/IncIdeas/BitterLesson.html) a las herramientas de IA."
+    },
+    {
+      "type": "p",
+      "text": "La convergencia de múltiples fuentes independientes es una señal, entre otras, de que un patrón arquitectónico es sólido."
+    },
+    {
+      "type": "h2",
+      "text": "LangChain no está de acuerdo, y tiene benchmarks que lo demuestran"
+    },
+    {
+      "type": "p",
+      "text": "Harrison Chase (CEO de LangChain) publicó Deep Agents la misma semana y argumentó lo contrario: el harness ES el producto. Planificación de tareas integrada, lanzamiento de subagentes, middleware, hooks, infraestructura de orquestación completa. Su evidencia: cambiar únicamente el harness movió a DeepAgent de LangChain desde fuera del top 30 hasta el top 5 en TerminalBench 2.0."
+    },
+    {
+      "type": "p",
+      "text": "No es una objeción marginal. LangChain procesa millones de llamadas de agentes al día. Sus benchmarks son públicos. La división genuina: la posición de Tan es que cada pieza de lógica en el harness limita el razonamiento que el modelo podría haber hecho. Cuanto mejor sea el modelo, más delgado debería ser el harness. La posición de Chase es que la ingeniería del harness extiende la capacidad del modelo en lugar de reemplazarla."
+    },
+    {
+      "type": "p",
+      "text": "Ambas posiciones pueden ser correctas en contextos diferentes. Los agentes de consumo y personales, donde la portabilidad y la longevidad importan, favorecen el harness delgado. Los pipelines empresariales, donde la fiabilidad y la auditabilidad importan, pueden justificar un harness robusto. Ninguno de los dos lados discute que los skills deben ser ricos. La pregunta para tu proyecto no es qué posición es correcta. Es en qué lado de la línea cae tu caso de uso."
+    },
+    {
+      "type": "p",
+      "text": "La mayoría de las empresas que construyen funcionalidades de IA por primera vez deberían empezar con algo delgado y añadir infraestructura solo cuando encuentren limitaciones de fiabilidad concretas. ¿No sabes dónde encaja tu proyecto? [Habla con nuestro equipo](/#contact) sobre qué arquitectura se adapta mejor."
+    },
+    {
+      "type": "h2",
+      "text": "Tus instrucciones caducarán. Tu contexto no."
+    },
+    {
+      "type": "p",
+      "text": "Daniel Miessler publicó el diagnóstico más preciso de la semana. Lo llama auditoría de ingeniería de la lección amarga, basada en [la observación de Richard Sutton de 2019](http://www.incompleteideas.net/IncIdeas/BitterLesson.html) de que los enfoques generales que escalan con el cómputo superan sistemáticamente a los enfoques codificados a mano a largo plazo."
+    },
+    {
+      "type": "p",
+      "text": "Aplicado a las herramientas de IA: la mala ingeniería de harness son instrucciones prescriptivas. \"Primero copia este archivo, luego carga esto, luego haz esto, luego haz aquello.\" Microgestión paso a paso de la ejecución de la IA. Este enfoque se degrada a medida que los modelos se vuelven más inteligentes. Los pasos demasiado rígidos impiden que el modelo aplique su propio razonamiento."
+    },
+    {
+      "type": "p",
+      "text": "La buena ingeniería de harness es contextual. Quién eres, en qué estás trabajando, qué intentas lograr, cómo se ve lo bueno y lo malo. Identidad, criterio, estándares, objetivos. El modelo resuelve el cómo."
+    },
+    {
+      "type": "p",
+      "text": "El diagnóstico de Miessler es simple. Si tu configuración se lee como una receta (paso 1, paso 2, paso 3), estás haciendo mala ingeniería de harness. Si se lee como un documento de briefing (aquí está quién soy, aquí está lo que importa, aquí están las herramientas), estás haciendo buena ingeniería de harness. El contexto sobre quién eres nunca caduca. Las instrucciones prescriptivas quedan obsoletas con cada mejora de modelo."
+    },
+    {
+      "type": "p",
+      "text": "La arquitectura no es complicada. Fat skills, thin harness, separación implacable del trabajo latente y determinista. La parte difícil es la disciplina: codificar el criterio en skills reutilizables en lugar de hacer trabajo puntual, mantener el harness delgado cuando la tentación es añadir funciones, y confiar en que el modelo resuelva el \"cómo\" cuando le das el \"qué\" y el \"por qué\" correctos."
+    },
+    {
+      "type": "p",
+      "text": "En [webvise](/#contact), construimos sistemas impulsados por IA siguiendo estos principios de arquitectura. Tanto si necesitas un flujo de trabajo con agentes, un pipeline automatizado o una integración de IA lista para producción, [la arquitectura importa más que el modelo](/#contact)."
+    }
+  ]
 }

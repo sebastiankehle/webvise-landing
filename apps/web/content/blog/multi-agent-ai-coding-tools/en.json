@@ -1,263 +1,263 @@
 {
-	"date": "2026-04-05",
-	"readingTime": 11,
-	"keyword": "multi-agent AI coding tools",
-	"title": "oh-my-claudecode and oh-my-codex: How Multi-Agent Orchestration Is Changing AI-Powered Development",
-	"excerpt": "Two open-source projects turned Claude Code and OpenAI Codex CLI from single assistants into coordinated agent teams. Here's how oh-my-claudecode and oh-my-codex work, what they unlock, and why multi-agent orchestration matters for professional development.",
-	"metaDescription": "oh-my-claudecode and oh-my-codex bring multi-agent orchestration to Claude Code and Codex CLI. Learn how specialized agent teams, parallel workflows, and automated pipelines accelerate AI-powered development.",
-	"cta": "Explore AI-Powered Development",
-	"tags": ["AI Agents", "AI", "Open Source", "Automation"],
-	"blocks": [
-		{
-			"type": "p",
-			"text": "AI coding assistants went mainstream in 2024. By 2025, tools like [Claude Code](https://docs.anthropic.com/en/docs/claude-code) and [OpenAI Codex CLI](https://github.com/openai/codex) gave developers terminal-native AI that could read codebases, write code, and run commands. But they shared a limitation: one model, one task, one context window. For small fixes, that works. For anything involving multiple files, architectural decisions, and quality checks, a single agent bottlenecks fast."
-		},
-		{
-			"type": "p",
-			"text": "Two open-source projects from developer [Yeachan Heo](https://github.com/Yeachan-Heo) solve this by turning solitary AI assistants into coordinated teams. [oh-my-claudecode](https://github.com/yeachan-heo/oh-my-claudecode) (OMC) orchestrates multi-agent workflows for Claude Code. [oh-my-codex](https://github.com/Yeachan-Heo/oh-my-codex) (OMX) does the same for OpenAI Codex CLI. Both projects hit GitHub Trending in early 2026 and have grown rapidly since, with OMC now at over 24,000 stars and OMX surpassing 16,000."
-		},
-		{
-			"type": "h2",
-			"text": "The Problem with Single-Agent Coding"
-		},
-		{
-			"type": "p",
-			"text": "When you ask an AI assistant to build a feature, it operates in a flat loop: read code, generate output, apply changes. There is no separation between planning and execution, no dedicated review step, and no parallel work across files. The model that writes your authentication middleware is the same one reviewing it. That is like having a single developer write, test, review, and deploy their own code with no second pair of eyes."
-		},
-		{
-			"type": "p",
-			"text": "Multi-agent orchestration breaks this pattern. Instead of one generalist, you get a team of specialists: an architect that plans, an executor that implements, a reviewer that audits, a tester that verifies. Each agent focuses on what it does best, and the orchestration layer coordinates their work."
-		},
-		{
-			"type": "h2",
-			"text": "What oh-my-claudecode Does"
-		},
-		{
-			"type": "p",
-			"text": "oh-my-claudecode is a zero-config plugin for [Claude Code](/blog/ai-coding-tools-agents-enterprise-guide) that adds multi-agent orchestration through specialized agents, workflow skills, and team pipelines. It installs from the Claude Code plugin marketplace and activates with a single setup command."
-		},
-		{
-			"type": "h3",
-			"text": "32 Specialized Agents"
-		},
-		{
-			"type": "p",
-			"text": "OMC ships with 32 role-based agents, each tuned for a specific task. The **architect** handles system design and debugging strategy. The **executor** writes implementation code. The **code-reviewer** audits changes for quality and patterns. The **security-reviewer** scans for vulnerabilities. The **test-engineer** generates test coverage. The **planner** creates step-by-step implementation plans with interview workflows."
-		},
-		{
-			"type": "p",
-			"text": "Each agent runs with an appropriate model tier. Quick lookups use Haiku for speed and cost efficiency. Standard implementation uses Sonnet. Complex architecture decisions and deep analysis route to Opus. This automatic model routing saves on token costs compared to running everything on the most capable model; in our pipelines we observe savings in the 30–50% range, depending on task mix."
-		},
-		{
-			"type": "h3",
-			"text": "40+ Workflow Skills"
-		},
-		{
-			"type": "p",
-			"text": "Skills are reusable workflows triggered by simple commands. **Autopilot** detects intent and orchestrates agents automatically. **Ralph** runs a self-referential loop that keeps iterating until the task passes verification. **Ultrawork** parallelizes independent tasks across multiple workers. **TDD** enforces test-driven development by requiring tests before implementation code."
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**/autopilot** detects your intent and orchestrates 19 agents, add \"fast\" for parallelism or \"don't stop\" for persistence",
-				"**/ralph** loops plan, execute, verify, fix until the task is done with architect verification at each step",
-				"**/ultrawork** runs up to 5 concurrent workers for large refactors, migrations, or test generation",
-				"**/team N** spawns N coordinated agents on a shared task list with isolated git worktrees",
-				"**/ccg** tri-model orchestration that queries Claude, Codex, and Gemini, then synthesizes the best answer"
-			]
-		},
-		{
-			"type": "h3",
-			"text": "Team Pipelines"
-		},
-		{
-			"type": "p",
-			"text": "The team pipeline follows a structured lifecycle: **plan** (define scope and architecture), **PRD** (create a product requirements document), **exec** (implement with parallel workers), **verify** (run automated checks), and **fix** (iterate on failures). Each worker gets an isolated git worktree, so parallel agents never create merge conflicts."
-		},
-		{
-			"type": "h2",
-			"text": "What oh-my-codex Does"
-		},
-		{
-			"type": "p",
-			"text": "[oh-my-codex](https://github.com/Yeachan-Heo/oh-my-codex) brings the same orchestration philosophy to OpenAI's Codex CLI. It provides 33 specialized prompts, 36 workflow skills, and 5 MCP servers for state, memory, code intelligence, and tracing."
-		},
-		{
-			"type": "p",
-			"text": "OMX adds capabilities that the base Codex CLI lacks: persistent state across sessions, team orchestration with worktree isolation, incremental merge tracking, and cross-provider delegation. You can run Claude Code agents from within a Codex workflow, or have Codex, Claude, and Gemini workers running side by side in their own worktrees."
-		},
-		{
-			"type": "h3",
-			"text": "Mixed-Provider Teams"
-		},
-		{
-			"type": "p",
-			"text": "One of OMX's standout features is mixed-provider orchestration. A single pipeline can assign an OpenAI model to handle code generation while Claude handles architectural review and Gemini performs research. Each provider's strengths get used where they matter most, and the orchestration layer handles context passing between them."
-		},
-		{
-			"type": "h2",
-			"text": "Side-by-Side Comparison"
-		},
-		{
-			"type": "table",
-			"headers": ["Feature", "oh-my-claudecode (OMC)", "oh-my-codex (OMX)"],
-			"rows": [
-				["Base CLI", "Claude Code (Anthropic)", "Codex CLI (OpenAI)"],
-				["Specialized agents", "32", "33 prompts"],
-				["Workflow skills", "40+", "36"],
-				[
-					"Model routing",
-					"Haiku / Sonnet / Opus auto-select",
-					"Provider-agnostic routing"
-				],
-				[
-					"Team workers",
-					"Up to 5 concurrent (Ultrapilot)",
-					"Worktree-isolated teams"
-				],
-				[
-					"Cross-provider",
-					"CCG (Claude + Codex + Gemini)",
-					"Mixed-provider teams native"
-				],
-				[
-					"Persistent state",
-					"MCP servers for state and memory",
-					"5 MCP servers (state, memory, code intel, trace)"
-				],
-				[
-					"Installation",
-					"Claude Code plugin marketplace",
-					"npm / Codex plugin system"
-				],
-				["GitHub stars", "24,000+", "16,000+"]
-			]
-		},
-		{
-			"type": "h2",
-			"text": "How Multi-Agent Orchestration Works in Practice"
-		},
-		{
-			"type": "p",
-			"text": "Consider a real scenario: you need to add internationalization support to an existing application. With a single AI assistant, you would prompt it step by step, manually checking each output. With multi-agent orchestration, the workflow looks different."
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**The planner** analyzes the codebase and creates a task breakdown with file-level assignments",
-				"**The architect** designs the i18n architecture, choosing libraries and defining patterns",
-				"**Worker 1** extracts hardcoded strings from components into translation files",
-				"**Worker 2** builds the locale switching mechanism and routing",
-				"**Worker 3** creates translation files for each target language",
-				"**The test engineer** generates tests for locale switching, fallback behavior, and RTL support",
-				"**The code reviewer** audits all changes for consistency and missed strings",
-				"**The verifier** runs the full test suite and confirms the build passes"
-			]
-		},
-		{
-			"type": "p",
-			"text": "Workers 1, 2, and 3 run in parallel, each in isolated git worktrees. The orchestration layer merges their changes, resolves any conflicts, and hands the result to review. Parallelization compresses the elapsed time relative to sequential single-agent execution; actual duration depends on task complexity and model response times."
-		},
-		{
-			"type": "h2",
-			"text": "The Architecture Behind the Orchestration"
-		},
-		{
-			"type": "p",
-			"text": "Both OMC and OMX follow a similar architecture pattern. At the core is a **hooks system** that intercepts events in the base CLI and routes them to the orchestration layer. Hooks can inject context, trigger skills, manage state, and coordinate agents without modifying the underlying CLI."
-		},
-		{
-			"type": "p",
-			"text": "**MCP (Model Context Protocol) servers** provide persistence. State servers track what each agent is working on. Memory servers store cross-session context so agents can reference previous decisions. Code intelligence servers provide LSP-like features (hover, go-to-definition, find references) directly to agents. Trace servers log execution timelines for debugging orchestration issues."
-		},
-		{
-			"type": "p",
-			"text": "**Skills** are declarative workflow definitions. They specify which agents to involve, in what order, with what verification criteria. A skill like \"ralph\" defines a loop: plan, execute, verify, fix. If verification fails, the loop repeats with the failure context. This removes the manual back-and-forth that slows down single-agent workflows."
-		},
-		{
-			"type": "h2",
-			"text": "Why This Matters Beyond Individual Productivity"
-		},
-		{
-			"type": "p",
-			"text": "The shift from single-agent to multi-agent is not just about speed. It introduces **separation of concerns** into AI-assisted development. When a dedicated security reviewer agent scans every change, vulnerabilities have been caught in our pipeline that a general-purpose assistant did not surface. When an architect agent validates structural decisions before implementation begins, you avoid expensive rewrites."
-		},
-		{
-			"type": "p",
-			"text": "For teams adopting [AI-powered development workflows](/blog/ai-powered-development-workflow), orchestration layers solve the governance problem. You can enforce that every change goes through a review agent before it gets committed. You can require test coverage verification before any PR gets created. These are the same quality gates human teams use, automated and consistent."
-		},
-		{
-			"type": "h2",
-			"text": "Practical Considerations"
-		},
-		{
-			"type": "h3",
-			"text": "Token Costs"
-		},
-		{
-			"type": "p",
-			"text": "Multi-agent workflows consume more tokens than a single prompt-response cycle. OMC mitigates this with automatic model routing: simple tasks go to cheaper models, complex reasoning goes to capable ones. The token savings from smart routing typically offset the orchestration overhead in our pipelines. For large tasks, the time saved by parallel execution usually justifies the cost."
-		},
-		{
-			"type": "h3",
-			"text": "When to Use Multi-Agent vs. Single Agent"
-		},
-		{
-			"type": "table",
-			"headers": ["Scenario", "Recommended approach"],
-			"rows": [
-				["Quick bug fix in one file", "Single agent, direct prompt"],
-				["Feature spanning 5+ files", "Team pipeline with parallel workers"],
-				[
-					"Large refactor or migration",
-					"Ultrawork / Ultrapilot for maximum parallelism"
-				],
-				[
-					"Security-sensitive changes",
-					"Pipeline with mandatory security review agent"
-				],
-				[
-					"Exploring unfamiliar codebase",
-					"Autopilot with research and analysis agents"
-				],
-				["Test suite generation", "Parallel test engineers across modules"]
-			]
-		},
-		{
-			"type": "h3",
-			"text": "Getting Started"
-		},
-		{
-			"type": "p",
-			"text": "For Claude Code users, OMC installs from the plugin marketplace. Run the setup command and start with **/autopilot** for guided orchestration or **/team 3** to spawn three parallel workers. For Codex CLI users, OMX installs via npm and follows a similar pattern. Both projects include extensive documentation and active communities."
-		},
-		{
-			"type": "h2",
-			"text": "The Bigger Picture: From Copilots to Agent Teams"
-		},
-		{
-			"type": "p",
-			"text": "The evolution is clear. Phase one was autocomplete (GitHub Copilot, 2022). Phase two was chat-based coding (ChatGPT, Claude, 2023). Phase three was terminal-native agents (Claude Code, Codex CLI, 2025). We see the next phase as multi-agent orchestration. Projects like oh-my-claudecode and oh-my-codex are the first wave of tools that treat AI coding not as a single assistant but as a coordinated team."
-		},
-		{
-			"type": "p",
-			"text": "As Addy Osmani [wrote about multi-agent coding](https://addyosmani.com/blog/code-agent-orchestra/), the successful architecture separates planning from execution, uses specialized roles, and includes verification as a first-class step. OMC and OMX implement exactly this pattern, making it accessible through simple CLI commands."
-		},
-		{
-			"type": "p",
-			"text": "The open-source nature of both projects means the community drives innovation. New agents, skills, and workflow patterns get contributed regularly. If the base orchestration does not fit your workflow, you can extend it with custom agents and skills."
-		},
-		{
-			"type": "h2",
-			"text": "What This Means for Your Projects"
-		},
-		{
-			"type": "p",
-			"text": "Multi-agent orchestration is not a theoretical concept anymore. It is shipping in production workflows today. Whether you are building a new application, migrating a legacy system, or maintaining a complex codebase, the tooling exists to move faster without sacrificing quality."
-		},
-		{
-			"type": "p",
-			"text": "At **webvise**, we integrate AI-powered development workflows into every project we deliver. Multi-agent orchestration accelerates our process from architecture through deployment, while built-in review and verification agents maintain the quality standards our clients expect. If you want to see how modern development practices can accelerate your next project, [get in touch](/#contact)."
-		}
-	]
+  "date": "2026-04-05",
+  "readingTime": 11,
+  "keyword": "multi-agent AI coding tools",
+  "title": "oh-my-claudecode and oh-my-codex: How Multi-Agent Orchestration Is Changing AI-Powered Development",
+  "excerpt": "Two open-source projects turned Claude Code and OpenAI Codex CLI from single assistants into coordinated agent teams. Here's how oh-my-claudecode and oh-my-codex work, what they unlock, and why multi-agent orchestration matters for professional development.",
+  "metaDescription": "oh-my-claudecode and oh-my-codex bring multi-agent orchestration to Claude Code and Codex CLI. Learn how specialized agent teams, parallel workflows, and automated pipelines accelerate AI-powered development.",
+  "cta": "Explore AI-Powered Development",
+  "tags": ["AI Agents", "AI", "Open Source", "Automation"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "AI coding assistants went mainstream in 2024. By 2025, tools like [Claude Code](https://docs.anthropic.com/en/docs/claude-code) and [OpenAI Codex CLI](https://github.com/openai/codex) gave developers terminal-native AI that could read codebases, write code, and run commands. But they shared a limitation: one model, one task, one context window. For small fixes, that works. For anything involving multiple files, architectural decisions, and quality checks, a single agent bottlenecks fast."
+    },
+    {
+      "type": "p",
+      "text": "Two open-source projects from developer [Yeachan Heo](https://github.com/Yeachan-Heo) solve this by turning solitary AI assistants into coordinated teams. [oh-my-claudecode](https://github.com/yeachan-heo/oh-my-claudecode) (OMC) orchestrates multi-agent workflows for Claude Code. [oh-my-codex](https://github.com/Yeachan-Heo/oh-my-codex) (OMX) does the same for OpenAI Codex CLI. Both projects hit GitHub Trending in early 2026 and have grown rapidly since, with OMC now at over 24,000 stars and OMX surpassing 16,000."
+    },
+    {
+      "type": "h2",
+      "text": "The Problem with Single-Agent Coding"
+    },
+    {
+      "type": "p",
+      "text": "When you ask an AI assistant to build a feature, it operates in a flat loop: read code, generate output, apply changes. There is no separation between planning and execution, no dedicated review step, and no parallel work across files. The model that writes your authentication middleware is the same one reviewing it. That is like having a single developer write, test, review, and deploy their own code with no second pair of eyes."
+    },
+    {
+      "type": "p",
+      "text": "Multi-agent orchestration breaks this pattern. Instead of one generalist, you get a team of specialists: an architect that plans, an executor that implements, a reviewer that audits, a tester that verifies. Each agent focuses on what it does best, and the orchestration layer coordinates their work."
+    },
+    {
+      "type": "h2",
+      "text": "What oh-my-claudecode Does"
+    },
+    {
+      "type": "p",
+      "text": "oh-my-claudecode is a zero-config plugin for [Claude Code](/blog/ai-coding-tools-agents-enterprise-guide) that adds multi-agent orchestration through specialized agents, workflow skills, and team pipelines. It installs from the Claude Code plugin marketplace and activates with a single setup command."
+    },
+    {
+      "type": "h3",
+      "text": "32 Specialized Agents"
+    },
+    {
+      "type": "p",
+      "text": "OMC ships with 32 role-based agents, each tuned for a specific task. The **architect** handles system design and debugging strategy. The **executor** writes implementation code. The **code-reviewer** audits changes for quality and patterns. The **security-reviewer** scans for vulnerabilities. The **test-engineer** generates test coverage. The **planner** creates step-by-step implementation plans with interview workflows."
+    },
+    {
+      "type": "p",
+      "text": "Each agent runs with an appropriate model tier. Quick lookups use Haiku for speed and cost efficiency. Standard implementation uses Sonnet. Complex architecture decisions and deep analysis route to Opus. This automatic model routing saves on token costs compared to running everything on the most capable model; in our pipelines we observe savings in the 30–50% range, depending on task mix."
+    },
+    {
+      "type": "h3",
+      "text": "40+ Workflow Skills"
+    },
+    {
+      "type": "p",
+      "text": "Skills are reusable workflows triggered by simple commands. **Autopilot** detects intent and orchestrates agents automatically. **Ralph** runs a self-referential loop that keeps iterating until the task passes verification. **Ultrawork** parallelizes independent tasks across multiple workers. **TDD** enforces test-driven development by requiring tests before implementation code."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**/autopilot** detects your intent and orchestrates 19 agents, add \"fast\" for parallelism or \"don't stop\" for persistence",
+        "**/ralph** loops plan, execute, verify, fix until the task is done with architect verification at each step",
+        "**/ultrawork** runs up to 5 concurrent workers for large refactors, migrations, or test generation",
+        "**/team N** spawns N coordinated agents on a shared task list with isolated git worktrees",
+        "**/ccg** tri-model orchestration that queries Claude, Codex, and Gemini, then synthesizes the best answer"
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "Team Pipelines"
+    },
+    {
+      "type": "p",
+      "text": "The team pipeline follows a structured lifecycle: **plan** (define scope and architecture), **PRD** (create a product requirements document), **exec** (implement with parallel workers), **verify** (run automated checks), and **fix** (iterate on failures). Each worker gets an isolated git worktree, so parallel agents never create merge conflicts."
+    },
+    {
+      "type": "h2",
+      "text": "What oh-my-codex Does"
+    },
+    {
+      "type": "p",
+      "text": "[oh-my-codex](https://github.com/Yeachan-Heo/oh-my-codex) brings the same orchestration philosophy to OpenAI's Codex CLI. It provides 33 specialized prompts, 36 workflow skills, and 5 MCP servers for state, memory, code intelligence, and tracing."
+    },
+    {
+      "type": "p",
+      "text": "OMX adds capabilities that the base Codex CLI lacks: persistent state across sessions, team orchestration with worktree isolation, incremental merge tracking, and cross-provider delegation. You can run Claude Code agents from within a Codex workflow, or have Codex, Claude, and Gemini workers running side by side in their own worktrees."
+    },
+    {
+      "type": "h3",
+      "text": "Mixed-Provider Teams"
+    },
+    {
+      "type": "p",
+      "text": "One of OMX's standout features is mixed-provider orchestration. A single pipeline can assign an OpenAI model to handle code generation while Claude handles architectural review and Gemini performs research. Each provider's strengths get used where they matter most, and the orchestration layer handles context passing between them."
+    },
+    {
+      "type": "h2",
+      "text": "Side-by-Side Comparison"
+    },
+    {
+      "type": "table",
+      "headers": ["Feature", "oh-my-claudecode (OMC)", "oh-my-codex (OMX)"],
+      "rows": [
+        ["Base CLI", "Claude Code (Anthropic)", "Codex CLI (OpenAI)"],
+        ["Specialized agents", "32", "33 prompts"],
+        ["Workflow skills", "40+", "36"],
+        [
+          "Model routing",
+          "Haiku / Sonnet / Opus auto-select",
+          "Provider-agnostic routing"
+        ],
+        [
+          "Team workers",
+          "Up to 5 concurrent (Ultrapilot)",
+          "Worktree-isolated teams"
+        ],
+        [
+          "Cross-provider",
+          "CCG (Claude + Codex + Gemini)",
+          "Mixed-provider teams native"
+        ],
+        [
+          "Persistent state",
+          "MCP servers for state and memory",
+          "5 MCP servers (state, memory, code intel, trace)"
+        ],
+        [
+          "Installation",
+          "Claude Code plugin marketplace",
+          "npm / Codex plugin system"
+        ],
+        ["GitHub stars", "24,000+", "16,000+"]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "How Multi-Agent Orchestration Works in Practice"
+    },
+    {
+      "type": "p",
+      "text": "Consider a real scenario: you need to add internationalization support to an existing application. With a single AI assistant, you would prompt it step by step, manually checking each output. With multi-agent orchestration, the workflow looks different."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**The planner** analyzes the codebase and creates a task breakdown with file-level assignments",
+        "**The architect** designs the i18n architecture, choosing libraries and defining patterns",
+        "**Worker 1** extracts hardcoded strings from components into translation files",
+        "**Worker 2** builds the locale switching mechanism and routing",
+        "**Worker 3** creates translation files for each target language",
+        "**The test engineer** generates tests for locale switching, fallback behavior, and RTL support",
+        "**The code reviewer** audits all changes for consistency and missed strings",
+        "**The verifier** runs the full test suite and confirms the build passes"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Workers 1, 2, and 3 run in parallel, each in isolated git worktrees. The orchestration layer merges their changes, resolves any conflicts, and hands the result to review. Parallelization compresses the elapsed time relative to sequential single-agent execution; actual duration depends on task complexity and model response times."
+    },
+    {
+      "type": "h2",
+      "text": "The Architecture Behind the Orchestration"
+    },
+    {
+      "type": "p",
+      "text": "Both OMC and OMX follow a similar architecture pattern. At the core is a **hooks system** that intercepts events in the base CLI and routes them to the orchestration layer. Hooks can inject context, trigger skills, manage state, and coordinate agents without modifying the underlying CLI."
+    },
+    {
+      "type": "p",
+      "text": "**MCP (Model Context Protocol) servers** provide persistence. State servers track what each agent is working on. Memory servers store cross-session context so agents can reference previous decisions. Code intelligence servers provide LSP-like features (hover, go-to-definition, find references) directly to agents. Trace servers log execution timelines for debugging orchestration issues."
+    },
+    {
+      "type": "p",
+      "text": "**Skills** are declarative workflow definitions. They specify which agents to involve, in what order, with what verification criteria. A skill like \"ralph\" defines a loop: plan, execute, verify, fix. If verification fails, the loop repeats with the failure context. This removes the manual back-and-forth that slows down single-agent workflows."
+    },
+    {
+      "type": "h2",
+      "text": "Why This Matters Beyond Individual Productivity"
+    },
+    {
+      "type": "p",
+      "text": "The shift from single-agent to multi-agent is not just about speed. It introduces **separation of concerns** into AI-assisted development. When a dedicated security reviewer agent scans every change, vulnerabilities have been caught in our pipeline that a general-purpose assistant did not surface. When an architect agent validates structural decisions before implementation begins, you avoid expensive rewrites."
+    },
+    {
+      "type": "p",
+      "text": "For teams adopting [AI-powered development workflows](/blog/ai-powered-development-workflow), orchestration layers solve the governance problem. You can enforce that every change goes through a review agent before it gets committed. You can require test coverage verification before any PR gets created. These are the same quality gates human teams use, automated and consistent."
+    },
+    {
+      "type": "h2",
+      "text": "Practical Considerations"
+    },
+    {
+      "type": "h3",
+      "text": "Token Costs"
+    },
+    {
+      "type": "p",
+      "text": "Multi-agent workflows consume more tokens than a single prompt-response cycle. OMC mitigates this with automatic model routing: simple tasks go to cheaper models, complex reasoning goes to capable ones. The token savings from smart routing typically offset the orchestration overhead in our pipelines. For large tasks, the time saved by parallel execution usually justifies the cost."
+    },
+    {
+      "type": "h3",
+      "text": "When to Use Multi-Agent vs. Single Agent"
+    },
+    {
+      "type": "table",
+      "headers": ["Scenario", "Recommended approach"],
+      "rows": [
+        ["Quick bug fix in one file", "Single agent, direct prompt"],
+        ["Feature spanning 5+ files", "Team pipeline with parallel workers"],
+        [
+          "Large refactor or migration",
+          "Ultrawork / Ultrapilot for maximum parallelism"
+        ],
+        [
+          "Security-sensitive changes",
+          "Pipeline with mandatory security review agent"
+        ],
+        [
+          "Exploring unfamiliar codebase",
+          "Autopilot with research and analysis agents"
+        ],
+        ["Test suite generation", "Parallel test engineers across modules"]
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "Getting Started"
+    },
+    {
+      "type": "p",
+      "text": "For Claude Code users, OMC installs from the plugin marketplace. Run the setup command and start with **/autopilot** for guided orchestration or **/team 3** to spawn three parallel workers. For Codex CLI users, OMX installs via npm and follows a similar pattern. Both projects include extensive documentation and active communities."
+    },
+    {
+      "type": "h2",
+      "text": "The Bigger Picture: From Copilots to Agent Teams"
+    },
+    {
+      "type": "p",
+      "text": "The evolution is clear. Phase one was autocomplete (GitHub Copilot, 2022). Phase two was chat-based coding (ChatGPT, Claude, 2023). Phase three was terminal-native agents (Claude Code, Codex CLI, 2025). We see the next phase as multi-agent orchestration. Projects like oh-my-claudecode and oh-my-codex are the first wave of tools that treat AI coding not as a single assistant but as a coordinated team."
+    },
+    {
+      "type": "p",
+      "text": "As Addy Osmani [wrote about multi-agent coding](https://addyosmani.com/blog/code-agent-orchestra/), the successful architecture separates planning from execution, uses specialized roles, and includes verification as a first-class step. OMC and OMX implement exactly this pattern, making it accessible through simple CLI commands."
+    },
+    {
+      "type": "p",
+      "text": "The open-source nature of both projects means the community drives innovation. New agents, skills, and workflow patterns get contributed regularly. If the base orchestration does not fit your workflow, you can extend it with custom agents and skills."
+    },
+    {
+      "type": "h2",
+      "text": "What This Means for Your Projects"
+    },
+    {
+      "type": "p",
+      "text": "Multi-agent orchestration is not a theoretical concept anymore. It is shipping in production workflows today. Whether you are building a new application, migrating a legacy system, or maintaining a complex codebase, the tooling exists to move faster without sacrificing quality."
+    },
+    {
+      "type": "p",
+      "text": "At **webvise**, we integrate AI-powered development workflows into every project we deliver. Multi-agent orchestration accelerates our process from architecture through deployment, while built-in review and verification agents maintain the quality standards our clients expect. If you want to see how modern development practices can accelerate your next project, [get in touch](/#contact)."
+    }
+  ]
 }

@@ -15,9 +15,9 @@ function SubmitButton({
 }) {
 	return (
 		<Button
-			type="submit"
-			disabled={isSubmitting || props.disabled}
 			className={cn(className)}
+			disabled={isSubmitting || props.disabled}
+			type="submit"
 			{...props}
 		>
 			{isSubmitting && <Loader2 className="animate-spin" />}

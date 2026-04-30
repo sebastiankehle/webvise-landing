@@ -1,1 +1,226 @@
-{"date": "2026-04-21", "readingTime": 10, "keyword": "Kimi K2.6", "title": "Kimi K2.6: Een Open-Weight Frontier Coding Model voor een Tiende van de Kosten", "excerpt": "Kimi K2.6 van Moonshot AI is het tweede open-weight Chinese coding model dat in vier maanden tijd frontier-niveau bereikt. Voor bureaus die AI agents aan klanten leveren, is de stackkeuze van de ene op de andere dag veranderd.", "metaDescription": "Kimi K2.6 evenaart Claude Opus 4.6 op SWE-Bench Verified voor een tiende van de API-kosten, met volledig open weights. Wat bureaus deze kwartaal aan hun AI-stack moeten veranderen.", "tags": ["AI Agents", "AI", "Open Source", "Self-Hosted"], "blocks": [{"type": "p", "text": "Moonshot AI bracht Kimi K2.6 uit op 20 april 2026. Het is een open-weight coding model met 1 biljoen parameters dat Claude Opus 4.6 evenaart op SWE-Bench Verified voor ruwweg een tiende van de API-kosten. Voor bureaus die AI agents aan klanten leveren, hebben open-weight modellen in deze generatie het experimentele stadium overstegen."}, {"type": "p", "text": "Dit is het tweede open-weight model van een Chinees lab dat in vier maanden dit niveau bereikt. DeepSeek V3.2 verscheen in januari 2026 met goudmedailleprestaties op IMO 2025, IOI 2025 en ICPC World Final 2025, waarmee de open-weight reasoning-baseline destijds werd bepaald. K2.6 volgde op 20 april met een long-horizon agent swarm die 300 sub-agents coordineert over 4.000 stappen. Het ritme is nu per kwartaal, en elk bureau dat client AI agents levert, heeft een stackbeleid nodig dat rekening houdt met een nieuwe frontier-release elke drie tot vier maanden."}, {"type": "p", "text": "U hoort al een jaar lang 'open weights halen de achterstand in', en het meeste was hype. Deze generatie laat een kleinere kloof zien dan eerdere open-vs-closed-cycli, en dat is relevant voor wat u aan klanten levert. Hieronder: wat K2.6 daadwerkelijk heeft opgeleverd, waar de kloof met Claude Opus 4.7 is gedicht, waar niet, en de drie beslissingen die een bureau-geleverde AI-stack dit kwartaal moet nemen. Is die beslissing al actueel voor een klanttraject, [webvise bouwt open-weight AI-implementaties voor bureaus](/#contact)."}, {"type": "ul", "items": ["**Benchmarks dichten de kloof.** K2.6 scoort 80,2% op SWE-Bench Verified, 0,6 punt achter Claude Opus 4.6, en leidt elk frontier-model op SWE-Bench Pro met 58,6%.", "**Prijzen halveren het budget.** $0,60 per miljoen input tokens en $2,50 per miljoen output. Claude Opus 4.7 rekent $5 en $25, ruwweg 8 tot 10 keer meer per run.", "**Licentie staat commercieel gebruik toe.** Modified MIT met één attributieclausule boven 100 miljoen maandelijkse actieve gebruikers of $20 miljoen maandelijkse omzet. Elke webvise-klant valt ruim onder die grens.", "**Self-hosting is reëel.** Weights staan op Hugging Face met community GGUF-kwantisaties van ubergarm en unsloth. H100-hardware is de praktische ondergrens voor serieuze workloads.", "**Gemengde stacks winnen.** Puur closed-source stacks vereisen nu een schriftelijke onderbouwing per workload. Open weights voor volume, closed weights voor complexe frontier-redenering is de verdedigbare bureaustandaard."]}, {"type": "h2", "text": "Wat Kimi K2.6 Daadwerkelijk Heeft Opgeleverd"}, {"type": "p", "text": "K2.6 is een mixture-of-experts model met 1 biljoen parameters, 32 miljard actieve parameters per token en een contextvenster van 262.144 tokens. Het is native multimodaal voor tekst en beeld, en beschikbaar via Moonshot's Kimi API, Kimi Code, Hugging Face, OpenRouter en Ollama. Community-kwantisaties van ubergarm en unsloth maken lokale implementatie op H100-hardware haalbaar binnen de eerste 48 uur na release."}, {"type": "p", "text": "Het benchmarkprofiel ten opzichte van de frontier:"}, {"type": "table", "headers": ["Benchmark", "K2.6", "Claude Opus 4.6", "Claude Opus 4.7", "GPT-5.4", "Gemini 3.1 Pro"], "rows": [["SWE-Bench Verified", "80.2%", "80.8%", "87.6%", "pending", "pending"], ["SWE-Bench Pro", "58.6%", "53.4%", "pending", "57.7%", "54.2%"], ["Terminal-Bench 2.0", "66.7%", "pending", "pending", "pending", "pending"], ["HLE-Full (tools)", "54.0%", "53.0%", "pending", "52.1%", "51.4%"], ["AIME 2026", "96.4%", "pending", "pending", "pending", "pending"], ["OSWorld-Verified", "73.1%", "pending", "pending", "pending", "pending"]]}, {"type": "p", "text": "De sprong op Terminal-Bench 2.0 is het meest veelzeggende getal in deze release. K2.6 won 15,9 punten ten opzichte van K2.5 op betrouwbaarheid bij shell- en bestandsmanipulatie, precies de capaciteit die een bureau nodig heeft wanneer een model een echte CI-pipeline of een on-call remediatie-agent aanstuurt. Benchmarkleiderschap betekent niets als de agent nog steeds struikelt over een `cp`-vlag in een echte implementatie."}, {"type": "p", "text": "De hoofdfunctie bevindt zich een laag boven individuele benchmarks. K2.6 kan tot 300 sub-agents coördineren over 4.000 gecoördineerde stappen in één run, waardoor long-horizon uitvoering mogelijk is die uren of dagen duurt zonder menselijke tussenkomst. Moonshot publiceerde traces van meerdaagse engineering-runs waarbij het model zijn eigen sub-agent dispatch aanstuurt. Claude Opus 4.7 publiceert geen vergelijkbaar sub-agent plafond, wat een primeur is voor een zinvolle agentische functie waarbij open weights de closed frontier voorgaan."}, {"type": "p", "text": "Voor bureaus die al agent stacks draaien, is de praktische vraag niet langer 'is open weights klaar?' maar 'waar past het?' Kaart u dit voor een klanttraject dit kwartaal, [webvise bouwt gemengde AI-implementaties](/#contact)."}, {"type": "h2", "text": "De Frontier-Kloof Is Een Afrondingsfout, Met Één Uitzondering"}, {"type": "p", "text": "Op SWE-Bench Verified zijn K2.6 met 80,2% en Claude Opus 4.6 met 80,8% functioneel gelijkwaardig. De delta van 0,6 punt is kleiner dan de run-to-run variantie die de meeste bureaus in productie-evaluaties waarnemen. K2.6 leidt ook SWE-Bench Pro, de zwaardere multi-file benchmark, met een nette 5,2 punten voorsprong op GPT-5.4 en 7,2 punten op Opus 4.6."}, {"type": "p", "text": "De uitzondering is Claude Opus 4.7. Anthropic's nieuwste Opus sprong naar 87,6% op SWE-Bench Verified, een substantiële voorsprong van 7,4 punten op K2.6 op de single-file bugfix-benchmark. Opus 4.7 verscheen vier dagen voor K2.6, wat aangeeft hoe de race nu werkt. Het is een kwartaalgewijs schaakspel waarbij de leiding regelmatig wisselt."}, {"type": "p", "text": "Voor de meeste bureau-workloads is 80% op SWE-Bench Verified meer signaal dan de werkelijke taak vereist. Schrijft uw agent kleine bugfixes, migreert het een module tussen framework-versies, of voert het een nachtelijke test-authoring-pass uit, plaatsen gepubliceerde benchmarks K2.6 binnen de onzekerheidsmarge van de toonaangevende closed-source modellen tegen aanzienlijk lagere kosten per run; methodologie en workloadselectie beïnvloeden de vergelijking."}, {"type": "p", "text": "Voert u PR-reviews uit op een monorepo van 200 bestanden waarbij subtiele context over modules heen van belang is, dan wint Opus 4.7 nog steeds. Die kloof van 7,4 punten is reëel en accumuleert bij de zwaarste taken. Of dat 10 keer de kosten per run rechtvaardigt, is een beslissing die u nu per workload moet nemen, niet per leverancier."}, {"type": "h2", "text": "Het Prijsverschil Is 10x, en Opus 4.7 Maakte Het Stilletjes Erger"}, {"type": "p", "text": "API-prijzen per miljoen tokens voor de twee relevante frontier-opties:"}, {"type": "table", "headers": ["Model", "Input", "Output"], "rows": [["Kimi K2.6 (Moonshot API)", "$0.60", "$2.50"], ["Kimi K2.6 (OpenRouter)", "$0.60", "$2.80"], ["Claude Opus 4.7", "$5.00", "$25.00"]]}, {"type": "p", "text": "Een enkele agent-run die 20.000 input tokens en 8.000 output tokens verbruikt, kost ruwweg $0,03 op K2.6 en ruwweg $0,30 op Claude Opus 4.7. Schaal dat op naar een client-agent die 1.000 keer per dag draait en de maand bedraagt $8.000 op Opus versus $900 op K2.6 voor dezelfde workload. Over een portfolio van zes client-agents is het jaarlijkse verschil meer dan een half miljoen dollar aan COGS die het bureau of de klant op dit moment absorbeert."}, {"type": "p", "text": "Er is een verborgen factor die de meeste bureaus nog niet hebben ingeprijsd. De bijgewerkte tokenizer van Opus 4.7 produceert meer tokens per equivalente invoer op sommige workloads; dit beïnvloedt de effectieve marge per opdracht voor Opus-gefactureerd werk. Per-token-tarieven bleven gelijk, maar effectieve kosten per request niet. Hebt u klantwerk ondertekend op basis van Opus 4.6-aannames, dan zijn uw unit economics verschoven zonder dat u het merkte."}, {"type": "p", "text": "Moonshot's prijzen zijn niet alleen goedkoper, ze zijn structureel anders dan closed frontier. Open weights betekent dat de prijsvloer uw eigen rekencapaciteit is, niet de marge van een leverancier. Een self-hosted K2.6-implementatie kan op schaal ruwweg $0,08 per miljoen output tokens bereiken; dat ligt materieel onder het API-tarief van closed-source frontier modellen. Directe vermenigvuldigers hangen af van inferentievolume en infrastructuureconomie. Dat is het getal dat open weights verandert van academische curiositeit naar een P&L-beslissing."}, {"type": "h2", "text": "Wat de Modified MIT-Licentie Daadwerkelijk Toestaat"}, {"type": "p", "text": "K2.6 weights zijn gepubliceerd op Hugging Face als `moonshotai/Kimi-K2.6` onder een Modified MIT License. De aanpassing bestaat uit één attributieclausule. Overschrijdt uw implementatie 100 miljoen maandelijkse actieve gebruikers of genereert het meer dan $20 miljoen maandelijkse omzet, dan dient u 'Kimi K2.6' zichtbaar te vermelden in de product-UI."}, {"type": "p", "text": "Voor elk webvise-klanttraject ligt dit plafond hoog genoeg om gangbare commerciële implementaties niet te beperken. Commercieel gebruik is gratis onder de drempel, redistributie van broncode en weights is toegestaan, fine-tuning is voor elk doel toegestaan, en klantwerk gebouwd op K2.6 draagt geen royaltyverplichtingen terug aan Moonshot op een schaal die een gemiddelde bureauklant in jaar één zal bereiken."}, {"type": "p", "text": "Vergelijk dit met Anthropic's Usage Policy, die fine-tuning van Claude-outputs voor het bouwen van concurrerende foundation models verbiedt en vereist dat klanten Anthropic's voorwaarden als een pass-through-overeenkomst accepteren. Voor een klant die agents inzet in gereguleerde sectoren waar data-residency, modelcontrole en contractuele soevereiniteit van belang zijn, is het licentieverschil geen prettige bijkomstigheid. Voor financiële dienstverlening, zorg, juridische sector en EU-publieke sector onder GDPR-datalocalisatieregels is de licentie zelf vaak de beslissing, nog voordat benchmarks ter sprake komen."}, {"type": "h2", "text": "Het Patroon: Twee Open-Weight Releases in Vier Maanden"}, {"type": "p", "text": "Kimi K2.6 op zichzelf is niet het verhaal. Het patroon waar het deel van uitmaakt, is wat dit kwartaal het bureaubeleid moet veranderen."}, {"type": "p", "text": "DeepSeek V3.2 verscheen in januari 2026 met DeepSeek Sparse Attention, een architectuur die de aandachtscomplexiteit terugbrengt van O(n²) naar O(nk) met behoud van modelprestaties in long-context-scenario's. De V3.2-Speciale variant behaalde goud op IMO 2025, IOI 2025, ICPC World Final 2025 en CMO 2025, waarmee de open-weight reasoning-hoogwatermark werd bepaald. Destijds was dat het plafond."}, {"type": "p", "text": "Vier maanden later leverde Moonshot K2.6 met een 1T-parameter MoE, 256K context en een long-horizon agent swarm. Het open-weight benchmark-leiderschap verschoof van DeepSeek naar Moonshot in één kwartaal, en Bureaus die uitsluitend kozen voor closed-source providers ondervinden opnieuw prijsdruk naarmate open-weight opties verbeteren."}, {"type": "p", "text": "Het ritme om in de gaten te houden is niet één lab dat eenmalig de achterstand inloopt. Het zijn twee labs die het open-weight leiderschap elke drie tot vier maanden van elkaar overnemen, terwijl Anthropic Opus 4.7 en Google Gemini 3.1 Pro op overlappende releaseschema's uitbrengen. Het open-weight frontier is geen race meer tegen closed frontier. Het is een constante conditie van de AI-stack waarmee bureaus op beleidsniveau rekening moeten houden."}, {"type": "p", "text": "Voor bureaus verschuift dat de boardroom-discussie van 'moeten we open weights evalueren?' naar 'wat is ons gemengd-stackbeleid wanneer de volgende release in juli verschijnt?'"}, {"type": "h2", "text": "Wat Dit Verandert voor Bureaus die Client Agents Leveren"}, {"type": "p", "text": "Drie drukpunten bepalen de migratieberekening die een bureau nu moet maken over zijn klantportfolio."}, {"type": "p", "text": "**Kostendruk van de klantzijde.** Zodra een klant de per-run-delta op een echte workload ziet, verschuift het gesprek van 'welk model' naar 'waarom betalen we dit?' Een maandelijkse agent-rekening van $5.000 op Claude Opus 4.7 daalt naar ruwweg $500 op K2.6 voor hetzelfde taakvolume, en het kwaliteitsplafond daalt alleen bij de zwaarste multi-file redeneerwerk. Procurement teams zullen deze vergelijking waarschijnlijk zelf maken."}, {"type": "p", "text": "**Data-residency als verkoopbaar tier.** Open weights laten klantdata op klantinfrastructuur staan, waardoor contracten mogelijk worden waarop closed-source stacks fysiek niet kunnen bieden. Voor financiële dienstverlening, zorg en EU-publieke sector-klanten onder GDPR-datalocalisatievereisten neemt een self-hosted K2.6 de vraag 'onze data ging naar Anthropic's cloud' weg bij elke compliance-review. Dat alleen al wint aanbestedingen waarbij de closed-source stack niet eens in aanmerking komt."}, {"type": "p", "text": "**Leveranciersrisico als beleidsregel.** Closed-source single-provider stacks faalden een echte test tijdens het [Vercel supply-chain-incident](/blog/vercel-breach-response-playbook), waarbij de SDK van één leverancier een inbreuksvector werd voor elk agent in een portfolio. Wanneer de impact schaalt met leveranciersconcentratie, verandert een mixed stack met open-weight fallback een volledige uitval in een degraded run. Verzekeraars en aanbestedende diensten beginnen hierover vragen te stellen op RFP-niveau."}, {"type": "p", "text": "Het tegenargument is reëel en verdient een heldere formulering. Claude Opus 4.7 leidt SWE-Bench Verified met 7,4 punten boven K2.6. Voor de zwaarste multi-file redenering, randgevallen waarbij subtiele context over modules heen van belang is, of workflows waarbij latentie en tool-use-afwerking het product zijn, wint closed frontier nog steeds op kwaliteit."}, {"type": "p", "text": "De webvise-standaard voor nieuwe klanttrajecten is nu een mixed stack by design. Claude Opus 4.7 verwerkt orchestratie, ambigue redenering en product-kritische tool-use-paden waar afwerking telt. K2.6 verwerkt hoog-volume, goed-gedefinieerde en datagevoelige werkzaamheden waar de kwaliteitskloof een afrondingsfout is tegenover een kostenbesparing van 90%. De routeringslogica leeft in onze eigen infrastructuur, waardoor modelkeuze een omkeerbare beslissing blijft in plaats van een tweejarig contract."}, {"type": "h2", "text": "Wat U Dit Kwartaal Concreet Kunt Doen"}, {"type": "p", "text": "Vier concrete stappen als u vandaag client agents draait op een closed-source stack."}, {"type": "ul", "items": ["**Benchmark K2.6 op uw eigen workload.** Haal de OpenRouter-endpoint 72 uur op, draai uw bestaande agent-evalsuites en meet regressie ten opzichte van uw werkelijke taakverdeling. Uw agent geeft om uw data, niet om SWE-Bench-leaderboards.", "**Controleer uitgaven per workload, niet per leverancier.** Zoek de agents die meer dan $300 per maand verbranden op Opus 4.7 en markeer degenen waarbij het taaktype comfortabel valt binnen K2.6's 80%-Verified-capabiliteitsenvelope. Die workloads gaan als eerste naar open weights.", "**Prijs data-residency als enterprise-tier.** Enterprise-klanten betalen een toeslag voor self-hosted agents zodra u het als een post op de SOW aanbiedt. Open weights maakt dit een productiseerbaar tier in plaats van een maatwerkontwikkelingstraject per deal.", "**Houd de lijn bij kritisch redeneerwerk.** Migreer volume, niet gevoeligheid. De 7,4-punt Verified-kloof tussen K2.6 en Opus 4.7 is reëel bij zware taken. Meet regressie op uw zwaarste workloads voordat u één productie-agent verplaatst."]}, {"type": "p", "text": "Moonshot zal vrijwel zeker K2.7 uitbrengen voor het einde van het jaar. DeepSeek V4 zou zich volgens berichten in een gevorderd ontwikkelstadium bevinden. De vraag voor bureaus is niet of open weights überhaupt te adopteren. Het is hoe snel het bureaubeleid kan absorberen wat volgend kwartaal verschijnt zonder live klantwerk te verstoren."}, {"type": "p", "text": "Kaart u de open-weight migratie voor een klanttraject en wilt u een tweede blik op de routeringslogica, het benchmarkplan of de self-hosting-economie, [webvise bouwt en onderhoudt mixed-stack AI-implementaties](/#contact) voor bureau-geleverde producten."}]}
+{
+  "date": "2026-04-21",
+  "readingTime": 10,
+  "keyword": "Kimi K2.6",
+  "title": "Kimi K2.6: Een Open-Weight Frontier Coding Model voor een Tiende van de Kosten",
+  "excerpt": "Kimi K2.6 van Moonshot AI is het tweede open-weight Chinese coding model dat in vier maanden tijd frontier-niveau bereikt. Voor bureaus die AI agents aan klanten leveren, is de stackkeuze van de ene op de andere dag veranderd.",
+  "metaDescription": "Kimi K2.6 evenaart Claude Opus 4.6 op SWE-Bench Verified voor een tiende van de API-kosten, met volledig open weights. Wat bureaus deze kwartaal aan hun AI-stack moeten veranderen.",
+  "tags": ["AI Agents", "AI", "Open Source", "Self-Hosted"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Moonshot AI bracht Kimi K2.6 uit op 20 april 2026. Het is een open-weight coding model met 1 biljoen parameters dat Claude Opus 4.6 evenaart op SWE-Bench Verified voor ruwweg een tiende van de API-kosten. Voor bureaus die AI agents aan klanten leveren, hebben open-weight modellen in deze generatie het experimentele stadium overstegen."
+    },
+    {
+      "type": "p",
+      "text": "Dit is het tweede open-weight model van een Chinees lab dat in vier maanden dit niveau bereikt. DeepSeek V3.2 verscheen in januari 2026 met goudmedailleprestaties op IMO 2025, IOI 2025 en ICPC World Final 2025, waarmee de open-weight reasoning-baseline destijds werd bepaald. K2.6 volgde op 20 april met een long-horizon agent swarm die 300 sub-agents coordineert over 4.000 stappen. Het ritme is nu per kwartaal, en elk bureau dat client AI agents levert, heeft een stackbeleid nodig dat rekening houdt met een nieuwe frontier-release elke drie tot vier maanden."
+    },
+    {
+      "type": "p",
+      "text": "U hoort al een jaar lang 'open weights halen de achterstand in', en het meeste was hype. Deze generatie laat een kleinere kloof zien dan eerdere open-vs-closed-cycli, en dat is relevant voor wat u aan klanten levert. Hieronder: wat K2.6 daadwerkelijk heeft opgeleverd, waar de kloof met Claude Opus 4.7 is gedicht, waar niet, en de drie beslissingen die een bureau-geleverde AI-stack dit kwartaal moet nemen. Is die beslissing al actueel voor een klanttraject, [webvise bouwt open-weight AI-implementaties voor bureaus](/#contact)."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Benchmarks dichten de kloof.** K2.6 scoort 80,2% op SWE-Bench Verified, 0,6 punt achter Claude Opus 4.6, en leidt elk frontier-model op SWE-Bench Pro met 58,6%.",
+        "**Prijzen halveren het budget.** $0,60 per miljoen input tokens en $2,50 per miljoen output. Claude Opus 4.7 rekent $5 en $25, ruwweg 8 tot 10 keer meer per run.",
+        "**Licentie staat commercieel gebruik toe.** Modified MIT met één attributieclausule boven 100 miljoen maandelijkse actieve gebruikers of $20 miljoen maandelijkse omzet. Elke webvise-klant valt ruim onder die grens.",
+        "**Self-hosting is reëel.** Weights staan op Hugging Face met community GGUF-kwantisaties van ubergarm en unsloth. H100-hardware is de praktische ondergrens voor serieuze workloads.",
+        "**Gemengde stacks winnen.** Puur closed-source stacks vereisen nu een schriftelijke onderbouwing per workload. Open weights voor volume, closed weights voor complexe frontier-redenering is de verdedigbare bureaustandaard."
+      ]
+    },
+    { "type": "h2", "text": "Wat Kimi K2.6 Daadwerkelijk Heeft Opgeleverd" },
+    {
+      "type": "p",
+      "text": "K2.6 is een mixture-of-experts model met 1 biljoen parameters, 32 miljard actieve parameters per token en een contextvenster van 262.144 tokens. Het is native multimodaal voor tekst en beeld, en beschikbaar via Moonshot's Kimi API, Kimi Code, Hugging Face, OpenRouter en Ollama. Community-kwantisaties van ubergarm en unsloth maken lokale implementatie op H100-hardware haalbaar binnen de eerste 48 uur na release."
+    },
+    {
+      "type": "p",
+      "text": "Het benchmarkprofiel ten opzichte van de frontier:"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Benchmark",
+        "K2.6",
+        "Claude Opus 4.6",
+        "Claude Opus 4.7",
+        "GPT-5.4",
+        "Gemini 3.1 Pro"
+      ],
+      "rows": [
+        ["SWE-Bench Verified", "80.2%", "80.8%", "87.6%", "pending", "pending"],
+        ["SWE-Bench Pro", "58.6%", "53.4%", "pending", "57.7%", "54.2%"],
+        [
+          "Terminal-Bench 2.0",
+          "66.7%",
+          "pending",
+          "pending",
+          "pending",
+          "pending"
+        ],
+        ["HLE-Full (tools)", "54.0%", "53.0%", "pending", "52.1%", "51.4%"],
+        ["AIME 2026", "96.4%", "pending", "pending", "pending", "pending"],
+        [
+          "OSWorld-Verified",
+          "73.1%",
+          "pending",
+          "pending",
+          "pending",
+          "pending"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "De sprong op Terminal-Bench 2.0 is het meest veelzeggende getal in deze release. K2.6 won 15,9 punten ten opzichte van K2.5 op betrouwbaarheid bij shell- en bestandsmanipulatie, precies de capaciteit die een bureau nodig heeft wanneer een model een echte CI-pipeline of een on-call remediatie-agent aanstuurt. Benchmarkleiderschap betekent niets als de agent nog steeds struikelt over een `cp`-vlag in een echte implementatie."
+    },
+    {
+      "type": "p",
+      "text": "De hoofdfunctie bevindt zich een laag boven individuele benchmarks. K2.6 kan tot 300 sub-agents coördineren over 4.000 gecoördineerde stappen in één run, waardoor long-horizon uitvoering mogelijk is die uren of dagen duurt zonder menselijke tussenkomst. Moonshot publiceerde traces van meerdaagse engineering-runs waarbij het model zijn eigen sub-agent dispatch aanstuurt. Claude Opus 4.7 publiceert geen vergelijkbaar sub-agent plafond, wat een primeur is voor een zinvolle agentische functie waarbij open weights de closed frontier voorgaan."
+    },
+    {
+      "type": "p",
+      "text": "Voor bureaus die al agent stacks draaien, is de praktische vraag niet langer 'is open weights klaar?' maar 'waar past het?' Kaart u dit voor een klanttraject dit kwartaal, [webvise bouwt gemengde AI-implementaties](/#contact)."
+    },
+    {
+      "type": "h2",
+      "text": "De Frontier-Kloof Is Een Afrondingsfout, Met Één Uitzondering"
+    },
+    {
+      "type": "p",
+      "text": "Op SWE-Bench Verified zijn K2.6 met 80,2% en Claude Opus 4.6 met 80,8% functioneel gelijkwaardig. De delta van 0,6 punt is kleiner dan de run-to-run variantie die de meeste bureaus in productie-evaluaties waarnemen. K2.6 leidt ook SWE-Bench Pro, de zwaardere multi-file benchmark, met een nette 5,2 punten voorsprong op GPT-5.4 en 7,2 punten op Opus 4.6."
+    },
+    {
+      "type": "p",
+      "text": "De uitzondering is Claude Opus 4.7. Anthropic's nieuwste Opus sprong naar 87,6% op SWE-Bench Verified, een substantiële voorsprong van 7,4 punten op K2.6 op de single-file bugfix-benchmark. Opus 4.7 verscheen vier dagen voor K2.6, wat aangeeft hoe de race nu werkt. Het is een kwartaalgewijs schaakspel waarbij de leiding regelmatig wisselt."
+    },
+    {
+      "type": "p",
+      "text": "Voor de meeste bureau-workloads is 80% op SWE-Bench Verified meer signaal dan de werkelijke taak vereist. Schrijft uw agent kleine bugfixes, migreert het een module tussen framework-versies, of voert het een nachtelijke test-authoring-pass uit, plaatsen gepubliceerde benchmarks K2.6 binnen de onzekerheidsmarge van de toonaangevende closed-source modellen tegen aanzienlijk lagere kosten per run; methodologie en workloadselectie beïnvloeden de vergelijking."
+    },
+    {
+      "type": "p",
+      "text": "Voert u PR-reviews uit op een monorepo van 200 bestanden waarbij subtiele context over modules heen van belang is, dan wint Opus 4.7 nog steeds. Die kloof van 7,4 punten is reëel en accumuleert bij de zwaarste taken. Of dat 10 keer de kosten per run rechtvaardigt, is een beslissing die u nu per workload moet nemen, niet per leverancier."
+    },
+    {
+      "type": "h2",
+      "text": "Het Prijsverschil Is 10x, en Opus 4.7 Maakte Het Stilletjes Erger"
+    },
+    {
+      "type": "p",
+      "text": "API-prijzen per miljoen tokens voor de twee relevante frontier-opties:"
+    },
+    {
+      "type": "table",
+      "headers": ["Model", "Input", "Output"],
+      "rows": [
+        ["Kimi K2.6 (Moonshot API)", "$0.60", "$2.50"],
+        ["Kimi K2.6 (OpenRouter)", "$0.60", "$2.80"],
+        ["Claude Opus 4.7", "$5.00", "$25.00"]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Een enkele agent-run die 20.000 input tokens en 8.000 output tokens verbruikt, kost ruwweg $0,03 op K2.6 en ruwweg $0,30 op Claude Opus 4.7. Schaal dat op naar een client-agent die 1.000 keer per dag draait en de maand bedraagt $8.000 op Opus versus $900 op K2.6 voor dezelfde workload. Over een portfolio van zes client-agents is het jaarlijkse verschil meer dan een half miljoen dollar aan COGS die het bureau of de klant op dit moment absorbeert."
+    },
+    {
+      "type": "p",
+      "text": "Er is een verborgen factor die de meeste bureaus nog niet hebben ingeprijsd. De bijgewerkte tokenizer van Opus 4.7 produceert meer tokens per equivalente invoer op sommige workloads; dit beïnvloedt de effectieve marge per opdracht voor Opus-gefactureerd werk. Per-token-tarieven bleven gelijk, maar effectieve kosten per request niet. Hebt u klantwerk ondertekend op basis van Opus 4.6-aannames, dan zijn uw unit economics verschoven zonder dat u het merkte."
+    },
+    {
+      "type": "p",
+      "text": "Moonshot's prijzen zijn niet alleen goedkoper, ze zijn structureel anders dan closed frontier. Open weights betekent dat de prijsvloer uw eigen rekencapaciteit is, niet de marge van een leverancier. Een self-hosted K2.6-implementatie kan op schaal ruwweg $0,08 per miljoen output tokens bereiken; dat ligt materieel onder het API-tarief van closed-source frontier modellen. Directe vermenigvuldigers hangen af van inferentievolume en infrastructuureconomie. Dat is het getal dat open weights verandert van academische curiositeit naar een P&L-beslissing."
+    },
+    {
+      "type": "h2",
+      "text": "Wat de Modified MIT-Licentie Daadwerkelijk Toestaat"
+    },
+    {
+      "type": "p",
+      "text": "K2.6 weights zijn gepubliceerd op Hugging Face als `moonshotai/Kimi-K2.6` onder een Modified MIT License. De aanpassing bestaat uit één attributieclausule. Overschrijdt uw implementatie 100 miljoen maandelijkse actieve gebruikers of genereert het meer dan $20 miljoen maandelijkse omzet, dan dient u 'Kimi K2.6' zichtbaar te vermelden in de product-UI."
+    },
+    {
+      "type": "p",
+      "text": "Voor elk webvise-klanttraject ligt dit plafond hoog genoeg om gangbare commerciële implementaties niet te beperken. Commercieel gebruik is gratis onder de drempel, redistributie van broncode en weights is toegestaan, fine-tuning is voor elk doel toegestaan, en klantwerk gebouwd op K2.6 draagt geen royaltyverplichtingen terug aan Moonshot op een schaal die een gemiddelde bureauklant in jaar één zal bereiken."
+    },
+    {
+      "type": "p",
+      "text": "Vergelijk dit met Anthropic's Usage Policy, die fine-tuning van Claude-outputs voor het bouwen van concurrerende foundation models verbiedt en vereist dat klanten Anthropic's voorwaarden als een pass-through-overeenkomst accepteren. Voor een klant die agents inzet in gereguleerde sectoren waar data-residency, modelcontrole en contractuele soevereiniteit van belang zijn, is het licentieverschil geen prettige bijkomstigheid. Voor financiële dienstverlening, zorg, juridische sector en EU-publieke sector onder GDPR-datalocalisatieregels is de licentie zelf vaak de beslissing, nog voordat benchmarks ter sprake komen."
+    },
+    {
+      "type": "h2",
+      "text": "Het Patroon: Twee Open-Weight Releases in Vier Maanden"
+    },
+    {
+      "type": "p",
+      "text": "Kimi K2.6 op zichzelf is niet het verhaal. Het patroon waar het deel van uitmaakt, is wat dit kwartaal het bureaubeleid moet veranderen."
+    },
+    {
+      "type": "p",
+      "text": "DeepSeek V3.2 verscheen in januari 2026 met DeepSeek Sparse Attention, een architectuur die de aandachtscomplexiteit terugbrengt van O(n²) naar O(nk) met behoud van modelprestaties in long-context-scenario's. De V3.2-Speciale variant behaalde goud op IMO 2025, IOI 2025, ICPC World Final 2025 en CMO 2025, waarmee de open-weight reasoning-hoogwatermark werd bepaald. Destijds was dat het plafond."
+    },
+    {
+      "type": "p",
+      "text": "Vier maanden later leverde Moonshot K2.6 met een 1T-parameter MoE, 256K context en een long-horizon agent swarm. Het open-weight benchmark-leiderschap verschoof van DeepSeek naar Moonshot in één kwartaal, en Bureaus die uitsluitend kozen voor closed-source providers ondervinden opnieuw prijsdruk naarmate open-weight opties verbeteren."
+    },
+    {
+      "type": "p",
+      "text": "Het ritme om in de gaten te houden is niet één lab dat eenmalig de achterstand inloopt. Het zijn twee labs die het open-weight leiderschap elke drie tot vier maanden van elkaar overnemen, terwijl Anthropic Opus 4.7 en Google Gemini 3.1 Pro op overlappende releaseschema's uitbrengen. Het open-weight frontier is geen race meer tegen closed frontier. Het is een constante conditie van de AI-stack waarmee bureaus op beleidsniveau rekening moeten houden."
+    },
+    {
+      "type": "p",
+      "text": "Voor bureaus verschuift dat de boardroom-discussie van 'moeten we open weights evalueren?' naar 'wat is ons gemengd-stackbeleid wanneer de volgende release in juli verschijnt?'"
+    },
+    {
+      "type": "h2",
+      "text": "Wat Dit Verandert voor Bureaus die Client Agents Leveren"
+    },
+    {
+      "type": "p",
+      "text": "Drie drukpunten bepalen de migratieberekening die een bureau nu moet maken over zijn klantportfolio."
+    },
+    {
+      "type": "p",
+      "text": "**Kostendruk van de klantzijde.** Zodra een klant de per-run-delta op een echte workload ziet, verschuift het gesprek van 'welk model' naar 'waarom betalen we dit?' Een maandelijkse agent-rekening van $5.000 op Claude Opus 4.7 daalt naar ruwweg $500 op K2.6 voor hetzelfde taakvolume, en het kwaliteitsplafond daalt alleen bij de zwaarste multi-file redeneerwerk. Procurement teams zullen deze vergelijking waarschijnlijk zelf maken."
+    },
+    {
+      "type": "p",
+      "text": "**Data-residency als verkoopbaar tier.** Open weights laten klantdata op klantinfrastructuur staan, waardoor contracten mogelijk worden waarop closed-source stacks fysiek niet kunnen bieden. Voor financiële dienstverlening, zorg en EU-publieke sector-klanten onder GDPR-datalocalisatievereisten neemt een self-hosted K2.6 de vraag 'onze data ging naar Anthropic's cloud' weg bij elke compliance-review. Dat alleen al wint aanbestedingen waarbij de closed-source stack niet eens in aanmerking komt."
+    },
+    {
+      "type": "p",
+      "text": "**Leveranciersrisico als beleidsregel.** Closed-source single-provider stacks faalden een echte test tijdens het [Vercel supply-chain-incident](/blog/vercel-breach-response-playbook), waarbij de SDK van één leverancier een inbreuksvector werd voor elk agent in een portfolio. Wanneer de impact schaalt met leveranciersconcentratie, verandert een mixed stack met open-weight fallback een volledige uitval in een degraded run. Verzekeraars en aanbestedende diensten beginnen hierover vragen te stellen op RFP-niveau."
+    },
+    {
+      "type": "p",
+      "text": "Het tegenargument is reëel en verdient een heldere formulering. Claude Opus 4.7 leidt SWE-Bench Verified met 7,4 punten boven K2.6. Voor de zwaarste multi-file redenering, randgevallen waarbij subtiele context over modules heen van belang is, of workflows waarbij latentie en tool-use-afwerking het product zijn, wint closed frontier nog steeds op kwaliteit."
+    },
+    {
+      "type": "p",
+      "text": "De webvise-standaard voor nieuwe klanttrajecten is nu een mixed stack by design. Claude Opus 4.7 verwerkt orchestratie, ambigue redenering en product-kritische tool-use-paden waar afwerking telt. K2.6 verwerkt hoog-volume, goed-gedefinieerde en datagevoelige werkzaamheden waar de kwaliteitskloof een afrondingsfout is tegenover een kostenbesparing van 90%. De routeringslogica leeft in onze eigen infrastructuur, waardoor modelkeuze een omkeerbare beslissing blijft in plaats van een tweejarig contract."
+    },
+    { "type": "h2", "text": "Wat U Dit Kwartaal Concreet Kunt Doen" },
+    {
+      "type": "p",
+      "text": "Vier concrete stappen als u vandaag client agents draait op een closed-source stack."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Benchmark K2.6 op uw eigen workload.** Haal de OpenRouter-endpoint 72 uur op, draai uw bestaande agent-evalsuites en meet regressie ten opzichte van uw werkelijke taakverdeling. Uw agent geeft om uw data, niet om SWE-Bench-leaderboards.",
+        "**Controleer uitgaven per workload, niet per leverancier.** Zoek de agents die meer dan $300 per maand verbranden op Opus 4.7 en markeer degenen waarbij het taaktype comfortabel valt binnen K2.6's 80%-Verified-capabiliteitsenvelope. Die workloads gaan als eerste naar open weights.",
+        "**Prijs data-residency als enterprise-tier.** Enterprise-klanten betalen een toeslag voor self-hosted agents zodra u het als een post op de SOW aanbiedt. Open weights maakt dit een productiseerbaar tier in plaats van een maatwerkontwikkelingstraject per deal.",
+        "**Houd de lijn bij kritisch redeneerwerk.** Migreer volume, niet gevoeligheid. De 7,4-punt Verified-kloof tussen K2.6 en Opus 4.7 is reëel bij zware taken. Meet regressie op uw zwaarste workloads voordat u één productie-agent verplaatst."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Moonshot zal vrijwel zeker K2.7 uitbrengen voor het einde van het jaar. DeepSeek V4 zou zich volgens berichten in een gevorderd ontwikkelstadium bevinden. De vraag voor bureaus is niet of open weights überhaupt te adopteren. Het is hoe snel het bureaubeleid kan absorberen wat volgend kwartaal verschijnt zonder live klantwerk te verstoren."
+    },
+    {
+      "type": "p",
+      "text": "Kaart u de open-weight migratie voor een klanttraject en wilt u een tweede blik op de routeringslogica, het benchmarkplan of de self-hosting-economie, [webvise bouwt en onderhoudt mixed-stack AI-implementaties](/#contact) voor bureau-geleverde producten."
+    }
+  ]
+}

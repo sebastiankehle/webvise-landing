@@ -1,157 +1,157 @@
 {
-	"date": "2026-04-08",
-	"readingTime": 9,
-	"keyword": "business ai agent beveiliging",
-	"title": "Waarom We Geen AI Agents Bouwen Die het Open Web Lezen",
-	"excerpt": "Op 5 april 2026 publiceerde Google DeepMind het grootste empirische onderzoek naar manipulatie van AI agents ooit uitgevoerd. 502 deelnemers, 8 landen, 23 aanvalstypes, elk beschikbaar verdedigingsmechanisme beoordeeld als onvoldoende. Dit is het technische standpunt dat Webvise de volgende ochtend innam.",
-	"metaDescription": "Het onderzoek van Google DeepMind uit april 2026 mat 23 manieren om een zakelijke AI agent te kapen. De regel bij Webvise: agents die door aanvallers beheerde content lezen, worden niet aan klanten geleverd.",
-	"tags": ["AI Agents", "AI", "Security", "B2B"],
-	"cta": "Praat met Webvise over AI",
-	"blocks": [
-		{
-			"type": "p",
-			"text": "Op 5 april 2026 publiceerde Google DeepMind het grootste empirische onderzoek naar manipulatie van AI agents ooit uitgevoerd: 502 echte deelnemers uit 8 landen, 23 verschillende aanvalstypes, frontiermodellen waaronder GPT-4o, Claude, en Gemini. De ene zin die we eruithaaldden en de volgende ochtend vastpinden in ons engineeringkanaal is de enige die ertoe doet voor iedereen die in 2026 een zakelijke chatbot lanceert: **als uw AI agent tekst leest die door een aanvaller wordt beheerd en daarna acties uitvoert met gebruikersrechten, heeft u al een kwetsbaarheid voor data-exfiltratie ingebouwd.** Dit is de reden dat webvise voor geen enkele klant, tegen geen enkele prijs, een AI agent bouwt die het open web doorzoekt."
-		},
-		{
-			"type": "h2",
-			"text": "Wat DeepMind Daadwerkelijk Mat"
-		},
-		{
-			"type": "p",
-			"text": "De meeste persberichten over het onderzoek vermeldden het hoofdgetal, 23 aanvalstypes, en gingen verder. De onderliggende cijfers zijn wat telt voor iedereen die een AI-functie in productie draait:"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**502 deelnemers** in echte omstandigheden, geen gesimuleerde laboratoriumtests",
-				"**8 landen**, zodat de aanvallen niet geoptimaliseerd waren voor één culturele of taalkundige context",
-				"**23 aanvalstypes verdeeld over 10 categorieën**, waaronder directe prompt injection, indirecte injectie via webcontent, multimodale pixelinjectie, documentinjectie, omgevingsmanipulatie, jailbreak-inbedding, geheugenvergiftiging, doelomleding, exfiltratie en cross-agent injectie",
-				"**Alle vier klassen van verdediging** (invoersanering, prompt-niveau beveiliging, sandboxing, menselijk toezicht) beoordeeld als onvoldoende op schaal"
-			]
-		},
-		{
-			"type": "p",
-			"text": "De categorie waar we steeds op terugkomen is de achtste, *doelomleding door geleidelijke instructiedrift over interacties heen.* Elke demo van een agentsysteem die u ooit heeft gezien, overleeft één gerichte aanvalsprompt. Geen enkele overleeft er honderd, zorgvuldig gespreid."
-		},
-		{
-			"type": "h2",
-			"text": "Het Cascade-inzicht Dat de Meeste Berichtgeving Miste"
-		},
-		{
-			"type": "p",
-			"text": "Verborgen in het onderzoek ligt de bevinding die bepaalt of multi-agent producten veilig te lanceren zijn. In elke pipeline waarbij agent A content ophaalt, agent B die verwerkt en agent C een actie uitvoert, **verspreidt een enkele injectie in de datafeed van agent A zich door alle stroomafwaartse agents.** Agent B vertrouwt de uitvoer van A. Agent C vertrouwt de uitvoer van B. De aanvaller hoefde het model niet te compromitteren. Ze hoefden slechts eenmalig de data te compromitteren die het model consumeerde."
-		},
-		{
-			"type": "p",
-			"text": "Onze oprichter draait een persoonlijke multi-agent opstelling met **Hermes**, een NousResearch agent op Telegram die 14 cron jobs aanstuurt voor dagelijks nieuws, medische richtlijnsamenvattingen en persoonlijke logistiek. Elk van die 14 jobs leest uitsluitend uit bronnen die expliciet vertrouwd en handmatig samengesteld zijn. Geen van hen volgt links. Geen van hen voert externe instructies uit. Na het verschijnen van het DeepMind-paper werd elke cron geauditeerd en de regel hield stand. Dat lukte omdat die twee jaar geleden is opgeschreven en nooit is losgelaten. De meeste productie-agentstacks die we zien in klantbriefings hebben deze regel niet, en de engineers die ze bouwen zijn nooit gevraagd hem op te schrijven."
-		},
-		{
-			"type": "h2",
-			"text": "Hoe 'Het Open Web Lezen' Eruitziet in een Klantbriefing"
-		},
-		{
-			"type": "p",
-			"text": "We zien elke maand drie varianten van hetzelfde verzoek:"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**'Laat de chatbot vragen beantwoorden door de website van mijn concurrent te doorzoeken.'** In de praktijk zou dit een aanvaller die een blogpost van een concurrent beheert een schrijfbaar kanaal geven naar de sessie van de klant.",
-				"**'Laat gebruikers een URL plakken en de agent die laten samenvatten.'** In de praktijk zou dit elke gebruiker de mogelijkheid geven een URL te plakken waarvan de HTML verborgen instructies bevat die berichten uit het gesprek exfiltreren.",
-				"**'Voeg RAG toe over de documentatie van een externe leverancier die wij niet hosten.'** In de praktijk zou dit de tool-aanroepmachtigingen van de agent verlenen aan iedereen die die documentatie bewerkt."
-			]
-		},
-		{
-			"type": "p",
-			"text": "Elk van deze opties verbindt een door aanvallers beheerd tekstkanaal rechtstreeks met een systeem dat gebruikersdata, tool-aanroepen en uitgaand netwerktoegang aan dezelfde kant van de vertrouwensgrens heeft. Geen ervan is kwaadaardig van de kant van de klant. Elk ervan is een verdedigbaar productidee. Ze zijn allemaal, na 5 april 2026, ook onleverbaar."
-		},
-		{
-			"type": "h2",
-			"text": "Elk Beschikbaar Verdedigingsmechanisme Faalt"
-		},
-		{
-			"type": "p",
-			"text": "DeepMind testte alle vier voor de hand liggende verdedigingsfamilies. Dit is hun beoordeling, met onze toelichting bij elk:"
-		},
-		{
-			"type": "table",
-			"headers": [
-				"Verdediging",
-				"DeepMind-oordeel",
-				"Waarom het in de praktijk faalt"
-			],
-			"rows": [
-				[
-					"Invoersanering",
-					"Onvoldoende",
-					"U kunt afbeeldingspixels, documentmetadata of sprekersnotities in een PDF niet saneren tijdens inferentie. Het aanvalsoppervlak is tekst en elke andere modaliteit die de agent inneemt."
-				],
-				[
-					"Prompt-niveau beveiliging",
-					"Onvoldoende",
-					"Geinjecteerde content is ontworpen om eruit te zien als een legitiem onderdeel van de pagina. Tegen de tijd dat het model het ziet, heeft de beveiliging het al vertrouwd."
-				],
-				[
-					"Sandboxing",
-					"Verkleint de impact, voorkomt geen injectie",
-					"Sandboxing helpt als het resultaat van de aanval ingekapseld is. Het helpt niet wanneer het doel van de aanval is om gebruikersdata te lezen en terug te schrijven via een legaal ogende API-aanroep."
-				],
-				[
-					"Menselijk toezicht",
-					"Onvoldoende op schaal",
-					"Een operator die een agent laat draaien over 50 bronnen kan niet elke pagina controleren op verborgen instructies. Het hele punt van de agent was dat de mens buiten de loop trad."
-				]
-			]
-		},
-		{
-			"type": "p",
-			"text": "Als u de tabel serieus neemt, is er geen verantwoorde manier om een agent te lanceren die door aanvallers beheerde tekst leest en ook acties uitvoert met gebruikersrechten. De enige beschikbare stap is een van die twee eigenschappen te verwijderen."
-		},
-		{
-			"type": "h2",
-			"text": "Wat We Wel Bouwen"
-		},
-		{
-			"type": "p",
-			"text": "Webvise heeft AI-functies in productie gebracht bij klanten, waaronder de [MP Bau](https://mpbau.vercel.app) constructielandingspagina, die modelaanroepen routeert via de **Vercel AI Gateway** voor providerkeuze en observability. De vijf regels hieronder zijn wat die build verdedigbaar maakte, en ze zijn nu harde randvoorwaarden voor elk AI-project dat we aannemen:"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Alleen agents met gesloten invoer.** De agent leest uit een eindige, handmatig samengestelde set bronnen die wij beheren. Geen open web. Geen door gebruikers geplakte URL's. Geen externe RAG over onbeheerde documentatie.",
-				"**Standaard alleen-lezen.** Als de agent iets moet lezen wat we niet volledig vertrouwen, mag hij in dezelfde sessie geen tools aanroepen, e-mail verzenden, naar een database schrijven of uitgaande netwerkverzoeken genereren. U krijgt het een of het ander, nooit beide tegelijk.",
-				"**Cross-agent isolatie.** Wanneer de uitvoer van agent A doorstroomt naar agent B, behandelt B de uitvoer van A als gebruikersinvoer, niet als systeeminstructies. Dit is één regel code in de prompt en het is de volledige verdediging tegen de cascade-aanval.",
-				"**Capaciteitsbudgetten per agent.** Elke agent heeft een vaste lijst van tools en een tokenlimiet. De limiet is klein genoeg dat zelfs een succesvolle injectie niet meer dan één kort bericht kan exfiltreren.",
-				"**Providerisolatie via een gateway.** We routeren elke modelaanroep via Vercel AI Gateway zodat we providers kunnen wisselen, elke prompt en voltooiing kunnen loggen en een sleutel binnen seconden kunnen intrekken. Als er iets verdachts in de logs staat, kunnen we het bloeden stoppen in dezelfde minuut dat we het opmerken."
-			]
-		},
-		{
-			"type": "p",
-			"text": "Dit is niet bijzonder ingewikkeld. Het kost een paar uur ontwerpwerk, voordat er ook maar één regel code wordt geschreven. De reden dat de meeste agentproducten in 2026 dit niet hebben, is dat niemand in het team betaald werd om de vertrouwensgrens te tekenen."
-		},
-		{
-			"type": "h2",
-			"text": "Waarom We Bepaalde Functies Weigeren"
-		},
-		{
-			"type": "p",
-			"text": "Het DeepMind-paper stelt elk team met engineering-expertise van vóór de agent-hausse in staat om specifieke functieverzoeken te weigeren met een duidelijke technische onderbouwing; klanten waarderen dit doorgaans achteraf. Leveranciers die agents bouwen zonder deze beperkingen nemen een significant exfiltratie-risico op zich dat steeds vaker zichtbaar is in incidentrapporten."
-		},
-		{
-			"type": "p",
-			"text": "De markt ziet een snelle uitrol van chatbots zonder prompt-injection-verdedigingen, vergelijkbaar met de recente toestroom van laagwaardig door LLM gegenereerde content. Het concurrentievoordeel gaat naar de teams die vooraf kunnen aantonen dat hun product daar geen deel van uitmaakt."
-		},
-		{
-			"type": "h2",
-			"text": "Waar We de Grens Trekken"
-		},
-		{
-			"type": "p",
-			"text": "De kortste versie van de regel, de versie die we nu opnemen in elk project-startdocument, is deze: een agent kan onbetrouwbare content lezen, of hij kan handelen met gebruikersrechten, maar niet in dezelfde sessie. Al het andere volgt daaruit. Als een functieverzoek de grens overschrijdt, wordt het niet gebouwd. Als het omgevormd kan worden zodat het aan één kant blijft, vormen we het samen met de klant om en leveren we de aangepaste versie. Het DeepMind-paper heeft deze discipline niet uitgevonden. Het heeft alleen elke reden weggenomen om die niet te hebben."
-		},
-		{
-			"type": "p",
-			"text": "Bij **webvise** bouwen we AI-functies voor bedrijven waar de kosten van één gelekt klantbericht hoger zijn dan de kosten van het weigeren van een functieverzoek. Als dat uw project beschrijft, [neem dan contact op](/#contact) en we tekenen samen de vertrouwensgrens voordat er ook maar één regel code wordt geschreven."
-		}
-	]
+  "date": "2026-04-08",
+  "readingTime": 9,
+  "keyword": "business ai agent beveiliging",
+  "title": "Waarom We Geen AI Agents Bouwen Die het Open Web Lezen",
+  "excerpt": "Op 5 april 2026 publiceerde Google DeepMind het grootste empirische onderzoek naar manipulatie van AI agents ooit uitgevoerd. 502 deelnemers, 8 landen, 23 aanvalstypes, elk beschikbaar verdedigingsmechanisme beoordeeld als onvoldoende. Dit is het technische standpunt dat Webvise de volgende ochtend innam.",
+  "metaDescription": "Het onderzoek van Google DeepMind uit april 2026 mat 23 manieren om een zakelijke AI agent te kapen. De regel bij Webvise: agents die door aanvallers beheerde content lezen, worden niet aan klanten geleverd.",
+  "tags": ["AI Agents", "AI", "Security", "B2B"],
+  "cta": "Praat met Webvise over AI",
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Op 5 april 2026 publiceerde Google DeepMind het grootste empirische onderzoek naar manipulatie van AI agents ooit uitgevoerd: 502 echte deelnemers uit 8 landen, 23 verschillende aanvalstypes, frontiermodellen waaronder GPT-4o, Claude, en Gemini. De ene zin die we eruithaaldden en de volgende ochtend vastpinden in ons engineeringkanaal is de enige die ertoe doet voor iedereen die in 2026 een zakelijke chatbot lanceert: **als uw AI agent tekst leest die door een aanvaller wordt beheerd en daarna acties uitvoert met gebruikersrechten, heeft u al een kwetsbaarheid voor data-exfiltratie ingebouwd.** Dit is de reden dat webvise voor geen enkele klant, tegen geen enkele prijs, een AI agent bouwt die het open web doorzoekt."
+    },
+    {
+      "type": "h2",
+      "text": "Wat DeepMind Daadwerkelijk Mat"
+    },
+    {
+      "type": "p",
+      "text": "De meeste persberichten over het onderzoek vermeldden het hoofdgetal, 23 aanvalstypes, en gingen verder. De onderliggende cijfers zijn wat telt voor iedereen die een AI-functie in productie draait:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**502 deelnemers** in echte omstandigheden, geen gesimuleerde laboratoriumtests",
+        "**8 landen**, zodat de aanvallen niet geoptimaliseerd waren voor één culturele of taalkundige context",
+        "**23 aanvalstypes verdeeld over 10 categorieën**, waaronder directe prompt injection, indirecte injectie via webcontent, multimodale pixelinjectie, documentinjectie, omgevingsmanipulatie, jailbreak-inbedding, geheugenvergiftiging, doelomleding, exfiltratie en cross-agent injectie",
+        "**Alle vier klassen van verdediging** (invoersanering, prompt-niveau beveiliging, sandboxing, menselijk toezicht) beoordeeld als onvoldoende op schaal"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "De categorie waar we steeds op terugkomen is de achtste, *doelomleding door geleidelijke instructiedrift over interacties heen.* Elke demo van een agentsysteem die u ooit heeft gezien, overleeft één gerichte aanvalsprompt. Geen enkele overleeft er honderd, zorgvuldig gespreid."
+    },
+    {
+      "type": "h2",
+      "text": "Het Cascade-inzicht Dat de Meeste Berichtgeving Miste"
+    },
+    {
+      "type": "p",
+      "text": "Verborgen in het onderzoek ligt de bevinding die bepaalt of multi-agent producten veilig te lanceren zijn. In elke pipeline waarbij agent A content ophaalt, agent B die verwerkt en agent C een actie uitvoert, **verspreidt een enkele injectie in de datafeed van agent A zich door alle stroomafwaartse agents.** Agent B vertrouwt de uitvoer van A. Agent C vertrouwt de uitvoer van B. De aanvaller hoefde het model niet te compromitteren. Ze hoefden slechts eenmalig de data te compromitteren die het model consumeerde."
+    },
+    {
+      "type": "p",
+      "text": "Onze oprichter draait een persoonlijke multi-agent opstelling met **Hermes**, een NousResearch agent op Telegram die 14 cron jobs aanstuurt voor dagelijks nieuws, medische richtlijnsamenvattingen en persoonlijke logistiek. Elk van die 14 jobs leest uitsluitend uit bronnen die expliciet vertrouwd en handmatig samengesteld zijn. Geen van hen volgt links. Geen van hen voert externe instructies uit. Na het verschijnen van het DeepMind-paper werd elke cron geauditeerd en de regel hield stand. Dat lukte omdat die twee jaar geleden is opgeschreven en nooit is losgelaten. De meeste productie-agentstacks die we zien in klantbriefings hebben deze regel niet, en de engineers die ze bouwen zijn nooit gevraagd hem op te schrijven."
+    },
+    {
+      "type": "h2",
+      "text": "Hoe 'Het Open Web Lezen' Eruitziet in een Klantbriefing"
+    },
+    {
+      "type": "p",
+      "text": "We zien elke maand drie varianten van hetzelfde verzoek:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**'Laat de chatbot vragen beantwoorden door de website van mijn concurrent te doorzoeken.'** In de praktijk zou dit een aanvaller die een blogpost van een concurrent beheert een schrijfbaar kanaal geven naar de sessie van de klant.",
+        "**'Laat gebruikers een URL plakken en de agent die laten samenvatten.'** In de praktijk zou dit elke gebruiker de mogelijkheid geven een URL te plakken waarvan de HTML verborgen instructies bevat die berichten uit het gesprek exfiltreren.",
+        "**'Voeg RAG toe over de documentatie van een externe leverancier die wij niet hosten.'** In de praktijk zou dit de tool-aanroepmachtigingen van de agent verlenen aan iedereen die die documentatie bewerkt."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Elk van deze opties verbindt een door aanvallers beheerd tekstkanaal rechtstreeks met een systeem dat gebruikersdata, tool-aanroepen en uitgaand netwerktoegang aan dezelfde kant van de vertrouwensgrens heeft. Geen ervan is kwaadaardig van de kant van de klant. Elk ervan is een verdedigbaar productidee. Ze zijn allemaal, na 5 april 2026, ook onleverbaar."
+    },
+    {
+      "type": "h2",
+      "text": "Elk Beschikbaar Verdedigingsmechanisme Faalt"
+    },
+    {
+      "type": "p",
+      "text": "DeepMind testte alle vier voor de hand liggende verdedigingsfamilies. Dit is hun beoordeling, met onze toelichting bij elk:"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Verdediging",
+        "DeepMind-oordeel",
+        "Waarom het in de praktijk faalt"
+      ],
+      "rows": [
+        [
+          "Invoersanering",
+          "Onvoldoende",
+          "U kunt afbeeldingspixels, documentmetadata of sprekersnotities in een PDF niet saneren tijdens inferentie. Het aanvalsoppervlak is tekst en elke andere modaliteit die de agent inneemt."
+        ],
+        [
+          "Prompt-niveau beveiliging",
+          "Onvoldoende",
+          "Geinjecteerde content is ontworpen om eruit te zien als een legitiem onderdeel van de pagina. Tegen de tijd dat het model het ziet, heeft de beveiliging het al vertrouwd."
+        ],
+        [
+          "Sandboxing",
+          "Verkleint de impact, voorkomt geen injectie",
+          "Sandboxing helpt als het resultaat van de aanval ingekapseld is. Het helpt niet wanneer het doel van de aanval is om gebruikersdata te lezen en terug te schrijven via een legaal ogende API-aanroep."
+        ],
+        [
+          "Menselijk toezicht",
+          "Onvoldoende op schaal",
+          "Een operator die een agent laat draaien over 50 bronnen kan niet elke pagina controleren op verborgen instructies. Het hele punt van de agent was dat de mens buiten de loop trad."
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Als u de tabel serieus neemt, is er geen verantwoorde manier om een agent te lanceren die door aanvallers beheerde tekst leest en ook acties uitvoert met gebruikersrechten. De enige beschikbare stap is een van die twee eigenschappen te verwijderen."
+    },
+    {
+      "type": "h2",
+      "text": "Wat We Wel Bouwen"
+    },
+    {
+      "type": "p",
+      "text": "Webvise heeft AI-functies in productie gebracht bij klanten, waaronder de [MP Bau](https://mpbau.vercel.app) constructielandingspagina, die modelaanroepen routeert via de **Vercel AI Gateway** voor providerkeuze en observability. De vijf regels hieronder zijn wat die build verdedigbaar maakte, en ze zijn nu harde randvoorwaarden voor elk AI-project dat we aannemen:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Alleen agents met gesloten invoer.** De agent leest uit een eindige, handmatig samengestelde set bronnen die wij beheren. Geen open web. Geen door gebruikers geplakte URL's. Geen externe RAG over onbeheerde documentatie.",
+        "**Standaard alleen-lezen.** Als de agent iets moet lezen wat we niet volledig vertrouwen, mag hij in dezelfde sessie geen tools aanroepen, e-mail verzenden, naar een database schrijven of uitgaande netwerkverzoeken genereren. U krijgt het een of het ander, nooit beide tegelijk.",
+        "**Cross-agent isolatie.** Wanneer de uitvoer van agent A doorstroomt naar agent B, behandelt B de uitvoer van A als gebruikersinvoer, niet als systeeminstructies. Dit is één regel code in de prompt en het is de volledige verdediging tegen de cascade-aanval.",
+        "**Capaciteitsbudgetten per agent.** Elke agent heeft een vaste lijst van tools en een tokenlimiet. De limiet is klein genoeg dat zelfs een succesvolle injectie niet meer dan één kort bericht kan exfiltreren.",
+        "**Providerisolatie via een gateway.** We routeren elke modelaanroep via Vercel AI Gateway zodat we providers kunnen wisselen, elke prompt en voltooiing kunnen loggen en een sleutel binnen seconden kunnen intrekken. Als er iets verdachts in de logs staat, kunnen we het bloeden stoppen in dezelfde minuut dat we het opmerken."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Dit is niet bijzonder ingewikkeld. Het kost een paar uur ontwerpwerk, voordat er ook maar één regel code wordt geschreven. De reden dat de meeste agentproducten in 2026 dit niet hebben, is dat niemand in het team betaald werd om de vertrouwensgrens te tekenen."
+    },
+    {
+      "type": "h2",
+      "text": "Waarom We Bepaalde Functies Weigeren"
+    },
+    {
+      "type": "p",
+      "text": "Het DeepMind-paper stelt elk team met engineering-expertise van vóór de agent-hausse in staat om specifieke functieverzoeken te weigeren met een duidelijke technische onderbouwing; klanten waarderen dit doorgaans achteraf. Leveranciers die agents bouwen zonder deze beperkingen nemen een significant exfiltratie-risico op zich dat steeds vaker zichtbaar is in incidentrapporten."
+    },
+    {
+      "type": "p",
+      "text": "De markt ziet een snelle uitrol van chatbots zonder prompt-injection-verdedigingen, vergelijkbaar met de recente toestroom van laagwaardig door LLM gegenereerde content. Het concurrentievoordeel gaat naar de teams die vooraf kunnen aantonen dat hun product daar geen deel van uitmaakt."
+    },
+    {
+      "type": "h2",
+      "text": "Waar We de Grens Trekken"
+    },
+    {
+      "type": "p",
+      "text": "De kortste versie van de regel, de versie die we nu opnemen in elk project-startdocument, is deze: een agent kan onbetrouwbare content lezen, of hij kan handelen met gebruikersrechten, maar niet in dezelfde sessie. Al het andere volgt daaruit. Als een functieverzoek de grens overschrijdt, wordt het niet gebouwd. Als het omgevormd kan worden zodat het aan één kant blijft, vormen we het samen met de klant om en leveren we de aangepaste versie. Het DeepMind-paper heeft deze discipline niet uitgevonden. Het heeft alleen elke reden weggenomen om die niet te hebben."
+    },
+    {
+      "type": "p",
+      "text": "Bij **webvise** bouwen we AI-functies voor bedrijven waar de kosten van één gelekt klantbericht hoger zijn dan de kosten van het weigeren van een functieverzoek. Als dat uw project beschrijft, [neem dan contact op](/#contact) en we tekenen samen de vertrouwensgrens voordat er ook maar één regel code wordt geschreven."
+    }
+  ]
 }

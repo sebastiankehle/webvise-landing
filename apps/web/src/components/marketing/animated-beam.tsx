@@ -6,21 +6,21 @@ import { useEffect, useId, useRef, useState } from "react";
 export interface AnimatedBeamProps {
 	className?: string;
 	containerRef: RefObject<HTMLElement | null>;
-	fromRef: RefObject<HTMLElement | null>;
-	toRef: RefObject<HTMLElement | null>;
 	curvature?: number;
-	reverse?: boolean;
-	pathColor?: string;
-	pathWidth?: number;
-	pathOpacity?: number;
-	gradientStartColor?: string;
-	gradientStopColor?: string;
 	delay?: number;
 	duration?: number;
-	startXOffset?: number;
-	startYOffset?: number;
 	endXOffset?: number;
 	endYOffset?: number;
+	fromRef: RefObject<HTMLElement | null>;
+	gradientStartColor?: string;
+	gradientStopColor?: string;
+	pathColor?: string;
+	pathOpacity?: number;
+	pathWidth?: number;
+	reverse?: boolean;
+	startXOffset?: number;
+	startYOffset?: number;
+	toRef: RefObject<HTMLElement | null>;
 }
 
 export function AnimatedBeam({
@@ -102,49 +102,49 @@ export function AnimatedBeam({
 
 	return (
 		<svg
-			ref={svgRef}
-			fill="none"
-			width={svgDimensions.width}
-			height={svgDimensions.height}
-			xmlns="http://www.w3.org/2000/svg"
-			className={`pointer-events-none absolute top-0 left-0 transform-gpu ${className ?? ""}`}
-			viewBox={`0 0 ${svgDimensions.width} ${svgDimensions.height}`}
-			role="img"
 			aria-hidden="true"
+			className={`pointer-events-none absolute top-0 left-0 transform-gpu ${className ?? ""}`}
+			fill="none"
+			height={svgDimensions.height}
+			ref={svgRef}
+			role="img"
+			viewBox={`0 0 ${svgDimensions.width} ${svgDimensions.height}`}
+			width={svgDimensions.width}
+			xmlns="http://www.w3.org/2000/svg"
 		>
 			<path
 				d={pathD}
 				stroke={pathColor}
-				strokeWidth={pathWidth}
-				strokeOpacity={pathOpacity}
 				strokeLinecap="round"
+				strokeOpacity={pathOpacity}
+				strokeWidth={pathWidth}
 			/>
 			<path
 				d={pathD}
-				strokeWidth={pathWidth}
 				stroke={`url(#${id})`}
-				strokeOpacity="1"
 				strokeLinecap="round"
+				strokeOpacity="1"
+				strokeWidth={pathWidth}
 			/>
 			<defs>
 				<linearGradient
 					className="transform-gpu"
-					id={id}
 					gradientUnits="userSpaceOnUse"
+					id={id}
 				>
 					<animate
 						attributeName="x1"
-						values={x1Values}
-						dur={`${duration}s`}
 						begin={`${delay}s`}
+						dur={`${duration}s`}
 						repeatCount="indefinite"
+						values={x1Values}
 					/>
 					<animate
 						attributeName="x2"
-						values={x2Values}
-						dur={`${duration}s`}
 						begin={`${delay}s`}
+						dur={`${duration}s`}
 						repeatCount="indefinite"
+						values={x2Values}
 					/>
 					<stop stopColor={gradientStartColor} stopOpacity="0" />
 					<stop stopColor={gradientStartColor} />

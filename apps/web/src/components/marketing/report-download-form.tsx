@@ -102,34 +102,36 @@ export default function ReportDownloadForm({
 					</div>
 				) : (
 					<form
+						className="mt-6 flex flex-col gap-3 sm:flex-row"
+						noValidate
 						onSubmit={(e) => {
 							e.preventDefault();
 							e.stopPropagation();
 							form.handleSubmit();
 						}}
-						className="mt-6 flex flex-col gap-3 sm:flex-row"
-						noValidate
 					>
 						<form.Field name="email">
 							{(field) => (
 								<FormItem className="flex-1">
-									<FormLabel htmlFor={field.name} className="sr-only">
+									<FormLabel className="sr-only" htmlFor={field.name}>
 										{l.emailLabel}
 									</FormLabel>
 									<Input
+										aria-invalid={field.state.meta.errors.length > 0}
+										autoComplete="email"
+										className="h-10 text-base md:text-sm"
 										id={field.name}
 										name={field.name}
-										type="email"
-										value={field.state.value}
 										onBlur={field.handleBlur}
 										onChange={(e) => {
 											field.handleChange(e.target.value);
-											if (submitStatus === "error") setSubmitStatus("idle");
+											if (submitStatus === "error") {
+												setSubmitStatus("idle");
+											}
 										}}
 										placeholder={l.placeholder}
-										autoComplete="email"
-										aria-invalid={field.state.meta.errors.length > 0}
-										className="h-10 text-base md:text-sm"
+										type="email"
+										value={field.state.value}
 									/>
 									<FormMessage errors={field.state.meta.errors} />
 								</FormItem>
@@ -140,9 +142,9 @@ export default function ReportDownloadForm({
 						>
 							{([canSubmit, isSubmitting]) => (
 								<SubmitButton
-									isSubmitting={isSubmitting}
-									disabled={!canSubmit}
 									className="h-10 border-transparent bg-brand text-white [&]:hover:bg-brand/80"
+									disabled={!canSubmit}
+									isSubmitting={isSubmitting}
 								>
 									{l.button}
 								</SubmitButton>
@@ -151,7 +153,7 @@ export default function ReportDownloadForm({
 					</form>
 				)}
 
-				<output aria-live="polite" aria-atomic="true">
+				<output aria-atomic="true" aria-live="polite">
 					{submitStatus === "error" && (
 						<Muted className="mt-3 text-destructive text-sm">{l.error}</Muted>
 					)}

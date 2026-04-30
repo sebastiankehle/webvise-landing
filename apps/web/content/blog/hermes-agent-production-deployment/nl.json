@@ -1,178 +1,210 @@
 {
-	"date": "2026-04-17",
-	"readingTime": 9,
-	"keyword": "hermes agent production deployment",
-	"title": "Hermes Agent in productie: de day-30 operator layer",
-	"excerpt": "De meeste Hermes Agent-teams met 4 profiles werken goed op dag één en tonen tekenen van stemconvergentie tegen dag 30 in productiedeployments. De operator layer die dat voorkomt: handoff contracts, memory-KPI-audits en policy gates per rol.",
-	"metaDescription": "Multi-agent Hermes Agent-teams tonen stemconvergentie tegen dag 30. De operator layer: handoff contracts, memory-KPI-audits en per-rol policy gates die dat voorkomen.",
-	"tags": ["AI Agents", "AI", "Open Source", "Process"],
-	"blocks": [
-		{
-			"type": "p",
-			"text": "**De Hermes Agent operator layer is het geheel van disciplines dat een multi-profile team coherent houdt na dag 30.** Vier primitieven: handoff contracts die kunnen blokkeren, memory-KPI-audits per profile, policy gates per rol en gecoördineerde cron-status. Zonder deze primitieven toont een team van 4 profiles (Hermes + Alan + Mira + Turing) binnen een maand tekenen van stemconvergentie."
-		},
-		{
-			"type": "p",
-			"text": "De meeste Hermes operator guides stoppen momenteel bij de 4-profile bootstrap; dag-30-deployment materiaal is schaars in de publieke documentatie. Dag 30 is het moment waarop de profiles hetzelfde beginnen te klinken, de handoffs stilletjes breken en een build waarop u trots was ononderscheidbaar wordt van een solo-agent setup."
-		},
-		{
-			"type": "p",
-			"text": "Als [Hermes Agent](/blog/hermes-agent-self-improving-ai) versie 0.9.0 draait met de standaard bootstrap inclusief de Alan-, Mira- en Turing-profiles, is de basisopzet compleet; het dag-30-werk begint vanaf dat punt. Elk primitief hieronder is ontleend aan echte deployment-patronen, gekoppeld aan het specifieke faalpatroon dat het noodzakelijk maakt."
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Handoff contracts zijn alleen reëel als ze blokkeren.** Als de invoervorm van het ontvangende profile onjuist is, moet de handoff mislukken en niet alleen waarschuwen.",
-				"**Geheugen vergaat per profile.** Voer wekelijks een `memory-kpi`-audit uit. Wanneer 15% van de notities verouderd is, is een `brain-resolve`-doorgang vereist.",
-				"**Policy gates voorkomen stille privileges-uitbreiding.** Alan krijgt nooit shell-toegang. Alleen de orchestrator mag commits naar main goedkeuren.",
-				"**Vier day-30 faalpatronen verklaren de meeste deployment-regressies die wij hebben waargenomen.** Profile drift, handoff rot, SOUL.md bloat, cron collision. Elk heeft een specifiek tegenmiddel.",
-				"**Lees eerst de [Hermes Agent definitiegids](/blog/hermes-agent-self-improving-ai)** als u de wat-is-het context nodig heeft voordat u de operator layer ingaat."
-			]
-		},
-		{
-			"type": "h2",
-			"text": "De 4-profile basislijn (samenvatting)"
-		},
-		{
-			"type": "p",
-			"text": "Voordat de operator layer relevant wordt, moet het 4-profile startteam draaien. De canonieke verdeling hieronder is degene waar de meeste Hermes-productiedeployments op uitkomen."
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Hermes** (orchestrator). Plant, decomponenteert, routeert, synthetiseert. Verkeersregelaar, geen knelpunt.",
-				"**Alan** (onderzoeksspecialist). Bron-eerst, sceptisch, onzekerheidskundig. Beschermt het team tegen gehallucinneerde zekerheid.",
-				"**Mira** (narratief architect). Helderheid, structuur, doelgroepbewustzijn. Zet gevalideerd materiaal om in communicatie.",
-				"**Turing** (bouwer en debugger). Implementatie, logs, diffs, reproduceerbaarheid. Geeft om tests, niet om narratieve afwerking."
-			]
-		},
-		{
-			"type": "p",
-			"text": "Profiles isoleren zeven stukken status tegelijk: configuratie, sessies, geheugen, vaardigheden, persoonlijkheid, cron-status en gateway-status. Die isolatie is het primitief waarop de operator layer steunt. Als u nog steeds één profile draait dat vijf rollen vervult, helpen geen van de onderstaande patronen. Los het primitief eerst op."
-		},
-		{
-			"type": "p",
-			"text": "Als u wilt bepalen of een 4-profile Hermes-deployment past bij de werkelijke belasting van uw team, [kan webvise u daarbij begeleiden](/#contact)."
-		},
-		{
-			"type": "h2",
-			"text": "Handoff contracts: het enige wat profile drift tegenhoudt"
-		},
-		{
-			"type": "p",
-			"text": "Een handoff contract is een specificatie van vier velden, opgeslagen als `~/.hermes/team/handoffs/<van>-to-<naar>.md`. Het contract is alleen reëel als het kan blokkeren. Als de invoer niet overeenkomt met de opgegeven vorm, laat de harness de handoff mislukken en vereist menselijke beoordeling. De vier verplichte velden:"
-		},
-		{
-			"type": "table",
-			"headers": ["Veld", "Definitie", "Voorbeeld (Alan naar Mira)"],
-			"rows": [
-				["Invoervorm", "Wat het ontvangende profile verwacht", "Gerangschikte claims met bron-URL's, geen ruwe uittreksels"],
-				["Uitvoervorm", "Wat het ontvangende profile teruggeeft", "Opgestelde sectie plus wijzigingslog, geen afgewerkt artikel"],
-				["Faalactie", "Wat er gebeurt bij misvormde invoer", "block, require-human-review of retry"],
-				["Verificatiepoort", "Één bewering die waar moet zijn voordat de handoff voltooid is", "Elke claim heeft een bron-URL"]
-			]
-		},
-		{
-			"type": "p",
-			"text": "De poort is structureel essentieel. De meeste teams schrijven handoff-documenten als suggesties en vragen zich af waarom de profiles vervagen. Een suggestie blokkeert nooit. Zonder blokkering stuurt Alan uiteindelijk ruwe transcripten naar Mira, begint Mira te ontwerpen zonder bronverwijzing en erodeert de outputkwaliteit van het team via één stille handoff na de andere."
-		},
-		{
-			"type": "h2",
-			"text": "Memory-KPI: de 15%-drempel voor verouderde notities"
-		},
-		{
-			"type": "p",
-			"text": "Geheugen vergaat binnen elk profile op dezelfde manier als een gedeelde wiki vergaat na 100 pagina's. Een wekelijkse audit vangt de vergankelijkheid voordat het profile zichzelf begint te citeren uit verouderde context. Drie statistieken per profile zijn relevant:"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**`source_backed_pct`**: percentage notities dat nog een opvraagbare bron heeft. Daalt wanneer bronnen 404 geven of worden verwijderd.",
-				"**`stale_notes`**: aantal notities waarvan de code, URL of configuratie niet meer overeenkomt met de werkelijkheid.",
-				"**`contradiction_notes`**: aantal notities dat iets tegenspreekt in het geheugen van hetzelfde profile."
-			]
-		},
-		{
-			"type": "p",
-			"text": "De wekelijkse auditcommando loopt over elk specialistenprofiel: `for p in alan mira turing; do hermes -p $p memory-kpi --json | jq '.source_backed_pct, .stale_notes, .contradiction_notes'; done`. Let op `stale_notes`. Zodra dit meer dan 15% van de totale notities in een profile bedraagt, plan dan een `brain-resolve`-doorgang voordat dat profile zichzelf begint te citeren uit verouderde context."
-		},
-		{
-			"type": "h2",
-			"text": "Policy gates: rechten per rol"
-		},
-		{
-			"type": "p",
-			"text": "Geen profile krijgt meer rechten dan zijn rol vereist. De orchestrator is het enige profile dat de reikwijdte van een ander profile mag verbreden. Dit wekelijks in een tabel bijhouden is het verschil tussen een beheerst team en vier agents die geleidelijk allemaal beheerder worden."
-		},
-		{
-			"type": "table",
-			"headers": ["Profile", "Risicoklasse", "Rechten"],
-			"rows": [
-				["Alan (onderzoek)", "veilig", "Lees web en repo, schrijf alleen naar research/. Geen shell, geen schrijven buiten sandbox."],
-				["Mira (schrijver)", "veilig", "Lees onderzoeksoutputs, schrijf alleen naar drafts/. Geen toegang tot geheimen, geen code-uitvoering."],
-				["Turing (engineer)", "review", "Lees repo, voer sandboxed tests uit, schrijf naar feature branch. Elke commit naar main vereist goedkeuring van de orchestrator."],
-				["Hermes (orchestrator)", "kritiek", "Enige profile dat Turings commits mag goedkeuren, branches mag samenvoegen of betaalde API-aanroepen boven het budgetplafond mag activeren."]
-			]
-		},
-		{
-			"type": "p",
-			"text": "Het principe is structureel essentieel. Een onderzoeksagent met shell-toegang voert uiteindelijk een commando uit dat het niet had mogen uitvoeren. Een schrijversprofiel met toegang tot geheimen lekt ze uiteindelijk in een concept. Rechten-drift verloopt stilletjes en wordt pas achteraf opgemerkt, wat een moeilijk moment is om de lacune te ontdekken."
-		},
-		{
-			"type": "h2",
-			"text": "De vier day-30 faalpatronen"
-		},
-		{
-			"type": "p",
-			"text": "Vier specifieke faalpatronen verklaren de meeste deployment-regressies die wij hebben waargenomen in multi-agent Hermes-setups. Elk heeft een direct tegenmiddel. Sla er één over en het team ziet er goed uit op dag één, maar is gedegradeerd op dag 30."
-		},
-		{
-			"type": "h3",
-			"text": "1. Profile drift"
-		},
-		{
-			"type": "p",
-			"text": "SOUL.md-bewerkingen stapelen zich stilletjes op. Mira wordt langzaam Turing. Oplossing: vergelijk elke SOUL.md wekelijks met de versie van dag één. Elke nieuwe verantwoordelijkheid krijgt een gelogde goedkeuringsvermelding, anders wordt ze teruggedraaid. Geen uitzonderingen voor kleine bewerkingen, want kleine bewerkingen zijn hoe drift plaatsvindt."
-		},
-		{
-			"type": "h3",
-			"text": "2. Handoff rot"
-		},
-		{
-			"type": "p",
-			"text": "Het contractbestand bestaat maar niemand handhaaft het. Alan begint opnieuw ruwe transcripten naar Mira te sturen. Oplossing: verbind elk handoff-bestand met de harness zodat niet-overeenkomende invoer blokkeert. Een contract dat niet kan blokkeren is documentatie, geen sturing."
-		},
-		{
-			"type": "h3",
-			"text": "3. SOUL.md bloat"
-		},
-		{
-			"type": "p",
-			"text": "Elke rol groeit met randgevalsparagrafen totdat de agent zijn oorspronkelijke identiteit verliest in de ruis. Oplossing: beperk SOUL.md tot 400 woorden. Alles daarboven gaat naar AGENTS.md of een per-domein referentiebestand. De beperking dwingt het team de identiteit strak te houden."
-		},
-		{
-			"type": "h3",
-			"text": "4. Cron collision"
-		},
-		{
-			"type": "p",
-			"text": "Meerdere profiles plannen taken om 3 uur 's nachts zonder coördinatie. De orchestrator wordt wakker met vier agents die strijden om hetzelfde API-quotum. Oplossing: één gedeeld `~/.hermes/team/cron.md` met alle geplande taken voor elk profile, met exact tijdstip, duur en afhankelijkheid. Controleer dit voordat u een nieuwe cron toevoegt."
-		},
-		{
-			"type": "h2",
-			"text": "Wat dit betekent voor zakelijke teams"
-		},
-		{
-			"type": "p",
-			"text": "De operator layer is het onderdeel dat een Hermes-demo omzet in duurzame productie-infrastructuur. De meeste teams die multi-agent frameworks evalueren, focussen op de initiële opzetkosten en missen het onderhoudsmodel. Een 4-profile team zonder handoff contracts, memory-audits en policy gates heeft dezelfde faalkromme als een single-profile agent met zes weken vertraging: werkt prachtig aan het begin, degradeert onzichtbaar, bezwijkt wanneer u het het meest nodig heeft."
-		},
-		{
-			"type": "p",
-			"text": "De samengestelde waarde van Hermes, de reden waarom [de vaardigheidsbibliotheek ertoe doet](/blog/hermes-agent-self-improving-ai), geldt alleen als de operator layer standhoudt. Vaardigheden opgebouwd door een profile dat stilletjes is vervagen naar een andere rol zijn vaardigheden voor een rol die u niet meer heeft."
-		},
-		{
-			"type": "p",
-			"text": "Bij **webvise** helpen we bedrijven AI-agentarchitecturen te ontwerpen en te beheren, inclusief Hermes multi-profile teams met de governance-discipline om dag 30 te overleven. Als u een Hermes-deployment evalueert of er al een heeft die begint te vervagen, [neem dan contact op](/#contact) en we helpen u de operator layer te versterken voordat de faalpatronen zich opstapelen."
-		}
-	]
+  "date": "2026-04-17",
+  "readingTime": 9,
+  "keyword": "hermes agent production deployment",
+  "title": "Hermes Agent in productie: de day-30 operator layer",
+  "excerpt": "De meeste Hermes Agent-teams met 4 profiles werken goed op dag één en tonen tekenen van stemconvergentie tegen dag 30 in productiedeployments. De operator layer die dat voorkomt: handoff contracts, memory-KPI-audits en policy gates per rol.",
+  "metaDescription": "Multi-agent Hermes Agent-teams tonen stemconvergentie tegen dag 30. De operator layer: handoff contracts, memory-KPI-audits en per-rol policy gates die dat voorkomen.",
+  "tags": ["AI Agents", "AI", "Open Source", "Process"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "**De Hermes Agent operator layer is het geheel van disciplines dat een multi-profile team coherent houdt na dag 30.** Vier primitieven: handoff contracts die kunnen blokkeren, memory-KPI-audits per profile, policy gates per rol en gecoördineerde cron-status. Zonder deze primitieven toont een team van 4 profiles (Hermes + Alan + Mira + Turing) binnen een maand tekenen van stemconvergentie."
+    },
+    {
+      "type": "p",
+      "text": "De meeste Hermes operator guides stoppen momenteel bij de 4-profile bootstrap; dag-30-deployment materiaal is schaars in de publieke documentatie. Dag 30 is het moment waarop de profiles hetzelfde beginnen te klinken, de handoffs stilletjes breken en een build waarop u trots was ononderscheidbaar wordt van een solo-agent setup."
+    },
+    {
+      "type": "p",
+      "text": "Als [Hermes Agent](/blog/hermes-agent-self-improving-ai) versie 0.9.0 draait met de standaard bootstrap inclusief de Alan-, Mira- en Turing-profiles, is de basisopzet compleet; het dag-30-werk begint vanaf dat punt. Elk primitief hieronder is ontleend aan echte deployment-patronen, gekoppeld aan het specifieke faalpatroon dat het noodzakelijk maakt."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Handoff contracts zijn alleen reëel als ze blokkeren.** Als de invoervorm van het ontvangende profile onjuist is, moet de handoff mislukken en niet alleen waarschuwen.",
+        "**Geheugen vergaat per profile.** Voer wekelijks een `memory-kpi`-audit uit. Wanneer 15% van de notities verouderd is, is een `brain-resolve`-doorgang vereist.",
+        "**Policy gates voorkomen stille privileges-uitbreiding.** Alan krijgt nooit shell-toegang. Alleen de orchestrator mag commits naar main goedkeuren.",
+        "**Vier day-30 faalpatronen verklaren de meeste deployment-regressies die wij hebben waargenomen.** Profile drift, handoff rot, SOUL.md bloat, cron collision. Elk heeft een specifiek tegenmiddel.",
+        "**Lees eerst de [Hermes Agent definitiegids](/blog/hermes-agent-self-improving-ai)** als u de wat-is-het context nodig heeft voordat u de operator layer ingaat."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "De 4-profile basislijn (samenvatting)"
+    },
+    {
+      "type": "p",
+      "text": "Voordat de operator layer relevant wordt, moet het 4-profile startteam draaien. De canonieke verdeling hieronder is degene waar de meeste Hermes-productiedeployments op uitkomen."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Hermes** (orchestrator). Plant, decomponenteert, routeert, synthetiseert. Verkeersregelaar, geen knelpunt.",
+        "**Alan** (onderzoeksspecialist). Bron-eerst, sceptisch, onzekerheidskundig. Beschermt het team tegen gehallucinneerde zekerheid.",
+        "**Mira** (narratief architect). Helderheid, structuur, doelgroepbewustzijn. Zet gevalideerd materiaal om in communicatie.",
+        "**Turing** (bouwer en debugger). Implementatie, logs, diffs, reproduceerbaarheid. Geeft om tests, niet om narratieve afwerking."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Profiles isoleren zeven stukken status tegelijk: configuratie, sessies, geheugen, vaardigheden, persoonlijkheid, cron-status en gateway-status. Die isolatie is het primitief waarop de operator layer steunt. Als u nog steeds één profile draait dat vijf rollen vervult, helpen geen van de onderstaande patronen. Los het primitief eerst op."
+    },
+    {
+      "type": "p",
+      "text": "Als u wilt bepalen of een 4-profile Hermes-deployment past bij de werkelijke belasting van uw team, [kan webvise u daarbij begeleiden](/#contact)."
+    },
+    {
+      "type": "h2",
+      "text": "Handoff contracts: het enige wat profile drift tegenhoudt"
+    },
+    {
+      "type": "p",
+      "text": "Een handoff contract is een specificatie van vier velden, opgeslagen als `~/.hermes/team/handoffs/<van>-to-<naar>.md`. Het contract is alleen reëel als het kan blokkeren. Als de invoer niet overeenkomt met de opgegeven vorm, laat de harness de handoff mislukken en vereist menselijke beoordeling. De vier verplichte velden:"
+    },
+    {
+      "type": "table",
+      "headers": ["Veld", "Definitie", "Voorbeeld (Alan naar Mira)"],
+      "rows": [
+        [
+          "Invoervorm",
+          "Wat het ontvangende profile verwacht",
+          "Gerangschikte claims met bron-URL's, geen ruwe uittreksels"
+        ],
+        [
+          "Uitvoervorm",
+          "Wat het ontvangende profile teruggeeft",
+          "Opgestelde sectie plus wijzigingslog, geen afgewerkt artikel"
+        ],
+        [
+          "Faalactie",
+          "Wat er gebeurt bij misvormde invoer",
+          "block, require-human-review of retry"
+        ],
+        [
+          "Verificatiepoort",
+          "Één bewering die waar moet zijn voordat de handoff voltooid is",
+          "Elke claim heeft een bron-URL"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "De poort is structureel essentieel. De meeste teams schrijven handoff-documenten als suggesties en vragen zich af waarom de profiles vervagen. Een suggestie blokkeert nooit. Zonder blokkering stuurt Alan uiteindelijk ruwe transcripten naar Mira, begint Mira te ontwerpen zonder bronverwijzing en erodeert de outputkwaliteit van het team via één stille handoff na de andere."
+    },
+    {
+      "type": "h2",
+      "text": "Memory-KPI: de 15%-drempel voor verouderde notities"
+    },
+    {
+      "type": "p",
+      "text": "Geheugen vergaat binnen elk profile op dezelfde manier als een gedeelde wiki vergaat na 100 pagina's. Een wekelijkse audit vangt de vergankelijkheid voordat het profile zichzelf begint te citeren uit verouderde context. Drie statistieken per profile zijn relevant:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**`source_backed_pct`**: percentage notities dat nog een opvraagbare bron heeft. Daalt wanneer bronnen 404 geven of worden verwijderd.",
+        "**`stale_notes`**: aantal notities waarvan de code, URL of configuratie niet meer overeenkomt met de werkelijkheid.",
+        "**`contradiction_notes`**: aantal notities dat iets tegenspreekt in het geheugen van hetzelfde profile."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "De wekelijkse auditcommando loopt over elk specialistenprofiel: `for p in alan mira turing; do hermes -p $p memory-kpi --json | jq '.source_backed_pct, .stale_notes, .contradiction_notes'; done`. Let op `stale_notes`. Zodra dit meer dan 15% van de totale notities in een profile bedraagt, plan dan een `brain-resolve`-doorgang voordat dat profile zichzelf begint te citeren uit verouderde context."
+    },
+    {
+      "type": "h2",
+      "text": "Policy gates: rechten per rol"
+    },
+    {
+      "type": "p",
+      "text": "Geen profile krijgt meer rechten dan zijn rol vereist. De orchestrator is het enige profile dat de reikwijdte van een ander profile mag verbreden. Dit wekelijks in een tabel bijhouden is het verschil tussen een beheerst team en vier agents die geleidelijk allemaal beheerder worden."
+    },
+    {
+      "type": "table",
+      "headers": ["Profile", "Risicoklasse", "Rechten"],
+      "rows": [
+        [
+          "Alan (onderzoek)",
+          "veilig",
+          "Lees web en repo, schrijf alleen naar research/. Geen shell, geen schrijven buiten sandbox."
+        ],
+        [
+          "Mira (schrijver)",
+          "veilig",
+          "Lees onderzoeksoutputs, schrijf alleen naar drafts/. Geen toegang tot geheimen, geen code-uitvoering."
+        ],
+        [
+          "Turing (engineer)",
+          "review",
+          "Lees repo, voer sandboxed tests uit, schrijf naar feature branch. Elke commit naar main vereist goedkeuring van de orchestrator."
+        ],
+        [
+          "Hermes (orchestrator)",
+          "kritiek",
+          "Enige profile dat Turings commits mag goedkeuren, branches mag samenvoegen of betaalde API-aanroepen boven het budgetplafond mag activeren."
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Het principe is structureel essentieel. Een onderzoeksagent met shell-toegang voert uiteindelijk een commando uit dat het niet had mogen uitvoeren. Een schrijversprofiel met toegang tot geheimen lekt ze uiteindelijk in een concept. Rechten-drift verloopt stilletjes en wordt pas achteraf opgemerkt, wat een moeilijk moment is om de lacune te ontdekken."
+    },
+    {
+      "type": "h2",
+      "text": "De vier day-30 faalpatronen"
+    },
+    {
+      "type": "p",
+      "text": "Vier specifieke faalpatronen verklaren de meeste deployment-regressies die wij hebben waargenomen in multi-agent Hermes-setups. Elk heeft een direct tegenmiddel. Sla er één over en het team ziet er goed uit op dag één, maar is gedegradeerd op dag 30."
+    },
+    {
+      "type": "h3",
+      "text": "1. Profile drift"
+    },
+    {
+      "type": "p",
+      "text": "SOUL.md-bewerkingen stapelen zich stilletjes op. Mira wordt langzaam Turing. Oplossing: vergelijk elke SOUL.md wekelijks met de versie van dag één. Elke nieuwe verantwoordelijkheid krijgt een gelogde goedkeuringsvermelding, anders wordt ze teruggedraaid. Geen uitzonderingen voor kleine bewerkingen, want kleine bewerkingen zijn hoe drift plaatsvindt."
+    },
+    {
+      "type": "h3",
+      "text": "2. Handoff rot"
+    },
+    {
+      "type": "p",
+      "text": "Het contractbestand bestaat maar niemand handhaaft het. Alan begint opnieuw ruwe transcripten naar Mira te sturen. Oplossing: verbind elk handoff-bestand met de harness zodat niet-overeenkomende invoer blokkeert. Een contract dat niet kan blokkeren is documentatie, geen sturing."
+    },
+    {
+      "type": "h3",
+      "text": "3. SOUL.md bloat"
+    },
+    {
+      "type": "p",
+      "text": "Elke rol groeit met randgevalsparagrafen totdat de agent zijn oorspronkelijke identiteit verliest in de ruis. Oplossing: beperk SOUL.md tot 400 woorden. Alles daarboven gaat naar AGENTS.md of een per-domein referentiebestand. De beperking dwingt het team de identiteit strak te houden."
+    },
+    {
+      "type": "h3",
+      "text": "4. Cron collision"
+    },
+    {
+      "type": "p",
+      "text": "Meerdere profiles plannen taken om 3 uur 's nachts zonder coördinatie. De orchestrator wordt wakker met vier agents die strijden om hetzelfde API-quotum. Oplossing: één gedeeld `~/.hermes/team/cron.md` met alle geplande taken voor elk profile, met exact tijdstip, duur en afhankelijkheid. Controleer dit voordat u een nieuwe cron toevoegt."
+    },
+    {
+      "type": "h2",
+      "text": "Wat dit betekent voor zakelijke teams"
+    },
+    {
+      "type": "p",
+      "text": "De operator layer is het onderdeel dat een Hermes-demo omzet in duurzame productie-infrastructuur. De meeste teams die multi-agent frameworks evalueren, focussen op de initiële opzetkosten en missen het onderhoudsmodel. Een 4-profile team zonder handoff contracts, memory-audits en policy gates heeft dezelfde faalkromme als een single-profile agent met zes weken vertraging: werkt prachtig aan het begin, degradeert onzichtbaar, bezwijkt wanneer u het het meest nodig heeft."
+    },
+    {
+      "type": "p",
+      "text": "De samengestelde waarde van Hermes, de reden waarom [de vaardigheidsbibliotheek ertoe doet](/blog/hermes-agent-self-improving-ai), geldt alleen als de operator layer standhoudt. Vaardigheden opgebouwd door een profile dat stilletjes is vervagen naar een andere rol zijn vaardigheden voor een rol die u niet meer heeft."
+    },
+    {
+      "type": "p",
+      "text": "Bij **webvise** helpen we bedrijven AI-agentarchitecturen te ontwerpen en te beheren, inclusief Hermes multi-profile teams met de governance-discipline om dag 30 te overleven. Als u een Hermes-deployment evalueert of er al een heeft die begint te vervagen, [neem dan contact op](/#contact) en we helpen u de operator layer te versterken voordat de faalpatronen zich opstapelen."
+    }
+  ]
 }

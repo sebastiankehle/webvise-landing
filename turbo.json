@@ -1,28 +1,28 @@
 {
-	"$schema": "https://turbo.build/schema.json",
-	"tasks": {
-		"build": {
-			"dependsOn": ["^build"],
-			"outputs": [".next/**", "!.next/cache/**"],
-			"env": [
-				"GOOGLE_VERIFICATION_CODE",
-				"RESEND_API_KEY",
-				"GOOGLE_PAGESPEED_API_KEY",
-				"AI_GATEWAY_API_KEY"
-			]
-		},
-		"check-types": {
-			"dependsOn": ["^build"]
-		},
-		"dev": {
-			"cache": false,
-			"persistent": true
-		},
-		"test": {
-			"dependsOn": ["^build"]
-		},
-		"check": {
-			"dependsOn": ["^build"]
-		}
-	}
+  "$schema": "https://turbo.build/schema.json",
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": [".next/**", "!.next/cache/**"],
+      "env": [
+        "GOOGLE_VERIFICATION_CODE",
+        "RESEND_API_KEY",
+        "GOOGLE_PAGESPEED_API_KEY",
+        "AI_GATEWAY_API_KEY"
+      ]
+    },
+    "check-types": {
+      "dependsOn": ["^build"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "test": {
+      "dependsOn": ["^build"]
+    },
+    "check": {
+      "dependsOn": ["^build"]
+    }
+  }
 }

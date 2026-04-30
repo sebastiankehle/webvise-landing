@@ -63,11 +63,15 @@ export default function ChatWidget() {
 	}, [messages.length, isStreaming, isThinking]);
 
 	useEffect(() => {
-		if (open) inputRef.current?.focus();
+		if (open) {
+			inputRef.current?.focus();
+		}
 	}, [open]);
 
 	useEffect(() => {
-		if (!open || !isMobile) return;
+		if (!(open && isMobile)) {
+			return;
+		}
 		const scrollY = window.scrollY;
 		document.body.style.position = "fixed";
 		document.body.style.top = `-${scrollY}px`;
@@ -86,17 +90,25 @@ export default function ChatWidget() {
 
 	const syncViewport = useCallback(() => {
 		const el = panelRef.current;
-		if (!el || !isMobile) return;
+		if (!(el && isMobile)) {
+			return;
+		}
 		const vv = window.visualViewport;
-		if (!vv) return;
+		if (!vv) {
+			return;
+		}
 		el.style.height = `${vv.height}px`;
 		el.style.top = `${vv.offsetTop}px`;
 	}, [isMobile]);
 
 	useEffect(() => {
-		if (!open || !isMobile) return;
+		if (!(open && isMobile)) {
+			return;
+		}
 		const vv = window.visualViewport;
-		if (!vv) return;
+		if (!vv) {
+			return;
+		}
 		syncViewport();
 		vv.addEventListener("resize", syncViewport);
 		vv.addEventListener("scroll", syncViewport);
@@ -109,7 +121,9 @@ export default function ChatWidget() {
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const text = input.trim();
-		if (!text || isStreaming) return;
+		if (!text || isStreaming) {
+			return;
+		}
 		track("chat_message_sent");
 		sendMessage({ text });
 		setInput("");
@@ -125,16 +139,16 @@ export default function ChatWidget() {
 			<AnimatePresence>
 				{open && (
 					<motion.div
-						ref={panelRef}
-						initial={{ opacity: 0, y: 12, scale: 0.97 }}
 						animate={{ opacity: 1, y: 0, scale: 1 }}
-						exit={{ opacity: 0, y: 12, scale: 0.97 }}
-						transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
 						className={cn(
 							"fixed z-50 flex flex-col overflow-hidden border border-border bg-background shadow-2xl",
 							"inset-0 h-dvh",
-							"md:inset-auto md:right-6 md:bottom-20 md:h-[min(520px,80svh)] md:w-[400px]",
+							"md:inset-auto md:right-6 md:bottom-20 md:h-[min(520px,80svh)] md:w-[400px]"
 						)}
+						exit={{ opacity: 0, y: 12, scale: 0.97 }}
+						initial={{ opacity: 0, y: 12, scale: 0.97 }}
+						ref={panelRef}
+						transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
 					>
 						<div className="flex items-center justify-between border-border/60 border-b bg-card px-4 py-3">
 							<div className="flex items-center gap-2.5">
@@ -147,10 +161,10 @@ export default function ChatWidget() {
 								</div>
 							</div>
 							<button
-								type="button"
-								onClick={() => setOpen(false)}
-								className="flex h-8 w-8 items-center justify-center text-muted-foreground transition-colors hover:text-foreground md:h-7 md:w-7"
 								aria-label="Close chat"
+								className="flex h-8 w-8 items-center justify-center text-muted-foreground transition-colors hover:text-foreground md:h-7 md:w-7"
+								onClick={() => setOpen(false)}
+								type="button"
 							>
 								<X className="h-4 w-4" />
 							</button>
@@ -166,10 +180,10 @@ export default function ChatWidget() {
 									<div className="flex flex-wrap justify-center gap-1.5">
 										{SUGGESTED_QUESTIONS.map((q) => (
 											<button
-												key={q}
-												type="button"
-												onClick={() => handleSuggestion(q)}
 												className="border border-border bg-card px-2.5 py-1.5 text-muted-foreground text-xs transition-colors hover:bg-muted hover:text-foreground md:py-1"
+												key={q}
+												onClick={() => handleSuggestion(q)}
+												type="button"
 											>
 												{q}
 											</button>
@@ -179,23 +193,23 @@ export default function ChatWidget() {
 							) : (
 								messages.map((message) => (
 									<div
-										key={message.id}
 										className={cn(
 											"max-w-[85%] px-3 py-2 text-sm",
 											message.role === "user"
 												? "ml-auto bg-primary/10"
-												: "mr-auto bg-secondary/40",
+												: "mr-auto bg-secondary/40"
 										)}
+										key={message.id}
 									>
 										{message.parts?.map((part) => {
 											if (part.type === "text") {
 												return (
 													<Streamdown
-														key={part.text}
+														components={{ a: ChatLink }}
 														isAnimating={
 															isStreaming && message.role === "assistant"
 														}
-														components={{ a: ChatLink }}
+														key={part.text}
 													>
 														{part.text}
 													</Streamdown>
@@ -217,32 +231,32 @@ export default function ChatWidget() {
 						</div>
 
 						<form
-							onSubmit={handleSubmit}
 							autoComplete="off"
 							className="flex items-center gap-2 border-border/60 border-t px-3 py-2.5 pb-[max(0.625rem,env(safe-area-inset-bottom))]"
+							onSubmit={handleSubmit}
 						>
 							<input
-								ref={inputRef}
-								name={`msg-${Date.now()}`}
-								value={input}
-								onChange={(e) => setInput(e.target.value)}
-								placeholder="Type a message…"
-								className="h-9 flex-1 bg-transparent px-1 text-base outline-none placeholder:text-muted-foreground md:h-8 md:text-sm"
-								type="search"
+								autoCapitalize="off"
 								autoComplete="one-time-code"
 								autoCorrect="off"
-								autoCapitalize="off"
-								spellCheck={false}
-								enterKeyHint="send"
+								className="h-9 flex-1 bg-transparent px-1 text-base outline-none placeholder:text-muted-foreground md:h-8 md:text-sm"
+								data-1p-ignore="true"
 								data-form-type="other"
 								data-lpignore="true"
-								data-1p-ignore="true"
+								enterKeyHint="send"
+								name={`msg-${Date.now()}`}
+								onChange={(e) => setInput(e.target.value)}
+								placeholder="Type a message…"
+								ref={inputRef}
+								spellCheck={false}
+								type="search"
+								value={input}
 							/>
 							<button
-								type="submit"
-								disabled={!input.trim() || isStreaming}
-								className="flex h-8 w-8 shrink-0 items-center justify-center bg-brand text-white transition-opacity disabled:opacity-40 md:h-7 md:w-7"
 								aria-label="Send message"
+								className="flex h-8 w-8 shrink-0 items-center justify-center bg-brand text-white transition-opacity disabled:opacity-40 md:h-7 md:w-7"
+								disabled={!input.trim() || isStreaming}
+								type="submit"
 							>
 								<Send className="h-3.5 w-3.5" />
 							</button>
@@ -252,37 +266,39 @@ export default function ChatWidget() {
 			</AnimatePresence>
 
 			<motion.button
-				type="button"
+				aria-label={open ? "Close chat" : "Open AI chat"}
+				className={cn(
+					"fixed right-6 bottom-6 z-40 flex h-12 w-12 items-center justify-center bg-brand text-white shadow-lg transition-colors hover:bg-brand/80",
+					open && "max-md:hidden"
+				)}
 				onClick={() => {
 					const next = !open;
 					setOpen(next);
-					if (next) track("chat_opened");
+					if (next) {
+						track("chat_opened");
+					}
 				}}
-				className={cn(
-					"fixed right-6 bottom-6 z-40 flex h-12 w-12 items-center justify-center bg-brand text-white shadow-lg transition-colors hover:bg-brand/80",
-					open && "max-md:hidden",
-				)}
+				type="button"
 				whileHover={{ scale: 1.05 }}
 				whileTap={{ scale: 0.95 }}
-				aria-label={open ? "Close chat" : "Open AI chat"}
 			>
 				<AnimatePresence mode="wait">
 					{open ? (
 						<motion.span
-							key="close"
-							initial={{ rotate: -90, opacity: 0 }}
 							animate={{ rotate: 0, opacity: 1 }}
 							exit={{ rotate: 90, opacity: 0 }}
+							initial={{ rotate: -90, opacity: 0 }}
+							key="close"
 							transition={{ duration: 0.15 }}
 						>
 							<X className="h-5 w-5" />
 						</motion.span>
 					) : (
 						<motion.span
-							key="open"
-							initial={{ rotate: 90, opacity: 0 }}
 							animate={{ rotate: 0, opacity: 1 }}
 							exit={{ rotate: -90, opacity: 0 }}
+							initial={{ rotate: 90, opacity: 0 }}
+							key="open"
 							transition={{ duration: 0.15 }}
 						>
 							<MessageCircle className="h-5 w-5" />

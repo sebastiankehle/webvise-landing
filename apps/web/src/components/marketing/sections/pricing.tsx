@@ -25,23 +25,23 @@ export default async function Pricing() {
 	const t = await getTranslations("pricing");
 
 	return (
-		<SectionWrapper id="pricing" alternate>
+		<SectionWrapper alternate id="pricing">
 			<div className="max-w-[640px]">
 				<H2>{t("title")}</H2>
 				<Lead className="mt-5 max-w-[520px]">{t("subtitle")}</Lead>
 			</div>
-			<StaggerChildren className="mt-16 -mx-6 grid items-stretch border-t border-grid-line md:grid-cols-3">
+			<StaggerChildren className="-mx-6 mt-16 grid items-stretch border-grid-line border-t md:grid-cols-3">
 				{tiers.map(({ key, featureCount, hasBadge }) => {
 					const featureKeys = Array.from({ length: featureCount }, (_, i) =>
-						String(i),
+						String(i)
 					);
 
 					return (
 						<div
-							key={key}
-							className={`flex flex-col justify-between border-b border-grid-line p-6 md:border-r md:p-8 md:[&:nth-child(3n)]:border-r-0 ${
+							className={`flex flex-col justify-between border-grid-line border-b p-6 md:border-r md:p-8 md:[&:nth-child(3n)]:border-r-0 ${
 								hasBadge ? "bg-muted/20" : ""
 							}`}
+							key={key}
 						>
 							<div>
 								<div className="flex items-center gap-3">
@@ -56,8 +56,8 @@ export default async function Pricing() {
 								<ul className="mt-8 space-y-3">
 									{featureKeys.map((i) => (
 										<li
-											key={i}
 											className="border-grid-line border-b pb-3 text-sm last:border-b-0 last:pb-0"
+											key={i}
 										>
 											{t(`tiers.${key}.features.${i}`)}
 										</li>
@@ -71,11 +71,18 @@ export default async function Pricing() {
 								<Caption className="mt-1 block">
 									{t(`tiers.${key}.basis`)}
 								</Caption>
-								<TrackClick event="cta_clicked" properties={{ location: "pricing", variant: key, destination: "contact" }}>
+								<TrackClick
+									event="cta_clicked"
+									properties={{
+										location: "pricing",
+										variant: key,
+										destination: "contact",
+									}}
+								>
 									<Button
-										size="sm"
 										className="mt-5 w-full border-transparent bg-brand text-white [&]:hover:bg-brand/80"
 										render={<Link href={{ pathname: "/", hash: "contact" }} />}
+										size="sm"
 									>
 										{t("cta")}
 									</Button>

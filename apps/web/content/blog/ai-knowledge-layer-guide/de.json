@@ -1,168 +1,168 @@
 {
-	"date": "2026-04-15",
-	"readingTime": 8,
-	"keyword": "KI Knowledge Layer",
-	"title": "Der KI Knowledge Layer: 127 Seiten, keine Vektordatenbank, und was wir falsch gemacht haben",
-	"excerpt": "Karpathys LLM-Wiki-Gist hatte in einer Woche 99.000 Bookmarks. Das traf einen Nerv, weil es benennt, was jeder KI-Nutzer spürt: deine Agenten haben kein Gedächtnis. Wir betreiben einen Knowledge Layer in Produktion. Was funktioniert, was nicht, und wie du in 20 Minuten einen aufbaust.",
-	"metaDescription": "Praxisleitfaden zum Aufbau eines KI Knowledge Layers von einem Team, das einen in Produktion betreibt. Architektur, Setup, echte Zahlen und was wir auf die harte Tour gelernt haben.",
-	"tags": ["AI Agents", "AI", "Automation", "Business Strategy"],
-	"cta": "Kontakt aufnehmen",
-	"blocks": [
-		{
-			"type": "p",
-			"text": "Andrej Karpathy veröffentlichte im April 2026 einen [Gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f), der ein Muster für den Aufbau persönlicher Wissensdatenbanken mit LLMs beschreibt. In einer Woche: 99.000 Bookmarks. Mehrere Implementierungen wurden innerhalb von Tagen Open Source. [graphify](https://github.com/safishamsi/graphify) erschien nach 48 Stunden und sammelte weitere 27.000. Das Muster traf einen Nerv, weil es ein bekanntes Problem benennt: Die meisten Agenten haben kein persistentes Gedächtnis über Sitzungen hinweg. Jedes Gespräch beginnt bei null. Du erklärst dein Unternehmen, deine Ziele, deine Sprache, deinen Kontext immer wieder neu — und das Ergebnis ist generisch, weil der Input nichts hatte, womit er arbeiten konnte."
-		},
-		{
-			"type": "p",
-			"text": "Bei webvise betreiben wir einen Knowledge Layer, der unsere interne Recherche, unsere Kundendokumentation und die Content-Pipeline antreibt, die diesen Blog produziert. Das haben wir dabei gelernt."
-		},
-		{
-			"type": "h2",
-			"text": "Das Problem ist nicht das Prompting. Es ist Amnesie."
-		},
-		{
-			"type": "p",
-			"text": "Der Standard-KI-Workflow ist zustandslos. Du öffnest einen Chat, erklärst, was du brauchst, bekommst eine Antwort, schließt den Chat. Nächste Session, gleiche Erklärung. Der Kontext, den du aufgebaut hast, ist weg. Die meisten kompensieren das mit längeren Prompts, kopierten Hintergrunddokumenten oder hochgeladenen Dateien zu Beginn jeder Session. Das funktioniert, skaliert aber nicht. Irgendwann ist das Kontextfenster voll, die Qualität sinkt, und du verbringst mehr Zeit damit, den Prompt vorzubereiten, als die eigentliche Arbeit zu erledigen."
-		},
-		{
-			"type": "p",
-			"text": "Der Knowledge Layer löst das auf Infrastrukturebene. Statt Kontext in jeden Prompt zu packen, gibst du dem Agenten Zugang zu einer persistenten, strukturierten Wissensbasis, die er liest, bevor er irgendetwas tut. Der Agent kennt bereits dein Unternehmen, deine Sprache, deine Projekte, deine Geschichte. Du sparst dir die Wiederholung und kommst direkt zur Arbeit."
-		},
-		{
-			"type": "h2",
-			"text": "Drei Ebenen, keine Vektordatenbank"
-		},
-		{
-			"type": "p",
-			"text": "Die Architektur hat drei Teile:"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Rohdatenquellen.** Ein Ordner unveränderlicher Dokumente: Artikel, Notizen, Transkripte, PDFs, Meeting-Aufzeichnungen, Recherchen. Der Agent liest sie, verändert sie aber nie. Das ist deine Quelle der Wahrheit.",
-				"**Das Wiki.** Ein Verzeichnis LLM-generierter Markdown-Dateien mit Querverweisen. Entity-Seiten, Konzeptseiten, Synthesen, Vergleiche, Playbooks. Der Agent besitzt diese Ebene vollständig. Er erstellt Seiten, aktualisiert sie, wenn neue Quellen hinzukommen, pflegt Querverweise und hält alles konsistent. Du liest es. Der Agent schreibt es.",
-				"**Das Schema.** Ein Konfigurationsdokument (CLAUDE.md, AGENTS.md oder ähnliches), das dem Agenten sagt, wie das Wiki strukturiert ist, welche Konventionen gelten und welche Workflows er ausführt. Das ist, was aus einem generischen LLM einen disziplinierten Wiki-Maintainer macht."
-			]
-		},
-		{
-			"type": "p",
-			"text": "Das Wiki ist ein **kompiliertes Artefakt**. Der Agent leitet Wissen nicht bei jeder Anfrage neu ab. Er kompiliert einmal, verknüpft quer, und hält alles aktuell. Wenn du eine neue Quelle hinzufügst, integriert der Agent sie ins bestehende Wiki und aktualisiert alle relevanten Seiten. Wenn du eine Frage stellst, liest der Agent vorkompilierte Seiten statt rohe Dokumente zu durchsuchen."
-		},
-		{
-			"type": "h2",
-			"text": "Warum das RAG für die meisten Use Cases schlägt"
-		},
-		{
-			"type": "p",
-			"text": "RAG leitet Antworten zur Abfragezeit ab, indem es Dokumente in Chunks zerlegt und nach relevanten Fragmenten sucht. Der kompilierte Wiki-Ansatz überspringt das vollständig. Das graphify-Benchmark maß **71,5-mal weniger Tokens pro Anfrage** in ihrem veröffentlichten Vergleich; Ergebnisse hängen von den Korpuseigenschaften und der Abfrageverteilung ab. Unsere eigenen Messungen zeigen rund 1.000 Tokens Vault-Inhalt pro Anfrage, verglichen mit den 3.000 oder mehr Tokens, die eine typische RAG-Pipeline injiziert."
-		},
-		{
-			"type": "p",
-			"text": "Wir haben einen [ausführlichen technischen Vergleich](/blog/business-knowledge-base-without-rag) von RAG versus indexbasiertem Retrieval geschrieben. Die Kurzversion: In den von uns gemessenen Workloads übertraf der kompilierte Wiki-Ansatz RAG in Genauigkeit, Kosten und operativer Komplexität. Keine Vektordatenbank, kein Embedding-Modell, keine Chunking-Strategie, kein Re-Indexing-Job. Fünf Shell-Befehle und eine gepflegte Index-Datei."
-		},
-		{
-			"type": "p",
-			"text": "Die Entwicklung verlief in drei Phasen: One-Shot-RAG von 2020 bis 2023, Agentic RAG mit Multi-Hop-Retrieval von 2023 bis 2024, und Context Engineering ab 2025, wo der Agent seinen eigenen Kontext aus mehreren Quellen aufbaut. Der Knowledge Layer ist die Infrastruktur für diese dritte Phase. Die meisten Teams bauen noch für Phase eins."
-		},
-		{
-			"type": "h2",
-			"text": "Was wir beim Betrieb gelernt haben"
-		},
-		{
-			"type": "p",
-			"text": "Unser internes Wiki umfasst derzeit 127 strukturierte Seiten in sieben Kategorien: Personen, Unternehmen, Konzepte, Playbooks, Sammlungen, Synthesen und Tools. Jede Seite folgt einem Standardtemplate mit YAML-Frontmatter, Querverweisen über Obsidian-Wikilinks und Quellenangaben. Der Agent führt sechs definierte Operationen aus: Ingest, Conversational Update, Query, Lint, Enrich und Reorganize."
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Die Schema-Datei ist entscheidend.** Alles andere folgt daraus. Ein gut geschriebenes Schema produziert ein diszipliniertes Wiki mit konsistenten Konventionen. Ein vages Schema produziert Halluzinationen und Wildwuchs. Die aktuelle Version umfasst rund 200 Zeilen und deckt Verzeichnisstruktur, Seitenformat, alle sechs Operationen, Namenskonventionen und den Umgang mit Widersprüchen ab. Es hat mehrere Iterationen gebraucht, bis es stimmte.",
-				"**Dedup-first verhindert Seiten-Wildwuchs.** Unsere Regel: Bevor eine neue Seite erstellt wird, wird das bestehende Wiki auf überlappende Inhalte durchsucht. Wenn eine vorhandene Seite 60 Prozent oder mehr desselben Themas abdeckt, wird diese angereichert statt eine neue zu erstellen. Ohne diese Regel füllt sich das Wiki mit redundanten Seiten, die Wissen in unbrauchbare Fragmente zersplittern.",
-				"**Anfragen verdichten sich zur Wissensbasis.** Wenn du eine gute Frage stellst und eine nützliche Antwort bekommst, wird diese Antwort als neue Wiki-Seite abgelegt. Beim nächsten Mal, wenn jemand eine verwandte Frage stellt, hat der Agent bereits eine vorkompilierte Synthese. Das ist der Compounding-Effekt, der das System mit der Zeit besser macht, nicht nur größer.",
-				"**Ingest-Qualität hängt vollständig von Disziplin ab.** Eine rohe Quelle hineinwerfen und \"ingest this\" sagen produziert eine dünne Zusammenfassung. Die Quelle mit dem Agenten durcharbeiten, Erkenntnisse diskutieren und steuern, was betont werden soll, produziert Seiten, die mit wachsendem Wiki nützlich bleiben. Wir erzwingen einen strikten Workflow: die Rohdatei bereinigen, Kernaussagen diskutieren, auf Freigabe warten, dann vollständig extrahieren.",
-				"**Die Index-Datei ist das Retrieval-System.** Unser Root-Index hat 22 Zeilen. Jedes Unterverzeichnis hat seinen eigenen Index, der jede Seite mit einer einzeiligen Beschreibung auflistet. Der Agent liest den Root-Index bei rund 400 Tokens, identifiziert das richtige Unterverzeichnis, liest diesen Index und zieht dann die spezifischen Seiten, die er braucht. Die meisten Anfragen sind nach drei Lesevorgängen und etwa 1.000 Tokens Vault-Inhalt abgeschlossen."
-			]
-		},
-		{
-			"type": "h2",
-			"text": "Das Schema ist die wichtigste Datei, die du schreiben wirst"
-		},
-		{
-			"type": "p",
-			"text": "Karpathy nennt es das Schema. Wir nennen es CLAUDE.md. Einige Frameworks teilen es in einen Knowledge Base Layer und ein Brand Foundation auf. Der Name ist egal. Entscheidend ist, dass diese eine Datei steuert, wie sich der Agent über jede Session hinweg verhält."
-		},
-		{
-			"type": "p",
-			"text": "Ein gutes Schema definiert:"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Verzeichnisstruktur.** Wo Rohdatenquellen abgelegt werden, wo Wiki-Seiten abgelegt werden, wie sie in Kategorien organisiert sind.",
-				"**Seitenformat.** Frontmatter-Felder, Abschnittsstruktur, Quellenangaben, Querverweiskonventionen.",
-				"**Operationen.** Schritt-für-Schritt-Workflows für das Einpflegen von Quellen, das Beantworten von Anfragen, das Ausführen von Health Checks und die langfristige Pflege des Wikis.",
-				"**Qualitätsgrenzen.** Was eine Seite vollständig macht. Wann Unsicherheit markiert wird. Wie mit widersprüchlichen Quellen umgegangen wird. Die Regel, dass jede Aussage auf eine Quelle zurückgeführt werden muss."
-			]
-		},
-		{
-			"type": "p",
-			"text": "Ohne diese Vorgaben improvisiert der Agent. Er erstellt Seiten an zufälligen Orten, verwendet inkonsistente Formate, dupliziert Inhalte über Seiten hinweg und weicht mit jeder Session von deinen Konventionen ab. Das Schema verhindert Drift. Wir behandeln unseres wie Produktionscode: jede Änderung ist bewusst und wird gegen echte Ingests getestet."
-		},
-		{
-			"type": "h2",
-			"text": "Wie du in 20 Minuten einen aufbaust"
-		},
-		{
-			"type": "p",
-			"text": "Du brauchst keine 17 Dateien, keinen Content-Skill-Graphen und keine Custom-Embedding-Pipeline. Du brauchst vier Dinge:"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Einen Obsidian-Vault mit zwei Ordnern.** `raw/` für Quelldokumente und `wiki/` für agentengenerierte Seiten. In Obsidian öffnen für die Graph-Ansicht und Navigation.",
-				"**Eine Schema-Datei.** Starte mit Karpathys [Gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f). Verzeichnisstruktur und Seitenformat an deine Domain anpassen. Zu Beginn unter 200 Zeilen halten.",
-				"**Einen LLM-Agenten mit Dateizugang.** [Claude Code](https://docs.anthropic.com/en/docs/claude-code), OpenAI Codex oder ein beliebiger Agent, der Markdown-Dateien lesen und schreiben kann. Auf den Vault zeigen. Er liest das Schema beim Start.",
-				"**Deine erste Quelle.** Einen Artikel, eine Reihe von Notizen oder ein Dokument in `raw/` ablegen. Den Agenten anweisen, es zu ingestieren. Zusehen, wie er Wiki-Seiten erstellt, Querverweise aufbaut und den Index aktualisiert."
-			]
-		},
-		{
-			"type": "p",
-			"text": "Das ist die ganze Schleife. Das System wird jeden Tag besser, weil jede Quelle, die du hinzufügst, und jede Frage, die du stellst, das Wiki anreichert. Der erste Ingest braucht 10 Minuten aktive Aufmerksamkeit. Beim zwanzigsten kennt der Agent deine Domain gut genug, um mit minimaler Führung zu extrahieren und zu verknüpfen."
-		},
-		{
-			"type": "p",
-			"text": "Optionale Werkzeuge beim Skalieren: [qmd](https://github.com/tobi/qmd) von Tobi Lütke für lokale Hybridsuche mit BM25 und Vektoriärem Retrieval ab 300 Seiten. Die Obsidian Web Clipper-Erweiterung, um Web-Artikel schnell in den Raw-Ordner zu bringen. Dataview für Abfragen über Seiten-Frontmatter. Git für die Versionshistorie. Nichts davon ist für den Start notwendig."
-		},
-		{
-			"type": "h2",
-			"text": "Was keine Rolle spielt"
-		},
-		{
-			"type": "p",
-			"text": "Der Großteil der Komplexität, die Menschen mit KI-Wissenssystemen verbinden, ist Overhead für Probleme, die sie noch nicht haben. Eine Vektordatenbank für 200 Dokumente, ein Custom-Embedding-Modell, wenn ein gepflegter Index das Retrieval übernimmt, eine Re-Indexing-Pipeline, wenn das Hinzufügen eines Dokuments bedeutet, eine Datei zu schreiben, eine Chunking-Strategie, wenn die Seite die Einheit ist. Nichts davon ist in dem Maßstab notwendig, in dem die meisten Unternehmen operieren."
-		},
-		{
-			"type": "p",
-			"text": "Das Muster funktioniert, weil Markdown einfach ist und LLMs gut darin sind, es zu lesen und zu schreiben. Die Infrastrukturkosten sind null. Die Wartungskosten sind niedrig, weil das LLM Index-Updates übernimmt; regelmäßige menschliche Überprüfung wird dennoch empfohlen, um die Genauigkeit zu gewährleisten. Die einzigen echten Kosten sind die Disziplin, das Schema ehrlich zu halten und die Ingest-Qualität hoch. Das ist ein menschliches Problem, kein technologisches."
-		},
-		{
-			"type": "h2",
-			"text": "Was das für Unternehmen bedeutet"
-		},
-		{
-			"type": "p",
-			"text": "Dieselbe Architektur funktioniert auf Unternehmensebene. Persönliche Notizen ersetzen durch Kundendokumentation, Sales-Playbooks, Onboarding-Guides und interne SOPs. Den Agenten einer Person ersetzen durch den Agenten jedes Teammitglieds, das aus einer gemeinsamen Wissensbasis liest."
-		},
-		{
-			"type": "p",
-			"text": "Das Muster ist identisch: Rohdatenquellen kommen rein, der Agent kompiliert strukturierte Seiten, Querverweise entstehen automatisch, Menschen validieren. Der Unterschied: Ein gemeinsamer Knowledge Layer bedeutet, dass neue Teammitglieder sofort produktiv sind. Ihr Agent kennt bereits die Kundenhistorie, die internen Konventionen und den Projektkontext. Kein sechswöchiges Onboarding. Kein Stammwissen, das in den Köpfen einzelner Personen feststeckt."
-		},
-		{
-			"type": "p",
-			"text": "Karpathy nennt es ein LLM-Wiki. Eric Osiu nennt es ein Shared Brain. Cody Schneider nennt es ein Data Warehouse. Der Name ändert sich. Das Muster nicht: Agenten brauchen kompiliertes, strukturiertes Wissen, um nützliche Arbeit zu leisten. Ohne persistenten Kontext arbeiten Prompts ohne das institutionelle Wissen, das sie brauchen."
-		},
-		{
-			"type": "p",
-			"text": "Bei **[webvise](/#contact)** bauen wir Knowledge Layers für Unternehmen, die wollen, dass ihre KI-Agenten tatsächlich wissen, worum es geht. Wenn du mehr Zeit damit verbringst, deinen Tools Kontext zu erklären, als Mehrwert aus ihnen zu ziehen, ist das genau das Problem, das das löst. [Meld dich](/#contact)."
-		}
-	]
+  "date": "2026-04-15",
+  "readingTime": 8,
+  "keyword": "KI Knowledge Layer",
+  "title": "Der KI Knowledge Layer: 127 Seiten, keine Vektordatenbank, und was wir falsch gemacht haben",
+  "excerpt": "Karpathys LLM-Wiki-Gist hatte in einer Woche 99.000 Bookmarks. Das traf einen Nerv, weil es benennt, was jeder KI-Nutzer spürt: deine Agenten haben kein Gedächtnis. Wir betreiben einen Knowledge Layer in Produktion. Was funktioniert, was nicht, und wie du in 20 Minuten einen aufbaust.",
+  "metaDescription": "Praxisleitfaden zum Aufbau eines KI Knowledge Layers von einem Team, das einen in Produktion betreibt. Architektur, Setup, echte Zahlen und was wir auf die harte Tour gelernt haben.",
+  "tags": ["AI Agents", "AI", "Automation", "Business Strategy"],
+  "cta": "Kontakt aufnehmen",
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Andrej Karpathy veröffentlichte im April 2026 einen [Gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f), der ein Muster für den Aufbau persönlicher Wissensdatenbanken mit LLMs beschreibt. In einer Woche: 99.000 Bookmarks. Mehrere Implementierungen wurden innerhalb von Tagen Open Source. [graphify](https://github.com/safishamsi/graphify) erschien nach 48 Stunden und sammelte weitere 27.000. Das Muster traf einen Nerv, weil es ein bekanntes Problem benennt: Die meisten Agenten haben kein persistentes Gedächtnis über Sitzungen hinweg. Jedes Gespräch beginnt bei null. Du erklärst dein Unternehmen, deine Ziele, deine Sprache, deinen Kontext immer wieder neu — und das Ergebnis ist generisch, weil der Input nichts hatte, womit er arbeiten konnte."
+    },
+    {
+      "type": "p",
+      "text": "Bei webvise betreiben wir einen Knowledge Layer, der unsere interne Recherche, unsere Kundendokumentation und die Content-Pipeline antreibt, die diesen Blog produziert. Das haben wir dabei gelernt."
+    },
+    {
+      "type": "h2",
+      "text": "Das Problem ist nicht das Prompting. Es ist Amnesie."
+    },
+    {
+      "type": "p",
+      "text": "Der Standard-KI-Workflow ist zustandslos. Du öffnest einen Chat, erklärst, was du brauchst, bekommst eine Antwort, schließt den Chat. Nächste Session, gleiche Erklärung. Der Kontext, den du aufgebaut hast, ist weg. Die meisten kompensieren das mit längeren Prompts, kopierten Hintergrunddokumenten oder hochgeladenen Dateien zu Beginn jeder Session. Das funktioniert, skaliert aber nicht. Irgendwann ist das Kontextfenster voll, die Qualität sinkt, und du verbringst mehr Zeit damit, den Prompt vorzubereiten, als die eigentliche Arbeit zu erledigen."
+    },
+    {
+      "type": "p",
+      "text": "Der Knowledge Layer löst das auf Infrastrukturebene. Statt Kontext in jeden Prompt zu packen, gibst du dem Agenten Zugang zu einer persistenten, strukturierten Wissensbasis, die er liest, bevor er irgendetwas tut. Der Agent kennt bereits dein Unternehmen, deine Sprache, deine Projekte, deine Geschichte. Du sparst dir die Wiederholung und kommst direkt zur Arbeit."
+    },
+    {
+      "type": "h2",
+      "text": "Drei Ebenen, keine Vektordatenbank"
+    },
+    {
+      "type": "p",
+      "text": "Die Architektur hat drei Teile:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Rohdatenquellen.** Ein Ordner unveränderlicher Dokumente: Artikel, Notizen, Transkripte, PDFs, Meeting-Aufzeichnungen, Recherchen. Der Agent liest sie, verändert sie aber nie. Das ist deine Quelle der Wahrheit.",
+        "**Das Wiki.** Ein Verzeichnis LLM-generierter Markdown-Dateien mit Querverweisen. Entity-Seiten, Konzeptseiten, Synthesen, Vergleiche, Playbooks. Der Agent besitzt diese Ebene vollständig. Er erstellt Seiten, aktualisiert sie, wenn neue Quellen hinzukommen, pflegt Querverweise und hält alles konsistent. Du liest es. Der Agent schreibt es.",
+        "**Das Schema.** Ein Konfigurationsdokument (CLAUDE.md, AGENTS.md oder ähnliches), das dem Agenten sagt, wie das Wiki strukturiert ist, welche Konventionen gelten und welche Workflows er ausführt. Das ist, was aus einem generischen LLM einen disziplinierten Wiki-Maintainer macht."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Das Wiki ist ein **kompiliertes Artefakt**. Der Agent leitet Wissen nicht bei jeder Anfrage neu ab. Er kompiliert einmal, verknüpft quer, und hält alles aktuell. Wenn du eine neue Quelle hinzufügst, integriert der Agent sie ins bestehende Wiki und aktualisiert alle relevanten Seiten. Wenn du eine Frage stellst, liest der Agent vorkompilierte Seiten statt rohe Dokumente zu durchsuchen."
+    },
+    {
+      "type": "h2",
+      "text": "Warum das RAG für die meisten Use Cases schlägt"
+    },
+    {
+      "type": "p",
+      "text": "RAG leitet Antworten zur Abfragezeit ab, indem es Dokumente in Chunks zerlegt und nach relevanten Fragmenten sucht. Der kompilierte Wiki-Ansatz überspringt das vollständig. Das graphify-Benchmark maß **71,5-mal weniger Tokens pro Anfrage** in ihrem veröffentlichten Vergleich; Ergebnisse hängen von den Korpuseigenschaften und der Abfrageverteilung ab. Unsere eigenen Messungen zeigen rund 1.000 Tokens Vault-Inhalt pro Anfrage, verglichen mit den 3.000 oder mehr Tokens, die eine typische RAG-Pipeline injiziert."
+    },
+    {
+      "type": "p",
+      "text": "Wir haben einen [ausführlichen technischen Vergleich](/blog/business-knowledge-base-without-rag) von RAG versus indexbasiertem Retrieval geschrieben. Die Kurzversion: In den von uns gemessenen Workloads übertraf der kompilierte Wiki-Ansatz RAG in Genauigkeit, Kosten und operativer Komplexität. Keine Vektordatenbank, kein Embedding-Modell, keine Chunking-Strategie, kein Re-Indexing-Job. Fünf Shell-Befehle und eine gepflegte Index-Datei."
+    },
+    {
+      "type": "p",
+      "text": "Die Entwicklung verlief in drei Phasen: One-Shot-RAG von 2020 bis 2023, Agentic RAG mit Multi-Hop-Retrieval von 2023 bis 2024, und Context Engineering ab 2025, wo der Agent seinen eigenen Kontext aus mehreren Quellen aufbaut. Der Knowledge Layer ist die Infrastruktur für diese dritte Phase. Die meisten Teams bauen noch für Phase eins."
+    },
+    {
+      "type": "h2",
+      "text": "Was wir beim Betrieb gelernt haben"
+    },
+    {
+      "type": "p",
+      "text": "Unser internes Wiki umfasst derzeit 127 strukturierte Seiten in sieben Kategorien: Personen, Unternehmen, Konzepte, Playbooks, Sammlungen, Synthesen und Tools. Jede Seite folgt einem Standardtemplate mit YAML-Frontmatter, Querverweisen über Obsidian-Wikilinks und Quellenangaben. Der Agent führt sechs definierte Operationen aus: Ingest, Conversational Update, Query, Lint, Enrich und Reorganize."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Die Schema-Datei ist entscheidend.** Alles andere folgt daraus. Ein gut geschriebenes Schema produziert ein diszipliniertes Wiki mit konsistenten Konventionen. Ein vages Schema produziert Halluzinationen und Wildwuchs. Die aktuelle Version umfasst rund 200 Zeilen und deckt Verzeichnisstruktur, Seitenformat, alle sechs Operationen, Namenskonventionen und den Umgang mit Widersprüchen ab. Es hat mehrere Iterationen gebraucht, bis es stimmte.",
+        "**Dedup-first verhindert Seiten-Wildwuchs.** Unsere Regel: Bevor eine neue Seite erstellt wird, wird das bestehende Wiki auf überlappende Inhalte durchsucht. Wenn eine vorhandene Seite 60 Prozent oder mehr desselben Themas abdeckt, wird diese angereichert statt eine neue zu erstellen. Ohne diese Regel füllt sich das Wiki mit redundanten Seiten, die Wissen in unbrauchbare Fragmente zersplittern.",
+        "**Anfragen verdichten sich zur Wissensbasis.** Wenn du eine gute Frage stellst und eine nützliche Antwort bekommst, wird diese Antwort als neue Wiki-Seite abgelegt. Beim nächsten Mal, wenn jemand eine verwandte Frage stellt, hat der Agent bereits eine vorkompilierte Synthese. Das ist der Compounding-Effekt, der das System mit der Zeit besser macht, nicht nur größer.",
+        "**Ingest-Qualität hängt vollständig von Disziplin ab.** Eine rohe Quelle hineinwerfen und \"ingest this\" sagen produziert eine dünne Zusammenfassung. Die Quelle mit dem Agenten durcharbeiten, Erkenntnisse diskutieren und steuern, was betont werden soll, produziert Seiten, die mit wachsendem Wiki nützlich bleiben. Wir erzwingen einen strikten Workflow: die Rohdatei bereinigen, Kernaussagen diskutieren, auf Freigabe warten, dann vollständig extrahieren.",
+        "**Die Index-Datei ist das Retrieval-System.** Unser Root-Index hat 22 Zeilen. Jedes Unterverzeichnis hat seinen eigenen Index, der jede Seite mit einer einzeiligen Beschreibung auflistet. Der Agent liest den Root-Index bei rund 400 Tokens, identifiziert das richtige Unterverzeichnis, liest diesen Index und zieht dann die spezifischen Seiten, die er braucht. Die meisten Anfragen sind nach drei Lesevorgängen und etwa 1.000 Tokens Vault-Inhalt abgeschlossen."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Das Schema ist die wichtigste Datei, die du schreiben wirst"
+    },
+    {
+      "type": "p",
+      "text": "Karpathy nennt es das Schema. Wir nennen es CLAUDE.md. Einige Frameworks teilen es in einen Knowledge Base Layer und ein Brand Foundation auf. Der Name ist egal. Entscheidend ist, dass diese eine Datei steuert, wie sich der Agent über jede Session hinweg verhält."
+    },
+    {
+      "type": "p",
+      "text": "Ein gutes Schema definiert:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Verzeichnisstruktur.** Wo Rohdatenquellen abgelegt werden, wo Wiki-Seiten abgelegt werden, wie sie in Kategorien organisiert sind.",
+        "**Seitenformat.** Frontmatter-Felder, Abschnittsstruktur, Quellenangaben, Querverweiskonventionen.",
+        "**Operationen.** Schritt-für-Schritt-Workflows für das Einpflegen von Quellen, das Beantworten von Anfragen, das Ausführen von Health Checks und die langfristige Pflege des Wikis.",
+        "**Qualitätsgrenzen.** Was eine Seite vollständig macht. Wann Unsicherheit markiert wird. Wie mit widersprüchlichen Quellen umgegangen wird. Die Regel, dass jede Aussage auf eine Quelle zurückgeführt werden muss."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Ohne diese Vorgaben improvisiert der Agent. Er erstellt Seiten an zufälligen Orten, verwendet inkonsistente Formate, dupliziert Inhalte über Seiten hinweg und weicht mit jeder Session von deinen Konventionen ab. Das Schema verhindert Drift. Wir behandeln unseres wie Produktionscode: jede Änderung ist bewusst und wird gegen echte Ingests getestet."
+    },
+    {
+      "type": "h2",
+      "text": "Wie du in 20 Minuten einen aufbaust"
+    },
+    {
+      "type": "p",
+      "text": "Du brauchst keine 17 Dateien, keinen Content-Skill-Graphen und keine Custom-Embedding-Pipeline. Du brauchst vier Dinge:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Einen Obsidian-Vault mit zwei Ordnern.** `raw/` für Quelldokumente und `wiki/` für agentengenerierte Seiten. In Obsidian öffnen für die Graph-Ansicht und Navigation.",
+        "**Eine Schema-Datei.** Starte mit Karpathys [Gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f). Verzeichnisstruktur und Seitenformat an deine Domain anpassen. Zu Beginn unter 200 Zeilen halten.",
+        "**Einen LLM-Agenten mit Dateizugang.** [Claude Code](https://docs.anthropic.com/en/docs/claude-code), OpenAI Codex oder ein beliebiger Agent, der Markdown-Dateien lesen und schreiben kann. Auf den Vault zeigen. Er liest das Schema beim Start.",
+        "**Deine erste Quelle.** Einen Artikel, eine Reihe von Notizen oder ein Dokument in `raw/` ablegen. Den Agenten anweisen, es zu ingestieren. Zusehen, wie er Wiki-Seiten erstellt, Querverweise aufbaut und den Index aktualisiert."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Das ist die ganze Schleife. Das System wird jeden Tag besser, weil jede Quelle, die du hinzufügst, und jede Frage, die du stellst, das Wiki anreichert. Der erste Ingest braucht 10 Minuten aktive Aufmerksamkeit. Beim zwanzigsten kennt der Agent deine Domain gut genug, um mit minimaler Führung zu extrahieren und zu verknüpfen."
+    },
+    {
+      "type": "p",
+      "text": "Optionale Werkzeuge beim Skalieren: [qmd](https://github.com/tobi/qmd) von Tobi Lütke für lokale Hybridsuche mit BM25 und Vektoriärem Retrieval ab 300 Seiten. Die Obsidian Web Clipper-Erweiterung, um Web-Artikel schnell in den Raw-Ordner zu bringen. Dataview für Abfragen über Seiten-Frontmatter. Git für die Versionshistorie. Nichts davon ist für den Start notwendig."
+    },
+    {
+      "type": "h2",
+      "text": "Was keine Rolle spielt"
+    },
+    {
+      "type": "p",
+      "text": "Der Großteil der Komplexität, die Menschen mit KI-Wissenssystemen verbinden, ist Overhead für Probleme, die sie noch nicht haben. Eine Vektordatenbank für 200 Dokumente, ein Custom-Embedding-Modell, wenn ein gepflegter Index das Retrieval übernimmt, eine Re-Indexing-Pipeline, wenn das Hinzufügen eines Dokuments bedeutet, eine Datei zu schreiben, eine Chunking-Strategie, wenn die Seite die Einheit ist. Nichts davon ist in dem Maßstab notwendig, in dem die meisten Unternehmen operieren."
+    },
+    {
+      "type": "p",
+      "text": "Das Muster funktioniert, weil Markdown einfach ist und LLMs gut darin sind, es zu lesen und zu schreiben. Die Infrastrukturkosten sind null. Die Wartungskosten sind niedrig, weil das LLM Index-Updates übernimmt; regelmäßige menschliche Überprüfung wird dennoch empfohlen, um die Genauigkeit zu gewährleisten. Die einzigen echten Kosten sind die Disziplin, das Schema ehrlich zu halten und die Ingest-Qualität hoch. Das ist ein menschliches Problem, kein technologisches."
+    },
+    {
+      "type": "h2",
+      "text": "Was das für Unternehmen bedeutet"
+    },
+    {
+      "type": "p",
+      "text": "Dieselbe Architektur funktioniert auf Unternehmensebene. Persönliche Notizen ersetzen durch Kundendokumentation, Sales-Playbooks, Onboarding-Guides und interne SOPs. Den Agenten einer Person ersetzen durch den Agenten jedes Teammitglieds, das aus einer gemeinsamen Wissensbasis liest."
+    },
+    {
+      "type": "p",
+      "text": "Das Muster ist identisch: Rohdatenquellen kommen rein, der Agent kompiliert strukturierte Seiten, Querverweise entstehen automatisch, Menschen validieren. Der Unterschied: Ein gemeinsamer Knowledge Layer bedeutet, dass neue Teammitglieder sofort produktiv sind. Ihr Agent kennt bereits die Kundenhistorie, die internen Konventionen und den Projektkontext. Kein sechswöchiges Onboarding. Kein Stammwissen, das in den Köpfen einzelner Personen feststeckt."
+    },
+    {
+      "type": "p",
+      "text": "Karpathy nennt es ein LLM-Wiki. Eric Osiu nennt es ein Shared Brain. Cody Schneider nennt es ein Data Warehouse. Der Name ändert sich. Das Muster nicht: Agenten brauchen kompiliertes, strukturiertes Wissen, um nützliche Arbeit zu leisten. Ohne persistenten Kontext arbeiten Prompts ohne das institutionelle Wissen, das sie brauchen."
+    },
+    {
+      "type": "p",
+      "text": "Bei **[webvise](/#contact)** bauen wir Knowledge Layers für Unternehmen, die wollen, dass ihre KI-Agenten tatsächlich wissen, worum es geht. Wenn du mehr Zeit damit verbringst, deinen Tools Kontext zu erklären, als Mehrwert aus ihnen zu ziehen, ist das genau das Problem, das das löst. [Meld dich](/#contact)."
+    }
+  ]
 }

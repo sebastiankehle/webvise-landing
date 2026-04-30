@@ -128,9 +128,21 @@
       "type": "table",
       "headers": ["Posizionamento", "Trust boundary", "Quando utilizzarlo"],
       "rows": [
-        ["Client-side (browser + WebGPU)", "Il testo in chiaro non lascia mai il dispositivo", "Web app compliance-first, settori regolamentati, strumenti interni"],
-        ["Server middleware (Node + Transformers)", "Server affidabile, log verificati", "API, agent backend, pipeline batch"],
-        ["Output filter (post-response)", "L'output del modello non raggiunge mai il client in forma grezza", "Agent chat, contenuti generati, flussi RAG rivolti all'utente"]
+        [
+          "Client-side (browser + WebGPU)",
+          "Il testo in chiaro non lascia mai il dispositivo",
+          "Web app compliance-first, settori regolamentati, strumenti interni"
+        ],
+        [
+          "Server middleware (Node + Transformers)",
+          "Server affidabile, log verificati",
+          "API, agent backend, pipeline batch"
+        ],
+        [
+          "Output filter (post-response)",
+          "L'output del modello non raggiunge mai il client in forma grezza",
+          "Agent chat, contenuti generati, flussi RAG rivolti all'utente"
+        ]
       ]
     },
     {
@@ -153,14 +165,46 @@
       "type": "table",
       "headers": ["Categoria", "Cosa viene rilevato", "Failure mode noto"],
       "rows": [
-        ["private_person", "Nomi personali", "Nomi regionali poco comuni, iniziali, riferimenti con molti titoli onorifici vengono sotto-rilevati"],
-        ["private_email", "Indirizzi email", "Copertura solida. I formati offuscati (\"nome at dominio\") possono sfuggire"],
-        ["private_phone", "Numeri di telefono", "Formati internazionali solidi. Separatori non standard generano occasionalmente frammentazioni"],
-        ["private_address", "Indirizzi postali", "Gli indirizzi su più righe in layout densi si frammentano ai confini"],
-        ["private_url", "URL identificativi", "Sovra-redige URL di entità pubbliche quando il contesto locale è ambiguo"],
-        ["private_date", "Data di nascita, appuntamenti", "Sensibile al contesto. Le date di calendario nel testo di pianificazione a volte vengono sovra-redatte"],
-        ["account_number", "ID bancari, cliente, paziente", "Sotto-rileva pattern di identificatori specifici del dominio"],
-        ["secret", "Chiavi API, credenziali, token", "I formati di credenziali nuovi e i segreti divisi vengono mancati"]
+        [
+          "private_person",
+          "Nomi personali",
+          "Nomi regionali poco comuni, iniziali, riferimenti con molti titoli onorifici vengono sotto-rilevati"
+        ],
+        [
+          "private_email",
+          "Indirizzi email",
+          "Copertura solida. I formati offuscati (\"nome at dominio\") possono sfuggire"
+        ],
+        [
+          "private_phone",
+          "Numeri di telefono",
+          "Formati internazionali solidi. Separatori non standard generano occasionalmente frammentazioni"
+        ],
+        [
+          "private_address",
+          "Indirizzi postali",
+          "Gli indirizzi su più righe in layout densi si frammentano ai confini"
+        ],
+        [
+          "private_url",
+          "URL identificativi",
+          "Sovra-redige URL di entità pubbliche quando il contesto locale è ambiguo"
+        ],
+        [
+          "private_date",
+          "Data di nascita, appuntamenti",
+          "Sensibile al contesto. Le date di calendario nel testo di pianificazione a volte vengono sovra-redatte"
+        ],
+        [
+          "account_number",
+          "ID bancari, cliente, paziente",
+          "Sotto-rileva pattern di identificatori specifici del dominio"
+        ],
+        [
+          "secret",
+          "Chiavi API, credenziali, token",
+          "I formati di credenziali nuovi e i segreti divisi vengono mancati"
+        ]
       ]
     },
     {

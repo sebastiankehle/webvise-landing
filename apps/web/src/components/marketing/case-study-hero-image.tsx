@@ -7,9 +7,9 @@ import { Body, Caption } from "@/components/ui/typography";
 import CaseStudyLightbox from "./case-study-lightbox";
 
 interface CaseStudyHeroImageProps {
-	src: string;
-	fullPageImage?: string;
 	alt: string;
+	fullPageImage?: string;
+	src: string;
 }
 
 export default function CaseStudyHeroImage({
@@ -23,20 +23,20 @@ export default function CaseStudyHeroImage({
 	return (
 		<>
 			<button
-				type="button"
+				className={`group relative w-full ${clickable ? "cursor-zoom-in" : "cursor-default"}`}
 				disabled={!clickable}
 				onClick={() => clickable && setOpen(true)}
-				className={`group relative w-full ${clickable ? "cursor-zoom-in" : "cursor-default"}`}
+				type="button"
 			>
 				<Image
-					src={src}
 					alt={alt}
-					width={1512}
-					height={766}
 					className="h-auto w-full border border-border/40 transition-opacity group-hover:opacity-90"
-					sizes="(max-width: 768px) 100vw, 880px"
-					quality={90}
+					height={766}
 					priority
+					quality={90}
+					sizes="(max-width: 768px) 100vw, 880px"
+					src={src}
+					width={1512}
 				/>
 				{clickable && (
 					<>
@@ -56,10 +56,10 @@ export default function CaseStudyHeroImage({
 
 			{fullPageImage && (
 				<CaseStudyLightbox
-					open={open}
-					onOpenChange={setOpen}
-					src={fullPageImage}
 					alt={alt}
+					onOpenChange={setOpen}
+					open={open}
+					src={fullPageImage}
 				/>
 			)}
 		</>

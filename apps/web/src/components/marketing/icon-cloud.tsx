@@ -98,9 +98,11 @@ export default function IconCloud() {
 	}, []);
 
 	const renderedIcons = useMemo(() => {
-		if (!data) return null;
+		if (!data) {
+			return null;
+		}
 		return Object.values(data.simpleIcons).map((icon) =>
-			renderCustomIcon(icon),
+			renderCustomIcon(icon)
 		);
 	}, [data]);
 

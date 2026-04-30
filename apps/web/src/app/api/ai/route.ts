@@ -23,7 +23,9 @@ const limiter = createRateLimiter({
 export async function POST(req: Request) {
 	const ip = getClientIP(req);
 	const rl = limiter.check(ip);
-	if (rl.limited) return rateLimitResponse(rl.retryAfterSec);
+	if (rl.limited) {
+		return rateLimitResponse(rl.retryAfterSec);
+	}
 
 	const { messages }: { messages: UIMessage[] } = await req.json();
 

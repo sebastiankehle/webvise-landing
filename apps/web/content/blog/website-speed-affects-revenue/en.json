@@ -1,204 +1,204 @@
 {
-	"date": "2025-11-20",
-	"readingTime": 6,
-	"keyword": "slow website losing customers",
-	"title": "How a Slow Website Is Costing You Customers",
-	"excerpt": "A 1-second delay in page load time reduces conversions by 7%. For a site generating 50 enquiries a month, that's a real number. Here's what you need to know about speed and revenue.",
-	"tags": ["Performance", "Business Strategy", "Web Development"],
-	"blocks": [
-		{
-			"type": "p",
-			"text": "Most business owners don't think about website speed until a developer mentions it. By then, the damage has been accumulating for months."
-		},
-		{
-			"type": "p",
-			"text": "Speed affects business outcomes in two distinct ways: through search engine rankings (Google's ranking signals weight slow sites lower in mobile search) and through direct user behaviour (people leave slow sites). Both have measurable revenue consequences."
-		},
-		{
-			"type": "p",
-			"text": "This isn't a technical post. It's a business case for fixing your website speed - with the numbers that explain why it matters."
-		},
-		{
-			"type": "h2",
-			"text": "What 'Slow' Actually Means"
-		},
-		{
-			"type": "p",
-			"text": "Speed isn't a single number. Google measures what's called Core Web Vitals - a set of metrics that track how fast your page actually loads for real users, not in a lab environment. The three that matter most for business sites:"
-		},
-		{
-			"type": "table",
-			"headers": ["Metric", "What it measures", "Good threshold"],
-			"rows": [
-				[
-					"LCP (Largest Contentful Paint)",
-					"When the main content becomes visible",
-					"Under 2.5 seconds"
-				],
-				[
-					"INP (Interaction to Next Paint)",
-					"How fast the page responds to clicks",
-					"Under 200ms"
-				],
-				[
-					"CLS (Cumulative Layout Shift)",
-					"Whether the page jumps around as it loads",
-					"Under 0.1"
-				]
-			]
-		},
-		{
-			"type": "p",
-			"text": "Most [WordPress](/blog/wordpress-site-speed) sites, especially those with heavy themes and multiple plugins, fail at least two of these. The average load time for a WordPress site is 4.7 seconds. The benchmark Google recommends for good user experience is 2.5 seconds."
-		},
-		{
-			"type": "h2",
-			"text": "The Revenue Impact"
-		},
-		{
-			"type": "p",
-			"text": "The connection between speed and money is well-documented. Here's what the research shows:"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**1 second of extra load time** reduces conversions by 7% ([Akamai](https://www.akamai.com/) / Google joint research)",
-				"**Sites loading in 1 second** convert 3× better than sites loading in 5 seconds (Cloudflare)",
-				"**53% of mobile users** abandon a page that takes more than 3 seconds to load (Google)",
-				"**Page speed is a ranking factor** - Google demotes slow pages in search results, meaning less traffic to begin with"
-			]
-		},
-		{
-			"type": "p",
-			"text": "Illustrative scenario: a site receiving 100 enquiries per month, losing roughly 30% to load-time abandonment and ranking suppression, would represent ~30 missed enquiries monthly. At €3,000 average project value, the annual gap is on the order of €90,000. This is an illustration; actual loss varies by source mix and conversion model."
-		},
-		{
-			"type": "h2",
-			"text": "Why WordPress Sites Get Slow"
-		},
-		{
-			"type": "p",
-			"text": "WordPress sites accumulate speed problems in predictable ways. Understanding the causes tells you where the fixes are."
-		},
-		{
-			"type": "h3",
-			"text": "Plugin bloat"
-		},
-		{
-			"type": "p",
-			"text": "The average WordPress site runs 20+ plugins. Each adds JavaScript, CSS, and server processing time. A contact form plugin, an SEO plugin, a caching plugin, a security plugin, a slider, a page builder - they all add weight. Some plugin combinations cause load times to stack multiplicatively, not additively."
-		},
-		{
-			"type": "h3",
-			"text": "Shared hosting"
-		},
-		{
-			"type": "p",
-			"text": "Most small business websites sit on shared hosting plans - budget shared hosting plans (typically €5/month) struggle with real traffic on dynamic CMS deployments. Your site shares a server with hundreds or thousands of other sites. When neighbouring sites get traffic spikes, your load time goes up. There's no isolation."
-		},
-		{
-			"type": "h3",
-			"text": "Unoptimised images"
-		},
-		{
-			"type": "p",
-			"text": "Large image files are the single most common cause of slow WordPress sites. A homepage hero image saved at 3MB instead of 200KB adds seconds to load time. Modern image formats (WebP, AVIF) cut image weight by 50–80% with no visible quality loss. Most WordPress sites aren't using them."
-		},
-		{
-			"type": "h3",
-			"text": "Render-blocking resources"
-		},
-		{
-			"type": "p",
-			"text": "JavaScript and CSS files that must load before the page can render cause delays visible to both users and Google. A typical heavily-plugged WordPress site loads 20–40 separate JavaScript files. Each one adds a round-trip network request."
-		},
-		{
-			"type": "h2",
-			"text": "How to Find Out If Your Site Is Slow"
-		},
-		{
-			"type": "p",
-			"text": "Three tools give you reliable speed data:"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Google PageSpeed Insights** (free) - tests your URL and gives you a score plus specific recommendations. A score below 50 on mobile is a serious problem.",
-				"**GTmetrix** (free tier) - shows waterfall loading data so you can see exactly which resources are causing delays.",
-				"**WebPageTest** (free) - more technical, but the most accurate real-world simulation available."
-			]
-		},
-		{
-			"type": "p",
-			"text": "Mobile score matters more than desktop. Over 60% of web traffic is mobile, and Google primarily indexes the mobile version of your site. A site with a desktop score of 85 and a mobile score of 28 is a slow site."
-		},
-		{
-			"type": "h2",
-			"text": "Modern Stack vs. WordPress: A Speed Comparison"
-		},
-		{
-			"type": "p",
-			"text": "Modern framework sites are faster largely because of architectural choices: static generation, edge delivery, smaller JavaScript bundles. A statically generated Next.js site serves pre-built HTML files from a global CDN. There's no database query, no PHP execution, no plugin stack processing on each page load."
-		},
-		{
-			"type": "table",
-			"headers": ["Metric", "Typical WordPress", "Typical Next.js static"],
-			"rows": [
-				["Average LCP", "3.8–5.2s", "0.8–1.6s"],
-				["PageSpeed (mobile)", "35–55", "85–98"],
-				["Plugins / dependencies", "15–25 plugins", "0 plugins"],
-				["CDN delivery", "Optional add-on", "Default"]
-			]
-		},
-		{
-			"type": "p",
-			"text": "The performance advantage compounds. Faster sites rank higher. Higher rankings mean more traffic. More traffic means more leads. The difference between a PageSpeed score of 40 and 90 isn't just a nicer number - it's a different position in search results."
-		},
-		{
-			"type": "h2",
-			"text": "What to Do About It"
-		},
-		{
-			"type": "p",
-			"text": "Options depend on how bad your current situation is."
-		},
-		{
-			"type": "h3",
-			"text": "Quick wins for existing WordPress sites"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"Install a caching plugin (WP Rocket or W3 Total Cache) if you don't have one.",
-				"Enable WebP image conversion (Imagify or ShortPixel).",
-				"Upgrade to managed WordPress hosting (Kinsta, WPEngine) - typically €20–€80/month but dramatically better performance than shared hosting.",
-				"Remove unused plugins - every plugin removed is a performance gain."
-			]
-		},
-		{
-			"type": "h3",
-			"text": "When quick wins aren't enough"
-		},
-		{
-			"type": "p",
-			"text": "If your site scores below 40 on mobile PageSpeed and you've already applied basic optimisations, the architecture itself is the problem. Plugin-heavy WordPress on shared hosting cannot reliably achieve the speeds modern user behaviour and Google's ranking algorithm expect."
-		},
-		{
-			"type": "p",
-			"text": "At that point, the question is whether continuing to invest in optimising a slow site makes more sense than rebuilding on a faster foundation. The rebuild cost is real. So is the ongoing cost of lower rankings, lower [conversions](/blog/website-speed-and-conversions), and slower growth."
-		},
-		{
-			"type": "h2",
-			"text": "Get a Free Speed Audit"
-		},
-		{
-			"type": "p",
-			"text": "Not sure how your site performs? Run a free website audit at [webvise.io/wp-health-report](/wp-health-report). It takes 60 seconds and gives you a concrete picture of your site's speed, security, and technical health - with specific recommendations, not generic advice."
-		},
-		{
-			"type": "p",
-			"text": "If the results suggest a rebuild is worth considering, we'll tell you honestly - along with what that would involve and what you should expect it to cost."
-		}
-	],
-	"metaDescription": "A 1-second delay cuts conversions 7%. WordPress averages 4.7s vs Google's 2.5s benchmark. See the revenue math and find out where your site stands."
+  "date": "2025-11-20",
+  "readingTime": 6,
+  "keyword": "slow website losing customers",
+  "title": "How a Slow Website Is Costing You Customers",
+  "excerpt": "A 1-second delay in page load time reduces conversions by 7%. For a site generating 50 enquiries a month, that's a real number. Here's what you need to know about speed and revenue.",
+  "tags": ["Performance", "Business Strategy", "Web Development"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Most business owners don't think about website speed until a developer mentions it. By then, the damage has been accumulating for months."
+    },
+    {
+      "type": "p",
+      "text": "Speed affects business outcomes in two distinct ways: through search engine rankings (Google's ranking signals weight slow sites lower in mobile search) and through direct user behaviour (people leave slow sites). Both have measurable revenue consequences."
+    },
+    {
+      "type": "p",
+      "text": "This isn't a technical post. It's a business case for fixing your website speed - with the numbers that explain why it matters."
+    },
+    {
+      "type": "h2",
+      "text": "What 'Slow' Actually Means"
+    },
+    {
+      "type": "p",
+      "text": "Speed isn't a single number. Google measures what's called Core Web Vitals - a set of metrics that track how fast your page actually loads for real users, not in a lab environment. The three that matter most for business sites:"
+    },
+    {
+      "type": "table",
+      "headers": ["Metric", "What it measures", "Good threshold"],
+      "rows": [
+        [
+          "LCP (Largest Contentful Paint)",
+          "When the main content becomes visible",
+          "Under 2.5 seconds"
+        ],
+        [
+          "INP (Interaction to Next Paint)",
+          "How fast the page responds to clicks",
+          "Under 200ms"
+        ],
+        [
+          "CLS (Cumulative Layout Shift)",
+          "Whether the page jumps around as it loads",
+          "Under 0.1"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Most [WordPress](/blog/wordpress-site-speed) sites, especially those with heavy themes and multiple plugins, fail at least two of these. The average load time for a WordPress site is 4.7 seconds. The benchmark Google recommends for good user experience is 2.5 seconds."
+    },
+    {
+      "type": "h2",
+      "text": "The Revenue Impact"
+    },
+    {
+      "type": "p",
+      "text": "The connection between speed and money is well-documented. Here's what the research shows:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**1 second of extra load time** reduces conversions by 7% ([Akamai](https://www.akamai.com/) / Google joint research)",
+        "**Sites loading in 1 second** convert 3× better than sites loading in 5 seconds (Cloudflare)",
+        "**53% of mobile users** abandon a page that takes more than 3 seconds to load (Google)",
+        "**Page speed is a ranking factor** - Google demotes slow pages in search results, meaning less traffic to begin with"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Illustrative scenario: a site receiving 100 enquiries per month, losing roughly 30% to load-time abandonment and ranking suppression, would represent ~30 missed enquiries monthly. At €3,000 average project value, the annual gap is on the order of €90,000. This is an illustration; actual loss varies by source mix and conversion model."
+    },
+    {
+      "type": "h2",
+      "text": "Why WordPress Sites Get Slow"
+    },
+    {
+      "type": "p",
+      "text": "WordPress sites accumulate speed problems in predictable ways. Understanding the causes tells you where the fixes are."
+    },
+    {
+      "type": "h3",
+      "text": "Plugin bloat"
+    },
+    {
+      "type": "p",
+      "text": "The average WordPress site runs 20+ plugins. Each adds JavaScript, CSS, and server processing time. A contact form plugin, an SEO plugin, a caching plugin, a security plugin, a slider, a page builder - they all add weight. Some plugin combinations cause load times to stack multiplicatively, not additively."
+    },
+    {
+      "type": "h3",
+      "text": "Shared hosting"
+    },
+    {
+      "type": "p",
+      "text": "Most small business websites sit on shared hosting plans - budget shared hosting plans (typically €5/month) struggle with real traffic on dynamic CMS deployments. Your site shares a server with hundreds or thousands of other sites. When neighbouring sites get traffic spikes, your load time goes up. There's no isolation."
+    },
+    {
+      "type": "h3",
+      "text": "Unoptimised images"
+    },
+    {
+      "type": "p",
+      "text": "Large image files are the single most common cause of slow WordPress sites. A homepage hero image saved at 3MB instead of 200KB adds seconds to load time. Modern image formats (WebP, AVIF) cut image weight by 50–80% with no visible quality loss. Most WordPress sites aren't using them."
+    },
+    {
+      "type": "h3",
+      "text": "Render-blocking resources"
+    },
+    {
+      "type": "p",
+      "text": "JavaScript and CSS files that must load before the page can render cause delays visible to both users and Google. A typical heavily-plugged WordPress site loads 20–40 separate JavaScript files. Each one adds a round-trip network request."
+    },
+    {
+      "type": "h2",
+      "text": "How to Find Out If Your Site Is Slow"
+    },
+    {
+      "type": "p",
+      "text": "Three tools give you reliable speed data:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Google PageSpeed Insights** (free) - tests your URL and gives you a score plus specific recommendations. A score below 50 on mobile is a serious problem.",
+        "**GTmetrix** (free tier) - shows waterfall loading data so you can see exactly which resources are causing delays.",
+        "**WebPageTest** (free) - more technical, but the most accurate real-world simulation available."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Mobile score matters more than desktop. Over 60% of web traffic is mobile, and Google primarily indexes the mobile version of your site. A site with a desktop score of 85 and a mobile score of 28 is a slow site."
+    },
+    {
+      "type": "h2",
+      "text": "Modern Stack vs. WordPress: A Speed Comparison"
+    },
+    {
+      "type": "p",
+      "text": "Modern framework sites are faster largely because of architectural choices: static generation, edge delivery, smaller JavaScript bundles. A statically generated Next.js site serves pre-built HTML files from a global CDN. There's no database query, no PHP execution, no plugin stack processing on each page load."
+    },
+    {
+      "type": "table",
+      "headers": ["Metric", "Typical WordPress", "Typical Next.js static"],
+      "rows": [
+        ["Average LCP", "3.8–5.2s", "0.8–1.6s"],
+        ["PageSpeed (mobile)", "35–55", "85–98"],
+        ["Plugins / dependencies", "15–25 plugins", "0 plugins"],
+        ["CDN delivery", "Optional add-on", "Default"]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "The performance advantage compounds. Faster sites rank higher. Higher rankings mean more traffic. More traffic means more leads. The difference between a PageSpeed score of 40 and 90 isn't just a nicer number - it's a different position in search results."
+    },
+    {
+      "type": "h2",
+      "text": "What to Do About It"
+    },
+    {
+      "type": "p",
+      "text": "Options depend on how bad your current situation is."
+    },
+    {
+      "type": "h3",
+      "text": "Quick wins for existing WordPress sites"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "Install a caching plugin (WP Rocket or W3 Total Cache) if you don't have one.",
+        "Enable WebP image conversion (Imagify or ShortPixel).",
+        "Upgrade to managed WordPress hosting (Kinsta, WPEngine) - typically €20–€80/month but dramatically better performance than shared hosting.",
+        "Remove unused plugins - every plugin removed is a performance gain."
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "When quick wins aren't enough"
+    },
+    {
+      "type": "p",
+      "text": "If your site scores below 40 on mobile PageSpeed and you've already applied basic optimisations, the architecture itself is the problem. Plugin-heavy WordPress on shared hosting cannot reliably achieve the speeds modern user behaviour and Google's ranking algorithm expect."
+    },
+    {
+      "type": "p",
+      "text": "At that point, the question is whether continuing to invest in optimising a slow site makes more sense than rebuilding on a faster foundation. The rebuild cost is real. So is the ongoing cost of lower rankings, lower [conversions](/blog/website-speed-and-conversions), and slower growth."
+    },
+    {
+      "type": "h2",
+      "text": "Get a Free Speed Audit"
+    },
+    {
+      "type": "p",
+      "text": "Not sure how your site performs? Run a free website audit at [webvise.io/wp-health-report](/wp-health-report). It takes 60 seconds and gives you a concrete picture of your site's speed, security, and technical health - with specific recommendations, not generic advice."
+    },
+    {
+      "type": "p",
+      "text": "If the results suggest a rebuild is worth considering, we'll tell you honestly - along with what that would involve and what you should expect it to cost."
+    }
+  ],
+  "metaDescription": "A 1-second delay cuts conversions 7%. WordPress averages 4.7s vs Google's 2.5s benchmark. See the revenue math and find out where your site stands."
 }

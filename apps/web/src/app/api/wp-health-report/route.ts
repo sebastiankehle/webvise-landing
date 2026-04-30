@@ -1,22 +1,98 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import {
-	createRateLimiter,
-	getClientIP,
-	rateLimitResponse,
-} from "@/lib/rate-limit";
-import {
 	c,
 	emailLayout,
 	escapeHtml,
 	s,
 	scoreBadge,
-	scoreColor,
 	tableRow,
 } from "@/lib/email-template";
+import {
+	createRateLimiter,
+	getClientIP,
+	rateLimitResponse,
+} from "@/lib/rate-limit";
 import { UrlValidationError, validateUrl } from "@/lib/validate-url";
 
 export const maxDuration = 60;
+
+const WP_CONTENT_RE = /\/wp-content\//i;
+const WP_INCLUDES_RE = /\/wp-includes\//i;
+const WP_GENERATOR_RE = /name=["']generator["'][^>]*WordPress/i;
+const PHP_FILE_RE = /\.php[\s"'?]/i;
+const PAGESPEED_STATUS_RE = /PageSpeed API error (\d+)/;
+
+function computeProjectedScore(mobileScore: number): number {
+	if (mobileScore < 50) {
+		return 93;
+	}
+	if (mobileScore < 70) {
+		return 95;
+	}
+	return 97;
+}
+
+function handlePSIError(psiError: unknown): NextResponse {
+	console.error("PageSpeed Insights API failed:", psiError);
+	const message =
+		psiError instanceof Error ? psiError.message : String(psiError);
+
+	if (message.includes("429")) {
+		return NextResponse.json(
+			{ error: "Rate limited by Google. Please try again in a moment." },
+			{ status: 429 }
+		);
+	}
+
+	const statusMatch = message.match(PAGESPEED_STATUS_RE);
+	const apiStatus = statusMatch ? Number(statusMatch[1]) : null;
+
+	if (apiStatus === 400) {
+		return NextResponse.json(
+			{
+				error:
+					"Could not analyze this URL. Make sure it's a publicly accessible website.",
+			},
+			{ status: 400 }
+		);
+	}
+
+	if (apiStatus === 403) {
+		console.error(
+			"PageSpeed API key may be invalid or the PageSpeed Insights API is not enabled in Google Cloud Console."
+		);
+		return NextResponse.json(
+			{
+				error:
+					"Analysis service is temporarily unavailable. Please try again later.",
+			},
+			{ status: 503 }
+		);
+	}
+
+	return NextResponse.json(
+		{ error: "Failed to analyze website. Please check the URL and try again." },
+		{ status: 502 }
+	);
+}
+
+function buildSecurityFlags(
+	url: string,
+	tech: { isWordPress: boolean; isPHP: boolean }
+): string[] {
+	const flags: string[] = [];
+	if (!url.startsWith("https://")) {
+		flags.push("No HTTPS encryption");
+	}
+	if (tech.isWordPress) {
+		flags.push("WordPress plugin ecosystem exposure");
+	}
+	if (tech.isPHP) {
+		flags.push("PHP server-side attack surface");
+	}
+	return flags;
+}
 
 const limiter = createRateLimiter({
 	name: "wp-health-report",
@@ -31,16 +107,16 @@ const schema = z.object({
 });
 
 interface PSIAudit {
-	title: string;
-	score: number | null;
-	displayValue?: string;
-	numericValue?: number;
-	numericUnit?: string;
 	details?: {
 		overallSavingsMs?: number;
 		overallSavingsBytes?: number;
-		items?: Array<Record<string, unknown>>;
+		items?: Record<string, unknown>[];
 	};
+	displayValue?: string;
+	numericUnit?: string;
+	numericValue?: number;
+	score: number | null;
+	title: string;
 }
 
 interface PSIResult {
@@ -53,30 +129,30 @@ interface PSIResult {
 }
 
 async function detectTechnology(
-	url: string,
+	url: string
 ): Promise<{ isWordPress: boolean; isPHP: boolean }> {
 	try {
 		const res = await fetch(url, {
 			redirect: "follow",
-			signal: AbortSignal.timeout(10000),
+			signal: AbortSignal.timeout(10_000),
 			headers: { "User-Agent": "webvise-health-report/1.0" },
 		});
 		const html = await res.text();
 		const headers = Object.fromEntries(
-			[...res.headers.entries()].map(([k, v]) => [k.toLowerCase(), v]),
+			[...res.headers.entries()].map(([k, v]) => [k.toLowerCase(), v])
 		);
 
 		const isWordPress =
-			/\/wp-content\//i.test(html) ||
-			/\/wp-includes\//i.test(html) ||
-			/name=["']generator["'][^>]*WordPress/i.test(html) ||
+			WP_CONTENT_RE.test(html) ||
+			WP_INCLUDES_RE.test(html) ||
+			WP_GENERATOR_RE.test(html) ||
 			headers["x-powered-by"]?.toLowerCase().includes("wordpress") === true ||
 			headers.link?.includes("wp-json") === true;
 
 		const isPHP =
 			isWordPress ||
 			headers["x-powered-by"]?.toLowerCase().includes("php") === true ||
-			/\.php[\s"'?]/i.test(html);
+			PHP_FILE_RE.test(html);
 
 		return { isWordPress, isPHP };
 	} catch {
@@ -86,7 +162,7 @@ async function detectTechnology(
 
 async function runPageSpeedInsights(
 	url: string,
-	strategy: "mobile" | "desktop",
+	strategy: "mobile" | "desktop"
 ): Promise<PSIResult> {
 	const apiKey = process.env.GOOGLE_PAGESPEED_API_KEY;
 	const params = new URLSearchParams({
@@ -94,10 +170,12 @@ async function runPageSpeedInsights(
 		strategy,
 		category: "performance",
 	});
-	if (apiKey) params.set("key", apiKey);
+	if (apiKey) {
+		params.set("key", apiKey);
+	}
 
 	const res = await fetch(
-		`https://www.googleapis.com/pagespeedonline/v5/runPagespeed?${params}`,
+		`https://www.googleapis.com/pagespeedonline/v5/runPagespeed?${params}`
 	);
 	if (!res.ok) {
 		const text = await res.text();
@@ -119,11 +197,13 @@ function extractCoreWebVitals(result: PSIResult) {
 	return metrics
 		.map(({ key, label }) => {
 			const audit = audits[key];
-			if (!audit) return null;
+			if (!audit) {
+				return null;
+			}
 			return {
 				label,
 				displayValue: audit.displayValue ?? "",
-				score: audit.score !== null ? Math.round(audit.score * 100) : null,
+				score: audit.score === null ? null : Math.round(audit.score * 100),
 			};
 		})
 		.filter(Boolean) as Array<{
@@ -154,12 +234,14 @@ function extractTopIssues(result: PSIResult, count = 5) {
 	return issueKeys
 		.map((id) => {
 			const audit = audits[id];
-			if (!audit) return null;
+			if (!audit) {
+				return null;
+			}
 			return { ...audit, id };
 		})
 		.filter(
 			(a): a is PSIAudit & { id: string } =>
-				!!a && a.score !== null && a.score < 0.9,
+				!!a && a.score !== null && a.score < 0.9
 		)
 		.sort((a, b) => (a.score ?? 1) - (b.score ?? 1))
 		.slice(0, count)
@@ -173,13 +255,15 @@ function extractTopIssues(result: PSIResult, count = 5) {
 }
 
 function urgencyLabel(mobileScore: number): { text: string; color: string } {
-	if (mobileScore < 40)
+	if (mobileScore < 40) {
 		return { text: "HOT LEAD - score critical", color: c.red };
-	if (mobileScore < 60)
+	}
+	if (mobileScore < 60) {
 		return {
 			text: "WARM LEAD - clear improvement opportunity",
 			color: c.yellow,
 		};
+	}
 	return { text: "COOL LEAD - already decent performance", color: c.textMuted };
 }
 
@@ -204,7 +288,7 @@ function buildAdminHtml(data: {
 	const issueRows = data.issues
 		.map(
 			(i) =>
-				`<li style="margin:0 0 4px;font-size:13px;color:${c.text}">${escapeHtml(i.title)}${i.displayValue ? ` <span style="color:${c.textMuted}">(${escapeHtml(i.displayValue)})</span>` : ""}</li>`,
+				`<li style="margin:0 0 4px;font-size:13px;color:${c.text}">${escapeHtml(i.title)}${i.displayValue ? ` <span style="color:${c.textMuted}">(${escapeHtml(i.displayValue)})</span>` : ""}</li>`
 		)
 		.join("");
 
@@ -213,7 +297,7 @@ function buildAdminHtml(data: {
 			? data.securityFlags
 					.map(
 						(f) =>
-							`<li style="margin:0 0 4px;font-size:13px;color:${c.red}">${escapeHtml(f)}</li>`,
+							`<li style="margin:0 0 4px;font-size:13px;color:${c.red}">${escapeHtml(f)}</li>`
 					)
 					.join("")
 			: `<li style="margin:0;font-size:13px;color:${c.green}">No flags detected</li>`;
@@ -222,13 +306,13 @@ function buildAdminHtml(data: {
 		tableRow("Name", firstName),
 		tableRow(
 			"Email",
-			`<a href="mailto:${email}" style="${s.link}">${email}</a>`,
+			`<a href="mailto:${email}" style="${s.link}">${email}</a>`
 		),
 		tableRow("Website", `<a href="${url}" style="${s.link}">${url}</a>`),
 		tableRow("Received", data.timestamp),
 		tableRow(
 			"Est. Value",
-			`<strong>${"€"}${data.estimateMin.toLocaleString()}${"–€"}${data.estimateMax.toLocaleString()}</strong>`,
+			`<strong>${"€"}${data.estimateMin.toLocaleString()}${"–€"}${data.estimateMax.toLocaleString()}</strong>`
 		),
 	].join("");
 
@@ -284,7 +368,7 @@ function buildProspectHtml(data: {
 	const issueRows = data.issues
 		.map(
 			(i) =>
-				`<li style="margin:0 0 6px;font-size:14px;color:${c.text}">${escapeHtml(i.title)}${i.displayValue ? ` - ${escapeHtml(i.displayValue)}` : ""}</li>`,
+				`<li style="margin:0 0 6px;font-size:14px;color:${c.text}">${escapeHtml(i.title)}${i.displayValue ? ` - ${escapeHtml(i.displayValue)}` : ""}</li>`
 		)
 		.join("");
 
@@ -338,14 +422,16 @@ function buildProspectHtml(data: {
 
 export async function POST(request: Request) {
 	const { limited, retryAfterSec } = limiter.check(getClientIP(request));
-	if (limited) return rateLimitResponse(retryAfterSec);
+	if (limited) {
+		return rateLimitResponse(retryAfterSec);
+	}
 
 	try {
 		if (!process.env.GOOGLE_PAGESPEED_API_KEY) {
 			console.error("Missing GOOGLE_PAGESPEED_API_KEY environment variable");
 			return NextResponse.json(
 				{ error: "Service temporarily unavailable. Please try again later." },
-				{ status: 503 },
+				{ status: 503 }
 			);
 		}
 
@@ -370,50 +456,7 @@ export async function POST(request: Request) {
 				runPageSpeedInsights(data.url, "desktop"),
 			]);
 		} catch (psiError) {
-			console.error("PageSpeed Insights API failed:", psiError);
-			const message =
-				psiError instanceof Error ? psiError.message : String(psiError);
-
-			if (message.includes("429")) {
-				return NextResponse.json(
-					{ error: "Rate limited by Google. Please try again in a moment." },
-					{ status: 429 },
-				);
-			}
-
-			const statusMatch = message.match(/PageSpeed API error (\d+)/);
-			const apiStatus = statusMatch ? Number(statusMatch[1]) : null;
-
-			if (apiStatus === 400) {
-				return NextResponse.json(
-					{
-						error:
-							"Could not analyze this URL. Make sure it's a publicly accessible website.",
-					},
-					{ status: 400 },
-				);
-			}
-
-			if (apiStatus === 403) {
-				console.error(
-					"PageSpeed API key may be invalid or the PageSpeed Insights API is not enabled in Google Cloud Console.",
-				);
-				return NextResponse.json(
-					{
-						error:
-							"Analysis service is temporarily unavailable. Please try again later.",
-					},
-					{ status: 503 },
-				);
-			}
-
-			return NextResponse.json(
-				{
-					error:
-						"Failed to analyze website. Please check the URL and try again.",
-				},
-				{ status: 502 },
-			);
+			return handlePSIError(psiError);
 		}
 
 		const mobileRawScore =
@@ -432,7 +475,7 @@ export async function POST(request: Request) {
 					error:
 						"Could not analyze this URL. Make sure it's a publicly accessible website.",
 				},
-				{ status: 400 },
+				{ status: 400 }
 			);
 		}
 
@@ -443,18 +486,9 @@ export async function POST(request: Request) {
 		];
 		const issues = extractTopIssues(mobile);
 		const vitals = extractCoreWebVitals(mobile);
-		const projectedScore = mobileScore < 50 ? 93 : mobileScore < 70 ? 95 : 97;
+		const projectedScore = computeProjectedScore(mobileScore);
 
-		const securityFlags: string[] = [];
-		if (!data.url.startsWith("https://")) {
-			securityFlags.push("No HTTPS encryption");
-		}
-		if (tech.isWordPress) {
-			securityFlags.push("WordPress plugin ecosystem exposure");
-		}
-		if (tech.isPHP) {
-			securityFlags.push("PHP server-side attack surface");
-		}
+		const securityFlags = buildSecurityFlags(data.url, tech);
 
 		const estimateMin = 750;
 		const estimateMax = mobileScore < 50 ? 2500 : 1500;
@@ -511,7 +545,7 @@ export async function POST(request: Request) {
 							"Issues:",
 							...issues.map(
 								(i) =>
-									`- ${i.title}${i.displayValue ? ` (${i.displayValue})` : ""}`,
+									`- ${i.title}${i.displayValue ? ` (${i.displayValue})` : ""}`
 							),
 							"",
 							`Security: ${securityFlags.length ? securityFlags.join(", ") : "None"}`,
@@ -520,8 +554,9 @@ export async function POST(request: Request) {
 							.join("\n"),
 					}),
 				}).then(async (r) => {
-					if (!r.ok)
+					if (!r.ok) {
 						console.error("Failed to send admin notification:", await r.text());
+					}
 				}),
 
 				// Prospect auto-responder
@@ -558,7 +593,7 @@ export async function POST(request: Request) {
 							"Top issues found:",
 							...issues.map(
 								(i) =>
-									`- ${i.title}${i.displayValue ? ` (${i.displayValue})` : ""}`,
+									`- ${i.title}${i.displayValue ? ` (${i.displayValue})` : ""}`
 							),
 							"",
 							`Migration estimate: €${estimateMin.toLocaleString()}–€${estimateMax.toLocaleString()}`,
@@ -570,11 +605,12 @@ export async function POST(request: Request) {
 						].join("\n"),
 					}),
 				}).then(async (r) => {
-					if (!r.ok)
+					if (!r.ok) {
 						console.error(
 							"Failed to send prospect auto-responder:",
-							await r.text(),
+							await r.text()
 						);
+					}
 				}),
 			]);
 		}
@@ -593,7 +629,7 @@ export async function POST(request: Request) {
 		if (error instanceof z.ZodError) {
 			return NextResponse.json(
 				{ error: "Invalid input", details: error.issues },
-				{ status: 400 },
+				{ status: 400 }
 			);
 		}
 		console.error("WP Health Report error:", error);
@@ -601,7 +637,7 @@ export async function POST(request: Request) {
 			{
 				error: "Failed to analyze website. Please check the URL and try again.",
 			},
-			{ status: 500 },
+			{ status: 500 }
 		);
 	}
 }

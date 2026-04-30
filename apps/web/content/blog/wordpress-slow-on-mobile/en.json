@@ -1,170 +1,170 @@
 {
-	"date": "2025-10-16",
-	"readingTime": 7,
-	"keyword": "wordpress slow on mobile",
-	"title": "Why Your WordPress Site Struggles on Mobile (And How to Fix It for Good)",
-	"excerpt": "60% of web traffic is mobile in 2026 - and Google ranks your site based on mobile performance. Here's why many WordPress sites score 35-55 on mobile PageSpeed without dedicated optimization, and what you can do about it.",
-	"tags": ["WordPress", "Performance", "Mobile"],
-	"blocks": [
-		{
-			"type": "p",
-			"text": "You may already suspect your [WordPress](/blog/wordpress-site-speed) site isn't as fast as it could be. But have you checked it on mobile?"
-		},
-		{
-			"type": "p",
-			"text": "Pull out your phone right now and load your own website. Count the seconds. Watch the layout jump around. Notice the images loading in wrong sizes. That experience is what [60%](https://www.statista.com/statistics/277125/share-of-website-traffic-of-mobile/) of your visitors see - because that's the share of web traffic that comes from mobile devices in 2026."
-		},
-		{
-			"type": "p",
-			"text": "And Google is watching too."
-		},
-		{
-			"type": "h2",
-			"text": "Mobile-First Indexing: Why Mobile Speed Carries Most of the Weight"
-		},
-		{
-			"type": "p",
-			"text": "Since 2021, Google has used mobile-first indexing for every site on the web. That means Google ranks your site based on how it performs on mobile - not desktop."
-		},
-		{
-			"type": "p",
-			"text": "Desktop performance still matters for many B2B journeys, but Google's index is mobile-first; mobile speed carries more SEO weight. If your mobile PageSpeed is 45, that's the number Google's crawler prioritises. It is a significant factor in whether you rank on page one or page three."
-		},
-		{
-			"type": "p",
-			"text": "Many WordPress sites score **35-55 on mobile PageSpeed** without dedicated performance work. That's below Google's recommended threshold - and it can become a real business problem."
-		},
-		{
-			"type": "h2",
-			"text": "Why WordPress Sites Struggle on Mobile"
-		},
-		{
-			"type": "h3",
-			"text": "Themes weren't built for mobile-first"
-		},
-		{
-			"type": "p",
-			"text": "Most WordPress themes are designed desktop-first and then \"made responsive\" with CSS media queries. The result: your phone downloads the same heavy assets as a desktop browser, then hides what it doesn't need. The data still transfers. The JavaScript still executes. You just can't see it."
-		},
-		{
-			"type": "p",
-			"text": "A truly mobile-first site sends only what the device needs. Most WordPress themes don't do this out of the box, though it's possible with careful theme selection and configuration."
-		},
-		{
-			"type": "h3",
-			"text": "Render-blocking CSS and JavaScript"
-		},
-		{
-			"type": "p",
-			"text": "The average WordPress site loads **15–25 separate CSS and JavaScript files** before anything appears on screen. Each file is a round-trip to the server. On mobile networks - even fast 4G - that can add 2–4 seconds of pure waiting before a single pixel renders."
-		},
-		{
-			"type": "p",
-			"text": "Caching plugins try to combine and minify these files. But they can't fix the fundamental problem: WordPress loads everything upfront because plugins don't coordinate with each other."
-		},
-		{
-			"type": "h3",
-			"text": "Images are the biggest offender"
-		},
-		{
-			"type": "p",
-			"text": "WordPress generates multiple image sizes, but it rarely serves the right one for the device. A 2000px hero image gets sent to a 390px phone screen. Even with lazy loading plugins, WordPress doesn't serve modern formats like WebP or AVIF by default, and it doesn't use a CDN edge node near your visitor."
-		},
-		{
-			"type": "p",
-			"text": "On mobile, images are often 60–80% of the total page weight. Get this wrong and nothing else matters."
-		},
-		{
-			"type": "h3",
-			"text": "Page builders add massive overhead"
-		},
-		{
-			"type": "p",
-			"text": "Elementor, Divi, WPBakery - these tools make WordPress easier to design with. Page builder JavaScript can add 500kb–1.5MB per page; sites with multiple page builders frequently load in 5–8 seconds on mid-range mobile devices over 4G. On desktop with a fast connection, you barely notice the difference."
-		},
-		{
-			"type": "h3",
-			"text": "Shared hosting can't handle mobile traffic spikes"
-		},
-		{
-			"type": "p",
-			"text": "Mobile users are impatient. They expect pages in under 2 seconds. Shared hosting servers that take 800ms just to respond to the initial request have already used half that budget before a single asset loads."
-		},
-		{
-			"type": "h2",
-			"text": "Real Numbers: WordPress vs Next.js on Mobile"
-		},
-		{
-			"type": "p",
-			"text": "We've migrated dozens of WordPress sites to [Next.js](/blog/wordpress-vs-nextjs-for-business-website). Here's what the mobile numbers actually look like:"
-		},
-		{
-			"type": "table",
-			"headers": [
-				"Metric",
-				"WordPress (without optimization)",
-				"Next.js on Vercel"
-			],
-			"rows": [
-				["Mobile PageSpeed", "35–55", "90–99"],
-				["First Contentful Paint", "3.0–5.5s", "0.3–0.8s"],
-				["Largest Contentful Paint", "4.0–8.0s", "0.6–1.2s"],
-				["Cumulative Layout Shift", "0.15–0.35", "0.01–0.05"],
-				["Total page weight", "2–5mb", "200–500kb"]
-			]
-		},
-		{
-			"type": "p",
-			"text": "Same content. Same branding. The difference is architecture."
-		},
-		{
-			"type": "h2",
-			"text": "What \"Mobile-First\" Architecture Actually Means"
-		},
-		{
-			"type": "p",
-			"text": "Next.js sites are built fundamentally differently:"
-		},
-		{
-			"type": "p",
-			"text": "**Static generation.** Pages are pre-built as HTML files at deploy time. When a mobile user visits, they get a static file from a CDN - no server processing, no database query, no PHP execution. Response time: ~50ms globally."
-		},
-		{
-			"type": "p",
-			"text": "**Responsive images by default.** Next.js has a built-in Image component that automatically serves the correct size, in WebP/AVIF format, lazy-loaded, from the edge. A mobile user on a 390px screen gets a 390px image. Not a 2000px image crammed into a small viewport."
-		},
-		{
-			"type": "p",
-			"text": "**Edge CDN deployment.** Vercel serves your site from 100+ global edge locations. A mobile user in Munich gets your page from Frankfurt, not from a shared server in Dallas. The physical distance alone can save 200–400ms."
-		},
-		{
-			"type": "p",
-			"text": "**Minimal JavaScript.** No jQuery. No plugin chain. No page builder runtime. A typical Next.js business site ships 50–100kb of JavaScript total - considerably less than typical WordPress builds (often 50–100kb total versus 500kb–1.5MB)."
-		},
-		{
-			"type": "h2",
-			"text": "What You Can Do About It"
-		},
-		{
-			"type": "p",
-			"text": "**Check your mobile score first.** If you don't know your current mobile PageSpeed score, you're flying blind. Get a free WordPress Health Report at [webvise.io/wp-health-report](/wp-health-report) - it shows your real mobile score, security flags, and what your site would score after a rebuild."
-		},
-		{
-			"type": "p",
-			"text": "**Consider whether further WordPress optimization will get you where you need to be.** If your mobile score is below 60, it can be very difficult to reach 90+ through plugins alone. You may spend money on caching plugins, image optimisers, and CDN subscriptions - and still plateau in the 60s. At some point, the architecture becomes the limiting factor."
-		},
-		{
-			"type": "p",
-			"text": "**Consider a rebuild.** A WordPress-to-Next.js [migration](/blog/should-i-migrate-wordpress-to-nextjs) takes 1–2 weeks, costs €1,500–€4,000, and addresses the architectural causes of mobile speed problems. Sites typically score 90+ on mobile at launch when correctly built. No plugin maintenance pipeline; performance does not drift from plugin or theme updates, though framework and dependency updates remain."
-		},
-		{
-			"type": "p",
-			"text": "Mobile visitors and Google's mobile crawler see the difference."
-		},
-		{
-			"type": "p",
-			"text": "Ready to see what your site scores on mobile? Get your free WordPress Health Report at [webvise.io/wp-health-report](/wp-health-report) - it takes 60 seconds. No signup required."
-		}
-	],
-	"metaDescription": "WordPress sites score 35–55 on mobile PageSpeed. 60% of traffic is mobile. See why page builders, unoptimized images, and plugin bloat cause the problem - and the fix."
+  "date": "2025-10-16",
+  "readingTime": 7,
+  "keyword": "wordpress slow on mobile",
+  "title": "Why Your WordPress Site Struggles on Mobile (And How to Fix It for Good)",
+  "excerpt": "60% of web traffic is mobile in 2026 - and Google ranks your site based on mobile performance. Here's why many WordPress sites score 35-55 on mobile PageSpeed without dedicated optimization, and what you can do about it.",
+  "tags": ["WordPress", "Performance", "Mobile"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "You may already suspect your [WordPress](/blog/wordpress-site-speed) site isn't as fast as it could be. But have you checked it on mobile?"
+    },
+    {
+      "type": "p",
+      "text": "Pull out your phone right now and load your own website. Count the seconds. Watch the layout jump around. Notice the images loading in wrong sizes. That experience is what [60%](https://www.statista.com/statistics/277125/share-of-website-traffic-of-mobile/) of your visitors see - because that's the share of web traffic that comes from mobile devices in 2026."
+    },
+    {
+      "type": "p",
+      "text": "And Google is watching too."
+    },
+    {
+      "type": "h2",
+      "text": "Mobile-First Indexing: Why Mobile Speed Carries Most of the Weight"
+    },
+    {
+      "type": "p",
+      "text": "Since 2021, Google has used mobile-first indexing for every site on the web. That means Google ranks your site based on how it performs on mobile - not desktop."
+    },
+    {
+      "type": "p",
+      "text": "Desktop performance still matters for many B2B journeys, but Google's index is mobile-first; mobile speed carries more SEO weight. If your mobile PageSpeed is 45, that's the number Google's crawler prioritises. It is a significant factor in whether you rank on page one or page three."
+    },
+    {
+      "type": "p",
+      "text": "Many WordPress sites score **35-55 on mobile PageSpeed** without dedicated performance work. That's below Google's recommended threshold - and it can become a real business problem."
+    },
+    {
+      "type": "h2",
+      "text": "Why WordPress Sites Struggle on Mobile"
+    },
+    {
+      "type": "h3",
+      "text": "Themes weren't built for mobile-first"
+    },
+    {
+      "type": "p",
+      "text": "Most WordPress themes are designed desktop-first and then \"made responsive\" with CSS media queries. The result: your phone downloads the same heavy assets as a desktop browser, then hides what it doesn't need. The data still transfers. The JavaScript still executes. You just can't see it."
+    },
+    {
+      "type": "p",
+      "text": "A truly mobile-first site sends only what the device needs. Most WordPress themes don't do this out of the box, though it's possible with careful theme selection and configuration."
+    },
+    {
+      "type": "h3",
+      "text": "Render-blocking CSS and JavaScript"
+    },
+    {
+      "type": "p",
+      "text": "The average WordPress site loads **15–25 separate CSS and JavaScript files** before anything appears on screen. Each file is a round-trip to the server. On mobile networks - even fast 4G - that can add 2–4 seconds of pure waiting before a single pixel renders."
+    },
+    {
+      "type": "p",
+      "text": "Caching plugins try to combine and minify these files. But they can't fix the fundamental problem: WordPress loads everything upfront because plugins don't coordinate with each other."
+    },
+    {
+      "type": "h3",
+      "text": "Images are the biggest offender"
+    },
+    {
+      "type": "p",
+      "text": "WordPress generates multiple image sizes, but it rarely serves the right one for the device. A 2000px hero image gets sent to a 390px phone screen. Even with lazy loading plugins, WordPress doesn't serve modern formats like WebP or AVIF by default, and it doesn't use a CDN edge node near your visitor."
+    },
+    {
+      "type": "p",
+      "text": "On mobile, images are often 60–80% of the total page weight. Get this wrong and nothing else matters."
+    },
+    {
+      "type": "h3",
+      "text": "Page builders add massive overhead"
+    },
+    {
+      "type": "p",
+      "text": "Elementor, Divi, WPBakery - these tools make WordPress easier to design with. Page builder JavaScript can add 500kb–1.5MB per page; sites with multiple page builders frequently load in 5–8 seconds on mid-range mobile devices over 4G. On desktop with a fast connection, you barely notice the difference."
+    },
+    {
+      "type": "h3",
+      "text": "Shared hosting can't handle mobile traffic spikes"
+    },
+    {
+      "type": "p",
+      "text": "Mobile users are impatient. They expect pages in under 2 seconds. Shared hosting servers that take 800ms just to respond to the initial request have already used half that budget before a single asset loads."
+    },
+    {
+      "type": "h2",
+      "text": "Real Numbers: WordPress vs Next.js on Mobile"
+    },
+    {
+      "type": "p",
+      "text": "We've migrated dozens of WordPress sites to [Next.js](/blog/wordpress-vs-nextjs-for-business-website). Here's what the mobile numbers actually look like:"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Metric",
+        "WordPress (without optimization)",
+        "Next.js on Vercel"
+      ],
+      "rows": [
+        ["Mobile PageSpeed", "35–55", "90–99"],
+        ["First Contentful Paint", "3.0–5.5s", "0.3–0.8s"],
+        ["Largest Contentful Paint", "4.0–8.0s", "0.6–1.2s"],
+        ["Cumulative Layout Shift", "0.15–0.35", "0.01–0.05"],
+        ["Total page weight", "2–5mb", "200–500kb"]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Same content. Same branding. The difference is architecture."
+    },
+    {
+      "type": "h2",
+      "text": "What \"Mobile-First\" Architecture Actually Means"
+    },
+    {
+      "type": "p",
+      "text": "Next.js sites are built fundamentally differently:"
+    },
+    {
+      "type": "p",
+      "text": "**Static generation.** Pages are pre-built as HTML files at deploy time. When a mobile user visits, they get a static file from a CDN - no server processing, no database query, no PHP execution. Response time: ~50ms globally."
+    },
+    {
+      "type": "p",
+      "text": "**Responsive images by default.** Next.js has a built-in Image component that automatically serves the correct size, in WebP/AVIF format, lazy-loaded, from the edge. A mobile user on a 390px screen gets a 390px image. Not a 2000px image crammed into a small viewport."
+    },
+    {
+      "type": "p",
+      "text": "**Edge CDN deployment.** Vercel serves your site from 100+ global edge locations. A mobile user in Munich gets your page from Frankfurt, not from a shared server in Dallas. The physical distance alone can save 200–400ms."
+    },
+    {
+      "type": "p",
+      "text": "**Minimal JavaScript.** No jQuery. No plugin chain. No page builder runtime. A typical Next.js business site ships 50–100kb of JavaScript total - considerably less than typical WordPress builds (often 50–100kb total versus 500kb–1.5MB)."
+    },
+    {
+      "type": "h2",
+      "text": "What You Can Do About It"
+    },
+    {
+      "type": "p",
+      "text": "**Check your mobile score first.** If you don't know your current mobile PageSpeed score, you're flying blind. Get a free WordPress Health Report at [webvise.io/wp-health-report](/wp-health-report) - it shows your real mobile score, security flags, and what your site would score after a rebuild."
+    },
+    {
+      "type": "p",
+      "text": "**Consider whether further WordPress optimization will get you where you need to be.** If your mobile score is below 60, it can be very difficult to reach 90+ through plugins alone. You may spend money on caching plugins, image optimisers, and CDN subscriptions - and still plateau in the 60s. At some point, the architecture becomes the limiting factor."
+    },
+    {
+      "type": "p",
+      "text": "**Consider a rebuild.** A WordPress-to-Next.js [migration](/blog/should-i-migrate-wordpress-to-nextjs) takes 1–2 weeks, costs €1,500–€4,000, and addresses the architectural causes of mobile speed problems. Sites typically score 90+ on mobile at launch when correctly built. No plugin maintenance pipeline; performance does not drift from plugin or theme updates, though framework and dependency updates remain."
+    },
+    {
+      "type": "p",
+      "text": "Mobile visitors and Google's mobile crawler see the difference."
+    },
+    {
+      "type": "p",
+      "text": "Ready to see what your site scores on mobile? Get your free WordPress Health Report at [webvise.io/wp-health-report](/wp-health-report) - it takes 60 seconds. No signup required."
+    }
+  ],
+  "metaDescription": "WordPress sites score 35–55 on mobile PageSpeed. 60% of traffic is mobile. See why page builders, unoptimized images, and plugin bloat cause the problem - and the fix."
 }

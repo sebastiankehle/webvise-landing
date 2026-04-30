@@ -1,195 +1,195 @@
 {
-	"title": "Migrare da Webflow a Next.js: una guida pratica",
-	"excerpt": "Stai pensando di lasciare Webflow? Ecco cosa comporta realmente la migrazione a Next.js - il processo, la tempistica e cosa cambia per il tuo team.",
-	"tags": ["Webflow", "Migration", "Next.js"],
-	"blocks": [
-		{
-			"type": "p",
-			"text": "Hai costruito il tuo sito su [Webflow](/blog/webflow-limitations-growing-business). All'inizio funzionava benissimo. Ma ora stai raggiungendo dei limiti - vincoli del CMS, problemi di prestazioni, funzionalita mancanti che richiedono soluzioni improvvisate. Stai considerando Next.js."
-		},
-		{
-			"type": "p",
-			"text": "Migrare da Webflow a Next.js è un percorso ben consolidato quando viene pianificato correttamente. La complessità sta nei dettagli: non è un semplice esporta/importa. Ecco come si presenta realmente il processo."
-		},
-		{
-			"type": "h2",
-			"text": "Quando la migrazione ha senso"
-		},
-		{
-			"type": "p",
-			"text": "Non ogni sito Webflow deve migrare. Una semplice pagina di marketing che un designer aggiorna mensilmente va benissimo su Webflow. La migrazione ha senso quando:"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"Le tue esigenze CMS superano il limite di 10.000 elementi di Webflow o il suo rigido modello dati",
-				"Hai bisogno di vero i18n - non la localizzazione limitata di Webflow",
-				"Funzionalita personalizzate (auth, dashboard, API) richiedono piu dei blocchi embed",
-				"I punteggi PageSpeed mobile contano per la SEO e non riesci a superare 70",
-				"I tuoi costi mensili Webflow + strumenti di terze parti superano l'investimento per la migrazione"
-			]
-		},
-		{
-			"type": "h2",
-			"text": "Da cosa e verso cosa stai migrando"
-		},
-		{
-			"type": "table",
-			"headers": ["Aspetto", "Webflow", "Next.js"],
-			"rows": [
-				["Hosting", "Server Webflow", "Vercel / AWS / qualsiasi CDN"],
-				["CMS", "Integrato (limitato)", "Headless CMS, MDX o basato su file"],
-				[
-					"Styling",
-					"Visual builder",
-					"Tailwind, CSS Modules o qualsiasi approccio CSS"
-				],
-				[
-					"Moduli",
-					"Webflow Forms (limitati)",
-					"Moduli personalizzati con qualsiasi backend"
-				],
-				[
-					"Animazioni",
-					"Webflow Interactions",
-					"Framer Motion, GSAP, animazioni CSS"
-				],
-				[
-					"Logica personalizzata",
-					"Blocchi embed + strumenti di terze parti",
-					"Codice nativo - nessun limite"
-				]
-			]
-		},
-		{
-			"type": "h2",
-			"text": "Il processo di migrazione"
-		},
-		{
-			"type": "h3",
-			"text": "Fase 1: Audit dei contenuti (1-2 giorni)"
-		},
-		{
-			"type": "p",
-			"text": "Esporta i dati del CMS Webflow come CSV. Fai l'inventario di ogni pagina, collezione e asset. Identifica quali contenuti restano, cosa viene ristrutturato e cosa viene eliminato. Questo e anche il momento per fare pulizia - la maggior parte dei siti ha pagine che non servono piu a nessuno scopo."
-		},
-		{
-			"type": "h3",
-			"text": "Fase 2: Traduzione del design (2-5 giorni)"
-		},
-		{
-			"type": "p",
-			"text": "Il tuo design esistente non deve cambiare. L'output visivo resta lo stesso - e la tecnologia sottostante che cambia. Uno sviluppatore traduce i tuoi componenti Webflow in componenti React. Le animazioni vengono ricostruite con Framer Motion o CSS."
-		},
-		{
-			"type": "p",
-			"text": "Questa e anche l'opportunita per risolvere problemi di design con cui convivevi. Breakpoint responsive che non funzionano del tutto, layout shift su mobile, spaziature incoerenti - tutto questo viene risolto durante la traduzione."
-		},
-		{
-			"type": "h3",
-			"text": "Fase 3: Configurazione CMS (1-3 giorni)"
-		},
-		{
-			"type": "p",
-			"text": "I tuoi contenuti hanno bisogno di una nuova casa. Le opzioni includono un [headless](/blog/headless-cms-explained) CMS come Sanity o Contentful, file Markdown/MDX nel repository, o una struttura di contenuti personalizzata. La scelta dipende da chi deve modificare i contenuti e con quale frequenza."
-		},
-		{
-			"type": "p",
-			"text": "Per la maggior parte dei siti aziendali, i contenuti basati su file con un servizio di editing gestito sono l'approccio piu semplice e conveniente."
-		},
-		{
-			"type": "h3",
-			"text": "Fase 4: Costruzione e test (3-7 giorni)"
-		},
-		{
-			"type": "p",
-			"text": "Il sito Next.js viene costruito, testato su diversi dispositivi e ottimizzato per le prestazioni. Ogni pagina viene confrontata con la versione Webflow per assicurarsi che non manchi nulla. Moduli, integrazioni e script di tracciamento vengono tutti ricollegati."
-		},
-		{
-			"type": "h3",
-			"text": "Fase 5: Migrazione SEO (1 giorno)"
-		},
-		{
-			"type": "p",
-			"text": "Questo e il passaggio che preoccupa di piu. La chiave e la **parita degli URL**. Ogni URL esistente rimane lo stesso o riceve un redirect [301](https://developers.google.com/search/docs/crawling-indexing/site-move-with-url-changes) corretto. Metadati, tag Open Graph e dati strutturati vengono tutti trasferiti. Se eseguita correttamente, la perdita di posizionamento è in genere minima e di breve durata; alcuni siti registrano miglioramenti nell'arco di settimane, favoriti dai guadagni in termini di prestazioni."
-		},
-		{
-			"type": "h3",
-			"text": "Fase 6: Lancio e monitoraggio (1 giorno)"
-		},
-		{
-			"type": "p",
-			"text": "Cambio DNS, verifica SSL, test finali e monitoraggio. Il passaggio richiede in genere meno di un'ora per i siti orientati ai contenuti senza integrazioni complesse. Monitoriamo attentamente Search Console e analytics per le prime due settimane per individuare eventuali problemi in anticipo."
-		},
-		{
-			"type": "h2",
-			"text": "Tempistiche e costi"
-		},
-		{
-			"type": "p",
-			"text": "Una tipica migrazione da Webflow a Next.js richiede **2-4 settimane** dall'inizio al lancio. Siti semplici (meno di 20 pagine, CMS minimo) possono essere piu veloci. Siti complessi con uso intensivo del CMS, molteplici integrazioni o funzionalita personalizzate richiedono piu tempo."
-		},
-		{
-			"type": "table",
-			"headers": ["Complessita del sito", "Tempistica", "Investimento tipico"],
-			"rows": [
-				[
-					"Semplice (5-15 pagine, nessun CMS)",
-					"1-2 settimane",
-					"$2.000-$4.000"
-				],
-				[
-					"Medio (15-50 pagine, collezioni CMS)",
-					"2-3 settimane",
-					"$4.000-$8.000"
-				],
-				[
-					"Complesso (50+ pagine, integrazioni, i18n)",
-					"3-5 settimane",
-					"$8.000-$15.000"
-				]
-			]
-		},
-		{
-			"type": "h2",
-			"text": "Cosa cambia per il tuo team"
-		},
-		{
-			"type": "p",
-			"text": "Il cambiamento piu grande riguarda la modifica dei contenuti. L'editor visivo di Webflow non c'e piu. A seconda della configurazione, le modifiche ai contenuti avvengono tramite una dashboard headless CMS o tramite un servizio di editing gestito dove invii le modifiche via email e vengono pubblicate entro 24-48 ore."
-		},
-		{
-			"type": "p",
-			"text": "Tutto il resto migliora. Il sito e piu veloce, piu sicuro e meno costoso da ospitare. Le nuove funzionalita vengono costruite come codice anziche assemblate con blocchi embed e strumenti di terze parti."
-		},
-		{
-			"type": "h2",
-			"text": "Preoccupazioni comuni"
-		},
-		{
-			"type": "p",
-			"text": "**\"Perdero i miei posizionamenti** [SEO](/blog/will-i-lose-seo-rankings-rebuild)?\" Non se la migrazione gestisce correttamente i redirect URL e i metadati. Abbiamo scritto un articolo dettagliato su questo - la risposta breve e che le migrazioni corrette preservano i posizionamenti e spesso li migliorano."
-		},
-		{
-			"type": "p",
-			"text": "**\"Posso ancora aggiornare i contenuti da solo?\"** Si, tramite un headless CMS o editing gestito. Il drag-and-drop visivo non c'e piu, ma la possibilita di modificare testo, immagini e pagine rimane."
-		},
-		{
-			"type": "p",
-			"text": "**\"E le mie animazioni Webflow?\"** Vengono ricostruite. Framer Motion e GSAP possono replicare qualsiasi cosa facciano le Webflow Interactions - e anche di piu. Le animazioni spesso funzionano meglio perche sono ottimizzate per l'implementazione specifica."
-		},
-		{
-			"type": "h2",
-			"text": "Il quadro decisionale"
-		},
-		{
-			"type": "p",
-			"text": "Calcola i tuoi costi attuali di Webflow: piano hosting, postazioni workspace, eccedenze nell'invio moduli, strumenti di terze parti e tempo dello sviluppatore per le soluzioni alternative. Confrontali con il costo di migrazione una tantum piu l'hosting minimo in corso."
-		},
-		{
-			"type": "p",
-			"text": "Molte aziende recuperano il costo della migrazione entro 6–12 mesi grazie alla riduzione delle tariffe di piattaforma e ai guadagni di conversione; il tempo di recupero dipende dal volume di traffico e dai costi precedenti. Dopo di che, i risparmi si accumulano mentre le capacità del sito si espandono."
-		}
-	],
-	"metaDescription": "Migrare da Webflow a Next.js: guida pratica con tempistica (2–4 settimane), costi ($2K–$15K), preservazione SEO e break-even in 6–12 mesi."
+  "title": "Migrare da Webflow a Next.js: una guida pratica",
+  "excerpt": "Stai pensando di lasciare Webflow? Ecco cosa comporta realmente la migrazione a Next.js - il processo, la tempistica e cosa cambia per il tuo team.",
+  "tags": ["Webflow", "Migration", "Next.js"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Hai costruito il tuo sito su [Webflow](/blog/webflow-limitations-growing-business). All'inizio funzionava benissimo. Ma ora stai raggiungendo dei limiti - vincoli del CMS, problemi di prestazioni, funzionalita mancanti che richiedono soluzioni improvvisate. Stai considerando Next.js."
+    },
+    {
+      "type": "p",
+      "text": "Migrare da Webflow a Next.js è un percorso ben consolidato quando viene pianificato correttamente. La complessità sta nei dettagli: non è un semplice esporta/importa. Ecco come si presenta realmente il processo."
+    },
+    {
+      "type": "h2",
+      "text": "Quando la migrazione ha senso"
+    },
+    {
+      "type": "p",
+      "text": "Non ogni sito Webflow deve migrare. Una semplice pagina di marketing che un designer aggiorna mensilmente va benissimo su Webflow. La migrazione ha senso quando:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "Le tue esigenze CMS superano il limite di 10.000 elementi di Webflow o il suo rigido modello dati",
+        "Hai bisogno di vero i18n - non la localizzazione limitata di Webflow",
+        "Funzionalita personalizzate (auth, dashboard, API) richiedono piu dei blocchi embed",
+        "I punteggi PageSpeed mobile contano per la SEO e non riesci a superare 70",
+        "I tuoi costi mensili Webflow + strumenti di terze parti superano l'investimento per la migrazione"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Da cosa e verso cosa stai migrando"
+    },
+    {
+      "type": "table",
+      "headers": ["Aspetto", "Webflow", "Next.js"],
+      "rows": [
+        ["Hosting", "Server Webflow", "Vercel / AWS / qualsiasi CDN"],
+        ["CMS", "Integrato (limitato)", "Headless CMS, MDX o basato su file"],
+        [
+          "Styling",
+          "Visual builder",
+          "Tailwind, CSS Modules o qualsiasi approccio CSS"
+        ],
+        [
+          "Moduli",
+          "Webflow Forms (limitati)",
+          "Moduli personalizzati con qualsiasi backend"
+        ],
+        [
+          "Animazioni",
+          "Webflow Interactions",
+          "Framer Motion, GSAP, animazioni CSS"
+        ],
+        [
+          "Logica personalizzata",
+          "Blocchi embed + strumenti di terze parti",
+          "Codice nativo - nessun limite"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Il processo di migrazione"
+    },
+    {
+      "type": "h3",
+      "text": "Fase 1: Audit dei contenuti (1-2 giorni)"
+    },
+    {
+      "type": "p",
+      "text": "Esporta i dati del CMS Webflow come CSV. Fai l'inventario di ogni pagina, collezione e asset. Identifica quali contenuti restano, cosa viene ristrutturato e cosa viene eliminato. Questo e anche il momento per fare pulizia - la maggior parte dei siti ha pagine che non servono piu a nessuno scopo."
+    },
+    {
+      "type": "h3",
+      "text": "Fase 2: Traduzione del design (2-5 giorni)"
+    },
+    {
+      "type": "p",
+      "text": "Il tuo design esistente non deve cambiare. L'output visivo resta lo stesso - e la tecnologia sottostante che cambia. Uno sviluppatore traduce i tuoi componenti Webflow in componenti React. Le animazioni vengono ricostruite con Framer Motion o CSS."
+    },
+    {
+      "type": "p",
+      "text": "Questa e anche l'opportunita per risolvere problemi di design con cui convivevi. Breakpoint responsive che non funzionano del tutto, layout shift su mobile, spaziature incoerenti - tutto questo viene risolto durante la traduzione."
+    },
+    {
+      "type": "h3",
+      "text": "Fase 3: Configurazione CMS (1-3 giorni)"
+    },
+    {
+      "type": "p",
+      "text": "I tuoi contenuti hanno bisogno di una nuova casa. Le opzioni includono un [headless](/blog/headless-cms-explained) CMS come Sanity o Contentful, file Markdown/MDX nel repository, o una struttura di contenuti personalizzata. La scelta dipende da chi deve modificare i contenuti e con quale frequenza."
+    },
+    {
+      "type": "p",
+      "text": "Per la maggior parte dei siti aziendali, i contenuti basati su file con un servizio di editing gestito sono l'approccio piu semplice e conveniente."
+    },
+    {
+      "type": "h3",
+      "text": "Fase 4: Costruzione e test (3-7 giorni)"
+    },
+    {
+      "type": "p",
+      "text": "Il sito Next.js viene costruito, testato su diversi dispositivi e ottimizzato per le prestazioni. Ogni pagina viene confrontata con la versione Webflow per assicurarsi che non manchi nulla. Moduli, integrazioni e script di tracciamento vengono tutti ricollegati."
+    },
+    {
+      "type": "h3",
+      "text": "Fase 5: Migrazione SEO (1 giorno)"
+    },
+    {
+      "type": "p",
+      "text": "Questo e il passaggio che preoccupa di piu. La chiave e la **parita degli URL**. Ogni URL esistente rimane lo stesso o riceve un redirect [301](https://developers.google.com/search/docs/crawling-indexing/site-move-with-url-changes) corretto. Metadati, tag Open Graph e dati strutturati vengono tutti trasferiti. Se eseguita correttamente, la perdita di posizionamento è in genere minima e di breve durata; alcuni siti registrano miglioramenti nell'arco di settimane, favoriti dai guadagni in termini di prestazioni."
+    },
+    {
+      "type": "h3",
+      "text": "Fase 6: Lancio e monitoraggio (1 giorno)"
+    },
+    {
+      "type": "p",
+      "text": "Cambio DNS, verifica SSL, test finali e monitoraggio. Il passaggio richiede in genere meno di un'ora per i siti orientati ai contenuti senza integrazioni complesse. Monitoriamo attentamente Search Console e analytics per le prime due settimane per individuare eventuali problemi in anticipo."
+    },
+    {
+      "type": "h2",
+      "text": "Tempistiche e costi"
+    },
+    {
+      "type": "p",
+      "text": "Una tipica migrazione da Webflow a Next.js richiede **2-4 settimane** dall'inizio al lancio. Siti semplici (meno di 20 pagine, CMS minimo) possono essere piu veloci. Siti complessi con uso intensivo del CMS, molteplici integrazioni o funzionalita personalizzate richiedono piu tempo."
+    },
+    {
+      "type": "table",
+      "headers": ["Complessita del sito", "Tempistica", "Investimento tipico"],
+      "rows": [
+        [
+          "Semplice (5-15 pagine, nessun CMS)",
+          "1-2 settimane",
+          "$2.000-$4.000"
+        ],
+        [
+          "Medio (15-50 pagine, collezioni CMS)",
+          "2-3 settimane",
+          "$4.000-$8.000"
+        ],
+        [
+          "Complesso (50+ pagine, integrazioni, i18n)",
+          "3-5 settimane",
+          "$8.000-$15.000"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Cosa cambia per il tuo team"
+    },
+    {
+      "type": "p",
+      "text": "Il cambiamento piu grande riguarda la modifica dei contenuti. L'editor visivo di Webflow non c'e piu. A seconda della configurazione, le modifiche ai contenuti avvengono tramite una dashboard headless CMS o tramite un servizio di editing gestito dove invii le modifiche via email e vengono pubblicate entro 24-48 ore."
+    },
+    {
+      "type": "p",
+      "text": "Tutto il resto migliora. Il sito e piu veloce, piu sicuro e meno costoso da ospitare. Le nuove funzionalita vengono costruite come codice anziche assemblate con blocchi embed e strumenti di terze parti."
+    },
+    {
+      "type": "h2",
+      "text": "Preoccupazioni comuni"
+    },
+    {
+      "type": "p",
+      "text": "**\"Perdero i miei posizionamenti** [SEO](/blog/will-i-lose-seo-rankings-rebuild)?\" Non se la migrazione gestisce correttamente i redirect URL e i metadati. Abbiamo scritto un articolo dettagliato su questo - la risposta breve e che le migrazioni corrette preservano i posizionamenti e spesso li migliorano."
+    },
+    {
+      "type": "p",
+      "text": "**\"Posso ancora aggiornare i contenuti da solo?\"** Si, tramite un headless CMS o editing gestito. Il drag-and-drop visivo non c'e piu, ma la possibilita di modificare testo, immagini e pagine rimane."
+    },
+    {
+      "type": "p",
+      "text": "**\"E le mie animazioni Webflow?\"** Vengono ricostruite. Framer Motion e GSAP possono replicare qualsiasi cosa facciano le Webflow Interactions - e anche di piu. Le animazioni spesso funzionano meglio perche sono ottimizzate per l'implementazione specifica."
+    },
+    {
+      "type": "h2",
+      "text": "Il quadro decisionale"
+    },
+    {
+      "type": "p",
+      "text": "Calcola i tuoi costi attuali di Webflow: piano hosting, postazioni workspace, eccedenze nell'invio moduli, strumenti di terze parti e tempo dello sviluppatore per le soluzioni alternative. Confrontali con il costo di migrazione una tantum piu l'hosting minimo in corso."
+    },
+    {
+      "type": "p",
+      "text": "Molte aziende recuperano il costo della migrazione entro 6–12 mesi grazie alla riduzione delle tariffe di piattaforma e ai guadagni di conversione; il tempo di recupero dipende dal volume di traffico e dai costi precedenti. Dopo di che, i risparmi si accumulano mentre le capacità del sito si espandono."
+    }
+  ],
+  "metaDescription": "Migrare da Webflow a Next.js: guida pratica con tempistica (2–4 settimane), costi ($2K–$15K), preservazione SEO e break-even in 6–12 mesi."
 }

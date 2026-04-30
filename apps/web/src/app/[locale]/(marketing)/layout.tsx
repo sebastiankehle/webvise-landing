@@ -43,16 +43,16 @@ export default async function MarketingLayout({
 	return (
 		<>
 			<a
-				href="#main-content"
 				className="sr-only fixed top-4 left-4 z-100 border border-border bg-background px-4 py-2 font-medium text-sm focus:not-sr-only focus:outline-none focus:ring-2 focus:ring-ring"
+				href="#main-content"
 			>
 				Skip to content
 			</a>
 			<Navbar
-				recentPosts={recentPosts}
 				featuredCaseStudies={featuredCaseStudies}
+				recentPosts={recentPosts}
 			/>
-			<main id="main-content" className="border-x border-grid-line">
+			<main className="border-grid-line border-x" id="main-content">
 				{children}
 			</main>
 			<Footer ctaBanner={cta} />

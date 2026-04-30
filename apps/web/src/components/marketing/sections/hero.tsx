@@ -12,22 +12,22 @@ export default async function Hero() {
 	const t = await getTranslations("hero");
 
 	return (
-		<section id="hero" className="relative overflow-hidden py-48 md:py-52">
+		<section className="relative overflow-hidden py-48 md:py-52" id="hero">
 			{/* Continuous vertical connectors */}
 			<div
-				className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block"
 				aria-hidden="true"
+				className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block"
 			>
 				<div className="h-full border-grid-line border-x" />
 			</div>
 			{/* Side gutter hatch */}
 			<div
-				className="grid-hatch pointer-events-none absolute inset-y-0 left-0 hidden md:block md:w-[calc((100%-1320px)/2)]"
 				aria-hidden="true"
+				className="grid-hatch pointer-events-none absolute inset-y-0 left-0 hidden md:block md:w-[calc((100%-1320px)/2)]"
 			/>
 			<div
-				className="grid-hatch pointer-events-none absolute inset-y-0 right-0 hidden md:block md:w-[calc((100%-1320px)/2)]"
 				aria-hidden="true"
+				className="grid-hatch pointer-events-none absolute inset-y-0 right-0 hidden md:block md:w-[calc((100%-1320px)/2)]"
 			/>
 			<GridFrame className="inset-0" />
 			{/* Mobile: subtle cloud in top-right, partially off-screen as depth layer */}
@@ -67,9 +67,9 @@ export default async function Hero() {
 									}}
 								>
 									<Button
-										size="lg"
 										className="border-transparent bg-brand px-8 text-white [&]:hover:bg-brand/80"
 										render={<Link href={{ pathname: "/", hash: "contact" }} />}
+										size="lg"
 									>
 										{t("cta")}
 									</Button>
@@ -83,10 +83,10 @@ export default async function Hero() {
 									}}
 								>
 									<Button
-										size="lg"
-										variant="ghost"
 										className="hidden text-muted-foreground sm:inline-flex"
 										render={<Link href={{ pathname: "/", hash: "services" }} />}
+										size="lg"
+										variant="ghost"
 									>
 										{t("ctaSecondary")}
 									</Button>

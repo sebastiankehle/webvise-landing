@@ -38,7 +38,7 @@ export default function SignInForm({
 					onError: (error) => {
 						toast.error(error.error.message || error.error.statusText);
 					},
-				},
+				}
 			);
 		},
 		validators: {
@@ -58,12 +58,12 @@ export default function SignInForm({
 			<H1 className="mb-6 text-center text-3xl md:text-3xl">Welcome Back</H1>
 
 			<form
+				className="space-y-4"
 				onSubmit={(e) => {
 					e.preventDefault();
 					e.stopPropagation();
 					form.handleSubmit();
 				}}
-				className="space-y-4"
 			>
 				<form.Field name="email">
 					{(field) => (
@@ -72,10 +72,10 @@ export default function SignInForm({
 							<Input
 								id={field.name}
 								name={field.name}
-								type="email"
-								value={field.state.value}
 								onBlur={field.handleBlur}
 								onChange={(e) => field.handleChange(e.target.value)}
+								type="email"
+								value={field.state.value}
 							/>
 							<FormMessage errors={field.state.meta.errors} />
 						</FormItem>
@@ -89,10 +89,10 @@ export default function SignInForm({
 							<Input
 								id={field.name}
 								name={field.name}
-								type="password"
-								value={field.state.value}
 								onBlur={field.handleBlur}
 								onChange={(e) => field.handleChange(e.target.value)}
+								type="password"
+								value={field.state.value}
 							/>
 							<FormMessage errors={field.state.meta.errors} />
 						</FormItem>
@@ -104,9 +104,9 @@ export default function SignInForm({
 				>
 					{([canSubmit, isSubmitting]) => (
 						<SubmitButton
-							isSubmitting={isSubmitting}
-							disabled={!canSubmit}
 							className="w-full"
+							disabled={!canSubmit}
+							isSubmitting={isSubmitting}
 						>
 							Sign In
 						</SubmitButton>
@@ -116,9 +116,9 @@ export default function SignInForm({
 
 			<div className="mt-4 text-center">
 				<Button
-					variant="link"
-					onClick={onSwitchToSignUp}
 					className="text-indigo-600 hover:text-indigo-800"
+					onClick={onSwitchToSignUp}
+					variant="link"
 				>
 					Need an account? Sign Up
 				</Button>

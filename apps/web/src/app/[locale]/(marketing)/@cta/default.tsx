@@ -7,9 +7,9 @@ export default async function DefaultCta() {
 
 	return (
 		<FooterCtaBanner
+			buttonText={t("ctaButton")}
 			headline={t("ctaHeadline")}
 			subtext={t("ctaSubtext")}
-			buttonText={t("ctaButton")}
 		/>
 	);
 }

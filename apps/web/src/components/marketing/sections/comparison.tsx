@@ -23,7 +23,7 @@ export default async function Comparison() {
 	const t = await getTranslations("comparison");
 
 	return (
-		<SectionWrapper id="comparison" alternate>
+		<SectionWrapper alternate id="comparison">
 			<div className="max-w-[640px]">
 				<H2 className="text-balance">
 					{t.rich("title", {
@@ -35,10 +35,10 @@ export default async function Comparison() {
 			<StaggerChildren className="-mx-6 mt-16 grid items-stretch border-grid-line border-t md:grid-cols-3">
 				{options.map(({ key, highlight }) => (
 					<div
-						key={key}
 						className={`relative flex flex-col border-grid-line border-b p-6 md:border-r md:p-8 md:[&:nth-child(3n)]:border-r-0 ${
 							highlight ? "bg-muted/30" : ""
 						}`}
+						key={key}
 					>
 						{highlight && (
 							<span
@@ -58,8 +58,8 @@ export default async function Comparison() {
 						<ul className="mt-8 space-y-4">
 							{attrKeys.map((attr) => (
 								<li
-									key={attr}
 									className="border-grid-line border-b pb-4 last:border-b-0 last:pb-0"
+									key={attr}
 								>
 									<Caption>{t(`attrs.${attr}`)}</Caption>
 									<p

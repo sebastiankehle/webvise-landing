@@ -7,68 +7,225 @@
   "metaDescription": "I suoi agenti non hanno bisogno di memory. Hanno bisogno di contesto. Perche il mercato della agent-memory sta costruendo il livello sbagliato e cosa acquistare invece.",
   "tags": ["AI Agents", "AI", "Business Strategy", "Process"],
   "blocks": [
-    { "type": "p", "text": "Molti agenti in produzione non hanno bisogno di memory persistente in senso stretto; hanno bisogno di un **recupero del contesto** affidabile tra le sessioni, e questi due concetti non sono la stessa cosa." },
-    { "type": "p", "text": "Se quest'anno ha valutato Zep, Mem0 o Letta, sta acquistando in un mercato che ha fuso due prodotti distinti sotto un'unica parola." },
-    { "type": "p", "text": "Ha ragione a voler rendere i propri agenti piu intelligenti tra una sessione e l'altra. Il problema e che meta degli strumenti nella sua lista sono stati costruiti per risolvere un problema diverso: il recupero di fatti in una singola conversazione, non la conoscenza cumulativa su mesi di lavoro. Questo articolo separa i due camp, mostra quale dei due serve realmente al suo agente e indica i segnali di mercato che la maggior parte degli acquirenti si sta perdendo." },
-    { "type": "ul", "items": [
-      "**Il mercato e in realta due mercati.** Camp 1 ottimizza il *recupero*. Camp 2 ottimizza il *compounding*. La maggior parte degli acquirenti li confonde.",
-      "**Zep si e rinominata.** Nel 2026 l'azienda ha cambiato il proprio posizionamento da 'memory' a Context Engineering. E il segnale pubblico piu chiaro del settore.",
-      "**Zilliz ha rilasciato MemSearch.** Un'azienda di database vettoriali ha rilasciato un sistema in cui i file markdown si trovano a monte del proprio database vettoriale.",
-      "**La maggior parte degli agenti aziendali ha bisogno di Camp 2.** Se il suo agente deve migliorare nel proprio lavoro settimana dopo settimana, l'infrastruttura di recall e il livello sbagliato.",
-      "**Usare entrambi e costoso.** Due sistemi con percorsi di scrittura sovrapposti producono ricordi contraddittori che si corrompono a vicenda."
-    ] },
-    { "type": "h2", "text": "Il Mercato Vende Recall. I Suoi Agenti Probabilmente Hanno Bisogno di Compounding." },
-    { "type": "p", "text": "Scorra GitHub. Ci sono oltre 450 repository con il tag `agent-memory` e oltre 460 con il tag `context-management`. Quasi nessuno traccia una linea netta tra i due." },
-    { "type": "p", "text": "Questa ambiguita e il problema centrale del mercato. La memory sembra una cosa sola, quindi gli acquirenti la trattano come tale, quindi i vendor la vendono come tale. Il risultato: i builder pagano per un'infrastruttura vettoriale che poi devono ricostruire comunque in markdown." },
-    { "type": "p", "text": "La distinzione non e accademica. Camp 1 si chiede *cosa dovrebbe ricordare l'AI?* e rilascia un database. Camp 2 si chiede *in quale contesto dovrebbe operare l'AI?* e rilascia un substrato. Entrambi sono utili. Non sono intercambiabili." },
-    { "type": "p", "text": "Se sta scegliendo un'infrastruttura agentica per un'azienda che dipende dal fatto che l'agente diventi realmente piu intelligente nel corso di mesi di lavoro, [webvise puo aiutarla a definire il livello corretto](/#contact) prima di firmare un contratto annuale." },
-    { "type": "h2", "text": "Camp 1: Memory Backend (Ottimizzato per il Recall)" },
-    { "type": "p", "text": "Gli strumenti di Camp 1 fanno una cosa bene. Prendono una conversazione, estraggono i fatti rilevanti, li archiviano in un database vettoriale e li recuperano quando la conversazione successiva ne ha bisogno. Il ciclo e semplice." },
-    { "type": "p", "text": "Questo e cio che la maggior parte delle persone intende quando dice 'agent memory'. E il camp piu numeroso per stelle GitHub ed e quello su cui la maggior parte degli acquirenti converge per default, perche la proposta e semplice: il chatbot ricordera che l'utente vive a San Francisco." },
-    { "type": "table", "headers": ["Prodotto", "Stelle", "Cosa fa bene"], "rows": [
-      ["Mem0", "53.1K", "Quattro operazioni: add, search, update, delete. Compatibile con qualsiasi modello."],
-      ["MemPalace", "46.2K", "Archiviazione verbatim locale. 96.6% di recall su LongMemEval."],
-      ["Supermemory", "21.8K", "Consapevolezza temporale. Sostituisce i fatti obsoleti quando gli utenti li aggiornano."],
-      ["Cognee", "15.4K", "Ricerca vettoriale combinata con database a grafo per il ragionamento relazionale."],
-      ["Honcho", "2.4K", "Servizio asincrono che costruisce un modello psicologico di ciascun utente."]
-    ] },
-    { "type": "p", "text": "Camp 1 e la risposta giusta per chatbot, persistenza delle preferenze utente e recall di fatti con latenza inferiore a 200ms. E la risposta sbagliata per agenti che devono comprendere lo *stato* del lavoro in corso su cinque progetti, tre strumenti e due mesi." },
-    { "type": "p", "text": "Il limite e architetturale, non implementativo. Un database vettoriale restituisce la corrispondenza piu vicina a una query. Non dice cosa e cambiato rispetto alla settimana scorsa, ne perche, ne come questo influisce sulla decisione che sta per prendere." },
-    { "type": "h2", "text": "Camp 2: Context Substrate (Ottimizzato per il Compounding)" },
-    { "type": "p", "text": "Camp 2 inverte il ciclo. Invece di estrarre fatti dalle conversazioni e inserirli in un database, l'agente legge file di contesto strutturati e leggibili dall'uomo, svolge il proprio lavoro al loro interno e riscrive. Alla sessione successiva il contesto e piu ricco. Nulla viene 'estratto'." },
-    { "type": "p", "text": "Questo e il pattern che Andrej Karpathy ha descritto come **LLM Wiki**: una base di conoscenza personale che il modello compila una volta e mantiene aggiornata, invece di rideriving le risposte da frammenti a ogni query. La proprieta fondamentale e il compounding. Il contesto migliora con l'uso." },
-    { "type": "table", "headers": ["Prodotto", "Stelle", "Cosa fa bene"], "rows": [
-      ["OpenClaw", "358K", "Memory in markdown puro (MEMORY.md, note giornaliere). Il consolidamento in background promuove i pattern stabili alla memoria a lungo termine."],
-      ["Zep", "4.4K", "Grafo della conoscenza temporale con timestamp `valid_at` e `invalid_at`. Recupero in meno di 200ms, certificazioni SOC2 e HIPAA."],
-      ["TrustGraph", "2.0K", "\"Context Cores\" portabili: bundle versionati di schemi di dominio, grafi della conoscenza e policy di recupero. Versiona il contesto come il codice."],
-      ["MemSearch", "1.2K", "Markdown-first. Rilasciato da Zilliz con il proprio database vettoriale Milvus posizionato come livello di accesso sui file."],
-      ["Thoth", "145", "Architettura profonda: 10 tipi di entita, 67 relazioni tipizzate, consolidamento notturno con decadimento della fiducia sulle relazioni piu datate."]
-    ] },
-    { "type": "p", "text": "Camp 2 e la risposta giusta quando si esegue un agente in modo continuativo, quando piu strumenti o piu agenti scrivono sulla stessa base di conoscenza, o quando si vuole che il sistema migliori in modo misurabile nel corso di settimane e mesi senza dover ricostruire la pipeline ogni volta." },
-    { "type": "p", "text": "Il test piu semplice: l'agente deve sapere cosa e successo martedi scorso, oppure deve conoscere la *forma* attuale della sua azienda? Il secondo e un problema di Camp 2." },
+    {
+      "type": "p",
+      "text": "Molti agenti in produzione non hanno bisogno di memory persistente in senso stretto; hanno bisogno di un **recupero del contesto** affidabile tra le sessioni, e questi due concetti non sono la stessa cosa."
+    },
+    {
+      "type": "p",
+      "text": "Se quest'anno ha valutato Zep, Mem0 o Letta, sta acquistando in un mercato che ha fuso due prodotti distinti sotto un'unica parola."
+    },
+    {
+      "type": "p",
+      "text": "Ha ragione a voler rendere i propri agenti piu intelligenti tra una sessione e l'altra. Il problema e che meta degli strumenti nella sua lista sono stati costruiti per risolvere un problema diverso: il recupero di fatti in una singola conversazione, non la conoscenza cumulativa su mesi di lavoro. Questo articolo separa i due camp, mostra quale dei due serve realmente al suo agente e indica i segnali di mercato che la maggior parte degli acquirenti si sta perdendo."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Il mercato e in realta due mercati.** Camp 1 ottimizza il *recupero*. Camp 2 ottimizza il *compounding*. La maggior parte degli acquirenti li confonde.",
+        "**Zep si e rinominata.** Nel 2026 l'azienda ha cambiato il proprio posizionamento da 'memory' a Context Engineering. E il segnale pubblico piu chiaro del settore.",
+        "**Zilliz ha rilasciato MemSearch.** Un'azienda di database vettoriali ha rilasciato un sistema in cui i file markdown si trovano a monte del proprio database vettoriale.",
+        "**La maggior parte degli agenti aziendali ha bisogno di Camp 2.** Se il suo agente deve migliorare nel proprio lavoro settimana dopo settimana, l'infrastruttura di recall e il livello sbagliato.",
+        "**Usare entrambi e costoso.** Due sistemi con percorsi di scrittura sovrapposti producono ricordi contraddittori che si corrompono a vicenda."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Il Mercato Vende Recall. I Suoi Agenti Probabilmente Hanno Bisogno di Compounding."
+    },
+    {
+      "type": "p",
+      "text": "Scorra GitHub. Ci sono oltre 450 repository con il tag `agent-memory` e oltre 460 con il tag `context-management`. Quasi nessuno traccia una linea netta tra i due."
+    },
+    {
+      "type": "p",
+      "text": "Questa ambiguita e il problema centrale del mercato. La memory sembra una cosa sola, quindi gli acquirenti la trattano come tale, quindi i vendor la vendono come tale. Il risultato: i builder pagano per un'infrastruttura vettoriale che poi devono ricostruire comunque in markdown."
+    },
+    {
+      "type": "p",
+      "text": "La distinzione non e accademica. Camp 1 si chiede *cosa dovrebbe ricordare l'AI?* e rilascia un database. Camp 2 si chiede *in quale contesto dovrebbe operare l'AI?* e rilascia un substrato. Entrambi sono utili. Non sono intercambiabili."
+    },
+    {
+      "type": "p",
+      "text": "Se sta scegliendo un'infrastruttura agentica per un'azienda che dipende dal fatto che l'agente diventi realmente piu intelligente nel corso di mesi di lavoro, [webvise puo aiutarla a definire il livello corretto](/#contact) prima di firmare un contratto annuale."
+    },
+    {
+      "type": "h2",
+      "text": "Camp 1: Memory Backend (Ottimizzato per il Recall)"
+    },
+    {
+      "type": "p",
+      "text": "Gli strumenti di Camp 1 fanno una cosa bene. Prendono una conversazione, estraggono i fatti rilevanti, li archiviano in un database vettoriale e li recuperano quando la conversazione successiva ne ha bisogno. Il ciclo e semplice."
+    },
+    {
+      "type": "p",
+      "text": "Questo e cio che la maggior parte delle persone intende quando dice 'agent memory'. E il camp piu numeroso per stelle GitHub ed e quello su cui la maggior parte degli acquirenti converge per default, perche la proposta e semplice: il chatbot ricordera che l'utente vive a San Francisco."
+    },
+    {
+      "type": "table",
+      "headers": ["Prodotto", "Stelle", "Cosa fa bene"],
+      "rows": [
+        [
+          "Mem0",
+          "53.1K",
+          "Quattro operazioni: add, search, update, delete. Compatibile con qualsiasi modello."
+        ],
+        [
+          "MemPalace",
+          "46.2K",
+          "Archiviazione verbatim locale. 96.6% di recall su LongMemEval."
+        ],
+        [
+          "Supermemory",
+          "21.8K",
+          "Consapevolezza temporale. Sostituisce i fatti obsoleti quando gli utenti li aggiornano."
+        ],
+        [
+          "Cognee",
+          "15.4K",
+          "Ricerca vettoriale combinata con database a grafo per il ragionamento relazionale."
+        ],
+        [
+          "Honcho",
+          "2.4K",
+          "Servizio asincrono che costruisce un modello psicologico di ciascun utente."
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Camp 1 e la risposta giusta per chatbot, persistenza delle preferenze utente e recall di fatti con latenza inferiore a 200ms. E la risposta sbagliata per agenti che devono comprendere lo *stato* del lavoro in corso su cinque progetti, tre strumenti e due mesi."
+    },
+    {
+      "type": "p",
+      "text": "Il limite e architetturale, non implementativo. Un database vettoriale restituisce la corrispondenza piu vicina a una query. Non dice cosa e cambiato rispetto alla settimana scorsa, ne perche, ne come questo influisce sulla decisione che sta per prendere."
+    },
+    {
+      "type": "h2",
+      "text": "Camp 2: Context Substrate (Ottimizzato per il Compounding)"
+    },
+    {
+      "type": "p",
+      "text": "Camp 2 inverte il ciclo. Invece di estrarre fatti dalle conversazioni e inserirli in un database, l'agente legge file di contesto strutturati e leggibili dall'uomo, svolge il proprio lavoro al loro interno e riscrive. Alla sessione successiva il contesto e piu ricco. Nulla viene 'estratto'."
+    },
+    {
+      "type": "p",
+      "text": "Questo e il pattern che Andrej Karpathy ha descritto come **LLM Wiki**: una base di conoscenza personale che il modello compila una volta e mantiene aggiornata, invece di rideriving le risposte da frammenti a ogni query. La proprieta fondamentale e il compounding. Il contesto migliora con l'uso."
+    },
+    {
+      "type": "table",
+      "headers": ["Prodotto", "Stelle", "Cosa fa bene"],
+      "rows": [
+        [
+          "OpenClaw",
+          "358K",
+          "Memory in markdown puro (MEMORY.md, note giornaliere). Il consolidamento in background promuove i pattern stabili alla memoria a lungo termine."
+        ],
+        [
+          "Zep",
+          "4.4K",
+          "Grafo della conoscenza temporale con timestamp `valid_at` e `invalid_at`. Recupero in meno di 200ms, certificazioni SOC2 e HIPAA."
+        ],
+        [
+          "TrustGraph",
+          "2.0K",
+          "\"Context Cores\" portabili: bundle versionati di schemi di dominio, grafi della conoscenza e policy di recupero. Versiona il contesto come il codice."
+        ],
+        [
+          "MemSearch",
+          "1.2K",
+          "Markdown-first. Rilasciato da Zilliz con il proprio database vettoriale Milvus posizionato come livello di accesso sui file."
+        ],
+        [
+          "Thoth",
+          "145",
+          "Architettura profonda: 10 tipi di entita, 67 relazioni tipizzate, consolidamento notturno con decadimento della fiducia sulle relazioni piu datate."
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Camp 2 e la risposta giusta quando si esegue un agente in modo continuativo, quando piu strumenti o piu agenti scrivono sulla stessa base di conoscenza, o quando si vuole che il sistema migliori in modo misurabile nel corso di settimane e mesi senza dover ricostruire la pipeline ogni volta."
+    },
+    {
+      "type": "p",
+      "text": "Il test piu semplice: l'agente deve sapere cosa e successo martedi scorso, oppure deve conoscere la *forma* attuale della sua azienda? Il secondo e un problema di Camp 2."
+    },
     { "type": "h2", "text": "Il Rebranding Che Dice Tutto" },
-    { "type": "p", "text": "Il segnale di mercato qui è abbastanza chiaro. Due mosse pubbliche, entrambe da aziende che vendono memory, spiegano quale camp sta vincendo." },
-    { "type": "p", "text": "Zep si definiva un'azienda di memory. Nel 2026 ha cambiato quel posizionamento in **Context Engineering**. Un'azienda finanziata in questo settore non si rinomina per divertimento. Lo ha fatto perche gli acquirenti che pagavano di piu avevano smesso di chiedere memory e avevano iniziato a chiedere contesto che si accumula." },
-    { "type": "p", "text": "Zilliz, l'azienda dietro Milvus, ha rilasciato MemSearch. MemSearch e un sistema in cui i file markdown sono la fonte della verita e il database vettoriale di Zilliz si trova a valle come livello di accesso. Si tratta di un'azienda di database vettoriali che ammette pubblicamente che il markdown appartiene a monte dei vettori." },
-    { "type": "p", "text": "Ci aspettiamo che il 'context engineering' si affermi come termine predefinito per questo livello dell'infrastruttura agentica nel corso del prossimo anno. Inizi a leggere le pagine prodotto con questa sostituzione in mente e il posizionamento reale diventera evidente." },
+    {
+      "type": "p",
+      "text": "Il segnale di mercato qui è abbastanza chiaro. Due mosse pubbliche, entrambe da aziende che vendono memory, spiegano quale camp sta vincendo."
+    },
+    {
+      "type": "p",
+      "text": "Zep si definiva un'azienda di memory. Nel 2026 ha cambiato quel posizionamento in **Context Engineering**. Un'azienda finanziata in questo settore non si rinomina per divertimento. Lo ha fatto perche gli acquirenti che pagavano di piu avevano smesso di chiedere memory e avevano iniziato a chiedere contesto che si accumula."
+    },
+    {
+      "type": "p",
+      "text": "Zilliz, l'azienda dietro Milvus, ha rilasciato MemSearch. MemSearch e un sistema in cui i file markdown sono la fonte della verita e il database vettoriale di Zilliz si trova a valle come livello di accesso. Si tratta di un'azienda di database vettoriali che ammette pubblicamente che il markdown appartiene a monte dei vettori."
+    },
+    {
+      "type": "p",
+      "text": "Ci aspettiamo che il 'context engineering' si affermi come termine predefinito per questo livello dell'infrastruttura agentica nel corso del prossimo anno. Inizi a leggere le pagine prodotto con questa sostituzione in mente e il posizionamento reale diventera evidente."
+    },
     { "type": "h2", "text": "Come Capire Quale Camp le Serve Davvero" },
-    { "type": "p", "text": "Ecco il framework decisionale, ridotto a regole pratiche." },
-    { "type": "table", "headers": ["Ha bisogno di Camp 1 (Memory Backend) se...", "Ha bisogno di Camp 2 (Context Substrate) se..."], "rows": [
-      ["Il suo agente e un chatbot i cui utenti si aspettano che ricordi le loro preferenze.", "Il suo agente opera in modo continuativo o su piu sessioni sullo stesso corpus di lavoro."],
-      ["Ha bisogno di un recall di fatti in meno di 200ms con un SDK pulito.", "Piu strumenti o piu agenti scrivono sulla stessa base di conoscenza."],
-      ["Il compito e rispondere alle domande degli utenti, non migliorare nel lavoro nel tempo.", "Vuole un miglioramento misurabile nel corso di settimane e mesi senza ricostruire la pipeline."],
-      ["Un database vincolato a un vendor va bene come fonte della verita.", "La portabilita e importante. Il substrato deve sopravvivere a un cambio di vendor."]
-    ] },
-    { "type": "p", "text": "La maggior parte degli agenti rivolti al business finisce in Camp 2. Se il suo agente gestisce ricerche di vendita, lavoro su account clienti, operazioni di contenuto o qualsiasi attivita in cui l'output deve affinai nel tempo, sta acquistando Camp 1 al massimo come componente, non come sistema." },
-    { "type": "p", "text": "L'errore costoso e l'inverso. Un bot di customer support costruito su un substrato pesante di Camp 2 risultera lento e sovra-ingegnerizzato. Abbini il camp al lavoro, non il contrario." },
+    {
+      "type": "p",
+      "text": "Ecco il framework decisionale, ridotto a regole pratiche."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Ha bisogno di Camp 1 (Memory Backend) se...",
+        "Ha bisogno di Camp 2 (Context Substrate) se..."
+      ],
+      "rows": [
+        [
+          "Il suo agente e un chatbot i cui utenti si aspettano che ricordi le loro preferenze.",
+          "Il suo agente opera in modo continuativo o su piu sessioni sullo stesso corpus di lavoro."
+        ],
+        [
+          "Ha bisogno di un recall di fatti in meno di 200ms con un SDK pulito.",
+          "Piu strumenti o piu agenti scrivono sulla stessa base di conoscenza."
+        ],
+        [
+          "Il compito e rispondere alle domande degli utenti, non migliorare nel lavoro nel tempo.",
+          "Vuole un miglioramento misurabile nel corso di settimane e mesi senza ricostruire la pipeline."
+        ],
+        [
+          "Un database vincolato a un vendor va bene come fonte della verita.",
+          "La portabilita e importante. Il substrato deve sopravvivere a un cambio di vendor."
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "La maggior parte degli agenti rivolti al business finisce in Camp 2. Se il suo agente gestisce ricerche di vendita, lavoro su account clienti, operazioni di contenuto o qualsiasi attivita in cui l'output deve affinai nel tempo, sta acquistando Camp 1 al massimo come componente, non come sistema."
+    },
+    {
+      "type": "p",
+      "text": "L'errore costoso e l'inverso. Un bot di customer support costruito su un substrato pesante di Camp 2 risultera lento e sovra-ingegnerizzato. Abbini il camp al lavoro, non il contrario."
+    },
     { "type": "h2", "text": "Cosa Significa Per la Sua Decisione di Acquisto" },
-    { "type": "p", "text": "Tre raccomandazioni concrete prima di firmare un contratto." },
-    { "type": "ul", "items": [
-      "**Prima prototipare in markdown.** Prima di acquistare qualsiasi prodotto di memory, prototiphi il caso d'uso su un substrato markdown semplice con un livello di recupero. Se quel prototipo risolve il problema, non aveva mai avuto bisogno di Camp 1.",
-      "**Valuti i vendor sul compounding, non sul recall.** I benchmark di recall (LongMemEval e simili) riguardano Camp 1. Non dicono se il sistema e piu intelligente alla settimana 12 rispetto alla settimana 1. Progetti valutazioni che misurino questo direttamente.",
-      "**Scelga un solo percorso di scrittura.** Se usa sia Camp 1 che Camp 2, definisca quale livello gestisce le scritture. Due sistemi con scritture sovrapposte e il modo per ritrovarsi con fatti contraddittori che si corrompono a vicenda."
-    ] },
-    { "type": "p", "text": "Il [livello di conoscenza AI e l'infrastruttura su cui tutto questo si appoggia](/blog/ai-knowledge-layer-guide), e la maggior parte delle aziende con cui lavoriamo non ha bisogno di un nuovo database vettoriale per costruirlo. Ha bisogno del substrato giusto, dello schema giusto e della disciplina per lasciarlo crescere." },
-    { "type": "p", "text": "Se sta pianificando un'infrastruttura agentica e vuole un secondo parere prima di firmare, [webvise aiuta le aziende a definire livelli di conoscenza agentica che si accumulano](/#contact). Parli con noi prima di scegliere un camp." }
+    {
+      "type": "p",
+      "text": "Tre raccomandazioni concrete prima di firmare un contratto."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Prima prototipare in markdown.** Prima di acquistare qualsiasi prodotto di memory, prototiphi il caso d'uso su un substrato markdown semplice con un livello di recupero. Se quel prototipo risolve il problema, non aveva mai avuto bisogno di Camp 1.",
+        "**Valuti i vendor sul compounding, non sul recall.** I benchmark di recall (LongMemEval e simili) riguardano Camp 1. Non dicono se il sistema e piu intelligente alla settimana 12 rispetto alla settimana 1. Progetti valutazioni che misurino questo direttamente.",
+        "**Scelga un solo percorso di scrittura.** Se usa sia Camp 1 che Camp 2, definisca quale livello gestisce le scritture. Due sistemi con scritture sovrapposte e il modo per ritrovarsi con fatti contraddittori che si corrompono a vicenda."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Il [livello di conoscenza AI e l'infrastruttura su cui tutto questo si appoggia](/blog/ai-knowledge-layer-guide), e la maggior parte delle aziende con cui lavoriamo non ha bisogno di un nuovo database vettoriale per costruirlo. Ha bisogno del substrato giusto, dello schema giusto e della disciplina per lasciarlo crescere."
+    },
+    {
+      "type": "p",
+      "text": "Se sta pianificando un'infrastruttura agentica e vuole un secondo parere prima di firmare, [webvise aiuta le aziende a definire livelli di conoscenza agentica che si accumulano](/#contact). Parli con noi prima di scegliere un camp."
+    }
   ]
 }

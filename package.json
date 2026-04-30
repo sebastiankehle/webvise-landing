@@ -1,43 +1,52 @@
 {
-	"name": "webvise-app",
-	"private": true,
-	"license": "SEE LICENSE IN LICENSE",
-	"workspaces": [
-		"apps/*",
-		"packages/*"
-	],
-	"type": "module",
-	"scripts": {
-		"dev": "turbo dev",
-		"build": "turbo build",
-		"check-types": "turbo check-types",
-		"dev:native": "pnpm --filter native dev",
-		"dev:web": "pnpm --filter web dev",
-		"db:push": "pnpm --filter @webvise-app/db db:push",
-		"db:studio": "pnpm --filter @webvise-app/db db:studio",
-		"db:generate": "pnpm --filter @webvise-app/db db:generate",
-		"db:migrate": "pnpm --filter @webvise-app/db db:migrate",
-		"db:start": "pnpm --filter @webvise-app/db db:start",
-		"db:watch": "pnpm --filter @webvise-app/db db:watch",
-		"db:stop": "pnpm --filter @webvise-app/db db:stop",
-		"db:down": "pnpm --filter @webvise-app/db db:down",
-		"test": "turbo test",
-		"check": "biome check --write .",
-		"prepare": "husky"
-	},
-	"dependencies": {
-		"@webvise-app/env": "workspace:*",
-		"dotenv": "catalog:",
-		"zod": "catalog:"
-	},
-	"devDependencies": {
-		"@biomejs/biome": "^2.2.0",
-		"@types/node": "^22.13.14",
-		"@webvise-app/config": "workspace:*",
-		"husky": "^9.1.7",
-		"turbo": "^2.9.6",
-		"typescript": "catalog:",
-		"vitest": "^4.1.0"
-	},
-	"packageManager": "pnpm@10.1.0"
+  "name": "webvise-app",
+  "private": true,
+  "license": "SEE LICENSE IN LICENSE",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "type": "module",
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "check-types": "turbo check-types",
+    "dev:native": "pnpm --filter native dev",
+    "dev:web": "pnpm --filter web dev",
+    "db:push": "pnpm --filter @webvise-app/db db:push",
+    "db:studio": "pnpm --filter @webvise-app/db db:studio",
+    "db:generate": "pnpm --filter @webvise-app/db db:generate",
+    "db:migrate": "pnpm --filter @webvise-app/db db:migrate",
+    "db:start": "pnpm --filter @webvise-app/db db:start",
+    "db:watch": "pnpm --filter @webvise-app/db db:watch",
+    "db:stop": "pnpm --filter @webvise-app/db db:stop",
+    "db:down": "pnpm --filter @webvise-app/db db:down",
+    "test": "turbo test",
+    "check": "ultracite fix",
+    "format": "ultracite format",
+    "lint": "ultracite lint",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,json,jsonc,css,scss,md,mdx}": [
+      "pnpm dlx ultracite fix"
+    ]
+  },
+  "dependencies": {
+    "@webvise-app/env": "workspace:*",
+    "dotenv": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.4.12",
+    "@types/node": "^22.13.14",
+    "@webvise-app/config": "workspace:*",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.0.0",
+    "turbo": "^2.9.6",
+    "typescript": "catalog:",
+    "ultracite": "^7.6.2",
+    "vitest": "^4.1.0"
+  },
+  "packageManager": "pnpm@10.1.0"
 }

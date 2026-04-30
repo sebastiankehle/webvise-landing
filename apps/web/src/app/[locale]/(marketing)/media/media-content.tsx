@@ -28,7 +28,7 @@ export default function MediaContent({ heroSlogan }: { heroSlogan: string }) {
 									`variant${v[0].toUpperCase()}${v.slice(1)}` as
 										| "variantLight"
 										| "variantDark"
-										| "variantBrand",
+										| "variantBrand"
 								)}
 							</Label>
 							<LogoAsset variant={v} />
@@ -49,16 +49,16 @@ export default function MediaContent({ heroSlogan }: { heroSlogan: string }) {
 									`variant${v[0].toUpperCase()}${v.slice(1)}` as
 										| "variantLight"
 										| "variantDark"
-										| "variantBrand",
+										| "variantBrand"
 								)}
 							</Label>
 							<BannerAsset
+								filename={`webvise-linkedin-banner-${v}.png`}
+								height={396}
+								subtitle={t("subtitle")}
+								tagline={t("tagline")}
 								variant={v}
 								width={1584}
-								height={396}
-								tagline={t("tagline")}
-								subtitle={t("subtitle")}
-								filename={`webvise-linkedin-banner-${v}.png`}
 							/>
 						</div>
 					))}
@@ -77,16 +77,16 @@ export default function MediaContent({ heroSlogan }: { heroSlogan: string }) {
 									`variant${v[0].toUpperCase()}${v.slice(1)}` as
 										| "variantLight"
 										| "variantDark"
-										| "variantBrand",
+										| "variantBrand"
 								)}
 							</Label>
 							<BannerAsset
+								filename={`webvise-linkedin-banner-hero-${v}.png`}
+								height={396}
+								subtitle={t("subtitle")}
+								tagline={heroSlogan}
 								variant={v}
 								width={1584}
-								height={396}
-								tagline={heroSlogan}
-								subtitle={t("subtitle")}
-								filename={`webvise-linkedin-banner-hero-${v}.png`}
 							/>
 						</div>
 					))}
@@ -105,16 +105,16 @@ export default function MediaContent({ heroSlogan }: { heroSlogan: string }) {
 									`variant${v[0].toUpperCase()}${v.slice(1)}` as
 										| "variantLight"
 										| "variantDark"
-										| "variantBrand",
+										| "variantBrand"
 								)}
 							</Label>
 							<WallpaperAsset
+								filename={`webvise-wallpaper-desktop-${v}.png`}
+								height={1440}
+								subtitle={t("subtitle")}
+								tagline={t("tagline")}
 								variant={v}
 								width={2560}
-								height={1440}
-								tagline={t("tagline")}
-								subtitle={t("subtitle")}
-								filename={`webvise-wallpaper-desktop-${v}.png`}
 							/>
 						</div>
 					))}
@@ -133,16 +133,16 @@ export default function MediaContent({ heroSlogan }: { heroSlogan: string }) {
 									`variant${v[0].toUpperCase()}${v.slice(1)}` as
 										| "variantLight"
 										| "variantDark"
-										| "variantBrand",
+										| "variantBrand"
 								)}
 							</Label>
 							<WallpaperAsset
+								filename={`webvise-wallpaper-mobile-${v}.png`}
+								height={2532}
+								subtitle={t("subtitle")}
+								tagline={t("tagline")}
 								variant={v}
 								width={1170}
-								height={2532}
-								tagline={t("tagline")}
-								subtitle={t("subtitle")}
-								filename={`webvise-wallpaper-mobile-${v}.png`}
 							/>
 						</div>
 					))}

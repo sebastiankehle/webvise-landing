@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { emailLayout, s, unsubscribeUrl } from "@/lib/email-template";
 import {
 	createRateLimiter,
 	getClientIP,
 	rateLimitResponse,
 } from "@/lib/rate-limit";
-import { emailLayout, s, unsubscribeUrl } from "@/lib/email-template";
 
 const limiter = createRateLimiter({
 	name: "newsletter",
@@ -35,7 +35,9 @@ function buildWelcomeHtml(email: string) {
 
 export async function POST(request: Request) {
 	const { limited, retryAfterSec } = limiter.check(getClientIP(request));
-	if (limited) return rateLimitResponse(retryAfterSec);
+	if (limited) {
+		return rateLimitResponse(retryAfterSec);
+	}
 
 	try {
 		const body = await request.json();
@@ -47,7 +49,7 @@ export async function POST(request: Request) {
 			console.error("RESEND_API_KEY not configured");
 			return NextResponse.json(
 				{ error: "Newsletter service not configured" },
-				{ status: 500 },
+				{ status: 500 }
 			);
 		}
 
@@ -66,7 +68,7 @@ export async function POST(request: Request) {
 			console.error("Resend contacts error:", error);
 			return NextResponse.json(
 				{ error: "Failed to subscribe" },
-				{ status: 500 },
+				{ status: 500 }
 			);
 		}
 
@@ -102,10 +104,7 @@ export async function POST(request: Request) {
 		});
 
 		if (!emailRes.ok) {
-			console.error(
-				"Failed to send welcome email:",
-				await emailRes.text(),
-			);
+			console.error("Failed to send welcome email:", await emailRes.text());
 		}
 
 		return NextResponse.json({ success: true });
@@ -113,13 +112,13 @@ export async function POST(request: Request) {
 		if (error instanceof z.ZodError) {
 			return NextResponse.json(
 				{ error: "Invalid email address" },
-				{ status: 400 },
+				{ status: 400 }
 			);
 		}
 		console.error("Newsletter error:", error);
 		return NextResponse.json(
 			{ error: "Internal server error" },
-			{ status: 500 },
+			{ status: 500 }
 		);
 	}
 }

@@ -19,21 +19,21 @@ export function GET() {
 	const serviceLines = services
 		.map(
 			(service) =>
-				`- [${serviceNames[service.slug] ?? service.slug}](${baseUrl}/services/${service.slug})`,
+				`- [${serviceNames[service.slug] ?? service.slug}](${baseUrl}/services/${service.slug})`
 		)
 		.join("\n");
 
 	const caseStudyLines = caseStudies
 		.map(
 			(cs) =>
-				`- [${cs.title}](${baseUrl}/case-studies/${cs.slug}): ${cs.excerpt}`,
+				`- [${cs.title}](${baseUrl}/case-studies/${cs.slug}): ${cs.excerpt}`
 		)
 		.join("\n");
 
 	const blogLines = blogPosts
 		.map(
 			(post) =>
-				`- [${post.title}](${baseUrl}/blog/${post.slug}): ${post.excerpt}`,
+				`- [${post.title}](${baseUrl}/blog/${post.slug}): ${post.excerpt}`
 		)
 		.join("\n");
 

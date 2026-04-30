@@ -10,7 +10,7 @@ export default async function WpHealthCta() {
 	const t = await getTranslations("wpHealthReport.cta");
 
 	return (
-		<SectionWrapper id="wp-health" alternate>
+		<SectionWrapper alternate id="wp-health">
 			<div className="max-w-[640px]">
 				<H2>{t("title")}</H2>
 				<Lead className="mt-4 max-w-[520px]">{t("description")}</Lead>
@@ -43,11 +43,18 @@ export default async function WpHealthCta() {
 				{/* CTA */}
 				<div className="flex flex-col items-start justify-center">
 					<Body className="text-sm leading-[1.6]">{t("trustLine")}</Body>
-					<TrackClick event="cta_clicked" properties={{ location: "wp-health-cta", variant: "analyzer", destination: "wp-health-report" }}>
+					<TrackClick
+						event="cta_clicked"
+						properties={{
+							location: "wp-health-cta",
+							variant: "analyzer",
+							destination: "wp-health-report",
+						}}
+					>
 						<Button
-							size="lg"
 							className="mt-6 border-transparent bg-brand px-8 text-white [&]:hover:bg-brand/80"
 							render={<Link href="/wp-health-report" />}
+							size="lg"
 						>
 							{t("button")}
 						</Button>

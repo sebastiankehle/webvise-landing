@@ -6,9 +6,9 @@ interface JsonLdProps {
 export default function JsonLd({ data }: JsonLdProps) {
 	return (
 		<script
-			type="application/ld+json"
 			// biome-ignore lint/security/noDangerouslySetInnerHtml: static JSON-LD from hardcoded content
 			dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+			type="application/ld+json"
 		/>
 	);
 }

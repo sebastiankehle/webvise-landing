@@ -23,10 +23,16 @@ export default async function MediaPage() {
 	return (
 		<section className="relative pt-32 pb-20 md:pt-44 md:pb-32">
 			{/* Constructed grid */}
-			<div className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block" aria-hidden="true">
-				<div className="h-full border-x border-grid-line" />
+			<div
+				aria-hidden="true"
+				className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block"
+			>
+				<div className="h-full border-grid-line border-x" />
 			</div>
-			<div className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block" aria-hidden="true" />
+			<div
+				aria-hidden="true"
+				className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block"
+			/>
 			<GridFrame className="inset-0" />
 			<div className="relative mx-auto max-w-[1200px] px-6">
 				<H1>{t("title")}</H1>

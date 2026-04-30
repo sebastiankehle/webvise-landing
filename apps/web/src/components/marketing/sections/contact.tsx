@@ -2,7 +2,7 @@
 
 import { useForm } from "@tanstack/react-form";
 import { useTranslations } from "next-intl";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import z from "zod";
 
 import SectionWrapper from "@/components/marketing/section-wrapper";
@@ -20,8 +20,24 @@ export default function Contact() {
 		"idle" | "success" | "error"
 	>("idle");
 	const formStarted = useRef(false);
+	const formRef = useRef<HTMLFormElement>(null);
 	const t = useTranslations("contact");
 	const ts = useTranslations("services");
+
+	useEffect(() => {
+		const node = formRef.current;
+		if (!node) {
+			return;
+		}
+		const onFocusIn = () => {
+			if (!formStarted.current) {
+				formStarted.current = true;
+				track("contact_form_started");
+			}
+		};
+		node.addEventListener("focusin", onFocusIn);
+		return () => node.removeEventListener("focusin", onFocusIn);
+	}, []);
 
 	const form = useForm({
 		defaultValues: {
@@ -73,7 +89,7 @@ export default function Contact() {
 	});
 
 	return (
-		<SectionWrapper id="contact" hatch>
+		<SectionWrapper hatch id="contact">
 			<div className="grid gap-12 md:grid-cols-2 md:gap-20">
 				<div>
 					<H2>{t("title")}</H2>
@@ -82,46 +98,42 @@ export default function Contact() {
 					<Muted className="mt-6">
 						{t("founder.text")}{" "}
 						<Link
-							href="/about"
 							className="text-brand transition-opacity hover:opacity-80"
+							href="/about"
 						>
 							{t("founder.name")}
 						</Link>
 					</Muted>
 					<Button
-						size="lg"
-						variant="outline"
 						className="mt-6"
-						onClick={() => track("cal_booking_clicked", { location: "contact" })}
+						onClick={() =>
+							track("cal_booking_clicked", { location: "contact" })
+						}
 						render={
 							// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
 							<a
 								href="https://cal.com/webvise"
-								target="_blank"
 								rel="noopener noreferrer"
+								target="_blank"
 							/>
 						}
+						size="lg"
 					>
 						{t("booking.cta")}
 					</Button>
 				</div>
 
 				<form
+					aria-label={t("title")}
+					autoComplete="off"
+					className="space-y-5 border border-border/20 p-6 md:space-y-6 md:p-10"
+					noValidate
 					onSubmit={(e) => {
 						e.preventDefault();
 						e.stopPropagation();
 						form.handleSubmit();
 					}}
-					onFocus={() => {
-						if (!formStarted.current) {
-							formStarted.current = true;
-							track("contact_form_started");
-						}
-					}}
-					className="space-y-5 border border-border/20 p-6 md:space-y-6 md:p-10"
-					aria-label={t("title")}
-					noValidate
-					autoComplete="off"
+					ref={formRef}
 				>
 					<div className="grid gap-5 md:grid-cols-2 md:gap-6">
 						<form.Field name="name">
@@ -129,15 +141,15 @@ export default function Contact() {
 								<FormItem>
 									<FormLabel htmlFor={field.name}>{t("form.name")}</FormLabel>
 									<Input
+										aria-invalid={field.state.meta.errors.length > 0}
+										autoComplete="off"
+										className="h-10 text-base md:h-9 md:text-sm"
 										id={field.name}
 										name={field.name}
-										value={field.state.value}
 										onBlur={field.handleBlur}
 										onChange={(e) => field.handleChange(e.target.value)}
 										placeholder={t("form.namePlaceholder")}
-										autoComplete="off"
-										aria-invalid={field.state.meta.errors.length > 0}
-										className="h-10 text-base md:h-9 md:text-sm"
+										value={field.state.value}
 									/>
 									<FormMessage errors={field.state.meta.errors} />
 								</FormItem>
@@ -148,16 +160,16 @@ export default function Contact() {
 								<FormItem>
 									<FormLabel htmlFor={field.name}>{t("form.email")}</FormLabel>
 									<Input
+										aria-invalid={field.state.meta.errors.length > 0}
+										autoComplete="off"
+										className="h-10 text-base md:h-9 md:text-sm"
 										id={field.name}
 										name={field.name}
-										type="email"
-										value={field.state.value}
 										onBlur={field.handleBlur}
 										onChange={(e) => field.handleChange(e.target.value)}
 										placeholder={t("form.emailPlaceholder")}
-										autoComplete="off"
-										aria-invalid={field.state.meta.errors.length > 0}
-										className="h-10 text-base md:h-9 md:text-sm"
+										type="email"
+										value={field.state.value}
 									/>
 									<FormMessage errors={field.state.meta.errors} />
 								</FormItem>
@@ -172,14 +184,14 @@ export default function Contact() {
 										{t("form.company")}
 									</FormLabel>
 									<Input
+										autoComplete="off"
+										className="h-10 text-base md:h-9 md:text-sm"
 										id={field.name}
 										name={field.name}
-										value={field.state.value}
 										onBlur={field.handleBlur}
 										onChange={(e) => field.handleChange(e.target.value)}
 										placeholder={t("form.companyPlaceholder")}
-										autoComplete="off"
-										className="h-10 text-base md:h-9 md:text-sm"
+										value={field.state.value}
 									/>
 								</FormItem>
 							)}
@@ -191,12 +203,12 @@ export default function Contact() {
 										{t("form.service")}
 									</FormLabel>
 									<select
+										className="flex h-10 w-full border border-border bg-background px-3 text-base outline-none transition-colors focus:border-ring focus:ring-1 focus:ring-ring/50 md:h-9 md:text-sm"
 										id={field.name}
 										name={field.name}
-										value={field.state.value}
 										onBlur={field.handleBlur}
 										onChange={(e) => field.handleChange(e.target.value)}
-										className="flex h-10 w-full border border-border bg-background px-3 text-base outline-none transition-colors focus:border-ring focus:ring-1 focus:ring-ring/50 md:h-9 md:text-sm"
+										value={field.state.value}
 									>
 										<option value="">{t("form.servicePlaceholder")}</option>
 										{services.map((s) => (
@@ -214,16 +226,16 @@ export default function Contact() {
 							<FormItem>
 								<FormLabel htmlFor={field.name}>{t("form.message")}</FormLabel>
 								<textarea
+									aria-invalid={field.state.meta.errors.length > 0}
+									autoComplete="off"
+									className="flex w-full border border-border bg-background px-3 py-2.5 text-base outline-none transition-colors focus:border-ring focus:ring-1 focus:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-1 aria-invalid:ring-destructive/20 md:text-sm"
 									id={field.name}
 									name={field.name}
-									value={field.state.value}
 									onBlur={field.handleBlur}
 									onChange={(e) => field.handleChange(e.target.value)}
-									rows={5}
 									placeholder={t("form.messagePlaceholder")}
-									autoComplete="off"
-									aria-invalid={field.state.meta.errors.length > 0}
-									className="flex w-full border border-border bg-background px-3 py-2.5 text-base outline-none transition-colors focus:border-ring focus:ring-1 focus:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-1 aria-invalid:ring-destructive/20 md:text-sm"
+									rows={5}
+									value={field.state.value}
 								/>
 								<FormMessage errors={field.state.meta.errors} />
 							</FormItem>
@@ -234,16 +246,16 @@ export default function Contact() {
 					>
 						{([canSubmit, isSubmitting]) => (
 							<SubmitButton
-								isSubmitting={isSubmitting}
-								disabled={!canSubmit}
-								size="lg"
 								className="w-full border-transparent bg-brand text-white md:h-10 md:text-sm [&]:hover:bg-brand/80"
+								disabled={!canSubmit}
+								isSubmitting={isSubmitting}
+								size="lg"
 							>
 								{t("form.submit")}
 							</SubmitButton>
 						)}
 					</form.Subscribe>
-					<output aria-live="polite" aria-atomic="true">
+					<output aria-atomic="true" aria-live="polite">
 						{submitStatus === "success" && (
 							<Muted className="text-sm">{t("form.success")}</Muted>
 						)}

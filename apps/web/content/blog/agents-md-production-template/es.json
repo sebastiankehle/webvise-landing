@@ -7,87 +7,217 @@
   "metaDescription": "Next.js 16.2 incluye AGENTS.md por defecto. El contenido es ahora su único diferenciador. Así son los archivos de nivel productivo en la práctica.",
   "tags": ["AI Agents", "AI", "Process", "Web Development"],
   "blocks": [
-    { "type": "p", "text": "Cuando create-next-app incluyó **AGENTS.md** como scaffolding predeterminado hace tres días, la elección del framework dejó de diferenciarse. El contenido de ese archivo es ahora lo único que separa un stack de agentes funcional de uno roto." },
-    { "type": "p", "text": "Durante seis meses, tener un AGENTS.md significaba que su equipo llevaba ventaja. Desde el 2026-04-28, cada proyecto nuevo de Next.js incluye uno. La señal desapareció. Lo que vive dentro del archivo es la nueva señal." },
-    { "type": "p", "text": "La mayoría de los responsables técnicos tratan AGENTS.md como documentación. Es un archivo de configuración en tiempo de ejecución que el modelo carga en cada llamada. Este artículo analiza el estudio empírico de Augment Code, la regla de 100 a 150 líneas que determina si el archivo ayuda o perjudica, y la plantilla que distribuimos en 11 repositorios de clientes en producción." },
+    {
+      "type": "p",
+      "text": "Cuando create-next-app incluyó **AGENTS.md** como scaffolding predeterminado hace tres días, la elección del framework dejó de diferenciarse. El contenido de ese archivo es ahora lo único que separa un stack de agentes funcional de uno roto."
+    },
+    {
+      "type": "p",
+      "text": "Durante seis meses, tener un AGENTS.md significaba que su equipo llevaba ventaja. Desde el 2026-04-28, cada proyecto nuevo de Next.js incluye uno. La señal desapareció. Lo que vive dentro del archivo es la nueva señal."
+    },
+    {
+      "type": "p",
+      "text": "La mayoría de los responsables técnicos tratan AGENTS.md como documentación. Es un archivo de configuración en tiempo de ejecución que el modelo carga en cada llamada. Este artículo analiza el estudio empírico de Augment Code, la regla de 100 a 150 líneas que determina si el archivo ayuda o perjudica, y la plantilla que distribuimos en 11 repositorios de clientes en producción."
+    },
     { "type": "h2", "text": "Conclusiones Clave" },
-    { "type": "ul", "items": [
-      "**Next.js 16.2 incluye AGENTS.md como scaffolding predeterminado** (publicado el 2026-04-28). Todo nuevo starter en Vercel lo hereda.",
-      "**El estudio AuggieBench de Augment Code** (2026-04-23): los archivos de entre 100 y 150 líneas tienen el mejor rendimiento. Pasadas las 150 líneas, los beneficios se invierten.",
-      "**El mismo archivo puede elevar la precisión en corrección de errores un 25% y reducir la completitud de funcionalidades un 30%** en tareas distintas. El diseño por secciones importa más que la longitud total.",
-      "**AGENTS.md es la única superficie de documentación con una tasa de descubrimiento del 100%.** Las carpetas _docs/ huérfanas no superan el 10%.",
-      "**La nueva ventaja competitiva son los flujos de trabajo procedurales, las tablas de decisión y las reglas reactivas de una línea.** No los resúmenes de arquitectura ni las advertencias apiladas."
-    ]},
+    {
+      "type": "ul",
+      "items": [
+        "**Next.js 16.2 incluye AGENTS.md como scaffolding predeterminado** (publicado el 2026-04-28). Todo nuevo starter en Vercel lo hereda.",
+        "**El estudio AuggieBench de Augment Code** (2026-04-23): los archivos de entre 100 y 150 líneas tienen el mejor rendimiento. Pasadas las 150 líneas, los beneficios se invierten.",
+        "**El mismo archivo puede elevar la precisión en corrección de errores un 25% y reducir la completitud de funcionalidades un 30%** en tareas distintas. El diseño por secciones importa más que la longitud total.",
+        "**AGENTS.md es la única superficie de documentación con una tasa de descubrimiento del 100%.** Las carpetas _docs/ huérfanas no superan el 10%.",
+        "**La nueva ventaja competitiva son los flujos de trabajo procedurales, las tablas de decisión y las reglas reactivas de una línea.** No los resúmenes de arquitectura ni las advertencias apiladas."
+      ]
+    },
 
-    { "type": "h2", "text": "Hace Tres Días, AGENTS.md Dejó de Ser un Diferenciador" },
-    { "type": "p", "text": "Next.js 16.2 se publicó el 2026-04-28 con AGENTS.md como archivo predeterminado en la plantilla de create-next-app. Vercel distribuye el scaffolding a cada nuevo proyecto starter. El archivo que antes indicaba que un equipo iba adelante ahora se incluye en la caja vacía." },
-    { "type": "p", "text": "El cambio en la conversación es el punto central. Hace seis meses, la pregunta era si su equipo tenía un AGENTS.md. Esta semana, la pregunta pasó a ser qué contenía. Los compradores que evalúan socios de desarrollo necesitan una nueva rúbrica de valoración, porque la señal binaria ha desaparecido." },
-    { "type": "p", "text": "Dos señales paralelas refuerzan el cambio. El repositorio mattpocock/skills de Matt Pocock alcanzó 41.000 estrellas en 85 días, y el repositorio es su carpeta .claude subida tal cual. La gente marca como favoritos los configs de agentes de otros de la misma forma en que antes marcaba frameworks. Así luce la mercantilización." },
-    { "type": "p", "text": "El repositorio gstack de Garry Tan, publicado la misma semana, superó las 23.000 estrellas en siete días. Tan lo usó para publicar 600.000 líneas de código en producción en 60 días. El repositorio contiene 31 archivos markdown de habilidades. No hay ningún framework debajo." },
-    { "type": "p", "text": "Si su equipo de compras necesita una forma de puntuar la preparación para IA en evaluaciones de proveedores, [webvise ha distribuido esta plantilla en 11 proyectos de clientes](/#contact) y puede guiarle a través de la rúbrica que usamos." },
+    {
+      "type": "h2",
+      "text": "Hace Tres Días, AGENTS.md Dejó de Ser un Diferenciador"
+    },
+    {
+      "type": "p",
+      "text": "Next.js 16.2 se publicó el 2026-04-28 con AGENTS.md como archivo predeterminado en la plantilla de create-next-app. Vercel distribuye el scaffolding a cada nuevo proyecto starter. El archivo que antes indicaba que un equipo iba adelante ahora se incluye en la caja vacía."
+    },
+    {
+      "type": "p",
+      "text": "El cambio en la conversación es el punto central. Hace seis meses, la pregunta era si su equipo tenía un AGENTS.md. Esta semana, la pregunta pasó a ser qué contenía. Los compradores que evalúan socios de desarrollo necesitan una nueva rúbrica de valoración, porque la señal binaria ha desaparecido."
+    },
+    {
+      "type": "p",
+      "text": "Dos señales paralelas refuerzan el cambio. El repositorio mattpocock/skills de Matt Pocock alcanzó 41.000 estrellas en 85 días, y el repositorio es su carpeta .claude subida tal cual. La gente marca como favoritos los configs de agentes de otros de la misma forma en que antes marcaba frameworks. Así luce la mercantilización."
+    },
+    {
+      "type": "p",
+      "text": "El repositorio gstack de Garry Tan, publicado la misma semana, superó las 23.000 estrellas en siete días. Tan lo usó para publicar 600.000 líneas de código en producción en 60 días. El repositorio contiene 31 archivos markdown de habilidades. No hay ningún framework debajo."
+    },
+    {
+      "type": "p",
+      "text": "Si su equipo de compras necesita una forma de puntuar la preparación para IA en evaluaciones de proveedores, [webvise ha distribuido esta plantilla en 11 proyectos de clientes](/#contact) y puede guiarle a través de la rúbrica que usamos."
+    },
 
     { "type": "h2", "text": "La Regla de 100 a 150 Líneas, Con Medición" },
-    { "type": "p", "text": "Augment Code publicó el primer estudio empírico sobre la calidad del contenido de AGENTS.md el 2026-04-23. El autor, Slava Zhenylenko, extrajo docenas de archivos AGENTS.md del monorepo de Augment. Cada archivo se ejecutó dos veces en el conjunto de evaluación AuggieBench, una con el archivo presente y otra sin él. El resultado se comparó con el PR de referencia fusionado por humanos." },
-    { "type": "p", "text": "El resultado principal: los mejores archivos produjeron un salto de calidad equivalente a actualizar de Haiku a Opus. Los peores archivos produjeron resultados **peores que no tener ningún AGENTS.md**. El mismo equipo, el mismo modelo, la misma tarea. El archivo marcó la diferencia." },
-    { "type": "p", "text": "El rango óptimo fue estrecho. Los archivos de entre 100 y 150 líneas, combinados con un conjunto pequeño de docs de referencia cargados bajo demanda, produjeron mejoras del 10 al 15% en todas las métricas en módulos medianos de unos 100 archivos centrales. Pasadas las 150 líneas, los beneficios se invirtieron." },
-    { "type": "p", "text": "La confesión del propio Tan coincidió con el hallazgo desde el lado de los principios. Su CLAUDE.md tenía 20.000 líneas, con cada particularidad, cada patrón y cada lección codificados en un solo archivo. Claude Code identificó el exceso. La solución fue unas 200 líneas de punteros, con el contenido real trasladado a habilidades cargadas bajo demanda." },
-    { "type": "p", "text": "Nuestra propia plantilla en los 11 repositorios de clientes de webvise, incluyendo aesthetic-medicine-app, biomed-landing, hyyve-landing, kersten-betreuung-landing y urban-sports-sniper-app, llega a 126 líneas. No elegimos ese número para ajustarlo al estudio. El estudio se publicó dos semanas después de que lo estandarizáramos." },
-    { "type": "p", "text": "Las tasas de descubrimiento de los traces de Augment en cientos de sesiones explican por qué la ubicación importa tanto como el contenido:" },
-    { "type": "table", "headers": ["Superficie de documentación", "Tasa de descubrimiento"],
+    {
+      "type": "p",
+      "text": "Augment Code publicó el primer estudio empírico sobre la calidad del contenido de AGENTS.md el 2026-04-23. El autor, Slava Zhenylenko, extrajo docenas de archivos AGENTS.md del monorepo de Augment. Cada archivo se ejecutó dos veces en el conjunto de evaluación AuggieBench, una con el archivo presente y otra sin él. El resultado se comparó con el PR de referencia fusionado por humanos."
+    },
+    {
+      "type": "p",
+      "text": "El resultado principal: los mejores archivos produjeron un salto de calidad equivalente a actualizar de Haiku a Opus. Los peores archivos produjeron resultados **peores que no tener ningún AGENTS.md**. El mismo equipo, el mismo modelo, la misma tarea. El archivo marcó la diferencia."
+    },
+    {
+      "type": "p",
+      "text": "El rango óptimo fue estrecho. Los archivos de entre 100 y 150 líneas, combinados con un conjunto pequeño de docs de referencia cargados bajo demanda, produjeron mejoras del 10 al 15% en todas las métricas en módulos medianos de unos 100 archivos centrales. Pasadas las 150 líneas, los beneficios se invirtieron."
+    },
+    {
+      "type": "p",
+      "text": "La confesión del propio Tan coincidió con el hallazgo desde el lado de los principios. Su CLAUDE.md tenía 20.000 líneas, con cada particularidad, cada patrón y cada lección codificados en un solo archivo. Claude Code identificó el exceso. La solución fue unas 200 líneas de punteros, con el contenido real trasladado a habilidades cargadas bajo demanda."
+    },
+    {
+      "type": "p",
+      "text": "Nuestra propia plantilla en los 11 repositorios de clientes de webvise, incluyendo aesthetic-medicine-app, biomed-landing, hyyve-landing, kersten-betreuung-landing y urban-sports-sniper-app, llega a 126 líneas. No elegimos ese número para ajustarlo al estudio. El estudio se publicó dos semanas después de que lo estandarizáramos."
+    },
+    {
+      "type": "p",
+      "text": "Las tasas de descubrimiento de los traces de Augment en cientos de sesiones explican por qué la ubicación importa tanto como el contenido:"
+    },
+    {
+      "type": "table",
+      "headers": ["Superficie de documentación", "Tasa de descubrimiento"],
       "rows": [
         ["AGENTS.md (en cada nivel de la jerarquía, carga automática)", "100%"],
-        ["Referencias desde AGENTS.md (cargadas bajo demanda)", "90%+ cuando son relevantes"],
-        ["README.md a nivel de directorio", "80%+ cuando el agente trabaja en ese directorio"],
-        ["README.md anidado (subdirectorios en los que el agente no está)", "alrededor del 40%"],
+        [
+          "Referencias desde AGENTS.md (cargadas bajo demanda)",
+          "90%+ cuando son relevantes"
+        ],
+        [
+          "README.md a nivel de directorio",
+          "80%+ cuando el agente trabaja en ese directorio"
+        ],
+        [
+          "README.md anidado (subdirectorios en los que el agente no está)",
+          "alrededor del 40%"
+        ],
         ["Carpetas _docs/ huérfanas sin referencias", "por debajo del 10%"]
       ]
     },
-    { "type": "p", "text": "AGENTS.md es la única superficie con descubrimiento confiable. Si algo debe ser visto, vive allí o es referenciado desde allí. Mover contenido a una ubicación referenciada produce más resultado que escribir más documentación." },
+    {
+      "type": "p",
+      "text": "AGENTS.md es la única superficie con descubrimiento confiable. Si algo debe ser visto, vive allí o es referenciado desde allí. Mover contenido a una ubicación referenciada produce más resultado que escribir más documentación."
+    },
 
     { "type": "h2", "text": "Qué Va en el Archivo y Qué lo Arruina" },
-    { "type": "p", "text": "Los traces de Augment se desglosaron por tipo de contenido. Los patrones que mejoraron el resultado y los que lo dañaron no son simétricos." },
+    {
+      "type": "p",
+      "text": "Los traces de Augment se desglosaron por tipo de contenido. Los patrones que mejoraron el resultado y los que lo dañaron no son simétricos."
+    },
     { "type": "h3", "text": "Lo que funciona" },
-    { "type": "ul", "items": [
-      "**Flujos de trabajo procedurales.** Los flujos de trabajo numerados en varios pasos fueron el patrón individual más sólido. Un flujo de seis pasos para desplegar una nueva integración redujo los PRs con archivos de conexión faltantes del 40% al 10%, elevó la corrección un 25% y la completitud un 20%.",
-      "**Tablas de decisión cuando existen 2 o 3 opciones razonables.** Una tabla de decisión entre React Query y Zustand produjo una mejora del 25% en best_practices en los PRs de esa área. La tabla resuelve la ambigüedad antes de que el agente escriba código.",
-      "**Ejemplos reales del código base, de 3 a 10 líneas cada uno.** Mejora la reutilización y la adherencia a patrones. Si son más largas, el agente hace coincidencia de patrones con lo incorrecto.",
-      "**Acompañe cada prohibición con una indicación positiva.** La documentación solo con advertencias tiene peor rendimiento. Una prohibición sin contexto hace que el agente sea cauteloso y exploratorio. Combínela con una directiva positiva que nombre el punto correcto de llamada, y el agente avanza.",
-      "**Archivos a nivel de módulo en lugar de un archivo raíz enorme.** La banda de 100 a 150 líneas encaja en un módulo mediano de unos 100 archivos. Los archivos raíz transversales que superan ese tamaño perdieron en todas las métricas."
-    ]},
-    { "type": "h3", "text": "Lo que arruina el resultado" },
-    { "type": "ul", "items": [
-      "**Resúmenes de arquitectura.** El agente lee el resumen, luego abre docenas de docs circundantes para verificar su enfoque, carga de 10.000 a 100.000 tokens de contexto irrelevante y el resultado se degrada. Augment denominó esto la trampa de la sobreexploración.",
-      "**Advertencias apiladas sin orientación complementaria.** Con 30 a 50 prohibiciones y ninguna instrucción positiva, el agente verifica su solución contra cada advertencia individualmente, aunque ninguna aplique.",
-      "**Patrones que todavía no existen en el código base.** Si el AGENTS.md describe una arquitectura que el código no implementa, el archivo dirige activamente al agente en dirección incorrecta.",
-      "**Dispersión de documentación alrededor del archivo.** Los peores casos en Augment eran archivos AGENTS.md encima de 500K a 2MB de docs de arquitectura. Eliminar el AGENTS.md apenas cambiaba el comportamiento. El agente leía la dispersión de todas formas."
-    ]},
-
-    { "type": "h2", "text": "Reactivo, No Preescrito" },
-    { "type": "p", "text": "Elie Steinbock publicó un artículo aparte el 2026-04-20 con una disciplina que corrige la mayoría de los archivos AGENTS.md empresariales que auditamos. No preescriba docenas de reglas antes de que algo haya salido mal. La sobre-estructuración preventiva crea exceso que el modelo analiza en cada ejecución." },
-    { "type": "p", "text": "Añada reglas de forma reactiva, cuando haya ocurrido una corrección real, y limite las adiciones a una sola línea. Para cualquier cosa más compleja, traslade el contenido a una habilidad cargada de forma progresiva. El AGENTS.md se mantiene compacto. La capa de habilidades absorbe el peso." },
-    { "type": "p", "text": "La regla paralela de Tan, la disciplina de las-dos-veces-que-falló, dice lo mismo desde el otro extremo. Si tiene que pedirle algo al agente dos veces, la segunda vez no debería existir. El patrón va a la capa de habilidades o al AGENTS.md como una línea. El sistema se acumula." },
-    { "type": "p", "text": "En un proyecto de webvise esto se ve así: el AGENTS.md se entrega con 126 líneas y marcadores de posición. El directorio .claude/skills lleva de 8 a 15 archivos de habilidades en la entrega, cada uno un procedimiento que el equipo ejecutó durante el proyecto. El archivo no anticipa problemas. Registra los que ya se resolvieron." },
-
-    { "type": "h2", "text": "Cinco Preguntas que Compras Debería Hacerle a Cualquier Proveedor" },
-    { "type": "p", "text": "La calidad del contenido de AGENTS.md es ahora un indicador medible de la ejecución nativa en IA. Las cinco preguntas a continuación le dan a un equipo de compras sin perfil técnico una lectura rápida de si un proveedor está construyendo para el stack de 2026 o para el de 2024." },
-    { "type": "table", "headers": ["Pregunta", "Cómo suena una respuesta sólida"],
-      "rows": [
-        ["Muéstreme su plantilla de AGENTS.md. ¿Cuántas líneas tiene?", "De 100 a 150 líneas por módulo. No un archivo raíz único. No 1.000 líneas."],
-        ["¿Cómo está estructurada la capa de habilidades?", "Divulgación progresiva. Las habilidades se cargan bajo demanda, no en el archivo raíz."],
-        ["¿Cuál es la norma para añadir entradas?", "Solo de forma reactiva. Una línea para correcciones recurrentes. Habilidades para todo lo que pese más."],
-        ["¿Cómo miden la sobreexploración en tareas largas?", "Nombran una métrica. Consumo de tokens por tarea, tasa de completitud en tickets de varios pasos, o algo concreto."],
-        ["¿Dónde viven los docs heredados y cómo se referencian?", "De forma modular. Vinculados desde AGENTS.md con un límite de 10 a 15 referencias por archivo. No una dispersión de 2MB en _docs."]
+    {
+      "type": "ul",
+      "items": [
+        "**Flujos de trabajo procedurales.** Los flujos de trabajo numerados en varios pasos fueron el patrón individual más sólido. Un flujo de seis pasos para desplegar una nueva integración redujo los PRs con archivos de conexión faltantes del 40% al 10%, elevó la corrección un 25% y la completitud un 20%.",
+        "**Tablas de decisión cuando existen 2 o 3 opciones razonables.** Una tabla de decisión entre React Query y Zustand produjo una mejora del 25% en best_practices en los PRs de esa área. La tabla resuelve la ambigüedad antes de que el agente escriba código.",
+        "**Ejemplos reales del código base, de 3 a 10 líneas cada uno.** Mejora la reutilización y la adherencia a patrones. Si son más largas, el agente hace coincidencia de patrones con lo incorrecto.",
+        "**Acompañe cada prohibición con una indicación positiva.** La documentación solo con advertencias tiene peor rendimiento. Una prohibición sin contexto hace que el agente sea cauteloso y exploratorio. Combínela con una directiva positiva que nombre el punto correcto de llamada, y el agente avanza.",
+        "**Archivos a nivel de módulo en lugar de un archivo raíz enorme.** La banda de 100 a 150 líneas encaja en un módulo mediano de unos 100 archivos. Los archivos raíz transversales que superan ese tamaño perdieron en todas las métricas."
       ]
     },
-    { "type": "p", "text": "Si un proveedor no puede responder tres de las cinco, sigue distribuyendo la plantilla de 2024. La mayoría de los equipos empresariales choca contra este muro en la capa de documentación. [Esa auditoría es la primera fase de cada proyecto de migración de webvise](/#contact)." },
+    { "type": "h3", "text": "Lo que arruina el resultado" },
+    {
+      "type": "ul",
+      "items": [
+        "**Resúmenes de arquitectura.** El agente lee el resumen, luego abre docenas de docs circundantes para verificar su enfoque, carga de 10.000 a 100.000 tokens de contexto irrelevante y el resultado se degrada. Augment denominó esto la trampa de la sobreexploración.",
+        "**Advertencias apiladas sin orientación complementaria.** Con 30 a 50 prohibiciones y ninguna instrucción positiva, el agente verifica su solución contra cada advertencia individualmente, aunque ninguna aplique.",
+        "**Patrones que todavía no existen en el código base.** Si el AGENTS.md describe una arquitectura que el código no implementa, el archivo dirige activamente al agente en dirección incorrecta.",
+        "**Dispersión de documentación alrededor del archivo.** Los peores casos en Augment eran archivos AGENTS.md encima de 500K a 2MB de docs de arquitectura. Eliminar el AGENTS.md apenas cambiaba el comportamiento. El agente leía la dispersión de todas formas."
+      ]
+    },
 
-    { "type": "h2", "text": "El Hallazgo Más Profundo: Corrija el Entorno, No Solo el Punto de Entrada" },
-    { "type": "p", "text": "El hallazgo más incómodo de Augment provino de los archivos AGENTS.md con peor rendimiento. Estaban encima de 500K a 2MB de docs de arquitectura circundantes. El equipo eliminó solo el AGENTS.md de la ejecución, y el comportamiento apenas cambió. El agente leía la dispersión independientemente de lo que dijera el archivo de entrada." },
-    { "type": "p", "text": "La implicación es difícil para los equipos empresariales con sistemas heredados. La mayoría de los entornos de documentación construidos antes de 2024 acumulan años de registros de decisiones de arquitectura, docs de diseño y runbooks. El agente carga suficientes de ellos para ahogar un AGENTS.md limpio. Escribir un mejor archivo de entrada es necesario pero no suficiente." },
-    { "type": "p", "text": "El trabajo es incómodo. Audite los docs que el agente carga realmente, marque los inactivos para archivo, modularice los activos en referencias de ámbito de módulo, y mantenga el AGENTS.md apuntando solo a lo que el agente debe leer en el camino hacia el cambio. El encuadre de Tan aplica: el cerebro es un repositorio git, el orquestador es un conductor delgado que lee archivos. Si el repositorio git está lleno de páginas muertas, ningún archivo de entrada lo arregla." },
+    { "type": "h2", "text": "Reactivo, No Preescrito" },
+    {
+      "type": "p",
+      "text": "Elie Steinbock publicó un artículo aparte el 2026-04-20 con una disciplina que corrige la mayoría de los archivos AGENTS.md empresariales que auditamos. No preescriba docenas de reglas antes de que algo haya salido mal. La sobre-estructuración preventiva crea exceso que el modelo analiza en cada ejecución."
+    },
+    {
+      "type": "p",
+      "text": "Añada reglas de forma reactiva, cuando haya ocurrido una corrección real, y limite las adiciones a una sola línea. Para cualquier cosa más compleja, traslade el contenido a una habilidad cargada de forma progresiva. El AGENTS.md se mantiene compacto. La capa de habilidades absorbe el peso."
+    },
+    {
+      "type": "p",
+      "text": "La regla paralela de Tan, la disciplina de las-dos-veces-que-falló, dice lo mismo desde el otro extremo. Si tiene que pedirle algo al agente dos veces, la segunda vez no debería existir. El patrón va a la capa de habilidades o al AGENTS.md como una línea. El sistema se acumula."
+    },
+    {
+      "type": "p",
+      "text": "En un proyecto de webvise esto se ve así: el AGENTS.md se entrega con 126 líneas y marcadores de posición. El directorio .claude/skills lleva de 8 a 15 archivos de habilidades en la entrega, cada uno un procedimiento que el equipo ejecutó durante el proyecto. El archivo no anticipa problemas. Registra los que ya se resolvieron."
+    },
 
-    { "type": "h2", "text": "Qué Significa Esto para Quien Encarga un Proyecto en 2026" },
-    { "type": "p", "text": "La guerra de frameworks terminó. Next.js, Astro, SvelteKit y Nuxt incluyen scaffolding de AGENTS.md por defecto o lo harán en el trimestre. El diferenciador subió un nivel. El contenido del archivo, la estructura del directorio de habilidades y la disciplina detrás de ambos determinan si el stack de agentes ayuda o perjudica." },
-    { "type": "p", "text": "Los proyectos web modernos en 2026 se entregan listos para agentes desde el primer día. Ese es el contrato que [webvise](/#contact) establece por defecto en cada proyecto, desde un sitio de una sola página hasta un SaaS multitenencia. La plantilla de 126 líneas, la capa .claude/skills y la disciplina de reglas reactivas no son extras. Son el proyecto." }
+    {
+      "type": "h2",
+      "text": "Cinco Preguntas que Compras Debería Hacerle a Cualquier Proveedor"
+    },
+    {
+      "type": "p",
+      "text": "La calidad del contenido de AGENTS.md es ahora un indicador medible de la ejecución nativa en IA. Las cinco preguntas a continuación le dan a un equipo de compras sin perfil técnico una lectura rápida de si un proveedor está construyendo para el stack de 2026 o para el de 2024."
+    },
+    {
+      "type": "table",
+      "headers": ["Pregunta", "Cómo suena una respuesta sólida"],
+      "rows": [
+        [
+          "Muéstreme su plantilla de AGENTS.md. ¿Cuántas líneas tiene?",
+          "De 100 a 150 líneas por módulo. No un archivo raíz único. No 1.000 líneas."
+        ],
+        [
+          "¿Cómo está estructurada la capa de habilidades?",
+          "Divulgación progresiva. Las habilidades se cargan bajo demanda, no en el archivo raíz."
+        ],
+        [
+          "¿Cuál es la norma para añadir entradas?",
+          "Solo de forma reactiva. Una línea para correcciones recurrentes. Habilidades para todo lo que pese más."
+        ],
+        [
+          "¿Cómo miden la sobreexploración en tareas largas?",
+          "Nombran una métrica. Consumo de tokens por tarea, tasa de completitud en tickets de varios pasos, o algo concreto."
+        ],
+        [
+          "¿Dónde viven los docs heredados y cómo se referencian?",
+          "De forma modular. Vinculados desde AGENTS.md con un límite de 10 a 15 referencias por archivo. No una dispersión de 2MB en _docs."
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Si un proveedor no puede responder tres de las cinco, sigue distribuyendo la plantilla de 2024. La mayoría de los equipos empresariales choca contra este muro en la capa de documentación. [Esa auditoría es la primera fase de cada proyecto de migración de webvise](/#contact)."
+    },
+
+    {
+      "type": "h2",
+      "text": "El Hallazgo Más Profundo: Corrija el Entorno, No Solo el Punto de Entrada"
+    },
+    {
+      "type": "p",
+      "text": "El hallazgo más incómodo de Augment provino de los archivos AGENTS.md con peor rendimiento. Estaban encima de 500K a 2MB de docs de arquitectura circundantes. El equipo eliminó solo el AGENTS.md de la ejecución, y el comportamiento apenas cambió. El agente leía la dispersión independientemente de lo que dijera el archivo de entrada."
+    },
+    {
+      "type": "p",
+      "text": "La implicación es difícil para los equipos empresariales con sistemas heredados. La mayoría de los entornos de documentación construidos antes de 2024 acumulan años de registros de decisiones de arquitectura, docs de diseño y runbooks. El agente carga suficientes de ellos para ahogar un AGENTS.md limpio. Escribir un mejor archivo de entrada es necesario pero no suficiente."
+    },
+    {
+      "type": "p",
+      "text": "El trabajo es incómodo. Audite los docs que el agente carga realmente, marque los inactivos para archivo, modularice los activos en referencias de ámbito de módulo, y mantenga el AGENTS.md apuntando solo a lo que el agente debe leer en el camino hacia el cambio. El encuadre de Tan aplica: el cerebro es un repositorio git, el orquestador es un conductor delgado que lee archivos. Si el repositorio git está lleno de páginas muertas, ningún archivo de entrada lo arregla."
+    },
+
+    {
+      "type": "h2",
+      "text": "Qué Significa Esto para Quien Encarga un Proyecto en 2026"
+    },
+    {
+      "type": "p",
+      "text": "La guerra de frameworks terminó. Next.js, Astro, SvelteKit y Nuxt incluyen scaffolding de AGENTS.md por defecto o lo harán en el trimestre. El diferenciador subió un nivel. El contenido del archivo, la estructura del directorio de habilidades y la disciplina detrás de ambos determinan si el stack de agentes ayuda o perjudica."
+    },
+    {
+      "type": "p",
+      "text": "Los proyectos web modernos en 2026 se entregan listos para agentes desde el primer día. Ese es el contrato que [webvise](/#contact) establece por defecto en cada proyecto, desde un sitio de una sola página hasta un SaaS multitenencia. La plantilla de 126 líneas, la capa .claude/skills y la disciplina de reglas reactivas no son extras. Son el proyecto."
+    }
   ]
 }

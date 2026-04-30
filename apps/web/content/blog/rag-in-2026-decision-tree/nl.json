@@ -1,186 +1,186 @@
 {
-	"date": "2026-04-23",
-	"readingTime": 9,
-	"keyword": "rag in 2026",
-	"title": "Wanneer klanten om RAG vragen in 2026: onze beslisboom (en waarom we daar zelden mee beginnen)",
-	"excerpt": "We bouwen nog steeds RAG-pipelines wanneer klanten erop staan, maar we raden ze in 2026 zelden als eerste aan. Het grootste deel van de LLM-tooling-stack uit 2024 werd tussen januari en april overbodig. Dit is de beslisboom die we met elke prospect doorlopen, en wat we opleveren wanneer de boom van RAG afwijst.",
-	"metaDescription": "Klanten vragen nog steeds om RAG-pipelines. We bouwen ze, maar pas na de beslisboom. Dit is de agent-stack van 2026 die webvise als eerste aanbeveelt.",
-	"tags": ["AI Agents", "AI", "Automation", "Business Strategy"],
-	"cta": "Neem contact op",
-	"blocks": [
-		{
-			"type": "p",
-			"text": "We bouwen nog steeds RAG-pipelines voor klanten die daarom vragen, maar in 2026 raden we ze zelden als eerste aan. De agent-tooling-stack uit 2024, die retrieval-augmented generation tot het standaardantwoord op elke kenniskwestie maakte, werd grotendeels overbodig tussen januari en april van dit jaar. Dit artikel is de beslisboom die we met elke prospect doorlopen en de stack die we opleveren wanneer de boom van RAG afwijst."
-		},
-		{
-			"type": "p",
-			"text": "Veel bureaus bieden RAG nog steeds standaard aan, wat eerder een architectuur uit 2024 weerspiegelt dan huidige praktijk. U heeft waarschijnlijk al een voorstel ontvangen: een vectordatabase als kostenpost, een chunkingsstrategie, een re-indexing-cron, een routekaart van zes maanden voordat het systeem de eerste vraag beantwoordt. Als u al een voorstel op uw bureau heeft, [stuur het ons toe voordat u tekent](/#contact) en we doorlopen de beslisboom samen met u. Dit is waarom de manier waarop u knowledge-aware agents moest bouwen is veranderd, en wat we nu opleveren."
-		},
-		{
-			"type": "h2",
-			"text": "Belangrijkste inzichten"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**We bouwen RAG wanneer klanten erop staan. In 2026 raden we het zelden als eerste aan.** De verschuiving in tooling is reëel, en het is onze taak dat aan te geven voordat u tekent.",
-				"**Sam Hogan betoogde eind 2025 dat significante delen van de LLM-tooling-stack uit 2024 nu verouderd zijn (18 april 2026).** RAG, multi-agent-orkestratie, ReAct-frameworks, promptbeheer, LLMOps, evaluatietools, gateways, finetuning-bibliotheken. De concepten zijn nog steeds geldig. De populaire implementaties bleven achter bij de sprong die modellen maakten.",
-				"**Zep hernoemde zijn categorie van geheugen naar context engineering.** Wanneer een goed gefinancierd bedrijf zijn eigen categorie hernoemt, is dat een betekenisvol marktsignaal over waar agent-infrastructuur naartoe gaat.",
-				"**Skill graphs vervingen vectorzoekopdrachten als ons standaard substraat.** Een map met markdown-bestanden plus vijf shell-commando's verwerkt meer klantopdrachten dan welke RAG-pipeline we ooit hebben opgeleverd.",
-				"**RAG verdient zijn plaats nog steeds voor vier specifieke toepassingen.** Multimodale corpora, miljoenen documenten met hoge updatefrequentie, strikte metadata-filters op het moment van ophalen, en onbetrouwbare of adversariale inhoud. Al het andere is een skill graph."
-			]
-		},
-		{
-			"type": "h2",
-			"text": "De beslisboom die we doorlopen voordat we iets bouwen"
-		},
-		{
-			"type": "p",
-			"text": "Elke klantbetrokkenheid begint met dezelfde vier vragen, en negen van de tien keer wijzen de antwoorden van RAG af. We hebben deze boom opgesteld op basis van een onderzoek van 450 repositories van agent-geheugen- en contextbeheertools op GitHub, gepubliceerd op 15 april 2026. Vrijwel niemand trekt de grens tussen beide categorieën expliciet. Wij doen dat wel, omdat de grens de rekening bepaalt."
-		},
-		{
-			"type": "table",
-			"headers": ["Vraag", "Zo ja", "Zo nee"],
-			"rows": [
-				[
-					"Bestaat het corpus uit minder dan circa 1.000 documenten?",
-					"Skill graphs, in de meeste huidige gevallen.",
-					"Ga verder."
-				],
-				[
-					"Bestaat de inhoud voornamelijk uit tekst geschreven door een handvol mensen die de nauwkeurigheid bewaken?",
-					"Skill graph. Indexbestand plus markdown.",
-					"RAG wordt een kandidaat."
-				],
-				[
-					"Vereisen zoekopdrachten strikte metadata-filters op het moment van ophalen (datumbereiken, documenttype, auteur)?",
-					"Vectordatabase met metadata-filtering. RAG wint hier.",
-					"Ga verder."
-				],
-				[
-					"Groeit het corpus naar miljoenen documenten met updates per minuut?",
-					"RAG met een echte ophaallaag. Waarvoor het gebouwd is.",
-					"Skill graph wint op alle fronten."
-				]
-			]
-		},
-		{
-			"type": "p",
-			"text": "De meeste klantcorpora die we zien zijn interne wiki's, verkoophandboeken, onboardinghandleidingen, productdocumentatie en procedures. Klein, stabiel, bijgehouden door een handvol mensen. Elk daarvan is een opdracht voor een skill graph. Het [argument voor kleine corpora met concrete cijfers](/blog/business-knowledge-base-without-rag) en de [volledige installatiegids voor de kennislaag](/blog/ai-knowledge-layer-guide) behandelen de praktische versie."
-		},
-		{
-			"type": "h2",
-			"text": "Wat er werkelijk overbodig werd tussen januari en april 2026"
-		},
-		{
-			"type": "p",
-			"text": "Sam Hogan publiceerde de scherpste analyse van deze verschuiving op 18 april 2026. Zijn stelling: het grootste deel van de LLM-tooling-categorie was gebouwd voor een wereld die grotendeels niet meer bestaat, en veel ervan werd in de drie voorgaande maanden overbodig. De lijst die hij noemde:"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**RAG en GraphRAG.** De ophaalstrategie gebouwd voor contextvensters kleiner dan 32K.",
-				"**Multi-agent-orkestratieframeworks.** Vroeg handmatig gecodeerde coördinatielagen, verdrongen door coördinatie op runtimelniveau.",
-				"**ReAct-frameworks.** Gestructureerde redeneerscaffolds die nieuwere modellen zonder scaffolding produceren.",
-				"**Promptbeheer- en versiebeheertools.** Gebouwd voor een wereld waarin prompts het waardevolle bezit waren. Skills en contextsubstraten zijn dat nu.",
-				"**LLMOps-stacks.** Nu meer gericht op agent-tracing dan op het beheren van enkelvoudige prompts.",
-				"**Evaluatietools, gateways, finetuning-bibliotheken.** Elk gebouwd voor modelgedrag dat is veranderd."
-			]
-		},
-		{
-			"type": "p",
-			"text": "Een belangrijke nuancering van Hogan zelf: de concepten zijn nog steeds waardevol. Wat verouderd is, zijn de huidige populaire implementaties. Sommige tools, hij noemde CrewAI expliciet, hebben nog steeds bestaansrecht. Zijn diepere stelling is de relevante voor klanten: recente frontiermodellen met zeer lange contextvensters hebben het feitenherroepingsprobleem dat RAG moest omzeilen grotendeels opgelost."
-		},
-		{
-			"type": "p",
-			"text": "Het sterkste marktsignaal kwam van Zep, een gefinancierd bedrijf in de agent-geheugenruimte. Ze veranderden hun volledige positionering van geheugen naar context engineering. MemSearch, van vectordatabasebedrijf Zilliz, introduceerde een systeem waarbij hun eigen vectordatabase stroomafwaarts staat van gewone markdown-bestanden. Dat een vectordatabase-leverancier toegeeft dat bestanden de kennis bevatten en de index slechts de toegangslaag is, is het soort signaal dat jaren duurt om in een persbericht te lezen en weken in een productupdating."
-		},
-		{
-			"type": "h2",
-			"text": "Wat RAG verving voor het meeste agentwerk"
-		},
-		{
-			"type": "p",
-			"text": "Het onderzoek van 450 repositories verdeelde agentgeheugen in twee kampen. Kamp één is geheugenbackends: feiten extraheren uit gesprekken, opslaan in vectordatabases, ophalen op verzoek. Mem0 (53.100 GitHub-sterren), MemPalace (46.200), Honcho, Cognee. Geoptimaliseerd voor herroeping."
-		},
-		{
-			"type": "p",
-			"text": "Kamp twee zijn contextsubstraten: gestructureerde, leesbare context die zich over sessies heen opbouwt. Zep bevindt zich hier nu. OpenClaw (250.000 sterren) is de referentie-implementatie. De vault die dit artikel produceert is een kamp-twee-systeem."
-		},
-		{
-			"type": "p",
-			"text": "De gebruikelijke cyclus voor kamp twee: de agent leest gestructureerde context, werkt daarbinnen, schrijft terug, en bij de volgende sessie is de context rijker. Geen chunkingsstrategie, geen embedding-model om te onderhouden, geen re-indexing-batchtaak, geen evaluatiesuite voor ophalen. Een map met markdown-bestanden met wikilinks ertussen, een indexbestand aan de root en een handvol lees- en schrijfcommando's. Dat is het substraat."
-		},
-		{
-			"type": "p",
-			"text": "Shiv Sakhuja publiceerde het compositiemodel voor dit substraat op 23 april 2026 als Skill Graphs 2.0. Drie lagen: atomen (enkelvoudige primitieven, nagenoeg deterministisch), moleculen (afgebakende taken die 2 tot 10 atomen combineren met expliciete koppeling), verbindingen (multi-molecule-orchestrators met echte agentautonomie, vandaag nog door mensen aangestuurd). Het framework begrenst de diepte van de afhankelijkheidsgraph, waardoor het betrouwbaar is waar vlakke skill graphs stilzwijgend afdrijven voorbij 3 of 4 stappen. Voor klanten vertaalt dit zich naar de kostenstructuur: atomen zijn goedkoop en deterministisch, moleculen zijn waar het engineeringwerk zit, verbindingen zijn waar u rekening houdt met een menselijke operator."
-		},
-		{
-			"type": "h2",
-			"text": "De uitzonderingen waarbij RAG nog steeds zijn plaats verdient"
-		},
-		{
-			"type": "p",
-			"text": "We zijn een bureau. We leveren wat de opdracht vereist. RAG overtreft een skill graph nog steeds in vier specifieke categorieën, en we zullen het aanbevelen wanneer de beslisboom daar naartoe leidt:"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Multimodale corpora.** PDF's met tabellen, gescande documenten, audiotranscripties, afbeeldingszware rapporten. Een markdown-graph gaat ervan uit dat alles te reduceren valt tot tekst. Wanneer dat niet het geval is, is ophalen gecombineerd met multimodale embedding de schonere oplossing.",
-				"**Frequente updates op grote schaal.** Miljoenen documenten die per minuut veranderen en doorzoekbaar moeten zijn binnen seconden na publicatie. De re-indexing-kosten van een vectordatabase zijn lager dan de personeelskosten van het bijhouden van een indexbestand bij dat volume.",
-				"**Strikte metadata-filters op het moment van ophalen.** Wanneer zoekopdrachten moeten filteren op datumbereiken, documenttype of auteur voordat semantisch zoeken plaatsvindt, verwerken metadata-bewuste vectordatabases zoals Pinecone en Qdrant de combinatie vlekkeloos.",
-				"**Onbetrouwbare of adversariale inhoud.** Wanneer het corpus afkomstig is van veel schrijvers met tegenstrijdige belangen en geen enkele persoon een gecureerde index kan bijhouden, wilt u ophalen dat geen redactioneel toezicht veronderstelt."
-			]
-		},
-		{
-			"type": "p",
-			"text": "Als uw project in een van deze vier categorieën valt, is RAG het juiste instrument en bouwen wij het. Als dat niet het geval is, is de skill graph goedkoper te realiseren, goedkoper te draaien en eenvoudiger te onderhouden. [Neem contact met ons op voordat u voor een van beide kiest](/#contact) en we doorlopen de beslisboom voor uw specifieke corpus."
-		},
-		{
-			"type": "h2",
-			"text": "Wat we intern gebruiken en wat we voor klanten hebben opgeleverd"
-		},
-		{
-			"type": "p",
-			"text": "Onze interne wiki bestaat uit 22 pagina's gestructureerde kennis, onderhouden via vijf shell-commando's. Geen vectordatabase, geen embeddings, geen re-indexing-cron. De [volledige installatie staat in ons eerdere artikel](/blog/business-knowledge-base-without-rag)."
-		},
-		{
-			"type": "p",
-			"text": "Hetzelfde substraat produceert de webvise-blog die u nu leest: 76 artikelen vertaald naar 7 taalversies via één content-skill-graph, zonder een toegewijd contentteam. Één skill, zeven versies per artikel, geleverd vanuit dezelfde map als de engineeringdocumentatie."
-		},
-		{
-			"type": "p",
-			"text": "Aan klantzijde draait ons productie-agentwerk op dezelfde architectuur. Hermes, het [zichzelf verbeterende agentplatform dat we vorige maand documenteerden](/blog/hermes-agent-self-improving-ai), draait op brede skills en een slanke runtime. Paperclip, ons [bedrijfsbrede AI-orkestratiesysteem](/blog/paperclip-ai-company-orchestration), combineert moleculen over een markdown-kennisbase. Geen van beide heeft een vectordatabase in de productiestacks, en geen van beide heeft er ooit een nodig gehad."
-		},
-		{
-			"type": "p",
-			"text": "Garry Tan vertelt hetzelfde verhaal vanuit YC. Zijn persoonlijke CLAUDE.md begon bij 20.000 regels, met elke eigenaardigheid, elk patroon, elke les die hij ooit was tegengekomen. De aandacht van het model verzwakte onder dat gewicht, en Claude Code zelf vertelde hem het terug te brengen."
-		},
-		{
-			"type": "p",
-			"text": "Zijn oplossing was 200 regels met verwijzingen naar documenten die op aanvraag worden geladen. De volledige 20.000 regels bestaan nog steeds, maar het model leest ze alleen wanneer dat relevant is. gstack bereikte 23.000 GitHub-sterren in de eerste week en produceerde een hoog volume productiecode in circa 60 dagen; sterren- en regeltellingen meten zichtbaarheid en doorvoer, niet geschiktheid voor productie. Het substraat schaalt omdat het substraat bestanden zijn, geen infrastructuur."
-		},
-		{
-			"type": "h2",
-			"text": "Welke vragen u een leverancier moet stellen voordat u een RAG-contract tekent in 2026"
-		},
-		{
-			"type": "p",
-			"text": "Als u al een RAG-voorstel op uw bureau heeft, stel dan deze vijf vragen voordat u tekent:"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Hoe groot is het corpus nu en over 24 maanden?** Minder dan 1.000 documenten in beide gevallen betekent dat de vectordatabase een kostenpost is die u niet nodig heeft.",
-				"**Wie schrijft de inhoud?** Als het een handvol interne mensen zijn die zorgdragen voor nauwkeurigheid, overtreft een bijgehouden indexbestand embeddings op ophaalkwaliteit. Als het duizenden adversariale of anonieme schrijvers zijn, wint RAG.",
-				"**Wat is de updatefrequentie?** Wijzigingen eens per week betekenen dat u geen re-indexing-pipeline nodig heeft. Wijzigingen elke minuut op grote schaal betekenen van wel.",
-				"**Vereist de zoekopdracht strikte metadata-filters op het moment van ophalen?** Zo ja, dan verdient een metadata-bewuste vectordatabase zijn plaats. Zo nee, dan is de filterlogica goedkoper uit te voeren in de skill-laag.",
-				"**Hoe ziet het leveranciersaanbod er over 18 maanden uit?** Vectordatabasekosten nemen toe met de groei van het documentaantal. Skill-graph-kosten doen dat niet. Het verschil is van belang bij verlenging."
-			]
-		},
-		{
-			"type": "p",
-			"text": "Wijzen de antwoorden naar RAG, bouw dan RAG. Wijzen ze naar een skill graph, dan is het moeilijkste het afleren van de aanpak uit 2024. Bij **[webvise](/#contact)** doorlopen we de beslisboom samen met u op basis van uw werkelijke corpus, leveren de architectuur op die de boom aanwijst, en zetten de besparingen in voor het werk dat het budget echt nodig heeft. [Neem contact op](/#contact) voordat u zich vastlegt op een leveranciersvoorstel."
-		}
-	]
+  "date": "2026-04-23",
+  "readingTime": 9,
+  "keyword": "rag in 2026",
+  "title": "Wanneer klanten om RAG vragen in 2026: onze beslisboom (en waarom we daar zelden mee beginnen)",
+  "excerpt": "We bouwen nog steeds RAG-pipelines wanneer klanten erop staan, maar we raden ze in 2026 zelden als eerste aan. Het grootste deel van de LLM-tooling-stack uit 2024 werd tussen januari en april overbodig. Dit is de beslisboom die we met elke prospect doorlopen, en wat we opleveren wanneer de boom van RAG afwijst.",
+  "metaDescription": "Klanten vragen nog steeds om RAG-pipelines. We bouwen ze, maar pas na de beslisboom. Dit is de agent-stack van 2026 die webvise als eerste aanbeveelt.",
+  "tags": ["AI Agents", "AI", "Automation", "Business Strategy"],
+  "cta": "Neem contact op",
+  "blocks": [
+    {
+      "type": "p",
+      "text": "We bouwen nog steeds RAG-pipelines voor klanten die daarom vragen, maar in 2026 raden we ze zelden als eerste aan. De agent-tooling-stack uit 2024, die retrieval-augmented generation tot het standaardantwoord op elke kenniskwestie maakte, werd grotendeels overbodig tussen januari en april van dit jaar. Dit artikel is de beslisboom die we met elke prospect doorlopen en de stack die we opleveren wanneer de boom van RAG afwijst."
+    },
+    {
+      "type": "p",
+      "text": "Veel bureaus bieden RAG nog steeds standaard aan, wat eerder een architectuur uit 2024 weerspiegelt dan huidige praktijk. U heeft waarschijnlijk al een voorstel ontvangen: een vectordatabase als kostenpost, een chunkingsstrategie, een re-indexing-cron, een routekaart van zes maanden voordat het systeem de eerste vraag beantwoordt. Als u al een voorstel op uw bureau heeft, [stuur het ons toe voordat u tekent](/#contact) en we doorlopen de beslisboom samen met u. Dit is waarom de manier waarop u knowledge-aware agents moest bouwen is veranderd, en wat we nu opleveren."
+    },
+    {
+      "type": "h2",
+      "text": "Belangrijkste inzichten"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**We bouwen RAG wanneer klanten erop staan. In 2026 raden we het zelden als eerste aan.** De verschuiving in tooling is reëel, en het is onze taak dat aan te geven voordat u tekent.",
+        "**Sam Hogan betoogde eind 2025 dat significante delen van de LLM-tooling-stack uit 2024 nu verouderd zijn (18 april 2026).** RAG, multi-agent-orkestratie, ReAct-frameworks, promptbeheer, LLMOps, evaluatietools, gateways, finetuning-bibliotheken. De concepten zijn nog steeds geldig. De populaire implementaties bleven achter bij de sprong die modellen maakten.",
+        "**Zep hernoemde zijn categorie van geheugen naar context engineering.** Wanneer een goed gefinancierd bedrijf zijn eigen categorie hernoemt, is dat een betekenisvol marktsignaal over waar agent-infrastructuur naartoe gaat.",
+        "**Skill graphs vervingen vectorzoekopdrachten als ons standaard substraat.** Een map met markdown-bestanden plus vijf shell-commando's verwerkt meer klantopdrachten dan welke RAG-pipeline we ooit hebben opgeleverd.",
+        "**RAG verdient zijn plaats nog steeds voor vier specifieke toepassingen.** Multimodale corpora, miljoenen documenten met hoge updatefrequentie, strikte metadata-filters op het moment van ophalen, en onbetrouwbare of adversariale inhoud. Al het andere is een skill graph."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "De beslisboom die we doorlopen voordat we iets bouwen"
+    },
+    {
+      "type": "p",
+      "text": "Elke klantbetrokkenheid begint met dezelfde vier vragen, en negen van de tien keer wijzen de antwoorden van RAG af. We hebben deze boom opgesteld op basis van een onderzoek van 450 repositories van agent-geheugen- en contextbeheertools op GitHub, gepubliceerd op 15 april 2026. Vrijwel niemand trekt de grens tussen beide categorieën expliciet. Wij doen dat wel, omdat de grens de rekening bepaalt."
+    },
+    {
+      "type": "table",
+      "headers": ["Vraag", "Zo ja", "Zo nee"],
+      "rows": [
+        [
+          "Bestaat het corpus uit minder dan circa 1.000 documenten?",
+          "Skill graphs, in de meeste huidige gevallen.",
+          "Ga verder."
+        ],
+        [
+          "Bestaat de inhoud voornamelijk uit tekst geschreven door een handvol mensen die de nauwkeurigheid bewaken?",
+          "Skill graph. Indexbestand plus markdown.",
+          "RAG wordt een kandidaat."
+        ],
+        [
+          "Vereisen zoekopdrachten strikte metadata-filters op het moment van ophalen (datumbereiken, documenttype, auteur)?",
+          "Vectordatabase met metadata-filtering. RAG wint hier.",
+          "Ga verder."
+        ],
+        [
+          "Groeit het corpus naar miljoenen documenten met updates per minuut?",
+          "RAG met een echte ophaallaag. Waarvoor het gebouwd is.",
+          "Skill graph wint op alle fronten."
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "De meeste klantcorpora die we zien zijn interne wiki's, verkoophandboeken, onboardinghandleidingen, productdocumentatie en procedures. Klein, stabiel, bijgehouden door een handvol mensen. Elk daarvan is een opdracht voor een skill graph. Het [argument voor kleine corpora met concrete cijfers](/blog/business-knowledge-base-without-rag) en de [volledige installatiegids voor de kennislaag](/blog/ai-knowledge-layer-guide) behandelen de praktische versie."
+    },
+    {
+      "type": "h2",
+      "text": "Wat er werkelijk overbodig werd tussen januari en april 2026"
+    },
+    {
+      "type": "p",
+      "text": "Sam Hogan publiceerde de scherpste analyse van deze verschuiving op 18 april 2026. Zijn stelling: het grootste deel van de LLM-tooling-categorie was gebouwd voor een wereld die grotendeels niet meer bestaat, en veel ervan werd in de drie voorgaande maanden overbodig. De lijst die hij noemde:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**RAG en GraphRAG.** De ophaalstrategie gebouwd voor contextvensters kleiner dan 32K.",
+        "**Multi-agent-orkestratieframeworks.** Vroeg handmatig gecodeerde coördinatielagen, verdrongen door coördinatie op runtimelniveau.",
+        "**ReAct-frameworks.** Gestructureerde redeneerscaffolds die nieuwere modellen zonder scaffolding produceren.",
+        "**Promptbeheer- en versiebeheertools.** Gebouwd voor een wereld waarin prompts het waardevolle bezit waren. Skills en contextsubstraten zijn dat nu.",
+        "**LLMOps-stacks.** Nu meer gericht op agent-tracing dan op het beheren van enkelvoudige prompts.",
+        "**Evaluatietools, gateways, finetuning-bibliotheken.** Elk gebouwd voor modelgedrag dat is veranderd."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Een belangrijke nuancering van Hogan zelf: de concepten zijn nog steeds waardevol. Wat verouderd is, zijn de huidige populaire implementaties. Sommige tools, hij noemde CrewAI expliciet, hebben nog steeds bestaansrecht. Zijn diepere stelling is de relevante voor klanten: recente frontiermodellen met zeer lange contextvensters hebben het feitenherroepingsprobleem dat RAG moest omzeilen grotendeels opgelost."
+    },
+    {
+      "type": "p",
+      "text": "Het sterkste marktsignaal kwam van Zep, een gefinancierd bedrijf in de agent-geheugenruimte. Ze veranderden hun volledige positionering van geheugen naar context engineering. MemSearch, van vectordatabasebedrijf Zilliz, introduceerde een systeem waarbij hun eigen vectordatabase stroomafwaarts staat van gewone markdown-bestanden. Dat een vectordatabase-leverancier toegeeft dat bestanden de kennis bevatten en de index slechts de toegangslaag is, is het soort signaal dat jaren duurt om in een persbericht te lezen en weken in een productupdating."
+    },
+    {
+      "type": "h2",
+      "text": "Wat RAG verving voor het meeste agentwerk"
+    },
+    {
+      "type": "p",
+      "text": "Het onderzoek van 450 repositories verdeelde agentgeheugen in twee kampen. Kamp één is geheugenbackends: feiten extraheren uit gesprekken, opslaan in vectordatabases, ophalen op verzoek. Mem0 (53.100 GitHub-sterren), MemPalace (46.200), Honcho, Cognee. Geoptimaliseerd voor herroeping."
+    },
+    {
+      "type": "p",
+      "text": "Kamp twee zijn contextsubstraten: gestructureerde, leesbare context die zich over sessies heen opbouwt. Zep bevindt zich hier nu. OpenClaw (250.000 sterren) is de referentie-implementatie. De vault die dit artikel produceert is een kamp-twee-systeem."
+    },
+    {
+      "type": "p",
+      "text": "De gebruikelijke cyclus voor kamp twee: de agent leest gestructureerde context, werkt daarbinnen, schrijft terug, en bij de volgende sessie is de context rijker. Geen chunkingsstrategie, geen embedding-model om te onderhouden, geen re-indexing-batchtaak, geen evaluatiesuite voor ophalen. Een map met markdown-bestanden met wikilinks ertussen, een indexbestand aan de root en een handvol lees- en schrijfcommando's. Dat is het substraat."
+    },
+    {
+      "type": "p",
+      "text": "Shiv Sakhuja publiceerde het compositiemodel voor dit substraat op 23 april 2026 als Skill Graphs 2.0. Drie lagen: atomen (enkelvoudige primitieven, nagenoeg deterministisch), moleculen (afgebakende taken die 2 tot 10 atomen combineren met expliciete koppeling), verbindingen (multi-molecule-orchestrators met echte agentautonomie, vandaag nog door mensen aangestuurd). Het framework begrenst de diepte van de afhankelijkheidsgraph, waardoor het betrouwbaar is waar vlakke skill graphs stilzwijgend afdrijven voorbij 3 of 4 stappen. Voor klanten vertaalt dit zich naar de kostenstructuur: atomen zijn goedkoop en deterministisch, moleculen zijn waar het engineeringwerk zit, verbindingen zijn waar u rekening houdt met een menselijke operator."
+    },
+    {
+      "type": "h2",
+      "text": "De uitzonderingen waarbij RAG nog steeds zijn plaats verdient"
+    },
+    {
+      "type": "p",
+      "text": "We zijn een bureau. We leveren wat de opdracht vereist. RAG overtreft een skill graph nog steeds in vier specifieke categorieën, en we zullen het aanbevelen wanneer de beslisboom daar naartoe leidt:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Multimodale corpora.** PDF's met tabellen, gescande documenten, audiotranscripties, afbeeldingszware rapporten. Een markdown-graph gaat ervan uit dat alles te reduceren valt tot tekst. Wanneer dat niet het geval is, is ophalen gecombineerd met multimodale embedding de schonere oplossing.",
+        "**Frequente updates op grote schaal.** Miljoenen documenten die per minuut veranderen en doorzoekbaar moeten zijn binnen seconden na publicatie. De re-indexing-kosten van een vectordatabase zijn lager dan de personeelskosten van het bijhouden van een indexbestand bij dat volume.",
+        "**Strikte metadata-filters op het moment van ophalen.** Wanneer zoekopdrachten moeten filteren op datumbereiken, documenttype of auteur voordat semantisch zoeken plaatsvindt, verwerken metadata-bewuste vectordatabases zoals Pinecone en Qdrant de combinatie vlekkeloos.",
+        "**Onbetrouwbare of adversariale inhoud.** Wanneer het corpus afkomstig is van veel schrijvers met tegenstrijdige belangen en geen enkele persoon een gecureerde index kan bijhouden, wilt u ophalen dat geen redactioneel toezicht veronderstelt."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Als uw project in een van deze vier categorieën valt, is RAG het juiste instrument en bouwen wij het. Als dat niet het geval is, is de skill graph goedkoper te realiseren, goedkoper te draaien en eenvoudiger te onderhouden. [Neem contact met ons op voordat u voor een van beide kiest](/#contact) en we doorlopen de beslisboom voor uw specifieke corpus."
+    },
+    {
+      "type": "h2",
+      "text": "Wat we intern gebruiken en wat we voor klanten hebben opgeleverd"
+    },
+    {
+      "type": "p",
+      "text": "Onze interne wiki bestaat uit 22 pagina's gestructureerde kennis, onderhouden via vijf shell-commando's. Geen vectordatabase, geen embeddings, geen re-indexing-cron. De [volledige installatie staat in ons eerdere artikel](/blog/business-knowledge-base-without-rag)."
+    },
+    {
+      "type": "p",
+      "text": "Hetzelfde substraat produceert de webvise-blog die u nu leest: 76 artikelen vertaald naar 7 taalversies via één content-skill-graph, zonder een toegewijd contentteam. Één skill, zeven versies per artikel, geleverd vanuit dezelfde map als de engineeringdocumentatie."
+    },
+    {
+      "type": "p",
+      "text": "Aan klantzijde draait ons productie-agentwerk op dezelfde architectuur. Hermes, het [zichzelf verbeterende agentplatform dat we vorige maand documenteerden](/blog/hermes-agent-self-improving-ai), draait op brede skills en een slanke runtime. Paperclip, ons [bedrijfsbrede AI-orkestratiesysteem](/blog/paperclip-ai-company-orchestration), combineert moleculen over een markdown-kennisbase. Geen van beide heeft een vectordatabase in de productiestacks, en geen van beide heeft er ooit een nodig gehad."
+    },
+    {
+      "type": "p",
+      "text": "Garry Tan vertelt hetzelfde verhaal vanuit YC. Zijn persoonlijke CLAUDE.md begon bij 20.000 regels, met elke eigenaardigheid, elk patroon, elke les die hij ooit was tegengekomen. De aandacht van het model verzwakte onder dat gewicht, en Claude Code zelf vertelde hem het terug te brengen."
+    },
+    {
+      "type": "p",
+      "text": "Zijn oplossing was 200 regels met verwijzingen naar documenten die op aanvraag worden geladen. De volledige 20.000 regels bestaan nog steeds, maar het model leest ze alleen wanneer dat relevant is. gstack bereikte 23.000 GitHub-sterren in de eerste week en produceerde een hoog volume productiecode in circa 60 dagen; sterren- en regeltellingen meten zichtbaarheid en doorvoer, niet geschiktheid voor productie. Het substraat schaalt omdat het substraat bestanden zijn, geen infrastructuur."
+    },
+    {
+      "type": "h2",
+      "text": "Welke vragen u een leverancier moet stellen voordat u een RAG-contract tekent in 2026"
+    },
+    {
+      "type": "p",
+      "text": "Als u al een RAG-voorstel op uw bureau heeft, stel dan deze vijf vragen voordat u tekent:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Hoe groot is het corpus nu en over 24 maanden?** Minder dan 1.000 documenten in beide gevallen betekent dat de vectordatabase een kostenpost is die u niet nodig heeft.",
+        "**Wie schrijft de inhoud?** Als het een handvol interne mensen zijn die zorgdragen voor nauwkeurigheid, overtreft een bijgehouden indexbestand embeddings op ophaalkwaliteit. Als het duizenden adversariale of anonieme schrijvers zijn, wint RAG.",
+        "**Wat is de updatefrequentie?** Wijzigingen eens per week betekenen dat u geen re-indexing-pipeline nodig heeft. Wijzigingen elke minuut op grote schaal betekenen van wel.",
+        "**Vereist de zoekopdracht strikte metadata-filters op het moment van ophalen?** Zo ja, dan verdient een metadata-bewuste vectordatabase zijn plaats. Zo nee, dan is de filterlogica goedkoper uit te voeren in de skill-laag.",
+        "**Hoe ziet het leveranciersaanbod er over 18 maanden uit?** Vectordatabasekosten nemen toe met de groei van het documentaantal. Skill-graph-kosten doen dat niet. Het verschil is van belang bij verlenging."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Wijzen de antwoorden naar RAG, bouw dan RAG. Wijzen ze naar een skill graph, dan is het moeilijkste het afleren van de aanpak uit 2024. Bij **[webvise](/#contact)** doorlopen we de beslisboom samen met u op basis van uw werkelijke corpus, leveren de architectuur op die de boom aanwijst, en zetten de besparingen in voor het werk dat het budget echt nodig heeft. [Neem contact op](/#contact) voordat u zich vastlegt op een leveranciersvoorstel."
+    }
+  ]
 }

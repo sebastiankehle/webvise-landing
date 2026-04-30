@@ -1,355 +1,355 @@
 {
-	"date": "2026-02-09",
-	"readingTime": 7,
-	"keyword": "créer un site web multilingue",
-	"title": "Comment créer un site web multilingue qui fonctionne vraiment",
-	"excerpt": "La plupart des sites multilingues sont défaillants d'une manière que leurs propriétaires ne remarquent jamais. Voici ce qui distingue un site qui performe en plusieurs langues de celui qui en donne seulement l'apparence.",
-	"tags": ["Web Development", "Internationalization", "SEO"],
-	"blocks": [
-		{
-			"type": "p",
-			"text": "Vous avez lancé une version française de votre site. Ou allemande. Vous avez investi dans des traductions, mis à jour la navigation, fait relire les textes par quelqu'un."
-		},
-		{
-			"type": "p",
-			"text": "Six mois plus tard, le trafic organique depuis la France stagne. Vous ouvrez Google Search Console et constatez que vos pages françaises ne sont pas indexées. Ou pire - elles sont indexées, mais Google présente votre contenu anglais aux internautes francophones."
-		},
-		{
-			"type": "p",
-			"text": "C'est le mode d'échec silencieux de la plupart des sites multilingues. Tout semble correct depuis le tableau de bord. En réalité, rien ne fonctionne."
-		},
-		{
-			"type": "h2",
-			"text": "Pourquoi la plupart des sites multilingues ne performent pas"
-		},
-		{
-			"type": "p",
-			"text": "Les problèmes se répartissent en trois catégories : une structure d'URL incorrecte, une implémentation [hreflang](https://developers.google.com/search/docs/specialty/international/localized-versions) défaillante, et une qualité de traduction que les moteurs de recherche comme les utilisateurs détectent."
-		},
-		{
-			"type": "h3",
-			"text": "Défaillance technique 1 : traduction automatique sans relecture"
-		},
-		{
-			"type": "p",
-			"text": "DeepL et Google Traduction se sont considérablement améliorés. Mais une traduction automatique non relue se lit comme une traduction automatique non relue. Les locuteurs natifs le détectent dès les deux premières phrases. Plus important encore, les moteurs de recherche mesurent les signaux d'engagement - taux de rebond, temps de lecture, profondeur de défilement - et des textes de mauvaise qualité dégradent les trois."
-		},
-		{
-			"type": "h3",
-			"text": "Défaillance technique 2 : hreflang mal configuré"
-		},
-		{
-			"type": "p",
-			"text": "Le hreflang est l'attribut HTML qui indique à Google quelle version d'une page présenter à quel utilisateur. C'est aussi l'élément SEO le plus souvent mal configuré sur les sites multilingues. Tags auto-référentiels manquants, URL non concordantes, ensembles incomplets - chacune de ces erreurs compromet l'ensemble du système."
-		},
-		{
-			"type": "h3",
-			"text": "Défaillance technique 3 : changement de langue rendu en JavaScript"
-		},
-		{
-			"type": "p",
-			"text": "Certains sites détectent la langue du navigateur en JavaScript et permutent le contenu côté client. Googlebot ne voit souvent que la langue par défaut. Votre contenu français est invisible pour les robots d'exploration français de Google. Vous avez construit un site multilingue que Google indexe comme uniquement anglophone."
-		},
-		{
-			"type": "h2",
-			"text": "Structure des URL : le fondement que vous ne pourrez plus changer ensuite"
-		},
-		{
-			"type": "p",
-			"text": "Avant de toucher à la moindre traduction, vous devez décider comment vos URL multilingues seront structurées. Cette décision est difficile à inverser. La corriger ultérieurement nécessite une migration complète avec redirections."
-		},
-		{
-			"type": "table",
-			"headers": ["Structure", "Exemple", "Recommandé pour"],
-			"rows": [
-				[
-					"Sous-répertoire",
-					"exemple.com/fr/",
-					"La plupart des entreprises - meilleure consolidation SEO, un seul domaine à gérer"
-				],
-				[
-					"Sous-domaine",
-					"fr.exemple.com",
-					"Grandes organisations avec des équipes séparées par région"
-				],
-				[
-					"TLD national",
-					"exemple.fr",
-					"Entreprises avec une forte identité de marque locale, budget pour plusieurs domaines"
-				],
-				[
-					"Paramètre de requête",
-					"exemple.com?lang=fr",
-					"À éviter - déconseillé par Google, mauvaise indexation"
-				]
-			]
-		},
-		{
-			"type": "p",
-			"text": "Pour la plupart des entreprises, la **structure en sous-répertoire** est le bon choix. L'autorité de domaine reste consolidée. Vous gérez un seul domaine. Le hreflang est plus simple à implémenter. Les [coûts](/blog/how-much-does-a-website-cost) d'hébergement restent prévisibles."
-		},
-		{
-			"type": "p",
-			"text": "Les TLD nationaux (exemple.fr, exemple.de) ne se justifient que si la confiance du marché local est un facteur de conversion critique - courant dans les services financiers ou la santé, où les utilisateurs recherchent activement des signaux d'enregistrement local."
-		},
-		{
-			"type": "h2",
-			"text": "Hreflang : l'attribut qui brise tout quand il est incorrect"
-		},
-		{
-			"type": "p",
-			"text": "Les balises hreflang indiquent aux moteurs de recherche : « cette page en français est l'équivalent de cette page en anglais ». Sans elles, Google devine. Et il se trompe généralement."
-		},
-		{
-			"type": "h3",
-			"text": "Les quatre erreurs hreflang les plus fréquentes"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Tag auto-référentiel manquant** - chaque page doit se référencer elle-même dans son propre ensemble hreflang. Sans cela, Google peut ignorer l'ensemble du set.",
-				"**URL non concordantes** - si votre hreflang pointe vers exemple.com/fr/page/ mais que l'URL réelle est exemple.com/fr/page (sans slash final), c'est cassé.",
-				"**Ensembles incomplets** - si votre page anglaise référence une version française, cette page française doit aussi référencer la version anglaise. Les tags unidirectionnels sont traités comme des erreurs.",
-				"**Codes de langue incorrects** - `fr` signifie français dans le monde entier. `fr-FR` signifie français pour la France spécifiquement. `fr-BE` signifie français pour la Belgique. Utiliser le mauvais code peut conduire à montrer votre page ciblée France aux francophones belges."
-			]
-		},
-		{
-			"type": "p",
-			"text": "Une implémentation hreflang valide pour un site en trois langues ressemble à ceci : chaque page dans chaque langue dispose d'un ensemble complet de balises pointant vers les trois versions, elle-même incluse. C'est trois balises par page par langue - pour 50 pages en trois langues, cela représente 450 déclarations hreflang. Toutes doivent être cohérentes."
-		},
-		{
-			"type": "p",
-			"text": "La gestion manuelle à grande échelle, c'est ainsi que les erreurs se produisent. L'automatisation au niveau du framework, c'est ainsi qu'on les évite."
-		},
-		{
-			"type": "h2",
-			"text": "Qualité de traduction : ce qui fait vraiment la différence"
-		},
-		{
-			"type": "p",
-			"text": "Toutes les traductions ne se valent pas. La bonne approche dépend du type de page, du marché cible et de votre budget."
-		},
-		{
-			"type": "table",
-			"headers": ["Approche", "Qualité", "Coût", "Recommandé pour"],
-			"rows": [
-				[
-					"Traduction automatique brute",
-					"Fonctionnelle, détectable",
-					"Quasi nul",
-					"Documents internes, pages d'archive à faible trafic"
-				],
-				[
-					"Machine + relecture humaine",
-					"Bonne pour la plupart des contextes",
-					"Faible à moyen",
-					"Articles de blog, descriptions produits, pages secondaires"
-				],
-				[
-					"Traduction professionnelle",
-					"Élevée, précise",
-					"Moyen à élevé",
-					"Pages légales, études de cas, pages de services principales"
-				],
-				[
-					"Rédaction native",
-					"La plus élevée, culturellement pertinente",
-					"Élevé",
-					"Page d'accueil, landing pages, pages à forte conversion"
-				]
-			]
-		},
-		{
-			"type": "p",
-			"text": "L'erreur que commettent la plupart des entreprises : elles appliquent une traduction automatique brute uniformément sur l'ensemble du site, puis s'interrogent sur les raisons pour lesquelles leur page d'accueil française ne convertit pas. Une page d'accueil est un document commercial. Elle nécessite une rédaction native."
-		},
-		{
-			"type": "p",
-			"text": "Un article de blog en position 8 pour un mot-clé de niche peut se contenter de machine plus relecture. Votre page de service principale, non."
-		},
-		{
-			"type": "h2",
-			"text": "Adaptation culturelle : ce que les outils de traduction ne peuvent pas faire"
-		},
-		{
-			"type": "p",
-			"text": "La même phrase peut être correcte en français et ne toujours pas convertir. Le registre culturel, le style d'argumentation et les signaux de confiance varient significativement d'un marché européen à l'autre."
-		},
-		{
-			"type": "h3",
-			"text": "France"
-		},
-		{
-			"type": "p",
-			"text": "Le public français attend de la formalité et une démonstration de compétence avant d'accorder sa confiance. Les études de cas et les références comptent. Utilisez le vouvoiement tout au long du texte. Évitez les textes trop familiers - ils paraissent non professionnels."
-		},
-		{
-			"type": "h3",
-			"text": "DACH (Allemagne, Autriche, Suisse)"
-		},
-		{
-			"type": "p",
-			"text": "Les marchés germanophones attendent un registre formel et une profondeur technique. Les affirmations vagues comme « la meilleure solution » sont activement contre-productives - étayez tout avec des données concrètes. La protection des données (RGPD/DSGVO) est un signal de confiance fort : affichez-la de manière visible."
-		},
-		{
-			"type": "h3",
-			"text": "Espagne et Amérique latine"
-		},
-		{
-			"type": "p",
-			"text": "Les marchés hispanophones tendent à être plus chaleureux et orientés vers la relation. La confiance se construit autant par le ton que par les références. Cela dit, l'Espagne et l'Amérique latine sont distinctes - le vocabulaire, les expressions idiomatiques et les normes de formalité diffèrent significativement."
-		},
-		{
-			"type": "h3",
-			"text": "Pays-Bas"
-		},
-		{
-			"type": "p",
-			"text": "Le public néerlandais est particulièrement direct et transparent sur les prix. Il n'apprécie pas le jargon corporate. Soyez précis sur les coûts et ce que l'on obtient. Le concret l'emporte sur l'abstrait."
-		},
-		{
-			"type": "h3",
-			"text": "Pologne"
-		},
-		{
-			"type": "p",
-			"text": "Les acheteurs B2B polonais sont orientés valeur. Les arguments ROI portent bien. Le marché est sensible aux prix comparativement à l'Europe occidentale, mais les signaux de qualité comptent. Évitez que votre contenu polonais ressemble à une traduction de dernière minute."
-		},
-		{
-			"type": "h2",
-			"text": "Le problème WordPress avec le multilingue"
-		},
-		{
-			"type": "p",
-			"text": "La plupart des entreprises qui veulent faire du multilingue sur WordPress se tournent vers WPML ou Polylang. Les deux sont des plugins matures. Les deux ont des problèmes réels à grande échelle."
-		},
-		{
-			"type": "h3",
-			"text": "Surcharge de performance"
-		},
-		{
-			"type": "p",
-			"text": "WPML ajoute des requêtes en base de données supplémentaires à chaque chargement de page pour déterminer et servir la bonne version linguistique. Sur un site avec 10 000 articles en 5 langues, cette surcharge devient mesurable. Vous aggravez une architecture déjà contrainte sur le plan des [performances](/blog/website-performance-for-ecommerce)."
-		},
-		{
-			"type": "h3",
-			"text": "Complexité de gestion des traductions"
-		},
-		{
-			"type": "p",
-			"text": "Gérer les traductions dans WordPress signifie maintenir des hiérarchies de publications parallèles synchronisées. Mettez à jour votre page de service anglaise et vous devez manuellement signaler et retraduire chaque version linguistique. Oubliez-en une et vous diffusez du contenu obsolète à des visiteurs réels."
-		},
-		{
-			"type": "h3",
-			"text": "Erreurs hreflang"
-		},
-		{
-			"type": "p",
-			"text": "WPML et Polylang génèrent le hreflang automatiquement - mais leur sortie est aussi bonne que votre complétude de traduction. S'il manque une traduction française, l'ensemble hreflang de chaque page anglaise qui y fait référence est incomplet. Le hreflang généré par plugin exige une couverture de traduction parfaite."
-		},
-		{
-			"type": "h3",
-			"text": "Risque de dépendance au plugin"
-		},
-		{
-			"type": "p",
-			"text": "Toute votre infrastructure multilingue repose sur un plugin tiers qui doit rester compatible avec WordPress core, votre thème et vos autres plugins. Des mises à jour de WPML ont déjà causé des problèmes de compatibilité. Quand ça casse, toutes les versions linguistiques tombent simultanément."
-		},
-		{
-			"type": "h2",
-			"text": "L'approche Next.js pour le multilingue"
-		},
-		{
-			"type": "p",
-			"text": "Next.js gère l'internationalisation au niveau du framework, pas au niveau du plugin. La différence est architecturale."
-		},
-		{
-			"type": "h3",
-			"text": "Routage au niveau du framework"
-		},
-		{
-			"type": "p",
-			"text": "Dans Next.js, `/fr/services` et `/en/services` sont des routes de première classe. Le framework les connaît au moment de la construction. Il n'y a pas de changement de langue côté client, pas de détection à l'exécution - Google indexe chaque URL comme une page entièrement indépendante avec son propre contenu."
-		},
-		{
-			"type": "h3",
-			"text": "Génération automatique de hreflang"
-		},
-		{
-			"type": "p",
-			"text": "Avec une configuration i18n Next.js correcte, les balises hreflang sont générées depuis votre configuration de routes. Ajoutez un nouveau locale et chaque page obtient automatiquement les balises correctes. Supprimez un locale et les références orphelines sont nettoyées. Pas de gestion manuelle, pas d'erreurs silencieuses."
-		},
-		{
-			"type": "h3",
-			"text": "Performance constante sur tous les locales"
-		},
-		{
-			"type": "p",
-			"text": "Ajouter des versions française et allemande à un site Next.js n'ajoute ni requêtes en base de données, ni surcharge de plugin, ni complexité PHP. Chaque locale est un ensemble de fichiers statiques servis depuis un edge CDN. Un utilisateur français à Paris obtient sa page depuis un nœud edge parisien en moins de 50 ms - quel que soit le nombre de langues supportées."
-		},
-		{
-			"type": "h3",
-			"text": "Contenu structuré - aucun risque lié aux plugins"
-		},
-		{
-			"type": "p",
-			"text": "Le contenu des traductions vit dans des fichiers JSON ou un CMS headless. Aucun plugin à mettre à jour, à casser ou à payer. Aucun changement de schéma de base de données lors de l'ajout d'une langue. Le contenu est versionné avec le code."
-		},
-		{
-			"type": "h2",
-			"text": "Liste de vérification avant lancement pour les sites multilingues"
-		},
-		{
-			"type": "p",
-			"text": "Avant de mettre en ligne toute nouvelle version linguistique, parcourez cette liste."
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Tester sur le Google du pays cible** - utilisez un VPN ou l'outil d'inspection d'URL de Google Search Console pour vérifier que la bonne version linguistique est retournée pour des recherches depuis ce pays",
-				"**Valider le hreflang avec un outil dédié** - Screaming Frog ou l'[audit](/blog/website-audit-checklist) de site Ahrefs identifiera les balises hreflang mal configurées ou manquantes sur l'ensemble de vos URL",
-				"**Mesurer le PageSpeed pour chaque locale indépendamment** - une page française avec une police plus lourde ou un jeu d'images différent peut scorer différemment de votre baseline anglaise",
-				"**Relecture par un locuteur natif avant le lancement** - pas seulement pour les fautes, mais pour le ton, le registre, et si le texte convaincrait réellement un client local",
-				"**Localiser les mentions légales** - la France requiert des mentions légales spécifiques. Les marchés DACH nécessitent un Impressum en allemand et une politique de confidentialité conforme au RGPD. Ce sont des obligations légales, pas des options",
-				"**Vérifier la détection de langue sur accès direct par URL** - si un utilisateur accède directement à /fr/services, il doit obtenir du français, pas une redirection vers l'anglais selon ses paramètres de navigateur"
-			]
-		},
-		{
-			"type": "h2",
-			"text": "Ce que « ça fonctionne » signifie vraiment"
-		},
-		{
-			"type": "p",
-			"text": "Un site multilingue qui fonctionne a des classements organiques différents sur chaque marché cible. Google Search Console affiche des impressions et des clics en provenance des bons pays sur les bonnes pages linguistiques. Les taux de rebond sont comparables d'un locale à l'autre - pas significativement plus élevés sur les versions traduites. Et quand un internaute français tape votre mot-clé cible sur Google.fr, il trouve votre page française, pas votre page anglaise."
-		},
-		{
-			"type": "p",
-			"text": "Ce résultat nécessite de bien choisir la structure des URL dès le départ, d'implémenter le hreflang sans erreurs, d'adapter la qualité de traduction à l'importance de la page, et d'utiliser une stack technique où tout cela est maintenu automatiquement plutôt que manuellement."
-		},
-		{
-			"type": "p",
-			"text": "La plupart des entreprises n'y parviennent pas du premier coup. Le schéma habituel : lancer un site traduit, ne voir aucun résultat, supposer que le marché ne veut pas le produit, abandonner l'expansion internationale."
-		},
-		{
-			"type": "p",
-			"text": "Le marché veut généralement le produit. Le site n'était simplement pas construit pour l'atteindre."
-		},
-		{
-			"type": "h2",
-			"text": "Obtenez un audit gratuit de votre site"
-		},
-		{
-			"type": "p",
-			"text": "Si votre site multilingue ne performe pas - ou si vous en planifiez un et souhaitez que l'architecture soit correcte dès le départ - nous analyserons votre configuration actuelle gratuitement."
-		},
-		{
-			"type": "p",
-			"text": "Notre **rapport de santé gratuit** couvre l'implémentation hreflang, la structure des URL, le PageSpeed par locale et les signaux de qualité de traduction. Vous obtenez une analyse concrète et actionnable de ce qui ne fonctionne pas et de ce qu'il faut corriger en priorité."
-		},
-		{
-			"type": "p",
-			"text": "**Obtenez votre rapport gratuit sur** [webvise.io/wp-health-report](/wp-health-report). Aucun appel commercial requis."
-		}
-	],
-	"metaDescription": "Créez un site multilingue qui se positionne sur chaque marché. Structure d'URL, hreflang, niveaux de traduction, adaptation culturelle et WordPress vs Next.js."
+  "date": "2026-02-09",
+  "readingTime": 7,
+  "keyword": "créer un site web multilingue",
+  "title": "Comment créer un site web multilingue qui fonctionne vraiment",
+  "excerpt": "La plupart des sites multilingues sont défaillants d'une manière que leurs propriétaires ne remarquent jamais. Voici ce qui distingue un site qui performe en plusieurs langues de celui qui en donne seulement l'apparence.",
+  "tags": ["Web Development", "Internationalization", "SEO"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Vous avez lancé une version française de votre site. Ou allemande. Vous avez investi dans des traductions, mis à jour la navigation, fait relire les textes par quelqu'un."
+    },
+    {
+      "type": "p",
+      "text": "Six mois plus tard, le trafic organique depuis la France stagne. Vous ouvrez Google Search Console et constatez que vos pages françaises ne sont pas indexées. Ou pire - elles sont indexées, mais Google présente votre contenu anglais aux internautes francophones."
+    },
+    {
+      "type": "p",
+      "text": "C'est le mode d'échec silencieux de la plupart des sites multilingues. Tout semble correct depuis le tableau de bord. En réalité, rien ne fonctionne."
+    },
+    {
+      "type": "h2",
+      "text": "Pourquoi la plupart des sites multilingues ne performent pas"
+    },
+    {
+      "type": "p",
+      "text": "Les problèmes se répartissent en trois catégories : une structure d'URL incorrecte, une implémentation [hreflang](https://developers.google.com/search/docs/specialty/international/localized-versions) défaillante, et une qualité de traduction que les moteurs de recherche comme les utilisateurs détectent."
+    },
+    {
+      "type": "h3",
+      "text": "Défaillance technique 1 : traduction automatique sans relecture"
+    },
+    {
+      "type": "p",
+      "text": "DeepL et Google Traduction se sont considérablement améliorés. Mais une traduction automatique non relue se lit comme une traduction automatique non relue. Les locuteurs natifs le détectent dès les deux premières phrases. Plus important encore, les moteurs de recherche mesurent les signaux d'engagement - taux de rebond, temps de lecture, profondeur de défilement - et des textes de mauvaise qualité dégradent les trois."
+    },
+    {
+      "type": "h3",
+      "text": "Défaillance technique 2 : hreflang mal configuré"
+    },
+    {
+      "type": "p",
+      "text": "Le hreflang est l'attribut HTML qui indique à Google quelle version d'une page présenter à quel utilisateur. C'est aussi l'élément SEO le plus souvent mal configuré sur les sites multilingues. Tags auto-référentiels manquants, URL non concordantes, ensembles incomplets - chacune de ces erreurs compromet l'ensemble du système."
+    },
+    {
+      "type": "h3",
+      "text": "Défaillance technique 3 : changement de langue rendu en JavaScript"
+    },
+    {
+      "type": "p",
+      "text": "Certains sites détectent la langue du navigateur en JavaScript et permutent le contenu côté client. Googlebot ne voit souvent que la langue par défaut. Votre contenu français est invisible pour les robots d'exploration français de Google. Vous avez construit un site multilingue que Google indexe comme uniquement anglophone."
+    },
+    {
+      "type": "h2",
+      "text": "Structure des URL : le fondement que vous ne pourrez plus changer ensuite"
+    },
+    {
+      "type": "p",
+      "text": "Avant de toucher à la moindre traduction, vous devez décider comment vos URL multilingues seront structurées. Cette décision est difficile à inverser. La corriger ultérieurement nécessite une migration complète avec redirections."
+    },
+    {
+      "type": "table",
+      "headers": ["Structure", "Exemple", "Recommandé pour"],
+      "rows": [
+        [
+          "Sous-répertoire",
+          "exemple.com/fr/",
+          "La plupart des entreprises - meilleure consolidation SEO, un seul domaine à gérer"
+        ],
+        [
+          "Sous-domaine",
+          "fr.exemple.com",
+          "Grandes organisations avec des équipes séparées par région"
+        ],
+        [
+          "TLD national",
+          "exemple.fr",
+          "Entreprises avec une forte identité de marque locale, budget pour plusieurs domaines"
+        ],
+        [
+          "Paramètre de requête",
+          "exemple.com?lang=fr",
+          "À éviter - déconseillé par Google, mauvaise indexation"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Pour la plupart des entreprises, la **structure en sous-répertoire** est le bon choix. L'autorité de domaine reste consolidée. Vous gérez un seul domaine. Le hreflang est plus simple à implémenter. Les [coûts](/blog/how-much-does-a-website-cost) d'hébergement restent prévisibles."
+    },
+    {
+      "type": "p",
+      "text": "Les TLD nationaux (exemple.fr, exemple.de) ne se justifient que si la confiance du marché local est un facteur de conversion critique - courant dans les services financiers ou la santé, où les utilisateurs recherchent activement des signaux d'enregistrement local."
+    },
+    {
+      "type": "h2",
+      "text": "Hreflang : l'attribut qui brise tout quand il est incorrect"
+    },
+    {
+      "type": "p",
+      "text": "Les balises hreflang indiquent aux moteurs de recherche : « cette page en français est l'équivalent de cette page en anglais ». Sans elles, Google devine. Et il se trompe généralement."
+    },
+    {
+      "type": "h3",
+      "text": "Les quatre erreurs hreflang les plus fréquentes"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Tag auto-référentiel manquant** - chaque page doit se référencer elle-même dans son propre ensemble hreflang. Sans cela, Google peut ignorer l'ensemble du set.",
+        "**URL non concordantes** - si votre hreflang pointe vers exemple.com/fr/page/ mais que l'URL réelle est exemple.com/fr/page (sans slash final), c'est cassé.",
+        "**Ensembles incomplets** - si votre page anglaise référence une version française, cette page française doit aussi référencer la version anglaise. Les tags unidirectionnels sont traités comme des erreurs.",
+        "**Codes de langue incorrects** - `fr` signifie français dans le monde entier. `fr-FR` signifie français pour la France spécifiquement. `fr-BE` signifie français pour la Belgique. Utiliser le mauvais code peut conduire à montrer votre page ciblée France aux francophones belges."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Une implémentation hreflang valide pour un site en trois langues ressemble à ceci : chaque page dans chaque langue dispose d'un ensemble complet de balises pointant vers les trois versions, elle-même incluse. C'est trois balises par page par langue - pour 50 pages en trois langues, cela représente 450 déclarations hreflang. Toutes doivent être cohérentes."
+    },
+    {
+      "type": "p",
+      "text": "La gestion manuelle à grande échelle, c'est ainsi que les erreurs se produisent. L'automatisation au niveau du framework, c'est ainsi qu'on les évite."
+    },
+    {
+      "type": "h2",
+      "text": "Qualité de traduction : ce qui fait vraiment la différence"
+    },
+    {
+      "type": "p",
+      "text": "Toutes les traductions ne se valent pas. La bonne approche dépend du type de page, du marché cible et de votre budget."
+    },
+    {
+      "type": "table",
+      "headers": ["Approche", "Qualité", "Coût", "Recommandé pour"],
+      "rows": [
+        [
+          "Traduction automatique brute",
+          "Fonctionnelle, détectable",
+          "Quasi nul",
+          "Documents internes, pages d'archive à faible trafic"
+        ],
+        [
+          "Machine + relecture humaine",
+          "Bonne pour la plupart des contextes",
+          "Faible à moyen",
+          "Articles de blog, descriptions produits, pages secondaires"
+        ],
+        [
+          "Traduction professionnelle",
+          "Élevée, précise",
+          "Moyen à élevé",
+          "Pages légales, études de cas, pages de services principales"
+        ],
+        [
+          "Rédaction native",
+          "La plus élevée, culturellement pertinente",
+          "Élevé",
+          "Page d'accueil, landing pages, pages à forte conversion"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "L'erreur que commettent la plupart des entreprises : elles appliquent une traduction automatique brute uniformément sur l'ensemble du site, puis s'interrogent sur les raisons pour lesquelles leur page d'accueil française ne convertit pas. Une page d'accueil est un document commercial. Elle nécessite une rédaction native."
+    },
+    {
+      "type": "p",
+      "text": "Un article de blog en position 8 pour un mot-clé de niche peut se contenter de machine plus relecture. Votre page de service principale, non."
+    },
+    {
+      "type": "h2",
+      "text": "Adaptation culturelle : ce que les outils de traduction ne peuvent pas faire"
+    },
+    {
+      "type": "p",
+      "text": "La même phrase peut être correcte en français et ne toujours pas convertir. Le registre culturel, le style d'argumentation et les signaux de confiance varient significativement d'un marché européen à l'autre."
+    },
+    {
+      "type": "h3",
+      "text": "France"
+    },
+    {
+      "type": "p",
+      "text": "Le public français attend de la formalité et une démonstration de compétence avant d'accorder sa confiance. Les études de cas et les références comptent. Utilisez le vouvoiement tout au long du texte. Évitez les textes trop familiers - ils paraissent non professionnels."
+    },
+    {
+      "type": "h3",
+      "text": "DACH (Allemagne, Autriche, Suisse)"
+    },
+    {
+      "type": "p",
+      "text": "Les marchés germanophones attendent un registre formel et une profondeur technique. Les affirmations vagues comme « la meilleure solution » sont activement contre-productives - étayez tout avec des données concrètes. La protection des données (RGPD/DSGVO) est un signal de confiance fort : affichez-la de manière visible."
+    },
+    {
+      "type": "h3",
+      "text": "Espagne et Amérique latine"
+    },
+    {
+      "type": "p",
+      "text": "Les marchés hispanophones tendent à être plus chaleureux et orientés vers la relation. La confiance se construit autant par le ton que par les références. Cela dit, l'Espagne et l'Amérique latine sont distinctes - le vocabulaire, les expressions idiomatiques et les normes de formalité diffèrent significativement."
+    },
+    {
+      "type": "h3",
+      "text": "Pays-Bas"
+    },
+    {
+      "type": "p",
+      "text": "Le public néerlandais est particulièrement direct et transparent sur les prix. Il n'apprécie pas le jargon corporate. Soyez précis sur les coûts et ce que l'on obtient. Le concret l'emporte sur l'abstrait."
+    },
+    {
+      "type": "h3",
+      "text": "Pologne"
+    },
+    {
+      "type": "p",
+      "text": "Les acheteurs B2B polonais sont orientés valeur. Les arguments ROI portent bien. Le marché est sensible aux prix comparativement à l'Europe occidentale, mais les signaux de qualité comptent. Évitez que votre contenu polonais ressemble à une traduction de dernière minute."
+    },
+    {
+      "type": "h2",
+      "text": "Le problème WordPress avec le multilingue"
+    },
+    {
+      "type": "p",
+      "text": "La plupart des entreprises qui veulent faire du multilingue sur WordPress se tournent vers WPML ou Polylang. Les deux sont des plugins matures. Les deux ont des problèmes réels à grande échelle."
+    },
+    {
+      "type": "h3",
+      "text": "Surcharge de performance"
+    },
+    {
+      "type": "p",
+      "text": "WPML ajoute des requêtes en base de données supplémentaires à chaque chargement de page pour déterminer et servir la bonne version linguistique. Sur un site avec 10 000 articles en 5 langues, cette surcharge devient mesurable. Vous aggravez une architecture déjà contrainte sur le plan des [performances](/blog/website-performance-for-ecommerce)."
+    },
+    {
+      "type": "h3",
+      "text": "Complexité de gestion des traductions"
+    },
+    {
+      "type": "p",
+      "text": "Gérer les traductions dans WordPress signifie maintenir des hiérarchies de publications parallèles synchronisées. Mettez à jour votre page de service anglaise et vous devez manuellement signaler et retraduire chaque version linguistique. Oubliez-en une et vous diffusez du contenu obsolète à des visiteurs réels."
+    },
+    {
+      "type": "h3",
+      "text": "Erreurs hreflang"
+    },
+    {
+      "type": "p",
+      "text": "WPML et Polylang génèrent le hreflang automatiquement - mais leur sortie est aussi bonne que votre complétude de traduction. S'il manque une traduction française, l'ensemble hreflang de chaque page anglaise qui y fait référence est incomplet. Le hreflang généré par plugin exige une couverture de traduction parfaite."
+    },
+    {
+      "type": "h3",
+      "text": "Risque de dépendance au plugin"
+    },
+    {
+      "type": "p",
+      "text": "Toute votre infrastructure multilingue repose sur un plugin tiers qui doit rester compatible avec WordPress core, votre thème et vos autres plugins. Des mises à jour de WPML ont déjà causé des problèmes de compatibilité. Quand ça casse, toutes les versions linguistiques tombent simultanément."
+    },
+    {
+      "type": "h2",
+      "text": "L'approche Next.js pour le multilingue"
+    },
+    {
+      "type": "p",
+      "text": "Next.js gère l'internationalisation au niveau du framework, pas au niveau du plugin. La différence est architecturale."
+    },
+    {
+      "type": "h3",
+      "text": "Routage au niveau du framework"
+    },
+    {
+      "type": "p",
+      "text": "Dans Next.js, `/fr/services` et `/en/services` sont des routes de première classe. Le framework les connaît au moment de la construction. Il n'y a pas de changement de langue côté client, pas de détection à l'exécution - Google indexe chaque URL comme une page entièrement indépendante avec son propre contenu."
+    },
+    {
+      "type": "h3",
+      "text": "Génération automatique de hreflang"
+    },
+    {
+      "type": "p",
+      "text": "Avec une configuration i18n Next.js correcte, les balises hreflang sont générées depuis votre configuration de routes. Ajoutez un nouveau locale et chaque page obtient automatiquement les balises correctes. Supprimez un locale et les références orphelines sont nettoyées. Pas de gestion manuelle, pas d'erreurs silencieuses."
+    },
+    {
+      "type": "h3",
+      "text": "Performance constante sur tous les locales"
+    },
+    {
+      "type": "p",
+      "text": "Ajouter des versions française et allemande à un site Next.js n'ajoute ni requêtes en base de données, ni surcharge de plugin, ni complexité PHP. Chaque locale est un ensemble de fichiers statiques servis depuis un edge CDN. Un utilisateur français à Paris obtient sa page depuis un nœud edge parisien en moins de 50 ms - quel que soit le nombre de langues supportées."
+    },
+    {
+      "type": "h3",
+      "text": "Contenu structuré - aucun risque lié aux plugins"
+    },
+    {
+      "type": "p",
+      "text": "Le contenu des traductions vit dans des fichiers JSON ou un CMS headless. Aucun plugin à mettre à jour, à casser ou à payer. Aucun changement de schéma de base de données lors de l'ajout d'une langue. Le contenu est versionné avec le code."
+    },
+    {
+      "type": "h2",
+      "text": "Liste de vérification avant lancement pour les sites multilingues"
+    },
+    {
+      "type": "p",
+      "text": "Avant de mettre en ligne toute nouvelle version linguistique, parcourez cette liste."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Tester sur le Google du pays cible** - utilisez un VPN ou l'outil d'inspection d'URL de Google Search Console pour vérifier que la bonne version linguistique est retournée pour des recherches depuis ce pays",
+        "**Valider le hreflang avec un outil dédié** - Screaming Frog ou l'[audit](/blog/website-audit-checklist) de site Ahrefs identifiera les balises hreflang mal configurées ou manquantes sur l'ensemble de vos URL",
+        "**Mesurer le PageSpeed pour chaque locale indépendamment** - une page française avec une police plus lourde ou un jeu d'images différent peut scorer différemment de votre baseline anglaise",
+        "**Relecture par un locuteur natif avant le lancement** - pas seulement pour les fautes, mais pour le ton, le registre, et si le texte convaincrait réellement un client local",
+        "**Localiser les mentions légales** - la France requiert des mentions légales spécifiques. Les marchés DACH nécessitent un Impressum en allemand et une politique de confidentialité conforme au RGPD. Ce sont des obligations légales, pas des options",
+        "**Vérifier la détection de langue sur accès direct par URL** - si un utilisateur accède directement à /fr/services, il doit obtenir du français, pas une redirection vers l'anglais selon ses paramètres de navigateur"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Ce que « ça fonctionne » signifie vraiment"
+    },
+    {
+      "type": "p",
+      "text": "Un site multilingue qui fonctionne a des classements organiques différents sur chaque marché cible. Google Search Console affiche des impressions et des clics en provenance des bons pays sur les bonnes pages linguistiques. Les taux de rebond sont comparables d'un locale à l'autre - pas significativement plus élevés sur les versions traduites. Et quand un internaute français tape votre mot-clé cible sur Google.fr, il trouve votre page française, pas votre page anglaise."
+    },
+    {
+      "type": "p",
+      "text": "Ce résultat nécessite de bien choisir la structure des URL dès le départ, d'implémenter le hreflang sans erreurs, d'adapter la qualité de traduction à l'importance de la page, et d'utiliser une stack technique où tout cela est maintenu automatiquement plutôt que manuellement."
+    },
+    {
+      "type": "p",
+      "text": "La plupart des entreprises n'y parviennent pas du premier coup. Le schéma habituel : lancer un site traduit, ne voir aucun résultat, supposer que le marché ne veut pas le produit, abandonner l'expansion internationale."
+    },
+    {
+      "type": "p",
+      "text": "Le marché veut généralement le produit. Le site n'était simplement pas construit pour l'atteindre."
+    },
+    {
+      "type": "h2",
+      "text": "Obtenez un audit gratuit de votre site"
+    },
+    {
+      "type": "p",
+      "text": "Si votre site multilingue ne performe pas - ou si vous en planifiez un et souhaitez que l'architecture soit correcte dès le départ - nous analyserons votre configuration actuelle gratuitement."
+    },
+    {
+      "type": "p",
+      "text": "Notre **rapport de santé gratuit** couvre l'implémentation hreflang, la structure des URL, le PageSpeed par locale et les signaux de qualité de traduction. Vous obtenez une analyse concrète et actionnable de ce qui ne fonctionne pas et de ce qu'il faut corriger en priorité."
+    },
+    {
+      "type": "p",
+      "text": "**Obtenez votre rapport gratuit sur** [webvise.io/wp-health-report](/wp-health-report). Aucun appel commercial requis."
+    }
+  ],
+  "metaDescription": "Créez un site multilingue qui se positionne sur chaque marché. Structure d'URL, hreflang, niveaux de traduction, adaptation culturelle et WordPress vs Next.js."
 }

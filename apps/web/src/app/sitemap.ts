@@ -12,8 +12,8 @@ type ChangeFrequency = NonNullable<
 >;
 
 interface EntryOptions {
-	lastModified: Date;
 	changeFrequency: ChangeFrequency;
+	lastModified: Date;
 	priority: number;
 }
 
@@ -34,7 +34,7 @@ function alternatesFor(path: string) {
 
 function entriesForPath(
 	path: string,
-	options: EntryOptions,
+	options: EntryOptions
 ): MetadataRoute.Sitemap {
 	const alternates = alternatesFor(path);
 	return routing.locales.map((locale) => ({
@@ -97,7 +97,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 			lastModified: now,
 			changeFrequency: "monthly",
 			priority: 0.8,
-		}),
+		})
 	);
 
 	const caseStudyPages = getCaseStudies("en").flatMap((cs) =>
@@ -105,7 +105,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 			lastModified: new Date(cs.date),
 			changeFrequency: "monthly",
 			priority: 0.7,
-		}),
+		})
 	);
 
 	const blogPages = blogPosts.flatMap((post) =>
@@ -113,7 +113,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 			lastModified: new Date(post.date),
 			changeFrequency: "monthly",
 			priority: 0.7,
-		}),
+		})
 	);
 
 	return [...staticPages, ...servicePages, ...caseStudyPages, ...blogPages];

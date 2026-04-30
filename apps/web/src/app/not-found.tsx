@@ -17,7 +17,7 @@ export default async function GlobalNotFound() {
 	const t = await getTranslations("notFound");
 
 	return (
-		<html lang="en" className={`${inter.variable} ${geistMono.variable}`}>
+		<html className={`${inter.variable} ${geistMono.variable}`} lang="en">
 			<body className="flex min-h-screen flex-col items-center justify-center bg-background px-6 font-sans antialiased">
 				<Mono className="text-muted-foreground/50">404</Mono>
 				<H1 className="mt-4">{t("title")}</H1>
@@ -26,14 +26,14 @@ export default async function GlobalNotFound() {
 				</Lead>
 				<div className="mt-8 flex gap-3">
 					<a
-						href="/"
 						className="inline-flex items-center justify-center border border-foreground bg-foreground px-4 py-2 font-sans text-background text-sm transition-colors hover:bg-foreground/90"
+						href="/"
 					>
 						{t("backHome")}
 					</a>
 					<a
-						href="/#contact"
 						className="inline-flex items-center justify-center border border-border bg-background px-4 py-2 font-sans text-foreground text-sm transition-colors hover:bg-muted"
+						href="/#contact"
 					>
 						{t("contact")}
 					</a>

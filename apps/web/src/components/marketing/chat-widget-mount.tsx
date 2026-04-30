@@ -27,6 +27,8 @@ export default function ChatWidgetMount() {
 		};
 	}, []);
 
-	if (!show) return null;
+	if (!show) {
+		return null;
+	}
 	return <ChatWidget />;
 }

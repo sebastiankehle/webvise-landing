@@ -1,163 +1,163 @@
 {
-	"title": "Por que muchos sitios WordPress son lentos en movil (y como solucionarlo)",
-	"excerpt": "En 2026, el 60 % del tráfico web proviene del móvil, y Google clasifica tu sitio según su rendimiento en móvil. Descubre por que los sitios WordPress suelen obtener 35-55 en PageSpeed movil y que puedes hacer al respecto.",
-	"tags": ["WordPress", "Performance", "Mobile"],
-	"blocks": [
-		{
-			"type": "p",
-			"text": "Quiza hayas notado que tu sitio [WordPress](/blog/wordpress-site-speed) no carga tan rapido como te gustaria. Pero ¿lo has comprobado en el móvil?"
-		},
-		{
-			"type": "p",
-			"text": "Saca tu teléfono ahora mismo y carga tu propia web. Cuenta los segundos. Mira cómo el diseño salta de un lado a otro. Observa cómo las imágenes se cargan con tamaños incorrectos. Esa es la experiencia que vive el 60 % de tus visitantes, porque esa es la proporción del tráfico web que proviene de dispositivos móviles en 2026."
-		},
-		{
-			"type": "p",
-			"text": "Y Google también está mirando."
-		},
-		{
-			"type": "h2",
-			"text": "Indexación Mobile-First: por qué la velocidad móvil tiene el mayor peso"
-		},
-		{
-			"type": "p",
-			"text": "Desde 2021, Google utiliza la indexación mobile-first para todos los sitios web. Eso significa que Google clasifica tu sitio según cómo funciona en móvil, no en escritorio."
-		},
-		{
-			"type": "p",
-			"text": "El rendimiento en escritorio sigue siendo relevante para muchos recorridos B2B, pero el índice de Google es mobile-first; la velocidad móvil tiene más peso en SEO. Si tu PageSpeed móvil es 45, esa es la cifra que prioriza el rastreador de Google y es un factor determinante para si apareces en la primera o la tercera página."
-		},
-		{
-			"type": "p",
-			"text": "El sitio WordPress medio obtiene **35–55 en PageSpeed móvil**. Esto esta por debajo del rango optimo y puede afectar a tu negocio."
-		},
-		{
-			"type": "h2",
-			"text": "Por que los sitios WordPress suelen ser lentos en movil"
-		},
-		{
-			"type": "h3",
-			"text": "Los temas no fueron diseñados con el móvil como prioridad"
-		},
-		{
-			"type": "p",
-			"text": "La mayoría de los temas WordPress están diseñados primero para escritorio y luego se \"hacen responsivos\" con media queries de CSS. El resultado: tu teléfono descarga los mismos recursos pesados que un navegador de escritorio y luego oculta lo que no necesita. Los datos siguen transfiriéndose. El JavaScript sigue ejecutándose. Simplemente no lo ves."
-		},
-		{
-			"type": "p",
-			"text": "Un sitio verdaderamente mobile-first solo envía lo que el dispositivo necesita. Los temas WordPress casi nunca hacen esto."
-		},
-		{
-			"type": "h3",
-			"text": "CSS y JavaScript que bloquean el renderizado"
-		},
-		{
-			"type": "p",
-			"text": "El sitio WordPress medio carga **15–25 archivos CSS y JavaScript separados** antes de que aparezca nada en pantalla. Cada archivo supone un viaje de ida y vuelta al servidor. En redes móviles  -incluso con 4G rápido - eso puede añadir 2–4 segundos de espera pura antes de que se muestre un solo píxel."
-		},
-		{
-			"type": "p",
-			"text": "Los plugins de caché intentan combinar y minificar estos archivos. Pero no pueden solucionar el problema fundamental: WordPress carga todo por adelantado porque los plugins no se coordinan entre sí."
-		},
-		{
-			"type": "h3",
-			"text": "Las imágenes son el mayor problema"
-		},
-		{
-			"type": "p",
-			"text": "WordPress genera múltiples tamaños de imagen, pero rara vez sirve el correcto para el dispositivo. Una imagen hero de 2000px se envía a una pantalla de teléfono de 390px. Incluso con plugins de lazy loading, WordPress no sirve formatos modernos como WebP o AVIF por defecto, y no utiliza un nodo CDN edge cercano a tu visitante."
-		},
-		{
-			"type": "p",
-			"text": "En móvil, las imágenes representan a menudo el 60–80 % del peso total de la página. Si esto falla, nada más importa."
-		},
-		{
-			"type": "h3",
-			"text": "Los page builders añaden una sobrecarga enorme"
-		},
-		{
-			"type": "p",
-			"text": "Elementor, Divi, WPBakery - estas herramientas facilitan el diseño con WordPress. El JavaScript de los page builders puede añadir 500kb–1,5MB por página; los sitios con múltiples page builders frecuentemente cargan en 5–8 segundos en dispositivos móviles de gama media sobre 4G. En escritorio con una conexión rápida, la diferencia apenas se nota."
-		},
-		{
-			"type": "h3",
-			"text": "El hosting compartido no puede gestionar los picos de tráfico móvil"
-		},
-		{
-			"type": "p",
-			"text": "Los usuarios móviles son impacientes. Esperan páginas en menos de 2 segundos. Los servidores de hosting compartido que tardan 800ms solo en responder a la solicitud inicial ya han consumido la mitad de ese presupuesto antes de que se cargue un solo recurso."
-		},
-		{
-			"type": "h2",
-			"text": "Números reales: WordPress vs Next.js en móvil"
-		},
-		{
-			"type": "p",
-			"text": "Hemos migrado decenas de sitios WordPress a [Next.js](/blog/wordpress-vs-nextjs-for-business-website). Esto es lo que los números móviles muestran realmente:"
-		},
-		{
-			"type": "table",
-			"headers": ["Métrica", "WordPress (típico)", "Next.js en Vercel"],
-			"rows": [
-				["PageSpeed móvil", "35–55", "90–99"],
-				["First Contentful Paint", "3,0–5,5s", "0,3–0,8s"],
-				["Largest Contentful Paint", "4,0–8,0s", "0,6–1,2s"],
-				["Cumulative Layout Shift", "0,15–0,35", "0,01–0,05"],
-				["Peso total de la página", "2–5mb", "200–500kb"]
-			]
-		},
-		{
-			"type": "p",
-			"text": "El mismo contenido. La misma identidad visual. La diferencia está en la arquitectura."
-		},
-		{
-			"type": "h2",
-			"text": "Qué significa realmente la arquitectura \"Mobile-First\""
-		},
-		{
-			"type": "p",
-			"text": "Los sitios Next.js están construidos de forma fundamentalmente diferente:"
-		},
-		{
-			"type": "p",
-			"text": "**Generación estática.** Las páginas se pre-construyen como archivos HTML en el momento del despliegue. Cuando un usuario móvil visita el sitio, recibe un archivo estático desde un CDN - sin procesamiento del servidor, sin consultas a la base de datos, sin ejecución de PHP. Tiempo de respuesta: ~50ms a nivel global."
-		},
-		{
-			"type": "p",
-			"text": "**Imágenes responsivas por defecto.** Next.js tiene un componente Image integrado que sirve automáticamente el tamaño correcto, en formato WebP/AVIF, con lazy loading, desde el edge. Un usuario móvil con una pantalla de 390px recibe una imagen de 390px. No una imagen de 2000px comprimida en un viewport pequeño."
-		},
-		{
-			"type": "p",
-			"text": "**Despliegue en CDN edge.** Vercel sirve tu sitio desde más de 100 ubicaciones edge globales. Un usuario móvil en Madrid recibe tu página desde un servidor cercano, no desde un servidor compartido en Dallas. La distancia física por sí sola puede ahorrar 200–400ms."
-		},
-		{
-			"type": "p",
-			"text": "**JavaScript mínimo.** Sin jQuery. Sin cadena de plugins. Sin runtime de page builder. Un sitio Next.js empresarial típico envía 50–100kb de JavaScript en total, considerablemente menos que los builds WordPress típicos (con frecuencia 50–100kb total frente a 500kb–1,5MB)."
-		},
-		{
-			"type": "h2",
-			"text": "Qué puedes hacer al respecto"
-		},
-		{
-			"type": "p",
-			"text": "**Comprueba primero tu puntuación móvil.** Si no conoces tu puntuación actual de PageSpeed móvil, estás navegando a ciegas. Obtén un informe WordPress Health gratuito en [webvise.io/wp-health-report](/wp-health-report) - muestra tu puntuación móvil real, alertas de seguridad y lo que tu sitio obtendría tras una reconstrucción."
-		},
-		{
-			"type": "p",
-			"text": "**Conoce los limites de la optimizacion de WordPress.** Si tu puntuacion movil esta por debajo de 60, es dificil llegar a 90+ solo con plugins. Los plugins de cache, optimizadores de imagenes y CDN ayudan, pero la arquitectura impone un limite."
-		},
-		{
-			"type": "p",
-			"text": "**Considera una reconstrucción.** Una [migración](/blog/should-i-migrate-wordpress-to-nextjs) de WordPress a Next.js tarda 1–2 semanas, cuesta €1.500–€4.000 y aborda las causas arquitectónicas de los problemas de velocidad en móvil. Los sitios suelen alcanzar 90+ en móvil al lanzamiento cuando están correctamente construidos. Sin pipeline de mantenimiento de plugins; el rendimiento no se degrada por actualizaciones de plugins o temas, aunque las actualizaciones de framework y dependencias siguen siendo necesarias."
-		},
-		{
-			"type": "p",
-			"text": "Los visitantes móviles y el rastreador móvil de Google perciben la diferencia."
-		},
-		{
-			"type": "p",
-			"text": "¿Listo para ver cómo puntúa tu sitio en móvil? Obtén tu informe WordPress Health gratuito en [webvise.io/wp-health-report](/wp-health-report) - tarda 60 segundos. Sin registro necesario."
-		}
-	],
-	"metaDescription": "WordPress puntúa 35–55 en PageSpeed móvil. El 60 % del tráfico es móvil. Por qué page builders, imágenes sin optimizar y exceso de plugins causan el problema - y la solución."
+  "title": "Por que muchos sitios WordPress son lentos en movil (y como solucionarlo)",
+  "excerpt": "En 2026, el 60 % del tráfico web proviene del móvil, y Google clasifica tu sitio según su rendimiento en móvil. Descubre por que los sitios WordPress suelen obtener 35-55 en PageSpeed movil y que puedes hacer al respecto.",
+  "tags": ["WordPress", "Performance", "Mobile"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Quiza hayas notado que tu sitio [WordPress](/blog/wordpress-site-speed) no carga tan rapido como te gustaria. Pero ¿lo has comprobado en el móvil?"
+    },
+    {
+      "type": "p",
+      "text": "Saca tu teléfono ahora mismo y carga tu propia web. Cuenta los segundos. Mira cómo el diseño salta de un lado a otro. Observa cómo las imágenes se cargan con tamaños incorrectos. Esa es la experiencia que vive el 60 % de tus visitantes, porque esa es la proporción del tráfico web que proviene de dispositivos móviles en 2026."
+    },
+    {
+      "type": "p",
+      "text": "Y Google también está mirando."
+    },
+    {
+      "type": "h2",
+      "text": "Indexación Mobile-First: por qué la velocidad móvil tiene el mayor peso"
+    },
+    {
+      "type": "p",
+      "text": "Desde 2021, Google utiliza la indexación mobile-first para todos los sitios web. Eso significa que Google clasifica tu sitio según cómo funciona en móvil, no en escritorio."
+    },
+    {
+      "type": "p",
+      "text": "El rendimiento en escritorio sigue siendo relevante para muchos recorridos B2B, pero el índice de Google es mobile-first; la velocidad móvil tiene más peso en SEO. Si tu PageSpeed móvil es 45, esa es la cifra que prioriza el rastreador de Google y es un factor determinante para si apareces en la primera o la tercera página."
+    },
+    {
+      "type": "p",
+      "text": "El sitio WordPress medio obtiene **35–55 en PageSpeed móvil**. Esto esta por debajo del rango optimo y puede afectar a tu negocio."
+    },
+    {
+      "type": "h2",
+      "text": "Por que los sitios WordPress suelen ser lentos en movil"
+    },
+    {
+      "type": "h3",
+      "text": "Los temas no fueron diseñados con el móvil como prioridad"
+    },
+    {
+      "type": "p",
+      "text": "La mayoría de los temas WordPress están diseñados primero para escritorio y luego se \"hacen responsivos\" con media queries de CSS. El resultado: tu teléfono descarga los mismos recursos pesados que un navegador de escritorio y luego oculta lo que no necesita. Los datos siguen transfiriéndose. El JavaScript sigue ejecutándose. Simplemente no lo ves."
+    },
+    {
+      "type": "p",
+      "text": "Un sitio verdaderamente mobile-first solo envía lo que el dispositivo necesita. Los temas WordPress casi nunca hacen esto."
+    },
+    {
+      "type": "h3",
+      "text": "CSS y JavaScript que bloquean el renderizado"
+    },
+    {
+      "type": "p",
+      "text": "El sitio WordPress medio carga **15–25 archivos CSS y JavaScript separados** antes de que aparezca nada en pantalla. Cada archivo supone un viaje de ida y vuelta al servidor. En redes móviles  -incluso con 4G rápido - eso puede añadir 2–4 segundos de espera pura antes de que se muestre un solo píxel."
+    },
+    {
+      "type": "p",
+      "text": "Los plugins de caché intentan combinar y minificar estos archivos. Pero no pueden solucionar el problema fundamental: WordPress carga todo por adelantado porque los plugins no se coordinan entre sí."
+    },
+    {
+      "type": "h3",
+      "text": "Las imágenes son el mayor problema"
+    },
+    {
+      "type": "p",
+      "text": "WordPress genera múltiples tamaños de imagen, pero rara vez sirve el correcto para el dispositivo. Una imagen hero de 2000px se envía a una pantalla de teléfono de 390px. Incluso con plugins de lazy loading, WordPress no sirve formatos modernos como WebP o AVIF por defecto, y no utiliza un nodo CDN edge cercano a tu visitante."
+    },
+    {
+      "type": "p",
+      "text": "En móvil, las imágenes representan a menudo el 60–80 % del peso total de la página. Si esto falla, nada más importa."
+    },
+    {
+      "type": "h3",
+      "text": "Los page builders añaden una sobrecarga enorme"
+    },
+    {
+      "type": "p",
+      "text": "Elementor, Divi, WPBakery - estas herramientas facilitan el diseño con WordPress. El JavaScript de los page builders puede añadir 500kb–1,5MB por página; los sitios con múltiples page builders frecuentemente cargan en 5–8 segundos en dispositivos móviles de gama media sobre 4G. En escritorio con una conexión rápida, la diferencia apenas se nota."
+    },
+    {
+      "type": "h3",
+      "text": "El hosting compartido no puede gestionar los picos de tráfico móvil"
+    },
+    {
+      "type": "p",
+      "text": "Los usuarios móviles son impacientes. Esperan páginas en menos de 2 segundos. Los servidores de hosting compartido que tardan 800ms solo en responder a la solicitud inicial ya han consumido la mitad de ese presupuesto antes de que se cargue un solo recurso."
+    },
+    {
+      "type": "h2",
+      "text": "Números reales: WordPress vs Next.js en móvil"
+    },
+    {
+      "type": "p",
+      "text": "Hemos migrado decenas de sitios WordPress a [Next.js](/blog/wordpress-vs-nextjs-for-business-website). Esto es lo que los números móviles muestran realmente:"
+    },
+    {
+      "type": "table",
+      "headers": ["Métrica", "WordPress (típico)", "Next.js en Vercel"],
+      "rows": [
+        ["PageSpeed móvil", "35–55", "90–99"],
+        ["First Contentful Paint", "3,0–5,5s", "0,3–0,8s"],
+        ["Largest Contentful Paint", "4,0–8,0s", "0,6–1,2s"],
+        ["Cumulative Layout Shift", "0,15–0,35", "0,01–0,05"],
+        ["Peso total de la página", "2–5mb", "200–500kb"]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "El mismo contenido. La misma identidad visual. La diferencia está en la arquitectura."
+    },
+    {
+      "type": "h2",
+      "text": "Qué significa realmente la arquitectura \"Mobile-First\""
+    },
+    {
+      "type": "p",
+      "text": "Los sitios Next.js están construidos de forma fundamentalmente diferente:"
+    },
+    {
+      "type": "p",
+      "text": "**Generación estática.** Las páginas se pre-construyen como archivos HTML en el momento del despliegue. Cuando un usuario móvil visita el sitio, recibe un archivo estático desde un CDN - sin procesamiento del servidor, sin consultas a la base de datos, sin ejecución de PHP. Tiempo de respuesta: ~50ms a nivel global."
+    },
+    {
+      "type": "p",
+      "text": "**Imágenes responsivas por defecto.** Next.js tiene un componente Image integrado que sirve automáticamente el tamaño correcto, en formato WebP/AVIF, con lazy loading, desde el edge. Un usuario móvil con una pantalla de 390px recibe una imagen de 390px. No una imagen de 2000px comprimida en un viewport pequeño."
+    },
+    {
+      "type": "p",
+      "text": "**Despliegue en CDN edge.** Vercel sirve tu sitio desde más de 100 ubicaciones edge globales. Un usuario móvil en Madrid recibe tu página desde un servidor cercano, no desde un servidor compartido en Dallas. La distancia física por sí sola puede ahorrar 200–400ms."
+    },
+    {
+      "type": "p",
+      "text": "**JavaScript mínimo.** Sin jQuery. Sin cadena de plugins. Sin runtime de page builder. Un sitio Next.js empresarial típico envía 50–100kb de JavaScript en total, considerablemente menos que los builds WordPress típicos (con frecuencia 50–100kb total frente a 500kb–1,5MB)."
+    },
+    {
+      "type": "h2",
+      "text": "Qué puedes hacer al respecto"
+    },
+    {
+      "type": "p",
+      "text": "**Comprueba primero tu puntuación móvil.** Si no conoces tu puntuación actual de PageSpeed móvil, estás navegando a ciegas. Obtén un informe WordPress Health gratuito en [webvise.io/wp-health-report](/wp-health-report) - muestra tu puntuación móvil real, alertas de seguridad y lo que tu sitio obtendría tras una reconstrucción."
+    },
+    {
+      "type": "p",
+      "text": "**Conoce los limites de la optimizacion de WordPress.** Si tu puntuacion movil esta por debajo de 60, es dificil llegar a 90+ solo con plugins. Los plugins de cache, optimizadores de imagenes y CDN ayudan, pero la arquitectura impone un limite."
+    },
+    {
+      "type": "p",
+      "text": "**Considera una reconstrucción.** Una [migración](/blog/should-i-migrate-wordpress-to-nextjs) de WordPress a Next.js tarda 1–2 semanas, cuesta €1.500–€4.000 y aborda las causas arquitectónicas de los problemas de velocidad en móvil. Los sitios suelen alcanzar 90+ en móvil al lanzamiento cuando están correctamente construidos. Sin pipeline de mantenimiento de plugins; el rendimiento no se degrada por actualizaciones de plugins o temas, aunque las actualizaciones de framework y dependencias siguen siendo necesarias."
+    },
+    {
+      "type": "p",
+      "text": "Los visitantes móviles y el rastreador móvil de Google perciben la diferencia."
+    },
+    {
+      "type": "p",
+      "text": "¿Listo para ver cómo puntúa tu sitio en móvil? Obtén tu informe WordPress Health gratuito en [webvise.io/wp-health-report](/wp-health-report) - tarda 60 segundos. Sin registro necesario."
+    }
+  ],
+  "metaDescription": "WordPress puntúa 35–55 en PageSpeed móvil. El 60 % del tráfico es móvil. Por qué page builders, imágenes sin optimizar y exceso de plugins causan el problema - y la solución."
 }

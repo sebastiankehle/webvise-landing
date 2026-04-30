@@ -7,8 +7,8 @@ import { Caption } from "./typography";
 function FormItem({ className, ...props }: React.ComponentProps<"div">) {
 	return (
 		<div
-			data-slot="form-item"
 			className={cn("space-y-2", className)}
+			data-slot="form-item"
 			{...props}
 		/>
 	);
@@ -20,7 +20,7 @@ function FormLabel(props: React.ComponentProps<typeof Label>) {
 
 function FormDescription({ className, ...props }: React.ComponentProps<"p">) {
 	return (
-		<Caption data-slot="form-description" className={className} {...props} />
+		<Caption className={className} data-slot="form-description" {...props} />
 	);
 }
 
@@ -31,15 +31,19 @@ function FormMessage({
 }: Omit<React.ComponentProps<"div">, "children"> & {
 	errors?: ReadonlyArray<{ message?: string } | string | undefined>;
 }) {
-	if (!errors?.length) return null;
+	if (!errors?.length) {
+		return null;
+	}
 
 	return (
-		<div data-slot="form-message" className={cn(className)} {...props}>
+		<div className={cn(className)} data-slot="form-message" {...props}>
 			{errors.map((error) => {
 				const message = typeof error === "string" ? error : error?.message;
-				if (!message) return null;
+				if (!message) {
+					return null;
+				}
 				return (
-					<Caption key={message} className="text-destructive">
+					<Caption className="text-destructive" key={message}>
 						{message}
 					</Caption>
 				);

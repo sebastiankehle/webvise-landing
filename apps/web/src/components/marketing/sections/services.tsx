@@ -15,15 +15,15 @@ export default async function Services() {
 				<H2>{t("title")}</H2>
 				<Lead className="mt-5 max-w-[520px]">{t("subtitle")}</Lead>
 			</div>
-			<StaggerChildren className="mt-16 -mx-6 grid border-t border-grid-line md:grid-cols-2 lg:grid-cols-3">
+			<StaggerChildren className="-mx-6 mt-16 grid border-grid-line border-t md:grid-cols-2 lg:grid-cols-3">
 				{services.map((service) => (
 					<Link
-						key={service.slug}
+						className="group flex flex-col border-grid-line border-b p-6 transition-all md:border-r md:p-8 md:[&:nth-child(2n)]:border-r-0 lg:[&:nth-child(2n)]:border-r lg:[&:nth-child(3n)]:border-r-0"
 						href={{
 							pathname: "/services/[slug]",
 							params: { slug: service.slug },
 						}}
-						className="group flex flex-col border-b border-grid-line p-6 transition-all md:border-r md:p-8 md:[&:nth-child(2n)]:border-r-0 lg:[&:nth-child(2n)]:border-r lg:[&:nth-child(3n)]:border-r-0"
+						key={service.slug}
 					>
 						<div>
 							<div className="flex flex-col gap-4">

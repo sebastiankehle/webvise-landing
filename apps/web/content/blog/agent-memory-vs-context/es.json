@@ -7,68 +7,225 @@
   "metaDescription": "Tus agentes no necesitan memoria. Necesitan contexto. Por qué el mercado de memoria para agentes está construyendo la capa equivocada y qué comprar en su lugar.",
   "tags": ["AI Agents", "AI", "Business Strategy", "Process"],
   "blocks": [
-    { "type": "p", "text": "Muchos agentes en producción no necesitan memoria persistente en sentido estricto; necesitan **recuperación de contexto** fiable entre sesiones, y esas dos cosas no son lo mismo." },
-    { "type": "p", "text": "Si ha estado evaluando Zep, Mem0 o Letta este año, está comprando en un mercado que fusionó dos productos distintos bajo una sola palabra." },
-    { "type": "p", "text": "Tiene razón en querer que sus agentes se vuelvan más inteligentes entre sesiones. El problema es que la mitad de las herramientas en su lista fueron construidas para resolver un problema diferente: el recuerdo de hechos en una sola conversación, no la acumulación de conocimiento a lo largo de meses de trabajo. Este artículo separa los dos campos, le muestra cuál necesita realmente su agente y señala las señales de mercado que la mayoría de los compradores están pasando por alto." },
-    { "type": "ul", "items": [
-      "**El mercado son dos mercados.** Camp 1 optimiza para *recall*. Camp 2 optimiza para *compounding*. La mayoría de los compradores los confunde.",
-      "**Zep se rebrandeó.** En 2026 la empresa cambió su posicionamiento de 'memoria' a Context Engineering. Esa es la señal pública más clara del espacio.",
-      "**Zilliz lanzó MemSearch.** Una empresa de bases de datos vectoriales lanzó un sistema donde los archivos markdown están por encima de su propia base de datos vectorial.",
-      "**La mayoría de los agentes de negocio necesitan Camp 2.** Si su agente debe mejorar en su trabajo a lo largo de semanas y meses, la infraestructura de recall es la capa equivocada.",
-      "**Combinar ambos es costoso.** Dos sistemas con rutas de escritura superpuestas producen memorias contradictorias que se corrompen entre sí."
-    ] },
-    { "type": "h2", "text": "El mercado vende recall. Sus agentes probablemente necesitan compounding." },
-    { "type": "p", "text": "Explore GitHub. Hay más de 450 repositorios etiquetados con `agent-memory` y más de 460 con `context-management`. Casi ninguno traza una línea clara entre ambos." },
-    { "type": "p", "text": "Esa ambigüedad es el problema central del mercado. La memoria suena como una sola cosa, así que los compradores la tratan como una sola cosa, así que los vendedores la venden como una sola cosa. El resultado: los desarrolladores pagan por infraestructura vectorial que luego tienen que reconstruir en markdown de todos modos." },
-    { "type": "p", "text": "La división no es académica. Camp 1 pregunta ¿qué debe recordar la IA? y entrega una base de datos. Camp 2 pregunta ¿en qué contexto debe trabajar la IA? y entrega un sustrato. Ambos son útiles. No son intercambiables." },
-    { "type": "p", "text": "Si está eligiendo infraestructura de agentes para un negocio que depende de que el agente se vuelva realmente más inteligente a lo largo de meses de trabajo, [webvise puede ayudarle a delimitar la capa correcta](/#contact) antes de que firme un contrato anual." },
-    { "type": "h2", "text": "Camp 1: Memory Backends (optimizados para recall)" },
-    { "type": "p", "text": "Las herramientas de Camp 1 hacen una cosa bien. Toman una conversación, extraen los hechos relevantes, los almacenan en una base de datos vectorial y los recuperan cuando la siguiente conversación los necesita. El ciclo es simple." },
-    { "type": "p", "text": "Esto es lo que la mayoría de las personas entiende cuando dice 'memoria de agente'. Es el campo con más estrellas en GitHub y el campo al que la mayoría de los compradores recurre por defecto porque el argumento es sencillo: su chatbot recordará que el usuario vive en San Francisco." },
-    { "type": "table", "headers": ["Producto", "Estrellas", "En qué destaca"], "rows": [
-      ["Mem0", "53.1K", "Cuatro operaciones: add, search, update, delete. Agnóstico al modelo."],
-      ["MemPalace", "46.2K", "Almacenamiento verbatim local. 96.6% de recall en LongMemEval."],
-      ["Supermemory", "21.8K", "Conciencia temporal. Reemplaza hechos obsoletos cuando los usuarios los actualizan."],
-      ["Cognee", "15.4K", "Búsqueda vectorial más base de datos de grafos para razonamiento relacional."],
-      ["Honcho", "2.4K", "Servicio asíncrono que construye un modelo psicológico de cada usuario."]
-    ] },
-    { "type": "p", "text": "Camp 1 es la respuesta correcta para chatbots, persistencia de preferencias de usuario y recall de hechos con latencia inferior a 200 ms. Es la respuesta equivocada para agentes que necesitan comprender el *estado* del trabajo en curso a través de cinco proyectos, tres herramientas y dos meses." },
-    { "type": "p", "text": "El límite es arquitectónico, no de implementación. Una base de datos vectorial le dice cuál es la coincidencia más cercana a una consulta. No le dice qué ha cambiado desde la semana pasada, ni por qué, ni cómo eso afecta la decisión que está a punto de tomar." },
-    { "type": "h2", "text": "Camp 2: Context Substrates (optimizados para compounding)" },
-    { "type": "p", "text": "Camp 2 invierte el ciclo. En lugar de extraer hechos de las conversaciones hacia una base de datos, el agente lee archivos de contexto estructurados y legibles por personas, realiza su trabajo dentro de ellos y escribe de vuelta. En la siguiente sesión el contexto es más rico. Nada se 'extrae'." },
-    { "type": "p", "text": "Este es el patrón que Andrej Karpathy describió como el **LLM Wiki**: una base de conocimiento personal que el modelo compila una vez y mantiene actualizada, en lugar de rederivir respuestas a partir de fragmentos en cada consulta. La propiedad clave es el compounding. El contexto mejora con el uso." },
-    { "type": "table", "headers": ["Producto", "Estrellas", "En qué destaca"], "rows": [
-      ["OpenClaw", "358K", "Memoria en markdown plano (MEMORY.md, notas diarias). La consolidación en segundo plano promueve los patrones duraderos a la memoria a largo plazo."],
-      ["Zep", "4.4K", "Grafo de conocimiento temporal con marcas de tiempo `valid_at` e `invalid_at`. Recuperación en menos de 200 ms, cumplimiento SOC2 y HIPAA."],
-      ["TrustGraph", "2.0K", "\"Context Cores\" portátiles: paquetes versionados de esquemas de dominio, grafos de conocimiento y políticas de recuperación. Versiona el contexto como código."],
-      ["MemSearch", "1.2K", "Markdown primero. Lanzado por Zilliz con su propia base de datos vectorial Milvus posicionada como capa de acceso sobre los archivos."],
-      ["Thoth", "145", "Arquitectura profunda: 10 tipos de entidad, 67 relaciones tipadas, consolidación nocturna con decaimiento de confianza en relaciones antiguas."]
-    ] },
-    { "type": "p", "text": "Camp 2 es la respuesta correcta cuando se ejecuta un agente de forma continua, cuando múltiples herramientas o múltiples agentes escriben en la misma base de conocimiento, o cuando se necesita que el sistema mejore de forma demostrable a lo largo de semanas y meses sin reconstruir el pipeline cada vez." },
-    { "type": "p", "text": "La prueba más sencilla: ¿el agente necesita saber qué ocurrió el martes pasado, o necesita conocer la *forma* actual de su negocio? La segunda es un problema de Camp 2." },
+    {
+      "type": "p",
+      "text": "Muchos agentes en producción no necesitan memoria persistente en sentido estricto; necesitan **recuperación de contexto** fiable entre sesiones, y esas dos cosas no son lo mismo."
+    },
+    {
+      "type": "p",
+      "text": "Si ha estado evaluando Zep, Mem0 o Letta este año, está comprando en un mercado que fusionó dos productos distintos bajo una sola palabra."
+    },
+    {
+      "type": "p",
+      "text": "Tiene razón en querer que sus agentes se vuelvan más inteligentes entre sesiones. El problema es que la mitad de las herramientas en su lista fueron construidas para resolver un problema diferente: el recuerdo de hechos en una sola conversación, no la acumulación de conocimiento a lo largo de meses de trabajo. Este artículo separa los dos campos, le muestra cuál necesita realmente su agente y señala las señales de mercado que la mayoría de los compradores están pasando por alto."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**El mercado son dos mercados.** Camp 1 optimiza para *recall*. Camp 2 optimiza para *compounding*. La mayoría de los compradores los confunde.",
+        "**Zep se rebrandeó.** En 2026 la empresa cambió su posicionamiento de 'memoria' a Context Engineering. Esa es la señal pública más clara del espacio.",
+        "**Zilliz lanzó MemSearch.** Una empresa de bases de datos vectoriales lanzó un sistema donde los archivos markdown están por encima de su propia base de datos vectorial.",
+        "**La mayoría de los agentes de negocio necesitan Camp 2.** Si su agente debe mejorar en su trabajo a lo largo de semanas y meses, la infraestructura de recall es la capa equivocada.",
+        "**Combinar ambos es costoso.** Dos sistemas con rutas de escritura superpuestas producen memorias contradictorias que se corrompen entre sí."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "El mercado vende recall. Sus agentes probablemente necesitan compounding."
+    },
+    {
+      "type": "p",
+      "text": "Explore GitHub. Hay más de 450 repositorios etiquetados con `agent-memory` y más de 460 con `context-management`. Casi ninguno traza una línea clara entre ambos."
+    },
+    {
+      "type": "p",
+      "text": "Esa ambigüedad es el problema central del mercado. La memoria suena como una sola cosa, así que los compradores la tratan como una sola cosa, así que los vendedores la venden como una sola cosa. El resultado: los desarrolladores pagan por infraestructura vectorial que luego tienen que reconstruir en markdown de todos modos."
+    },
+    {
+      "type": "p",
+      "text": "La división no es académica. Camp 1 pregunta ¿qué debe recordar la IA? y entrega una base de datos. Camp 2 pregunta ¿en qué contexto debe trabajar la IA? y entrega un sustrato. Ambos son útiles. No son intercambiables."
+    },
+    {
+      "type": "p",
+      "text": "Si está eligiendo infraestructura de agentes para un negocio que depende de que el agente se vuelva realmente más inteligente a lo largo de meses de trabajo, [webvise puede ayudarle a delimitar la capa correcta](/#contact) antes de que firme un contrato anual."
+    },
+    {
+      "type": "h2",
+      "text": "Camp 1: Memory Backends (optimizados para recall)"
+    },
+    {
+      "type": "p",
+      "text": "Las herramientas de Camp 1 hacen una cosa bien. Toman una conversación, extraen los hechos relevantes, los almacenan en una base de datos vectorial y los recuperan cuando la siguiente conversación los necesita. El ciclo es simple."
+    },
+    {
+      "type": "p",
+      "text": "Esto es lo que la mayoría de las personas entiende cuando dice 'memoria de agente'. Es el campo con más estrellas en GitHub y el campo al que la mayoría de los compradores recurre por defecto porque el argumento es sencillo: su chatbot recordará que el usuario vive en San Francisco."
+    },
+    {
+      "type": "table",
+      "headers": ["Producto", "Estrellas", "En qué destaca"],
+      "rows": [
+        [
+          "Mem0",
+          "53.1K",
+          "Cuatro operaciones: add, search, update, delete. Agnóstico al modelo."
+        ],
+        [
+          "MemPalace",
+          "46.2K",
+          "Almacenamiento verbatim local. 96.6% de recall en LongMemEval."
+        ],
+        [
+          "Supermemory",
+          "21.8K",
+          "Conciencia temporal. Reemplaza hechos obsoletos cuando los usuarios los actualizan."
+        ],
+        [
+          "Cognee",
+          "15.4K",
+          "Búsqueda vectorial más base de datos de grafos para razonamiento relacional."
+        ],
+        [
+          "Honcho",
+          "2.4K",
+          "Servicio asíncrono que construye un modelo psicológico de cada usuario."
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Camp 1 es la respuesta correcta para chatbots, persistencia de preferencias de usuario y recall de hechos con latencia inferior a 200 ms. Es la respuesta equivocada para agentes que necesitan comprender el *estado* del trabajo en curso a través de cinco proyectos, tres herramientas y dos meses."
+    },
+    {
+      "type": "p",
+      "text": "El límite es arquitectónico, no de implementación. Una base de datos vectorial le dice cuál es la coincidencia más cercana a una consulta. No le dice qué ha cambiado desde la semana pasada, ni por qué, ni cómo eso afecta la decisión que está a punto de tomar."
+    },
+    {
+      "type": "h2",
+      "text": "Camp 2: Context Substrates (optimizados para compounding)"
+    },
+    {
+      "type": "p",
+      "text": "Camp 2 invierte el ciclo. En lugar de extraer hechos de las conversaciones hacia una base de datos, el agente lee archivos de contexto estructurados y legibles por personas, realiza su trabajo dentro de ellos y escribe de vuelta. En la siguiente sesión el contexto es más rico. Nada se 'extrae'."
+    },
+    {
+      "type": "p",
+      "text": "Este es el patrón que Andrej Karpathy describió como el **LLM Wiki**: una base de conocimiento personal que el modelo compila una vez y mantiene actualizada, en lugar de rederivir respuestas a partir de fragmentos en cada consulta. La propiedad clave es el compounding. El contexto mejora con el uso."
+    },
+    {
+      "type": "table",
+      "headers": ["Producto", "Estrellas", "En qué destaca"],
+      "rows": [
+        [
+          "OpenClaw",
+          "358K",
+          "Memoria en markdown plano (MEMORY.md, notas diarias). La consolidación en segundo plano promueve los patrones duraderos a la memoria a largo plazo."
+        ],
+        [
+          "Zep",
+          "4.4K",
+          "Grafo de conocimiento temporal con marcas de tiempo `valid_at` e `invalid_at`. Recuperación en menos de 200 ms, cumplimiento SOC2 y HIPAA."
+        ],
+        [
+          "TrustGraph",
+          "2.0K",
+          "\"Context Cores\" portátiles: paquetes versionados de esquemas de dominio, grafos de conocimiento y políticas de recuperación. Versiona el contexto como código."
+        ],
+        [
+          "MemSearch",
+          "1.2K",
+          "Markdown primero. Lanzado por Zilliz con su propia base de datos vectorial Milvus posicionada como capa de acceso sobre los archivos."
+        ],
+        [
+          "Thoth",
+          "145",
+          "Arquitectura profunda: 10 tipos de entidad, 67 relaciones tipadas, consolidación nocturna con decaimiento de confianza en relaciones antiguas."
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Camp 2 es la respuesta correcta cuando se ejecuta un agente de forma continua, cuando múltiples herramientas o múltiples agentes escriben en la misma base de conocimiento, o cuando se necesita que el sistema mejore de forma demostrable a lo largo de semanas y meses sin reconstruir el pipeline cada vez."
+    },
+    {
+      "type": "p",
+      "text": "La prueba más sencilla: ¿el agente necesita saber qué ocurrió el martes pasado, o necesita conocer la *forma* actual de su negocio? La segunda es un problema de Camp 2."
+    },
     { "type": "h2", "text": "El rebrand que lo explica todo" },
-    { "type": "p", "text": "La señal de mercado aquí es bastante clara. Dos movimientos públicos, ambos de empresas que venden memoria, explican qué campo está ganando." },
-    { "type": "p", "text": "Zep solía llamarse a sí misma una empresa de memoria. En 2026 cambió ese posicionamiento a **Context Engineering**. Una empresa financiada en este espacio no se rebrandea por diversión. Lo hizo porque los compradores que más pagaban habían dejado de pedir memoria y habían empezado a pedir contexto que se acumule." },
-    { "type": "p", "text": "Zilliz, la empresa detrás de Milvus, lanzó MemSearch. MemSearch es un sistema donde los archivos markdown son la fuente de verdad y la propia base de datos vectorial de Zilliz se sitúa por debajo como capa de acceso. Eso es una empresa de bases de datos vectoriales que concede públicamente que el markdown pertenece por encima de los vectores." },
-    { "type": "p", "text": "Esperamos que 'Context Engineering' gane terreno como término por defecto para esta capa de infraestructura de agentes a lo largo del próximo año. Empiece a leer las páginas de productos con esa sustitución en mente y el posicionamiento real se vuelve obvio." },
+    {
+      "type": "p",
+      "text": "La señal de mercado aquí es bastante clara. Dos movimientos públicos, ambos de empresas que venden memoria, explican qué campo está ganando."
+    },
+    {
+      "type": "p",
+      "text": "Zep solía llamarse a sí misma una empresa de memoria. En 2026 cambió ese posicionamiento a **Context Engineering**. Una empresa financiada en este espacio no se rebrandea por diversión. Lo hizo porque los compradores que más pagaban habían dejado de pedir memoria y habían empezado a pedir contexto que se acumule."
+    },
+    {
+      "type": "p",
+      "text": "Zilliz, la empresa detrás de Milvus, lanzó MemSearch. MemSearch es un sistema donde los archivos markdown son la fuente de verdad y la propia base de datos vectorial de Zilliz se sitúa por debajo como capa de acceso. Eso es una empresa de bases de datos vectoriales que concede públicamente que el markdown pertenece por encima de los vectores."
+    },
+    {
+      "type": "p",
+      "text": "Esperamos que 'Context Engineering' gane terreno como término por defecto para esta capa de infraestructura de agentes a lo largo del próximo año. Empiece a leer las páginas de productos con esa sustitución en mente y el posicionamiento real se vuelve obvio."
+    },
     { "type": "h2", "text": "Cómo saber qué campo necesita realmente" },
-    { "type": "p", "text": "A continuación, el marco de decisión reducido a reglas prácticas." },
-    { "type": "table", "headers": ["Necesita Camp 1 (Memory Backend) si...", "Necesita Camp 2 (Context Substrate) si..."], "rows": [
-      ["Su agente es un chatbot cuyos usuarios esperan que recuerde sus preferencias.", "Su agente se ejecuta de forma continua o en múltiples sesiones sobre el mismo cuerpo de trabajo."],
-      ["Necesita recuperación de hechos en menos de 200 ms con un SDK limpio.", "Múltiples herramientas o múltiples agentes escriben en la misma base de conocimiento."],
-      ["El trabajo es responder preguntas de los usuarios, no mejorar en el trabajo con el tiempo.", "Quiere una mejora medible a lo largo de semanas y meses sin reconstruir el pipeline."],
-      ["Una base de datos ligada a un proveedor es aceptable como fuente de verdad.", "La portabilidad importa. El sustrato debe sobrevivir a un cambio de proveedor."]
-    ] },
-    { "type": "p", "text": "La mayoría de los agentes orientados al negocio pertenecen a Camp 2. Si su agente gestiona investigación de ventas, trabajo con cuentas de clientes, operaciones de contenido o cualquier tarea donde el resultado deba mejorar con el tiempo, está comprando Camp 1 como componente en el mejor de los casos, no como el sistema." },
-    { "type": "p", "text": "El error costoso es el inverso. Un bot de atención al cliente construido sobre un sustrato pesado de Camp 2 se sentirá lento y sobredimensionado. Adapte el campo al trabajo, no al revés." },
+    {
+      "type": "p",
+      "text": "A continuación, el marco de decisión reducido a reglas prácticas."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Necesita Camp 1 (Memory Backend) si...",
+        "Necesita Camp 2 (Context Substrate) si..."
+      ],
+      "rows": [
+        [
+          "Su agente es un chatbot cuyos usuarios esperan que recuerde sus preferencias.",
+          "Su agente se ejecuta de forma continua o en múltiples sesiones sobre el mismo cuerpo de trabajo."
+        ],
+        [
+          "Necesita recuperación de hechos en menos de 200 ms con un SDK limpio.",
+          "Múltiples herramientas o múltiples agentes escriben en la misma base de conocimiento."
+        ],
+        [
+          "El trabajo es responder preguntas de los usuarios, no mejorar en el trabajo con el tiempo.",
+          "Quiere una mejora medible a lo largo de semanas y meses sin reconstruir el pipeline."
+        ],
+        [
+          "Una base de datos ligada a un proveedor es aceptable como fuente de verdad.",
+          "La portabilidad importa. El sustrato debe sobrevivir a un cambio de proveedor."
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "La mayoría de los agentes orientados al negocio pertenecen a Camp 2. Si su agente gestiona investigación de ventas, trabajo con cuentas de clientes, operaciones de contenido o cualquier tarea donde el resultado deba mejorar con el tiempo, está comprando Camp 1 como componente en el mejor de los casos, no como el sistema."
+    },
+    {
+      "type": "p",
+      "text": "El error costoso es el inverso. Un bot de atención al cliente construido sobre un sustrato pesado de Camp 2 se sentirá lento y sobredimensionado. Adapte el campo al trabajo, no al revés."
+    },
     { "type": "h2", "text": "Qué significa esto para su decisión de compra" },
-    { "type": "p", "text": "Tres recomendaciones concretas antes de firmar un contrato." },
-    { "type": "ul", "items": [
-      "**Haga el prototipo en markdown primero.** Antes de comprar cualquier producto de memoria, prototipe el caso de uso con un sustrato de markdown plano más una capa de recuperación. Si ese prototipo resuelve su problema, nunca necesitó Camp 1.",
-      "**Evalúe a los proveedores por compounding, no por recall.** Los benchmarks de recall (LongMemEval y similares) le informan sobre Camp 1. No le dicen si el sistema es más inteligente en la semana 12 que en la semana 1. Diseñe evaluaciones que midan eso directamente.",
-      "**Elija una sola ruta de escritura.** Si combina Camp 1 y Camp 2, defina qué capa gestiona las escrituras. Dos sistemas con escrituras superpuestas es la forma de terminar con hechos contradictorios que se corrompen entre sí."
-    ] },
-    { "type": "p", "text": "La [capa de conocimiento de IA es la infraestructura sobre la que se asienta todo esto](/blog/ai-knowledge-layer-guide), y la mayoría de las empresas con las que trabajamos no necesitan una nueva base de datos vectorial para conseguirla. Necesitan el sustrato correcto, el esquema correcto y la disciplina para dejar que se acumule." },
-    { "type": "p", "text": "Si está planificando infraestructura de agentes y quiere una segunda opinión antes de firmar, [webvise ayuda a las empresas a delimitar capas de conocimiento de agentes que se acumulan](/#contact). Hable con nosotros antes de elegir un campo." }
+    {
+      "type": "p",
+      "text": "Tres recomendaciones concretas antes de firmar un contrato."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Haga el prototipo en markdown primero.** Antes de comprar cualquier producto de memoria, prototipe el caso de uso con un sustrato de markdown plano más una capa de recuperación. Si ese prototipo resuelve su problema, nunca necesitó Camp 1.",
+        "**Evalúe a los proveedores por compounding, no por recall.** Los benchmarks de recall (LongMemEval y similares) le informan sobre Camp 1. No le dicen si el sistema es más inteligente en la semana 12 que en la semana 1. Diseñe evaluaciones que midan eso directamente.",
+        "**Elija una sola ruta de escritura.** Si combina Camp 1 y Camp 2, defina qué capa gestiona las escrituras. Dos sistemas con escrituras superpuestas es la forma de terminar con hechos contradictorios que se corrompen entre sí."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "La [capa de conocimiento de IA es la infraestructura sobre la que se asienta todo esto](/blog/ai-knowledge-layer-guide), y la mayoría de las empresas con las que trabajamos no necesitan una nueva base de datos vectorial para conseguirla. Necesitan el sustrato correcto, el esquema correcto y la disciplina para dejar que se acumule."
+    },
+    {
+      "type": "p",
+      "text": "Si está planificando infraestructura de agentes y quiere una segunda opinión antes de firmar, [webvise ayuda a las empresas a delimitar capas de conocimiento de agentes que se acumulan](/#contact). Hable con nosotros antes de elegir un campo."
+    }
   ]
 }

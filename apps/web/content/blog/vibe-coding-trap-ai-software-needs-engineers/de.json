@@ -1,146 +1,146 @@
 {
-	"date": "2026-04-12",
-	"readingTime": 7,
-	"keyword": "Vibe Coding KI Software Engineering",
-	"title": "Warum KI-generierte Software noch immer Engineering-Review braucht",
-	"excerpt": "Andrej Karpathy prägte \"Vibe Coding\" im Februar 2025. Seitdem ist eine Welle von KI-generierten Apps erschienen, die in Demos funktionieren und im Produktivbetrieb versagen. Das Problem sind nicht die KI-Tools - sondern ihr Einsatz ohne Engineering-Disziplin.",
-	"metaDescription": "Vibe Coding erzeugt eine neue Klasse technischer Schulden, die schwerer zu beheben ist als handgeschriebener schlechter Code. Warum KI Engineering-Kompetenz verstärkt, statt sie zu ersetzen.",
-	"tags": ["AI", "Web Development", "Business Strategy"],
-	"blocks": [
-		{
-			"type": "p",
-			"text": "Andrej Karpathy prägte den Begriff **Vibe Coding** im [Februar 2025](https://x.com/karpathy/status/1886192184808149370), um eine Entwicklungsweise zu beschreiben, bei der man beschreibt, was man möchte, die KI-Ausgabe akzeptiert und den Code nicht liest. Seine Formulierung war wohlwollend gemeint - ein Wochenend-Hobbymode für persönliche Projekte. Was folgte, war anderes. Bis Mitte 2025 hatten Nicht-Ingenieure in einer Welle Produktions-SaaS-Apps veröffentlicht, die vollständig in Cursor, Replit Agent, v0 und bolt.new gebaut wurden, ohne jemals zu verstehen, was sie gebaut hatten. Die Apps sahen in Demos gut aus. Einige davon versagen im Produktivbetrieb."
-		},
-		{
-			"type": "h2",
-			"text": "Was Vibe Coding tatsächlich ist"
-		},
-		{
-			"type": "p",
-			"text": "Karpathys ursprüngliche Beschreibung ist präzise: Man ist «im Flow», sagt der KI, was man will, sie gibt Code aus, man klickt meistens auf Akzeptieren und versteht nicht vollständig, was läuft. Er räumte das explizit ein - «Ich lese den Code nicht, ich vibe einfach damit.» Für ein persönliches Tool oder einen wegwerfbaren Prototypen ist das in Ordnung. Der Vibe Coder gibt nicht vor, Ingenieur zu sein. Das Problem ist, dass das Tool-Ökosystem - Replit Agents «Ship your startup in a weekend», v0s One-Click-Deploys, bolt.news sofortige Full-Stack-Generierung - diesen Modus als legitimen Weg zu Produktionssoftware verpackt hat."
-		},
-		{
-			"type": "p",
-			"text": "Das ist er nicht. Und die daraus resultierende technische Schuld ist qualitativ anders als gewöhnlicher schlechter Code."
-		},
-		{
-			"type": "h2",
-			"text": "Warum Vibe Code schlimmer ist als schlecht handgeschriebener Code"
-		},
-		{
-			"type": "p",
-			"text": "Wenn ein Junior-Entwickler schlechten Code schreibt, versteht er, was er beabsichtigt hat. Man kann sich mit ihm zusammensetzen, die Logik nachverfolgen und ihn korrigieren. Wenn eine KI schlechten Code generiert, den der Betreiber nie gelesen hat, gibt es kein mentales Modell, das man wiederherstellen könnte. Der Entwickler kann nicht erklären, warum die Authentifizierung so aufgebaut ist, denn er hat die Authentifizierung nie gelesen. Er kann nicht sagen, welche Drittanbieter-Bibliothek Zahlungen verarbeitet, weil er die Datei akzeptiert hat, ohne sie zu öffnen. Der Code ist eine Black Box, die ihm gehört, über die er aber nicht nachdenken kann."
-		},
-		{
-			"type": "p",
-			"text": "Die Fehlermuster, die wir in KI-generierten Produktions-Apps konsistent sehen:"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Auth-Bypasses im Scaffold verankert; JWT-Secrets in Beispielen für Umgebungsvariablen, die in öffentliche Repositories committed wurden** – dies sind häufige Befunde in Code-Reviews von KI-gestützten Projekten ohne Engineering-Aufsicht. KI-generierter Auth-Code kopiert häufig Muster aus Trainingsdaten, ohne das Sicherheitsmodell zu verstehen. Row-Level Security während der Entwicklung «vorübergehend» deaktiviert, im Produktivbetrieb belassen. Rollenprüfungen, die String-Literale vergleichen und brechen, sobald ein Feld umbenannt wird.",
-				"**Kein Error-Handling jenseits des Happy Path.** Die KI hat den Erfolgsfall geschrieben. Was passiert, wenn der Zahlungsanbieter einen 402 zurückgibt? Was passiert, wenn die Datenbankverbindung mitten in einer Transaktion abbricht? In Vibe-codierten Apps lautet die Antwort meistens eine unbehandelte Promise-Ablehnung, die als leerer Bildschirm erscheint.",
-				"**Vendor-Lock-in durch KI-generierte Muster.** Als die KI das Datenmodell auf eine bestimmte Weise strukturierte, hat der Vibe Coder es akzeptiert. Jetzt ist die gesamte App um diese Struktur herum gebaut. Eine Migration weg davon erfordert das Verständnis von Code, den der Entwickler nie gelesen hat.",
-				"**Keine Tests.** Nicht weil Tests schwer sind, sondern weil der Vibe Coder nie danach gefragt hat und die KI sie nicht freiwillig angeboten hat. Wenn etwas im Produktivbetrieb bricht, gibt es keine Testsuite, die Regressionen im Fix abfängt."
-			]
-		},
-		{
-			"type": "h2",
-			"text": "Die Demo-to-Production-Lücke"
-		},
-		{
-			"type": "p",
-			"text": "KI-Tools sind wirklich gut darin, Code zu generieren, der gegen einen Happy Path mit sauberen Eingaben, einem kooperativen Netzwerk und einem einzelnen gleichzeitigen Nutzer funktioniert. Das ist genau die Bedingung, unter der eine Demo läuft. Der Produktivbetrieb ist das Gegenteil: fehlerhafte Eingaben, unterbrochene Verbindungen, gleichzeitige Schreibvorgänge, Edge Cases, die nie im Prompt spezifiziert wurden."
-		},
-		{
-			"type": "p",
-			"text": "Das Muster spielt sich vorhersehbar ab. Eine Vibe-codierte App geht live, sieht poliert aus, gewinnt frühe Nutzer. Dann: Ein Nutzer mit einem Nicht-ASCII-Zeichen in seinem Namen bricht die Datenbankabfrage. Ein mobiler Nutzer mit langsamer Verbindung löst eine Race Condition im State Management aus. Wir haben Szenarien erlebt, in denen API-Endpunkte Daten über Nutzerkonten hinweg leaken, weil Autorisierungsprüfungen fehlten oder unvollständig waren – eine Folge von ausgeliefertem Code, der nie auf serverseitige Durchsetzung geprüft wurde. Das sind keine exotischen Fehler. Sie sind die grundlegende Konsequenz des Auslieferns von Code, den man nie gelesen hat."
-		},
-		{
-			"type": "h2",
-			"text": "KI macht gute Ingenieure besser - sie macht schlechte Ingenieure nicht überflüssig"
-		},
-		{
-			"type": "p",
-			"text": "Das ist der Anspruch, den die Vibe-Coding-Erzählung umkehrt. Die Tools sind real und die Produktivitätsgewinne sind real. Bei webvise verwenden wir Claude Code, Cursor und Multi-Agent-Orchestrierung bei jedem Projekt, das wir liefern. Senior-Ingenieure, die Claude Code einsetzen, berichten von erheblichen Zeiteinsparungen bei Aufgaben, die sonst Tage in Anspruch genommen hätten. Die gleichen Tools in den Händen von jemandem ohne Engineering-Grundlagen produzieren eine Demo, die den ersten echten Nutzer nicht überlebt."
-		},
-		{
-			"type": "p",
-			"text": "Der Unterschied liegt nicht im Tool - sondern darin, was der Ingenieur in das Tool einbringt. Engineering-Grundlagen bedeuten nicht, Code von Hand zu schreiben. Sie bedeuten, Systemgrenzen, Fehlermodi, Sicherheitsmodelle und Datenintegrität zu verstehen. Ein Ingenieur, der Claude Code verwendet, liest den generierten Authentifizierungscode und erkennt, wenn er falsch ist. Ein unerfahrener Entwickler akzeptiert den Vorschlag und liefert ihn aus."
-		},
-		{
-			"type": "table",
-			"headers": ["Fähigkeit", "Ingenieur + KI-Tools", "Vibe Coder + KI-Tools"],
-			"rows": [
-				["Prototyp-Geschwindigkeit", "Schnell", "Schnell"],
-				[
-					"Liest generierten Code",
-					"Ja - erkennt Fehler, Sicherheitsprobleme",
-					"Nein - akzeptiert und liefert aus"
-				],
-				[
-					"Behandelt Edge Cases",
-					"Spezifiziert sie proaktiv in Prompts",
-					"Entdeckt sie im Produktivbetrieb"
-				],
-				[
-					"Sicherheitsüberprüfung",
-					"Im Review-Loop integriert",
-					"Nicht vorhanden"
-				],
-				[
-					"Kann Produktionsfehler debuggen",
-					"Ja - versteht die Codebasis",
-					"Nein - Black Box, die ihm gehört"
-				],
-				["Skaliert über die Demo hinaus", "Ja", "Selten"]
-			]
-		},
-		{
-			"type": "h2",
-			"text": "Das spezifische Risiko für Geschäftssoftware"
-		},
-		{
-			"type": "p",
-			"text": "Consumer-Hobby-Apps können die Fehlermodi des Vibe Codings absorbieren. Wenn ein persönlicher Finanz-Tracker einige Daten verliert, ist das ärgerlich. Wenn ein B2B-SaaS, der Kundendaten, Zahlungsflüsse oder interne Workflows verarbeitet, mit den oben beschriebenen Auth- und Error-Handling-Problemen ausgeliefert wird, sind die Konsequenzen rechtlicher, vertraglicher und reputativer Natur. Die DSGVO-Haftung gilt unabhängig davon, wie der Code generiert wurde; Datenverarbeitungscode erfordert eine Überprüfung."
-		},
-		{
-			"type": "p",
-			"text": "Mehrere neuere KI-gestützte SaaS-Produkte haben ein ähnliches Muster gezeigt: beeindruckend in einer Demo, frühe Kunden auf Basis von Versprechen gewonnen, dann gegen eine Wand gestoßen, als der erste Enterprise-Interessent eine Sicherheitsüberprüfung durchführte oder der erste Tag mit hohem Traffic das fehlende Error-Handling offenbarte. Die Gründer sind keine Betrüger - sie wussten tatsächlich nicht, was sie gebaut hatten."
-		},
-		{
-			"type": "h2",
-			"text": "Worauf Sie bei einem KI-erweiterten Entwicklungspartner achten sollten"
-		},
-		{
-			"type": "p",
-			"text": "Wenn Sie einen Entwicklungspartner evaluieren, der behauptet, KI-Tools zu verwenden, stellen Sie diese Fragen:"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Führen sie automatisierte Tests für KI-generierten Code durch?** Wenn die Antwort «Wir vertrauen der KI-Ausgabe» lautet, gehen Sie weg. Testabdeckung ist der Weg, um das Error-Handling abzufangen, das die KI weggelassen hat.",
-				"**Führen sie Sicherheitsüberprüfungen für generierten Authentifizierungs- und Autorisierungscode durch?** KI-Tools kopieren Auth-Muster aus Trainingsdaten. Diese Muster enthalten echte Schwachstellen aus echten Codebasen.",
-				"**Können sie die Architektur dessen erklären, was sie gebaut haben?** Wenn ein Entwickler das Datenmodell nicht durchgehen und erklären kann, warum es so strukturiert ist, hat er es nicht entworfen - er hat es akzeptiert.",
-				"**Versionieren sie ihre Prompts zusammen mit dem Code?** Engineering-Disziplin bei KI-Tools bedeutet, den Prompt als Teil der Codebasis zu behandeln, nicht als wegwerfbare Eingabe.",
-				"**Haben sie einen Prozess für den Umgang mit KI-Halluzinationen?** KI-Tools generieren selbstbewusst falsche API-Aufrufe, veraltete Methoden und nicht existierende Bibliotheksfunktionen. Ein erfahrenes Team hat dafür einen Review-Loop. Ein Vibe Coder entdeckt es zur Laufzeit."
-			]
-		},
-		{
-			"type": "h2",
-			"text": "Der richtige Rahmen: KI als Kraftmultiplikator, nicht als Ersatz"
-		},
-		{
-			"type": "p",
-			"text": "Die Vibe-Coding-Erzählung ist verführerisch, weil sie teilweise wahr ist. KI-Tools haben die Hürde für die Softwareentwicklung wirklich gesenkt. Ein motivierter Nicht-Ingenieur kann an einem Wochenende einen funktionierenden Prototypen ausliefern. Das ist wertvoll für Validierung, MVPs und internes Tooling mit niedrigem Risiko. Der Fehler ist, den Boden als Decke zu behandeln - anzunehmen, dass man, weil man etwas zum Laufen bringen kann, es auch zuverlässig im Scale, sicher und wartbar zum Laufen bringen kann."
-		},
-		{
-			"type": "p",
-			"text": "Die Ingenieure, die am meisten von KI-Coding-Tools profitiert haben, sind diejenigen, die sie nutzen, um die mühsamen Teile des Engineerings zu eliminieren - Boilerplate, Scaffolding, repetitive Refactors - während sie ihr Urteil auf die Teile anwenden, die wichtig sind: Architektur, Sicherheit, Error-Handling und Produktionsbereitschaft. Die KI beschleunigt die Arbeit. Der Ingenieur stellt sicher, dass sie korrekt ist."
-		},
-		{
-			"type": "p",
-			"text": "Bei [webvise](/#contact) verwenden wir KI-erweiterte Entwicklung bei jedem Projekt - Claude Code, Cursor, Multi-Agent-Pipelines - aber mit der Engineering-Disziplin, die die Ausgabe produktionsreif macht. Wenn Sie Software bauen, die echte Nutzer, echte Edge Cases und echte Sicherheitsanforderungen überstehen muss, [sprechen wir gerne darüber, wie wir arbeiten](/#contact)."
-		}
-	]
+  "date": "2026-04-12",
+  "readingTime": 7,
+  "keyword": "Vibe Coding KI Software Engineering",
+  "title": "Warum KI-generierte Software noch immer Engineering-Review braucht",
+  "excerpt": "Andrej Karpathy prägte \"Vibe Coding\" im Februar 2025. Seitdem ist eine Welle von KI-generierten Apps erschienen, die in Demos funktionieren und im Produktivbetrieb versagen. Das Problem sind nicht die KI-Tools - sondern ihr Einsatz ohne Engineering-Disziplin.",
+  "metaDescription": "Vibe Coding erzeugt eine neue Klasse technischer Schulden, die schwerer zu beheben ist als handgeschriebener schlechter Code. Warum KI Engineering-Kompetenz verstärkt, statt sie zu ersetzen.",
+  "tags": ["AI", "Web Development", "Business Strategy"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Andrej Karpathy prägte den Begriff **Vibe Coding** im [Februar 2025](https://x.com/karpathy/status/1886192184808149370), um eine Entwicklungsweise zu beschreiben, bei der man beschreibt, was man möchte, die KI-Ausgabe akzeptiert und den Code nicht liest. Seine Formulierung war wohlwollend gemeint - ein Wochenend-Hobbymode für persönliche Projekte. Was folgte, war anderes. Bis Mitte 2025 hatten Nicht-Ingenieure in einer Welle Produktions-SaaS-Apps veröffentlicht, die vollständig in Cursor, Replit Agent, v0 und bolt.new gebaut wurden, ohne jemals zu verstehen, was sie gebaut hatten. Die Apps sahen in Demos gut aus. Einige davon versagen im Produktivbetrieb."
+    },
+    {
+      "type": "h2",
+      "text": "Was Vibe Coding tatsächlich ist"
+    },
+    {
+      "type": "p",
+      "text": "Karpathys ursprüngliche Beschreibung ist präzise: Man ist «im Flow», sagt der KI, was man will, sie gibt Code aus, man klickt meistens auf Akzeptieren und versteht nicht vollständig, was läuft. Er räumte das explizit ein - «Ich lese den Code nicht, ich vibe einfach damit.» Für ein persönliches Tool oder einen wegwerfbaren Prototypen ist das in Ordnung. Der Vibe Coder gibt nicht vor, Ingenieur zu sein. Das Problem ist, dass das Tool-Ökosystem - Replit Agents «Ship your startup in a weekend», v0s One-Click-Deploys, bolt.news sofortige Full-Stack-Generierung - diesen Modus als legitimen Weg zu Produktionssoftware verpackt hat."
+    },
+    {
+      "type": "p",
+      "text": "Das ist er nicht. Und die daraus resultierende technische Schuld ist qualitativ anders als gewöhnlicher schlechter Code."
+    },
+    {
+      "type": "h2",
+      "text": "Warum Vibe Code schlimmer ist als schlecht handgeschriebener Code"
+    },
+    {
+      "type": "p",
+      "text": "Wenn ein Junior-Entwickler schlechten Code schreibt, versteht er, was er beabsichtigt hat. Man kann sich mit ihm zusammensetzen, die Logik nachverfolgen und ihn korrigieren. Wenn eine KI schlechten Code generiert, den der Betreiber nie gelesen hat, gibt es kein mentales Modell, das man wiederherstellen könnte. Der Entwickler kann nicht erklären, warum die Authentifizierung so aufgebaut ist, denn er hat die Authentifizierung nie gelesen. Er kann nicht sagen, welche Drittanbieter-Bibliothek Zahlungen verarbeitet, weil er die Datei akzeptiert hat, ohne sie zu öffnen. Der Code ist eine Black Box, die ihm gehört, über die er aber nicht nachdenken kann."
+    },
+    {
+      "type": "p",
+      "text": "Die Fehlermuster, die wir in KI-generierten Produktions-Apps konsistent sehen:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Auth-Bypasses im Scaffold verankert; JWT-Secrets in Beispielen für Umgebungsvariablen, die in öffentliche Repositories committed wurden** – dies sind häufige Befunde in Code-Reviews von KI-gestützten Projekten ohne Engineering-Aufsicht. KI-generierter Auth-Code kopiert häufig Muster aus Trainingsdaten, ohne das Sicherheitsmodell zu verstehen. Row-Level Security während der Entwicklung «vorübergehend» deaktiviert, im Produktivbetrieb belassen. Rollenprüfungen, die String-Literale vergleichen und brechen, sobald ein Feld umbenannt wird.",
+        "**Kein Error-Handling jenseits des Happy Path.** Die KI hat den Erfolgsfall geschrieben. Was passiert, wenn der Zahlungsanbieter einen 402 zurückgibt? Was passiert, wenn die Datenbankverbindung mitten in einer Transaktion abbricht? In Vibe-codierten Apps lautet die Antwort meistens eine unbehandelte Promise-Ablehnung, die als leerer Bildschirm erscheint.",
+        "**Vendor-Lock-in durch KI-generierte Muster.** Als die KI das Datenmodell auf eine bestimmte Weise strukturierte, hat der Vibe Coder es akzeptiert. Jetzt ist die gesamte App um diese Struktur herum gebaut. Eine Migration weg davon erfordert das Verständnis von Code, den der Entwickler nie gelesen hat.",
+        "**Keine Tests.** Nicht weil Tests schwer sind, sondern weil der Vibe Coder nie danach gefragt hat und die KI sie nicht freiwillig angeboten hat. Wenn etwas im Produktivbetrieb bricht, gibt es keine Testsuite, die Regressionen im Fix abfängt."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Die Demo-to-Production-Lücke"
+    },
+    {
+      "type": "p",
+      "text": "KI-Tools sind wirklich gut darin, Code zu generieren, der gegen einen Happy Path mit sauberen Eingaben, einem kooperativen Netzwerk und einem einzelnen gleichzeitigen Nutzer funktioniert. Das ist genau die Bedingung, unter der eine Demo läuft. Der Produktivbetrieb ist das Gegenteil: fehlerhafte Eingaben, unterbrochene Verbindungen, gleichzeitige Schreibvorgänge, Edge Cases, die nie im Prompt spezifiziert wurden."
+    },
+    {
+      "type": "p",
+      "text": "Das Muster spielt sich vorhersehbar ab. Eine Vibe-codierte App geht live, sieht poliert aus, gewinnt frühe Nutzer. Dann: Ein Nutzer mit einem Nicht-ASCII-Zeichen in seinem Namen bricht die Datenbankabfrage. Ein mobiler Nutzer mit langsamer Verbindung löst eine Race Condition im State Management aus. Wir haben Szenarien erlebt, in denen API-Endpunkte Daten über Nutzerkonten hinweg leaken, weil Autorisierungsprüfungen fehlten oder unvollständig waren – eine Folge von ausgeliefertem Code, der nie auf serverseitige Durchsetzung geprüft wurde. Das sind keine exotischen Fehler. Sie sind die grundlegende Konsequenz des Auslieferns von Code, den man nie gelesen hat."
+    },
+    {
+      "type": "h2",
+      "text": "KI macht gute Ingenieure besser - sie macht schlechte Ingenieure nicht überflüssig"
+    },
+    {
+      "type": "p",
+      "text": "Das ist der Anspruch, den die Vibe-Coding-Erzählung umkehrt. Die Tools sind real und die Produktivitätsgewinne sind real. Bei webvise verwenden wir Claude Code, Cursor und Multi-Agent-Orchestrierung bei jedem Projekt, das wir liefern. Senior-Ingenieure, die Claude Code einsetzen, berichten von erheblichen Zeiteinsparungen bei Aufgaben, die sonst Tage in Anspruch genommen hätten. Die gleichen Tools in den Händen von jemandem ohne Engineering-Grundlagen produzieren eine Demo, die den ersten echten Nutzer nicht überlebt."
+    },
+    {
+      "type": "p",
+      "text": "Der Unterschied liegt nicht im Tool - sondern darin, was der Ingenieur in das Tool einbringt. Engineering-Grundlagen bedeuten nicht, Code von Hand zu schreiben. Sie bedeuten, Systemgrenzen, Fehlermodi, Sicherheitsmodelle und Datenintegrität zu verstehen. Ein Ingenieur, der Claude Code verwendet, liest den generierten Authentifizierungscode und erkennt, wenn er falsch ist. Ein unerfahrener Entwickler akzeptiert den Vorschlag und liefert ihn aus."
+    },
+    {
+      "type": "table",
+      "headers": ["Fähigkeit", "Ingenieur + KI-Tools", "Vibe Coder + KI-Tools"],
+      "rows": [
+        ["Prototyp-Geschwindigkeit", "Schnell", "Schnell"],
+        [
+          "Liest generierten Code",
+          "Ja - erkennt Fehler, Sicherheitsprobleme",
+          "Nein - akzeptiert und liefert aus"
+        ],
+        [
+          "Behandelt Edge Cases",
+          "Spezifiziert sie proaktiv in Prompts",
+          "Entdeckt sie im Produktivbetrieb"
+        ],
+        [
+          "Sicherheitsüberprüfung",
+          "Im Review-Loop integriert",
+          "Nicht vorhanden"
+        ],
+        [
+          "Kann Produktionsfehler debuggen",
+          "Ja - versteht die Codebasis",
+          "Nein - Black Box, die ihm gehört"
+        ],
+        ["Skaliert über die Demo hinaus", "Ja", "Selten"]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Das spezifische Risiko für Geschäftssoftware"
+    },
+    {
+      "type": "p",
+      "text": "Consumer-Hobby-Apps können die Fehlermodi des Vibe Codings absorbieren. Wenn ein persönlicher Finanz-Tracker einige Daten verliert, ist das ärgerlich. Wenn ein B2B-SaaS, der Kundendaten, Zahlungsflüsse oder interne Workflows verarbeitet, mit den oben beschriebenen Auth- und Error-Handling-Problemen ausgeliefert wird, sind die Konsequenzen rechtlicher, vertraglicher und reputativer Natur. Die DSGVO-Haftung gilt unabhängig davon, wie der Code generiert wurde; Datenverarbeitungscode erfordert eine Überprüfung."
+    },
+    {
+      "type": "p",
+      "text": "Mehrere neuere KI-gestützte SaaS-Produkte haben ein ähnliches Muster gezeigt: beeindruckend in einer Demo, frühe Kunden auf Basis von Versprechen gewonnen, dann gegen eine Wand gestoßen, als der erste Enterprise-Interessent eine Sicherheitsüberprüfung durchführte oder der erste Tag mit hohem Traffic das fehlende Error-Handling offenbarte. Die Gründer sind keine Betrüger - sie wussten tatsächlich nicht, was sie gebaut hatten."
+    },
+    {
+      "type": "h2",
+      "text": "Worauf Sie bei einem KI-erweiterten Entwicklungspartner achten sollten"
+    },
+    {
+      "type": "p",
+      "text": "Wenn Sie einen Entwicklungspartner evaluieren, der behauptet, KI-Tools zu verwenden, stellen Sie diese Fragen:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Führen sie automatisierte Tests für KI-generierten Code durch?** Wenn die Antwort «Wir vertrauen der KI-Ausgabe» lautet, gehen Sie weg. Testabdeckung ist der Weg, um das Error-Handling abzufangen, das die KI weggelassen hat.",
+        "**Führen sie Sicherheitsüberprüfungen für generierten Authentifizierungs- und Autorisierungscode durch?** KI-Tools kopieren Auth-Muster aus Trainingsdaten. Diese Muster enthalten echte Schwachstellen aus echten Codebasen.",
+        "**Können sie die Architektur dessen erklären, was sie gebaut haben?** Wenn ein Entwickler das Datenmodell nicht durchgehen und erklären kann, warum es so strukturiert ist, hat er es nicht entworfen - er hat es akzeptiert.",
+        "**Versionieren sie ihre Prompts zusammen mit dem Code?** Engineering-Disziplin bei KI-Tools bedeutet, den Prompt als Teil der Codebasis zu behandeln, nicht als wegwerfbare Eingabe.",
+        "**Haben sie einen Prozess für den Umgang mit KI-Halluzinationen?** KI-Tools generieren selbstbewusst falsche API-Aufrufe, veraltete Methoden und nicht existierende Bibliotheksfunktionen. Ein erfahrenes Team hat dafür einen Review-Loop. Ein Vibe Coder entdeckt es zur Laufzeit."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Der richtige Rahmen: KI als Kraftmultiplikator, nicht als Ersatz"
+    },
+    {
+      "type": "p",
+      "text": "Die Vibe-Coding-Erzählung ist verführerisch, weil sie teilweise wahr ist. KI-Tools haben die Hürde für die Softwareentwicklung wirklich gesenkt. Ein motivierter Nicht-Ingenieur kann an einem Wochenende einen funktionierenden Prototypen ausliefern. Das ist wertvoll für Validierung, MVPs und internes Tooling mit niedrigem Risiko. Der Fehler ist, den Boden als Decke zu behandeln - anzunehmen, dass man, weil man etwas zum Laufen bringen kann, es auch zuverlässig im Scale, sicher und wartbar zum Laufen bringen kann."
+    },
+    {
+      "type": "p",
+      "text": "Die Ingenieure, die am meisten von KI-Coding-Tools profitiert haben, sind diejenigen, die sie nutzen, um die mühsamen Teile des Engineerings zu eliminieren - Boilerplate, Scaffolding, repetitive Refactors - während sie ihr Urteil auf die Teile anwenden, die wichtig sind: Architektur, Sicherheit, Error-Handling und Produktionsbereitschaft. Die KI beschleunigt die Arbeit. Der Ingenieur stellt sicher, dass sie korrekt ist."
+    },
+    {
+      "type": "p",
+      "text": "Bei [webvise](/#contact) verwenden wir KI-erweiterte Entwicklung bei jedem Projekt - Claude Code, Cursor, Multi-Agent-Pipelines - aber mit der Engineering-Disziplin, die die Ausgabe produktionsreif macht. Wenn Sie Software bauen, die echte Nutzer, echte Edge Cases und echte Sicherheitsanforderungen überstehen muss, [sprechen wir gerne darüber, wie wir arbeiten](/#contact)."
+    }
+  ]
 }

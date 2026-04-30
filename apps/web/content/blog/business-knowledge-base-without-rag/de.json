@@ -1,178 +1,178 @@
 {
-	"date": "2026-04-07",
-	"readingTime": 8,
-	"keyword": "knowledge base für unternehmen ohne rag",
-	"title": "Die meisten unternehmensinternen Knowledge Bases brauchen kein RAG",
-	"excerpt": "Wir betreiben unser internes Wiki mit fünf Shell-Befehlen und einer manuell gepflegten Indexdatei, ohne vector database. Für eine Knowledge Base mit 200 Dokumenten ist dieser Aufbau günstiger, schneller zu bauen und präziser als eine RAG-Pipeline. Hier ist, warum wir auf RAG verzichtet haben und wann Sie es tatsächlich benötigen.",
-	"metaDescription": "Warum die meisten unternehmensinternen Knowledge Bases mit weniger als 1.000 Dokumenten keine RAG-Pipeline brauchen. Reale Zahlen aus unserem internen Vault, die fünf Befehle, die RAG ersetzen, und wann RAG die richtige Wahl bleibt.",
-	"tags": ["AI Agents", "AI", "Automation", "Business Strategy"],
-	"cta": "Kontakt aufnehmen",
-	"blocks": [
-		{
-			"type": "p",
-			"text": "Wir betreiben unser internes Unternehmens-Wiki mit fünf Shell-Befehlen und einer manuell gepflegten Indexdatei. Keine embeddings, keine vector database, kein Re-Indexing-Job. Für eine Knowledge Base mit rund 200 Dokumenten ist dieser Aufbau schneller zu bauen, günstiger zu betreiben und präziser als eine typische RAG-Pipeline. Der Trade-off lohnt sich erst irgendwo jenseits von tausend Dokumenten, nicht davor."
-		},
-		{
-			"type": "h2",
-			"text": "Eine kurze Anmerkung zu Karpathy und Obsidian"
-		},
-		{
-			"type": "p",
-			"text": "Zwei Dinge haben uns diesen Ansatz nahegelegt. Das erste ist Andrej Karpathys konsequentes Argument, dass KI-Agenten Werkzeuge erhalten sollten, statt abgerufene Textfragmente zu erhalten. Sein [AutoResearch](https://github.com/karpathy/autoresearch)-Projekt, das im März 2026 veröffentlicht wurde, macht diesen Fall buchstäblich deutlich: Der Agent führt Code aus, statt embeddings abzufragen, und Fortschritt entsteht durch Ausführung. Wir haben AutoResearch ausführlich in [einem früheren Beitrag](/blog/karpathy-autoresearch-ai-experiments) behandelt."
-		},
-		{
-			"type": "p",
-			"text": "Das zweite ist Obsidian. Ein Obsidian-Vault ist nur ein Ordner mit einfachen markdown-Dateien. Es gibt keine proprietäre Datenbank, kein Schema zum Migrieren, kein SDK zum Erlernen. Kombiniert mit Obsidians lokalem REST API-Plugin liegt die gesamte Knowledge Base hinter einem normalen HTTP-Endpunkt, den jeder Prozess lesen oder schreiben kann. Diese Kombination macht das Muster \"dem Agenten Werkzeuge geben\" trivial umsetzbar: eine Handvoll Shell-Befehle, und Sie haben ein LLM, das eine strukturierte Knowledge Base direkt lesen, schreiben und durchsuchen kann."
-		},
-		{
-			"type": "h2",
-			"text": "Was wir tatsächlich betreiben"
-		},
-		{
-			"type": "p",
-			"text": "Unser internes Wiki umfasst heute 22 Seiten strukturierten Wissens: Entitäten (Personen, Unternehmen, Projekte), Konzepte (Frameworks und Prinzipien), Quellen (rohe Recherche-Notizen) und Syntheseseiten, die diese miteinander verbinden. Jede Seite verweist über Obsidian wikilinks auf andere Seiten, und eine manuell gepflegte `index.md` im Stammverzeichnis listet alles nach Kategorie mit einzeiligen Beschreibungen auf."
-		},
-		{
-			"type": "p",
-			"text": "Der Agent durchsucht den Vault nicht mit embeddings. Er führt fünf Befehle aus:"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**`wiki read <path>`**. Eine einzelne markdown-Seite abrufen.",
-				"**`wiki write <path> -`**. Eine Seite aus stdin erstellen oder überschreiben.",
-				"**`wiki append <path> <text>`**. Eine Zeile zu einer Seite hinzufügen (wird für das laufende Aktivitätsprotokoll verwendet).",
-				"**`wiki search <query>`**. Obsidians eingebaute Volltextsuche aufrufen.",
-				"**`wiki list <dir>`**. Dateien in einem Verzeichnis auflisten."
-			]
-		},
-		{
-			"type": "p",
-			"text": "Die gesamte Implementierung umfasst rund 80 Zeilen bash und curl. Keine vector database, kein embedding-Modell, keine chunking-Strategie, kein reranker, kein nächtlicher Index-Job. Eine neue Notiz hinzuzufügen bedeutet, die Datei zu schreiben. Der Agent greift beim nächsten Query darauf zu, ohne einen Pipeline-Schritt dazwischen."
-		},
-		{
-			"type": "h2",
-			"text": "Die Indexdatei ist das Retrieval-System"
-		},
-		{
-			"type": "p",
-			"text": "Das ist der Teil, den wir eine Weile zu akzeptieren gebraucht haben. Wenn der Agent eine Frage erhält, beginnt er nicht damit, irgendetwas abzurufen. Er beginnt damit, `wiki/index.md` zu lesen, ein kuratiertes Inhaltsverzeichnis, das von einem Menschen (oder einem Pflege-Agenten, der nach Zeitplan läuft) geschrieben wurde. Der Index listet jede Seite mit einer Ein-Satz-Beschreibung nach Kategorie geordnet auf. Aus diesem einzelnen Lesevorgang mit rund 400 Token weiß der Agent bereits, welche ein oder zwei Seiten relevant sind."
-		},
-		{
-			"type": "p",
-			"text": "Der nächste Schritt sind ein oder zwei gezielte Lesevorgänge, um die relevanten Seiten vollständig abzurufen. Jede Seite umfasst zwischen 200 und 800 Token. Die meisten Queries sind nach zwei oder drei Lesevorgängen abgeschlossen, mit rund tausend Token Vault-Inhalt im Kontextfenster. Das ist weniger als das, was eine Standard-RAG-Konfiguration injiziert, und der Inhalt ist kohärent (ganze Seiten) statt zerstückelt (Textfragmente, aus ihrem Kontext gerissen)."
-		},
-		{
-			"type": "p",
-			"text": "Ein gepflegter Index leistet die Arbeit, die eine vector database in einer RAG-Pipeline leistet: Er ordnet eine Anfrage den richtigen Dokumenten zu. Der Unterschied ist, dass ein Mensch die Zuordnung einmal kuratiert hat, statt dass ein embedding-Modell sie bei jeder Anfrage neu annähert."
-		},
-		{
-			"type": "h2",
-			"text": "Der Token- und Kostenvergleich"
-		},
-		{
-			"type": "p",
-			"text": "Für eine kleine unternehmensweite Knowledge Base mit rund 200 Dokumenten: hier sind die Kosten eines Standard-RAG-Aufbaus im Vergleich zum index-gesteuerten Dateizugriffsmuster. Die Token-Zahlen basieren auf dem, was wir in unserem eigenen Vault beobachten. Die Infrastrukturzahlen stammen aus den öffentlichen Preislisten der gängigsten verwalteten Dienste."
-		},
-		{
-			"type": "table",
-			"headers": ["Posten", "RAG-Pipeline", "Index + Tools"],
-			"rows": [
-				[
-					"Token pro Query injiziert",
-					"~3.000 (5 bis 10 chunks)",
-					"~1.000 (1 Index-Lesevorgang + 1 bis 2 Seiten)"
-				],
-				[
-					"Vector database (monatlich)",
-					"$25 bis $80 (Pinecone, Weaviate, Qdrant Cloud)",
-					"$0"
-				],
-				["Embedding-API (initial + Updates)", "$10 bis $40", "$0"],
-				[
-					"Re-Indexing bei Dokumentänderung",
-					"Erforderlich, Batch-Job",
-					"Keines, sofort"
-				],
-				[
-					"Aufbauzeit",
-					"Tage (chunking, retrieval, Evaluation)",
-					"Stunden (kleinen CLI-Wrapper schreiben)"
-				],
-				[
-					"Antwortgenauigkeit bei kleinen Corpora",
-					"Variabel, sensitiv gegenüber chunk-Grenzen",
-					"Hoch, ganze Seiten erhalten"
-				]
-			]
-		},
-		{
-			"type": "p",
-			"text": "Token-Einsparungen pro Query von rund 30 bis 60 Prozent in unserem eigenen Vault sind real – die tatsächlichen Werte hängen von Corpus-Struktur und Abfragemustern ab –, aber das ist nicht die Überschrift. Die Überschrift ist alles in der zweiten Spalte, das wegfällt. Keine vector database-Position auf der monatlichen Rechnung. Kein embedding-Modell zu warten. Keine Debugging-Session nach dem Motto \"wir haben unsere chunking-Strategie geändert und die Antworten haben sich verschoben\". Für eine Knowledge Base, die bequem in den Kopf einer einzelnen Person passt, ist jedes dieser beweglichen Teile Overhead ohne entsprechenden Nutzen."
-		},
-		{
-			"type": "h2",
-			"text": "Was Sie sich nicht mehr überlegen müssen"
-		},
-		{
-			"type": "p",
-			"text": "Am deutlichsten lässt sich für dieses Muster argumentieren, indem man die Entscheidungen auflistet, die wegfallen:"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Chunking-Strategie.** Keine Debatte mehr: \"Sollen wir nach Absatz, Satz oder Token-Anzahl aufteilen?\" Die Seite ist die Einheit.",
-				"**Auswahl des embedding-Modells.** Kein Rechercheprojekt mehr, das text-embedding-3-small mit fein abgestimmten Alternativen vergleicht.",
-				"**Vector-database-Betrieb.** Kein verwalteter Dienst mehr zum Überwachen, Aktualisieren oder Budgetieren.",
-				"**Re-Indexing-Pipelines.** Kein nächtlicher Batch-Job mehr, keine Slack-Nachrichten mit \"der Index ist veraltet\".",
-				"**Retrieval-Evaluierungs-Harness.** Keine Precision-and-Recall-Testsuite mehr, die parallel zur Knowledge Base läuft.",
-				"**hybrid search-Tuning.** Keine BM25-plus-vector-plus-rerank-Pipeline mehr, die im Gleichgewicht zu halten ist."
-			]
-		},
-		{
-			"type": "p",
-			"text": "Das ist in etwa das gesamte RAG-Betriebshandbuch, entfernt. Was es ersetzt, ist ein Shell-Skript und die Disziplin, eine Indexdatei aktuell zu halten. Die Disziplin ist real, aber es ist dieselbe Disziplin, die ein Wiki für Menschen wertvoll macht."
-		},
-		{
-			"type": "h2",
-			"text": "Wann RAG die richtige Wahl bleibt"
-		},
-		{
-			"type": "p",
-			"text": "Dieses Muster hat klare Grenzen. Ein gepflegter Index stößt irgendwo bei tausend Dokumenten an seine Grenzen, wenn ein Mensch die Struktur nicht mehr im Kopf behalten kann und die Indexdatei zu lang wird, als dass der Agent sie bei jeder Anfrage effizient scannen könnte. Jenseits dieser Größenordnung verdienen embeddings und eine echte Retrieval-Schicht ihren Aufwand."
-		},
-		{
-			"type": "p",
-			"text": "Weitere Fälle, in denen RAG das richtige Werkzeug bleibt:"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Multimodale Corpora.** PDFs mit Tabellen, gescannte Dokumente, Audio-Transkripte, bildlastige Berichte. Ein markdown-Vault setzt voraus, dass sich alles auf Text reduzieren lässt.",
-				"**Hochfrequente Updates im großen Maßstab.** Wenn Sie tausende öffentliche Dokumente indexieren, die sich jede Minute ändern, und diese sofort abfragbar benötigen.",
-				"**Strikte Metadaten-Filterung beim Abruf.** Wenn Anfragen strukturierte Filter (Datumsbereiche, Autor, Dokumenttyp) direkt im Retrieval-Schritt benötigen, ist eine vector database mit Metadaten die sauberere Lösung.",
-				"**Nicht vertrauenswürdige oder adversarielle Inhalte.** Wenn das Corpus von vielen Autoren mit widersprüchlichen Absichten stammt und kein einzelner Mensch als Pfleger eines kuratierten Index vertraut werden kann."
-			]
-		},
-		{
-			"type": "p",
-			"text": "Für die meisten internen unternehmensweiten Knowledge Bases (Unternehmens-Wikis, Produktdokumentation, Sales-Playbooks, Onboarding-Leitfäden, interne SOPs) trifft keine dieser Bedingungen zu. Das Corpus ist klein, die Autoren sind wenige, die Struktur ist stabil, und die Personen, die die Dokumentation pflegen, sind dieselben, denen am meisten daran gelegen ist, dass sie korrekt ist. Für die Anwendungsfälle, die wir sehen, ist RAG häufig die falsche Standardwahl."
-		},
-		{
-			"type": "h2",
-			"text": "Was das für die meisten Unternehmen bedeutet"
-		},
-		{
-			"type": "p",
-			"text": "Wenn Sie ein kleines oder mittelständisches Unternehmen sind, das auf seine bestehende Dokumentation schaut und sich fragt, wie Sie diese durch KI abfragbar machen können: Die ehrliche Antwort ist in den meisten Fällen, dass Sie keine vector database benötigen. Sie brauchen eine Indexdatei, ein kurzes Skript, das Ihre Dokumente liest und schreibt, und ein LLM mit Tool-Zugang. Die Komponenten sind alle von der Stange verfügbar. Die Arbeit liegt darin, den Index aktuell zu halten."
-		},
-		{
-			"type": "p",
-			"text": "Die Unternehmen, die RAG-as-a-Service verkaufen, liegen nicht falsch, was die Technologie betrifft. Sie setzen den Standard breiter an als für die meisten internen Anwendungsfälle nötig. RAG ist das richtige Werkzeug für Probleme in einem Maßstab, den die meisten Unternehmen nicht haben, und für Inhaltstypen, die die meisten Unternehmen nicht speichern. Zuerst danach zu greifen ist der Grund, warum interne KI-Projekte mit einem Sechs-Monats-Roadmap und einer wiederkehrenden Infrastrukturrechnung enden, bevor sie ihre erste echte Frage beantwortet haben."
-		},
-		{
-			"type": "p",
-			"text": "Bei **[webvise](/#contact)** bauen wir interne KI-Tools auf diesem pragmatischen Fundament: strukturiertes Wissen, einfache Werkzeuge, Agenten, die direkt lesen und schreiben. Wenn Sie ein RAG-Projekt für die Dokumentation Ihres Teams in Betracht ziehen und eine zweite Meinung möchten, ob die Komplexität gerechtfertigt ist, [nehmen Sie Kontakt auf](/#contact) und wir sprechen über Ihr tatsächliches Corpus, bevor Sie sich zur Infrastruktur verpflichten."
-		}
-	]
+  "date": "2026-04-07",
+  "readingTime": 8,
+  "keyword": "knowledge base für unternehmen ohne rag",
+  "title": "Die meisten unternehmensinternen Knowledge Bases brauchen kein RAG",
+  "excerpt": "Wir betreiben unser internes Wiki mit fünf Shell-Befehlen und einer manuell gepflegten Indexdatei, ohne vector database. Für eine Knowledge Base mit 200 Dokumenten ist dieser Aufbau günstiger, schneller zu bauen und präziser als eine RAG-Pipeline. Hier ist, warum wir auf RAG verzichtet haben und wann Sie es tatsächlich benötigen.",
+  "metaDescription": "Warum die meisten unternehmensinternen Knowledge Bases mit weniger als 1.000 Dokumenten keine RAG-Pipeline brauchen. Reale Zahlen aus unserem internen Vault, die fünf Befehle, die RAG ersetzen, und wann RAG die richtige Wahl bleibt.",
+  "tags": ["AI Agents", "AI", "Automation", "Business Strategy"],
+  "cta": "Kontakt aufnehmen",
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Wir betreiben unser internes Unternehmens-Wiki mit fünf Shell-Befehlen und einer manuell gepflegten Indexdatei. Keine embeddings, keine vector database, kein Re-Indexing-Job. Für eine Knowledge Base mit rund 200 Dokumenten ist dieser Aufbau schneller zu bauen, günstiger zu betreiben und präziser als eine typische RAG-Pipeline. Der Trade-off lohnt sich erst irgendwo jenseits von tausend Dokumenten, nicht davor."
+    },
+    {
+      "type": "h2",
+      "text": "Eine kurze Anmerkung zu Karpathy und Obsidian"
+    },
+    {
+      "type": "p",
+      "text": "Zwei Dinge haben uns diesen Ansatz nahegelegt. Das erste ist Andrej Karpathys konsequentes Argument, dass KI-Agenten Werkzeuge erhalten sollten, statt abgerufene Textfragmente zu erhalten. Sein [AutoResearch](https://github.com/karpathy/autoresearch)-Projekt, das im März 2026 veröffentlicht wurde, macht diesen Fall buchstäblich deutlich: Der Agent führt Code aus, statt embeddings abzufragen, und Fortschritt entsteht durch Ausführung. Wir haben AutoResearch ausführlich in [einem früheren Beitrag](/blog/karpathy-autoresearch-ai-experiments) behandelt."
+    },
+    {
+      "type": "p",
+      "text": "Das zweite ist Obsidian. Ein Obsidian-Vault ist nur ein Ordner mit einfachen markdown-Dateien. Es gibt keine proprietäre Datenbank, kein Schema zum Migrieren, kein SDK zum Erlernen. Kombiniert mit Obsidians lokalem REST API-Plugin liegt die gesamte Knowledge Base hinter einem normalen HTTP-Endpunkt, den jeder Prozess lesen oder schreiben kann. Diese Kombination macht das Muster \"dem Agenten Werkzeuge geben\" trivial umsetzbar: eine Handvoll Shell-Befehle, und Sie haben ein LLM, das eine strukturierte Knowledge Base direkt lesen, schreiben und durchsuchen kann."
+    },
+    {
+      "type": "h2",
+      "text": "Was wir tatsächlich betreiben"
+    },
+    {
+      "type": "p",
+      "text": "Unser internes Wiki umfasst heute 22 Seiten strukturierten Wissens: Entitäten (Personen, Unternehmen, Projekte), Konzepte (Frameworks und Prinzipien), Quellen (rohe Recherche-Notizen) und Syntheseseiten, die diese miteinander verbinden. Jede Seite verweist über Obsidian wikilinks auf andere Seiten, und eine manuell gepflegte `index.md` im Stammverzeichnis listet alles nach Kategorie mit einzeiligen Beschreibungen auf."
+    },
+    {
+      "type": "p",
+      "text": "Der Agent durchsucht den Vault nicht mit embeddings. Er führt fünf Befehle aus:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**`wiki read <path>`**. Eine einzelne markdown-Seite abrufen.",
+        "**`wiki write <path> -`**. Eine Seite aus stdin erstellen oder überschreiben.",
+        "**`wiki append <path> <text>`**. Eine Zeile zu einer Seite hinzufügen (wird für das laufende Aktivitätsprotokoll verwendet).",
+        "**`wiki search <query>`**. Obsidians eingebaute Volltextsuche aufrufen.",
+        "**`wiki list <dir>`**. Dateien in einem Verzeichnis auflisten."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Die gesamte Implementierung umfasst rund 80 Zeilen bash und curl. Keine vector database, kein embedding-Modell, keine chunking-Strategie, kein reranker, kein nächtlicher Index-Job. Eine neue Notiz hinzuzufügen bedeutet, die Datei zu schreiben. Der Agent greift beim nächsten Query darauf zu, ohne einen Pipeline-Schritt dazwischen."
+    },
+    {
+      "type": "h2",
+      "text": "Die Indexdatei ist das Retrieval-System"
+    },
+    {
+      "type": "p",
+      "text": "Das ist der Teil, den wir eine Weile zu akzeptieren gebraucht haben. Wenn der Agent eine Frage erhält, beginnt er nicht damit, irgendetwas abzurufen. Er beginnt damit, `wiki/index.md` zu lesen, ein kuratiertes Inhaltsverzeichnis, das von einem Menschen (oder einem Pflege-Agenten, der nach Zeitplan läuft) geschrieben wurde. Der Index listet jede Seite mit einer Ein-Satz-Beschreibung nach Kategorie geordnet auf. Aus diesem einzelnen Lesevorgang mit rund 400 Token weiß der Agent bereits, welche ein oder zwei Seiten relevant sind."
+    },
+    {
+      "type": "p",
+      "text": "Der nächste Schritt sind ein oder zwei gezielte Lesevorgänge, um die relevanten Seiten vollständig abzurufen. Jede Seite umfasst zwischen 200 und 800 Token. Die meisten Queries sind nach zwei oder drei Lesevorgängen abgeschlossen, mit rund tausend Token Vault-Inhalt im Kontextfenster. Das ist weniger als das, was eine Standard-RAG-Konfiguration injiziert, und der Inhalt ist kohärent (ganze Seiten) statt zerstückelt (Textfragmente, aus ihrem Kontext gerissen)."
+    },
+    {
+      "type": "p",
+      "text": "Ein gepflegter Index leistet die Arbeit, die eine vector database in einer RAG-Pipeline leistet: Er ordnet eine Anfrage den richtigen Dokumenten zu. Der Unterschied ist, dass ein Mensch die Zuordnung einmal kuratiert hat, statt dass ein embedding-Modell sie bei jeder Anfrage neu annähert."
+    },
+    {
+      "type": "h2",
+      "text": "Der Token- und Kostenvergleich"
+    },
+    {
+      "type": "p",
+      "text": "Für eine kleine unternehmensweite Knowledge Base mit rund 200 Dokumenten: hier sind die Kosten eines Standard-RAG-Aufbaus im Vergleich zum index-gesteuerten Dateizugriffsmuster. Die Token-Zahlen basieren auf dem, was wir in unserem eigenen Vault beobachten. Die Infrastrukturzahlen stammen aus den öffentlichen Preislisten der gängigsten verwalteten Dienste."
+    },
+    {
+      "type": "table",
+      "headers": ["Posten", "RAG-Pipeline", "Index + Tools"],
+      "rows": [
+        [
+          "Token pro Query injiziert",
+          "~3.000 (5 bis 10 chunks)",
+          "~1.000 (1 Index-Lesevorgang + 1 bis 2 Seiten)"
+        ],
+        [
+          "Vector database (monatlich)",
+          "$25 bis $80 (Pinecone, Weaviate, Qdrant Cloud)",
+          "$0"
+        ],
+        ["Embedding-API (initial + Updates)", "$10 bis $40", "$0"],
+        [
+          "Re-Indexing bei Dokumentänderung",
+          "Erforderlich, Batch-Job",
+          "Keines, sofort"
+        ],
+        [
+          "Aufbauzeit",
+          "Tage (chunking, retrieval, Evaluation)",
+          "Stunden (kleinen CLI-Wrapper schreiben)"
+        ],
+        [
+          "Antwortgenauigkeit bei kleinen Corpora",
+          "Variabel, sensitiv gegenüber chunk-Grenzen",
+          "Hoch, ganze Seiten erhalten"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Token-Einsparungen pro Query von rund 30 bis 60 Prozent in unserem eigenen Vault sind real – die tatsächlichen Werte hängen von Corpus-Struktur und Abfragemustern ab –, aber das ist nicht die Überschrift. Die Überschrift ist alles in der zweiten Spalte, das wegfällt. Keine vector database-Position auf der monatlichen Rechnung. Kein embedding-Modell zu warten. Keine Debugging-Session nach dem Motto \"wir haben unsere chunking-Strategie geändert und die Antworten haben sich verschoben\". Für eine Knowledge Base, die bequem in den Kopf einer einzelnen Person passt, ist jedes dieser beweglichen Teile Overhead ohne entsprechenden Nutzen."
+    },
+    {
+      "type": "h2",
+      "text": "Was Sie sich nicht mehr überlegen müssen"
+    },
+    {
+      "type": "p",
+      "text": "Am deutlichsten lässt sich für dieses Muster argumentieren, indem man die Entscheidungen auflistet, die wegfallen:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Chunking-Strategie.** Keine Debatte mehr: \"Sollen wir nach Absatz, Satz oder Token-Anzahl aufteilen?\" Die Seite ist die Einheit.",
+        "**Auswahl des embedding-Modells.** Kein Rechercheprojekt mehr, das text-embedding-3-small mit fein abgestimmten Alternativen vergleicht.",
+        "**Vector-database-Betrieb.** Kein verwalteter Dienst mehr zum Überwachen, Aktualisieren oder Budgetieren.",
+        "**Re-Indexing-Pipelines.** Kein nächtlicher Batch-Job mehr, keine Slack-Nachrichten mit \"der Index ist veraltet\".",
+        "**Retrieval-Evaluierungs-Harness.** Keine Precision-and-Recall-Testsuite mehr, die parallel zur Knowledge Base läuft.",
+        "**hybrid search-Tuning.** Keine BM25-plus-vector-plus-rerank-Pipeline mehr, die im Gleichgewicht zu halten ist."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Das ist in etwa das gesamte RAG-Betriebshandbuch, entfernt. Was es ersetzt, ist ein Shell-Skript und die Disziplin, eine Indexdatei aktuell zu halten. Die Disziplin ist real, aber es ist dieselbe Disziplin, die ein Wiki für Menschen wertvoll macht."
+    },
+    {
+      "type": "h2",
+      "text": "Wann RAG die richtige Wahl bleibt"
+    },
+    {
+      "type": "p",
+      "text": "Dieses Muster hat klare Grenzen. Ein gepflegter Index stößt irgendwo bei tausend Dokumenten an seine Grenzen, wenn ein Mensch die Struktur nicht mehr im Kopf behalten kann und die Indexdatei zu lang wird, als dass der Agent sie bei jeder Anfrage effizient scannen könnte. Jenseits dieser Größenordnung verdienen embeddings und eine echte Retrieval-Schicht ihren Aufwand."
+    },
+    {
+      "type": "p",
+      "text": "Weitere Fälle, in denen RAG das richtige Werkzeug bleibt:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Multimodale Corpora.** PDFs mit Tabellen, gescannte Dokumente, Audio-Transkripte, bildlastige Berichte. Ein markdown-Vault setzt voraus, dass sich alles auf Text reduzieren lässt.",
+        "**Hochfrequente Updates im großen Maßstab.** Wenn Sie tausende öffentliche Dokumente indexieren, die sich jede Minute ändern, und diese sofort abfragbar benötigen.",
+        "**Strikte Metadaten-Filterung beim Abruf.** Wenn Anfragen strukturierte Filter (Datumsbereiche, Autor, Dokumenttyp) direkt im Retrieval-Schritt benötigen, ist eine vector database mit Metadaten die sauberere Lösung.",
+        "**Nicht vertrauenswürdige oder adversarielle Inhalte.** Wenn das Corpus von vielen Autoren mit widersprüchlichen Absichten stammt und kein einzelner Mensch als Pfleger eines kuratierten Index vertraut werden kann."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Für die meisten internen unternehmensweiten Knowledge Bases (Unternehmens-Wikis, Produktdokumentation, Sales-Playbooks, Onboarding-Leitfäden, interne SOPs) trifft keine dieser Bedingungen zu. Das Corpus ist klein, die Autoren sind wenige, die Struktur ist stabil, und die Personen, die die Dokumentation pflegen, sind dieselben, denen am meisten daran gelegen ist, dass sie korrekt ist. Für die Anwendungsfälle, die wir sehen, ist RAG häufig die falsche Standardwahl."
+    },
+    {
+      "type": "h2",
+      "text": "Was das für die meisten Unternehmen bedeutet"
+    },
+    {
+      "type": "p",
+      "text": "Wenn Sie ein kleines oder mittelständisches Unternehmen sind, das auf seine bestehende Dokumentation schaut und sich fragt, wie Sie diese durch KI abfragbar machen können: Die ehrliche Antwort ist in den meisten Fällen, dass Sie keine vector database benötigen. Sie brauchen eine Indexdatei, ein kurzes Skript, das Ihre Dokumente liest und schreibt, und ein LLM mit Tool-Zugang. Die Komponenten sind alle von der Stange verfügbar. Die Arbeit liegt darin, den Index aktuell zu halten."
+    },
+    {
+      "type": "p",
+      "text": "Die Unternehmen, die RAG-as-a-Service verkaufen, liegen nicht falsch, was die Technologie betrifft. Sie setzen den Standard breiter an als für die meisten internen Anwendungsfälle nötig. RAG ist das richtige Werkzeug für Probleme in einem Maßstab, den die meisten Unternehmen nicht haben, und für Inhaltstypen, die die meisten Unternehmen nicht speichern. Zuerst danach zu greifen ist der Grund, warum interne KI-Projekte mit einem Sechs-Monats-Roadmap und einer wiederkehrenden Infrastrukturrechnung enden, bevor sie ihre erste echte Frage beantwortet haben."
+    },
+    {
+      "type": "p",
+      "text": "Bei **[webvise](/#contact)** bauen wir interne KI-Tools auf diesem pragmatischen Fundament: strukturiertes Wissen, einfache Werkzeuge, Agenten, die direkt lesen und schreiben. Wenn Sie ein RAG-Projekt für die Dokumentation Ihres Teams in Betracht ziehen und eine zweite Meinung möchten, ob die Komplexität gerechtfertigt ist, [nehmen Sie Kontakt auf](/#contact) und wir sprechen über Ihr tatsächliches Corpus, bevor Sie sich zur Infrastruktur verpflichten."
+    }
+  ]
 }

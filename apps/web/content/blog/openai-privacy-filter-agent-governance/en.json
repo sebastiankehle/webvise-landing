@@ -128,9 +128,21 @@
       "type": "table",
       "headers": ["Placement", "Trust boundary", "When to use"],
       "rows": [
-        ["Client-side (browser + WebGPU)", "Plaintext never leaves device", "Compliance-first web apps, regulated industries, internal tools"],
-        ["Server middleware (Node + Transformers)", "Trusted server, audited logs", "APIs, backend agents, batch pipelines"],
-        ["Output filter (post-response)", "Model output never reaches client raw", "Chat agents, generated content, user-facing RAG flows"]
+        [
+          "Client-side (browser + WebGPU)",
+          "Plaintext never leaves device",
+          "Compliance-first web apps, regulated industries, internal tools"
+        ],
+        [
+          "Server middleware (Node + Transformers)",
+          "Trusted server, audited logs",
+          "APIs, backend agents, batch pipelines"
+        ],
+        [
+          "Output filter (post-response)",
+          "Model output never reaches client raw",
+          "Chat agents, generated content, user-facing RAG flows"
+        ]
       ]
     },
     {
@@ -153,14 +165,46 @@
       "type": "table",
       "headers": ["Category", "What is detected", "Known failure mode"],
       "rows": [
-        ["private_person", "Personal names", "Uncommon regional names, initials, honorific-heavy references under-detect"],
-        ["private_email", "Email addresses", "Strong coverage. Obfuscated formats (\"name at domain\") can miss"],
-        ["private_phone", "Phone numbers", "International formats solid. Non-standard separators occasionally fragment"],
-        ["private_address", "Postal addresses", "Multi-line addresses in dense layouts fragment at boundaries"],
-        ["private_url", "Identifying URLs", "Over-redacts public entity URLs when local context is ambiguous"],
-        ["private_date", "DOB, appointments", "Context-sensitive. Calendar dates in scheduling text sometimes over-redact"],
-        ["account_number", "Bank, customer, patient IDs", "Under-detects domain-specific identifier patterns"],
-        ["secret", "API keys, credentials, tokens", "Novel credential formats and split secrets get missed"]
+        [
+          "private_person",
+          "Personal names",
+          "Uncommon regional names, initials, honorific-heavy references under-detect"
+        ],
+        [
+          "private_email",
+          "Email addresses",
+          "Strong coverage. Obfuscated formats (\"name at domain\") can miss"
+        ],
+        [
+          "private_phone",
+          "Phone numbers",
+          "International formats solid. Non-standard separators occasionally fragment"
+        ],
+        [
+          "private_address",
+          "Postal addresses",
+          "Multi-line addresses in dense layouts fragment at boundaries"
+        ],
+        [
+          "private_url",
+          "Identifying URLs",
+          "Over-redacts public entity URLs when local context is ambiguous"
+        ],
+        [
+          "private_date",
+          "DOB, appointments",
+          "Context-sensitive. Calendar dates in scheduling text sometimes over-redact"
+        ],
+        [
+          "account_number",
+          "Bank, customer, patient IDs",
+          "Under-detects domain-specific identifier patterns"
+        ],
+        [
+          "secret",
+          "API keys, credentials, tokens",
+          "Novel credential formats and split secrets get missed"
+        ]
       ]
     },
     {

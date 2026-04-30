@@ -28,7 +28,9 @@ export default function LanguageSwitcher({ id }: { id?: string }) {
 	const pathname = usePathname();
 
 	function switchLocale(nextLocale: string) {
-		if (nextLocale === locale) return;
+		if (nextLocale === locale) {
+			return;
+		}
 
 		// Strip current locale prefix to get the bare path
 		const localePrefix = `/${locale}`;
@@ -49,8 +51,8 @@ export default function LanguageSwitcher({ id }: { id?: string }) {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger
-				id={id}
 				className="group flex cursor-pointer items-center gap-1.5 text-muted-foreground text-xs uppercase transition-colors hover:text-foreground"
+				id={id}
 			>
 				<span className="inline-flex [perspective:80px]">
 					<Globe className="size-4 transition-transform duration-700 ease-in-out group-hover:[transform:rotateY(360deg)]" />
@@ -60,8 +62,8 @@ export default function LanguageSwitcher({ id }: { id?: string }) {
 			<DropdownMenuContent align="end" sideOffset={8}>
 				{routing.locales.map((loc) => (
 					<DropdownMenuItem
-						key={loc}
 						className={locale === loc ? "font-medium text-foreground" : ""}
+						key={loc}
 						onClick={() => switchLocale(loc)}
 					>
 						<Mono className="w-6 uppercase">{loc}</Mono>

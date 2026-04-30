@@ -1,191 +1,191 @@
 {
-	"title": "Vais-je perdre mon référencement si je refais mon site web ?",
-	"excerpt": "Une mauvaise migration peut nuire au referencement. Une bonne l'ameliore. Voici notre processus exact pour protéger et renforcer le SEO lors d'un passage de WordPress à Next.js.",
-	"tags": ["SEO", "Migration", "Web Development"],
-	"blocks": [
-		{
-			"type": "p",
-			"text": "C'est la question que nous entendons plus que toute autre."
-		},
-		{
-			"type": "p",
-			"text": "Vous avez passé des années à construire du trafic organique. Vous vous positionnez sur des mots-clés qui génèrent de vraies opportunités. L'idée de perdre ces positions - même temporairement - est terrifiante."
-		},
-		{
-			"type": "p",
-			"text": "Nous comprenons. Et voici la réponse honnête : une mauvaise [migration](/blog/should-i-migrate-wordpress-to-nextjs) peut nuire a vos positions. Une bonne les ameliorera."
-		},
-		{
-			"type": "p",
-			"text": "La différence tient au processus, pas à la chance."
-		},
-		{
-			"type": "h2",
-			"text": "Le vrai risque : le processus, pas la plateforme"
-		},
-		{
-			"type": "p",
-			"text": "Soyons clairs sur ce qui tue vraiment les positions lors d'une [migration](/services/wordpress-migration) :"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Des URLs cassées sans redirections.** Si /services/web-design devient /our-services/website-design-services sans redirection 301, Google voit une page morte et une nouvelle sans historique. Vous perdez tout ce que l'ancienne URL avait acquis.",
-				"**Des méta-données manquantes ou modifiées.** Si vos balises title et méta-descriptions soigneusement optimisées sont effacées pendant la refonte, Google réévalue chaque page depuis zéro.",
-				"**Du contenu perdu.** Si des pages sont fusionnées, supprimées ou largement réécrites sans redirections, les positions liées à ces pages disparaissent.",
-				"**Des liens internes cassés.** Si votre structure de liens internes change et que personne ne met les liens à jour, le link equity cesse de circuler dans votre site.",
-				"**Une récupération d'exploration lente.** Si vous ne soumettez pas le nouveau sitemap et ne surveillez pas Google Search Console après le lancement, Google peut mettre des semaines à découvrir et ré-indexer vos nouvelles pages."
-			]
-		},
-		{
-			"type": "p",
-			"text": "Ce ne sont pas des problèmes de plateforme. Ce sont des problèmes de processus de migration. Et ils sont tous évitables."
-		},
-		{
-			"type": "h2",
-			"text": "La checklist des redirections 301"
-		},
-		{
-			"type": "p",
-			"text": "C'est l'élément le plus important de toute migration de site web. Chaque ancienne URL doit correspondre à son nouvel équivalent. Sans exception."
-		},
-		{
-			"type": "p",
-			"text": "Voici notre processus exact :"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Explorer le site existant.** Nous extrayons chaque URL - pages, articles, images, PDFs - avec Screaming Frog ou un crawler personnalisé. Site typique : 20–200 URLs. Sites plus grands : 500+.",
-				"**Mapper les anciennes URLs vers les nouvelles.** Chaque page obtient une destination. Si une page est supprimée, elle redirige vers l'alternative pertinente la plus proche.",
-				"**Implémenter les redirections 301.** Pas des 302 (temporaires). Des redirections 301 permanentes qui indiquent à Google : \"Ce contenu a été déplacé ici. Transférer tous les signaux de positionnement.\"",
-				"**Tester chaque redirection.** Nous passons la liste complète des URLs dans un vérificateur de redirections avant le lancement. Chacune doit se résoudre correctement.",
-				"**Surveiller après le lancement.** Nous surveillons Google Search Console pour les erreurs 404 chaque jour pendant les deux premières semaines. Tout ce que Google ne trouve pas est redirigé immédiatement."
-			]
-		},
-		{
-			"type": "h2",
-			"text": "Migration des balises meta et des données structurées"
-		},
-		{
-			"type": "p",
-			"text": "Vos balises title, méta-descriptions, balises Open Graph et données structurées (schema markup) représentent des mois ou des années de travail SEO. Les perdre lors d'une migration, c'est comme jeter votre système de classement lors d'un déménagement de bureau."
-		},
-		{
-			"type": "p",
-			"text": "Notre processus :"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Extraire toutes les méta-données existantes** avant de toucher quoi que ce soit. Balises title, descriptions, URLs canoniques, balises Open Graph, données structurées - tout est documenté.",
-				"**Migrer vers le système meta de la nouvelle plateforme.** Dans Next.js, cela signifie l'API Metadata - une façon native et typée de définir les balises meta par page. Pas de plugins. Pas de Yoast. Juste des métadonnées propres et fiables.",
-				"**Vérifier après le lancement** avec le Test des résultats enrichis de Google et Search Console. Chaque page vérifiée."
-			]
-		},
-		{
-			"type": "h2",
-			"text": "Core Web Vitals : là où les migrations améliorent le référencement"
-		},
-		{
-			"type": "p",
-			"text": "Voici ce que la plupart des gens ratent : **une migration bien exécutée ne fait pas que préserver les positions - elle les booste.**"
-		},
-		{
-			"type": "p",
-			"text": "Google utilise les Core Web Vitals comme signal de classement depuis 2021. Les trois métriques importantes :"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Largest Contentful Paint (LCP) :** La [vitesse](/blog/website-speed-and-conversions) d'apparition du contenu principal",
-				"**Cumulative Layout Shift (CLS) :** L'amplitude des sauts de mise en page",
-				"**Interaction to Next Paint (INP) :** La vitesse de réponse du site aux clics"
-			]
-		},
-		{
-			"type": "p",
-			"text": "Les sites WordPress ont souvent du mal a atteindre les trois seuils sur mobile. Les sites Next.js les passent avec de la marge."
-		},
-		{
-			"type": "table",
-			"headers": [
-				"Core Web Vital",
-				"WordPress (typique)",
-				"Next.js (typique)",
-				"Seuil Google"
-			],
-			"rows": [
-				["LCP", "3,5–6,0s", "0,6–1,2s", "< 2,5s"],
-				["CLS", "0,15–0,35", "0,01–0,05", "< 0,1"],
-				["INP", "200–500ms", "50–100ms", "< 200ms"]
-			]
-		},
-		{
-			"type": "h2",
-			"text": "Données réelles : les changements de positions de nos clients après migration"
-		},
-		{
-			"type": "p",
-			"text": "Nous suivons les positions de chaque client migré pendant au moins 90 jours. Voici ce que nous observons systématiquement :"
-		},
-		{
-			"type": "p",
-			"text": "**Semaines 1–2 après le lancement :** Légères fluctuations. Google est en train de recrawler et réindexer. C'est normal et attendu. Les positions peuvent baisser temporairement de 1–3 places."
-		},
-		{
-			"type": "p",
-			"text": "**Semaines 3–4 :** Les positions se stabilisent. La plupart des mots-clés retrouvent leur position d'origine ou s'améliorent. Les pages qui ne passaient pas les Core Web Vitals auparavant grimpent souvent de 2–5 positions."
-		},
-		{
-			"type": "p",
-			"text": "**Mois 2–3 :** Bilan positif net. Sur l'ensemble de nos migrations, le client moyen observe une **augmentation des impressions organiques de 12–18%** en 90 jours."
-		},
-		{
-			"type": "h2",
-			"text": "La checklist SEO de migration (résumé)"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"Exploration complète des URLs et mapping réalisés",
-				"Redirections 301 configurées pour chaque ancienne URL",
-				"Toutes les redirections testées et vérifiées",
-				"Balises title et descriptions migrées",
-				"Données structurées (schema markup) migrées ou améliorées",
-				"Sitemap XML généré et soumis à Google Search Console",
-				"Propriété Google Search Console vérifiée pour le nouveau site",
-				"Liens internes mis à jour vers les nouvelles URLs (pas de chaînes de redirection)",
-				"URLs canoniques correctement définies sur toutes les pages",
-				"robots.txt vérifié - pas de noindex/nofollow accidentel",
-				"Surveillance des 404 active après le lancement",
-				"Core Web Vitals vérifiés comme passants sur toutes les pages clés"
-			]
-		},
-		{
-			"type": "h2",
-			"text": "En conclusion"
-		},
-		{
-			"type": "p",
-			"text": "Vous ne perdrez pas vos positions SEO lors d'une migration correctement exécutée. Vous les améliorerez probablement."
-		},
-		{
-			"type": "p",
-			"text": "Le risque n'est pas dans la refonte. Le risque est dans une mauvaise refonte - sauter les [redirections](https://developers.google.com/search/docs/crawling-indexing/301-redirects), perdre les méta-données, casser les URLs. C'est un problème de processus, pas de plateforme."
-		},
-		{
-			"type": "p",
-			"text": "Vous souhaitez voir l'état SEO actuel de votre site ?"
-		},
-		{
-			"type": "p",
-			"text": "Obtenez votre rapport de santé WordPress gratuit sur [webvise.io/wp-health-report](/wp-health-report) - il montre vos scores PageSpeed, les alertes de sécurité et les performances projetées après une refonte Next.js."
-		},
-		{
-			"type": "p",
-			"text": "Ou si vous êtes prêt à parler en détail : réservez un appel gratuit de 20 minutes sur [webvise.io](/#contact)"
-		}
-	],
-	"metaDescription": "Une mauvaise migration détruit vos positions. Une bonne les améliore. Redirections 301, métadonnées et vitesse accrue = 12–18 % d'impressions en plus en 90 jours."
+  "title": "Vais-je perdre mon référencement si je refais mon site web ?",
+  "excerpt": "Une mauvaise migration peut nuire au referencement. Une bonne l'ameliore. Voici notre processus exact pour protéger et renforcer le SEO lors d'un passage de WordPress à Next.js.",
+  "tags": ["SEO", "Migration", "Web Development"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "C'est la question que nous entendons plus que toute autre."
+    },
+    {
+      "type": "p",
+      "text": "Vous avez passé des années à construire du trafic organique. Vous vous positionnez sur des mots-clés qui génèrent de vraies opportunités. L'idée de perdre ces positions - même temporairement - est terrifiante."
+    },
+    {
+      "type": "p",
+      "text": "Nous comprenons. Et voici la réponse honnête : une mauvaise [migration](/blog/should-i-migrate-wordpress-to-nextjs) peut nuire a vos positions. Une bonne les ameliorera."
+    },
+    {
+      "type": "p",
+      "text": "La différence tient au processus, pas à la chance."
+    },
+    {
+      "type": "h2",
+      "text": "Le vrai risque : le processus, pas la plateforme"
+    },
+    {
+      "type": "p",
+      "text": "Soyons clairs sur ce qui tue vraiment les positions lors d'une [migration](/services/wordpress-migration) :"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Des URLs cassées sans redirections.** Si /services/web-design devient /our-services/website-design-services sans redirection 301, Google voit une page morte et une nouvelle sans historique. Vous perdez tout ce que l'ancienne URL avait acquis.",
+        "**Des méta-données manquantes ou modifiées.** Si vos balises title et méta-descriptions soigneusement optimisées sont effacées pendant la refonte, Google réévalue chaque page depuis zéro.",
+        "**Du contenu perdu.** Si des pages sont fusionnées, supprimées ou largement réécrites sans redirections, les positions liées à ces pages disparaissent.",
+        "**Des liens internes cassés.** Si votre structure de liens internes change et que personne ne met les liens à jour, le link equity cesse de circuler dans votre site.",
+        "**Une récupération d'exploration lente.** Si vous ne soumettez pas le nouveau sitemap et ne surveillez pas Google Search Console après le lancement, Google peut mettre des semaines à découvrir et ré-indexer vos nouvelles pages."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Ce ne sont pas des problèmes de plateforme. Ce sont des problèmes de processus de migration. Et ils sont tous évitables."
+    },
+    {
+      "type": "h2",
+      "text": "La checklist des redirections 301"
+    },
+    {
+      "type": "p",
+      "text": "C'est l'élément le plus important de toute migration de site web. Chaque ancienne URL doit correspondre à son nouvel équivalent. Sans exception."
+    },
+    {
+      "type": "p",
+      "text": "Voici notre processus exact :"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Explorer le site existant.** Nous extrayons chaque URL - pages, articles, images, PDFs - avec Screaming Frog ou un crawler personnalisé. Site typique : 20–200 URLs. Sites plus grands : 500+.",
+        "**Mapper les anciennes URLs vers les nouvelles.** Chaque page obtient une destination. Si une page est supprimée, elle redirige vers l'alternative pertinente la plus proche.",
+        "**Implémenter les redirections 301.** Pas des 302 (temporaires). Des redirections 301 permanentes qui indiquent à Google : \"Ce contenu a été déplacé ici. Transférer tous les signaux de positionnement.\"",
+        "**Tester chaque redirection.** Nous passons la liste complète des URLs dans un vérificateur de redirections avant le lancement. Chacune doit se résoudre correctement.",
+        "**Surveiller après le lancement.** Nous surveillons Google Search Console pour les erreurs 404 chaque jour pendant les deux premières semaines. Tout ce que Google ne trouve pas est redirigé immédiatement."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Migration des balises meta et des données structurées"
+    },
+    {
+      "type": "p",
+      "text": "Vos balises title, méta-descriptions, balises Open Graph et données structurées (schema markup) représentent des mois ou des années de travail SEO. Les perdre lors d'une migration, c'est comme jeter votre système de classement lors d'un déménagement de bureau."
+    },
+    {
+      "type": "p",
+      "text": "Notre processus :"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Extraire toutes les méta-données existantes** avant de toucher quoi que ce soit. Balises title, descriptions, URLs canoniques, balises Open Graph, données structurées - tout est documenté.",
+        "**Migrer vers le système meta de la nouvelle plateforme.** Dans Next.js, cela signifie l'API Metadata - une façon native et typée de définir les balises meta par page. Pas de plugins. Pas de Yoast. Juste des métadonnées propres et fiables.",
+        "**Vérifier après le lancement** avec le Test des résultats enrichis de Google et Search Console. Chaque page vérifiée."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Core Web Vitals : là où les migrations améliorent le référencement"
+    },
+    {
+      "type": "p",
+      "text": "Voici ce que la plupart des gens ratent : **une migration bien exécutée ne fait pas que préserver les positions - elle les booste.**"
+    },
+    {
+      "type": "p",
+      "text": "Google utilise les Core Web Vitals comme signal de classement depuis 2021. Les trois métriques importantes :"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Largest Contentful Paint (LCP) :** La [vitesse](/blog/website-speed-and-conversions) d'apparition du contenu principal",
+        "**Cumulative Layout Shift (CLS) :** L'amplitude des sauts de mise en page",
+        "**Interaction to Next Paint (INP) :** La vitesse de réponse du site aux clics"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Les sites WordPress ont souvent du mal a atteindre les trois seuils sur mobile. Les sites Next.js les passent avec de la marge."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Core Web Vital",
+        "WordPress (typique)",
+        "Next.js (typique)",
+        "Seuil Google"
+      ],
+      "rows": [
+        ["LCP", "3,5–6,0s", "0,6–1,2s", "< 2,5s"],
+        ["CLS", "0,15–0,35", "0,01–0,05", "< 0,1"],
+        ["INP", "200–500ms", "50–100ms", "< 200ms"]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Données réelles : les changements de positions de nos clients après migration"
+    },
+    {
+      "type": "p",
+      "text": "Nous suivons les positions de chaque client migré pendant au moins 90 jours. Voici ce que nous observons systématiquement :"
+    },
+    {
+      "type": "p",
+      "text": "**Semaines 1–2 après le lancement :** Légères fluctuations. Google est en train de recrawler et réindexer. C'est normal et attendu. Les positions peuvent baisser temporairement de 1–3 places."
+    },
+    {
+      "type": "p",
+      "text": "**Semaines 3–4 :** Les positions se stabilisent. La plupart des mots-clés retrouvent leur position d'origine ou s'améliorent. Les pages qui ne passaient pas les Core Web Vitals auparavant grimpent souvent de 2–5 positions."
+    },
+    {
+      "type": "p",
+      "text": "**Mois 2–3 :** Bilan positif net. Sur l'ensemble de nos migrations, le client moyen observe une **augmentation des impressions organiques de 12–18%** en 90 jours."
+    },
+    {
+      "type": "h2",
+      "text": "La checklist SEO de migration (résumé)"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "Exploration complète des URLs et mapping réalisés",
+        "Redirections 301 configurées pour chaque ancienne URL",
+        "Toutes les redirections testées et vérifiées",
+        "Balises title et descriptions migrées",
+        "Données structurées (schema markup) migrées ou améliorées",
+        "Sitemap XML généré et soumis à Google Search Console",
+        "Propriété Google Search Console vérifiée pour le nouveau site",
+        "Liens internes mis à jour vers les nouvelles URLs (pas de chaînes de redirection)",
+        "URLs canoniques correctement définies sur toutes les pages",
+        "robots.txt vérifié - pas de noindex/nofollow accidentel",
+        "Surveillance des 404 active après le lancement",
+        "Core Web Vitals vérifiés comme passants sur toutes les pages clés"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "En conclusion"
+    },
+    {
+      "type": "p",
+      "text": "Vous ne perdrez pas vos positions SEO lors d'une migration correctement exécutée. Vous les améliorerez probablement."
+    },
+    {
+      "type": "p",
+      "text": "Le risque n'est pas dans la refonte. Le risque est dans une mauvaise refonte - sauter les [redirections](https://developers.google.com/search/docs/crawling-indexing/301-redirects), perdre les méta-données, casser les URLs. C'est un problème de processus, pas de plateforme."
+    },
+    {
+      "type": "p",
+      "text": "Vous souhaitez voir l'état SEO actuel de votre site ?"
+    },
+    {
+      "type": "p",
+      "text": "Obtenez votre rapport de santé WordPress gratuit sur [webvise.io/wp-health-report](/wp-health-report) - il montre vos scores PageSpeed, les alertes de sécurité et les performances projetées après une refonte Next.js."
+    },
+    {
+      "type": "p",
+      "text": "Ou si vous êtes prêt à parler en détail : réservez un appel gratuit de 20 minutes sur [webvise.io](/#contact)"
+    }
+  ],
+  "metaDescription": "Une mauvaise migration détruit vos positions. Une bonne les améliore. Redirections 301, métadonnées et vitesse accrue = 12–18 % d'impressions en plus en 90 jours."
 }

@@ -1,231 +1,231 @@
 {
-	"date": "2026-03-30",
-	"readingTime": 12,
-	"keyword": "openclaw open source ai agent",
-	"title": "OpenClaw: de open-source AI-agent die GitHub-records brak - en wat dat betekent voor uw bedrijf",
-	"excerpt": "OpenClaw groeide van een weekendproject naar 250.000 GitHub-sterren in 60 dagen. Het verbindt AI-modellen met meer dan 50 berichtenplatformen en draait autonoom op uw eigen infrastructuur. Dit is wat het is, hoe het werkt en waarom het ertoe doet.",
-	"metaDescription": "OpenClaw is een van de snelst groeiende open-source AI-agents tot nu toe. Lees hoe het werkt, wat het onderscheidt van chatbots, de beveiligingslessen van CVE-2026-25253 en hoe bedrijven autonome agents in productie kunnen inzetten.",
-	"tags": ["AI Agents", "Open Source", "Self-Hosted", "Security"],
-	"blocks": [
-		{
-			"type": "p",
-			"text": "In november 2025 startte Peter Steinberger - de oprichter achter PSPDFKit's exit van negen cijfers - een weekendproject. Hij wilde zien wat er gebeurt als je een AI-model persistente geheugen, toegang tot tools en connectiviteit met elk berichtenplatform geeft dat hij gebruikte. Twee maanden later had dat project **250.000 GitHub-sterren** - waarbij het sneller groeide dan de historische sterrenbaan van React. Het project heet [OpenClaw](https://openclaw.ai/) en vertegenwoordigt het opvallend voorbeeld van de richting die het ontwerp van productie-agents opgaat."
-		},
-		{
-			"type": "h2",
-			"text": "Wat OpenClaw precies is"
-		},
-		{
-			"type": "p",
-			"text": "OpenClaw is een gratis, open-source **autonome AI-agent** die draait op uw eigen infrastructuur. Anders dan cloudgebaseerde AI-assistenten die in een browsertabblad leven, verbindt OpenClaw zich met de berichtenplatformen die uw team al gebruikt - WhatsApp, Slack, Telegram, Discord, Microsoft Teams, Signal, Matrix en meer dan 50 andere - en fungeert als een persistente, altijd beschikbare assistent die kan redeneren, actie kan ondernemen en taken kan beheren zonder menselijke tussenkomst."
-		},
-		{
-			"type": "p",
-			"text": "Het ondersteunt meerdere LLM-providers - Anthropic Claude, OpenAI GPT, Google Gemini, DeepSeek en lokale modellen via Ollama - zodat u niet vastzit aan een enkele leverancier. Configuratie en geheugen worden lokaal opgeslagen in Markdown-bestanden, wat betekent dat uw gegevens uw machine nooit verlaten tenzij u er expliciet voor kiest ze ergens naartoe te sturen."
-		},
-		{
-			"type": "h2",
-			"text": "Hoe het verschilt van een chatbot"
-		},
-		{
-			"type": "p",
-			"text": "Het onderscheid is belangrijk. Een chatbot reageert op prompts. OpenClaw werkt in een **ReAct-lus** - het redeneert over een doel, selecteert een tool, voert deze uit, observeert het resultaat en beslist wat er vervolgens moet gebeuren. Deze lus gaat door totdat de taak is voltooid. Het wacht niet tot u bij elke stap aangeeft wat het moet doen."
-		},
-		{
-			"type": "table",
-			"headers": ["Mogelijkheid", "Traditionele chatbot", "OpenClaw-agent"],
-			"rows": [
-				[
-					"Persistentie",
-					"Stateloos tussen sessies",
-					"Persistent geheugen over gesprekken heen"
-				],
-				["Initiatief", "Puur reactief", "Proactief via heartbeat-planner"],
-				[
-					"Toegang tot tools",
-					"Geen of hardcoded",
-					"100+ skills, uitbreidbaar pluginsysteem"
-				],
-				[
-					"Platformbereik",
-					"Enkele interface",
-					"50+ berichtenplatformen tegelijkertijd"
-				],
-				[
-					"Infrastructuur",
-					"Door leverancier gehoste cloud",
-					"Zelf gehost, gegevens blijven lokaal"
-				],
-				[
-					"Modelflexibiliteit",
-					"Enkele provider",
-					"Elke LLM-provider of lokaal model"
-				]
-			]
-		},
-		{
-			"type": "p",
-			"text": "Het **heartbeat-systeem** is bijzonder opmerkelijk. OpenClaw wacht niet alleen op berichten - het voert geplande taken uit, monitort inboxen en voert workflows uit op een timer. Dit maakt het van een reactieve assistent tot iets wat meer lijkt op een autonoom teamlid dat terugkerende werkzaamheden afhandelt zonder daarom gevraagd te worden."
-		},
-		{
-			"type": "h2",
-			"text": "De architectuur erachter"
-		},
-		{
-			"type": "p",
-			"text": "De architectuur van OpenClaw bestaat uit vijf kerncomponenten. Inzicht daarin verklaart zowel de kracht als de risico's van het systeem."
-		},
-		{
-			"type": "h3",
-			"text": "Gateway"
-		},
-		{
-			"type": "p",
-			"text": "Een WebSocket-server die berichten van verbonden kanalen (Slack, WhatsApp, Telegram, etc.) doorstuurt naar de agent-runtime. Dit is de laag die OpenClaw platformonafhankelijk maakt - de rest van het systeem maakt niet uit waar het bericht vandaan komt."
-		},
-		{
-			"type": "h3",
-			"text": "Brain"
-		},
-		{
-			"type": "p",
-			"text": "De orkestratielaag die LLM-aanroepen beheert via het ReAct-patroon. Het ontvangt een doel, redeneert over de volgende stap, roept een tool aan, observeert het resultaat en herhaalt dit. Dit is hetzelfde agentische luspatroon dat gebruikt wordt in productie-[AI-automatiseringssystemen](/services/ai-automation), maar OpenClaw verpakt het met brede toegang tot tools en berichtenintegratie direct uit de doos."
-		},
-		{
-			"type": "h3",
-			"text": "Memory"
-		},
-		{
-			"type": "p",
-			"text": "Persistente context opgeslagen in lokale Markdown-bestanden. Anders dan sessiegebaseerde AI-tools die alles vergeten wanneer u het tabblad sluit, onthoudt OpenClaw eerdere interacties, voorkeuren en taakcontext over sessies heen. Dit is wat het laat aanvoelen als een persoonlijke assistent in plaats van een stateloos hulpmiddel."
-		},
-		{
-			"type": "h3",
-			"text": "Skills"
-		},
-		{
-			"type": "p",
-			"text": "Een pluginsysteem waarbij elke skill een map is met een `SKILL.md`-bestand met YAML-frontmatter en instructies in natuurlijke taal. OpenClaw wordt geleverd met meer dan 100 vooraf geconfigureerde skills - shell-commando's, bestandsbeheer, webautomatisering, API-aanroepen, e-mail, agenda - en u kunt eigen skills schrijven. Skills worden geladen in een prioriteitsvolgorde: werkruimte-specifieke skills overschrijven skills op gebruikersniveau, die op hun beurt de ingebouwde standaardinstellingen overschrijven."
-		},
-		{
-			"type": "h3",
-			"text": "Heartbeat"
-		},
-		{
-			"type": "p",
-			"text": "De planner die proactief gedrag mogelijk maakt. Het verwerkt getimede taken, inbox-monitoring en elke workflow die moet draaien zonder een gebruikersactie als trigger. Dit is de component die OpenClaw onderscheidt van de meeste andere AI-agent-frameworks, die puur reactief zijn."
-		},
-		{
-			"type": "h2",
-			"text": "Het ontstaan en de drievoudige naamswijziging"
-		},
-		{
-			"type": "p",
-			"text": "De geschiedenis van het project is het waard om te kennen, omdat het illustreert hoe snel het AI-agent-ecosysteem beweegt - en de chaos die daarmee gepaard gaat."
-		},
-		{
-			"type": "p",
-			"text": "Steinberger noemde het project oorspronkelijk **Clawdbot** in november 2025 - een woordspeling op Anthropic's Claude. In januari 2026 stuurde Anthropic klachten over de fonetische gelijkenis, wat een hernoeming naar **Moltbot** (een metafoor voor het vervellen van een kreeft) afdwong. Drie dagen later hernoemde Steinberger het opnieuw naar **OpenClaw** omdat \"Moltbot\" niet bleef hangen. Tijdens de overgang Volgens berichten claimen crypto-oplichters de verlaten GitHub-gebruikersnaam en lanceerden frauduleuze tokens waarvan de marktkapitalisatie volgens rapporten de lage acht cijfers bereikte."
-		},
-		{
-			"type": "p",
-			"text": "In februari 2026 kondigde Steinberger aan dat hij **OpenAI zou vervoegen** om hun divisie voor persoonlijke agents te leiden. OpenClaw gaat over naar een onafhankelijke open-source stichting met sponsoring van OpenAI. Het project groeide van zijproject naar stichtingsbeheer in minder dan vier maanden."
-		},
-		{
-			"type": "h2",
-			"text": "De beveiligingswake-upcall"
-		},
-		{
-			"type": "p",
-			"text": "In februari 2026 maakten beveiligingsonderzoekers **CVE-2026-25253** bekend - een kwetsbaarheid voor remote code execution met één klik en een CVSS-score van 8,8. Een aanvaller kon authenticatietokens stelen en volledige controle over de hostmachine verkrijgen. Scans toonden meer dan **40.000 OpenClaw-instanties die blootgesteld waren op het openbare internet**, waarvan 63% als kwetsbaar werd beoordeeld."
-		},
-		{
-			"type": "p",
-			"text": "Dit is de onvermijdelijke afweging bij zelf-gehoste AI-agents met brede systeemtoegang. Dezelfde mogelijkheden die OpenClaw krachtig maken - shell-uitvoering, toegang tot het bestandssysteem, API-connectiviteit - creëren een groot aanvalsoppervlak bij verkeerde configuratie. De kwetsbaarheid werd verholpen in versie 2026.1.29, maar het incident benadrukt een fundamentele waarheid over het inzetten van autonome agents:"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Stel agent-interfaces nooit bloot aan het openbare internet** zonder authenticatie en netwerkisolatie",
-				"**Beperk toolmachtigingen** tot alleen de mogelijkheden die elke implementatie daadwerkelijk nodig heeft",
-				"**Controleer skill-configuraties** voor implementatie - standaard skills omvatten shell-uitvoering, wat de meeste toepassingen niet vereisen",
-				"**Monitor agent-acties** met gestructureerde logging - een autonoom systeem dat API-aanroepen doet en commando's uitvoert, heeft dezelfde observeerbaarheid nodig als elke productieservice",
-				"**Houd de updatecyclus strak** - OpenClaw leverde in maart 2026 alleen al 13 releases, ruwweg eens per twee dagen"
-			]
-		},
-		{
-			"type": "p",
-			"text": "Dit zijn geen OpenClaw-specifieke lessen. Ze gelden voor **elke** autonome AI-agent-implementatie, of die nu gebouwd is op OpenClaw, een eigen framework of een commercieel platform. Hoe meer autonomie u een agent verleent, hoe rigoureuzer uw beveiligingshouding moet zijn."
-		},
-		{
-			"type": "h2",
-			"text": "De explosie van het ecosysteem"
-		},
-		{
-			"type": "p",
-			"text": "De groei van OpenClaw heeft een ecosysteem voortgebracht dat sneller beweegt dan de meeste organisaties kunnen bijhouden. Enkele hoogtepunten uit het eerste kwartaal van 2026:"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**NVIDIA NemoClaw** - een referentiestack voor het veilig draaien van OpenClaw binnen NVIDIA's OpenShell-containeromgeving",
-				"**Cloudflare moltworker** - tooling om OpenClaw op Cloudflare Workers te draaien voor edge-geïmplementeerde agents",
-				"**OpenClaw-RL** - een reinforcement learning-framework dat gesprekken omzet in trainingssignalen voor gepersonaliseerd agentgedrag",
-				"**ClawHub** - een marktplaats voor het delen en ontdekken van door de community gebouwde skills",
-				"**Agent-tot-agent-netwerken** - experimentele platforms zoals Moltbook en 4claw waar autonome agents met elkaar interageren"
-			]
-		},
-		{
-			"type": "p",
-			"text": "Wanneer NVIDIA en Cloudflare speciale infrastructuur bouwen voor een project dat vier maanden oud is, is het signaal duidelijk: autonome AI-agents worden een platformcategorie, niet slechts een GitHub-trend."
-		},
-		{
-			"type": "h2",
-			"text": "Wat dit betekent voor bedrijven"
-		},
-		{
-			"type": "p",
-			"text": "OpenClaw is minder belangrijk als specifieke tool en meer als signaal over de richting die de industrie opgaat. Het patroon dat het vestigde - **persistent geheugen, aanwezigheid op meerdere platforms, proactieve uitvoering, lokaal-eerst architectuur** - wordt de basisverwachting voor zakelijke AI-agents."
-		},
-		{
-			"type": "h3",
-			"text": "Het privacyvoordeel"
-		},
-		{
-			"type": "p",
-			"text": "Voor sectoren met strenge eisen aan gegevensverwerking - juridisch, gezondheidszorg, financiële dienstverlening - is is zelf-hosting voor veel gereguleerde sectoren een harde vereiste in plaats van een voorkeur. De lokaal-eerst architectuur van OpenClaw betekent dat gevoelige gegevens uw infrastructuur nooit verlaten. Geen externe cloud verwerkt uw klantgesprekken, documenten of interne communicatie. Dit is een echte onderscheidende factor voor organisaties die vanwege compliance-beperkingen geen cloudgehoste AI-assistenten kunnen gebruiken."
-		},
-		{
-			"type": "h3",
-			"text": "De integratierealiteit"
-		},
-		{
-			"type": "p",
-			"text": "De meer dan 50 integraties met berichtenplatformen lossen een reëel probleem op: medewerkers willen geen extra tool. Ze willen AI-mogelijkheden in de tools die ze al gebruiken. Een agent die in Slack leeft, reageert in Teams en e-mail monitort, heeft meer kans op adoptie dan een agent waarbij een aparte applicatie geopend moet worden."
-		},
-		{
-			"type": "h3",
-			"text": "De bouwen-of-kopen-beslissing"
-		},
-		{
-			"type": "p",
-			"text": "OpenClaw is open-source en gratis, maar \"gratis\" is misleidend. Steinberger gaf naar verluidt ongeveer **12.000 dollar per maand** uit aan infrastructuur vóór de betrokkenheid van OpenAI. Het draaien van een productie-AI-agent vereist LLM API-kosten, rekenkracht voor de agent-runtime, monitoring, beveiligingsharding en doorlopend onderhoud terwijl het project tweewekelijkse breaking changes levert. Voor de meeste bedrijven is de vraag niet of ze specifiek OpenClaw willen gebruiken, maar of het autonome agentpatroon dat het demonstreert past bij hun workflows - en of ze willen bouwen op open-source of investeren in een beheerd platform."
-		},
-		{
-			"type": "h2",
-			"text": "Wat er hierna komt"
-		},
-		{
-			"type": "p",
-			"text": "Het traject van OpenClaw - van weekendhack naar 250.000 sterren naar overname door OpenAI in vier maanden - comprimeert een typische meerjarige open-source adoptiecurve tot een veel kortere periode. De technische patronen die het populariseerde, duiken al op in commerciële producten en enterprise-frameworks."
-		},
-		{
-			"type": "p",
-			"text": "De bedrijven die het meest profiteren, zijn degenen die de architectuur goed genoeg begrijpen om de afwegingen te evalueren: **wat te automatiseren, hoeveel autonomie te verlenen, waar de beveiligingsgrenzen moeten liggen en hoe te meten of een agent daadwerkelijk waarde levert** in plaats van alleen te lijken te werken. Dat vereist dezelfde productiematige engineering-discipline die betrouwbare softwaresystemen onderscheidt van indrukwekkende demo's."
-		},
-		{
-			"type": "p",
-			"text": "Bij **webvise** helpen wij bedrijven bij het evalueren en implementeren van AI-agent-architecturen - van haalbaarheidsanalyse tot productie-implementatie. Of u nu OpenClaw verkent, eigen agents bouwt of commerciële platforms evalueert, [neem contact op](/#contact) en wij helpen u de aanpak te vinden die past bij uw vereisten, beveiligingshouding en budget."
-		}
-	]
+  "date": "2026-03-30",
+  "readingTime": 12,
+  "keyword": "openclaw open source ai agent",
+  "title": "OpenClaw: de open-source AI-agent die GitHub-records brak - en wat dat betekent voor uw bedrijf",
+  "excerpt": "OpenClaw groeide van een weekendproject naar 250.000 GitHub-sterren in 60 dagen. Het verbindt AI-modellen met meer dan 50 berichtenplatformen en draait autonoom op uw eigen infrastructuur. Dit is wat het is, hoe het werkt en waarom het ertoe doet.",
+  "metaDescription": "OpenClaw is een van de snelst groeiende open-source AI-agents tot nu toe. Lees hoe het werkt, wat het onderscheidt van chatbots, de beveiligingslessen van CVE-2026-25253 en hoe bedrijven autonome agents in productie kunnen inzetten.",
+  "tags": ["AI Agents", "Open Source", "Self-Hosted", "Security"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "In november 2025 startte Peter Steinberger - de oprichter achter PSPDFKit's exit van negen cijfers - een weekendproject. Hij wilde zien wat er gebeurt als je een AI-model persistente geheugen, toegang tot tools en connectiviteit met elk berichtenplatform geeft dat hij gebruikte. Twee maanden later had dat project **250.000 GitHub-sterren** - waarbij het sneller groeide dan de historische sterrenbaan van React. Het project heet [OpenClaw](https://openclaw.ai/) en vertegenwoordigt het opvallend voorbeeld van de richting die het ontwerp van productie-agents opgaat."
+    },
+    {
+      "type": "h2",
+      "text": "Wat OpenClaw precies is"
+    },
+    {
+      "type": "p",
+      "text": "OpenClaw is een gratis, open-source **autonome AI-agent** die draait op uw eigen infrastructuur. Anders dan cloudgebaseerde AI-assistenten die in een browsertabblad leven, verbindt OpenClaw zich met de berichtenplatformen die uw team al gebruikt - WhatsApp, Slack, Telegram, Discord, Microsoft Teams, Signal, Matrix en meer dan 50 andere - en fungeert als een persistente, altijd beschikbare assistent die kan redeneren, actie kan ondernemen en taken kan beheren zonder menselijke tussenkomst."
+    },
+    {
+      "type": "p",
+      "text": "Het ondersteunt meerdere LLM-providers - Anthropic Claude, OpenAI GPT, Google Gemini, DeepSeek en lokale modellen via Ollama - zodat u niet vastzit aan een enkele leverancier. Configuratie en geheugen worden lokaal opgeslagen in Markdown-bestanden, wat betekent dat uw gegevens uw machine nooit verlaten tenzij u er expliciet voor kiest ze ergens naartoe te sturen."
+    },
+    {
+      "type": "h2",
+      "text": "Hoe het verschilt van een chatbot"
+    },
+    {
+      "type": "p",
+      "text": "Het onderscheid is belangrijk. Een chatbot reageert op prompts. OpenClaw werkt in een **ReAct-lus** - het redeneert over een doel, selecteert een tool, voert deze uit, observeert het resultaat en beslist wat er vervolgens moet gebeuren. Deze lus gaat door totdat de taak is voltooid. Het wacht niet tot u bij elke stap aangeeft wat het moet doen."
+    },
+    {
+      "type": "table",
+      "headers": ["Mogelijkheid", "Traditionele chatbot", "OpenClaw-agent"],
+      "rows": [
+        [
+          "Persistentie",
+          "Stateloos tussen sessies",
+          "Persistent geheugen over gesprekken heen"
+        ],
+        ["Initiatief", "Puur reactief", "Proactief via heartbeat-planner"],
+        [
+          "Toegang tot tools",
+          "Geen of hardcoded",
+          "100+ skills, uitbreidbaar pluginsysteem"
+        ],
+        [
+          "Platformbereik",
+          "Enkele interface",
+          "50+ berichtenplatformen tegelijkertijd"
+        ],
+        [
+          "Infrastructuur",
+          "Door leverancier gehoste cloud",
+          "Zelf gehost, gegevens blijven lokaal"
+        ],
+        [
+          "Modelflexibiliteit",
+          "Enkele provider",
+          "Elke LLM-provider of lokaal model"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Het **heartbeat-systeem** is bijzonder opmerkelijk. OpenClaw wacht niet alleen op berichten - het voert geplande taken uit, monitort inboxen en voert workflows uit op een timer. Dit maakt het van een reactieve assistent tot iets wat meer lijkt op een autonoom teamlid dat terugkerende werkzaamheden afhandelt zonder daarom gevraagd te worden."
+    },
+    {
+      "type": "h2",
+      "text": "De architectuur erachter"
+    },
+    {
+      "type": "p",
+      "text": "De architectuur van OpenClaw bestaat uit vijf kerncomponenten. Inzicht daarin verklaart zowel de kracht als de risico's van het systeem."
+    },
+    {
+      "type": "h3",
+      "text": "Gateway"
+    },
+    {
+      "type": "p",
+      "text": "Een WebSocket-server die berichten van verbonden kanalen (Slack, WhatsApp, Telegram, etc.) doorstuurt naar de agent-runtime. Dit is de laag die OpenClaw platformonafhankelijk maakt - de rest van het systeem maakt niet uit waar het bericht vandaan komt."
+    },
+    {
+      "type": "h3",
+      "text": "Brain"
+    },
+    {
+      "type": "p",
+      "text": "De orkestratielaag die LLM-aanroepen beheert via het ReAct-patroon. Het ontvangt een doel, redeneert over de volgende stap, roept een tool aan, observeert het resultaat en herhaalt dit. Dit is hetzelfde agentische luspatroon dat gebruikt wordt in productie-[AI-automatiseringssystemen](/services/ai-automation), maar OpenClaw verpakt het met brede toegang tot tools en berichtenintegratie direct uit de doos."
+    },
+    {
+      "type": "h3",
+      "text": "Memory"
+    },
+    {
+      "type": "p",
+      "text": "Persistente context opgeslagen in lokale Markdown-bestanden. Anders dan sessiegebaseerde AI-tools die alles vergeten wanneer u het tabblad sluit, onthoudt OpenClaw eerdere interacties, voorkeuren en taakcontext over sessies heen. Dit is wat het laat aanvoelen als een persoonlijke assistent in plaats van een stateloos hulpmiddel."
+    },
+    {
+      "type": "h3",
+      "text": "Skills"
+    },
+    {
+      "type": "p",
+      "text": "Een pluginsysteem waarbij elke skill een map is met een `SKILL.md`-bestand met YAML-frontmatter en instructies in natuurlijke taal. OpenClaw wordt geleverd met meer dan 100 vooraf geconfigureerde skills - shell-commando's, bestandsbeheer, webautomatisering, API-aanroepen, e-mail, agenda - en u kunt eigen skills schrijven. Skills worden geladen in een prioriteitsvolgorde: werkruimte-specifieke skills overschrijven skills op gebruikersniveau, die op hun beurt de ingebouwde standaardinstellingen overschrijven."
+    },
+    {
+      "type": "h3",
+      "text": "Heartbeat"
+    },
+    {
+      "type": "p",
+      "text": "De planner die proactief gedrag mogelijk maakt. Het verwerkt getimede taken, inbox-monitoring en elke workflow die moet draaien zonder een gebruikersactie als trigger. Dit is de component die OpenClaw onderscheidt van de meeste andere AI-agent-frameworks, die puur reactief zijn."
+    },
+    {
+      "type": "h2",
+      "text": "Het ontstaan en de drievoudige naamswijziging"
+    },
+    {
+      "type": "p",
+      "text": "De geschiedenis van het project is het waard om te kennen, omdat het illustreert hoe snel het AI-agent-ecosysteem beweegt - en de chaos die daarmee gepaard gaat."
+    },
+    {
+      "type": "p",
+      "text": "Steinberger noemde het project oorspronkelijk **Clawdbot** in november 2025 - een woordspeling op Anthropic's Claude. In januari 2026 stuurde Anthropic klachten over de fonetische gelijkenis, wat een hernoeming naar **Moltbot** (een metafoor voor het vervellen van een kreeft) afdwong. Drie dagen later hernoemde Steinberger het opnieuw naar **OpenClaw** omdat \"Moltbot\" niet bleef hangen. Tijdens de overgang Volgens berichten claimen crypto-oplichters de verlaten GitHub-gebruikersnaam en lanceerden frauduleuze tokens waarvan de marktkapitalisatie volgens rapporten de lage acht cijfers bereikte."
+    },
+    {
+      "type": "p",
+      "text": "In februari 2026 kondigde Steinberger aan dat hij **OpenAI zou vervoegen** om hun divisie voor persoonlijke agents te leiden. OpenClaw gaat over naar een onafhankelijke open-source stichting met sponsoring van OpenAI. Het project groeide van zijproject naar stichtingsbeheer in minder dan vier maanden."
+    },
+    {
+      "type": "h2",
+      "text": "De beveiligingswake-upcall"
+    },
+    {
+      "type": "p",
+      "text": "In februari 2026 maakten beveiligingsonderzoekers **CVE-2026-25253** bekend - een kwetsbaarheid voor remote code execution met één klik en een CVSS-score van 8,8. Een aanvaller kon authenticatietokens stelen en volledige controle over de hostmachine verkrijgen. Scans toonden meer dan **40.000 OpenClaw-instanties die blootgesteld waren op het openbare internet**, waarvan 63% als kwetsbaar werd beoordeeld."
+    },
+    {
+      "type": "p",
+      "text": "Dit is de onvermijdelijke afweging bij zelf-gehoste AI-agents met brede systeemtoegang. Dezelfde mogelijkheden die OpenClaw krachtig maken - shell-uitvoering, toegang tot het bestandssysteem, API-connectiviteit - creëren een groot aanvalsoppervlak bij verkeerde configuratie. De kwetsbaarheid werd verholpen in versie 2026.1.29, maar het incident benadrukt een fundamentele waarheid over het inzetten van autonome agents:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Stel agent-interfaces nooit bloot aan het openbare internet** zonder authenticatie en netwerkisolatie",
+        "**Beperk toolmachtigingen** tot alleen de mogelijkheden die elke implementatie daadwerkelijk nodig heeft",
+        "**Controleer skill-configuraties** voor implementatie - standaard skills omvatten shell-uitvoering, wat de meeste toepassingen niet vereisen",
+        "**Monitor agent-acties** met gestructureerde logging - een autonoom systeem dat API-aanroepen doet en commando's uitvoert, heeft dezelfde observeerbaarheid nodig als elke productieservice",
+        "**Houd de updatecyclus strak** - OpenClaw leverde in maart 2026 alleen al 13 releases, ruwweg eens per twee dagen"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Dit zijn geen OpenClaw-specifieke lessen. Ze gelden voor **elke** autonome AI-agent-implementatie, of die nu gebouwd is op OpenClaw, een eigen framework of een commercieel platform. Hoe meer autonomie u een agent verleent, hoe rigoureuzer uw beveiligingshouding moet zijn."
+    },
+    {
+      "type": "h2",
+      "text": "De explosie van het ecosysteem"
+    },
+    {
+      "type": "p",
+      "text": "De groei van OpenClaw heeft een ecosysteem voortgebracht dat sneller beweegt dan de meeste organisaties kunnen bijhouden. Enkele hoogtepunten uit het eerste kwartaal van 2026:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**NVIDIA NemoClaw** - een referentiestack voor het veilig draaien van OpenClaw binnen NVIDIA's OpenShell-containeromgeving",
+        "**Cloudflare moltworker** - tooling om OpenClaw op Cloudflare Workers te draaien voor edge-geïmplementeerde agents",
+        "**OpenClaw-RL** - een reinforcement learning-framework dat gesprekken omzet in trainingssignalen voor gepersonaliseerd agentgedrag",
+        "**ClawHub** - een marktplaats voor het delen en ontdekken van door de community gebouwde skills",
+        "**Agent-tot-agent-netwerken** - experimentele platforms zoals Moltbook en 4claw waar autonome agents met elkaar interageren"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Wanneer NVIDIA en Cloudflare speciale infrastructuur bouwen voor een project dat vier maanden oud is, is het signaal duidelijk: autonome AI-agents worden een platformcategorie, niet slechts een GitHub-trend."
+    },
+    {
+      "type": "h2",
+      "text": "Wat dit betekent voor bedrijven"
+    },
+    {
+      "type": "p",
+      "text": "OpenClaw is minder belangrijk als specifieke tool en meer als signaal over de richting die de industrie opgaat. Het patroon dat het vestigde - **persistent geheugen, aanwezigheid op meerdere platforms, proactieve uitvoering, lokaal-eerst architectuur** - wordt de basisverwachting voor zakelijke AI-agents."
+    },
+    {
+      "type": "h3",
+      "text": "Het privacyvoordeel"
+    },
+    {
+      "type": "p",
+      "text": "Voor sectoren met strenge eisen aan gegevensverwerking - juridisch, gezondheidszorg, financiële dienstverlening - is is zelf-hosting voor veel gereguleerde sectoren een harde vereiste in plaats van een voorkeur. De lokaal-eerst architectuur van OpenClaw betekent dat gevoelige gegevens uw infrastructuur nooit verlaten. Geen externe cloud verwerkt uw klantgesprekken, documenten of interne communicatie. Dit is een echte onderscheidende factor voor organisaties die vanwege compliance-beperkingen geen cloudgehoste AI-assistenten kunnen gebruiken."
+    },
+    {
+      "type": "h3",
+      "text": "De integratierealiteit"
+    },
+    {
+      "type": "p",
+      "text": "De meer dan 50 integraties met berichtenplatformen lossen een reëel probleem op: medewerkers willen geen extra tool. Ze willen AI-mogelijkheden in de tools die ze al gebruiken. Een agent die in Slack leeft, reageert in Teams en e-mail monitort, heeft meer kans op adoptie dan een agent waarbij een aparte applicatie geopend moet worden."
+    },
+    {
+      "type": "h3",
+      "text": "De bouwen-of-kopen-beslissing"
+    },
+    {
+      "type": "p",
+      "text": "OpenClaw is open-source en gratis, maar \"gratis\" is misleidend. Steinberger gaf naar verluidt ongeveer **12.000 dollar per maand** uit aan infrastructuur vóór de betrokkenheid van OpenAI. Het draaien van een productie-AI-agent vereist LLM API-kosten, rekenkracht voor de agent-runtime, monitoring, beveiligingsharding en doorlopend onderhoud terwijl het project tweewekelijkse breaking changes levert. Voor de meeste bedrijven is de vraag niet of ze specifiek OpenClaw willen gebruiken, maar of het autonome agentpatroon dat het demonstreert past bij hun workflows - en of ze willen bouwen op open-source of investeren in een beheerd platform."
+    },
+    {
+      "type": "h2",
+      "text": "Wat er hierna komt"
+    },
+    {
+      "type": "p",
+      "text": "Het traject van OpenClaw - van weekendhack naar 250.000 sterren naar overname door OpenAI in vier maanden - comprimeert een typische meerjarige open-source adoptiecurve tot een veel kortere periode. De technische patronen die het populariseerde, duiken al op in commerciële producten en enterprise-frameworks."
+    },
+    {
+      "type": "p",
+      "text": "De bedrijven die het meest profiteren, zijn degenen die de architectuur goed genoeg begrijpen om de afwegingen te evalueren: **wat te automatiseren, hoeveel autonomie te verlenen, waar de beveiligingsgrenzen moeten liggen en hoe te meten of een agent daadwerkelijk waarde levert** in plaats van alleen te lijken te werken. Dat vereist dezelfde productiematige engineering-discipline die betrouwbare softwaresystemen onderscheidt van indrukwekkende demo's."
+    },
+    {
+      "type": "p",
+      "text": "Bij **webvise** helpen wij bedrijven bij het evalueren en implementeren van AI-agent-architecturen - van haalbaarheidsanalyse tot productie-implementatie. Of u nu OpenClaw verkent, eigen agents bouwt of commerciële platforms evalueert, [neem contact op](/#contact) en wij helpen u de aanpak te vinden die past bij uw vereisten, beveiligingshouding en budget."
+    }
+  ]
 }

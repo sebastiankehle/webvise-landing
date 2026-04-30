@@ -7,10 +7,10 @@ import { Muted } from "@/components/ui/typography";
 import { track } from "@/lib/track";
 
 interface NewsletterFormProps {
-	placeholder: string;
 	buttonLabel: string;
-	success: string;
 	error: string;
+	placeholder: string;
+	success: string;
 }
 
 export function NewsletterForm({
@@ -26,7 +26,9 @@ export function NewsletterForm({
 
 	async function handleSubscribe(e: React.FormEvent) {
 		e.preventDefault();
-		if (!email.trim()) return;
+		if (!email.trim()) {
+			return;
+		}
 
 		setStatus("loading");
 		track("newsletter_signup", { location: "footer" });
@@ -53,30 +55,30 @@ export function NewsletterForm({
 	}
 
 	if (status === "success") {
-		return <Muted className="text-xs text-green-600">{success}</Muted>;
+		return <Muted className="text-green-600 text-xs">{success}</Muted>;
 	}
 
 	return (
-		<form onSubmit={handleSubscribe} className="flex flex-col gap-2">
+		<form className="flex flex-col gap-2" onSubmit={handleSubscribe}>
 			<Input
-				type="email"
-				value={email}
+				className="h-8 w-full text-xs"
 				onChange={(e) => setEmail(e.target.value)}
 				placeholder={placeholder}
 				required
-				className="h-8 w-full text-xs"
+				type="email"
+				value={email}
 			/>
 			<Button
-				type="submit"
-				size="sm"
-				variant="outline"
-				disabled={status === "loading"}
 				className="h-8 w-full text-xs"
+				disabled={status === "loading"}
+				size="sm"
+				type="submit"
+				variant="outline"
 			>
 				{buttonLabel}
 			</Button>
 			{status === "error" && (
-				<Muted className="text-xs text-destructive">{error}</Muted>
+				<Muted className="text-destructive text-xs">{error}</Muted>
 			)}
 		</form>
 	);

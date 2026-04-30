@@ -7,9 +7,9 @@ import StaggerChildren from "@/components/marketing/stagger-children";
 import { H3, Mono, Muted } from "@/components/ui/typography";
 
 interface Step {
+	description: string;
 	number: string;
 	title: string;
-	description: string;
 }
 
 export default function ProcessSteps({ steps }: { steps: Step[] }) {
@@ -19,9 +19,12 @@ export default function ProcessSteps({ steps }: { steps: Step[] }) {
 
 	return (
 		<div className="relative mt-16" ref={containerRef}>
-			<StaggerChildren className="-mx-6 grid border-t border-grid-line md:grid-cols-5">
+			<StaggerChildren className="-mx-6 grid border-grid-line border-t md:grid-cols-5">
 				{steps.map((step) => (
-					<div key={step.number} className="group border-b border-grid-line p-6 md:border-r md:[&:nth-child(5n)]:border-r-0">
+					<div
+						className="group border-grid-line border-b p-6 md:border-r md:[&:nth-child(5n)]:border-r-0"
+						key={step.number}
+					>
 						<Mono className="text-muted-foreground/40 text-sm">
 							{step.number}
 						</Mono>
@@ -33,20 +36,20 @@ export default function ProcessSteps({ steps }: { steps: Step[] }) {
 			{/* Animated beam along the bottom border */}
 			<div className="pointer-events-none hidden md:block">
 				<div
-					ref={beamStartRef}
 					className="absolute bottom-0 left-0 h-px w-px"
+					ref={beamStartRef}
 				/>
-				<div ref={beamEndRef} className="absolute right-0 bottom-0 h-px w-px" />
+				<div className="absolute right-0 bottom-0 h-px w-px" ref={beamEndRef} />
 				<AnimatedBeam
 					containerRef={containerRef}
-					fromRef={beamStartRef}
-					toRef={beamEndRef}
 					curvature={0}
 					duration={6}
-					pathWidth={1.5}
-					pathOpacity={0.1}
+					fromRef={beamStartRef}
 					gradientStartColor="oklch(0.75 0.18 55)"
 					gradientStopColor="oklch(0.75 0.18 55 / 0.3)"
+					pathOpacity={0.1}
+					pathWidth={1.5}
+					toRef={beamEndRef}
 				/>
 			</div>
 		</div>

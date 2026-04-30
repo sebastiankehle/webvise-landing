@@ -1,245 +1,245 @@
 {
-	"date": "2026-03-31",
-	"readingTime": 11,
-	"keyword": "paperclip ai agent orchestration company",
-	"title": "Paperclip: Open-Source'owa Płaszczyzna Sterowania dla Firm Agentów AI",
-	"excerpt": "Paperclip to nie kolejny menedżer zadań. Uruchomiony w marcu 2026, dostarcza zespołom wieloagentowym schematy organizacyjne, budżety, ścieżki audytu i zarządzanie na poziomie zarządu. Czym jest, jak działa i dlaczego ma znaczenie.",
-	"metaDescription": "Paperclip to open-source'owa platforma orkiestracji działająca jako firmowa płaszczyzna sterowania dla spółek agentów AI. Dowiedz się, jak zarządza koordynacją wieloagentową, egzekwowaniem budżetów, zarządzaniem i systemem adapterów.",
-	"tags": ["AI Agents", "AI", "Open Source", "Automation"],
-	"blocks": [
-		{
-			"type": "p",
-			"text": "W społeczności agentów AI krąży trafna analogia: jeśli [OpenClaw](/blog/openclaw-open-source-ai-agent) pełni rolę indywidualnego współpracownika, Paperclip jest pozycjonowany jako warstwa orkiestracji ponad nim. To jedno zdanie wyjaśnia, co Paperclip stara się osiągnąć, lepiej niż większość opisów technicznych. To nie framework do budowania agentów. To warstwa organizacyjna znajdująca się ponad nimi, zarządzająca koordynacją, odpowiedzialnością i kontrolą budżetu nad flotą pracowników AI."
-		},
-		{
-			"type": "p",
-			"text": "Paperclip został uruchomiony w marcu 2026 przez **@dotta** i zgromadził ponad **46 700 gwiazdek na GitHubie** w pierwszych tygodniach. Tempo adopcji odzwierciedla rzeczywistą lukę w obecnym stosie AI: większość zespołów prowadzących wiele agentów nie ma wspólnego stanu, nie ma widoczności kosztów i nie ma sposobu, aby zapobiec dwukrotnemu wykonywaniu tej samej pracy przez dwóch agentów."
-		},
-		{
-			"type": "h2",
-			"text": "Problem, który rozwiązuje Paperclip"
-		},
-		{
-			"type": "p",
-			"text": "Prowadzenie jednego agenta AI jest wystarczająco proste. Prowadzenie dwudziestu jednocześnie to zupełnie inny problem. Bez koordynacji otrzymujemy zduplikowaną pracę, niekontrolowane koszty i zerową odpowiedzialność za to, co każdy agent rzeczywiście zrobił."
-		},
-		{
-			"type": "p",
-			"text": "Konkretne tryby awarii są znajome każdemu, kto próbował skalować przepływy wieloagentowe:"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Brak wspólnego stanu**: agent A kończy zadanie, które agent B już rozpoczął. Żaden nie wie o drugim.",
-				"**Brak widoczności kosztów**: wydatki na API LLM są rozproszone na wiele procesów bez centralnej ewidencji. Rzeczywiste koszty poznaje się po fakcie.",
-				"**Brak koordynacji**: agenci, którzy powinni przekazywać sobie pracę, działają w silosach. Postęp staje w miejscu, bo nie ma organu mogącego odblokować zależności.",
-				"**Brak ścieżki audytu**: gdy coś pójdzie nie tak, nie istnieje wiarygodny zapis tego, co zrobił każdy agent, dlaczego i w jakiej kolejności."
-			]
-		},
-		{
-			"type": "p",
-			"text": "Paperclip adresuje to wszystko na poziomie infrastruktury, zanim jeszcze napisze się jakąkolwiek logikę agenta."
-		},
-		{
-			"type": "h2",
-			"text": "Nie menedżer zadań: struktura korporacyjna"
-		},
-		{
-			"type": "p",
-			"text": "To, co sprawia, że Paperclip staje się zrozumiały, to fakt, że modeluje zespoły agentów AI tak, jak modelowałoby się prawdziwą organizację. Nie za pomocą luźnych list zadań, lecz za pomocą **schematów organizacyjnych, hierarchii raportowania, zdefiniowanych ról, miesięcznych budżetów na agenta, wyrównania celów i zarządzania na poziomie zarządu**."
-		},
-		{
-			"type": "p",
-			"text": "Ten ostatni punkt jest ważny. Paperclip umieszcza człowieka w roli zarządu. Agenci wykonują pracę w ramach struktury firmy, ale człowiek zachowuje ostateczną władzę nad celami, alokacją budżetu i politykami. Nie jest to autonomiczna firma AI działająca bez nadzoru. To ustrukturyzowany model delegacji, w którym autonomia jest ograniczona i audytowalna."
-		},
-		{
-			"type": "h2",
-			"text": "Dwuwarstwowa architektura"
-		},
-		{
-			"type": "p",
-			"text": "Paperclip wyraźnie oddziela swoje obowiązki na dwie warstwy."
-		},
-		{
-			"type": "h3",
-			"text": "Płaszczyzna sterowania"
-		},
-		{
-			"type": "p",
-			"text": "Sam Paperclip jest płaszczyzną sterowania. Zarządza agentami, przypisuje zadania, egzekwuje budżety, utrzymuje ścieżkę audytu i obsługuje zarządzanie. Agenci nie działają wewnątrz Paperclipa. Działają zewnętrznie i raportują z powrotem. Paperclip to część, która w każdej chwili wie, co dzieje się w całej firmie."
-		},
-		{
-			"type": "h3",
-			"text": "Usługi wykonawcze"
-		},
-		{
-			"type": "p",
-			"text": "Agenci są usługami wykonawczymi. Żyją poza Paperclipem, działają na infrastrukturze odpowiedniej dla każdego środowiska uruchomieniowego i łączą się z płaszczyzną sterowania za pomocą **adapterów**. Wzorzec adaptera to sposób, w jaki Paperclip unika uzależnienia od konkretnego stosu AI. Agenci \"dzwonią do domu\", aby raportować status zadań, pobierać pracę z kolejki zgłoszeń i rejestrować swoją aktywność w ścieżce audytu."
-		},
-		{
-			"type": "h2",
-			"text": "Podstawowe prymitywy"
-		},
-		{
-			"type": "p",
-			"text": "Paperclip definiuje mały zestaw prymitywów, które składają się na pełną strukturę korporacyjną."
-		},
-		{
-			"type": "h3",
-			"text": "Firma"
-		},
-		{
-			"type": "p",
-			"text": "Kontener najwyższego poziomu. Firma ma cele, listę agentów i politykę zarządzania. Wszystko inne żyje wewnątrz firmy."
-		},
-		{
-			"type": "h3",
-			"text": "Agenci"
-		},
-		{
-			"type": "p",
-			"text": "Każdy agent ma zdefiniowaną rolę, miesięczny budżet w centach i status. Egzekwowanie budżetu jest **atomowe**: gdy agent osiągnie swój miesięczny limit, zatrzymuje się. Nie ma stopniowej degradacji ani możliwości obejścia. Jest to celowe działanie. Miękkie limity zawodzą po cichu; twarde limity nie."
-		},
-		{
-			"type": "h3",
-			"text": "Zgłoszenia i zadania"
-		},
-		{
-			"type": "p",
-			"text": "Praca jest modelowana jako zgłoszenia i zadania. Kluczowym mechanizmem jest **atomowe pobieranie**: gdy agent przejmuje zadanie, jest ono zablokowane dla tego agenta do momentu ukończenia lub jawnego zwolnienia. Żaden inny agent nie może go podjąć. To właśnie ta funkcja eliminuje problem zduplikowanej pracy i jest zaimplementowana na poziomie bazy danych, a nie pozostawiona logice aplikacji."
-		},
-		{
-			"type": "h3",
-			"text": "Pulsy"
-		},
-		{
-			"type": "p",
-			"text": "Agenci działają według zaplanowanych cykli budzenia zwanych pulsami. Zamiast działać ciągle, agent budzi się zgodnie z harmonogramem, sprawdza przypisaną pracę, wykonuje ją, raportuje z powrotem i usypia. Dzięki temu koszty obliczeniowe są przewidywalne, a zachowanie agentów audytowalne."
-		},
-		{
-			"type": "h3",
-			"text": "Zarządzanie"
-		},
-		{
-			"type": "p",
-			"text": "Warstwa zarządzania formalizuje model człowieka-jako-zarządu. Decyzje polityczne, zmiany budżetu i aktualizacje celów przepływają przez zarządzanie. Ścieżka audytu jest niezmienna: po zarejestrowaniu działania agentów nie mogą być zmieniane ani usuwane. Jest to ważne dla odpowiedzialności i staje się coraz bardziej istotne, gdy agenci AI podejmują działania o rzeczywistych konsekwencjach."
-		},
-		{
-			"type": "h2",
-			"text": "System adapterów"
-		},
-		{
-			"type": "p",
-			"text": "Paperclip jest dostarczany z adapterami dla dziewięciu środowisk uruchomieniowych:"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Claude** (Anthropic)",
-				"**Codex** (OpenAI)",
-				"**Gemini** (Google)",
-				"**Cursor**",
-				"**OpenCode**",
-				"**OpenClaw**",
-				"**Hermes**",
-				"**Process** (dowolny lokalny podproces)",
-				"**HTTP** (dowolny punkt końcowy API)"
-			]
-		},
-		{
-			"type": "p",
-			"text": "Adaptery HTTP i Process to wyjścia awaryjne. Każde środowisko uruchomieniowe zdolne do wykonania wywołania HTTP lub uruchomienia jako podproces integruje się z Paperclipem. Wzorzec adaptera oznacza, że płaszczyzna sterowania pozostaje stabilna, podczas gdy ekosystem agentów ewoluuje. Nowe środowiska uruchomieniowe AI są dostarczane jako adaptery, bez konieczności wprowadzania zmian w rdzeniu."
-		},
-		{
-			"type": "h2",
-			"text": "Stos technologiczny"
-		},
-		{
-			"type": "p",
-			"text": "Wybory implementacyjne odzwierciedlają inżynierię jakości produkcyjnej, a nie szybkie prototypowanie:"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**React 19** dla frontendu",
-				"**Express.js 5** dla warstwy API",
-				"**PostgreSQL 17** dla trwałego przechowywania danych, z **PGlite** jako opcją wbudowaną dla lokalnego rozwoju",
-				"**Drizzle ORM** dla typowanego dostępu do bazy danych",
-				"**Better Auth** dla uwierzytelniania"
-			]
-		},
-		{
-			"type": "p",
-			"text": "Opcja PGlite jest warta uwagi. Oznacza, że można uruchomić pełną instancję Paperclipa lokalnie bez oddzielnego serwera bazy danych. W przypadku rozwoju i wdrożeń na jednej maszynie opcja wbudowana eliminuje znaczną zależność operacyjną."
-		},
-		{
-			"type": "h2",
-			"text": "Egzekwowanie budżetu w praktyce"
-		},
-		{
-			"type": "p",
-			"text": "Egzekwowanie budżetu zasługuje na osobną sekcję, ponieważ jest jedną z funkcji, które mają największe znaczenie w środowisku produkcyjnym. Paperclip śledzi wydatki na agenta w centach, z miesięcznymi cyklami resetowania. Limity są twarde."
-		},
-		{
-			"type": "p",
-			"text": "To nie jest pulpit nawigacyjny pokazujący, co wydałeś w zeszłym miesiącu. To system, który zatrzymuje agenta, gdy osiągnie swój limit w połowie zadania. Implikacje są znaczące:"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"Zespoły finansowe otrzymują przewidywalne wydatki na AI bez zaskakujących rachunków",
-				"Zespoły techniczne mogą eksperymentować z nowymi konfiguracjami agentów bez ryzyka niekontrolowanych kosztów",
-				"Agenci z większą odpowiedzialnością lub przepustowością otrzymują wyższe budżety; agenci o niższym priorytecie otrzymują niższe budżety",
-				"Alokacja budżetu staje się decyzją zarządczą, a nie kwestią drugorzędną"
-			]
-		},
-		{
-			"type": "p",
-			"text": "Dla organizacji prowadzących [automatyzację AI](/services/ai-automation) na dużą skalę sama ta funkcja uzasadnia architektoniczne koszty ogólne przyjęcia warstwy orkiestracji."
-		},
-		{
-			"type": "h2",
-			"text": "Samodzielnie hostowany i licencja MIT"
-		},
-		{
-			"type": "p",
-			"text": "Paperclip jest w pełni samodzielnie hostowany i wydany na licencji MIT. Brak opłat za użytkowanie, brak uzależnienia od dostawcy, brak zależności od zewnętrznych usług. Twoja firma agentów działa na własnej infrastrukturze, a generowane przez nią dane tam pozostają."
-		},
-		{
-			"type": "p",
-			"text": "Dla regulowanych branż lub organizacji z rygorystycznymi wymaganiami dotyczącymi obsługi danych samodzielne hostowanie jest zazwyczaj warunkiem wstępnym, a nie kwestią preferencji. Ta sama ścieżka audytu, która pomaga zarządzać agentami, pomaga również wykazać zgodność z przepisami, ponieważ rekordy znajdują się we własnej bazie danych."
-		},
-		{
-			"type": "h2",
-			"text": "Clipmart: nadchodzący rynek"
-		},
-		{
-			"type": "p",
-			"text": "**Clipmart** to planowany rynek dla gotowych firm AI. Koncepcja polega na tym, że pobierasz kompletną konfigurację firmy, w tym role agentów, szablony zadań, polityki zarządzania i alokacje budżetów, i wdrażasz ją w swojej instancji Paperclipa."
-		},
-		{
-			"type": "p",
-			"text": "To znaczący zakład na ideę, że konfiguracje firm AI staną się możliwym do udostępnienia, wielokrotnego użytku artefaktem, podobnie jak pakiety oprogramowania. Gotowa \"firma obsługi klienta\" lub \"firma przeglądu kodu\", którą wdrażasz i dostosowujesz zamiast budować od zera. To, czy Clipmart odniesie sukces, zależy od tego, czy społeczność wyprodukuje konfiguracje warte udostępnienia, ale model jest solidny."
-		},
-		{
-			"type": "h2",
-			"text": "Co to reprezentuje"
-		},
-		{
-			"type": "p",
-			"text": "Indywidualni agenci AI to pierwsza warstwa tej zmiany technologicznej. Mogą wykonywać zadania, używać narzędzi i działać autonomicznie w zdefiniowanych granicach. Ale indywidualni agenci napotykają sufit: nie mogą koordynować, nie mogą efektywnie dzielić zasobów i nie mogą być zarządzani jako zbiorowość."
-		},
-		{
-			"type": "p",
-			"text": "Paperclip reprezentuje drugą warstwę. To infrastruktura dla **organizacji wieloagentowych**, a nie skryptów wieloagentowych. Różnica ma znaczenie, ponieważ organizacje mają właściwości, których skrypty nie mają: odpowiedzialność, definicję ról, alokację zasobów, egzekwowanie polityk i ścieżki audytu. Te właściwości sprawiają, że wdrożenia agentów są wystarczająco bezpieczne do użytku produkcyjnego w przepływach o krytycznym znaczeniu biznesowym."
-		},
-		{
-			"type": "p",
-			"text": "Projekt jest dostępny pod adresem [paperclip.ing/docs](https://paperclip.ing/docs), a kod źródłowy na [GitHubie](https://github.com/paperclipai/paperclip). Jeśli budujesz przepływy wieloagentowe i koszty ogólne koordynacji stały się głównym problemem, warto poświęcić czas na jego ocenę."
-		},
-		{
-			"type": "p",
-			"text": "W **webvise** pomagamy firmom projektować i wdrażać architektury [automatyzacji AI](/services/ai-automation), które wytrzymują próbę produkcji. Jeśli oceniasz platformy orkiestracji lub próbujesz ustrukturyzować wdrożenie wieloagentowe do prawdziwej pracy, [skontaktuj się z nami](/#contact), a pomożemy znaleźć właściwe podejście."
-		}
-	]
+  "date": "2026-03-31",
+  "readingTime": 11,
+  "keyword": "paperclip ai agent orchestration company",
+  "title": "Paperclip: Open-Source'owa Płaszczyzna Sterowania dla Firm Agentów AI",
+  "excerpt": "Paperclip to nie kolejny menedżer zadań. Uruchomiony w marcu 2026, dostarcza zespołom wieloagentowym schematy organizacyjne, budżety, ścieżki audytu i zarządzanie na poziomie zarządu. Czym jest, jak działa i dlaczego ma znaczenie.",
+  "metaDescription": "Paperclip to open-source'owa platforma orkiestracji działająca jako firmowa płaszczyzna sterowania dla spółek agentów AI. Dowiedz się, jak zarządza koordynacją wieloagentową, egzekwowaniem budżetów, zarządzaniem i systemem adapterów.",
+  "tags": ["AI Agents", "AI", "Open Source", "Automation"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "W społeczności agentów AI krąży trafna analogia: jeśli [OpenClaw](/blog/openclaw-open-source-ai-agent) pełni rolę indywidualnego współpracownika, Paperclip jest pozycjonowany jako warstwa orkiestracji ponad nim. To jedno zdanie wyjaśnia, co Paperclip stara się osiągnąć, lepiej niż większość opisów technicznych. To nie framework do budowania agentów. To warstwa organizacyjna znajdująca się ponad nimi, zarządzająca koordynacją, odpowiedzialnością i kontrolą budżetu nad flotą pracowników AI."
+    },
+    {
+      "type": "p",
+      "text": "Paperclip został uruchomiony w marcu 2026 przez **@dotta** i zgromadził ponad **46 700 gwiazdek na GitHubie** w pierwszych tygodniach. Tempo adopcji odzwierciedla rzeczywistą lukę w obecnym stosie AI: większość zespołów prowadzących wiele agentów nie ma wspólnego stanu, nie ma widoczności kosztów i nie ma sposobu, aby zapobiec dwukrotnemu wykonywaniu tej samej pracy przez dwóch agentów."
+    },
+    {
+      "type": "h2",
+      "text": "Problem, który rozwiązuje Paperclip"
+    },
+    {
+      "type": "p",
+      "text": "Prowadzenie jednego agenta AI jest wystarczająco proste. Prowadzenie dwudziestu jednocześnie to zupełnie inny problem. Bez koordynacji otrzymujemy zduplikowaną pracę, niekontrolowane koszty i zerową odpowiedzialność za to, co każdy agent rzeczywiście zrobił."
+    },
+    {
+      "type": "p",
+      "text": "Konkretne tryby awarii są znajome każdemu, kto próbował skalować przepływy wieloagentowe:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Brak wspólnego stanu**: agent A kończy zadanie, które agent B już rozpoczął. Żaden nie wie o drugim.",
+        "**Brak widoczności kosztów**: wydatki na API LLM są rozproszone na wiele procesów bez centralnej ewidencji. Rzeczywiste koszty poznaje się po fakcie.",
+        "**Brak koordynacji**: agenci, którzy powinni przekazywać sobie pracę, działają w silosach. Postęp staje w miejscu, bo nie ma organu mogącego odblokować zależności.",
+        "**Brak ścieżki audytu**: gdy coś pójdzie nie tak, nie istnieje wiarygodny zapis tego, co zrobił każdy agent, dlaczego i w jakiej kolejności."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Paperclip adresuje to wszystko na poziomie infrastruktury, zanim jeszcze napisze się jakąkolwiek logikę agenta."
+    },
+    {
+      "type": "h2",
+      "text": "Nie menedżer zadań: struktura korporacyjna"
+    },
+    {
+      "type": "p",
+      "text": "To, co sprawia, że Paperclip staje się zrozumiały, to fakt, że modeluje zespoły agentów AI tak, jak modelowałoby się prawdziwą organizację. Nie za pomocą luźnych list zadań, lecz za pomocą **schematów organizacyjnych, hierarchii raportowania, zdefiniowanych ról, miesięcznych budżetów na agenta, wyrównania celów i zarządzania na poziomie zarządu**."
+    },
+    {
+      "type": "p",
+      "text": "Ten ostatni punkt jest ważny. Paperclip umieszcza człowieka w roli zarządu. Agenci wykonują pracę w ramach struktury firmy, ale człowiek zachowuje ostateczną władzę nad celami, alokacją budżetu i politykami. Nie jest to autonomiczna firma AI działająca bez nadzoru. To ustrukturyzowany model delegacji, w którym autonomia jest ograniczona i audytowalna."
+    },
+    {
+      "type": "h2",
+      "text": "Dwuwarstwowa architektura"
+    },
+    {
+      "type": "p",
+      "text": "Paperclip wyraźnie oddziela swoje obowiązki na dwie warstwy."
+    },
+    {
+      "type": "h3",
+      "text": "Płaszczyzna sterowania"
+    },
+    {
+      "type": "p",
+      "text": "Sam Paperclip jest płaszczyzną sterowania. Zarządza agentami, przypisuje zadania, egzekwuje budżety, utrzymuje ścieżkę audytu i obsługuje zarządzanie. Agenci nie działają wewnątrz Paperclipa. Działają zewnętrznie i raportują z powrotem. Paperclip to część, która w każdej chwili wie, co dzieje się w całej firmie."
+    },
+    {
+      "type": "h3",
+      "text": "Usługi wykonawcze"
+    },
+    {
+      "type": "p",
+      "text": "Agenci są usługami wykonawczymi. Żyją poza Paperclipem, działają na infrastrukturze odpowiedniej dla każdego środowiska uruchomieniowego i łączą się z płaszczyzną sterowania za pomocą **adapterów**. Wzorzec adaptera to sposób, w jaki Paperclip unika uzależnienia od konkretnego stosu AI. Agenci \"dzwonią do domu\", aby raportować status zadań, pobierać pracę z kolejki zgłoszeń i rejestrować swoją aktywność w ścieżce audytu."
+    },
+    {
+      "type": "h2",
+      "text": "Podstawowe prymitywy"
+    },
+    {
+      "type": "p",
+      "text": "Paperclip definiuje mały zestaw prymitywów, które składają się na pełną strukturę korporacyjną."
+    },
+    {
+      "type": "h3",
+      "text": "Firma"
+    },
+    {
+      "type": "p",
+      "text": "Kontener najwyższego poziomu. Firma ma cele, listę agentów i politykę zarządzania. Wszystko inne żyje wewnątrz firmy."
+    },
+    {
+      "type": "h3",
+      "text": "Agenci"
+    },
+    {
+      "type": "p",
+      "text": "Każdy agent ma zdefiniowaną rolę, miesięczny budżet w centach i status. Egzekwowanie budżetu jest **atomowe**: gdy agent osiągnie swój miesięczny limit, zatrzymuje się. Nie ma stopniowej degradacji ani możliwości obejścia. Jest to celowe działanie. Miękkie limity zawodzą po cichu; twarde limity nie."
+    },
+    {
+      "type": "h3",
+      "text": "Zgłoszenia i zadania"
+    },
+    {
+      "type": "p",
+      "text": "Praca jest modelowana jako zgłoszenia i zadania. Kluczowym mechanizmem jest **atomowe pobieranie**: gdy agent przejmuje zadanie, jest ono zablokowane dla tego agenta do momentu ukończenia lub jawnego zwolnienia. Żaden inny agent nie może go podjąć. To właśnie ta funkcja eliminuje problem zduplikowanej pracy i jest zaimplementowana na poziomie bazy danych, a nie pozostawiona logice aplikacji."
+    },
+    {
+      "type": "h3",
+      "text": "Pulsy"
+    },
+    {
+      "type": "p",
+      "text": "Agenci działają według zaplanowanych cykli budzenia zwanych pulsami. Zamiast działać ciągle, agent budzi się zgodnie z harmonogramem, sprawdza przypisaną pracę, wykonuje ją, raportuje z powrotem i usypia. Dzięki temu koszty obliczeniowe są przewidywalne, a zachowanie agentów audytowalne."
+    },
+    {
+      "type": "h3",
+      "text": "Zarządzanie"
+    },
+    {
+      "type": "p",
+      "text": "Warstwa zarządzania formalizuje model człowieka-jako-zarządu. Decyzje polityczne, zmiany budżetu i aktualizacje celów przepływają przez zarządzanie. Ścieżka audytu jest niezmienna: po zarejestrowaniu działania agentów nie mogą być zmieniane ani usuwane. Jest to ważne dla odpowiedzialności i staje się coraz bardziej istotne, gdy agenci AI podejmują działania o rzeczywistych konsekwencjach."
+    },
+    {
+      "type": "h2",
+      "text": "System adapterów"
+    },
+    {
+      "type": "p",
+      "text": "Paperclip jest dostarczany z adapterami dla dziewięciu środowisk uruchomieniowych:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Claude** (Anthropic)",
+        "**Codex** (OpenAI)",
+        "**Gemini** (Google)",
+        "**Cursor**",
+        "**OpenCode**",
+        "**OpenClaw**",
+        "**Hermes**",
+        "**Process** (dowolny lokalny podproces)",
+        "**HTTP** (dowolny punkt końcowy API)"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Adaptery HTTP i Process to wyjścia awaryjne. Każde środowisko uruchomieniowe zdolne do wykonania wywołania HTTP lub uruchomienia jako podproces integruje się z Paperclipem. Wzorzec adaptera oznacza, że płaszczyzna sterowania pozostaje stabilna, podczas gdy ekosystem agentów ewoluuje. Nowe środowiska uruchomieniowe AI są dostarczane jako adaptery, bez konieczności wprowadzania zmian w rdzeniu."
+    },
+    {
+      "type": "h2",
+      "text": "Stos technologiczny"
+    },
+    {
+      "type": "p",
+      "text": "Wybory implementacyjne odzwierciedlają inżynierię jakości produkcyjnej, a nie szybkie prototypowanie:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**React 19** dla frontendu",
+        "**Express.js 5** dla warstwy API",
+        "**PostgreSQL 17** dla trwałego przechowywania danych, z **PGlite** jako opcją wbudowaną dla lokalnego rozwoju",
+        "**Drizzle ORM** dla typowanego dostępu do bazy danych",
+        "**Better Auth** dla uwierzytelniania"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Opcja PGlite jest warta uwagi. Oznacza, że można uruchomić pełną instancję Paperclipa lokalnie bez oddzielnego serwera bazy danych. W przypadku rozwoju i wdrożeń na jednej maszynie opcja wbudowana eliminuje znaczną zależność operacyjną."
+    },
+    {
+      "type": "h2",
+      "text": "Egzekwowanie budżetu w praktyce"
+    },
+    {
+      "type": "p",
+      "text": "Egzekwowanie budżetu zasługuje na osobną sekcję, ponieważ jest jedną z funkcji, które mają największe znaczenie w środowisku produkcyjnym. Paperclip śledzi wydatki na agenta w centach, z miesięcznymi cyklami resetowania. Limity są twarde."
+    },
+    {
+      "type": "p",
+      "text": "To nie jest pulpit nawigacyjny pokazujący, co wydałeś w zeszłym miesiącu. To system, który zatrzymuje agenta, gdy osiągnie swój limit w połowie zadania. Implikacje są znaczące:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "Zespoły finansowe otrzymują przewidywalne wydatki na AI bez zaskakujących rachunków",
+        "Zespoły techniczne mogą eksperymentować z nowymi konfiguracjami agentów bez ryzyka niekontrolowanych kosztów",
+        "Agenci z większą odpowiedzialnością lub przepustowością otrzymują wyższe budżety; agenci o niższym priorytecie otrzymują niższe budżety",
+        "Alokacja budżetu staje się decyzją zarządczą, a nie kwestią drugorzędną"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Dla organizacji prowadzących [automatyzację AI](/services/ai-automation) na dużą skalę sama ta funkcja uzasadnia architektoniczne koszty ogólne przyjęcia warstwy orkiestracji."
+    },
+    {
+      "type": "h2",
+      "text": "Samodzielnie hostowany i licencja MIT"
+    },
+    {
+      "type": "p",
+      "text": "Paperclip jest w pełni samodzielnie hostowany i wydany na licencji MIT. Brak opłat za użytkowanie, brak uzależnienia od dostawcy, brak zależności od zewnętrznych usług. Twoja firma agentów działa na własnej infrastrukturze, a generowane przez nią dane tam pozostają."
+    },
+    {
+      "type": "p",
+      "text": "Dla regulowanych branż lub organizacji z rygorystycznymi wymaganiami dotyczącymi obsługi danych samodzielne hostowanie jest zazwyczaj warunkiem wstępnym, a nie kwestią preferencji. Ta sama ścieżka audytu, która pomaga zarządzać agentami, pomaga również wykazać zgodność z przepisami, ponieważ rekordy znajdują się we własnej bazie danych."
+    },
+    {
+      "type": "h2",
+      "text": "Clipmart: nadchodzący rynek"
+    },
+    {
+      "type": "p",
+      "text": "**Clipmart** to planowany rynek dla gotowych firm AI. Koncepcja polega na tym, że pobierasz kompletną konfigurację firmy, w tym role agentów, szablony zadań, polityki zarządzania i alokacje budżetów, i wdrażasz ją w swojej instancji Paperclipa."
+    },
+    {
+      "type": "p",
+      "text": "To znaczący zakład na ideę, że konfiguracje firm AI staną się możliwym do udostępnienia, wielokrotnego użytku artefaktem, podobnie jak pakiety oprogramowania. Gotowa \"firma obsługi klienta\" lub \"firma przeglądu kodu\", którą wdrażasz i dostosowujesz zamiast budować od zera. To, czy Clipmart odniesie sukces, zależy od tego, czy społeczność wyprodukuje konfiguracje warte udostępnienia, ale model jest solidny."
+    },
+    {
+      "type": "h2",
+      "text": "Co to reprezentuje"
+    },
+    {
+      "type": "p",
+      "text": "Indywidualni agenci AI to pierwsza warstwa tej zmiany technologicznej. Mogą wykonywać zadania, używać narzędzi i działać autonomicznie w zdefiniowanych granicach. Ale indywidualni agenci napotykają sufit: nie mogą koordynować, nie mogą efektywnie dzielić zasobów i nie mogą być zarządzani jako zbiorowość."
+    },
+    {
+      "type": "p",
+      "text": "Paperclip reprezentuje drugą warstwę. To infrastruktura dla **organizacji wieloagentowych**, a nie skryptów wieloagentowych. Różnica ma znaczenie, ponieważ organizacje mają właściwości, których skrypty nie mają: odpowiedzialność, definicję ról, alokację zasobów, egzekwowanie polityk i ścieżki audytu. Te właściwości sprawiają, że wdrożenia agentów są wystarczająco bezpieczne do użytku produkcyjnego w przepływach o krytycznym znaczeniu biznesowym."
+    },
+    {
+      "type": "p",
+      "text": "Projekt jest dostępny pod adresem [paperclip.ing/docs](https://paperclip.ing/docs), a kod źródłowy na [GitHubie](https://github.com/paperclipai/paperclip). Jeśli budujesz przepływy wieloagentowe i koszty ogólne koordynacji stały się głównym problemem, warto poświęcić czas na jego ocenę."
+    },
+    {
+      "type": "p",
+      "text": "W **webvise** pomagamy firmom projektować i wdrażać architektury [automatyzacji AI](/services/ai-automation), które wytrzymują próbę produkcji. Jeśli oceniasz platformy orkiestracji lub próbujesz ustrukturyzować wdrożenie wieloagentowe do prawdziwej pracy, [skontaktuj się z nami](/#contact), a pomożemy znaleźć właściwe podejście."
+    }
+  ]
 }

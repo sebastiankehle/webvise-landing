@@ -101,12 +101,12 @@
 	--accent-foreground: oklch(0.94 0.005 80);
 	--secondary: oklch(0.2 0.01 250);
 	--secondary-foreground: oklch(0.94 0.005 80);
+	color: var(--foreground);
 	background: linear-gradient(
 		165deg,
 		oklch(0.14 0.015 250),
 		oklch(0.11 0.008 250)
 	);
-	color: var(--foreground);
 }
 
 @theme inline {
@@ -164,11 +164,11 @@
 		@apply border-border outline-ring/50;
 	}
 	body {
-		@apply font-sans bg-background text-foreground antialiased;
 		font-feature-settings:
 			"liga" 1,
 			"calt" 1;
 		letter-spacing: -0.011em;
+		@apply font-sans bg-background text-foreground antialiased;
 	}
 	html {
 		@apply font-sans scroll-smooth;
@@ -180,8 +180,8 @@
 		letter-spacing: -0.025em;
 	}
 	.font-mono {
-		letter-spacing: 0;
 		text-transform: uppercase;
+		letter-spacing: 0;
 	}
 }
 

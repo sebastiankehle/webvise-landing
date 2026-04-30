@@ -34,7 +34,9 @@ export async function generateMetadata({
 }): Promise<Metadata> {
 	const { slug } = await params;
 	const service = getServiceBySlug(slug);
-	if (!service) return {};
+	if (!service) {
+		return {};
+	}
 
 	const [t, locale] = await Promise.all([
 		getTranslations("services"),
@@ -86,9 +88,9 @@ export default async function ServicePage({
 		.map((s) => getServiceBySlug(s))
 		.filter(
 			(
-				relatedService,
+				relatedService
 			): relatedService is NonNullable<ReturnType<typeof getServiceBySlug>> =>
-				Boolean(relatedService),
+				Boolean(relatedService)
 		);
 
 	const faqEntries =
@@ -161,10 +163,16 @@ export default async function ServicePage({
 			{/* Header */}
 			<section className="relative pt-32 pb-24 md:pt-44 md:pb-36">
 				{/* Constructed grid */}
-				<div className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block" aria-hidden="true">
-					<div className="h-full border-x border-grid-line" />
+				<div
+					aria-hidden="true"
+					className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block"
+				>
+					<div className="h-full border-grid-line border-x" />
 				</div>
-				<div className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block" aria-hidden="true" />
+				<div
+					aria-hidden="true"
+					className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block"
+				/>
 				<GridFrame className="inset-0" />
 				<div className="relative mx-auto max-w-[1320px] px-6">
 					<div className="grid items-start gap-12 md:grid-cols-3 md:gap-16">
@@ -205,7 +213,7 @@ export default async function ServicePage({
 				</div>
 			</section>
 
-			<SectionWrapper id="approach" className="pt-8 md:pt-12">
+			<SectionWrapper className="pt-8 md:pt-12" id="approach">
 				<div className="grid gap-16 md:grid-cols-2 md:gap-20">
 					<div>
 						<H2>{td("approachTitle")}</H2>
@@ -218,12 +226,12 @@ export default async function ServicePage({
 				</div>
 			</SectionWrapper>
 
-			<SectionWrapper id="why" className="pt-8 md:pt-12">
+			<SectionWrapper className="pt-8 md:pt-12" id="why">
 				<div className="grid gap-x-8 gap-y-10 md:grid-cols-3">
 					{Array.from({ length: service.painPointCount }, (_, i) => {
 						const PainIcon = service.painPointIcons[i];
 						return (
-							<div key={t(`${key}.painPoints.${i}.heading`)} className="group">
+							<div className="group" key={t(`${key}.painPoints.${i}.heading`)}>
 								<PainIcon
 									className="mb-3 h-5 w-5 text-brand"
 									strokeWidth={1.5}
@@ -238,15 +246,15 @@ export default async function ServicePage({
 				</div>
 			</SectionWrapper>
 
-			<SectionWrapper id="features" dark className="py-16 md:py-24">
+			<SectionWrapper className="py-16 md:py-24" dark id="features">
 				<div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-14">
 					<div>
 						<H2>{td("featuresTitle")}</H2>
 						<ul className="mt-6 space-y-3">
 							{Array.from({ length: service.featureCount }, (_, i) => (
 								<li
-									key={t(`${key}.features.${i}`)}
 									className="flex items-start gap-3 text-sm"
+									key={t(`${key}.features.${i}`)}
 								>
 									<span className="mt-1.5 h-1.5 w-1.5 shrink-0 bg-brand" />
 									<Muted className="text-foreground leading-relaxed">
@@ -262,8 +270,8 @@ export default async function ServicePage({
 						<ul className="mt-6 space-y-3">
 							{Array.from({ length: service.deliverableCount }, (_, i) => (
 								<li
-									key={t(`${key}.deliverables.${i}`)}
 									className="flex items-start gap-3 text-sm"
+									key={t(`${key}.deliverables.${i}`)}
 								>
 									<span className="mt-1.5 h-1.5 w-1.5 shrink-0 bg-brand" />
 									<Muted className="text-foreground leading-relaxed">
@@ -277,7 +285,7 @@ export default async function ServicePage({
 			</SectionWrapper>
 
 			{service.faqCount > 0 && (
-				<SectionWrapper id="faq" alternate>
+				<SectionWrapper alternate id="faq">
 					<div className="grid gap-12 md:grid-cols-[1fr_2fr] md:gap-20">
 						<div>
 							<H2>{td("faqTitle")}</H2>
@@ -299,10 +307,16 @@ export default async function ServicePage({
 				slug === "full-stack-applications") && (
 				<section className="relative border-grid-line border-t pt-20 pb-20">
 					{/* Constructed grid */}
-					<div className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block" aria-hidden="true">
-						<div className="h-full border-x border-grid-line" />
+					<div
+						aria-hidden="true"
+						className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block"
+					>
+						<div className="h-full border-grid-line border-x" />
 					</div>
-					<div className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block" aria-hidden="true" />
+					<div
+						aria-hidden="true"
+						className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block"
+					/>
 					<GridFrame className="inset-0" />
 					<div className="relative mx-auto max-w-[1320px] px-6">
 						<div className="flex items-start gap-5 border border-border/40 p-6 md:p-8">
@@ -324,10 +338,16 @@ export default async function ServicePage({
 			{relatedServiceData.length > 0 && (
 				<section className="relative border-grid-line border-t pt-20 pb-28">
 					{/* Constructed grid */}
-					<div className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block" aria-hidden="true">
-						<div className="h-full border-x border-grid-line" />
+					<div
+						aria-hidden="true"
+						className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block"
+					>
+						<div className="h-full border-grid-line border-x" />
 					</div>
-					<div className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block" aria-hidden="true" />
+					<div
+						aria-hidden="true"
+						className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block"
+					/>
 					<GridFrame className="inset-0" />
 					<div className="relative mx-auto max-w-[1320px] px-6">
 						<H2>{td("relatedServicesTitle")}</H2>
@@ -336,12 +356,12 @@ export default async function ServicePage({
 								const RsIcon = rs.icon;
 								return (
 									<Link
-										key={rs.slug}
+										className="group flex items-start gap-5 border border-border/40 p-6 transition-colors hover:border-brand/30"
 										href={{
 											pathname: "/services/[slug]",
 											params: { slug: rs.slug },
 										}}
-										className="group flex items-start gap-5 border border-border/40 p-6 transition-colors hover:border-brand/30"
+										key={rs.slug}
 									>
 										<RsIcon
 											className="mt-0.5 h-5 w-5 shrink-0 text-brand"

@@ -1,196 +1,226 @@
 {
-	"date": "2026-04-28",
-	"readingTime": 7,
-	"keyword": "AI Overviews SEO",
-	"title": "How One Blog Post Earned 40K Google Impressions In 11 Days",
-	"excerpt": "AI Overviews summarize generic content away. One blog post on webvise.io earned 40,000 Google impressions in 11 days because Google had no summary to display. Here is what changed in our content pipeline to ship more pages like it.",
-	"metaDescription": "Why AI Overviews actually help specific content rank. A first-party SEO case: 40K impressions in 11 days, position 9.7, no ads, no promotion.",
-	"cta": "Brief a content engine",
-	"tags": ["SEO", "AI", "Marketing"],
-	"blocks": [
-		{
-			"type": "p",
-			"text": "AI Overviews are not killing SEO across the board. They are killing summarizable content. A blog post we published 11 days ago has earned **40,000 Google impressions**, sits at average position 9.7, and accounts for roughly 80 percent of webvise.io's organic search traffic for the window. We did not run ads to it, include it in a newsletter, or tweet it the day it shipped."
-		},
-		{
-			"type": "p",
-			"text": "The take of the month is that AI Overviews are eating the open web. The traffic on this site says something more specific. Pages that an LLM can summarize away are losing clicks; pages too specific to summarize are routing more traffic than they did a year ago. This article shows what one of those pages looks like, what we changed in our content pipeline to ship more of them, and what it means if you are commissioning content for an enterprise website in 2026."
-		},
-		{
-			"type": "h2",
-			"text": "Key takeaways"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**One blog post** earned 40,000 Google impressions in 11 days, average position 9.7, with zero promotion.",
-				"**Three sister pages** ship through the same pipeline. They each pull a few hundred impressions per week. The variable that moved is anchor strength, not template quality.",
-				"**AI Overviews** behave like a content classifier. They eat generic content and route around first-party data, named examples, and post-cutoff specifics.",
-				"**We removed** word-count targets, synonym rotation, hub-and-spoke clustering, and complete-guide framing from our `/blog-article` command.",
-				"**The bottleneck** for content programs in 2026 is brief quality, not writer throughput."
-			]
-		},
-		{
-			"type": "h2",
-			"text": "The number that made us write this"
-		},
-		{
-			"type": "p",
-			"text": "The post is [/blog/hermes-agent-self-improving-ai](/blog/hermes-agent-self-improving-ai). It went live earlier this month. By day eleven, Google Search Console reported roughly 40,000 impressions, average position 9.7, and an impression curve still climbing day over day. Roughly 80 percent of webvise.io's organic search volume for the window came from this single page."
-		},
-		{
-			"type": "p",
-			"text": "Three other pages on the site run through the same `/blog-article` command. Same template, same author byline, same schema markup, same internal link structure. They each pull a few hundred impressions per week and stall."
-		},
-		{
-			"type": "p",
-			"text": "We did not promote the Hermes post. The compounding came entirely through long-tail organic search. That detail matters because long-tail organic is the channel everyone has been writing the obituary for, and AI Overviews were supposed to summarize it away."
-		},
-		{
-			"type": "p",
-			"text": "The Hermes post is concrete evidence that the obituary is for a specific kind of long-tail content, not all of it."
-		},
-		{
-			"type": "p",
-			"text": "If you are evaluating whether to invest in content for your business website in 2026, the [webvise team can help you brief a content engine](/#contact) that ships pages too specific for AI Overviews to summarize."
-		},
-		{
-			"type": "h2",
-			"text": "What AI Overviews actually eat"
-		},
-		{
-			"type": "p",
-			"text": "Treat the AI Overview as a content classifier, not a content killer. The classifier asks one question on every page Google indexes: can I produce a useful summary of this page from the model's existing knowledge plus the page's title and headings?"
-		},
-		{
-			"type": "p",
-			"text": "If the answer is yes, Google ships the summary inline. The user gets the answer above the fold and the click never reaches the page. The page is technically ranked, but does not route traffic."
-		},
-		{
-			"type": "p",
-			"text": "If the answer is no, Google has nothing to show inline. The summary it could produce would be wrong or too thin. So the classifier defers, and the page ranks normally. The click routes to the site."
-		},
-		{
-			"type": "p",
-			"text": "Google's March 2026 core update, the helpful-content guidelines, and the AI Overview rollout all converge on the same signal: did this page add information to the world that was not already in the model? Pages that did rank, and pages that did not are summarized away."
-		},
-		{
-			"type": "p",
-			"text": "That is the inversion. Specificity is the new ranking surface."
-		},
-		{
-			"type": "h2",
-			"text": "Why the Hermes post survived"
-		},
-		{
-			"type": "p",
-			"text": "The Hermes post passes the classifier because it carries a behavior profile measured across 40+ self-improvement cycles of a specific agent pattern. Cycle-by-cycle deltas, logged in our repo, attributable to a specific configuration. None of that exists in any LLM's training data."
-		},
-		{
-			"type": "p",
-			"text": "Google's AI Overview has no summary to display when someone searches for the pattern by name. The model never saw the cycle log. The first-party measurement is the anchor. Everything else on the page, the framing, the prose, the schema, is scaffolding for that anchor."
-		},
-		{
-			"type": "p",
-			"text": "The three sister pages carry weaker anchors: named tools and generic outcomes, synthesis across public sources, or curated lists with light commentary. They pass the technical bar for ranking. They do not pass the AI Overview's classifier because the model can produce the same summary inline. Same pipeline, same quality of writing, different anchor strength."
-		},
-		{
-			"type": "p",
-			"text": "The pattern is legible, and we can map it to the table below."
-		},
-		{
-			"type": "table",
-			"headers": ["Anchor type", "Example", "What an LLM does with it", "Traffic outcome"],
-			"rows": [
-				["First-party benchmark", "Cycle-by-cycle agent log, internal A/B result, named-customer outcome with numbers", "Cannot reproduce", "Compounds"],
-				["Post-cutoff event", "Reaction to a release, regulation, or incident dated after the model's training cutoff", "Has no signal yet", "Routes traffic until the next training cycle"],
-				["Cross-source synthesis", "Combining 3+ primary sources nobody has assembled", "Can sometimes summarize, often defers", "Mixed, depends on novelty of frame"],
-				["Named tools, generic outcomes", "\"Top X tools for Y\" articles", "Summarizes inline", "Few hundred impressions, flat"],
-				["Curated list, light commentary", "Directory or roundup", "Replaces with its own list", "Decline over time"]
-			]
-		},
-		{
-			"type": "h2",
-			"text": "What we killed from the pipeline"
-		},
-		{
-			"type": "p",
-			"text": "The `/blog-article` command that ships these articles used to default to the standard programmatic SEO shape: word-count target, keyword cluster, three subheadings, summary close. We stripped all of it."
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Word-count targets are gone.** The anchor decides length. If the first-party material is one paragraph of behavior profile, the article is one paragraph plus the scaffolding the anchor needs to make sense. Length follows the anchor, not the other way around.",
-				"**Synonym rotation is gone.** The command used to swap \"the founder\" with \"the entrepreneur\" with \"the business owner\" for variety. That is confusion, not elegance. We repeat the clearest noun.",
-				"**Hub-and-spoke clustering is gone.** The default used to be one head page plus eight satellites for a single keyword. Seven of them were derivative because the anchor could only go in one place. We deleted the seven.",
-				"**Complete-guide framing is gone.** \"The complete guide to X\" is the default slop wrapper, because the model cannot tell what the reader already knows. We replaced it with one question: what would someone reading this page already have tried? Start there."
-			]
-		},
-		{
-			"type": "p",
-			"text": "The parts of the pipeline that stayed are the parts automation is actually good at: frontmatter schema, slug generation, internal link resolution, translation into the seven locales the site supports. None of those are the part Google reads for ranking."
-		},
-		{
-			"type": "p",
-			"text": "Automation of the shell, anti-slop at the heart. That split is the playbook. The full framework lives in our [anti-slop content strategy](/blog/anti-slop-content-strategy) post if you want the gate without the case study."
-		},
-		{
-			"type": "h2",
-			"text": "What this means for your content brief"
-		},
-		{
-			"type": "p",
-			"text": "If you are commissioning a content program for an enterprise website in 2026, the unit economics inverted. The bottleneck is no longer writer throughput. It is the quality of the input brief."
-		},
-		{
-			"type": "p",
-			"text": "A content engine that scales pages without scaling first-party anchors produces exactly the content the AI Overview classifier eats. The output is technically there. The traffic is not. Every page that does not pass the gate dilutes the rest of the domain."
-		},
-		{
-			"type": "p",
-			"text": "A content engine that scales anchors first produces fewer pages and routes more traffic per page. The cost shifts from copywriting to subject-matter capture: founder interviews, internal benchmark logging, named-customer outcome measurement. The writers still write. They write around anchors instead of around keywords."
-		},
-		{
-			"type": "p",
-			"text": "For procurement, the practical change is the brief intake. A useful brief in 2026 contains at least one of:"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**A measurement nobody else has run** (internal benchmark, A/B result, longitudinal log)",
-				"**A named customer outcome** with a verifiable number and a date",
-				"**A post-cutoff event** the article reacts to (release, incident, regulation)",
-				"**A founder-owned position** the article is willing to defend",
-				"**A synthesis across primary sources** nobody else has assembled in one place"
-			]
-		},
-		{
-			"type": "p",
-			"text": "If your agency cannot extract one of those from your team during intake, you will get content that ships and does not route traffic. That is the failure mode the AI Overview enforces. [Webvise runs intake, anchor capture, pipeline production, and locale coverage as a single package](/#contact). The Hermes post is the proof of concept."
-		},
-		{
-			"type": "h2",
-			"text": "What 40K impressions from one post actually proves"
-		},
-		{
-			"type": "p",
-			"text": "It does not prove the pipeline scales. It proves the gate ranks."
-		},
-		{
-			"type": "p",
-			"text": "The Hermes post is at average position 9.7 in eleven days because nothing else on the open web is writing at that specificity about that pattern. Google has no summary-away option. The click has to route to the page. The number compounds because the long-tail tail is wider for unfakeable content than it has ever been."
-		},
-		{
-			"type": "p",
-			"text": "The same pipeline ships pages that do not pass the gate. Those pages get a few hundred impressions and stall. Same template, same schema, same internal links. The only variable that moves is anchor strength."
-		},
-		{
-			"type": "p",
-			"text": "That is the content program for 2026. Fewer pages, each one carrying a measurement, a name, a date, or a position the model cannot already produce. Length capped at the point first-party signal runs out. Word-count targets, hub-and-spoke clusters, and complete-guide framing all retired."
-		},
-		{
-			"type": "p",
-			"text": "If you would like [webvise](/#contact) to run a content engine on this gate for your business, we package brief intake, anchor capture, pipeline production, and locale coverage together. The Hermes post is the proof of concept. Your team's first-party material is the next anchor."
-		}
-	]
+  "date": "2026-04-28",
+  "readingTime": 7,
+  "keyword": "AI Overviews SEO",
+  "title": "How One Blog Post Earned 40K Google Impressions In 11 Days",
+  "excerpt": "AI Overviews summarize generic content away. One blog post on webvise.io earned 40,000 Google impressions in 11 days because Google had no summary to display. Here is what changed in our content pipeline to ship more pages like it.",
+  "metaDescription": "Why AI Overviews actually help specific content rank. A first-party SEO case: 40K impressions in 11 days, position 9.7, no ads, no promotion.",
+  "cta": "Brief a content engine",
+  "tags": ["SEO", "AI", "Marketing"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "AI Overviews are not killing SEO across the board. They are killing summarizable content. A blog post we published 11 days ago has earned **40,000 Google impressions**, sits at average position 9.7, and accounts for roughly 80 percent of webvise.io's organic search traffic for the window. We did not run ads to it, include it in a newsletter, or tweet it the day it shipped."
+    },
+    {
+      "type": "p",
+      "text": "The take of the month is that AI Overviews are eating the open web. The traffic on this site says something more specific. Pages that an LLM can summarize away are losing clicks; pages too specific to summarize are routing more traffic than they did a year ago. This article shows what one of those pages looks like, what we changed in our content pipeline to ship more of them, and what it means if you are commissioning content for an enterprise website in 2026."
+    },
+    {
+      "type": "h2",
+      "text": "Key takeaways"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**One blog post** earned 40,000 Google impressions in 11 days, average position 9.7, with zero promotion.",
+        "**Three sister pages** ship through the same pipeline. They each pull a few hundred impressions per week. The variable that moved is anchor strength, not template quality.",
+        "**AI Overviews** behave like a content classifier. They eat generic content and route around first-party data, named examples, and post-cutoff specifics.",
+        "**We removed** word-count targets, synonym rotation, hub-and-spoke clustering, and complete-guide framing from our `/blog-article` command.",
+        "**The bottleneck** for content programs in 2026 is brief quality, not writer throughput."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "The number that made us write this"
+    },
+    {
+      "type": "p",
+      "text": "The post is [/blog/hermes-agent-self-improving-ai](/blog/hermes-agent-self-improving-ai). It went live earlier this month. By day eleven, Google Search Console reported roughly 40,000 impressions, average position 9.7, and an impression curve still climbing day over day. Roughly 80 percent of webvise.io's organic search volume for the window came from this single page."
+    },
+    {
+      "type": "p",
+      "text": "Three other pages on the site run through the same `/blog-article` command. Same template, same author byline, same schema markup, same internal link structure. They each pull a few hundred impressions per week and stall."
+    },
+    {
+      "type": "p",
+      "text": "We did not promote the Hermes post. The compounding came entirely through long-tail organic search. That detail matters because long-tail organic is the channel everyone has been writing the obituary for, and AI Overviews were supposed to summarize it away."
+    },
+    {
+      "type": "p",
+      "text": "The Hermes post is concrete evidence that the obituary is for a specific kind of long-tail content, not all of it."
+    },
+    {
+      "type": "p",
+      "text": "If you are evaluating whether to invest in content for your business website in 2026, the [webvise team can help you brief a content engine](/#contact) that ships pages too specific for AI Overviews to summarize."
+    },
+    {
+      "type": "h2",
+      "text": "What AI Overviews actually eat"
+    },
+    {
+      "type": "p",
+      "text": "Treat the AI Overview as a content classifier, not a content killer. The classifier asks one question on every page Google indexes: can I produce a useful summary of this page from the model's existing knowledge plus the page's title and headings?"
+    },
+    {
+      "type": "p",
+      "text": "If the answer is yes, Google ships the summary inline. The user gets the answer above the fold and the click never reaches the page. The page is technically ranked, but does not route traffic."
+    },
+    {
+      "type": "p",
+      "text": "If the answer is no, Google has nothing to show inline. The summary it could produce would be wrong or too thin. So the classifier defers, and the page ranks normally. The click routes to the site."
+    },
+    {
+      "type": "p",
+      "text": "Google's March 2026 core update, the helpful-content guidelines, and the AI Overview rollout all converge on the same signal: did this page add information to the world that was not already in the model? Pages that did rank, and pages that did not are summarized away."
+    },
+    {
+      "type": "p",
+      "text": "That is the inversion. Specificity is the new ranking surface."
+    },
+    {
+      "type": "h2",
+      "text": "Why the Hermes post survived"
+    },
+    {
+      "type": "p",
+      "text": "The Hermes post passes the classifier because it carries a behavior profile measured across 40+ self-improvement cycles of a specific agent pattern. Cycle-by-cycle deltas, logged in our repo, attributable to a specific configuration. None of that exists in any LLM's training data."
+    },
+    {
+      "type": "p",
+      "text": "Google's AI Overview has no summary to display when someone searches for the pattern by name. The model never saw the cycle log. The first-party measurement is the anchor. Everything else on the page, the framing, the prose, the schema, is scaffolding for that anchor."
+    },
+    {
+      "type": "p",
+      "text": "The three sister pages carry weaker anchors: named tools and generic outcomes, synthesis across public sources, or curated lists with light commentary. They pass the technical bar for ranking. They do not pass the AI Overview's classifier because the model can produce the same summary inline. Same pipeline, same quality of writing, different anchor strength."
+    },
+    {
+      "type": "p",
+      "text": "The pattern is legible, and we can map it to the table below."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Anchor type",
+        "Example",
+        "What an LLM does with it",
+        "Traffic outcome"
+      ],
+      "rows": [
+        [
+          "First-party benchmark",
+          "Cycle-by-cycle agent log, internal A/B result, named-customer outcome with numbers",
+          "Cannot reproduce",
+          "Compounds"
+        ],
+        [
+          "Post-cutoff event",
+          "Reaction to a release, regulation, or incident dated after the model's training cutoff",
+          "Has no signal yet",
+          "Routes traffic until the next training cycle"
+        ],
+        [
+          "Cross-source synthesis",
+          "Combining 3+ primary sources nobody has assembled",
+          "Can sometimes summarize, often defers",
+          "Mixed, depends on novelty of frame"
+        ],
+        [
+          "Named tools, generic outcomes",
+          "\"Top X tools for Y\" articles",
+          "Summarizes inline",
+          "Few hundred impressions, flat"
+        ],
+        [
+          "Curated list, light commentary",
+          "Directory or roundup",
+          "Replaces with its own list",
+          "Decline over time"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "What we killed from the pipeline"
+    },
+    {
+      "type": "p",
+      "text": "The `/blog-article` command that ships these articles used to default to the standard programmatic SEO shape: word-count target, keyword cluster, three subheadings, summary close. We stripped all of it."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Word-count targets are gone.** The anchor decides length. If the first-party material is one paragraph of behavior profile, the article is one paragraph plus the scaffolding the anchor needs to make sense. Length follows the anchor, not the other way around.",
+        "**Synonym rotation is gone.** The command used to swap \"the founder\" with \"the entrepreneur\" with \"the business owner\" for variety. That is confusion, not elegance. We repeat the clearest noun.",
+        "**Hub-and-spoke clustering is gone.** The default used to be one head page plus eight satellites for a single keyword. Seven of them were derivative because the anchor could only go in one place. We deleted the seven.",
+        "**Complete-guide framing is gone.** \"The complete guide to X\" is the default slop wrapper, because the model cannot tell what the reader already knows. We replaced it with one question: what would someone reading this page already have tried? Start there."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "The parts of the pipeline that stayed are the parts automation is actually good at: frontmatter schema, slug generation, internal link resolution, translation into the seven locales the site supports. None of those are the part Google reads for ranking."
+    },
+    {
+      "type": "p",
+      "text": "Automation of the shell, anti-slop at the heart. That split is the playbook. The full framework lives in our [anti-slop content strategy](/blog/anti-slop-content-strategy) post if you want the gate without the case study."
+    },
+    {
+      "type": "h2",
+      "text": "What this means for your content brief"
+    },
+    {
+      "type": "p",
+      "text": "If you are commissioning a content program for an enterprise website in 2026, the unit economics inverted. The bottleneck is no longer writer throughput. It is the quality of the input brief."
+    },
+    {
+      "type": "p",
+      "text": "A content engine that scales pages without scaling first-party anchors produces exactly the content the AI Overview classifier eats. The output is technically there. The traffic is not. Every page that does not pass the gate dilutes the rest of the domain."
+    },
+    {
+      "type": "p",
+      "text": "A content engine that scales anchors first produces fewer pages and routes more traffic per page. The cost shifts from copywriting to subject-matter capture: founder interviews, internal benchmark logging, named-customer outcome measurement. The writers still write. They write around anchors instead of around keywords."
+    },
+    {
+      "type": "p",
+      "text": "For procurement, the practical change is the brief intake. A useful brief in 2026 contains at least one of:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**A measurement nobody else has run** (internal benchmark, A/B result, longitudinal log)",
+        "**A named customer outcome** with a verifiable number and a date",
+        "**A post-cutoff event** the article reacts to (release, incident, regulation)",
+        "**A founder-owned position** the article is willing to defend",
+        "**A synthesis across primary sources** nobody else has assembled in one place"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "If your agency cannot extract one of those from your team during intake, you will get content that ships and does not route traffic. That is the failure mode the AI Overview enforces. [Webvise runs intake, anchor capture, pipeline production, and locale coverage as a single package](/#contact). The Hermes post is the proof of concept."
+    },
+    {
+      "type": "h2",
+      "text": "What 40K impressions from one post actually proves"
+    },
+    {
+      "type": "p",
+      "text": "It does not prove the pipeline scales. It proves the gate ranks."
+    },
+    {
+      "type": "p",
+      "text": "The Hermes post is at average position 9.7 in eleven days because nothing else on the open web is writing at that specificity about that pattern. Google has no summary-away option. The click has to route to the page. The number compounds because the long-tail tail is wider for unfakeable content than it has ever been."
+    },
+    {
+      "type": "p",
+      "text": "The same pipeline ships pages that do not pass the gate. Those pages get a few hundred impressions and stall. Same template, same schema, same internal links. The only variable that moves is anchor strength."
+    },
+    {
+      "type": "p",
+      "text": "That is the content program for 2026. Fewer pages, each one carrying a measurement, a name, a date, or a position the model cannot already produce. Length capped at the point first-party signal runs out. Word-count targets, hub-and-spoke clusters, and complete-guide framing all retired."
+    },
+    {
+      "type": "p",
+      "text": "If you would like [webvise](/#contact) to run a content engine on this gate for your business, we package brief intake, anchor capture, pipeline production, and locale coverage together. The Hermes post is the proof of concept. Your team's first-party material is the next anchor."
+    }
+  ]
 }

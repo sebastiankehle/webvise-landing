@@ -40,7 +40,7 @@ export default function SignUpForm({
 					onError: (error) => {
 						toast.error(error.error.message || error.error.statusText);
 					},
-				},
+				}
 			);
 		},
 		validators: {
@@ -61,12 +61,12 @@ export default function SignUpForm({
 			<H1 className="mb-6 text-center text-3xl md:text-3xl">Create Account</H1>
 
 			<form
+				className="space-y-4"
 				onSubmit={(e) => {
 					e.preventDefault();
 					e.stopPropagation();
 					form.handleSubmit();
 				}}
-				className="space-y-4"
 			>
 				<form.Field name="name">
 					{(field) => (
@@ -75,9 +75,9 @@ export default function SignUpForm({
 							<Input
 								id={field.name}
 								name={field.name}
-								value={field.state.value}
 								onBlur={field.handleBlur}
 								onChange={(e) => field.handleChange(e.target.value)}
+								value={field.state.value}
 							/>
 							<FormMessage errors={field.state.meta.errors} />
 						</FormItem>
@@ -91,10 +91,10 @@ export default function SignUpForm({
 							<Input
 								id={field.name}
 								name={field.name}
-								type="email"
-								value={field.state.value}
 								onBlur={field.handleBlur}
 								onChange={(e) => field.handleChange(e.target.value)}
+								type="email"
+								value={field.state.value}
 							/>
 							<FormMessage errors={field.state.meta.errors} />
 						</FormItem>
@@ -108,10 +108,10 @@ export default function SignUpForm({
 							<Input
 								id={field.name}
 								name={field.name}
-								type="password"
-								value={field.state.value}
 								onBlur={field.handleBlur}
 								onChange={(e) => field.handleChange(e.target.value)}
+								type="password"
+								value={field.state.value}
 							/>
 							<FormMessage errors={field.state.meta.errors} />
 						</FormItem>
@@ -123,9 +123,9 @@ export default function SignUpForm({
 				>
 					{([canSubmit, isSubmitting]) => (
 						<SubmitButton
-							isSubmitting={isSubmitting}
-							disabled={!canSubmit}
 							className="w-full"
+							disabled={!canSubmit}
+							isSubmitting={isSubmitting}
 						>
 							Sign Up
 						</SubmitButton>
@@ -135,9 +135,9 @@ export default function SignUpForm({
 
 			<div className="mt-4 text-center">
 				<Button
-					variant="link"
-					onClick={onSwitchToSignIn}
 					className="text-indigo-600 hover:text-indigo-800"
+					onClick={onSwitchToSignIn}
+					variant="link"
 				>
 					Already have an account? Sign In
 				</Button>

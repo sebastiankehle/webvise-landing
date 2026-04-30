@@ -109,10 +109,16 @@ export default async function AboutPage() {
 			{/* Header */}
 			<section className="relative pt-32 pb-24 md:pt-44 md:pb-36">
 				{/* Constructed grid */}
-				<div className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block" aria-hidden="true">
-					<div className="h-full border-x border-grid-line" />
+				<div
+					aria-hidden="true"
+					className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block"
+				>
+					<div className="h-full border-grid-line border-x" />
 				</div>
-				<div className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block" aria-hidden="true" />
+				<div
+					aria-hidden="true"
+					className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block"
+				/>
 				<GridFrame className="inset-0" />
 				<div className="relative mx-auto max-w-[1320px] px-6">
 					<div className="grid items-start gap-12 md:grid-cols-3 md:gap-16">
@@ -120,13 +126,13 @@ export default async function AboutPage() {
 						<div className="md:col-span-2">
 							<div className="flex items-center gap-5">
 								<Image
-									src="/images/founder.jpeg"
 									alt={t("intro.name")}
-									width={72}
-									height={72}
 									className="h-[72px] w-[72px] shrink-0 object-cover"
-									quality={85}
+									height={72}
 									priority
+									quality={85}
+									src="/images/founder.jpeg"
+									width={72}
 								/>
 								<div>
 									<Caption>{t("intro.role")}</Caption>
@@ -143,11 +149,11 @@ export default async function AboutPage() {
 							<div className="flex flex-wrap gap-2">
 								{connectLinks.map(({ key, href }) => (
 									<a
-										key={key}
-										href={href}
-										target="_blank"
-										rel="noopener noreferrer"
 										className="group flex items-center gap-1.5 border border-border/40 px-3 py-1.5 text-sm transition-all hover:border-brand hover:bg-brand hover:text-white"
+										href={href}
+										key={key}
+										rel="noopener noreferrer"
+										target="_blank"
 									>
 										{t(`connect.${key}`)}
 										<ArrowUpRight className="h-3 w-3 text-muted-foreground transition-colors group-hover:text-white" />
@@ -160,14 +166,14 @@ export default async function AboutPage() {
 			</section>
 
 			{/* Bio */}
-			<SectionWrapper id="background" alternate>
+			<SectionWrapper alternate id="background">
 				<div className="max-w-2xl">
 					<H2>{t("bio.title")}</H2>
 					<div className="mt-8 space-y-5 text-muted-foreground leading-relaxed">
 						{Array.from({ length: bioCount }, (_, i) => {
 							const paragraph = t(`bio.paragraphs.${i}`);
 							return (
-								<Body key={paragraph} className="text-muted-foreground">
+								<Body className="text-muted-foreground" key={paragraph}>
 									{paragraph}
 								</Body>
 							);
@@ -190,8 +196,8 @@ export default async function AboutPage() {
 
 							return (
 								<div
-									key={`${company}-${role}-${period}`}
 									className="flex gap-6"
+									key={`${company}-${role}-${period}`}
 								>
 									<div className="flex w-1 shrink-0 flex-col items-center pt-2">
 										<div className="h-2 w-2 bg-brand" />
@@ -224,7 +230,7 @@ export default async function AboutPage() {
 			</SectionWrapper>
 
 			{/* Skills */}
-			<SectionWrapper id="skills" alternate>
+			<SectionWrapper alternate id="skills">
 				<div className="max-w-2xl">
 					<H2>{t("stack.title")}</H2>
 					<div className="mt-10 space-y-8">
@@ -247,8 +253,8 @@ export default async function AboutPage() {
 										.split(", ")
 										.map((tool) => (
 											<Label
-												key={tool}
 												className="border border-border/40 px-3 py-1.5 text-foreground text-sm transition-all hover:border-brand hover:bg-brand hover:text-white"
+												key={tool}
 											>
 												{tool}
 											</Label>

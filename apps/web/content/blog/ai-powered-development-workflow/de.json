@@ -1,136 +1,136 @@
 {
-	"date": "2026-03-26",
-	"readingTime": 8,
-	"keyword": "KI-gestützte Softwareentwicklung",
-	"title": "Wie wir KI einsetzen, um bessere Software schneller zu entwickeln",
-	"excerpt": "KI-Coding-Tools sind überall, aber ihr effektiver Einsatz erfordert mehr als das Installieren einer Erweiterung. So haben wir KI in jede Phase unseres Entwicklungsworkflows integriert - von der Planung über Code-Review bis zum Deployment.",
-	"tags": ["AI", "Web Development", "Automation"],
-	"blocks": [
-		{
-			"type": "p",
-			"text": "Heute hat jeder Entwickler Zugang zu KI-Coding-Assistenten. Die Tools selbst sind kein Wettbewerbsvorteil mehr. Was Teams, die mit KI schneller liefern, von Teams mit marginalen Gewinnen unterscheidet, ist **wie die KI in den Workflow integriert ist** - nicht welches Tool sie verwenden, sondern wie sie es konfigurieren, welchen Kontext sie bereitstellen und wo sie die Grenze zwischen KI-Autonomie und menschlichem Urteil ziehen."
-		},
-		{
-			"type": "p",
-			"text": "Bei webvise ist KI in jede Phase unseres Entwicklungsprozesses eingebettet. Es geht nicht darum, Entwickler zu ersetzen - es geht darum, Reibungsverluste zu beseitigen, damit unsere Ingenieure ihre Zeit für Architektur, Designentscheidungen und Geschäftslogik aufwenden können statt für Boilerplate, repetitives Refactoring und manuelle Review-Checklisten."
-		},
-		{
-			"type": "h2",
-			"text": "Planung: Erkunden, bevor Sie sich festlegen"
-		},
-		{
-			"type": "p",
-			"text": "Komplexe Aufgaben - Bibliotheksmigrationen, Architekturänderungen, Features, die Dutzende von Dateien berühren - beginnen im **Planungsmodus**. Bevor eine einzige Zeile Code geschrieben wird, erkundet die KI die Codebasis, kartiert Abhängigkeiten und schlägt einen Implementierungsansatz vor. Das unterscheidet sich grundlegend davon, der KI eine Aufgabe zu geben und auf das Beste zu hoffen."
-		},
-		{
-			"type": "p",
-			"text": "Der Planungsmodus ist wichtig, weil die Kosten für Nacharbeit bei einer umfangreichen Änderung hoch sind. Eine Microservice-Umstrukturierung, bei der unerwartete Abhängigkeiten entdeckt werden, nachdem die Hälfte des Codes geschrieben ist, kostet Tage. Die KI zunächst den vollständigen Abhängigkeitsgraphen kartieren zu lassen und dann Service-Grenzen vorschlagen zu lassen, erkennt solche Probleme, bevor eine einzige Zeile geändert wird."
-		},
-		{
-			"type": "p",
-			"text": "Für klar abgegrenzte Änderungen - ein Bugfix in einer einzelnen Datei, das Hinzufügen einer Validierungsprüfung - überspringen wir den Planungsmodus vollständig und führen direkt aus. Der Schlüssel liegt darin, den Ansatz der Komplexität anzupassen: Planung für Architekturentscheidungen, direkte Ausführung für klare Aufgaben."
-		},
-		{
-			"type": "h2",
-			"text": "Projektkonfiguration: Der KI Ihre Standards beibringen"
-		},
-		{
-			"type": "p",
-			"text": "Das Wirkungsvollste, was Sie mit einem KI-Coding-Assistenten tun können, ist, ihm **den richtigen Kontext zu geben**. Wir pflegen strukturierte Konfigurationsdateien, die der KI unsere Coding-Standards, Test-Konventionen, API-Muster und Deployment-Anforderungen mitteilen. Dieser Kontext wird automatisch für jede Sitzung geladen."
-		},
-		{
-			"type": "p",
-			"text": "Aber nicht jeder Kontext ist immer relevant. API-Konventionen zu laden, wenn eine React-Komponente bearbeitet wird, verschwendet Tokens und kann die KI verwirren. Wir verwenden **pfadspezifische Regeln** mit Glob-Mustern - Regeln, die nur aktiviert werden, wenn passende Dateien bearbeitet werden. Test-Konventionen werden für `**/*.test.tsx`-Dateien geladen. API-Muster für `src/api/**/*`. Datenbank-Konventionen für Migrationsdateien."
-		},
-		{
-			"type": "p",
-			"text": "Dieser Ansatz reduziert Rauschen und verbessert die Ausgabequalität. Die KI generiert Code, der unseren Standards entspricht, weil sie weiß, was diese Standards sind - und nur die Standards, die für die bearbeitete Datei relevant sind."
-		},
-		{
-			"type": "h2",
-			"text": "Entwicklung: Iterative Verfeinerung statt Einmal-Generierung"
-		},
-		{
-			"type": "p",
-			"text": "Der größte Fehler, den Teams mit KI-Coding-Tools machen, ist, sie als Einmal-Generatoren zu behandeln. Sie beschreiben, was Sie möchten, die KI produziert Code, und Sie akzeptieren ihn entweder oder beginnen von vorne. Dieser Ansatz schneidet konsistent schlechter ab als **iterative Verfeinerung**."
-		},
-		{
-			"type": "p",
-			"text": "Unser Workflow ist testgetrieben: Wir schreiben zuerst die Test-Suite - mit erwarteten Verhaltensweisen, Randfällen und Leistungsanforderungen - und lassen die KI dann gegen diese Tests implementieren. Wenn Tests fehlschlagen, teilen wir die spezifischen Fehler mit, und die KI korrigiert ihre Implementierung. Jede Iteration verringert die Lücke zwischen Ausgabe und Anforderung."
-		},
-		{
-			"type": "p",
-			"text": "Bei unklaren Anforderungen verwenden wir das **Interview-Muster**: Statt sofort zu implementieren, lassen wir die KI zunächst Klärungsfragen stellen. Das bringt Überlegungen ans Licht, die der Entwickler möglicherweise nicht antizipiert hat - Cache-Invalidierungsstrategien, Fehlermodi, Nebenläufigkeitsprobleme. Zwei Minuten Fragen können zwei Stunden Nacharbeit verhindern."
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Konkrete Beispiele schlagen Prosa-Beschreibungen.** Wenn natürliche Sprache inkonsistente Ergebnisse liefert, klären 2–3 Eingabe/Ausgabe-Beispiele die Anforderung sofort",
-				"**Zusammenhängende Probleme in einer Nachricht übermitteln.** Wenn mehrere Korrekturen sich gegenseitig beeinflussen, geben Sie sie zusammen an, damit die KI die Wechselwirkungen berücksichtigt",
-				"**Unabhängige Probleme sequenziell behandeln.** Beheben Sie unzusammenhängende Probleme nacheinander mit fokussiertem Feedback"
-			]
-		},
-		{
-			"type": "h2",
-			"text": "Code-Review: Unabhängige Durchläufe finden mehr Fehler"
-		},
-		{
-			"type": "p",
-			"text": "KI-generierter Code muss noch überprüft werden. Ein Muster, das es wert ist, genauer betrachtet zu werden: **dieselbe KI-Sitzung**, die den Code geschrieben hat, ihn auch überprüfen zu lassen. Das schneidet tendenziell schlechter ab als eine unabhängige Überprüfung, weil das Modell seinen Denkkontext beibehält und seine eigenen Entscheidungen weniger wahrscheinlich hinterfragt."
-		},
-		{
-			"type": "p",
-			"text": "Wir verwenden **unabhängige Review-Instanzen** - eine neue KI-Sitzung ohne vorherigen Denkkontext aus der Generierungsphase. Dieses zweite Augenpaar erkennt subtile Probleme, die die Selbstüberprüfung übersieht. Bei großen Pull Requests, die viele Dateien berühren, teilen wir Reviews in dateiweise Analysedurchläufe für lokale Probleme auf, plus einen separaten Integrationsdurchlauf, der dateienübergreifende Datenflüsse untersucht."
-		},
-		{
-			"type": "p",
-			"text": "Review-Prompts sind spezifisch darin, wonach gesucht werden soll. Vage Anweisungen wie „prüfen Sie, ob der Code korrekt ist“ liefern unzuverlässige Ergebnisse. Explizite Kriterien - „Logikfehler und Sicherheitsprobleme markieren, geringfügige Stilunterschiede ignorieren“ - reduzieren Falsch-Positive und stärken das Vertrauen der Entwickler in den Review-Prozess."
-		},
-		{
-			"type": "h2",
-			"text": "CI/CD-Integration: KI in der Pipeline"
-		},
-		{
-			"type": "p",
-			"text": "KI-Review läuft automatisch bei jedem Pull Request als Teil unserer CI-Pipeline. Die KI analysiert Änderungen, erstellt strukturierte Befunde mit Dateiort, Problembeschreibung, Schweregrad und Lösungsvorschlag und postet diese als Inline-PR-Kommentare. Strukturierte Ausgabe stellt sicher, dass die Befunde maschinenlesbar sind und in bestehende Code-Review-Dashboards integriert werden können."
-		},
-		{
-			"type": "p",
-			"text": "Zwei Details machen das in der Praxis zum Erfolg. Erstens: Wenn Reviews nach neuen Commits erneut ausgeführt werden, werden vorherige Befunde in den Kontext einbezogen, sodass die KI nur **neue oder noch nicht behobene Probleme** meldet - doppelte Kommentare, die das Vertrauen untergraben, werden so vermieden. Zweitens: Bestehende Testdateien werden in den Kontext einbezogen, damit die Testgenerierung keine Szenarien vorschlägt, die bereits von der Test-Suite abgedeckt sind."
-		},
-		{
-			"type": "h2",
-			"text": "Kontextmanagement: Die Fähigkeit, die den Workflow verankert"
-		},
-		{
-			"type": "p",
-			"text": "Jede der oben genannten Techniken hängt von effektivem [Kontextmanagement](/blog/what-is-model-context-protocol) ab. KI-Modelle haben endliche Kontextfenster, und wie Sie dieses Fenster füllen, bestimmt die Ausgabequalität. Wir wenden konsequent mehrere Prinzipien an:"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Inkrementelle Erkundung.** Beginnen Sie mit gezielten Suchen, um Einstiegspunkte zu finden, verfolgen Sie dann Importe und Abläufe - laden Sie nicht alle Dateien vorab",
-				"**Subagenten-Delegation.** Ausführliche Erkundungsaufgaben laufen in isolierten Teilkontexten, die Zusammenfassungen zurückgeben und die Hauptkonversation fokussiert halten",
-				"**Strukturierte Zustandspersistenz.** Wichtige Erkenntnisse werden in Notizpad-Dateien geschrieben und in nachfolgenden Abfragen referenziert, um Kontextdegradation in langen Sitzungen entgegenzuwirken",
-				"**Kontextkomprimierung.** Wenn der Kontext mit ausführlicher Ausgabe aus der Erkundung gefüllt ist, komprimieren wir ihn - fassen zusammen, was gelernt wurde, bevor wir weitermachen"
-			]
-		},
-		{
-			"type": "h2",
-			"text": "Die Ergebnisse"
-		},
-		{
-			"type": "p",
-			"text": "Dieser Workflow ist ein wesentlicher Grund dafür, dass wir produktionsreife Anwendungen in der Regel in [Wochen statt Monaten](/services/mvp-development) liefern können – für die Scopes, die wir annehmen; die Ergebnisse skalieren mit der Projektkomplexität. KI übernimmt die Mengenarbeit - Boilerplate-Generierung, Test-Schreiben, Code-Review, Dokumentation - während sich unsere Ingenieure auf Entscheidungen konzentrieren, die menschliches Urteil erfordern: Architektur, User Experience, Geschäftslogik und Qualitätsstandards."
-		},
-		{
-			"type": "p",
-			"text": "Das Ergebnis ist nicht nur schnellere Lieferung. Es ist **konsistentere Qualität** bei hoher Geschwindigkeit. Jeder Pull Request erhält eine gründliche Überprüfung. Jedes Feature erhält umfassende Tests. Jede Komponente folgt etablierten Konventionen. KI-Tooling ermüdet nicht, kürzt nicht unter Termindruck ab und vergisst keinen Kontext – erfordert aber sorgfältige Prompts und Überprüfung."
-		},
-		{
-			"type": "p",
-			"text": "Wenn Sie ein Produkt entwickeln und ein Team suchen, das moderne KI-gestützte Workflows mit erfahrenem Engineering-Urteil verbindet, [sprechen Sie uns an](/#contact). Wir liefern schnell ohne Abstriche bei der Qualität; wir erläutern Ihnen gerne den Prozess."
-		}
-	],
-	"metaDescription": "So integriert webvise KI in jede Phase der Softwareentwicklung - von Planung über Coding bis Review. Produktionsreife Apps in Wochen statt Monaten."
+  "date": "2026-03-26",
+  "readingTime": 8,
+  "keyword": "KI-gestützte Softwareentwicklung",
+  "title": "Wie wir KI einsetzen, um bessere Software schneller zu entwickeln",
+  "excerpt": "KI-Coding-Tools sind überall, aber ihr effektiver Einsatz erfordert mehr als das Installieren einer Erweiterung. So haben wir KI in jede Phase unseres Entwicklungsworkflows integriert - von der Planung über Code-Review bis zum Deployment.",
+  "tags": ["AI", "Web Development", "Automation"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Heute hat jeder Entwickler Zugang zu KI-Coding-Assistenten. Die Tools selbst sind kein Wettbewerbsvorteil mehr. Was Teams, die mit KI schneller liefern, von Teams mit marginalen Gewinnen unterscheidet, ist **wie die KI in den Workflow integriert ist** - nicht welches Tool sie verwenden, sondern wie sie es konfigurieren, welchen Kontext sie bereitstellen und wo sie die Grenze zwischen KI-Autonomie und menschlichem Urteil ziehen."
+    },
+    {
+      "type": "p",
+      "text": "Bei webvise ist KI in jede Phase unseres Entwicklungsprozesses eingebettet. Es geht nicht darum, Entwickler zu ersetzen - es geht darum, Reibungsverluste zu beseitigen, damit unsere Ingenieure ihre Zeit für Architektur, Designentscheidungen und Geschäftslogik aufwenden können statt für Boilerplate, repetitives Refactoring und manuelle Review-Checklisten."
+    },
+    {
+      "type": "h2",
+      "text": "Planung: Erkunden, bevor Sie sich festlegen"
+    },
+    {
+      "type": "p",
+      "text": "Komplexe Aufgaben - Bibliotheksmigrationen, Architekturänderungen, Features, die Dutzende von Dateien berühren - beginnen im **Planungsmodus**. Bevor eine einzige Zeile Code geschrieben wird, erkundet die KI die Codebasis, kartiert Abhängigkeiten und schlägt einen Implementierungsansatz vor. Das unterscheidet sich grundlegend davon, der KI eine Aufgabe zu geben und auf das Beste zu hoffen."
+    },
+    {
+      "type": "p",
+      "text": "Der Planungsmodus ist wichtig, weil die Kosten für Nacharbeit bei einer umfangreichen Änderung hoch sind. Eine Microservice-Umstrukturierung, bei der unerwartete Abhängigkeiten entdeckt werden, nachdem die Hälfte des Codes geschrieben ist, kostet Tage. Die KI zunächst den vollständigen Abhängigkeitsgraphen kartieren zu lassen und dann Service-Grenzen vorschlagen zu lassen, erkennt solche Probleme, bevor eine einzige Zeile geändert wird."
+    },
+    {
+      "type": "p",
+      "text": "Für klar abgegrenzte Änderungen - ein Bugfix in einer einzelnen Datei, das Hinzufügen einer Validierungsprüfung - überspringen wir den Planungsmodus vollständig und führen direkt aus. Der Schlüssel liegt darin, den Ansatz der Komplexität anzupassen: Planung für Architekturentscheidungen, direkte Ausführung für klare Aufgaben."
+    },
+    {
+      "type": "h2",
+      "text": "Projektkonfiguration: Der KI Ihre Standards beibringen"
+    },
+    {
+      "type": "p",
+      "text": "Das Wirkungsvollste, was Sie mit einem KI-Coding-Assistenten tun können, ist, ihm **den richtigen Kontext zu geben**. Wir pflegen strukturierte Konfigurationsdateien, die der KI unsere Coding-Standards, Test-Konventionen, API-Muster und Deployment-Anforderungen mitteilen. Dieser Kontext wird automatisch für jede Sitzung geladen."
+    },
+    {
+      "type": "p",
+      "text": "Aber nicht jeder Kontext ist immer relevant. API-Konventionen zu laden, wenn eine React-Komponente bearbeitet wird, verschwendet Tokens und kann die KI verwirren. Wir verwenden **pfadspezifische Regeln** mit Glob-Mustern - Regeln, die nur aktiviert werden, wenn passende Dateien bearbeitet werden. Test-Konventionen werden für `**/*.test.tsx`-Dateien geladen. API-Muster für `src/api/**/*`. Datenbank-Konventionen für Migrationsdateien."
+    },
+    {
+      "type": "p",
+      "text": "Dieser Ansatz reduziert Rauschen und verbessert die Ausgabequalität. Die KI generiert Code, der unseren Standards entspricht, weil sie weiß, was diese Standards sind - und nur die Standards, die für die bearbeitete Datei relevant sind."
+    },
+    {
+      "type": "h2",
+      "text": "Entwicklung: Iterative Verfeinerung statt Einmal-Generierung"
+    },
+    {
+      "type": "p",
+      "text": "Der größte Fehler, den Teams mit KI-Coding-Tools machen, ist, sie als Einmal-Generatoren zu behandeln. Sie beschreiben, was Sie möchten, die KI produziert Code, und Sie akzeptieren ihn entweder oder beginnen von vorne. Dieser Ansatz schneidet konsistent schlechter ab als **iterative Verfeinerung**."
+    },
+    {
+      "type": "p",
+      "text": "Unser Workflow ist testgetrieben: Wir schreiben zuerst die Test-Suite - mit erwarteten Verhaltensweisen, Randfällen und Leistungsanforderungen - und lassen die KI dann gegen diese Tests implementieren. Wenn Tests fehlschlagen, teilen wir die spezifischen Fehler mit, und die KI korrigiert ihre Implementierung. Jede Iteration verringert die Lücke zwischen Ausgabe und Anforderung."
+    },
+    {
+      "type": "p",
+      "text": "Bei unklaren Anforderungen verwenden wir das **Interview-Muster**: Statt sofort zu implementieren, lassen wir die KI zunächst Klärungsfragen stellen. Das bringt Überlegungen ans Licht, die der Entwickler möglicherweise nicht antizipiert hat - Cache-Invalidierungsstrategien, Fehlermodi, Nebenläufigkeitsprobleme. Zwei Minuten Fragen können zwei Stunden Nacharbeit verhindern."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Konkrete Beispiele schlagen Prosa-Beschreibungen.** Wenn natürliche Sprache inkonsistente Ergebnisse liefert, klären 2–3 Eingabe/Ausgabe-Beispiele die Anforderung sofort",
+        "**Zusammenhängende Probleme in einer Nachricht übermitteln.** Wenn mehrere Korrekturen sich gegenseitig beeinflussen, geben Sie sie zusammen an, damit die KI die Wechselwirkungen berücksichtigt",
+        "**Unabhängige Probleme sequenziell behandeln.** Beheben Sie unzusammenhängende Probleme nacheinander mit fokussiertem Feedback"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Code-Review: Unabhängige Durchläufe finden mehr Fehler"
+    },
+    {
+      "type": "p",
+      "text": "KI-generierter Code muss noch überprüft werden. Ein Muster, das es wert ist, genauer betrachtet zu werden: **dieselbe KI-Sitzung**, die den Code geschrieben hat, ihn auch überprüfen zu lassen. Das schneidet tendenziell schlechter ab als eine unabhängige Überprüfung, weil das Modell seinen Denkkontext beibehält und seine eigenen Entscheidungen weniger wahrscheinlich hinterfragt."
+    },
+    {
+      "type": "p",
+      "text": "Wir verwenden **unabhängige Review-Instanzen** - eine neue KI-Sitzung ohne vorherigen Denkkontext aus der Generierungsphase. Dieses zweite Augenpaar erkennt subtile Probleme, die die Selbstüberprüfung übersieht. Bei großen Pull Requests, die viele Dateien berühren, teilen wir Reviews in dateiweise Analysedurchläufe für lokale Probleme auf, plus einen separaten Integrationsdurchlauf, der dateienübergreifende Datenflüsse untersucht."
+    },
+    {
+      "type": "p",
+      "text": "Review-Prompts sind spezifisch darin, wonach gesucht werden soll. Vage Anweisungen wie „prüfen Sie, ob der Code korrekt ist“ liefern unzuverlässige Ergebnisse. Explizite Kriterien - „Logikfehler und Sicherheitsprobleme markieren, geringfügige Stilunterschiede ignorieren“ - reduzieren Falsch-Positive und stärken das Vertrauen der Entwickler in den Review-Prozess."
+    },
+    {
+      "type": "h2",
+      "text": "CI/CD-Integration: KI in der Pipeline"
+    },
+    {
+      "type": "p",
+      "text": "KI-Review läuft automatisch bei jedem Pull Request als Teil unserer CI-Pipeline. Die KI analysiert Änderungen, erstellt strukturierte Befunde mit Dateiort, Problembeschreibung, Schweregrad und Lösungsvorschlag und postet diese als Inline-PR-Kommentare. Strukturierte Ausgabe stellt sicher, dass die Befunde maschinenlesbar sind und in bestehende Code-Review-Dashboards integriert werden können."
+    },
+    {
+      "type": "p",
+      "text": "Zwei Details machen das in der Praxis zum Erfolg. Erstens: Wenn Reviews nach neuen Commits erneut ausgeführt werden, werden vorherige Befunde in den Kontext einbezogen, sodass die KI nur **neue oder noch nicht behobene Probleme** meldet - doppelte Kommentare, die das Vertrauen untergraben, werden so vermieden. Zweitens: Bestehende Testdateien werden in den Kontext einbezogen, damit die Testgenerierung keine Szenarien vorschlägt, die bereits von der Test-Suite abgedeckt sind."
+    },
+    {
+      "type": "h2",
+      "text": "Kontextmanagement: Die Fähigkeit, die den Workflow verankert"
+    },
+    {
+      "type": "p",
+      "text": "Jede der oben genannten Techniken hängt von effektivem [Kontextmanagement](/blog/what-is-model-context-protocol) ab. KI-Modelle haben endliche Kontextfenster, und wie Sie dieses Fenster füllen, bestimmt die Ausgabequalität. Wir wenden konsequent mehrere Prinzipien an:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Inkrementelle Erkundung.** Beginnen Sie mit gezielten Suchen, um Einstiegspunkte zu finden, verfolgen Sie dann Importe und Abläufe - laden Sie nicht alle Dateien vorab",
+        "**Subagenten-Delegation.** Ausführliche Erkundungsaufgaben laufen in isolierten Teilkontexten, die Zusammenfassungen zurückgeben und die Hauptkonversation fokussiert halten",
+        "**Strukturierte Zustandspersistenz.** Wichtige Erkenntnisse werden in Notizpad-Dateien geschrieben und in nachfolgenden Abfragen referenziert, um Kontextdegradation in langen Sitzungen entgegenzuwirken",
+        "**Kontextkomprimierung.** Wenn der Kontext mit ausführlicher Ausgabe aus der Erkundung gefüllt ist, komprimieren wir ihn - fassen zusammen, was gelernt wurde, bevor wir weitermachen"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Die Ergebnisse"
+    },
+    {
+      "type": "p",
+      "text": "Dieser Workflow ist ein wesentlicher Grund dafür, dass wir produktionsreife Anwendungen in der Regel in [Wochen statt Monaten](/services/mvp-development) liefern können – für die Scopes, die wir annehmen; die Ergebnisse skalieren mit der Projektkomplexität. KI übernimmt die Mengenarbeit - Boilerplate-Generierung, Test-Schreiben, Code-Review, Dokumentation - während sich unsere Ingenieure auf Entscheidungen konzentrieren, die menschliches Urteil erfordern: Architektur, User Experience, Geschäftslogik und Qualitätsstandards."
+    },
+    {
+      "type": "p",
+      "text": "Das Ergebnis ist nicht nur schnellere Lieferung. Es ist **konsistentere Qualität** bei hoher Geschwindigkeit. Jeder Pull Request erhält eine gründliche Überprüfung. Jedes Feature erhält umfassende Tests. Jede Komponente folgt etablierten Konventionen. KI-Tooling ermüdet nicht, kürzt nicht unter Termindruck ab und vergisst keinen Kontext – erfordert aber sorgfältige Prompts und Überprüfung."
+    },
+    {
+      "type": "p",
+      "text": "Wenn Sie ein Produkt entwickeln und ein Team suchen, das moderne KI-gestützte Workflows mit erfahrenem Engineering-Urteil verbindet, [sprechen Sie uns an](/#contact). Wir liefern schnell ohne Abstriche bei der Qualität; wir erläutern Ihnen gerne den Prozess."
+    }
+  ],
+  "metaDescription": "So integriert webvise KI in jede Phase der Softwareentwicklung - von Planung über Coding bis Review. Produktionsreife Apps in Wochen statt Monaten."
 }

@@ -6,17 +6,19 @@ export async function GET(request: Request) {
 
 	if (!token) {
 		return NextResponse.redirect(
-			new URL("/unsubscribe?error=missing", request.url),
+			new URL("/unsubscribe?error=missing", request.url)
 		);
 	}
 
 	let email: string;
 	try {
 		email = Buffer.from(token, "base64url").toString("utf-8");
-		if (!email || !email.includes("@")) throw new Error("invalid");
+		if (!email?.includes("@")) {
+			throw new Error("invalid");
+		}
 	} catch {
 		return NextResponse.redirect(
-			new URL("/unsubscribe?error=invalid", request.url),
+			new URL("/unsubscribe?error=invalid", request.url)
 		);
 	}
 
@@ -25,7 +27,7 @@ export async function GET(request: Request) {
 	if (!apiKey) {
 		console.error("RESEND_API_KEY not configured");
 		return NextResponse.redirect(
-			new URL("/unsubscribe?error=config", request.url),
+			new URL("/unsubscribe?error=config", request.url)
 		);
 	}
 
@@ -48,6 +50,6 @@ export async function GET(request: Request) {
 	}
 
 	return NextResponse.redirect(
-		new URL("/unsubscribe?success=true", request.url),
+		new URL("/unsubscribe?success=true", request.url)
 	);
 }

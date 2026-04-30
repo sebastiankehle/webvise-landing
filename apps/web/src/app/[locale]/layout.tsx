@@ -111,7 +111,7 @@ export default async function LocaleLayout({
 	const messages = await getMessages();
 
 	return (
-		<html lang={locale} suppressHydrationWarning data-scroll-behavior="smooth">
+		<html data-scroll-behavior="smooth" lang={locale} suppressHydrationWarning>
 			<head>
 				<Script
 					src="https://www.googletagmanager.com/gtag/js?id=G-D5466MRK51"
@@ -136,8 +136,8 @@ export default async function LocaleLayout({
 				<ThemeProvider
 					attribute="class"
 					defaultTheme="light"
-					forcedTheme="light"
 					disableTransitionOnChange
+					forcedTheme="light"
 				>
 					<NextIntlClientProvider messages={messages}>
 						<TooltipProvider>{children}</TooltipProvider>

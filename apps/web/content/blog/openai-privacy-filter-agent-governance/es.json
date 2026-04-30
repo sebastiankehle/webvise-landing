@@ -128,9 +128,21 @@
       "type": "table",
       "headers": ["Ubicación", "Trust boundary", "Cuándo usar"],
       "rows": [
-        ["Client-side (navegador + WebGPU)", "El texto plano nunca abandona el dispositivo", "Aplicaciones web con compliance prioritario, industrias reguladas, herramientas internas"],
-        ["Server middleware (Node + Transformers)", "Servidor confiable, registros auditados", "APIs, agentes backend, pipelines de procesamiento por lotes"],
-        ["Output filter (post-respuesta)", "La salida del modelo nunca llega al cliente sin procesar", "Agentes de chat, contenido generado, flujos RAG orientados al usuario"]
+        [
+          "Client-side (navegador + WebGPU)",
+          "El texto plano nunca abandona el dispositivo",
+          "Aplicaciones web con compliance prioritario, industrias reguladas, herramientas internas"
+        ],
+        [
+          "Server middleware (Node + Transformers)",
+          "Servidor confiable, registros auditados",
+          "APIs, agentes backend, pipelines de procesamiento por lotes"
+        ],
+        [
+          "Output filter (post-respuesta)",
+          "La salida del modelo nunca llega al cliente sin procesar",
+          "Agentes de chat, contenido generado, flujos RAG orientados al usuario"
+        ]
       ]
     },
     {
@@ -153,14 +165,46 @@
       "type": "table",
       "headers": ["Categoría", "Qué detecta", "Modo de fallo conocido"],
       "rows": [
-        ["private_person", "Nombres personales", "Nombres regionales poco comunes, iniciales y referencias con tratamientos honoríficos presentan sub-detección"],
-        ["private_email", "Direcciones de correo electrónico", "Cobertura sólida. Los formatos ofuscados (\"nombre arroba dominio\") pueden omitirse"],
-        ["private_phone", "Números de teléfono", "Formatos internacionales sólidos. Los separadores no estándar fragmentan ocasionalmente"],
-        ["private_address", "Direcciones postales", "Las direcciones multilínea en diseños densos se fragmentan en los límites"],
-        ["private_url", "URLs identificativas", "Sobre-redacta URLs de entidades públicas cuando el contexto local es ambiguo"],
-        ["private_date", "Fecha de nacimiento, citas", "Sensible al contexto. Las fechas de calendario en texto de programación a veces se sobre-redactan"],
-        ["account_number", "IDs bancarios, de cliente o de paciente", "Sub-detecta patrones de identificadores específicos del dominio"],
-        ["secret", "Claves API, credenciales, tokens", "Los formatos de credenciales novedosos y los secretos divididos se omiten"]
+        [
+          "private_person",
+          "Nombres personales",
+          "Nombres regionales poco comunes, iniciales y referencias con tratamientos honoríficos presentan sub-detección"
+        ],
+        [
+          "private_email",
+          "Direcciones de correo electrónico",
+          "Cobertura sólida. Los formatos ofuscados (\"nombre arroba dominio\") pueden omitirse"
+        ],
+        [
+          "private_phone",
+          "Números de teléfono",
+          "Formatos internacionales sólidos. Los separadores no estándar fragmentan ocasionalmente"
+        ],
+        [
+          "private_address",
+          "Direcciones postales",
+          "Las direcciones multilínea en diseños densos se fragmentan en los límites"
+        ],
+        [
+          "private_url",
+          "URLs identificativas",
+          "Sobre-redacta URLs de entidades públicas cuando el contexto local es ambiguo"
+        ],
+        [
+          "private_date",
+          "Fecha de nacimiento, citas",
+          "Sensible al contexto. Las fechas de calendario en texto de programación a veces se sobre-redactan"
+        ],
+        [
+          "account_number",
+          "IDs bancarios, de cliente o de paciente",
+          "Sub-detecta patrones de identificadores específicos del dominio"
+        ],
+        [
+          "secret",
+          "Claves API, credenciales, tokens",
+          "Los formatos de credenciales novedosos y los secretos divididos se omiten"
+        ]
       ]
     },
     {

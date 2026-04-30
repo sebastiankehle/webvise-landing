@@ -7,68 +7,225 @@
   "metaDescription": "Uw agenten hebben geen geheugen nodig. Ze hebben context nodig. Waarom de agent-geheugenmarkt de verkeerde laag bouwt, en wat u in plaats daarvan moet kopen.",
   "tags": ["AI Agents", "AI", "Business Strategy", "Process"],
   "blocks": [
-    { "type": "p", "text": "Veel productie-agenten hebben geen persistent geheugen in strikte zin nodig; ze hebben betrouwbare **contextophaling** over sessies heen nodig, en dat zijn geen twee woorden voor hetzelfde." },
-    { "type": "p", "text": "Als u dit jaar Zep, Mem0 of Letta heeft geëvalueerd, shopt u in een markt die twee verschillende producten onder één woord heeft samengevoegd." },
-    { "type": "p", "text": "U heeft gelijk dat u wilt dat uw agenten slimmer worden over sessies heen. Het probleem is dat de helft van de tools op uw shortlist is gebouwd om een ander probleem op te lossen: het ophalen van feiten in één enkel gesprek, niet het opbouwen van samengestelde kennis over maanden werk. Dit artikel scheidt de twee kampen, laat zien welk kamp uw agent werkelijk nodig heeft, en wijst op de marktsignalen die de meeste kopers missen." },
-    { "type": "ul", "items": [
-      "**De markt bestaat uit twee markten.** Camp 1 optimaliseert voor *ophalen*. Camp 2 optimaliseert voor *samengestelde groei*. De meeste kopers verwarren ze.",
-      "**Zep heeft zichzelf herpositioneerd.** In 2026 veranderde het bedrijf zijn positionering van 'memory' naar 'Context Engineering'. Dat is het duidelijkste publieke signaal in deze markt.",
-      "**Zilliz heeft MemSearch uitgebracht.** Een vector-databasebedrijf bracht een systeem uit waarbij markdown-bestanden upstream staan van hun eigen vector-database.",
-      "**De meeste zakelijke agenten hebben Camp 2 nodig.** Als uw agent over weken en maanden beter moet worden in zijn werk, is ophaalinfrastructuur de verkeerde laag.",
-      "**Beide systemen stapelen is duur.** Twee systemen met overlappende schrijfpaden produceren tegenstrijdige herinneringen die elkaar corrumperen."
-    ] },
-    { "type": "h2", "text": "De Markt Verkoopt Ophalen. Uw Agenten Hebben Waarschijnlijk Samengestelde Groei Nodig." },
-    { "type": "p", "text": "Doorzoek GitHub. Er zijn meer dan 450 repositories getagd als `agent-memory` en meer dan 460 getagd als `context-management`. Bijna geen van hen trekt een scherpe lijn tussen de twee." },
-    { "type": "p", "text": "Die vaagheid is het kernprobleem van de markt. Geheugen klinkt als één ding, dus kopers behandelen het als één ding, dus verkopers verkopen het als één ding. Het gevolg: bouwers betalen voor vectorinfrastructuur die ze daarna toch in markdown moeten herbouwen." },
-    { "type": "p", "text": "Het onderscheid is niet academisch. Camp 1 vraagt *wat moet de AI onthouden?* en levert een database. Camp 2 vraagt *in welke context moet de AI werken?* en levert een substraat. Beide zijn nuttig. Ze zijn niet uitwisselbaar." },
-    { "type": "p", "text": "Als u agentinfrastructuur kiest voor een bedrijf dat ervan afhankelijk is dat de agent daadwerkelijk slimmer wordt over maanden werk, [kan webvise u helpen de juiste laag te bepalen](/#contact) voordat u een jaarcontract tekent." },
-    { "type": "h2", "text": "Camp 1: Geheugenbackends (Geoptimaliseerd voor Ophalen)" },
-    { "type": "p", "text": "Camp 1-tools doen één ding goed. Ze nemen een gesprek, halen de relevante feiten eruit, slaan ze op in een vector-database en halen ze op wanneer een volgend gesprek ze nodig heeft. De cyclus is eenvoudig." },
-    { "type": "p", "text": "Dit is wat de meeste mensen bedoelen als ze 'agent-geheugen' zeggen. Het is het grootste kamp gemeten naar GitHub-sterren, en het kamp waar de meeste kopers standaard op uitkomen omdat de pitch eenvoudig is: uw chatbot onthoudt dat de gebruiker in Amsterdam woont." },
-    { "type": "table", "headers": ["Product", "Sterren", "Waar het goed in is"], "rows": [
-      ["Mem0", "53.1K", "Vier bewerkingen: toevoegen, zoeken, bijwerken, verwijderen. Modelonafhankelijk."],
-      ["MemPalace", "46.2K", "Lokale opslag van exacte tekst. 96.6% ophaalnauwkeurigheid op LongMemEval."],
-      ["Supermemory", "21.8K", "Tijdsbewustzijn. Vervangt verouderde feiten wanneer gebruikers ze bijwerken."],
-      ["Cognee", "15.4K", "Vectorzoeken gecombineerd met een graaf-database voor relationeel redeneren."],
-      ["Honcho", "2.4K", "Asynce service die een psychologisch model van elke gebruiker opbouwt."]
-    ] },
-    { "type": "p", "text": "Camp 1 is het juiste antwoord voor chatbots, het bewaren van gebruikersvoorkeuren en directe feitenophaling met een latentie onder de 200ms. Het is het verkeerde antwoord voor agenten die de *status* van lopend werk over vijf projecten, drie tools en twee maanden heen moeten begrijpen." },
-    { "type": "p", "text": "De beperking is architecturaal, niet een implementatiekwestie. Een vector-database vertelt u wat de dichtstbijzijnde overeenkomst is met een zoekopdracht. Hij vertelt u niet wat er sinds vorige week is veranderd, waarom dat zo is, of hoe dat de beslissing beïnvloedt die u op het punt staat te nemen." },
-    { "type": "h2", "text": "Camp 2: Contextsubstraten (Geoptimaliseerd voor Samengestelde Groei)" },
-    { "type": "p", "text": "Camp 2 keert de cyclus om. In plaats van feiten uit gesprekken te extraheren naar een database, leest de agent gestructureerde, voor mensen leesbare contextbestanden, werkt daarbinnen en schrijft terug. Bij de volgende sessie is de context rijker. Er wordt niets 'geëxtraheerd'." },
-    { "type": "p", "text": "Dit is het patroon dat Andrej Karpathy beschreef als de **LLM Wiki**: een persoonlijke kennisbank die het model eenmalig opbouwt en actueel houdt, in plaats van bij elke zoekopdracht opnieuw antwoorden af te leiden uit fragmenten. De sleuteleigenschap is samengestelde groei. De context verbetert door gebruik." },
-    { "type": "table", "headers": ["Product", "Sterren", "Waar het goed in is"], "rows": [
-      ["OpenClaw", "358K", "Gewone markdown-geheugen (MEMORY.md, dagelijkse notities). Achtergrondconsolidatie bevordert duurzame patronen naar langetermijngeheugen."],
-      ["Zep", "4.4K", "Temporele kennisgraaf met `valid_at`- en `invalid_at`-tijdstempels. Ophaling onder 200ms, SOC2- en HIPAA-conform."],
-      ["TrustGraph", "2.0K", "Draagbare 'Context Cores': versioned bundels van domeinschema's, kennisgrafen en ophaalbeleid. Versiebeheer op context zoals op code."],
-      ["MemSearch", "1.2K", "Markdown-first. Uitgebracht door Zilliz met hun eigen Milvus vector-database gepositioneerd als toegangslaag bovenop de bestanden."],
-      ["Thoth", "145", "Diepe architectuur: 10 entiteitstypen, 67 getypeerde relaties, nachtelijke consolidatie met betrouwbaarheidsafname op oude relaties."]
-    ] },
-    { "type": "p", "text": "Camp 2 is het juiste antwoord wanneer u een agent continu laat draaien, wanneer meerdere tools of meerdere agenten naar dezelfde kennisbank schrijven, of wanneer u wilt dat het systeem aantoonbaar beter wordt over weken en maanden zonder de pipeline elke keer te herbouwen." },
-    { "type": "p", "text": "De eenvoudigste test: moet de agent weten wat er afgelopen dinsdag is gebeurd, of moet hij de *structuur* van uw bedrijf op dit moment kennen? De tweede vraag is een Camp 2-probleem." },
+    {
+      "type": "p",
+      "text": "Veel productie-agenten hebben geen persistent geheugen in strikte zin nodig; ze hebben betrouwbare **contextophaling** over sessies heen nodig, en dat zijn geen twee woorden voor hetzelfde."
+    },
+    {
+      "type": "p",
+      "text": "Als u dit jaar Zep, Mem0 of Letta heeft geëvalueerd, shopt u in een markt die twee verschillende producten onder één woord heeft samengevoegd."
+    },
+    {
+      "type": "p",
+      "text": "U heeft gelijk dat u wilt dat uw agenten slimmer worden over sessies heen. Het probleem is dat de helft van de tools op uw shortlist is gebouwd om een ander probleem op te lossen: het ophalen van feiten in één enkel gesprek, niet het opbouwen van samengestelde kennis over maanden werk. Dit artikel scheidt de twee kampen, laat zien welk kamp uw agent werkelijk nodig heeft, en wijst op de marktsignalen die de meeste kopers missen."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**De markt bestaat uit twee markten.** Camp 1 optimaliseert voor *ophalen*. Camp 2 optimaliseert voor *samengestelde groei*. De meeste kopers verwarren ze.",
+        "**Zep heeft zichzelf herpositioneerd.** In 2026 veranderde het bedrijf zijn positionering van 'memory' naar 'Context Engineering'. Dat is het duidelijkste publieke signaal in deze markt.",
+        "**Zilliz heeft MemSearch uitgebracht.** Een vector-databasebedrijf bracht een systeem uit waarbij markdown-bestanden upstream staan van hun eigen vector-database.",
+        "**De meeste zakelijke agenten hebben Camp 2 nodig.** Als uw agent over weken en maanden beter moet worden in zijn werk, is ophaalinfrastructuur de verkeerde laag.",
+        "**Beide systemen stapelen is duur.** Twee systemen met overlappende schrijfpaden produceren tegenstrijdige herinneringen die elkaar corrumperen."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "De Markt Verkoopt Ophalen. Uw Agenten Hebben Waarschijnlijk Samengestelde Groei Nodig."
+    },
+    {
+      "type": "p",
+      "text": "Doorzoek GitHub. Er zijn meer dan 450 repositories getagd als `agent-memory` en meer dan 460 getagd als `context-management`. Bijna geen van hen trekt een scherpe lijn tussen de twee."
+    },
+    {
+      "type": "p",
+      "text": "Die vaagheid is het kernprobleem van de markt. Geheugen klinkt als één ding, dus kopers behandelen het als één ding, dus verkopers verkopen het als één ding. Het gevolg: bouwers betalen voor vectorinfrastructuur die ze daarna toch in markdown moeten herbouwen."
+    },
+    {
+      "type": "p",
+      "text": "Het onderscheid is niet academisch. Camp 1 vraagt *wat moet de AI onthouden?* en levert een database. Camp 2 vraagt *in welke context moet de AI werken?* en levert een substraat. Beide zijn nuttig. Ze zijn niet uitwisselbaar."
+    },
+    {
+      "type": "p",
+      "text": "Als u agentinfrastructuur kiest voor een bedrijf dat ervan afhankelijk is dat de agent daadwerkelijk slimmer wordt over maanden werk, [kan webvise u helpen de juiste laag te bepalen](/#contact) voordat u een jaarcontract tekent."
+    },
+    {
+      "type": "h2",
+      "text": "Camp 1: Geheugenbackends (Geoptimaliseerd voor Ophalen)"
+    },
+    {
+      "type": "p",
+      "text": "Camp 1-tools doen één ding goed. Ze nemen een gesprek, halen de relevante feiten eruit, slaan ze op in een vector-database en halen ze op wanneer een volgend gesprek ze nodig heeft. De cyclus is eenvoudig."
+    },
+    {
+      "type": "p",
+      "text": "Dit is wat de meeste mensen bedoelen als ze 'agent-geheugen' zeggen. Het is het grootste kamp gemeten naar GitHub-sterren, en het kamp waar de meeste kopers standaard op uitkomen omdat de pitch eenvoudig is: uw chatbot onthoudt dat de gebruiker in Amsterdam woont."
+    },
+    {
+      "type": "table",
+      "headers": ["Product", "Sterren", "Waar het goed in is"],
+      "rows": [
+        [
+          "Mem0",
+          "53.1K",
+          "Vier bewerkingen: toevoegen, zoeken, bijwerken, verwijderen. Modelonafhankelijk."
+        ],
+        [
+          "MemPalace",
+          "46.2K",
+          "Lokale opslag van exacte tekst. 96.6% ophaalnauwkeurigheid op LongMemEval."
+        ],
+        [
+          "Supermemory",
+          "21.8K",
+          "Tijdsbewustzijn. Vervangt verouderde feiten wanneer gebruikers ze bijwerken."
+        ],
+        [
+          "Cognee",
+          "15.4K",
+          "Vectorzoeken gecombineerd met een graaf-database voor relationeel redeneren."
+        ],
+        [
+          "Honcho",
+          "2.4K",
+          "Asynce service die een psychologisch model van elke gebruiker opbouwt."
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Camp 1 is het juiste antwoord voor chatbots, het bewaren van gebruikersvoorkeuren en directe feitenophaling met een latentie onder de 200ms. Het is het verkeerde antwoord voor agenten die de *status* van lopend werk over vijf projecten, drie tools en twee maanden heen moeten begrijpen."
+    },
+    {
+      "type": "p",
+      "text": "De beperking is architecturaal, niet een implementatiekwestie. Een vector-database vertelt u wat de dichtstbijzijnde overeenkomst is met een zoekopdracht. Hij vertelt u niet wat er sinds vorige week is veranderd, waarom dat zo is, of hoe dat de beslissing beïnvloedt die u op het punt staat te nemen."
+    },
+    {
+      "type": "h2",
+      "text": "Camp 2: Contextsubstraten (Geoptimaliseerd voor Samengestelde Groei)"
+    },
+    {
+      "type": "p",
+      "text": "Camp 2 keert de cyclus om. In plaats van feiten uit gesprekken te extraheren naar een database, leest de agent gestructureerde, voor mensen leesbare contextbestanden, werkt daarbinnen en schrijft terug. Bij de volgende sessie is de context rijker. Er wordt niets 'geëxtraheerd'."
+    },
+    {
+      "type": "p",
+      "text": "Dit is het patroon dat Andrej Karpathy beschreef als de **LLM Wiki**: een persoonlijke kennisbank die het model eenmalig opbouwt en actueel houdt, in plaats van bij elke zoekopdracht opnieuw antwoorden af te leiden uit fragmenten. De sleuteleigenschap is samengestelde groei. De context verbetert door gebruik."
+    },
+    {
+      "type": "table",
+      "headers": ["Product", "Sterren", "Waar het goed in is"],
+      "rows": [
+        [
+          "OpenClaw",
+          "358K",
+          "Gewone markdown-geheugen (MEMORY.md, dagelijkse notities). Achtergrondconsolidatie bevordert duurzame patronen naar langetermijngeheugen."
+        ],
+        [
+          "Zep",
+          "4.4K",
+          "Temporele kennisgraaf met `valid_at`- en `invalid_at`-tijdstempels. Ophaling onder 200ms, SOC2- en HIPAA-conform."
+        ],
+        [
+          "TrustGraph",
+          "2.0K",
+          "Draagbare 'Context Cores': versioned bundels van domeinschema's, kennisgrafen en ophaalbeleid. Versiebeheer op context zoals op code."
+        ],
+        [
+          "MemSearch",
+          "1.2K",
+          "Markdown-first. Uitgebracht door Zilliz met hun eigen Milvus vector-database gepositioneerd als toegangslaag bovenop de bestanden."
+        ],
+        [
+          "Thoth",
+          "145",
+          "Diepe architectuur: 10 entiteitstypen, 67 getypeerde relaties, nachtelijke consolidatie met betrouwbaarheidsafname op oude relaties."
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Camp 2 is het juiste antwoord wanneer u een agent continu laat draaien, wanneer meerdere tools of meerdere agenten naar dezelfde kennisbank schrijven, of wanneer u wilt dat het systeem aantoonbaar beter wordt over weken en maanden zonder de pipeline elke keer te herbouwen."
+    },
+    {
+      "type": "p",
+      "text": "De eenvoudigste test: moet de agent weten wat er afgelopen dinsdag is gebeurd, of moet hij de *structuur* van uw bedrijf op dit moment kennen? De tweede vraag is een Camp 2-probleem."
+    },
     { "type": "h2", "text": "De Herpositionering Die Alles Zegt" },
-    { "type": "p", "text": "Het marktsignaal hier is vrij duidelijk. Twee publieke bewegingen, beide van bedrijven die geheugen verkopen, laten zien welk kamp aan het winnen is." },
-    { "type": "p", "text": "Zep noemde zichzelf vroeger een geheugenbedrijf. In 2026 veranderde het die positionering naar **Context Engineering**. Een gefinancierd bedrijf in deze markt herpositioneert zichzelf niet voor de lol. Ze deden het omdat de kopers die het meest betaalden waren opgehouden met vragen naar geheugen en begonnen waren met vragen naar context die samengesteld groeit." },
-    { "type": "p", "text": "Zilliz, het bedrijf achter Milvus, bracht MemSearch uit. MemSearch is een systeem waarbij markdown-bestanden de bron van waarheid zijn en de eigen vector-database van Zilliz downstream staat als toegangslaag. Dat is een vector-databasebedrijf dat publiekelijk toegeeft dat markdown upstream van vectors hoort." },
-    { "type": "p", "text": "Wij verwachten dat 'Context Engineering' in de loop van het komende jaar terrein wint als standaardterm voor deze laag van agentinfrastructuur. Begin productpagina's te lezen met die vervanging in gedachten en de werkelijke positionering wordt onmiddellijk duidelijk." },
+    {
+      "type": "p",
+      "text": "Het marktsignaal hier is vrij duidelijk. Twee publieke bewegingen, beide van bedrijven die geheugen verkopen, laten zien welk kamp aan het winnen is."
+    },
+    {
+      "type": "p",
+      "text": "Zep noemde zichzelf vroeger een geheugenbedrijf. In 2026 veranderde het die positionering naar **Context Engineering**. Een gefinancierd bedrijf in deze markt herpositioneert zichzelf niet voor de lol. Ze deden het omdat de kopers die het meest betaalden waren opgehouden met vragen naar geheugen en begonnen waren met vragen naar context die samengesteld groeit."
+    },
+    {
+      "type": "p",
+      "text": "Zilliz, het bedrijf achter Milvus, bracht MemSearch uit. MemSearch is een systeem waarbij markdown-bestanden de bron van waarheid zijn en de eigen vector-database van Zilliz downstream staat als toegangslaag. Dat is een vector-databasebedrijf dat publiekelijk toegeeft dat markdown upstream van vectors hoort."
+    },
+    {
+      "type": "p",
+      "text": "Wij verwachten dat 'Context Engineering' in de loop van het komende jaar terrein wint als standaardterm voor deze laag van agentinfrastructuur. Begin productpagina's te lezen met die vervanging in gedachten en de werkelijke positionering wordt onmiddellijk duidelijk."
+    },
     { "type": "h2", "text": "Hoe U Bepaalt Welk Kamp U Werkelijk Nodig Heeft" },
-    { "type": "p", "text": "Het beslissingskader, teruggebracht tot praktische regels." },
-    { "type": "table", "headers": ["U heeft Camp 1 (Geheugenbackend) nodig als...", "U heeft Camp 2 (Contextsubstraat) nodig als..."], "rows": [
-      ["Uw agent een chatbot is waarbij gebruikers verwachten dat hun voorkeuren worden onthouden.", "Uw agent continu of over meerdere sessies aan hetzelfde werk werkt."],
-      ["U feitenophaling onder 200ms nodig heeft met een overzichtelijke SDK.", "Meerdere tools of meerdere agenten naar dezelfde kennisbank schrijven."],
-      ["De taak is gebruikersvragen beantwoorden, niet over tijd beter worden in het werk.", "U meetbare verbetering over weken en maanden wilt zonder de pipeline te herbouwen."],
-      ["Een leveranciergebonden database als bron van waarheid acceptabel is.", "Overdraagbaarheid belangrijk is. Het substraat moet een leverancierswissel overleven."]
-    ] },
-    { "type": "p", "text": "De meeste zakelijk gerichte agenten vallen in Camp 2. Als uw agent salesonderzoek doet, klantaccountbeheer uitvoert, contentoperaties beheert, of iets waarbij de output over tijd scherper moet worden, koopt u Camp 1 hooguit als component, niet als systeem." },
-    { "type": "p", "text": "De dure vergissing is de omgekeerde. Een klantenservicebot gebouwd op een zwaar Camp 2-substraat voelt traag en overdreven complex aan. Pas het kamp aan op de taak, niet omgekeerd." },
+    {
+      "type": "p",
+      "text": "Het beslissingskader, teruggebracht tot praktische regels."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "U heeft Camp 1 (Geheugenbackend) nodig als...",
+        "U heeft Camp 2 (Contextsubstraat) nodig als..."
+      ],
+      "rows": [
+        [
+          "Uw agent een chatbot is waarbij gebruikers verwachten dat hun voorkeuren worden onthouden.",
+          "Uw agent continu of over meerdere sessies aan hetzelfde werk werkt."
+        ],
+        [
+          "U feitenophaling onder 200ms nodig heeft met een overzichtelijke SDK.",
+          "Meerdere tools of meerdere agenten naar dezelfde kennisbank schrijven."
+        ],
+        [
+          "De taak is gebruikersvragen beantwoorden, niet over tijd beter worden in het werk.",
+          "U meetbare verbetering over weken en maanden wilt zonder de pipeline te herbouwen."
+        ],
+        [
+          "Een leveranciergebonden database als bron van waarheid acceptabel is.",
+          "Overdraagbaarheid belangrijk is. Het substraat moet een leverancierswissel overleven."
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "De meeste zakelijk gerichte agenten vallen in Camp 2. Als uw agent salesonderzoek doet, klantaccountbeheer uitvoert, contentoperaties beheert, of iets waarbij de output over tijd scherper moet worden, koopt u Camp 1 hooguit als component, niet als systeem."
+    },
+    {
+      "type": "p",
+      "text": "De dure vergissing is de omgekeerde. Een klantenservicebot gebouwd op een zwaar Camp 2-substraat voelt traag en overdreven complex aan. Pas het kamp aan op de taak, niet omgekeerd."
+    },
     { "type": "h2", "text": "Wat Dit Betekent voor Uw Aankoopbeslissing" },
-    { "type": "p", "text": "Drie concrete aanbevelingen voordat u een contract tekent." },
-    { "type": "ul", "items": [
-      "**Begin met een prototype op markdown.** Voordat u een geheugenproduct koopt, bouwt u een prototype van de use case op een gewoon markdown-substraat plus een ophaallaag. Als dat prototype uw probleem oplost, had u Camp 1 nooit nodig.",
-      "**Beoordeel leveranciers op samengestelde groei, niet op ophalen.** Ophaalreferenties (LongMemEval en vergelijkbare) geven informatie over Camp 1. Ze vertellen u niet of het systeem in week 12 slimmer is dan in week 1. Ontwerp evaluaties die dat direct meten.",
-      "**Kies één schrijfpad.** Als u Camp 1 en Camp 2 stapelt, bepaal welke laag de eigenaar is van de schrijfacties. Twee systemen met overlappende schrijfpaden is hoe u eindigt met tegenstrijdige feiten die elkaar corrumperen."
-    ] },
-    { "type": "p", "text": "De [AI-kennislaag is de infrastructuur waarop dit rust](/blog/ai-knowledge-layer-guide), en de meeste bedrijven waarmee wij werken hebben geen nieuwe vector-database nodig om die te krijgen. Ze hebben het juiste substraat, het juiste schema en de discipline om het te laten samengroeien." },
-    { "type": "p", "text": "Als u agentinfrastructuur plant en een tweede mening wilt voordat u tekent, [helpt webvise bedrijven bij het bepalen van agentkennis-lagen die samengesteld groeien](/#contact). Praat met ons voordat u een kamp kiest." }
+    {
+      "type": "p",
+      "text": "Drie concrete aanbevelingen voordat u een contract tekent."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Begin met een prototype op markdown.** Voordat u een geheugenproduct koopt, bouwt u een prototype van de use case op een gewoon markdown-substraat plus een ophaallaag. Als dat prototype uw probleem oplost, had u Camp 1 nooit nodig.",
+        "**Beoordeel leveranciers op samengestelde groei, niet op ophalen.** Ophaalreferenties (LongMemEval en vergelijkbare) geven informatie over Camp 1. Ze vertellen u niet of het systeem in week 12 slimmer is dan in week 1. Ontwerp evaluaties die dat direct meten.",
+        "**Kies één schrijfpad.** Als u Camp 1 en Camp 2 stapelt, bepaal welke laag de eigenaar is van de schrijfacties. Twee systemen met overlappende schrijfpaden is hoe u eindigt met tegenstrijdige feiten die elkaar corrumperen."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "De [AI-kennislaag is de infrastructuur waarop dit rust](/blog/ai-knowledge-layer-guide), en de meeste bedrijven waarmee wij werken hebben geen nieuwe vector-database nodig om die te krijgen. Ze hebben het juiste substraat, het juiste schema en de discipline om het te laten samengroeien."
+    },
+    {
+      "type": "p",
+      "text": "Als u agentinfrastructuur plant en een tweede mening wilt voordat u tekent, [helpt webvise bedrijven bij het bepalen van agentkennis-lagen die samengesteld groeien](/#contact). Praat met ons voordat u een kamp kiest."
+    }
   ]
 }

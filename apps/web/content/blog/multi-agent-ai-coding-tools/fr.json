@@ -1,276 +1,276 @@
 {
-	"date": "2026-04-05",
-	"readingTime": 11,
-	"keyword": "outils de développement IA multi-agents",
-	"title": "oh-my-claudecode et oh-my-codex : comment l'orchestration multi-agents transforme le développement assisté par l'IA",
-	"excerpt": "Deux projets open source ont transformé Claude Code et OpenAI Codex CLI, passant d'assistants isolés à des équipes d'agents coordonnés. Voici comment oh-my-claudecode et oh-my-codex fonctionnent, ce qu'ils rendent possible, et pourquoi l'orchestration multi-agents est essentielle au développement professionnel.",
-	"metaDescription": "oh-my-claudecode et oh-my-codex apportent l'orchestration multi-agents à Claude Code et Codex CLI. Découvrez comment des équipes d'agents spécialisés, des flux de travail parallèles et des pipelines automatisés accélèrent le développement assisté par l'IA.",
-	"cta": "Explorer le développement assisté par l'IA",
-	"tags": ["AI Agents", "AI", "Open Source", "Automation"],
-	"blocks": [
-		{
-			"type": "p",
-			"text": "Les assistants de programmation IA se sont démocratisés en 2024. Dès 2025, des outils comme [Claude Code](https://docs.anthropic.com/en/docs/claude-code) et [OpenAI Codex CLI](https://github.com/openai/codex) ont offert aux développeurs une IA native dans le terminal, capable de lire des bases de code, d'écrire du code et d'exécuter des commandes. Mais ils partageaient une même limitation : un seul modèle, une seule tâche, une seule fenêtre de contexte. Pour de petites corrections, cela fonctionne. Pour tout ce qui implique plusieurs fichiers, des décisions architecturales et des contrôles qualité, un agent unique devient rapidement un goulot d'étranglement."
-		},
-		{
-			"type": "p",
-			"text": "Deux projets open source du développeur [Yeachan Heo](https://github.com/Yeachan-Heo) résolvent ce problème en transformant des assistants IA solitaires en équipes coordonnées. [oh-my-claudecode](https://github.com/yeachan-heo/oh-my-claudecode) (OMC) orchestre des flux de travail multi-agents pour Claude Code. [oh-my-codex](https://github.com/Yeachan-Heo/oh-my-codex) (OMX) fait de même pour OpenAI Codex CLI. Les deux projets ont figuré dans GitHub Trending début 2026, OMC comptant désormais plus de 24 000 étoiles et OMX dépassant les 16 000."
-		},
-		{
-			"type": "h2",
-			"text": "Le problème des agents uniques en programmation"
-		},
-		{
-			"type": "p",
-			"text": "Lorsque vous demandez à un assistant IA de développer une fonctionnalité, il opère dans une boucle linéaire : lire le code, générer une réponse, appliquer les modifications. Il n'existe aucune séparation entre la planification et l'exécution, aucune étape de révision dédiée, et aucun travail parallèle sur les fichiers. Le modèle qui écrit votre middleware d'authentification est le même qui le relit. C'est comme si un seul développeur écrivait, testait, révisait et déployait son propre code sans aucun regard extérieur."
-		},
-		{
-			"type": "p",
-			"text": "L'orchestration multi-agents rompt ce schéma. Au lieu d'un généraliste unique, vous disposez d'une équipe de spécialistes : un architecte qui planifie, un exécuteur qui implémente, un réviseur qui audite, un testeur qui vérifie. Chaque agent se concentre sur ce qu'il fait de mieux, et la couche d'orchestration coordonne leur travail."
-		},
-		{
-			"type": "h2",
-			"text": "Ce que fait oh-my-claudecode"
-		},
-		{
-			"type": "p",
-			"text": "oh-my-claudecode est un plugin sans configuration pour [Claude Code](/blog/ai-coding-tools-agents-enterprise-guide) qui ajoute l'orchestration multi-agents via des agents spécialisés, des compétences de flux de travail et des pipelines d'équipe. Il s'installe depuis la marketplace de plugins Claude Code et s'active avec une simple commande de configuration."
-		},
-		{
-			"type": "h3",
-			"text": "32 agents spécialisés"
-		},
-		{
-			"type": "p",
-			"text": "OMC est livré avec 32 agents basés sur des rôles, chacun optimisé pour une tâche spécifique. L'**architecte** gère la conception de systèmes et la stratégie de débogage. L'**exécuteur** écrit le code d'implémentation. Le **code-reviewer** audite les modifications pour la qualité et les conventions. Le **security-reviewer** analyse les vulnérabilités. Le **test-engineer** génère la couverture de tests. Le **planificateur** crée des plans d'implémentation détaillés avec des flux d'entretien."
-		},
-		{
-			"type": "p",
-			"text": "Chaque agent s'exécute avec un niveau de modèle approprié. Les recherches rapides utilisent Haiku pour la rapidité et l'efficacité des coûts. L'implémentation standard utilise Sonnet. Les décisions architecturales complexes et les analyses approfondies sont acheminées vers Opus. Ce routage automatique des modèles réduit les coûts de tokens par rapport à l'utilisation systématique du modèle le plus performant ; dans nos pipelines, nous observons des économies de l'ordre de 30 à 50 %, selon la répartition des tâches."
-		},
-		{
-			"type": "h3",
-			"text": "Plus de 40 compétences de flux de travail"
-		},
-		{
-			"type": "p",
-			"text": "Les compétences sont des flux de travail réutilisables déclenchés par des commandes simples. **Autopilot** détecte l'intention et orchestre les agents automatiquement. **Ralph** exécute une boucle auto-référentielle qui itère jusqu'à ce que la tâche passe la vérification. **Ultrawork** parallélise les tâches indépendantes sur plusieurs workers. **TDD** impose le développement piloté par les tests en exigeant des tests avant le code d'implémentation."
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**/autopilot** détecte votre intention et orchestre 19 agents, ajoutez \"fast\" pour le parallélisme ou \"don't stop\" pour la persistance",
-				"**/ralph** boucle planification, exécution, vérification, correction jusqu'à ce que la tâche soit terminée avec une vérification par l'architecte à chaque étape",
-				"**/ultrawork** exécute jusqu'à 5 workers simultanés pour les grands refactors, migrations ou générations de tests",
-				"**/team N** crée N agents coordonnés sur une liste de tâches partagée avec des worktrees git isolés",
-				"**/ccg** orchestration tri-modèle qui interroge Claude, Codex et Gemini, puis synthétise la meilleure réponse"
-			]
-		},
-		{
-			"type": "h3",
-			"text": "Pipelines d'équipe"
-		},
-		{
-			"type": "p",
-			"text": "Le pipeline d'équipe suit un cycle de vie structuré : **plan** (définir le périmètre et l'architecture), **PRD** (créer un document de spécifications produit), **exec** (implémenter avec des workers parallèles), **verify** (exécuter les vérifications automatisées) et **fix** (itérer sur les échecs). Chaque worker dispose d'un worktree git isolé, de sorte que les agents parallèles ne génèrent jamais de conflits de fusion."
-		},
-		{
-			"type": "h2",
-			"text": "Ce que fait oh-my-codex"
-		},
-		{
-			"type": "p",
-			"text": "[oh-my-codex](https://github.com/Yeachan-Heo/oh-my-codex) apporte la même philosophie d'orchestration à Codex CLI d'OpenAI. Il fournit 33 prompts spécialisés, 36 compétences de flux de travail et 5 serveurs MCP pour l'état, la mémoire, l'intelligence de code et le traçage."
-		},
-		{
-			"type": "p",
-			"text": "OMX ajoute des capacités absentes du Codex CLI de base : état persistant entre les sessions, orchestration d'équipe avec isolation des worktrees, suivi incrémental des fusions et délégation entre fournisseurs. Vous pouvez exécuter des agents Claude Code depuis un flux de travail Codex, ou faire tourner des workers Codex, Claude et Gemini côte à côte dans leurs propres worktrees."
-		},
-		{
-			"type": "h3",
-			"text": "Équipes multi-fournisseurs"
-		},
-		{
-			"type": "p",
-			"text": "L'une des fonctionnalités phares d'OMX est l'orchestration multi-fournisseurs. Un seul pipeline peut confier la génération de code à un modèle OpenAI, la révision architecturale à Claude et la recherche à Gemini. Les points forts de chaque fournisseur sont exploités là où ils comptent le plus, et la couche d'orchestration gère le passage de contexte entre eux."
-		},
-		{
-			"type": "h2",
-			"text": "Comparaison côte à côte"
-		},
-		{
-			"type": "table",
-			"headers": [
-				"Fonctionnalité",
-				"oh-my-claudecode (OMC)",
-				"oh-my-codex (OMX)"
-			],
-			"rows": [
-				["CLI de base", "Claude Code (Anthropic)", "Codex CLI (OpenAI)"],
-				["Agents spécialisés", "32", "33 prompts"],
-				["Compétences de flux de travail", "40+", "36"],
-				[
-					"Routage des modèles",
-					"Sélection automatique Haiku / Sonnet / Opus",
-					"Routage agnostique au fournisseur"
-				],
-				[
-					"Workers d'équipe",
-					"Jusqu'à 5 simultanés (Ultrapilot)",
-					"Équipes avec isolation par worktree"
-				],
-				[
-					"Multi-fournisseurs",
-					"CCG (Claude + Codex + Gemini)",
-					"Équipes multi-fournisseurs natives"
-				],
-				[
-					"État persistant",
-					"Serveurs MCP pour l'état et la mémoire",
-					"5 serveurs MCP (état, mémoire, intelligence de code, traçage)"
-				],
-				[
-					"Installation",
-					"Marketplace de plugins Claude Code",
-					"npm / système de plugins Codex"
-				],
-				["Étoiles GitHub", "24 000+", "16 000+"]
-			]
-		},
-		{
-			"type": "h2",
-			"text": "L'orchestration multi-agents en pratique"
-		},
-		{
-			"type": "p",
-			"text": "Prenons un cas concret : vous devez ajouter la prise en charge de l'internationalisation à une application existante. Avec un seul assistant IA, vous le guideriez étape par étape, en vérifiant manuellement chaque résultat. Avec l'orchestration multi-agents, le flux de travail est différent."
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Le planificateur** analyse la base de code et crée une décomposition des tâches avec des affectations par fichier",
-				"**L'architecte** conçoit l'architecture i18n, choisit les bibliothèques et définit les conventions",
-				"**Worker 1** extrait les chaînes codées en dur des composants vers des fichiers de traduction",
-				"**Worker 2** construit le mécanisme de changement de locale et le routage",
-				"**Worker 3** crée les fichiers de traduction pour chaque langue cible",
-				"**Le test engineer** génère des tests pour le changement de locale, le comportement de repli et le support RTL",
-				"**Le code reviewer** audite toutes les modifications pour la cohérence et les chaînes manquantes",
-				"**Le vérificateur** exécute la suite de tests complète et confirme que le build passe"
-			]
-		},
-		{
-			"type": "p",
-			"text": "Les workers 1, 2 et 3 s'exécutent en parallèle, chacun dans des worktrees git isolés. La couche d'orchestration fusionne leurs modifications, résout les éventuels conflits et transmet le résultat pour révision. La parallélisation comprime le temps écoulé par rapport à l'exécution séquentielle d'un agent unique ; la durée réelle dépend de la complexité de la tâche et des temps de réponse du modèle."
-		},
-		{
-			"type": "h2",
-			"text": "L'architecture derrière l'orchestration"
-		},
-		{
-			"type": "p",
-			"text": "OMC et OMX suivent tous deux un schéma architectural similaire. Au cœur se trouve un **système de hooks** qui intercepte les événements dans le CLI de base et les achemine vers la couche d'orchestration. Les hooks peuvent injecter du contexte, déclencher des compétences, gérer l'état et coordonner les agents sans modifier le CLI sous-jacent."
-		},
-		{
-			"type": "p",
-			"text": "Les **serveurs MCP (Model Context Protocol)** assurent la persistance. Les serveurs d'état suivent ce sur quoi chaque agent travaille. Les serveurs de mémoire stockent le contexte inter-sessions afin que les agents puissent référencer des décisions antérieures. Les serveurs d'intelligence de code fournissent directement aux agents des fonctionnalités similaires à LSP (survol, aller à la définition, rechercher les références). Les serveurs de traçage enregistrent les chronologies d'exécution pour déboguer les problèmes d'orchestration."
-		},
-		{
-			"type": "p",
-			"text": "Les **compétences** sont des définitions de flux de travail déclaratives. Elles précisent quels agents impliquer, dans quel ordre, avec quels critères de vérification. Une compétence comme \"ralph\" définit une boucle : planifier, exécuter, vérifier, corriger. Si la vérification échoue, la boucle recommence avec le contexte de l'échec. Cela supprime les allers-retours manuels qui ralentissent les flux de travail à agent unique."
-		},
-		{
-			"type": "h2",
-			"text": "Pourquoi cela va au-delà de la productivité individuelle"
-		},
-		{
-			"type": "p",
-			"text": "Le passage d'un agent unique à plusieurs agents ne concerne pas seulement la vitesse. Il introduit la **séparation des responsabilités** dans le développement assisté par l'IA. Lorsqu'un agent de révision de sécurité dédié analyse chaque modification, des vulnérabilités ont été détectées dans notre pipeline qu'un assistant généraliste n'avait pas identifiées. Lorsqu'un agent architecte valide les décisions structurelles avant le début de l'implémentation, vous évitez des réécritures coûteuses."
-		},
-		{
-			"type": "p",
-			"text": "Pour les équipes qui adoptent des [flux de travail de développement assisté par l'IA](/blog/ai-powered-development-workflow), les couches d'orchestration résolvent le problème de gouvernance. Vous pouvez imposer que chaque modification passe par un agent de révision avant d'être validée. Vous pouvez exiger une vérification de la couverture de tests avant la création d'une pull request. Ce sont les mêmes portes qualité qu'utilisent les équipes humaines, automatisées et cohérentes."
-		},
-		{
-			"type": "h2",
-			"text": "Considérations pratiques"
-		},
-		{
-			"type": "h3",
-			"text": "Coûts en tokens"
-		},
-		{
-			"type": "p",
-			"text": "Les flux de travail multi-agents consomment plus de tokens qu'un simple cycle prompt-réponse. OMC atténue cela grâce au routage automatique des modèles : les tâches simples sont dirigées vers des modèles moins coûteux, et le raisonnement complexe vers les modèles les plus performants. Les économies de tokens grâce au routage intelligent compensent généralement la surcharge d'orchestration dans nos pipelines. Pour les tâches importantes, le temps gagné grâce à l'exécution parallèle justifie généralement le coût."
-		},
-		{
-			"type": "h3",
-			"text": "Quand utiliser plusieurs agents ou un seul agent"
-		},
-		{
-			"type": "table",
-			"headers": ["Scénario", "Approche recommandée"],
-			"rows": [
-				[
-					"Correction rapide dans un seul fichier",
-					"Agent unique, prompt direct"
-				],
-				[
-					"Fonctionnalité couvrant 5 fichiers ou plus",
-					"Pipeline d'équipe avec workers parallèles"
-				],
-				[
-					"Grand refactor ou migration",
-					"Ultrawork / Ultrapilot pour un parallélisme maximal"
-				],
-				[
-					"Modifications sensibles à la sécurité",
-					"Pipeline avec agent de révision de sécurité obligatoire"
-				],
-				[
-					"Exploration d'une base de code inconnue",
-					"Autopilot avec agents de recherche et d'analyse"
-				],
-				[
-					"Génération d'une suite de tests",
-					"Test engineers parallèles par modules"
-				]
-			]
-		},
-		{
-			"type": "h3",
-			"text": "Pour commencer"
-		},
-		{
-			"type": "p",
-			"text": "Pour les utilisateurs de Claude Code, OMC s'installe depuis la marketplace de plugins. Lancez la commande de configuration et commencez avec **/autopilot** pour une orchestration guidée ou **/team 3** pour créer trois workers parallèles. Pour les utilisateurs de Codex CLI, OMX s'installe via npm et suit un schéma similaire. Les deux projets disposent d'une documentation complète et de communautés actives."
-		},
-		{
-			"type": "h2",
-			"text": "La vision d'ensemble : des copilotes aux équipes d'agents"
-		},
-		{
-			"type": "p",
-			"text": "L'évolution est claire. La première phase était l'autocomplétion (GitHub Copilot, 2022). La deuxième phase était la programmation par chat (ChatGPT, Claude, 2023). La troisième phase était les agents natifs dans le terminal (Claude Code, Codex CLI, 2025). Nous voyons la prochaine phase comme l'orchestration multi-agents. Des projets comme oh-my-claudecode et oh-my-codex représentent la première vague d'outils qui traitent la programmation IA non pas comme un assistant unique, mais comme une équipe coordonnée."
-		},
-		{
-			"type": "p",
-			"text": "Comme Addy Osmani [l'a écrit sur la programmation multi-agents](https://addyosmani.com/blog/code-agent-orchestra/), l'architecture réussie sépare la planification de l'exécution, utilise des rôles spécialisés et inclut la vérification comme étape de premier plan. OMC et OMX implémentent précisément ce schéma, le rendant accessible via de simples commandes CLI."
-		},
-		{
-			"type": "p",
-			"text": "La nature open source des deux projets signifie que la communauté pilote l'innovation. De nouveaux agents, compétences et schémas de flux de travail sont régulièrement contribués. Si l'orchestration de base ne correspond pas à votre flux de travail, vous pouvez l'étendre avec des agents et des compétences personnalisés."
-		},
-		{
-			"type": "h2",
-			"text": "Ce que cela signifie pour vos projets"
-		},
-		{
-			"type": "p",
-			"text": "L'orchestration multi-agents n'est plus un concept théorique. Elle est déployée dans des flux de travail de production aujourd'hui. Que vous construisiez une nouvelle application, migriez un système hérité ou mainteniez une base de code complexe, les outils existent pour avancer plus vite sans sacrifier la qualité."
-		},
-		{
-			"type": "p",
-			"text": "Chez **webvise**, nous intégrons des flux de travail de développement assisté par l'IA dans chaque projet que nous livrons. L'orchestration multi-agents accélère notre processus de l'architecture au déploiement, tandis que les agents de révision et de vérification intégrés maintiennent les standards de qualité attendus par nos clients. Si vous souhaitez découvrir comment les pratiques de développement modernes peuvent accélérer votre prochain projet, [contactez-nous](/#contact)."
-		}
-	]
+  "date": "2026-04-05",
+  "readingTime": 11,
+  "keyword": "outils de développement IA multi-agents",
+  "title": "oh-my-claudecode et oh-my-codex : comment l'orchestration multi-agents transforme le développement assisté par l'IA",
+  "excerpt": "Deux projets open source ont transformé Claude Code et OpenAI Codex CLI, passant d'assistants isolés à des équipes d'agents coordonnés. Voici comment oh-my-claudecode et oh-my-codex fonctionnent, ce qu'ils rendent possible, et pourquoi l'orchestration multi-agents est essentielle au développement professionnel.",
+  "metaDescription": "oh-my-claudecode et oh-my-codex apportent l'orchestration multi-agents à Claude Code et Codex CLI. Découvrez comment des équipes d'agents spécialisés, des flux de travail parallèles et des pipelines automatisés accélèrent le développement assisté par l'IA.",
+  "cta": "Explorer le développement assisté par l'IA",
+  "tags": ["AI Agents", "AI", "Open Source", "Automation"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Les assistants de programmation IA se sont démocratisés en 2024. Dès 2025, des outils comme [Claude Code](https://docs.anthropic.com/en/docs/claude-code) et [OpenAI Codex CLI](https://github.com/openai/codex) ont offert aux développeurs une IA native dans le terminal, capable de lire des bases de code, d'écrire du code et d'exécuter des commandes. Mais ils partageaient une même limitation : un seul modèle, une seule tâche, une seule fenêtre de contexte. Pour de petites corrections, cela fonctionne. Pour tout ce qui implique plusieurs fichiers, des décisions architecturales et des contrôles qualité, un agent unique devient rapidement un goulot d'étranglement."
+    },
+    {
+      "type": "p",
+      "text": "Deux projets open source du développeur [Yeachan Heo](https://github.com/Yeachan-Heo) résolvent ce problème en transformant des assistants IA solitaires en équipes coordonnées. [oh-my-claudecode](https://github.com/yeachan-heo/oh-my-claudecode) (OMC) orchestre des flux de travail multi-agents pour Claude Code. [oh-my-codex](https://github.com/Yeachan-Heo/oh-my-codex) (OMX) fait de même pour OpenAI Codex CLI. Les deux projets ont figuré dans GitHub Trending début 2026, OMC comptant désormais plus de 24 000 étoiles et OMX dépassant les 16 000."
+    },
+    {
+      "type": "h2",
+      "text": "Le problème des agents uniques en programmation"
+    },
+    {
+      "type": "p",
+      "text": "Lorsque vous demandez à un assistant IA de développer une fonctionnalité, il opère dans une boucle linéaire : lire le code, générer une réponse, appliquer les modifications. Il n'existe aucune séparation entre la planification et l'exécution, aucune étape de révision dédiée, et aucun travail parallèle sur les fichiers. Le modèle qui écrit votre middleware d'authentification est le même qui le relit. C'est comme si un seul développeur écrivait, testait, révisait et déployait son propre code sans aucun regard extérieur."
+    },
+    {
+      "type": "p",
+      "text": "L'orchestration multi-agents rompt ce schéma. Au lieu d'un généraliste unique, vous disposez d'une équipe de spécialistes : un architecte qui planifie, un exécuteur qui implémente, un réviseur qui audite, un testeur qui vérifie. Chaque agent se concentre sur ce qu'il fait de mieux, et la couche d'orchestration coordonne leur travail."
+    },
+    {
+      "type": "h2",
+      "text": "Ce que fait oh-my-claudecode"
+    },
+    {
+      "type": "p",
+      "text": "oh-my-claudecode est un plugin sans configuration pour [Claude Code](/blog/ai-coding-tools-agents-enterprise-guide) qui ajoute l'orchestration multi-agents via des agents spécialisés, des compétences de flux de travail et des pipelines d'équipe. Il s'installe depuis la marketplace de plugins Claude Code et s'active avec une simple commande de configuration."
+    },
+    {
+      "type": "h3",
+      "text": "32 agents spécialisés"
+    },
+    {
+      "type": "p",
+      "text": "OMC est livré avec 32 agents basés sur des rôles, chacun optimisé pour une tâche spécifique. L'**architecte** gère la conception de systèmes et la stratégie de débogage. L'**exécuteur** écrit le code d'implémentation. Le **code-reviewer** audite les modifications pour la qualité et les conventions. Le **security-reviewer** analyse les vulnérabilités. Le **test-engineer** génère la couverture de tests. Le **planificateur** crée des plans d'implémentation détaillés avec des flux d'entretien."
+    },
+    {
+      "type": "p",
+      "text": "Chaque agent s'exécute avec un niveau de modèle approprié. Les recherches rapides utilisent Haiku pour la rapidité et l'efficacité des coûts. L'implémentation standard utilise Sonnet. Les décisions architecturales complexes et les analyses approfondies sont acheminées vers Opus. Ce routage automatique des modèles réduit les coûts de tokens par rapport à l'utilisation systématique du modèle le plus performant ; dans nos pipelines, nous observons des économies de l'ordre de 30 à 50 %, selon la répartition des tâches."
+    },
+    {
+      "type": "h3",
+      "text": "Plus de 40 compétences de flux de travail"
+    },
+    {
+      "type": "p",
+      "text": "Les compétences sont des flux de travail réutilisables déclenchés par des commandes simples. **Autopilot** détecte l'intention et orchestre les agents automatiquement. **Ralph** exécute une boucle auto-référentielle qui itère jusqu'à ce que la tâche passe la vérification. **Ultrawork** parallélise les tâches indépendantes sur plusieurs workers. **TDD** impose le développement piloté par les tests en exigeant des tests avant le code d'implémentation."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**/autopilot** détecte votre intention et orchestre 19 agents, ajoutez \"fast\" pour le parallélisme ou \"don't stop\" pour la persistance",
+        "**/ralph** boucle planification, exécution, vérification, correction jusqu'à ce que la tâche soit terminée avec une vérification par l'architecte à chaque étape",
+        "**/ultrawork** exécute jusqu'à 5 workers simultanés pour les grands refactors, migrations ou générations de tests",
+        "**/team N** crée N agents coordonnés sur une liste de tâches partagée avec des worktrees git isolés",
+        "**/ccg** orchestration tri-modèle qui interroge Claude, Codex et Gemini, puis synthétise la meilleure réponse"
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "Pipelines d'équipe"
+    },
+    {
+      "type": "p",
+      "text": "Le pipeline d'équipe suit un cycle de vie structuré : **plan** (définir le périmètre et l'architecture), **PRD** (créer un document de spécifications produit), **exec** (implémenter avec des workers parallèles), **verify** (exécuter les vérifications automatisées) et **fix** (itérer sur les échecs). Chaque worker dispose d'un worktree git isolé, de sorte que les agents parallèles ne génèrent jamais de conflits de fusion."
+    },
+    {
+      "type": "h2",
+      "text": "Ce que fait oh-my-codex"
+    },
+    {
+      "type": "p",
+      "text": "[oh-my-codex](https://github.com/Yeachan-Heo/oh-my-codex) apporte la même philosophie d'orchestration à Codex CLI d'OpenAI. Il fournit 33 prompts spécialisés, 36 compétences de flux de travail et 5 serveurs MCP pour l'état, la mémoire, l'intelligence de code et le traçage."
+    },
+    {
+      "type": "p",
+      "text": "OMX ajoute des capacités absentes du Codex CLI de base : état persistant entre les sessions, orchestration d'équipe avec isolation des worktrees, suivi incrémental des fusions et délégation entre fournisseurs. Vous pouvez exécuter des agents Claude Code depuis un flux de travail Codex, ou faire tourner des workers Codex, Claude et Gemini côte à côte dans leurs propres worktrees."
+    },
+    {
+      "type": "h3",
+      "text": "Équipes multi-fournisseurs"
+    },
+    {
+      "type": "p",
+      "text": "L'une des fonctionnalités phares d'OMX est l'orchestration multi-fournisseurs. Un seul pipeline peut confier la génération de code à un modèle OpenAI, la révision architecturale à Claude et la recherche à Gemini. Les points forts de chaque fournisseur sont exploités là où ils comptent le plus, et la couche d'orchestration gère le passage de contexte entre eux."
+    },
+    {
+      "type": "h2",
+      "text": "Comparaison côte à côte"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Fonctionnalité",
+        "oh-my-claudecode (OMC)",
+        "oh-my-codex (OMX)"
+      ],
+      "rows": [
+        ["CLI de base", "Claude Code (Anthropic)", "Codex CLI (OpenAI)"],
+        ["Agents spécialisés", "32", "33 prompts"],
+        ["Compétences de flux de travail", "40+", "36"],
+        [
+          "Routage des modèles",
+          "Sélection automatique Haiku / Sonnet / Opus",
+          "Routage agnostique au fournisseur"
+        ],
+        [
+          "Workers d'équipe",
+          "Jusqu'à 5 simultanés (Ultrapilot)",
+          "Équipes avec isolation par worktree"
+        ],
+        [
+          "Multi-fournisseurs",
+          "CCG (Claude + Codex + Gemini)",
+          "Équipes multi-fournisseurs natives"
+        ],
+        [
+          "État persistant",
+          "Serveurs MCP pour l'état et la mémoire",
+          "5 serveurs MCP (état, mémoire, intelligence de code, traçage)"
+        ],
+        [
+          "Installation",
+          "Marketplace de plugins Claude Code",
+          "npm / système de plugins Codex"
+        ],
+        ["Étoiles GitHub", "24 000+", "16 000+"]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "L'orchestration multi-agents en pratique"
+    },
+    {
+      "type": "p",
+      "text": "Prenons un cas concret : vous devez ajouter la prise en charge de l'internationalisation à une application existante. Avec un seul assistant IA, vous le guideriez étape par étape, en vérifiant manuellement chaque résultat. Avec l'orchestration multi-agents, le flux de travail est différent."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Le planificateur** analyse la base de code et crée une décomposition des tâches avec des affectations par fichier",
+        "**L'architecte** conçoit l'architecture i18n, choisit les bibliothèques et définit les conventions",
+        "**Worker 1** extrait les chaînes codées en dur des composants vers des fichiers de traduction",
+        "**Worker 2** construit le mécanisme de changement de locale et le routage",
+        "**Worker 3** crée les fichiers de traduction pour chaque langue cible",
+        "**Le test engineer** génère des tests pour le changement de locale, le comportement de repli et le support RTL",
+        "**Le code reviewer** audite toutes les modifications pour la cohérence et les chaînes manquantes",
+        "**Le vérificateur** exécute la suite de tests complète et confirme que le build passe"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Les workers 1, 2 et 3 s'exécutent en parallèle, chacun dans des worktrees git isolés. La couche d'orchestration fusionne leurs modifications, résout les éventuels conflits et transmet le résultat pour révision. La parallélisation comprime le temps écoulé par rapport à l'exécution séquentielle d'un agent unique ; la durée réelle dépend de la complexité de la tâche et des temps de réponse du modèle."
+    },
+    {
+      "type": "h2",
+      "text": "L'architecture derrière l'orchestration"
+    },
+    {
+      "type": "p",
+      "text": "OMC et OMX suivent tous deux un schéma architectural similaire. Au cœur se trouve un **système de hooks** qui intercepte les événements dans le CLI de base et les achemine vers la couche d'orchestration. Les hooks peuvent injecter du contexte, déclencher des compétences, gérer l'état et coordonner les agents sans modifier le CLI sous-jacent."
+    },
+    {
+      "type": "p",
+      "text": "Les **serveurs MCP (Model Context Protocol)** assurent la persistance. Les serveurs d'état suivent ce sur quoi chaque agent travaille. Les serveurs de mémoire stockent le contexte inter-sessions afin que les agents puissent référencer des décisions antérieures. Les serveurs d'intelligence de code fournissent directement aux agents des fonctionnalités similaires à LSP (survol, aller à la définition, rechercher les références). Les serveurs de traçage enregistrent les chronologies d'exécution pour déboguer les problèmes d'orchestration."
+    },
+    {
+      "type": "p",
+      "text": "Les **compétences** sont des définitions de flux de travail déclaratives. Elles précisent quels agents impliquer, dans quel ordre, avec quels critères de vérification. Une compétence comme \"ralph\" définit une boucle : planifier, exécuter, vérifier, corriger. Si la vérification échoue, la boucle recommence avec le contexte de l'échec. Cela supprime les allers-retours manuels qui ralentissent les flux de travail à agent unique."
+    },
+    {
+      "type": "h2",
+      "text": "Pourquoi cela va au-delà de la productivité individuelle"
+    },
+    {
+      "type": "p",
+      "text": "Le passage d'un agent unique à plusieurs agents ne concerne pas seulement la vitesse. Il introduit la **séparation des responsabilités** dans le développement assisté par l'IA. Lorsqu'un agent de révision de sécurité dédié analyse chaque modification, des vulnérabilités ont été détectées dans notre pipeline qu'un assistant généraliste n'avait pas identifiées. Lorsqu'un agent architecte valide les décisions structurelles avant le début de l'implémentation, vous évitez des réécritures coûteuses."
+    },
+    {
+      "type": "p",
+      "text": "Pour les équipes qui adoptent des [flux de travail de développement assisté par l'IA](/blog/ai-powered-development-workflow), les couches d'orchestration résolvent le problème de gouvernance. Vous pouvez imposer que chaque modification passe par un agent de révision avant d'être validée. Vous pouvez exiger une vérification de la couverture de tests avant la création d'une pull request. Ce sont les mêmes portes qualité qu'utilisent les équipes humaines, automatisées et cohérentes."
+    },
+    {
+      "type": "h2",
+      "text": "Considérations pratiques"
+    },
+    {
+      "type": "h3",
+      "text": "Coûts en tokens"
+    },
+    {
+      "type": "p",
+      "text": "Les flux de travail multi-agents consomment plus de tokens qu'un simple cycle prompt-réponse. OMC atténue cela grâce au routage automatique des modèles : les tâches simples sont dirigées vers des modèles moins coûteux, et le raisonnement complexe vers les modèles les plus performants. Les économies de tokens grâce au routage intelligent compensent généralement la surcharge d'orchestration dans nos pipelines. Pour les tâches importantes, le temps gagné grâce à l'exécution parallèle justifie généralement le coût."
+    },
+    {
+      "type": "h3",
+      "text": "Quand utiliser plusieurs agents ou un seul agent"
+    },
+    {
+      "type": "table",
+      "headers": ["Scénario", "Approche recommandée"],
+      "rows": [
+        [
+          "Correction rapide dans un seul fichier",
+          "Agent unique, prompt direct"
+        ],
+        [
+          "Fonctionnalité couvrant 5 fichiers ou plus",
+          "Pipeline d'équipe avec workers parallèles"
+        ],
+        [
+          "Grand refactor ou migration",
+          "Ultrawork / Ultrapilot pour un parallélisme maximal"
+        ],
+        [
+          "Modifications sensibles à la sécurité",
+          "Pipeline avec agent de révision de sécurité obligatoire"
+        ],
+        [
+          "Exploration d'une base de code inconnue",
+          "Autopilot avec agents de recherche et d'analyse"
+        ],
+        [
+          "Génération d'une suite de tests",
+          "Test engineers parallèles par modules"
+        ]
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "Pour commencer"
+    },
+    {
+      "type": "p",
+      "text": "Pour les utilisateurs de Claude Code, OMC s'installe depuis la marketplace de plugins. Lancez la commande de configuration et commencez avec **/autopilot** pour une orchestration guidée ou **/team 3** pour créer trois workers parallèles. Pour les utilisateurs de Codex CLI, OMX s'installe via npm et suit un schéma similaire. Les deux projets disposent d'une documentation complète et de communautés actives."
+    },
+    {
+      "type": "h2",
+      "text": "La vision d'ensemble : des copilotes aux équipes d'agents"
+    },
+    {
+      "type": "p",
+      "text": "L'évolution est claire. La première phase était l'autocomplétion (GitHub Copilot, 2022). La deuxième phase était la programmation par chat (ChatGPT, Claude, 2023). La troisième phase était les agents natifs dans le terminal (Claude Code, Codex CLI, 2025). Nous voyons la prochaine phase comme l'orchestration multi-agents. Des projets comme oh-my-claudecode et oh-my-codex représentent la première vague d'outils qui traitent la programmation IA non pas comme un assistant unique, mais comme une équipe coordonnée."
+    },
+    {
+      "type": "p",
+      "text": "Comme Addy Osmani [l'a écrit sur la programmation multi-agents](https://addyosmani.com/blog/code-agent-orchestra/), l'architecture réussie sépare la planification de l'exécution, utilise des rôles spécialisés et inclut la vérification comme étape de premier plan. OMC et OMX implémentent précisément ce schéma, le rendant accessible via de simples commandes CLI."
+    },
+    {
+      "type": "p",
+      "text": "La nature open source des deux projets signifie que la communauté pilote l'innovation. De nouveaux agents, compétences et schémas de flux de travail sont régulièrement contribués. Si l'orchestration de base ne correspond pas à votre flux de travail, vous pouvez l'étendre avec des agents et des compétences personnalisés."
+    },
+    {
+      "type": "h2",
+      "text": "Ce que cela signifie pour vos projets"
+    },
+    {
+      "type": "p",
+      "text": "L'orchestration multi-agents n'est plus un concept théorique. Elle est déployée dans des flux de travail de production aujourd'hui. Que vous construisiez une nouvelle application, migriez un système hérité ou mainteniez une base de code complexe, les outils existent pour avancer plus vite sans sacrifier la qualité."
+    },
+    {
+      "type": "p",
+      "text": "Chez **webvise**, nous intégrons des flux de travail de développement assisté par l'IA dans chaque projet que nous livrons. L'orchestration multi-agents accélère notre processus de l'architecture au déploiement, tandis que les agents de révision et de vérification intégrés maintiennent les standards de qualité attendus par nos clients. Si vous souhaitez découvrir comment les pratiques de développement modernes peuvent accélérer votre prochain projet, [contactez-nous](/#contact)."
+    }
+  ]
 }

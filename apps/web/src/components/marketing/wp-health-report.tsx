@@ -23,35 +23,38 @@ import { track } from "@/lib/track";
 import { cn } from "@/lib/utils";
 
 interface ReportIssue {
-	title: string;
 	displayValue?: string;
 	savingsMs?: number;
+	title: string;
 }
 
 interface ReportVital {
-	label: string;
 	displayValue: string;
+	label: string;
 	score: number | null;
 }
 
 interface ReportData {
-	url: string;
-	mobile: { score: number };
 	desktop: { score: number };
 	issues: ReportIssue[];
-	vitals?: ReportVital[];
+	migrationEstimate: { min: number; max: number };
+	mobile: { score: number };
 	projectedScore: number;
 	securityFlags: string[];
-	migrationEstimate: { min: number; max: number };
+	url: string;
+	vitals?: ReportVital[];
 }
 
 function scoreColor(score: number | null) {
-	if (score === null)
+	if (score === null) {
 		return { text: "text-muted-foreground", stroke: "stroke-muted-foreground" };
-	if (score >= 90)
+	}
+	if (score >= 90) {
 		return { text: "text-green-500", stroke: "stroke-green-500" };
-	if (score >= 50)
+	}
+	if (score >= 50) {
 		return { text: "text-yellow-500", stroke: "stroke-yellow-500" };
+	}
 	return { text: "text-red-500", stroke: "stroke-red-500" };
 }
 
@@ -73,36 +76,36 @@ function ScoreRing({
 		<div className="flex flex-col items-center gap-1.5">
 			<div className="relative" style={{ width: size, height: size }}>
 				<svg
-					width={size}
-					height={size}
-					className="-rotate-90"
 					aria-hidden="true"
+					className="-rotate-90"
+					height={size}
+					width={size}
 				>
 					<circle
+						className="text-border"
 						cx={size / 2}
 						cy={size / 2}
-						r={radius}
 						fill="none"
+						r={radius}
 						stroke="currentColor"
 						strokeWidth={3}
-						className="text-border"
 					/>
 					<circle
+						className={cn("transition-all duration-1000", stroke)}
 						cx={size / 2}
 						cy={size / 2}
-						r={radius}
 						fill="none"
-						strokeWidth={3}
-						strokeLinecap="butt"
+						r={radius}
 						strokeDasharray={circumference}
 						strokeDashoffset={offset}
-						className={cn("transition-all duration-1000", stroke)}
+						strokeLinecap="butt"
+						strokeWidth={3}
 					/>
 				</svg>
 				<Body
 					className={cn(
 						"absolute inset-0 flex items-center justify-center font-medium text-base",
-						text,
+						text
 					)}
 				>
 					{score}
@@ -130,10 +133,10 @@ function ReportResults({ data }: { data: ReportData }) {
 			{/* Scores row */}
 			<div className="mt-8 grid grid-cols-2 gap-px overflow-hidden border border-border/40">
 				<div className="flex flex-col items-center justify-center p-4">
-					<ScoreRing score={data.mobile.score} label={t("results.mobile")} />
+					<ScoreRing label={t("results.mobile")} score={data.mobile.score} />
 				</div>
 				<div className="flex flex-col items-center justify-center border-border/40 border-l p-4">
-					<ScoreRing score={data.desktop.score} label={t("results.desktop")} />
+					<ScoreRing label={t("results.desktop")} score={data.desktop.score} />
 				</div>
 			</div>
 
@@ -144,8 +147,8 @@ function ReportResults({ data }: { data: ReportData }) {
 				</Caption>
 				<div className="flex justify-center">
 					<ScoreRing
-						score={data.projectedScore}
 						label={t("results.afterNextjs")}
+						score={data.projectedScore}
 						size={88}
 					/>
 				</div>
@@ -170,8 +173,8 @@ function ReportResults({ data }: { data: ReportData }) {
 								`results.vitalExplanations.${vital.label}` as const;
 							return (
 								<div
-									key={vital.label}
 									className="flex items-start gap-4 px-5 py-3"
+									key={vital.label}
 								>
 									<div
 										className="flex shrink-0 flex-col items-center gap-0.5"
@@ -201,8 +204,8 @@ function ReportResults({ data }: { data: ReportData }) {
 					<ul className="mt-3 space-y-2">
 						{data.securityFlags.map((flag) => (
 							<li
-								key={flag}
 								className="flex items-start gap-3 font-light text-sm"
+								key={flag}
 							>
 								<span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-yellow-500" />
 								<Body className="text-foreground text-sm">{flag}</Body>
@@ -236,15 +239,14 @@ function ReportResults({ data }: { data: ReportData }) {
 							// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
 							<a
 								href="https://cal.com/webvise"
-								target="_blank"
 								rel="noopener noreferrer"
+								target="_blank"
 							/>
 						}
 					>
 						{t("results.bookCall")}
 					</Button>
 					<Button
-						variant="outline"
 						className=""
 						onClick={() =>
 							track("cta_clicked", {
@@ -253,6 +255,7 @@ function ReportResults({ data }: { data: ReportData }) {
 							})
 						}
 						render={<Link href={{ pathname: "/", hash: "contact" }} />}
+						variant="outline"
 					>
 						{t("results.getInTouch")}
 					</Button>
@@ -287,7 +290,7 @@ function TeaserResults({
 	function handleUnlock(e: React.FormEvent) {
 		e.preventDefault();
 		const trimmed = email.trim();
-		if (!trimmed || !z.string().email().safeParse(trimmed).success) {
+		if (!(trimmed && z.string().email().safeParse(trimmed).success)) {
 			setEmailError(t("errors.emailInvalid"));
 			return;
 		}
@@ -308,10 +311,10 @@ function TeaserResults({
 			{/* Scores row */}
 			<div className="mt-8 grid grid-cols-2 gap-px overflow-hidden border border-border/40">
 				<div className="flex flex-col items-center justify-center p-4">
-					<ScoreRing score={data.mobile.score} label={t("results.mobile")} />
+					<ScoreRing label={t("results.mobile")} score={data.mobile.score} />
 				</div>
 				<div className="flex flex-col items-center justify-center border-border/40 border-l p-4">
-					<ScoreRing score={data.desktop.score} label={t("results.desktop")} />
+					<ScoreRing label={t("results.desktop")} score={data.desktop.score} />
 				</div>
 			</div>
 
@@ -322,8 +325,8 @@ function TeaserResults({
 				</Caption>
 				<div className="flex justify-center">
 					<ScoreRing
-						score={data.projectedScore}
 						label={t("results.afterNextjs")}
+						score={data.projectedScore}
 						size={88}
 					/>
 				</div>
@@ -334,30 +337,30 @@ function TeaserResults({
 
 			{/* Email gate */}
 			<form
-				onSubmit={handleUnlock}
 				className="mt-6 border border-border/40 p-6"
 				noValidate
+				onSubmit={handleUnlock}
 			>
 				<Body className="font-medium text-sm">{t("gate.title")}</Body>
 				<Caption className="mt-1 block">{t("gate.subtitle")}</Caption>
 				<div className="mt-4 grid gap-3 md:grid-cols-[1fr_1fr_auto]">
 					<Input
-						type="email"
-						value={email}
+						className="h-10 text-base md:h-8 md:text-xs"
 						onChange={(e) => setEmail(e.target.value)}
 						placeholder={t("form.emailPlaceholder")}
-						className="h-10 text-base md:h-8 md:text-xs"
 						required
+						type="email"
+						value={email}
 					/>
 					<Input
-						value={firstName}
+						className="h-10 text-base md:h-8 md:text-xs"
 						onChange={(e) => setFirstName(e.target.value)}
 						placeholder={t("form.namePlaceholder")}
-						className="h-10 text-base md:h-8 md:text-xs"
+						value={firstName}
 					/>
 					<Button
-						type="submit"
 						className="border-transparent bg-brand text-white md:h-8 md:text-xs [&]:hover:bg-brand/80"
+						type="submit"
 					>
 						{t("gate.unlock")}
 					</Button>
@@ -439,12 +442,14 @@ export default function WpHealthReport() {
 					email,
 					firstName: firstName || undefined,
 				}),
-			}).catch(() => {});
+			}).catch(() => {
+				// fire-and-forget
+			});
 		}
 	}
 
 	return (
-		<section id="wp-health-report" className="py-16 md:py-32">
+		<section className="py-16 md:py-32" id="wp-health-report">
 			<div className="mx-auto max-w-[1200px] px-6">
 				{phase === "form" && (
 					<>
@@ -463,7 +468,7 @@ export default function WpHealthReport() {
 
 								<ul className="mt-6 space-y-2">
 									{[0, 1, 2, 3].map((i) => (
-										<li key={i} className="flex items-start gap-3 text-sm">
+										<li className="flex items-start gap-3 text-sm" key={i}>
 											<span className="mt-1.5 h-1.5 w-1.5 shrink-0 bg-brand" />
 											<Body className="text-sm">{t(`hero.benefits.${i}`)}</Body>
 										</li>
@@ -474,23 +479,27 @@ export default function WpHealthReport() {
 							</div>
 
 							<form
+								aria-label={t("form.ariaLabel")}
+								autoComplete="off"
+								className="space-y-4 border border-border/40 p-5 md:p-8"
+								noValidate
 								onSubmit={(e) => {
 									e.preventDefault();
 									e.stopPropagation();
 									form.handleSubmit();
 								}}
-								className="space-y-4 border border-border/40 p-5 md:p-8"
-								aria-label={t("form.ariaLabel")}
-								noValidate
-								autoComplete="off"
 							>
 								<form.Field
 									name="url"
 									validators={{
 										onSubmit: ({ value }) => {
-											if (!value.trim()) return t("errors.urlRequired");
-											if (!isValidUrl(value)) return t("errors.urlInvalid");
-											return undefined;
+											if (!value.trim()) {
+												return t("errors.urlRequired");
+											}
+											if (!isValidUrl(value)) {
+												return t("errors.urlInvalid");
+											}
+											return;
 										},
 									}}
 								>
@@ -500,16 +509,16 @@ export default function WpHealthReport() {
 												{t("form.url")}
 											</FormLabel>
 											<Input
+												aria-invalid={field.state.meta.errors.length > 0}
+												autoComplete="off"
+												className="h-10 text-base md:h-8 md:text-xs"
 												id={field.name}
 												name={field.name}
-												type="url"
-												value={field.state.value}
 												onBlur={field.handleBlur}
 												onChange={(e) => field.handleChange(e.target.value)}
 												placeholder={t("form.urlPlaceholder")}
-												autoComplete="off"
-												aria-invalid={field.state.meta.errors.length > 0}
-												className="h-10 text-base md:h-8 md:text-xs"
+												type="url"
+												value={field.state.value}
 											/>
 											<FormMessage errors={field.state.meta.errors} />
 										</FormItem>
@@ -520,10 +529,10 @@ export default function WpHealthReport() {
 								>
 									{([canSubmit, isSubmitting]) => (
 										<SubmitButton
-											isSubmitting={isSubmitting}
-											disabled={!canSubmit}
-											size="lg"
 											className="w-full border-transparent bg-brand text-white md:h-8 md:text-xs [&]:hover:bg-brand/80"
+											disabled={!canSubmit}
+											isSubmitting={isSubmitting}
+											size="lg"
 										>
 											{t("form.submit")}
 										</SubmitButton>
@@ -532,9 +541,9 @@ export default function WpHealthReport() {
 								<Caption className="block text-center">
 									{t("form.noSignup")}
 								</Caption>
-								<div aria-live="polite" aria-atomic="true">
+								<div aria-atomic="true" aria-live="polite">
 									{errorMessage && (
-										<Body role="alert" className="text-destructive text-sm">
+										<Body className="text-destructive text-sm" role="alert">
 											{errorMessage}
 										</Body>
 									)}

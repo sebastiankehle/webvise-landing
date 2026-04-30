@@ -1,11 +1,11 @@
 "use client";
 
 import { ArrowRight, ChevronDown } from "lucide-react";
+import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { useCallback, useEffect, useRef, useState } from "react";
-
-import IconCloud from "@/components/marketing/icon-cloud";
 import Logo from "@/components/logo";
+import IconCloud from "@/components/marketing/icon-cloud";
 import LanguageSwitcher from "@/components/marketing/language-switcher";
 import { Button } from "@/components/ui/button";
 import { Body, Caption, H3, Label } from "@/components/ui/typography";
@@ -15,18 +15,18 @@ import { Link, usePathname } from "@/i18n/navigation";
 import { track } from "@/lib/track";
 
 export interface NavbarPost {
-	slug: string;
-	title: string;
 	date: string;
 	readingTime: number;
+	slug: string;
+	title: string;
 }
 
 export interface NavbarCaseStudy {
-	slug: string;
 	client: string;
-	title: string;
-	excerpt: string;
 	coverImage?: string;
+	excerpt: string;
+	slug: string;
+	title: string;
 }
 
 type NavHash = "services" | "case-studies" | "blog" | "pricing";
@@ -45,10 +45,11 @@ export default function Navbar({
 	featuredCaseStudies?: NavbarCaseStudy[];
 }) {
 	const [mobileOpen, setMobileOpen] = useState(false);
-	const [scrolled, setScrolled] = useState(false);
+	const [_scrolled, setScrolled] = useState(false);
 	const [activeDropdown, setActiveDropdown] = useState<NavHash | null>(null);
 	const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
 	const closeRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+	const dropdownRef = useRef<HTMLElement>(null);
 	const t = useTranslations("nav");
 	const ts = useTranslations("services");
 	const tpr = useTranslations("pricing");
@@ -87,11 +88,31 @@ export default function Navbar({
 
 	useEffect(() => {
 		const onKeyDown = (e: KeyboardEvent) => {
-			if (e.key === "Escape") setActiveDropdown(null);
+			if (e.key === "Escape") {
+				setActiveDropdown(null);
+			}
 		};
 		window.addEventListener("keydown", onKeyDown);
 		return () => window.removeEventListener("keydown", onKeyDown);
 	}, []);
+
+	useEffect(() => {
+		const node = dropdownRef.current;
+		if (!node) {
+			return;
+		}
+		const onEnter = () => {
+			if (activeDropdown) {
+				open(activeDropdown);
+			}
+		};
+		node.addEventListener("mouseenter", onEnter);
+		node.addEventListener("mouseleave", scheduleClose);
+		return () => {
+			node.removeEventListener("mouseenter", onEnter);
+			node.removeEventListener("mouseleave", scheduleClose);
+		};
+	}, [activeDropdown, open, scheduleClose]);
 
 	const handleNavClick = useCallback(
 		(e: React.MouseEvent, hash: string) => {
@@ -100,10 +121,12 @@ export default function Navbar({
 			if (pathname === "/") {
 				e.preventDefault();
 				const el = document.getElementById(hash);
-				if (el) el.scrollIntoView({ behavior: "smooth" });
+				if (el) {
+					el.scrollIntoView({ behavior: "smooth" });
+				}
 			}
 		},
-		[pathname, close],
+		[pathname, close]
 	);
 
 	const navLinks: { hash: NavHash; label: string }[] = [
@@ -115,14 +138,12 @@ export default function Navbar({
 
 	return (
 		<>
-			<header
-				className="sticky top-0 z-50 border-b border-grid-line bg-background"
-			>
+			<header className="sticky top-0 z-50 border-grid-line border-b bg-background">
 				<div className="mx-auto flex h-16 max-w-[1320px] items-center justify-between px-6 md:h-20">
 					<Link
-						href="/"
-						className="flex items-center gap-2.5"
 						aria-label="webvise - home"
+						className="flex items-center gap-2.5"
+						href="/"
 						onClick={(e) => {
 							if (pathname === "/") {
 								e.preventDefault();
@@ -130,12 +151,12 @@ export default function Navbar({
 								window.history.replaceState(
 									null,
 									"",
-									`/${locale === "en" ? "" : locale}`,
+									`/${locale === "en" ? "" : locale}`
 								);
 							}
 						}}
 					>
-						<Logo className="h-7 w-7" animated />
+						<Logo animated className="h-7 w-7" />
 						<Label className="font-display text-foreground text-xl tracking-[-0.02em]">
 							webvise
 						</Label>
@@ -147,16 +168,16 @@ export default function Navbar({
 					>
 						{navLinks.map(({ hash, label }) => (
 							<Link
-								key={hash}
-								href={{ pathname: "/", hash }}
 								className={`relative inline-flex h-full items-center px-4 text-[13px] transition-colors hover:text-foreground ${
 									activeDropdown === hash
 										? "text-foreground"
 										: "text-muted-foreground"
 								}`}
+								href={{ pathname: "/", hash }}
+								key={hash}
+								onClick={(e) => handleNavClick(e, hash)}
 								onMouseEnter={() => dropdownHashes.has(hash) && open(hash)}
 								onMouseLeave={() => dropdownHashes.has(hash) && scheduleClose()}
-								onClick={(e) => handleNavClick(e, hash)}
 							>
 								{label}
 								{activeDropdown === hash && (
@@ -183,15 +204,21 @@ export default function Navbar({
 					</div>
 
 					<button
-						type="button"
+						aria-label={mobileOpen ? "Close menu" : "Open menu"}
 						className="flex h-9 w-9 items-center justify-center border-0 md:hidden"
 						onClick={() => setMobileOpen(!mobileOpen)}
-						aria-label={mobileOpen ? "Close menu" : "Open menu"}
+						type="button"
 					>
 						<div className="flex w-[18px] flex-col gap-[5px]">
-							<span className={`block h-[1.5px] w-full origin-center bg-current transition-all duration-300 ${mobileOpen ? "translate-y-[6.5px] rotate-45" : ""}`} />
-							<span className={`block h-[1.5px] w-full bg-current transition-all duration-300 ${mobileOpen ? "scale-x-0 opacity-0" : ""}`} />
-							<span className={`block h-[1.5px] w-full origin-center bg-current transition-all duration-300 ${mobileOpen ? "-translate-y-[6.5px] -rotate-45" : ""}`} />
+							<span
+								className={`block h-[1.5px] w-full origin-center bg-current transition-all duration-300 ${mobileOpen ? "translate-y-[6.5px] rotate-45" : ""}`}
+							/>
+							<span
+								className={`block h-[1.5px] w-full bg-current transition-all duration-300 ${mobileOpen ? "scale-x-0 opacity-0" : ""}`}
+							/>
+							<span
+								className={`block h-[1.5px] w-full origin-center bg-current transition-all duration-300 ${mobileOpen ? "-translate-y-[6.5px] -rotate-45" : ""}`}
+							/>
 						</div>
 					</button>
 				</div>
@@ -199,12 +226,12 @@ export default function Navbar({
 
 			{activeDropdown && (
 				<button
-					type="button"
+					aria-label="Close menu"
 					className="fixed inset-0 z-30 hidden cursor-default transition-opacity duration-200 md:block"
 					onClick={close}
 					onMouseEnter={close}
 					tabIndex={-1}
-					aria-label="Close menu"
+					type="button"
 				/>
 			)}
 
@@ -215,8 +242,7 @@ export default function Navbar({
 						? "*:pointer-events-auto *:translate-y-0 *:opacity-100"
 						: "*:pointer-events-none *:-translate-y-2 *:opacity-0"
 				}`}
-				onMouseEnter={() => activeDropdown && open(activeDropdown)}
-				onMouseLeave={scheduleClose}
+				ref={dropdownRef}
 			>
 				<div className="w-full max-w-[720px] border border-border/40 bg-background shadow-xl transition-all duration-200 ease-out">
 					{activeDropdown === "services" && (
@@ -224,14 +250,14 @@ export default function Navbar({
 							<div className="grid grid-cols-3">
 								{services.map((service, i) => (
 									<Link
-										key={service.slug}
+										className={`group flex items-start gap-3 border-border/40 p-5 transition-colors hover:bg-muted/40 ${
+											i < 3 ? "border-b" : ""
+										} ${i % 3 === 2 ? "" : "border-r"}`}
 										href={{
 											pathname: "/services/[slug]",
 											params: { slug: service.slug },
 										}}
-										className={`group flex items-start gap-3 border-border/40 p-5 transition-colors hover:bg-muted/40 ${
-											i < 3 ? "border-b" : ""
-										} ${i % 3 !== 2 ? "border-r" : ""}`}
+										key={service.slug}
 										onClick={close}
 									>
 										<service.icon
@@ -250,8 +276,8 @@ export default function Navbar({
 								))}
 							</div>
 							<Link
-								href={{ pathname: "/", hash: "services" }}
 								className="group flex items-center justify-between border-border/40 border-t p-4 px-5 transition-colors hover:bg-muted/40"
+								href={{ pathname: "/", hash: "services" }}
 								onClick={(e) => handleNavClick(e, "services")}
 							>
 								<Caption className="text-brand">{ts("viewAll")}</Caption>
@@ -265,22 +291,24 @@ export default function Navbar({
 							<div className="grid grid-cols-3">
 								{featuredCaseStudies.map((cs, i) => (
 									<Link
-										key={cs.slug}
+										className={`group flex flex-col border-border/40 transition-colors hover:bg-muted/40 ${
+											i < 2 ? "border-r" : ""
+										} ${cs.coverImage ? "" : "p-5"}`}
 										href={{
 											pathname: "/case-studies/[slug]",
 											params: { slug: cs.slug },
 										}}
-										className={`group flex flex-col border-border/40 transition-colors hover:bg-muted/40 ${
-											i < 2 ? "border-r" : ""
-										} ${!cs.coverImage ? "p-5" : ""}`}
+										key={cs.slug}
 										onClick={close}
 									>
 										{cs.coverImage && (
 											<div className="relative aspect-[16/9] w-full overflow-hidden bg-muted/20">
-												<img
-													src={cs.coverImage}
+												<Image
 													alt={cs.title}
-													className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+													className="object-cover transition-transform duration-300 group-hover:scale-105"
+													fill
+													sizes="(max-width: 768px) 100vw, 240px"
+													src={cs.coverImage}
 												/>
 											</div>
 										)}
@@ -294,8 +322,8 @@ export default function Navbar({
 								))}
 							</div>
 							<Link
-								href="/case-studies"
 								className="group flex items-center justify-between border-border/40 border-t p-4 px-5 transition-colors hover:bg-muted/40"
+								href="/case-studies"
 								onClick={close}
 							>
 								<Caption className="text-brand">{tcs("viewAll")}</Caption>
@@ -309,19 +337,19 @@ export default function Navbar({
 							<div className="grid grid-cols-3">
 								{recentPosts.map((post, i) => (
 									<Link
-										key={post.slug}
+										className={`group flex flex-col border-border/40 p-5 transition-colors hover:bg-muted/40 ${
+											i < 2 ? "border-r" : ""
+										}`}
 										href={{
 											pathname: "/blog/[slug]",
 											params: { slug: post.slug },
 										}}
-										className={`group flex flex-col border-border/40 p-5 transition-colors hover:bg-muted/40 ${
-											i < 2 ? "border-r" : ""
-										}`}
+										key={post.slug}
 										onClick={close}
 									>
 										<time
-											dateTime={post.date}
 											className="text-muted-foreground text-xs"
+											dateTime={post.date}
 										>
 											{new Date(post.date).toLocaleDateString(locale, {
 												day: "numeric",
@@ -339,8 +367,8 @@ export default function Navbar({
 								))}
 							</div>
 							<Link
-								href="/blog"
 								className="group flex items-center justify-between border-border/40 border-t p-4 px-5 transition-colors hover:bg-muted/40"
+								href="/blog"
 								onClick={close}
 							>
 								<Caption className="text-brand">{tb("viewAll")}</Caption>
@@ -355,11 +383,11 @@ export default function Navbar({
 								{(["project", "growth", "enterprise"] as const).map(
 									(key, i) => (
 										<Link
-											key={key}
-											href={{ pathname: "/", hash: "pricing" }}
 											className={`group flex flex-col border-border/40 p-5 transition-colors hover:bg-muted/40 ${
 												i < 2 ? "border-r" : ""
 											}`}
+											href={{ pathname: "/", hash: "pricing" }}
+											key={key}
 											onClick={(e) => handleNavClick(e, "pricing")}
 										>
 											<div className="flex items-center gap-2">
@@ -380,12 +408,12 @@ export default function Navbar({
 											</H3>
 											<Caption>{tpr(`tiers.${key}.basis`)}</Caption>
 										</Link>
-									),
+									)
 								)}
 							</div>
 							<Link
-								href={{ pathname: "/", hash: "pricing" }}
 								className="group flex items-center justify-between border-border/40 border-t p-4 px-5 transition-colors hover:bg-muted/40"
+								href={{ pathname: "/", hash: "pricing" }}
 								onClick={(e) => handleNavClick(e, "pricing")}
 							>
 								<Caption className="text-brand">{tpr("cta")}</Caption>
@@ -396,120 +424,125 @@ export default function Navbar({
 				</div>
 			</nav>
 
-			<div className={`fixed inset-0 top-16 z-50 bg-background transition-opacity duration-300 md:hidden ${
+			<div
+				className={`fixed inset-0 top-16 z-50 bg-background transition-opacity duration-300 md:hidden ${
 					mobileOpen ? "opacity-100" : "pointer-events-none opacity-0"
-				}`}>
-					{/* Decorative icon cloud — mirrors hero placement, non-interactive */}
-					<div className="pointer-events-none absolute top-12 right-[-24px] opacity-25" aria-hidden="true">
-						<div className="h-[220px] w-[180px]">
-							{mobileOpen && <IconCloud />}
-						</div>
+				}`}
+			>
+				{/* Decorative icon cloud — mirrors hero placement, non-interactive */}
+				<div
+					aria-hidden="true"
+					className="pointer-events-none absolute top-12 right-[-24px] opacity-25"
+				>
+					<div className="h-[220px] w-[180px]">
+						{mobileOpen && <IconCloud />}
 					</div>
-					<nav
-						aria-label="Mobile navigation"
-						className="relative mx-auto flex h-full max-w-[1320px] flex-col overflow-y-auto px-6 pt-6 pb-6"
-					>
-						<div className="flex flex-col gap-0.5">
-							<button
-								type="button"
-								className="flex items-center justify-between py-4 text-foreground transition-colors hover:text-brand"
-								onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
-							>
-								<Label className="font-display text-foreground text-lg">
-									{t("services")}
-								</Label>
-								<span className="flex h-9 w-9 items-center justify-center">
-									<ChevronDown
-										className={`h-4 w-4 text-muted-foreground transition-transform duration-200 ${mobileServicesOpen ? "rotate-180" : ""}`}
-									/>
-								</span>
-							</button>
-							{mobileServicesOpen && (
-								<div className="mb-2 ml-1 flex flex-col gap-0.5 border-border/40 border-l pl-4">
-									{services.map(({ slug, translationKey, icon: Icon }) => (
-										<Link
-											key={slug}
-											href={{
-												pathname: "/services/[slug]",
-												params: { slug },
-											}}
-											className="flex items-center gap-3 py-2.5 text-muted-foreground text-sm transition-colors hover:text-foreground"
-											onClick={() => setMobileOpen(false)}
-										>
-											<Icon className="h-4 w-4 text-brand" strokeWidth={1.5} />
-											{ts(`${translationKey}.title`)}
-										</Link>
-									))}
-								</div>
-							)}
-
-							<Link
-								href={{ pathname: "/", hash: "case-studies" }}
-								className="py-4 text-left font-display text-foreground text-lg transition-colors hover:text-brand"
-								onClick={(e) => handleNavClick(e, "case-studies")}
-							>
-								{t("caseStudies")}
-							</Link>
-
-							<Link
-								href={{ pathname: "/", hash: "blog" }}
-								className="py-4 text-left font-display text-foreground text-lg transition-colors hover:text-brand"
-								onClick={(e) => handleNavClick(e, "blog")}
-							>
-								{t("blog")}
-							</Link>
-
-							<Link
-								href={{ pathname: "/", hash: "pricing" }}
-								className="py-4 text-left font-display text-foreground text-lg transition-colors hover:text-brand"
-								onClick={(e) => handleNavClick(e, "pricing")}
-							>
-								{t("pricing")}
-							</Link>
-						</div>
-
-						<div className="mt-auto space-y-6 border-border/40 border-t pt-6">
-							<div className="flex items-center justify-between">
-								<div className="flex items-center gap-2">
-									{socials.map((social) => (
-										<a
-											key={social.name}
-											href={social.href}
-											target="_blank"
-											rel="noopener noreferrer"
-											className="flex h-8 w-8 items-center justify-center border border-border/40 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-											aria-label={social.name}
-										>
-											{social.icon}
-										</a>
-									))}
-								</div>
-								<LanguageSwitcher id="lang-mobile" />
-							</div>
-							<Button
-								className="w-full border-transparent bg-brand text-white [&]:hover:bg-brand/80"
-								size="lg"
-								render={
-									<Link
-										href={{
-											pathname: "/",
-											hash: "contact",
-										}}
-									/>
-								}
-								onClick={() => {
-									track("cta_clicked", {
-										location: "navbar_mobile",
-										variant: "get_started",
-									});
-									setMobileOpen(false);
-								}}
-							>
-								{t("getStarted")}
-							</Button>
-						</div>
-					</nav>
 				</div>
+				<nav
+					aria-label="Mobile navigation"
+					className="relative mx-auto flex h-full max-w-[1320px] flex-col overflow-y-auto px-6 pt-6 pb-6"
+				>
+					<div className="flex flex-col gap-0.5">
+						<button
+							className="flex items-center justify-between py-4 text-foreground transition-colors hover:text-brand"
+							onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
+							type="button"
+						>
+							<Label className="font-display text-foreground text-lg">
+								{t("services")}
+							</Label>
+							<span className="flex h-9 w-9 items-center justify-center">
+								<ChevronDown
+									className={`h-4 w-4 text-muted-foreground transition-transform duration-200 ${mobileServicesOpen ? "rotate-180" : ""}`}
+								/>
+							</span>
+						</button>
+						{mobileServicesOpen && (
+							<div className="mb-2 ml-1 flex flex-col gap-0.5 border-border/40 border-l pl-4">
+								{services.map(({ slug, translationKey, icon: Icon }) => (
+									<Link
+										className="flex items-center gap-3 py-2.5 text-muted-foreground text-sm transition-colors hover:text-foreground"
+										href={{
+											pathname: "/services/[slug]",
+											params: { slug },
+										}}
+										key={slug}
+										onClick={() => setMobileOpen(false)}
+									>
+										<Icon className="h-4 w-4 text-brand" strokeWidth={1.5} />
+										{ts(`${translationKey}.title`)}
+									</Link>
+								))}
+							</div>
+						)}
+
+						<Link
+							className="py-4 text-left font-display text-foreground text-lg transition-colors hover:text-brand"
+							href={{ pathname: "/", hash: "case-studies" }}
+							onClick={(e) => handleNavClick(e, "case-studies")}
+						>
+							{t("caseStudies")}
+						</Link>
+
+						<Link
+							className="py-4 text-left font-display text-foreground text-lg transition-colors hover:text-brand"
+							href={{ pathname: "/", hash: "blog" }}
+							onClick={(e) => handleNavClick(e, "blog")}
+						>
+							{t("blog")}
+						</Link>
+
+						<Link
+							className="py-4 text-left font-display text-foreground text-lg transition-colors hover:text-brand"
+							href={{ pathname: "/", hash: "pricing" }}
+							onClick={(e) => handleNavClick(e, "pricing")}
+						>
+							{t("pricing")}
+						</Link>
+					</div>
+
+					<div className="mt-auto space-y-6 border-border/40 border-t pt-6">
+						<div className="flex items-center justify-between">
+							<div className="flex items-center gap-2">
+								{socials.map((social) => (
+									<a
+										aria-label={social.name}
+										className="flex h-8 w-8 items-center justify-center border border-border/40 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+										href={social.href}
+										key={social.name}
+										rel="noopener noreferrer"
+										target="_blank"
+									>
+										{social.icon}
+									</a>
+								))}
+							</div>
+							<LanguageSwitcher id="lang-mobile" />
+						</div>
+						<Button
+							className="w-full border-transparent bg-brand text-white [&]:hover:bg-brand/80"
+							onClick={() => {
+								track("cta_clicked", {
+									location: "navbar_mobile",
+									variant: "get_started",
+								});
+								setMobileOpen(false);
+							}}
+							render={
+								<Link
+									href={{
+										pathname: "/",
+										hash: "contact",
+									}}
+								/>
+							}
+							size="lg"
+						>
+							{t("getStarted")}
+						</Button>
+					</div>
+				</nav>
+			</div>
 		</>
 	);
 }

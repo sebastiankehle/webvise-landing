@@ -1,5 +1,7 @@
 import { escapeHtml } from "@/lib/escape-html";
 
+export { escapeHtml } from "@/lib/escape-html";
+
 // Design tokens matching the website's oklch color system, converted to hex for email compatibility
 // Brand: oklch(0.75 0.18 55) → #ff8918 (warm amber)
 // Dark header: oklch(0.14 0.015 250) → #141418 (near-black, blue-tinted)
@@ -20,8 +22,7 @@ const c = {
 	red: "#dc2626",
 } as const;
 
-const font =
-	"Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
+const font = "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
 const mono = "'Geist Mono', ui-monospace, SFMono-Regular, monospace";
 
 export function unsubscribeUrl(email: string): string {
@@ -52,8 +53,12 @@ export function emailLayout(opts: {
     <div style="height:2px;background:${c.brand}"></div>
     <div style="padding:28px">
       ${opts.content}
-    </div>${opts.footer ? `
-    <div style="border-top:1px solid ${c.border};padding:16px 28px">${opts.footer}</div>` : ""}
+    </div>${
+			opts.footer
+				? `
+    <div style="border-top:1px solid ${c.border};padding:16px 28px">${opts.footer}</div>`
+				: ""
+		}
     <div style="padding:16px 28px;border-top:1px solid ${c.border}">
       <span style="font-size:11px;color:${c.textFaint};font-family:${mono};letter-spacing:0.04em;text-transform:uppercase">WEBVISE.IO</span>
     </div>${unsubscribeHtml}
@@ -78,11 +83,15 @@ export const s = {
 	mono: `font-family:${mono};font-size:11px;letter-spacing:0.04em;text-transform:uppercase;color:${c.textFaint}`,
 } as const;
 
-export { c, escapeHtml };
+export { c };
 
 export function scoreColor(score: number): string {
-	if (score >= 90) return c.green;
-	if (score >= 50) return c.yellow;
+	if (score >= 90) {
+		return c.green;
+	}
+	if (score >= 50) {
+		return c.yellow;
+	}
 	return c.red;
 }
 

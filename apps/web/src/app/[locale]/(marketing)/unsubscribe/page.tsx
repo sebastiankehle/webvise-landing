@@ -1,6 +1,6 @@
+import { AlertTriangle, MailX } from "lucide-react";
 import type { Metadata } from "next";
-import { MailX, AlertTriangle } from "lucide-react";
-import { H1, Body, Muted } from "@/components/ui/typography";
+import { Body, H1, Muted } from "@/components/ui/typography";
 
 export const metadata: Metadata = {
 	title: "Unsubscribed",
@@ -29,8 +29,8 @@ export default async function UnsubscribePage({
 							We couldn&apos;t process your unsubscribe request. Please try
 							again or contact us at{" "}
 							<a
-								href="mailto:mail@webvise.io"
 								className="text-brand underline underline-offset-4 transition-opacity hover:opacity-80"
+								href="mailto:mail@webvise.io"
 							>
 								mail@webvise.io
 							</a>
@@ -53,8 +53,8 @@ export default async function UnsubscribePage({
 						<Muted className="mt-8">
 							Have a project in mind?{" "}
 							<a
-								href="https://cal.com/webvise"
 								className="text-brand underline underline-offset-4 transition-opacity hover:opacity-80"
+								href="https://cal.com/webvise"
 							>
 								Book a free call
 							</a>

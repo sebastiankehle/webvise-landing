@@ -1,146 +1,146 @@
 {
-	"title": "Warum viele WordPress-Websites bei der Ladegeschwindigkeit Probleme haben",
-	"excerpt": "Die durchschnittliche WordPress-Website erzielt 45–65 Punkte bei Google PageSpeed. Das ist oft unter dem optimalen Bereich - und viele gängige Optimierungen greifen zu kurz. Hier erfahren Sie, woran das liegt.",
-	"tags": ["WordPress", "Performance", "Web Development"],
-	"blocks": [
-		{
-			"type": "p",
-			"text": "Sie haben Zeit und Geld in Ihre WordPress-Website investiert. Sie haben ein Theme, einige Plugins, vielleicht sogar einen Page Builder. Aber jedes Mal, wenn Sie Ihren Google [PageSpeed](https://pagespeed.web.dev/)-Score prüfen, zucken Sie zusammen."
-		},
-		{
-			"type": "p",
-			"text": "Sie bilden sich das nicht ein. WordPress kann ohne sorgfältige Optimierung langsam werden - und viele gängige Fixes beheben nur Symptome, nicht die Ursache."
-		},
-		{
-			"type": "h2",
-			"text": "Was die Daten zeigen"
-		},
-		{
-			"type": "p",
-			"text": "Die durchschnittliche WordPress-Website erzielt **45–65 von 100 Punkten** bei Google PageSpeed für [Mobilgeräte](/blog/wordpress-slow-on-mobile). Das liegt oft unter dem optimalen Bereich. Alles unter 90 Punkten kostet Sie echtes Geld durch verlorene Conversions und schlechtere Suchrankings."
-		},
-		{
-			"type": "p",
-			"text": "Googles eigene Daten: Eine Verzögerung von 1 Sekunde reduziert [Conversions](/blog/website-speed-and-conversions) um **7 %**. Eine Verzögerung von 3 Sekunden verliert **53 % der mobilen Besucher**, bevor diese überhaupt Ihre Homepage sehen."
-		},
-		{
-			"type": "p",
-			"text": "Eine langsame Website - egal auf welcher Plattform - kann dazu führen, dass potenzielle Kunden abspringen."
-		},
-		{
-			"type": "h2",
-			"text": "Warum WordPress-Websites oft langsam laden"
-		},
-		{
-			"type": "h3",
-			"text": "1. PHP rendert jede Seite auf Anfrage"
-		},
-		{
-			"type": "p",
-			"text": "WordPress wird bei jedem Besuch serverseitig gerendert. Ein Nutzer ruft Ihre URL auf - Ihr Server führt PHP aus - PHP fragt die Datenbank ab - eine Seite wird zusammengestellt - sie wird an den Browser gesendet. Jedes einzelne Mal."
-		},
-		{
-			"type": "p",
-			"text": "Moderne Frameworks bauen Seiten vorab als statisches HTML und liefern sie über ein CDN. Keine Datenbankabfrage. Keine PHP-Ausführung. Nur eine Datei, die von einem Server 20ms entfernt geliefert wird."
-		},
-		{
-			"type": "h3",
-			"text": "2. Plugins häufen sich an"
-		},
-		{
-			"type": "p",
-			"text": "Die durchschnittliche WordPress-Website betreibt 20–30 Plugins. Jedes Plugin lädt eigene CSS-, JavaScript- und Datenbankabfragen. Sie koordinieren sich nicht miteinander. Sie enden mit 15 verschiedenen jQuery-Versionen, 8 separaten CSS-Dateien und einem Wasserfall von Netzwerkanfragen."
-		},
-		{
-			"type": "h3",
-			"text": "3. Shared Hosting verschlimmert das Problem"
-		},
-		{
-			"type": "p",
-			"text": "Die meisten WordPress-Websites laufen auf Shared Hosting - Servern, auf denen Hunderte von Websites um dieselbe CPU und RAM konkurrieren. Wenn der Traffic ansteigt, verlangsamt sich Ihre Website auf ein Kriechtempo. Ein Hosting-Plan für €5/Monat kann keinen echten Traffic bewältigen."
-		},
-		{
-			"type": "h3",
-			"text": "4. Bilder werden fast nie korrekt optimiert"
-		},
-		{
-			"type": "p",
-			"text": "WordPress-Bildverarbeitung ist reaktiv: Es erstellt mehrere Größen Ihrer Uploads, erzwingt jedoch keine modernen Formate wie WebP oder AVIF, lädt nicht alles standardmäßig lazy und liefert Bilder nicht von einem CDN-Edge-Node in der Nähe Ihrer Besucher."
-		},
-		{
-			"type": "h3",
-			"text": "5. Caching hilft, aber kaum"
-		},
-		{
-			"type": "p",
-			"text": "Ja, Sie können WP Rocket oder W3 Total Cache installieren. Diese Tools helfen. Allerdings arbeiten sie gegen architektonische Einschränkungen an, was ihre Wirkung begrenzt."
-		},
-		{
-			"type": "h2",
-			"text": "Wie eine schnelle Website wirklich aussieht"
-		},
-		{
-			"type": "p",
-			"text": "Bei einer repräsentativen WordPress-zu-Next.js-Migration, die wir durchgeführt haben, stieg der mobile PageSpeed von den niedrigen 40ern auf die mittleren 90er, der FCP von ca. 3,8 s auf unter 1 s, die TTI von über 8 s auf unter 1 s, und die Absprungrate sank im ersten Monat messbar. Die konkreten Ergebnisse variieren je nach Inhaltsgewicht, Drittanbieter-Skripten und Geräteprofil der Zielgruppe."
-		},
-		{
-			"type": "p",
-			"text": "Nach der [Migration](/blog/should-i-migrate-wordpress-to-nextjs):"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Mobile Score: mittlere 90er** (von niedrigen 40ern)",
-				"**First Contentful Paint: unter 1 s** (von ca. 3,8 s)",
-				"**Time to Interactive: unter 1 s** (von über 8 s)",
-				"**Absprungrate im ersten Monat messbar gesunken**"
-			]
-		},
-		{
-			"type": "p",
-			"text": "Gleicher Inhalt. Gleiches Branding. Völlig andere Architektur."
-		},
-		{
-			"type": "h2",
-			"text": "Die Herausforderung: WordPress wurde für andere Anforderungen entwickelt"
-		},
-		{
-			"type": "p",
-			"text": "WordPress wurde 2003 gebaut, um Blogs zu betreiben. Es ist eine bemerkenswerte Software, die das Web demokratisiert hat. Aber seine traditionelle Architektur stellt Teams, die maximale Ladegeschwindigkeit erreichen wollen, vor besondere Herausforderungen."
-		},
-		{
-			"type": "p",
-			"text": "Next.js-Websites hingegen sind:"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Statisch generiert** - Seiten sind HTML-Dateien, keine PHP-Skripte",
-				"**Edge-deployed** - ausgeliefert von 100+ globalen Standorten, nicht von einem einzigen Server",
-				"**JavaScript-nativ** - schnelles Hydration, sofortige Navigation zwischen Seiten",
-				"**Bildoptimiert ab Werk** - automatisches WebP, Lazy Loading, korrekte Größenanpassung"
-			]
-		},
-		{
-			"type": "h2",
-			"text": "Was Sie tun sollten"
-		},
-		{
-			"type": "p",
-			"text": "Wenn Ihre Website unter 70 Punkten bei PageSpeed liegt, haben Sie ein geschäftliches Problem, kein technisches."
-		},
-		{
-			"type": "p",
-			"text": "**Option 1: WordPress gezielt optimieren.** Besseres Hosting, Caching-Plugins und manuelle Bildoptimierung können helfen - erfordern aber laufende Pflege und bringen oft nur begrenzte Verbesserungen."
-		},
-		{
-			"type": "p",
-			"text": "**Option 2: Migrieren.** Wechseln Sie zu einem modernen Stack. Einmalig bezahlen, eine Website bekommen, die in unter einer Sekunde lädt, 90+ bei PageSpeed erzielt und keinerlei Plugin-Wartung erfordert."
-		},
-		{
-			"type": "p",
-			"text": "Wir führen diese [Migrationen](/services/wordpress-migration) bei webvise.io durch - KI-gestützte Umsetzung, Festpreisangebote, planbare Zeitrahmen. Wir prüfen Ihre WordPress-Website zuerst kostenlos, damit Sie genau wissen, was Sie bekommen."
-		}
-	],
-	"metaDescription": "Die meisten WordPress-Seiten: 45–65 im mobilen PageSpeed. Eine repräsentative Next.js-Migration brachte Scores von den niedrigen 40ern auf die mittleren 90er und senkte die Absprungrate messbar. Daten und Methode."
+  "title": "Warum viele WordPress-Websites bei der Ladegeschwindigkeit Probleme haben",
+  "excerpt": "Die durchschnittliche WordPress-Website erzielt 45–65 Punkte bei Google PageSpeed. Das ist oft unter dem optimalen Bereich - und viele gängige Optimierungen greifen zu kurz. Hier erfahren Sie, woran das liegt.",
+  "tags": ["WordPress", "Performance", "Web Development"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Sie haben Zeit und Geld in Ihre WordPress-Website investiert. Sie haben ein Theme, einige Plugins, vielleicht sogar einen Page Builder. Aber jedes Mal, wenn Sie Ihren Google [PageSpeed](https://pagespeed.web.dev/)-Score prüfen, zucken Sie zusammen."
+    },
+    {
+      "type": "p",
+      "text": "Sie bilden sich das nicht ein. WordPress kann ohne sorgfältige Optimierung langsam werden - und viele gängige Fixes beheben nur Symptome, nicht die Ursache."
+    },
+    {
+      "type": "h2",
+      "text": "Was die Daten zeigen"
+    },
+    {
+      "type": "p",
+      "text": "Die durchschnittliche WordPress-Website erzielt **45–65 von 100 Punkten** bei Google PageSpeed für [Mobilgeräte](/blog/wordpress-slow-on-mobile). Das liegt oft unter dem optimalen Bereich. Alles unter 90 Punkten kostet Sie echtes Geld durch verlorene Conversions und schlechtere Suchrankings."
+    },
+    {
+      "type": "p",
+      "text": "Googles eigene Daten: Eine Verzögerung von 1 Sekunde reduziert [Conversions](/blog/website-speed-and-conversions) um **7 %**. Eine Verzögerung von 3 Sekunden verliert **53 % der mobilen Besucher**, bevor diese überhaupt Ihre Homepage sehen."
+    },
+    {
+      "type": "p",
+      "text": "Eine langsame Website - egal auf welcher Plattform - kann dazu führen, dass potenzielle Kunden abspringen."
+    },
+    {
+      "type": "h2",
+      "text": "Warum WordPress-Websites oft langsam laden"
+    },
+    {
+      "type": "h3",
+      "text": "1. PHP rendert jede Seite auf Anfrage"
+    },
+    {
+      "type": "p",
+      "text": "WordPress wird bei jedem Besuch serverseitig gerendert. Ein Nutzer ruft Ihre URL auf - Ihr Server führt PHP aus - PHP fragt die Datenbank ab - eine Seite wird zusammengestellt - sie wird an den Browser gesendet. Jedes einzelne Mal."
+    },
+    {
+      "type": "p",
+      "text": "Moderne Frameworks bauen Seiten vorab als statisches HTML und liefern sie über ein CDN. Keine Datenbankabfrage. Keine PHP-Ausführung. Nur eine Datei, die von einem Server 20ms entfernt geliefert wird."
+    },
+    {
+      "type": "h3",
+      "text": "2. Plugins häufen sich an"
+    },
+    {
+      "type": "p",
+      "text": "Die durchschnittliche WordPress-Website betreibt 20–30 Plugins. Jedes Plugin lädt eigene CSS-, JavaScript- und Datenbankabfragen. Sie koordinieren sich nicht miteinander. Sie enden mit 15 verschiedenen jQuery-Versionen, 8 separaten CSS-Dateien und einem Wasserfall von Netzwerkanfragen."
+    },
+    {
+      "type": "h3",
+      "text": "3. Shared Hosting verschlimmert das Problem"
+    },
+    {
+      "type": "p",
+      "text": "Die meisten WordPress-Websites laufen auf Shared Hosting - Servern, auf denen Hunderte von Websites um dieselbe CPU und RAM konkurrieren. Wenn der Traffic ansteigt, verlangsamt sich Ihre Website auf ein Kriechtempo. Ein Hosting-Plan für €5/Monat kann keinen echten Traffic bewältigen."
+    },
+    {
+      "type": "h3",
+      "text": "4. Bilder werden fast nie korrekt optimiert"
+    },
+    {
+      "type": "p",
+      "text": "WordPress-Bildverarbeitung ist reaktiv: Es erstellt mehrere Größen Ihrer Uploads, erzwingt jedoch keine modernen Formate wie WebP oder AVIF, lädt nicht alles standardmäßig lazy und liefert Bilder nicht von einem CDN-Edge-Node in der Nähe Ihrer Besucher."
+    },
+    {
+      "type": "h3",
+      "text": "5. Caching hilft, aber kaum"
+    },
+    {
+      "type": "p",
+      "text": "Ja, Sie können WP Rocket oder W3 Total Cache installieren. Diese Tools helfen. Allerdings arbeiten sie gegen architektonische Einschränkungen an, was ihre Wirkung begrenzt."
+    },
+    {
+      "type": "h2",
+      "text": "Wie eine schnelle Website wirklich aussieht"
+    },
+    {
+      "type": "p",
+      "text": "Bei einer repräsentativen WordPress-zu-Next.js-Migration, die wir durchgeführt haben, stieg der mobile PageSpeed von den niedrigen 40ern auf die mittleren 90er, der FCP von ca. 3,8 s auf unter 1 s, die TTI von über 8 s auf unter 1 s, und die Absprungrate sank im ersten Monat messbar. Die konkreten Ergebnisse variieren je nach Inhaltsgewicht, Drittanbieter-Skripten und Geräteprofil der Zielgruppe."
+    },
+    {
+      "type": "p",
+      "text": "Nach der [Migration](/blog/should-i-migrate-wordpress-to-nextjs):"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Mobile Score: mittlere 90er** (von niedrigen 40ern)",
+        "**First Contentful Paint: unter 1 s** (von ca. 3,8 s)",
+        "**Time to Interactive: unter 1 s** (von über 8 s)",
+        "**Absprungrate im ersten Monat messbar gesunken**"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Gleicher Inhalt. Gleiches Branding. Völlig andere Architektur."
+    },
+    {
+      "type": "h2",
+      "text": "Die Herausforderung: WordPress wurde für andere Anforderungen entwickelt"
+    },
+    {
+      "type": "p",
+      "text": "WordPress wurde 2003 gebaut, um Blogs zu betreiben. Es ist eine bemerkenswerte Software, die das Web demokratisiert hat. Aber seine traditionelle Architektur stellt Teams, die maximale Ladegeschwindigkeit erreichen wollen, vor besondere Herausforderungen."
+    },
+    {
+      "type": "p",
+      "text": "Next.js-Websites hingegen sind:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Statisch generiert** - Seiten sind HTML-Dateien, keine PHP-Skripte",
+        "**Edge-deployed** - ausgeliefert von 100+ globalen Standorten, nicht von einem einzigen Server",
+        "**JavaScript-nativ** - schnelles Hydration, sofortige Navigation zwischen Seiten",
+        "**Bildoptimiert ab Werk** - automatisches WebP, Lazy Loading, korrekte Größenanpassung"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Was Sie tun sollten"
+    },
+    {
+      "type": "p",
+      "text": "Wenn Ihre Website unter 70 Punkten bei PageSpeed liegt, haben Sie ein geschäftliches Problem, kein technisches."
+    },
+    {
+      "type": "p",
+      "text": "**Option 1: WordPress gezielt optimieren.** Besseres Hosting, Caching-Plugins und manuelle Bildoptimierung können helfen - erfordern aber laufende Pflege und bringen oft nur begrenzte Verbesserungen."
+    },
+    {
+      "type": "p",
+      "text": "**Option 2: Migrieren.** Wechseln Sie zu einem modernen Stack. Einmalig bezahlen, eine Website bekommen, die in unter einer Sekunde lädt, 90+ bei PageSpeed erzielt und keinerlei Plugin-Wartung erfordert."
+    },
+    {
+      "type": "p",
+      "text": "Wir führen diese [Migrationen](/services/wordpress-migration) bei webvise.io durch - KI-gestützte Umsetzung, Festpreisangebote, planbare Zeitrahmen. Wir prüfen Ihre WordPress-Website zuerst kostenlos, damit Sie genau wissen, was Sie bekommen."
+    }
+  ],
+  "metaDescription": "Die meisten WordPress-Seiten: 45–65 im mobilen PageSpeed. Eine repräsentative Next.js-Migration brachte Scores von den niedrigen 40ern auf die mittleren 90er und senkte die Absprungrate messbar. Daten und Methode."
 }

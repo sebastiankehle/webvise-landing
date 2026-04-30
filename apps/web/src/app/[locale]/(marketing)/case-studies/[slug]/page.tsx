@@ -6,8 +6,8 @@ import { getLocale, getTranslations } from "next-intl/server";
 import JsonLd from "@/components/json-ld";
 import AnimatedStat from "@/components/marketing/animated-stat";
 import CaseStudyGallery from "@/components/marketing/case-study-gallery";
-import { GridFrame } from "@/components/marketing/section-wrapper";
 import CaseStudyHeroImage from "@/components/marketing/case-study-hero-image";
+import { GridFrame } from "@/components/marketing/section-wrapper";
 import StaggerChildren from "@/components/marketing/stagger-children";
 import { TechBadge } from "@/components/marketing/tech-badge";
 import {
@@ -35,7 +35,9 @@ export async function generateMetadata({
 	const { slug } = await params;
 	const locale = await getLocale();
 	const cs = getCaseStudyBySlug(slug, locale);
-	if (!cs) return {};
+	if (!cs) {
+		return {};
+	}
 
 	const path = `/case-studies/${slug}`;
 
@@ -162,12 +164,24 @@ export default async function CaseStudyPage({
 
 			{/* Header */}
 			<section className="relative pt-32 pb-24 md:pt-44 md:pb-36">
-				<div className="pointer-events-none absolute inset-y-0 left-0 hidden grid-hatch md:block md:w-[calc((100%-1320px)/2)]" aria-hidden="true" />
-				<div className="pointer-events-none absolute inset-y-0 right-0 hidden grid-hatch md:block md:w-[calc((100%-1320px)/2)]" aria-hidden="true" />
-				<div className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block" aria-hidden="true">
-					<div className="h-full border-x border-grid-line" />
+				<div
+					aria-hidden="true"
+					className="grid-hatch pointer-events-none absolute inset-y-0 left-0 hidden md:block md:w-[calc((100%-1320px)/2)]"
+				/>
+				<div
+					aria-hidden="true"
+					className="grid-hatch pointer-events-none absolute inset-y-0 right-0 hidden md:block md:w-[calc((100%-1320px)/2)]"
+				/>
+				<div
+					aria-hidden="true"
+					className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block"
+				>
+					<div className="h-full border-grid-line border-x" />
 				</div>
-				<div className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block" aria-hidden="true" />
+				<div
+					aria-hidden="true"
+					className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block"
+				/>
 				<GridFrame className="inset-0" />
 				<div className="relative mx-auto max-w-[1320px] px-6">
 					<div className="grid items-start gap-12 md:grid-cols-3 md:gap-16">
@@ -201,10 +215,10 @@ export default async function CaseStudyPage({
 									<Caption className="block">{t("liveProject")}</Caption>
 									{cs.liveUrl ? (
 										<a
-											href={cs.liveUrl}
-											target="_blank"
-											rel="noopener noreferrer"
 											className="mt-1 inline-flex items-center gap-1.5 text-brand text-sm transition-colors hover:text-brand/80"
+											href={cs.liveUrl}
+											rel="noopener noreferrer"
+											target="_blank"
 										>
 											{t("visitSite")}
 											<ExternalLink className="h-3 w-3" />
@@ -231,11 +245,23 @@ export default async function CaseStudyPage({
 
 			{/* Hero image + Testimonial */}
 			<section className="relative py-20 md:py-28">
-				<div className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block" aria-hidden="true" />
-				<div className="pointer-events-none absolute inset-y-0 left-0 hidden grid-hatch md:block md:w-[calc((100%-1320px)/2)]" aria-hidden="true" />
-				<div className="pointer-events-none absolute inset-y-0 right-0 hidden grid-hatch md:block md:w-[calc((100%-1320px)/2)]" aria-hidden="true" />
-				<div className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block" aria-hidden="true">
-					<div className="h-full border-x border-grid-line" />
+				<div
+					aria-hidden="true"
+					className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block"
+				/>
+				<div
+					aria-hidden="true"
+					className="grid-hatch pointer-events-none absolute inset-y-0 left-0 hidden md:block md:w-[calc((100%-1320px)/2)]"
+				/>
+				<div
+					aria-hidden="true"
+					className="grid-hatch pointer-events-none absolute inset-y-0 right-0 hidden md:block md:w-[calc((100%-1320px)/2)]"
+				/>
+				<div
+					aria-hidden="true"
+					className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block"
+				>
+					<div className="h-full border-grid-line border-x" />
 				</div>
 				<div className="relative mx-auto max-w-[1320px]">
 					<div className="grid items-start gap-3 md:grid-cols-3">
@@ -243,9 +269,9 @@ export default async function CaseStudyPage({
 						{cs.coverImage && (
 							<div className="md:col-span-2">
 								<CaseStudyHeroImage
-									src={cs.coverImage}
-									fullPageImage={cs.fullPageImage}
 									alt={`${cs.client} – ${cs.title}`}
+									fullPageImage={cs.fullPageImage}
+									src={cs.coverImage}
 								/>
 							</div>
 						)}
@@ -274,11 +300,23 @@ export default async function CaseStudyPage({
 
 			{/* Challenge / Solution */}
 			<section className="relative py-20 md:py-28">
-				<div className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block" aria-hidden="true" />
-				<div className="pointer-events-none absolute inset-y-0 left-0 hidden grid-hatch md:block md:w-[calc((100%-1320px)/2)]" aria-hidden="true" />
-				<div className="pointer-events-none absolute inset-y-0 right-0 hidden grid-hatch md:block md:w-[calc((100%-1320px)/2)]" aria-hidden="true" />
-				<div className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block" aria-hidden="true">
-					<div className="h-full border-x border-grid-line" />
+				<div
+					aria-hidden="true"
+					className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block"
+				/>
+				<div
+					aria-hidden="true"
+					className="grid-hatch pointer-events-none absolute inset-y-0 left-0 hidden md:block md:w-[calc((100%-1320px)/2)]"
+				/>
+				<div
+					aria-hidden="true"
+					className="grid-hatch pointer-events-none absolute inset-y-0 right-0 hidden md:block md:w-[calc((100%-1320px)/2)]"
+				/>
+				<div
+					aria-hidden="true"
+					className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block"
+				>
+					<div className="h-full border-grid-line border-x" />
 				</div>
 				<div className="relative mx-auto max-w-[1320px] px-6">
 					<div className="grid gap-16 md:grid-cols-2 md:gap-20">
@@ -296,19 +334,34 @@ export default async function CaseStudyPage({
 
 			{/* Metrics */}
 			{cs.metrics && cs.metrics.length > 0 && (
-				<section className="relative py-20 md:py-28" aria-label="Project metrics">
-					<div className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block" aria-hidden="true" />
-					<div className="pointer-events-none absolute inset-y-0 left-0 hidden grid-hatch md:block md:w-[calc((100%-1320px)/2)]" aria-hidden="true" />
-					<div className="pointer-events-none absolute inset-y-0 right-0 hidden grid-hatch md:block md:w-[calc((100%-1320px)/2)]" aria-hidden="true" />
-					<div className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block" aria-hidden="true">
-						<div className="h-full border-x border-grid-line" />
+				<section
+					aria-label="Project metrics"
+					className="relative py-20 md:py-28"
+				>
+					<div
+						aria-hidden="true"
+						className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block"
+					/>
+					<div
+						aria-hidden="true"
+						className="grid-hatch pointer-events-none absolute inset-y-0 left-0 hidden md:block md:w-[calc((100%-1320px)/2)]"
+					/>
+					<div
+						aria-hidden="true"
+						className="grid-hatch pointer-events-none absolute inset-y-0 right-0 hidden md:block md:w-[calc((100%-1320px)/2)]"
+					/>
+					<div
+						aria-hidden="true"
+						className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block"
+					>
+						<div className="h-full border-grid-line border-x" />
 					</div>
 					<div className="relative mx-auto max-w-[1320px] px-6">
 						<StaggerChildren className="-mx-6 grid grid-cols-2 border-grid-line border-t md:grid-cols-4">
 							{cs.metrics.map((metric) => (
 								<div
-									key={metric.label}
 									className="border-grid-line border-b p-6 md:border-r md:p-8 md:[&:nth-child(4n)]:border-r-0"
+									key={metric.label}
 								>
 									<AnimatedStat value={metric.value} />
 									<Small className="mt-3 block">{metric.label}</Small>
@@ -322,14 +375,26 @@ export default async function CaseStudyPage({
 			{/* Image gallery */}
 			{cs.images && cs.images.length > 0 && (
 				<section className="relative py-20 md:py-28">
-					<div className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block" aria-hidden="true" />
-					<div className="pointer-events-none absolute inset-y-0 left-0 hidden grid-hatch md:block md:w-[calc((100%-1320px)/2)]" aria-hidden="true" />
-					<div className="pointer-events-none absolute inset-y-0 right-0 hidden grid-hatch md:block md:w-[calc((100%-1320px)/2)]" aria-hidden="true" />
-					<div className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block" aria-hidden="true">
-						<div className="h-full border-x border-grid-line" />
+					<div
+						aria-hidden="true"
+						className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block"
+					/>
+					<div
+						aria-hidden="true"
+						className="grid-hatch pointer-events-none absolute inset-y-0 left-0 hidden md:block md:w-[calc((100%-1320px)/2)]"
+					/>
+					<div
+						aria-hidden="true"
+						className="grid-hatch pointer-events-none absolute inset-y-0 right-0 hidden md:block md:w-[calc((100%-1320px)/2)]"
+					/>
+					<div
+						aria-hidden="true"
+						className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block"
+					>
+						<div className="h-full border-grid-line border-x" />
 					</div>
 					<div className="relative mx-auto max-w-[1320px] px-6">
-						<CaseStudyGallery images={cs.images} alt={cs.client} />
+						<CaseStudyGallery alt={cs.client} images={cs.images} />
 					</div>
 				</section>
 			)}
@@ -338,32 +403,38 @@ export default async function CaseStudyPage({
 			{relatedCaseStudies.length > 0 && (
 				<section className="relative border-grid-line border-t pt-20 pb-28">
 					{/* Constructed grid */}
-					<div className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block" aria-hidden="true">
-						<div className="h-full border-x border-grid-line" />
+					<div
+						aria-hidden="true"
+						className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block"
+					>
+						<div className="h-full border-grid-line border-x" />
 					</div>
-					<div className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block" aria-hidden="true" />
+					<div
+						aria-hidden="true"
+						className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block"
+					/>
 					<GridFrame className="inset-0" />
 					<div className="relative mx-auto max-w-[1320px] px-6">
 						<H2>{t("relatedTitle")}</H2>
 						<div className="mt-10 grid gap-6 md:grid-cols-2">
 							{relatedCaseStudies.map((related) => (
 								<Link
-									key={related.slug}
+									className="group border border-border/40 transition-colors hover:border-brand/30"
 									href={{
 										pathname: "/case-studies/[slug]",
 										params: { slug: related.slug },
 									}}
-									className="group border border-border/40 transition-colors hover:border-brand/30"
+									key={related.slug}
 								>
 									{related.coverImage && (
 										<Image
-											src={related.coverImage}
 											alt={`${related.client} – ${related.title}`}
-											width={756}
-											height={383}
 											className="h-auto w-full"
-											sizes="(max-width: 768px) 100vw, 50vw"
+											height={383}
 											quality={80}
+											sizes="(max-width: 768px) 100vw, 50vw"
+											src={related.coverImage}
+											width={756}
 										/>
 									)}
 									<div className="p-6">

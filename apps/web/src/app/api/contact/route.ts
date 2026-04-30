@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { c, emailLayout, escapeHtml, s, tableRow } from "@/lib/email-template";
 import {
 	createRateLimiter,
 	getClientIP,
 	rateLimitResponse,
 } from "@/lib/rate-limit";
-import { c, emailLayout, escapeHtml, s, tableRow } from "@/lib/email-template";
 
 const limiter = createRateLimiter({
 	name: "contact",
@@ -48,7 +48,10 @@ function buildContactHtml(data: {
 
 	const rows = [
 		tableRow("Name", name),
-		tableRow("Email", `<a href="mailto:${email}" style="${s.link}">${email}</a>`),
+		tableRow(
+			"Email",
+			`<a href="mailto:${email}" style="${s.link}">${email}</a>`
+		),
 		company ? tableRow("Company", company) : "",
 		serviceLabel ? tableRow("Service", serviceLabel) : "",
 		tableRow("Received", data.timestamp),
@@ -60,10 +63,14 @@ function buildContactHtml(data: {
       <h1 style="${s.h1}">${name}${company ? ` · ${company}` : ""}</h1>
       ${serviceLabel ? `<p style="${s.label};color:${c.brand};margin-bottom:20px">${serviceLabel}</p>` : '<div style="margin-bottom:20px"></div>'}
       <table style="border-collapse:collapse;width:100%">${rows}</table>
-      ${message ? `
+      ${
+				message
+					? `
       <hr style="${s.hr}">
       <p style="${s.label}">Message</p>
-      <p style="margin:0;font-size:14px;color:#1a1a1a;line-height:1.6;white-space:pre-wrap">${message}</p>` : ""}
+      <p style="margin:0;font-size:14px;color:#1a1a1a;line-height:1.6;white-space:pre-wrap">${message}</p>`
+					: ""
+			}
       <div style="margin:24px 0 0">
         <a href="mailto:${email}?subject=Re: Your webvise inquiry" style="${s.button}">Reply to ${escapeHtml(data.name.split(" ")[0])}</a>
       </div>`,
@@ -72,7 +79,9 @@ function buildContactHtml(data: {
 
 export async function POST(request: Request) {
 	const { limited, retryAfterSec } = limiter.check(getClientIP(request));
-	if (limited) return rateLimitResponse(retryAfterSec);
+	if (limited) {
+		return rateLimitResponse(retryAfterSec);
+	}
 
 	try {
 		const body = await request.json();
@@ -85,7 +94,7 @@ export async function POST(request: Request) {
 			console.error("RESEND_API_KEY not configured");
 			return NextResponse.json(
 				{ error: "Email service not configured" },
-				{ status: 500 },
+				{ status: 500 }
 			);
 		}
 
@@ -142,7 +151,7 @@ export async function POST(request: Request) {
 			console.error("Resend error:", error);
 			return NextResponse.json(
 				{ error: "Failed to send email" },
-				{ status: 500 },
+				{ status: 500 }
 			);
 		}
 
@@ -151,13 +160,13 @@ export async function POST(request: Request) {
 		if (error instanceof z.ZodError) {
 			return NextResponse.json(
 				{ error: "Invalid input", details: error.issues },
-				{ status: 400 },
+				{ status: 400 }
 			);
 		}
 		console.error("Contact form error:", error);
 		return NextResponse.json(
 			{ error: "Internal server error" },
-			{ status: 500 },
+			{ status: 500 }
 		);
 	}
 }

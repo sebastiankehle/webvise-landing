@@ -19,7 +19,9 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function PrivacyPage() {
 	const locale = await getLocale();
 	const page = getLegalPage("privacy", locale);
-	if (!page) notFound();
+	if (!page) {
+		notFound();
+	}
 	const tt = await getTranslations("trust.blogBanner");
 
 	return (

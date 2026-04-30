@@ -34,8 +34,8 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 				<div className="grid gap-12 md:grid-cols-12">
 					{/* Brand column */}
 					<div className="md:col-span-3">
-						<Link href="/" className="flex items-center gap-2.5">
-							<Logo className="h-7 w-7" animated />
+						<Link className="flex items-center gap-2.5" href="/">
+							<Logo animated className="h-7 w-7" />
 							<Label className="font-display text-foreground text-xl tracking-[-0.02em]">
 								webvise
 							</Label>
@@ -49,12 +49,12 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 						<div className="mt-8 flex items-center gap-3">
 							{socials.map((social) => (
 								<a
-									key={social.name}
-									href={social.href}
-									target="_blank"
-									rel="noopener noreferrer"
-									className="flex h-8 w-8 items-center justify-center border border-[--border] text-muted-foreground transition-all hover:border-brand/40 hover:text-brand"
 									aria-label={social.name}
+									className="flex h-8 w-8 items-center justify-center border border-[--border] text-muted-foreground transition-all hover:border-brand/40 hover:text-brand"
+									href={social.href}
+									key={social.name}
+									rel="noopener noreferrer"
+									target="_blank"
 								>
 									{social.icon}
 								</a>
@@ -73,8 +73,8 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 								{companyLinks.map(({ hash, label }) => (
 									<li key={hash}>
 										<Link
-											href={{ pathname: "/", hash }}
 											className="text-muted-foreground text-sm transition-colors hover:text-[--foreground]"
+											href={{ pathname: "/", hash }}
 										>
 											{label}
 										</Link>
@@ -92,8 +92,8 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 								{services.map(({ slug, translationKey }) => (
 									<li key={slug}>
 										<Link
-											href={{ pathname: "/services/[slug]", params: { slug } }}
 											className="text-muted-foreground text-sm transition-colors hover:text-[--foreground]"
+											href={{ pathname: "/services/[slug]", params: { slug } }}
 										>
 											{ts(`${translationKey}.title`)}
 										</Link>
@@ -110,8 +110,8 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 							<ul className="space-y-3 text-sm">
 								<li>
 									<a
-										href={`mailto:${t("address.email")}`}
 										className="text-muted-foreground transition-colors hover:text-[--foreground]"
+										href={`mailto:${t("address.email")}`}
 									>
 										{t("address.email")}
 									</a>
@@ -132,24 +132,24 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 							<ul className="space-y-3">
 								<li>
 									<Link
-										href="/about"
 										className="text-muted-foreground text-sm transition-colors hover:text-[--foreground]"
+										href="/about"
 									>
 										{t("links.about")}
 									</Link>
 								</li>
 								<li>
 									<Link
-										href="/blog"
 										className="text-muted-foreground text-sm transition-colors hover:text-[--foreground]"
+										href="/blog"
 									>
 										{t("links.blog")}
 									</Link>
 								</li>
 								<li>
 									<Link
-										href="/case-studies"
 										className="text-muted-foreground text-sm transition-colors hover:text-[--foreground]"
+										href="/case-studies"
 									>
 										{t("links.caseStudies")}
 									</Link>
@@ -165,16 +165,16 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 							<ul className="space-y-3">
 								<li>
 									<Link
-										href="/media"
 										className="text-muted-foreground text-sm transition-colors hover:text-[--foreground]"
+										href="/media"
 									>
 										{t("links.media")}
 									</Link>
 								</li>
 								<li>
 									<Link
-										href="/wp-health-report"
 										className="text-muted-foreground text-sm transition-colors hover:text-[--foreground]"
+										href="/wp-health-report"
 									>
 										{tw("button")}
 									</Link>
@@ -188,10 +188,10 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 								{tb("divider")}
 							</Caption>
 							<NewsletterForm
-								placeholder={tb("placeholder")}
 								buttonLabel={tb("button")}
-								success={tb("success")}
 								error={tb("error")}
+								placeholder={tb("placeholder")}
+								success={tb("success")}
 							/>
 						</div>
 					</div>
@@ -206,20 +206,20 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 					</Caption>
 					<div className="flex gap-6 text-muted-foreground/60 text-xs">
 						<Link
-							href="/privacy"
 							className="transition-colors hover:text-[--foreground]"
+							href="/privacy"
 						>
 							{t("legal.privacy")}
 						</Link>
 						<Link
-							href="/terms"
 							className="transition-colors hover:text-[--foreground]"
+							href="/terms"
 						>
 							{t("legal.terms")}
 						</Link>
 						<Link
-							href="/imprint"
 							className="transition-colors hover:text-[--foreground]"
+							href="/imprint"
 						>
 							{t("legal.imprint")}
 						</Link>

@@ -1,186 +1,186 @@
 {
-	"date": "2026-04-13",
-	"readingTime": 7,
-	"keyword": "kontrakty behawioralne w kodowaniu z AI",
-	"title": "Od zasad do wyników: co 22 tys. gwiazdek przy jednym pliku CLAUDE.md mówi o programowaniu wspomaganym przez AI",
-	"excerpt": "Repozytorium karpathy-skills dowodzi, że wąskim gardłem w kodowaniu z AI nie jest zdolność modelu. To jakość kontraktu behawioralnego między człowiekiem a LLM.",
-	"metaDescription": "22 tys. gwiazdek na GitHub za jeden plik CLAUDE.md. Dlaczego kontrakty behawioralne między ludźmi a LLM mają większe znaczenie niż możliwości modelu w programowaniu wspomaganym przez AI.",
-	"tags": ["AI Agents", "AI", "Open Source", "Business Strategy"],
-	"blocks": [
-		{
-			"type": "p",
-			"text": "Wąskim gardłem w programowaniu wspomaganym przez AI nie jest zdolność modelu. To jakość kontraktu behawioralnego między człowiekiem a LLM. Zespoły, które kodują te kontrakty w swoim łańcuchu narzędzi, osiągają kumulujące się korzyści. Pozostałe wciąż zgłaszają te same raporty błędów dotyczące halucynowanych wyników."
-		},
-		{
-			"type": "p",
-			"text": "Dowodem jest [forrestchang/andrej-karpathy-skills](https://github.com/forrestchang/andrej-karpathy-skills) na GitHub. Jeden plik CLAUDE.md, który przekształca obserwacje Andreja Karpathy'ego na temat pułapek LLM w programowaniu w praktyczne zasady dla Claude Code. 22 700 gwiazdek. 1 800 forków. Za jeden plik."
-		},
-		{
-			"type": "p",
-			"text": "Ta liczba gwiazdek nie wynika z entuzjazmu wobec marki osobistej Karpathy'ego. To 22 000 deweloperów potwierdzających, że mają ten sam problem: asystenci AI do kodowania są potężni, ale nieprzewidywalni, a dobrze napisany kontrakt behawioralny to zmienia (liczba gwiazdek mierzy widoczność, a nie zweryfikowane wyniki)."
-		},
-		{
-			"type": "h2",
-			"text": "Cztery zasady stojące za 22 000 gwiazdek"
-		},
-		{
-			"type": "p",
-			"text": "Repozytorium koduje cztery zasady, z których każda celuje w konkretny tryb awarii w kodowaniu wspomaganym przez LLM:"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Myśl przed kodowaniem.** Ujawniaj założenia, przedstawiaj kompromisy, pytaj zamiast zgadywać. Celuje w tryb awarii, w którym LLM przechodzi do implementacji, zanim zrozumie problem.",
-				"**Prostota przede wszystkim.** Minimalny działający kod, bez spekulatywnych funkcji ani abstrakcji. Celuje w tryb awarii, w którym LLM nadmiernie komplikuje rozwiązania przez zbędną złożoność.",
-				"**Wykonanie zorientowane na cel.** Określaj kryteria sukcesu, nie instrukcje krok po kroku. Pozwól LLM iterować, aż kryteria zostaną spełnione. Celuje w tryb awarii, w którym imperatywne instrukcje prowadzą do kruchego, dosłownego kodu.",
-				"**Jawna komunikacja.** Żadnych milczących założeń. Każda decyzja udokumentowana. Celuje w tryb awarii, w którym LLM podejmuje wybory wyglądające sensownie, ale naruszające niewypowiedziane ograniczenia."
-			]
-		},
-		{
-			"type": "p",
-			"text": "Żadna z tych zasad nie jest zaskakująca sama w sobie. Zaskakuje to, że zakodowanie ich w jednym pliku robi różnicę między \"AI zmarnowało mi popołudnie\" a \"AI dostarczyło funkcję, gdy ja robiłem przegląd.\""
-		},
-		{
-			"type": "h2",
-			"text": "CLAUDE.md to nie jest przewodnik po stylu kodu"
-		},
-		{
-			"type": "p",
-			"text": "Większość zespołów traktuje swój plik CLAUDE.md (lub równoważny plik systemowego promptu) jak przewodnik po stylu kodu: preferencje formatowania, konwencje nazewnictwa, może kilka notatek specyficznych dla projektu. To całkowicie mija się z celem."
-		},
-		{
-			"type": "p",
-			"text": "CLAUDE.md to **kontrakt behawioralny**. Definiuje, jak agent AI rozumuje o problemach, kiedy prosi o wyjaśnienie, a kiedy przyjmuje założenia, jak określa zakres pracy i co weryfikuje przed ogłoszeniem ukończenia. Przewodniki po stylu mówią AI, jak powinien wyglądać kod. Kontrakty behawioralne mówią AI, jak ma myśleć."
-		},
-		{
-			"type": "p",
-			"text": "Własny przepływ pracy Karpathy'ego przy kodowaniu z AI potwierdza to podejście. Jego pętla (wypełnianie kontekstu, opisywanie zmiany, wybór podejścia, przegląd, testy, commit, powtórzenie) traktuje AI jak to, co sam nazywa \"nadgorliwym stażystą-sawantem\": encyklopedyczna wiedza, zerowy osąd. Kontrakt behawioralny dostarcza osądu, którego modelowi brakuje."
-		},
-		{
-			"type": "p",
-			"text": "Ta zmiana perspektywy ma konkretny skutek. Gdy agent AI produkuje złe wyniki, pytanie przesuwa się z \"czy model jest wystarczająco dobry?\" na \"czy kontrakt jest wystarczająco precyzyjny?\" Pierwsze pytanie prowadzi do oczekiwania na GPT-5. Drugie prowadzi do pull requesta, który można wysłać dzisiaj."
-		},
-		{
-			"type": "h2",
-			"text": "Skalowanie kontraktów behawioralnych do systemów wieloagentowych"
-		},
-		{
-			"type": "p",
-			"text": "Zasady Karpathy'ego zostały zaprojektowane dla indywidualnego dewelopera pracującego z jednym asystentem AI. Jednak ten sam wzorzec skaluje się do wieloagentowej orkiestracji, gdzie wyspecjalizowane agenty koordynują złożone zadania."
-		},
-		{
-			"type": "p",
-			"text": "Używamy [oh-my-claudecode](https://github.com/yeachan-heo/oh-my-claudecode) (OMC) -- open-source'owej wieloagentowej warstwy orkiestracji dla Claude Code -- do koordynacji 19 wyspecjalizowanych subagentów: architekta, executora, recenzenta, audytora bezpieczeństwa, inżyniera testów i innych. Każdy agent ma własny kontrakt behawioralny definiujący jego wzorce rozumowania, granice zakresu i wymagania weryfikacyjne."
-		},
-		{
-			"type": "table",
-			"headers": ["Wymiar", "Kontrakt jednoagentowy", "Kontrakt wieloagentowy"],
-			"rows": [
-				[
-					"Zakres",
-					"Jeden deweloper, jeden asystent",
-					"19 wyspecjalizowanych agentów z odrębnymi rolami"
-				],
-				[
-					"Weryfikacja",
-					"Człowiek przegląda wyniki AI",
-					"Agent recenzent sprawdza executora; człowiek przegląda wynik końcowy"
-				],
-				[
-					"Kontekst",
-					"Pełna baza kodu w jednym oknie",
-					"Każdy agent otrzymuje tylko kontekst istotny dla swojego zadania"
-				],
-				[
-					"Tryb awarii",
-					"AI nadmiernie komplikuje jeden plik",
-					"Agenty powielają pracę lub są ze sobą sprzeczne"
-				],
-				[
-					"Fokus kontraktu",
-					"Jak myśleć o tym kodzie",
-					"Kto odpowiada za które decyzje i jak działają przekazania"
-				]
-			]
-		},
-		{
-			"type": "p",
-			"text": "Dowodem koncepcji jest pełna integracja produktu obejmująca około 25 000 linii kodu aplikacji klienckiej w naszym potoku dostarczania, wygenerowana ze specyfikacji produktu przez potok agentów OMC. Liczba linii jest miarą przepustowości, nie jakości. Kontrakty behawioralne zdefiniowane w systemowym prompcie każdego agenta stanowiły główny wkład autorski człowieka poza samą specyfikacją."
-		},
-		{
-			"type": "p",
-			"text": "Ten wynik nie zależy od tego, czy model jest wystarczająco inteligentny. Claude był już wystarczająco inteligentny. Chodzi o to, że kontrakty były wystarczająco precyzyjne, by około 19 agentów mogło koordynować pracę bez nadpisywania pracy pozostałych."
-		},
-		{
-			"type": "h2",
-			"text": "Gdzie naprawdę leży przewaga konkurencyjna"
-		},
-		{
-			"type": "p",
-			"text": "Jeśli infrastruktura AI ulega komodyzacji (a tak jest, przy zarządzanych środowiskach uruchomieniowych dla agentów dostępnych już za 0,08 USD za godzinę sesji), pojawia się pytanie: gdzie leży trwała przewaga konkurencyjna?"
-		},
-		{
-			"type": "p",
-			"text": "Myślimy o tym jako o pięciowarstwowym stosie:"
-		},
-		{
-			"type": "table",
-			"headers": ["Warstwa", "Funkcja", "Obronność"],
-			"rows": [
-				[
-					"Infrastruktura",
-					"Hosting modeli, sandboxing, persystencja",
-					"Niska. Skomodyzowana. Wielu dostawców."
-				],
-				[
-					"Orkiestracja",
-					"Koordynacja wieloagentowa, kontrakty behawioralne",
-					"Średnia. Wymaga skumulowanej wiedzy praktycznej."
-				],
-				[
-					"Zasady projektowania",
-					"Inżynieria produktu zorientowana na agenty",
-					"Średnio-wysoka. Wymaga doświadczenia domenowego."
-				],
-				[
-					"Teza produktowa",
-					"Co budować i dla kogo",
-					"Wysoka. Wymaga wglądu rynkowego."
-				],
-				[
-					"Model biznesowy",
-					"Jak praca generuje przychody",
-					"Najwyższa. Wymaga relacji z klientami."
-				]
-			]
-		},
-		{
-			"type": "p",
-			"text": "Kontrakty behawioralne mieszczą się w warstwie orkiestracji. Nie jest to warstwa o najwyższej obronności, ale to warstwa, w której większość zespołów obecnie zawodzi. Prawidłowe opanowanie orkiestracji oddziela \"eksperymentowaliśmy z AI w kodowaniu\" od \"AI jest naszym sposobem na dostarczanie kodu.\""
-		},
-		{
-			"type": "p",
-			"text": "[Zasady inżynierii produktu zorientowanej na agenty od PostHog](https://posthog.com/blog/building-for-ai-agents) potwierdzają to od strony produktowej. Ich piąta zasada (\"traktuj agenty jak prawdziwych użytkowników\") to w istocie ten sam wniosek: AI potrzebuje jawnych, przetestowanych i zweryfikowanych ograniczeń, a nie domysłów."
-		},
-		{
-			"type": "h2",
-			"text": "Trzy wzorce warte wdrożenia"
-		},
-		{
-			"type": "p",
-			"text": "Jeśli masz wynieść jedno z repozytorium karpathy-skills, niech będą to te trzy wzorce dla Twojego zespołu:"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Pisz kryteria sukcesu, nie instrukcje.** Zasada Wykonania Zorientowanego na Cel Karpathy'ego działa, ponieważ LLM lepiej iteruje ku mierzalnemu celowi niż podąża za krokami proceduralnym. Zdefiniuj, jak wygląda \"ukończone\". Pozwól agentowi dojść do tego samemu.",
-				"**Oddziel tworzenie od przeglądu.** W systemach wieloagentowych agent piszący kod nie powinien nigdy być agentem, który go zatwierdza. W przepływach jednoagentowych ta sama zasada dotyczy Ciebie: przeglądaj wyniki AI z taką samą rzetelnością, jaką stosowałbyś do pull requesta młodszego dewelopera.",
-				"**Wersjonuj kontrakty jak kod.** Twój CLAUDE.md, systemowe prompty i definicje agentów to artefakty produkcyjne. Należą do kontroli wersji, zasługują na code review i powinny ewoluować na podstawie zaobserwowanych awarii. Samo repozytorium karpathy-skills jest dowodem: to wersjonowany, recenzowany przez społeczność kontrakt behawioralny."
-			]
-		},
-		{
-			"type": "p",
-			"text": "Te 22 000 gwiazdek nie trafia do porad Karpathy'ego na temat kodowania. Trafia do idei, że różnica między narzędziami AI produkującymi szum a narzędziami AI dostarczającymi gotowe do wdrożenia funkcje często sprowadza się do dobrze napisanego pliku kontraktów. W [webvise](https://webvise.io) budujemy na tej idei każdego dnia. Jeśli chcesz zbadać, co kontrakty behawioralne i wieloagentowa orkiestracja mogłyby zrobić dla Twojego przepływu pracy deweloperskiej, [skontaktuj się z nami](/#contact)."
-		}
-	]
+  "date": "2026-04-13",
+  "readingTime": 7,
+  "keyword": "kontrakty behawioralne w kodowaniu z AI",
+  "title": "Od zasad do wyników: co 22 tys. gwiazdek przy jednym pliku CLAUDE.md mówi o programowaniu wspomaganym przez AI",
+  "excerpt": "Repozytorium karpathy-skills dowodzi, że wąskim gardłem w kodowaniu z AI nie jest zdolność modelu. To jakość kontraktu behawioralnego między człowiekiem a LLM.",
+  "metaDescription": "22 tys. gwiazdek na GitHub za jeden plik CLAUDE.md. Dlaczego kontrakty behawioralne między ludźmi a LLM mają większe znaczenie niż możliwości modelu w programowaniu wspomaganym przez AI.",
+  "tags": ["AI Agents", "AI", "Open Source", "Business Strategy"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Wąskim gardłem w programowaniu wspomaganym przez AI nie jest zdolność modelu. To jakość kontraktu behawioralnego między człowiekiem a LLM. Zespoły, które kodują te kontrakty w swoim łańcuchu narzędzi, osiągają kumulujące się korzyści. Pozostałe wciąż zgłaszają te same raporty błędów dotyczące halucynowanych wyników."
+    },
+    {
+      "type": "p",
+      "text": "Dowodem jest [forrestchang/andrej-karpathy-skills](https://github.com/forrestchang/andrej-karpathy-skills) na GitHub. Jeden plik CLAUDE.md, który przekształca obserwacje Andreja Karpathy'ego na temat pułapek LLM w programowaniu w praktyczne zasady dla Claude Code. 22 700 gwiazdek. 1 800 forków. Za jeden plik."
+    },
+    {
+      "type": "p",
+      "text": "Ta liczba gwiazdek nie wynika z entuzjazmu wobec marki osobistej Karpathy'ego. To 22 000 deweloperów potwierdzających, że mają ten sam problem: asystenci AI do kodowania są potężni, ale nieprzewidywalni, a dobrze napisany kontrakt behawioralny to zmienia (liczba gwiazdek mierzy widoczność, a nie zweryfikowane wyniki)."
+    },
+    {
+      "type": "h2",
+      "text": "Cztery zasady stojące za 22 000 gwiazdek"
+    },
+    {
+      "type": "p",
+      "text": "Repozytorium koduje cztery zasady, z których każda celuje w konkretny tryb awarii w kodowaniu wspomaganym przez LLM:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Myśl przed kodowaniem.** Ujawniaj założenia, przedstawiaj kompromisy, pytaj zamiast zgadywać. Celuje w tryb awarii, w którym LLM przechodzi do implementacji, zanim zrozumie problem.",
+        "**Prostota przede wszystkim.** Minimalny działający kod, bez spekulatywnych funkcji ani abstrakcji. Celuje w tryb awarii, w którym LLM nadmiernie komplikuje rozwiązania przez zbędną złożoność.",
+        "**Wykonanie zorientowane na cel.** Określaj kryteria sukcesu, nie instrukcje krok po kroku. Pozwól LLM iterować, aż kryteria zostaną spełnione. Celuje w tryb awarii, w którym imperatywne instrukcje prowadzą do kruchego, dosłownego kodu.",
+        "**Jawna komunikacja.** Żadnych milczących założeń. Każda decyzja udokumentowana. Celuje w tryb awarii, w którym LLM podejmuje wybory wyglądające sensownie, ale naruszające niewypowiedziane ograniczenia."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Żadna z tych zasad nie jest zaskakująca sama w sobie. Zaskakuje to, że zakodowanie ich w jednym pliku robi różnicę między \"AI zmarnowało mi popołudnie\" a \"AI dostarczyło funkcję, gdy ja robiłem przegląd.\""
+    },
+    {
+      "type": "h2",
+      "text": "CLAUDE.md to nie jest przewodnik po stylu kodu"
+    },
+    {
+      "type": "p",
+      "text": "Większość zespołów traktuje swój plik CLAUDE.md (lub równoważny plik systemowego promptu) jak przewodnik po stylu kodu: preferencje formatowania, konwencje nazewnictwa, może kilka notatek specyficznych dla projektu. To całkowicie mija się z celem."
+    },
+    {
+      "type": "p",
+      "text": "CLAUDE.md to **kontrakt behawioralny**. Definiuje, jak agent AI rozumuje o problemach, kiedy prosi o wyjaśnienie, a kiedy przyjmuje założenia, jak określa zakres pracy i co weryfikuje przed ogłoszeniem ukończenia. Przewodniki po stylu mówią AI, jak powinien wyglądać kod. Kontrakty behawioralne mówią AI, jak ma myśleć."
+    },
+    {
+      "type": "p",
+      "text": "Własny przepływ pracy Karpathy'ego przy kodowaniu z AI potwierdza to podejście. Jego pętla (wypełnianie kontekstu, opisywanie zmiany, wybór podejścia, przegląd, testy, commit, powtórzenie) traktuje AI jak to, co sam nazywa \"nadgorliwym stażystą-sawantem\": encyklopedyczna wiedza, zerowy osąd. Kontrakt behawioralny dostarcza osądu, którego modelowi brakuje."
+    },
+    {
+      "type": "p",
+      "text": "Ta zmiana perspektywy ma konkretny skutek. Gdy agent AI produkuje złe wyniki, pytanie przesuwa się z \"czy model jest wystarczająco dobry?\" na \"czy kontrakt jest wystarczająco precyzyjny?\" Pierwsze pytanie prowadzi do oczekiwania na GPT-5. Drugie prowadzi do pull requesta, który można wysłać dzisiaj."
+    },
+    {
+      "type": "h2",
+      "text": "Skalowanie kontraktów behawioralnych do systemów wieloagentowych"
+    },
+    {
+      "type": "p",
+      "text": "Zasady Karpathy'ego zostały zaprojektowane dla indywidualnego dewelopera pracującego z jednym asystentem AI. Jednak ten sam wzorzec skaluje się do wieloagentowej orkiestracji, gdzie wyspecjalizowane agenty koordynują złożone zadania."
+    },
+    {
+      "type": "p",
+      "text": "Używamy [oh-my-claudecode](https://github.com/yeachan-heo/oh-my-claudecode) (OMC) -- open-source'owej wieloagentowej warstwy orkiestracji dla Claude Code -- do koordynacji 19 wyspecjalizowanych subagentów: architekta, executora, recenzenta, audytora bezpieczeństwa, inżyniera testów i innych. Każdy agent ma własny kontrakt behawioralny definiujący jego wzorce rozumowania, granice zakresu i wymagania weryfikacyjne."
+    },
+    {
+      "type": "table",
+      "headers": ["Wymiar", "Kontrakt jednoagentowy", "Kontrakt wieloagentowy"],
+      "rows": [
+        [
+          "Zakres",
+          "Jeden deweloper, jeden asystent",
+          "19 wyspecjalizowanych agentów z odrębnymi rolami"
+        ],
+        [
+          "Weryfikacja",
+          "Człowiek przegląda wyniki AI",
+          "Agent recenzent sprawdza executora; człowiek przegląda wynik końcowy"
+        ],
+        [
+          "Kontekst",
+          "Pełna baza kodu w jednym oknie",
+          "Każdy agent otrzymuje tylko kontekst istotny dla swojego zadania"
+        ],
+        [
+          "Tryb awarii",
+          "AI nadmiernie komplikuje jeden plik",
+          "Agenty powielają pracę lub są ze sobą sprzeczne"
+        ],
+        [
+          "Fokus kontraktu",
+          "Jak myśleć o tym kodzie",
+          "Kto odpowiada za które decyzje i jak działają przekazania"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Dowodem koncepcji jest pełna integracja produktu obejmująca około 25 000 linii kodu aplikacji klienckiej w naszym potoku dostarczania, wygenerowana ze specyfikacji produktu przez potok agentów OMC. Liczba linii jest miarą przepustowości, nie jakości. Kontrakty behawioralne zdefiniowane w systemowym prompcie każdego agenta stanowiły główny wkład autorski człowieka poza samą specyfikacją."
+    },
+    {
+      "type": "p",
+      "text": "Ten wynik nie zależy od tego, czy model jest wystarczająco inteligentny. Claude był już wystarczająco inteligentny. Chodzi o to, że kontrakty były wystarczająco precyzyjne, by około 19 agentów mogło koordynować pracę bez nadpisywania pracy pozostałych."
+    },
+    {
+      "type": "h2",
+      "text": "Gdzie naprawdę leży przewaga konkurencyjna"
+    },
+    {
+      "type": "p",
+      "text": "Jeśli infrastruktura AI ulega komodyzacji (a tak jest, przy zarządzanych środowiskach uruchomieniowych dla agentów dostępnych już za 0,08 USD za godzinę sesji), pojawia się pytanie: gdzie leży trwała przewaga konkurencyjna?"
+    },
+    {
+      "type": "p",
+      "text": "Myślimy o tym jako o pięciowarstwowym stosie:"
+    },
+    {
+      "type": "table",
+      "headers": ["Warstwa", "Funkcja", "Obronność"],
+      "rows": [
+        [
+          "Infrastruktura",
+          "Hosting modeli, sandboxing, persystencja",
+          "Niska. Skomodyzowana. Wielu dostawców."
+        ],
+        [
+          "Orkiestracja",
+          "Koordynacja wieloagentowa, kontrakty behawioralne",
+          "Średnia. Wymaga skumulowanej wiedzy praktycznej."
+        ],
+        [
+          "Zasady projektowania",
+          "Inżynieria produktu zorientowana na agenty",
+          "Średnio-wysoka. Wymaga doświadczenia domenowego."
+        ],
+        [
+          "Teza produktowa",
+          "Co budować i dla kogo",
+          "Wysoka. Wymaga wglądu rynkowego."
+        ],
+        [
+          "Model biznesowy",
+          "Jak praca generuje przychody",
+          "Najwyższa. Wymaga relacji z klientami."
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Kontrakty behawioralne mieszczą się w warstwie orkiestracji. Nie jest to warstwa o najwyższej obronności, ale to warstwa, w której większość zespołów obecnie zawodzi. Prawidłowe opanowanie orkiestracji oddziela \"eksperymentowaliśmy z AI w kodowaniu\" od \"AI jest naszym sposobem na dostarczanie kodu.\""
+    },
+    {
+      "type": "p",
+      "text": "[Zasady inżynierii produktu zorientowanej na agenty od PostHog](https://posthog.com/blog/building-for-ai-agents) potwierdzają to od strony produktowej. Ich piąta zasada (\"traktuj agenty jak prawdziwych użytkowników\") to w istocie ten sam wniosek: AI potrzebuje jawnych, przetestowanych i zweryfikowanych ograniczeń, a nie domysłów."
+    },
+    {
+      "type": "h2",
+      "text": "Trzy wzorce warte wdrożenia"
+    },
+    {
+      "type": "p",
+      "text": "Jeśli masz wynieść jedno z repozytorium karpathy-skills, niech będą to te trzy wzorce dla Twojego zespołu:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Pisz kryteria sukcesu, nie instrukcje.** Zasada Wykonania Zorientowanego na Cel Karpathy'ego działa, ponieważ LLM lepiej iteruje ku mierzalnemu celowi niż podąża za krokami proceduralnym. Zdefiniuj, jak wygląda \"ukończone\". Pozwól agentowi dojść do tego samemu.",
+        "**Oddziel tworzenie od przeglądu.** W systemach wieloagentowych agent piszący kod nie powinien nigdy być agentem, który go zatwierdza. W przepływach jednoagentowych ta sama zasada dotyczy Ciebie: przeglądaj wyniki AI z taką samą rzetelnością, jaką stosowałbyś do pull requesta młodszego dewelopera.",
+        "**Wersjonuj kontrakty jak kod.** Twój CLAUDE.md, systemowe prompty i definicje agentów to artefakty produkcyjne. Należą do kontroli wersji, zasługują na code review i powinny ewoluować na podstawie zaobserwowanych awarii. Samo repozytorium karpathy-skills jest dowodem: to wersjonowany, recenzowany przez społeczność kontrakt behawioralny."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Te 22 000 gwiazdek nie trafia do porad Karpathy'ego na temat kodowania. Trafia do idei, że różnica między narzędziami AI produkującymi szum a narzędziami AI dostarczającymi gotowe do wdrożenia funkcje często sprowadza się do dobrze napisanego pliku kontraktów. W [webvise](https://webvise.io) budujemy na tej idei każdego dnia. Jeśli chcesz zbadać, co kontrakty behawioralne i wieloagentowa orkiestracja mogłyby zrobić dla Twojego przepływu pracy deweloperskiej, [skontaktuj się z nami](/#contact)."
+    }
+  ]
 }

@@ -2,37 +2,37 @@ import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 
 export interface CaseStudyMeta {
-	slug: string;
 	client: string;
-	industry: string;
-	services: string[];
-	date: string;
 	coverImage?: string;
-	images?: string[];
-	fullPageImage?: string;
-	location?: string;
+	date: string;
 	deliveryTime?: string;
+	fullPageImage?: string;
+	images?: string[];
+	industry: string;
 	liveUrl?: string;
+	location?: string;
+	services: string[];
+	slug: string;
 }
 
 export interface CaseStudyMetric {
-	value: string;
 	label: string;
+	value: string;
 }
 
 export interface CaseStudyContent {
-	title: string;
-	excerpt: string;
 	challenge: string;
-	solution: string;
-	results?: string[];
+	excerpt: string;
 	metrics?: CaseStudyMetric[];
+	results?: string[];
+	solution: string;
 	techStack: string[];
 	testimonial: {
 		quote: string;
 		author: string;
 		role: string;
 	} | null;
+	title: string;
 }
 
 export interface CaseStudy extends CaseStudyMeta, CaseStudyContent {}
@@ -49,14 +49,18 @@ function cacheKey(slug: string, locale: string): string {
 
 function readFile(
 	slug: string,
-	locale: string,
+	locale: string
 ): MetaFile | CaseStudyContent | null {
 	const key = cacheKey(slug, locale);
 	const cached = cache.get(key);
-	if (cached) return cached;
+	if (cached) {
+		return cached;
+	}
 
 	const filePath = join(contentDir, slug, `${locale}.json`);
-	if (!existsSync(filePath)) return null;
+	if (!existsSync(filePath)) {
+		return null;
+	}
 
 	const data = JSON.parse(readFileSync(filePath, "utf-8"));
 	cache.set(key, data);
@@ -68,7 +72,9 @@ function getEnglishFile(slug: string): MetaFile | null {
 }
 
 function getSlugs(): string[] {
-	if (!existsSync(contentDir)) return [];
+	if (!existsSync(contentDir)) {
+		return [];
+	}
 	return readdirSync(contentDir).filter((entry) => {
 		const entryPath = join(contentDir, entry);
 		return (
@@ -80,9 +86,11 @@ function getSlugs(): string[] {
 
 function toCaseStudy(slug: string, locale: string): CaseStudy | null {
 	const enFile = getEnglishFile(slug);
-	if (!enFile) return null;
+	if (!enFile) {
+		return null;
+	}
 
-	const localeFile = locale !== "en" ? readFile(slug, locale) : null;
+	const localeFile = locale === "en" ? null : readFile(slug, locale);
 	const content = (localeFile as CaseStudyContent | null) ?? enFile;
 
 	return {
@@ -119,7 +127,7 @@ export function getCaseStudies(locale: string): CaseStudy[] {
 
 export function getCaseStudyBySlug(
 	slug: string,
-	locale: string,
+	locale: string
 ): CaseStudy | undefined {
 	return toCaseStudy(slug, locale) ?? undefined;
 }

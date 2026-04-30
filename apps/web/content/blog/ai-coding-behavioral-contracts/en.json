@@ -1,186 +1,186 @@
 {
-	"date": "2026-04-13",
-	"readingTime": 7,
-	"keyword": "AI coding behavioral contracts",
-	"title": "From Rules to Results: What 22K Stars on a Single CLAUDE.md Reveal About AI-Assisted Development",
-	"excerpt": "The karpathy-skills repo proves that AI coding bottlenecks aren't about model capability. They're about the behavioral contract between human and LLM.",
-	"metaDescription": "22K GitHub stars for a single CLAUDE.md file. Why behavioral contracts between humans and LLMs matter more than model capability for AI-assisted development.",
-	"tags": ["AI Agents", "AI", "Open Source", "Business Strategy"],
-	"blocks": [
-		{
-			"type": "p",
-			"text": "The bottleneck in AI-assisted coding is not model capability. It is the quality of the behavioral contract between human and LLM. Teams that encode these contracts into their toolchain gain compounding returns. Teams that do not file repeated bug reports about hallucinated outputs."
-		},
-		{
-			"type": "p",
-			"text": "The evidence: [forrestchang/andrej-karpathy-skills](https://github.com/forrestchang/andrej-karpathy-skills) on GitHub. A single CLAUDE.md file distilling Andrej Karpathy's observations on LLM coding pitfalls into actionable rules for Claude Code. 22,700 stars. 1,800 forks. For one file."
-		},
-		{
-			"type": "p",
-			"text": "That star count is not enthusiasm for Karpathy's personal brand. It is 22,000 developers confirming they share the same pain: AI coding assistants are powerful but unpredictable, and a well-written behavioral contract fixes that (star counts measure visibility, not verified outcomes)."
-		},
-		{
-			"type": "h2",
-			"text": "The Four Principles Behind 22,000 Stars"
-		},
-		{
-			"type": "p",
-			"text": "The repo encodes four principles, each targeting a specific failure mode in LLM-assisted coding:"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Think Before Coding.** Surface assumptions, present tradeoffs, ask before guessing. Targets the failure mode where LLMs dive into implementation before understanding the problem.",
-				"**Simplicity First.** Minimum viable code, no speculative features or abstractions. Targets the failure mode where LLMs over-engineer solutions with unnecessary complexity.",
-				"**Goal-Driven Execution.** Specify success criteria, not step-by-step instructions. Let the LLM loop until criteria are met. Targets the failure mode where imperative instructions produce brittle, literal-minded code.",
-				"**Explicit Communication.** No silent assumptions. Every decision documented. Targets the failure mode where LLMs make choices that look reasonable but violate unstated constraints."
-			]
-		},
-		{
-			"type": "p",
-			"text": "None of these are surprising on their own. What is surprising is that encoding them in a single file makes the difference between \"AI wasted my afternoon\" and \"AI shipped the feature while I reviewed.\""
-		},
-		{
-			"type": "h2",
-			"text": "CLAUDE.md Is Not a Style Guide"
-		},
-		{
-			"type": "p",
-			"text": "Most teams treat their CLAUDE.md (or equivalent system prompt file) as a code style guide: formatting preferences, naming conventions, maybe a few project-specific notes. That misses the point entirely."
-		},
-		{
-			"type": "p",
-			"text": "A CLAUDE.md is a **behavioral contract**. It defines how the AI agent reasons about problems, when it asks for clarification versus making assumptions, how it scopes work, and what it verifies before declaring completion. Style guides tell the AI what the code should look like. Behavioral contracts tell the AI how to think."
-		},
-		{
-			"type": "p",
-			"text": "Karpathy's own AI-assisted coding workflow reinforces this. His loop (context stuffing, describe the change, pick an approach, review, test, commit, repeat) treats the AI as what he calls an \"over-eager junior intern savant\": encyclopedic knowledge, zero judgment. The behavioral contract supplies the judgment the model lacks."
-		},
-		{
-			"type": "p",
-			"text": "This reframe has a concrete consequence. When your AI agent produces bad output, the question shifts from \"is the model good enough?\" to \"is the contract specific enough?\" One question leads to waiting for GPT-5. The other leads to a pull request you can ship today."
-		},
-		{
-			"type": "h2",
-			"text": "Scaling Behavioral Contracts to Multi-Agent Systems"
-		},
-		{
-			"type": "p",
-			"text": "Karpathy's principles were designed for a solo developer working with a single AI assistant. But the same pattern scales to multi-agent orchestration, where specialized agents coordinate on complex tasks."
-		},
-		{
-			"type": "p",
-			"text": "We use [oh-my-claudecode](https://github.com/yeachan-heo/oh-my-claudecode) (OMC), an open-source multi-agent orchestration layer for Claude Code, to coordinate 19 specialized sub-agents: architect, executor, reviewer, security auditor, test engineer, and more. Each agent has its own behavioral contract defining its reasoning patterns, scope boundaries, and verification requirements."
-		},
-		{
-			"type": "table",
-			"headers": ["Dimension", "Single-Agent Contract", "Multi-Agent Contract"],
-			"rows": [
-				[
-					"Scope",
-					"One developer, one assistant",
-					"19 specialized agents with distinct roles"
-				],
-				[
-					"Verification",
-					"Human reviews AI output",
-					"Reviewer agent checks executor; human reviews final result"
-				],
-				[
-					"Context",
-					"Full codebase in one window",
-					"Each agent receives only relevant context for its task"
-				],
-				[
-					"Failure mode",
-					"AI overcomplicates one file",
-					"Agents duplicate work or contradict each other"
-				],
-				[
-					"Contract focus",
-					"How to think about this code",
-					"Who owns which decisions, and how handoffs work"
-				]
-			]
-		},
-		{
-			"type": "p",
-			"text": "The proof of concept: a full product integration across approximately 25,000 lines of client application code in our delivery pipeline, generated from a product specification through OMC's agent pipeline. Line count is a throughput measure, not a quality measure. The behavioral contracts defined in each agent's system prompt were the primary human-authored input beyond the spec itself."
-		},
-		{
-			"type": "p",
-			"text": "That result is not about the model being smart enough. Claude was already smart enough. It is about the contracts being precise enough that approximately 19 agents could coordinate without overwriting each other's work."
-		},
-		{
-			"type": "h2",
-			"text": "Where the Moat Actually Lives"
-		},
-		{
-			"type": "p",
-			"text": "If AI infrastructure is commoditizing (and it is, with managed agent runtimes now available at $0.08 per session hour), the question becomes: where does durable competitive advantage live?"
-		},
-		{
-			"type": "p",
-			"text": "We think about this as a five-layer stack:"
-		},
-		{
-			"type": "table",
-			"headers": ["Layer", "Function", "Defensibility"],
-			"rows": [
-				[
-					"Infrastructure",
-					"Model hosting, sandboxing, persistence",
-					"Low. Commoditized. Multiple providers."
-				],
-				[
-					"Orchestration",
-					"Multi-agent coordination, behavioral contracts",
-					"Medium. Requires accumulated know-how."
-				],
-				[
-					"Design Rules",
-					"Agent-first product engineering",
-					"Medium-high. Requires domain experience."
-				],
-				[
-					"Product Thesis",
-					"What to build and for whom",
-					"High. Requires market insight."
-				],
-				[
-					"Business Model",
-					"How the work generates revenue",
-					"Highest. Requires customer relationships."
-				]
-			]
-		},
-		{
-			"type": "p",
-			"text": "Behavioral contracts sit at the orchestration layer. They are not the highest-moat layer, but they are the layer where most teams currently fail. Getting orchestration right is what separates \"we experimented with AI coding\" from \"AI coding is how we ship.\""
-		},
-		{
-			"type": "p",
-			"text": "[PostHog's agent-first product engineering rules](https://posthog.com/blog/building-for-ai-agents) confirm this from the product side. Their fifth rule (\"treat agents like real users\") is essentially the same insight: the AI needs explicit, tested, verified constraints, not vibes."
-		},
-		{
-			"type": "h2",
-			"text": "Three Patterns Worth Adopting"
-		},
-		{
-			"type": "p",
-			"text": "If you take one thing from the karpathy-skills repo, make it these three patterns for your own team:"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Write success criteria, not instructions.** Karpathy's Goal-Driven Execution principle works because LLMs are better at looping toward a measurable target than following procedural steps. Define what \"done\" looks like. Let the agent figure out how to get there.",
-				"**Separate authoring from review.** In multi-agent systems, the agent that writes code should never be the agent that approves it. In single-agent workflows, the same applies to you: review AI output with the same rigor you would apply to a junior developer's pull request.",
-				"**Version your contracts like code.** Your CLAUDE.md, system prompts, and agent definitions are production artifacts. They belong in version control, they deserve code review, and they should evolve based on observed failures. The karpathy-skills repo itself is proof: it is a versioned, community-reviewed behavioral contract."
-			]
-		},
-		{
-			"type": "p",
-			"text": "The 22,000 stars are not going to Karpathy's coding advice. They are going to the idea that the gap between AI tooling that produces noise and AI tooling that ships shippable features often comes down to a well-written contracts file. At [webvise](https://webvise.io), we build on that idea every day. If you want to explore what behavioral contracts and multi-agent orchestration could do for your development workflow, [reach out](/#contact)."
-		}
-	]
+  "date": "2026-04-13",
+  "readingTime": 7,
+  "keyword": "AI coding behavioral contracts",
+  "title": "From Rules to Results: What 22K Stars on a Single CLAUDE.md Reveal About AI-Assisted Development",
+  "excerpt": "The karpathy-skills repo proves that AI coding bottlenecks aren't about model capability. They're about the behavioral contract between human and LLM.",
+  "metaDescription": "22K GitHub stars for a single CLAUDE.md file. Why behavioral contracts between humans and LLMs matter more than model capability for AI-assisted development.",
+  "tags": ["AI Agents", "AI", "Open Source", "Business Strategy"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "The bottleneck in AI-assisted coding is not model capability. It is the quality of the behavioral contract between human and LLM. Teams that encode these contracts into their toolchain gain compounding returns. Teams that do not file repeated bug reports about hallucinated outputs."
+    },
+    {
+      "type": "p",
+      "text": "The evidence: [forrestchang/andrej-karpathy-skills](https://github.com/forrestchang/andrej-karpathy-skills) on GitHub. A single CLAUDE.md file distilling Andrej Karpathy's observations on LLM coding pitfalls into actionable rules for Claude Code. 22,700 stars. 1,800 forks. For one file."
+    },
+    {
+      "type": "p",
+      "text": "That star count is not enthusiasm for Karpathy's personal brand. It is 22,000 developers confirming they share the same pain: AI coding assistants are powerful but unpredictable, and a well-written behavioral contract fixes that (star counts measure visibility, not verified outcomes)."
+    },
+    {
+      "type": "h2",
+      "text": "The Four Principles Behind 22,000 Stars"
+    },
+    {
+      "type": "p",
+      "text": "The repo encodes four principles, each targeting a specific failure mode in LLM-assisted coding:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Think Before Coding.** Surface assumptions, present tradeoffs, ask before guessing. Targets the failure mode where LLMs dive into implementation before understanding the problem.",
+        "**Simplicity First.** Minimum viable code, no speculative features or abstractions. Targets the failure mode where LLMs over-engineer solutions with unnecessary complexity.",
+        "**Goal-Driven Execution.** Specify success criteria, not step-by-step instructions. Let the LLM loop until criteria are met. Targets the failure mode where imperative instructions produce brittle, literal-minded code.",
+        "**Explicit Communication.** No silent assumptions. Every decision documented. Targets the failure mode where LLMs make choices that look reasonable but violate unstated constraints."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "None of these are surprising on their own. What is surprising is that encoding them in a single file makes the difference between \"AI wasted my afternoon\" and \"AI shipped the feature while I reviewed.\""
+    },
+    {
+      "type": "h2",
+      "text": "CLAUDE.md Is Not a Style Guide"
+    },
+    {
+      "type": "p",
+      "text": "Most teams treat their CLAUDE.md (or equivalent system prompt file) as a code style guide: formatting preferences, naming conventions, maybe a few project-specific notes. That misses the point entirely."
+    },
+    {
+      "type": "p",
+      "text": "A CLAUDE.md is a **behavioral contract**. It defines how the AI agent reasons about problems, when it asks for clarification versus making assumptions, how it scopes work, and what it verifies before declaring completion. Style guides tell the AI what the code should look like. Behavioral contracts tell the AI how to think."
+    },
+    {
+      "type": "p",
+      "text": "Karpathy's own AI-assisted coding workflow reinforces this. His loop (context stuffing, describe the change, pick an approach, review, test, commit, repeat) treats the AI as what he calls an \"over-eager junior intern savant\": encyclopedic knowledge, zero judgment. The behavioral contract supplies the judgment the model lacks."
+    },
+    {
+      "type": "p",
+      "text": "This reframe has a concrete consequence. When your AI agent produces bad output, the question shifts from \"is the model good enough?\" to \"is the contract specific enough?\" One question leads to waiting for GPT-5. The other leads to a pull request you can ship today."
+    },
+    {
+      "type": "h2",
+      "text": "Scaling Behavioral Contracts to Multi-Agent Systems"
+    },
+    {
+      "type": "p",
+      "text": "Karpathy's principles were designed for a solo developer working with a single AI assistant. But the same pattern scales to multi-agent orchestration, where specialized agents coordinate on complex tasks."
+    },
+    {
+      "type": "p",
+      "text": "We use [oh-my-claudecode](https://github.com/yeachan-heo/oh-my-claudecode) (OMC), an open-source multi-agent orchestration layer for Claude Code, to coordinate 19 specialized sub-agents: architect, executor, reviewer, security auditor, test engineer, and more. Each agent has its own behavioral contract defining its reasoning patterns, scope boundaries, and verification requirements."
+    },
+    {
+      "type": "table",
+      "headers": ["Dimension", "Single-Agent Contract", "Multi-Agent Contract"],
+      "rows": [
+        [
+          "Scope",
+          "One developer, one assistant",
+          "19 specialized agents with distinct roles"
+        ],
+        [
+          "Verification",
+          "Human reviews AI output",
+          "Reviewer agent checks executor; human reviews final result"
+        ],
+        [
+          "Context",
+          "Full codebase in one window",
+          "Each agent receives only relevant context for its task"
+        ],
+        [
+          "Failure mode",
+          "AI overcomplicates one file",
+          "Agents duplicate work or contradict each other"
+        ],
+        [
+          "Contract focus",
+          "How to think about this code",
+          "Who owns which decisions, and how handoffs work"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "The proof of concept: a full product integration across approximately 25,000 lines of client application code in our delivery pipeline, generated from a product specification through OMC's agent pipeline. Line count is a throughput measure, not a quality measure. The behavioral contracts defined in each agent's system prompt were the primary human-authored input beyond the spec itself."
+    },
+    {
+      "type": "p",
+      "text": "That result is not about the model being smart enough. Claude was already smart enough. It is about the contracts being precise enough that approximately 19 agents could coordinate without overwriting each other's work."
+    },
+    {
+      "type": "h2",
+      "text": "Where the Moat Actually Lives"
+    },
+    {
+      "type": "p",
+      "text": "If AI infrastructure is commoditizing (and it is, with managed agent runtimes now available at $0.08 per session hour), the question becomes: where does durable competitive advantage live?"
+    },
+    {
+      "type": "p",
+      "text": "We think about this as a five-layer stack:"
+    },
+    {
+      "type": "table",
+      "headers": ["Layer", "Function", "Defensibility"],
+      "rows": [
+        [
+          "Infrastructure",
+          "Model hosting, sandboxing, persistence",
+          "Low. Commoditized. Multiple providers."
+        ],
+        [
+          "Orchestration",
+          "Multi-agent coordination, behavioral contracts",
+          "Medium. Requires accumulated know-how."
+        ],
+        [
+          "Design Rules",
+          "Agent-first product engineering",
+          "Medium-high. Requires domain experience."
+        ],
+        [
+          "Product Thesis",
+          "What to build and for whom",
+          "High. Requires market insight."
+        ],
+        [
+          "Business Model",
+          "How the work generates revenue",
+          "Highest. Requires customer relationships."
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Behavioral contracts sit at the orchestration layer. They are not the highest-moat layer, but they are the layer where most teams currently fail. Getting orchestration right is what separates \"we experimented with AI coding\" from \"AI coding is how we ship.\""
+    },
+    {
+      "type": "p",
+      "text": "[PostHog's agent-first product engineering rules](https://posthog.com/blog/building-for-ai-agents) confirm this from the product side. Their fifth rule (\"treat agents like real users\") is essentially the same insight: the AI needs explicit, tested, verified constraints, not vibes."
+    },
+    {
+      "type": "h2",
+      "text": "Three Patterns Worth Adopting"
+    },
+    {
+      "type": "p",
+      "text": "If you take one thing from the karpathy-skills repo, make it these three patterns for your own team:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Write success criteria, not instructions.** Karpathy's Goal-Driven Execution principle works because LLMs are better at looping toward a measurable target than following procedural steps. Define what \"done\" looks like. Let the agent figure out how to get there.",
+        "**Separate authoring from review.** In multi-agent systems, the agent that writes code should never be the agent that approves it. In single-agent workflows, the same applies to you: review AI output with the same rigor you would apply to a junior developer's pull request.",
+        "**Version your contracts like code.** Your CLAUDE.md, system prompts, and agent definitions are production artifacts. They belong in version control, they deserve code review, and they should evolve based on observed failures. The karpathy-skills repo itself is proof: it is a versioned, community-reviewed behavioral contract."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "The 22,000 stars are not going to Karpathy's coding advice. They are going to the idea that the gap between AI tooling that produces noise and AI tooling that ships shippable features often comes down to a well-written contracts file. At [webvise](https://webvise.io), we build on that idea every day. If you want to explore what behavioral contracts and multi-agent orchestration could do for your development workflow, [reach out](/#contact)."
+    }
+  ]
 }

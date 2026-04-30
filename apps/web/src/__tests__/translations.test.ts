@@ -3,8 +3,8 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 
 const LOCALES = ["en", "de", "fr", "es", "nl", "pl", "it"] as const;
-const MESSAGES_DIR = join(__dirname, "../messages");
-const CONTENT_DIR = join(__dirname, "../../content");
+const MESSAGES_DIR = join(import.meta.dirname, "../messages");
+const CONTENT_DIR = join(import.meta.dirname, "../../content");
 
 function getLeafKeys(obj: Record<string, unknown>, prefix = ""): string[] {
 	const keys: string[] = [];
@@ -39,7 +39,9 @@ describe("UI message translations", () => {
 	const enKeys = getLeafKeys(enMessages);
 
 	for (const locale of LOCALES) {
-		if (locale === "en") continue;
+		if (locale === "en") {
+			continue;
+		}
 
 		describe(`${locale}.json`, () => {
 			const localeMessages = loadJson(join(MESSAGES_DIR, `${locale}.json`));
@@ -143,7 +145,10 @@ describe("all content JSON files are valid", () => {
 	];
 
 	for (const filePath of allJsonFiles) {
-		const relativePath = filePath.replace(`${join(__dirname, "../..")}/`, "");
+		const relativePath = filePath.replace(
+			`${join(import.meta.dirname, "../..")}/`,
+			""
+		);
 		it(`${relativePath} parses as valid JSON`, () => {
 			expect(() => {
 				JSON.parse(readFileSync(filePath, "utf-8"));

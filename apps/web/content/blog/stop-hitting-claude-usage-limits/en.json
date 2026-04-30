@@ -1,211 +1,211 @@
 {
-	"date": "2026-04-06",
-	"readingTime": 10,
-	"keyword": "Claude usage limits token optimization",
-	"title": "Stop Hitting Claude's Usage Limits: 10 Habits That Save Thousands of Tokens",
-	"excerpt": "Claude doesn't count messages. It counts tokens. These 10 practical habits can significantly reduce token spend and keep you productive all day without hitting rate limits.",
-	"metaDescription": "10 practical habits to stop hitting Claude's usage limits. Learn how token counting works, why long chats waste your budget, and how to get more from every session.",
-	"cta": "Explore AI-Powered Development",
-	"tags": ["AI", "AI Agents", "Automation", "Business Strategy"],
-	"blocks": [
-		{
-			"type": "p",
-			"text": "Most people blame Claude for strict usage limits. The real problem is token waste. Claude does not count the number of messages you send. It counts tokens: every word, every piece of context, every repeated instruction. Once you understand that distinction, you can change a few habits and stretch your plan significantly further."
-		},
-		{
-			"type": "p",
-			"text": "This article covers 10 concrete changes that reduce token consumption without sacrificing output quality. Some are one-time settings. Others are daily habits. All of them compound."
-		},
-		{
-			"type": "h2",
-			"text": "How Token Costs Actually Work"
-		},
-		{
-			"type": "p",
-			"text": "Every time you send a message, Claude re-reads the entire conversation history plus your new input. The cost of each message is not fixed. It grows with every previous exchange. At roughly 500 tokens per exchange, the math looks like this:"
-		},
-		{
-			"type": "table",
-			"headers": ["Messages in Chat", "Total Tokens Consumed"],
-			"rows": [
-				["5", "~7,500"],
-				["10", "~27,500"],
-				["20", "~105,000"],
-				["30", "~232,000"],
-				["100+", "~2,500,000+"]
-			]
-		},
-		{
-			"type": "p",
-			"text": "Message 30 costs 31 times more than message 1. In one developer's measurement of his own usage, **98.5% of tokens were spent re-reading conversation history**. Only 1.5% went toward generating the actual response. That is where your usage limit goes."
-		},
-		{
-			"type": "h2",
-			"text": "1. Edit Your Prompt Instead of Sending a Follow-Up"
-		},
-		{
-			"type": "p",
-			"text": "When Claude misunderstands your request, the instinct is to send a correction: \"No, I meant...\" or \"That's not what I wanted.\" Every follow-up message gets stacked on top of the conversation history. Claude re-reads all of it, including the failed attempt that did not help."
-		},
-		{
-			"type": "p",
-			"text": "**Instead:** Click edit on your original message, fix it, and regenerate. The old exchange gets replaced, not stacked. You get a better result with fewer tokens because the context stays clean."
-		},
-		{
-			"type": "h2",
-			"text": "2. Start a Fresh Chat Every 15 to 20 Messages"
-		},
-		{
-			"type": "p",
-			"text": "Long conversations are the single biggest source of token waste. A chat with 100+ messages can burn over 2.5 million tokens, most of it spent re-reading context that stopped being relevant 50 messages ago."
-		},
-		{
-			"type": "p",
-			"text": "The fix is simple. When a chat gets long, ask Claude to summarize the conversation so far. Copy the summary, start a new chat, and paste it as your first message. You keep the context that matters and drop everything that does not."
-		},
-		{
-			"type": "h2",
-			"text": "3. Batch Your Questions into One Message"
-		},
-		{
-			"type": "p",
-			"text": "Many people split tasks across separate messages, thinking the model handles them better one at a time. The opposite is true. Three separate prompts mean three full context loads. One prompt with three tasks means one context load."
-		},
-		{
-			"type": "p",
-			"text": "**Instead of sending three messages:**"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"\"Summarize this article\"",
-				"\"Now list the main points\"",
-				"\"Now suggest a headline\""
-			]
-		},
-		{
-			"type": "p",
-			"text": "**Write one message:** \"Summarize this article, list the main points, and suggest a headline.\" You save tokens twice: fewer context reloads and you stay further from hitting your limit. Bonus: the answers often turn out better because Claude sees the full picture immediately."
-		},
-		{
-			"type": "h2",
-			"text": "4. Upload Recurring Files to Projects"
-		},
-		{
-			"type": "p",
-			"text": "If you upload the same PDF to multiple chats, Claude re-tokenizes that document every single time. That is thousands of tokens burned on duplicate processing."
-		},
-		{
-			"type": "p",
-			"text": "Use the **Projects** feature instead. Upload your file once and it gets cached. Every new conversation inside that project references it without burning tokens again. Cached project content does not count against your usage when accessed repeatedly. If you work with contracts, briefs, style guides, or any long documents, this alone can materially reduce your token spend."
-		},
-		{
-			"type": "h2",
-			"text": "5. Set Up Memory and User Preferences"
-		},
-		{
-			"type": "p",
-			"text": "Every new chat without saved context wastes 3 to 5 messages on setup: \"I'm a marketer, I write in a casual style, I prefer short paragraphs...\" People start every prompt with \"Act as a...\" and that is tokens burned on repeat."
-		},
-		{
-			"type": "p",
-			"text": "Go to **Settings > Memory and User Settings**. Save your role, communication style, and preferences once. Claude applies them automatically to every new chat. No more wasted setup messages."
-		},
-		{
-			"type": "h2",
-			"text": "6. Turn Off Features You Are Not Using"
-		},
-		{
-			"type": "p",
-			"text": "Web search, connectors, and Explore mode all add tokens to every response, even when you do not need them. Writing your own content? Turn off Search and Tools. The Advanced Thinking feature also consumes tokens. Keep it off by default and only enable it when your first attempt was unsatisfactory."
-		},
-		{
-			"type": "p",
-			"text": "**Rule of thumb:** If you did not turn a feature on intentionally, turn it off."
-		},
-		{
-			"type": "h2",
-			"text": "7. Use the Right Model for the Job"
-		},
-		{
-			"type": "p",
-			"text": "Grammar checking, brainstorming, formatting, quick translations, short answers: Haiku handles all of these at a fraction of what Sonnet or Opus costs. Choosing the right model is the most impactful decision you make every session."
-		},
-		{
-			"type": "table",
-			"headers": ["Model", "Best For", "Relative Cost"],
-			"rows": [
-				["Haiku", "Quick tasks, drafts, formatting", "Low"],
-				["Sonnet", "Standard development work, coding, analysis", "Medium"],
-				["Opus", "Deep reasoning, architecture, complex tasks", "High"]
-			]
-		},
-		{
-			"type": "p",
-			"text": "Using Haiku for drafts and simple tasks typically frees a substantial share of your budget for work that truly requires more powerful models; reported savings range from 30% to 70% depending on task mix."
-		},
-		{
-			"type": "h2",
-			"text": "8. Spread Your Work Across the Day"
-		},
-		{
-			"type": "p",
-			"text": "Claude's usage system runs on a **rolling 5-hour window**. It does not reset at midnight. Messages sent at 9 a.m. stop counting by 2 p.m. If you use your entire limit in a single morning session, most of your daily capacity stays unused."
-		},
-		{
-			"type": "p",
-			"text": "Divide your day into 2 to 3 sessions: morning, afternoon, and evening. By the time you return, your previous usage has rolled off and you have a fresh limit."
-		},
-		{
-			"type": "h2",
-			"text": "9. Work During Off-Peak Hours"
-		},
-		{
-			"type": "p",
-			"text": "Since March 2026, Anthropic uses up your 5-hour session limit more quickly during peak hours: **5:00 AM to 11:00 AM Pacific Time (8:00 AM to 2:00 PM Eastern)** on weekdays. Same query, same chat, but during peak hours it impacts your limit more."
-		},
-		{
-			"type": "p",
-			"text": "Your weekly limit remains the same. How it gets distributed has changed. Running resource-intensive tasks in the evening or on weekends stretches your plan significantly. If you are outside the U.S., peak hours may fall during your afternoon depending on time zone."
-		},
-		{
-			"type": "h2",
-			"text": "10. Enable Extra Usage as a Safety Net"
-		},
-		{
-			"type": "p",
-			"text": "Subscribers to the Pro, Max 5x, and Max 20x plans can enable the **Overage** feature under Settings > Usage. When your session limit is reached, Claude does not block access. It switches to pay-as-you-go billing at API rates."
-		},
-		{
-			"type": "p",
-			"text": "You set a monthly spending cap to avoid unexpected bills. This is not about saving tokens. It is about not losing your work at the worst possible moment."
-		},
-		{
-			"type": "h2",
-			"text": "Putting It All Together"
-		},
-		{
-			"type": "p",
-			"text": "None of these habits require technical skill. They require awareness. Once you internalize how token counting works, the optimizations become automatic:"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Edit instead of follow-up** to keep context clean",
-				"**Fresh chats every 15 to 20 messages** to avoid exponential token growth",
-				"**Batch questions** to reduce context reloads",
-				"**Projects and Memory** to eliminate repeated setup",
-				"**Right model for the job** to stretch your budget",
-				"**Off-peak hours** to get more from the same plan"
-			]
-		},
-		{
-			"type": "p",
-			"text": "Teams that adopt these practices report they can drop from a Max plan to a regular Pro plan and still have tokens to spare, though results depend on workload. The difference is not how much you pay. It is how efficiently you use what you have."
-		},
-		{
-			"type": "p",
-			"text": "At **[webvise](/#contact)**, we build AI-powered workflows into every project we deliver. That includes optimizing how teams interact with AI tools like Claude to maximize output while minimizing cost. If you want to make AI a productive part of your daily operations, [let's talk](/#contact)."
-		}
-	]
+  "date": "2026-04-06",
+  "readingTime": 10,
+  "keyword": "Claude usage limits token optimization",
+  "title": "Stop Hitting Claude's Usage Limits: 10 Habits That Save Thousands of Tokens",
+  "excerpt": "Claude doesn't count messages. It counts tokens. These 10 practical habits can significantly reduce token spend and keep you productive all day without hitting rate limits.",
+  "metaDescription": "10 practical habits to stop hitting Claude's usage limits. Learn how token counting works, why long chats waste your budget, and how to get more from every session.",
+  "cta": "Explore AI-Powered Development",
+  "tags": ["AI", "AI Agents", "Automation", "Business Strategy"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Most people blame Claude for strict usage limits. The real problem is token waste. Claude does not count the number of messages you send. It counts tokens: every word, every piece of context, every repeated instruction. Once you understand that distinction, you can change a few habits and stretch your plan significantly further."
+    },
+    {
+      "type": "p",
+      "text": "This article covers 10 concrete changes that reduce token consumption without sacrificing output quality. Some are one-time settings. Others are daily habits. All of them compound."
+    },
+    {
+      "type": "h2",
+      "text": "How Token Costs Actually Work"
+    },
+    {
+      "type": "p",
+      "text": "Every time you send a message, Claude re-reads the entire conversation history plus your new input. The cost of each message is not fixed. It grows with every previous exchange. At roughly 500 tokens per exchange, the math looks like this:"
+    },
+    {
+      "type": "table",
+      "headers": ["Messages in Chat", "Total Tokens Consumed"],
+      "rows": [
+        ["5", "~7,500"],
+        ["10", "~27,500"],
+        ["20", "~105,000"],
+        ["30", "~232,000"],
+        ["100+", "~2,500,000+"]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Message 30 costs 31 times more than message 1. In one developer's measurement of his own usage, **98.5% of tokens were spent re-reading conversation history**. Only 1.5% went toward generating the actual response. That is where your usage limit goes."
+    },
+    {
+      "type": "h2",
+      "text": "1. Edit Your Prompt Instead of Sending a Follow-Up"
+    },
+    {
+      "type": "p",
+      "text": "When Claude misunderstands your request, the instinct is to send a correction: \"No, I meant...\" or \"That's not what I wanted.\" Every follow-up message gets stacked on top of the conversation history. Claude re-reads all of it, including the failed attempt that did not help."
+    },
+    {
+      "type": "p",
+      "text": "**Instead:** Click edit on your original message, fix it, and regenerate. The old exchange gets replaced, not stacked. You get a better result with fewer tokens because the context stays clean."
+    },
+    {
+      "type": "h2",
+      "text": "2. Start a Fresh Chat Every 15 to 20 Messages"
+    },
+    {
+      "type": "p",
+      "text": "Long conversations are the single biggest source of token waste. A chat with 100+ messages can burn over 2.5 million tokens, most of it spent re-reading context that stopped being relevant 50 messages ago."
+    },
+    {
+      "type": "p",
+      "text": "The fix is simple. When a chat gets long, ask Claude to summarize the conversation so far. Copy the summary, start a new chat, and paste it as your first message. You keep the context that matters and drop everything that does not."
+    },
+    {
+      "type": "h2",
+      "text": "3. Batch Your Questions into One Message"
+    },
+    {
+      "type": "p",
+      "text": "Many people split tasks across separate messages, thinking the model handles them better one at a time. The opposite is true. Three separate prompts mean three full context loads. One prompt with three tasks means one context load."
+    },
+    {
+      "type": "p",
+      "text": "**Instead of sending three messages:**"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "\"Summarize this article\"",
+        "\"Now list the main points\"",
+        "\"Now suggest a headline\""
+      ]
+    },
+    {
+      "type": "p",
+      "text": "**Write one message:** \"Summarize this article, list the main points, and suggest a headline.\" You save tokens twice: fewer context reloads and you stay further from hitting your limit. Bonus: the answers often turn out better because Claude sees the full picture immediately."
+    },
+    {
+      "type": "h2",
+      "text": "4. Upload Recurring Files to Projects"
+    },
+    {
+      "type": "p",
+      "text": "If you upload the same PDF to multiple chats, Claude re-tokenizes that document every single time. That is thousands of tokens burned on duplicate processing."
+    },
+    {
+      "type": "p",
+      "text": "Use the **Projects** feature instead. Upload your file once and it gets cached. Every new conversation inside that project references it without burning tokens again. Cached project content does not count against your usage when accessed repeatedly. If you work with contracts, briefs, style guides, or any long documents, this alone can materially reduce your token spend."
+    },
+    {
+      "type": "h2",
+      "text": "5. Set Up Memory and User Preferences"
+    },
+    {
+      "type": "p",
+      "text": "Every new chat without saved context wastes 3 to 5 messages on setup: \"I'm a marketer, I write in a casual style, I prefer short paragraphs...\" People start every prompt with \"Act as a...\" and that is tokens burned on repeat."
+    },
+    {
+      "type": "p",
+      "text": "Go to **Settings > Memory and User Settings**. Save your role, communication style, and preferences once. Claude applies them automatically to every new chat. No more wasted setup messages."
+    },
+    {
+      "type": "h2",
+      "text": "6. Turn Off Features You Are Not Using"
+    },
+    {
+      "type": "p",
+      "text": "Web search, connectors, and Explore mode all add tokens to every response, even when you do not need them. Writing your own content? Turn off Search and Tools. The Advanced Thinking feature also consumes tokens. Keep it off by default and only enable it when your first attempt was unsatisfactory."
+    },
+    {
+      "type": "p",
+      "text": "**Rule of thumb:** If you did not turn a feature on intentionally, turn it off."
+    },
+    {
+      "type": "h2",
+      "text": "7. Use the Right Model for the Job"
+    },
+    {
+      "type": "p",
+      "text": "Grammar checking, brainstorming, formatting, quick translations, short answers: Haiku handles all of these at a fraction of what Sonnet or Opus costs. Choosing the right model is the most impactful decision you make every session."
+    },
+    {
+      "type": "table",
+      "headers": ["Model", "Best For", "Relative Cost"],
+      "rows": [
+        ["Haiku", "Quick tasks, drafts, formatting", "Low"],
+        ["Sonnet", "Standard development work, coding, analysis", "Medium"],
+        ["Opus", "Deep reasoning, architecture, complex tasks", "High"]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Using Haiku for drafts and simple tasks typically frees a substantial share of your budget for work that truly requires more powerful models; reported savings range from 30% to 70% depending on task mix."
+    },
+    {
+      "type": "h2",
+      "text": "8. Spread Your Work Across the Day"
+    },
+    {
+      "type": "p",
+      "text": "Claude's usage system runs on a **rolling 5-hour window**. It does not reset at midnight. Messages sent at 9 a.m. stop counting by 2 p.m. If you use your entire limit in a single morning session, most of your daily capacity stays unused."
+    },
+    {
+      "type": "p",
+      "text": "Divide your day into 2 to 3 sessions: morning, afternoon, and evening. By the time you return, your previous usage has rolled off and you have a fresh limit."
+    },
+    {
+      "type": "h2",
+      "text": "9. Work During Off-Peak Hours"
+    },
+    {
+      "type": "p",
+      "text": "Since March 2026, Anthropic uses up your 5-hour session limit more quickly during peak hours: **5:00 AM to 11:00 AM Pacific Time (8:00 AM to 2:00 PM Eastern)** on weekdays. Same query, same chat, but during peak hours it impacts your limit more."
+    },
+    {
+      "type": "p",
+      "text": "Your weekly limit remains the same. How it gets distributed has changed. Running resource-intensive tasks in the evening or on weekends stretches your plan significantly. If you are outside the U.S., peak hours may fall during your afternoon depending on time zone."
+    },
+    {
+      "type": "h2",
+      "text": "10. Enable Extra Usage as a Safety Net"
+    },
+    {
+      "type": "p",
+      "text": "Subscribers to the Pro, Max 5x, and Max 20x plans can enable the **Overage** feature under Settings > Usage. When your session limit is reached, Claude does not block access. It switches to pay-as-you-go billing at API rates."
+    },
+    {
+      "type": "p",
+      "text": "You set a monthly spending cap to avoid unexpected bills. This is not about saving tokens. It is about not losing your work at the worst possible moment."
+    },
+    {
+      "type": "h2",
+      "text": "Putting It All Together"
+    },
+    {
+      "type": "p",
+      "text": "None of these habits require technical skill. They require awareness. Once you internalize how token counting works, the optimizations become automatic:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Edit instead of follow-up** to keep context clean",
+        "**Fresh chats every 15 to 20 messages** to avoid exponential token growth",
+        "**Batch questions** to reduce context reloads",
+        "**Projects and Memory** to eliminate repeated setup",
+        "**Right model for the job** to stretch your budget",
+        "**Off-peak hours** to get more from the same plan"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Teams that adopt these practices report they can drop from a Max plan to a regular Pro plan and still have tokens to spare, though results depend on workload. The difference is not how much you pay. It is how efficiently you use what you have."
+    },
+    {
+      "type": "p",
+      "text": "At **[webvise](/#contact)**, we build AI-powered workflows into every project we deliver. That includes optimizing how teams interact with AI tools like Claude to maximize output while minimizing cost. If you want to make AI a productive part of your daily operations, [let's talk](/#contact)."
+    }
+  ]
 }

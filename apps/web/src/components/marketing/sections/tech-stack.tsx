@@ -62,14 +62,17 @@ export default async function TechStack() {
 	const t = await getTranslations("techStack");
 
 	return (
-		<SectionWrapper id="tech-stack" alternate hatch>
+		<SectionWrapper alternate hatch id="tech-stack">
 			<div className="max-w-[640px]">
 				<H2>{t("title")}</H2>
 				<Lead className="mt-5 max-w-[520px]">{t("subtitle")}</Lead>
 			</div>
-			<StaggerChildren className="mt-16 -mx-6 grid border-t border-grid-line md:grid-cols-2 lg:grid-cols-4">
+			<StaggerChildren className="-mx-6 mt-16 grid border-grid-line border-t md:grid-cols-2 lg:grid-cols-4">
 				{categories.map((cat) => (
-					<div key={cat.key} className="border-b border-grid-line p-6 md:border-r md:p-8 md:[&:nth-child(2n)]:border-r-0 lg:[&:nth-child(2n)]:border-r lg:[&:nth-child(4n)]:border-r-0">
+					<div
+						className="border-grid-line border-b p-6 md:border-r md:p-8 md:[&:nth-child(2n)]:border-r-0 lg:[&:nth-child(2n)]:border-r lg:[&:nth-child(4n)]:border-r-0"
+						key={cat.key}
+					>
 						<Label className="mb-5 block text-muted-foreground">
 							{t(cat.key)}
 						</Label>

@@ -1,13 +1,14 @@
 "use client";
 
 import { ExpandIcon } from "lucide-react";
+import Image from "next/image";
 import { useState } from "react";
 import { Body, Caption } from "@/components/ui/typography";
 import CaseStudyLightbox from "./case-study-lightbox";
 
 interface CaseStudyGalleryProps {
-	images?: string[];
 	alt: string;
+	images?: string[];
 }
 
 export default function CaseStudyGallery({
@@ -16,7 +17,9 @@ export default function CaseStudyGallery({
 }: CaseStudyGalleryProps) {
 	const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
 
-	if (!images || images.length === 0) return null;
+	if (!images || images.length === 0) {
+		return null;
+	}
 
 	const items = images.slice(0, 3);
 
@@ -25,18 +28,19 @@ export default function CaseStudyGallery({
 			<div className="grid items-start gap-3 md:grid-cols-3">
 				{items.map((src, i) => (
 					<button
-						key={src}
-						type="button"
-						onClick={() => setLightboxSrc(src)}
 						className="group relative cursor-zoom-in overflow-hidden border border-border/40"
+						key={src}
+						onClick={() => setLightboxSrc(src)}
+						type="button"
 					>
-						{/* eslint-disable-next-line @next/next/no-img-element */}
-						<img
-							src={src}
+						<Image
 							alt={`${alt} – screenshot ${i + 1}`}
 							className="block h-auto w-full transition-opacity group-hover:opacity-90"
-							loading="lazy"
 							decoding="async"
+							height={1000}
+							loading="lazy"
+							src={src}
+							width={1600}
 						/>
 						<span className="pointer-events-none absolute inset-0 hidden items-center justify-center bg-black/5 opacity-0 transition-opacity group-hover:opacity-100 sm:flex">
 							<Body className="flex items-center gap-2 rounded-full bg-background/90 px-4 py-2 text-foreground text-sm ring-1 ring-border/40 backdrop-blur-sm">
@@ -54,10 +58,10 @@ export default function CaseStudyGallery({
 
 			{lightboxSrc && (
 				<CaseStudyLightbox
-					open={!!lightboxSrc}
-					onOpenChange={(open) => !open && setLightboxSrc(null)}
-					src={lightboxSrc}
 					alt={alt}
+					onOpenChange={(open) => !open && setLightboxSrc(null)}
+					open={!!lightboxSrc}
+					src={lightboxSrc}
 				/>
 			)}
 		</>

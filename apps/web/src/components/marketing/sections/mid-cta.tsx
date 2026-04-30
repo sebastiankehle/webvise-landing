@@ -10,7 +10,7 @@ export default async function MidCta() {
 	const t = await getTranslations("midCta");
 
 	return (
-		<SectionWrapper id="mid-cta" dark className="!py-20 md:!py-28">
+		<SectionWrapper className="!py-20 md:!py-28" dark id="mid-cta">
 			<div className="flex flex-col items-start gap-8 md:flex-row md:items-center md:justify-between">
 				<div className="max-w-[640px]">
 					<H2 className="text-balance">
@@ -30,9 +30,9 @@ export default async function MidCta() {
 					}}
 				>
 					<Button
-						size="lg"
 						className="[a]:hover:!bg-brand/80 shrink-0 border-transparent bg-brand px-8 text-white"
 						render={<Link href={{ pathname: "/", hash: "contact" }} />}
+						size="lg"
 					>
 						{t("cta")}
 					</Button>

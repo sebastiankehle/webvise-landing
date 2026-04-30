@@ -1,190 +1,190 @@
 {
-	"date": "2026-04-13",
-	"readingTime": 7,
-	"keyword": "AI coding behavioral contracts",
-	"title": "Dalle Regole ai Risultati: Cosa Rivelano 22.000 Star su un Singolo CLAUDE.md sullo Sviluppo Assistito dall'AI",
-	"excerpt": "Il repo karpathy-skills dimostra che i colli di bottiglia nel coding con AI non riguardano la capacità del modello. Riguardano il contratto comportamentale tra essere umano e LLM.",
-	"metaDescription": "22.000 star su GitHub per un singolo file CLAUDE.md. Perché i contratti comportamentali tra esseri umani e LLM contano più della capacità del modello nello sviluppo assistito dall'AI.",
-	"tags": ["AI Agents", "AI", "Open Source", "Business Strategy"],
-	"blocks": [
-		{
-			"type": "p",
-			"text": "Il collo di bottiglia nel coding assistito dall'AI non è la capacità del modello. È la qualità del contratto comportamentale tra essere umano e LLM. I team che codificano questi contratti nella propria toolchain ottengono rendimenti composti. Quelli che non lo fanno continuano a presentare gli stessi bug report su output allucinati."
-		},
-		{
-			"type": "p",
-			"text": "La prova: [forrestchang/andrej-karpathy-skills](https://github.com/forrestchang/andrej-karpathy-skills) su GitHub. Un singolo file CLAUDE.md che distilla le osservazioni di Andrej Karpathy sui difetti del coding con LLM in regole operative per Claude Code. 22.700 star. 1.800 fork. Per un solo file."
-		},
-		{
-			"type": "p",
-			"text": "Quel conteggio di star non è entusiasmo per il personal brand di Karpathy. Sono 22.000 sviluppatori che confermano di condividere lo stesso problema: gli assistenti AI per il coding sono potenti ma imprevedibili, e un contratto comportamentale ben scritto risolve la situazione (i conteggi di star misurano la visibilità, non risultati verificati)."
-		},
-		{
-			"type": "h2",
-			"text": "I Quattro Principi Dietro le 22.000 Star"
-		},
-		{
-			"type": "p",
-			"text": "Il repo codifica quattro principi, ciascuno mirato a uno specifico modo di fallire del coding assistito da LLM:"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Pensare Prima di Scrivere Codice.** Portare in superficie le assunzioni, presentare i tradeoff, chiedere prima di indovinare. Affronta il problema in cui gli LLM si lanciano nell'implementazione prima di aver compreso il problema.",
-				"**Semplicità Prima di Tutto.** Codice minimo necessario, nessuna funzionalità speculativa o astrazione superflua. Affronta il problema in cui gli LLM sovra-ingegnerizzano le soluzioni con complessità non necessaria.",
-				"**Esecuzione Orientata agli Obiettivi.** Specificare i criteri di successo, non le istruzioni passo dopo passo. Lasciare che l'LLM iteri finché i criteri non sono soddisfatti. Affronta il problema in cui le istruzioni imperative producono codice rigido e eccessivamente letterale.",
-				"**Comunicazione Esplicita.** Nessuna assunzione silenziosa. Ogni decisione documentata. Affronta il problema in cui gli LLM compiono scelte che sembrano ragionevoli ma violano vincoli non dichiarati."
-			]
-		},
-		{
-			"type": "p",
-			"text": "Nessuno di questi principi è sorprendente di per sé. Ciò che sorprende è che codificarli in un singolo file faccia la differenza tra \"l'AI mi ha fatto perdere il pomeriggio\" e \"l'AI ha consegnato la feature mentre io la revisionavo.\""
-		},
-		{
-			"type": "h2",
-			"text": "CLAUDE.md Non è una Style Guide"
-		},
-		{
-			"type": "p",
-			"text": "La maggior parte dei team tratta il proprio CLAUDE.md (o il file di system prompt equivalente) come una guida allo stile del codice: preferenze di formattazione, convenzioni di naming, forse qualche nota specifica al progetto. Questo manca completamente il punto."
-		},
-		{
-			"type": "p",
-			"text": "Un CLAUDE.md è un **contratto comportamentale**. Definisce come l'agente AI ragiona sui problemi, quando chiede chiarimenti invece di fare assunzioni, come delimita il lavoro e cosa verifica prima di dichiarare il completamento. Le style guide dicono all'AI come deve apparire il codice. I contratti comportamentali dicono all'AI come deve pensare."
-		},
-		{
-			"type": "p",
-			"text": "Il workflow di coding assistito da AI di Karpathy stesso conferma questa visione. Il suo ciclo (context stuffing, descrivere il cambiamento, scegliere un approccio, revisionare, testare, committare, ripetere) tratta l'AI come quello che lui chiama un \"over-eager junior intern savant\": conoscenza enciclopedica, zero giudizio. Il contratto comportamentale fornisce il giudizio che il modello non possiede."
-		},
-		{
-			"type": "p",
-			"text": "Questa ricontestualizzazione ha una conseguenza concreta. Quando il proprio agente AI produce output scadente, la domanda cambia da \"il modello è abbastanza capace?\" a \"il contratto è abbastanza specifico?\" Una domanda porta ad aspettare GPT-5. L'altra porta a una pull request che si può consegnare oggi."
-		},
-		{
-			"type": "h2",
-			"text": "Scalare i Contratti Comportamentali ai Sistemi Multi-Agente"
-		},
-		{
-			"type": "p",
-			"text": "I principi di Karpathy sono stati progettati per uno sviluppatore singolo che lavora con un singolo assistente AI. Ma lo stesso schema si scala all'orchestrazione multi-agente, dove agenti specializzati coordinano attività complesse."
-		},
-		{
-			"type": "p",
-			"text": "Utilizziamo [oh-my-claudecode](https://github.com/yeachan-heo/oh-my-claudecode) (OMC), un layer di orchestrazione multi-agente open source per Claude Code, per coordinare 19 sub-agenti specializzati: architect, executor, reviewer, security auditor, test engineer e altri. Ogni agente ha il proprio contratto comportamentale che definisce i suoi schemi di ragionamento, i confini di scope e i requisiti di verifica."
-		},
-		{
-			"type": "table",
-			"headers": [
-				"Dimensione",
-				"Contratto Single-Agent",
-				"Contratto Multi-Agent"
-			],
-			"rows": [
-				[
-					"Scope",
-					"Un sviluppatore, un assistente",
-					"19 agenti specializzati con ruoli distinti"
-				],
-				[
-					"Verifica",
-					"L'essere umano revisiona l'output dell'AI",
-					"L'agente reviewer controlla l'executor; l'essere umano revisiona il risultato finale"
-				],
-				[
-					"Contesto",
-					"Intera codebase in una finestra",
-					"Ogni agente riceve solo il contesto rilevante per il proprio compito"
-				],
-				[
-					"Modo di fallire",
-					"L'AI complica eccessivamente un singolo file",
-					"Gli agenti duplicano il lavoro o si contraddicono"
-				],
-				[
-					"Focus del contratto",
-					"Come ragionare su questo codice",
-					"Chi possiede quali decisioni e come funzionano i passaggi di consegna"
-				]
-			]
-		},
-		{
-			"type": "p",
-			"text": "La prova del concetto: un'integrazione di prodotto completa su circa 25.000 righe di codice applicativo client nella nostra delivery pipeline, generata a partire da una specifica di prodotto attraverso la pipeline di agenti di OMC. Il conteggio delle righe è una misura di throughput, non di qualità. I contratti comportamentali definiti nel system prompt di ogni agente sono stati il principale input redatto da esseri umani, oltre alla specifica stessa."
-		},
-		{
-			"type": "p",
-			"text": "Quel risultato non dipende dal fatto che il modello sia abbastanza intelligente. Claude era già abbastanza intelligente. Dipende dal fatto che i contratti siano abbastanza precisi da permettere a circa 19 agenti di coordinare senza sovrascriversi il lavoro a vicenda."
-		},
-		{
-			"type": "h2",
-			"text": "Dove Risiede il Vantaggio Competitivo"
-		},
-		{
-			"type": "p",
-			"text": "Se l'infrastruttura AI si sta commoditizzando (e lo sta facendo, con managed agent runtime ora disponibili a 0,08 dollari per ora di sessione), la domanda diventa: dove risiede il vantaggio competitivo duraturo?"
-		},
-		{
-			"type": "p",
-			"text": "Pensiamo a questo come a uno stack a cinque livelli:"
-		},
-		{
-			"type": "table",
-			"headers": ["Livello", "Funzione", "Difendibilità"],
-			"rows": [
-				[
-					"Infrastruttura",
-					"Hosting del modello, sandboxing, persistenza",
-					"Bassa. Commoditizzata. Più provider."
-				],
-				[
-					"Orchestrazione",
-					"Coordinamento multi-agente, contratti comportamentali",
-					"Media. Richiede know-how accumulato."
-				],
-				[
-					"Regole di Design",
-					"Ingegneria del prodotto agent-first",
-					"Media-alta. Richiede esperienza di dominio."
-				],
-				[
-					"Tesi di Prodotto",
-					"Cosa costruire e per chi",
-					"Alta. Richiede comprensione del mercato."
-				],
-				[
-					"Modello di Business",
-					"Come il lavoro genera fatturato",
-					"Massima. Richiede relazioni con i clienti."
-				]
-			]
-		},
-		{
-			"type": "p",
-			"text": "I contratti comportamentali si collocano al livello dell'orchestrazione. Non è il livello con il vantaggio competitivo più alto, ma è il livello in cui la maggior parte dei team attualmente fallisce. Portare l'orchestrazione al giusto livello è ciò che separa \"abbiamo sperimentato con il coding AI\" da \"il coding AI è il modo in cui consegnamo.\""
-		},
-		{
-			"type": "p",
-			"text": "Le [regole di ingegneria del prodotto agent-first di PostHog](https://posthog.com/blog/building-for-ai-agents) confermano questo dal lato del prodotto. La loro quinta regola (\"trattare gli agenti come utenti reali\") è essenzialmente la stessa intuizione: l'AI ha bisogno di vincoli espliciti, testati e verificati, non di indicazioni vaghe."
-		},
-		{
-			"type": "h2",
-			"text": "Tre Pattern da Adottare"
-		},
-		{
-			"type": "p",
-			"text": "Se si vuole trarre un'unica cosa dal repo karpathy-skills, siano questi tre pattern da applicare al proprio team:"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Scrivere criteri di successo, non istruzioni.** Il principio di Esecuzione Orientata agli Obiettivi di Karpathy funziona perché gli LLM sono più efficaci nell'iterare verso un obiettivo misurabile che nel seguire passaggi procedurali. Definire come appare il \"completato\". Lasciare che l'agente determini come arrivarci.",
-				"**Separare la redazione dalla revisione.** Nei sistemi multi-agente, l'agente che scrive il codice non dovrebbe mai essere quello che lo approva. Nei workflow single-agent, lo stesso vale per il professionista: revisionare l'output dell'AI con lo stesso rigore che si applicherebbe alla pull request di uno sviluppatore junior.",
-				"**Versionare i contratti come il codice.** Il CLAUDE.md, i system prompt e le definizioni degli agenti sono artefatti di produzione. Appartengono al version control, meritano code review e dovrebbero evolvere sulla base dei difetti osservati. Il repo karpathy-skills stesso ne è la prova: è un contratto comportamentale versionato e revisionato dalla community."
-			]
-		},
-		{
-			"type": "p",
-			"text": "Le 22.000 star non vanno ai consigli di coding di Karpathy. Vanno all'idea che la differenza tra strumenti AI che producono rumore e strumenti AI che consegnano feature pronte per la produzione dipenda spesso da un file di contratti ben scritto. In [webvise](https://webvise.io), costruiamo su questa idea ogni giorno. Per esplorare cosa i contratti comportamentali e l'orchestrazione multi-agente potrebbero fare per il proprio workflow di sviluppo, [contattateci](/#contact)."
-		}
-	]
+  "date": "2026-04-13",
+  "readingTime": 7,
+  "keyword": "AI coding behavioral contracts",
+  "title": "Dalle Regole ai Risultati: Cosa Rivelano 22.000 Star su un Singolo CLAUDE.md sullo Sviluppo Assistito dall'AI",
+  "excerpt": "Il repo karpathy-skills dimostra che i colli di bottiglia nel coding con AI non riguardano la capacità del modello. Riguardano il contratto comportamentale tra essere umano e LLM.",
+  "metaDescription": "22.000 star su GitHub per un singolo file CLAUDE.md. Perché i contratti comportamentali tra esseri umani e LLM contano più della capacità del modello nello sviluppo assistito dall'AI.",
+  "tags": ["AI Agents", "AI", "Open Source", "Business Strategy"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Il collo di bottiglia nel coding assistito dall'AI non è la capacità del modello. È la qualità del contratto comportamentale tra essere umano e LLM. I team che codificano questi contratti nella propria toolchain ottengono rendimenti composti. Quelli che non lo fanno continuano a presentare gli stessi bug report su output allucinati."
+    },
+    {
+      "type": "p",
+      "text": "La prova: [forrestchang/andrej-karpathy-skills](https://github.com/forrestchang/andrej-karpathy-skills) su GitHub. Un singolo file CLAUDE.md che distilla le osservazioni di Andrej Karpathy sui difetti del coding con LLM in regole operative per Claude Code. 22.700 star. 1.800 fork. Per un solo file."
+    },
+    {
+      "type": "p",
+      "text": "Quel conteggio di star non è entusiasmo per il personal brand di Karpathy. Sono 22.000 sviluppatori che confermano di condividere lo stesso problema: gli assistenti AI per il coding sono potenti ma imprevedibili, e un contratto comportamentale ben scritto risolve la situazione (i conteggi di star misurano la visibilità, non risultati verificati)."
+    },
+    {
+      "type": "h2",
+      "text": "I Quattro Principi Dietro le 22.000 Star"
+    },
+    {
+      "type": "p",
+      "text": "Il repo codifica quattro principi, ciascuno mirato a uno specifico modo di fallire del coding assistito da LLM:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Pensare Prima di Scrivere Codice.** Portare in superficie le assunzioni, presentare i tradeoff, chiedere prima di indovinare. Affronta il problema in cui gli LLM si lanciano nell'implementazione prima di aver compreso il problema.",
+        "**Semplicità Prima di Tutto.** Codice minimo necessario, nessuna funzionalità speculativa o astrazione superflua. Affronta il problema in cui gli LLM sovra-ingegnerizzano le soluzioni con complessità non necessaria.",
+        "**Esecuzione Orientata agli Obiettivi.** Specificare i criteri di successo, non le istruzioni passo dopo passo. Lasciare che l'LLM iteri finché i criteri non sono soddisfatti. Affronta il problema in cui le istruzioni imperative producono codice rigido e eccessivamente letterale.",
+        "**Comunicazione Esplicita.** Nessuna assunzione silenziosa. Ogni decisione documentata. Affronta il problema in cui gli LLM compiono scelte che sembrano ragionevoli ma violano vincoli non dichiarati."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Nessuno di questi principi è sorprendente di per sé. Ciò che sorprende è che codificarli in un singolo file faccia la differenza tra \"l'AI mi ha fatto perdere il pomeriggio\" e \"l'AI ha consegnato la feature mentre io la revisionavo.\""
+    },
+    {
+      "type": "h2",
+      "text": "CLAUDE.md Non è una Style Guide"
+    },
+    {
+      "type": "p",
+      "text": "La maggior parte dei team tratta il proprio CLAUDE.md (o il file di system prompt equivalente) come una guida allo stile del codice: preferenze di formattazione, convenzioni di naming, forse qualche nota specifica al progetto. Questo manca completamente il punto."
+    },
+    {
+      "type": "p",
+      "text": "Un CLAUDE.md è un **contratto comportamentale**. Definisce come l'agente AI ragiona sui problemi, quando chiede chiarimenti invece di fare assunzioni, come delimita il lavoro e cosa verifica prima di dichiarare il completamento. Le style guide dicono all'AI come deve apparire il codice. I contratti comportamentali dicono all'AI come deve pensare."
+    },
+    {
+      "type": "p",
+      "text": "Il workflow di coding assistito da AI di Karpathy stesso conferma questa visione. Il suo ciclo (context stuffing, descrivere il cambiamento, scegliere un approccio, revisionare, testare, committare, ripetere) tratta l'AI come quello che lui chiama un \"over-eager junior intern savant\": conoscenza enciclopedica, zero giudizio. Il contratto comportamentale fornisce il giudizio che il modello non possiede."
+    },
+    {
+      "type": "p",
+      "text": "Questa ricontestualizzazione ha una conseguenza concreta. Quando il proprio agente AI produce output scadente, la domanda cambia da \"il modello è abbastanza capace?\" a \"il contratto è abbastanza specifico?\" Una domanda porta ad aspettare GPT-5. L'altra porta a una pull request che si può consegnare oggi."
+    },
+    {
+      "type": "h2",
+      "text": "Scalare i Contratti Comportamentali ai Sistemi Multi-Agente"
+    },
+    {
+      "type": "p",
+      "text": "I principi di Karpathy sono stati progettati per uno sviluppatore singolo che lavora con un singolo assistente AI. Ma lo stesso schema si scala all'orchestrazione multi-agente, dove agenti specializzati coordinano attività complesse."
+    },
+    {
+      "type": "p",
+      "text": "Utilizziamo [oh-my-claudecode](https://github.com/yeachan-heo/oh-my-claudecode) (OMC), un layer di orchestrazione multi-agente open source per Claude Code, per coordinare 19 sub-agenti specializzati: architect, executor, reviewer, security auditor, test engineer e altri. Ogni agente ha il proprio contratto comportamentale che definisce i suoi schemi di ragionamento, i confini di scope e i requisiti di verifica."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Dimensione",
+        "Contratto Single-Agent",
+        "Contratto Multi-Agent"
+      ],
+      "rows": [
+        [
+          "Scope",
+          "Un sviluppatore, un assistente",
+          "19 agenti specializzati con ruoli distinti"
+        ],
+        [
+          "Verifica",
+          "L'essere umano revisiona l'output dell'AI",
+          "L'agente reviewer controlla l'executor; l'essere umano revisiona il risultato finale"
+        ],
+        [
+          "Contesto",
+          "Intera codebase in una finestra",
+          "Ogni agente riceve solo il contesto rilevante per il proprio compito"
+        ],
+        [
+          "Modo di fallire",
+          "L'AI complica eccessivamente un singolo file",
+          "Gli agenti duplicano il lavoro o si contraddicono"
+        ],
+        [
+          "Focus del contratto",
+          "Come ragionare su questo codice",
+          "Chi possiede quali decisioni e come funzionano i passaggi di consegna"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "La prova del concetto: un'integrazione di prodotto completa su circa 25.000 righe di codice applicativo client nella nostra delivery pipeline, generata a partire da una specifica di prodotto attraverso la pipeline di agenti di OMC. Il conteggio delle righe è una misura di throughput, non di qualità. I contratti comportamentali definiti nel system prompt di ogni agente sono stati il principale input redatto da esseri umani, oltre alla specifica stessa."
+    },
+    {
+      "type": "p",
+      "text": "Quel risultato non dipende dal fatto che il modello sia abbastanza intelligente. Claude era già abbastanza intelligente. Dipende dal fatto che i contratti siano abbastanza precisi da permettere a circa 19 agenti di coordinare senza sovrascriversi il lavoro a vicenda."
+    },
+    {
+      "type": "h2",
+      "text": "Dove Risiede il Vantaggio Competitivo"
+    },
+    {
+      "type": "p",
+      "text": "Se l'infrastruttura AI si sta commoditizzando (e lo sta facendo, con managed agent runtime ora disponibili a 0,08 dollari per ora di sessione), la domanda diventa: dove risiede il vantaggio competitivo duraturo?"
+    },
+    {
+      "type": "p",
+      "text": "Pensiamo a questo come a uno stack a cinque livelli:"
+    },
+    {
+      "type": "table",
+      "headers": ["Livello", "Funzione", "Difendibilità"],
+      "rows": [
+        [
+          "Infrastruttura",
+          "Hosting del modello, sandboxing, persistenza",
+          "Bassa. Commoditizzata. Più provider."
+        ],
+        [
+          "Orchestrazione",
+          "Coordinamento multi-agente, contratti comportamentali",
+          "Media. Richiede know-how accumulato."
+        ],
+        [
+          "Regole di Design",
+          "Ingegneria del prodotto agent-first",
+          "Media-alta. Richiede esperienza di dominio."
+        ],
+        [
+          "Tesi di Prodotto",
+          "Cosa costruire e per chi",
+          "Alta. Richiede comprensione del mercato."
+        ],
+        [
+          "Modello di Business",
+          "Come il lavoro genera fatturato",
+          "Massima. Richiede relazioni con i clienti."
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "I contratti comportamentali si collocano al livello dell'orchestrazione. Non è il livello con il vantaggio competitivo più alto, ma è il livello in cui la maggior parte dei team attualmente fallisce. Portare l'orchestrazione al giusto livello è ciò che separa \"abbiamo sperimentato con il coding AI\" da \"il coding AI è il modo in cui consegnamo.\""
+    },
+    {
+      "type": "p",
+      "text": "Le [regole di ingegneria del prodotto agent-first di PostHog](https://posthog.com/blog/building-for-ai-agents) confermano questo dal lato del prodotto. La loro quinta regola (\"trattare gli agenti come utenti reali\") è essenzialmente la stessa intuizione: l'AI ha bisogno di vincoli espliciti, testati e verificati, non di indicazioni vaghe."
+    },
+    {
+      "type": "h2",
+      "text": "Tre Pattern da Adottare"
+    },
+    {
+      "type": "p",
+      "text": "Se si vuole trarre un'unica cosa dal repo karpathy-skills, siano questi tre pattern da applicare al proprio team:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Scrivere criteri di successo, non istruzioni.** Il principio di Esecuzione Orientata agli Obiettivi di Karpathy funziona perché gli LLM sono più efficaci nell'iterare verso un obiettivo misurabile che nel seguire passaggi procedurali. Definire come appare il \"completato\". Lasciare che l'agente determini come arrivarci.",
+        "**Separare la redazione dalla revisione.** Nei sistemi multi-agente, l'agente che scrive il codice non dovrebbe mai essere quello che lo approva. Nei workflow single-agent, lo stesso vale per il professionista: revisionare l'output dell'AI con lo stesso rigore che si applicherebbe alla pull request di uno sviluppatore junior.",
+        "**Versionare i contratti come il codice.** Il CLAUDE.md, i system prompt e le definizioni degli agenti sono artefatti di produzione. Appartengono al version control, meritano code review e dovrebbero evolvere sulla base dei difetti osservati. Il repo karpathy-skills stesso ne è la prova: è un contratto comportamentale versionato e revisionato dalla community."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Le 22.000 star non vanno ai consigli di coding di Karpathy. Vanno all'idea che la differenza tra strumenti AI che producono rumore e strumenti AI che consegnano feature pronte per la produzione dipenda spesso da un file di contratti ben scritto. In [webvise](https://webvise.io), costruiamo su questa idea ogni giorno. Per esplorare cosa i contratti comportamentali e l'orchestrazione multi-agente potrebbero fare per il proprio workflow di sviluppo, [contattateci](/#contact)."
+    }
+  ]
 }

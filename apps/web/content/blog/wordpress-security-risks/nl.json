@@ -1,220 +1,220 @@
 {
-	"date": "2026-01-15",
-	"readingTime": 6,
-	"keyword": "wordpress beveiligingsrisico's verouderd",
-	"title": "Een verouderde WordPress-site draaien: de veiligheidsrisico's die u neemt",
-	"excerpt": "Zodra een WordPress-kwetsbaarheid openbaar wordt gemaakt, verschijnt exploitcode doorgaans binnen 24–72 uur. Dit is wat verouderde plugins, themes of core betekent voor uw bedrijf - met echte CVE's uit 2024–2025.",
-	"tags": ["WordPress", "Security", "Maintenance"],
-	"blocks": [
-		{
-			"type": "p",
-			"text": "Meer dan 40% van de WordPress-sites draait minstens één verouderde plugin met een bekende kwetsbaarheid. Dit is geen ruwe schatting - het is een regelmatig gecontroleerd cijfer van [WordPress-beveiligingsonderzoekers](/blog/wordpress-security-2026). Als u uw plugins of themes de afgelopen weken niet heeft bijgewerkt, is er een reële kans dat uw site in die categorie valt."
-		},
-		{
-			"type": "p",
-			"text": "Het risico is niet abstract. Wanneer een kwetsbaarheid wordt gepatcht, onthult de patch zelf wat de fout was. Onderzoekers publiceren technische details. Geautomatiseerde scanners beginnen binnen enkele uren kwetsbare sites te sondeer. Vanaf dag drie is actieve exploitatie doorgaans op grote schaal aan de gang."
-		},
-		{
-			"type": "h2",
-			"text": "Hoe snel kwetsbaarheden worden uitgebuit"
-		},
-		{
-			"type": "p",
-			"text": "De tijdlijn van openbare bekendmaking tot massale exploitatie is aanzienlijk ingekort. In 2023 was het gemiddelde ongeveer 15 dagen. In 2025 worden grote kwetsbaarheden in populaire plugins doorgaans actief uitgebuit binnen 24–72 uur na publicatie van de patch."
-		},
-		{
-			"type": "table",
-			"headers": ["Fase", "Typische tijdsspanne"],
-			"rows": [
-				["Kwetsbaarheid ontdekt door onderzoeker", "Dag 0"],
-				[
-					"Patch uitgebracht door pluginontwikkelaar",
-					"Dag 1–30 (als dat al gebeurt)"
-				],
-				["Technische details gepubliceerd", "Zelfde dag als de patch"],
-				["Proof-of-concept exploitcode gepubliceerd", "24–72 uur na de patch"],
-				["Geautomatiseerd massascannen begint", "24–72 uur na de patch"],
-				["Uw ongepatchte site actief risico", "Vanaf dag 3"]
-			]
-		},
-		{
-			"type": "p",
-			"text": "Uw site hoeft niet specifiek te worden aangevallen. Aanvallers gebruiken geautomatiseerde scanners die miljoenen sites tegelijk sonderen, op zoek naar versiehandtekeningen die kwetsbare installaties aangeven. Als uw site overeenkomt, wordt deze in de wachtrij gezet voor exploitatie."
-		},
-		{
-			"type": "h2",
-			"text": "Echte kwetsbaarheden uit 2024–2025"
-		},
-		{
-			"type": "p",
-			"text": "Dit zijn geen hypothetische scenario's. Dit zijn specifieke kwetsbaarheden in plugins die op miljoenen WordPress-sites zijn geïnstalleerd - allemaal publiekelijk gedocumenteerd."
-		},
-		{
-			"type": "h3",
-			"text": "LiteSpeed Cache - 5 miljoen sites in gevaar"
-		},
-		{
-			"type": "p",
-			"text": "In augustus 2024 maakten onderzoekers CVE-2024-28000 bekend, een kritieke kwetsbaarheid in de LiteSpeed Cache plugin. De fout stelde een niet-geauthenticeerde aanvaller in staat privileges te escaleren en beheerdersaccounts aan te maken op elke getroffen site. LiteSpeed Cache is geïnstalleerd op meer dan 5 miljoen WordPress-sites. Sites die langer dan een paar dagen zonder patch bleven, hadden regelmatig ongeautoriseerde beheerdersaccounts die door geautomatiseerde bots binnen diezelfde week waren aangemaakt (een patroon gedocumenteerd in Wordfence- en Patchstack-incidentoverzichten)."
-		},
-		{
-			"type": "h3",
-			"text": "Really Simple Security - 4 miljoen sites in gevaar"
-		},
-		{
-			"type": "p",
-			"text": "In november 2024 werd CVE-2024-10924 bekendgemaakt in Really Simple Security (voorheen Really Simple SSL), een plugin die op 4 miljoen sites is geïnstalleerd. De kwetsbaarheid maakte volledige authenticatieomzeiling mogelijk - een aanvaller kon inloggen als elke gebruiker, inclusief beheerders, zonder het wachtwoord te kennen. WordPress.org beoordeelde dit als kritiek met een ernst van 9,8/10. Massale exploitatiepogingen werden geregistreerd binnen 24 uur na openbare bekendmaking."
-		},
-		{
-			"type": "h3",
-			"text": "WP Automatic - SQL injection op grote schaal"
-		},
-		{
-			"type": "p",
-			"text": "Begin 2024 werd CVE-2024-27956 gevonden in WP Automatic, een plugin die door meer dan 30.000 sites wordt gebruikt voor geautomatiseerde contentpublicatie. De SQL injection-kwetsbaarheid stelde aanvallers in staat database-inhoud te extraheren en beheerdersaccounts aan te maken. Binnen weken na de bekendmaking waren duizenden sites gecompromitteerd en waren backdoors geïnstalleerd."
-		},
-		{
-			"type": "h2",
-			"text": "Wat 'verouderd' werkelijk betekent"
-		},
-		{
-			"type": "p",
-			"text": "Als mensen denken aan WordPress-updates, denken ze meestal aan de coreversie. Maar het werkelijke aanvalsoppervlak is veel groter."
-		},
-		{
-			"type": "table",
-			"headers": [
-				"Component",
-				"Waarom het belangrijk is",
-				"Risico als verouderd"
-			],
-			"rows": [
-				[
-					"WordPress core",
-					"Het fundament - regelmatig gepatcht",
-					"Hoog: bekende exploits richten zich op oude versies"
-				],
-				[
-					"Plugins",
-					"Aanvalsvector #1 - duizenden plugins, wisselende kwaliteit",
-					"Kritiek: de meeste exploits richten zich op plugins"
-				],
-				[
-					"Themes",
-					"Bevatten vaak kwetsbaarheden, vooral premium themes van marketplaces",
-					"Gemiddeld-Hoog"
-				],
-				[
-					"PHP-versie",
-					"Serversijdige taal waarop WordPress draait",
-					"Hoog: PHP 7.4 (EOL 2022) ontvangt geen beveiligingspatches"
-				]
-			]
-		},
-		{
-			"type": "p",
-			"text": "Een aanzienlijk deel van de WordPress-sites draait nog steeds op PHP 7.x - een versie die sinds 2022 end-of-life is en geen beveiligingsupdates meer ontvangt. Kwetsbaarheden in PHP zelf blijven ongepatchd, waardoor een beveiligingsgat ontstaat onder alles andere."
-		},
-		{
-			"type": "h2",
-			"text": "De updateparadox"
-		},
-		{
-			"type": "p",
-			"text": "De logische reactie hierop is: alles onmiddellijk bijwerken. Het probleem is dat WordPress-updates regelmatig dingen breken."
-		},
-		{
-			"type": "p",
-			"text": "Pluginconflicten na grote WordPress-versieupdates zijn gebruikelijk. Een theme dat prima werkte op WP 6.3 kan weergaveproblemen hebben op WP 6.5. Een update van een betaalplugin kan het afrekenproces breken. De meeste ondernemers hebben minstens één scenario meegemaakt waarbij de site na een update kapot was. Het gevolg: updates worden uitgesteld 'totdat we het kunnen testen' - en weken worden maanden."
-		},
-		{
-			"type": "p",
-			"text": "Automatische updates inschakelen verkleint het kwetsbaarheidsvenster maar introduceert onvoorspelbaar risico op storingen. Veel bedrijven schakelen automatische updates uit na één slechte ervaring. Er is geen schone oplossing binnen het WordPress-model."
-		},
-		{
-			"type": "h2",
-			"text": "Wat aanvallers doen met toegang"
-		},
-		{
-			"type": "p",
-			"text": "Zodra een site is gecompromitteerd, vernietigen aanvallers deze doorgaans niet onmiddellijk - dat zou het inbraak onthullen. Ze geven de voorkeur aan stille, aanhoudende toegang."
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**SEO-spaminjectie:** Duizenden verborgen links naar farmaceutische, gok- of volwassensites worden aan uw pagina's toegevoegd. Uw Google-rankings dalen. Uiteindelijk plaatst Google uw domein op de zwarte lijst.",
-				"**Redirect-hacks:** Bezoekers (maar niet u) worden stilzwijgend omgeleid naar kwaadaardige sites. Uw organisch verkeer verdwijnt op mysterieuze wijze. U ziet het niet omdat de omleiding specifieke verkeerspatronen aanpakt.",
-				"**Diefstal van klantgegevens:** Formulierinzendingen, contactgegevens en alle opgeslagen gebruikersdata worden geëxfiltreerd.",
-				"**Phishingpagina's:** Nep-inlogpagina's worden op uw domein gehost en gebruikt om inloggegevens van bezoekers te oogsten.",
-				"**Installatie van backdoor:** Een aanhoudende backdoor wordt achtergelaten zodat aanvallers toegang behouden, zelfs nadat de oorspronkelijke kwetsbaarheid is gepatcht."
-			]
-		},
-		{
-			"type": "h2",
-			"text": "Uw GDPR-aansprakelijkheid"
-		},
-		{
-			"type": "p",
-			"text": "Als uw site identificeerbare gegevens verzamelt - contactformulierinzendingen, nieuwsbriefinschrijvingen, klantaccounts - en die gegevens worden blootgesteld door een bekende, ongepatchte kwetsbaarheid, heeft u een GDPR-probleem."
-		},
-		{
-			"type": "p",
-			"text": "Artikel 32 van de GDPR vereist dat organisaties 'passende technische maatregelen' implementeren om gegevensbeveiliging te waarborgen. Software draaien met publiekelijk gedocumenteerde kritieke kwetsbaarheden zonder deze te patchen, is alleen verdedigbaar als u kunt aantonen dat u geen redelijke gelegenheid had om bij te werken. Terughoudendheid bij updates wordt door gegevensbeschermingsautoriteiten doorgaans niet geaccepteerd als verdediging voor verwerkingsgerelateerde inbreuken."
-		},
-		{
-			"type": "p",
-			"text": "GDPR-boetes kunnen oplopen tot €20 miljoen of 4% van de wereldwijde jaaromzet, afhankelijk van welk bedrag hoger is. Zelfs handhavingsacties van gemiddelde omvang zijn materieel significant voor het MKB."
-		},
-		{
-			"type": "h2",
-			"text": "Waarom patchen geen langetermijnstrategie is"
-		},
-		{
-			"type": "p",
-			"text": "In 2024 maakten beveiligingsonderzoekers ongeveer [8.000](https://patchstack.com/whitepaper/state-of-wordpress-security-in-2024/) nieuwe WordPress-pluginkwetsbaarheden bekend - meer dan 20 per dag. Dit aantal groeit elk jaar."
-		},
-		{
-			"type": "p",
-			"text": "Bijblijven vereist: beveiligingsadviezen monitoren voor elke plugin die u gebruikt, updates testen in een stagingomgeving voordat u ze op productie toepast, patches snel toepassen (binnen 24–72 uur voor kritieke problemen), sitefouten afhandelen wanneer updates conflicteren, en noodremediatie beheren wanneer iets toch doorglipt."
-		},
-		{
-			"type": "p",
-			"text": "Dit is geen eenmalige taak. Het is een voortdurende onderhoudsbelasting. Voor een bedrijf dat simpelweg een werkende website wil, zijn deze [overheadkosten](/blog/hidden-cost-of-wordpress) een significante verborgen kostenpost van het WordPress-model."
-		},
-		{
-			"type": "h2",
-			"text": "Het alternatief: het aanvalsoppervlak elimineren"
-		},
-		{
-			"type": "p",
-			"text": "Een site gebouwd met een modern JavaScript-framework zoals Next.js heeft een fundamenteel ander beveiligingsprofiel - niet omdat het immuun is voor alle aanvallen, maar omdat de plugin- en thema-kwetsbaarheidsklassen die de meerderheid van WordPress-compromitteringen vertegenwoordigen (volgens Patchstack-jaarrapporten) niet in dezelfde vorm bestaan op een statisch gerenderde Next.js-site."
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Geen database blootgesteld aan het internet** - geen aanvalsoppervlak voor SQL injection",
-				"**Geen server-side PHP-uitvoering** - geen kwetsbaarheden voor PHP-code-uitvoering",
-				"**Geen plugin-ecosysteem om te patchen** - afhankelijkheden worden expliciet beheerd, niet afkomstig uit een marketplace met 60.000 opties",
-				"**Geen wp-admin-inlogpagina** - een bekende, universeel aangevallen URL die niet bestaat",
-				"**Beveiliging op infrastructuurniveau** - DDoS-bescherming, SSL en edge-beveiliging beheerd door platforms zoals Vercel"
-			]
-		},
-		{
-			"type": "p",
-			"text": "Overstappen naar een statische of server-gerenderde JavaScript-site betekent niet nul beveiligingsoverwegingen. Maar het betekent wel dat uw onderhoudsteam niet dagelijks racet tegen nieuwe kwetsbaarheidsbekendmakingen in een plugin-ecosysteem."
-		},
-		{
-			"type": "h2",
-			"text": "Controleer uw huidige blootstelling"
-		},
-		{
-			"type": "p",
-			"text": "Als u WordPress gebruikt, is de eerste stap het kennen van uw werkelijke situatie. Onze gratis audit controleert uw zichtbare WordPress-indicatoren, serverresponsheaders en prestatiestatistieken in 60 seconden."
-		},
-		{
-			"type": "p",
-			"text": "Voer de audit uit op [webvise.io/wp-health-report](/wp-health-report). Als de resultaten verouderde software of beveiligingsproblemen laten zien, kunnen we de realistische opties bespreken - of dat nu een gedisciplineerd update- en monitoringproces is, of een migratie naar een architectuur zonder de updatetredmolen."
-		}
-	],
-	"metaDescription": "40% van WordPress-sites draait verouderde plugins met bekende kwetsbaarheden. 8.000+ nieuwe lekken alleen in 2024. De echte risico's en uw opties."
+  "date": "2026-01-15",
+  "readingTime": 6,
+  "keyword": "wordpress beveiligingsrisico's verouderd",
+  "title": "Een verouderde WordPress-site draaien: de veiligheidsrisico's die u neemt",
+  "excerpt": "Zodra een WordPress-kwetsbaarheid openbaar wordt gemaakt, verschijnt exploitcode doorgaans binnen 24–72 uur. Dit is wat verouderde plugins, themes of core betekent voor uw bedrijf - met echte CVE's uit 2024–2025.",
+  "tags": ["WordPress", "Security", "Maintenance"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Meer dan 40% van de WordPress-sites draait minstens één verouderde plugin met een bekende kwetsbaarheid. Dit is geen ruwe schatting - het is een regelmatig gecontroleerd cijfer van [WordPress-beveiligingsonderzoekers](/blog/wordpress-security-2026). Als u uw plugins of themes de afgelopen weken niet heeft bijgewerkt, is er een reële kans dat uw site in die categorie valt."
+    },
+    {
+      "type": "p",
+      "text": "Het risico is niet abstract. Wanneer een kwetsbaarheid wordt gepatcht, onthult de patch zelf wat de fout was. Onderzoekers publiceren technische details. Geautomatiseerde scanners beginnen binnen enkele uren kwetsbare sites te sondeer. Vanaf dag drie is actieve exploitatie doorgaans op grote schaal aan de gang."
+    },
+    {
+      "type": "h2",
+      "text": "Hoe snel kwetsbaarheden worden uitgebuit"
+    },
+    {
+      "type": "p",
+      "text": "De tijdlijn van openbare bekendmaking tot massale exploitatie is aanzienlijk ingekort. In 2023 was het gemiddelde ongeveer 15 dagen. In 2025 worden grote kwetsbaarheden in populaire plugins doorgaans actief uitgebuit binnen 24–72 uur na publicatie van de patch."
+    },
+    {
+      "type": "table",
+      "headers": ["Fase", "Typische tijdsspanne"],
+      "rows": [
+        ["Kwetsbaarheid ontdekt door onderzoeker", "Dag 0"],
+        [
+          "Patch uitgebracht door pluginontwikkelaar",
+          "Dag 1–30 (als dat al gebeurt)"
+        ],
+        ["Technische details gepubliceerd", "Zelfde dag als de patch"],
+        ["Proof-of-concept exploitcode gepubliceerd", "24–72 uur na de patch"],
+        ["Geautomatiseerd massascannen begint", "24–72 uur na de patch"],
+        ["Uw ongepatchte site actief risico", "Vanaf dag 3"]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Uw site hoeft niet specifiek te worden aangevallen. Aanvallers gebruiken geautomatiseerde scanners die miljoenen sites tegelijk sonderen, op zoek naar versiehandtekeningen die kwetsbare installaties aangeven. Als uw site overeenkomt, wordt deze in de wachtrij gezet voor exploitatie."
+    },
+    {
+      "type": "h2",
+      "text": "Echte kwetsbaarheden uit 2024–2025"
+    },
+    {
+      "type": "p",
+      "text": "Dit zijn geen hypothetische scenario's. Dit zijn specifieke kwetsbaarheden in plugins die op miljoenen WordPress-sites zijn geïnstalleerd - allemaal publiekelijk gedocumenteerd."
+    },
+    {
+      "type": "h3",
+      "text": "LiteSpeed Cache - 5 miljoen sites in gevaar"
+    },
+    {
+      "type": "p",
+      "text": "In augustus 2024 maakten onderzoekers CVE-2024-28000 bekend, een kritieke kwetsbaarheid in de LiteSpeed Cache plugin. De fout stelde een niet-geauthenticeerde aanvaller in staat privileges te escaleren en beheerdersaccounts aan te maken op elke getroffen site. LiteSpeed Cache is geïnstalleerd op meer dan 5 miljoen WordPress-sites. Sites die langer dan een paar dagen zonder patch bleven, hadden regelmatig ongeautoriseerde beheerdersaccounts die door geautomatiseerde bots binnen diezelfde week waren aangemaakt (een patroon gedocumenteerd in Wordfence- en Patchstack-incidentoverzichten)."
+    },
+    {
+      "type": "h3",
+      "text": "Really Simple Security - 4 miljoen sites in gevaar"
+    },
+    {
+      "type": "p",
+      "text": "In november 2024 werd CVE-2024-10924 bekendgemaakt in Really Simple Security (voorheen Really Simple SSL), een plugin die op 4 miljoen sites is geïnstalleerd. De kwetsbaarheid maakte volledige authenticatieomzeiling mogelijk - een aanvaller kon inloggen als elke gebruiker, inclusief beheerders, zonder het wachtwoord te kennen. WordPress.org beoordeelde dit als kritiek met een ernst van 9,8/10. Massale exploitatiepogingen werden geregistreerd binnen 24 uur na openbare bekendmaking."
+    },
+    {
+      "type": "h3",
+      "text": "WP Automatic - SQL injection op grote schaal"
+    },
+    {
+      "type": "p",
+      "text": "Begin 2024 werd CVE-2024-27956 gevonden in WP Automatic, een plugin die door meer dan 30.000 sites wordt gebruikt voor geautomatiseerde contentpublicatie. De SQL injection-kwetsbaarheid stelde aanvallers in staat database-inhoud te extraheren en beheerdersaccounts aan te maken. Binnen weken na de bekendmaking waren duizenden sites gecompromitteerd en waren backdoors geïnstalleerd."
+    },
+    {
+      "type": "h2",
+      "text": "Wat 'verouderd' werkelijk betekent"
+    },
+    {
+      "type": "p",
+      "text": "Als mensen denken aan WordPress-updates, denken ze meestal aan de coreversie. Maar het werkelijke aanvalsoppervlak is veel groter."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Component",
+        "Waarom het belangrijk is",
+        "Risico als verouderd"
+      ],
+      "rows": [
+        [
+          "WordPress core",
+          "Het fundament - regelmatig gepatcht",
+          "Hoog: bekende exploits richten zich op oude versies"
+        ],
+        [
+          "Plugins",
+          "Aanvalsvector #1 - duizenden plugins, wisselende kwaliteit",
+          "Kritiek: de meeste exploits richten zich op plugins"
+        ],
+        [
+          "Themes",
+          "Bevatten vaak kwetsbaarheden, vooral premium themes van marketplaces",
+          "Gemiddeld-Hoog"
+        ],
+        [
+          "PHP-versie",
+          "Serversijdige taal waarop WordPress draait",
+          "Hoog: PHP 7.4 (EOL 2022) ontvangt geen beveiligingspatches"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Een aanzienlijk deel van de WordPress-sites draait nog steeds op PHP 7.x - een versie die sinds 2022 end-of-life is en geen beveiligingsupdates meer ontvangt. Kwetsbaarheden in PHP zelf blijven ongepatchd, waardoor een beveiligingsgat ontstaat onder alles andere."
+    },
+    {
+      "type": "h2",
+      "text": "De updateparadox"
+    },
+    {
+      "type": "p",
+      "text": "De logische reactie hierop is: alles onmiddellijk bijwerken. Het probleem is dat WordPress-updates regelmatig dingen breken."
+    },
+    {
+      "type": "p",
+      "text": "Pluginconflicten na grote WordPress-versieupdates zijn gebruikelijk. Een theme dat prima werkte op WP 6.3 kan weergaveproblemen hebben op WP 6.5. Een update van een betaalplugin kan het afrekenproces breken. De meeste ondernemers hebben minstens één scenario meegemaakt waarbij de site na een update kapot was. Het gevolg: updates worden uitgesteld 'totdat we het kunnen testen' - en weken worden maanden."
+    },
+    {
+      "type": "p",
+      "text": "Automatische updates inschakelen verkleint het kwetsbaarheidsvenster maar introduceert onvoorspelbaar risico op storingen. Veel bedrijven schakelen automatische updates uit na één slechte ervaring. Er is geen schone oplossing binnen het WordPress-model."
+    },
+    {
+      "type": "h2",
+      "text": "Wat aanvallers doen met toegang"
+    },
+    {
+      "type": "p",
+      "text": "Zodra een site is gecompromitteerd, vernietigen aanvallers deze doorgaans niet onmiddellijk - dat zou het inbraak onthullen. Ze geven de voorkeur aan stille, aanhoudende toegang."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**SEO-spaminjectie:** Duizenden verborgen links naar farmaceutische, gok- of volwassensites worden aan uw pagina's toegevoegd. Uw Google-rankings dalen. Uiteindelijk plaatst Google uw domein op de zwarte lijst.",
+        "**Redirect-hacks:** Bezoekers (maar niet u) worden stilzwijgend omgeleid naar kwaadaardige sites. Uw organisch verkeer verdwijnt op mysterieuze wijze. U ziet het niet omdat de omleiding specifieke verkeerspatronen aanpakt.",
+        "**Diefstal van klantgegevens:** Formulierinzendingen, contactgegevens en alle opgeslagen gebruikersdata worden geëxfiltreerd.",
+        "**Phishingpagina's:** Nep-inlogpagina's worden op uw domein gehost en gebruikt om inloggegevens van bezoekers te oogsten.",
+        "**Installatie van backdoor:** Een aanhoudende backdoor wordt achtergelaten zodat aanvallers toegang behouden, zelfs nadat de oorspronkelijke kwetsbaarheid is gepatcht."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Uw GDPR-aansprakelijkheid"
+    },
+    {
+      "type": "p",
+      "text": "Als uw site identificeerbare gegevens verzamelt - contactformulierinzendingen, nieuwsbriefinschrijvingen, klantaccounts - en die gegevens worden blootgesteld door een bekende, ongepatchte kwetsbaarheid, heeft u een GDPR-probleem."
+    },
+    {
+      "type": "p",
+      "text": "Artikel 32 van de GDPR vereist dat organisaties 'passende technische maatregelen' implementeren om gegevensbeveiliging te waarborgen. Software draaien met publiekelijk gedocumenteerde kritieke kwetsbaarheden zonder deze te patchen, is alleen verdedigbaar als u kunt aantonen dat u geen redelijke gelegenheid had om bij te werken. Terughoudendheid bij updates wordt door gegevensbeschermingsautoriteiten doorgaans niet geaccepteerd als verdediging voor verwerkingsgerelateerde inbreuken."
+    },
+    {
+      "type": "p",
+      "text": "GDPR-boetes kunnen oplopen tot €20 miljoen of 4% van de wereldwijde jaaromzet, afhankelijk van welk bedrag hoger is. Zelfs handhavingsacties van gemiddelde omvang zijn materieel significant voor het MKB."
+    },
+    {
+      "type": "h2",
+      "text": "Waarom patchen geen langetermijnstrategie is"
+    },
+    {
+      "type": "p",
+      "text": "In 2024 maakten beveiligingsonderzoekers ongeveer [8.000](https://patchstack.com/whitepaper/state-of-wordpress-security-in-2024/) nieuwe WordPress-pluginkwetsbaarheden bekend - meer dan 20 per dag. Dit aantal groeit elk jaar."
+    },
+    {
+      "type": "p",
+      "text": "Bijblijven vereist: beveiligingsadviezen monitoren voor elke plugin die u gebruikt, updates testen in een stagingomgeving voordat u ze op productie toepast, patches snel toepassen (binnen 24–72 uur voor kritieke problemen), sitefouten afhandelen wanneer updates conflicteren, en noodremediatie beheren wanneer iets toch doorglipt."
+    },
+    {
+      "type": "p",
+      "text": "Dit is geen eenmalige taak. Het is een voortdurende onderhoudsbelasting. Voor een bedrijf dat simpelweg een werkende website wil, zijn deze [overheadkosten](/blog/hidden-cost-of-wordpress) een significante verborgen kostenpost van het WordPress-model."
+    },
+    {
+      "type": "h2",
+      "text": "Het alternatief: het aanvalsoppervlak elimineren"
+    },
+    {
+      "type": "p",
+      "text": "Een site gebouwd met een modern JavaScript-framework zoals Next.js heeft een fundamenteel ander beveiligingsprofiel - niet omdat het immuun is voor alle aanvallen, maar omdat de plugin- en thema-kwetsbaarheidsklassen die de meerderheid van WordPress-compromitteringen vertegenwoordigen (volgens Patchstack-jaarrapporten) niet in dezelfde vorm bestaan op een statisch gerenderde Next.js-site."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Geen database blootgesteld aan het internet** - geen aanvalsoppervlak voor SQL injection",
+        "**Geen server-side PHP-uitvoering** - geen kwetsbaarheden voor PHP-code-uitvoering",
+        "**Geen plugin-ecosysteem om te patchen** - afhankelijkheden worden expliciet beheerd, niet afkomstig uit een marketplace met 60.000 opties",
+        "**Geen wp-admin-inlogpagina** - een bekende, universeel aangevallen URL die niet bestaat",
+        "**Beveiliging op infrastructuurniveau** - DDoS-bescherming, SSL en edge-beveiliging beheerd door platforms zoals Vercel"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Overstappen naar een statische of server-gerenderde JavaScript-site betekent niet nul beveiligingsoverwegingen. Maar het betekent wel dat uw onderhoudsteam niet dagelijks racet tegen nieuwe kwetsbaarheidsbekendmakingen in een plugin-ecosysteem."
+    },
+    {
+      "type": "h2",
+      "text": "Controleer uw huidige blootstelling"
+    },
+    {
+      "type": "p",
+      "text": "Als u WordPress gebruikt, is de eerste stap het kennen van uw werkelijke situatie. Onze gratis audit controleert uw zichtbare WordPress-indicatoren, serverresponsheaders en prestatiestatistieken in 60 seconden."
+    },
+    {
+      "type": "p",
+      "text": "Voer de audit uit op [webvise.io/wp-health-report](/wp-health-report). Als de resultaten verouderde software of beveiligingsproblemen laten zien, kunnen we de realistische opties bespreken - of dat nu een gedisciplineerd update- en monitoringproces is, of een migratie naar een architectuur zonder de updatetredmolen."
+    }
+  ],
+  "metaDescription": "40% van WordPress-sites draait verouderde plugins met bekende kwetsbaarheden. 8.000+ nieuwe lekken alleen in 2024. De echte risico's en uw opties."
 }

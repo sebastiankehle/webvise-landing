@@ -1,136 +1,136 @@
 {
-	"date": "2026-03-26",
-	"readingTime": 8,
-	"keyword": "AI-gedreven softwareontwikkeling",
-	"title": "Hoe wij AI inzetten om betere software sneller te bouwen",
-	"excerpt": "AI-codetools zijn overal, maar ze effectief gebruiken vereist meer dan een extensie installeren. Zo hebben wij AI geïntegreerd in elke fase van ons ontwikkelproces - van planning tot codereview tot deployment.",
-	"tags": ["AI", "Web Development", "Automation"],
-	"blocks": [
-		{
-			"type": "p",
-			"text": "Elke ontwikkelaar heeft tegenwoordig toegang tot AI-codeerassistenten. De tools zelf zijn niet langer een concurrentievoordeel. Wat teams die sneller leveren met AI onderscheidt van teams die marginale winsten behalen, is **hoe AI in de workflow is geïntegreerd** - niet welke tool ze gebruiken, maar hoe ze die configureren, welke context ze aanleveren en waar ze de grens trekken tussen AI-autonomie en menselijk oordeel."
-		},
-		{
-			"type": "p",
-			"text": "Bij webvise is AI ingebed in elke fase van ons ontwikkelproces. Dit gaat niet over het vervangen van ontwikkelaars - het gaat over het wegnemen van wrijving zodat onze engineers hun tijd besteden aan architectuur, ontwerpbeslissingen en bedrijfslogica in plaats van boilerplate, repetitieve refactoring en handmatige reviewchecklists."
-		},
-		{
-			"type": "h2",
-			"text": "Planning: verkennen voordat u vastlegt"
-		},
-		{
-			"type": "p",
-			"text": "Complexe taken - bibliotheekmigrates, architectuurwijzigingen, features die tientallen bestanden raken - beginnen in de **planmodus**. Voordat er code wordt geschreven, verkent de AI de codebase, brengt afhankelijkheden in kaart en stelt een implementatieaanpak voor. Dit verschilt fundamenteel van de AI een taak geven en hopen dat de uitvoer klopt."
-		},
-		{
-			"type": "p",
-			"text": "Planmodus is belangrijk omdat de kosten van herwerk bij een grote wijziging hoog zijn. Een microservice-herstructurering die onverwachte afhankelijkheden ontdekt nadat de helft van de code is geschreven, kost dagen. Door de AI eerst de volledige afhankelijkheidsgraph te laten opmaken en vervolgens service-grenzen voor te stellen, worden die problemen onderkend voordat er een enkele regel verandert."
-		},
-		{
-			"type": "p",
-			"text": "Voor goed afgebakende wijzigingen - een bugfix in één bestand, een validatiecontrole toevoegen - slaan we de planmodus volledig over en voeren we direct uit. De sleutel is de aanpak afstemmen op de complexiteit: plannen voor architectuurbeslissingen, directe uitvoering voor duidelijke taken."
-		},
-		{
-			"type": "h2",
-			"text": "Projectconfiguratie: de AI uw standaarden leren"
-		},
-		{
-			"type": "p",
-			"text": "Het meest impactvolle wat u kunt doen met een AI-codeerassistent is **de juiste context aanleveren**. Wij onderhouden gestructureerde configuratiebestanden die de AI onze coderingsnormen, testconventies, API-patronen en deploymentvereisten bijbrengen. Deze context wordt automatisch geladen bij elke sessie."
-		},
-		{
-			"type": "p",
-			"text": "Maar niet alle context is altijd relevant. API-conventies laden bij het bewerken van een React-component verspilt tokens en kan de AI verwarren. Wij gebruiken **padspecifieke regels** met glob-patronen - regels die alleen activeren bij het bewerken van overeenkomende bestanden. Testconventies laden voor `**/*.test.tsx`-bestanden. API-patronen laden voor `src/api/**/*`. Databaseconventies laden voor migratiebestanden."
-		},
-		{
-			"type": "p",
-			"text": "Deze aanpak vermindert ruis en verbetert de uitvoerkwaliteit. De AI genereert code die voldoet aan onze normen omdat zij weet wat die normen zijn - en alleen de normen die relevant zijn voor het bestand dat zij bewerkt."
-		},
-		{
-			"type": "h2",
-			"text": "Ontwikkeling: iteratief verfijnen in plaats van één keer genereren"
-		},
-		{
-			"type": "p",
-			"text": "De grootste fout die teams maken met AI-codetools is ze behandelen als eenmalige generators. U beschrijft wat u wilt, de AI produceert code en u accepteert het of begint opnieuw. Deze aanpak presteert consequent slechter dan **iteratief verfijnen**."
-		},
-		{
-			"type": "p",
-			"text": "Onze workflow is testgedreven: wij schrijven eerst de testsuite - die verwacht gedrag, randgevallen en prestatievereisten dekt - en laten de AI vervolgens implementeren op basis van die tests. Wanneer tests falen, delen we de specifieke fouten en corrigeert de AI haar implementatie. Elke iteratie verkleint de kloof tussen de uitvoer en de vereiste."
-		},
-		{
-			"type": "p",
-			"text": "Voor ambigue vereisten gebruiken we het **interviewpatroon**: in plaats van direct te implementeren, laten we de AI eerst verduidelijkende vragen stellen. Dit brengt overwegingen naar voren die de ontwikkelaar mogelijk niet had voorzien - cache-invalidatiestrategieën, faalmodi, gelijktijdigheidsproblemen. Twee minuten vragen kunnen twee uur herwerk voorkomen."
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Concrete voorbeelden zijn beter dan prozabeschrijvingen.** Wanneer natuurlijke taal inconsistente resultaten oplevert, verduidelijken 2–3 invoer/uitvoer-voorbeelden de vereiste meteen",
-				"**Samenhangende problemen gaan in één bericht.** Wanneer meerdere fixes elkaar beïnvloeden, geef ze samen zodat de AI de interacties meeneemt",
-				"**Onafhankelijke problemen gaan sequentieel.** Los niet-gerelateerde problemen één voor één op met gerichte feedback"
-			]
-		},
-		{
-			"type": "h2",
-			"text": "Codereview: onafhankelijke passes vangen meer bugs"
-		},
-		{
-			"type": "p",
-			"text": "AI-gegenereerde code heeft nog steeds review nodig. Een patroon dat aandacht verdient: de **dezelfde AI-sessie** die de code heeft geschreven, de code laten reviewen. Dit presteert doorgaans slechter dan een onafhankelijke review, omdat het model zijn redeneercontext behoudt en minder geneigd is zijn eigen beslissingen te bevragen."
-		},
-		{
-			"type": "p",
-			"text": "Wij gebruiken **onafhankelijke review-instanties** - een nieuwe AI-sessie zonder eerdere redeneercontext van de generatiefase. Dit tweede paar ogen vangt subtiele problemen op die zelfreview mist. Voor grote pull requests die veel bestanden raken, splitsen we reviews op in per-bestand analyserondes voor lokale problemen, plus een aparte integratierende die de gegevensstroom tussen bestanden onderzoekt."
-		},
-		{
-			"type": "p",
-			"text": "Review-prompts zijn specifiek over wat te zoeken. Vage instructies zoals \"controleer of de code correct is\" leveren onbetrouwbare resultaten op. Expliciete criteria - \"markeer logische fouten en beveiligingsproblemen, sla kleine stijlverschillen over\" - verminderen fout-positieven en bouwen het vertrouwen van ontwikkelaars in het reviewproces op."
-		},
-		{
-			"type": "h2",
-			"text": "CI/CD-integratie: AI in de pipeline"
-		},
-		{
-			"type": "p",
-			"text": "AI-review draait automatisch op elke pull request als onderdeel van onze CI-pipeline. De AI analyseert wijzigingen, produceert gestructureerde bevindingen met bestandslocatie, probleembeschrijving, ernst en voorgestelde oplossing, en plaatst ze als inline PR-opmerkingen. Gestructureerde uitvoer zorgt ervoor dat de bevindingen machineleesbaar zijn en kunnen worden geïntegreerd in bestaande codereview-dashboards."
-		},
-		{
-			"type": "p",
-			"text": "Twee details maken dit in de praktijk werkbaar. Ten eerste worden eerdere bevindingen meegenomen in de context wanneer reviews opnieuw draaien na nieuwe commits, zodat de AI alleen **nieuwe of nog niet-opgeloste problemen** rapporteert - en dubbele opmerkingen die het vertrouwen ondermijnen worden vermeden. Ten tweede worden bestaande testbestanden in de context opgenomen zodat testgeneratie scenario's vermijdt die al worden gedekt door de testsuite."
-		},
-		{
-			"type": "h2",
-			"text": "Contextbeheer: de vaardigheid die de workflow verankert"
-		},
-		{
-			"type": "p",
-			"text": "Elke bovenstaande techniek is afhankelijk van effectief [contextbeheer](/blog/what-is-model-context-protocol). AI-modellen hebben eindige contextvensters en hoe u dat venster vult, bepaalt de uitvoerkwaliteit. Wij passen consequent een aantal principes toe:"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Incrementele verkenning.** Begin met gerichte zoekopdrachten om beginpunten te vinden, volg dan imports en trace flows - laad niet alle bestanden vooraf",
-				"**Subagent-delegatie.** Uitgebreide ontdekkingstaken draaien in geïsoleerde subcontexten die samenvattingen retourneren, zodat het hoofdgesprek gefocust blijft",
-				"**Gestructureerde toestandspersistentie.** Kernbevindingen worden weggeschreven naar scratchpad-bestanden en gerefereerd in vervolgquery's, wat contextdegradatie in lange sessies tegengaat",
-				"**Contextcompressie.** Wanneer de context volloopt met uitgebreide uitvoer van verkenning, comprimeren we deze - we vatten samen wat er is geleerd voordat we doorgaan"
-			]
-		},
-		{
-			"type": "h2",
-			"text": "De resultaten"
-		},
-		{
-			"type": "p",
-			"text": "Deze workflow is mede waarom wij productieklare applicaties doorgaans in [weken in plaats van maanden](/services/mvp-development) kunnen leveren voor de scopes die wij aannemen; de resultaten variëren met de projectcomplexiteit. AI verwerkt het volumewerk - boilerplate genereren, tests schrijven, codereview, documentatie - terwijl onze engineers zich richten op de beslissingen die menselijk oordeel vereisen: architectuur, gebruikerservaring, bedrijfslogica en kwaliteitsnormen."
-		},
-		{
-			"type": "p",
-			"text": "Het resultaat is niet alleen snellere levering. Het is **consistentere kwaliteit op snelheid**. Elke pull request krijgt een grondige review. Elke feature krijgt uitgebreide tests. Elk component volgt vastgestelde conventies. AI-tools worden niet moe, snijden geen hoeken af onder deadlinedruk en verliezen de context niet — al vereisen ze zorgvuldige prompting en menselijke review."
-		},
-		{
-			"type": "p",
-			"text": "Als u een product bouwt en een team zoekt dat moderne AI-gedreven workflows combineert met ervaren technisch inzicht, [praat dan met ons](/#contact). Ons doel is snel leveren zonder in te boeten op kwaliteit; we lichten het proces graag toe."
-		}
-	],
-	"metaDescription": "Zo integreert webvise AI in elke fase van softwareontwikkeling - van planning tot deployment. Productie-apps in weken in plaats van maanden."
+  "date": "2026-03-26",
+  "readingTime": 8,
+  "keyword": "AI-gedreven softwareontwikkeling",
+  "title": "Hoe wij AI inzetten om betere software sneller te bouwen",
+  "excerpt": "AI-codetools zijn overal, maar ze effectief gebruiken vereist meer dan een extensie installeren. Zo hebben wij AI geïntegreerd in elke fase van ons ontwikkelproces - van planning tot codereview tot deployment.",
+  "tags": ["AI", "Web Development", "Automation"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Elke ontwikkelaar heeft tegenwoordig toegang tot AI-codeerassistenten. De tools zelf zijn niet langer een concurrentievoordeel. Wat teams die sneller leveren met AI onderscheidt van teams die marginale winsten behalen, is **hoe AI in de workflow is geïntegreerd** - niet welke tool ze gebruiken, maar hoe ze die configureren, welke context ze aanleveren en waar ze de grens trekken tussen AI-autonomie en menselijk oordeel."
+    },
+    {
+      "type": "p",
+      "text": "Bij webvise is AI ingebed in elke fase van ons ontwikkelproces. Dit gaat niet over het vervangen van ontwikkelaars - het gaat over het wegnemen van wrijving zodat onze engineers hun tijd besteden aan architectuur, ontwerpbeslissingen en bedrijfslogica in plaats van boilerplate, repetitieve refactoring en handmatige reviewchecklists."
+    },
+    {
+      "type": "h2",
+      "text": "Planning: verkennen voordat u vastlegt"
+    },
+    {
+      "type": "p",
+      "text": "Complexe taken - bibliotheekmigrates, architectuurwijzigingen, features die tientallen bestanden raken - beginnen in de **planmodus**. Voordat er code wordt geschreven, verkent de AI de codebase, brengt afhankelijkheden in kaart en stelt een implementatieaanpak voor. Dit verschilt fundamenteel van de AI een taak geven en hopen dat de uitvoer klopt."
+    },
+    {
+      "type": "p",
+      "text": "Planmodus is belangrijk omdat de kosten van herwerk bij een grote wijziging hoog zijn. Een microservice-herstructurering die onverwachte afhankelijkheden ontdekt nadat de helft van de code is geschreven, kost dagen. Door de AI eerst de volledige afhankelijkheidsgraph te laten opmaken en vervolgens service-grenzen voor te stellen, worden die problemen onderkend voordat er een enkele regel verandert."
+    },
+    {
+      "type": "p",
+      "text": "Voor goed afgebakende wijzigingen - een bugfix in één bestand, een validatiecontrole toevoegen - slaan we de planmodus volledig over en voeren we direct uit. De sleutel is de aanpak afstemmen op de complexiteit: plannen voor architectuurbeslissingen, directe uitvoering voor duidelijke taken."
+    },
+    {
+      "type": "h2",
+      "text": "Projectconfiguratie: de AI uw standaarden leren"
+    },
+    {
+      "type": "p",
+      "text": "Het meest impactvolle wat u kunt doen met een AI-codeerassistent is **de juiste context aanleveren**. Wij onderhouden gestructureerde configuratiebestanden die de AI onze coderingsnormen, testconventies, API-patronen en deploymentvereisten bijbrengen. Deze context wordt automatisch geladen bij elke sessie."
+    },
+    {
+      "type": "p",
+      "text": "Maar niet alle context is altijd relevant. API-conventies laden bij het bewerken van een React-component verspilt tokens en kan de AI verwarren. Wij gebruiken **padspecifieke regels** met glob-patronen - regels die alleen activeren bij het bewerken van overeenkomende bestanden. Testconventies laden voor `**/*.test.tsx`-bestanden. API-patronen laden voor `src/api/**/*`. Databaseconventies laden voor migratiebestanden."
+    },
+    {
+      "type": "p",
+      "text": "Deze aanpak vermindert ruis en verbetert de uitvoerkwaliteit. De AI genereert code die voldoet aan onze normen omdat zij weet wat die normen zijn - en alleen de normen die relevant zijn voor het bestand dat zij bewerkt."
+    },
+    {
+      "type": "h2",
+      "text": "Ontwikkeling: iteratief verfijnen in plaats van één keer genereren"
+    },
+    {
+      "type": "p",
+      "text": "De grootste fout die teams maken met AI-codetools is ze behandelen als eenmalige generators. U beschrijft wat u wilt, de AI produceert code en u accepteert het of begint opnieuw. Deze aanpak presteert consequent slechter dan **iteratief verfijnen**."
+    },
+    {
+      "type": "p",
+      "text": "Onze workflow is testgedreven: wij schrijven eerst de testsuite - die verwacht gedrag, randgevallen en prestatievereisten dekt - en laten de AI vervolgens implementeren op basis van die tests. Wanneer tests falen, delen we de specifieke fouten en corrigeert de AI haar implementatie. Elke iteratie verkleint de kloof tussen de uitvoer en de vereiste."
+    },
+    {
+      "type": "p",
+      "text": "Voor ambigue vereisten gebruiken we het **interviewpatroon**: in plaats van direct te implementeren, laten we de AI eerst verduidelijkende vragen stellen. Dit brengt overwegingen naar voren die de ontwikkelaar mogelijk niet had voorzien - cache-invalidatiestrategieën, faalmodi, gelijktijdigheidsproblemen. Twee minuten vragen kunnen twee uur herwerk voorkomen."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Concrete voorbeelden zijn beter dan prozabeschrijvingen.** Wanneer natuurlijke taal inconsistente resultaten oplevert, verduidelijken 2–3 invoer/uitvoer-voorbeelden de vereiste meteen",
+        "**Samenhangende problemen gaan in één bericht.** Wanneer meerdere fixes elkaar beïnvloeden, geef ze samen zodat de AI de interacties meeneemt",
+        "**Onafhankelijke problemen gaan sequentieel.** Los niet-gerelateerde problemen één voor één op met gerichte feedback"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Codereview: onafhankelijke passes vangen meer bugs"
+    },
+    {
+      "type": "p",
+      "text": "AI-gegenereerde code heeft nog steeds review nodig. Een patroon dat aandacht verdient: de **dezelfde AI-sessie** die de code heeft geschreven, de code laten reviewen. Dit presteert doorgaans slechter dan een onafhankelijke review, omdat het model zijn redeneercontext behoudt en minder geneigd is zijn eigen beslissingen te bevragen."
+    },
+    {
+      "type": "p",
+      "text": "Wij gebruiken **onafhankelijke review-instanties** - een nieuwe AI-sessie zonder eerdere redeneercontext van de generatiefase. Dit tweede paar ogen vangt subtiele problemen op die zelfreview mist. Voor grote pull requests die veel bestanden raken, splitsen we reviews op in per-bestand analyserondes voor lokale problemen, plus een aparte integratierende die de gegevensstroom tussen bestanden onderzoekt."
+    },
+    {
+      "type": "p",
+      "text": "Review-prompts zijn specifiek over wat te zoeken. Vage instructies zoals \"controleer of de code correct is\" leveren onbetrouwbare resultaten op. Expliciete criteria - \"markeer logische fouten en beveiligingsproblemen, sla kleine stijlverschillen over\" - verminderen fout-positieven en bouwen het vertrouwen van ontwikkelaars in het reviewproces op."
+    },
+    {
+      "type": "h2",
+      "text": "CI/CD-integratie: AI in de pipeline"
+    },
+    {
+      "type": "p",
+      "text": "AI-review draait automatisch op elke pull request als onderdeel van onze CI-pipeline. De AI analyseert wijzigingen, produceert gestructureerde bevindingen met bestandslocatie, probleembeschrijving, ernst en voorgestelde oplossing, en plaatst ze als inline PR-opmerkingen. Gestructureerde uitvoer zorgt ervoor dat de bevindingen machineleesbaar zijn en kunnen worden geïntegreerd in bestaande codereview-dashboards."
+    },
+    {
+      "type": "p",
+      "text": "Twee details maken dit in de praktijk werkbaar. Ten eerste worden eerdere bevindingen meegenomen in de context wanneer reviews opnieuw draaien na nieuwe commits, zodat de AI alleen **nieuwe of nog niet-opgeloste problemen** rapporteert - en dubbele opmerkingen die het vertrouwen ondermijnen worden vermeden. Ten tweede worden bestaande testbestanden in de context opgenomen zodat testgeneratie scenario's vermijdt die al worden gedekt door de testsuite."
+    },
+    {
+      "type": "h2",
+      "text": "Contextbeheer: de vaardigheid die de workflow verankert"
+    },
+    {
+      "type": "p",
+      "text": "Elke bovenstaande techniek is afhankelijk van effectief [contextbeheer](/blog/what-is-model-context-protocol). AI-modellen hebben eindige contextvensters en hoe u dat venster vult, bepaalt de uitvoerkwaliteit. Wij passen consequent een aantal principes toe:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Incrementele verkenning.** Begin met gerichte zoekopdrachten om beginpunten te vinden, volg dan imports en trace flows - laad niet alle bestanden vooraf",
+        "**Subagent-delegatie.** Uitgebreide ontdekkingstaken draaien in geïsoleerde subcontexten die samenvattingen retourneren, zodat het hoofdgesprek gefocust blijft",
+        "**Gestructureerde toestandspersistentie.** Kernbevindingen worden weggeschreven naar scratchpad-bestanden en gerefereerd in vervolgquery's, wat contextdegradatie in lange sessies tegengaat",
+        "**Contextcompressie.** Wanneer de context volloopt met uitgebreide uitvoer van verkenning, comprimeren we deze - we vatten samen wat er is geleerd voordat we doorgaan"
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "De resultaten"
+    },
+    {
+      "type": "p",
+      "text": "Deze workflow is mede waarom wij productieklare applicaties doorgaans in [weken in plaats van maanden](/services/mvp-development) kunnen leveren voor de scopes die wij aannemen; de resultaten variëren met de projectcomplexiteit. AI verwerkt het volumewerk - boilerplate genereren, tests schrijven, codereview, documentatie - terwijl onze engineers zich richten op de beslissingen die menselijk oordeel vereisen: architectuur, gebruikerservaring, bedrijfslogica en kwaliteitsnormen."
+    },
+    {
+      "type": "p",
+      "text": "Het resultaat is niet alleen snellere levering. Het is **consistentere kwaliteit op snelheid**. Elke pull request krijgt een grondige review. Elke feature krijgt uitgebreide tests. Elk component volgt vastgestelde conventies. AI-tools worden niet moe, snijden geen hoeken af onder deadlinedruk en verliezen de context niet — al vereisen ze zorgvuldige prompting en menselijke review."
+    },
+    {
+      "type": "p",
+      "text": "Als u een product bouwt en een team zoekt dat moderne AI-gedreven workflows combineert met ervaren technisch inzicht, [praat dan met ons](/#contact). Ons doel is snel leveren zonder in te boeten op kwaliteit; we lichten het proces graag toe."
+    }
+  ],
+  "metaDescription": "Zo integreert webvise AI in elke fase van softwareontwikkeling - van planning tot deployment. Productie-apps in weken in plaats van maanden."
 }

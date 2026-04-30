@@ -14,9 +14,13 @@ type ConsentChoice = "granted" | "denied";
 type GtagFn = (...args: unknown[]) => void;
 
 function updateConsent(choice: ConsentChoice) {
-	if (typeof window === "undefined") return;
+	if (typeof window === "undefined") {
+		return;
+	}
 	const gtag = (window as unknown as { gtag?: GtagFn }).gtag;
-	if (typeof gtag !== "function") return;
+	if (typeof gtag !== "function") {
+		return;
+	}
 	gtag("consent", "update", {
 		analytics_storage: choice === "granted" ? "granted" : "denied",
 		ad_storage: choice === "granted" ? "granted" : "denied",
@@ -29,7 +33,7 @@ function persistChoice(choice: ConsentChoice) {
 	try {
 		window.localStorage.setItem(
 			STORAGE_KEY,
-			JSON.stringify({ choice, ts: Date.now() }),
+			JSON.stringify({ choice, ts: Date.now() })
 		);
 	} catch {
 		// ignore (Safari private mode etc.)
@@ -43,13 +47,17 @@ export function ConsentBanner() {
 	useEffect(() => {
 		try {
 			const stored = window.localStorage.getItem(STORAGE_KEY);
-			if (!stored) setVisible(true);
+			if (!stored) {
+				setVisible(true);
+			}
 		} catch {
 			setVisible(true);
 		}
 	}, []);
 
-	if (!visible) return null;
+	if (!visible) {
+		return null;
+	}
 
 	function handleAccept() {
 		updateConsent("granted");
@@ -65,10 +73,10 @@ export function ConsentBanner() {
 
 	return (
 		<div
-			role="dialog"
-			aria-live="polite"
 			aria-label={t("ariaLabel")}
+			aria-live="polite"
 			className="slide-in-from-bottom-4 fade-in fixed inset-x-0 bottom-0 z-[60] animate-in px-4 pb-4 duration-500 ease-out md:inset-x-auto md:right-6 md:bottom-6 md:left-auto md:max-w-[420px] md:px-0 md:pb-0"
+			role="dialog"
 		>
 			<div className="relative bg-background ring-1 ring-foreground/10">
 				<div className="h-px bg-brand" />
@@ -83,8 +91,8 @@ export function ConsentBanner() {
 					<p className="mt-3 text-muted-foreground text-sm leading-relaxed">
 						{t("body")}{" "}
 						<Link
-							href="/privacy"
 							className="text-foreground underline underline-offset-4 transition-colors hover:text-brand"
+							href="/privacy"
 						>
 							{t("privacyLink")}
 						</Link>
@@ -93,19 +101,19 @@ export function ConsentBanner() {
 
 					<div className="mt-6 flex items-center gap-2">
 						<Button
-							size="lg"
-							onClick={handleAccept}
-							nativeButton
 							className="flex-1 border-transparent bg-brand px-5 text-white [&]:hover:bg-brand/80"
+							nativeButton
+							onClick={handleAccept}
+							size="lg"
 						>
 							{t("accept")}
 						</Button>
 						<Button
+							className="flex-1"
+							nativeButton
+							onClick={handleDecline}
 							size="lg"
 							variant="outline"
-							onClick={handleDecline}
-							nativeButton
-							className="flex-1"
 						>
 							{t("decline")}
 						</Button>

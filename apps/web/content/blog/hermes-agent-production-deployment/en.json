@@ -1,178 +1,210 @@
 {
-	"date": "2026-04-17",
-	"readingTime": 9,
-	"keyword": "hermes agent production deployment",
-	"title": "Deploying Hermes Agent in Production: The Day-30 Operator Layer",
-	"excerpt": "Most Hermes Agent 4-profile teams work on day one and show signs of voice convergence by day 30 in production deployments. The operator layer that prevents it: handoff contracts, memory-KPI audits, and policy gates per role.",
-	"metaDescription": "Multi-agent Hermes Agent teams show voice convergence by day 30. The operator layer: handoff contracts, memory-KPI audits, and per-role policy gates that prevent it.",
-	"tags": ["AI Agents", "AI", "Open Source", "Process"],
-	"blocks": [
-		{
-			"type": "p",
-			"text": "**The Hermes Agent operator layer is the set of disciplines that keeps a multi-profile team coherent past day 30.** Four primitives: handoff contracts that can block, memory-KPI audits per profile, policy gates per role, and coordinated cron state. Without them, a 4-profile team (Hermes + Alan + Mira + Turing) shows signs of voice convergence within a month."
-		},
-		{
-			"type": "p",
-			"text": "Most Hermes operator guides currently stop at the 4-profile bootstrap; day-30 deployment material is sparse in public documentation. Day 30 is when the profiles start sounding the same, the handoffs silently break, and a build you were proud of becomes indistinguishable from a solo-agent setup."
-		},
-		{
-			"type": "p",
-			"text": "If [Hermes Agent](/blog/hermes-agent-self-improving-ai) version 0.9.0 is running with the standard bootstrap including Alan, Mira, and Turing profiles, the foundational build is complete; the day-30 work begins from there. Every primitive below is drawn from real deployment patterns, paired with the specific failure mode that forces it into existence."
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Handoff contracts are only real if they block.** If the receiving profile's input shape is wrong, the handoff must fail, not just warn.",
-				"**Memory rots per profile.** Run a weekly `memory-kpi` audit. Crossing 15% stale notes triggers a `brain-resolve` pass.",
-				"**Policy gates prevent silent privilege drift.** Alan never gets shell access. Only the orchestrator can approve commits to main.",
-				"**Four day-30 failure modes account for most deployment regressions we have observed.** Profile drift, handoff rot, SOUL.md bloat, cron collision. Each has a specific countermeasure.",
-				"**Read the [Hermes Agent definition guide](/blog/hermes-agent-self-improving-ai) first** if you need the what-is-it context before the operator layer."
-			]
-		},
-		{
-			"type": "h2",
-			"text": "The Four-Profile Baseline (Recap)"
-		},
-		{
-			"type": "p",
-			"text": "Before the operator layer matters, the 4-profile starter team needs to be running. The canonical split below is the one most production Hermes deployments converge on."
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Hermes** (orchestrator). Plans, decomposes, routes, synthesizes. Traffic controller, not bottleneck.",
-				"**Alan** (research specialist). Source-first, skeptical, uncertainty-aware. Protects the team from hallucinated confidence.",
-				"**Mira** (narrative architect). Clarity, structure, audience awareness. Turns validated material into communication.",
-				"**Turing** (builder and debugger). Implementation, logs, diffs, reproducibility. Cares about tests, not narrative polish."
-			]
-		},
-		{
-			"type": "p",
-			"text": "Profiles isolate seven pieces of state at once: configuration, sessions, memory, skills, personality, cron state, and gateway state. That isolation is the primitive the operator layer depends on. If you are still running one profile carrying five roles, none of the patterns below will help. Fix the primitive first."
-		},
-		{
-			"type": "p",
-			"text": "If you want help deciding whether a 4-profile Hermes deployment fits your team's actual workload, [webvise can walk you through it](/#contact)."
-		},
-		{
-			"type": "h2",
-			"text": "Handoff Contracts: The Only Thing That Blocks Profile Drift"
-		},
-		{
-			"type": "p",
-			"text": "A handoff contract is a four-field specification stored at `~/.hermes/team/handoffs/<from>-to-<to>.md`. The contract is only real if it can block. If the input doesn't match the declared shape, the harness fails the handoff and requires human review. The four required fields:"
-		},
-		{
-			"type": "table",
-			"headers": ["Field", "Definition", "Example (Alan → Mira)"],
-			"rows": [
-				["Input shape", "What the receiving profile expects", "Ranked claims with source URLs, not raw excerpts"],
-				["Output shape", "What the receiving profile will return", "Drafted section plus change log, not a finished article"],
-				["Failure action", "What happens when input is malformed", "block, require-human-review, or retry"],
-				["Verification gate", "One assertion that must be true before handoff completes", "Every claim has a source URL"]
-			]
-		},
-		{
-			"type": "p",
-			"text": "The gate is load-bearing. Most teams write handoff docs as suggestions and wonder why the profiles drift. A suggestion never blocks. Without a block, Alan eventually sends raw transcripts to Mira, Mira starts drafting without source attribution, and the team's output quality erodes one silent handoff at a time."
-		},
-		{
-			"type": "h2",
-			"text": "Memory-KPI: The 15% Stale-Note Threshold"
-		},
-		{
-			"type": "p",
-			"text": "Memory rots inside each profile the same way a shared wiki rots past 100 pages. A weekly audit catches the rot before the profile starts quoting itself from obsolete context. Three metrics per profile matter:"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**`source_backed_pct`**: percentage of notes that still have a retrievable source. Drops when sources 404 or get deleted.",
-				"**`stale_notes`**: count of notes whose referenced code, URL, or config no longer matches reality.",
-				"**`contradiction_notes`**: count of notes that contradict something else in the same profile's memory."
-			]
-		},
-		{
-			"type": "p",
-			"text": "The weekly audit command runs across every specialist profile: `for p in alan mira turing; do hermes -p $p memory-kpi --json | jq '.source_backed_pct, .stale_notes, .contradiction_notes'; done`. Watch `stale_notes`. Once it crosses 15% of total notes in a profile, schedule a `brain-resolve` pass before that profile starts quoting itself from obsolete context."
-		},
-		{
-			"type": "h2",
-			"text": "Policy Gates: Permission Per Role"
-		},
-		{
-			"type": "p",
-			"text": "No profile gets more permission than its role needs. The orchestrator is the only profile allowed to widen any other profile's scope. Writing these down in a table you check weekly is the difference between a governed team and four agents that slowly all become admin."
-		},
-		{
-			"type": "table",
-			"headers": ["Profile", "Risk class", "Permissions"],
-			"rows": [
-				["Alan (research)", "safe", "Read web and repo, write to research/ only. No shell, no writes outside sandbox."],
-				["Mira (writer)", "safe", "Read research outputs, write to drafts/ only. No secrets access, no code execution."],
-				["Turing (engineer)", "review", "Read repo, run sandboxed tests, write to feature branch. Every commit to main requires orchestrator approval."],
-				["Hermes (orchestrator)", "critical", "Only profile allowed to approve Turing's commits, merge branches, or trigger paid API calls above budget ceiling."]
-			]
-		},
-		{
-			"type": "p",
-			"text": "The principle is load-bearing. A research agent with shell access will eventually run a command it should not have. A writer profile with secrets access will eventually leak them into a draft. Permission drift happens silently and is only obvious in retrospect, which is a difficult moment to discover the gap."
-		},
-		{
-			"type": "h2",
-			"text": "The Four Day-30 Failure Modes"
-		},
-		{
-			"type": "p",
-			"text": "Four specific failure modes account for most deployment regressions we have observed in multi-agent Hermes setups. Each has a direct countermeasure. Skip any of them and the team looks good on day one, degraded on day 30."
-		},
-		{
-			"type": "h3",
-			"text": "1. Profile drift"
-		},
-		{
-			"type": "p",
-			"text": "SOUL.md edits accumulate silently. Mira slowly becomes Turing. Fix: diff each SOUL.md weekly against its day-one version. Any new responsibility gets a logged approval entry, or it gets reverted. No exceptions for small edits, because small edits are how drift happens."
-		},
-		{
-			"type": "h3",
-			"text": "2. Handoff rot"
-		},
-		{
-			"type": "p",
-			"text": "The contract file exists but nobody enforces it. Alan starts sending raw transcripts to Mira again. Fix: wire each handoff file into the harness so mismatched input blocks. A contract that cannot block is documentation, not control."
-		},
-		{
-			"type": "h3",
-			"text": "3. SOUL.md bloat"
-		},
-		{
-			"type": "p",
-			"text": "Each role grows edge-case paragraphs until the agent loses its original identity in the noise. Fix: cap SOUL.md at 400 words. Anything beyond that goes into AGENTS.md or a per-domain reference file. The constraint forces the team to keep identity tight."
-		},
-		{
-			"type": "h3",
-			"text": "4. Cron collision"
-		},
-		{
-			"type": "p",
-			"text": "Multiple profiles schedule jobs at 3am without coordination. The orchestrator wakes up to four agents fighting for the same API quota. Fix: one shared `~/.hermes/team/cron.md` listing every scheduled task across every profile with its exact time, duration, and dependency. Check it before adding any new cron."
-		},
-		{
-			"type": "h2",
-			"text": "What This Means for Business Teams"
-		},
-		{
-			"type": "p",
-			"text": "The operator layer is the part that turns a Hermes demo into durable production infrastructure. Most teams evaluating multi-agent frameworks focus on the initial setup cost and miss the maintenance model. A 4-profile team without handoff contracts, memory audits, and policy gates has the same failure curve as a single-profile agent on a six-week lag: works beautifully at first, degrades invisibly, collapses when you need it most."
-		},
-		{
-			"type": "p",
-			"text": "The compounding value case for Hermes, the reason [the skill library matters](/blog/hermes-agent-self-improving-ai), only holds if the operator layer holds. Skills accumulated by a profile that has silently drifted into a different role are skills for a role you no longer have."
-		},
-		{
-			"type": "p",
-			"text": "At **webvise**, we help businesses design and operate AI agent architectures, including Hermes multi-profile teams with the governance discipline to survive past day 30. If you are evaluating a Hermes deployment or already have one that is starting to blur, [reach out](/#contact) and we will help you harden the operator layer before the failure modes compound."
-		}
-	]
+  "date": "2026-04-17",
+  "readingTime": 9,
+  "keyword": "hermes agent production deployment",
+  "title": "Deploying Hermes Agent in Production: The Day-30 Operator Layer",
+  "excerpt": "Most Hermes Agent 4-profile teams work on day one and show signs of voice convergence by day 30 in production deployments. The operator layer that prevents it: handoff contracts, memory-KPI audits, and policy gates per role.",
+  "metaDescription": "Multi-agent Hermes Agent teams show voice convergence by day 30. The operator layer: handoff contracts, memory-KPI audits, and per-role policy gates that prevent it.",
+  "tags": ["AI Agents", "AI", "Open Source", "Process"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "**The Hermes Agent operator layer is the set of disciplines that keeps a multi-profile team coherent past day 30.** Four primitives: handoff contracts that can block, memory-KPI audits per profile, policy gates per role, and coordinated cron state. Without them, a 4-profile team (Hermes + Alan + Mira + Turing) shows signs of voice convergence within a month."
+    },
+    {
+      "type": "p",
+      "text": "Most Hermes operator guides currently stop at the 4-profile bootstrap; day-30 deployment material is sparse in public documentation. Day 30 is when the profiles start sounding the same, the handoffs silently break, and a build you were proud of becomes indistinguishable from a solo-agent setup."
+    },
+    {
+      "type": "p",
+      "text": "If [Hermes Agent](/blog/hermes-agent-self-improving-ai) version 0.9.0 is running with the standard bootstrap including Alan, Mira, and Turing profiles, the foundational build is complete; the day-30 work begins from there. Every primitive below is drawn from real deployment patterns, paired with the specific failure mode that forces it into existence."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Handoff contracts are only real if they block.** If the receiving profile's input shape is wrong, the handoff must fail, not just warn.",
+        "**Memory rots per profile.** Run a weekly `memory-kpi` audit. Crossing 15% stale notes triggers a `brain-resolve` pass.",
+        "**Policy gates prevent silent privilege drift.** Alan never gets shell access. Only the orchestrator can approve commits to main.",
+        "**Four day-30 failure modes account for most deployment regressions we have observed.** Profile drift, handoff rot, SOUL.md bloat, cron collision. Each has a specific countermeasure.",
+        "**Read the [Hermes Agent definition guide](/blog/hermes-agent-self-improving-ai) first** if you need the what-is-it context before the operator layer."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "The Four-Profile Baseline (Recap)"
+    },
+    {
+      "type": "p",
+      "text": "Before the operator layer matters, the 4-profile starter team needs to be running. The canonical split below is the one most production Hermes deployments converge on."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Hermes** (orchestrator). Plans, decomposes, routes, synthesizes. Traffic controller, not bottleneck.",
+        "**Alan** (research specialist). Source-first, skeptical, uncertainty-aware. Protects the team from hallucinated confidence.",
+        "**Mira** (narrative architect). Clarity, structure, audience awareness. Turns validated material into communication.",
+        "**Turing** (builder and debugger). Implementation, logs, diffs, reproducibility. Cares about tests, not narrative polish."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Profiles isolate seven pieces of state at once: configuration, sessions, memory, skills, personality, cron state, and gateway state. That isolation is the primitive the operator layer depends on. If you are still running one profile carrying five roles, none of the patterns below will help. Fix the primitive first."
+    },
+    {
+      "type": "p",
+      "text": "If you want help deciding whether a 4-profile Hermes deployment fits your team's actual workload, [webvise can walk you through it](/#contact)."
+    },
+    {
+      "type": "h2",
+      "text": "Handoff Contracts: The Only Thing That Blocks Profile Drift"
+    },
+    {
+      "type": "p",
+      "text": "A handoff contract is a four-field specification stored at `~/.hermes/team/handoffs/<from>-to-<to>.md`. The contract is only real if it can block. If the input doesn't match the declared shape, the harness fails the handoff and requires human review. The four required fields:"
+    },
+    {
+      "type": "table",
+      "headers": ["Field", "Definition", "Example (Alan → Mira)"],
+      "rows": [
+        [
+          "Input shape",
+          "What the receiving profile expects",
+          "Ranked claims with source URLs, not raw excerpts"
+        ],
+        [
+          "Output shape",
+          "What the receiving profile will return",
+          "Drafted section plus change log, not a finished article"
+        ],
+        [
+          "Failure action",
+          "What happens when input is malformed",
+          "block, require-human-review, or retry"
+        ],
+        [
+          "Verification gate",
+          "One assertion that must be true before handoff completes",
+          "Every claim has a source URL"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "The gate is load-bearing. Most teams write handoff docs as suggestions and wonder why the profiles drift. A suggestion never blocks. Without a block, Alan eventually sends raw transcripts to Mira, Mira starts drafting without source attribution, and the team's output quality erodes one silent handoff at a time."
+    },
+    {
+      "type": "h2",
+      "text": "Memory-KPI: The 15% Stale-Note Threshold"
+    },
+    {
+      "type": "p",
+      "text": "Memory rots inside each profile the same way a shared wiki rots past 100 pages. A weekly audit catches the rot before the profile starts quoting itself from obsolete context. Three metrics per profile matter:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**`source_backed_pct`**: percentage of notes that still have a retrievable source. Drops when sources 404 or get deleted.",
+        "**`stale_notes`**: count of notes whose referenced code, URL, or config no longer matches reality.",
+        "**`contradiction_notes`**: count of notes that contradict something else in the same profile's memory."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "The weekly audit command runs across every specialist profile: `for p in alan mira turing; do hermes -p $p memory-kpi --json | jq '.source_backed_pct, .stale_notes, .contradiction_notes'; done`. Watch `stale_notes`. Once it crosses 15% of total notes in a profile, schedule a `brain-resolve` pass before that profile starts quoting itself from obsolete context."
+    },
+    {
+      "type": "h2",
+      "text": "Policy Gates: Permission Per Role"
+    },
+    {
+      "type": "p",
+      "text": "No profile gets more permission than its role needs. The orchestrator is the only profile allowed to widen any other profile's scope. Writing these down in a table you check weekly is the difference between a governed team and four agents that slowly all become admin."
+    },
+    {
+      "type": "table",
+      "headers": ["Profile", "Risk class", "Permissions"],
+      "rows": [
+        [
+          "Alan (research)",
+          "safe",
+          "Read web and repo, write to research/ only. No shell, no writes outside sandbox."
+        ],
+        [
+          "Mira (writer)",
+          "safe",
+          "Read research outputs, write to drafts/ only. No secrets access, no code execution."
+        ],
+        [
+          "Turing (engineer)",
+          "review",
+          "Read repo, run sandboxed tests, write to feature branch. Every commit to main requires orchestrator approval."
+        ],
+        [
+          "Hermes (orchestrator)",
+          "critical",
+          "Only profile allowed to approve Turing's commits, merge branches, or trigger paid API calls above budget ceiling."
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "The principle is load-bearing. A research agent with shell access will eventually run a command it should not have. A writer profile with secrets access will eventually leak them into a draft. Permission drift happens silently and is only obvious in retrospect, which is a difficult moment to discover the gap."
+    },
+    {
+      "type": "h2",
+      "text": "The Four Day-30 Failure Modes"
+    },
+    {
+      "type": "p",
+      "text": "Four specific failure modes account for most deployment regressions we have observed in multi-agent Hermes setups. Each has a direct countermeasure. Skip any of them and the team looks good on day one, degraded on day 30."
+    },
+    {
+      "type": "h3",
+      "text": "1. Profile drift"
+    },
+    {
+      "type": "p",
+      "text": "SOUL.md edits accumulate silently. Mira slowly becomes Turing. Fix: diff each SOUL.md weekly against its day-one version. Any new responsibility gets a logged approval entry, or it gets reverted. No exceptions for small edits, because small edits are how drift happens."
+    },
+    {
+      "type": "h3",
+      "text": "2. Handoff rot"
+    },
+    {
+      "type": "p",
+      "text": "The contract file exists but nobody enforces it. Alan starts sending raw transcripts to Mira again. Fix: wire each handoff file into the harness so mismatched input blocks. A contract that cannot block is documentation, not control."
+    },
+    {
+      "type": "h3",
+      "text": "3. SOUL.md bloat"
+    },
+    {
+      "type": "p",
+      "text": "Each role grows edge-case paragraphs until the agent loses its original identity in the noise. Fix: cap SOUL.md at 400 words. Anything beyond that goes into AGENTS.md or a per-domain reference file. The constraint forces the team to keep identity tight."
+    },
+    {
+      "type": "h3",
+      "text": "4. Cron collision"
+    },
+    {
+      "type": "p",
+      "text": "Multiple profiles schedule jobs at 3am without coordination. The orchestrator wakes up to four agents fighting for the same API quota. Fix: one shared `~/.hermes/team/cron.md` listing every scheduled task across every profile with its exact time, duration, and dependency. Check it before adding any new cron."
+    },
+    {
+      "type": "h2",
+      "text": "What This Means for Business Teams"
+    },
+    {
+      "type": "p",
+      "text": "The operator layer is the part that turns a Hermes demo into durable production infrastructure. Most teams evaluating multi-agent frameworks focus on the initial setup cost and miss the maintenance model. A 4-profile team without handoff contracts, memory audits, and policy gates has the same failure curve as a single-profile agent on a six-week lag: works beautifully at first, degrades invisibly, collapses when you need it most."
+    },
+    {
+      "type": "p",
+      "text": "The compounding value case for Hermes, the reason [the skill library matters](/blog/hermes-agent-self-improving-ai), only holds if the operator layer holds. Skills accumulated by a profile that has silently drifted into a different role are skills for a role you no longer have."
+    },
+    {
+      "type": "p",
+      "text": "At **webvise**, we help businesses design and operate AI agent architectures, including Hermes multi-profile teams with the governance discipline to survive past day 30. If you are evaluating a Hermes deployment or already have one that is starting to blur, [reach out](/#contact) and we will help you harden the operator layer before the failure modes compound."
+    }
+  ]
 }

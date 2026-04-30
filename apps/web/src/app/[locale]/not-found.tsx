@@ -17,9 +17,9 @@ export default async function NotFound() {
 					{t("backHome")}
 				</Button>
 				<Button
-					variant="outline"
 					className=""
 					render={<Link href={{ pathname: "/", hash: "contact" }} />}
+					variant="outline"
 				>
 					{t("contact")}
 				</Button>

@@ -7,87 +7,220 @@
   "metaDescription": "Next.js 16.2 include AGENTS.md per default. Il contenuto e ora il Suo unico elemento differenziante. Ecco come appaiono i file di livello produzione.",
   "tags": ["AI Agents", "AI", "Process", "Web Development"],
   "blocks": [
-    { "type": "p", "text": "Quando create-next-app ha incluso **AGENTS.md** come scaffolding predefinito tre giorni fa, la scelta del framework ha smesso di essere un differenziatore. Il contenuto di quel file e ora l'unica cosa che separa uno stack agent funzionante da uno non funzionante." },
-    { "type": "p", "text": "Per sei mesi, avere un AGENTS.md significava che il suo team era avanti. Dal 2026-04-28, ogni nuovo progetto Next.js ne include uno. Il segnale e scomparso. Cio che si trova dentro il file e il nuovo segnale." },
-    { "type": "p", "text": "La maggior parte dei responsabili tecnici tratta AGENTS.md come documentazione. E un file di configurazione a runtime che il modello carica a ogni chiamata. Questo articolo analizza lo studio empirico di Augment Code, la regola delle 100-150 righe che decide se il file aiuta o penalizza, e il template che distribuiamo su 11 repository client di produzione." },
+    {
+      "type": "p",
+      "text": "Quando create-next-app ha incluso **AGENTS.md** come scaffolding predefinito tre giorni fa, la scelta del framework ha smesso di essere un differenziatore. Il contenuto di quel file e ora l'unica cosa che separa uno stack agent funzionante da uno non funzionante."
+    },
+    {
+      "type": "p",
+      "text": "Per sei mesi, avere un AGENTS.md significava che il suo team era avanti. Dal 2026-04-28, ogni nuovo progetto Next.js ne include uno. Il segnale e scomparso. Cio che si trova dentro il file e il nuovo segnale."
+    },
+    {
+      "type": "p",
+      "text": "La maggior parte dei responsabili tecnici tratta AGENTS.md come documentazione. E un file di configurazione a runtime che il modello carica a ogni chiamata. Questo articolo analizza lo studio empirico di Augment Code, la regola delle 100-150 righe che decide se il file aiuta o penalizza, e il template che distribuiamo su 11 repository client di produzione."
+    },
     { "type": "h2", "text": "Punti Chiave" },
-    { "type": "ul", "items": [
-      "**Next.js 16.2 include AGENTS.md come scaffolding predefinito** (rilasciato il 2026-04-28). Ogni nuovo starter su Vercel lo eredita.",
-      "**Lo studio AuggieBench di Augment Code** (2026-04-23): i file tra 100 e 150 righe ottengono i risultati migliori. Oltre le 150 righe, i guadagni si invertono.",
-      "**Lo stesso file puo aumentare la precisione nella correzione dei bug del 25% e ridurre la completezza delle funzionalita del 30%** su attivita diverse. Il design delle sezioni conta piu della lunghezza totale.",
-      "**AGENTS.md e l'unica superficie documentale con un tasso di scoperta del 100%.** Le cartelle _docs/ orfane si attestano sotto il 10%.",
-      "**Il nuovo vantaggio e nei workflow procedurali, nelle tabelle decisionali e nelle regole reattive in una riga.** Non nelle panoramiche architetturali o negli avvisi accumulati."
-    ]},
+    {
+      "type": "ul",
+      "items": [
+        "**Next.js 16.2 include AGENTS.md come scaffolding predefinito** (rilasciato il 2026-04-28). Ogni nuovo starter su Vercel lo eredita.",
+        "**Lo studio AuggieBench di Augment Code** (2026-04-23): i file tra 100 e 150 righe ottengono i risultati migliori. Oltre le 150 righe, i guadagni si invertono.",
+        "**Lo stesso file puo aumentare la precisione nella correzione dei bug del 25% e ridurre la completezza delle funzionalita del 30%** su attivita diverse. Il design delle sezioni conta piu della lunghezza totale.",
+        "**AGENTS.md e l'unica superficie documentale con un tasso di scoperta del 100%.** Le cartelle _docs/ orfane si attestano sotto il 10%.",
+        "**Il nuovo vantaggio e nei workflow procedurali, nelle tabelle decisionali e nelle regole reattive in una riga.** Non nelle panoramiche architetturali o negli avvisi accumulati."
+      ]
+    },
 
-    { "type": "h2", "text": "Tre Giorni Fa, AGENTS.md Ha Smesso di Essere un Differenziatore" },
-    { "type": "p", "text": "Next.js 16.2 e stato rilasciato il 2026-04-28 con AGENTS.md come file predefinito nel template create-next-app. Vercel distribuisce lo scaffolding a ogni nuovo progetto starter. Il file che una volta indicava che un team era avanti ora viene incluso nella configurazione base." },
-    { "type": "p", "text": "Il cambiamento nella conversazione e il punto centrale. Sei mesi fa, la domanda era se il suo team avesse un AGENTS.md. Questa settimana, la domanda e diventata cosa ci fosse dentro. Gli acquirenti che valutano i partner di sviluppo hanno bisogno di un nuovo schema di valutazione, perche il segnale binario e scomparso." },
-    { "type": "p", "text": "Due segnali paralleli confermano il cambiamento. Il repository mattpocock/skills di Matt Pocock ha raggiunto 41.000 stelle in 85 giorni, e il repository e la sua cartella .claude pubblicata integralmente. Le persone mettono stelle alle configurazioni agent di altri come una volta facevano con i framework. Ecco come appare la commodity." },
-    { "type": "p", "text": "Il repository gstack di Garry Tan, rilasciato la stessa settimana, ha superato 23.000 stelle in sette giorni. Tan lo ha usato per consegnare 600.000 righe di codice in produzione in 60 giorni. Il repository contiene 31 file markdown di skill. Non c'e nessun framework sottostante." },
-    { "type": "p", "text": "Se il suo team di procurement ha bisogno di un metodo per valutare l'AI-readiness nelle valutazioni dei vendor, [webvise ha distribuito questo template su 11 build client](/#contact) e puo guidarLa attraverso il criterio che utilizziamo." },
+    {
+      "type": "h2",
+      "text": "Tre Giorni Fa, AGENTS.md Ha Smesso di Essere un Differenziatore"
+    },
+    {
+      "type": "p",
+      "text": "Next.js 16.2 e stato rilasciato il 2026-04-28 con AGENTS.md come file predefinito nel template create-next-app. Vercel distribuisce lo scaffolding a ogni nuovo progetto starter. Il file che una volta indicava che un team era avanti ora viene incluso nella configurazione base."
+    },
+    {
+      "type": "p",
+      "text": "Il cambiamento nella conversazione e il punto centrale. Sei mesi fa, la domanda era se il suo team avesse un AGENTS.md. Questa settimana, la domanda e diventata cosa ci fosse dentro. Gli acquirenti che valutano i partner di sviluppo hanno bisogno di un nuovo schema di valutazione, perche il segnale binario e scomparso."
+    },
+    {
+      "type": "p",
+      "text": "Due segnali paralleli confermano il cambiamento. Il repository mattpocock/skills di Matt Pocock ha raggiunto 41.000 stelle in 85 giorni, e il repository e la sua cartella .claude pubblicata integralmente. Le persone mettono stelle alle configurazioni agent di altri come una volta facevano con i framework. Ecco come appare la commodity."
+    },
+    {
+      "type": "p",
+      "text": "Il repository gstack di Garry Tan, rilasciato la stessa settimana, ha superato 23.000 stelle in sette giorni. Tan lo ha usato per consegnare 600.000 righe di codice in produzione in 60 giorni. Il repository contiene 31 file markdown di skill. Non c'e nessun framework sottostante."
+    },
+    {
+      "type": "p",
+      "text": "Se il suo team di procurement ha bisogno di un metodo per valutare l'AI-readiness nelle valutazioni dei vendor, [webvise ha distribuito questo template su 11 build client](/#contact) e puo guidarLa attraverso il criterio che utilizziamo."
+    },
 
     { "type": "h2", "text": "La Regola delle 100-150 Righe, con Misurazioni" },
-    { "type": "p", "text": "Augment Code ha pubblicato il primo studio empirico sulla qualita del contenuto di AGENTS.md il 2026-04-23. L'autore, Slava Zhenylenko, ha analizzato decine di file AGENTS.md dal monorepo di Augment. Ogni file e stato eseguito due volte attraverso la suite di valutazione AuggieBench, una volta con il file presente e una senza. L'output e stato valutato rispetto alla PR definitiva approvata dagli esseri umani." },
-    { "type": "p", "text": "Il risultato principale: i file migliori hanno prodotto un salto di qualita equivalente all'aggiornamento da Haiku a Opus. I file peggiori hanno prodotto output **peggiori rispetto all'assenza totale di AGENTS.md**. Lo stesso team di ingegneri, lo stesso modello, lo stesso compito. Il file ha deciso la differenza." },
-    { "type": "p", "text": "L'intervallo ottimale era preciso. I file tra 100 e 150 righe, abbinati a un piccolo insieme di documenti di riferimento caricati su richiesta, hanno prodotto guadagni dal 10 al 15% su tutte le metriche nei moduli di dimensione media di circa 100 file core. Oltre le 150 righe, i guadagni si sono invertiti." },
-    { "type": "p", "text": "La confessione di Tan ha confermato il risultato dal lato dei principi. Il suo CLAUDE.md era di 20.000 righe, con ogni particolarita, ogni pattern, ogni lezione codificata in un unico file. Claude Code stesso ha segnalato il bloat. La soluzione e stata circa 200 righe di puntatori, con la sostanza spostata in skill caricate su richiesta." },
-    { "type": "p", "text": "Il nostro template su 11 repository client webvise, inclusi aesthetic-medicine-app, biomed-landing, hyyve-landing, kersten-betreuung-landing e urban-sports-sniper-app, si attesta a 126 righe. Non abbiamo scelto quel numero per adattarci allo studio. Lo studio e stato pubblicato due settimane dopo che ci eravamo standardizzati." },
-    { "type": "p", "text": "I tassi di scoperta dalle tracce di Augment su centinaia di sessioni spiegano perche il posizionamento conta quanto il contenuto:" },
-    { "type": "table", "headers": ["Superficie documentale", "Tasso di scoperta"],
+    {
+      "type": "p",
+      "text": "Augment Code ha pubblicato il primo studio empirico sulla qualita del contenuto di AGENTS.md il 2026-04-23. L'autore, Slava Zhenylenko, ha analizzato decine di file AGENTS.md dal monorepo di Augment. Ogni file e stato eseguito due volte attraverso la suite di valutazione AuggieBench, una volta con il file presente e una senza. L'output e stato valutato rispetto alla PR definitiva approvata dagli esseri umani."
+    },
+    {
+      "type": "p",
+      "text": "Il risultato principale: i file migliori hanno prodotto un salto di qualita equivalente all'aggiornamento da Haiku a Opus. I file peggiori hanno prodotto output **peggiori rispetto all'assenza totale di AGENTS.md**. Lo stesso team di ingegneri, lo stesso modello, lo stesso compito. Il file ha deciso la differenza."
+    },
+    {
+      "type": "p",
+      "text": "L'intervallo ottimale era preciso. I file tra 100 e 150 righe, abbinati a un piccolo insieme di documenti di riferimento caricati su richiesta, hanno prodotto guadagni dal 10 al 15% su tutte le metriche nei moduli di dimensione media di circa 100 file core. Oltre le 150 righe, i guadagni si sono invertiti."
+    },
+    {
+      "type": "p",
+      "text": "La confessione di Tan ha confermato il risultato dal lato dei principi. Il suo CLAUDE.md era di 20.000 righe, con ogni particolarita, ogni pattern, ogni lezione codificata in un unico file. Claude Code stesso ha segnalato il bloat. La soluzione e stata circa 200 righe di puntatori, con la sostanza spostata in skill caricate su richiesta."
+    },
+    {
+      "type": "p",
+      "text": "Il nostro template su 11 repository client webvise, inclusi aesthetic-medicine-app, biomed-landing, hyyve-landing, kersten-betreuung-landing e urban-sports-sniper-app, si attesta a 126 righe. Non abbiamo scelto quel numero per adattarci allo studio. Lo studio e stato pubblicato due settimane dopo che ci eravamo standardizzati."
+    },
+    {
+      "type": "p",
+      "text": "I tassi di scoperta dalle tracce di Augment su centinaia di sessioni spiegano perche il posizionamento conta quanto il contenuto:"
+    },
+    {
+      "type": "table",
+      "headers": ["Superficie documentale", "Tasso di scoperta"],
       "rows": [
-        ["AGENTS.md (ogni livello della gerarchia, caricato automaticamente)", "100%"],
-        ["Riferimenti da AGENTS.md (caricati su richiesta)", "90%+ quando rilevante"],
-        ["README.md a livello di directory", "80%+ quando l'agent lavora in quella directory"],
-        ["README.md annidato (sottodirectory in cui l'agent non si trova)", "circa 40%"],
+        [
+          "AGENTS.md (ogni livello della gerarchia, caricato automaticamente)",
+          "100%"
+        ],
+        [
+          "Riferimenti da AGENTS.md (caricati su richiesta)",
+          "90%+ quando rilevante"
+        ],
+        [
+          "README.md a livello di directory",
+          "80%+ quando l'agent lavora in quella directory"
+        ],
+        [
+          "README.md annidato (sottodirectory in cui l'agent non si trova)",
+          "circa 40%"
+        ],
         ["Cartelle _docs/ orfane senza riferimenti", "sotto il 10%"]
       ]
     },
-    { "type": "p", "text": "AGENTS.md e l'unica superficie con scoperta affidabile. Se qualcosa deve essere visto, si trova li o vi e referenziato. Spostare il contenuto in una posizione referenziata fa piu lavoro che scrivere altri documenti." },
+    {
+      "type": "p",
+      "text": "AGENTS.md e l'unica superficie con scoperta affidabile. Se qualcosa deve essere visto, si trova li o vi e referenziato. Spostare il contenuto in una posizione referenziata fa piu lavoro che scrivere altri documenti."
+    },
 
     { "type": "h2", "text": "Cosa Inserire nel File e Cosa lo Compromette" },
-    { "type": "p", "text": "Le tracce di Augment sono state analizzate per tipo di contenuto. I pattern che hanno migliorato l'output e quelli che lo hanno compromesso non sono simmetrici." },
+    {
+      "type": "p",
+      "text": "Le tracce di Augment sono state analizzate per tipo di contenuto. I pattern che hanno migliorato l'output e quelli che lo hanno compromesso non sono simmetrici."
+    },
     { "type": "h3", "text": "Cosa funziona" },
-    { "type": "ul", "items": [
-      "**Workflow procedurali.** I workflow a piu passaggi numerati sono stati il singolo pattern piu efficace. Un workflow in sei passaggi per distribuire una nuova integrazione ha ridotto le PR con file di cablaggio mancanti dal 40% al 10%, aumentato la correttezza del 25% e la completezza del 20%.",
-      "**Tabelle decisionali quando esistono 2 o 3 opzioni ragionevoli.** Una tabella decisionale React Query versus Zustand ha prodotto un aumento del 25% in best_practices sulle PR in quell'area. La tabella risolve l'ambiguita prima che l'agent scriva il codice.",
-      "**Esempi reali dal codebase, da 3 a 10 righe ciascuno.** Migliora il riuso e l'aderenza ai pattern. Piu lunghi e l'agent esegue il pattern-matching sulla cosa sbagliata.",
-      "**Abbinare ogni divieto a un'indicazione positiva.** La documentazione solo con divieti ottiene risultati inferiori. Un divieto generico rende l'agent cauto ed esplorativo. Abbinarlo a una direttiva positiva che indica il call site corretto, e l'agent procede.",
-      "**File a livello di modulo rispetto a un unico file root gigante.** La banda delle 100-150 righe si adatta a un modulo di medie dimensioni di circa 100 file. I file root trasversali oltre quella dimensione hanno perso su ogni metrica."
-    ]},
-    { "type": "h3", "text": "Cosa compromette l'output" },
-    { "type": "ul", "items": [
-      "**Panoramiche architetturali.** L'agent legge la panoramica, poi apre decine di documenti circostanti per verificare il suo approccio, carica da 10.000 a 100.000 token di contesto irrilevante e l'output degrada. Augment ha chiamato questo la trappola della sovraesplorazione.",
-      "**Avvisi accumulati senza indicazioni abbinate.** Con 30-50 divieti e nessuna indicazione positiva, l'agent verifica la sua soluzione rispetto a ogni avviso singolarmente, anche quando nessuno si applica.",
-      "**Pattern che non esistono ancora nel codebase.** Se AGENTS.md descrive un'architettura che il codice non implementa, il file guida attivamente l'agent nella direzione sbagliata.",
-      "**Proliferazione di documentazione intorno al file.** I peggiori performer di Augment erano file AGENTS.md posizionati sopra 500K-2MB di documenti architetturali. Rimuovere AGENTS.md cambiava a malapena il comportamento. L'agent leggeva la documentazione proliferata indipendentemente."
-    ]},
-
-    { "type": "h2", "text": "Reattivo, Non Prescritto" },
-    { "type": "p", "text": "Elie Steinbock ha pubblicato un articolo separato il 2026-04-20 con una disciplina che risolve la maggior parte dei file AGENTS.md aziendali che analizziamo. Non scrivere in anticipo decine di regole prima che qualcosa sia andato storto. La sovrastrutturazione preventiva crea bloat che il modello analizza a ogni esecuzione." },
-    { "type": "p", "text": "Aggiungere regole in modo reattivo, quando si e verificata una correzione reale, e mantenere le aggiunte a una riga. Per qualsiasi cosa piu pesante, spostare il contenuto in una skill caricata progressivamente. AGENTS.md rimane compatto. Il layer delle skill assorbe il peso." },
-    { "type": "p", "text": "La regola parallela di Tan, la disciplina del fallimento doppio, dice la stessa cosa dall'altro lato. Se deve chiedere all'agent qualcosa due volte, la seconda richiesta non dovrebbe esistere. Il pattern va nel layer delle skill o in AGENTS.md come una riga. Il sistema si accumula." },
-    { "type": "p", "text": "Come appare in una build webvise: AGENTS.md viene distribuito a 126 righe con segnaposto. La directory .claude/skills contiene 8-15 file di skill alla consegna, ognuno una procedura che il team ha effettivamente eseguito durante la build. Il file non anticipa i problemi. Registra quelli risolti." },
-
-    { "type": "h2", "text": "Cinque Domande che il Procurement Dovrebbe Fare a Qualsiasi Vendor" },
-    { "type": "p", "text": "La qualita del contenuto di AGENTS.md e ora un indicatore misurabile dell'esecuzione AI-native. Le cinque domande seguenti forniscono a un team di procurement non tecnico una lettura rapida su se un vendor distribuisce per lo stack 2026 o per quello del 2024." },
-    { "type": "table", "headers": ["Domanda", "Come suona una risposta solida"],
-      "rows": [
-        ["Mostri il suo template AGENTS.md. Quante righe conta?", "Da 100 a 150 righe per modulo. Non un unico file root. Non 1.000 righe."],
-        ["Come e strutturato il layer delle skill?", "Disclosure progressiva. Le skill si caricano su richiesta, non nel file root."],
-        ["Qual e la regola per aggiungere voci?", "Solo reattivo. Una riga per le correzioni ricorrenti. Skill per qualsiasi cosa piu pesante."],
-        ["Come misurate la sovraesplorazione nei task lunghi?", "Nominano una metrica. Consumo di token per task, tasso di completamento su ticket a piu passaggi, o qualcosa di concreto."],
-        ["Dove si trovano i documenti legacy e come sono referenziati?", "Modulare. Collegati da AGENTS.md con un limite di 10-15 riferimenti per file. Non una proliferazione da 2MB in _docs."]
+    {
+      "type": "ul",
+      "items": [
+        "**Workflow procedurali.** I workflow a piu passaggi numerati sono stati il singolo pattern piu efficace. Un workflow in sei passaggi per distribuire una nuova integrazione ha ridotto le PR con file di cablaggio mancanti dal 40% al 10%, aumentato la correttezza del 25% e la completezza del 20%.",
+        "**Tabelle decisionali quando esistono 2 o 3 opzioni ragionevoli.** Una tabella decisionale React Query versus Zustand ha prodotto un aumento del 25% in best_practices sulle PR in quell'area. La tabella risolve l'ambiguita prima che l'agent scriva il codice.",
+        "**Esempi reali dal codebase, da 3 a 10 righe ciascuno.** Migliora il riuso e l'aderenza ai pattern. Piu lunghi e l'agent esegue il pattern-matching sulla cosa sbagliata.",
+        "**Abbinare ogni divieto a un'indicazione positiva.** La documentazione solo con divieti ottiene risultati inferiori. Un divieto generico rende l'agent cauto ed esplorativo. Abbinarlo a una direttiva positiva che indica il call site corretto, e l'agent procede.",
+        "**File a livello di modulo rispetto a un unico file root gigante.** La banda delle 100-150 righe si adatta a un modulo di medie dimensioni di circa 100 file. I file root trasversali oltre quella dimensione hanno perso su ogni metrica."
       ]
     },
-    { "type": "p", "text": "Se un vendor non riesce a rispondere a tre delle cinque, sta ancora distribuendo il template del 2024. La maggior parte dei team aziendali incontra questo ostacolo al layer della documentazione. [Quell'audit e la prima fase di ogni engagement di migrazione webvise](/#contact)." },
+    { "type": "h3", "text": "Cosa compromette l'output" },
+    {
+      "type": "ul",
+      "items": [
+        "**Panoramiche architetturali.** L'agent legge la panoramica, poi apre decine di documenti circostanti per verificare il suo approccio, carica da 10.000 a 100.000 token di contesto irrilevante e l'output degrada. Augment ha chiamato questo la trappola della sovraesplorazione.",
+        "**Avvisi accumulati senza indicazioni abbinate.** Con 30-50 divieti e nessuna indicazione positiva, l'agent verifica la sua soluzione rispetto a ogni avviso singolarmente, anche quando nessuno si applica.",
+        "**Pattern che non esistono ancora nel codebase.** Se AGENTS.md descrive un'architettura che il codice non implementa, il file guida attivamente l'agent nella direzione sbagliata.",
+        "**Proliferazione di documentazione intorno al file.** I peggiori performer di Augment erano file AGENTS.md posizionati sopra 500K-2MB di documenti architetturali. Rimuovere AGENTS.md cambiava a malapena il comportamento. L'agent leggeva la documentazione proliferata indipendentemente."
+      ]
+    },
 
-    { "type": "h2", "text": "Il Risultato Piu Profondo: Correggere l'Ambiente, Non Solo il Punto di Ingresso" },
-    { "type": "p", "text": "Il risultato piu scomodo di Augment e venuto dai file AGENTS.md con le prestazioni peggiori. Si trovavano sopra 500K-2MB di documenti architetturali circostanti. Il team ha rimosso solo AGENTS.md dall'esecuzione, e il comportamento e cambiato a malapena. L'agent leggeva la documentazione proliferata indipendentemente da cio che diceva il file di ingresso." },
-    { "type": "p", "text": "L'implicazione e difficile per i team aziendali legacy. La maggior parte degli ambienti documentali costruiti prima del 2024 contiene anni di architecture decision records, design doc e runbook. L'agent ne carica abbastanza da soffocare un AGENTS.md pulito. Scrivere un file di ingresso migliore e necessario ma non sufficiente." },
-    { "type": "p", "text": "Il lavoro e scomodo. Fare un audit dei documenti che l'agent carica effettivamente, contrassegnare quelli inattivi per l'archivio, modularizzare quelli attivi in riferimenti con scope di modulo, e mantenere AGENTS.md che punta solo a cio che l'agent dovrebbe leggere nel percorso verso la modifica. Il framework di Tan si applica: il cervello e un git repo, l'orchestratore e un conduttore sottile che legge file. Se il git repo e pieno di pagine inattive, nessun file di ingresso lo corregge." },
+    { "type": "h2", "text": "Reattivo, Non Prescritto" },
+    {
+      "type": "p",
+      "text": "Elie Steinbock ha pubblicato un articolo separato il 2026-04-20 con una disciplina che risolve la maggior parte dei file AGENTS.md aziendali che analizziamo. Non scrivere in anticipo decine di regole prima che qualcosa sia andato storto. La sovrastrutturazione preventiva crea bloat che il modello analizza a ogni esecuzione."
+    },
+    {
+      "type": "p",
+      "text": "Aggiungere regole in modo reattivo, quando si e verificata una correzione reale, e mantenere le aggiunte a una riga. Per qualsiasi cosa piu pesante, spostare il contenuto in una skill caricata progressivamente. AGENTS.md rimane compatto. Il layer delle skill assorbe il peso."
+    },
+    {
+      "type": "p",
+      "text": "La regola parallela di Tan, la disciplina del fallimento doppio, dice la stessa cosa dall'altro lato. Se deve chiedere all'agent qualcosa due volte, la seconda richiesta non dovrebbe esistere. Il pattern va nel layer delle skill o in AGENTS.md come una riga. Il sistema si accumula."
+    },
+    {
+      "type": "p",
+      "text": "Come appare in una build webvise: AGENTS.md viene distribuito a 126 righe con segnaposto. La directory .claude/skills contiene 8-15 file di skill alla consegna, ognuno una procedura che il team ha effettivamente eseguito durante la build. Il file non anticipa i problemi. Registra quelli risolti."
+    },
 
-    { "type": "h2", "text": "Cosa Significa Per Chi Commissiona una Build nel 2026" },
-    { "type": "p", "text": "La guerra dei framework e finita. Next.js, Astro, SvelteKit e Nuxt distribuiscono tutti lo scaffolding AGENTS.md per default o lo faranno entro il trimestre. Il differenziatore si e spostato di un livello. Il contenuto del file, la struttura della directory delle skill e la disciplina che le sorregge decidono se lo stack agent aiuta o penalizza." },
-    { "type": "p", "text": "Le build web moderne nel 2026 sono leggibili dagli agent fin dal primo giorno. E il contratto che [webvise](/#contact) scrive per default su ogni progetto, da un sito landing a pagina singola a un SaaS multi-tenant. Il template da 126 righe, il layer .claude/skills e la disciplina delle regole reattive non sono extra. Sono la build." }
+    {
+      "type": "h2",
+      "text": "Cinque Domande che il Procurement Dovrebbe Fare a Qualsiasi Vendor"
+    },
+    {
+      "type": "p",
+      "text": "La qualita del contenuto di AGENTS.md e ora un indicatore misurabile dell'esecuzione AI-native. Le cinque domande seguenti forniscono a un team di procurement non tecnico una lettura rapida su se un vendor distribuisce per lo stack 2026 o per quello del 2024."
+    },
+    {
+      "type": "table",
+      "headers": ["Domanda", "Come suona una risposta solida"],
+      "rows": [
+        [
+          "Mostri il suo template AGENTS.md. Quante righe conta?",
+          "Da 100 a 150 righe per modulo. Non un unico file root. Non 1.000 righe."
+        ],
+        [
+          "Come e strutturato il layer delle skill?",
+          "Disclosure progressiva. Le skill si caricano su richiesta, non nel file root."
+        ],
+        [
+          "Qual e la regola per aggiungere voci?",
+          "Solo reattivo. Una riga per le correzioni ricorrenti. Skill per qualsiasi cosa piu pesante."
+        ],
+        [
+          "Come misurate la sovraesplorazione nei task lunghi?",
+          "Nominano una metrica. Consumo di token per task, tasso di completamento su ticket a piu passaggi, o qualcosa di concreto."
+        ],
+        [
+          "Dove si trovano i documenti legacy e come sono referenziati?",
+          "Modulare. Collegati da AGENTS.md con un limite di 10-15 riferimenti per file. Non una proliferazione da 2MB in _docs."
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Se un vendor non riesce a rispondere a tre delle cinque, sta ancora distribuendo il template del 2024. La maggior parte dei team aziendali incontra questo ostacolo al layer della documentazione. [Quell'audit e la prima fase di ogni engagement di migrazione webvise](/#contact)."
+    },
+
+    {
+      "type": "h2",
+      "text": "Il Risultato Piu Profondo: Correggere l'Ambiente, Non Solo il Punto di Ingresso"
+    },
+    {
+      "type": "p",
+      "text": "Il risultato piu scomodo di Augment e venuto dai file AGENTS.md con le prestazioni peggiori. Si trovavano sopra 500K-2MB di documenti architetturali circostanti. Il team ha rimosso solo AGENTS.md dall'esecuzione, e il comportamento e cambiato a malapena. L'agent leggeva la documentazione proliferata indipendentemente da cio che diceva il file di ingresso."
+    },
+    {
+      "type": "p",
+      "text": "L'implicazione e difficile per i team aziendali legacy. La maggior parte degli ambienti documentali costruiti prima del 2024 contiene anni di architecture decision records, design doc e runbook. L'agent ne carica abbastanza da soffocare un AGENTS.md pulito. Scrivere un file di ingresso migliore e necessario ma non sufficiente."
+    },
+    {
+      "type": "p",
+      "text": "Il lavoro e scomodo. Fare un audit dei documenti che l'agent carica effettivamente, contrassegnare quelli inattivi per l'archivio, modularizzare quelli attivi in riferimenti con scope di modulo, e mantenere AGENTS.md che punta solo a cio che l'agent dovrebbe leggere nel percorso verso la modifica. Il framework di Tan si applica: il cervello e un git repo, l'orchestratore e un conduttore sottile che legge file. Se il git repo e pieno di pagine inattive, nessun file di ingresso lo corregge."
+    },
+
+    {
+      "type": "h2",
+      "text": "Cosa Significa Per Chi Commissiona una Build nel 2026"
+    },
+    {
+      "type": "p",
+      "text": "La guerra dei framework e finita. Next.js, Astro, SvelteKit e Nuxt distribuiscono tutti lo scaffolding AGENTS.md per default o lo faranno entro il trimestre. Il differenziatore si e spostato di un livello. Il contenuto del file, la struttura della directory delle skill e la disciplina che le sorregge decidono se lo stack agent aiuta o penalizza."
+    },
+    {
+      "type": "p",
+      "text": "Le build web moderne nel 2026 sono leggibili dagli agent fin dal primo giorno. E il contratto che [webvise](/#contact) scrive per default su ogni progetto, da un sito landing a pagina singola a un SaaS multi-tenant. Il template da 126 righe, il layer .claude/skills e la disciplina delle regole reattive non sono extra. Sono la build."
+    }
   ]
 }

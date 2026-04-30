@@ -74,7 +74,9 @@ const SYSTEM_PROMPT =
 
 export async function POST(req: Request) {
 	const { limited, retryAfterSec } = limiter.check(getClientIP(req));
-	if (limited) return rateLimitResponse(retryAfterSec);
+	if (limited) {
+		return rateLimitResponse(retryAfterSec);
+	}
 
 	const { messages }: { messages: UIMessage[] } = await req.json();
 

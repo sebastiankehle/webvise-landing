@@ -1,198 +1,203 @@
 {
-	"title": "Modernisation TYPO3 : headless, hybride ou migration complète ?",
-	"excerpt": "TYPO3 a bien servi votre entreprise pendant des années. Mais le moderniser est désormais inévitable. Voici vos trois options - et comment choisir la bonne.",
-	"tags": ["TYPO3", "Migration", "CMS"],
-	"blocks": [
-		{
-			"type": "p",
-			"text": "[TYPO3](/blog/typo3-vs-nextjs-enterprise) est le CMS d'entreprise de référence dans la région DACH depuis plus de deux décennies. Si votre entreprise utilise TYPO3, il fonctionne probablement. Le contenu est publié. Les pages se chargent. Le système fait son travail."
-		},
-		{
-			"type": "p",
-			"text": "Mais \"fonctionne\" et \"fonctionne bien\" sont deux choses différentes. Votre site TYPO3 souffre probablement de temps de chargement lents, d'un design daté coûteux à mettre à jour, d'un vivier de développeurs qui se réduit pour le maintenir, et de performances en deçà des attentes modernes."
-		},
-		{
-			"type": "p",
-			"text": "La modernisation n'est plus optionnelle. La question est comment."
-		},
-		{
-			"type": "h2",
-			"text": "Les trois voies"
-		},
-		{
-			"type": "p",
-			"text": "Vous avez trois options réalistes pour moderniser une installation TYPO3. Chacune présente des compromis différents en termes de coût, de calendrier et de valeur à long terme."
-		},
-		{
-			"type": "table",
-			"headers": ["Approche", "Calendrier", "Risque", "Valeur à long terme"],
-			"rows": [
-				[
-					"Mise à niveau TYPO3 (rester sur TYPO3)",
-					"2-6 mois",
-					"Faible",
-					"Moyenne"
-				],
-				["TYPO3 headless + frontend moderne", "3-6 mois", "Moyen", "Élevée"],
-				[
-					"Migration complète vers Next.js",
-					"2-4 mois",
-					"Moyen",
-					"La plus élevée"
-				]
-			]
-		},
-		{
-			"type": "h2",
-			"text": "Option 1 : Mettre à niveau TYPO3"
-		},
-		{
-			"type": "p",
-			"text": "Si votre installation TYPO3 a plusieurs versions majeures de retard, simplement passer à TYPO3 v13 apporte des améliorations significatives. Meilleure UX du backend, performances améliorées, support PHP 8.2+ et une expérience d'édition plus moderne."
-		},
-		{
-			"type": "h3",
-			"text": "Quand cela a du sens"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"Vos éditeurs de contenu sont formés sur TYPO3 et résistants au changement",
-				"Vous avez des workflows complexes spécifiques à TYPO3 (workspaces, permissions granulaires)",
-				"Le site n'a pas besoin de rivaliser sur les performances frontend",
-				"Le budget est limité et la structure actuelle du site est saine"
-			]
-		},
-		{
-			"type": "h3",
-			"text": "Les limitations"
-		},
-		{
-			"type": "p",
-			"text": "Mettre à niveau TYPO3 ne corrige pas l'architecture fondamentale. Les pages sont toujours rendues côté serveur avec PHP à chaque requête. Le frontend est toujours lié aux templates Fluid. Les performances s'amélioreront mais n'égaleront pas les architectures modernes statiques par défaut. Le vivier de spécialistes TYPO3 actifs est plus restreint que celui des développeurs JavaScript, ce qui peut influer sur les délais de recrutement et les tarifs pour la maintenance continue."
-		},
-		{
-			"type": "h2",
-			"text": "Option 2 : TYPO3 headless"
-		},
-		{
-			"type": "p",
-			"text": "TYPO3 supporte le mode [headless](/blog/headless-cms-explained) depuis l'introduction de l'extension headless. L'idée : garder TYPO3 comme backend CMS, mais remplacer le frontend par un framework moderne comme Next.js."
-		},
-		{
-			"type": "p",
-			"text": "TYPO3 expose le contenu via des APIs JSON. Next.js récupère ce contenu au moment du build ou de la requête et le rend. Vous obtenez le meilleur des deux mondes - les capacités CMS matures de TYPO3 avec un frontend moderne et rapide."
-		},
-		{
-			"type": "h3",
-			"text": "Quand cela a du sens"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"Vos éditeurs dépendent des fonctionnalités backend de TYPO3 (workspaces, permissions, workflows)",
-				"Vous avez une grande équipe de contenu déjà formée sur TYPO3",
-				"Vous avez besoin de performances frontend modernes sans perturber les processus éditoriaux",
-				"Le backend TYPO3 est bien maintenu et exécute une version récente"
-			]
-		},
-		{
-			"type": "h3",
-			"text": "Les limitations"
-		},
-		{
-			"type": "p",
-			"text": "Vous maintenez toujours un serveur TYPO3. Cela signifie des mises à jour PHP, des mises à jour d'extensions, de la maintenance de base de données et des mises à niveau du noyau TYPO3. L'approche headless réduit mais n'élimine pas la charge opérationnelle. Vous avez aussi besoin de développeurs qui comprennent à la fois TYPO3 et Next.js - une combinaison rare."
-		},
-		{
-			"type": "h2",
-			"text": "Option 3 : Migration complète vers Next.js"
-		},
-		{
-			"type": "p",
-			"text": "Remplacez TYPO3 entièrement. Migrez votre contenu vers un CMS headless (Sanity, Contentful, Strapi) ou du contenu basé sur fichiers, construisez un nouveau frontend en Next.js et déployez sur une plateforme d'hébergement moderne."
-		},
-		{
-			"type": "h3",
-			"text": "Quand cela a du sens"
-		},
-		{
-			"type": "ul",
-			"items": [
-				"Votre installation TYPO3 est très obsolète (v8 ou antérieure)",
-				"Le chemin de mise à niveau coûterait plus qu'une construction neuve",
-				"Vous voulez éliminer totalement la maintenance des serveurs PHP",
-				"Les performances frontend et le SEO sont des priorités commerciales",
-				"Votre structure de contenu est relativement simple (pas de workflows complexes)"
-			]
-		},
-		{
-			"type": "h3",
-			"text": "Le processus de migration"
-		},
-		{
-			"type": "p",
-			"text": "Une migration TYPO3 complète implique d'exporter le contenu de la base de données TYPO3, de le restructurer pour le nouveau CMS, de reconstruire le frontend en React/Next.js, de mettre en place des redirections 301 pour chaque URL et de valider la continuité [SEO](/blog/will-i-lose-seo-rankings-rebuild). Pour un site d'entreprise typique de 100 à 500 pages, cela prend 2 à 4 mois."
-		},
-		{
-			"type": "h2",
-			"text": "Comparer les résultats"
-		},
-		{
-			"type": "table",
-			"headers": [
-				"Métrique",
-				"Mise à niveau TYPO3",
-				"TYPO3 headless",
-				"Next.js complet"
-			],
-			"rows": [
-				["PageSpeed mobile", "45-70", "85-95", "92-99"],
-				[
-					"Coût annuel de serveur",
-					"Élevé (hébergement PHP)",
-					"Moyen (PHP + CDN)",
-					"Faible (CDN uniquement)"
-				],
-				["Disponibilité des développeurs", "Vivier plus restreint", "Mixte", "Vivier plus large"],
-				["Effort de maintenance", "Élevé", "Moyen", "Faible"],
-				[
-					"Expérience éditeur",
-					"Backend TYPO3",
-					"Backend TYPO3",
-					"CMS headless ou géré"
-				],
-				["Délai de mise en oeuvre", "2-6 mois", "3-6 mois", "2-4 mois"]
-			]
-		},
-		{
-			"type": "h2",
-			"text": "Le problème des développeurs"
-		},
-		{
-			"type": "p",
-			"text": "C'est le facteur qui fait pencher la décision pour de nombreuses entreprises. Le vivier de spécialistes TYPO3 actifs est plus restreint que celui des développeurs JavaScript, ce qui peut influer sur les délais de recrutement et les tarifs. L'écosystème PHP est mature et stable. Les développeurs React et Next.js sont plus largement disponibles, et l'écosystème JavaScript bénéficie d'investissements actifs de la part des éditeurs d'outils."
-		},
-		{
-			"type": "p",
-			"text": "Rester sur TYPO3 signifie puiser dans un vivier de talents plus restreint pour le développement et la maintenance continus. Les organisations doivent peser cela au regard de leur expérience réelle de recrutement et des compétences de leur équipe existante."
-		},
-		{
-			"type": "h2",
-			"text": "Prendre la décision"
-		},
-		{
-			"type": "p",
-			"text": "Commencez par une évaluation honnête de votre situation actuelle. Quelle est l'ancienneté de votre version TYPO3 ? De combien d'extensions personnalisées dépendez-vous ? Quelle est la complexité de vos workflows éditoriaux ? À quoi ressemble votre structure de contenu ?"
-		},
-		{
-			"type": "p",
-			"text": "Si vous êtes sur TYPO3 v11 ou plus récent avec une petite équipe de contenu, une migration complète vers Next.js est probablement le chemin le plus rentable. Si vous êtes sur une version plus ancienne avec des workflows profondément ancrés, TYPO3 headless vous offre un frontend moderne sans perturber vos éditeurs."
-		},
-		{
-			"type": "p",
-			"text": "Dans tous les cas, le statu quo a un coût. Les installations TYPO3 obsolètes engendrent des coûts croissants en matière de sécurité, de maintenance et de performance au fil du temps ; le bon moment pour moderniser dépend de la tolérance au risque et de la feuille de route de chaque organisation."
-		}
-	],
-	"metaDescription": "Trois voies pour moderniser TYPO3 : mise à jour, headless avec frontend Next.js, ou migration complète. Comparez délais, gains PageSpeed et coûts développeurs."
+  "title": "Modernisation TYPO3 : headless, hybride ou migration complète ?",
+  "excerpt": "TYPO3 a bien servi votre entreprise pendant des années. Mais le moderniser est désormais inévitable. Voici vos trois options - et comment choisir la bonne.",
+  "tags": ["TYPO3", "Migration", "CMS"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "[TYPO3](/blog/typo3-vs-nextjs-enterprise) est le CMS d'entreprise de référence dans la région DACH depuis plus de deux décennies. Si votre entreprise utilise TYPO3, il fonctionne probablement. Le contenu est publié. Les pages se chargent. Le système fait son travail."
+    },
+    {
+      "type": "p",
+      "text": "Mais \"fonctionne\" et \"fonctionne bien\" sont deux choses différentes. Votre site TYPO3 souffre probablement de temps de chargement lents, d'un design daté coûteux à mettre à jour, d'un vivier de développeurs qui se réduit pour le maintenir, et de performances en deçà des attentes modernes."
+    },
+    {
+      "type": "p",
+      "text": "La modernisation n'est plus optionnelle. La question est comment."
+    },
+    {
+      "type": "h2",
+      "text": "Les trois voies"
+    },
+    {
+      "type": "p",
+      "text": "Vous avez trois options réalistes pour moderniser une installation TYPO3. Chacune présente des compromis différents en termes de coût, de calendrier et de valeur à long terme."
+    },
+    {
+      "type": "table",
+      "headers": ["Approche", "Calendrier", "Risque", "Valeur à long terme"],
+      "rows": [
+        [
+          "Mise à niveau TYPO3 (rester sur TYPO3)",
+          "2-6 mois",
+          "Faible",
+          "Moyenne"
+        ],
+        ["TYPO3 headless + frontend moderne", "3-6 mois", "Moyen", "Élevée"],
+        [
+          "Migration complète vers Next.js",
+          "2-4 mois",
+          "Moyen",
+          "La plus élevée"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Option 1 : Mettre à niveau TYPO3"
+    },
+    {
+      "type": "p",
+      "text": "Si votre installation TYPO3 a plusieurs versions majeures de retard, simplement passer à TYPO3 v13 apporte des améliorations significatives. Meilleure UX du backend, performances améliorées, support PHP 8.2+ et une expérience d'édition plus moderne."
+    },
+    {
+      "type": "h3",
+      "text": "Quand cela a du sens"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "Vos éditeurs de contenu sont formés sur TYPO3 et résistants au changement",
+        "Vous avez des workflows complexes spécifiques à TYPO3 (workspaces, permissions granulaires)",
+        "Le site n'a pas besoin de rivaliser sur les performances frontend",
+        "Le budget est limité et la structure actuelle du site est saine"
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "Les limitations"
+    },
+    {
+      "type": "p",
+      "text": "Mettre à niveau TYPO3 ne corrige pas l'architecture fondamentale. Les pages sont toujours rendues côté serveur avec PHP à chaque requête. Le frontend est toujours lié aux templates Fluid. Les performances s'amélioreront mais n'égaleront pas les architectures modernes statiques par défaut. Le vivier de spécialistes TYPO3 actifs est plus restreint que celui des développeurs JavaScript, ce qui peut influer sur les délais de recrutement et les tarifs pour la maintenance continue."
+    },
+    {
+      "type": "h2",
+      "text": "Option 2 : TYPO3 headless"
+    },
+    {
+      "type": "p",
+      "text": "TYPO3 supporte le mode [headless](/blog/headless-cms-explained) depuis l'introduction de l'extension headless. L'idée : garder TYPO3 comme backend CMS, mais remplacer le frontend par un framework moderne comme Next.js."
+    },
+    {
+      "type": "p",
+      "text": "TYPO3 expose le contenu via des APIs JSON. Next.js récupère ce contenu au moment du build ou de la requête et le rend. Vous obtenez le meilleur des deux mondes - les capacités CMS matures de TYPO3 avec un frontend moderne et rapide."
+    },
+    {
+      "type": "h3",
+      "text": "Quand cela a du sens"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "Vos éditeurs dépendent des fonctionnalités backend de TYPO3 (workspaces, permissions, workflows)",
+        "Vous avez une grande équipe de contenu déjà formée sur TYPO3",
+        "Vous avez besoin de performances frontend modernes sans perturber les processus éditoriaux",
+        "Le backend TYPO3 est bien maintenu et exécute une version récente"
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "Les limitations"
+    },
+    {
+      "type": "p",
+      "text": "Vous maintenez toujours un serveur TYPO3. Cela signifie des mises à jour PHP, des mises à jour d'extensions, de la maintenance de base de données et des mises à niveau du noyau TYPO3. L'approche headless réduit mais n'élimine pas la charge opérationnelle. Vous avez aussi besoin de développeurs qui comprennent à la fois TYPO3 et Next.js - une combinaison rare."
+    },
+    {
+      "type": "h2",
+      "text": "Option 3 : Migration complète vers Next.js"
+    },
+    {
+      "type": "p",
+      "text": "Remplacez TYPO3 entièrement. Migrez votre contenu vers un CMS headless (Sanity, Contentful, Strapi) ou du contenu basé sur fichiers, construisez un nouveau frontend en Next.js et déployez sur une plateforme d'hébergement moderne."
+    },
+    {
+      "type": "h3",
+      "text": "Quand cela a du sens"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "Votre installation TYPO3 est très obsolète (v8 ou antérieure)",
+        "Le chemin de mise à niveau coûterait plus qu'une construction neuve",
+        "Vous voulez éliminer totalement la maintenance des serveurs PHP",
+        "Les performances frontend et le SEO sont des priorités commerciales",
+        "Votre structure de contenu est relativement simple (pas de workflows complexes)"
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "Le processus de migration"
+    },
+    {
+      "type": "p",
+      "text": "Une migration TYPO3 complète implique d'exporter le contenu de la base de données TYPO3, de le restructurer pour le nouveau CMS, de reconstruire le frontend en React/Next.js, de mettre en place des redirections 301 pour chaque URL et de valider la continuité [SEO](/blog/will-i-lose-seo-rankings-rebuild). Pour un site d'entreprise typique de 100 à 500 pages, cela prend 2 à 4 mois."
+    },
+    {
+      "type": "h2",
+      "text": "Comparer les résultats"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Métrique",
+        "Mise à niveau TYPO3",
+        "TYPO3 headless",
+        "Next.js complet"
+      ],
+      "rows": [
+        ["PageSpeed mobile", "45-70", "85-95", "92-99"],
+        [
+          "Coût annuel de serveur",
+          "Élevé (hébergement PHP)",
+          "Moyen (PHP + CDN)",
+          "Faible (CDN uniquement)"
+        ],
+        [
+          "Disponibilité des développeurs",
+          "Vivier plus restreint",
+          "Mixte",
+          "Vivier plus large"
+        ],
+        ["Effort de maintenance", "Élevé", "Moyen", "Faible"],
+        [
+          "Expérience éditeur",
+          "Backend TYPO3",
+          "Backend TYPO3",
+          "CMS headless ou géré"
+        ],
+        ["Délai de mise en oeuvre", "2-6 mois", "3-6 mois", "2-4 mois"]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Le problème des développeurs"
+    },
+    {
+      "type": "p",
+      "text": "C'est le facteur qui fait pencher la décision pour de nombreuses entreprises. Le vivier de spécialistes TYPO3 actifs est plus restreint que celui des développeurs JavaScript, ce qui peut influer sur les délais de recrutement et les tarifs. L'écosystème PHP est mature et stable. Les développeurs React et Next.js sont plus largement disponibles, et l'écosystème JavaScript bénéficie d'investissements actifs de la part des éditeurs d'outils."
+    },
+    {
+      "type": "p",
+      "text": "Rester sur TYPO3 signifie puiser dans un vivier de talents plus restreint pour le développement et la maintenance continus. Les organisations doivent peser cela au regard de leur expérience réelle de recrutement et des compétences de leur équipe existante."
+    },
+    {
+      "type": "h2",
+      "text": "Prendre la décision"
+    },
+    {
+      "type": "p",
+      "text": "Commencez par une évaluation honnête de votre situation actuelle. Quelle est l'ancienneté de votre version TYPO3 ? De combien d'extensions personnalisées dépendez-vous ? Quelle est la complexité de vos workflows éditoriaux ? À quoi ressemble votre structure de contenu ?"
+    },
+    {
+      "type": "p",
+      "text": "Si vous êtes sur TYPO3 v11 ou plus récent avec une petite équipe de contenu, une migration complète vers Next.js est probablement le chemin le plus rentable. Si vous êtes sur une version plus ancienne avec des workflows profondément ancrés, TYPO3 headless vous offre un frontend moderne sans perturber vos éditeurs."
+    },
+    {
+      "type": "p",
+      "text": "Dans tous les cas, le statu quo a un coût. Les installations TYPO3 obsolètes engendrent des coûts croissants en matière de sécurité, de maintenance et de performance au fil du temps ; le bon moment pour moderniser dépend de la tolérance au risque et de la feuille de route de chaque organisation."
+    }
+  ],
+  "metaDescription": "Trois voies pour moderniser TYPO3 : mise à jour, headless avec frontend Next.js, ou migration complète. Comparez délais, gains PageSpeed et coûts développeurs."
 }

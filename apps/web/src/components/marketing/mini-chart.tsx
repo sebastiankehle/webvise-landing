@@ -13,15 +13,15 @@ import {
 import { Body, Caption } from "@/components/ui/typography";
 
 interface ChartTranslations {
-	conversionLabel: string;
-	conversionDescription: string;
-	engagementLabel: string;
-	engagementDescription: string;
-	speedLabel: string;
-	speedDescription: string;
-	before: string;
-	afterWebvise: string;
 	after: string;
+	afterWebvise: string;
+	before: string;
+	conversionDescription: string;
+	conversionLabel: string;
+	engagementDescription: string;
+	engagementLabel: string;
+	speedDescription: string;
+	speedLabel: string;
 }
 
 type Metric = "conversion" | "engagement" | "speed";
@@ -134,10 +134,14 @@ function CustomTooltip({
 	afterLabel: string;
 	afterWebviseLabel: string;
 }) {
-	if (!active || !payload?.length) return null;
+	if (!(active && payload?.length)) {
+		return null;
+	}
 
 	const valid = payload.filter((e) => e.value !== null);
-	if (!valid.length) return null;
+	if (!valid.length) {
+		return null;
+	}
 
 	const phase = valid.some((e) => e.dataKey === "after")
 		? afterWebviseLabel
@@ -153,8 +157,8 @@ function CustomTooltip({
 			</Caption>
 			{valid.map((entry) => (
 				<div
-					key={entry.dataKey}
 					className="flex items-center justify-between gap-8"
+					key={entry.dataKey}
 				>
 					<div className="flex items-center gap-2">
 						<div
@@ -199,14 +203,14 @@ export default function MiniChart({
 				<div className="flex gap-1">
 					{metricOrder.map((key) => (
 						<button
-							key={key}
-							type="button"
-							onClick={() => setActive(key)}
 							className={`px-2.5 py-1 text-xs transition-colors ${
 								active === key
 									? "bg-[--foreground]/10 text-[--foreground]"
 									: "text-muted-foreground/50 hover:text-muted-foreground"
 							}`}
+							key={key}
+							onClick={() => setActive(key)}
+							type="button"
 						>
 							{datasets[key].label}
 						</button>
@@ -214,13 +218,13 @@ export default function MiniChart({
 				</div>
 			</div>
 			<div className="px-2 pt-4 pb-2 sm:px-4">
-				<ResponsiveContainer width="100%" height={200}>
+				<ResponsiveContainer height={200} width="100%">
 					<AreaChart
 						data={current.data}
 						margin={{ top: 20, right: 8, bottom: 0, left: 0 }}
 					>
 						<defs>
-							<linearGradient id="afterFill" x1="0" y1="0" x2="0" y2="1">
+							<linearGradient id="afterFill" x1="0" x2="0" y1="0" y2="1">
 								<stop
 									offset="0%"
 									stopColor="oklch(0.75 0.18 55)"
@@ -232,34 +236,34 @@ export default function MiniChart({
 									stopOpacity={0}
 								/>
 							</linearGradient>
-							<linearGradient id="beforeFill" x1="0" y1="0" x2="0" y2="1">
+							<linearGradient id="beforeFill" x1="0" x2="0" y1="0" y2="1">
 								<stop offset="0%" stopColor="oklch(1 0 0)" stopOpacity={0.06} />
 								<stop offset="100%" stopColor="oklch(1 0 0)" stopOpacity={0} />
 							</linearGradient>
 						</defs>
 						<XAxis
-							dataKey="week"
 							axisLine={false}
-							tickLine={false}
-							tick={{ fontSize: 10, fill: "oklch(1 0 0 / 0.25)" }}
+							dataKey="week"
 							dy={8}
-							tickFormatter={(v) => (v.trim() === "" ? "" : v)}
 							interval={2}
+							tick={{ fontSize: 10, fill: "oklch(1 0 0 / 0.25)" }}
+							tickFormatter={(v) => (v.trim() === "" ? "" : v)}
+							tickLine={false}
 						/>
 						<YAxis
 							axisLine={false}
-							tickLine={false}
-							tick={{ fontSize: 10, fill: "oklch(1 0 0 / 0.25)" }}
-							width={40}
 							domain={[0, "auto"]}
+							tick={{ fontSize: 10, fill: "oklch(1 0 0 / 0.25)" }}
+							tickLine={false}
+							width={40}
 						/>
 						<Tooltip
 							content={
 								<CustomTooltip
-									unit={current.unit}
-									beforeLabel={translations.before}
 									afterLabel={translations.after}
 									afterWebviseLabel={translations.afterWebvise}
+									beforeLabel={translations.before}
+									unit={current.unit}
 								/>
 							}
 							cursor={{
@@ -268,9 +272,6 @@ export default function MiniChart({
 							}}
 						/>
 						<ReferenceLine
-							x="      "
-							stroke="oklch(0.75 0.18 55 / 0.4)"
-							strokeDasharray="3 3"
 							label={{
 								value: "▾ webvise",
 								position: "top",
@@ -279,37 +280,40 @@ export default function MiniChart({
 								fontWeight: 500,
 								offset: 8,
 							}}
+							stroke="oklch(0.75 0.18 55 / 0.4)"
+							strokeDasharray="3 3"
+							x="      "
 						/>
 						<Area
-							type="monotone"
-							dataKey="before"
-							stroke="oklch(1 0 0 / 0.2)"
-							strokeWidth={1.5}
-							strokeDasharray="4 3"
-							fill="url(#beforeFill)"
-							dot={false}
-							connectNulls={false}
 							activeDot={{
 								r: 3,
 								stroke: "oklch(1 0 0 / 0.3)",
 								strokeWidth: 1.5,
 								fill: "oklch(0.13 0.01 250)",
 							}}
+							connectNulls={false}
+							dataKey="before"
+							dot={false}
+							fill="url(#beforeFill)"
+							stroke="oklch(1 0 0 / 0.2)"
+							strokeDasharray="4 3"
+							strokeWidth={1.5}
+							type="monotone"
 						/>
 						<Area
-							type="monotone"
-							dataKey="after"
-							stroke="oklch(0.75 0.18 55)"
-							strokeWidth={2}
-							fill="url(#afterFill)"
-							dot={false}
-							connectNulls={false}
 							activeDot={{
 								r: 4,
 								stroke: "oklch(0.75 0.18 55)",
 								strokeWidth: 2,
 								fill: "oklch(0.13 0.01 250)",
 							}}
+							connectNulls={false}
+							dataKey="after"
+							dot={false}
+							fill="url(#afterFill)"
+							stroke="oklch(0.75 0.18 55)"
+							strokeWidth={2}
+							type="monotone"
 						/>
 					</AreaChart>
 				</ResponsiveContainer>

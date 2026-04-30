@@ -26,9 +26,13 @@ const TAG_TO_CTA: Record<string, string> = {
 };
 
 function getCtaCategory(tags?: string[]): string | null {
-	if (!tags?.length) return null;
+	if (!tags?.length) {
+		return null;
+	}
 	for (const tag of tags) {
-		if (TAG_TO_CTA[tag]) return TAG_TO_CTA[tag];
+		if (TAG_TO_CTA[tag]) {
+			return TAG_TO_CTA[tag];
+		}
 	}
 	return null;
 }
@@ -52,9 +56,9 @@ export default async function BlogCta({
 
 	return (
 		<FooterCtaBanner
+			buttonText={buttonText}
 			headline={headline}
 			subtext={subtext}
-			buttonText={buttonText}
 		/>
 	);
 }

@@ -1,223 +1,223 @@
 {
-	"date": "2026-01-15",
-	"readingTime": 6,
-	"keyword": "zagrożenia bezpieczeństwa wordpress przestarzały",
-	"title": "Przestarzały WordPress: realne zagrożenia bezpieczeństwa",
-	"excerpt": "Gdy luka bezpieczeństwa WordPress zostaje ujawniona publicznie, kod exploita pojawia się zazwyczaj w ciągu 24–72 godzin. Oto co oznacza korzystanie z przestarzałych pluginów, motywów lub rdzenia dla Twojej firmy - z prawdziwymi CVE z lat 2024–2025.",
-	"tags": ["WordPress", "Security", "Maintenance"],
-	"blocks": [
-		{
-			"type": "p",
-			"text": "Ponad 40% witryn WordPress korzysta z co najmniej jednego przestarzałego pluginu z known luką bezpieczeństwa. To nie jest przybliżone szacowanie - to regularnie weryfikowana liczba od badaczy bezpieczeństwa WordPress. Jeśli nie aktualizowałeś swoich pluginów ani motywów w ciągu ostatnich kilku tygodni, istnieje realna szansa, że Twoja witryna należy do tej kategorii."
-		},
-		{
-			"type": "p",
-			"text": "Ryzyko nie jest abstrakcyjne. Gdy luka bezpieczeństwa zostaje załatana, sam patch ujawnia, na czym polegał błąd. Badacze publikują szczegóły techniczne. Automatyczne skanery zaczynają sondować podatne witryny w ciągu kilku godzin. Do trzeciego dnia aktywna eksploatacja jest zazwyczaj prowadzona na dużą skalę."
-		},
-		{
-			"type": "h2",
-			"text": "Jak szybko luki bezpieczeństwa są wykorzystywane"
-		},
-		{
-			"type": "p",
-			"text": "Czas od publicznego ujawnienia do masowego wykorzystania znacznie się skrócił. W 2023 roku średnia wynosiła około 15 dni. Do 2025 roku poważne luki w popularnych pluginach są zazwyczaj aktywnie wykorzystywane w ciągu 24–72 godzin od opublikowania patcha."
-		},
-		{
-			"type": "table",
-			"headers": ["Etap", "Typowy harmonogram"],
-			"rows": [
-				["Luka odkryta przez badacza", "Dzień 0"],
-				["Patch wydany przez twórcę pluginu", "Dni 1–30 (jeśli w ogóle)"],
-				["Opublikowane szczegóły techniczne", "Ten sam dzień co patch"],
-				[
-					"Opublikowany kod exploita proof-of-concept",
-					"24–72 godziny po patchu"
-				],
-				[
-					"Rozpoczyna się automatyczne masowe skanowanie",
-					"24–72 godziny po patchu"
-				],
-				["Twoja niezałatana witryna w aktywnym ryzyku", "Od dnia 3"]
-			]
-		},
-		{
-			"type": "p",
-			"text": "Twoja witryna nie musi być atakowana celowo. Atakujący używają automatycznych skanerów, które jednocześnie sondują miliony witryn, szukając sygnatur wersji wskazujących na podatne instalacje. Jeśli Twoja witryna pasuje, trafia do kolejki do eksploatacji."
-		},
-		{
-			"type": "h2",
-			"text": "Prawdziwe luki bezpieczeństwa z lat 2024–2025"
-		},
-		{
-			"type": "p",
-			"text": "To nie są hipotezy. Są to konkretne luki bezpieczeństwa w pluginach zainstalowanych na milionach witryn WordPress - wszystkie publicznie udokumentowane."
-		},
-		{
-			"type": "h3",
-			"text": "LiteSpeed Cache - 5 milionów witryn zagrożonych"
-		},
-		{
-			"type": "p",
-			"text": "W sierpniu 2024 roku badacze ujawnili CVE-2024-28000, krytyczną lukę w pluginie LiteSpeed Cache. Błąd pozwalał nieuwierzytelnionemu atakującemu na eskalację uprawnień i tworzenie kont administratora na każdej dotkniętej witrynie. LiteSpeed Cache jest zainstalowany na ponad 5 milionach witryn WordPress. Witryny pozostawione bez patcha przez więcej niż kilka dni regularnie miały nieuprawnione konta administratora tworzone przez automatyczne boty w ciągu tego samego tygodnia (wzorzec udokumentowany w podsumowaniach incydentów Wordfence i Patchstack)."
-		},
-		{
-			"type": "h3",
-			"text": "Really Simple Security - 4 miliony witryn zagrożonych"
-		},
-		{
-			"type": "p",
-			"text": "W listopadzie 2024 roku ujawniono CVE-2024-10924 w Really Simple [Security](/blog/wordpress-security-2026) (wcześniej Really Simple SSL), pluginie zainstalowanym na 4 milionach witryn. Luka umożliwiała całkowite ominięcie uwierzytelniania - atakujący mógł zalogować się jako dowolny użytkownik, w tym administratorzy, bez znajomości hasła. WordPress.org ocenił to jako krytyczne - 9,8/10 powagi. Masowe próby eksploatacji zostały odnotowane w ciągu 24 godzin od publicznego ujawnienia."
-		},
-		{
-			"type": "h3",
-			"text": "WP Automatic - SQL injection na dużą skalę"
-		},
-		{
-			"type": "p",
-			"text": "Na początku 2024 roku znaleziono CVE-2024-27956 w WP Automatic, pluginie używanym przez ponad 30 000 witryn do automatycznej publikacji treści. Luka SQL injection pozwalała atakującym na wyodrębnienie zawartości bazy danych i tworzenie kont administratora. W ciągu kilku tygodni od ujawnienia tysiące witryn zostały skompromitowane i zainstalowano backdoory."
-		},
-		{
-			"type": "h2",
-			"text": "Co tak naprawdę oznacza 'przestarzały'"
-		},
-		{
-			"type": "p",
-			"text": "Kiedy ludzie myślą o aktualizacjach WordPress, zazwyczaj myślą o wersji rdzenia. Ale rzeczywista powierzchnia ataku jest znacznie szersza."
-		},
-		{
-			"type": "table",
-			"headers": [
-				"Komponent",
-				"Dlaczego ma znaczenie",
-				"Ryzyko jeśli przestarzały"
-			],
-			"rows": [
-				[
-					"WordPress core",
-					"Fundament - regularnie łatany",
-					"Wysokie: znane exploity celują w stare wersje"
-				],
-				[
-					"Pluginy",
-					"Wektor ataku nr 1 - tysiące pluginów, zróżnicowana jakość",
-					"Krytyczne: większość exploitów celuje w pluginy"
-				],
-				[
-					"Motywy",
-					"Często zawierają luki, szczególnie motywy premium z marketplace'ów",
-					"Średnio-Wysokie"
-				],
-				[
-					"Wersja PHP",
-					"Język po stronie serwera, na którym działa WordPress",
-					"Wysokie: PHP 7.4 (EOL 2022) nie otrzymuje patchy bezpieczeństwa"
-				]
-			]
-		},
-		{
-			"type": "p",
-			"text": "Znaczna część witryn WordPress nadal działa na PHP 7.x - wersji, która jest end-of-life od 2022 roku i nie otrzymuje już aktualizacji bezpieczeństwa. Luki w samym PHP pozostają niezałatane, tworząc lukę bezpieczeństwa poniżej wszystkiego innego."
-		},
-		{
-			"type": "h2",
-			"text": "Paradoks aktualizacji"
-		},
-		{
-			"type": "p",
-			"text": "Logiczna reakcja na to wszystko to: zaktualizować wszystko natychmiast. Problem w tym, że aktualizacje WordPress często coś psują."
-		},
-		{
-			"type": "p",
-			"text": "Konflikty pluginów po głównych aktualizacjach wersji WordPress są powszechne. Motyw, który działał dobrze na WP 6.3, może mieć problemy z wyświetlaniem na WP 6.5. Aktualizacja pluginu płatności może zepsuć proces zakupu. Większość właścicieli firm doświadczyła co najmniej jednej sytuacji ze zepsutą witryną po aktualizacji. Efekt: aktualizacje są odkładane 'tylko dopóki nie będziemy mogli tego przetestować' - i tygodnie zamieniają się w miesiące."
-		},
-		{
-			"type": "p",
-			"text": "Włączenie automatycznych aktualizacji zmniejsza okno podatności, ale wprowadza nieprzewidywalne ryzyko awarii. Wiele firm wyłącza automatyczne aktualizacje po jednym złym doświadczeniu. W modelu WordPress nie ma czystego rozwiązania tego problemu."
-		},
-		{
-			"type": "h2",
-			"text": "Co atakujący robią z dostępem"
-		},
-		{
-			"type": "p",
-			"text": "Gdy witryna zostaje skompromitowana, atakujący zazwyczaj nie niszczą jej natychmiast - to ujawniłoby włamanie. Wolą cichy, trwały dostęp."
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Wstrzykiwanie spamu SEO:** Tysiące ukrytych linków do stron farmaceutycznych, hazardowych lub dla dorosłych jest dodawanych do Twoich stron. Twoje pozycje w Google spadają. Ostatecznie Google umieszcza Twoją domenę na czarnej liście.",
-				"**Hacki przekierowań:** Odwiedzający (ale nie Ty) są cicho przekierowywani na złośliwe witryny. Twój organiczny ruch znika w tajemniczy sposób. Nie widzisz tego, ponieważ przekierowanie celuje w określone wzorce ruchu.",
-				"**Kradzież danych klientów:** Zgłoszenia formularzy, dane kontaktowe i wszelkie przechowywane dane użytkowników są eksfiltrowane.",
-				"**Strony phishingowe:** Fałszywe strony logowania są hostowane na Twojej domenie i używane do zbierania danych logowania od odwiedzających.",
-				"**Instalacja backdoora:** Trwały backdoor jest pozostawiany, aby atakujący zachowali dostęp nawet po załataniu oryginalnej luki."
-			]
-		},
-		{
-			"type": "h2",
-			"text": "Twoja odpowiedzialność na gruncie RODO"
-		},
-		{
-			"type": "p",
-			"text": "Jeśli Twoja witryna zbiera jakiekolwiek dane identyfikujące - zgłoszenia z formularzy kontaktowych, zapisy do newslettera, konta klientów - i dane te zostaną ujawnione z powodu known, niezałatanej luki, masz problem z RODO."
-		},
-		{
-			"type": "p",
-			"text": "Artykuł 32 RODO wymaga od organizacji wdrożenia 'odpowiednich środków technicznych' w celu zapewnienia bezpieczeństwa danych. Korzystanie z oprogramowania z publicznie udokumentowanymi krytycznymi lukami bez ich łatania jest do obronienia tylko wtedy, gdy można wykazać, że nie miało się rozsądnej możliwości aktualizacji. Niechęć do aktualizacji nie jest generalnie akceptowana przez organy ochrony danych jako obrona w przypadku naruszeń związanych z przetwarzaniem danych."
-		},
-		{
-			"type": "p",
-			"text": "Kary na gruncie RODO mogą sięgać 20 milionów euro lub 4% globalnego rocznego obrotu, w zależności od tego, która kwota jest wyższa. Nawet działania egzekucyjne o średniej skali są materialnie istotne dla MŚP."
-		},
-		{
-			"type": "h2",
-			"text": "Dlaczego łatanie nie jest długoterminową strategią"
-		},
-		{
-			"type": "p",
-			"text": "W 2024 roku badacze bezpieczeństwa ujawnili około 8 000 nowych luk w pluginach WordPress - ponad 20 dziennie. Liczba ta rośnie z roku na rok."
-		},
-		{
-			"type": "p",
-			"text": "Nadążanie wymaga: monitorowania porad bezpieczeństwa dla każdego używanego pluginu, testowania aktualizacji w środowisku stagingowym przed wdrożeniem na produkcję, szybkiego stosowania patchy (w ciągu 24–72 godzin dla krytycznych problemów), radzenia sobie z awariami witryny gdy aktualizacje kolidują, i zarządzania awaryjną naprawą gdy coś prześlizgnie się przez szczeliny."
-		},
-		{
-			"type": "p",
-			"text": "To nie jest jednorazowe zadanie. To stałe obciążenie związane z utrzymaniem. Dla firmy, która po prostu chce działającej witryny, ten narzut jest znaczącym ukrytym [kosztem](/blog/hidden-cost-of-wordpress) modelu WordPress."
-		},
-		{
-			"type": "h2",
-			"text": "Alternatywa: eliminacja powierzchni ataku"
-		},
-		{
-			"type": "p",
-			"text": "Witryna zbudowana w nowoczesnym frameworku JavaScript, takim jak Next.js, ma fundamentalnie inny profil bezpieczeństwa - nie dlatego, że jest odporna na wszystkie ataki, ale dlatego, że klasy luk wtyczek i motywów, które stanowią większość kompromitacji WordPress (według rocznych raportów Patchstack), nie istnieją w tej samej formie na statycznie renderowanej stronie Next.js."
-		},
-		{
-			"type": "ul",
-			"items": [
-				"**Brak bazy danych wystawionej na internet** - brak powierzchni ataku SQL injection",
-				"**Brak wykonywania PHP po stronie serwera** - brak luk wykonania kodu PHP",
-				"**Brak ekosystemu pluginów do łatania** - zależności są zarządzane explicite, nie pobierane z marketplace'u z 60 000 opcji",
-				"**Brak strony logowania wp-admin** - znany, powszechnie atakowany URL, który nie istnieje",
-				"**Bezpieczeństwo na poziomie infrastruktury** - ochrona DDoS, SSL i bezpieczeństwo edge zarządzane przez platformy takie jak Vercel"
-			]
-		},
-		{
-			"type": "p",
-			"text": "Przejście na statyczną lub renderowaną po stronie serwera witrynę JavaScript nie oznacza zerowych kwestii bezpieczeństwa. Ale oznacza, że Twój zespół zajmujący się utrzymaniem nie ściga się codziennie z nowymi ujawnieniami luk w ekosystemie pluginów."
-		},
-		{
-			"type": "h2",
-			"text": "Sprawdź swoje obecne narażenie"
-		},
-		{
-			"type": "p",
-			"text": "Jeśli korzystasz z WordPress, pierwszym krokiem jest poznanie swojej rzeczywistej sytuacji. Nasz bezpłatny audyt sprawdza widoczne wskaźniki WordPress, nagłówki odpowiedzi serwera i metryki wydajności w 60 sekund."
-		},
-		{
-			"type": "p",
-			"text": "Uruchom audyt na [webvise.io/wp-health-report](/wp-health-report). Jeśli wyniki wskazują na przestarzałe oprogramowanie lub problemy z bezpieczeństwem, możemy omówić realistyczne opcje - czy to zdyscyplinowany proces aktualizacji i monitorowania, czy migracja do architektury bez bieżni aktualizacji."
-		}
-	],
-	"metaDescription": "40% stron WordPress ma przestarzałe wtyczki ze znanymi lukami. 8 000+ nowych podatności tylko w 2024. Prawdziwe ryzyko i Twoje opcje."
+  "date": "2026-01-15",
+  "readingTime": 6,
+  "keyword": "zagrożenia bezpieczeństwa wordpress przestarzały",
+  "title": "Przestarzały WordPress: realne zagrożenia bezpieczeństwa",
+  "excerpt": "Gdy luka bezpieczeństwa WordPress zostaje ujawniona publicznie, kod exploita pojawia się zazwyczaj w ciągu 24–72 godzin. Oto co oznacza korzystanie z przestarzałych pluginów, motywów lub rdzenia dla Twojej firmy - z prawdziwymi CVE z lat 2024–2025.",
+  "tags": ["WordPress", "Security", "Maintenance"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Ponad 40% witryn WordPress korzysta z co najmniej jednego przestarzałego pluginu z known luką bezpieczeństwa. To nie jest przybliżone szacowanie - to regularnie weryfikowana liczba od badaczy bezpieczeństwa WordPress. Jeśli nie aktualizowałeś swoich pluginów ani motywów w ciągu ostatnich kilku tygodni, istnieje realna szansa, że Twoja witryna należy do tej kategorii."
+    },
+    {
+      "type": "p",
+      "text": "Ryzyko nie jest abstrakcyjne. Gdy luka bezpieczeństwa zostaje załatana, sam patch ujawnia, na czym polegał błąd. Badacze publikują szczegóły techniczne. Automatyczne skanery zaczynają sondować podatne witryny w ciągu kilku godzin. Do trzeciego dnia aktywna eksploatacja jest zazwyczaj prowadzona na dużą skalę."
+    },
+    {
+      "type": "h2",
+      "text": "Jak szybko luki bezpieczeństwa są wykorzystywane"
+    },
+    {
+      "type": "p",
+      "text": "Czas od publicznego ujawnienia do masowego wykorzystania znacznie się skrócił. W 2023 roku średnia wynosiła około 15 dni. Do 2025 roku poważne luki w popularnych pluginach są zazwyczaj aktywnie wykorzystywane w ciągu 24–72 godzin od opublikowania patcha."
+    },
+    {
+      "type": "table",
+      "headers": ["Etap", "Typowy harmonogram"],
+      "rows": [
+        ["Luka odkryta przez badacza", "Dzień 0"],
+        ["Patch wydany przez twórcę pluginu", "Dni 1–30 (jeśli w ogóle)"],
+        ["Opublikowane szczegóły techniczne", "Ten sam dzień co patch"],
+        [
+          "Opublikowany kod exploita proof-of-concept",
+          "24–72 godziny po patchu"
+        ],
+        [
+          "Rozpoczyna się automatyczne masowe skanowanie",
+          "24–72 godziny po patchu"
+        ],
+        ["Twoja niezałatana witryna w aktywnym ryzyku", "Od dnia 3"]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Twoja witryna nie musi być atakowana celowo. Atakujący używają automatycznych skanerów, które jednocześnie sondują miliony witryn, szukając sygnatur wersji wskazujących na podatne instalacje. Jeśli Twoja witryna pasuje, trafia do kolejki do eksploatacji."
+    },
+    {
+      "type": "h2",
+      "text": "Prawdziwe luki bezpieczeństwa z lat 2024–2025"
+    },
+    {
+      "type": "p",
+      "text": "To nie są hipotezy. Są to konkretne luki bezpieczeństwa w pluginach zainstalowanych na milionach witryn WordPress - wszystkie publicznie udokumentowane."
+    },
+    {
+      "type": "h3",
+      "text": "LiteSpeed Cache - 5 milionów witryn zagrożonych"
+    },
+    {
+      "type": "p",
+      "text": "W sierpniu 2024 roku badacze ujawnili CVE-2024-28000, krytyczną lukę w pluginie LiteSpeed Cache. Błąd pozwalał nieuwierzytelnionemu atakującemu na eskalację uprawnień i tworzenie kont administratora na każdej dotkniętej witrynie. LiteSpeed Cache jest zainstalowany na ponad 5 milionach witryn WordPress. Witryny pozostawione bez patcha przez więcej niż kilka dni regularnie miały nieuprawnione konta administratora tworzone przez automatyczne boty w ciągu tego samego tygodnia (wzorzec udokumentowany w podsumowaniach incydentów Wordfence i Patchstack)."
+    },
+    {
+      "type": "h3",
+      "text": "Really Simple Security - 4 miliony witryn zagrożonych"
+    },
+    {
+      "type": "p",
+      "text": "W listopadzie 2024 roku ujawniono CVE-2024-10924 w Really Simple [Security](/blog/wordpress-security-2026) (wcześniej Really Simple SSL), pluginie zainstalowanym na 4 milionach witryn. Luka umożliwiała całkowite ominięcie uwierzytelniania - atakujący mógł zalogować się jako dowolny użytkownik, w tym administratorzy, bez znajomości hasła. WordPress.org ocenił to jako krytyczne - 9,8/10 powagi. Masowe próby eksploatacji zostały odnotowane w ciągu 24 godzin od publicznego ujawnienia."
+    },
+    {
+      "type": "h3",
+      "text": "WP Automatic - SQL injection na dużą skalę"
+    },
+    {
+      "type": "p",
+      "text": "Na początku 2024 roku znaleziono CVE-2024-27956 w WP Automatic, pluginie używanym przez ponad 30 000 witryn do automatycznej publikacji treści. Luka SQL injection pozwalała atakującym na wyodrębnienie zawartości bazy danych i tworzenie kont administratora. W ciągu kilku tygodni od ujawnienia tysiące witryn zostały skompromitowane i zainstalowano backdoory."
+    },
+    {
+      "type": "h2",
+      "text": "Co tak naprawdę oznacza 'przestarzały'"
+    },
+    {
+      "type": "p",
+      "text": "Kiedy ludzie myślą o aktualizacjach WordPress, zazwyczaj myślą o wersji rdzenia. Ale rzeczywista powierzchnia ataku jest znacznie szersza."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Komponent",
+        "Dlaczego ma znaczenie",
+        "Ryzyko jeśli przestarzały"
+      ],
+      "rows": [
+        [
+          "WordPress core",
+          "Fundament - regularnie łatany",
+          "Wysokie: znane exploity celują w stare wersje"
+        ],
+        [
+          "Pluginy",
+          "Wektor ataku nr 1 - tysiące pluginów, zróżnicowana jakość",
+          "Krytyczne: większość exploitów celuje w pluginy"
+        ],
+        [
+          "Motywy",
+          "Często zawierają luki, szczególnie motywy premium z marketplace'ów",
+          "Średnio-Wysokie"
+        ],
+        [
+          "Wersja PHP",
+          "Język po stronie serwera, na którym działa WordPress",
+          "Wysokie: PHP 7.4 (EOL 2022) nie otrzymuje patchy bezpieczeństwa"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Znaczna część witryn WordPress nadal działa na PHP 7.x - wersji, która jest end-of-life od 2022 roku i nie otrzymuje już aktualizacji bezpieczeństwa. Luki w samym PHP pozostają niezałatane, tworząc lukę bezpieczeństwa poniżej wszystkiego innego."
+    },
+    {
+      "type": "h2",
+      "text": "Paradoks aktualizacji"
+    },
+    {
+      "type": "p",
+      "text": "Logiczna reakcja na to wszystko to: zaktualizować wszystko natychmiast. Problem w tym, że aktualizacje WordPress często coś psują."
+    },
+    {
+      "type": "p",
+      "text": "Konflikty pluginów po głównych aktualizacjach wersji WordPress są powszechne. Motyw, który działał dobrze na WP 6.3, może mieć problemy z wyświetlaniem na WP 6.5. Aktualizacja pluginu płatności może zepsuć proces zakupu. Większość właścicieli firm doświadczyła co najmniej jednej sytuacji ze zepsutą witryną po aktualizacji. Efekt: aktualizacje są odkładane 'tylko dopóki nie będziemy mogli tego przetestować' - i tygodnie zamieniają się w miesiące."
+    },
+    {
+      "type": "p",
+      "text": "Włączenie automatycznych aktualizacji zmniejsza okno podatności, ale wprowadza nieprzewidywalne ryzyko awarii. Wiele firm wyłącza automatyczne aktualizacje po jednym złym doświadczeniu. W modelu WordPress nie ma czystego rozwiązania tego problemu."
+    },
+    {
+      "type": "h2",
+      "text": "Co atakujący robią z dostępem"
+    },
+    {
+      "type": "p",
+      "text": "Gdy witryna zostaje skompromitowana, atakujący zazwyczaj nie niszczą jej natychmiast - to ujawniłoby włamanie. Wolą cichy, trwały dostęp."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Wstrzykiwanie spamu SEO:** Tysiące ukrytych linków do stron farmaceutycznych, hazardowych lub dla dorosłych jest dodawanych do Twoich stron. Twoje pozycje w Google spadają. Ostatecznie Google umieszcza Twoją domenę na czarnej liście.",
+        "**Hacki przekierowań:** Odwiedzający (ale nie Ty) są cicho przekierowywani na złośliwe witryny. Twój organiczny ruch znika w tajemniczy sposób. Nie widzisz tego, ponieważ przekierowanie celuje w określone wzorce ruchu.",
+        "**Kradzież danych klientów:** Zgłoszenia formularzy, dane kontaktowe i wszelkie przechowywane dane użytkowników są eksfiltrowane.",
+        "**Strony phishingowe:** Fałszywe strony logowania są hostowane na Twojej domenie i używane do zbierania danych logowania od odwiedzających.",
+        "**Instalacja backdoora:** Trwały backdoor jest pozostawiany, aby atakujący zachowali dostęp nawet po załataniu oryginalnej luki."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Twoja odpowiedzialność na gruncie RODO"
+    },
+    {
+      "type": "p",
+      "text": "Jeśli Twoja witryna zbiera jakiekolwiek dane identyfikujące - zgłoszenia z formularzy kontaktowych, zapisy do newslettera, konta klientów - i dane te zostaną ujawnione z powodu known, niezałatanej luki, masz problem z RODO."
+    },
+    {
+      "type": "p",
+      "text": "Artykuł 32 RODO wymaga od organizacji wdrożenia 'odpowiednich środków technicznych' w celu zapewnienia bezpieczeństwa danych. Korzystanie z oprogramowania z publicznie udokumentowanymi krytycznymi lukami bez ich łatania jest do obronienia tylko wtedy, gdy można wykazać, że nie miało się rozsądnej możliwości aktualizacji. Niechęć do aktualizacji nie jest generalnie akceptowana przez organy ochrony danych jako obrona w przypadku naruszeń związanych z przetwarzaniem danych."
+    },
+    {
+      "type": "p",
+      "text": "Kary na gruncie RODO mogą sięgać 20 milionów euro lub 4% globalnego rocznego obrotu, w zależności od tego, która kwota jest wyższa. Nawet działania egzekucyjne o średniej skali są materialnie istotne dla MŚP."
+    },
+    {
+      "type": "h2",
+      "text": "Dlaczego łatanie nie jest długoterminową strategią"
+    },
+    {
+      "type": "p",
+      "text": "W 2024 roku badacze bezpieczeństwa ujawnili około 8 000 nowych luk w pluginach WordPress - ponad 20 dziennie. Liczba ta rośnie z roku na rok."
+    },
+    {
+      "type": "p",
+      "text": "Nadążanie wymaga: monitorowania porad bezpieczeństwa dla każdego używanego pluginu, testowania aktualizacji w środowisku stagingowym przed wdrożeniem na produkcję, szybkiego stosowania patchy (w ciągu 24–72 godzin dla krytycznych problemów), radzenia sobie z awariami witryny gdy aktualizacje kolidują, i zarządzania awaryjną naprawą gdy coś prześlizgnie się przez szczeliny."
+    },
+    {
+      "type": "p",
+      "text": "To nie jest jednorazowe zadanie. To stałe obciążenie związane z utrzymaniem. Dla firmy, która po prostu chce działającej witryny, ten narzut jest znaczącym ukrytym [kosztem](/blog/hidden-cost-of-wordpress) modelu WordPress."
+    },
+    {
+      "type": "h2",
+      "text": "Alternatywa: eliminacja powierzchni ataku"
+    },
+    {
+      "type": "p",
+      "text": "Witryna zbudowana w nowoczesnym frameworku JavaScript, takim jak Next.js, ma fundamentalnie inny profil bezpieczeństwa - nie dlatego, że jest odporna na wszystkie ataki, ale dlatego, że klasy luk wtyczek i motywów, które stanowią większość kompromitacji WordPress (według rocznych raportów Patchstack), nie istnieją w tej samej formie na statycznie renderowanej stronie Next.js."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Brak bazy danych wystawionej na internet** - brak powierzchni ataku SQL injection",
+        "**Brak wykonywania PHP po stronie serwera** - brak luk wykonania kodu PHP",
+        "**Brak ekosystemu pluginów do łatania** - zależności są zarządzane explicite, nie pobierane z marketplace'u z 60 000 opcji",
+        "**Brak strony logowania wp-admin** - znany, powszechnie atakowany URL, który nie istnieje",
+        "**Bezpieczeństwo na poziomie infrastruktury** - ochrona DDoS, SSL i bezpieczeństwo edge zarządzane przez platformy takie jak Vercel"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Przejście na statyczną lub renderowaną po stronie serwera witrynę JavaScript nie oznacza zerowych kwestii bezpieczeństwa. Ale oznacza, że Twój zespół zajmujący się utrzymaniem nie ściga się codziennie z nowymi ujawnieniami luk w ekosystemie pluginów."
+    },
+    {
+      "type": "h2",
+      "text": "Sprawdź swoje obecne narażenie"
+    },
+    {
+      "type": "p",
+      "text": "Jeśli korzystasz z WordPress, pierwszym krokiem jest poznanie swojej rzeczywistej sytuacji. Nasz bezpłatny audyt sprawdza widoczne wskaźniki WordPress, nagłówki odpowiedzi serwera i metryki wydajności w 60 sekund."
+    },
+    {
+      "type": "p",
+      "text": "Uruchom audyt na [webvise.io/wp-health-report](/wp-health-report). Jeśli wyniki wskazują na przestarzałe oprogramowanie lub problemy z bezpieczeństwem, możemy omówić realistyczne opcje - czy to zdyscyplinowany proces aktualizacji i monitorowania, czy migracja do architektury bez bieżni aktualizacji."
+    }
+  ],
+  "metaDescription": "40% stron WordPress ma przestarzałe wtyczki ze znanymi lukami. 8 000+ nowych podatności tylko w 2024. Prawdziwe ryzyko i Twoje opcje."
 }

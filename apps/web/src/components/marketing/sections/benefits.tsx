@@ -20,9 +20,12 @@ export default async function Benefits() {
 				<H2>{t("title")}</H2>
 				<Lead className="mt-5 max-w-[520px]">{t("subtitle")}</Lead>
 			</div>
-			<StaggerChildren className="mt-16 -mx-6 grid border-t border-grid-line md:grid-cols-3">
+			<StaggerChildren className="-mx-6 mt-16 grid border-grid-line border-t md:grid-cols-3">
 				{benefitKeys.map(({ key, icon: Icon }) => (
-					<div key={key} className="group border-b border-grid-line p-6 md:border-r md:p-8 md:[&:nth-child(3n)]:border-r-0">
+					<div
+						className="group border-grid-line border-b p-6 md:border-r md:p-8 md:[&:nth-child(3n)]:border-r-0"
+						key={key}
+					>
 						<Icon
 							className="h-5 w-5 shrink-0 text-brand opacity-60"
 							strokeWidth={1.5}

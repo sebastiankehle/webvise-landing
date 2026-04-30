@@ -1,1 +1,220 @@
-{"date": "2026-04-21", "readingTime": 10, "keyword": "Kimi K2.6", "title": "Kimi K2.6: Un modelo de programación frontier de pesos abiertos a una décima parte del costo", "excerpt": "Kimi K2.6 de Moonshot AI es el segundo modelo chino de pesos abiertos en alcanzar el nivel frontier en cuatro meses. Para las agencias que entregan agentes de IA a clientes, la decisión sobre el stack cambió de la noche a la mañana.", "metaDescription": "Kimi K2.6 iguala a Claude Opus 4.6 en SWE-Bench Verified a una décima parte del costo de API, con pesos completamente abiertos. Qué deben cambiar los stacks de IA de las agencias este trimestre.", "tags": ["AI Agents", "AI", "Open Source", "Self-Hosted"], "blocks": [{"type": "p", "text": "Moonshot AI lanzó Kimi K2.6 el 20 de abril de 2026. Es un modelo de programación de pesos abiertos con 1 billón de parámetros que iguala a Claude Opus 4.6 en SWE-Bench Verified a aproximadamente una décima parte del costo de API. Para las agencias que entregan agentes de IA a clientes, los modelos de pesos abiertos han superado la etapa experimental en esta generación."}, {"type": "p", "text": "Este es el segundo modelo de pesos abiertos de un laboratorio chino en alcanzar este nivel en cuatro meses. DeepSeek V3.2 se lanzó en enero de 2026 con puntuaciones de medalla de oro en IMO 2025, IOI 2025 e ICPC World Final 2025, estableciendo en ese momento el punto de referencia de razonamiento para pesos abiertos. K2.6 llegó el 20 de abril con un enjambre de agentes de largo horizonte que coordina 300 subagentes en 4.000 pasos. La cadencia es ahora trimestral, y cada agencia que entrega agentes de IA a clientes necesita una política de stack que contemple un nuevo lanzamiento frontier cada tres o cuatro meses."}, {"type": "p", "text": "Lleva un año escuchando que 'los modelos abiertos están alcanzando a los cerrados', y la mayor parte era ruido. Esta generación muestra una brecha menor que los ciclos anteriores de abierto frente a cerrado, y eso tiene consecuencias para lo que usted entrega a sus clientes. A continuación: qué lanzó realmente K2.6, dónde se cerró la brecha con Claude Opus 4.7, dónde no, y las tres decisiones que un stack de IA entregado por una agencia debe tomar este trimestre. Si esa decisión ya está activa en un proyecto para un cliente, [webvise construye despliegues de IA de pesos abiertos para agencias](/#contact)."}, {"type": "ul", "items": ["**Los benchmarks cierran la brecha.** K2.6 obtiene 80.2% en SWE-Bench Verified, 0.6 puntos por debajo de Claude Opus 4.6, y lidera a todos los modelos frontier en SWE-Bench Pro con 58.6%.", "**El precio derrumba el presupuesto.** $0.60 por millón de tokens de entrada y $2.50 por millón de tokens de salida. Claude Opus 4.7 cobra $5 y $25, entre 8 y 10 veces más por ejecución.", "**La licencia permite el uso comercial.** Modified MIT con una única cláusula de atribución por encima de 100M de usuarios activos mensuales o $20M de ingresos mensuales. Todos los clientes de webvise están por debajo de ese umbral.", "**El self-hosting es real.** Los pesos están en Hugging Face con cuantizaciones GGUF de la comunidad de ubergarm y unsloth. Hardware de clase H100 es el piso práctico para cargas de trabajo serias.", "**Los stacks mixtos ganan.** Los stacks puramente de código cerrado ahora requieren una justificación escrita por carga de trabajo. Pesos abiertos para volumen, pesos cerrados para razonamiento frontier difícil es el valor predeterminado defendible para una agencia."]}, {"type": "h2", "text": "Qué lanzó realmente Kimi K2.6"}, {"type": "p", "text": "K2.6 es un modelo MoE de 1 billón de parámetros con 32 mil millones de parámetros activos por token y una ventana de contexto de 262.144 tokens. Es nativamente multimodal en texto y visión, y está disponible a través de Kimi API de Moonshot, Kimi Code, Hugging Face, OpenRouter y Ollama. Las cuantizaciones de la comunidad de ubergarm y unsloth hacen viable el despliegue local en hardware de clase H100 dentro de las primeras 48 horas del lanzamiento."}, {"type": "p", "text": "El perfil de benchmarks frente al frontier:"}, {"type": "table", "headers": ["Benchmark", "K2.6", "Claude Opus 4.6", "Claude Opus 4.7", "GPT-5.4", "Gemini 3.1 Pro"], "rows": [["SWE-Bench Verified", "80.2%", "80.8%", "87.6%", "pending", "pending"], ["SWE-Bench Pro", "58.6%", "53.4%", "pending", "57.7%", "54.2%"], ["Terminal-Bench 2.0", "66.7%", "pending", "pending", "pending", "pending"], ["HLE-Full (tools)", "54.0%", "53.0%", "pending", "52.1%", "51.4%"], ["AIME 2026", "96.4%", "pending", "pending", "pending", "pending"], ["OSWorld-Verified", "73.1%", "pending", "pending", "pending", "pending"]]}, {"type": "p", "text": "El salto en Terminal-Bench 2.0 es el número más revelador del lanzamiento. K2.6 ganó 15.9 puntos sobre K2.5 en fiabilidad de shell y manipulación de archivos, exactamente la capacidad que una agencia necesita cuando un modelo conduce un pipeline CI real o un agente de remediación de guardia. El liderazgo en benchmarks no sirve de nada si el agente sigue fallando con un indicador `cp` dentro de un despliegue real."}, {"type": "p", "text": "La característica principal está un nivel por encima de los benchmarks individuales. K2.6 puede coordinar hasta 300 subagentes en 4.000 pasos coordinados en una sola ejecución, lo que permite ejecuciones de largo horizonte medidas en horas o días sin intervención humana. Moonshot publicó trazas de ejecuciones de ingeniería de varios días donde el modelo dirigió su propio despacho de subagentes. Claude Opus 4.7 no publica un techo comparable de subagentes, lo que es una primera vez en una característica agéntica significativa donde los pesos abiertos lideran al frontier cerrado."}, {"type": "p", "text": "Para las agencias que ya operan stacks de agentes, la pregunta práctica ya no es '¿están listos los pesos abiertos?' Es '¿dónde encajan?' Si usted está trazando eso para un proyecto con un cliente este trimestre, [webvise construye despliegues de IA de stacks mixtos](/#contact)."}, {"type": "h2", "text": "La brecha frontier es un error de redondeo, con una excepción"}, {"type": "p", "text": "En SWE-Bench Verified, K2.6 con 80.2% y Claude Opus 4.6 con 80.8% están funcionalmente empatados. La diferencia de 0.6 puntos es menor que la varianza de ejecución a ejecución que la mayoría de las agencias observan en evaluaciones de producción. K2.6 también lidera SWE-Bench Pro, el benchmark más exigente de múltiples archivos, por 5.2 puntos sobre GPT-5.4 y 7.2 puntos sobre Opus 4.6."}, {"type": "p", "text": "La excepción es Claude Opus 4.7. El último Opus de Anthropic saltó a 87.6% en SWE-Bench Verified, una ventaja material de 7.4 puntos sobre K2.6 en el benchmark de corrección de errores de archivo único. Opus 4.7 se lanzó cuatro días antes que K2.6, lo que indica cómo funciona la carrera ahora. Es un adelantamiento trimestral, y el liderazgo cambia de manos según el calendario."}, {"type": "p", "text": "Para la mayoría de las cargas de trabajo de una agencia, 80% en SWE-Bench Verified es más señal de la que la tarea real necesita. Si su agente escribe correcciones de errores pequeños, migra un módulo entre versiones de framework, o ejecuta un pase nocturno de creación de pruebas, los benchmarks publicados sitúan a K2.6 dentro de la banda de incertidumbre de los principales modelos closed-source a un costo por ejecución sustancialmente menor; la metodología y la selección de la carga de trabajo influyen en la comparación."}, {"type": "p", "text": "Si usted ejecuta revisiones de PR de aguja en un pajar contra un monorepo de 200 archivos donde el contexto sutil importa entre módulos, Opus 4.7 sigue ganando. Esa diferencia de 7.4 puntos es real y se acumula en las tareas más difíciles. Si vale 10 veces el costo por ejecución es una decisión que ahora debe tomar por carga de trabajo, no por proveedor."}, {"type": "h2", "text": "La diferencia de precio es 10x, y Opus 4.7 la empeoró silenciosamente"}, {"type": "p", "text": "Precios de API, por millón de tokens entre las dos opciones frontier relevantes:"}, {"type": "table", "headers": ["Model", "Input", "Output"], "rows": [["Kimi K2.6 (Moonshot API)", "$0.60", "$2.50"], ["Kimi K2.6 (OpenRouter)", "$0.60", "$2.80"], ["Claude Opus 4.7", "$5.00", "$25.00"]]}, {"type": "p", "text": "Una sola ejecución de agente que consume 20.000 tokens de entrada y 8.000 de salida cuesta aproximadamente $0.03 en K2.6 y aproximadamente $0.30 en Claude Opus 4.7. Escale eso con un agente de cliente que se ejecuta 1.000 veces al día y el mes suma $8.000 en Opus frente a $900 en K2.6 para la misma carga de trabajo. En una cartera de seis agentes para clientes, la diferencia anual supera el medio millón de dólares en COGS que la agencia o el cliente absorbe actualmente."}, {"type": "p", "text": "Hay un factor oculto que la mayoría de las agencias no han considerado aún. El tokenizer actualizado de Opus 4.7 produce más tokens por entrada equivalente en algunas cargas de trabajo; esto afecta al margen efectivo por proyecto para el trabajo facturado con Opus. Las tarifas por token se mantuvieron iguales, pero los costos efectivos por solicitud no. Si firmó trabajo para clientes con supuestos de facturación de Opus 4.6, su economía unitaria cambió sin que usted lo notara."}, {"type": "p", "text": "El precio de Moonshot no es solo más barato, es estructuralmente diferente al frontier cerrado. Los pesos abiertos significan que el precio mínimo es su propio cómputo, no el margen de un proveedor. Un despliegue self-hosted de K2.6 puede alcanzar aproximadamente $0.08 por millón de tokens de salida a escala; esto se sitúa materialmente por debajo del precio API de los modelos frontier cerrados. Los multiplicadores directos dependen del volumen de inferencia y la economía de la infraestructura. Ese es el número que convierte los pesos abiertos de una curiosidad de investigación en una decisión de rentabilidad."}, {"type": "h2", "text": "Qué permite realmente la licencia Modified MIT"}, {"type": "p", "text": "Los pesos de K2.6 están publicados en Hugging Face en `moonshotai/Kimi-K2.6` bajo una Modified MIT License. La modificación es una única cláusula de atribución. Si su despliegue supera los 100 millones de usuarios activos mensuales o genera más de $20 millones en ingresos mensuales, debe acreditar visiblemente 'Kimi K2.6' en la interfaz del producto."}, {"type": "p", "text": "Para cada proyecto de webvise, este umbral es lo suficientemente alto como para no limitar los despliegues comerciales típicos. El uso comercial es gratuito por debajo del umbral, la redistribución del código fuente y los pesos está permitida, el ajuste fino está permitido para cualquier propósito, y el trabajo para clientes construido sobre K2.6 no conlleva una obligación de regalías hacia Moonshot a ninguna escala que un cliente típico de una agencia alcanzará en el primer año."}, {"type": "p", "text": "Compare esto con la Política de Uso de Anthropic, que prohíbe el ajuste fino de las salidas de Claude para construir modelos fundacionales competidores y requiere que los clientes acepten los términos de Anthropic como acuerdo de transferencia. Para un cliente que despliega agentes en sectores regulados donde la residencia de datos, el control del modelo y la soberanía contractual importan, la diferencia de licencia no es una característica opcional. Para clientes de servicios financieros, salud, legal y sector público de la UE que operan bajo las reglas de localización de datos GDPR, la licencia en sí misma suele ser la decisión antes de que los benchmarks entren en la conversación."}, {"type": "h2", "text": "El patrón: dos lanzamientos de pesos abiertos en cuatro meses"}, {"type": "p", "text": "Kimi K2.6 por sí solo no es la historia. El patrón en el que se inscribe es lo que debería mover realmente la política de las agencias este trimestre."}, {"type": "p", "text": "DeepSeek V3.2 se lanzó en enero de 2026 con DeepSeek Sparse Attention, una arquitectura que reduce la complejidad de la atención de O(n²) a O(nk) mientras preserva el rendimiento del modelo en escenarios de contexto largo. La variante V3.2-Speciale obtuvo oro en IMO 2025, IOI 2025, ICPC World Final 2025 y CMO 2025, estableciendo el máximo histórico de razonamiento en pesos abiertos. En ese momento, ese era el techo."}, {"type": "p", "text": "Cuatro meses después, Moonshot lanzó K2.6 con un MoE de 1T parámetros, contexto de 256K y un enjambre de agentes de largo horizonte. El liderazgo en benchmarks de pesos abiertos pasó de DeepSeek a Moonshot en un solo trimestre, y Las agencias que apostaron exclusivamente por proveedores de código cerrado enfrentan una presión de precios renovada a medida que las opciones de pesos abiertos mejoran."}, {"type": "p", "text": "La cadencia a observar no es un laboratorio alcanzando a otro una sola vez. Son dos laboratorios turnándose el liderazgo de pesos abiertos cada tres o cuatro meses mientras Anthropic lanza Opus 4.7 y Google lanza Gemini 3.1 Pro en calendarios de lanzamiento superpuestos. El frontier de pesos abiertos ya no es una carrera contra el frontier cerrado. Es una condición permanente del stack de IA que las agencias deben planificar a nivel de política."}, {"type": "p", "text": "Para las agencias, esto desplaza la conversación directiva de '¿debemos evaluar los pesos abiertos?' a '¿cuál es nuestra política de stack mixto cuando llegue el próximo lanzamiento en julio?'"}, {"type": "h2", "text": "Qué cambia esto para las agencias que entregan agentes a clientes"}, {"type": "p", "text": "Tres puntos de presión impulsan el cálculo de migración que una agencia debe hacer ahora en su cartera de clientes."}, {"type": "p", "text": "**Presión de costos desde el lado del cliente.** Una vez que un cliente ve la diferencia por ejecución en una carga de trabajo real, la conversación pasa de '¿qué modelo?' a '¿por qué estamos pagando esto?' Una factura mensual de $5.000 en agentes con Claude Opus 4.7 cae a aproximadamente $500 en K2.6 para el mismo volumen de tareas, y el techo de calidad solo se degrada en el trabajo de razonamiento de múltiples archivos más exigente. Los equipos de adquisiciones probablemente harán esa comparación por su cuenta."}, {"type": "p", "text": "**La residencia de datos como nivel premium vendible.** Los pesos abiertos permiten que los datos del cliente permanezcan en la infraestructura del cliente, lo que abre contratos en los que los stacks de código cerrado no pueden competir. Para clientes de servicios financieros, salud y sector público de la UE sujetos a los requisitos de localización de datos GDPR, K2.6 self-hosted elimina la pregunta 'nuestros datos fueron a la nube de Anthropic' de cada revisión de cumplimiento. Eso solo gana decisiones de adquisición donde el stack de código cerrado ni siquiera es elegible."}, {"type": "p", "text": "**El riesgo de proveedor como línea de política.** Los stacks de proveedor único de código cerrado fallaron una prueba real durante el [incidente de la cadena de suministro de Vercel](/blog/vercel-breach-response-playbook), donde el SDK de un proveedor se convirtió en un vector de brecha para cada agente de una cartera. Cuando el radio de explosión escala con la concentración de proveedores, los stacks mixtos con respaldo de pesos abiertos convierten una interrupción total en una ejecución degradada. Los aseguradores y los equipos de adquisiciones están comenzando a preguntar sobre esto en el nivel de RFP."}, {"type": "p", "text": "El contraargumento es real y vale la pena expresarlo claramente. Claude Opus 4.7 lidera SWE-Bench Verified por 7.4 puntos sobre K2.6. Para el razonamiento de múltiples archivos más exigente, los casos extremos donde el contexto sutil importa entre módulos, o los flujos de trabajo donde la latencia y la precisión en el uso de herramientas son el producto, el frontier cerrado sigue ganando en calidad."}, {"type": "p", "text": "El valor predeterminado de webvise para nuevos proyectos con clientes es ahora un stack mixto por diseño. Claude Opus 4.7 maneja la orquestación, el razonamiento ambiguo y las rutas de uso de herramientas críticas para el producto donde la precisión importa. K2.6 maneja el trabajo de alto volumen, bien definido y sensible a los datos donde la brecha de calidad es un error de redondeo frente a una reducción de costos del 90%. La lógica de enrutamiento vive en nuestra propia infraestructura, lo que mantiene la elección del modelo como una decisión reversible en lugar de un contrato de dos años."}, {"type": "h2", "text": "Qué hacer concretamente este trimestre"}, {"type": "p", "text": "Cuatro acciones concretas si usted opera agentes para clientes en un stack de código cerrado hoy."}, {"type": "ul", "items": ["**Evalúe K2.6 en su carga de trabajo real.** Use el endpoint de OpenRouter durante 72 horas, ejecute su suite de evaluación de agentes existente y mida la regresión frente a su distribución de tareas real. Su agente depende de sus datos, no de los rankings de SWE-Bench.", "**Audite el gasto por carga de trabajo, no por proveedor.** Identifique los agentes que gastan más de $300 al mes en Opus 4.7 y marque los que tienen un tipo de tarea que encaja cómodamente dentro del umbral de capacidad del 80% verificado de K2.6. Esas cargas de trabajo migran a pesos abiertos primero.", "**Cotice la residencia de datos como un nivel enterprise.** Los clientes enterprise pagarán una prima por agentes self-hosted una vez que usted lo ofrezca como una línea en el SOW. Los pesos abiertos convierten esto en un nivel productizable en lugar de un sprint de ingeniería personalizado por proyecto.", "**Mantenga la línea en el trabajo de razonamiento crítico.** Migre volumen, no sensibilidad. La brecha de 7.4 puntos en Verified entre K2.6 y Opus 4.7 es real cuando la tarea es difícil. Mida la regresión en sus cargas de trabajo más exigentes antes de mover un solo agente de producción."]}, {"type": "p", "text": "Moonshot casi con certeza lanzará K2.7 antes de fin de año. Se dice que DeepSeek V4 se encuentra en una fase de desarrollo avanzada. La pregunta para las agencias no es si adoptar pesos abiertos. Es qué tan rápido puede la política de la agencia absorber lo que llegue el próximo trimestre sin interrumpir el trabajo activo con clientes."}, {"type": "p", "text": "Si usted está trazando la migración a pesos abiertos para un proyecto con un cliente y quiere una segunda opinión sobre la lógica de enrutamiento, el plan de benchmarks o la economía del self-hosting, [webvise construye y mantiene despliegues de IA de stacks mixtos](/#contact) para productos entregados por agencias."}]}
+{
+  "date": "2026-04-21",
+  "readingTime": 10,
+  "keyword": "Kimi K2.6",
+  "title": "Kimi K2.6: Un modelo de programación frontier de pesos abiertos a una décima parte del costo",
+  "excerpt": "Kimi K2.6 de Moonshot AI es el segundo modelo chino de pesos abiertos en alcanzar el nivel frontier en cuatro meses. Para las agencias que entregan agentes de IA a clientes, la decisión sobre el stack cambió de la noche a la mañana.",
+  "metaDescription": "Kimi K2.6 iguala a Claude Opus 4.6 en SWE-Bench Verified a una décima parte del costo de API, con pesos completamente abiertos. Qué deben cambiar los stacks de IA de las agencias este trimestre.",
+  "tags": ["AI Agents", "AI", "Open Source", "Self-Hosted"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Moonshot AI lanzó Kimi K2.6 el 20 de abril de 2026. Es un modelo de programación de pesos abiertos con 1 billón de parámetros que iguala a Claude Opus 4.6 en SWE-Bench Verified a aproximadamente una décima parte del costo de API. Para las agencias que entregan agentes de IA a clientes, los modelos de pesos abiertos han superado la etapa experimental en esta generación."
+    },
+    {
+      "type": "p",
+      "text": "Este es el segundo modelo de pesos abiertos de un laboratorio chino en alcanzar este nivel en cuatro meses. DeepSeek V3.2 se lanzó en enero de 2026 con puntuaciones de medalla de oro en IMO 2025, IOI 2025 e ICPC World Final 2025, estableciendo en ese momento el punto de referencia de razonamiento para pesos abiertos. K2.6 llegó el 20 de abril con un enjambre de agentes de largo horizonte que coordina 300 subagentes en 4.000 pasos. La cadencia es ahora trimestral, y cada agencia que entrega agentes de IA a clientes necesita una política de stack que contemple un nuevo lanzamiento frontier cada tres o cuatro meses."
+    },
+    {
+      "type": "p",
+      "text": "Lleva un año escuchando que 'los modelos abiertos están alcanzando a los cerrados', y la mayor parte era ruido. Esta generación muestra una brecha menor que los ciclos anteriores de abierto frente a cerrado, y eso tiene consecuencias para lo que usted entrega a sus clientes. A continuación: qué lanzó realmente K2.6, dónde se cerró la brecha con Claude Opus 4.7, dónde no, y las tres decisiones que un stack de IA entregado por una agencia debe tomar este trimestre. Si esa decisión ya está activa en un proyecto para un cliente, [webvise construye despliegues de IA de pesos abiertos para agencias](/#contact)."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Los benchmarks cierran la brecha.** K2.6 obtiene 80.2% en SWE-Bench Verified, 0.6 puntos por debajo de Claude Opus 4.6, y lidera a todos los modelos frontier en SWE-Bench Pro con 58.6%.",
+        "**El precio derrumba el presupuesto.** $0.60 por millón de tokens de entrada y $2.50 por millón de tokens de salida. Claude Opus 4.7 cobra $5 y $25, entre 8 y 10 veces más por ejecución.",
+        "**La licencia permite el uso comercial.** Modified MIT con una única cláusula de atribución por encima de 100M de usuarios activos mensuales o $20M de ingresos mensuales. Todos los clientes de webvise están por debajo de ese umbral.",
+        "**El self-hosting es real.** Los pesos están en Hugging Face con cuantizaciones GGUF de la comunidad de ubergarm y unsloth. Hardware de clase H100 es el piso práctico para cargas de trabajo serias.",
+        "**Los stacks mixtos ganan.** Los stacks puramente de código cerrado ahora requieren una justificación escrita por carga de trabajo. Pesos abiertos para volumen, pesos cerrados para razonamiento frontier difícil es el valor predeterminado defendible para una agencia."
+      ]
+    },
+    { "type": "h2", "text": "Qué lanzó realmente Kimi K2.6" },
+    {
+      "type": "p",
+      "text": "K2.6 es un modelo MoE de 1 billón de parámetros con 32 mil millones de parámetros activos por token y una ventana de contexto de 262.144 tokens. Es nativamente multimodal en texto y visión, y está disponible a través de Kimi API de Moonshot, Kimi Code, Hugging Face, OpenRouter y Ollama. Las cuantizaciones de la comunidad de ubergarm y unsloth hacen viable el despliegue local en hardware de clase H100 dentro de las primeras 48 horas del lanzamiento."
+    },
+    { "type": "p", "text": "El perfil de benchmarks frente al frontier:" },
+    {
+      "type": "table",
+      "headers": [
+        "Benchmark",
+        "K2.6",
+        "Claude Opus 4.6",
+        "Claude Opus 4.7",
+        "GPT-5.4",
+        "Gemini 3.1 Pro"
+      ],
+      "rows": [
+        ["SWE-Bench Verified", "80.2%", "80.8%", "87.6%", "pending", "pending"],
+        ["SWE-Bench Pro", "58.6%", "53.4%", "pending", "57.7%", "54.2%"],
+        [
+          "Terminal-Bench 2.0",
+          "66.7%",
+          "pending",
+          "pending",
+          "pending",
+          "pending"
+        ],
+        ["HLE-Full (tools)", "54.0%", "53.0%", "pending", "52.1%", "51.4%"],
+        ["AIME 2026", "96.4%", "pending", "pending", "pending", "pending"],
+        [
+          "OSWorld-Verified",
+          "73.1%",
+          "pending",
+          "pending",
+          "pending",
+          "pending"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "El salto en Terminal-Bench 2.0 es el número más revelador del lanzamiento. K2.6 ganó 15.9 puntos sobre K2.5 en fiabilidad de shell y manipulación de archivos, exactamente la capacidad que una agencia necesita cuando un modelo conduce un pipeline CI real o un agente de remediación de guardia. El liderazgo en benchmarks no sirve de nada si el agente sigue fallando con un indicador `cp` dentro de un despliegue real."
+    },
+    {
+      "type": "p",
+      "text": "La característica principal está un nivel por encima de los benchmarks individuales. K2.6 puede coordinar hasta 300 subagentes en 4.000 pasos coordinados en una sola ejecución, lo que permite ejecuciones de largo horizonte medidas en horas o días sin intervención humana. Moonshot publicó trazas de ejecuciones de ingeniería de varios días donde el modelo dirigió su propio despacho de subagentes. Claude Opus 4.7 no publica un techo comparable de subagentes, lo que es una primera vez en una característica agéntica significativa donde los pesos abiertos lideran al frontier cerrado."
+    },
+    {
+      "type": "p",
+      "text": "Para las agencias que ya operan stacks de agentes, la pregunta práctica ya no es '¿están listos los pesos abiertos?' Es '¿dónde encajan?' Si usted está trazando eso para un proyecto con un cliente este trimestre, [webvise construye despliegues de IA de stacks mixtos](/#contact)."
+    },
+    {
+      "type": "h2",
+      "text": "La brecha frontier es un error de redondeo, con una excepción"
+    },
+    {
+      "type": "p",
+      "text": "En SWE-Bench Verified, K2.6 con 80.2% y Claude Opus 4.6 con 80.8% están funcionalmente empatados. La diferencia de 0.6 puntos es menor que la varianza de ejecución a ejecución que la mayoría de las agencias observan en evaluaciones de producción. K2.6 también lidera SWE-Bench Pro, el benchmark más exigente de múltiples archivos, por 5.2 puntos sobre GPT-5.4 y 7.2 puntos sobre Opus 4.6."
+    },
+    {
+      "type": "p",
+      "text": "La excepción es Claude Opus 4.7. El último Opus de Anthropic saltó a 87.6% en SWE-Bench Verified, una ventaja material de 7.4 puntos sobre K2.6 en el benchmark de corrección de errores de archivo único. Opus 4.7 se lanzó cuatro días antes que K2.6, lo que indica cómo funciona la carrera ahora. Es un adelantamiento trimestral, y el liderazgo cambia de manos según el calendario."
+    },
+    {
+      "type": "p",
+      "text": "Para la mayoría de las cargas de trabajo de una agencia, 80% en SWE-Bench Verified es más señal de la que la tarea real necesita. Si su agente escribe correcciones de errores pequeños, migra un módulo entre versiones de framework, o ejecuta un pase nocturno de creación de pruebas, los benchmarks publicados sitúan a K2.6 dentro de la banda de incertidumbre de los principales modelos closed-source a un costo por ejecución sustancialmente menor; la metodología y la selección de la carga de trabajo influyen en la comparación."
+    },
+    {
+      "type": "p",
+      "text": "Si usted ejecuta revisiones de PR de aguja en un pajar contra un monorepo de 200 archivos donde el contexto sutil importa entre módulos, Opus 4.7 sigue ganando. Esa diferencia de 7.4 puntos es real y se acumula en las tareas más difíciles. Si vale 10 veces el costo por ejecución es una decisión que ahora debe tomar por carga de trabajo, no por proveedor."
+    },
+    {
+      "type": "h2",
+      "text": "La diferencia de precio es 10x, y Opus 4.7 la empeoró silenciosamente"
+    },
+    {
+      "type": "p",
+      "text": "Precios de API, por millón de tokens entre las dos opciones frontier relevantes:"
+    },
+    {
+      "type": "table",
+      "headers": ["Model", "Input", "Output"],
+      "rows": [
+        ["Kimi K2.6 (Moonshot API)", "$0.60", "$2.50"],
+        ["Kimi K2.6 (OpenRouter)", "$0.60", "$2.80"],
+        ["Claude Opus 4.7", "$5.00", "$25.00"]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Una sola ejecución de agente que consume 20.000 tokens de entrada y 8.000 de salida cuesta aproximadamente $0.03 en K2.6 y aproximadamente $0.30 en Claude Opus 4.7. Escale eso con un agente de cliente que se ejecuta 1.000 veces al día y el mes suma $8.000 en Opus frente a $900 en K2.6 para la misma carga de trabajo. En una cartera de seis agentes para clientes, la diferencia anual supera el medio millón de dólares en COGS que la agencia o el cliente absorbe actualmente."
+    },
+    {
+      "type": "p",
+      "text": "Hay un factor oculto que la mayoría de las agencias no han considerado aún. El tokenizer actualizado de Opus 4.7 produce más tokens por entrada equivalente en algunas cargas de trabajo; esto afecta al margen efectivo por proyecto para el trabajo facturado con Opus. Las tarifas por token se mantuvieron iguales, pero los costos efectivos por solicitud no. Si firmó trabajo para clientes con supuestos de facturación de Opus 4.6, su economía unitaria cambió sin que usted lo notara."
+    },
+    {
+      "type": "p",
+      "text": "El precio de Moonshot no es solo más barato, es estructuralmente diferente al frontier cerrado. Los pesos abiertos significan que el precio mínimo es su propio cómputo, no el margen de un proveedor. Un despliegue self-hosted de K2.6 puede alcanzar aproximadamente $0.08 por millón de tokens de salida a escala; esto se sitúa materialmente por debajo del precio API de los modelos frontier cerrados. Los multiplicadores directos dependen del volumen de inferencia y la economía de la infraestructura. Ese es el número que convierte los pesos abiertos de una curiosidad de investigación en una decisión de rentabilidad."
+    },
+    { "type": "h2", "text": "Qué permite realmente la licencia Modified MIT" },
+    {
+      "type": "p",
+      "text": "Los pesos de K2.6 están publicados en Hugging Face en `moonshotai/Kimi-K2.6` bajo una Modified MIT License. La modificación es una única cláusula de atribución. Si su despliegue supera los 100 millones de usuarios activos mensuales o genera más de $20 millones en ingresos mensuales, debe acreditar visiblemente 'Kimi K2.6' en la interfaz del producto."
+    },
+    {
+      "type": "p",
+      "text": "Para cada proyecto de webvise, este umbral es lo suficientemente alto como para no limitar los despliegues comerciales típicos. El uso comercial es gratuito por debajo del umbral, la redistribución del código fuente y los pesos está permitida, el ajuste fino está permitido para cualquier propósito, y el trabajo para clientes construido sobre K2.6 no conlleva una obligación de regalías hacia Moonshot a ninguna escala que un cliente típico de una agencia alcanzará en el primer año."
+    },
+    {
+      "type": "p",
+      "text": "Compare esto con la Política de Uso de Anthropic, que prohíbe el ajuste fino de las salidas de Claude para construir modelos fundacionales competidores y requiere que los clientes acepten los términos de Anthropic como acuerdo de transferencia. Para un cliente que despliega agentes en sectores regulados donde la residencia de datos, el control del modelo y la soberanía contractual importan, la diferencia de licencia no es una característica opcional. Para clientes de servicios financieros, salud, legal y sector público de la UE que operan bajo las reglas de localización de datos GDPR, la licencia en sí misma suele ser la decisión antes de que los benchmarks entren en la conversación."
+    },
+    {
+      "type": "h2",
+      "text": "El patrón: dos lanzamientos de pesos abiertos en cuatro meses"
+    },
+    {
+      "type": "p",
+      "text": "Kimi K2.6 por sí solo no es la historia. El patrón en el que se inscribe es lo que debería mover realmente la política de las agencias este trimestre."
+    },
+    {
+      "type": "p",
+      "text": "DeepSeek V3.2 se lanzó en enero de 2026 con DeepSeek Sparse Attention, una arquitectura que reduce la complejidad de la atención de O(n²) a O(nk) mientras preserva el rendimiento del modelo en escenarios de contexto largo. La variante V3.2-Speciale obtuvo oro en IMO 2025, IOI 2025, ICPC World Final 2025 y CMO 2025, estableciendo el máximo histórico de razonamiento en pesos abiertos. En ese momento, ese era el techo."
+    },
+    {
+      "type": "p",
+      "text": "Cuatro meses después, Moonshot lanzó K2.6 con un MoE de 1T parámetros, contexto de 256K y un enjambre de agentes de largo horizonte. El liderazgo en benchmarks de pesos abiertos pasó de DeepSeek a Moonshot en un solo trimestre, y Las agencias que apostaron exclusivamente por proveedores de código cerrado enfrentan una presión de precios renovada a medida que las opciones de pesos abiertos mejoran."
+    },
+    {
+      "type": "p",
+      "text": "La cadencia a observar no es un laboratorio alcanzando a otro una sola vez. Son dos laboratorios turnándose el liderazgo de pesos abiertos cada tres o cuatro meses mientras Anthropic lanza Opus 4.7 y Google lanza Gemini 3.1 Pro en calendarios de lanzamiento superpuestos. El frontier de pesos abiertos ya no es una carrera contra el frontier cerrado. Es una condición permanente del stack de IA que las agencias deben planificar a nivel de política."
+    },
+    {
+      "type": "p",
+      "text": "Para las agencias, esto desplaza la conversación directiva de '¿debemos evaluar los pesos abiertos?' a '¿cuál es nuestra política de stack mixto cuando llegue el próximo lanzamiento en julio?'"
+    },
+    {
+      "type": "h2",
+      "text": "Qué cambia esto para las agencias que entregan agentes a clientes"
+    },
+    {
+      "type": "p",
+      "text": "Tres puntos de presión impulsan el cálculo de migración que una agencia debe hacer ahora en su cartera de clientes."
+    },
+    {
+      "type": "p",
+      "text": "**Presión de costos desde el lado del cliente.** Una vez que un cliente ve la diferencia por ejecución en una carga de trabajo real, la conversación pasa de '¿qué modelo?' a '¿por qué estamos pagando esto?' Una factura mensual de $5.000 en agentes con Claude Opus 4.7 cae a aproximadamente $500 en K2.6 para el mismo volumen de tareas, y el techo de calidad solo se degrada en el trabajo de razonamiento de múltiples archivos más exigente. Los equipos de adquisiciones probablemente harán esa comparación por su cuenta."
+    },
+    {
+      "type": "p",
+      "text": "**La residencia de datos como nivel premium vendible.** Los pesos abiertos permiten que los datos del cliente permanezcan en la infraestructura del cliente, lo que abre contratos en los que los stacks de código cerrado no pueden competir. Para clientes de servicios financieros, salud y sector público de la UE sujetos a los requisitos de localización de datos GDPR, K2.6 self-hosted elimina la pregunta 'nuestros datos fueron a la nube de Anthropic' de cada revisión de cumplimiento. Eso solo gana decisiones de adquisición donde el stack de código cerrado ni siquiera es elegible."
+    },
+    {
+      "type": "p",
+      "text": "**El riesgo de proveedor como línea de política.** Los stacks de proveedor único de código cerrado fallaron una prueba real durante el [incidente de la cadena de suministro de Vercel](/blog/vercel-breach-response-playbook), donde el SDK de un proveedor se convirtió en un vector de brecha para cada agente de una cartera. Cuando el radio de explosión escala con la concentración de proveedores, los stacks mixtos con respaldo de pesos abiertos convierten una interrupción total en una ejecución degradada. Los aseguradores y los equipos de adquisiciones están comenzando a preguntar sobre esto en el nivel de RFP."
+    },
+    {
+      "type": "p",
+      "text": "El contraargumento es real y vale la pena expresarlo claramente. Claude Opus 4.7 lidera SWE-Bench Verified por 7.4 puntos sobre K2.6. Para el razonamiento de múltiples archivos más exigente, los casos extremos donde el contexto sutil importa entre módulos, o los flujos de trabajo donde la latencia y la precisión en el uso de herramientas son el producto, el frontier cerrado sigue ganando en calidad."
+    },
+    {
+      "type": "p",
+      "text": "El valor predeterminado de webvise para nuevos proyectos con clientes es ahora un stack mixto por diseño. Claude Opus 4.7 maneja la orquestación, el razonamiento ambiguo y las rutas de uso de herramientas críticas para el producto donde la precisión importa. K2.6 maneja el trabajo de alto volumen, bien definido y sensible a los datos donde la brecha de calidad es un error de redondeo frente a una reducción de costos del 90%. La lógica de enrutamiento vive en nuestra propia infraestructura, lo que mantiene la elección del modelo como una decisión reversible en lugar de un contrato de dos años."
+    },
+    { "type": "h2", "text": "Qué hacer concretamente este trimestre" },
+    {
+      "type": "p",
+      "text": "Cuatro acciones concretas si usted opera agentes para clientes en un stack de código cerrado hoy."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Evalúe K2.6 en su carga de trabajo real.** Use el endpoint de OpenRouter durante 72 horas, ejecute su suite de evaluación de agentes existente y mida la regresión frente a su distribución de tareas real. Su agente depende de sus datos, no de los rankings de SWE-Bench.",
+        "**Audite el gasto por carga de trabajo, no por proveedor.** Identifique los agentes que gastan más de $300 al mes en Opus 4.7 y marque los que tienen un tipo de tarea que encaja cómodamente dentro del umbral de capacidad del 80% verificado de K2.6. Esas cargas de trabajo migran a pesos abiertos primero.",
+        "**Cotice la residencia de datos como un nivel enterprise.** Los clientes enterprise pagarán una prima por agentes self-hosted una vez que usted lo ofrezca como una línea en el SOW. Los pesos abiertos convierten esto en un nivel productizable en lugar de un sprint de ingeniería personalizado por proyecto.",
+        "**Mantenga la línea en el trabajo de razonamiento crítico.** Migre volumen, no sensibilidad. La brecha de 7.4 puntos en Verified entre K2.6 y Opus 4.7 es real cuando la tarea es difícil. Mida la regresión en sus cargas de trabajo más exigentes antes de mover un solo agente de producción."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Moonshot casi con certeza lanzará K2.7 antes de fin de año. Se dice que DeepSeek V4 se encuentra en una fase de desarrollo avanzada. La pregunta para las agencias no es si adoptar pesos abiertos. Es qué tan rápido puede la política de la agencia absorber lo que llegue el próximo trimestre sin interrumpir el trabajo activo con clientes."
+    },
+    {
+      "type": "p",
+      "text": "Si usted está trazando la migración a pesos abiertos para un proyecto con un cliente y quiere una segunda opinión sobre la lógica de enrutamiento, el plan de benchmarks o la economía del self-hosting, [webvise construye y mantiene despliegues de IA de stacks mixtos](/#contact) para productos entregados por agencias."
+    }
+  ]
+}
