@@ -1,0 +1,93 @@
+{
+  "date": "2026-04-30",
+  "readingTime": 9,
+  "keyword": "AGENTS.md",
+  "title": "Your AGENTS.md Is Your Moat Now: What Goes Inside Production Files",
+  "excerpt": "Next.js 16.2 made AGENTS.md default scaffolding on Tuesday. Augment's empirical study and our 11-repo template show what production files actually contain.",
+  "metaDescription": "Next.js 16.2 ships AGENTS.md by default. The contents are now your only differentiator. Here is what production-grade files actually look like.",
+  "tags": ["AI Agents", "AI", "Process", "Web Development"],
+  "blocks": [
+    { "type": "p", "text": "When create-next-app shipped **AGENTS.md** as default scaffolding three days ago, the framework choice stopped differentiating. The contents of that file are now the only thing separating a working agent stack from a broken one." },
+    { "type": "p", "text": "For six months, having an AGENTS.md meant your team was ahead. As of 2026-04-28, every fresh Next.js project ships with one. The signal collapsed. What lives inside the file is the new signal." },
+    { "type": "p", "text": "Most engineering leaders treat AGENTS.md as documentation. It is a runtime configuration file the model loads on every call. This article walks through Augment Code's empirical study, the 100 to 150 line rule that decides whether the file helps or hurts, and the template we ship across 11 production client repos." },
+    { "type": "h2", "text": "Key Takeaways" },
+    { "type": "ul", "items": [
+      "**Next.js 16.2 ships AGENTS.md as default scaffolding** (released 2026-04-28). Every fresh starter on Vercel inherits it.",
+      "**Augment Code's AuggieBench study** (2026-04-23): files between 100 and 150 lines perform best. Past 150 lines, the gains reverse.",
+      "**The same file can lift bug-fix accuracy by 25% and tank feature completeness by 30%** on different tasks. Section design matters more than total length.",
+      "**AGENTS.md is the only documentation surface with 100% discovery rate.** Orphaned _docs/ folders sit below 10%.",
+      "**The new moat is procedural workflows, decision tables, and one-liner reactive rules.** Not architecture overviews or stacked warnings."
+    ]},
+
+    { "type": "h2", "text": "Three Days Ago, AGENTS.md Stopped Being a Differentiator" },
+    { "type": "p", "text": "Next.js 16.2 shipped on 2026-04-28 with AGENTS.md as a default file in the create-next-app template. Vercel distributes the scaffolding to every new starter project. The file that used to mean a team was ahead now ships in the empty box." },
+    { "type": "p", "text": "The shift in the conversation is the point. Six months ago, the question was whether your team had an AGENTS.md. This week, the question became what was in it. Buyers evaluating dev partners need a new scoring rubric, because the binary signal is gone." },
+    { "type": "p", "text": "Two parallel signals reinforce the shift. Matt Pocock's mattpocock/skills repository hit 41,000 stars in 85 days, and the repo is his .claude folder pushed verbatim. People are starring other people's agent configs the way they used to star frameworks. That is what commoditization looks like." },
+    { "type": "p", "text": "Garry Tan's gstack repository, released the same week, crossed 23,000 stars in seven days. Tan used it to ship 600,000 lines of production code in 60 days. The repo contains 31 markdown skill files. There is no framework underneath." },
+    { "type": "p", "text": "If your procurement team needs a way to score AI-readiness in vendor evaluations, [webvise has shipped this template across 11 client builds](/#contact) and can walk you through the rubric we use." },
+
+    { "type": "h2", "text": "The 100 to 150 Line Rule, With Measurement" },
+    { "type": "p", "text": "Augment Code published the first empirical study of AGENTS.md content quality on 2026-04-23. The author, Slava Zhenylenko, pulled dozens of AGENTS.md files from Augment's monorepo. Each file ran twice through the AuggieBench eval suite, once with the file present and once without. The output was scored against the golden PR humans had merged." },
+    { "type": "p", "text": "The headline result: the best files produced a quality jump equivalent to upgrading from Haiku to Opus. The worst files produced output **worse than having no AGENTS.md at all**. The same engineering team, the same model, the same task. The file decided the difference." },
+    { "type": "p", "text": "The optimal range was tight. Files between 100 and 150 lines, paired with a small set of focused reference docs loaded on demand, produced 10 to 15% cross-metric gains in mid-size modules of about 100 core files. Past 150 lines, the gains reversed." },
+    { "type": "p", "text": "Tan's own confession matched the finding from the principles side. His CLAUDE.md was 20,000 lines, with every quirk, every pattern, every lesson encoded in one file. Claude Code itself flagged the bloat. The fix was about 200 lines of pointers, with the substance pushed into skills loaded on demand." },
+    { "type": "p", "text": "Our own template across 11 webvise client repos, including aesthetic-medicine-app, biomed-landing, hyyve-landing, kersten-betreuung-landing, and urban-sports-sniper-app, lands at 126 lines. We did not pick that number to fit the study. The study published two weeks after we standardized." },
+    { "type": "p", "text": "Discovery rates from Augment's traces across hundreds of sessions explain why placement matters as much as content:" },
+    { "type": "table", "headers": ["Documentation surface", "Discovery rate"],
+      "rows": [
+        ["AGENTS.md (every level of the hierarchy, auto-loaded)", "100%"],
+        ["References out of AGENTS.md (loaded on demand)", "90%+ when relevant"],
+        ["Directory-level README.md", "80%+ when agent works in that directory"],
+        ["Nested README.md (subdirectories agent is not in)", "around 40%"],
+        ["Orphan _docs/ folders nothing references", "below 10%"]
+      ]
+    },
+    { "type": "p", "text": "AGENTS.md is the only surface with reliable discovery. If something has to be seen, it lives there or is referenced from there. Moving content into a referenced location does more work than writing more docs." },
+
+    { "type": "h2", "text": "What Goes In the File, and What Tanks It" },
+    { "type": "p", "text": "Augment's traces broke down by content type. The patterns that lifted output and the patterns that wrecked it are not symmetrical." },
+    { "type": "h3", "text": "What works" },
+    { "type": "ul", "items": [
+      "**Procedural workflows.** Numbered multi-step workflows were the strongest single pattern. A six-step deploy-a-new-integration workflow dropped PRs with missing wiring files from 40% to 10%, lifted correctness by 25%, and lifted completeness by 20%.",
+      "**Decision tables when 2 or 3 reasonable options exist.** A React Query versus Zustand decision table produced a 25% lift in best_practices on PRs in that area. The table resolves ambiguity before the agent writes code.",
+      "**Real codebase examples, 3 to 10 lines each.** Improves reuse and pattern adherence. Any longer and the agent pattern-matches on the wrong thing.",
+      "**Pair every don't with a do.** Warning-only docs underperform. A bare prohibition makes the agent cautious and exploratory. Pair it with a positive directive that names the right call site, and the agent moves on.",
+      "**Module-level files over a giant root file.** The 100 to 150 line band fits a mid-size module of about 100 files. Cross-cutting root files past that size lost on every metric."
+    ]},
+    { "type": "h3", "text": "What tanks output" },
+    { "type": "ul", "items": [
+      "**Architecture overviews.** The agent reads the overview, then opens dozens of surrounding docs to verify its approach, loads 10,000 to 100,000 tokens of irrelevant context, and the output degrades. Augment named this the overexploration trap.",
+      "**Stacked warnings without paired guidance.** With 30 to 50 don'ts and no dos, the agent verifies its solution against every warning individually, even when none apply.",
+      "**Patterns that don't exist in the codebase yet.** If the AGENTS.md describes an architecture the code does not implement, the file actively steers the agent wrong.",
+      "**Documentation sprawl around the file.** Augment's worst performers were AGENTS.md files sitting on top of 500K to 2MB of architecture docs. Removing the AGENTS.md barely changed behavior. The agent was reading the sprawl regardless."
+    ]},
+
+    { "type": "h2", "text": "Reactive, Not Pre-Written" },
+    { "type": "p", "text": "Elie Steinbock published a separate piece on 2026-04-20 with a discipline that fixes most enterprise AGENTS.md files we audit. Do not pre-write dozens of rules before anything has gone wrong. Pre-emptive over-structuring creates bloat the model parses on every run." },
+    { "type": "p", "text": "Add rules reactively, when a real correction has happened, and keep additions to one-liners. For anything heavier, push the content into a progressively-loaded skill instead. The AGENTS.md stays compact. The skill layer absorbs the weight." },
+    { "type": "p", "text": "Tan's parallel rule, the twice-you-failed discipline, says the same thing from the other end. If you have to ask the agent for something twice, the second ask should not exist. The pattern goes into the skill layer or into AGENTS.md as a one-liner. The system compounds." },
+    { "type": "p", "text": "What this looks like in a webvise build: the AGENTS.md ships at 126 lines with placeholders. The .claude/skills directory carries 8 to 15 skill files at delivery, each one a procedure the team actually ran during the build. The file does not anticipate problems. It records solved ones." },
+
+    { "type": "h2", "text": "Five Questions Procurement Should Ask Any Vendor" },
+    { "type": "p", "text": "AGENTS.md content quality is now a measurable proxy for AI-native execution. The five questions below give a non-engineering procurement team a fast read on whether a vendor is shipping for the 2026 stack or for the 2024 stack." },
+    { "type": "table", "headers": ["Question", "What a strong answer sounds like"],
+      "rows": [
+        ["Show me your AGENTS.md template. What is the line count?", "100 to 150 lines per module. Not one root file. Not 1,000 lines."],
+        ["How is the skill layer structured?", "Progressive disclosure. Skills load on demand, not in the root file."],
+        ["What is the rule for adding entries?", "Reactive only. One-liners for recurring corrections. Skills for anything heavier."],
+        ["How do you measure overexploration on long tasks?", "They name a metric. Token consumption per task, completion rate on multi-step tickets, or something concrete."],
+        ["Where do legacy docs live, and how are they referenced?", "Modular. Linked from AGENTS.md with a cap of 10 to 15 references per file. Not a 2MB sprawl in _docs."]
+      ]
+    },
+    { "type": "p", "text": "If a vendor cannot answer three of the five, they are still shipping the 2024 template. Most enterprise teams hit this wall at the documentation layer. [That audit is the first phase of every webvise migration engagement](/#contact)." },
+
+    { "type": "h2", "text": "The Deeper Finding: Fix the Environment, Not Just the Entry Point" },
+    { "type": "p", "text": "Augment's most uncomfortable finding came from the worst-performing AGENTS.md files. They sat on top of 500K to 2MB of surrounding architecture docs. The team removed just the AGENTS.md from the run, and behavior barely changed. The agent was reading the sprawl regardless of what the entry file said." },
+    { "type": "p", "text": "The implication is hard for legacy enterprise teams. Most documentation environments built before 2024 carry years of architecture decision records, design docs, and runbooks. The agent loads enough of them to drown out a clean AGENTS.md. Writing a better entry file is necessary and not sufficient." },
+    { "type": "p", "text": "The work is uncomfortable. Audit the docs the agent actually loads, mark the dead ones for archive, modularize the live ones into module-scoped references, and keep the AGENTS.md pointing only at what the agent should read on the path to the change. Tan's framing applies: the brain is a git repo, the orchestrator is a thin conductor that reads files. If the git repo is full of dead pages, no entry file fixes it." },
+
+    { "type": "h2", "text": "What This Means for Anyone Commissioning a Build in 2026" },
+    { "type": "p", "text": "The framework war is over. Next.js, Astro, SvelteKit, and Nuxt all ship AGENTS.md scaffolding by default or will within the quarter. The differentiator moved up one layer. The contents of the file, the shape of the skill directory, and the discipline behind both decide whether the agent stack helps or hurts." },
+    { "type": "p", "text": "Modern web builds in 2026 ship agent-readable from day one. That is the contract [webvise](/#contact) writes by default across every project, from a single-page landing site to a multi-tenant SaaS. The 126-line template, the .claude/skills layer, and the reactive-rules discipline are not extras. They are the build." }
+  ]
+}
