@@ -69,7 +69,12 @@ export async function validateUrl(url: string): Promise<void> {
 		throw new UrlValidationError("Only http and https URLs are allowed.");
 	}
 
-	const hostname = parsed.hostname.toLowerCase();
+	let hostname = parsed.hostname.toLowerCase();
+	// Node's URL parser preserves the [ ] around IPv6 literals; strip them
+	// so isIP / isPrivateIP can recognise the address.
+	if (hostname.startsWith("[") && hostname.endsWith("]")) {
+		hostname = hostname.slice(1, -1);
+	}
 
 	// Block known metadata hostnames
 	if (
