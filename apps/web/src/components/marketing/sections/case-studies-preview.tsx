@@ -4,26 +4,17 @@ import { getLocale, getTranslations } from "next-intl/server";
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import StaggerChildren from "@/components/marketing/stagger-children";
 import { H2, H3, Label, Lead, Muted } from "@/components/ui/typography";
-import { getCaseStudies } from "@/data/case-studies";
+import { getFeaturedCaseStudies } from "@/data/case-studies";
 import { Link } from "@/i18n/navigation";
 
 export default async function CaseStudiesPreview() {
 	const locale = await getLocale();
 	const t = await getTranslations("caseStudies");
-	const caseStudies = getCaseStudies(locale);
+	const featured = getFeaturedCaseStudies(locale);
 
-	if (caseStudies.length === 0) {
+	if (featured.length === 0) {
 		return null;
 	}
-
-	const featuredSlugs = [
-		"old-world-labs",
-		"ohyp-fintech",
-		"mp-bau-construction",
-	];
-	const featured = featuredSlugs
-		.map((slug) => caseStudies.find((cs) => cs.slug === slug))
-		.filter(Boolean) as typeof caseStudies;
 	return (
 		<SectionWrapper dark hatch id="case-studies">
 			<div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-end">

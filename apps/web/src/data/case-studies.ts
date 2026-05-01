@@ -131,3 +131,16 @@ export function getCaseStudyBySlug(
 ): CaseStudy | undefined {
 	return toCaseStudy(slug, locale) ?? undefined;
 }
+
+const FEATURED_CASE_STUDY_SLUGS = [
+	"old-world-labs",
+	"ohyp-fintech",
+	"mp-bau-construction",
+] as const;
+
+export function getFeaturedCaseStudies(locale: string): CaseStudy[] {
+	const all = getCaseStudies(locale);
+	return FEATURED_CASE_STUDY_SLUGS.map((slug) =>
+		all.find((cs) => cs.slug === slug)
+	).filter((cs): cs is CaseStudy => cs != null);
+}

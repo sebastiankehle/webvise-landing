@@ -4,7 +4,7 @@ import ChatWidgetMount from "@/components/marketing/chat-widget-mount";
 import Footer from "@/components/marketing/footer";
 import Navbar from "@/components/marketing/navbar";
 import { getBlogIndex } from "@/data/blog";
-import { getCaseStudies } from "@/data/case-studies";
+import { getFeaturedCaseStudies } from "@/data/case-studies";
 
 export default async function MarketingLayout({
 	children,
@@ -23,22 +23,15 @@ export default async function MarketingLayout({
 			readingTime,
 		}));
 
-	const allCaseStudies = getCaseStudies(locale);
-	const featuredSlugs = [
-		"old-world-labs",
-		"ohyp-fintech",
-		"mp-bau-construction",
-	];
-	const featuredCaseStudies = featuredSlugs
-		.map((s) => allCaseStudies.find((cs) => cs.slug === s))
-		.filter((cs): cs is NonNullable<typeof cs> => cs != null)
-		.map(({ slug, client, title, excerpt, coverImage }) => ({
+	const featuredCaseStudies = getFeaturedCaseStudies(locale).map(
+		({ slug, client, title, excerpt, coverImage }) => ({
 			slug,
 			client,
 			title,
 			excerpt,
 			coverImage,
-		}));
+		})
+	);
 
 	return (
 		<>
