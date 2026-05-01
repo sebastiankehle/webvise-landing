@@ -2,7 +2,7 @@
 
 **Design. Development. Automation.**
 
-Source for [webvise.com](https://webvise.com) — a digital product agency shipping marketing sites, full-stack applications, and AI-powered tools for ambitious teams.
+Source for [webvise.io](https://webvise.io) — a digital product agency shipping marketing sites, full-stack applications, and AI-powered tools for ambitious teams.
 
 ## Services
 
@@ -15,11 +15,11 @@ Source for [webvise.com](https://webvise.com) — a digital product agency shipp
 | AI & Automation           | €5,000      | 3–6 weeks  |
 | Full-Stack Applications   | €7,500      | 4–10 weeks |
 
-See [webvise.com/services](https://webvise.com/services) for full details.
+See [webvise.io/services](https://webvise.io/services) for full details.
 
 ## Free Tools
 
-- **[WordPress Health Report](https://webvise.com/wp-health-report)** — instant PageSpeed, SEO, security, and AI-readability audit for any WordPress site.
+- **[WordPress Health Report](https://webvise.io/wp-health-report)** — instant PageSpeed, SEO, security, and AI-readability audit for any WordPress site.
 
 ## Tech Stack
 
@@ -49,8 +49,8 @@ webvise-app/
 
 ## Contact
 
-- Website: [webvise.com](https://webvise.com)
-- Email: [mail@webvise.com](mailto:mail@webvise.com)
+- Website: [webvise.io](https://webvise.io)
+- Email: [mail@webvise.io](mailto:mail@webvise.io)
 
 ## License
 
