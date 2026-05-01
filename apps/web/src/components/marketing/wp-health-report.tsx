@@ -21,6 +21,7 @@ import {
 import { Link } from "@/i18n/navigation";
 import { track } from "@/lib/track";
 import { cn } from "@/lib/utils";
+import { trpcClient } from "@/utils/trpc";
 
 interface ReportIssue {
 	displayValue?: string;
@@ -400,30 +401,22 @@ export default function WpHealthReport() {
 			track("analyzer_submitted", { url });
 
 			try {
-				const res = await fetch("/api/wp-health-report", {
-					method: "POST",
-					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({ url }),
+				const result = await trpcClient.wpHealth.run.mutate({ url });
+				setReport(result);
+				setPhase("teaser");
+				track("analyzer_success", {
+					url,
+					mobile_score: result.mobile?.score ?? null,
+					desktop_score: result.desktop?.score ?? null,
+					projected_score: result.projectedScore ?? null,
 				});
-
-				if (res.ok) {
-					const result = await res.json();
-					setReport(result);
-					setPhase("teaser");
-					track("analyzer_success", {
-						url,
-						mobile_score: result.mobile?.score ?? null,
-						desktop_score: result.desktop?.score ?? null,
-						projected_score: result.projectedScore ?? null,
-					});
-				} else {
-					const err = await res.json().catch(() => null);
-					setErrorMessage(err?.error || t("errors.analyzeFailed"));
-					track("analyzer_error", { url, reason: "server_error" });
-				}
-			} catch {
-				setErrorMessage(t("errors.networkError"));
-				track("analyzer_error", { url, reason: "network_error" });
+			} catch (err) {
+				const message =
+					err instanceof Error && err.message
+						? err.message
+						: t("errors.analyzeFailed");
+				setErrorMessage(message);
+				track("analyzer_error", { url, reason: "server_error" });
 			}
 		},
 	});
@@ -434,17 +427,15 @@ export default function WpHealthReport() {
 
 		// Fire-and-forget: re-submit with email to trigger notification emails
 		if (report) {
-			fetch("/api/wp-health-report", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({
+			trpcClient.wpHealth.run
+				.mutate({
 					url: report.url,
 					email,
 					firstName: firstName || undefined,
-				}),
-			}).catch(() => {
-				// fire-and-forget
-			});
+				})
+				.catch(() => {
+					// fire-and-forget
+				});
 		}
 	}
 

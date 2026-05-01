@@ -10,6 +10,7 @@ import { FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { H3, Muted } from "@/components/ui/typography";
+import { trpcClient } from "@/utils/trpc";
 
 const LABELS = {
 	en: {
@@ -56,21 +57,13 @@ export default function ReportDownloadForm({
 		onSubmit: async ({ value }) => {
 			setSubmitStatus("idle");
 			try {
-				const res = await fetch("/api/report-download", {
-					method: "POST",
-					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({
-						email: value.email.trim(),
-						reportId,
-						locale,
-					}),
+				await trpcClient.reportDownload.request.mutate({
+					email: value.email.trim(),
+					reportId,
+					locale,
 				});
-				if (res.ok) {
-					setSubmitStatus("success");
-					form.reset();
-				} else {
-					setSubmitStatus("error");
-				}
+				setSubmitStatus("success");
+				form.reset();
 			} catch {
 				setSubmitStatus("error");
 			}

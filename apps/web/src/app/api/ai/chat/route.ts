@@ -1,10 +1,10 @@
 import { gateway } from "@ai-sdk/gateway";
-import { convertToModelMessages, streamText, type UIMessage } from "ai";
 import {
 	createRateLimiter,
 	getClientIP,
 	rateLimitResponse,
-} from "@/lib/rate-limit";
+} from "@webvise-app/api/rate-limit";
+import { convertToModelMessages, streamText, type UIMessage } from "ai";
 
 export const maxDuration = 60;
 

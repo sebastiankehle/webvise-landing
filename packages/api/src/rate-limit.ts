@@ -54,12 +54,17 @@ export function createRateLimiter(opts: {
 	};
 }
 
-export function getClientIP(request: Request): string {
-	const forwarded = request.headers.get("x-forwarded-for");
-	if (forwarded) {
-		return forwarded.split(",")[0].trim();
+export function getClientIPFromHeaders(headers: Headers): string {
+	const forwarded = headers.get("x-forwarded-for");
+	const first = forwarded?.split(",")[0]?.trim();
+	if (first) {
+		return first;
 	}
-	return request.headers.get("x-real-ip") ?? "unknown";
+	return headers.get("x-real-ip") ?? "unknown";
+}
+
+export function getClientIP(request: Request): string {
+	return getClientIPFromHeaders(request.headers);
 }
 
 export function rateLimitResponse(retryAfterSec: number): NextResponse {

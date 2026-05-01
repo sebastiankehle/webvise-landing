@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Muted } from "@/components/ui/typography";
 import { track } from "@/lib/track";
+import { trpcClient } from "@/utils/trpc";
 
 interface NewsletterFormProps {
 	buttonLabel: string;
@@ -34,23 +35,13 @@ export function NewsletterForm({
 		track("newsletter_signup", { location: "footer" });
 
 		try {
-			const res = await fetch("/api/newsletter", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ email: email.trim() }),
-			});
-
-			if (res.ok) {
-				setStatus("success");
-				track("newsletter_success", { location: "footer" });
-				setEmail("");
-			} else {
-				setStatus("error");
-				track("newsletter_error", { reason: "server_error" });
-			}
+			await trpcClient.newsletter.subscribe.mutate({ email: email.trim() });
+			setStatus("success");
+			track("newsletter_success", { location: "footer" });
+			setEmail("");
 		} catch {
 			setStatus("error");
-			track("newsletter_error", { reason: "network_error" });
+			track("newsletter_error", { reason: "server_error" });
 		}
 	}
 

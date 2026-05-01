@@ -1,6 +1,7 @@
 import { initTRPC, TRPCError } from "@trpc/server";
 
 import type { Context } from "./context";
+import { createRateLimiter } from "./rate-limit";
 
 export const t = initTRPC.context<Context>().create();
 
@@ -23,3 +24,21 @@ export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
 		},
 	});
 });
+
+export function rateLimitedProcedure(opts: {
+	name: string;
+	maxRequests: number;
+	windowMs: number;
+}) {
+	const limiter = createRateLimiter(opts);
+	return t.procedure.use(({ ctx, next }) => {
+		const { limited, retryAfterSec } = limiter.check(ctx.ip);
+		if (limited) {
+			throw new TRPCError({
+				code: "TOO_MANY_REQUESTS",
+				message: `Too many requests. Try again in ${retryAfterSec}s.`,
+			});
+		}
+		return next();
+	});
+}

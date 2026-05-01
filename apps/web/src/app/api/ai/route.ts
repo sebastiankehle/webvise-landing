@@ -1,16 +1,16 @@
 import { devToolsMiddleware } from "@ai-sdk/devtools";
 import { gateway } from "@ai-sdk/gateway";
 import {
+	createRateLimiter,
+	getClientIP,
+	rateLimitResponse,
+} from "@webvise-app/api/rate-limit";
+import {
 	convertToModelMessages,
 	streamText,
 	type UIMessage,
 	wrapLanguageModel,
 } from "ai";
-import {
-	createRateLimiter,
-	getClientIP,
-	rateLimitResponse,
-} from "@/lib/rate-limit";
 
 export const maxDuration = 30;
 

@@ -14,7 +14,11 @@ function isPrivateIPv4(ip: string): boolean {
 	if (parts.length !== 4) {
 		return false;
 	}
-	const [a, b] = parts;
+	const a = parts[0];
+	const b = parts[1];
+	if (a === undefined || b === undefined) {
+		return false;
+	}
 	if (a === 10 || a === 127 || a === 0) {
 		return true;
 	}

@@ -1,6 +1,16 @@
-import { escapeHtml } from "@/lib/escape-html";
+const ESCAPE_MAP: Record<string, string> = {
+	"&": "&amp;",
+	"<": "&lt;",
+	">": "&gt;",
+	'"': "&quot;",
+	"'": "&#39;",
+};
 
-export { escapeHtml } from "@/lib/escape-html";
+const ESCAPE_RE = /[&<>"']/g;
+
+export function escapeHtml(str: string): string {
+	return str.replace(ESCAPE_RE, (ch) => ESCAPE_MAP[ch] ?? ch);
+}
 
 // Design tokens matching the website's oklch color system, converted to hex for email compatibility
 // Brand: oklch(0.75 0.18 55) → #ff8918 (warm amber)

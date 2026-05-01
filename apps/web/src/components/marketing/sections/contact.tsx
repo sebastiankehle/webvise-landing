@@ -14,6 +14,7 @@ import { H2, Lead, Muted } from "@/components/ui/typography";
 import { services } from "@/data/services";
 import { Link } from "@/i18n/navigation";
 import { track } from "@/lib/track";
+import { trpcClient } from "@/utils/trpc";
 
 export default function Contact() {
 	const [submitStatus, setSubmitStatus] = useState<
@@ -60,30 +61,20 @@ export default function Contact() {
 			setSubmitStatus("idle");
 			track("contact_form_submitted", { service: value.service || null });
 			try {
-				const res = await fetch("/api/contact", {
-					method: "POST",
-					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({
-						name: value.name.trim(),
-						email: value.email.trim(),
-						company: value.company,
-						service: value.service,
-						message: value.message.trim(),
-					}),
+				await trpcClient.contact.submit.mutate({
+					name: value.name.trim(),
+					email: value.email.trim(),
+					company: value.company,
+					service: value.service,
+					message: value.message.trim(),
 				});
-
-				if (res.ok) {
-					setSubmitStatus("success");
-					track("contact_form_success", { service: value.service || null });
-					form.reset();
-					formStarted.current = false;
-				} else {
-					setSubmitStatus("error");
-					track("contact_form_error", { reason: "server_error" });
-				}
+				setSubmitStatus("success");
+				track("contact_form_success", { service: value.service || null });
+				form.reset();
+				formStarted.current = false;
 			} catch {
 				setSubmitStatus("error");
-				track("contact_form_error", { reason: "network_error" });
+				track("contact_form_error", { reason: "server_error" });
 			}
 		},
 	});
