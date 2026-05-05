@@ -168,15 +168,15 @@ Extract concrete requirements before drafting:
 
 If an English draft feels weaker than the benchmark posts, rewrite before translation. Do not create localized files from a weak English draft.
 
-## Ghostwriter Rewrite Rule
+## Transformative Reference Rewrite Rule
 
-When Sebastian asks to use another article as inspiration, copy it "like a ghostwriter," or heavily rewrite it:
+When Sebastian provides another article as inspiration, treat it as reference material, not source text to copy:
 
-- Preserve useful **structure, sequencing, energy, and reader journey**.
-- Do **not** mention, cite, or attribute the source article, source author, platform, or engagement metrics in finished blog content.
-- Replace obvious source fingerprints: character/profile names, team rosters, examples, command names, coined labels, repeated metrics, distinctive section framing, and any phrase that lets a reader identify the original.
-- Make the result read as a standalone webvise article with its own claim, vocabulary, examples, and CTA logic.
-- Add a source-fingerprint audit before finalizing: zero mentions of the source author/title/platform/metrics and zero reused distinctive names/examples across all locales.
+- Preserve the useful **reader journey** only: problem setup, sequencing, pacing, and decision logic.
+- Write original prose, examples, names, commands, section framing, and CTAs. Do not reuse distinctive expression or recognizable examples from the reference.
+- Do not mention the reference article, author, platform, or engagement metrics in finished blog content unless the article is explicitly about that source or a factual claim depends on citing it.
+- Make the result read as a standalone webvise article with its own claim, vocabulary, evidence, examples, and CTA logic.
+- Add an originality audit before finalizing: no copied distinctive names/examples/phrases, no source-only metrics, and no accidental commentary on the reference across all locales.
 
 ## Blog System Reference
 
