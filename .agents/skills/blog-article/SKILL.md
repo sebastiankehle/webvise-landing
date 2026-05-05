@@ -150,6 +150,34 @@ Pull in this order. Stop as soon as you have enough unique material:
 
 If steps 1-5 surface **nothing unique**, abort the command and tell the user. Do not generate.
 
+## webvise Quality Benchmark Gate
+
+Before writing the English draft, benchmark against the strongest existing webvise posts. Do this even when the brief is supplied and topic discovery is skipped.
+
+Minimum benchmark set:
+- `apps/web/content/blog/ai-search-referrals-first-data/en.json`
+- 2-4 recent or high-signal posts with similar intent, especially decision-tree, data-backed, or operational articles
+
+Extract concrete requirements before drafting:
+- first paragraph states the claim directly and gives a quotable answer
+- the article carries proof, stakes, or operating detail in every section
+- at least one decision table or comparison table helps the reader choose
+- copy-pastable commands, checklists, payloads, templates, or audit steps appear where relevant
+- CTAs are contextual to the section, not generic sales interruptions
+- the voice is specific to webvise: direct, opinionated, anti-slop, and grounded in actual workflows
+
+If an English draft feels weaker than the benchmark posts, rewrite before translation. Do not create localized files from a weak English draft.
+
+## Ghostwriter Rewrite Rule
+
+When Sebastian asks to use another article as inspiration, copy it "like a ghostwriter," or heavily rewrite it:
+
+- Preserve useful **structure, sequencing, energy, and reader journey**.
+- Do **not** mention, cite, or attribute the source article, source author, platform, or engagement metrics in finished blog content.
+- Replace obvious source fingerprints: character/profile names, team rosters, examples, command names, coined labels, repeated metrics, distinctive section framing, and any phrase that lets a reader identify the original.
+- Make the result read as a standalone webvise article with its own claim, vocabulary, examples, and CTA logic.
+- Add a source-fingerprint audit before finalizing: zero mentions of the source author/title/platform/metrics and zero reused distinctive names/examples across all locales.
+
 ## Blog System Reference
 
 - **Content location:** `apps/web/content/blog/{slug}/` with one JSON file per locale
