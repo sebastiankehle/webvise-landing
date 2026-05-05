@@ -1,0 +1,416 @@
+{
+  "date": "2026-05-05",
+  "readingTime": 9,
+  "keyword": "Hermes profiles",
+  "title": "Wanneer u Hermes profiles gebruikt in plaats van één gigantische assistent",
+  "excerpt": "Hermes profiles scheiden geheugen, sessies, vaardigheden, identiteit, cronstatus en gatewayroutes zodat terugkerende AI rollen smal, controleerbaar en nuttig blijven.",
+  "metaDescription": "Leer wanneer u Hermes profiles gebruikt, hoe u geïsoleerde agentrollen maakt en hoe u SOUL.md, overdrachten, cron en gateway eigenaarschap beheert.",
+  "tags": ["AI Agents", "Automation", "Process"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Hermes profiles zijn bedoeld voor statusscheiding, niet voor rollenspel. Gebruik een profiel wanneer een terugkerende AI rol eigen geheugen, sessies, vaardigheden, SOUL.md identiteit, cron eigenaarschap of een gatewayroute nodig heeft."
+    },
+    {
+      "type": "p",
+      "text": "Eén assistent kan veel vragen beantwoorden. Die mag niet tegelijk de permanente plek worden voor onderzoeksbeoordeling, schrijfsmaak, shell logs, agendaregels, geplande taken en berichtroutering."
+    },
+    {
+      "type": "p",
+      "text": "De faalmodus is geen zwakke prompt. De faalmodus is gedeelde status. Deze gids laat zien wanneer een Hermes profiel bestaansrecht heeft, hoe u er een maakt vanuit een werkende setup en hoe u voorkomt dat een klein profielteam weer één luidruchtige generalist wordt."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Maak een profiel wanneer status gescheiden moet blijven.** Geheugen, sessies, tools, cron en gatewayroutes zijn sterkere redenen dan toon.",
+        "**Gebruik prompts voor eenmalig gedrag, vaardigheden voor herbruikbare procedures en profielen voor duurzame rollen.** Het mengen van die lagen veroorzaakt contextschuld.",
+        "**Begin met één coördinator en twee specialisten.** Voeg Scout toe voor onderzoek, Scribe voor schrijven en Forge voor bouwen en debuggen alleen wanneer de grens echt is.",
+        "**Schrijf SOUL.md als een functieomschrijving.** Het moet standaarden, standaardkeuzes en weigerregels definiëren, geen vage persoonlijkheid.",
+        "**Definieer overdrachten voordat u meer agents toevoegt.** Een profielteam is alleen nuttig wanneer outputs netjes tussen rollen bewegen."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Als uw team AI werk al heeft verspreid over prompts, chats, scripts en geplande taken, kan [webvise helpen de eerste schone profielgrens in kaart te brengen](/#contact) voordat het systeem moeilijker te auditen wordt."
+    },
+    { "type": "h2", "text": "De fout: één assistent die vijf taken doet" },
+    {
+      "type": "p",
+      "text": "Het gebruikelijke pad begint verstandig. U vraagt één assistent om een markt te onderzoeken, een post te schrijven, een script te debuggen, een vergadering samen te vatten en een agenda te bewaken. Op dag één gaat er niets stuk."
+    },
+    {
+      "type": "p",
+      "text": "Tegen week drie laat elke workflow resten achter. Onderzoek leert bronregels, schrijven leert toon, debugsessies bewaren mislukte commando's en agendawerk voegt planningsaannames toe. De volgende taak moet dat allemaal uitzoeken."
+    },
+    {
+      "type": "p",
+      "text": "Dat is contextschuld. De assistent is niet verward omdat er nog een instructie ontbreekt. Hij is verward omdat niet gerelateerd werk nu geheugen, sessies, tools en standaardkeuzes deelt."
+    },
+    {
+      "type": "p",
+      "text": "Hermes profiles herstellen de grens. Ze laten een rol de status dragen die nodig is zonder elke andere rol te dwingen die te erven."
+    },
+    {
+      "type": "h2",
+      "text": "Profielen zijn geïsoleerde omgevingen, geen kostuums"
+    },
+    {
+      "type": "p",
+      "text": "Een persona verandert hoe een assistent praat. Een Hermes profiel verandert wat de assistent meedraagt, onthoudt, plant en verbindt."
+    },
+    {
+      "type": "p",
+      "text": "Hermes 0.9.0 introduceerde profielen als geïsoleerde agentomgevingen. Een profiel kan configuratie, sessies, geheugen, vaardigheden, persoonlijkheid, cronstatus en gatewaystatus scheiden. Dat maakt het een runtimegrens, geen schrijfstijl."
+    },
+    {
+      "type": "table",
+      "headers": ["Laag", "Wat scheiding voorkomt"],
+      "rows": [
+        [
+          "Geheugen",
+          "Onderzoeksregels, terugkerende aannames en oude beslissingen die in niet gerelateerd werk lekken"
+        ],
+        [
+          "Sessies",
+          "Concepten, shell logs, strategiedraden en agendanotities die in één tijdlijn samenklappen"
+        ],
+        [
+          "Vaardigheden",
+          "Elke rol die tools scant of laadt die niet nodig zijn"
+        ],
+        [
+          "Identiteit",
+          "Eén generieke stem die doet alsof hij onderzoeker, redacteur, operator en engineer is"
+        ],
+        [
+          "Cron state",
+          "Meerdere geplande taken die dezelfde uitkomst proberen te bezitten"
+        ],
+        [
+          "Gateway state",
+          "De verkeerde rol die de verkeerde Telegram route of berichtroute beantwoordt"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Dit is de hoofdtest: als twee rollen niet dezelfde fouten, aannames of onafgemaakt werk zouden moeten onthouden, zouden ze waarschijnlijk niet hetzelfde profiel moeten zijn."
+    },
+    {
+      "type": "h2",
+      "text": "Profiel, prompt, vaardigheid, AGENTS.md of SOUL.md?"
+    },
+    {
+      "type": "p",
+      "text": "De meeste rommelige agent setups ontstaan doordat één laag voor elk probleem wordt gebruikt. Profielen zijn niet het antwoord op elke behoefte aan aanpassing."
+    },
+    {
+      "type": "table",
+      "headers": ["Behoefte", "Gebruik deze laag"],
+      "rows": [
+        ["Gedrag veranderen voor één taak", "Prompt"],
+        ["Een procedure hergebruiken over taken heen", "Vaardigheid"],
+        ["Projectpaden, commando's en conventies geven", "AGENTS.md"],
+        ["Duurzame rolidentiteit en standaarden definiëren", "SOUL.md"],
+        [
+          "Geheugen, sessies, vaardigheden, cron of gatewaystatus scheiden",
+          "Profiel"
+        ],
+        ["Meerdere profielen en overdrachten coördineren", "TEAM.md"]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Maak geen profielen voor sfeer. Maak ze wanneer de rol status bezit die een andere rol slechter zou maken."
+    },
+    { "type": "h2", "text": "Wanneer een profiel bestaansrecht heeft" },
+    {
+      "type": "p",
+      "text": "Een goed profiel verdient zijn plaats door ruis te verminderen. Als het alleen de naam in de terminalprompt verandert, verwijder het dan of zet de instructie om in een vaardigheid."
+    },
+    {
+      "type": "table",
+      "headers": ["Maak een profiel wanneer", "Maak er geen wanneer"],
+      "rows": [
+        ["De rol wekelijks of dagelijks terugkomt", "De taak eenmalig is"],
+        [
+          "Er geheugen nodig is dat niet naar ander werk mag lekken",
+          "Alleen de toon verandert"
+        ],
+        [
+          "Het een andere gateway of geplande taak bezit",
+          "Het dezelfde tools, context en outputafspraak gebruikt"
+        ],
+        [
+          "Het een ander risiconiveau of andere permissiegrens heeft",
+          "U niet kunt beschrijven wat het moet produceren"
+        ],
+        [
+          "Het werk overdraagt aan een ander profiel",
+          "Er geen overdracht of kwaliteitscontrole bestaat"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "De schoonste regel is eenvoudig: een profiel moet beter worden in één taak zonder de andere taken luidruchtiger te maken."
+    },
+    { "type": "h2", "text": "Een klein Hermes profiles team" },
+    {
+      "type": "p",
+      "text": "Begin met rollen, niet met geleende personagenamen. Houd Hermes als coördinator. Voeg Scout toe voor onderzoek, Scribe voor schrijven en Forge voor bouwen en debuggen alleen wanneer elke rol een echte grens heeft."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Profiel",
+        "Verantwoordelijkheid",
+        "Moet produceren",
+        "Moet niet produceren"
+      ],
+      "rows": [
+        [
+          "Hermes",
+          "Plannen, routeren, ordenen en verifiëren",
+          "Taaksplitsing, delegatie, eindsynthese, kwaliteitscontrole",
+          "Ruwe onderzoeksdumps of niet beoordeelde codewijzigingen"
+        ],
+        [
+          "Scout",
+          "Onderzoeken, vergelijken en verifiëren",
+          "Beweringen met bronnen, datums, vertrouwen en kanttekeningen",
+          "Gepolijste tekst die onzekerheid verbergt"
+        ],
+        [
+          "Scribe",
+          "Geverifieerd materiaal omzetten in communicatie",
+          "Concepten, edits, structuur, aansluiting op publiek",
+          "Niet onderbouwde beweringen of verzonnen bewijs"
+        ],
+        [
+          "Forge",
+          "Bouwen, debuggen, testen en rapporteren",
+          "Diffs, uitgevoerde commando's, testresultaten, resterende risico's",
+          "Strategische tekst zonder implementatiebewijs"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "De namen zijn plaatsaanduidingen. De grens is het product. Hernoem de profielen als u wilt, maar houd de taken gescheiden."
+    },
+    {
+      "type": "p",
+      "text": "Een nuttige eerste pilot gebruikt slechts twee profielen: Hermes coördineert, Scout verifieert. Zodra Scout betrouwbaar beweringen met bronnen teruggeeft, voegt u Scribe toe om die beweringen in tekst om te zetten. Voeg Forge alleen toe wanneer implementatiewerk de rest van de assistent begint te vervuilen."
+    },
+    { "type": "h2", "text": "Profielen maken vanuit een werkende basis" },
+    {
+      "type": "p",
+      "text": "Bouw niet elke specialist vanaf nul. Zorg eerst dat de standaard Hermes setup werkt: provider, model, API keys, tools en normaal terminalgebruik."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "Maak een onderzoeksprofiel: `hermes profile create scout --clone`",
+        "Maak een schrijfprofiel: `hermes profile create scribe --clone`",
+        "Maak een engineeringprofiel: `hermes profile create forge --clone`",
+        "Controleer de lijst: `hermes profile list`",
+        "Start een specialist direct: `hermes -p scout`, `hermes -p scribe` of `hermes -p forge`"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Gebruik `--clone` wanneer de basissetup gezond is. Het moet nuttige configuratie kopiëren terwijl het nieuwe profiel geïsoleerd geheugen en geïsoleerde sessiegeschiedenis behoudt."
+    },
+    {
+      "type": "p",
+      "text": "Als u niet kunt uitleggen welke status het nieuwe profiel bezit, stop dan. U hebt waarschijnlijk eerder een prompt, vaardigheid of AGENTS.md invoer nodig."
+    },
+    { "type": "h2", "text": "Schrijf SOUL.md als een functieomschrijving" },
+    {
+      "type": "p",
+      "text": "SOUL.md is waar een profiel een echte rol wordt. Het moet duurzame identiteit definiëren: standaardkeuzes, standaarden, smaak, weigerregels en beslissingsstijl."
+    },
+    {
+      "type": "p",
+      "text": "AGENTS.md is anders. Het moet projectcontext bevatten: repositorypaden, commando's, conventies, reviewproces en toolregels. Identiteit en projectcontext mengen is hoe een schone specialist weer een vage generalist wordt."
+    },
+    {
+      "type": "table",
+      "headers": ["Bestand", "Zet hier", "Houd eruit"],
+      "rows": [
+        [
+          "SOUL.md",
+          "Rolidentiteit, standaarden, weigerregels, beslissingsstijl",
+          "Tijdelijke repositorynotities of klantinstructies"
+        ],
+        [
+          "AGENTS.md",
+          "Projectpaden, commando's, conventies, workflowregels",
+          "De volledige persoonlijkheid van het profiel"
+        ],
+        [
+          "TEAM.md",
+          "Rooster, overdrachten, escalatieregels, beleidslimieten",
+          "Elke privé instructie van elk profiel"
+        ]
+      ]
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Scout SOUL.md:** verifiëren vóór samenvatten, bewijs scheiden van interpretatie, datums opnemen, onzekerheid markeren.",
+        "**Scribe SOUL.md:** schrijven voor de doellezer, bewijsgrenzen behouden, structuur verbeteren vóór stijl, vragen wanneer onderbouwing ontbreekt.",
+        "**Forge SOUL.md:** reproduceren vóór wijzigen, de kleinste veilige fix maken, de relevante controle uitvoeren, aangeraakte bestanden en resterend risico rapporteren."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Definieer overdrachten voordat u meer profielen toevoegt"
+    },
+    {
+      "type": "p",
+      "text": "Profielen moeten niet alleen naast elkaar zitten. Ze hebben contracten nodig. Een overdracht is geen chatbericht. Het is een kwaliteitscontrole tussen rollen."
+    },
+    {
+      "type": "table",
+      "headers": ["Overdracht", "Vereiste inhoud", "Afwijzen wanneer"],
+      "rows": [
+        [
+          "Scout naar Scribe",
+          "Bewering, bron URL, datum, vertrouwen, kanttekening",
+          "De input alleen uit ruwe fragmenten bestaat"
+        ],
+        [
+          "Scribe naar Hermes",
+          "Concept, beoogde lezer, aannames, open vragen",
+          "De tekst zwak bewijs verbergt"
+        ],
+        [
+          "Forge naar Hermes",
+          "Wijzigingssamenvatting, aangeraakte bestanden, uitgevoerde commando's, tests, rest risico",
+          "Het rapport zegt opgelost zonder bewijs"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Als Scout Scribe een stapel notities geeft, wordt Scribe de onderzoeker. Als Forge zegt opgelost zonder commando's of tests, kan Hermes het werk niet verifiëren. Slechte overdrachten veranderen een profielteam in een keten van gokken."
+    },
+    {
+      "type": "p",
+      "text": "Als u niet zeker weet of een grens een profiel, vaardigheid of projectregel moet zijn, kan [webvise het overdrachtsmodel en eigenaarschapsmodel in kaart brengen](/#contact) voordat u de verkeerde laag vastlegt."
+    },
+    {
+      "type": "h2",
+      "text": "Gateway en cronstatus maken deel uit van de architectuur"
+    },
+    {
+      "type": "p",
+      "text": "Profielen worden veel nuttiger zodra berichten en geplande taken het systeem binnenkomen. Een Telegram route, webhook of cron taak is niet alleen een trigger. Het is eigenaarschap."
+    },
+    {
+      "type": "table",
+      "headers": ["Route of planning", "Eigenaarprofiel", "Verwachte output"],
+      "rows": [
+        [
+          "Algemeen Telegram verzoek",
+          "Hermes",
+          "Doel verduidelijken, werk routeren, eindantwoord teruggeven"
+        ],
+        [
+          "Verzoek om bronreview",
+          "Scout",
+          "Gerangschikte beweringen met bronnen en kanttekeningen"
+        ],
+        ["Schrijfverzoek", "Scribe", "Gestructureerd concept of editronde"],
+        [
+          "Build of debug alert",
+          "Forge",
+          "Reproductie, diff, testresultaat, risiconotitie"
+        ],
+        [
+          "Wekelijkse profielaudit",
+          "Hermes",
+          "Review van drift, geheugen, cron en overdrachten"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Als elke geplande taak onder het standaardprofiel blijft, klapt het team langzaam terug in één assistent. Zet de taak onder de rol die eigenaar is van de uitkomst en routeer samenvattingen daarna terug naar Hermes."
+    },
+    {
+      "type": "h2",
+      "text": "De setup van de eerste week en de audit op dag 30"
+    },
+    {
+      "type": "p",
+      "text": "De eerste week gaat niet over het bouwen van een groot team. Het gaat om het bewijzen van één schone grens."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "Kies de workflow die de meeste contextvervuiling veroorzaakt.",
+        "Maak één specialistisch profiel met `--clone`.",
+        "Schrijf een korte SOUL.md voor die rol.",
+        "Definieer één inputoverdracht en één outputoverdracht.",
+        "Start het profiel direct met `hermes -p <profile>`.",
+        "Wijs elk gateway of cron eigenaarschap bewust toe."
+      ]
+    },
+    {
+      "type": "table",
+      "headers": ["Controle op dag 30", "Faal signaal", "Fix"],
+      "rows": [
+        [
+          "Profieldrift",
+          "De specialist begint niet gerelateerd werk te accepteren",
+          "Maak SOUL.md strakker en verplaats nieuwe regels naar AGENTS.md of TEAM.md"
+        ],
+        [
+          "Geheugenrot",
+          "Oude aannames worden standaardkeuzes",
+          "Review verouderde notities en verwijder tegenstrijdigheden"
+        ],
+        [
+          "Overdrachtsrot",
+          "Profielen geven ruw materiaal door in plaats van gevormde output",
+          "Laat misvormde overdrachten de volgende stap blokkeren"
+        ],
+        [
+          "Cron botsing",
+          "Twee profielen plannen werk voor dezelfde uitkomst",
+          "Houd één gedeeld register voor cron eigenaarschap bij"
+        ],
+        [
+          "Gateway verwarring",
+          "Het verkeerde profiel beantwoordt een inkomende route",
+          "Documenteer eigenaar, trigger, output en escalatiepad"
+        ],
+        [
+          "Vaardigheidsgroei",
+          "Elk profiel laadt elke workflow",
+          "Verplaats procedures naar rolspecifieke vaardigheden"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Hermes 0.12.0 voegde Curator toe voor vaardigheidsonderhoud, wat wijst op de bredere regel: agentsystemen hebben huishouding nodig. Profielen verminderen ruis, maar ze hebben nog steeds audits nodig."
+    },
+    { "type": "h2", "text": "De operationele regel" },
+    {
+      "type": "p",
+      "text": "Meet succes niet aan het aantal profielen. Meet het aan de vraag of elke rol scherper kan worden zonder de rest van het systeem moeilijker te vertrouwen te maken."
+    },
+    {
+      "type": "p",
+      "text": "Het beste Hermes profiles team is niet het grootste. Het is het team waarin elke rol eigen status bezit, schone overdrachten stuurt en smal genoeg blijft om te auditen."
+    },
+    {
+      "type": "p",
+      "text": "webvise helpt teams rommelig AI gebruik om te zetten in rolgebaseerde systemen met duidelijke context, veilige overdrachten en meetbaar eigenaarschap. Breng één overbelaste assistent en één terugkerende workflow mee, en [wij brengen de eerste twee profielen met u in kaart](/#contact)."
+    }
+  ]
+}

@@ -150,6 +150,34 @@ Pull in this order. Stop as soon as you have enough unique material:
 
 If steps 1-5 surface **nothing unique**, abort the command and tell the user. Do not generate.
 
+## webvise Quality Benchmark Gate
+
+Before writing the English draft, benchmark against the strongest existing webvise posts. Do this even when the brief is supplied and topic discovery is skipped.
+
+Minimum benchmark set:
+- `apps/web/content/blog/ai-search-referrals-first-data/en.json`
+- 2-4 recent or high-signal posts with similar intent, especially decision-tree, data-backed, or operational articles
+
+Extract concrete requirements before drafting:
+- first paragraph states the claim directly and gives a quotable answer
+- the article carries proof, stakes, or operating detail in every section
+- at least one decision table or comparison table helps the reader choose
+- copy-pastable commands, checklists, payloads, templates, or audit steps appear where relevant
+- CTAs are contextual to the section, not generic sales interruptions
+- the voice is specific to webvise: direct, opinionated, anti-slop, and grounded in actual workflows
+
+If an English draft feels weaker than the benchmark posts, rewrite before translation. Do not create localized files from a weak English draft.
+
+## Transformative Reference Rewrite Rule
+
+When Sebastian provides another article as inspiration, treat it as reference material, not source text to copy:
+
+- Preserve the useful **reader journey** only: problem setup, sequencing, pacing, and decision logic.
+- Write original prose, examples, names, commands, section framing, and CTAs. Do not reuse distinctive expression or recognizable examples from the reference.
+- Do not mention the reference article, author, platform, or engagement metrics in finished blog content unless the article is explicitly about that source or a factual claim depends on citing it.
+- Make the result read as a standalone webvise article with its own claim, vocabulary, evidence, examples, and CTA logic.
+- Add an originality audit before finalizing: no copied distinctive names/examples/phrases, no source-only metrics, and no accidental commentary on the reference across all locales.
+
 ## Blog System Reference
 
 - **Content location:** `apps/web/content/blog/{slug}/` with one JSON file per locale
