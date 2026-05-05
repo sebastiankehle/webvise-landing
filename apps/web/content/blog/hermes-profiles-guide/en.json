@@ -23,7 +23,7 @@
       "type": "ul",
       "items": [
         "**Use profiles for durable roles, not moods.** Research, writing, engineering, and orchestration deserve separate state.",
-        "**Clone a working base first.** `hermes profile create alan --clone` keeps setup work low while giving Alan isolated memory and sessions.",
+        "**Clone a working base first.** `hermes profile create scout --clone` keeps setup work low while giving the research profile isolated memory and sessions.",
         "**Put identity in SOUL.md and project context in AGENTS.md.** Mixing those two is how specialist agents become vague again.",
         "**Add handoff contracts before the team grows.** A research agent should pass sourced claims, not a pile of excerpts.",
         "**Treat cron and gateway state as production concerns.** Profiles can schedule and receive messages separately, so collisions need a shared register."
@@ -93,7 +93,7 @@
     },
     {
       "type": "p",
-      "text": "Start with four roles only after the first two roles are useful. The cleanest baseline is Hermes as orchestrator, Alan as researcher, Mira as writer, and Turing as builder/debugger."
+      "text": "Start with roles, not borrowed character names. Keep Hermes as the coordinator, then add Scout for research, Scribe for writing, and Forge for building or debugging once the first two roles are already useful."
     },
     {
       "type": "table",
@@ -105,17 +105,17 @@
           "A short plan, task split, final synthesis, and quality gate"
         ],
         [
-          "Alan",
+          "Scout",
           "Find sources and test claims",
           "Ranked claims with URLs, dates, and uncertainty notes"
         ],
         [
-          "Mira",
+          "Scribe",
           "Turn verified material into communication",
           "A structured draft with audience choices and edit notes"
         ],
         [
-          "Turing",
+          "Forge",
           "Build, debug, test, and report",
           "Diffs, commands run, failing logs, fixed tests, and residual risks"
         ]
@@ -123,7 +123,7 @@
     },
     {
       "type": "p",
-      "text": "The first handoff to define is Alan to Mira. Alan should send claims with sources, not a folder of raw excerpts. Mira should send a draft and change log, not pretend the research was hers."
+      "text": "The first handoff to define is Scout to Scribe. Scout should send claims with sources, not a folder of raw excerpts. Scribe should send a draft and change log, not pretend the research was hers."
     },
     {
       "type": "p",
@@ -140,11 +140,11 @@
     {
       "type": "ul",
       "items": [
-        "Create a research profile: `hermes profile create alan --clone`",
-        "Create a writing profile: `hermes profile create mira --clone`",
-        "Create an engineering profile: `hermes profile create turing --clone`",
+        "Create a research profile: `hermes profile create scout --clone`",
+        "Create a writing profile: `hermes profile create scribe --clone`",
+        "Create an engineering profile: `hermes profile create forge --clone`",
         "Check the roster: `hermes profile list`",
-        "Run a specialist directly: `hermes -p alan`, `hermes -p mira`, or `hermes -p turing`"
+        "Run a specialist directly: `hermes -p scout`, `hermes -p scribe`, or `hermes -p forge`"
       ]
     },
     {
@@ -157,7 +157,7 @@
     },
     {
       "type": "p",
-      "text": "The profile name is not enough. If Alan, Mira, and Turing all have the same SOUL.md, they are clones with labels."
+      "text": "The profile name is not enough. If Scout, Scribe, and Forge all have the same SOUL.md, they are clones with labels."
     },
     {
       "type": "p",
@@ -186,7 +186,7 @@
     },
     {
       "type": "p",
-      "text": "A good Alan SOUL.md says: verify first, cite dates, separate evidence from inference, and flag uncertainty. A good Turing SOUL.md says: reproduce the failure, inspect logs, make the smallest safe change, and run the check again."
+      "text": "A good Scout SOUL.md says: verify first, cite dates, separate evidence from inference, and flag uncertainty. A good Forge SOUL.md says: reproduce the failure, inspect logs, make the smallest safe change, and run the check again."
     },
     {
       "type": "h2",
@@ -220,9 +220,9 @@
     {
       "type": "ul",
       "items": [
-        "If research pollutes everything, create Alan first.",
-        "If drafts all sound like debug logs, create Mira first.",
-        "If shell output keeps leaking into strategy work, create Turing first.",
+        "If research pollutes everything, create Scout first.",
+        "If drafts all sound like debug logs, create Scribe first.",
+        "If shell output keeps leaking into strategy work, create Forge first.",
         "If messages, cron, and decisions are mixed together, keep Hermes as the orchestrator and move execution out."
       ]
     },

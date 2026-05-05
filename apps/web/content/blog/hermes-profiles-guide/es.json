@@ -23,7 +23,7 @@
       "type": "ul",
       "items": [
         "**Use perfiles para roles duraderos, no para estados de ánimo.** Investigación, redacción, ingeniería y orquestación merecen estado separado.",
-        "**Clone primero una base funcional.** `hermes profile create alan --clone` mantiene bajo el trabajo de configuración y da a Alan memoria y sesiones aisladas.",
+        "**Clone primero una base funcional.** `hermes profile create scout --clone` mantiene bajo el trabajo de configuración y da al perfil de investigación memoria y sesiones aisladas.",
         "**Ponga la identidad en SOUL.md y el contexto del proyecto en AGENTS.md.** Mezclar esos dos elementos es la forma en que los agentes especialistas vuelven a ser vagos.",
         "**Añada contratos de traspaso antes de que el equipo crezca.** Un agente de investigación debería pasar afirmaciones con fuentes, no una pila de extractos.",
         "**Trate el estado de cron y gateway como preocupaciones de producción.** Los perfiles pueden programar y recibir mensajes por separado, así que las colisiones necesitan un registro compartido."
@@ -93,7 +93,7 @@
     },
     {
       "type": "p",
-      "text": "Empiece con cuatro roles solo después de que los dos primeros roles sean útiles. La base más limpia es Hermes como orquestador, Alan como investigador, Mira como redactora y Turing como constructor/depurador."
+      "text": "Empiece con roles, no con nombres de personajes prestados. Mantenga Hermes como coordinador, luego añada Scout para investigación, Scribe para redacción y Forge para construcción o depuración cuando los dos primeros roles ya sean útiles."
     },
     {
       "type": "table",
@@ -105,17 +105,17 @@
           "Un plan breve, división de tareas, síntesis final y control de calidad"
         ],
         [
-          "Alan",
+          "Scout",
           "Encontrar fuentes y comprobar afirmaciones",
           "Afirmaciones clasificadas con URL, fechas y notas de incertidumbre"
         ],
         [
-          "Mira",
+          "Scribe",
           "Convertir material verificado en comunicación",
           "Un borrador estructurado con decisiones de audiencia y notas de edición"
         ],
         [
-          "Turing",
+          "Forge",
           "Construir, depurar, probar e informar",
           "Diffs, comandos ejecutados, registros fallidos, pruebas corregidas y riesgos residuales"
         ]
@@ -123,7 +123,7 @@
     },
     {
       "type": "p",
-      "text": "El primer traspaso que debe definir es de Alan a Mira. Alan debería enviar afirmaciones con fuentes, no una carpeta de extractos sin procesar. Mira debería enviar un borrador y un registro de cambios, no fingir que la investigación fue suya."
+      "text": "El primer traspaso que debe definir es de Scout a Scribe. Scout debería enviar afirmaciones con fuentes, no una carpeta de extractos sin procesar. Scribe debería enviar un borrador y un registro de cambios, no fingir que la investigación fue suya."
     },
     {
       "type": "p",
@@ -140,11 +140,11 @@
     {
       "type": "ul",
       "items": [
-        "Cree un perfil de investigación: `hermes profile create alan --clone`",
-        "Cree un perfil de redacción: `hermes profile create mira --clone`",
-        "Cree un perfil de ingeniería: `hermes profile create turing --clone`",
+        "Cree un perfil de investigación: `hermes profile create scout --clone`",
+        "Cree un perfil de redacción: `hermes profile create scribe --clone`",
+        "Cree un perfil de ingeniería: `hermes profile create forge --clone`",
         "Revise la lista: `hermes profile list`",
-        "Ejecute un especialista directamente: `hermes -p alan`, `hermes -p mira` o `hermes -p turing`"
+        "Ejecute un especialista directamente: `hermes -p scout`, `hermes -p scribe` o `hermes -p forge`"
       ]
     },
     {
@@ -157,7 +157,7 @@
     },
     {
       "type": "p",
-      "text": "El nombre del perfil no basta. Si Alan, Mira y Turing tienen todos el mismo SOUL.md, son clones con etiquetas."
+      "text": "El nombre del perfil no basta. Si Scout, Scribe y Forge tienen todos el mismo SOUL.md, son clones con etiquetas."
     },
     {
       "type": "p",
@@ -186,7 +186,7 @@
     },
     {
       "type": "p",
-      "text": "Un buen SOUL.md de Alan dice: verifique primero, cite fechas, separe evidencia de inferencia y señale la incertidumbre. Un buen SOUL.md de Turing dice: reproduzca el fallo, inspeccione registros, haga el cambio seguro más pequeño y ejecute la comprobación otra vez."
+      "text": "Un buen SOUL.md de Scout dice: verifique primero, cite fechas, separe evidencia de inferencia y señale la incertidumbre. Un buen SOUL.md de Forge dice: reproduzca el fallo, inspeccione registros, haga el cambio seguro más pequeño y ejecute la comprobación otra vez."
     },
     {
       "type": "h2",
@@ -220,9 +220,9 @@
     {
       "type": "ul",
       "items": [
-        "Si la investigación contamina todo, cree Alan primero.",
-        "Si todos los borradores suenan como registros de depuración, cree Mira primero.",
-        "Si la salida de shell sigue filtrándose en el trabajo de estrategia, cree Turing primero.",
+        "Si la investigación contamina todo, cree Scout primero.",
+        "Si todos los borradores suenan como registros de depuración, cree Scribe primero.",
+        "Si la salida de shell sigue filtrándose en el trabajo de estrategia, cree Forge primero.",
         "Si mensajes, cron y decisiones están mezclados, mantenga Hermes como orquestador y saque la ejecución."
       ]
     },
