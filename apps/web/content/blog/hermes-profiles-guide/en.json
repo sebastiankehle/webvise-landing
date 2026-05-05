@@ -1,141 +1,221 @@
 {
   "date": "2026-05-05",
-  "readingTime": 7,
+  "readingTime": 9,
   "keyword": "Hermes profiles",
-  "title": "How to Use Hermes Profiles Without Building One Noisy Assistant",
-  "excerpt": "Hermes profiles separate memory, sessions, skills, identity, cron state, and gateways so AI agents can become durable roles instead of one confused generalist.",
-  "metaDescription": "Learn how to use Hermes profiles for role-based agents, clean SOUL.md files, handoffs, cron ownership, and multi-agent workflows.",
+  "title": "When to Use Hermes Profiles Instead of One Giant Assistant",
+  "excerpt": "Hermes profiles separate memory, sessions, skills, identity, cron state, and gateway routes so recurring AI roles can stay narrow, auditable, and useful.",
+  "metaDescription": "Learn when to use Hermes profiles, how to create isolated agent roles, and how to manage SOUL.md, handoffs, cron, and gateway ownership.",
   "tags": ["AI Agents", "Automation", "Process"],
   "blocks": [
     {
       "type": "p",
-      "text": "Hermes profiles are not personas. They are operating boundaries: separate configuration, memory, sessions, skills, gateway state, cron state, and identity for agents that should not think like the same assistant."
+      "text": "Hermes profiles are for state separation, not roleplay. Use a profile when a recurring AI role needs its own memory, sessions, skills, SOUL.md identity, cron ownership, or gateway route."
     },
     {
       "type": "p",
-      "text": "If your assistant is researcher, writer, debugger, calendar operator, and project manager at once, the problem is not prompting. The problem is shared state."
+      "text": "One assistant can answer many questions. It should not become the permanent home for research judgment, writing taste, shell logs, calendar rules, scheduled jobs, and message routing at the same time."
     },
     {
       "type": "p",
-      "text": "This guide turns the April 2026 Hermes profiles idea into an operator checklist. You will learn when to create a profile, what to put in SOUL.md, how to clone a working setup, and where the team usually breaks after week one."
+      "text": "The failure mode is not a weak prompt. The failure mode is shared state. This guide shows when a Hermes profile deserves to exist, how to create one from a working setup, and how to keep a small profile team from turning back into one noisy generalist."
     },
     {
       "type": "ul",
       "items": [
-        "**Use profiles for durable roles, not moods.** Research, writing, engineering, and orchestration deserve separate state.",
-        "**Clone a working base first.** `hermes profile create scout --clone` keeps setup work low while giving the research profile isolated memory and sessions.",
-        "**Put identity in SOUL.md and project context in AGENTS.md.** Mixing those two is how specialist agents become vague again.",
-        "**Add handoff contracts before the team grows.** A research agent should pass sourced claims, not a pile of excerpts.",
-        "**Treat cron and gateway state as production concerns.** Profiles can schedule and receive messages separately, so collisions need a shared register."
+        "**Create a profile when state should stay separate.** Memory, sessions, tools, cron, and gateway routes are stronger reasons than tone.",
+        "**Use prompts for one-off behavior, skills for reusable procedure, and profiles for durable roles.** Mixing those layers creates context debt.",
+        "**Start with one coordinator and two specialists.** Add Scout for research, Scribe for writing, and Forge for build/debug only when the boundary is real.",
+        "**Write SOUL.md like a job description.** It should define standards, defaults, and refusal rules, not a vague personality.",
+        "**Define handoffs before adding more agents.** A profile team is useful only when outputs move between roles cleanly."
       ]
     },
     {
       "type": "p",
-      "text": "If you are designing an internal AI workflow and want the same role split mapped to your team, [webvise can help define the profile architecture](/#contact) before the setup turns into one giant prompt."
+      "text": "If your team already has AI work spread across prompts, chats, scripts, and scheduled tasks, [webvise can help map the first clean profile boundary](/#contact) before the system becomes harder to audit."
     },
     {
       "type": "h2",
-      "text": "The mistake: one assistant with five jobs"
+      "text": "The mistake: one assistant doing five jobs"
     },
     {
       "type": "p",
-      "text": "A single assistant feels convenient until its memory starts carrying every job at once. The same thread holds market research, copy feedback, shell logs, calendar rules, and half-finished strategy notes."
+      "text": "The usual path starts sensibly. You ask one assistant to research a market, draft a post, debug a script, summarize a meeting, and watch a calendar. Nothing breaks on day one."
     },
     {
       "type": "p",
-      "text": "That state leak is why broad assistants become worse as they get more useful. Every new responsibility adds context the next task has to ignore."
+      "text": "By week three, every workflow leaves residue. Research teaches source rules, writing teaches tone, debug sessions store failed commands, and calendar work adds scheduling assumptions. The next task has to sort through all of it."
     },
     {
       "type": "p",
-      "text": "The common failure pattern is easy to spot: one assistant becomes the place where every task lands. It starts as convenience, then turns into context debt. The useful move is to split the assistant by responsibility before the memory, tone, and workflows blur together."
+      "text": "That is context debt. The assistant is not confused because it lacks another instruction. It is confused because unrelated work now shares memory, sessions, tools, and defaults."
+    },
+    {
+      "type": "p",
+      "text": "Hermes profiles fix the boundary. They let a role carry the state it needs without forcing every other role to inherit it."
     },
     {
       "type": "h2",
-      "text": "What Hermes profiles separate"
+      "text": "Profiles are isolated environments, not costumes"
     },
     {
       "type": "p",
-      "text": "Hermes 0.9.0 added profiles as isolated agent environments. A profile can split configuration, sessions, memory, skills, personality, cron state, and gateway state."
+      "text": "A persona changes how an assistant talks. A Hermes profile changes what the assistant carries, remembers, schedules, and connects to."
+    },
+    {
+      "type": "p",
+      "text": "Hermes 0.9.0 introduced profiles as isolated agent environments. A profile can separate configuration, sessions, memory, skills, personality, cron state, and gateway state. That makes it a runtime boundary, not a writing style."
     },
     {
       "type": "table",
-      "headers": ["Layer", "Why separation matters"],
+      "headers": ["Layer", "What separation prevents"],
       "rows": [
         [
           "Memory",
-          "A researcher can remember source quality rules without polluting a writing profile with raw notes."
+          "Research rules, recurring assumptions, and old decisions leaking into unrelated work"
         ],
         [
           "Sessions",
-          "A debugger can keep logs and diffs away from a client-facing writing session."
+          "Drafts, shell logs, strategy threads, and calendar notes collapsing into one timeline"
         ],
+        ["Skills", "Every role scanning or loading tools it does not need"],
         [
-          "Skills",
-          "A profile can load the tools it actually needs instead of scanning every possible workflow."
-        ],
-        [
-          "Gateway state",
-          "Telegram or other message routes can belong to the role that should answer them."
+          "Identity",
+          "One generic voice pretending to be a researcher, editor, operator, and engineer"
         ],
         [
           "Cron state",
-          "Morning briefings, audits, and maintenance tasks can run under the profile that owns the outcome."
+          "Multiple scheduled jobs trying to own the same outcome"
+        ],
+        [
+          "Gateway state",
+          "The wrong role answering the wrong Telegram or message route"
         ]
       ]
     },
     {
       "type": "p",
-      "text": "This is the difference between a name tag and an operating boundary. A name tag changes tone. A profile changes what the agent can carry over time."
+      "text": "This is the main test: if two roles should not remember the same mistakes, assumptions, or unfinished work, they probably should not be the same profile."
     },
     {
       "type": "h2",
-      "text": "A practical starter team"
+      "text": "Profile, prompt, skill, AGENTS.md, or SOUL.md?"
     },
     {
       "type": "p",
-      "text": "Start with roles, not borrowed character names. Keep Hermes as the coordinator, then add Scout for research, Scribe for writing, and Forge for building or debugging once the first two roles are already useful."
+      "text": "Most messy agent setups come from using one layer for every problem. Profiles are not the answer to every customization need."
     },
     {
       "type": "table",
-      "headers": ["Profile", "Job", "Good output"],
+      "headers": ["Need", "Use this layer"],
+      "rows": [
+        ["Change behavior for one task", "Prompt"],
+        ["Reuse a procedure across tasks", "Skill"],
+        ["Give project paths, commands, and conventions", "AGENTS.md"],
+        ["Define durable role identity and standards", "SOUL.md"],
+        [
+          "Separate memory, sessions, skills, cron, or gateway state",
+          "Profile"
+        ],
+        ["Coordinate multiple profiles and handoffs", "TEAM.md"]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Do not create profiles for vibes. Create them when the role owns state that would make another role worse."
+    },
+    {
+      "type": "h2",
+      "text": "When a profile deserves to exist"
+    },
+    {
+      "type": "p",
+      "text": "A good profile earns its place by reducing noise. If it only changes the name in the terminal prompt, delete it or turn the instruction into a skill."
+    },
+    {
+      "type": "table",
+      "headers": ["Create a profile when", "Do not create one when"],
+      "rows": [
+        ["The role repeats weekly or daily", "The task is a one-off"],
+        [
+          "It needs memory that should not bleed into other work",
+          "Only the tone changes"
+        ],
+        [
+          "It owns a different gateway or scheduled job",
+          "It uses the same tools, context, and output contract"
+        ],
+        [
+          "It has a different risk level or permission boundary",
+          "You cannot describe what it should produce"
+        ],
+        [
+          "It hands work to another profile",
+          "No handoff or quality gate exists"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "The cleanest rule is simple: a profile should get better at one job without making the other jobs noisier."
+    },
+    {
+      "type": "h2",
+      "text": "A small Hermes profile team"
+    },
+    {
+      "type": "p",
+      "text": "Start with roles, not borrowed character names. Keep Hermes as the coordinator. Add Scout for research, Scribe for writing, and Forge for build/debug only when each role has a real boundary."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Profile",
+        "Responsibility",
+        "Should produce",
+        "Should not produce"
+      ],
       "rows": [
         [
           "Hermes",
           "Plan, route, sequence, and verify",
-          "A short plan, task split, final synthesis, and quality gate"
+          "Task split, delegation, final synthesis, quality gate",
+          "Raw research dumps or unreviewed code changes"
         ],
         [
           "Scout",
-          "Find sources and test claims",
-          "Ranked claims with URLs, dates, and uncertainty notes"
+          "Investigate, compare, and verify",
+          "Claims with sources, dates, confidence, and caveats",
+          "Polished copy that hides uncertainty"
         ],
         [
           "Scribe",
           "Turn verified material into communication",
-          "A structured draft with audience choices and edit notes"
+          "Drafts, edits, structure, audience fit",
+          "Unsupported claims or invented evidence"
         ],
         [
           "Forge",
           "Build, debug, test, and report",
-          "Diffs, commands run, failing logs, fixed tests, and residual risks"
+          "Diffs, commands run, test results, residual risks",
+          "Strategy prose without implementation proof"
         ]
       ]
     },
     {
       "type": "p",
-      "text": "The first handoff to define is Scout to Scribe. Scout should send claims with sources, not a folder of raw excerpts. Scribe should send a draft and change log, not pretend the research was hers."
+      "text": "The names are placeholders. The boundary is the product. Rename the profiles if you want, but keep the jobs separate."
     },
     {
       "type": "p",
-      "text": "That small contract prevents the common week-two failure: every profile starts copying the work style of the one before it. [webvise uses this same boundary-first pattern](/#contact) when we design AI-assisted content and operations workflows for B2B teams."
+      "text": "A useful first pilot is only two profiles: Hermes coordinates, Scout verifies. Once Scout reliably returns sourced claims, add Scribe to turn those claims into copy. Add Forge only when implementation work starts polluting the rest of the assistant."
     },
     {
       "type": "h2",
-      "text": "How to create a profile"
+      "text": "Create profiles from a working base"
     },
     {
       "type": "p",
-      "text": "Begin from a Hermes setup that already works. Your provider, model, API keys, and default tools should be configured before you create specialists."
+      "text": "Do not build every specialist from scratch. First make sure the default Hermes setup works: provider, model, API keys, tools, and normal terminal usage."
     },
     {
       "type": "ul",
@@ -143,96 +223,209 @@
         "Create a research profile: `hermes profile create scout --clone`",
         "Create a writing profile: `hermes profile create scribe --clone`",
         "Create an engineering profile: `hermes profile create forge --clone`",
-        "Check the roster: `hermes profile list`",
+        "Verify the roster: `hermes profile list`",
         "Run a specialist directly: `hermes -p scout`, `hermes -p scribe`, or `hermes -p forge`"
       ]
     },
     {
       "type": "p",
-      "text": "Use `--clone` when the base setup is already healthy. It copies useful setup files like config, environment, and SOUL.md, while the new profile still gets its own isolated memory and session history."
+      "text": "Use `--clone` when the base setup is healthy. It should copy useful configuration while the new profile keeps isolated memory and session history."
+    },
+    {
+      "type": "p",
+      "text": "If you cannot explain what state the new profile owns, stop. You probably need a prompt, skill, or AGENTS.md entry instead."
     },
     {
       "type": "h2",
-      "text": "Use SOUL.md for identity and AGENTS.md for shared context"
+      "text": "Write SOUL.md like a job description"
     },
     {
       "type": "p",
-      "text": "The profile name is not enough. If Scout, Scribe, and Forge all have the same SOUL.md, they are clones with labels."
+      "text": "SOUL.md is where a profile becomes a real role. It should define durable identity: defaults, standards, taste, refusal rules, and decision style."
     },
     {
       "type": "p",
-      "text": "SOUL.md should define the durable identity: tone, priorities, default behavior, strengths, and what the profile refuses to do. AGENTS.md should hold project context: repository structure, conventions, workflows, and tool rules."
+      "text": "AGENTS.md is different. It should hold project context: repository paths, commands, conventions, review process, and tool rules. Mixing identity and project context is how a clean specialist becomes a vague generalist again."
     },
     {
       "type": "table",
-      "headers": ["File", "Belongs there", "Does not belong there"],
+      "headers": ["File", "Put here", "Keep out"],
       "rows": [
         [
           "SOUL.md",
-          "Role identity, taste, decision style, default standards",
+          "Role identity, standards, refusal rules, decision style",
           "Temporary repo notes or client instructions"
         ],
         [
           "AGENTS.md",
-          "Project rules, file paths, commands, review process",
-          "The agent's whole personality"
+          "Project paths, commands, conventions, workflow rules",
+          "The profile's entire personality"
         ],
         [
           "TEAM.md",
           "Roster, handoffs, escalation rules, policy ceilings",
-          "Every detail from every profile"
+          "Every private instruction from every profile"
+        ]
+      ]
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Scout SOUL.md:** verify before summarizing, separate evidence from interpretation, include dates, flag uncertainty.",
+        "**Scribe SOUL.md:** write for the target reader, preserve evidence boundaries, improve structure before style, ask when support is missing.",
+        "**Forge SOUL.md:** reproduce before changing, make the smallest safe fix, run the relevant check, report files touched and remaining risk."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Define handoffs before adding more profiles"
+    },
+    {
+      "type": "p",
+      "text": "Profiles should not just sit beside each other. They need contracts. A handoff is not a chat message. It is a quality gate between roles."
+    },
+    {
+      "type": "table",
+      "headers": ["Handoff", "Required payload", "Reject when"],
+      "rows": [
+        [
+          "Scout to Scribe",
+          "Claim, source URL, date, confidence, caveat",
+          "The input is only raw excerpts"
+        ],
+        [
+          "Scribe to Hermes",
+          "Draft, intended reader, assumptions, unresolved questions",
+          "The copy hides weak evidence"
+        ],
+        [
+          "Forge to Hermes",
+          "Change summary, files touched, commands run, tests, residual risk",
+          "The report says fixed without proof"
         ]
       ]
     },
     {
       "type": "p",
-      "text": "A good Scout SOUL.md says: verify first, cite dates, separate evidence from inference, and flag uncertainty. A good Forge SOUL.md says: reproduce the failure, inspect logs, make the smallest safe change, and run the check again."
-    },
-    {
-      "type": "h2",
-      "text": "The day-30 checks matter more than the setup"
+      "text": "If Scout hands Scribe a pile of notes, Scribe becomes the researcher. If Forge says fixed without commands or tests, Hermes cannot verify the work. Bad handoffs turn a profile team into a relay of guesses."
     },
     {
       "type": "p",
-      "text": "Profiles look clean on day one. They blur on day 30 unless you audit drift, memory quality, cron ownership, and handoff shape."
+      "text": "If you are unsure whether a boundary should be a profile, a skill, or a project rule, [webvise can map the handoff and ownership model](/#contact) before you encode the wrong layer."
     },
     {
-      "type": "ul",
-      "items": [
-        "**Profile drift:** diff each SOUL.md against its original version. New responsibilities need an explicit reason.",
-        "**Handoff rot:** store handoff rules in `~/.hermes/team/handoffs/`. Bad input should block the handoff, not merely warn.",
-        "**Memory rot:** run a weekly memory check per profile and resolve stale or contradictory notes before they become defaults.",
-        "**Cron collision:** keep one shared `~/.hermes/team/cron.md` so two profiles do not schedule competing jobs for the same outcome."
+      "type": "h2",
+      "text": "Gateway and cron state are part of the architecture"
+    },
+    {
+      "type": "p",
+      "text": "Profiles become much more useful once messages and scheduled jobs enter the system. A Telegram route, webhook, or cron job is not just a trigger. It is ownership."
+    },
+    {
+      "type": "table",
+      "headers": ["Route or schedule", "Owner profile", "Expected output"],
+      "rows": [
+        [
+          "General Telegram request",
+          "Hermes",
+          "Clarify goal, route work, return final answer"
+        ],
+        [
+          "Source review request",
+          "Scout",
+          "Ranked claims with sources and caveats"
+        ],
+        ["Drafting request", "Scribe", "Structured draft or edit pass"],
+        [
+          "Build or debug alert",
+          "Forge",
+          "Reproduction, diff, test result, risk note"
+        ],
+        [
+          "Weekly profile audit",
+          "Hermes",
+          "Drift, memory, cron, and handoff review"
+        ]
       ]
     },
     {
       "type": "p",
-      "text": "Hermes 0.12.0 added Curator for skill maintenance, which points at the broader rule: agent systems need housekeeping loops. Profiles reduce noise, but they do not remove the need to inspect what each role is learning."
+      "text": "If every scheduled job stays under the default profile, the team slowly collapses back into one assistant. Put the job under the role that owns the result, then route summaries back to Hermes."
     },
     {
       "type": "h2",
-      "text": "A simple adoption path"
+      "text": "The first-week setup and the day-30 audit"
     },
     {
       "type": "p",
-      "text": "Do not build a ten-agent org chart first. Create one specialist for the work that most pollutes your current assistant."
+      "text": "The first week is not about building a big team. It is about proving one clean boundary."
     },
     {
       "type": "ul",
       "items": [
-        "If research pollutes everything, create Scout first.",
-        "If drafts all sound like debug logs, create Scribe first.",
-        "If shell output keeps leaking into strategy work, create Forge first.",
-        "If messages, cron, and decisions are mixed together, keep Hermes as the orchestrator and move execution out."
+        "Pick the workflow that creates the most context pollution.",
+        "Create one specialist profile with `--clone`.",
+        "Write a short SOUL.md for that role.",
+        "Define one input and one output handoff.",
+        "Run the profile directly with `hermes -p <profile>`.",
+        "Assign any gateway or cron ownership deliberately."
+      ]
+    },
+    {
+      "type": "table",
+      "headers": ["Day-30 check", "Failure signal", "Fix"],
+      "rows": [
+        [
+          "Profile drift",
+          "The specialist starts accepting unrelated work",
+          "Tighten SOUL.md and move new rules to AGENTS.md or TEAM.md"
+        ],
+        [
+          "Memory rot",
+          "Old assumptions become defaults",
+          "Review stale notes and remove contradictions"
+        ],
+        [
+          "Handoff rot",
+          "Profiles pass raw material instead of shaped output",
+          "Make malformed handoffs block the next step"
+        ],
+        [
+          "Cron collision",
+          "Two profiles schedule work for the same outcome",
+          "Keep one shared cron ownership register"
+        ],
+        [
+          "Gateway confusion",
+          "The wrong profile answers an incoming route",
+          "Document owner, trigger, output, and escalation path"
+        ],
+        [
+          "Skill sprawl",
+          "Every profile loads every workflow",
+          "Move procedures into role-specific skills"
+        ]
       ]
     },
     {
       "type": "p",
-      "text": "The measure is not how many agents you have. The measure is whether each profile can get better at its job without making the other profiles worse."
+      "text": "Hermes 0.12.0 added Curator for skill maintenance, which points at the broader rule: agent systems need housekeeping. Profiles reduce noise, but they still need audits."
+    },
+    {
+      "type": "h2",
+      "text": "The operating rule"
     },
     {
       "type": "p",
-      "text": "webvise helps teams turn messy AI usage into role-based systems with clear context, safe handoffs, and measurable outcomes. If your assistant has become the place where every workflow goes to blur, [book a call](/#contact) and we will map the first two profiles with you."
+      "text": "Do not measure success by the number of profiles. Measure it by whether each role can become sharper without making the rest of the system harder to trust."
+    },
+    {
+      "type": "p",
+      "text": "The best Hermes profile team is not the biggest one. It is the one where each role owns distinct state, sends clean handoffs, and stays narrow enough to audit."
+    },
+    {
+      "type": "p",
+      "text": "webvise helps teams turn messy AI usage into role-based systems with clear context, safe handoffs, and measurable ownership. Bring one overloaded assistant and one recurring workflow, and [we will map the first two profiles with you](/#contact)."
     }
   ]
 }

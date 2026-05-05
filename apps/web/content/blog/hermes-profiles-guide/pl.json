@@ -1,238 +1,445 @@
 {
   "date": "2026-05-05",
-  "readingTime": 7,
+  "readingTime": 9,
   "keyword": "Hermes profiles",
-  "title": "Jak korzystać z Hermes profiles bez tworzenia jednego hałaśliwego asystenta",
-  "excerpt": "Hermes profiles oddzielają pamięć, sesje, umiejętności, tożsamość, stan cron oraz bramki, aby agenci AI mogli stać się trwałymi rolami zamiast jednym zdezorientowanym generalistą.",
-  "metaDescription": "Dowiedz się, jak używać Hermes profiles dla agentów opartych na rolach, przejrzystych plików SOUL.md, przekazań, własności cron oraz przepływów pracy wielu agentów.",
+  "title": "Kiedy używać Hermes profiles zamiast jednego ogromnego asystenta",
+  "excerpt": "Hermes profiles rozdzielają pamięć, sesje, umiejętności, tożsamość, stan cron i trasy gateway, aby powtarzalne role AI pozostały wąskie, audytowalne i użyteczne.",
+  "metaDescription": "Dowiedz się, kiedy używać Hermes profiles, jak tworzyć izolowane role agentów oraz jak zarządzać SOUL.md, przekazaniami, cron i własnością gateway.",
   "tags": ["AI Agents", "Automation", "Process"],
   "blocks": [
     {
       "type": "p",
-      "text": "Hermes profiles nie są personami. To granice operacyjne: oddzielna konfiguracja, pamięć, sesje, umiejętności, stan bramki, stan cron oraz tożsamość dla agentów, którzy nie powinni myśleć jak ten sam asystent."
+      "text": "Hermes profiles służą do rozdzielania stanu, nie do odgrywania ról. Proszę użyć profilu, gdy powtarzalna rola AI potrzebuje własnej pamięci, sesji, umiejętności, tożsamości SOUL.md, własności cron lub trasy gateway."
     },
     {
       "type": "p",
-      "text": "Jeśli asystent jest jednocześnie badaczem, autorem, debugerem, operatorem kalendarza i kierownikiem projektu, problemem nie jest promptowanie. Problemem jest współdzielony stan."
+      "text": "Jeden asystent może odpowiadać na wiele pytań. Nie powinien jednak jednocześnie stać się stałym miejscem dla ocen badawczych, gustu redakcyjnego, logów powłoki, reguł kalendarza, zaplanowanych zadań i routingu wiadomości."
     },
     {
       "type": "p",
-      "text": "Ten przewodnik zamienia pomysł Hermes profiles z kwietnia 2026 roku w listę kontrolną operatora. Dowiedzą się Państwo, kiedy utworzyć profil, co umieścić w SOUL.md, jak sklonować działającą konfigurację i gdzie zespół zwykle zaczyna się rozpadać po pierwszym tygodniu."
+      "text": "Trybem awarii nie jest słaby prompt. Trybem awarii jest współdzielony stan. Ten przewodnik pokazuje, kiedy profil Hermes zasługuje na istnienie, jak utworzyć go z działającej konfiguracji i jak powstrzymać mały zespół profili przed powrotem do jednego hałaśliwego generalisty."
     },
     {
       "type": "ul",
       "items": [
-        "**Należy używać profiles do trwałych ról, nie do nastrojów.** Badania, pisanie, inżynieria i orkiestracja zasługują na oddzielny stan.",
-        "**Najpierw należy sklonować działającą bazę.** `hermes profile create scout --clone` ogranicza pracę konfiguracyjną, a jednocześnie daje profilowi badawczemu izolowaną pamięć i sesje.",
-        "**Tożsamość należy umieszczać w SOUL.md, a kontekst projektu w AGENTS.md.** Mieszanie tych dwóch obszarów sprawia, że agenci specjalistyczni znów stają się nieprecyzyjni.",
-        "**Kontrakty przekazań należy dodać, zanim zespół urośnie.** Agent badawczy powinien przekazywać twierdzenia ze źródłami, nie stos fragmentów.",
-        "**Stan cron i bramki należy traktować jak kwestie produkcyjne.** Profiles mogą planować zadania i odbierać wiadomości oddzielnie, więc kolizje wymagają wspólnego rejestru."
+        "**Utwórz profil, gdy stan powinien pozostać oddzielny.** Pamięć, sesje, narzędzia, cron i trasy gateway są silniejszymi powodami niż ton.",
+        "**Używaj promptów do zachowań jednorazowych, umiejętności do procedur wielokrotnego użytku, a profili do trwałych ról.** Mieszanie tych warstw tworzy dług kontekstowy.",
+        "**Zacznij od jednego koordynatora i dwóch specjalistów.** Dodaj Scout do badań, Scribe do pisania i Forge do budowania oraz debugowania tylko wtedy, gdy granica jest rzeczywista.",
+        "**Pisz SOUL.md jak opis stanowiska.** Powinien definiować standardy, ustawienia domyślne i reguły odmowy, a nie niejasną osobowość.",
+        "**Zdefiniuj przekazania przed dodaniem kolejnych agentów.** Zespół profili jest użyteczny tylko wtedy, gdy wyniki płynnie przechodzą między rolami."
       ]
     },
     {
       "type": "p",
-      "text": "Jeśli projektują Państwo wewnętrzny przepływ pracy AI i chcą odwzorować taki sam podział ról w swoim zespole, [webvise może pomóc zdefiniować architekturę profili](/#contact), zanim konfiguracja zmieni się w jeden ogromny prompt."
+      "text": "Jeśli w Państwa zespole praca z AI jest już rozproszona po promptach, czatach, skryptach i zaplanowanych zadaniach, [webvise może pomóc wyznaczyć pierwszą czystą granicę profilu](/#contact), zanim system stanie się trudniejszy do audytu."
     },
     {
       "type": "h2",
-      "text": "Błąd: jeden asystent z pięcioma zadaniami"
+      "text": "Błąd: jeden asystent wykonujący pięć zadań"
     },
     {
       "type": "p",
-      "text": "Jeden asystent wydaje się wygodny, dopóki jego pamięć nie zaczyna przenosić wszystkich zadań naraz. Ten sam wątek zawiera badania rynku, uwagi do tekstów, logi powłoki, reguły kalendarza i niedokończone notatki strategiczne."
+      "text": "Typowa ścieżka zaczyna się rozsądnie. Proszą Państwo jednego asystenta o zbadanie rynku, przygotowanie wpisu, debugowanie skryptu, podsumowanie spotkania i obserwowanie kalendarza. Pierwszego dnia nic się nie psuje."
     },
     {
       "type": "p",
-      "text": "Ten wyciek stanu wyjaśnia, dlaczego szeroko zakrojeni asystenci stają się gorsi, gdy robią się bardziej użyteczni. Każda nowa odpowiedzialność dodaje kontekst, który następne zadanie musi ignorować."
+      "text": "W trzecim tygodniu każdy workflow zostawia osad. Badania uczą reguł dotyczących źródeł, pisanie uczy tonu, sesje debugowania przechowują nieudane polecenia, a praca z kalendarzem dodaje założenia harmonogramu. Następne zadanie musi przez to wszystko przejść."
     },
     {
       "type": "p",
-      "text": "Typowy wzorzec porażki łatwo rozpoznać: jeden asystent staje się miejscem, do którego trafia każde zadanie. Zaczyna się od wygody, a potem zmienia się w dług kontekstowy. Właściwy ruch to podzielić asystenta według odpowiedzialności, zanim pamięć, ton i przepływy pracy zaczną się mieszać."
+      "text": "To jest dług kontekstowy. Asystent nie jest zdezorientowany dlatego, że brakuje mu kolejnej instrukcji. Jest zdezorientowany dlatego, że niepowiązana praca współdzieli teraz pamięć, sesje, narzędzia i ustawienia domyślne."
+    },
+    {
+      "type": "p",
+      "text": "Hermes profiles naprawiają tę granicę. Pozwalają roli przenosić stan, którego potrzebuje, bez zmuszania każdej innej roli do jego dziedziczenia."
     },
     {
       "type": "h2",
-      "text": "Co oddzielają Hermes profiles"
+      "text": "Profile to izolowane środowiska, nie kostiumy"
     },
     {
       "type": "p",
-      "text": "Hermes 0.9.0 dodał profiles jako izolowane środowiska agentów. Profil może rozdzielać konfigurację, sesje, pamięć, umiejętności, osobowość, stan cron i stan bramki."
+      "text": "Persona zmienia sposób, w jaki asystent mówi. Profil Hermes zmienia to, co asystent niesie, pamięta, planuje i z czym się łączy."
+    },
+    {
+      "type": "p",
+      "text": "Hermes 0.9.0 wprowadził profile jako izolowane środowiska agentów. Profil może rozdzielać konfigurację, sesje, pamięć, umiejętności, osobowość, stan cron i stan gateway. To czyni go granicą wykonawczą, a nie stylem pisania."
     },
     {
       "type": "table",
-      "headers": ["Warstwa", "Dlaczego separacja ma znaczenie"],
+      "headers": ["Warstwa", "Czemu zapobiega rozdzielenie"],
       "rows": [
         [
-          "Pamięć",
-          "Badacz może pamiętać reguły jakości źródeł bez zanieczyszczania profilu pisarskiego surowymi notatkami."
+          "Memory",
+          "Przenikaniu reguł badawczych, powtarzalnych założeń i starych decyzji do niepowiązanej pracy"
         ],
         [
-          "Sesje",
-          "Debuger może trzymać logi i diffy z dala od sesji pisania skierowanej do klienta."
+          "Sessions",
+          "Zapadaniu się szkiców, logów powłoki, wątków strategicznych i notatek kalendarzowych w jedną oś czasu"
         ],
         [
-          "Umiejętności",
-          "Profil może ładować narzędzia, których faktycznie potrzebuje, zamiast skanować każdy możliwy przepływ pracy."
+          "Skills",
+          "Skanowaniu lub ładowaniu przez każdą rolę narzędzi, których nie potrzebuje"
         ],
         [
-          "Stan bramki",
-          "Telegram lub inne trasy wiadomości mogą należeć do roli, która powinna na nie odpowiadać."
+          "Identity",
+          "Jednemu generycznemu głosowi udającemu badacza, redaktora, operatora i inżyniera"
         ],
         [
-          "Stan cron",
-          "Poranne briefingi, audyty i zadania utrzymaniowe mogą działać pod profilem, który odpowiada za wynik."
+          "Cron state",
+          "Próbom przejęcia tego samego wyniku przez wiele zaplanowanych zadań"
+        ],
+        [
+          "Gateway state",
+          "Odpowiadaniu przez niewłaściwą rolę na niewłaściwą trasę Telegram lub wiadomości"
         ]
       ]
     },
     {
       "type": "p",
-      "text": "Na tym polega różnica między plakietką z nazwą a granicą operacyjną. Plakietka zmienia ton. Profil zmienia to, co agent może przenosić w czasie."
+      "text": "To jest główny test: jeśli dwie role nie powinny pamiętać tych samych błędów, założeń lub niedokończonej pracy, prawdopodobnie nie powinny być tym samym profilem."
     },
     {
       "type": "h2",
-      "text": "Praktyczny zespół startowy"
+      "text": "Profil, prompt, umiejętność, AGENTS.md czy SOUL.md?"
     },
     {
       "type": "p",
-      "text": "Należy zacząć od ról, nie od zapożyczonych imion postaci. Hermes powinien zostać koordynatorem, a następnie warto dodać Scout do badań, Scribe do pisania i Forge do budowania lub debugowania, gdy pierwsze dwie role są już użyteczne."
+      "text": "Większość chaotycznych konfiguracji agentów wynika z używania jednej warstwy do każdego problemu. Profile nie są odpowiedzią na każdą potrzebę dostosowania."
     },
     {
       "type": "table",
-      "headers": ["Profil", "Zadanie", "Dobry wynik"],
+      "headers": ["Potrzeba", "Użyj tej warstwy"],
+      "rows": [
+        ["Zmiana zachowania dla jednego zadania", "Prompt"],
+        ["Ponowne używanie procedury w wielu zadaniach", "Skill"],
+        ["Podanie ścieżek projektu, poleceń i konwencji", "AGENTS.md"],
+        ["Zdefiniowanie trwałej tożsamości roli i standardów", "SOUL.md"],
+        [
+          "Rozdzielenie pamięci, sesji, umiejętności, cron lub stanu gateway",
+          "Profile"
+        ],
+        ["Koordynacja wielu profili i przekazań", "TEAM.md"]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Nie należy tworzyć profili dla samego klimatu. Należy tworzyć je wtedy, gdy rola posiada stan, który pogorszyłby inną rolę."
+    },
+    {
+      "type": "h2",
+      "text": "Kiedy profil zasługuje na istnienie"
+    },
+    {
+      "type": "p",
+      "text": "Dobry profil zarabia na swoje miejsce przez zmniejszanie szumu. Jeśli zmienia tylko nazwę w promptcie terminala, proszę go usunąć albo zamienić instrukcję w umiejętność."
+    },
+    {
+      "type": "table",
+      "headers": ["Utwórz profil, gdy", "Nie twórz go, gdy"],
+      "rows": [
+        [
+          "Rola powtarza się co tydzień lub codziennie",
+          "Zadanie jest jednorazowe"
+        ],
+        [
+          "Potrzebuje pamięci, która nie powinna przenikać do innej pracy",
+          "Zmienia się tylko ton"
+        ],
+        [
+          "Jest właścicielem innego gateway lub zaplanowanego zadania",
+          "Używa tych samych narzędzi, kontekstu i kontraktu wyjściowego"
+        ],
+        [
+          "Ma inny poziom ryzyka lub granicę uprawnień",
+          "Nie potrafią Państwo opisać, co ma wytwarzać"
+        ],
+        [
+          "Przekazuje pracę innemu profilowi",
+          "Nie istnieje przekazanie ani bramka jakości"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Najczystsza reguła jest prosta: profil powinien stawać się lepszy w jednej pracy bez zwiększania szumu w pozostałych."
+    },
+    {
+      "type": "h2",
+      "text": "Mały zespół Hermes profiles"
+    },
+    {
+      "type": "p",
+      "text": "Zacznij od ról, nie od zapożyczonych imion postaci. Zachowaj Hermes jako koordynatora. Dodaj Scout do badań, Scribe do pisania i Forge do budowania oraz debugowania tylko wtedy, gdy każda rola ma rzeczywistą granicę."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Profile",
+        "Odpowiedzialność",
+        "Powinien wytwarzać",
+        "Nie powinien wytwarzać"
+      ],
       "rows": [
         [
           "Hermes",
-          "Planuje, kieruje, sekwencjonuje i weryfikuje",
-          "Krótki plan, podział zadań, końcowa synteza i bramka jakości"
+          "Planowanie, routowanie, sekwencjonowanie i weryfikacja",
+          "Podział zadań, delegowanie, końcową syntezę, bramkę jakości",
+          "Surowe zrzuty badań lub niezweryfikowane zmiany w kodzie"
         ],
         [
           "Scout",
-          "Znajduje źródła i sprawdza twierdzenia",
-          "Uporządkowane według ważności twierdzenia z adresami URL, datami i notatkami o niepewności"
+          "Badanie, porównywanie i weryfikacja",
+          "Twierdzenia ze źródłami, datami, poziomem pewności i zastrzeżeniami",
+          "Dopracowany tekst ukrywający niepewność"
         ],
         [
           "Scribe",
-          "Zamienia zweryfikowany materiał w komunikację",
-          "Ustrukturyzowany szkic z wyborami dotyczącymi odbiorców i notatkami redakcyjnymi"
+          "Przekształcanie zweryfikowanego materiału w komunikację",
+          "Szkice, redakcje, strukturę, dopasowanie do odbiorcy",
+          "Niepoparte twierdzenia lub zmyślone dowody"
         ],
         [
           "Forge",
-          "Buduje, debugguje, testuje i raportuje",
-          "Diffy, uruchomione polecenia, logi awarii, naprawione testy i ryzyka resztkowe"
+          "Budowanie, debugowanie, testowanie i raportowanie",
+          "Diffy, uruchomione polecenia, wyniki testów, ryzyka resztkowe",
+          "Prozę strategiczną bez dowodu implementacji"
         ]
       ]
     },
     {
       "type": "p",
-      "text": "Pierwsze przekazanie do zdefiniowania to Scout do Scribe. Scout powinien wysyłać twierdzenia ze źródłami, nie folder surowych fragmentów. Scribe powinna wysłać szkic i dziennik zmian, a nie udawać, że badania były jej."
+      "text": "Nazwy są symbolami zastępczymi. Granica jest produktem. Mogą Państwo zmienić nazwy profili, ale należy zachować oddzielność zadań."
     },
     {
       "type": "p",
-      "text": "Ten mały kontrakt zapobiega częstej awarii w drugim tygodniu: każdy profil zaczyna kopiować styl pracy poprzedniego. [webvise używa tego samego wzorca, w którym granice są pierwsze](/#contact), gdy projektujemy przepływy treści i operacji wspierane przez AI dla zespołów B2B."
+      "text": "Użyteczny pierwszy pilotaż obejmuje tylko dwa profile: Hermes koordynuje, Scout weryfikuje. Gdy Scout niezawodnie zwraca twierdzenia ze źródłami, proszę dodać Scribe, aby zamieniać je w tekst. Forge należy dodać dopiero wtedy, gdy prace implementacyjne zaczynają zanieczyszczać resztę asystenta."
     },
     {
       "type": "h2",
-      "text": "Jak utworzyć profil"
+      "text": "Tworzenie profili z działającej bazy"
     },
     {
       "type": "p",
-      "text": "Należy zacząć od konfiguracji Hermes, która już działa. Dostawca, model, klucze API i domyślne narzędzia powinny być skonfigurowane przed utworzeniem specjalistów."
+      "text": "Nie należy budować każdego specjalisty od zera. Najpierw proszę upewnić się, że domyślna konfiguracja Hermes działa: provider, model, klucze API, narzędzia i normalne użycie terminala."
     },
     {
       "type": "ul",
       "items": [
-        "Należy utworzyć profil badawczy: `hermes profile create scout --clone`",
-        "Należy utworzyć profil pisarski: `hermes profile create scribe --clone`",
-        "Należy utworzyć profil inżynieryjny: `hermes profile create forge --clone`",
-        "Należy sprawdzić listę zespołu: `hermes profile list`",
-        "Należy uruchomić specjalistę bezpośrednio: `hermes -p scout`, `hermes -p scribe` lub `hermes -p forge`"
+        "Utwórz profil badawczy: `hermes profile create scout --clone`",
+        "Utwórz profil pisarski: `hermes profile create scribe --clone`",
+        "Utwórz profil inżynieryjny: `hermes profile create forge --clone`",
+        "Zweryfikuj skład: `hermes profile list`",
+        "Uruchom specjalistę bezpośrednio: `hermes -p scout`, `hermes -p scribe` lub `hermes -p forge`"
       ]
     },
     {
       "type": "p",
-      "text": "Należy używać `--clone`, gdy konfiguracja bazowa jest już zdrowa. Kopiuje użyteczne pliki konfiguracyjne, takie jak config, environment i SOUL.md, a nowy profil nadal otrzymuje własną izolowaną pamięć oraz historię sesji."
+      "text": "Użyj `--clone`, gdy konfiguracja bazowa jest zdrowa. Powinno to skopiować użyteczną konfigurację, podczas gdy nowy profil zachowa izolowaną pamięć i historię sesji."
+    },
+    {
+      "type": "p",
+      "text": "Jeśli nie potrafią Państwo wyjaśnić, jaki stan posiada nowy profil, proszę się zatrzymać. Prawdopodobnie potrzebny jest prompt, umiejętność albo wpis w AGENTS.md."
     },
     {
       "type": "h2",
-      "text": "Należy używać SOUL.md dla tożsamości i AGENTS.md dla wspólnego kontekstu"
+      "text": "Pisz SOUL.md jak opis stanowiska"
     },
     {
       "type": "p",
-      "text": "Nazwa profilu nie wystarczy. Jeśli Scout, Scribe i Forge mają taki sam SOUL.md, są klonami z etykietami."
+      "text": "SOUL.md to miejsce, w którym profil staje się prawdziwą rolą. Powinien definiować trwałą tożsamość: ustawienia domyślne, standardy, gust, reguły odmowy i styl podejmowania decyzji."
     },
     {
       "type": "p",
-      "text": "SOUL.md powinien definiować trwałą tożsamość: ton, priorytety, domyślne zachowanie, mocne strony oraz to, czego profil odmawia. AGENTS.md powinien przechowywać kontekst projektu: strukturę repozytorium, konwencje, przepływy pracy i reguły narzędzi."
+      "text": "AGENTS.md jest czymś innym. Powinien zawierać kontekst projektu: ścieżki repozytorium, polecenia, konwencje, proces przeglądu i reguły narzędzi. Mieszanie tożsamości z kontekstem projektu sprawia, że czysty specjalista znów staje się niejasnym generalistą."
     },
     {
       "type": "table",
-      "headers": ["Plik", "Należy tam", "Nie należy tam"],
+      "headers": ["Plik", "Umieść tutaj", "Trzymaj poza"],
       "rows": [
         [
           "SOUL.md",
-          "Tożsamość roli, gust, styl decyzji, domyślne standardy",
-          "Tymczasowe notatki z repozytorium lub instrukcje klienta"
+          "Tożsamość roli, standardy, reguły odmowy, styl decyzji",
+          "Tymczasowe notatki repozytorium lub instrukcje klienta"
         ],
         [
           "AGENTS.md",
-          "Reguły projektu, ścieżki plików, polecenia, proces przeglądu",
-          "Cała osobowość agenta"
+          "Ścieżki projektu, polecenia, konwencje, reguły workflow",
+          "Całą osobowość profilu"
         ],
         [
           "TEAM.md",
-          "Lista zespołu, przekazania, reguły eskalacji, limity polityk",
-          "Każdy szczegół z każdego profilu"
+          "Skład, przekazania, reguły eskalacji, limity polityk",
+          "Każdą prywatną instrukcję z każdego profilu"
+        ]
+      ]
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Scout SOUL.md:** weryfikuj przed podsumowaniem, oddzielaj dowody od interpretacji, podawaj daty, sygnalizuj niepewność.",
+        "**Scribe SOUL.md:** pisz dla docelowego czytelnika, zachowuj granice dowodów, poprawiaj strukturę przed stylem, pytaj, gdy brakuje wsparcia.",
+        "**Forge SOUL.md:** odtwórz przed zmianą, wprowadź najmniejszą bezpieczną poprawkę, uruchom właściwą kontrolę, zgłoś dotknięte pliki i pozostałe ryzyko."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Zdefiniuj przekazania przed dodaniem kolejnych profili"
+    },
+    {
+      "type": "p",
+      "text": "Profile nie powinny tylko stać obok siebie. Potrzebują kontraktów. Przekazanie nie jest wiadomością na czacie. Jest bramką jakości między rolami."
+    },
+    {
+      "type": "table",
+      "headers": ["Przekazanie", "Wymagany ładunek", "Odrzuć, gdy"],
+      "rows": [
+        [
+          "Scout do Scribe",
+          "Twierdzenie, URL źródła, data, pewność, zastrzeżenie",
+          "Wejście to tylko surowe fragmenty"
+        ],
+        [
+          "Scribe do Hermes",
+          "Szkic, zamierzony czytelnik, założenia, nierozwiązane pytania",
+          "Tekst ukrywa słabe dowody"
+        ],
+        [
+          "Forge do Hermes",
+          "Podsumowanie zmiany, dotknięte pliki, uruchomione polecenia, testy, ryzyko resztkowe",
+          "Raport mówi, że naprawiono, bez dowodu"
         ]
       ]
     },
     {
       "type": "p",
-      "text": "Dobry Scout SOUL.md mówi: najpierw weryfikuj, cytuj daty, oddzielaj dowody od wnioskowania i sygnalizuj niepewność. Dobry Forge SOUL.md mówi: odtwórz awarię, sprawdź logi, wprowadź najmniejszą bezpieczną zmianę i uruchom kontrolę ponownie."
-    },
-    {
-      "type": "h2",
-      "text": "Kontrole z dnia 30 są ważniejsze niż konfiguracja"
+      "text": "Jeśli Scout przekazuje Scribe stos notatek, Scribe staje się badaczem. Jeśli Forge mówi, że naprawiono, bez poleceń lub testów, Hermes nie może zweryfikować pracy. Złe przekazania zamieniają zespół profili w łańcuch zgadywanek."
     },
     {
       "type": "p",
-      "text": "Profiles wyglądają przejrzyście pierwszego dnia. Zacierają się do dnia 30, jeśli nie audytują Państwo dryfu, jakości pamięci, własności cron i kształtu przekazań."
+      "text": "Jeśli nie mają Państwo pewności, czy granica powinna być profilem, umiejętnością czy regułą projektu, [webvise może zmapować model przekazań i własności](/#contact), zanim zakodują Państwo niewłaściwą warstwę."
     },
     {
-      "type": "ul",
-      "items": [
-        "**Dryf profilu:** należy porównywać każdy SOUL.md z jego pierwotną wersją. Nowe odpowiedzialności wymagają wyraźnego powodu.",
-        "**Psucie się przekazań:** należy przechowywać reguły przekazań w `~/.hermes/team/handoffs/`. Złe dane wejściowe powinny blokować przekazanie, a nie tylko ostrzegać.",
-        "**Psucie się pamięci:** należy uruchamiać cotygodniową kontrolę pamięci dla każdego profilu i rozwiązywać nieaktualne lub sprzeczne notatki, zanim staną się domyślne.",
-        "**Kolizja cron:** należy utrzymywać jeden wspólny `~/.hermes/team/cron.md`, aby dwa profiles nie planowały konkurencyjnych zadań dla tego samego wyniku."
+      "type": "h2",
+      "text": "Stan gateway i cron jest częścią architektury"
+    },
+    {
+      "type": "p",
+      "text": "Profile stają się znacznie bardziej użyteczne, gdy do systemu wchodzą wiadomości i zaplanowane zadania. Trasa Telegram, webhook lub zadanie cron to nie tylko wyzwalacz. To własność."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Trasa lub harmonogram",
+        "Profil właściciel",
+        "Oczekiwany wynik"
+      ],
+      "rows": [
+        [
+          "Ogólne zapytanie Telegram",
+          "Hermes",
+          "Doprecyzowanie celu, skierowanie pracy, zwrot końcowej odpowiedzi"
+        ],
+        [
+          "Prośba o przegląd źródeł",
+          "Scout",
+          "Ranking twierdzeń ze źródłami i zastrzeżeniami"
+        ],
+        [
+          "Prośba o szkic",
+          "Scribe",
+          "Ustrukturyzowany szkic lub etap redakcji"
+        ],
+        [
+          "Alert budowania lub debugowania",
+          "Forge",
+          "Odtworzenie, diff, wynik testu, notatka o ryzyku"
+        ],
+        [
+          "Cotygodniowy audyt profili",
+          "Hermes",
+          "Przegląd dryfu, pamięci, cron i przekazań"
+        ]
       ]
     },
     {
       "type": "p",
-      "text": "Hermes 0.12.0 dodał Curator do utrzymania umiejętności, co wskazuje na szerszą regułę: systemy agentów potrzebują pętli porządkowych. Profiles zmniejszają szum, ale nie usuwają potrzeby sprawdzania, czego uczy się każda rola."
+      "text": "Jeśli każde zaplanowane zadanie zostaje pod profilem domyślnym, zespół powoli zapada się z powrotem w jednego asystenta. Umieść zadanie pod rolą, która posiada wynik, a następnie routuj podsumowania z powrotem do Hermes."
     },
     {
       "type": "h2",
-      "text": "Prosta ścieżka wdrożenia"
+      "text": "Konfiguracja pierwszego tygodnia i audyt dnia 30"
     },
     {
       "type": "p",
-      "text": "Nie należy najpierw budować schematu organizacyjnego z dziesięcioma agentami. Należy utworzyć jednego specjalistę dla pracy, która najbardziej zanieczyszcza obecnego asystenta."
+      "text": "Pierwszy tydzień nie polega na budowaniu dużego zespołu. Chodzi o udowodnienie jednej czystej granicy."
     },
     {
       "type": "ul",
       "items": [
-        "Jeśli badania zanieczyszczają wszystko, najpierw należy utworzyć Scout.",
-        "Jeśli wszystkie szkice brzmią jak logi debugowania, najpierw należy utworzyć Scribe.",
-        "Jeśli dane wyjściowe powłoki stale przeciekają do pracy strategicznej, najpierw należy utworzyć Forge.",
-        "Jeśli wiadomości, cron i decyzje są wymieszane, należy zachować Hermes jako orkiestratora i przenieść wykonanie na zewnątrz."
+        "Wybierz workflow, który powoduje największe zanieczyszczenie kontekstu.",
+        "Utwórz jeden profil specjalistyczny z `--clone`.",
+        "Napisz krótki SOUL.md dla tej roli.",
+        "Zdefiniuj jedno przekazanie wejściowe i jedno wyjściowe.",
+        "Uruchom profil bezpośrednio z `hermes -p <profile>`.",
+        "Przydziel każdą własność gateway lub cron celowo."
+      ]
+    },
+    {
+      "type": "table",
+      "headers": ["Kontrola dnia 30", "Sygnał awarii", "Naprawa"],
+      "rows": [
+        [
+          "Dryf profilu",
+          "Specjalista zaczyna przyjmować niepowiązaną pracę",
+          "Doprecyzuj SOUL.md i przenieś nowe reguły do AGENTS.md lub TEAM.md"
+        ],
+        [
+          "Gnicie pamięci",
+          "Stare założenia stają się ustawieniami domyślnymi",
+          "Przejrzyj przestarzałe notatki i usuń sprzeczności"
+        ],
+        [
+          "Gnicie przekazań",
+          "Profile przekazują surowy materiał zamiast ukształtowanego wyniku",
+          "Niech wadliwe przekazania blokują następny krok"
+        ],
+        [
+          "Kolizja cron",
+          "Dwa profile planują pracę dla tego samego wyniku",
+          "Utrzymuj jeden wspólny rejestr własności cron"
+        ],
+        [
+          "Zamieszanie gateway",
+          "Niewłaściwy profil odpowiada na trasę przychodzącą",
+          "Udokumentuj właściciela, wyzwalacz, wynik i ścieżkę eskalacji"
+        ],
+        [
+          "Rozrost umiejętności",
+          "Każdy profil ładuje każdy workflow",
+          "Przenieś procedury do umiejętności właściwych dla roli"
+        ]
       ]
     },
     {
       "type": "p",
-      "text": "Miarą nie jest liczba posiadanych agentów. Miarą jest to, czy każdy profil może stawać się lepszy w swojej pracy bez pogarszania innych profiles."
+      "text": "Hermes 0.12.0 dodał Curator do utrzymania umiejętności, co wskazuje na szerszą regułę: systemy agentów potrzebują porządkowania. Profile zmniejszają szum, ale nadal potrzebują audytów."
+    },
+    {
+      "type": "h2",
+      "text": "Reguła operacyjna"
     },
     {
       "type": "p",
-      "text": "webvise pomaga zespołom zamieniać chaotyczne użycie AI w systemy oparte na rolach, z jasnym kontekstem, bezpiecznymi przekazaniami i mierzalnymi wynikami. Jeśli asystent stał się miejscem, w którym każdy przepływ pracy traci ostrość, [zarezerwuj rozmowę](/#contact), a zmapujemy z Państwem pierwsze dwa profiles."
+      "text": "Nie należy mierzyć sukcesu liczbą profili. Należy mierzyć go tym, czy każda rola może stać się ostrzejsza bez zmniejszania wiarygodności reszty systemu."
+    },
+    {
+      "type": "p",
+      "text": "Najlepszy zespół Hermes profiles nie jest największy. To taki, w którym każda rola posiada odrębny stan, wysyła czyste przekazania i pozostaje wystarczająco wąska do audytu."
+    },
+    {
+      "type": "p",
+      "text": "webvise pomaga zespołom zamieniać chaotyczne użycie AI w systemy oparte na rolach, z jasnym kontekstem, bezpiecznymi przekazaniami i mierzalną własnością. Proszę przynieść jednego przeciążonego asystenta i jeden powtarzalny workflow, a [zmapujemy z Państwem pierwsze dwa profile](/#contact)."
     }
   ]
 }
