@@ -7,9 +7,15 @@ description: Create a new blog article for the webvise blog with full translatio
 
 Create a new blog article for the webvise blog with full translations across all 7 supported locales.
 
-> **Operating principle:** publish only what an LLM cannot already generate without our unique context. The new ranking surface is **LLM citations**, not classical domain rank. Anything a vanilla LLM call could produce from the title alone is slop and will not rank, will not get cited, and dilutes the rest of the page. See `wiki/concepts/anti-slop-content-strategy.md` in the Obsidian vault for the full thesis.
+> **Primary goal — in priority order:** (1) rank in classical search and LLM citations for queries webvise's customers are typing, (2) route qualified traffic to a webvise service page that converts to a booked inquiry, (3) demonstrate competence so the reader trusts webvise to deliver. Every article must do at least two of the three. The blog is webvise's lead channel, not a personal megaphone.
 
-> **Blog article ≠ case study.** Case studies are a separate artifact with their own format (the project / client / outcome arc). A blog article is shaped around a **claim**, not around a client engagement. Blog articles *may* reference client work as supporting evidence, but should not become thinly-veiled case studies. If the brief reads like "we did X for client Y," push back and ask whether it should actually be a case study instead.
+> **Two valid lanes — pick one before writing:**
+> - **Commercial-intent SEO (default lane).** Buyer queries like "wordpress vs next.js for business", "how much does a website cost", "signs your website needs a redesign", "ai automation for small business". These map directly to a webvise service, target a real search query with a known SERP, and route to `/services/<slug>`. Most articles should be this lane.
+> - **Thought-leadership (secondary lane).** Contrarian or synthetic takes that build webvise's authority on AI, agency economics, or web strategy. Use sparingly and only when there is genuine first-party signal. These articles still need to mention webvise and link to a service or `/#contact`, but rank via citations and shares rather than buyer queries.
+
+> **Anti-slop guardrail (applies to both lanes).** Don't publish what a vanilla LLM call could produce from the title alone. For commercial-intent posts, originality means webvise's specific answer, numbers, opinion, and service attachment — not contrarianism for its own sake. For thought-leadership posts, originality means the claim itself is one no other agency is willing to defend. Slop dilutes the rest of the blog and demotes the domain.
+
+> **Blog article ≠ case study.** Case studies are a separate artifact with their own format (the project / client / outcome arc). A blog article is shaped around a **claim or query**, not around a client engagement. Blog articles *may* reference client work as supporting evidence, but should not become thinly-veiled case studies. If the brief reads like "we did X for client Y," push back and ask whether it should actually be a case study instead.
 
 ## Usage
 
@@ -37,17 +43,35 @@ release and the death of pSEO
 
 ## Topic Discovery (zero-arg mode)
 
-When invoked without a brief, auto-discover a topic from the vault. This implements the Content Skill Graph connection pattern — the best articles come from bridging ideas, not from picking a generic topic.
+When invoked without a brief, auto-discover a topic. Default to the **commercial-intent SEO lane**. Only fall back to the thought-leadership lane if no SEO gap is high-value enough to fill.
 
-### Step 1: Read Blog Log
-Read existing blog articles to avoid repetition:
-```
-apps/web/content/blog/
-```
-List all existing slugs and their primary tags/keywords.
+### Step 1: Service & Keyword Gap Analysis (primary signal)
 
-### Step 2: Read Vault for Fresh Material
-Scan recently updated pages in the Obsidian vault:
+Read `apps/web/src/data/services.ts` for the canonical 6 webvise services:
+`landing-pages`, `wordpress-migration`, `ai-consulting`, `mvp-development`, `ai-automation`, `full-stack-applications`.
+
+Read `apps/web/content/blog/` and group existing slugs by which service each one supports. Find:
+- **Service gaps** — services with thin or zero supporting blog content.
+- **Buyer-intent gaps** — common buyer queries (cost, comparison, decision-tree, migration, audit, "is X right for me", "signs you need Y") that webvise hasn't yet ranked for.
+- **Competitor-shaped gaps** — queries where the current SERP is dominated by weak generic content webvise can beat with first-party data.
+
+Buyer-intent keyword templates that historically convert for webvise:
+- `[service] cost [year]`
+- `[platform] vs [platform]` (e.g., `wordpress vs next.js`)
+- `[platform] migration to [platform]`
+- `is [tool/platform] worth it for [audience]`
+- `how to choose [thing]`
+- `[problem] checklist`
+- `signs your [thing] needs [action]`
+- `[service] for [vertical]` (b2b, e-commerce, manufacturing, local business)
+
+### Step 2: Read Blog Log
+Read existing blog articles to avoid repetition. List all existing slugs and their primary tags/keywords. Note overlap candidates.
+
+### Step 3: Vault scan (only if a thought-leadership angle is needed)
+
+If Step 1 surfaced a commercial-intent topic with a clear service attachment, **skip this step**. Otherwise, scan recently updated pages in the Obsidian vault for a thought-leadership angle:
+
 ```
 ~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Vault/wiki/
 ```
@@ -60,51 +84,48 @@ Focus on:
 
 Also check `raw/articles/` for recently ingested sources that haven't been turned into blog content yet.
 
-### Step 2b: Scan Tweet Performance for Escalation Candidates
-Read the tweet log and individual tweet files for performance signals:
+### Step 4: Tweet performance (optional secondary signal)
+
+Tweet engagement is a *signal*, not a brief. Only check this if Steps 1 and 3 produced nothing publishable. Read:
 ```
 ~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Vault/wiki/collections/professional/tweet-log.md
-~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Vault/wiki/collections/professional/twitter-posts/
 ```
 
-For each tweet with `status: tracked` (meaning perf data is filled in), check if it qualifies for long-form escalation:
-- **High engagement:** impressions > 5K, or likes > 100, or replies > 20
-- **Topic depth:** the tweet's source pages contain enough material for a 1500+ word article
-- **No existing coverage:** the topic hasn't already been covered in a blog post
+Escalate a tweet to a blog article only when (a) the topic also matches a buyer query (preferred) or webvise service, (b) impressions > 5K or likes > 100, and (c) there is enough first-party material for 1500+ words. Personal-voice tweets without commercial intent are not a blog candidate.
 
-High-performing tweets are strong blog article candidates because the topic is already validated by audience engagement. The tweet's core insight becomes the article's claim; the source pages become the research base.
+### Step 5: Generate 3 Candidate Briefs
 
-### Step 3: Find Connections
-Cross-reference vault pages to find non-obvious bridges:
-- A concept that reframes a webvise service offering
-- A recently ingested article that validates or challenges a webvise position
-- Two vault pages whose intersection produces a contrarian thesis
-- A tweet escalation candidate (from Step 2b) that deserves long-form treatment
+Default to **at least 2 of 3 candidates being commercial-intent SEO** with a service attachment. Only include a thought-leadership candidate if it carries unusually strong first-party signal.
 
-### Step 4: Generate 3 Candidate Briefs
 For each candidate, produce:
-- **Claim:** one quotable sentence the article defends
-- **Anchor type:** which unique-context anchor it uses (contrarian thesis / post-cutoff event / original synthesis / first-party data / named example)
-- **Source pages:** which vault pages it draws from
-- **Bridge:** the cross-domain connection (if any)
+- **Lane:** commercial-intent SEO | thought-leadership
+- **Claim:** one quotable sentence the article defends or answers
+- **Target query:** the exact buyer query (commercial lane) or anchor topic (thought lane)
+- **Service attachment:** which of the 6 webvise services this article routes to (commercial lane: required; thought lane: best-fit if any)
+- **Anchor type:** commercial-intent SEO / contrarian thesis / post-cutoff event / original synthesis / first-party data / named example
+- **Source pages:** vault pages, internal repos, or SERP references this draws from
 - **Why now:** what makes this timely or relevant today
 - **Existing coverage:** any overlap with published blog posts (list slugs)
 
 Rank candidates by:
-1. Strength of unique-context anchor (contrarian thesis > original synthesis > post-cutoff event > first-party data > named example)
-2. Freshness of source material
-3. Distance from existing blog content
-4. Relevance to webvise positioning
+1. Lead-gen potential (clear service attachment + buyer intent)
+2. SEO opportunity (search volume vs current SERP weakness)
+3. Strength of first-party signal (numbers, named examples, opinions webvise can defend)
+4. Distance from existing blog content
+5. Freshness
 
-### Step 5: Present & Confirm
-Show all 3 candidates to Sebastian. **Do not proceed until he picks one or provides his own brief.** Format:
+### Step 6: Present & Confirm
+
+Show all 3 candidates to the user. **Do not proceed until they pick one or provide their own brief.** Format:
 
 ```
 ## Candidate 1: [short title]
+Lane: commercial-intent SEO | thought-leadership
 Claim: "..."
+Target query: "..."
+Service: /services/<slug> (or "thought-leadership only")
 Anchor: [type]
-Sources: [vault pages]
-Bridge: [connection or "none"]
+Sources: [pages]
 Why now: ...
 ```
 
@@ -114,41 +135,49 @@ After selection, proceed to the Entry Contract with the chosen brief.
 
 ## Entry Contract — required before writing
 
-A bare topic like *"AI for e-commerce"* is **not** a valid brief. Before generating anything, the brief must include at least one **unique-context anchor** from this list:
+A bare topic like *"AI for e-commerce"* is **not** a valid brief. Before generating anything, the brief must include at least one **anchor** from this list:
 
-1. **Contrarian thesis or framework** — a position Sebastian/webvise owns and is willing to defend (preferred — most blog articles should hang on a claim)
-2. **Post-training-cutoff event/source** — recent fact with date and link the article reacts to or interprets
-3. **Original synthesis** — primary sources combined in a way no one else has assembled
-4. **First-party data** — internal benchmark, observation, or measurement (not necessarily from a client engagement)
-5. **Named real-world example** — a concrete client / project / product reference used *as supporting evidence*, not as the spine of the article. Use sparingly. If the article would collapse without the client reference, it's a case study, not a blog article — stop and reconsider the format.
+1. **Commercial-intent SEO query** *(default)* — a buyer query the article will rank for, paired with a webvise service. Examples: "wordpress vs next.js for business", "how much does a website cost", "ai automation for small business", "signs your website needs a redesign". The article exists to capture this query, answer it with webvise's first-party authority, and route the reader to `/services/<slug>`.
+2. **Contrarian thesis or framework** — a position webvise owns and is willing to defend. Use when the topic isn't a buyer query but builds the brand's authority on a topic adjacent to its services.
+3. **Post-training-cutoff event/source** — recent fact with date and link the article reacts to or interprets.
+4. **Original synthesis** — primary sources combined in a way no one else has assembled.
+5. **First-party data** — internal benchmark, observation, or measurement from agency project work.
+6. **Named real-world example** — a concrete client / project / product reference used *as supporting evidence*, not as the spine of the article. Use sparingly. If the article would collapse without the client reference, it's a case study, not a blog article — stop and reconsider the format.
 
 If the user supplies only a bare topic (no anchor), **abort and ask for the anchor.** Do not proceed. The zero-arg discovery mode (above) handles the case where no topic is given at all.
 
 You must also collect (in working memory, not persisted to JSON):
 
-- `claim`: a single, quotable, attributable sentence the article exists to defend
-- `firstPartySources`: list of internal links / case study pages / client repos / vault notes the article will draw from
+- `lane`: `commercial-intent-seo` | `thought-leadership`
+- `targetQuery`: the exact buyer query (commercial lane) — must drive the title, h1, first paragraph, and meta description
+- `service`: the webvise service this article routes traffic to. One of: `landing-pages`, `wordpress-migration`, `ai-consulting`, `mvp-development`, `ai-automation`, `full-stack-applications`. Commercial-intent articles **must** declare a service. Thought-leadership articles should declare the closest fit, or `none` with explicit acknowledgement that the article won't drive direct lead-gen.
+- `claim`: a single, quotable, attributable sentence the article exists to defend or answer
+- `firstPartySources`: list of internal links / service pages / case study pages / client repos / vault notes the article will draw from. Commercial-intent articles **must** include the matching `/services/<slug>` page in this list — read it first so the article's vocabulary, claims, and CTAs align with the service.
 
 ## Training-Data Test — pre-flight before writing each section
 
 For every planned section, ask: *could a vanilla LLM call produce this paragraph from the title alone, without our context?*
 
-- If **yes** → cut the section, or replace it with first-party material.
+- If **yes** → the section must earn its place via at least one of: webvise's specific opinion, a concrete number, a named example, a service-attached recommendation, or a comparison the reader is actually searching for.
 - If **no** → keep it.
 
-Reject any draft where more than ~30% of blocks fail this test. Length is no longer a virtue — cap the article at the point first-party signal runs out.
+For commercial-intent SEO articles, the bar is "does this section help the reader make a buying decision and route them toward a webvise service?" — pure originality is not required, but boilerplate-only sections are still cut. For thought-leadership articles, the bar is stricter: vanilla-LLM output must be replaced with first-party material or cut.
+
+Reject any draft where more than ~30% of blocks fail this test. Cap the article at the point first-party signal and buyer-decision content run out — don't pad to a target word count.
 
 ## Research Hierarchy
 
-Pull in this order. Stop as soon as you have enough unique material:
+Pull in this order. Stop as soon as you have enough material:
 
-1. **Sebastian's positions and vault synthesis.** The Obsidian vault at `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Vault/` — especially `wiki/concepts/`, `wiki/synthesis/`, and any `personal/` notes that capture an opinion or framework. This is the primary anchor for most blog articles.
-2. **Post-cutoff facts.** Web search **only** for events, releases, or numbers more recent than the model's training cutoff. Cite with date and URL.
-3. **Cross-source synthesis.** Combine 2+ primary sources in a way that produces a non-obvious claim.
-4. **Internal first-party data.** Webvise's own observations, benchmarks, and project work — sibling repos under `~/Documents/webvise/`, `wiki/sources/` pages, vault `webvise/` and `luca/` notes. Use as supporting evidence, not as the spine.
-5. **Client references — sparingly.** Only when a specific named example is the cleanest illustration of the claim. If you find yourself building the article *around* a client, stop: that's a case study, file it as one.
+1. **Target query and SERP context** *(commercial-intent lane: required)*. What is the user typing? What currently ranks for it? Where are the existing results weak (thin content, no first-party data, dated, generic)? This frames the article — without it, you're writing for nobody.
+2. **Matching webvise service page.** Read `apps/web/src/app/[locale]/(marketing)/services/[slug]/...` and the service translation files for the chosen service slug. The article must echo its claims, vocabulary, and CTAs — never contradict them.
+3. **Internal first-party data.** Webvise's own observations, benchmarks, and project work — sibling repos under `~/Documents/webvise/`, internal case studies in `apps/web/content/case-studies/`, agency project notes. This is what makes the article rank-worthy and citation-worthy.
+4. **Vault synthesis** *(thought-leadership lane: required; commercial lane: optional)*. The Obsidian vault at `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Vault/` — especially `wiki/concepts/`, `wiki/synthesis/`, and `wiki/companies/webvise/`. Use to add an opinion or framework on top of the buyer-intent answer, not to replace it.
+5. **Post-cutoff facts.** Web search **only** for events, releases, or numbers more recent than the model's training cutoff. Cite with date and URL.
+6. **Cross-source synthesis.** Combine 2+ primary sources in a way that produces a non-obvious claim.
+7. **Client references — sparingly.** Only when a specific named example is the cleanest illustration of the claim. If you find yourself building the article *around* a client, stop: that's a case study, file it as one.
 
-If steps 1-5 surface **nothing unique**, abort the command and tell the user. Do not generate.
+If steps 1-7 surface **nothing the article can stand on**, abort the command and tell the user. Do not generate filler.
 
 ## webvise Quality Benchmark Gate
 
@@ -273,7 +302,10 @@ Every article opens with this sequence:
 
 - **4-7 h2 sections.** Each section must pass the Training-Data Test.
 - **2-3 mini-stories.** Real examples with NAMES, DATES, SPECIFIC DETAILS, and OUTCOMES. Not hypotheticals.
-- **2-3 contextual CTAs.** First CTA within the first 500 words. CTAs should feel natural, not bolted on. Example: "If you're evaluating [topic], [webvise can help](/#contact)."
+- **2-3 contextual CTAs.** First CTA within the first 500 words. CTAs should feel natural, not bolted on.
+  - **At least one CTA must link to the matched service page** (`/services/<slug>`). Service pages convert better than `/#contact`. Example: "If you're evaluating WordPress alternatives, [webvise's WordPress migration service](/services/wordpress-migration) handles the rebuild and SEO continuity."
+  - **At least one internal blog link** to a related post under `/blog/<slug>`. Builds topical clusters and keeps users on-site.
+  - The closing paragraph still mentions **webvise** and points to `/#contact` for general inquiries.
 - **At least 1 table.** Use for comparisons, frameworks, or data. Tables with real numbers outperform prose lists.
 
 ## Translation Rules
@@ -331,10 +363,10 @@ Every article opens with this sequence:
 
    | Dimension | Weight | What it measures |
    |-----------|--------|-----------------|
-   | Humanity | 30% | Does it sound like a person wrote it? No AI patterns, natural rhythm, personality |
-   | Specificity | 25% | Named entities, real numbers, dates, concrete examples per section |
+   | SEO & Lead-Gen | 25% | Primary keyword in title/h1/first paragraph and meta description; service-page link present; internal blog link present; closing inquiry path; service-attached CTA within first 500 words |
+   | Specificity | 25% | Named entities, real numbers, dates, concrete examples per section; webvise-specific opinion visible |
+   | Humanity | 20% | Does it sound like a person wrote it? No AI patterns, natural rhythm, distinct voice |
    | Structure | 20% | Intro structure followed, h2 count, CTA placement, key takeaways present |
-   | SEO | 15% | Keyword in title/h1/first paragraph, meta description quality, internal links |
    | Readability | 10% | Sentence length variance, paragraph brevity, no walls of text |
 
    - **70-100:** Proceed to translations.
@@ -378,11 +410,18 @@ Every article opens with this sequence:
 Answer "yes" to **all** or fix the draft:
 
 **Content quality:**
-- [ ] Contains at least one fact, number, or quote that is **not** in any LLM's training data?
-- [ ] Names at least one specific entity (client, project, person, product) with a verifiable detail?
-- [ ] Has a clearly identifiable authorial point of view, not a balanced overview?
-- [ ] Could **not** be reproduced by feeding the title into ChatGPT and asking for an article?
-- [ ] First paragraph contains the quotable `claim`, with attribution surfaces (date, links) intact?
+- [ ] Contains at least one fact, number, opinion, or named example that goes beyond what a vanilla LLM would output?
+- [ ] Names at least one specific entity (client, project, person, product, framework) with a verifiable detail?
+- [ ] Has a clearly identifiable webvise point of view, not a balanced overview?
+- [ ] First paragraph contains the quotable `claim` (or directly answers the target query), with attribution surfaces (date, links) intact?
+- [ ] Primary keyword (`targetQuery`) appears in: title, first paragraph, and meta description?
+
+**SEO & Lead-Gen:**
+- [ ] At least one CTA links to the matched service page `/services/<slug>` within the body, not only the closing paragraph?
+- [ ] At least one internal link to another blog post `/blog/<slug>` is present?
+- [ ] Closing paragraph mentions **webvise** and links to `/#contact`?
+- [ ] Article maps to one of the 6 webvise services, OR is explicitly tagged as thought-leadership-only with a fallback service link?
+- [ ] Meta description is ~155 chars, contains the primary keyword, and ends with a benefit or path forward (not clickbait)?
 
 **Structure:**
 - [ ] Introduction follows mandatory structure? (direct answer + hook + APP + key takeaways)
