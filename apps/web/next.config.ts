@@ -23,6 +23,16 @@ const nextConfig: NextConfig = {
 				destination: "/apple-icon",
 				permanent: false,
 			},
+			{
+				source: "/impressum",
+				destination: "/de/impressum",
+				permanent: true,
+			},
+			{
+				source: "/datenschutz",
+				destination: "/de/datenschutz",
+				permanent: true,
+			},
 		];
 	},
 };
