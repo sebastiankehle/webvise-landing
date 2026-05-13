@@ -2,9 +2,9 @@ import { describe, expect, it } from "vitest";
 import { getFeaturedCaseStudies } from "../data/case-studies";
 
 const ALLOWED_FEATURED_SLUGS = [
+	"rautenberg-pitch-engine",
 	"old-world-labs",
-	"ohyp-fintech",
-	"mp-bau-construction",
+	"webvise",
 ];
 
 describe("getFeaturedCaseStudies", () => {

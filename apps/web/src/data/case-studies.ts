@@ -23,6 +23,7 @@ export interface CaseStudyMetric {
 export interface CaseStudyContent {
 	challenge: string;
 	excerpt: string;
+	liveUrlLabel?: string;
 	metrics?: CaseStudyMetric[];
 	results?: string[];
 	solution: string;
@@ -41,6 +42,7 @@ interface MetaFile extends CaseStudyMeta, CaseStudyContent {}
 
 const contentDir = join(process.cwd(), "content/case-studies");
 
+const isDev = process.env.NODE_ENV !== "production";
 const cache = new Map<string, MetaFile | CaseStudyContent>();
 
 function cacheKey(slug: string, locale: string): string {
@@ -52,9 +54,11 @@ function readFile(
 	locale: string
 ): MetaFile | CaseStudyContent | null {
 	const key = cacheKey(slug, locale);
-	const cached = cache.get(key);
-	if (cached) {
-		return cached;
+	if (!isDev) {
+		const cached = cache.get(key);
+		if (cached) {
+			return cached;
+		}
 	}
 
 	const filePath = join(contentDir, slug, `${locale}.json`);
@@ -63,7 +67,9 @@ function readFile(
 	}
 
 	const data = JSON.parse(readFileSync(filePath, "utf-8"));
-	cache.set(key, data);
+	if (!isDev) {
+		cache.set(key, data);
+	}
 	return data;
 }
 
@@ -115,6 +121,7 @@ function toCaseStudy(slug: string, locale: string): CaseStudy | null {
 		metrics: content.metrics,
 		techStack: content.techStack,
 		testimonial: content.testimonial,
+		liveUrlLabel: content.liveUrlLabel,
 	};
 }
 
@@ -133,9 +140,9 @@ export function getCaseStudyBySlug(
 }
 
 const FEATURED_CASE_STUDY_SLUGS = [
+	"rautenberg-pitch-engine",
 	"old-world-labs",
-	"ohyp-fintech",
-	"mp-bau-construction",
+	"webvise",
 ] as const;
 
 export function getFeaturedCaseStudies(locale: string): CaseStudy[] {

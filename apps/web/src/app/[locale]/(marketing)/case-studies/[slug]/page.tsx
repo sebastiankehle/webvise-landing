@@ -213,19 +213,31 @@ export default async function CaseStudyPage({
 								)}
 								<div>
 									<Caption className="block">{t("liveProject")}</Caption>
-									{cs.liveUrl ? (
-										<a
-											className="mt-1 inline-flex items-center gap-1.5 text-brand text-sm transition-colors hover:text-brand/80"
-											href={cs.liveUrl}
-											rel="noopener noreferrer"
-											target="_blank"
-										>
-											{t("visitSite")}
-											<ExternalLink className="h-3 w-3" />
-										</a>
-									) : (
-										<Small className="mt-1 block">{t("launchingSoon")}</Small>
-									)}
+									{(() => {
+										if (cs.liveUrl) {
+											return (
+												<a
+													className="mt-1 inline-flex items-center gap-1.5 text-brand text-sm transition-colors hover:text-brand/80"
+													href={cs.liveUrl}
+													rel="noopener noreferrer"
+													target="_blank"
+												>
+													{cs.liveUrlLabel ?? t("visitSite")}
+													<ExternalLink className="h-3 w-3" />
+												</a>
+											);
+										}
+										if (cs.liveUrlLabel) {
+											return (
+												<Small className="mt-1 block text-foreground">
+													{cs.liveUrlLabel}
+												</Small>
+											);
+										}
+										return (
+											<Small className="mt-1 block">{t("launchingSoon")}</Small>
+										);
+									})()}
 								</div>
 							</div>
 						</div>

@@ -1,0 +1,45 @@
+{
+  "industry": "Media / Produkcja dokumentalna",
+  "title": "Studio researchu Claude Code dla producenta filmów dokumentalnych",
+  "liveUrlLabel": "Prywatne repozytorium",
+  "excerpt": "Zbudowaliśmy prywatne studio researchu i pisania oparte na AI dla producenta dokumentów pitchującego do największych publicznych nadawców w Niemczech. Hieronymus Vault łączy natywną w Obsidianie bazę wiedzy, wersjonowany korpus stylometryczny, autorskie skille Claude Code i architekturę multi-agent fan-out. Od pomysłu do gotowego do nadania DOCX w mniej niż trzy godziny. W jego głosie. Każda teza prowadzi do źródła.",
+  "challenge": "Pojedyncze zlecenie dokumentalne to kwoty sześcio- lub siedmiocyfrowe i wszystko zależy od piętnastostronicowego exposé dostarczonego redaktorce w dokładnie właściwym tonie. Producenci oddają dziesiątki takich pitchów rocznie. Każdy wymaga głębokiej kwerendy historycznej między kontynentami, analizy luk w portfolio kanału, castingu ekspertów i pisania w głosie, który redakcja rozpoznaje od razu. Praca jest twórcza; podłoże to inżynieria. Deterministyczna typografia, śledzenie każdej tezy do źródła, wierność głosu pod generacją i zero dryfu tonu na setki stron. Jedno kruche exposé kosztuje zlecenie. Nasz klient potrzebował systemu, który zwielokrotni jego wydajność bez spłaszczania jego głosu czy standardów.",
+  "solution": "Zbudowaliśmy Hieronymus Vault, orkiestrowane przez Claude Code studio researchu wokół jednego vaultu w Obsidianie, które pełni jednocześnie rolę bazy wiedzy, korpusu stylometrycznego i append-only-ścieżki audytu. Walidowany schematem frontmatter YAML na dziewięciu typowanych klasach bytów sprawia, że każda notatka jest nawigowalna maszynowo bez warstwy bazy danych. Indeks semantyczny nad vaultem wspiera recall między tematami bez wychodzenia z pętli orkiestracji. Osiem jego istniejących pitchów zostało odtworzonych wstecz w wersjonowany korpus głosu, w którym pisze model. Autorski skill /zdfinfo-format ładuje ten głos i rozprasza równoległe sub-agenty researchowe (document-specialist, scientist, executor, explore) po źródłach, castingu ekspertów i analizie luk w portfolio kanału. Każdy sub-agent działa w izolowanym oknie kontekstu, aby wątki researchowe się nie mieszały; synteza odbywa się w agencie głównym. Autonomiczna warstwa monitoringu odpytuje całodobowo, co trzydzieści minut, portale zleceń, publikacje archiwalne i feedy informacyjne. Finalne exposé jest renderowane jako gotowy do nadania DOCX w identyfikacji wizualnej wydawcy przez szablony python-docx z deterministyczną typografią. Wymiana z kooperatorem zwrotnie zaciąga każdą zewnętrzną edycję do vaultu, porównuje ją z poprzednią rewizją i podaje deltę stylistyczną do korpusu głosu, dzięki czemu system sam się dostraja co cykl.",
+  "metrics": [
+    {
+      "value": "<3h",
+      "label": "Od pomysłu do gotowego exposé"
+    },
+    {
+      "value": "10",
+      "label": "Orkiestrowane fazy pipeline'u"
+    },
+    {
+      "value": "8",
+      "label": "Pitche w korpusie głosu"
+    },
+    {
+      "value": "24/7",
+      "label": "Autonomiczny monitoring nadawców"
+    }
+  ],
+  "techStack": [
+    "Claude Code",
+    "Anthropic API",
+    "Mastra",
+    "Custom Skills",
+    "Multi-Agent Orchestration",
+    "Inngest",
+    "Obsidian",
+    "YAML",
+    "Python",
+    "python-docx",
+    "GitHub Actions",
+    "Vercel"
+  ],
+  "testimonial": {
+    "quote": "Sebastian zbudował mi coś, czego nie widziałem na rynku. Studio researchu, które myśli w moim głosie, skanuje feedy nadawców, gdy ja śpię, i renderuje finalny DOCX w CI, a ja nie tykam ani jednego szablonu. Vault jest teraz miejscem, w którym moja praca naprawdę żyje. Pitcham więcej, ostrzej, szybciej.",
+    "author": "F. Rautenberg",
+    "role": "Producent filmów dokumentalnych"
+  }
+}

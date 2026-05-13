@@ -33,7 +33,7 @@ export default function CaseStudyHeroImage({
 					className="h-auto w-full border border-border/40 transition-opacity group-hover:opacity-90"
 					height={766}
 					priority
-					quality={90}
+					quality={95}
 					sizes="(max-width: 768px) 100vw, 880px"
 					src={src}
 					width={1512}

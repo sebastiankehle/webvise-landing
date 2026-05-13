@@ -37,10 +37,12 @@ export default function CaseStudyGallery({
 							alt={`${alt} – screenshot ${i + 1}`}
 							className="block h-auto w-full transition-opacity group-hover:opacity-90"
 							decoding="async"
-							height={1000}
+							height={766}
 							loading="lazy"
+							quality={95}
+							sizes="(max-width: 768px) 100vw, (max-width: 1320px) 33vw, 440px"
 							src={src}
-							width={1600}
+							width={1512}
 						/>
 						<span className="pointer-events-none absolute inset-0 hidden items-center justify-center bg-black/5 opacity-0 transition-opacity group-hover:opacity-100 sm:flex">
 							<Body className="flex items-center gap-2 rounded-full bg-background/90 px-4 py-2 text-foreground text-sm ring-1 ring-border/40 backdrop-blur-sm">
