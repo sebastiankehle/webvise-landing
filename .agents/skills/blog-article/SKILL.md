@@ -70,25 +70,24 @@ Read existing blog articles to avoid repetition. List all existing slugs and the
 
 ### Step 3: Vault scan (only if a thought-leadership angle is needed)
 
-If Step 1 surfaced a commercial-intent topic with a clear service attachment, **skip this step**. Otherwise, scan recently updated pages in the Obsidian vault for a thought-leadership angle:
+If Step 1 surfaced a commercial-intent topic with a clear service attachment, **skip this step**. Otherwise, scan recently updated pages in the Obsidian vault for a thought-leadership angle. Use the `wiki` CLI (`wiki list wiki/<dir>`, `wiki read wiki/<path>`, `wiki search <query>`) — the vault lives at:
 
 ```
-~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Vault/wiki/
+/Users/sebastiankehle/Documents/webvise/obsidian-vault/
 ```
 
 Focus on:
-- `wiki/concepts/` — new or recently updated concepts
-- `wiki/synthesis/` — cross-cutting analyses
-- `wiki/playbooks/` — actionable frameworks
-- `wiki/companies/webvise/` — agency positioning, product updates
+- `wiki/topics/` — concepts, syntheses, and cross-cutting analyses grouped by domain (ai-agents, business, content, engineering, wiki-systems)
+- `wiki/procedures/` — actionable runbooks and frameworks
+- `wiki/work/webvise/` — agency positioning, product updates, current state
 
 Also check `raw/articles/` for recently ingested sources that haven't been turned into blog content yet.
 
 ### Step 4: Tweet performance (optional secondary signal)
 
-Tweet engagement is a *signal*, not a brief. Only check this if Steps 1 and 3 produced nothing publishable. Read:
+Tweet engagement is a *signal*, not a brief. Only check this if Steps 1 and 3 produced nothing publishable. Read via:
 ```
-~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Vault/wiki/collections/professional/tweet-log.md
+wiki read wiki/content/x/log.md
 ```
 
 Escalate a tweet to a blog article only when (a) the topic also matches a buyer query (preferred) or webvise service, (b) impressions > 5K or likes > 100, and (c) there is enough first-party material for 1500+ words. Personal-voice tweets without commercial intent are not a blog candidate.
@@ -172,7 +171,7 @@ Pull in this order. Stop as soon as you have enough material:
 1. **Target query and SERP context** *(commercial-intent lane: required)*. What is the user typing? What currently ranks for it? Where are the existing results weak (thin content, no first-party data, dated, generic)? This frames the article — without it, you're writing for nobody.
 2. **Matching webvise service page.** Read `apps/web/src/app/[locale]/(marketing)/services/[slug]/...` and the service translation files for the chosen service slug. The article must echo its claims, vocabulary, and CTAs — never contradict them.
 3. **Internal first-party data.** Webvise's own observations, benchmarks, and project work — sibling repos under `~/Documents/webvise/`, internal case studies in `apps/web/content/case-studies/`, agency project notes. This is what makes the article rank-worthy and citation-worthy.
-4. **Vault synthesis** *(thought-leadership lane: required; commercial lane: optional)*. The Obsidian vault at `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Vault/` — especially `wiki/concepts/`, `wiki/synthesis/`, and `wiki/companies/webvise/`. Use to add an opinion or framework on top of the buyer-intent answer, not to replace it.
+4. **Vault synthesis** *(thought-leadership lane: required; commercial lane: optional)*. The Obsidian vault at `/Users/sebastiankehle/Documents/webvise/obsidian-vault/` (use the `wiki` CLI: `wiki list`, `wiki read`, `wiki search`) — especially `wiki/topics/`, `wiki/procedures/`, and `wiki/work/webvise/`. Use to add an opinion or framework on top of the buyer-intent answer, not to replace it.
 5. **Post-cutoff facts.** Web search **only** for events, releases, or numbers more recent than the model's training cutoff. Cite with date and URL.
 6. **Cross-source synthesis.** Combine 2+ primary sources in a way that produces a non-obvious claim.
 7. **Client references — sparingly.** Only when a specific named example is the cleanest illustration of the claim. If you find yourself building the article *around* a client, stop: that's a case study, file it as one.
