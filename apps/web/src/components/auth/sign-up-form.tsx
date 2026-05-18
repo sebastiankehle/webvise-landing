@@ -1,5 +1,6 @@
 import { useForm } from "@tanstack/react-form";
 import { useRouter } from "next/navigation";
+import posthog from "posthog-js";
 import { toast } from "sonner";
 import z from "zod";
 
@@ -33,11 +34,19 @@ export default function SignUpForm({
 					name: value.name,
 				},
 				{
-					onSuccess: () => {
+					onSuccess: (ctx) => {
+						posthog.identify(ctx.data.user.id, {
+							email: ctx.data.user.email,
+							name: ctx.data.user.name,
+						});
+						posthog.capture("user_signed_up");
 						router.push("/dashboard" as never);
 						toast.success("Sign up successful");
 					},
 					onError: (error) => {
+						posthog.capture("user_sign_up_error", {
+							reason: error.error.message || error.error.statusText,
+						});
 						toast.error(error.error.message || error.error.statusText);
 					},
 				}

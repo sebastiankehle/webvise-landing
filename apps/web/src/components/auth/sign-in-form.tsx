@@ -1,5 +1,6 @@
 import { useForm } from "@tanstack/react-form";
 import { useRouter } from "next/navigation";
+import posthog from "posthog-js";
 import { toast } from "sonner";
 import z from "zod";
 
@@ -31,11 +32,16 @@ export default function SignInForm({
 					password: value.password,
 				},
 				{
-					onSuccess: () => {
+					onSuccess: (ctx) => {
+						posthog.identify(ctx.data.user.id, { email: ctx.data.user.email });
+						posthog.capture("user_signed_in");
 						router.push("/dashboard" as never);
 						toast.success("Sign in successful");
 					},
 					onError: (error) => {
+						posthog.capture("user_sign_in_error", {
+							reason: error.error.message || error.error.statusText,
+						});
 						toast.error(error.error.message || error.error.statusText);
 					},
 				}

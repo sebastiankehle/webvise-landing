@@ -5,6 +5,7 @@ import {
 	rateLimitResponse,
 } from "@webvise-app/api/rate-limit";
 import { convertToModelMessages, streamText, type UIMessage } from "ai";
+import { getPostHogClient } from "@/lib/posthog-server";
 
 export const maxDuration = 60;
 
@@ -79,6 +80,24 @@ export async function POST(req: Request) {
 	}
 
 	const { messages }: { messages: UIMessage[] } = await req.json();
+
+	const userMessage = messages.findLast((m) => m.role === "user");
+	const posthogClient = getPostHogClient();
+	if (posthogClient) {
+		const distinctId =
+			req.headers.get("X-POSTHOG-DISTINCT-ID") ??
+			getClientIP(req) ??
+			"anonymous";
+		posthogClient.capture({
+			distinctId,
+			event: "ai_chat_requested",
+			properties: {
+				message_count: messages.length,
+				has_user_message: !!userMessage,
+			},
+		});
+		await posthogClient.flush();
+	}
 
 	const result = streamText({
 		model: gateway("google/gemini-2.5-flash"),

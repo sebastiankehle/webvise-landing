@@ -2,6 +2,7 @@
 
 import { Cookie } from "lucide-react";
 import { useTranslations } from "next-intl";
+import posthog from "posthog-js";
 import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -62,12 +63,16 @@ export function ConsentBanner() {
 	function handleAccept() {
 		updateConsent("granted");
 		persistChoice("granted");
+		posthog.set_config({ persistence: "localStorage+cookie" });
+		posthog.opt_in_capturing();
+		posthog.capture("consent_accepted");
 		setVisible(false);
 	}
 
 	function handleDecline() {
 		updateConsent("denied");
 		persistChoice("denied");
+		posthog.opt_out_capturing();
 		setVisible(false);
 	}
 

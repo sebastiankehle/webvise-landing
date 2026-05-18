@@ -3,6 +3,7 @@
 import { useForm } from "@tanstack/react-form";
 import { Check, Mail } from "lucide-react";
 import { useLocale } from "next-intl";
+import posthog from "posthog-js";
 import { useState } from "react";
 import z from "zod";
 
@@ -56,6 +57,10 @@ export default function ReportDownloadForm({
 		},
 		onSubmit: async ({ value }) => {
 			setSubmitStatus("idle");
+			posthog.capture("report_download_requested", {
+				report_id: reportId,
+				locale,
+			});
 			try {
 				await trpcClient.reportDownload.request.mutate({
 					email: value.email.trim(),
@@ -63,9 +68,17 @@ export default function ReportDownloadForm({
 					locale,
 				});
 				setSubmitStatus("success");
+				posthog.capture("report_download_success", {
+					report_id: reportId,
+					locale,
+				});
 				form.reset();
 			} catch {
 				setSubmitStatus("error");
+				posthog.capture("report_download_error", {
+					report_id: reportId,
+					reason: "server_error",
+				});
 			}
 		},
 	});
