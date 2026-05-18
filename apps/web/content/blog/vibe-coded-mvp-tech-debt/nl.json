@@ -1,0 +1,243 @@
+{
+  "date": "2026-05-18",
+  "readingTime": 9,
+  "keyword": "vibe-coded MVP",
+  "title": "Lovable, Bolt, v0: Wanneer Vibe-Coded MVP's een Technische Schuldhypotheek Worden",
+  "excerpt": "Lovable, Bolt en v0 leveren werkende prototypes in enkele uren. Als MVP's creëren vibe-coded applicaties technische schuld die wij elke keer opnieuw van de grond af opbouwen. Waar de grens ligt, en wanneer u ze toch inzet.",
+  "metaDescription": "Wij bouwen elke vibe-coded MVP die wij overnemen opnieuw van de grond af op. De verborgen technische schuld kost meer dan de oorspronkelijke bouw. Wanneer Lovable helpt, en wanneer het schaadt.",
+  "tags": ["AI", "Web Development", "Business Strategy"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Vibe-coded applicaties zoals Lovable, Bolt en v0 zijn uitstekend voor prototypes en volstrekt ongeschikt als productie-MVP's. Wanneer wij er een overnemen, bouwen wij deze elke keer opnieuw van de grond af op, omdat het opschonen van de structuur, hooks en authenticatie meer kost dan opnieuw beginnen. Dit artikel trekt de grens tussen het prototype dat deze tools aankunnen en de MVP die zij niet aankunnen."
+    },
+    {
+      "type": "p",
+      "text": "Iedereen is tegenwoordig een programmeur. Een oprichter zonder technische achtergrond kan op zaterdagochtend een SaaS beschrijven in gewone taal en voor de lunch iets op een openbare URL hebben staan. Dat is een echte verschuiving in de manier waarop software tot stand komt, en die is grotendeels positief. Het heeft ook een nieuw faalpatroon gecreëerd dat twee jaar geleden nog niet bestond: productie-applicaties die niemand binnen het bedrijf kan lezen."
+    },
+    {
+      "type": "p",
+      "text": "Wij spreken wekelijks met oprichters die een Lovable-build hebben uitgebracht, hun eerste drie klanten hebben getekend, en vervolgens tegen een muur lopen die zij niet kunnen omschrijven. Het platform heeft het werk gedaan. Het platform heeft ook elke architecturale beslissing genomen voordat de oprichter wist welke er toe deden."
+    },
+    {
+      "type": "p",
+      "text": "Dit artikel bekritiseert Lovable, Bolt of v0 niet. Ze verdienen hun plek in de prototypefase. Wij trekken de grens vanuit het perspectief van de afnemer: wat deze tools opleveren versus wat een MVP nodig heeft om de eerste betalende klant te overleven, inclusief het opschoonpatroon dat wij in elke codebase tegenkomen die wij overnemen."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Vibe-coding wint in de prototypefase**, waar snelheid structuur verslaat en niets naar klanten wordt uitgebracht.",
+        "**MVP's falen anders dan prototypes.** Authenticatie, multi-tenancy, een adminscherm en observability zijn niet onderhandelbaar zodra een echte klant inlogt.",
+        "**De opschoonkosten zijn de herbouwkosten.** Wij bouwen elke vibe-coded MVP die wij overnemen opnieuw van de grond af op. De Lovable-build was verzonken kosten, geen bespaard werk.",
+        "**Het patroon is consistent.** Slechte structuur, useEffect-misbruik, onnodige re-renders, open backend-routes, slordige authenticatie, in die volgorde.",
+        "**Gebruik Lovable voor waar het goed in is.** Demo's, interne mockups, ideeverkenning. Huur engineers in voor [alles waar een klant voor betaalt](/services/mvp-development)."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Iedereen Is Tegenwoordig een Programmeur (en Dat Is Grotendeels Prima)"
+    },
+    {
+      "type": "p",
+      "text": "De drempel voor \"ik heb iets gebouwd\" is in 2025 ingestort. v0 levert een Next.js-component op basis van een screenshot, Lovable scaffoldt een Supabase-backend op basis van een alinea, Bolt assembleert een gedeployde applicatie in één gesprek, en Replit Agent doorloopt de hele cyclus totdat iets compileert."
+    },
+    {
+      "type": "p",
+      "text": "Dit is een echte winst voor ideeverkenning. Een niet-ingenieur die vroeger drie weken besteedde aan het zoeken naar een freelancer, kan nu drie uur besteden aan het valideren van het idee in echte pixels. Een ontwerper kan de demo voor zijn pitch bouwen in plaats van die in Figma te mocken. Geen van deze gebruikssituaties vereist productiediscipline."
+    },
+    {
+      "type": "p",
+      "text": "De problemen beginnen bij de volgende stap, wanneer het prototype wordt omgedoopt tot \"MVP\", aan een betalende klant wordt getoond en als productiesoftware wordt behandeld. De tooling kondigt niet aan wanneer de grens wordt overschreden. De oprichter weet zelden dat dit is gebeurd."
+    },
+    {
+      "type": "h2",
+      "text": "De Prototypegrens versus de MVP-grens"
+    },
+    {
+      "type": "p",
+      "text": "Een prototype is een vraag. Een MVP is een contract."
+    },
+    {
+      "type": "p",
+      "text": "Een prototype vraagt: heeft dit idee zin in pixels? Het draait lokaal, faalt luidruchtig en wordt aan niemand uitgebracht. Het faalpatroon is \"ik zie dat dit fout is en pas de prompt aan.\" Het is een leerartefact, en de enige mensen die ermee worden geconfronteerd zijn de oprichter en een bevriende mede-samenzweerder."
+    },
+    {
+      "type": "p",
+      "text": "Een MVP is de eerste versie die betalende klanten aanraken. Op het moment dat er geld of persoonsgegevens van eigenaar wisselen, verandert ook het impliciete contract. De klant verwacht dat zijn login blijft werken, dat zijn gegevens privé blijven, en dat de applicatie zijn sessie niet verliest omdat een useEffect twee keer is uitgevoerd. Dit zijn geen geavanceerde vereisten, het is het minimum."
+    },
+    {
+      "type": "p",
+      "text": "De reden dat de meeste vibe-coded applicaties deze grens stilzwijgend overschrijden, is dat de tool bleef beweren \"production-ready\" te zijn terwijl het een prototype uitbracht. De controle die de overschrijding signaleert is menselijk, niet technisch: een oprichter die weet wat een MVP moet doen voordat het geld kan accepteren."
+    },
+    {
+      "type": "p",
+      "text": "Wanneer de grens financieel relevant is, is de juiste stap engineers inhuren, niet een snellere prompt. Wij voeren [MVP-builds](/services/mvp-development) uit op een vaste tijdlijn van 3 tot 5 weken, met authenticatie, facturering, een adminscherm en observability die vanaf de kickoff zijn ingebouwd."
+    },
+    {
+      "type": "h2",
+      "text": "Wat We Werkelijk Aantreffen in Vibe-Coded Codebases"
+    },
+    {
+      "type": "p",
+      "text": "Wanneer een oprichter ons een Lovable- of Bolt-project overhandigt en om opschoning vraagt, is het patroon zo consistent dat wij al weten wat wij zullen aantreffen voordat het repo klaar is met clonen. Vijf problemen, in de volgorde waarin ze schade aanrichten."
+    },
+    {
+      "type": "p",
+      "text": "**Slechte structuur.** Bestanden vernoemd naar de prompt die ze heeft gegenereerd, componenten vier niveaus diep genest zonder hergebruiksgrenzen, een \"utils\"-map met de volledige bedrijfslogica van de applicatie. De codebase is een transcript van hoe de AI dacht, geen beschrijving van wat de applicatie doet. Het toevoegen van een functie betekent de helft van het project doorlezen om te vinden waar de state zich bevindt."
+    },
+    {
+      "type": "p",
+      "text": "**useEffect-misbruik.** Elke fetch bevindt zich in een useEffect, elke prop-wijziging triggert een nieuwe fetch, en effects zijn afhankelijk van objecten die bij elke render opnieuw worden aangemaakt. De applicatie bombardeert de backend met dubbele verzoeken bij de eerste weergave en stokt wanneer een van die verzoeken stil faalt. Het patroon verergert zodra er formulieren worden toegevoegd."
+    },
+    {
+      "type": "p",
+      "text": "**Onnodige re-renders.** State op het hoogste niveau bevindt zich in een context-provider die de hele applicatie omhult, waardoor elk component opnieuw wordt gerenderd bij elke toetsaanslag. De applicatie voelt traag aan bij 10 items in een lijst en is onbruikbaar bij 100 items. De oplossing vereist echte React-kennis die de prompt nooit heeft gevraagd."
+    },
+    {
+      "type": "p",
+      "text": "**Open backend-routes.** Supabase-tabellen waarbij RLS is uitgeschakeld of is ingesteld op \"authenticated\" zonder rijbegrenzing, serveracties die een door de client verzonden user_id vertrouwen, edge-functies die elke payload accepteren omdat validatie in het formulier zat. Een gebruiker in een incognitovenster kan elke rij in de tabel opvragen."
+    },
+    {
+      "type": "p",
+      "text": "**Slordige authenticatie.** Sessiecontroles worden client-side uitgevoerd, rolcontroles worden gedaan met stringvergelijkingen op velden die de AI heeft verzonnen, wachtwoordherstelstromen sturen hetzelfde tokenformaat naar elke gebruiker, JWT-geheimen staan in het .env.example-bestand dat naar de publieke repo is gecommit. Soms is de anonieme sleutel het enige dat staat tussen de applicatie en \"ik ben nu admin.\""
+    },
+    {
+      "type": "p",
+      "text": "Dit zijn geen randgevallen. Het zijn de mediane uitkomst van \"AI heeft dit gebouwd zonder een engineer in de loop\", wat wij vanuit technisch oogpunt hebben behandeld in [waarom AI-gegenereerde software nog steeds engineering review nodig heeft](/blog/vibe-coding-trap-ai-software-needs-engineers)."
+    },
+    {
+      "type": "h2",
+      "text": "\"Het Werkt\" Is het Slechtste Signaal Waarop u Kunt Vertrouwen"
+    },
+    {
+      "type": "p",
+      "text": "Het gevaarlijke is niet dat vibe-coded applicaties stukgaan. Slechte code gaat zichtbaar kapot en wordt gerepareerd. Het gevaarlijke is dat ze werken. De demo draait, de eerste 10 vrienden melden zich aan, de eerste klant betaalt, en de oprichter concludeert dat de build prima was."
+    },
+    {
+      "type": "p",
+      "text": "De technische schuld stapelt zich stilletjes op totdat iets het naar boven dwingt. De aandrijvende factoren zijn voorspelbaar:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Eerste echte betalende klant.** Zijn gegevens overschrijden uw autorisatiegrens. De grens ontbreekt of is onjuist. U komt dit te weten via een supportticket, niet via een CI-test.",
+        "**Eerste functieverzoek na de lancering.** Het datamodel van de AI ging uit van één gebruiker per werkruimte. De klant wil er twee. Het toevoegen van de tweede gebruiker raakt 14 bestanden die niemand ooit heeft gelezen.",
+        "**Eerste beveiligingsaudit.** Een B2B-prospect vraagt om SOC2-documentatie of een pentest. De pentester vindt de open routes in 20 minuten. De deal stagneert of gaat verloren.",
+        "**Eerste adminbehoefte.** De oprichter moet een klant terugbetalen, een bot blokkeren, of de aanmeldingen van vorige week bekijken. Er is geen adminpagina, en er is geen manier om er een toe te voegen zonder de routing te herzien.",
+        "**Eerste schaalevenement.** Een blogpost verschijnt, het verkeer piekt, en de applicatie bezwijkt omdat elke render elke rij ophaalt. De oplossing is het re-renderprobleem hierboven."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Elke aandrijvende factor zet onzichtbare schuld om in een storing, een verloren deal of een terugbetaling. De rente op vibe-coded schuld is variabel, en de bank belt op het slechtste moment."
+    },
+    {
+      "type": "h2",
+      "text": "De 100% Herbouwregel"
+    },
+    {
+      "type": "p",
+      "text": "Wij hanteren een regel voor overgenomen vibe-coded MVP's die nog nooit is gebroken. Wij bouwen ze opnieuw van de grond af op."
+    },
+    {
+      "type": "p",
+      "text": "De redenering is geen snobisme, het is rekenkunde. Om een Lovable-codebase te redden moeten wij elk bestand lezen dat de AI heeft geschreven, het datamodel documenteren dat de oprichter nooit heeft gezien, de useEffect-keten ontwarren, de routes beveiligen, de authenticatie herstellen en de structuur herstructureren tot iets dat een mens kan uitbreiden. Dat werk is een volledige herbouw met een extra beperking: breek de klanten niet die al gebruikmaken van de defecte versie."
+    },
+    {
+      "type": "p",
+      "text": "Een schone herbouw op ons stack duurt 3 tot 6 weken. Een hersteloperatie duurt 8 tot 12 weken, omdat elke opschoonstap wordt beperkt door het vorige schema en de live data. De \"besparingen\" van de oorspronkelijke Lovable-build bestaan niet: ze zijn geleend ten laste van de volgende ronde werk."
+    },
+    {
+      "type": "p",
+      "text": "De eerlijke formulering voor een oprichter: de Lovable-build heeft voor de validatie betaald. Het heeft de eerste klanten binnengehaald, en dat is echte waarde. De code zelf is verzonken kosten. De MVP begint nu."
+    },
+    {
+      "type": "h2",
+      "text": "Hoe een Echte MVP Eruitziet"
+    },
+    {
+      "type": "p",
+      "text": "Ter vergelijking: hier is er een die wij in 6 weken hebben opgeleverd voor [OHYP GmbH](/case-studies/ohyp-fintech), een vastgoeddienst uit Berlin die financieringsverklaringen uitgeeft aan woningkopers."
+    },
+    {
+      "type": "p",
+      "text": "De build is een full-stack platform met een 10-stappen financieringsformulier als kern van het conversieproces, een admindashboard voor het beheer van de aanvraagcyclus, en geautomatiseerde PDF-certificaatgeneratie die de klant binnen 24 uur bereikt. De stack bestaat uit Next.js met tRPC voor end-to-end typeveiligheid, Drizzle op Neon Postgres, en Better Auth voor sessiebeheer. Lighthouse-prestatiescore 96, paginalading onder 1,2 seconden, vaste prijs."
+    },
+    {
+      "type": "p",
+      "text": "Die tijdlijn is geen magie. Ongeveer 85 % van elk nieuw project op ons stack bestaat uit koppelingen die al bestaan in het vorige project, omdat wij dezelfde configuratie van Next.js 16, React 19, tRPC v11, Drizzle, Neon, Better Auth, Polar, AI SDK 6 via Vercel AI Gateway en Inngest gebruiken bij elke opdracht. De resterende 15 % is het werk dat werkelijk uniek is voor deze klant: de domeinlogica, het datamodel, de workflows. AI-tools versnellen die 15 % binnen de bestaande structuur, ze vervangen die structuur niet."
+    },
+    {
+      "type": "p",
+      "text": "Dat is de versie van \"AI-native MVP\" die de eerste betalende klant overleeft."
+    },
+    {
+      "type": "h2",
+      "text": "Wanneer u Lovable, Bolt of v0 Toch Inzet"
+    },
+    {
+      "type": "p",
+      "text": "De beslissing is niet \"AI-tools of engineers\". Het is \"het juiste gereedschap voor de fase waarin u zich bevindt\". Gebruik vibe-coding voor de fasen waarin het wint. Gebruik engineers voor de fasen waarin het verliest."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Gebruiksscenario",
+        "Lovable, Bolt, v0",
+        "Maatwerk MVP-build"
+      ],
+      "rows": [
+        [
+          "Een idee verkennen in pixels voordat u zich vastlegt",
+          "Beste keuze",
+          "Overdreven"
+        ],
+        [
+          "Een demo bouwen voor een investeerderspitch",
+          "Beste keuze",
+          "Overdreven"
+        ],
+        [
+          "Interne mockup zodat een team het eens wordt over UX",
+          "Beste keuze",
+          "Overdreven"
+        ],
+        [
+          "Eenmalige marketingmicrosite zonder backend",
+          "Beste keuze",
+          "Overdreven"
+        ],
+        [
+          "Hackathon, weekendproject, wegwerpgereedschap",
+          "Beste keuze",
+          "Overdreven"
+        ],
+        [
+          "Eerste app die echte betalingen accepteert",
+          "Vermijden",
+          "Beste keuze"
+        ],
+        ["Multi-tenant SaaS met bedrijfsaccounts", "Vermijden", "Beste keuze"],
+        [
+          "Alles wat persoonsgegevens opslaat onder de GDPR",
+          "Vermijden",
+          "Beste keuze"
+        ],
+        ["Intern admintool met echte gevolgen", "Vermijden", "Beste keuze"],
+        [
+          "App die een beveiligingsaudit moet doorstaan",
+          "Vermijden",
+          "Beste keuze"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "De eerlijke stap voor een oprichter is het prototype op Lovable uitbrengen, valideren, en vervolgens engineers inhuren voordat de eerste betalende klant arriveert. De fout is \"het werkt\" de build op eigen kracht over de grens laten dragen."
+    },
+    {
+      "type": "p",
+      "text": "Bij [webvise](/#contact) voeren wij [MVP-builds](/services/mvp-development) uit in 3 tot 5 weken op dezelfde stack die wij gebruiken voor productie-SaaS. Authenticatie, facturering, admin en observability zijn vanaf dag één inbegrepen. Als u een vibe-coded build heeft die vandaag werkt maar u tegenwerkt, [vertel ons wat u ziet](/#contact) en wij vertellen u of het een opschoning of een herbouw is. Tot nu toe is het antwoord altijd een herbouw geweest."
+    }
+  ]
+}

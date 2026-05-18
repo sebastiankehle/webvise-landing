@@ -1,0 +1,231 @@
+{
+  "date": "2026-05-18",
+  "readingTime": 9,
+  "keyword": "MVP vibe-coded",
+  "title": "Lovable, Bolt, v0: quando gli MVP vibe-coded diventano un mutuo di debito tecnico",
+  "excerpt": "Lovable, Bolt e v0 producono prototipi funzionanti in poche ore. Come MVP, le app vibe-coded accumulano debito tecnico che ricostruiamo da zero ogni volta. Dove si trova il confine e quando usarli comunque.",
+  "metaDescription": "Ricostruiamo da zero ogni MVP vibe-coded che riceviamo in eredità. Il debito tecnico nascosto costa più della build originale. Quando Lovable aiuta e quando danneggia.",
+  "tags": ["AI", "Web Development", "Business Strategy"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Le app vibe-coded come Lovable, Bolt e v0 sono eccellenti per i prototipi e inadatte come MVP di produzione. Quando ne riceviamo una in eredità, la ricostruiamo da zero ogni volta, perché sistemare struttura, hook e autenticazione costa più che ricominciare. Questo articolo traccia il confine tra il prototipo che questi strumenti possono sostenere e l'MVP che non possono."
+    },
+    {
+      "type": "p",
+      "text": "Ora tutti sanno programmare. Un founder senza esperienza tecnica può descrivere un SaaS in italiano semplice il sabato mattina e avere qualcosa su un URL pubblico prima di pranzo. Si tratta di un vero cambiamento nel modo in cui nasce il software, ed è in gran parte positivo. Ha però generato un nuovo tipo di fallimento che non esisteva due anni fa: app in produzione che nessuno in azienda sa leggere."
+    },
+    {
+      "type": "p",
+      "text": "Ogni settimana parliamo con founder che hanno pubblicato una build con Lovable, firmato i primi tre clienti e poi si sono scontrati con un muro che non riescono a descrivere. La piattaforma ha fatto il lavoro. La piattaforma ha anche preso ogni decisione architetturale prima che il founder capisse quali fossero importanti."
+    },
+    {
+      "type": "p",
+      "text": "Questo articolo non attacca Lovable, Bolt o v0. Hanno un ruolo legittimo nella fase di prototipazione. Tracciamo la linea dal lato del cliente: cosa producono questi strumenti rispetto a ciò di cui un MVP ha bisogno per sopravvivere al primo cliente pagante, più il pattern di cleanup che troviamo in ogni codebase che riceviamo in eredità."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Il vibe-coding vince nella fase di prototipo**, dove la velocità conta più della struttura e nulla arriva ai clienti.",
+        "**Gli MVP falliscono in modo diverso rispetto ai prototipi.** Autenticazione, multi-tenancy, un pannello di amministrazione e l'osservabilità sono irrinunciabili nel momento in cui un cliente reale accede.",
+        "**Il costo del cleanup è il costo della ricostruzione.** Ricostruiamo da zero ogni MVP vibe-coded che riceviamo in eredità. La build con Lovable era un costo affondato, non tempo risparmiato.",
+        "**Il pattern è costante.** Struttura scadente, uso errato di useEffect, re-render inutili, rotte backend aperte, autenticazione raffazzonata: sempre in quest'ordine.",
+        "**Usi Lovable per ciò in cui eccelle.** Demo, mockup interni, esplorazione di idee. Assuma ingegneri per [qualsiasi cosa per cui un cliente paghi](/services/mvp-development)."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Ora tutti sanno programmare (e va quasi bene così)"
+    },
+    {
+      "type": "p",
+      "text": "Nel 2025 la barriera all'ingresso per \"ho costruito qualcosa\" è crollata. v0 genera un componente Next.js da uno screenshot, Lovable crea uno scaffold di backend Supabase da un paragrafo, Bolt assembla un'app già deployata in una singola chat e Replit Agent gestisce l'intero ciclo finché qualcosa compila."
+    },
+    {
+      "type": "p",
+      "text": "Questo rappresenta un vantaggio reale per l'esplorazione delle idee. Un non-tecnico che una volta impiegava tre settimane per trovare un freelancer ora può validare l'idea in pixel reali in tre ore. Un designer può costruire la demo per il suo pitch invece di mockupparla in Figma. Nessuno di questi casi d'uso richiede disciplina da produzione."
+    },
+    {
+      "type": "p",
+      "text": "Il problema inizia al passo successivo, quando il prototipo viene ribattezzato \"MVP\", mostrato a un cliente pagante e trattato come software di produzione. Gli strumenti non segnalano quando si attraversa quel confine. Il founder raramente sa di averlo attraversato."
+    },
+    {
+      "type": "h2",
+      "text": "La linea del prototipo e la linea dell'MVP"
+    },
+    {
+      "type": "p",
+      "text": "Un prototipo è una domanda. Un MVP è un contratto."
+    },
+    {
+      "type": "p",
+      "text": "Un prototipo chiede: questa idea ha senso in pixel? Gira in locale, fallisce in modo rumoroso e non viene consegnato a nessuno. Il modo di fallire è \"noto che c'è qualcosa di sbagliato e correggo il prompt.\" È un artefatto di apprendimento, e le uniche persone esposte sono il founder e un complice di fiducia."
+    },
+    {
+      "type": "p",
+      "text": "Un MVP è la prima versione che i clienti paganti toccano. Nel momento in cui denaro o dati personali cambiano di mano, anche il contratto implicito cambia. Il cliente si aspetta che il suo accesso continui a funzionare, che i suoi dati rimangano privati e che l'app non perda la sua sessione perché un useEffect è stato eseguito due volte. Non sono requisiti avanzati: sono il minimo indispensabile."
+    },
+    {
+      "type": "p",
+      "text": "Il motivo per cui la maggior parte delle app vibe-coded attraversa questo confine silenziosamente è che lo strumento continuava a dire \"production-ready\" mentre produceva un prototipo. Il controllo che rileva il passaggio è umano, non tecnico: un founder che sa cosa deve fare un MVP prima di poter accettare denaro."
+    },
+    {
+      "type": "p",
+      "text": "Quando il confine ha rilevanza economica, la mossa giusta è assumere ingegneri, non usare un prompt più veloce. Realizziamo [build MVP](/services/mvp-development) con una timeline fissa da 3 a 5 settimane, con autenticazione, fatturazione, pannello di amministrazione e osservabilità inclusi fin dal kickoff."
+    },
+    {
+      "type": "h2",
+      "text": "Cosa troviamo davvero nelle codebase vibe-coded"
+    },
+    {
+      "type": "p",
+      "text": "Quando un founder ci consegna un progetto Lovable o Bolt e chiede una revisione, il pattern è così costante che sappiamo già cosa troveremo prima che il repo finisca di clonare. Cinque problemi, grosso modo nell'ordine in cui fanno male."
+    },
+    {
+      "type": "p",
+      "text": "**Struttura scadente.** File nominati in base al prompt che li ha generati, componenti annidati a quattro livelli senza confini di riuso, una cartella \"utils\" che contiene tutta la business logic dell'app. La codebase è la trascrizione di come l'AI ha pensato, non una descrizione di ciò che l'app fa. Aggiungere una feature significa leggere metà del progetto per trovare dove vive lo stato."
+    },
+    {
+      "type": "p",
+      "text": "**Uso errato di useEffect.** Ogni fetch vive in un useEffect, ogni cambio di prop scatena un re-fetch e gli effect dipendono da oggetti ricreati a ogni render. L'app bombarda il backend con richieste duplicate al primo caricamento, poi si blocca quando una di quelle richieste fallisce in silenzio. Il pattern si aggrava nel momento in cui si aggiungono i form."
+    },
+    {
+      "type": "p",
+      "text": "**Re-render inutili.** Lo stato di livello superiore vive in un context provider che avvolge l'intera app, quindi ogni componente esegue il re-render a ogni keystroke. L'app sembra lenta con 10 elementi in una lista e inutilizzabile con 100. La correzione richiede una vera conoscenza di React che il prompt non ha mai richiesto."
+    },
+    {
+      "type": "p",
+      "text": "**Rotte backend aperte.** Tabelle Supabase con RLS disabilitato o impostato su \"authenticated\" senza scoping per riga, server action che si fidano di un user_id inviato dal client, edge function che accettano qualsiasi payload perché la validazione viveva nel form. Un utente in una finestra in incognito può elencare ogni riga della tabella."
+    },
+    {
+      "type": "p",
+      "text": "**Autenticazione raffazzonata.** Controlli di sessione eseguiti lato client, controlli sui ruoli basati su confronti di stringhe con campi inventati dall'AI, flussi di reset della password che inviano lo stesso formato di token a ogni utente, segreti JWT nel file .env.example committato nel repo pubblico. A volte la chiave anonima è l'unica cosa che separa l'app da \"ora sono admin.\""
+    },
+    {
+      "type": "p",
+      "text": "Non sono casi limite. Sono il risultato mediano di \"l'AI ha spedito questo senza un ingegnere nel ciclo\", tema che abbiamo affrontato dal punto di vista tecnico in [perché il software generato dall'AI ha ancora bisogno di revisione ingegneristica](/blog/vibe-coding-trap-ai-software-needs-engineers)."
+    },
+    {
+      "type": "h2",
+      "text": "\"Funziona\" è il segnale peggiore su cui fare affidamento"
+    },
+    {
+      "type": "p",
+      "text": "La parte pericolosa non è che le app vibe-coded si rompano. Il codice cattivo si rompe in modo visibile e viene corretto. La parte pericolosa è che funzionano. La demo gira, i primi 10 amici si iscrivono, il primo cliente paga e il founder conclude che la build era a posto."
+    },
+    {
+      "type": "p",
+      "text": "Il debito tecnico si accumula silenziosamente finché qualcosa non lo porta allo scoperto. I fattori scatenanti sono prevedibili:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Primo cliente pagante reale.** I suoi dati attraversano il confine di autorizzazione. Il confine manca o è sbagliato. Lo si scopre tramite un ticket di supporto, non un test CI.",
+        "**Prima feature request dopo il lancio.** Il modello dati dell'AI presupponeva un utente per workspace. Il cliente ne vuole due. Aggiungere il secondo utente tocca 14 file che nessuno ha mai letto.",
+        "**Prima revisione di sicurezza.** Un prospect B2B chiede documenti SOC2 o un pentest. Il pentester trova le rotte aperte in 20 minuti. La trattativa si blocca o salta.",
+        "**Prima necessità amministrativa.** Il founder deve rimborsare un cliente, bloccare un bot o consultare le iscrizioni della settimana scorsa. Non c'è una pagina di amministrazione e non c'è modo di aggiungerne una senza rifare il routing.",
+        "**Primo evento di scaling.** Un articolo sul blog porta traffico, le visite aumentano di colpo e l'app crolla perché ogni render recupera tutte le righe. La correzione è il problema dei re-render descritto sopra."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Ogni fattore scatenante trasforma debito invisibile in un'interruzione del servizio, una trattativa persa o un rimborso. Il tasso di interesse sul debito vibe-coded è variabile e la banca chiama sempre nel momento peggiore."
+    },
+    {
+      "type": "h2",
+      "text": "La regola della ricostruzione al 100%"
+    },
+    {
+      "type": "p",
+      "text": "Abbiamo una regola per gli MVP vibe-coded che riceviamo in eredità, e non è mai stata violata una sola volta. Li ricostruiamo da zero."
+    },
+    {
+      "type": "p",
+      "text": "Il ragionamento non è snobismo, è aritmetica. Per recuperare una codebase Lovable dobbiamo leggere ogni file scritto dall'AI, documentare il modello dati che il founder non ha mai visto, districare la catena di useEffect, bloccare le rotte, correggere l'autenticazione e rifattorizzare la struttura in qualcosa che un essere umano possa estendere. Quel lavoro equivale a una ricostruzione completa con un vincolo in più: non rompere i clienti che stanno già usando la versione difettosa."
+    },
+    {
+      "type": "p",
+      "text": "Una ricostruzione pulita sul nostro stack richiede da 3 a 6 settimane. Un recupero richiede da 8 a 12 settimane, perché ogni fase di cleanup è vincolata dallo schema precedente e dai dati in produzione. I \"risparmi\" dalla build Lovable originale non esistono: erano anticipi sul prossimo ciclo di lavoro."
+    },
+    {
+      "type": "p",
+      "text": "La formulazione onesta per un founder: la build con Lovable ha pagato per la validazione. Ha portato i primi clienti, e questo ha un valore reale. Il codice stesso è un costo affondato. L'MVP inizia adesso."
+    },
+    {
+      "type": "h2",
+      "text": "Come appare un MVP vero"
+    },
+    {
+      "type": "p",
+      "text": "Per fare un confronto, ecco uno che abbiamo consegnato in 6 settimane per [OHYP GmbH](/case-studies/ohyp-fintech), un servizio immobiliare di Berlino che emette certificati di finanziamento per gli acquirenti di immobili."
+    },
+    {
+      "type": "p",
+      "text": "La build è una piattaforma full-stack con un modulo di finanziamento in 10 passaggi come elemento di conversione principale, una dashboard di amministrazione per gestire il ciclo di vita delle richieste e la generazione automatica di certificati PDF consegnati al cliente in meno di 24 ore. Lo stack è Next.js con tRPC per la type safety end-to-end, Drizzle su Neon Postgres e Better Auth per la gestione delle sessioni. Punteggio Lighthouse Performance 96, caricamento pagina sotto 1,2 secondi, prezzo fisso."
+    },
+    {
+      "type": "p",
+      "text": "Questa tempistica non è magia. Circa l'85 % di ogni nuovo progetto sul nostro stack è cablaggio già esistente nel progetto precedente, perché utilizziamo la stessa configurazione Next.js, React, tRPC, Drizzle, Neon, Better Auth, Polar, AI SDK 6 via Vercel AI Gateway e Inngest su ogni incarico. Il restante 15 % è il lavoro davvero unico per questo cliente: la logica di dominio, il modello dati, i flussi di lavoro. Gli strumenti AI accelerano quel 15 % all'interno della struttura esistente, non la sostituiscono."
+    },
+    {
+      "type": "p",
+      "text": "Questa è la versione di \"MVP AI-native\" che sopravvive al primo cliente pagante."
+    },
+    {
+      "type": "h2",
+      "text": "Quando usare comunque Lovable, Bolt o v0"
+    },
+    {
+      "type": "p",
+      "text": "La scelta non è tra strumenti AI e ingegneri. È tra lo strumento giusto per la fase in cui ci si trova. Si usi il vibe-coding per le fasi in cui vince. Si assumano ingegneri per le fasi in cui perde."
+    },
+    {
+      "type": "table",
+      "headers": ["Caso d'uso", "Lovable, Bolt, v0", "Build MVP su misura"],
+      "rows": [
+        [
+          "Esplorare un'idea in pixel prima di impegnarsi",
+          "Ideale",
+          "Eccessivo"
+        ],
+        [
+          "Costruire una demo per un pitch con investitori",
+          "Ideale",
+          "Eccessivo"
+        ],
+        ["Mockup interno per allineare il team sull'UX", "Ideale", "Eccessivo"],
+        ["Microsito marketing one-shot senza backend", "Ideale", "Eccessivo"],
+        [
+          "Hackathon, progetto del weekend, strumento usa e getta",
+          "Ideale",
+          "Eccessivo"
+        ],
+        ["Prima app che accetta pagamenti reali", "Da evitare", "Ideale"],
+        ["SaaS multi-tenant con account aziendali", "Da evitare", "Ideale"],
+        [
+          "Qualsiasi cosa che memorizzi dati personali sotto GDPR",
+          "Da evitare",
+          "Ideale"
+        ],
+        [
+          "Strumento di amministrazione interno con conseguenze reali",
+          "Da evitare",
+          "Ideale"
+        ],
+        [
+          "App che deve superare una revisione di sicurezza",
+          "Da evitare",
+          "Ideale"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "La mossa onesta per un founder è pubblicare il prototipo su Lovable, validare e poi assumere ingegneri prima che arrivi il primo cliente pagante. L'errore è lasciare che \"funziona\" trasporti la build oltre il confine da solo."
+    },
+    {
+      "type": "p",
+      "text": "In [webvise](/#contact) realizziamo [build MVP](/services/mvp-development) in 3 a 5 settimane sullo stesso stack che utilizziamo per i SaaS in produzione. Autenticazione, fatturazione, amministrazione e osservabilità sono inclusi fin dal primo giorno. Se ha una build vibe-coded che funziona oggi ma la sta ostacolando, [ci dica cosa sta riscontrando](/#contact) e Le diremo se si tratta di un cleanup o di una ricostruzione. Finora la risposta è sempre stata una ricostruzione."
+    }
+  ]
+}

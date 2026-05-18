@@ -1,0 +1,207 @@
+{
+  "date": "2026-05-18",
+  "readingTime": 9,
+  "keyword": "vibe-coded MVP",
+  "title": "Lovable, Bolt, v0: When Vibe-Coded MVPs Become a Tech-Debt Mortgage",
+  "excerpt": "Lovable, Bolt, and v0 ship working prototypes in hours. As MVPs, vibe-coded apps create tech debt we rebuild from scratch every time. Where the line sits, and when to use them anyway.",
+  "metaDescription": "We rebuild every vibe-coded MVP we inherit from scratch. The hidden tech debt costs more than the original build. When Lovable helps, and when it hurts.",
+  "tags": ["AI", "Web Development", "Business Strategy"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Vibe-coded apps like Lovable, Bolt, and v0 are excellent for prototypes and terrible as production MVPs. When we inherit one, we rebuild it from scratch every time, because cleaning up the structure, hooks, and auth costs more than starting over. This post draws the line between the prototype these tools can carry and the MVP they cannot."
+    },
+    {
+      "type": "p",
+      "text": "Everybody is a coder now. A founder with no engineering background can describe a SaaS in plain English on Saturday morning and have something on a public URL by lunch. That is a real shift in how software gets started, and it is mostly good. It also produced a new failure mode that did not exist two years ago: production apps no one in the building can read."
+    },
+    {
+      "type": "p",
+      "text": "We talk to founders every week who shipped a Lovable build, signed their first three customers, and then hit a wall they cannot describe. The platform did the work. The platform also made every architectural decision before the founder knew which ones mattered."
+    },
+    {
+      "type": "p",
+      "text": "This article does not bash Lovable, Bolt, or v0. They earn their place at the prototype stage. We will draw the buyer-side line: what these tools ship versus what an MVP needs to survive its first paying customer, plus the cleanup pattern we see in every codebase we inherit."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Vibe-coding wins at the prototype stage** where speed beats structure and nothing ships to customers.",
+        "**MVPs fail differently from prototypes.** Auth, multi-tenancy, an admin shell, and observability are non-negotiable once a real customer signs in.",
+        "**The cleanup cost is the rebuild cost.** We rebuild from scratch every vibe-coded MVP we inherit. The Lovable build was sunk cost, not saved time.",
+        "**The pattern is consistent.** Bad structure, useEffect misuse, unnecessary rerenders, open backend routes, scuffed auth, in that order.",
+        "**Use Lovable for what it is good at.** Demos, internal mockups, idea exploration. Hire engineers for [anything a customer pays for](/services/mvp-development)."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Everybody Is a Coder Now (And That Is Mostly Fine)"
+    },
+    {
+      "type": "p",
+      "text": "The barrier to \"I built a thing\" collapsed in 2025. v0 ships a Next.js component from a screenshot, Lovable scaffolds a Supabase backend from a paragraph, Bolt assembles a deployed app in one chat, and Replit Agent runs the whole loop until something compiles."
+    },
+    {
+      "type": "p",
+      "text": "This is a genuine win for idea exploration. A non-engineer who used to spend three weeks finding a freelancer can spend three hours validating the idea in real pixels. A designer can build the demo for their pitch instead of mocking it in Figma. None of those use cases need production discipline."
+    },
+    {
+      "type": "p",
+      "text": "The trouble starts at the next step, when the prototype gets renamed \"MVP,\" shown to a paying customer, and treated as production software. The tooling does not announce when the line is crossed. The founder rarely knows it was crossed."
+    },
+    {
+      "type": "h2",
+      "text": "Prototype Line vs MVP Line"
+    },
+    {
+      "type": "p",
+      "text": "A prototype is a question. An MVP is a contract."
+    },
+    {
+      "type": "p",
+      "text": "A prototype asks: does this idea make sense in pixels? It runs locally, breaks loudly, and ships to nobody. The failure mode is \"I notice this is wrong and fix the prompt.\" It is a learning artifact, and the only people exposed are the founder and a friendly co-conspirator."
+    },
+    {
+      "type": "p",
+      "text": "An MVP is the first version paying customers touch. The moment money or personal data changes hands, the implicit contract changes too. The customer expects their login to keep working, their data to stay private, and the app to not lose their session because a useEffect ran twice. These are not advanced requirements, they are the floor."
+    },
+    {
+      "type": "p",
+      "text": "The reason most vibe-coded apps cross this line silently is that the tool kept saying \"production-ready\" while shipping a prototype. The check that catches the crossing is human, not technical: a founder who knows what an MVP must do before it can take money."
+    },
+    {
+      "type": "p",
+      "text": "When the line matters financially, the right move is to hire engineers, not a faster prompt. We run [MVP builds](/services/mvp-development) on a fixed 3 to 5 week timeline, with auth, billing, an admin shell, and observability built in from kickoff."
+    },
+    {
+      "type": "h2",
+      "text": "What We Actually Find in Vibe-Coded Codebases"
+    },
+    {
+      "type": "p",
+      "text": "When a founder hands us a Lovable or Bolt project and asks for cleanup, the pattern is so consistent we know what we will find before the repo finishes cloning. Five issues, in roughly the order they hurt."
+    },
+    {
+      "type": "p",
+      "text": "**Bad structure.** Files named after the prompt that generated them, components nested four levels deep with no reuse boundary, a \"utils\" folder containing the entire app's business logic. The codebase is a transcript of how the AI thought, not a description of what the app does. Adding a feature means reading half the project to find where state lives."
+    },
+    {
+      "type": "p",
+      "text": "**useEffect misuse.** Every fetch lives in a useEffect, every prop change triggers a refetch, and effects depend on objects recreated on every render. The app spams the backend with duplicate requests on first paint, then stalls when one of those requests fails silently. The pattern compounds the moment forms get added."
+    },
+    {
+      "type": "p",
+      "text": "**Unnecessary rerenders.** Top-level state lives in a context provider that wraps the whole app, so every component rerenders on every keystroke. The app feels slow at 10 items in a list and unusable at 100. The fix is real React knowledge that the prompt never asked for."
+    },
+    {
+      "type": "p",
+      "text": "**Open backend routes.** Supabase tables with RLS disabled or set to \"authenticated\" without row scoping, server actions that trust a client-sent user_id, edge functions that accept any payload because validation lived in the form. A user in an incognito window can list every row in the table."
+    },
+    {
+      "type": "p",
+      "text": "**Scuffed auth.** Session checks done client-side, role checks done with string compares against fields the AI invented, password reset flows that send the same token format to every user, JWT secrets in the .env.example file committed to the public repo. Sometimes the anon key is the only thing standing between the app and \"I am admin now.\""
+    },
+    {
+      "type": "p",
+      "text": "These are not edge cases. They are the median outcome of \"AI shipped this without an engineer in the loop,\" which we covered from the engineering angle in [why AI-generated software still needs engineering review](/blog/vibe-coding-trap-ai-software-needs-engineers)."
+    },
+    {
+      "type": "h2",
+      "text": "\"It Works\" Is the Worst Signal You Can Trust"
+    },
+    {
+      "type": "p",
+      "text": "The dangerous part is not that vibe-coded apps break. Bad code breaks visibly and gets fixed. The dangerous part is that they work. The demo runs, the first 10 friends sign up, the first customer pays, and the founder concludes that the build was fine."
+    },
+    {
+      "type": "p",
+      "text": "The tech debt compounds quietly until something forces it into the open. The forcing functions are predictable:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**First real paying customer.** Their data crosses your authorization boundary. The boundary is missing or wrong. You find out through a support ticket, not a CI test.",
+        "**First feature request after launch.** The AI's data model assumed one user per workspace. The customer wants two. Adding the second user touches 14 files no one ever read.",
+        "**First security review.** A B2B prospect asks for SOC2 docs or a pentest. The pentester finds the open routes in 20 minutes. The deal stalls or dies.",
+        "**First admin need.** The founder needs to refund a customer, ban a bot, or look at last week's signups. There is no admin page, and there is no way to add one without redoing routing.",
+        "**First scale event.** A blog post lands, traffic spikes, and the app falls over because every render fetches every row. The fix is the rerender problem above."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Each forcing function turns invisible debt into an outage, a lost deal, or a refund. The interest rate on vibe-coded debt is variable, and the bank calls at the worst time."
+    },
+    {
+      "type": "h2",
+      "text": "The 100% Rebuild Rule"
+    },
+    {
+      "type": "p",
+      "text": "We have a rule for inherited vibe-coded MVPs that has not been broken once. We rebuild them from scratch."
+    },
+    {
+      "type": "p",
+      "text": "The reasoning is not snobbery, it is arithmetic. To salvage a Lovable codebase we have to read every file the AI wrote, document the data model the founder never saw, untangle the useEffect chain, lock down the routes, fix the auth, and refactor the structure into something a human can extend. That work is a full rebuild with an extra constraint: do not break the customers already using the broken version."
+    },
+    {
+      "type": "p",
+      "text": "A clean rebuild on our stack takes 3 to 6 weeks. A salvage takes 8 to 12 weeks, because every cleanup step is constrained by the prior schema and the live data. The \"savings\" from the original Lovable build do not exist, they were borrowed against the next round of work."
+    },
+    {
+      "type": "p",
+      "text": "The honest framing for a founder: the Lovable build paid for the validation. It got the first customers in the door, and that is real value. The code itself is sunk cost. The MVP starts now."
+    },
+    {
+      "type": "h2",
+      "text": "What a Real MVP Looks Like"
+    },
+    {
+      "type": "p",
+      "text": "For comparison, here is one we shipped in 6 weeks for [OHYP GmbH](/case-studies/ohyp-fintech), a Berlin real estate service that issues financing certificates to property buyers."
+    },
+    {
+      "type": "p",
+      "text": "The build is a full-stack platform with a 10-step financing form as the core conversion element, an admin dashboard for managing the request lifecycle, and automated PDF certificate generation that delivers to the customer in under 24 hours. The stack is Next.js with tRPC for end-to-end type safety, Drizzle on Neon Postgres, and Better Auth for session management. Lighthouse Performance score 96, page load under 1.2 seconds, fixed price."
+    },
+    {
+      "type": "p",
+      "text": "That timeline is not magic. Around 85% of any new project on our stack is wiring that already exists in the previous project, because we use the same Next.js 16, React 19, tRPC v11, Drizzle, Neon, Better Auth, Polar, AI SDK 6 via Vercel AI Gateway, and Inngest setup on every engagement. The remaining 15% is the work that is actually unique to this customer: the domain logic, the data model, the workflows. AI tools accelerate that 15% inside the existing structure, they do not replace it."
+    },
+    {
+      "type": "p",
+      "text": "That is the version of \"AI-native MVP\" that survives the first paying customer."
+    },
+    {
+      "type": "h2",
+      "text": "When to Use Lovable, Bolt, or v0 Anyway"
+    },
+    {
+      "type": "p",
+      "text": "The decision is not \"AI tools or engineers.\" It is \"right tool for the stage you are at.\" Use vibe-coding for the stages it wins. Use engineers for the stages it loses."
+    },
+    {
+      "type": "table",
+      "headers": ["Use case", "Lovable, Bolt, v0", "Custom MVP build"],
+      "rows": [
+        ["Explore an idea in pixels before committing", "Best fit", "Overkill"],
+        ["Build a demo for an investor pitch", "Best fit", "Overkill"],
+        ["Internal mockup so a team agrees on UX", "Best fit", "Overkill"],
+        ["One-off marketing microsite with no backend", "Best fit", "Overkill"],
+        ["Hackathon, weekend project, throwaway tool", "Best fit", "Overkill"],
+        ["First app that accepts real payments", "Avoid", "Best fit"],
+        ["Multi-tenant SaaS with company accounts", "Avoid", "Best fit"],
+        ["Anything that stores personal data under GDPR", "Avoid", "Best fit"],
+        ["Internal admin tool with real consequences", "Avoid", "Best fit"],
+        ["App that must survive a security review", "Avoid", "Best fit"]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "The honest founder move is to ship the prototype on Lovable, validate, and then hire engineers before the first paying customer arrives. The mistake is letting \"it works\" carry the build across the line on its own."
+    },
+    {
+      "type": "p",
+      "text": "At [webvise](/#contact), we run [MVP builds](/services/mvp-development) in 3 to 5 weeks on the same stack we use for production SaaS. Auth, billing, admin, and observability are in the box from day one. If you have a vibe-coded build that works today but is fighting you, [tell us what you are seeing](/#contact) and we will tell you whether it is a cleanup or a rebuild. So far the answer has always been a rebuild."
+    }
+  ]
+}

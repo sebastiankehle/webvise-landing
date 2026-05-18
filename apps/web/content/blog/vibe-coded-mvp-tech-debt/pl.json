@@ -1,0 +1,247 @@
+{
+  "date": "2026-05-18",
+  "readingTime": 9,
+  "keyword": "vibe-coded MVP",
+  "title": "Lovable, Bolt, v0: Gdy vibe-coded MVPs stają się hipoteką długu technicznego",
+  "excerpt": "Lovable, Bolt i v0 dostarczają działające prototypy w ciągu godzin. Jako MVPs, aplikacje vibe-coded generują dług techniczny, który każdorazowo wymaga przebudowy od podstaw. Gdzie przebiega granica i kiedy warto je stosować.",
+  "metaDescription": "Każdy odziedziczony vibe-coded MVP budujemy od podstaw. Ukryty dług techniczny kosztuje więcej niż pierwotne wdrożenie. Kiedy Lovable pomaga, a kiedy szkodzi.",
+  "tags": ["AI", "Web Development", "Business Strategy"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Aplikacje vibe-coded, takie jak Lovable, Bolt i v0, sprawdzają się doskonale jako prototypy i fatalnie jako produkcyjne MVPs. Każdy odziedziczony projekt tego typu budujemy od podstaw, ponieważ naprawa struktury, hooków i uwierzytelniania kosztuje więcej niż rozpoczęcie od zera. Ten artykuł wyznacza granicę między prototypem, który te narzędzia potrafią dostarczyć, a MVP, którego dostarczyć nie są w stanie."
+    },
+    {
+      "type": "p",
+      "text": "Dziś każdy może być programistą. Założyciel bez wykształcenia technicznego może opisać aplikację SaaS w zwykłym języku w sobotnie przedpołudnie i mieć coś dostępnego pod publicznym adresem URL przed lunchem. To prawdziwa zmiana w sposobie powstawania oprogramowania i w większości jest ona korzystna. Jednocześnie pojawił się nowy rodzaj niepowodzenia, którego dwa lata temu jeszcze nie było: aplikacje produkcyjne, których nikt w firmie nie potrafi odczytać."
+    },
+    {
+      "type": "p",
+      "text": "Co tydzień rozmawiamy z założycielami, którzy wdrożyli projekt na Lovable, pozyskali pierwszych trzech klientów, a następnie napotkali barierę, której nie potrafią opisać. Platforma wykonała pracę. Platforma podjęła też każdą decyzję architektoniczną, zanim założyciel wiedział, które z nich są istotne."
+    },
+    {
+      "type": "p",
+      "text": "Ten artykuł nie krytykuje Lovable, Bolt ani v0. Mają swoje miejsce na etapie prototypowania. Wyznaczymy tutaj granicę z perspektywy użytkownika: co te narzędzia dostarczają, a czego potrzebuje MVP, by przetrwać kontakt z pierwszym płacącym klientem, oraz schemat naprawy, który widzimy w każdej odziedziczonej bazie kodu."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Vibe-coding wygrywa na etapie prototypu**, gdzie szybkość bije strukturę i nic nie trafia do klientów.",
+        "**MVPs zawodzą inaczej niż prototypy.** Uwierzytelnianie, multi-tenancy, panel administracyjny i obserwowalność są niezbędne od momentu, gdy loguje się prawdziwy klient.",
+        "**Koszt naprawy to koszt przebudowy.** Każdy odziedziczony vibe-coded MVP budujemy od podstaw. Projekt na Lovable był kosztem utopionym, nie zaoszczędzonym czasem.",
+        "**Schemat jest konsekwentny.** Zła struktura, niewłaściwe użycie useEffect, niepotrzebne re-rendery, otwarte trasy backendowe, niechlujne uwierzytelnianie: w tej kolejności.",
+        "**Używaj Lovable do tego, w czym jest dobre.** Dema, wewnętrzne makiety, eksploracja pomysłów. Zatrudniaj inżynierów do [wszystkiego, za co płaci klient](/services/mvp-development)."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Dziś każdy może być programistą (i to w większości dobrze)"
+    },
+    {
+      "type": "p",
+      "text": "Bariera wejścia do \"zbudowałem coś\" runęła w 2025 roku. v0 generuje komponent Next.js ze zrzutu ekranu, Lovable tworzy szkielet backendu Supabase z jednego akapitu, Bolt składa wdrożoną aplikację w jednej rozmowie, a Replit Agent prowadzi cały proces aż do kompilacji."
+    },
+    {
+      "type": "p",
+      "text": "To prawdziwa korzyść dla eksploracji pomysłów. Osoba bez wykształcenia technicznego, która kiedyś spędzała trzy tygodnie na szukaniu freelancera, może teraz poświęcić trzy godziny na walidację pomysłu w realnych pikselach. Projektant może zbudować demo do prezentacji zamiast tworzyć makietę w Figmie. Żaden z tych przypadków użycia nie wymaga dyscypliny produkcyjnej."
+    },
+    {
+      "type": "p",
+      "text": "Problem zaczyna się na kolejnym etapie, gdy prototyp zostaje przemianowany na \"MVP\", pokazany płacącemu klientowi i traktowany jako oprogramowanie produkcyjne. Narzędzie nie sygnalizuje przekroczenia tej granicy. Założyciel rzadko zdaje sobie sprawę, że ją przekroczył."
+    },
+    {
+      "type": "h2",
+      "text": "Linia prototypu a linia MVP"
+    },
+    {
+      "type": "p",
+      "text": "Prototyp to pytanie. MVP to umowa."
+    },
+    {
+      "type": "p",
+      "text": "Prototyp pyta: czy ten pomysł ma sens w pikselach? Działa lokalnie, głośno się psuje i nie trafia do nikogo. Tryb awarii to \"widzę, że coś jest nie tak, i poprawiam prompt\". Jest artefaktem wiedzy, a jedynymi narażonymi osobami są założyciel i zaufany współpracownik."
+    },
+    {
+      "type": "p",
+      "text": "MVP to pierwsza wersja, której dotykają płacący klienci. W momencie, gdy zmienia się pieniądze lub dane osobowe, zmienia się też dorozumiana umowa. Klient oczekuje, że jego logowanie będzie działać, dane pozostaną prywatne, a aplikacja nie utraci sesji dlatego, że useEffect uruchomił się dwukrotnie. To nie są zaawansowane wymagania, to absolutne minimum."
+    },
+    {
+      "type": "p",
+      "text": "Większość aplikacji vibe-coded przekracza tę granicę niezauważalnie, ponieważ narzędzie mówiło \"gotowe do produkcji\", dostarczając prototyp. Kontrola wychwytująca to przekroczenie jest ludzka, nie techniczna: założyciel, który wie, co MVP musi robić, zanim zacznie przyjmować pieniądze."
+    },
+    {
+      "type": "p",
+      "text": "Gdy granica ma znaczenie finansowe, właściwy krok to zatrudnienie inżynierów, nie szybszy prompt. Realizujemy [projekty MVP](/services/mvp-development) w stałym terminie od 3 do 5 tygodni, z uwierzytelnianiem, płatnościami, panelem administracyjnym i obserwowalnością wbudowanymi od pierwszego dnia."
+    },
+    {
+      "type": "h2",
+      "text": "Co naprawdę znajdujemy w bazach kodu vibe-coded"
+    },
+    {
+      "type": "p",
+      "text": "Gdy założyciel przekazuje nam projekt z Lovable lub Bolt i prosi o naprawę, schemat jest na tyle konsekwentny, że wiemy, co znajdziemy, zanim repozytorium skończy się klonować. Pięć problemów, mniej więcej w kolejności, w jakiej powodują szkody."
+    },
+    {
+      "type": "p",
+      "text": "**Zła struktura.** Pliki nazwane od promptu, który je wygenerował, komponenty zagnieżdżone cztery poziomy głęboko bez granicy ponownego użycia, folder \"utils\" zawierający całą logikę biznesową aplikacji. Baza kodu to zapis procesu myślenia AI, nie opis tego, co aplikacja robi. Dodanie funkcji oznacza przeczytanie połowy projektu, by znaleźć, gdzie przechowywany jest stan."
+    },
+    {
+      "type": "p",
+      "text": "**Niewłaściwe użycie useEffect.** Każde pobranie danych żyje w useEffect, każda zmiana propa wyzwala ponowne pobranie, a efekty zależą od obiektów odtwarzanych przy każdym renderowaniu. Aplikacja zasypuje backend duplikatami żądań przy pierwszym renderowaniu, po czym zawiesza się, gdy jedno z tych żądań cicho zawiedzie. Schemat potęguje się w momencie dodania formularzy."
+    },
+    {
+      "type": "p",
+      "text": "**Niepotrzebne re-rendery.** Stan najwyższego poziomu żyje w dostawcy kontekstu owijającym całą aplikację, więc każdy komponent renderuje się ponownie przy każdym naciśnięciu klawisza. Aplikacja sprawia wrażenie powolnej przy 10 elementach na liście i staje się bezużyteczna przy 100. Rozwiązanie wymaga prawdziwej znajomości React, o którą prompt nigdy nie prosił."
+    },
+    {
+      "type": "p",
+      "text": "**Otwarte trasy backendowe.** Tabele Supabase z wyłączonym RLS lub ustawionym na \"authenticated\" bez zakresu wierszy, akcje serwera ufające client-side user_id, funkcje edge akceptujące dowolny payload, bo walidacja żyła w formularzu. Użytkownik w trybie incognito może wylistować każdy wiersz w tabeli."
+    },
+    {
+      "type": "p",
+      "text": "**Niechlujne uwierzytelnianie.** Sprawdzanie sesji po stronie klienta, sprawdzanie ról przez porównanie ciągów znaków z polami wymyślonymi przez AI, przepływy resetowania hasła wysyłające ten sam format tokenu do każdego użytkownika, sekrety JWT w pliku .env.example zatwierdzonym do publicznego repozytorium. Czasem klucz anonimowy to jedyna bariera między aplikacją a \"jestem teraz administratorem\"."
+    },
+    {
+      "type": "p",
+      "text": "To nie są przypadki brzegowe. To medianowy wynik \"AI wdrożyło to bez inżyniera w pętli\", co omówiliśmy z perspektywy inżynierskiej w artykule [dlaczego oprogramowanie generowane przez AI nadal wymaga przeglądu inżynierskiego](/blog/vibe-coding-trap-ai-software-needs-engineers)."
+    },
+    {
+      "type": "h2",
+      "text": "\"Działa\" to najgorszy sygnał, któremu można zaufać"
+    },
+    {
+      "type": "p",
+      "text": "Niebezpieczna część nie polega na tym, że aplikacje vibe-coded się psują. Zły kod psuje się w sposób widoczny i zostaje naprawiony. Niebezpieczna część polega na tym, że działają. Demo działa, pierwszych 10 znajomych się rejestruje, pierwszy klient płaci i założyciel dochodzi do wniosku, że projekt był w porządku."
+    },
+    {
+      "type": "p",
+      "text": "Dług techniczny narasta cicho, dopóki coś nie zmusi go do wyjścia na jaw. Czynniki wymuszające są przewidywalne:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Pierwszy prawdziwy płacący klient.** Jego dane przekraczają granicę autoryzacji. Granica jest błędna lub jej brak. Dowiaduje się o tym przez zgłoszenie do supportu, nie przez test CI.",
+        "**Pierwsza prośba o nową funkcję po uruchomieniu.** Model danych AI zakładał jednego użytkownika na przestrzeń roboczą. Klient chce dwóch. Dodanie drugiego użytkownika dotyka 14 plików, których nikt nigdy nie czytał.",
+        "**Pierwszy przegląd bezpieczeństwa.** Potencjalny klient B2B prosi o dokumenty SOC2 lub pentest. Pentester znajduje otwarte trasy w 20 minut. Umowa zatrzymuje się lub przepada.",
+        "**Pierwsza potrzeba administracyjna.** Założyciel musi zwrócić pieniądze klientowi, zablokować bota lub sprawdzić rejestracje z ostatniego tygodnia. Nie ma strony administracyjnej i nie ma możliwości jej dodania bez przebudowy routingu.",
+        "**Pierwsze zdarzenie skalowania.** Artykuł na blogu ląduje, ruch wzrasta, a aplikacja pada, bo każde renderowanie pobiera każdy wiersz. Rozwiązanie to opisany wcześniej problem z re-renderami."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Każdy czynnik wymuszający zamienia niewidoczny dług w awarię, utraconą umowę lub zwrot środków. Stopa procentowa długu vibe-coded jest zmienna, a bank dzwoni w najgorszym momencie."
+    },
+    {
+      "type": "h2",
+      "text": "Zasada 100% przebudowy"
+    },
+    {
+      "type": "p",
+      "text": "Mamy zasadę dotyczącą odziedziczonych vibe-coded MVPs, która nie została złamana ani razu. Budujemy je od podstaw."
+    },
+    {
+      "type": "p",
+      "text": "Powód nie jest snobizmem, lecz arytmetyką. Aby uratować bazę kodu z Lovable, musimy przeczytać każdy plik napisany przez AI, udokumentować model danych, którego założyciel nigdy nie widział, rozplątać łańcuch useEffect, zabezpieczyć trasy, naprawić uwierzytelnianie i zrefaktoryzować strukturę w coś, co człowiek może rozszerzać. Ta praca to pełna przebudowa z dodatkowym ograniczeniem: nie wolno zepsuć klientów już korzystających z wadliwej wersji."
+    },
+    {
+      "type": "p",
+      "text": "Czysta przebudowa na naszym stosie zajmuje od 3 do 6 tygodni. Ratowanie zajmuje od 8 do 12 tygodni, ponieważ każdy krok naprawy jest ograniczony przez poprzedni schemat i dane na żywo. \"Oszczędności\" z pierwotnego projektu na Lovable nie istnieją: były pożyczone na poczet kolejnej rundy pracy."
+    },
+    {
+      "type": "p",
+      "text": "Uczciwe ujęcie dla założyciela: projekt na Lovable zapłacił za walidację. Wprowadził pierwszych klientów, co ma realną wartość. Sam kod to koszt utopiony. MVP zaczyna się teraz."
+    },
+    {
+      "type": "h2",
+      "text": "Jak wygląda prawdziwe MVP"
+    },
+    {
+      "type": "p",
+      "text": "Dla porównania: projekt dostarczony w 6 tygodni dla [OHYP GmbH](/case-studies/ohyp-fintech), berlińskiej firmy zajmującej się nieruchomościami, która wydaje certyfikaty finansowania nabywcom nieruchomości."
+    },
+    {
+      "type": "p",
+      "text": "Projekt to platforma full-stack z 10-krokowym formularzem finansowania jako głównym elementem konwersji, panelem administracyjnym do zarządzania cyklem życia wniosków oraz automatycznym generowaniem certyfikatów PDF dostarczanych do klienta w czasie poniżej 24 godzin. Stos to Next.js z tRPC dla bezpieczeństwa typów end-to-end, Drizzle na Neon Postgres i Better Auth do zarządzania sesjami. Wynik Lighthouse Performance 96, czas ładowania strony poniżej 1,2 sekundy, stała cena."
+    },
+    {
+      "type": "p",
+      "text": "Ten termin to nie magia. Około 85 % każdego nowego projektu na naszym stosie to okablowanie, które już istnieje w poprzednim projekcie, ponieważ używamy tego samego zestawu Next.js 16, React 19, tRPC v11, Drizzle, Neon, Better Auth, Polar, AI SDK 6 via Vercel AI Gateway i Inngest przy każdym zleceniu. Pozostałe 15 % to praca naprawdę unikalna dla danego klienta: logika domenowa, model danych, przepływy pracy. Narzędzia AI przyspieszają te 15 % w ramach istniejącej struktury, nie zastępują jej."
+    },
+    {
+      "type": "p",
+      "text": "To jest wersja \"AI-native MVP\", która przetrwa kontakt z pierwszym płacącym klientem."
+    },
+    {
+      "type": "h2",
+      "text": "Kiedy i tak używać Lovable, Bolt lub v0"
+    },
+    {
+      "type": "p",
+      "text": "Wybór nie dotyczy tego, czy użyć narzędzi AI, czy inżynierów. Chodzi o to, które narzędzie pasuje do etapu, na którym się znajdujemy. Vibe-coding należy stosować na etapach, w których wygrywa. Inżynierów należy zatrudniać na etapach, na których przegrywa."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Przypadek użycia",
+        "Lovable, Bolt, v0",
+        "Własny projekt MVP"
+      ],
+      "rows": [
+        [
+          "Eksploracja pomysłu w pikselach przed podjęciem decyzji",
+          "Najlepszy wybór",
+          "Przerost formy"
+        ],
+        [
+          "Zbudowanie dema do prezentacji dla inwestora",
+          "Najlepszy wybór",
+          "Przerost formy"
+        ],
+        [
+          "Wewnętrzna makieta, by zespół zgodził się co do UX",
+          "Najlepszy wybór",
+          "Przerost formy"
+        ],
+        [
+          "Jednorazowa mikrostronona marketingowa bez backendu",
+          "Najlepszy wybór",
+          "Przerost formy"
+        ],
+        [
+          "Hackathon, weekendowy projekt, jednorazowe narzędzie",
+          "Najlepszy wybór",
+          "Przerost formy"
+        ],
+        [
+          "Pierwsza aplikacja przyjmująca prawdziwe płatności",
+          "Unikać",
+          "Najlepszy wybór"
+        ],
+        ["Wielodostępny SaaS z kontami firmowymi", "Unikać", "Najlepszy wybór"],
+        [
+          "Wszystko, co przechowuje dane osobowe pod GDPR",
+          "Unikać",
+          "Najlepszy wybór"
+        ],
+        [
+          "Wewnętrzne narzędzie administracyjne z realnymi konsekwencjami",
+          "Unikać",
+          "Najlepszy wybór"
+        ],
+        [
+          "Aplikacja, która musi przejść przegląd bezpieczeństwa",
+          "Unikać",
+          "Najlepszy wybór"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Uczciwe podejście założyciela to wdrożenie prototypu na Lovable, walidacja, a następnie zatrudnienie inżynierów przed pojawieniem się pierwszego płacącego klienta. Błędem jest pozwolenie, by \"działa\" przeniosło projekt przez tę granicę samodzielnie."
+    },
+    {
+      "type": "p",
+      "text": "W [webvise](/#contact) realizujemy [projekty MVP](/services/mvp-development) w ciągu od 3 do 5 tygodni na tym samym stosie, którego używamy do produkcyjnego SaaS. Uwierzytelnianie, płatności, panel administracyjny i obserwowalność są w pakiecie od pierwszego dnia. Jeśli Państwa projekt vibe-coded działa dziś, ale sprawia problemy, [opisz nam, co obserwujesz](/#contact), a powiemy, czy to przypadek naprawy, czy przebudowy. Do tej pory odpowiedź zawsze brzmiała: przebudowa."
+    }
+  ]
+}
