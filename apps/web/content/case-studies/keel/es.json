@@ -1,0 +1,33 @@
+{
+  "industry": "Agentes de IA / Infraestructura de agentes",
+  "title": "Keel: un concepto de infraestructura agente-nativa para productos SaaS",
+  "excerpt": "Un concepto de MVP impulsado por el diseño para hacer que cualquier producto SaaS sea utilizable por agentes de IA. Keel analiza la API, la interfaz y la documentación de un producto, convierte cada operación en una herramienta tipada y con nombre con un servidor MCP alojado, y expone un único endpoint gobernado tras scopes, guardrails y puertas de aprobación. Cada llamada queda acotada, trazada y reproducible.",
+  "challenge": "Los productos se construyeron para personas, no para agentes. Un botón, un modal, un artículo de ayuda es una interfaz para una persona que puede ver y hacer clic, y añadir una API no cierra la brecha: un agente sigue sin poder saber qué es seguro llamar, con permiso de quién o qué acaba de ocurrir. La documentación es prosa, no un contrato. Una sola clave de API es todo o nada, demasiado poder para un invocador autónomo. Y un agente que actúa sin registro es un riesgo que nadie puede auditar ni deshacer. El concepto se propuso resolver una sola cosa: ¿cómo hacer que un producto SaaS existente sea operable de forma segura por agentes, tipado, acotado y trazado, sin reconstruirlo?",
+  "solution": "Diseñamos y construimos Keel como una historia de producto completa en dos pantallas responsivas. La landing presenta el problema y el bucle cerrado que hay detrás: map, generate, guard, publish, observe, ejecutado en cada cambio para que la superficie del agente nunca se desvíe del producto que tiene debajo. La consola del operador es donde ocurre el trabajo. Muestra métricas de llamadas en vivo, los esquemas de herramientas tipadas que Keel emite para cada operación, un servidor MCP alojado que se regenera con cada cambio del producto, scopes de mínimo privilegio por herramienta, guardrails de tasa y gasto, puertas de aprobación para todo lo que muta y un trace reproducible de cada llamada. Los conectores se alimentan de los productos que un equipo ya usa, GitHub, Linear, Notion, Slack, Stripe y más, y Keel normaliza cada superficie en herramientas tipadas tras un único endpoint MCP/API al que un agente se autentica una vez. Nada que mute llega a un producto antes de pasar su scope y su puerta de aprobación. La interfaz adopta una estética oscura, construida y de instrumento, con visualizaciones animadas de haces de conectores, creada en Next.js 16.",
+  "metrics": [
+    {
+      "value": "214",
+      "label": "Herramientas tipadas generadas a partir de superficies de producto"
+    },
+    { "value": "4,1 M", "label": "Llamadas de agentes trazadas al mes" },
+    {
+      "value": "9 min",
+      "label": "Tiempo medio hasta estar listo para agentes"
+    },
+    { "value": "100%", "label": "De las llamadas acotadas y registradas" }
+  ],
+  "techStack": [
+    "Next.js",
+    "React",
+    "TypeScript",
+    "Tailwind CSS",
+    "Turborepo",
+    "Vercel"
+  ],
+  "testimonial": {
+    "quote": "Lanza un producto que los agentes puedan operar de verdad.",
+    "author": "Keel",
+    "role": "Infraestructura de agentes para SaaS"
+  },
+  "liveUrlLabel": "Estudio conceptual"
+}
