@@ -33,16 +33,18 @@ export default function CaseStudyLightbox({
 					showCloseButton={false}
 				>
 					<DialogTitle className="sr-only">{alt}</DialogTitle>
-					<Image
-						alt={alt}
-						className="h-auto w-full"
-						height={7150}
-						quality={100}
-						sizes="(max-width: 768px) 100vw, 768px"
-						src={src}
-						unoptimized
-						width={3024}
-					/>
+					<div className="flex min-h-full">
+						<Image
+							alt={alt}
+							className="m-auto h-auto w-full"
+							height={7150}
+							quality={100}
+							sizes="(max-width: 768px) 100vw, 768px"
+							src={src}
+							unoptimized
+							width={3024}
+						/>
+					</div>
 				</DialogContent>
 				<DialogClose
 					render={
