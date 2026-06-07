@@ -527,9 +527,11 @@ export default function Navbar({
 									</a>
 								))}
 							</div>
-							<LanguageSwitcher id="lang-mobile" />
+							<div className="flex items-center gap-4">
+								<ThemeSwitcher variant="compact" />
+								<LanguageSwitcher id="lang-mobile" />
+							</div>
 						</div>
-						<ThemeSwitcher className="w-full justify-start" variant="inline" />
 						<Button
 							className="[&]:hover:!bg-brand-hover w-full border-transparent bg-brand text-brand-foreground"
 							onClick={() => {

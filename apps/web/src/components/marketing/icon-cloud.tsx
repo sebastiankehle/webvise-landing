@@ -11,9 +11,14 @@ import {
 	type SimpleIcon,
 } from "react-icon-cloud";
 
-import { DARK_THEME_IDS } from "@/lib/themes";
+import {
+	getSiteThemeIdFromClassList,
+	isDarkSiteTheme,
+	isSiteThemeId,
+	SITE_THEME_DOM_EVENT,
+	type SiteThemeId,
+} from "@/lib/themes";
 
-const darkThemeIds = new Set<string>(DARK_THEME_IDS);
 const darkSurfaceFallbackHex = "#f4f1ea";
 
 const cloudProps: Omit<ICloud, "children"> = {
@@ -47,7 +52,7 @@ function renderCustomIcon(icon: SimpleIcon, isDarkSurface: boolean) {
 		bgHex: isDarkSurface ? "#101416" : "#ffffff",
 		fallbackHex: isDarkSurface ? darkSurfaceFallbackHex : "#1f1712",
 		icon,
-		minContrastRatio: 2.6,
+		minContrastRatio: isDarkSurface ? 2.6 : 1.15,
 		size: 42,
 		aProps: {
 			href: "/",
@@ -94,23 +99,42 @@ export default function IconCloud() {
 	const { resolvedTheme, theme } = useTheme();
 	const [mounted, setMounted] = useState(false);
 	const [data, setData] = useState<IconData | null>(null);
+	const [previewTheme, setPreviewTheme] = useState<SiteThemeId | undefined>();
 
 	useEffect(() => {
 		setMounted(true);
 		fetchSimpleIcons({ slugs: iconSlugs }).then(setData);
 	}, []);
 
+	useEffect(() => {
+		const getDomTheme = () =>
+			getSiteThemeIdFromClassList(document.documentElement.classList);
+		const handleThemeDomChange = (event: Event) => {
+			const nextTheme = (event as CustomEvent<{ theme?: string }>).detail
+				?.theme;
+			setPreviewTheme(isSiteThemeId(nextTheme) ? nextTheme : getDomTheme());
+		};
+
+		setPreviewTheme(getDomTheme());
+		window.addEventListener(SITE_THEME_DOM_EVENT, handleThemeDomChange);
+
+		return () => {
+			window.removeEventListener(SITE_THEME_DOM_EVENT, handleThemeDomChange);
+		};
+	}, []);
+
 	const renderedIcons = useMemo(() => {
 		if (!data) {
 			return null;
 		}
-		const activeTheme = theme === "system" ? resolvedTheme : theme;
-		const isDarkSurface = activeTheme ? darkThemeIds.has(activeTheme) : false;
+		const activeTheme =
+			previewTheme ?? (theme === "system" ? resolvedTheme : theme);
+		const isDarkSurface = isDarkSiteTheme(activeTheme);
 
 		return Object.values(data.simpleIcons).map((icon) =>
 			renderCustomIcon(icon, isDarkSurface)
 		);
-	}, [data, resolvedTheme, theme]);
+	}, [data, previewTheme, resolvedTheme, theme]);
 
 	return (
 		<div className="h-[300px] w-full md:h-[400px]">

@@ -15,6 +15,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import {
 	DARK_THEME_IDS,
+	getSiteThemeId,
+	SITE_THEME_DOM_EVENT,
 	SITE_THEME_IDS,
 	type SiteThemeId,
 	THEME_OPTIONS,
@@ -30,10 +32,18 @@ const lightThemeOptions = THEME_OPTIONS.filter(
 const darkThemeOptions = THEME_OPTIONS.filter((option) =>
 	DARK_THEME_IDS.includes(option.id as (typeof DARK_THEME_IDS)[number])
 );
+const triggerClassNames = {
+	compact:
+		"group inline-flex cursor-pointer items-center gap-1.5 text-muted-foreground text-xs uppercase transition-colors hover:text-foreground",
+	floating:
+		"fixed bottom-6 left-6 z-40 hidden h-12 w-12 items-center justify-center bg-brand text-brand-foreground shadow-lg transition-colors hover:!bg-brand-hover md:flex",
+	inline:
+		"inline-flex h-9 items-center gap-2 border border-border/70 bg-card px-3 text-foreground text-xs transition-colors hover:border-brand-border hover:bg-brand-surface hover:text-foreground dark:bg-card/35",
+} satisfies Record<NonNullable<ThemeSwitcherProps["variant"]>, string>;
 
 interface ThemeSwitcherProps {
 	className?: string;
-	variant?: "floating" | "inline";
+	variant?: "compact" | "floating" | "inline";
 }
 
 export default function ThemeSwitcher({
@@ -50,19 +60,17 @@ export default function ThemeSwitcher({
 		setMounted(true);
 	}, []);
 
-	const getValidTheme = useCallback((nextTheme: string | undefined) => {
-		const validTheme = THEME_OPTIONS.find((option) => option.id === nextTheme);
-		return validTheme?.id ?? THEME_OPTIONS[0].id;
-	}, []);
-
 	const applyThemeClass = useCallback(
-		(nextTheme: string | undefined) => {
-			const validTheme = getValidTheme(nextTheme);
+		(nextTheme: string | null | undefined) => {
+			const validTheme = getSiteThemeId(nextTheme);
 			document.documentElement.classList.remove(...themeClassNames);
 			document.documentElement.classList.add(validTheme);
+			window.dispatchEvent(
+				new CustomEvent(SITE_THEME_DOM_EVENT, { detail: { theme: validTheme } })
+			);
 			return validTheme;
 		},
-		[getValidTheme]
+		[]
 	);
 
 	const restoreCommittedTheme = useCallback(() => {
@@ -130,10 +138,9 @@ export default function ThemeSwitcher({
 		mounted && THEME_OPTIONS.some((option) => option.id === theme)
 			? THEME_OPTIONS.find((option) => option.id === theme)
 			: THEME_OPTIONS[0];
-	const triggerClassName =
-		variant === "floating"
-			? "fixed bottom-6 left-6 z-40 hidden h-12 w-12 items-center justify-center bg-brand text-brand-foreground shadow-lg transition-colors hover:!bg-brand-hover md:flex"
-			: "inline-flex h-9 items-center gap-2 border border-border/70 bg-card px-3 text-foreground text-xs transition-colors hover:border-brand-border hover:bg-brand-surface hover:text-foreground dark:bg-card/35";
+	const triggerClassName = triggerClassNames[variant];
+	const iconClassName = variant === "compact" ? "h-4 w-4" : "h-5 w-5";
+	const contentAlign = variant === "floating" ? "start" : "end";
 
 	return (
 		<DropdownMenu onOpenChange={handleOpenChange} open={open}>
@@ -141,7 +148,12 @@ export default function ThemeSwitcher({
 				aria-label={t("label")}
 				className={cn(triggerClassName, className)}
 			>
-				<span className="relative flex h-5 w-5 shrink-0 items-center justify-center">
+				<span
+					className={cn(
+						"relative flex shrink-0 items-center justify-center",
+						variant === "compact" ? "h-4 w-4" : "h-5 w-5"
+					)}
+				>
 					<AnimatePresence mode="wait">
 						{open ? (
 							<motion.span
@@ -151,7 +163,7 @@ export default function ThemeSwitcher({
 								key="close"
 								transition={{ duration: 0.15 }}
 							>
-								<X className="h-5 w-5" />
+								<X className={iconClassName} />
 							</motion.span>
 						) : (
 							<motion.span
@@ -161,24 +173,26 @@ export default function ThemeSwitcher({
 								key="open"
 								transition={{ duration: 0.15 }}
 							>
-								<Palette className="h-5 w-5" />
+								<Palette className={iconClassName} />
 							</motion.span>
 						)}
 					</AnimatePresence>
 				</span>
-				{variant === "inline" && currentTheme && (
+				{variant !== "floating" && currentTheme && (
 					<>
-						<span
-							aria-hidden="true"
-							className="size-2 shrink-0 border border-foreground/20"
-							style={{ background: currentTheme.swatch }}
-						/>
+						{variant === "inline" && (
+							<span
+								aria-hidden="true"
+								className="size-2 shrink-0 border border-foreground/20"
+								style={{ background: currentTheme.swatch }}
+							/>
+						)}
 						<span className="truncate">{currentTheme.label}</span>
 					</>
 				)}
 			</DropdownMenuTrigger>
 			<DropdownMenuContent
-				align="start"
+				align={contentAlign}
 				className="w-52 p-1"
 				onMouseLeave={restoreCommittedTheme}
 				side="top"

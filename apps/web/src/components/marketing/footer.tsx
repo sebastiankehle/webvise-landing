@@ -204,7 +204,7 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 						{t("legal.copyright", { year })}
 					</Caption>
 					<div className="flex flex-col items-center gap-4 md:flex-row md:gap-6">
-						<ThemeSwitcher className="md:hidden" variant="inline" />
+						<ThemeSwitcher className="md:hidden" variant="compact" />
 						<div className="flex gap-6 text-muted-foreground text-xs">
 							<Link
 								className="transition-colors hover:text-[--foreground]"

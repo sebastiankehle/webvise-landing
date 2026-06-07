@@ -39,3 +39,28 @@ export const DARK_THEME_IDS = ["dark", "graphite-dark", "mono-dark"] as const;
 export const THEME_OPTIONS = SITE_THEMES;
 export const SITE_THEME_IDS = SITE_THEMES.map((theme) => theme.id);
 export type SiteThemeId = (typeof SITE_THEMES)[number]["id"];
+
+export const SITE_THEME_DOM_EVENT = "webvise:site-theme-dom-change";
+
+const SITE_THEME_ID_SET = new Set<string>(SITE_THEME_IDS);
+const DARK_THEME_ID_SET = new Set<string>(DARK_THEME_IDS);
+
+export function isSiteThemeId(
+	themeId: string | null | undefined
+): themeId is SiteThemeId {
+	return Boolean(themeId && SITE_THEME_ID_SET.has(themeId));
+}
+
+export function getSiteThemeId(
+	themeId: string | null | undefined
+): SiteThemeId {
+	return isSiteThemeId(themeId) ? (themeId as SiteThemeId) : SITE_THEMES[0].id;
+}
+
+export function isDarkSiteTheme(themeId: string | null | undefined) {
+	return Boolean(themeId && DARK_THEME_ID_SET.has(themeId));
+}
+
+export function getSiteThemeIdFromClassList(classList: DOMTokenList) {
+	return SITE_THEME_IDS.find((themeId) => classList.contains(themeId));
+}
