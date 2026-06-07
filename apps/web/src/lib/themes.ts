@@ -40,10 +40,19 @@ export const THEME_OPTIONS = SITE_THEMES;
 export const SITE_THEME_IDS = SITE_THEMES.map((theme) => theme.id);
 export type SiteThemeId = (typeof SITE_THEMES)[number]["id"];
 
-export const SITE_THEME_DOM_EVENT = "webvise:site-theme-dom-change";
-
 const SITE_THEME_ID_SET = new Set<string>(SITE_THEME_IDS);
 const DARK_THEME_ID_SET = new Set<string>(DARK_THEME_IDS);
+const LEGACY_SITE_THEME_IDS = ["paper", "ember", "graphite"] as const;
+const SITE_THEME_DOM_CLASS_NAMES = [
+	...SITE_THEME_IDS,
+	...LEGACY_SITE_THEME_IDS,
+];
+const SITE_THEME_DOM_EVENT = "webvise:site-theme-dom-change";
+const noop = () => undefined;
+
+interface SiteThemeDomEventDetail {
+	theme: SiteThemeId;
+}
 
 export function isSiteThemeId(
 	themeId: string | null | undefined
@@ -61,6 +70,75 @@ export function isDarkSiteTheme(themeId: string | null | undefined) {
 	return Boolean(themeId && DARK_THEME_ID_SET.has(themeId));
 }
 
-export function getSiteThemeIdFromClassList(classList: DOMTokenList) {
+function getThemeRoot() {
+	return typeof document === "undefined" ? null : document.documentElement;
+}
+
+function getSiteThemeIdFromClassList(classList: DOMTokenList) {
 	return SITE_THEME_IDS.find((themeId) => classList.contains(themeId));
+}
+
+function dispatchSiteThemeDomChange(themeId: SiteThemeId) {
+	if (typeof window === "undefined") {
+		return;
+	}
+
+	window.dispatchEvent(
+		new CustomEvent<SiteThemeDomEventDetail>(SITE_THEME_DOM_EVENT, {
+			detail: { theme: themeId },
+		})
+	);
+}
+
+export function getSiteThemeIdFromDom() {
+	const root = getThemeRoot();
+
+	return root ? getSiteThemeIdFromClassList(root.classList) : undefined;
+}
+
+export function applySiteThemeToDom(
+	themeId: string | null | undefined
+): SiteThemeId {
+	const validTheme = getSiteThemeId(themeId);
+	const root = getThemeRoot();
+
+	if (!root) {
+		return validTheme;
+	}
+
+	const currentTheme = getSiteThemeIdFromClassList(root.classList);
+	const hasExtraThemeClass = SITE_THEME_DOM_CLASS_NAMES.some(
+		(className) =>
+			className !== validTheme && root.classList.contains(className)
+	);
+
+	if (currentTheme === validTheme && !hasExtraThemeClass) {
+		return validTheme;
+	}
+
+	root.classList.remove(...SITE_THEME_DOM_CLASS_NAMES);
+	root.classList.add(validTheme);
+	dispatchSiteThemeDomChange(validTheme);
+
+	return validTheme;
+}
+
+export function subscribeToSiteThemeDomChange(
+	onChange: (themeId: SiteThemeId) => void
+) {
+	if (typeof window === "undefined") {
+		return noop;
+	}
+
+	const handleThemeDomChange = (event: Event) => {
+		const nextTheme = (event as CustomEvent<SiteThemeDomEventDetail>).detail
+			?.theme;
+		onChange(getSiteThemeId(nextTheme ?? getSiteThemeIdFromDom()));
+	};
+
+	window.addEventListener(SITE_THEME_DOM_EVENT, handleThemeDomChange);
+
+	return () => {
+		window.removeEventListener(SITE_THEME_DOM_EVENT, handleThemeDomChange);
+	};
 }

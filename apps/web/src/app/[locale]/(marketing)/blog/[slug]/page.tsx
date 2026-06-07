@@ -6,7 +6,8 @@ import JsonLd from "@/components/json-ld";
 import BlogShare from "@/components/marketing/blog-share";
 import ReportDownloadForm from "@/components/marketing/report-download-form";
 import SectionWrapper, {
-	GridFrame,
+	ConstructedGrid,
+	GridContainer,
 } from "@/components/marketing/section-wrapper";
 import {
 	Caption,
@@ -317,19 +318,8 @@ export default async function BlogPostPage({
 
 			{/* Header */}
 			<section className="relative pt-32 pb-24 md:pt-44 md:pb-36">
-				{/* Constructed grid */}
-				<div
-					aria-hidden="true"
-					className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block"
-				>
-					<div className="h-full border-grid-line border-x" />
-				</div>
-				<div
-					aria-hidden="true"
-					className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block"
-				/>
-				<GridFrame className="inset-0" />
-				<div className="relative mx-auto max-w-[1320px] px-6">
+				<ConstructedGrid variant="page" />
+				<GridContainer>
 					<div className="grid items-start gap-12 md:grid-cols-3 md:gap-16">
 						{/* Title + info */}
 						<div className="md:col-span-2">
@@ -365,11 +355,11 @@ export default async function BlogPostPage({
 							</div>
 						)}
 					</div>
-				</div>
+				</GridContainer>
 
-				<div className="relative mx-auto mt-10 max-w-[1320px] px-6">
+				<GridContainer className="mt-10">
 					<BlogShare title={post.title} url={postUrl} />
-				</div>
+				</GridContainer>
 			</section>
 
 			<SectionWrapper alternate id="content">
@@ -396,19 +386,8 @@ export default async function BlogPostPage({
 			</SectionWrapper>
 
 			<section className="relative border-grid-line border-t pt-12 pb-28">
-				{/* Constructed grid */}
-				<div
-					aria-hidden="true"
-					className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block"
-				>
-					<div className="h-full border-grid-line border-x" />
-				</div>
-				<div
-					aria-hidden="true"
-					className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block"
-				/>
-				<GridFrame className="inset-0" />
-				<div className="relative mx-auto max-w-[1320px] px-6">
+				<ConstructedGrid variant="page" />
+				<GridContainer>
 					<BlogShare title={post.title} url={postUrl} />
 
 					{(prev || next) && (
@@ -443,7 +422,7 @@ export default async function BlogPostPage({
 							)}
 						</div>
 					)}
-				</div>
+				</GridContainer>
 			</section>
 		</>
 	);

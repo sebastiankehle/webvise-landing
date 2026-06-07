@@ -3,8 +3,8 @@ import type { ReactNode } from "react";
 
 import Logo from "@/components/logo";
 import { CookiePreferencesLink } from "@/components/marketing/cookie-preferences-link";
+import { MarketingFooterThemeControl } from "@/components/marketing/marketing-chrome";
 import { NewsletterForm } from "@/components/marketing/newsletter-form";
-import ThemeSwitcher from "@/components/marketing/theme-switcher";
 import { Caption, Label, Muted, Small } from "@/components/ui/typography";
 import { services } from "@/data/services";
 import { socials } from "@/data/socials";
@@ -204,7 +204,7 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 						{t("legal.copyright", { year })}
 					</Caption>
 					<div className="flex flex-col items-center gap-4 md:flex-row md:gap-6">
-						<ThemeSwitcher className="md:hidden" variant="compact" />
+						<MarketingFooterThemeControl />
 						<div className="flex gap-6 text-muted-foreground text-xs">
 							<Link
 								className="transition-colors hover:text-[--foreground]"

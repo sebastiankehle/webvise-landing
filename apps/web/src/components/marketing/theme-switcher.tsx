@@ -14,17 +14,13 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
+	applySiteThemeToDom,
 	DARK_THEME_IDS,
-	getSiteThemeId,
-	SITE_THEME_DOM_EVENT,
-	SITE_THEME_IDS,
 	type SiteThemeId,
 	THEME_OPTIONS,
 } from "@/lib/themes";
 import { cn } from "@/lib/utils";
 
-const legacyThemeClasses = ["paper", "ember", "graphite"];
-const themeClassNames = [...SITE_THEME_IDS, ...legacyThemeClasses];
 const lightThemeOptions = THEME_OPTIONS.filter(
 	(option) =>
 		!DARK_THEME_IDS.includes(option.id as (typeof DARK_THEME_IDS)[number])
@@ -40,6 +36,7 @@ const triggerClassNames = {
 	inline:
 		"inline-flex h-9 items-center gap-2 border border-border/70 bg-card px-3 text-foreground text-xs transition-colors hover:border-brand-border hover:bg-brand-surface hover:text-foreground dark:bg-card/35",
 } satisfies Record<NonNullable<ThemeSwitcherProps["variant"]>, string>;
+const themePreviewingClassName = "theme-previewing";
 
 interface ThemeSwitcherProps {
 	className?: string;
@@ -55,30 +52,73 @@ export default function ThemeSwitcher({
 	const [mounted, setMounted] = useState(false);
 	const [open, setOpen] = useState(false);
 	const committedThemeRef = useRef<SiteThemeId>(THEME_OPTIONS[0].id);
+	const previewFrameRef = useRef<number | undefined>(undefined);
+	const previewThemeRef = useRef<SiteThemeId>(THEME_OPTIONS[0].id);
+	const restoreTimeoutRef = useRef<number | undefined>(undefined);
 
 	useEffect(() => {
 		setMounted(true);
 	}, []);
 
-	const applyThemeClass = useCallback(
-		(nextTheme: string | null | undefined) => {
-			const validTheme = getSiteThemeId(nextTheme);
-			document.documentElement.classList.remove(...themeClassNames);
-			document.documentElement.classList.add(validTheme);
-			window.dispatchEvent(
-				new CustomEvent(SITE_THEME_DOM_EVENT, { detail: { theme: validTheme } })
-			);
-			return validTheme;
+	const cancelPreviewFrame = useCallback(() => {
+		if (previewFrameRef.current === undefined) {
+			return;
+		}
+		window.cancelAnimationFrame(previewFrameRef.current);
+		previewFrameRef.current = undefined;
+	}, []);
+
+	const cancelRestoreTimeout = useCallback(() => {
+		if (restoreTimeoutRef.current === undefined) {
+			return;
+		}
+		window.clearTimeout(restoreTimeoutRef.current);
+		restoreTimeoutRef.current = undefined;
+	}, []);
+
+	const startPreviewTransitionGuard = useCallback(() => {
+		document.documentElement.classList.add(themePreviewingClassName);
+	}, []);
+
+	const stopPreviewTransitionGuard = useCallback(() => {
+		document.documentElement.classList.remove(themePreviewingClassName);
+	}, []);
+
+	useEffect(
+		() => () => {
+			cancelPreviewFrame();
+			cancelRestoreTimeout();
+			stopPreviewTransitionGuard();
 		},
-		[]
+		[cancelPreviewFrame, cancelRestoreTimeout, stopPreviewTransitionGuard]
 	);
 
 	const restoreCommittedTheme = useCallback(() => {
 		if (!mounted) {
 			return;
 		}
-		committedThemeRef.current = applyThemeClass(committedThemeRef.current);
-	}, [applyThemeClass, mounted]);
+		cancelRestoreTimeout();
+		cancelPreviewFrame();
+		previewThemeRef.current = committedThemeRef.current;
+		committedThemeRef.current = applySiteThemeToDom(committedThemeRef.current);
+		window.requestAnimationFrame(stopPreviewTransitionGuard);
+	}, [
+		cancelPreviewFrame,
+		cancelRestoreTimeout,
+		mounted,
+		stopPreviewTransitionGuard,
+	]);
+
+	const scheduleCommittedThemeRestore = useCallback(() => {
+		if (!mounted) {
+			return;
+		}
+		cancelRestoreTimeout();
+		restoreTimeoutRef.current = window.setTimeout(() => {
+			restoreTimeoutRef.current = undefined;
+			restoreCommittedTheme();
+		}, 90);
+	}, [cancelRestoreTimeout, mounted, restoreCommittedTheme]);
 
 	const canPreviewOnHover = useCallback(
 		() =>
@@ -92,18 +132,43 @@ export default function ThemeSwitcher({
 			if (!(mounted && canPreviewOnHover())) {
 				return;
 			}
-			applyThemeClass(nextTheme);
+			cancelRestoreTimeout();
+			if (previewThemeRef.current === nextTheme) {
+				return;
+			}
+			previewThemeRef.current = nextTheme;
+			startPreviewTransitionGuard();
+			cancelPreviewFrame();
+			previewFrameRef.current = window.requestAnimationFrame(() => {
+				previewFrameRef.current = undefined;
+				applySiteThemeToDom(previewThemeRef.current);
+			});
 		},
-		[applyThemeClass, canPreviewOnHover, mounted]
+		[
+			cancelPreviewFrame,
+			cancelRestoreTimeout,
+			canPreviewOnHover,
+			mounted,
+			startPreviewTransitionGuard,
+		]
 	);
 
 	const commitTheme = useCallback(
 		(nextTheme: string) => {
-			const validTheme = applyThemeClass(nextTheme);
+			cancelRestoreTimeout();
+			cancelPreviewFrame();
+			const validTheme = applySiteThemeToDom(nextTheme);
+			previewThemeRef.current = validTheme;
 			committedThemeRef.current = validTheme;
+			stopPreviewTransitionGuard();
 			setTheme(validTheme);
 		},
-		[applyThemeClass, setTheme]
+		[
+			cancelPreviewFrame,
+			cancelRestoreTimeout,
+			setTheme,
+			stopPreviewTransitionGuard,
+		]
 	);
 
 	const handleOpenChange = useCallback(
@@ -120,14 +185,15 @@ export default function ThemeSwitcher({
 		if (!mounted) {
 			return;
 		}
-		document.documentElement.classList.remove(...legacyThemeClasses);
 		if (theme && !THEME_OPTIONS.some((option) => option.id === theme)) {
 			setTheme("light");
 			committedThemeRef.current = "light";
+			previewThemeRef.current = "light";
 			return;
 		}
-		committedThemeRef.current = applyThemeClass(theme);
-	}, [applyThemeClass, mounted, setTheme, theme]);
+		committedThemeRef.current = applySiteThemeToDom(theme);
+		previewThemeRef.current = committedThemeRef.current;
+	}, [mounted, setTheme, theme]);
 
 	const value = THEME_OPTIONS.some((option) => option.id === theme)
 		? theme
@@ -194,7 +260,8 @@ export default function ThemeSwitcher({
 			<DropdownMenuContent
 				align={contentAlign}
 				className="w-52 p-1"
-				onMouseLeave={restoreCommittedTheme}
+				onPointerEnter={cancelRestoreTimeout}
+				onPointerLeave={scheduleCommittedThemeRestore}
 				side="top"
 				sideOffset={8}
 			>
@@ -209,7 +276,7 @@ export default function ThemeSwitcher({
 							data-current={value === option.id}
 							key={option.id}
 							onClick={() => commitTheme(option.id)}
-							onMouseEnter={() => previewTheme(option.id)}
+							onPointerEnter={() => previewTheme(option.id)}
 						>
 							<span className="truncate">{option.label}</span>
 						</DropdownMenuItem>
@@ -225,7 +292,7 @@ export default function ThemeSwitcher({
 							data-current={value === option.id}
 							key={option.id}
 							onClick={() => commitTheme(option.id)}
-							onMouseEnter={() => previewTheme(option.id)}
+							onPointerEnter={() => previewTheme(option.id)}
 						>
 							<span className="truncate">{option.label}</span>
 						</DropdownMenuItem>

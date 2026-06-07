@@ -5,7 +5,8 @@ import { getLocale, getTranslations } from "next-intl/server";
 
 import JsonLd from "@/components/json-ld";
 import SectionWrapper, {
-	GridFrame,
+	ConstructedGrid,
+	GridContainer,
 } from "@/components/marketing/section-wrapper";
 import { FaqAccordion } from "@/components/marketing/sections/faq";
 import WpHealthCta from "@/components/marketing/sections/wp-health-cta";
@@ -162,19 +163,8 @@ export default async function ServicePage({
 
 			{/* Header */}
 			<section className="relative pt-32 pb-24 md:pt-44 md:pb-36">
-				{/* Constructed grid */}
-				<div
-					aria-hidden="true"
-					className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block"
-				>
-					<div className="h-full border-grid-line border-x" />
-				</div>
-				<div
-					aria-hidden="true"
-					className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block"
-				/>
-				<GridFrame className="inset-0" />
-				<div className="relative mx-auto max-w-[1320px] px-6">
+				<ConstructedGrid variant="page" />
+				<GridContainer>
 					<div className="grid items-start gap-12 md:grid-cols-3 md:gap-16">
 						{/* Title + info */}
 						<div className="md:col-span-2">
@@ -213,7 +203,7 @@ export default async function ServicePage({
 							</div>
 						</div>
 					</div>
-				</div>
+				</GridContainer>
 			</section>
 
 			<SectionWrapper className="pt-8 md:pt-12" id="approach">
@@ -309,19 +299,8 @@ export default async function ServicePage({
 				slug === "ai-consulting" ||
 				slug === "full-stack-applications") && (
 				<section className="relative border-grid-line border-t pt-20 pb-20">
-					{/* Constructed grid */}
-					<div
-						aria-hidden="true"
-						className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block"
-					>
-						<div className="h-full border-grid-line border-x" />
-					</div>
-					<div
-						aria-hidden="true"
-						className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block"
-					/>
-					<GridFrame className="inset-0" />
-					<div className="relative mx-auto max-w-[1320px] px-6">
+					<ConstructedGrid variant="page" />
+					<GridContainer>
 						<div className="flex items-start gap-5 border border-border/40 p-6 md:p-8">
 							<Shield
 								className="mt-0.5 h-5 w-5 shrink-0 text-brand-icon"
@@ -334,25 +313,14 @@ export default async function ServicePage({
 								</Muted>
 							</div>
 						</div>
-					</div>
+					</GridContainer>
 				</section>
 			)}
 
 			{relatedServiceData.length > 0 && (
 				<section className="relative border-grid-line border-t pt-20 pb-28">
-					{/* Constructed grid */}
-					<div
-						aria-hidden="true"
-						className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block"
-					>
-						<div className="h-full border-grid-line border-x" />
-					</div>
-					<div
-						aria-hidden="true"
-						className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block"
-					/>
-					<GridFrame className="inset-0" />
-					<div className="relative mx-auto max-w-[1320px] px-6">
+					<ConstructedGrid variant="page" />
+					<GridContainer>
 						<H2>{td("relatedServicesTitle")}</H2>
 						<div className="mt-10 grid gap-6 md:grid-cols-2">
 							{relatedServiceData.map((rs) => {
@@ -382,7 +350,7 @@ export default async function ServicePage({
 								);
 							})}
 						</div>
-					</div>
+					</GridContainer>
 				</section>
 			)}
 		</>

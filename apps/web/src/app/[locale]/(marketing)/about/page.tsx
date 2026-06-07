@@ -5,7 +5,8 @@ import { getLocale, getTranslations } from "next-intl/server";
 
 import JsonLd from "@/components/json-ld";
 import SectionWrapper, {
-	GridFrame,
+	ConstructedGrid,
+	GridContainer,
 } from "@/components/marketing/section-wrapper";
 import {
 	Body,
@@ -108,19 +109,8 @@ export default async function AboutPage() {
 
 			{/* Header */}
 			<section className="relative pt-32 pb-24 md:pt-44 md:pb-36">
-				{/* Constructed grid */}
-				<div
-					aria-hidden="true"
-					className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block"
-				>
-					<div className="h-full border-grid-line border-x" />
-				</div>
-				<div
-					aria-hidden="true"
-					className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block"
-				/>
-				<GridFrame className="inset-0" />
-				<div className="relative mx-auto max-w-[1320px] px-6">
+				<ConstructedGrid variant="page" />
+				<GridContainer>
 					<div className="grid items-start gap-12 md:grid-cols-3 md:gap-16">
 						{/* Title + intro */}
 						<div className="md:col-span-2">
@@ -162,7 +152,7 @@ export default async function AboutPage() {
 							</div>
 						</div>
 					</div>
-				</div>
+				</GridContainer>
 			</section>
 
 			{/* Bio */}

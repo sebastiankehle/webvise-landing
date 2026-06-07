@@ -4,7 +4,8 @@ import Image from "next/image";
 import { getLocale, getTranslations } from "next-intl/server";
 
 import SectionWrapper, {
-	GridFrame,
+	ConstructedGrid,
+	GridContainer,
 } from "@/components/marketing/section-wrapper";
 import StaggerChildren from "@/components/marketing/stagger-children";
 import { H1, H3, Label, Lead, Muted } from "@/components/ui/typography";
@@ -46,33 +47,15 @@ export default async function CaseStudiesPage() {
 	return (
 		<>
 			<section className="relative pt-32 pb-24 md:pt-44 md:pb-24">
-				<div
-					aria-hidden="true"
-					className="grid-hatch pointer-events-none absolute inset-y-0 left-0 hidden md:block md:w-[calc((100%_-_1320px)_/_2)]"
-				/>
-				<div
-					aria-hidden="true"
-					className="grid-hatch pointer-events-none absolute inset-y-0 right-0 hidden md:block md:w-[calc((100%_-_1320px)_/_2)]"
-				/>
-				<div
-					aria-hidden="true"
-					className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block"
-				>
-					<div className="h-full border-grid-line border-x" />
-				</div>
-				<div
-					aria-hidden="true"
-					className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block"
-				/>
-				<GridFrame className="inset-0" />
-				<div className="relative mx-auto max-w-[1320px] px-6">
+				<ConstructedGrid hatch variant="page" />
+				<GridContainer>
 					<div className="max-w-[720px]">
 						<H1>{t("title")}</H1>
 						<Lead className="mt-5 max-w-[560px] text-[17px] leading-[1.55]">
 							{t("subtitle")}
 						</Lead>
 					</div>
-				</div>
+				</GridContainer>
 			</section>
 
 			<SectionWrapper

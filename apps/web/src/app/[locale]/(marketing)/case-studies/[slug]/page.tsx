@@ -7,7 +7,10 @@ import JsonLd from "@/components/json-ld";
 import AnimatedStat from "@/components/marketing/animated-stat";
 import CaseStudyGallery from "@/components/marketing/case-study-gallery";
 import CaseStudyHeroImage from "@/components/marketing/case-study-hero-image";
-import { GridFrame } from "@/components/marketing/section-wrapper";
+import {
+	ConstructedGrid,
+	GridContainer,
+} from "@/components/marketing/section-wrapper";
 import StaggerChildren from "@/components/marketing/stagger-children";
 import { TechBadge } from "@/components/marketing/tech-badge";
 import {
@@ -19,7 +22,11 @@ import {
 	QuoteMark,
 	Small,
 } from "@/components/ui/typography";
-import { getCaseStudies, getCaseStudyBySlug } from "@/data/case-studies";
+import {
+	getCaseStudies,
+	getCaseStudyBySlug,
+	getRelatedCaseStudies,
+} from "@/data/case-studies";
 import { Link } from "@/i18n/navigation";
 import { generateAlternates, localizedUrl } from "@/lib/seo";
 
@@ -87,10 +94,7 @@ export default async function CaseStudyPage({
 	const t = await getTranslations("caseStudies");
 	const csUrl = localizedUrl(`/case-studies/${slug}`, locale);
 
-	const allCaseStudies = getCaseStudies(locale);
-	const relatedCaseStudies = allCaseStudies
-		.filter((other) => other.slug !== slug)
-		.slice(0, 2);
+	const relatedCaseStudies = getRelatedCaseStudies(slug, locale);
 
 	const jsonLd = {
 		"@context": "https://schema.org",
@@ -164,26 +168,8 @@ export default async function CaseStudyPage({
 
 			{/* Header */}
 			<section className="relative pt-32 pb-24 md:pt-44 md:pb-36">
-				<div
-					aria-hidden="true"
-					className="grid-hatch pointer-events-none absolute inset-y-0 left-0 hidden md:block md:w-[calc((100%_-_1320px)_/_2)]"
-				/>
-				<div
-					aria-hidden="true"
-					className="grid-hatch pointer-events-none absolute inset-y-0 right-0 hidden md:block md:w-[calc((100%_-_1320px)_/_2)]"
-				/>
-				<div
-					aria-hidden="true"
-					className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block"
-				>
-					<div className="h-full border-grid-line border-x" />
-				</div>
-				<div
-					aria-hidden="true"
-					className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block"
-				/>
-				<GridFrame className="inset-0" />
-				<div className="relative mx-auto max-w-[1320px] px-6">
+				<ConstructedGrid hatch variant="page" />
+				<GridContainer>
 					<div className="grid items-start gap-12 md:grid-cols-3 md:gap-16">
 						{/* Title + info */}
 						<div className="md:col-span-2">
@@ -252,29 +238,12 @@ export default async function CaseStudyPage({
 							</div>
 						</div>
 					</div>
-				</div>
+				</GridContainer>
 			</section>
 
 			{/* Hero image + Testimonial */}
 			<section className="relative py-20 md:py-28">
-				<div
-					aria-hidden="true"
-					className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block"
-				/>
-				<div
-					aria-hidden="true"
-					className="grid-hatch pointer-events-none absolute inset-y-0 left-0 hidden md:block md:w-[calc((100%_-_1320px)_/_2)]"
-				/>
-				<div
-					aria-hidden="true"
-					className="grid-hatch pointer-events-none absolute inset-y-0 right-0 hidden md:block md:w-[calc((100%_-_1320px)_/_2)]"
-				/>
-				<div
-					aria-hidden="true"
-					className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block"
-				>
-					<div className="h-full border-grid-line border-x" />
-				</div>
+				<ConstructedGrid hatch variant="content" />
 				<div className="relative mx-auto max-w-[1320px]">
 					<div className="grid items-start gap-3 md:grid-cols-3">
 						{/* Hero - spans 2 cols */}
@@ -312,25 +281,8 @@ export default async function CaseStudyPage({
 
 			{/* Challenge / Solution */}
 			<section className="relative py-20 md:py-28">
-				<div
-					aria-hidden="true"
-					className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block"
-				/>
-				<div
-					aria-hidden="true"
-					className="grid-hatch pointer-events-none absolute inset-y-0 left-0 hidden md:block md:w-[calc((100%_-_1320px)_/_2)]"
-				/>
-				<div
-					aria-hidden="true"
-					className="grid-hatch pointer-events-none absolute inset-y-0 right-0 hidden md:block md:w-[calc((100%_-_1320px)_/_2)]"
-				/>
-				<div
-					aria-hidden="true"
-					className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block"
-				>
-					<div className="h-full border-grid-line border-x" />
-				</div>
-				<div className="relative mx-auto max-w-[1320px] px-6">
+				<ConstructedGrid hatch variant="content" />
+				<GridContainer>
 					<div className="grid gap-16 md:grid-cols-2 md:gap-20">
 						<div>
 							<H2>{t("challenge")}</H2>
@@ -341,7 +293,7 @@ export default async function CaseStudyPage({
 							<Lead className="mt-4 leading-relaxed">{cs.solution}</Lead>
 						</div>
 					</div>
-				</div>
+				</GridContainer>
 			</section>
 
 			{/* Metrics */}
@@ -350,25 +302,8 @@ export default async function CaseStudyPage({
 					aria-label="Project metrics"
 					className="relative py-20 md:py-28"
 				>
-					<div
-						aria-hidden="true"
-						className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block"
-					/>
-					<div
-						aria-hidden="true"
-						className="grid-hatch pointer-events-none absolute inset-y-0 left-0 hidden md:block md:w-[calc((100%_-_1320px)_/_2)]"
-					/>
-					<div
-						aria-hidden="true"
-						className="grid-hatch pointer-events-none absolute inset-y-0 right-0 hidden md:block md:w-[calc((100%_-_1320px)_/_2)]"
-					/>
-					<div
-						aria-hidden="true"
-						className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block"
-					>
-						<div className="h-full border-grid-line border-x" />
-					</div>
-					<div className="relative mx-auto max-w-[1320px] px-6">
+					<ConstructedGrid hatch variant="content" />
+					<GridContainer>
 						<StaggerChildren className="-mx-6 grid grid-cols-2 border-grid-line border-t md:grid-cols-4">
 							{cs.metrics.map((metric) => (
 								<div
@@ -380,53 +315,25 @@ export default async function CaseStudyPage({
 								</div>
 							))}
 						</StaggerChildren>
-					</div>
+					</GridContainer>
 				</section>
 			)}
 
 			{/* Image gallery */}
 			{cs.images && cs.images.length > 0 && (
 				<section className="relative py-20 md:py-28">
-					<div
-						aria-hidden="true"
-						className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block"
-					/>
-					<div
-						aria-hidden="true"
-						className="grid-hatch pointer-events-none absolute inset-y-0 left-0 hidden md:block md:w-[calc((100%_-_1320px)_/_2)]"
-					/>
-					<div
-						aria-hidden="true"
-						className="grid-hatch pointer-events-none absolute inset-y-0 right-0 hidden md:block md:w-[calc((100%_-_1320px)_/_2)]"
-					/>
-					<div
-						aria-hidden="true"
-						className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block"
-					>
-						<div className="h-full border-grid-line border-x" />
-					</div>
-					<div className="relative mx-auto max-w-[1320px] px-6">
+					<ConstructedGrid hatch variant="content" />
+					<GridContainer>
 						<CaseStudyGallery alt={cs.client} images={cs.images} />
-					</div>
+					</GridContainer>
 				</section>
 			)}
 
 			{/* Related case studies */}
 			{relatedCaseStudies.length > 0 && (
 				<section className="relative border-grid-line border-t pt-20 pb-28">
-					{/* Constructed grid */}
-					<div
-						aria-hidden="true"
-						className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block"
-					>
-						<div className="h-full border-grid-line border-x" />
-					</div>
-					<div
-						aria-hidden="true"
-						className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block"
-					/>
-					<GridFrame className="inset-0" />
-					<div className="relative mx-auto max-w-[1320px] px-6">
+					<ConstructedGrid variant="page" />
+					<GridContainer>
 						<H2>{t("relatedTitle")}</H2>
 						<div className="mt-10 grid gap-6 md:grid-cols-2">
 							{relatedCaseStudies.map((related) => (
@@ -460,7 +367,7 @@ export default async function CaseStudyPage({
 								</Link>
 							))}
 						</div>
-					</div>
+					</GridContainer>
 				</section>
 			)}
 		</>

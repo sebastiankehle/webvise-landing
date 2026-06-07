@@ -6,14 +6,15 @@ import { useLocale, useTranslations } from "next-intl";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Logo from "@/components/logo";
 import IconCloud from "@/components/marketing/icon-cloud";
-import LanguageSwitcher from "@/components/marketing/language-switcher";
-import ThemeSwitcher from "@/components/marketing/theme-switcher";
-import { Button } from "@/components/ui/button";
+import {
+	MarketingMobileMenuControls,
+	MarketingNavbarActions,
+	MarketingNavbarCta,
+} from "@/components/marketing/marketing-chrome";
 import { Body, Caption, H3, Label } from "@/components/ui/typography";
 import { services } from "@/data/services";
 import { socials } from "@/data/socials";
 import { Link, usePathname } from "@/i18n/navigation";
-import { track } from "@/lib/track";
 
 export interface NavbarPost {
 	date: string;
@@ -188,21 +189,7 @@ export default function Navbar({
 						))}
 					</nav>
 
-					<div className="hidden items-center gap-4 md:flex">
-						<LanguageSwitcher id="lang-desktop" />
-						<Button
-							className="[&]:hover:!bg-brand-hover border-transparent bg-brand px-6 text-brand-foreground"
-							onClick={() =>
-								track("cta_clicked", {
-									location: "navbar",
-									variant: "get_started",
-								})
-							}
-							render={<Link href={{ pathname: "/", hash: "contact" }} />}
-						>
-							{t("getStarted")}
-						</Button>
-					</div>
+					<MarketingNavbarActions ctaLabel={t("getStarted")} />
 
 					<button
 						aria-label={mobileOpen ? "Close menu" : "Open menu"}
@@ -527,32 +514,16 @@ export default function Navbar({
 									</a>
 								))}
 							</div>
-							<div className="flex items-center gap-4">
-								<ThemeSwitcher variant="compact" />
-								<LanguageSwitcher id="lang-mobile" />
-							</div>
+							<MarketingMobileMenuControls />
 						</div>
-						<Button
-							className="[&]:hover:!bg-brand-hover w-full border-transparent bg-brand text-brand-foreground"
-							onClick={() => {
-								track("cta_clicked", {
-									location: "navbar_mobile",
-									variant: "get_started",
-								});
-								setMobileOpen(false);
-							}}
-							render={
-								<Link
-									href={{
-										pathname: "/",
-										hash: "contact",
-									}}
-								/>
-							}
+						<MarketingNavbarCta
+							className="w-full"
+							location="navbar_mobile"
+							onClick={() => setMobileOpen(false)}
 							size="lg"
 						>
 							{t("getStarted")}
-						</Button>
+						</MarketingNavbarCta>
 					</div>
 				</nav>
 			</div>

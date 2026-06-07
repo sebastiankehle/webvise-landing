@@ -2,7 +2,10 @@ import { getTranslations } from "next-intl/server";
 
 import HeroContent from "@/components/marketing/hero-content";
 import IconCloud from "@/components/marketing/icon-cloud";
-import { GridFrame } from "@/components/marketing/section-wrapper";
+import {
+	ConstructedGrid,
+	GridContainer,
+} from "@/components/marketing/section-wrapper";
 import { TrackClick } from "@/components/marketing/track-click";
 import { Button } from "@/components/ui/button";
 import { Display, Lead } from "@/components/ui/typography";
@@ -13,23 +16,14 @@ export default async function Hero() {
 
 	return (
 		<section className="relative overflow-hidden py-48 md:py-36" id="hero">
-			{/* Side gutter hatch */}
-			<div
-				aria-hidden="true"
-				className="grid-hatch pointer-events-none absolute inset-y-0 left-0 hidden md:block md:w-[calc((100%_-_1320px)_/_2)]"
-			/>
-			<div
-				aria-hidden="true"
-				className="grid-hatch pointer-events-none absolute inset-y-0 right-0 hidden md:block md:w-[calc((100%_-_1320px)_/_2)]"
-			/>
-			<GridFrame className="inset-0" />
+			<ConstructedGrid hatch variant="hero" />
 			{/* Mobile: subtle cloud in top-right, partially off-screen as depth layer */}
 			<div className="pointer-events-none absolute top-12 right-[-24px] md:hidden">
 				<div className="h-[220px] w-[180px]">
 					<IconCloud />
 				</div>
 			</div>
-			<div className="relative mx-auto max-w-[1320px] px-6">
+			<GridContainer>
 				<HeroContent>
 					<div className="grid items-center gap-12 md:grid-cols-12">
 						<div className="md:col-span-7">
@@ -93,7 +87,7 @@ export default async function Hero() {
 						</div>
 					</div>
 				</HeroContent>
-			</div>
+			</GridContainer>
 		</section>
 	);
 }

@@ -12,11 +12,10 @@ import {
 } from "react-icon-cloud";
 
 import {
-	getSiteThemeIdFromClassList,
+	getSiteThemeIdFromDom,
 	isDarkSiteTheme,
-	isSiteThemeId,
-	SITE_THEME_DOM_EVENT,
 	type SiteThemeId,
+	subscribeToSiteThemeDomChange,
 } from "@/lib/themes";
 
 const darkSurfaceFallbackHex = "#f4f1ea";
@@ -107,20 +106,9 @@ export default function IconCloud() {
 	}, []);
 
 	useEffect(() => {
-		const getDomTheme = () =>
-			getSiteThemeIdFromClassList(document.documentElement.classList);
-		const handleThemeDomChange = (event: Event) => {
-			const nextTheme = (event as CustomEvent<{ theme?: string }>).detail
-				?.theme;
-			setPreviewTheme(isSiteThemeId(nextTheme) ? nextTheme : getDomTheme());
-		};
+		setPreviewTheme(getSiteThemeIdFromDom());
 
-		setPreviewTheme(getDomTheme());
-		window.addEventListener(SITE_THEME_DOM_EVENT, handleThemeDomChange);
-
-		return () => {
-			window.removeEventListener(SITE_THEME_DOM_EVENT, handleThemeDomChange);
-		};
+		return subscribeToSiteThemeDomChange(setPreviewTheme);
 	}, []);
 
 	const renderedIcons = useMemo(() => {

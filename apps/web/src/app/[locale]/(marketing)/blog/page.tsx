@@ -2,7 +2,10 @@ import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 import JsonLd from "@/components/json-ld";
-import { GridFrame } from "@/components/marketing/section-wrapper";
+import {
+	ConstructedGrid,
+	GridContainer,
+} from "@/components/marketing/section-wrapper";
 import { Button } from "@/components/ui/button";
 import { Caption, H1, H3, Lead, Muted } from "@/components/ui/typography";
 import { getBlogPosts } from "@/data/blog";
@@ -111,26 +114,8 @@ export default async function BlogPage({
 		<>
 			<JsonLd data={jsonLd} />
 			<section className="relative pt-32 pb-24 md:pt-44 md:pb-44">
-				<div
-					aria-hidden="true"
-					className="grid-hatch pointer-events-none absolute inset-y-0 left-0 hidden md:block md:w-[calc((100%_-_1320px)_/_2)]"
-				/>
-				<div
-					aria-hidden="true"
-					className="grid-hatch pointer-events-none absolute inset-y-0 right-0 hidden md:block md:w-[calc((100%_-_1320px)_/_2)]"
-				/>
-				<div
-					aria-hidden="true"
-					className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block"
-				>
-					<div className="h-full border-grid-line border-x" />
-				</div>
-				<div
-					aria-hidden="true"
-					className="pointer-events-none absolute inset-x-0 top-0 hidden h-px bg-grid-line md:block"
-				/>
-				<GridFrame className="inset-0" />
-				<div className="relative mx-auto max-w-[1320px] px-6">
+				<ConstructedGrid hatch variant="page" />
+				<GridContainer>
 					<div className="max-w-[720px]">
 						<H1>{t("title")}</H1>
 						<Lead className="mt-5 max-w-[560px] text-[17px] leading-[1.55]">
@@ -281,7 +266,7 @@ export default async function BlogPage({
 							)}
 						</nav>
 					)}
-				</div>
+				</GridContainer>
 			</section>
 		</>
 	);
