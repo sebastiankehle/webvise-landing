@@ -138,13 +138,8 @@ export default function ThemeSwitcher({
 	return (
 		<DropdownMenu onOpenChange={handleOpenChange} open={open}>
 			<DropdownMenuTrigger
-				render={
-					<button
-						aria-label={t("label")}
-						className={cn(triggerClassName, className)}
-						type="button"
-					/>
-				}
+				aria-label={t("label")}
+				className={cn(triggerClassName, className)}
 			>
 				<span className="relative flex h-5 w-5 shrink-0 items-center justify-center">
 					<AnimatePresence mode="wait">

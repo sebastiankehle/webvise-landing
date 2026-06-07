@@ -21,7 +21,11 @@ interface ClickableProps {
 }
 
 export function TrackClick({ event, properties, children }: TrackClickProps) {
-	const child = Children.only(children);
+	const childArray = Children.toArray(children);
+	if (childArray.length !== 1) {
+		return <>{children}</>;
+	}
+	const child = childArray[0];
 	if (!isValidElement<ClickableProps>(child)) {
 		return <>{children}</>;
 	}
