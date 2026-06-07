@@ -270,6 +270,8 @@ The first tag drives the CTA category:
 
 ## Writing Style
 
+> **Voice layer.** The canonical ban-list for Sebastian's writing voice lives in the vault at `/Users/sebastiankehle/Documents/webvise/obsidian-vault/wiki/content/voice-dna.md`. Read it before drafting when the vault is reachable (`wiki read wiki/content/voice-dna.md`). This skill owns the blog structure, SEO, and lead-gen rules; Voice DNA owns how the prose sounds and what is forbidden. If the two ever disagree on a phrasing rule, Voice DNA wins. The most important import: the FATAL negation-correction ban ("not X, but Y" and all variants), which is stricter than older versions of this skill.
+
 ### Introduction Structure (mandatory)
 
 Every article opens with this sequence:
@@ -279,8 +281,8 @@ Every article opens with this sequence:
    - **Provocative question:** challenges an assumption the reader holds
    - **Scenario:** "You're [doing X]. Here's why that's wrong."
    - **Stat lead:** a specific number that surprises
-   - **Bold claim:** contrarian position stated bluntly
-   - **Contrarian reversal:** "Everyone says X. The data says Y."
+   - **Bold claim:** contrarian position stated bluntly, as a positive assertion
+   - **Receipt lead:** open on a specific scene, number, or named example that cuts against the reader's default, then state the corrected view directly. NEVER phrase it as "not X, but Y" / "Everyone says X, the data says Y" / any negation-then-correction (this is a FATAL fail, see the scrub step below)
 3. **APP Formula (2-3 sentences):** Agree (validate the reader's situation) + Promise (what they'll learn) + Preview (how the article delivers it).
 4. **Key Takeaways block.** A `ul` block with 3-5 bullet points summarizing the article's core insights. This goes right after the intro, before the first h2. Readers who skim get the value. Readers who stay get the depth.
 
@@ -331,7 +333,10 @@ Every article opens with this sequence:
 5. **Write English version.** Create `en.json`. Open with direct answer + hook + APP + key takeaways. Every section carries first-party signal. Enforce prose constraints (max 4 sentences/paragraph, max 25 words avg/sentence, no em dashes).
 6. **Content scrub.** Before quality check, scrub the English draft for:
    - **AI phrase patterns:** remove "It's important to note that," "In today's landscape," "It's worth mentioning," "This is particularly relevant," "At the end of the day," "When it comes to," "In terms of," "Due to the fact," "In order to," "This highlights," "This underscores," "Stands as," "Serves as," "Marks as a turning point"
-   - **AI word blacklist:** cut these words entirely: additionally, furthermore, moreover, enhance, intricacies, tapestry, robust, vibrant, dynamic, seamless, align, leverage, game-changer, unlock, delve, revolutionize, cutting-edge, harness, empower, navigate, landscape, paradigm, synergy, streamline, supercharge, elevate, transform, innovative, powerful
+   - **AI word blacklist:** cut these words entirely: additionally, furthermore, moreover, enhance, intricacies, tapestry, robust, vibrant, dynamic, seamless, align, leverage, game-changer, unlock, delve, revolutionize, cutting-edge, harness, empower, navigate, landscape, paradigm, synergy, streamline, supercharge, elevate, transform, innovative, powerful, utilize, straightforward, future-proof, realm, and "signal/signals" when used as generic insider fog
+   - **FATAL negation-correction (hard fail):** never negate one framing and then assert a corrected one. Bans "This isn't X, it's Y," "not X but Y," "X is not Y, it is Z," "doesn't need X, needs Y," "Forget X. This is Y," "Less X, more Y," and every variant. One hit fails the draft. Delete the negation and state the positive claim on its own.
+   - **Engagement bait and fake-insider lines:** cut "let that sink in," "read that again," "this changes everything," "what nobody tells you," "most people don't realize," "here's the part nobody's talking about," "follow for more."
+   - **No synthetic conclusion:** no "Takeaway:," "Lesson:," "the point is," "what this means is" closers. The required closing webvise + `/#contact` line stays, written as a flat concrete next step rather than a motivational summary or aphorism.
    - **Em/en dashes and spaced hyphens:** replace `—`, `–`, ` - `, and `  -  ` with periods, commas, or colons. Never use any dash-like separator between clauses
    - **Filler transitions:** cut "Furthermore," "Additionally," "Moreover," "In conclusion," "That being said"
    - **Sentence structure bans:** (1) no stacked short sentences under 12 words with the same subject — combine them; (2) no more than two sentences in a paragraph starting with the same word; (3) every paragraph needs rhythm — at least one sentence under 15 words and one over 25 words; (4) no vague optimism endings — end on facts, consequences, or tension; (5) no forced rule-of-three — use as many points as the argument needs; (6) no synonym swapping for variety — repeat the clearest noun; (7) let paragraphs have texture — asides, turns, slight mess are fine
@@ -348,16 +353,19 @@ Every article opens with this sequence:
    let t=p.title+'\n'+p.excerpt+'\n'+(p.metaDescription||'')+'\n';
    p.blocks.forEach(b=>{if(b.text)t+=b.text+'\n';if(b.items)b.items.forEach(i=>t+=i+'\n');if(b.rows)b.rows.forEach(r=>r.forEach(c=>t+=c+'\n'))});
    console.log('dashes em/en/spaced:', (t.match(/—/g)||[]).length, (t.match(/–/g)||[]).length, (t.match(/ - /g)||[]).length);
-   const bl=['additionally','furthermore','moreover','enhance','intricacies','tapestry','robust','vibrant','dynamic','seamless','align','leverage','game-changer','unlock','delve','revolutionize','cutting-edge','harness','empower','navigate','landscape','paradigm','synergy','streamline','supercharge','elevate','transform','innovative','utilize','powerful'];
+   const bl=['additionally','furthermore','moreover','enhance','intricacies','tapestry','robust','vibrant','dynamic','seamless','align','leverage','game-changer','unlock','delve','revolutionize','cutting-edge','harness','empower','navigate','landscape','paradigm','synergy','streamline','supercharge','elevate','transform','innovative','utilize','powerful','straightforward','future-proof','realm'];
    const hits=[]; bl.forEach(w=>{const m=t.match(new RegExp('\\\\b'+w+'\\\\w*\\\\b','gi'));if(m)hits.push(w+':'+m.length)});
    console.log('blacklist:', hits.length?hits:'clean');
+   const fatal=[/\\bnot\\s+[\\w']+[ ,]+but\\b/gi,/\\bisn't\\s+[\\w']+.{0,25}\\bit'?s\\b/gi,/\\bis not\\s+[\\w']+.{0,25}\\bit is\\b/gi,/\\bdoesn't need\\b.{0,30}\\bneeds?\\b/gi,/\\bless\\s+[\\w']+,\\s*more\\b/gi,/\\bforget\\s+[\\w']+\\./gi];
+   const fhits=[]; fatal.forEach((r,i)=>{const m=t.match(r);if(m)fhits.push('p'+i+':'+JSON.stringify(m))});
+   console.log('FATAL negation-correction:', fhits.length?fhits:'clean');
    const longParas=[]; p.blocks.filter(b=>b.type==='p').forEach((b,i)=>{const s=b.text.split(/(?<=[.!?])\\s+/).filter(x=>x.trim());if(s.length>4)longParas.push(i+':'+s.length)});
    console.log('paragraphs>4 sentences:', longParas.length?longParas:'clean');
    console.log('words:', t.split(/\\s+/).filter(w=>w).length);
    "
    ```
 
-   All three counts must be zero/clean before proceeding. If a blacklisted word is a direct citation of a framework name (e.g. Kenyon's "Transformation" section), rename in the draft rather than overriding the gate.
+   All counts (dashes, blacklist, FATAL negation-correction, paragraphs>4) must be zero/clean before proceeding. If a blacklisted word is a direct citation of a framework name (e.g. Kenyon's "Transformation" section), rename in the draft rather than overriding the gate. The FATAL check is conservative and can flag legitimate sentences; read each hit and either rewrite the negation away or confirm it is not a negation-then-correction hook.
 7. **Quality score.** Rate the English draft on a 0-100 composite before proceeding:
 
    | Dimension | Weight | What it measures |
