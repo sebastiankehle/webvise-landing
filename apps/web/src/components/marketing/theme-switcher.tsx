@@ -37,6 +37,9 @@ const triggerClassNames = {
 		"inline-flex h-9 items-center gap-2 border border-border/70 bg-card px-3 text-foreground text-xs transition-colors hover:border-brand-border hover:bg-brand-surface hover:text-foreground dark:bg-card/35",
 } satisfies Record<NonNullable<ThemeSwitcherProps["variant"]>, string>;
 const themePreviewingClassName = "theme-previewing";
+const previewFontFamilyProperty = "--theme-preview-font-family";
+const previewDisplayFontFamilyProperty = "--theme-preview-display-font-family";
+const previewDisplayFontWeightProperty = "--theme-preview-display-font-weight";
 
 interface ThemeSwitcherProps {
 	className?: string;
@@ -77,11 +80,36 @@ export default function ThemeSwitcher({
 	}, []);
 
 	const startPreviewTransitionGuard = useCallback(() => {
-		document.documentElement.classList.add(themePreviewingClassName);
+		const root = document.documentElement;
+		const body = document.body;
+		const display = document.querySelector<HTMLElement>(".font-display");
+
+		if (body) {
+			root.style.setProperty(
+				previewFontFamilyProperty,
+				window.getComputedStyle(body).fontFamily
+			);
+		}
+		if (display) {
+			const displayStyle = window.getComputedStyle(display);
+			root.style.setProperty(
+				previewDisplayFontFamilyProperty,
+				displayStyle.fontFamily
+			);
+			root.style.setProperty(
+				previewDisplayFontWeightProperty,
+				displayStyle.fontWeight
+			);
+		}
+		root.classList.add(themePreviewingClassName);
 	}, []);
 
 	const stopPreviewTransitionGuard = useCallback(() => {
-		document.documentElement.classList.remove(themePreviewingClassName);
+		const root = document.documentElement;
+		root.classList.remove(themePreviewingClassName);
+		root.style.removeProperty(previewFontFamilyProperty);
+		root.style.removeProperty(previewDisplayFontFamilyProperty);
+		root.style.removeProperty(previewDisplayFontWeightProperty);
 	}, []);
 
 	useEffect(

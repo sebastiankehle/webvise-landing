@@ -9,7 +9,7 @@ const nextConfig: NextConfig = {
 	reactCompiler: true,
 	transpilePackages: ["shiki"],
 	images: {
-		qualities: [75, 80, 90, 95, 100],
+		qualities: [75, 80, 85, 90, 95, 100],
 	},
 	skipTrailingSlashRedirect: true,
 	async rewrites() {

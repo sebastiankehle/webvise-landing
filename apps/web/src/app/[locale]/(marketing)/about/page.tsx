@@ -18,6 +18,7 @@ import {
 	Lead,
 	Muted,
 } from "@/components/ui/typography";
+import { featureFlags } from "@/lib/feature-flags";
 import { generateAlternates, localizedUrl } from "@/lib/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -28,11 +29,19 @@ export async function generateMetadata(): Promise<Metadata> {
 
 	return {
 		title: t("meta.title"),
-		description: t("meta.description"),
+		description: t(
+			featureFlags.marketing.aboutNetworkSection
+				? "meta.networkDescription"
+				: "meta.description"
+		),
 		alternates: generateAlternates("/about", locale),
 		openGraph: {
 			title: t("meta.title"),
-			description: t("meta.description"),
+			description: t(
+				featureFlags.marketing.aboutNetworkSection
+					? "meta.networkDescription"
+					: "meta.description"
+			),
 			siteName: "webvise",
 			url: localizedUrl("/about", locale),
 		},
@@ -49,6 +58,20 @@ const connectLinks = [
 	{ key: "email" as const, href: "mailto:sebastian.kehle@webvise.io" },
 	{ key: "personal" as const, href: "https://sebastiankehle.com" },
 ];
+
+// Independent specialists in Sebastian's network.
+// `role` and `discipline` are translated; names are not.
+const network = [
+	{ id: "lisa", name: "Lisa Kehle", initials: "LK" },
+	{ id: "felix", name: "Felix von Rautenberg", initials: "FR" },
+	{ id: "alexander", name: "Alexander Friebe", initials: "AF" },
+	{ id: "haidar", name: "Haidar Hammoud", initials: "HH" },
+	{ id: "lennart", name: "Lennart Brauer", initials: "LB" },
+	{ id: "jen", name: "Jen Krause", initials: "JK" },
+	{ id: "thomas", name: "Thomas Hottewitzsch", initials: "TH" },
+	{ id: "tim", name: "Tim Kehle", initials: "TK" },
+	{ id: "sandra", name: "Sandra Voß", initials: "SV" },
+] as const;
 
 export default async function AboutPage() {
 	const t = await getTranslations("about");
@@ -172,8 +195,47 @@ export default async function AboutPage() {
 				</div>
 			</SectionWrapper>
 
+			{featureFlags.marketing.aboutNetworkSection && (
+				<SectionWrapper id="network">
+					<div className="grid gap-8 md:grid-cols-3 md:gap-16">
+						<div className="md:col-span-1">
+							<H2>{t("network.title")}</H2>
+						</div>
+						<div className="md:col-span-2">
+							<Lead>{t("network.lead")}</Lead>
+						</div>
+					</div>
+					<div className="mt-14 grid gap-px overflow-hidden border border-grid-line bg-grid-line sm:grid-cols-2 lg:grid-cols-3">
+						{network.map((member) => {
+							const role = t(`network.members.${member.id}.role`);
+							const discipline = t(`network.members.${member.id}.discipline`);
+							return (
+								<div
+									className="group flex gap-4 bg-background p-6 transition-colors duration-300 hover:bg-muted/40 sm:p-8"
+									key={member.id}
+								>
+									<div className="flex h-12 w-12 shrink-0 items-center justify-center border border-border font-medium text-muted-foreground text-sm transition-colors duration-300 group-hover:border-brand group-hover:text-brand">
+										{member.initials}
+									</div>
+									<div className="min-w-0">
+										<Body className="font-medium text-sm">{member.name}</Body>
+										<Caption className="mt-0.5 block text-muted-foreground">
+											{role}
+										</Caption>
+										<Muted className="mt-3 text-sm">{discipline}</Muted>
+									</div>
+								</div>
+							);
+						})}
+					</div>
+				</SectionWrapper>
+			)}
+
 			{/* Experience - vertical timeline like personal site */}
-			<SectionWrapper id="experience">
+			<SectionWrapper
+				alternate={featureFlags.marketing.aboutNetworkSection}
+				id="experience"
+			>
 				<div className="max-w-2xl">
 					<H2>{t("experience.title")}</H2>
 					<div className="mt-10 space-y-10">
@@ -220,7 +282,10 @@ export default async function AboutPage() {
 			</SectionWrapper>
 
 			{/* Skills */}
-			<SectionWrapper alternate id="skills">
+			<SectionWrapper
+				alternate={!featureFlags.marketing.aboutNetworkSection}
+				id="skills"
+			>
 				<div className="max-w-2xl">
 					<H2>{t("stack.title")}</H2>
 					<div className="mt-10 space-y-8">
