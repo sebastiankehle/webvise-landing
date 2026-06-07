@@ -26,7 +26,7 @@ export default async function FounderCard() {
 				<Muted className="mt-1 leading-relaxed">{t("description")}</Muted>
 				<div className="mt-3 flex items-center gap-4">
 					<Link
-						className="group inline-flex items-center gap-1.5 text-brand text-xs transition-opacity hover:opacity-80"
+						className="group inline-flex items-center gap-1.5 text-brand-readable text-xs transition-colors hover:text-brand-readable"
 						href="/about"
 					>
 						{t("link")}

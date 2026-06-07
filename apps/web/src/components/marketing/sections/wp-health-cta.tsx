@@ -21,22 +21,22 @@ export default async function WpHealthCta() {
 				<div className="space-y-5">
 					<div className="flex items-center justify-between">
 						<Caption>PageSpeed Score</Caption>
-						<Mono className="text-lg text-orange-600">32</Mono>
+						<Mono className="text-brand-readable text-lg">32</Mono>
 					</div>
 					<div className="h-1.5 w-full bg-muted">
-						<div className="h-full w-[32%] bg-orange-600" />
+						<div className="h-full w-[32%] bg-brand" />
 					</div>
 					<div className="flex items-center gap-3 py-1">
 						<span className="h-px flex-1 bg-border/40" />
-						<Caption className="text-muted-foreground/50">vs</Caption>
+						<Caption className="text-muted-foreground">vs</Caption>
 						<span className="h-px flex-1 bg-border/40" />
 					</div>
 					<div className="flex items-center justify-between">
 						<Caption>After Next.js</Caption>
-						<Mono className="text-green-600 text-lg">95</Mono>
+						<Mono className="text-lg text-success">95</Mono>
 					</div>
 					<div className="h-1.5 w-full bg-muted">
-						<div className="h-full w-[95%] bg-green-600" />
+						<div className="h-full w-[95%] bg-success" />
 					</div>
 				</div>
 
@@ -52,7 +52,7 @@ export default async function WpHealthCta() {
 						}}
 					>
 						<Button
-							className="mt-6 border-transparent bg-brand px-8 text-white [&]:hover:bg-brand/80"
+							className="[&]:hover:!bg-brand-hover mt-6 border-transparent bg-brand px-8 text-brand-foreground"
 							render={<Link href="/wp-health-report" />}
 							size="lg"
 						>

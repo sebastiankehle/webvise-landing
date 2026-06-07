@@ -30,7 +30,7 @@ export default function FooterCtaBanner({
 					}}
 				>
 					<Button
-						className="[a]:hover:!bg-brand/80 shrink-0 border-transparent bg-brand px-8 text-white"
+						className="[a]:hover:!bg-brand-hover shrink-0 border-transparent bg-brand px-8 text-brand-foreground"
 						render={<Link href={{ pathname: "/", hash: "contact" }} />}
 						size="lg"
 					>

@@ -89,7 +89,7 @@ export default function Contact() {
 					<Muted className="mt-6">
 						{t("founder.text")}{" "}
 						<Link
-							className="text-brand transition-opacity hover:opacity-80"
+							className="text-brand-readable transition-colors hover:text-brand-readable"
 							href="/about"
 						>
 							{t("founder.name")}
@@ -194,7 +194,7 @@ export default function Contact() {
 										{t("form.service")}
 									</FormLabel>
 									<select
-										className="flex h-10 w-full border border-border bg-background px-3 text-base outline-none transition-colors focus:border-ring focus:ring-1 focus:ring-ring/50 md:h-9 md:text-sm"
+										className="flex h-10 w-full border border-input bg-card px-3 text-base outline-none transition-colors focus:border-brand focus:ring-1 focus:ring-brand-border md:h-9 md:text-sm dark:bg-card/35"
 										id={field.name}
 										name={field.name}
 										onBlur={field.handleBlur}
@@ -219,7 +219,7 @@ export default function Contact() {
 								<textarea
 									aria-invalid={field.state.meta.errors.length > 0}
 									autoComplete="off"
-									className="flex w-full border border-border bg-background px-3 py-2.5 text-base outline-none transition-colors focus:border-ring focus:ring-1 focus:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-1 aria-invalid:ring-destructive/20 md:text-sm"
+									className="flex w-full border border-input bg-card px-3 py-2.5 text-base outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-brand focus:ring-1 focus:ring-brand-border aria-invalid:border-destructive aria-invalid:ring-1 aria-invalid:ring-destructive/20 md:text-sm dark:bg-card/35"
 									id={field.name}
 									name={field.name}
 									onBlur={field.handleBlur}
@@ -237,7 +237,7 @@ export default function Contact() {
 					>
 						{([canSubmit, isSubmitting]) => (
 							<SubmitButton
-								className="w-full border-transparent bg-brand text-white md:h-10 md:text-sm [&]:hover:bg-brand/80"
+								className="[&]:hover:!bg-brand-hover w-full border-transparent bg-brand text-brand-foreground md:h-10 md:text-sm"
 								disabled={!canSubmit}
 								isSubmitting={isSubmitting}
 								size="lg"

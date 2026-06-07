@@ -51,7 +51,7 @@ function scoreColor(score: number | null) {
 		return { text: "text-muted-foreground", stroke: "stroke-muted-foreground" };
 	}
 	if (score >= 90) {
-		return { text: "text-green-500", stroke: "stroke-green-500" };
+		return { text: "text-success", stroke: "stroke-success" };
 	}
 	if (score >= 50) {
 		return { text: "text-yellow-500", stroke: "stroke-yellow-500" };
@@ -142,8 +142,8 @@ function ReportResults({ data }: { data: ReportData }) {
 			</div>
 
 			{/* Projected score - visually separated */}
-			<div className="mt-4 border-2 border-brand bg-brand/5 p-5">
-				<Caption className="mb-3 block text-center text-brand">
+			<div className="mt-4 border-2 border-brand bg-brand-surface p-5">
+				<Caption className="mb-3 block text-center text-brand-readable">
 					{t("results.projectedLabel")}
 				</Caption>
 				<div className="flex justify-center">
@@ -232,7 +232,7 @@ function ReportResults({ data }: { data: ReportData }) {
 				</div>
 				<div className="flex flex-wrap gap-3">
 					<Button
-						className="border-brand bg-brand text-white [&]:hover:bg-brand/80"
+						className="[&]:hover:!bg-brand-hover border-brand bg-brand text-brand-foreground"
 						onClick={() =>
 							track("book_call_clicked", { location: "analyzer_results" })
 						}
@@ -320,8 +320,8 @@ function TeaserResults({
 			</div>
 
 			{/* Projected score */}
-			<div className="mt-4 border-2 border-brand bg-brand/5 p-5">
-				<Caption className="mb-3 block text-center text-brand">
+			<div className="mt-4 border-2 border-brand bg-brand-surface p-5">
+				<Caption className="mb-3 block text-center text-brand-readable">
 					{t("results.projectedLabel")}
 				</Caption>
 				<div className="flex justify-center">
@@ -360,7 +360,7 @@ function TeaserResults({
 						value={firstName}
 					/>
 					<Button
-						className="border-transparent bg-brand text-white md:h-8 md:text-xs [&]:hover:bg-brand/80"
+						className="[&]:hover:!bg-brand-hover border-transparent bg-brand text-brand-foreground md:h-8 md:text-xs"
 						type="submit"
 					>
 						{t("gate.unlock")}
@@ -449,7 +449,7 @@ export default function WpHealthReport() {
 								<H1>
 									{t.rich("hero.title", {
 										brand: (chunks) => (
-											<span className="text-brand">{chunks}</span>
+											<span className="text-brand-readable">{chunks}</span>
 										),
 									})}
 								</H1>
@@ -520,7 +520,7 @@ export default function WpHealthReport() {
 								>
 									{([canSubmit, isSubmitting]) => (
 										<SubmitButton
-											className="w-full border-transparent bg-brand text-white md:h-8 md:text-xs [&]:hover:bg-brand/80"
+											className="[&]:hover:!bg-brand-hover w-full border-transparent bg-brand text-brand-foreground md:h-8 md:text-xs"
 											disabled={!canSubmit}
 											isSubmitting={isSubmitting}
 											size="lg"

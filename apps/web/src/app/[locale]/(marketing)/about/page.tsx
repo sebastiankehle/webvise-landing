@@ -149,14 +149,14 @@ export default async function AboutPage() {
 							<div className="flex flex-wrap gap-2">
 								{connectLinks.map(({ key, href }) => (
 									<a
-										className="group flex items-center gap-1.5 border border-border/40 px-3 py-1.5 text-sm transition-all hover:border-brand hover:bg-brand hover:text-white"
+										className="group flex items-center gap-1.5 border border-border/40 px-3 py-1.5 text-sm transition-all hover:border-brand hover:bg-brand hover:text-brand-foreground"
 										href={href}
 										key={key}
 										rel="noopener noreferrer"
 										target="_blank"
 									>
 										{t(`connect.${key}`)}
-										<ArrowUpRight className="h-3 w-3 text-muted-foreground transition-colors group-hover:text-white" />
+										<ArrowUpRight className="h-3 w-3 text-muted-foreground transition-colors group-hover:text-brand-foreground" />
 									</a>
 								))}
 							</div>
@@ -213,7 +213,7 @@ export default async function AboutPage() {
 											</div>
 											<div className="shrink-0 text-right">
 												<Caption className="block">{period}</Caption>
-												<Caption className="mt-1 block text-muted-foreground/60">
+												<Caption className="mt-1 block text-muted-foreground">
 													{location}
 												</Caption>
 											</div>
@@ -253,7 +253,7 @@ export default async function AboutPage() {
 										.split(", ")
 										.map((tool) => (
 											<Label
-												className="border border-border/40 px-3 py-1.5 text-foreground text-sm transition-all hover:border-brand hover:bg-brand hover:text-white"
+												className="border border-border/40 px-3 py-1.5 text-foreground text-sm transition-all hover:border-brand hover:bg-brand hover:text-brand-foreground"
 												key={tool}
 											>
 												{tool}

@@ -47,7 +47,7 @@ export default async function Pricing() {
 								<div className="flex items-center gap-3">
 									<H3 className="text-xl">{t(`tiers.${key}.name`)}</H3>
 									{hasBadge && (
-										<Label className="border border-brand bg-brand px-2 py-0.5 text-[10px] text-white">
+										<Label className="border border-brand bg-brand px-2 py-0.5 text-[10px] text-brand-foreground">
 											{t(`tiers.${key}.badge`)}
 										</Label>
 									)}
@@ -80,7 +80,7 @@ export default async function Pricing() {
 									}}
 								>
 									<Button
-										className="mt-5 w-full border-transparent bg-brand text-white [&]:hover:bg-brand/80"
+										className="[&]:hover:!bg-brand-hover mt-5 w-full border-transparent bg-brand text-brand-foreground"
 										render={<Link href={{ pathname: "/", hash: "contact" }} />}
 										size="sm"
 									>

@@ -113,11 +113,11 @@ export default async function BlogPage({
 			<section className="relative pt-32 pb-24 md:pt-44 md:pb-44">
 				<div
 					aria-hidden="true"
-					className="grid-hatch pointer-events-none absolute inset-y-0 left-0 hidden md:block md:w-[calc((100%-1320px)/2)]"
+					className="grid-hatch pointer-events-none absolute inset-y-0 left-0 hidden md:block md:w-[calc((100%_-_1320px)_/_2)]"
 				/>
 				<div
 					aria-hidden="true"
-					className="grid-hatch pointer-events-none absolute inset-y-0 right-0 hidden md:block md:w-[calc((100%-1320px)/2)]"
+					className="grid-hatch pointer-events-none absolute inset-y-0 right-0 hidden md:block md:w-[calc((100%_-_1320px)_/_2)]"
 				/>
 				<div
 					aria-hidden="true"
@@ -158,12 +158,12 @@ export default async function BlogPage({
 										{post.readingTime} {t("minRead")}
 									</Caption>
 								</Caption>
-								<H3 className="mt-5 transition-colors group-hover:text-brand">
+								<H3 className="mt-5 transition-colors group-hover:text-brand-readable">
 									{post.title}
 								</H3>
 								<Muted className="mt-3 leading-[1.6]">{post.excerpt}</Muted>
 								<div className="mt-6 mt-auto flex items-center justify-end border-border/40 border-t pt-5">
-									<ArrowRight className="h-4 w-4 text-muted-foreground transition-all group-hover:translate-x-1 group-hover:text-brand" />
+									<ArrowRight className="h-4 w-4 text-muted-foreground transition-all group-hover:translate-x-1 group-hover:text-brand-readable" />
 								</div>
 							</Link>
 						))}
@@ -225,7 +225,7 @@ export default async function BlogPage({
 												aria-current={item === page ? "page" : undefined}
 												className={
 													item === page
-														? "[a]:hover:!bg-brand/80 border-brand bg-brand text-white"
+														? "[a]:hover:!bg-brand-hover border-brand bg-brand text-brand-foreground"
 														: undefined
 												}
 												render={

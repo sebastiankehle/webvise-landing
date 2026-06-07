@@ -12,26 +12,19 @@ export default async function Hero() {
 	const t = await getTranslations("hero");
 
 	return (
-		<section className="relative overflow-hidden py-48 md:py-52" id="hero">
-			{/* Continuous vertical connectors */}
-			<div
-				aria-hidden="true"
-				className="pointer-events-none absolute inset-0 mx-auto hidden max-w-[1320px] md:block"
-			>
-				<div className="h-full border-grid-line border-x" />
-			</div>
+		<section className="relative overflow-hidden py-48 md:py-36" id="hero">
 			{/* Side gutter hatch */}
 			<div
 				aria-hidden="true"
-				className="grid-hatch pointer-events-none absolute inset-y-0 left-0 hidden md:block md:w-[calc((100%-1320px)/2)]"
+				className="grid-hatch pointer-events-none absolute inset-y-0 left-0 hidden md:block md:w-[calc((100%_-_1320px)_/_2)]"
 			/>
 			<div
 				aria-hidden="true"
-				className="grid-hatch pointer-events-none absolute inset-y-0 right-0 hidden md:block md:w-[calc((100%-1320px)/2)]"
+				className="grid-hatch pointer-events-none absolute inset-y-0 right-0 hidden md:block md:w-[calc((100%_-_1320px)_/_2)]"
 			/>
 			<GridFrame className="inset-0" />
 			{/* Mobile: subtle cloud in top-right, partially off-screen as depth layer */}
-			<div className="pointer-events-none absolute top-12 right-[-24px] opacity-25 md:hidden">
+			<div className="pointer-events-none absolute top-12 right-[-24px] md:hidden">
 				<div className="h-[220px] w-[180px]">
 					<IconCloud />
 				</div>
@@ -43,7 +36,7 @@ export default async function Hero() {
 							<Display>
 								{t.rich("title", {
 									brand: (chunks) => (
-										<span className="text-brand">{chunks}</span>
+										<span className="text-brand-readable">{chunks}</span>
 									),
 									muted: (chunks) => (
 										<span className="text-muted-foreground">{chunks}</span>
@@ -67,7 +60,7 @@ export default async function Hero() {
 									}}
 								>
 									<Button
-										className="border-transparent bg-brand px-8 text-white [&]:hover:bg-brand/80"
+										className="[&]:hover:!bg-brand-hover border-transparent bg-brand px-8 text-brand-foreground"
 										render={<Link href={{ pathname: "/", hash: "contact" }} />}
 										size="lg"
 									>

@@ -61,7 +61,7 @@ export function FaqAccordion({ items }: { items: FaqItem[] }) {
 					>
 						<button
 							aria-expanded={isOpen}
-							className="flex w-full items-center justify-between px-6 py-5 text-left transition-colors duration-150 hover:bg-muted/30"
+							className="flex w-full items-center justify-between px-6 py-5 text-left text-foreground transition-colors duration-150 hover:bg-muted/30"
 							onClick={() => setOpenIndex(isOpen ? null : i)}
 							type="button"
 						>
@@ -69,7 +69,7 @@ export function FaqAccordion({ items }: { items: FaqItem[] }) {
 								{item.question}
 							</Label>
 							<span
-								className={`ml-4 ${isOpen ? "text-foreground" : "text-muted-foreground/50"}`}
+								className={`ml-4 ${isOpen ? "text-foreground" : "text-muted-foreground"}`}
 							>
 								<ChevronIcon open={isOpen} />
 							</span>

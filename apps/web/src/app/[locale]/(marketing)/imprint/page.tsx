@@ -16,7 +16,7 @@ function renderLine(line: string) {
 	return parts.map((part) =>
 		EMAIL_RE.test(part) ? (
 			<a
-				className="text-brand underline underline-offset-4 transition-opacity hover:opacity-80"
+				className="text-brand-readable underline underline-offset-4 transition-colors hover:text-brand-readable"
 				href={`mailto:${part}`}
 				key={part}
 			>
@@ -72,7 +72,10 @@ export default async function ImprintPage() {
 			</div>
 
 			<div className="mt-16 flex max-w-2xl items-center gap-3 border border-border/40 p-5">
-				<Shield className="h-4 w-4 shrink-0 text-brand" strokeWidth={1.5} />
+				<Shield
+					className="h-4 w-4 shrink-0 text-brand-icon"
+					strokeWidth={1.5}
+				/>
 				<Muted>{tt("text")}</Muted>
 			</div>
 		</article>

@@ -27,7 +27,7 @@ export default async function Benefits() {
 						key={key}
 					>
 						<Icon
-							className="h-5 w-5 shrink-0 text-brand opacity-60"
+							className="h-5 w-5 shrink-0 text-brand-icon"
 							strokeWidth={1.5}
 						/>
 						<H3 className="mt-5">{t(`${key}.title`)}</H3>

@@ -178,7 +178,10 @@ export default async function ServicePage({
 					<div className="grid items-start gap-12 md:grid-cols-3 md:gap-16">
 						{/* Title + info */}
 						<div className="md:col-span-2">
-							<ServiceIcon className="h-5 w-5 text-brand" strokeWidth={1.5} />
+							<ServiceIcon
+								className="h-5 w-5 text-brand-icon"
+								strokeWidth={1.5}
+							/>
 							<H1 className="mt-6 max-w-3xl">{t(`${key}.title`)}</H1>
 							<Lead className="mt-5 max-w-lg">{t(`${key}.description`)}</Lead>
 							<div className="mt-10 flex flex-wrap items-start gap-x-8 gap-y-4 border-grid-line border-t pt-6">
@@ -233,7 +236,7 @@ export default async function ServicePage({
 						return (
 							<div className="group" key={t(`${key}.painPoints.${i}.heading`)}>
 								<PainIcon
-									className="mb-3 h-5 w-5 text-brand"
+									className="mb-3 h-5 w-5 text-brand-icon"
 									strokeWidth={1.5}
 								/>
 								<H3>{t(`${key}.painPoints.${i}.heading`)}</H3>
@@ -321,7 +324,7 @@ export default async function ServicePage({
 					<div className="relative mx-auto max-w-[1320px] px-6">
 						<div className="flex items-start gap-5 border border-border/40 p-6 md:p-8">
 							<Shield
-								className="mt-0.5 h-5 w-5 shrink-0 text-brand"
+								className="mt-0.5 h-5 w-5 shrink-0 text-brand-icon"
 								strokeWidth={1.5}
 							/>
 							<div>
@@ -356,7 +359,7 @@ export default async function ServicePage({
 								const RsIcon = rs.icon;
 								return (
 									<Link
-										className="group flex items-start gap-5 border border-border/40 p-6 transition-colors hover:border-brand/30"
+										className="group flex items-start gap-5 border border-border/40 p-6 transition-colors hover:border-brand-border"
 										href={{
 											pathname: "/services/[slug]",
 											params: { slug: rs.slug },
@@ -364,11 +367,11 @@ export default async function ServicePage({
 										key={rs.slug}
 									>
 										<RsIcon
-											className="mt-0.5 h-5 w-5 shrink-0 text-brand"
+											className="mt-0.5 h-5 w-5 shrink-0 text-brand-icon"
 											strokeWidth={1.5}
 										/>
 										<div>
-											<H3 className="transition-colors group-hover:text-brand">
+											<H3 className="transition-colors group-hover:text-brand-readable">
 												{t(`${rs.translationKey}.title`)}
 											</H3>
 											<Muted className="mt-1 line-clamp-2 leading-relaxed">

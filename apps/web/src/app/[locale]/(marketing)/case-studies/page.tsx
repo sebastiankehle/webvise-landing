@@ -48,11 +48,11 @@ export default async function CaseStudiesPage() {
 			<section className="relative pt-32 pb-24 md:pt-44 md:pb-24">
 				<div
 					aria-hidden="true"
-					className="grid-hatch pointer-events-none absolute inset-y-0 left-0 hidden md:block md:w-[calc((100%-1320px)/2)]"
+					className="grid-hatch pointer-events-none absolute inset-y-0 left-0 hidden md:block md:w-[calc((100%_-_1320px)_/_2)]"
 				/>
 				<div
 					aria-hidden="true"
-					className="grid-hatch pointer-events-none absolute inset-y-0 right-0 hidden md:block md:w-[calc((100%-1320px)/2)]"
+					className="grid-hatch pointer-events-none absolute inset-y-0 right-0 hidden md:block md:w-[calc((100%_-_1320px)_/_2)]"
 				/>
 				<div
 					aria-hidden="true"
@@ -118,7 +118,7 @@ export default async function CaseStudiesPage() {
 										</Label>
 									))}
 								</div>
-								<ArrowRight className="h-4 w-4 text-muted-foreground transition-all group-hover:translate-x-1 group-hover:text-brand" />
+								<ArrowRight className="h-4 w-4 text-muted-foreground transition-all group-hover:translate-x-1 group-hover:text-brand-readable" />
 							</div>
 						</Link>
 					))}

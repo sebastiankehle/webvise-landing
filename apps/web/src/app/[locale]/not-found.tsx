@@ -9,7 +9,7 @@ export default async function NotFound() {
 
 	return (
 		<div className="flex min-h-screen flex-col items-center justify-center px-6">
-			<Mono className="text-muted-foreground/50">404</Mono>
+			<Mono className="text-muted-foreground">404</Mono>
 			<H1 className="mt-4">{t("title")}</H1>
 			<Lead className="mt-4 max-w-md text-center">{t("description")}</Lead>
 			<div className="mt-8 flex gap-3">

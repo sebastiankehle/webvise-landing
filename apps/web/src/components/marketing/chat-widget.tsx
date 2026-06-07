@@ -18,7 +18,7 @@ function ChatLink(props: React.AnchorHTMLAttributes<HTMLAnchorElement>) {
 	return (
 		<a
 			{...props}
-			className="font-medium text-brand underline underline-offset-2 transition-colors hover:text-brand/80"
+			className="font-medium text-brand-readable underline underline-offset-2 transition-colors hover:text-brand-readable"
 			{...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
 		/>
 	);
@@ -254,7 +254,7 @@ export default function ChatWidget() {
 							/>
 							<button
 								aria-label="Send message"
-								className="flex h-8 w-8 shrink-0 items-center justify-center bg-brand text-white transition-opacity disabled:opacity-40 md:h-7 md:w-7"
+								className="flex h-8 w-8 shrink-0 items-center justify-center bg-brand text-brand-foreground transition-colors disabled:bg-muted disabled:text-muted-foreground md:h-7 md:w-7"
 								disabled={!input.trim() || isStreaming}
 								type="submit"
 							>
@@ -268,7 +268,7 @@ export default function ChatWidget() {
 			<motion.button
 				aria-label={open ? "Close chat" : "Open AI chat"}
 				className={cn(
-					"fixed right-6 bottom-6 z-40 flex h-12 w-12 items-center justify-center bg-brand text-white shadow-lg transition-colors hover:bg-brand/80",
+					"hover:!bg-brand-hover fixed right-6 bottom-6 z-40 flex h-12 w-12 items-center justify-center bg-brand text-brand-foreground shadow-lg transition-colors",
 					open && "max-md:hidden"
 				)}
 				onClick={() => {
@@ -279,8 +279,6 @@ export default function ChatWidget() {
 					}
 				}}
 				type="button"
-				whileHover={{ scale: 1.05 }}
-				whileTap={{ scale: 0.95 }}
 			>
 				<AnimatePresence mode="wait">
 					{open ? (

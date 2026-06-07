@@ -29,7 +29,7 @@ export default async function UnsubscribePage({
 							We couldn&apos;t process your unsubscribe request. Please try
 							again or contact us at{" "}
 							<a
-								className="text-brand underline underline-offset-4 transition-opacity hover:opacity-80"
+								className="text-brand-readable underline underline-offset-4 transition-colors hover:text-brand-readable"
 								href="mailto:mail@webvise.io"
 							>
 								mail@webvise.io
@@ -53,7 +53,7 @@ export default async function UnsubscribePage({
 						<Muted className="mt-8">
 							Have a project in mind?{" "}
 							<a
-								className="text-brand underline underline-offset-4 transition-opacity hover:opacity-80"
+								className="text-brand-readable underline underline-offset-4 transition-colors hover:text-brand-readable"
 								href="https://cal.com/webvise"
 							>
 								Book a free call

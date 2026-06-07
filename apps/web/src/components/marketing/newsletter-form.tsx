@@ -46,7 +46,7 @@ export function NewsletterForm({
 	}
 
 	if (status === "success") {
-		return <Muted className="text-green-600 text-xs">{success}</Muted>;
+		return <Muted className="text-success text-xs">{success}</Muted>;
 	}
 
 	return (

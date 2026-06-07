@@ -23,7 +23,7 @@ export default async function CaseStudiesPreview() {
 					<Lead className="mt-5 max-w-[520px]">{t("subtitle")}</Lead>
 				</div>
 				<Link
-					className="shrink-0 text-brand text-sm transition-opacity hover:opacity-80"
+					className="shrink-0 text-brand-readable text-sm transition-colors hover:text-brand-readable"
 					href="/case-studies"
 				>
 					{t("viewAll")}

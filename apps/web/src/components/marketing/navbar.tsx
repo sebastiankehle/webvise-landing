@@ -7,6 +7,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Logo from "@/components/logo";
 import IconCloud from "@/components/marketing/icon-cloud";
 import LanguageSwitcher from "@/components/marketing/language-switcher";
+import ThemeSwitcher from "@/components/marketing/theme-switcher";
 import { Button } from "@/components/ui/button";
 import { Body, Caption, H3, Label } from "@/components/ui/typography";
 import { services } from "@/data/services";
@@ -190,7 +191,7 @@ export default function Navbar({
 					<div className="hidden items-center gap-4 md:flex">
 						<LanguageSwitcher id="lang-desktop" />
 						<Button
-							className="border-transparent bg-brand px-6 text-white [&]:hover:bg-brand/80"
+							className="[&]:hover:!bg-brand-hover border-transparent bg-brand px-6 text-brand-foreground"
 							onClick={() =>
 								track("cta_clicked", {
 									location: "navbar",
@@ -261,7 +262,7 @@ export default function Navbar({
 										onClick={close}
 									>
 										<service.icon
-											className="mt-0.5 h-4 w-4 shrink-0 text-brand"
+											className="mt-0.5 h-4 w-4 shrink-0 text-brand-icon"
 											strokeWidth={1.5}
 										/>
 										<div className="min-w-0">
@@ -280,8 +281,10 @@ export default function Navbar({
 								href={{ pathname: "/", hash: "services" }}
 								onClick={(e) => handleNavClick(e, "services")}
 							>
-								<Caption className="text-brand">{ts("viewAll")}</Caption>
-								<ArrowRight className="h-3 w-3 text-brand transition-transform group-hover:translate-x-0.5" />
+								<Caption className="text-brand-readable">
+									{ts("viewAll")}
+								</Caption>
+								<ArrowRight className="h-3 w-3 text-brand-readable transition-transform group-hover:translate-x-0.5" />
 							</Link>
 						</div>
 					)}
@@ -314,7 +317,7 @@ export default function Navbar({
 										)}
 										<div className="flex flex-1 flex-col p-4">
 											<Caption>{cs.client}</Caption>
-											<Body className="mt-1.5 text-sm leading-snug transition-colors group-hover:text-brand">
+											<Body className="mt-1.5 text-sm leading-snug transition-colors group-hover:text-brand-readable">
 												{cs.title}
 											</Body>
 										</div>
@@ -326,8 +329,10 @@ export default function Navbar({
 								href="/case-studies"
 								onClick={close}
 							>
-								<Caption className="text-brand">{tcs("viewAll")}</Caption>
-								<ArrowRight className="h-3 w-3 text-brand transition-transform group-hover:translate-x-0.5" />
+								<Caption className="text-brand-readable">
+									{tcs("viewAll")}
+								</Caption>
+								<ArrowRight className="h-3 w-3 text-brand-readable transition-transform group-hover:translate-x-0.5" />
 							</Link>
 						</div>
 					)}
@@ -357,7 +362,7 @@ export default function Navbar({
 												year: "numeric",
 											})}
 										</time>
-										<Body className="mt-2 text-sm leading-snug transition-colors group-hover:text-brand">
+										<Body className="mt-2 text-sm leading-snug transition-colors group-hover:text-brand-readable">
 											{post.title}
 										</Body>
 										<Caption className="mt-auto pt-3">
@@ -371,8 +376,10 @@ export default function Navbar({
 								href="/blog"
 								onClick={close}
 							>
-								<Caption className="text-brand">{tb("viewAll")}</Caption>
-								<ArrowRight className="h-3 w-3 text-brand transition-transform group-hover:translate-x-0.5" />
+								<Caption className="text-brand-readable">
+									{tb("viewAll")}
+								</Caption>
+								<ArrowRight className="h-3 w-3 text-brand-readable transition-transform group-hover:translate-x-0.5" />
 							</Link>
 						</div>
 					)}
@@ -395,7 +402,7 @@ export default function Navbar({
 													{tpr(`tiers.${key}.name`)}
 												</Body>
 												{key === "growth" && (
-													<Label className="border border-brand bg-brand px-1.5 py-0.5 text-[10px] text-white">
+													<Label className="border border-brand bg-brand px-1.5 py-0.5 text-[10px] text-brand-foreground">
 														{tpr(`tiers.${key}.badge`)}
 													</Label>
 												)}
@@ -416,8 +423,8 @@ export default function Navbar({
 								href={{ pathname: "/", hash: "pricing" }}
 								onClick={(e) => handleNavClick(e, "pricing")}
 							>
-								<Caption className="text-brand">{tpr("cta")}</Caption>
-								<ArrowRight className="h-3 w-3 text-brand transition-transform group-hover:translate-x-0.5" />
+								<Caption className="text-brand-readable">{tpr("cta")}</Caption>
+								<ArrowRight className="h-3 w-3 text-brand-readable transition-transform group-hover:translate-x-0.5" />
 							</Link>
 						</div>
 					)}
@@ -432,7 +439,7 @@ export default function Navbar({
 				{/* Decorative icon cloud — mirrors hero placement, non-interactive */}
 				<div
 					aria-hidden="true"
-					className="pointer-events-none absolute top-12 right-[-24px] opacity-25"
+					className="pointer-events-none absolute top-12 right-[-24px]"
 				>
 					<div className="h-[220px] w-[180px]">
 						{mobileOpen && <IconCloud />}
@@ -444,7 +451,7 @@ export default function Navbar({
 				>
 					<div className="flex flex-col gap-0.5">
 						<button
-							className="flex items-center justify-between py-4 text-foreground transition-colors hover:text-brand"
+							className="flex items-center justify-between py-4 text-foreground transition-colors hover:text-brand-readable"
 							onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
 							type="button"
 						>
@@ -469,7 +476,10 @@ export default function Navbar({
 										key={slug}
 										onClick={() => setMobileOpen(false)}
 									>
-										<Icon className="h-4 w-4 text-brand" strokeWidth={1.5} />
+										<Icon
+											className="h-4 w-4 text-brand-icon"
+											strokeWidth={1.5}
+										/>
 										{ts(`${translationKey}.title`)}
 									</Link>
 								))}
@@ -477,7 +487,7 @@ export default function Navbar({
 						)}
 
 						<Link
-							className="py-4 text-left font-display text-foreground text-lg transition-colors hover:text-brand"
+							className="py-4 text-left font-display text-foreground text-lg transition-colors hover:text-brand-readable"
 							href={{ pathname: "/", hash: "case-studies" }}
 							onClick={(e) => handleNavClick(e, "case-studies")}
 						>
@@ -485,7 +495,7 @@ export default function Navbar({
 						</Link>
 
 						<Link
-							className="py-4 text-left font-display text-foreground text-lg transition-colors hover:text-brand"
+							className="py-4 text-left font-display text-foreground text-lg transition-colors hover:text-brand-readable"
 							href={{ pathname: "/", hash: "blog" }}
 							onClick={(e) => handleNavClick(e, "blog")}
 						>
@@ -493,7 +503,7 @@ export default function Navbar({
 						</Link>
 
 						<Link
-							className="py-4 text-left font-display text-foreground text-lg transition-colors hover:text-brand"
+							className="py-4 text-left font-display text-foreground text-lg transition-colors hover:text-brand-readable"
 							href={{ pathname: "/", hash: "pricing" }}
 							onClick={(e) => handleNavClick(e, "pricing")}
 						>
@@ -519,8 +529,9 @@ export default function Navbar({
 							</div>
 							<LanguageSwitcher id="lang-mobile" />
 						</div>
+						<ThemeSwitcher className="w-full justify-start" variant="inline" />
 						<Button
-							className="w-full border-transparent bg-brand text-white [&]:hover:bg-brand/80"
+							className="[&]:hover:!bg-brand-hover w-full border-transparent bg-brand text-brand-foreground"
 							onClick={() => {
 								track("cta_clicked", {
 									location: "navbar_mobile",

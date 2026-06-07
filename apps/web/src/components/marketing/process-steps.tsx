@@ -25,9 +25,7 @@ export default function ProcessSteps({ steps }: { steps: Step[] }) {
 						className="group border-grid-line border-b p-6 md:border-r md:[&:nth-child(5n)]:border-r-0"
 						key={step.number}
 					>
-						<Mono className="text-muted-foreground/40 text-sm">
-							{step.number}
-						</Mono>
+						<Mono className="text-muted-foreground text-sm">{step.number}</Mono>
 						<H3 className="mt-2 text-base">{step.title}</H3>
 						<Muted className="mt-3 leading-[1.6]">{step.description}</Muted>
 					</div>

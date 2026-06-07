@@ -27,7 +27,9 @@ export default async function Comparison() {
 			<div className="max-w-[640px]">
 				<H2 className="text-balance">
 					{t.rich("title", {
-						brand: (chunks) => <span className="text-brand">{chunks}</span>,
+						brand: (chunks) => (
+							<span className="text-brand-readable">{chunks}</span>
+						),
 					})}
 				</H2>
 				<Lead className="mt-5 max-w-[520px]">{t("subtitle")}</Lead>
@@ -49,7 +51,7 @@ export default async function Comparison() {
 						<div className="flex items-center gap-3">
 							<H3 className="text-xl">{t(`options.${key}.name`)}</H3>
 							{highlight && (
-								<Label className="border border-brand bg-brand px-2 py-0.5 text-[10px] text-white">
+								<Label className="border border-brand bg-brand px-2 py-0.5 text-[10px] text-brand-foreground">
 									{t(`options.${key}.badge`)}
 								</Label>
 							)}

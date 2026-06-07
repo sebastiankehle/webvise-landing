@@ -1,5 +1,6 @@
 "use client";
 
+import { useTheme } from "next-themes";
 import type { MouseEvent as ReactMouseEvent } from "react";
 import { useEffect, useMemo, useState } from "react";
 import {
@@ -9,6 +10,11 @@ import {
 	renderSimpleIcon,
 	type SimpleIcon,
 } from "react-icon-cloud";
+
+import { DARK_THEME_IDS } from "@/lib/themes";
+
+const darkThemeIds = new Set<string>(DARK_THEME_IDS);
+const darkSurfaceFallbackHex = "#f4f1ea";
 
 const cloudProps: Omit<ICloud, "children"> = {
 	containerProps: {
@@ -30,22 +36,18 @@ const cloudProps: Omit<ICloud, "children"> = {
 		clickToFront: 500,
 		tooltipDelay: 0,
 		outlineColour: "#0000",
+		minBrightness: 0.55,
 		maxSpeed: 0.04,
 		minSpeed: 0.02,
 	},
 };
 
-function renderCustomIcon(icon: SimpleIcon) {
-	const hex = icon.hex.replace("#", "").toLowerCase();
-	// Force white/near-white icons to black
-	const r = Number.parseInt(hex.slice(0, 2), 16);
-	const g = Number.parseInt(hex.slice(2, 4), 16);
-	const b = Number.parseInt(hex.slice(4, 6), 16);
-	const effectiveIcon =
-		r > 200 && g > 200 && b > 200 ? { ...icon, hex: "1a1a1a" } : icon;
-
+function renderCustomIcon(icon: SimpleIcon, isDarkSurface: boolean) {
 	return renderSimpleIcon({
-		icon: effectiveIcon,
+		bgHex: isDarkSurface ? "#101416" : "#ffffff",
+		fallbackHex: isDarkSurface ? darkSurfaceFallbackHex : "#1f1712",
+		icon,
+		minContrastRatio: 2.6,
 		size: 42,
 		aProps: {
 			href: "/",
@@ -89,6 +91,7 @@ const iconSlugs = [
 type IconData = Awaited<ReturnType<typeof fetchSimpleIcons>>;
 
 export default function IconCloud() {
+	const { resolvedTheme, theme } = useTheme();
 	const [mounted, setMounted] = useState(false);
 	const [data, setData] = useState<IconData | null>(null);
 
@@ -101,10 +104,13 @@ export default function IconCloud() {
 		if (!data) {
 			return null;
 		}
+		const activeTheme = theme === "system" ? resolvedTheme : theme;
+		const isDarkSurface = activeTheme ? darkThemeIds.has(activeTheme) : false;
+
 		return Object.values(data.simpleIcons).map((icon) =>
-			renderCustomIcon(icon)
+			renderCustomIcon(icon, isDarkSurface)
 		);
-	}, [data]);
+	}, [data, resolvedTheme, theme]);
 
 	return (
 		<div className="h-[300px] w-full md:h-[400px]">

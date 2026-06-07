@@ -28,10 +28,10 @@ export default async function Services() {
 						<div>
 							<div className="flex flex-col gap-4">
 								<service.icon
-									className="h-5 w-5 shrink-0 text-brand"
+									className="h-5 w-5 shrink-0 text-brand-icon"
 									strokeWidth={1.5}
 								/>
-								<H3 className="transition-colors group-hover:text-brand">
+								<H3 className="transition-colors group-hover:text-brand-readable">
 									{t(`${service.translationKey}.title`)}
 								</H3>
 							</div>

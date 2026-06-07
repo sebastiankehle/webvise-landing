@@ -84,11 +84,11 @@ export default function ReportDownloadForm({
 	});
 
 	return (
-		<div className="my-10 border border-brand/20 bg-brand/[0.03]">
+		<div className="my-10 border border-brand-border bg-brand-surface">
 			<div className="p-6 md:p-8">
 				<div className="flex items-start gap-4">
 					<Mail
-						className="mt-0.5 h-5 w-5 shrink-0 text-brand"
+						className="mt-0.5 h-5 w-5 shrink-0 text-brand-icon"
 						strokeWidth={1.5}
 					/>
 					<div className="min-w-0">
@@ -100,8 +100,11 @@ export default function ReportDownloadForm({
 				</div>
 
 				{submitStatus === "success" ? (
-					<div className="mt-6 flex items-center gap-3 border border-brand/20 bg-brand/5 p-4">
-						<Check className="h-4 w-4 shrink-0 text-brand" strokeWidth={2} />
+					<div className="mt-6 flex items-center gap-3 border border-brand-border bg-brand-surface p-4">
+						<Check
+							className="h-4 w-4 shrink-0 text-brand-icon"
+							strokeWidth={2}
+						/>
 						<Muted className="font-medium text-foreground text-sm">
 							{l.success}
 						</Muted>
@@ -148,7 +151,7 @@ export default function ReportDownloadForm({
 						>
 							{([canSubmit, isSubmitting]) => (
 								<SubmitButton
-									className="h-10 border-transparent bg-brand text-white [&]:hover:bg-brand/80"
+									className="[&]:hover:!bg-brand-hover h-10 border-transparent bg-brand text-brand-foreground"
 									disabled={!canSubmit}
 									isSubmitting={isSubmitting}
 								>

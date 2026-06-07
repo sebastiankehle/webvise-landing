@@ -19,7 +19,7 @@ export default async function GlobalNotFound() {
 	return (
 		<html className={`${inter.variable} ${geistMono.variable}`} lang="en">
 			<body className="flex min-h-screen flex-col items-center justify-center bg-background px-6 font-sans antialiased">
-				<Mono className="text-muted-foreground/50">404</Mono>
+				<Mono className="text-muted-foreground">404</Mono>
 				<H1 className="mt-4">{t("title")}</H1>
 				<Lead className="mt-4 max-w-md text-center font-light">
 					{t("description")}

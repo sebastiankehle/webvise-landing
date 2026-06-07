@@ -3,6 +3,7 @@ import { getLocale } from "next-intl/server";
 import ChatWidgetMount from "@/components/marketing/chat-widget-mount";
 import Footer from "@/components/marketing/footer";
 import Navbar from "@/components/marketing/navbar";
+import ThemeSwitcher from "@/components/marketing/theme-switcher";
 import { getBlogIndex } from "@/data/blog";
 import { getFeaturedCaseStudies } from "@/data/case-studies";
 
@@ -49,6 +50,7 @@ export default async function MarketingLayout({
 				{children}
 			</main>
 			<Footer ctaBanner={cta} />
+			<ThemeSwitcher />
 			<ChatWidgetMount />
 		</>
 	);

@@ -1,7 +1,12 @@
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
-import { Geist_Mono, Inter } from "next/font/google";
+import {
+	Geist_Mono,
+	Hanken_Grotesk,
+	Inter,
+	Space_Grotesk,
+} from "next/font/google";
 import { notFound } from "next/navigation";
 import Script from "next/script";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
@@ -12,9 +17,20 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { routing } from "@/i18n/routing";
+import { SITE_THEME_IDS } from "@/lib/themes";
 
 const inter = Inter({
 	variable: "--font-inter",
+	subsets: ["latin"],
+});
+
+const hankenGrotesk = Hanken_Grotesk({
+	variable: "--font-hanken-grotesk",
+	subsets: ["latin"],
+});
+
+const spaceGrotesk = Space_Grotesk({
+	variable: "--font-space-grotesk",
 	subsets: ["latin"],
 });
 
@@ -132,12 +148,15 @@ export default async function LocaleLayout({
 					`}
 				</Script>
 			</head>
-			<body className={`${inter.variable} ${geistMono.variable} antialiased`}>
+			<body
+				className={`${inter.variable} ${hankenGrotesk.variable} ${spaceGrotesk.variable} ${geistMono.variable} antialiased`}
+			>
 				<ThemeProvider
 					attribute="class"
 					defaultTheme="light"
 					disableTransitionOnChange
-					forcedTheme="light"
+					enableColorScheme={false}
+					themes={SITE_THEME_IDS}
 				>
 					<NextIntlClientProvider messages={messages}>
 						<TooltipProvider>{children}</TooltipProvider>

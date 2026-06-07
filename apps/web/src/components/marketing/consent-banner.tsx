@@ -87,7 +87,7 @@ export function ConsentBanner() {
 				<div className="h-px bg-brand" />
 				<div className="p-6 md:p-7">
 					<Cookie
-						className="h-5 w-5 shrink-0 text-brand opacity-60"
+						className="h-5 w-5 shrink-0 text-brand-icon"
 						strokeWidth={1.5}
 					/>
 					<p className="mt-5 font-medium text-foreground text-sm">
@@ -96,7 +96,7 @@ export function ConsentBanner() {
 					<p className="mt-3 text-muted-foreground text-sm leading-relaxed">
 						{t("body")}{" "}
 						<Link
-							className="text-foreground underline underline-offset-4 transition-colors hover:text-brand"
+							className="text-foreground underline underline-offset-4 transition-colors hover:text-brand-readable"
 							href="/privacy"
 						>
 							{t("privacyLink")}
@@ -106,7 +106,7 @@ export function ConsentBanner() {
 
 					<div className="mt-6 flex items-center gap-2">
 						<Button
-							className="flex-1 border-transparent bg-brand px-5 text-white [&]:hover:bg-brand/80"
+							className="[&]:hover:!bg-brand-hover flex-1 border-transparent bg-brand px-5 text-brand-foreground"
 							nativeButton
 							onClick={handleAccept}
 							size="lg"

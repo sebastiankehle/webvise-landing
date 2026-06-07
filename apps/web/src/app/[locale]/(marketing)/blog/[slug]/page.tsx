@@ -92,7 +92,7 @@ function renderInline(text: string) {
 				if (innerLink[2].startsWith("http")) {
 					return (
 						<a
-							className="font-medium text-brand underline underline-offset-4 transition-colors hover:text-brand/80"
+							className="font-medium text-brand-readable underline underline-offset-4 transition-colors hover:text-brand-readable"
 							href={innerLink[2]}
 							key={key}
 							rel="noopener noreferrer"
@@ -104,7 +104,7 @@ function renderInline(text: string) {
 				}
 				return (
 					<Link
-						className="font-medium text-brand underline underline-offset-4 transition-colors hover:text-brand/80"
+						className="font-medium text-brand-readable underline underline-offset-4 transition-colors hover:text-brand-readable"
 						href={innerLink[2] as "/blog"}
 						key={key}
 					>
@@ -123,7 +123,7 @@ function renderInline(text: string) {
 			if (linkMatch[2].startsWith("http")) {
 				return (
 					<a
-						className="text-brand underline underline-offset-4 transition-colors hover:text-brand/80"
+						className="text-brand-readable underline underline-offset-4 transition-colors hover:text-brand-readable"
 						href={linkMatch[2]}
 						key={key}
 						rel="noopener noreferrer"
@@ -135,7 +135,7 @@ function renderInline(text: string) {
 			}
 			return (
 				<Link
-					className="text-brand underline underline-offset-4 transition-colors hover:text-brand/80"
+					className="text-brand-readable underline underline-offset-4 transition-colors hover:text-brand-readable"
 					href={linkMatch[2] as "/blog"}
 					key={key}
 				>
@@ -355,7 +355,7 @@ export default async function BlogPostPage({
 								<div className="flex flex-wrap gap-2">
 									{post.tags.map((tag) => (
 										<Label
-											className="border border-border/40 px-3 py-1.5 text-foreground text-sm transition-all hover:border-brand hover:bg-brand hover:text-white"
+											className="border border-border/40 px-3 py-1.5 text-foreground text-sm transition-all hover:border-brand hover:bg-brand hover:text-brand-foreground"
 											key={tag}
 										>
 											{tag}
@@ -386,7 +386,7 @@ export default async function BlogPostPage({
 					) && (
 						<div className="mt-14 flex items-center gap-3 border border-border/40 p-5 text-sm">
 							<Shield
-								className="h-4 w-4 shrink-0 text-brand"
+								className="h-4 w-4 shrink-0 text-brand-icon"
 								strokeWidth={1.5}
 							/>
 							<Muted>{tt("text")}</Muted>
@@ -415,11 +415,11 @@ export default async function BlogPostPage({
 						<div className="mt-12 grid gap-6 md:grid-cols-2">
 							{prev && (
 								<Link
-									className="group border border-border/40 p-6 transition-colors hover:border-brand/30"
+									className="group border border-border/40 p-6 transition-colors hover:border-brand-border"
 									href={`/blog/${prev.slug}` as "/blog"}
 								>
 									<Caption>{t("prevPost")}</Caption>
-									<H3 className="mt-2 text-lg transition-colors group-hover:text-brand">
+									<H3 className="mt-2 text-lg transition-colors group-hover:text-brand-readable">
 										{prev.title}
 									</H3>
 									<Muted className="mt-2 line-clamp-2 leading-relaxed">
@@ -429,11 +429,11 @@ export default async function BlogPostPage({
 							)}
 							{next && (
 								<Link
-									className="group border border-border/40 p-6 transition-colors hover:border-brand/30"
+									className="group border border-border/40 p-6 transition-colors hover:border-brand-border"
 									href={`/blog/${next.slug}` as "/blog"}
 								>
 									<Caption>{t("nextPost")}</Caption>
-									<H3 className="mt-2 text-lg transition-colors group-hover:text-brand">
+									<H3 className="mt-2 text-lg transition-colors group-hover:text-brand-readable">
 										{next.title}
 									</H3>
 									<Muted className="mt-2 line-clamp-2 leading-relaxed">

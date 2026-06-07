@@ -22,7 +22,7 @@ export default async function BlogPreview() {
 					<Lead className="mt-5 max-w-[520px]">{t("subtitle")}</Lead>
 				</div>
 				<Link
-					className="shrink-0 text-brand text-sm transition-opacity hover:opacity-80"
+					className="shrink-0 text-brand-readable text-sm transition-colors hover:text-brand-readable"
 					href="/blog"
 				>
 					{t("viewAll")}
@@ -50,7 +50,7 @@ export default async function BlogPreview() {
 								{post.readingTime} {t("minRead")}
 							</Caption>
 						</div>
-						<H3 className="mt-5 transition-colors group-hover:text-brand">
+						<H3 className="mt-5 transition-colors group-hover:text-brand-readable">
 							{post.title}
 						</H3>
 						<Muted className="mt-3 line-clamp-3">{post.excerpt}</Muted>

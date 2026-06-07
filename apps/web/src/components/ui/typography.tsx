@@ -7,7 +7,7 @@ function Display({ className, ...props }: React.ComponentProps<"h1">) {
 	return (
 		<h1
 			className={cn(
-				"text-balance font-display text-[32px] leading-[1.08] tracking-[-0.04em] md:text-[48px]",
+				"text-balance font-display text-[32px] text-foreground leading-[1.08] tracking-[-0.04em] md:text-[48px]",
 				className
 			)}
 			data-slot="display"
@@ -21,7 +21,7 @@ function H1({ className, ...props }: React.ComponentProps<"h1">) {
 	return (
 		<h1
 			className={cn(
-				"font-display text-[32px] leading-[1.08] tracking-[-0.04em] md:text-[48px]",
+				"font-display text-[32px] text-foreground leading-[1.08] tracking-[-0.04em] md:text-[48px]",
 				className
 			)}
 			data-slot="h1"
@@ -35,7 +35,7 @@ function H2({ className, ...props }: React.ComponentProps<"h2">) {
 	return (
 		<h2
 			className={cn(
-				"font-display text-[28px] leading-[1.1] tracking-[-0.03em] md:text-[40px]",
+				"font-display text-[28px] text-foreground leading-[1.1] tracking-[-0.03em] md:text-[40px]",
 				className
 			)}
 			data-slot="h2"
@@ -49,7 +49,7 @@ function H3({ className, ...props }: React.ComponentProps<"h3">) {
 	return (
 		<h3
 			className={cn(
-				"font-display text-xl leading-[1.25] tracking-[-0.02em]",
+				"font-display text-foreground text-xl leading-[1.25] tracking-[-0.02em]",
 				className
 			)}
 			data-slot="h3"
@@ -62,7 +62,7 @@ function H3({ className, ...props }: React.ComponentProps<"h3">) {
 function H4({ className, ...props }: React.ComponentProps<"h4">) {
 	return (
 		<h4
-			className={cn("font-display text-base", className)}
+			className={cn("font-display text-base text-foreground", className)}
 			data-slot="h4"
 			{...props}
 		/>
@@ -87,7 +87,7 @@ function Lead({ className, ...props }: React.ComponentProps<"p">) {
 function Body({ className, ...props }: React.ComponentProps<"p">) {
 	return (
 		<p
-			className={cn("text-[15px] leading-[1.6]", className)}
+			className={cn("text-[15px] text-foreground leading-[1.6]", className)}
 			data-slot="body"
 			{...props}
 		/>
@@ -154,7 +154,7 @@ function Stat({ className, ...props }: React.ComponentProps<"span">) {
 	return (
 		<span
 			className={cn(
-				"font-display text-3xl text-brand tracking-tight md:text-[48px] md:leading-[1]",
+				"font-display text-3xl text-brand-readable tracking-tight md:text-[48px] md:leading-[1]",
 				className
 			)}
 			data-slot="stat"
@@ -172,7 +172,7 @@ function QuoteMark({
 	return (
 		<span
 			className={cn(
-				"block select-none font-display text-5xl text-brand/30 leading-none",
+				"block select-none font-display text-5xl text-brand-icon leading-none",
 				className
 			)}
 			data-slot="quote-mark"
@@ -188,7 +188,7 @@ function DisplayH2({ className, ...props }: React.ComponentProps<"h2">) {
 	return (
 		<h2
 			className={cn(
-				"font-display text-[32px] leading-[1.2] tracking-[-0.03em] md:text-[36px]",
+				"font-display text-[32px] text-foreground leading-[1.2] tracking-[-0.03em] md:text-[36px]",
 				className
 			)}
 			data-slot="display-h2"
@@ -202,7 +202,7 @@ function InlineLink({ className, ...props }: React.ComponentProps<"a">) {
 	return (
 		<a
 			className={cn(
-				"text-foreground text-sm underline underline-offset-4 transition-colors hover:text-brand",
+				"text-foreground text-sm underline underline-offset-4 transition-colors hover:text-brand-readable",
 				className
 			)}
 			data-slot="inline-link"

@@ -52,7 +52,10 @@ export default async function TermsPage() {
 			</div>
 
 			<div className="mt-16 flex max-w-2xl items-center gap-3 border border-border/40 p-5">
-				<Shield className="h-4 w-4 shrink-0 text-brand" strokeWidth={1.5} />
+				<Shield
+					className="h-4 w-4 shrink-0 text-brand-icon"
+					strokeWidth={1.5}
+				/>
 				<Muted>{tt("text")}</Muted>
 			</div>
 		</article>

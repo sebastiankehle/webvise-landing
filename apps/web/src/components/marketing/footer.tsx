@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import Logo from "@/components/logo";
 import { CookiePreferencesLink } from "@/components/marketing/cookie-preferences-link";
 import { NewsletterForm } from "@/components/marketing/newsletter-form";
+import ThemeSwitcher from "@/components/marketing/theme-switcher";
 import { Caption, Label, Muted, Small } from "@/components/ui/typography";
 import { services } from "@/data/services";
 import { socials } from "@/data/socials";
@@ -43,14 +44,14 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 						<Muted className="mt-5 max-w-[260px] leading-[1.6]">
 							{t("tagline")}
 						</Muted>
-						<Small className="mt-1 block text-muted-foreground/60">
+						<Small className="mt-1 block text-muted-foreground">
 							{t("location")}
 						</Small>
 						<div className="mt-8 flex items-center gap-3">
 							{socials.map((social) => (
 								<a
 									aria-label={social.name}
-									className="flex h-8 w-8 items-center justify-center border border-[--border] text-muted-foreground transition-all hover:border-brand/40 hover:text-brand"
+									className="flex h-8 w-8 items-center justify-center border border-[--border] text-muted-foreground transition-all hover:border-brand-border hover:text-brand-readable"
 									href={social.href}
 									key={social.name}
 									rel="noopener noreferrer"
@@ -66,7 +67,7 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 					<div className="grid grid-cols-2 gap-x-8 gap-y-10 md:col-span-9 md:grid-cols-3">
 						{/* Company */}
 						<div>
-							<Caption className="mb-5 block text-muted-foreground/40">
+							<Caption className="mb-5 block text-muted-foreground">
 								{t("sections.company")}
 							</Caption>
 							<ul className="space-y-3">
@@ -85,7 +86,7 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 
 						{/* Services */}
 						<div>
-							<Caption className="mb-5 block text-muted-foreground/40">
+							<Caption className="mb-5 block text-muted-foreground">
 								{t("sections.services")}
 							</Caption>
 							<ul className="space-y-3">
@@ -104,7 +105,7 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 
 						{/* Contact */}
 						<div>
-							<Caption className="mb-5 block text-muted-foreground/40">
+							<Caption className="mb-5 block text-muted-foreground">
 								{t("sections.contact")}
 							</Caption>
 							<ul className="space-y-3 text-sm">
@@ -118,15 +119,13 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 								</li>
 								<li className="text-muted-foreground">{t("address.street")}</li>
 								<li className="text-muted-foreground">{t("address.city")}</li>
-								<li className="text-muted-foreground/60">
-									{t("address.hours")}
-								</li>
+								<li className="text-muted-foreground">{t("address.hours")}</li>
 							</ul>
 						</div>
 
 						{/* Explore */}
 						<div>
-							<Caption className="mb-5 block text-muted-foreground/40">
+							<Caption className="mb-5 block text-muted-foreground">
 								{t("sections.explore")}
 							</Caption>
 							<ul className="space-y-3">
@@ -159,7 +158,7 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 
 						{/* Resources */}
 						<div>
-							<Caption className="mb-5 block text-muted-foreground/40">
+							<Caption className="mb-5 block text-muted-foreground">
 								{t("sections.resources")}
 							</Caption>
 							<ul className="space-y-3">
@@ -184,7 +183,7 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 
 						{/* Newsletter */}
 						<div>
-							<Caption className="mb-5 block text-brand">
+							<Caption className="mb-5 block text-brand-readable">
 								{tb("divider")}
 							</Caption>
 							<NewsletterForm
@@ -201,29 +200,32 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 			{/* Bottom bar */}
 			<div className="relative border-[--border] border-t">
 				<div className="mx-auto flex max-w-[1320px] flex-col items-center justify-between gap-4 px-6 py-6 md:flex-row">
-					<Caption className="text-muted-foreground/60">
+					<Caption className="text-muted-foreground">
 						{t("legal.copyright", { year })}
 					</Caption>
-					<div className="flex gap-6 text-muted-foreground/60 text-xs">
-						<Link
-							className="transition-colors hover:text-[--foreground]"
-							href="/privacy"
-						>
-							{t("legal.privacy")}
-						</Link>
-						<Link
-							className="transition-colors hover:text-[--foreground]"
-							href="/terms"
-						>
-							{t("legal.terms")}
-						</Link>
-						<Link
-							className="transition-colors hover:text-[--foreground]"
-							href="/imprint"
-						>
-							{t("legal.imprint")}
-						</Link>
-						<CookiePreferencesLink />
+					<div className="flex flex-col items-center gap-4 md:flex-row md:gap-6">
+						<ThemeSwitcher className="md:hidden" variant="inline" />
+						<div className="flex gap-6 text-muted-foreground text-xs">
+							<Link
+								className="transition-colors hover:text-[--foreground]"
+								href="/privacy"
+							>
+								{t("legal.privacy")}
+							</Link>
+							<Link
+								className="transition-colors hover:text-[--foreground]"
+								href="/terms"
+							>
+								{t("legal.terms")}
+							</Link>
+							<Link
+								className="transition-colors hover:text-[--foreground]"
+								href="/imprint"
+							>
+								{t("legal.imprint")}
+							</Link>
+							<CookiePreferencesLink />
+						</div>
 					</div>
 				</div>
 			</div>

@@ -15,7 +15,9 @@ export default async function MidCta() {
 				<div className="max-w-[640px]">
 					<H2 className="text-balance">
 						{t.rich("title", {
-							brand: (chunks) => <span className="text-brand">{chunks}</span>,
+							brand: (chunks) => (
+								<span className="text-brand-readable">{chunks}</span>
+							),
 							br: () => <br className="hidden md:block" />,
 						})}
 					</H2>
@@ -30,7 +32,7 @@ export default async function MidCta() {
 					}}
 				>
 					<Button
-						className="[a]:hover:!bg-brand/80 shrink-0 border-transparent bg-brand px-8 text-white"
+						className="[a]:hover:!bg-brand-hover shrink-0 border-transparent bg-brand px-8 text-brand-foreground"
 						render={<Link href={{ pathname: "/", hash: "contact" }} />}
 						size="lg"
 					>

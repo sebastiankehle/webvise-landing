@@ -148,11 +148,11 @@ function CustomTooltip({
 		: beforeLabel;
 
 	return (
-		<div className="border border-border bg-[--surface-dark-secondary] px-4 py-3 backdrop-blur-sm">
-			<Caption className="mb-1.5 block text-[--foreground]">
+		<div className="border border-border bg-card px-4 py-3 shadow-sm">
+			<Caption className="mb-1.5 block text-foreground">
 				{phase}
 				{label && label.trim() !== "" && (
-					<span className="ml-2 text-muted-foreground/60">{label}</span>
+					<span className="ml-2 text-muted-foreground">{label}</span>
 				)}
 			</Caption>
 			{valid.map((entry) => (
@@ -169,7 +169,7 @@ function CustomTooltip({
 							{entry.dataKey === "before" ? beforeLabel : afterLabel}
 						</Caption>
 					</div>
-					<Caption className="text-[--foreground] tabular-nums">
+					<Caption className="text-foreground tabular-nums">
 						{entry.value}
 						{unit}
 					</Caption>
@@ -193,8 +193,8 @@ export default function MiniChart({
 			<div className="flex flex-col gap-3 border-grid-line border-b px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
 				<div>
 					<div className="flex items-center gap-3">
-						<Body className="text-[--foreground] text-sm">{current.label}</Body>
-						<Body className="text-brand text-sm tabular-nums">
+						<Body className="text-foreground text-sm">{current.label}</Body>
+						<Body className="text-brand-readable text-sm tabular-nums">
 							{current.lift}
 						</Body>
 					</div>
@@ -205,8 +205,8 @@ export default function MiniChart({
 						<button
 							className={`px-2.5 py-1 text-xs transition-colors ${
 								active === key
-									? "bg-[--foreground]/10 text-[--foreground]"
-									: "text-muted-foreground/50 hover:text-muted-foreground"
+									? "bg-foreground/10 text-foreground"
+									: "text-muted-foreground hover:text-foreground"
 							}`}
 							key={key}
 							onClick={() => setActive(key)}
@@ -225,20 +225,20 @@ export default function MiniChart({
 					>
 						<defs>
 							<linearGradient id="afterFill" x1="0" x2="0" y1="0" y2="1">
+								<stop offset="0%" stopColor="var(--brand)" stopOpacity={0.25} />
+								<stop offset="100%" stopColor="var(--brand)" stopOpacity={0} />
+							</linearGradient>
+							<linearGradient id="beforeFill" x1="0" x2="0" y1="0" y2="1">
 								<stop
 									offset="0%"
-									stopColor="oklch(0.75 0.18 55)"
-									stopOpacity={0.25}
+									stopColor="var(--foreground)"
+									stopOpacity={0.06}
 								/>
 								<stop
 									offset="100%"
-									stopColor="oklch(0.75 0.18 55)"
+									stopColor="var(--foreground)"
 									stopOpacity={0}
 								/>
-							</linearGradient>
-							<linearGradient id="beforeFill" x1="0" x2="0" y1="0" y2="1">
-								<stop offset="0%" stopColor="oklch(1 0 0)" stopOpacity={0.06} />
-								<stop offset="100%" stopColor="oklch(1 0 0)" stopOpacity={0} />
 							</linearGradient>
 						</defs>
 						<XAxis
@@ -246,14 +246,14 @@ export default function MiniChart({
 							dataKey="week"
 							dy={8}
 							interval={2}
-							tick={{ fontSize: 10, fill: "oklch(1 0 0 / 0.25)" }}
+							tick={{ fontSize: 10, fill: "var(--muted-foreground)" }}
 							tickFormatter={(v) => (v.trim() === "" ? "" : v)}
 							tickLine={false}
 						/>
 						<YAxis
 							axisLine={false}
 							domain={[0, "auto"]}
-							tick={{ fontSize: 10, fill: "oklch(1 0 0 / 0.25)" }}
+							tick={{ fontSize: 10, fill: "var(--muted-foreground)" }}
 							tickLine={false}
 							width={40}
 						/>
@@ -267,7 +267,7 @@ export default function MiniChart({
 								/>
 							}
 							cursor={{
-								stroke: "oklch(0.75 0.18 55 / 0.2)",
+								stroke: "var(--brand)",
 								strokeWidth: 1,
 							}}
 						/>
@@ -275,27 +275,27 @@ export default function MiniChart({
 							label={{
 								value: "▾ webvise",
 								position: "top",
-								fill: "oklch(0.75 0.18 55 / 0.7)",
+								fill: "var(--brand)",
 								fontSize: 10,
 								fontWeight: 500,
 								offset: 8,
 							}}
-							stroke="oklch(0.75 0.18 55 / 0.4)"
+							stroke="var(--brand)"
 							strokeDasharray="3 3"
 							x="      "
 						/>
 						<Area
 							activeDot={{
 								r: 3,
-								stroke: "oklch(1 0 0 / 0.3)",
+								stroke: "var(--border)",
 								strokeWidth: 1.5,
-								fill: "oklch(0.13 0.01 250)",
+								fill: "var(--card)",
 							}}
 							connectNulls={false}
 							dataKey="before"
 							dot={false}
 							fill="url(#beforeFill)"
-							stroke="oklch(1 0 0 / 0.2)"
+							stroke="var(--muted-foreground)"
 							strokeDasharray="4 3"
 							strokeWidth={1.5}
 							type="monotone"
@@ -303,15 +303,15 @@ export default function MiniChart({
 						<Area
 							activeDot={{
 								r: 4,
-								stroke: "oklch(0.75 0.18 55)",
+								stroke: "var(--brand)",
 								strokeWidth: 2,
-								fill: "oklch(0.13 0.01 250)",
+								fill: "var(--card)",
 							}}
 							connectNulls={false}
 							dataKey="after"
 							dot={false}
 							fill="url(#afterFill)"
-							stroke="oklch(0.75 0.18 55)"
+							stroke="var(--brand)"
 							strokeWidth={2}
 							type="monotone"
 						/>

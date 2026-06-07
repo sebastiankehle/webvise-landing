@@ -46,7 +46,7 @@ export default function BlogShare({
 				<div className="mt-1 flex items-center gap-1.5">
 					<button
 						aria-label="Share on X"
-						className="flex h-8 w-8 items-center justify-center border border-border/40 text-muted-foreground transition-colors hover:border-brand hover:bg-brand hover:text-white"
+						className="flex h-8 w-8 items-center justify-center border border-border/40 text-muted-foreground transition-colors hover:border-brand hover:bg-brand hover:text-brand-foreground"
 						onClick={() =>
 							window.open(
 								`https://x.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`,
@@ -67,7 +67,7 @@ export default function BlogShare({
 					</button>
 					<button
 						aria-label="Share on LinkedIn"
-						className="flex h-8 w-8 items-center justify-center border border-border/40 text-muted-foreground transition-colors hover:border-brand hover:bg-brand hover:text-white"
+						className="flex h-8 w-8 items-center justify-center border border-border/40 text-muted-foreground transition-colors hover:border-brand hover:bg-brand hover:text-brand-foreground"
 						onClick={() =>
 							window.open(
 								`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
@@ -88,7 +88,7 @@ export default function BlogShare({
 					</button>
 					<button
 						aria-label={t("copyLink")}
-						className="flex h-8 items-center gap-1.5 border border-border/40 px-2.5 text-muted-foreground transition-colors hover:border-brand hover:bg-brand hover:text-white"
+						className="flex h-8 items-center gap-1.5 border border-border/40 px-2.5 text-muted-foreground transition-colors hover:border-brand hover:bg-brand hover:text-brand-foreground"
 						onClick={copyLink}
 						type="button"
 					>

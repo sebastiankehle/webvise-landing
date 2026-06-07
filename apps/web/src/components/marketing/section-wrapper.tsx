@@ -4,7 +4,7 @@ function sectionBackground(dark: boolean, alternate: boolean): string {
 	if (dark) {
 		return "section-dark";
 	}
-	return alternate ? "bg-white" : "bg-background";
+	return alternate ? "section-alternate" : "bg-background";
 }
 
 export function CornerMarker({ className }: { className?: string }) {
@@ -12,19 +12,12 @@ export function CornerMarker({ className }: { className?: string }) {
 		<span
 			aria-hidden="true"
 			className={cn(
-				"absolute h-3.5 w-3.5 select-none text-muted-foreground/30",
+				"absolute h-3.5 w-3.5 select-none text-grid-line",
 				className
 			)}
 		>
-			<svg
-				aria-hidden="true"
-				className="h-full w-full"
-				fill="none"
-				viewBox="0 0 14 14"
-			>
-				<title>corner marker</title>
-				<path d="M0 7h14M7 0v14" stroke="currentColor" strokeWidth="1" />
-			</svg>
+			<span className="absolute top-1/2 left-0 h-px w-full -translate-y-1/2 bg-current" />
+			<span className="absolute top-0 left-1/2 h-full w-px -translate-x-1/2 bg-current" />
 		</span>
 	);
 }
@@ -44,11 +37,13 @@ export function GridFrame({
 				className
 			)}
 		>
-			<div className="relative h-full border-grid-line border-x">
-				<CornerMarker className="-top-[7px] -left-[7px]" />
-				<CornerMarker className="-top-[7px] -right-[7px]" />
-				<CornerMarker className="-bottom-[7px] -left-[7px]" />
-				<CornerMarker className="-right-[7px] -bottom-[7px]" />
+			<div className="relative h-full">
+				<span className="absolute inset-y-0 left-0 w-px bg-grid-line" />
+				<span className="absolute inset-y-0 right-0 w-px bg-grid-line" />
+				<CornerMarker className="-top-[6.5px] -left-[6.5px]" />
+				<CornerMarker className="-top-[6.5px] -right-[6.5px]" />
+				<CornerMarker className="-bottom-[6.5px] -left-[6.5px]" />
+				<CornerMarker className="-right-[6.5px] -bottom-[6.5px]" />
 				{children}
 			</div>
 		</div>
@@ -89,11 +84,11 @@ export default function SectionWrapper({
 				<>
 					<div
 						aria-hidden="true"
-						className="grid-hatch pointer-events-none absolute inset-y-0 left-0 hidden md:block md:w-[calc((100%-1320px)/2)]"
+						className="grid-hatch pointer-events-none absolute inset-y-0 left-0 hidden md:block md:w-[calc((100%_-_1320px)_/_2)]"
 					/>
 					<div
 						aria-hidden="true"
-						className="grid-hatch pointer-events-none absolute inset-y-0 right-0 hidden md:block md:w-[calc((100%-1320px)/2)]"
+						className="grid-hatch pointer-events-none absolute inset-y-0 right-0 hidden md:block md:w-[calc((100%_-_1320px)_/_2)]"
 					/>
 				</>
 			)}

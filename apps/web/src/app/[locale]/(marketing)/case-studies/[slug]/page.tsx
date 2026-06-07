@@ -166,11 +166,11 @@ export default async function CaseStudyPage({
 			<section className="relative pt-32 pb-24 md:pt-44 md:pb-36">
 				<div
 					aria-hidden="true"
-					className="grid-hatch pointer-events-none absolute inset-y-0 left-0 hidden md:block md:w-[calc((100%-1320px)/2)]"
+					className="grid-hatch pointer-events-none absolute inset-y-0 left-0 hidden md:block md:w-[calc((100%_-_1320px)_/_2)]"
 				/>
 				<div
 					aria-hidden="true"
-					className="grid-hatch pointer-events-none absolute inset-y-0 right-0 hidden md:block md:w-[calc((100%-1320px)/2)]"
+					className="grid-hatch pointer-events-none absolute inset-y-0 right-0 hidden md:block md:w-[calc((100%_-_1320px)_/_2)]"
 				/>
 				<div
 					aria-hidden="true"
@@ -217,7 +217,7 @@ export default async function CaseStudyPage({
 										if (cs.liveUrl) {
 											return (
 												<a
-													className="mt-1 inline-flex items-center gap-1.5 text-brand text-sm transition-colors hover:text-brand/80"
+													className="mt-1 inline-flex items-center gap-1.5 text-brand-readable text-sm transition-colors hover:text-brand-readable"
 													href={cs.liveUrl}
 													rel="noopener noreferrer"
 													target="_blank"
@@ -263,11 +263,11 @@ export default async function CaseStudyPage({
 				/>
 				<div
 					aria-hidden="true"
-					className="grid-hatch pointer-events-none absolute inset-y-0 left-0 hidden md:block md:w-[calc((100%-1320px)/2)]"
+					className="grid-hatch pointer-events-none absolute inset-y-0 left-0 hidden md:block md:w-[calc((100%_-_1320px)_/_2)]"
 				/>
 				<div
 					aria-hidden="true"
-					className="grid-hatch pointer-events-none absolute inset-y-0 right-0 hidden md:block md:w-[calc((100%-1320px)/2)]"
+					className="grid-hatch pointer-events-none absolute inset-y-0 right-0 hidden md:block md:w-[calc((100%_-_1320px)_/_2)]"
 				/>
 				<div
 					aria-hidden="true"
@@ -318,11 +318,11 @@ export default async function CaseStudyPage({
 				/>
 				<div
 					aria-hidden="true"
-					className="grid-hatch pointer-events-none absolute inset-y-0 left-0 hidden md:block md:w-[calc((100%-1320px)/2)]"
+					className="grid-hatch pointer-events-none absolute inset-y-0 left-0 hidden md:block md:w-[calc((100%_-_1320px)_/_2)]"
 				/>
 				<div
 					aria-hidden="true"
-					className="grid-hatch pointer-events-none absolute inset-y-0 right-0 hidden md:block md:w-[calc((100%-1320px)/2)]"
+					className="grid-hatch pointer-events-none absolute inset-y-0 right-0 hidden md:block md:w-[calc((100%_-_1320px)_/_2)]"
 				/>
 				<div
 					aria-hidden="true"
@@ -356,11 +356,11 @@ export default async function CaseStudyPage({
 					/>
 					<div
 						aria-hidden="true"
-						className="grid-hatch pointer-events-none absolute inset-y-0 left-0 hidden md:block md:w-[calc((100%-1320px)/2)]"
+						className="grid-hatch pointer-events-none absolute inset-y-0 left-0 hidden md:block md:w-[calc((100%_-_1320px)_/_2)]"
 					/>
 					<div
 						aria-hidden="true"
-						className="grid-hatch pointer-events-none absolute inset-y-0 right-0 hidden md:block md:w-[calc((100%-1320px)/2)]"
+						className="grid-hatch pointer-events-none absolute inset-y-0 right-0 hidden md:block md:w-[calc((100%_-_1320px)_/_2)]"
 					/>
 					<div
 						aria-hidden="true"
@@ -393,11 +393,11 @@ export default async function CaseStudyPage({
 					/>
 					<div
 						aria-hidden="true"
-						className="grid-hatch pointer-events-none absolute inset-y-0 left-0 hidden md:block md:w-[calc((100%-1320px)/2)]"
+						className="grid-hatch pointer-events-none absolute inset-y-0 left-0 hidden md:block md:w-[calc((100%_-_1320px)_/_2)]"
 					/>
 					<div
 						aria-hidden="true"
-						className="grid-hatch pointer-events-none absolute inset-y-0 right-0 hidden md:block md:w-[calc((100%-1320px)/2)]"
+						className="grid-hatch pointer-events-none absolute inset-y-0 right-0 hidden md:block md:w-[calc((100%_-_1320px)_/_2)]"
 					/>
 					<div
 						aria-hidden="true"
@@ -431,7 +431,7 @@ export default async function CaseStudyPage({
 						<div className="mt-10 grid gap-6 md:grid-cols-2">
 							{relatedCaseStudies.map((related) => (
 								<Link
-									className="group border border-border/40 transition-colors hover:border-brand/30"
+									className="group border border-border/40 transition-colors hover:border-brand-border"
 									href={{
 										pathname: "/case-studies/[slug]",
 										params: { slug: related.slug },
@@ -453,7 +453,7 @@ export default async function CaseStudyPage({
 										<Caption>
 											{related.client} &middot; {related.industry}
 										</Caption>
-										<H3 className="mt-2 text-lg transition-colors group-hover:text-brand">
+										<H3 className="mt-2 text-lg transition-colors group-hover:text-brand-readable">
 											{related.title}
 										</H3>
 									</div>

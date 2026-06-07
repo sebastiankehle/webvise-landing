@@ -50,7 +50,7 @@ export function TechBadge({ name }: { name: string }) {
 
 	if (!description) {
 		return (
-			<Label className="border border-border/40 px-3 py-1.5 text-foreground text-sm transition-all hover:border-brand hover:bg-brand hover:text-white">
+			<Label className="border border-border/40 px-3 py-1.5 text-foreground text-sm transition-all hover:border-brand hover:bg-brand hover:text-brand-foreground">
 				{name}
 			</Label>
 		);
@@ -59,7 +59,7 @@ export function TechBadge({ name }: { name: string }) {
 	return (
 		<TooltipProvider delay={300}>
 			<Tooltip>
-				<TooltipTrigger className="cursor-default border border-border/40 px-3 py-1.5 text-sm transition-all hover:border-brand hover:bg-brand hover:text-white">
+				<TooltipTrigger className="cursor-default border border-border/40 px-3 py-1.5 text-foreground text-sm transition-all hover:border-brand hover:bg-brand hover:text-brand-foreground">
 					{name}
 				</TooltipTrigger>
 				<TooltipContent>{description}</TooltipContent>
