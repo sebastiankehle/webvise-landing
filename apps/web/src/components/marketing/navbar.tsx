@@ -39,6 +39,22 @@ const dropdownHashes = new Set<NavHash>([
 	"pricing",
 ]);
 
+function MobileMenuIcon({ open }: { open: boolean }) {
+	return (
+		<div className="flex w-[18px] flex-col gap-[5px]">
+			<span
+				className={`block h-[1.5px] w-full origin-center bg-current transition-all duration-300 ${open ? "translate-y-[6.5px] rotate-45" : ""}`}
+			/>
+			<span
+				className={`block h-[1.5px] w-full bg-current transition-all duration-300 ${open ? "scale-x-0 opacity-0" : ""}`}
+			/>
+			<span
+				className={`block h-[1.5px] w-full origin-center bg-current transition-all duration-300 ${open ? "-translate-y-[6.5px] -rotate-45" : ""}`}
+			/>
+		</div>
+	);
+}
+
 export default function Navbar({
 	recentPosts = [],
 	featuredCaseStudies = [],
@@ -52,6 +68,9 @@ export default function Navbar({
 	const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
 	const closeRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 	const dropdownRef = useRef<HTMLElement>(null);
+	const mobileCloseButtonRef = useRef<HTMLButtonElement>(null);
+	const mobileOpenButtonRef = useRef<HTMLButtonElement>(null);
+	const restoreMobileFocusRef = useRef(false);
 	const t = useTranslations("nav");
 	const ts = useTranslations("services");
 	const tpr = useTranslations("pricing");
@@ -74,6 +93,70 @@ export default function Navbar({
 		};
 	}, [mobileOpen]);
 
+	useEffect(() => {
+		if (!mobileOpen) {
+			setMobileServicesOpen(false);
+		}
+	}, [mobileOpen]);
+
+	const closeMobileMenu = useCallback(() => {
+		restoreMobileFocusRef.current = true;
+		setMobileOpen(false);
+	}, []);
+
+	useEffect(() => {
+		const backgroundElements = [
+			document.querySelector<HTMLElement>('a[href="#main-content"]'),
+			document.getElementById("main-content"),
+			document.querySelector<HTMLElement>("footer"),
+		];
+
+		for (const element of backgroundElements) {
+			if (!element) {
+				continue;
+			}
+			if (mobileOpen) {
+				element.setAttribute("aria-hidden", "true");
+				element.setAttribute("inert", "");
+			} else {
+				element.removeAttribute("aria-hidden");
+				element.removeAttribute("inert");
+			}
+		}
+
+		return () => {
+			for (const element of backgroundElements) {
+				element?.removeAttribute("aria-hidden");
+				element?.removeAttribute("inert");
+			}
+		};
+	}, [mobileOpen]);
+
+	useEffect(() => {
+		if (!mobileOpen) {
+			return;
+		}
+
+		const frame = window.requestAnimationFrame(() => {
+			mobileCloseButtonRef.current?.focus({ preventScroll: true });
+		});
+
+		return () => window.cancelAnimationFrame(frame);
+	}, [mobileOpen]);
+
+	useEffect(() => {
+		if (mobileOpen || !restoreMobileFocusRef.current) {
+			return;
+		}
+
+		restoreMobileFocusRef.current = false;
+		const frame = window.requestAnimationFrame(() => {
+			mobileOpenButtonRef.current?.focus({ preventScroll: true });
+		});
+
+		return () => window.cancelAnimationFrame(frame);
+	}, [mobileOpen]);
+
 	const open = useCallback((id: NavHash) => {
 		clearTimeout(closeRef.current);
 		setActiveDropdown(id);
@@ -92,11 +175,12 @@ export default function Navbar({
 		const onKeyDown = (e: KeyboardEvent) => {
 			if (e.key === "Escape") {
 				setActiveDropdown(null);
+				closeMobileMenu();
 			}
 		};
 		window.addEventListener("keydown", onKeyDown);
 		return () => window.removeEventListener("keydown", onKeyDown);
-	}, []);
+	}, [closeMobileMenu]);
 
 	useEffect(() => {
 		const node = dropdownRef.current;
@@ -119,7 +203,7 @@ export default function Navbar({
 	const handleNavClick = useCallback(
 		(e: React.MouseEvent, hash: string) => {
 			close();
-			setMobileOpen(false);
+			closeMobileMenu();
 			if (pathname === "/") {
 				e.preventDefault();
 				const el = document.getElementById(hash);
@@ -128,7 +212,7 @@ export default function Navbar({
 				}
 			}
 		},
-		[pathname, close]
+		[pathname, close, closeMobileMenu]
 	);
 
 	const navLinks: { hash: NavHash; label: string }[] = [
@@ -140,7 +224,11 @@ export default function Navbar({
 
 	return (
 		<>
-			<header className="sticky top-0 z-50 border-grid-line border-b bg-background">
+			<header
+				aria-hidden={mobileOpen ? true : undefined}
+				className="sticky top-0 z-50 border-grid-line border-b bg-background"
+				inert={mobileOpen ? true : undefined}
+			>
 				<div className="mx-auto flex h-16 max-w-[1320px] items-center justify-between px-6 md:h-20">
 					<Link
 						aria-label="webvise - home"
@@ -192,22 +280,15 @@ export default function Navbar({
 					<MarketingNavbarActions ctaLabel={t("getStarted")} />
 
 					<button
+						aria-controls="marketing-mobile-menu"
+						aria-expanded={mobileOpen}
 						aria-label={mobileOpen ? "Close menu" : "Open menu"}
 						className="flex h-9 w-9 items-center justify-center border-0 md:hidden"
 						onClick={() => setMobileOpen(!mobileOpen)}
+						ref={mobileOpenButtonRef}
 						type="button"
 					>
-						<div className="flex w-[18px] flex-col gap-[5px]">
-							<span
-								className={`block h-[1.5px] w-full origin-center bg-current transition-all duration-300 ${mobileOpen ? "translate-y-[6.5px] rotate-45" : ""}`}
-							/>
-							<span
-								className={`block h-[1.5px] w-full bg-current transition-all duration-300 ${mobileOpen ? "scale-x-0 opacity-0" : ""}`}
-							/>
-							<span
-								className={`block h-[1.5px] w-full origin-center bg-current transition-all duration-300 ${mobileOpen ? "-translate-y-[6.5px] -rotate-45" : ""}`}
-							/>
-						</div>
+						<MobileMenuIcon open={mobileOpen} />
 					</button>
 				</div>
 			</header>
@@ -419,113 +500,158 @@ export default function Navbar({
 			</nav>
 
 			<div
-				className={`fixed inset-0 top-16 z-50 bg-background transition-opacity duration-300 md:hidden ${
+				aria-hidden={mobileOpen ? undefined : true}
+				aria-modal={mobileOpen ? true : undefined}
+				className={`fixed inset-0 z-[80] bg-background text-foreground transition-opacity duration-300 md:hidden ${
 					mobileOpen ? "opacity-100" : "pointer-events-none opacity-0"
 				}`}
+				id="marketing-mobile-menu"
+				inert={mobileOpen ? undefined : true}
+				role="dialog"
 			>
-				{/* Decorative icon cloud — mirrors hero placement, non-interactive */}
-				<div
-					aria-hidden="true"
-					className="pointer-events-none absolute top-12 right-[-24px]"
-				>
-					<div className="h-[220px] w-[180px]">
-						{mobileOpen && <IconCloud />}
-					</div>
-				</div>
-				<nav
-					aria-label="Mobile navigation"
-					className="relative mx-auto flex h-full max-w-[1320px] flex-col overflow-y-auto px-6 pt-6 pb-6"
-				>
-					<div className="flex flex-col gap-0.5">
-						<button
-							className="flex items-center justify-between py-4 text-foreground transition-colors hover:text-brand-readable"
-							onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
-							type="button"
-						>
-							<Label className="font-display text-foreground text-lg">
-								{t("services")}
-							</Label>
-							<span className="flex h-9 w-9 items-center justify-center">
-								<ChevronDown
-									className={`h-4 w-4 text-muted-foreground transition-transform duration-200 ${mobileServicesOpen ? "rotate-180" : ""}`}
-								/>
-							</span>
-						</button>
-						{mobileServicesOpen && (
-							<div className="mb-2 ml-1 flex flex-col gap-0.5 border-border/40 border-l pl-4">
-								{services.map(({ slug, translationKey, icon: Icon }) => (
-									<Link
-										className="flex items-center gap-3 py-2.5 text-muted-foreground text-sm transition-colors hover:text-foreground"
-										href={{
-											pathname: "/services/[slug]",
-											params: { slug },
-										}}
-										key={slug}
-										onClick={() => setMobileOpen(false)}
-									>
-										<Icon
-											className="h-4 w-4 text-brand-icon"
-											strokeWidth={1.5}
-										/>
-										{ts(`${translationKey}.title`)}
-									</Link>
-								))}
-							</div>
-						)}
+				<div className="relative flex h-full flex-col">
+					<div className="shrink-0 border-grid-line border-b bg-background">
+						<div className="mx-auto flex h-16 max-w-[1320px] items-center justify-between px-6">
+							<Link
+								aria-label="webvise - home"
+								className="flex items-center gap-2.5"
+								href="/"
+								onClick={(e) => {
+									closeMobileMenu();
+									if (pathname === "/") {
+										e.preventDefault();
+										window.scrollTo({ top: 0, behavior: "smooth" });
+										window.history.replaceState(
+											null,
+											"",
+											`/${locale === "en" ? "" : locale}`
+										);
+									}
+								}}
+							>
+								<Logo animated className="h-7 w-7" />
+								<Label className="font-display text-foreground text-xl tracking-[-0.02em]">
+									webvise
+								</Label>
+							</Link>
 
-						<Link
-							className="py-4 text-left font-display text-foreground text-lg transition-colors hover:text-brand-readable"
-							href={{ pathname: "/", hash: "case-studies" }}
-							onClick={(e) => handleNavClick(e, "case-studies")}
-						>
-							{t("caseStudies")}
-						</Link>
-
-						<Link
-							className="py-4 text-left font-display text-foreground text-lg transition-colors hover:text-brand-readable"
-							href={{ pathname: "/", hash: "blog" }}
-							onClick={(e) => handleNavClick(e, "blog")}
-						>
-							{t("blog")}
-						</Link>
-
-						<Link
-							className="py-4 text-left font-display text-foreground text-lg transition-colors hover:text-brand-readable"
-							href={{ pathname: "/", hash: "pricing" }}
-							onClick={(e) => handleNavClick(e, "pricing")}
-						>
-							{t("pricing")}
-						</Link>
-					</div>
-
-					<div className="mt-auto space-y-6 border-border/40 border-t pt-6">
-						<div className="flex items-center justify-between">
-							<div className="flex items-center gap-2">
-								{socials.map((social) => (
-									<a
-										aria-label={social.name}
-										className="flex h-8 w-8 items-center justify-center border border-border/40 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-										href={social.href}
-										key={social.name}
-										rel="noopener noreferrer"
-										target="_blank"
-									>
-										{social.icon}
-									</a>
-								))}
-							</div>
-							<MarketingMobileMenuControls />
+							<button
+								aria-controls="marketing-mobile-menu"
+								aria-label="Close menu"
+								className="flex h-9 w-9 items-center justify-center border-0 md:hidden"
+								onClick={closeMobileMenu}
+								ref={mobileCloseButtonRef}
+								type="button"
+							>
+								<MobileMenuIcon open={mobileOpen} />
+							</button>
 						</div>
-						<MarketingNavbarCta
-							className="w-full"
-							location="navbar_mobile"
-							onClick={() => setMobileOpen(false)}
-							size="lg"
-						>
-							{t("getStarted")}
-						</MarketingNavbarCta>
 					</div>
-				</nav>
+
+					{/* Decorative icon cloud — mirrors hero placement, non-interactive */}
+					<div
+						aria-hidden="true"
+						className="pointer-events-none absolute top-28 right-[-24px]"
+					>
+						<div className="h-[220px] w-[180px]">
+							{mobileOpen && <IconCloud />}
+						</div>
+					</div>
+					<nav
+						aria-label="Mobile navigation"
+						className="relative mx-auto flex min-h-0 w-full max-w-[1320px] flex-1 flex-col overflow-y-auto px-6 pt-6 pb-6"
+					>
+						<div className="flex flex-col gap-0.5">
+							<button
+								className="flex items-center justify-between py-4 text-foreground transition-colors hover:text-brand-readable"
+								onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
+								type="button"
+							>
+								<Label className="font-display text-foreground text-lg">
+									{t("services")}
+								</Label>
+								<span className="flex h-9 w-9 items-center justify-center">
+									<ChevronDown
+										className={`h-4 w-4 text-muted-foreground transition-transform duration-200 ${mobileServicesOpen ? "rotate-180" : ""}`}
+									/>
+								</span>
+							</button>
+							{mobileServicesOpen && (
+								<div className="mb-2 ml-1 flex flex-col gap-0.5 border-border/40 border-l pl-4">
+									{services.map(({ slug, translationKey, icon: Icon }) => (
+										<Link
+											className="flex items-center gap-3 py-2.5 text-muted-foreground text-sm transition-colors hover:text-foreground"
+											href={{
+												pathname: "/services/[slug]",
+												params: { slug },
+											}}
+											key={slug}
+											onClick={closeMobileMenu}
+										>
+											<Icon
+												className="h-4 w-4 text-brand-icon"
+												strokeWidth={1.5}
+											/>
+											{ts(`${translationKey}.title`)}
+										</Link>
+									))}
+								</div>
+							)}
+
+							<Link
+								className="py-4 text-left font-display text-foreground text-lg transition-colors hover:text-brand-readable"
+								href={{ pathname: "/", hash: "case-studies" }}
+								onClick={(e) => handleNavClick(e, "case-studies")}
+							>
+								{t("caseStudies")}
+							</Link>
+
+							<Link
+								className="py-4 text-left font-display text-foreground text-lg transition-colors hover:text-brand-readable"
+								href={{ pathname: "/", hash: "blog" }}
+								onClick={(e) => handleNavClick(e, "blog")}
+							>
+								{t("blog")}
+							</Link>
+
+							<Link
+								className="py-4 text-left font-display text-foreground text-lg transition-colors hover:text-brand-readable"
+								href={{ pathname: "/", hash: "pricing" }}
+								onClick={(e) => handleNavClick(e, "pricing")}
+							>
+								{t("pricing")}
+							</Link>
+						</div>
+
+						<div className="mt-auto space-y-6 border-border/40 border-t pt-6">
+							<div className="flex items-center justify-between">
+								<div className="flex items-center gap-2">
+									{socials.map((social) => (
+										<a
+											aria-label={social.name}
+											className="flex h-8 w-8 items-center justify-center border border-border/40 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+											href={social.href}
+											key={social.name}
+											rel="noopener noreferrer"
+											target="_blank"
+										>
+											{social.icon}
+										</a>
+									))}
+								</div>
+								<MarketingMobileMenuControls />
+							</div>
+							<MarketingNavbarCta
+								className="w-full"
+								location="navbar_mobile"
+								onClick={closeMobileMenu}
+								size="lg"
+							>
+								{t("getStarted")}
+							</MarketingNavbarCta>
+						</div>
+					</nav>
+				</div>
 			</div>
 		</>
 	);
