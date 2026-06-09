@@ -256,6 +256,20 @@ export default function Navbar({
 						aria-label="Main navigation"
 						className="hidden h-full items-center gap-1 md:flex"
 					>
+						<Link
+							className={`relative inline-flex h-full items-center px-4 text-[13px] transition-colors hover:text-foreground ${
+								pathname === "/solutions"
+									? "text-foreground"
+									: "text-muted-foreground"
+							}`}
+							href="/solutions"
+							onMouseEnter={close}
+						>
+							{t("solutions")}
+							{pathname === "/solutions" && (
+								<span className="absolute right-4 bottom-0 left-4 h-px bg-brand" />
+							)}
+						</Link>
 						{navLinks.map(({ hash, label }) => (
 							<Link
 								className={`relative inline-flex h-full items-center px-4 text-[13px] transition-colors hover:text-foreground ${
@@ -597,6 +611,14 @@ export default function Navbar({
 									))}
 								</div>
 							)}
+
+							<Link
+								className="py-4 text-left font-display text-foreground text-lg transition-colors hover:text-brand-readable"
+								href="/solutions"
+								onClick={closeMobileMenu}
+							>
+								{t("solutions")}
+							</Link>
 
 							<Link
 								className="py-4 text-left font-display text-foreground text-lg transition-colors hover:text-brand-readable"

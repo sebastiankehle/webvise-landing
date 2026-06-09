@@ -13,6 +13,12 @@ import Process from "@/components/marketing/sections/process";
 import Services from "@/components/marketing/sections/services";
 import TechStack from "@/components/marketing/sections/tech-stack";
 import Testimonials from "@/components/marketing/sections/testimonials";
+import {
+	LaunchSupport,
+	SeniorDelivery,
+	WorkflowProblem,
+} from "@/components/marketing/sections/workflow-positioning";
+import WorkflowSystems from "@/components/marketing/sections/workflow-systems";
 import WpHealthCta from "@/components/marketing/sections/wp-health-cta";
 
 const jsonLd = {
@@ -57,8 +63,11 @@ export default function HomePage() {
 			<JsonLd data={jsonLd} />
 			<Hero />
 			<Metrics />
+			<WorkflowProblem />
 			<TechStack />
+			<WorkflowSystems />
 			<Services />
+			<SeniorDelivery />
 			<Benefits />
 			<MidCta />
 			<Testimonials />
@@ -66,6 +75,7 @@ export default function HomePage() {
 			<Process />
 			<Comparison />
 			<Pricing />
+			<LaunchSupport />
 			<WpHealthCta />
 			<BlogPreview />
 			<FAQ />

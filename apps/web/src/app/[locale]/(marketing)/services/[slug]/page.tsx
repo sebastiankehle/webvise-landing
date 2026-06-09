@@ -21,6 +21,7 @@ import {
 	Small,
 } from "@/components/ui/typography";
 import { getServiceBySlug, relatedServices, services } from "@/data/services";
+import { getSolutionBySlug, serviceRelatedSolutions } from "@/data/solutions";
 import { Link } from "@/i18n/navigation";
 import { generateAlternates, localizedUrl } from "@/lib/seo";
 
@@ -93,6 +94,16 @@ export default async function ServicePage({
 			): relatedService is NonNullable<ReturnType<typeof getServiceBySlug>> =>
 				Boolean(relatedService)
 		);
+	const relatedSolutionData = (serviceRelatedSolutions[slug] ?? [])
+		.map((solutionSlug) => getSolutionBySlug(solutionSlug))
+		.filter(
+			(
+				relatedSolution
+			): relatedSolution is NonNullable<ReturnType<typeof getSolutionBySlug>> =>
+				Boolean(relatedSolution)
+		);
+	const solutionT = await getTranslations("solutions.items");
+	const solutionCommon = await getTranslations("solutions.detail");
 
 	const faqEntries =
 		service.faqCount > 0
@@ -312,6 +323,48 @@ export default async function ServicePage({
 									{tt("description")}
 								</Muted>
 							</div>
+						</div>
+					</GridContainer>
+				</section>
+			)}
+
+			{relatedSolutionData.length > 0 && (
+				<section className="relative border-grid-line border-t pt-20 pb-20">
+					<ConstructedGrid variant="page" />
+					<GridContainer>
+						<H2>{solutionCommon("relatedSolutionsTitle")}</H2>
+						<Lead className="mt-4 max-w-2xl">
+							{solutionCommon("relatedSolutionsSubtitle")}
+						</Lead>
+						<div className="mt-10 grid gap-6 md:grid-cols-3">
+							{relatedSolutionData.map((relatedSolution) => {
+								const SolutionIcon = relatedSolution.icon;
+								return (
+									<Link
+										className="group flex items-start gap-5 border border-border/40 p-6 transition-colors hover:border-brand-border"
+										href={{
+											pathname: "/solutions/[slug]",
+											params: { slug: relatedSolution.slug },
+										}}
+										key={relatedSolution.slug}
+									>
+										<SolutionIcon
+											className="mt-0.5 h-5 w-5 shrink-0 text-brand-icon"
+											strokeWidth={1.5}
+										/>
+										<div>
+											<H3 className="transition-colors group-hover:text-brand-readable">
+												{solutionT(`${relatedSolution.translationKey}.title`)}
+											</H3>
+											<Muted className="mt-1 line-clamp-2 leading-relaxed">
+												{solutionT(
+													`${relatedSolution.translationKey}.description`
+												)}
+											</Muted>
+										</div>
+									</Link>
+								);
+							})}
 						</div>
 					</GridContainer>
 				</section>

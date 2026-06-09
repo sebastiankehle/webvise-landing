@@ -26,9 +26,9 @@ export default async function Pricing() {
 
 	return (
 		<SectionWrapper alternate id="pricing">
-			<div className="max-w-[640px]">
+			<div className="max-w-[760px]">
 				<H2>{t("title")}</H2>
-				<Lead className="mt-5 max-w-[520px]">{t("subtitle")}</Lead>
+				<Lead className="mt-5 max-w-[680px]">{t("subtitle")}</Lead>
 			</div>
 			<StaggerChildren className="-mx-6 mt-16 grid items-stretch border-grid-line border-t md:grid-cols-3">
 				{tiers.map(({ key, featureCount, hasBadge }) => {
