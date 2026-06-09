@@ -169,20 +169,17 @@ export default function ChatWidget() {
 							</button>
 						</div>
 
-						<div
-							className="border-border/60 border-b bg-muted/30 px-4 py-2.5"
-							data-ai-disclosure="true"
-							role="note"
-						>
-							<Caption className="block text-muted-foreground">
-								{t("disclosure")}
-							</Caption>
-						</div>
-
 						<div className="flex-1 space-y-3 overflow-y-auto px-4 py-4">
 							{messages.length === 0 ? (
 								<div className="flex h-full flex-col justify-end gap-3">
 									<Caption className="text-center">{t("intro")}</Caption>
+									<Caption
+										className="text-center text-muted-foreground/80"
+										data-ai-disclosure="true"
+										role="note"
+									>
+										{t("disclosure")}
+									</Caption>
 									<div className="flex flex-wrap justify-center gap-1.5">
 										{suggestedQuestionKeys.map((key) => {
 											const question = t(`suggestions.${key}`);
