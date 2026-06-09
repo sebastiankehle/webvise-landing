@@ -1,0 +1,295 @@
+{
+  "date": "2026-06-09",
+  "readingTime": 9,
+  "keyword": "Hermes Desktop personal agent runtime",
+  "title": "Hermes Desktop Makes Personal Agents Operational",
+  "excerpt": "Hermes Desktop gives Hermes a real personal agent runtime: profiles, remote gateways, Portal setup, visible state, and policy boundaries for always-on work.",
+  "metaDescription": "Hermes Desktop personal agent runtime adds profiles, remote gateways, and Portal setup before always-on agents touch files or credentials.",
+  "cta": "Map your agent workflow",
+  "tags": ["AI Agents", "AI", "Open Source", "Automation"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "**Hermes Desktop gives Hermes an operator surface: chat, files, profiles, cron, gateway access, and remote backends in one place.** The Hermes Desktop personal agent runtime now has the control layer that always-on agents were missing."
+    },
+    {
+      "type": "p",
+      "text": "The useful question is simpler: can you see what the agent is doing, which role it is using, and how to recover when it breaks?"
+    },
+    {
+      "type": "p",
+      "text": "That is why I would treat Hermes Desktop as the real news, even though the screenshots look like a product update. The useful parts are profiles, a remote-friendly desktop setup, Portal onboarding, and policy around local agents."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Hermes Desktop is a shared surface over the same agent state.** The official docs say Desktop, CLI, TUI, dashboard, and gateway reuse the same core setup rather than creating separate agents.",
+        "**Profiles are where recurring agent roles now live.** They split config, `.env`, `SOUL.md`, memory, sessions, skills, cron jobs, and gateway state, while filesystem isolation still needs explicit backend boundaries.",
+        "**Nous Portal removes first-run account sprawl.** One OAuth flow can set model access and Tool Gateway access instead of asking users to wire search, browser, image, TTS, and sandbox tools one by one.",
+        "**The local-agent story is becoming a security story.** NVIDIA and Microsoft are now talking about identity, containment, policy, and OpenShell for agents that touch your primary computer."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "What changed with Hermes Desktop"
+    },
+    {
+      "type": "p",
+      "text": "[Hermes Desktop](https://hermes-agent.nousresearch.com/docs/user-guide/desktop) is important because it is built around the same Hermes Agent core as the terminal and gateway. The docs are explicit: the app shares config, API keys, sessions, skills, and memory with the CLI, TUI, and dashboard."
+    },
+    {
+      "type": "p",
+      "text": "That gives Hermes a different shape. A terminal agent can be useful for people who already live in shells. A desktop app with chat, file browsing, preview rail, profiles, skills, cron, messaging, and Command Center makes the agent inspectable for longer work."
+    },
+    {
+      "type": "p",
+      "text": "The detail I care about is state continuity. You can start a session in one Hermes surface and resume it elsewhere because the surfaces talk to the same agent state. That is when Hermes starts feeling less like a terminal command and more like something you can actually run."
+    },
+    {
+      "type": "p",
+      "text": "If you are turning a recurring agent workflow into a business process, [webvise's AI automation service](/services/ai-automation) is the closest service fit. The useful scope is rarely the chat UI. It is the workflow boundary, credentials, review gate, and recovery path around the agent."
+    },
+    {
+      "type": "table",
+      "headers": ["Layer", "What Hermes now exposes", "Why it matters"],
+      "rows": [
+        [
+          "Desktop",
+          "Chat, file browser, preview rail, settings, profiles, skills, cron, messaging, Command Center",
+          "The operator can inspect and steer work without dropping into scattered terminals."
+        ],
+        [
+          "Profiles",
+          "Separate home directories with config, `.env`, `SOUL.md`, memories, sessions, skills, cron jobs, and state database",
+          "A recurring role can keep its own history, tools, and gateway state."
+        ],
+        [
+          "Portal",
+          "One OAuth path for model access plus Tool Gateway access",
+          "Setup moves from many API accounts to one managed entry point."
+        ],
+        [
+          "OpenShell direction",
+          "Identity, containment, policy, local routing, and personal-information masking",
+          "Personal agents need limits before they touch the primary machine all day."
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Profiles are the agent roles now"
+    },
+    {
+      "type": "p",
+      "text": "[Hermes profiles](https://hermes-agent.nousresearch.com/docs/user-guide/profiles/) are now the cleanest starting point for recurring agent roles. A profile is its own Hermes home directory with its own config, secrets file, personality file, memories, sessions, skills, cron jobs, and state database."
+    },
+    {
+      "type": "p",
+      "text": "That separates state well enough for recurring roles. A research profile can keep source-review habits and browsing tools. A writer profile can keep draft rules and voice constraints."
+    },
+    {
+      "type": "p",
+      "text": "An engineer profile can keep repo commands and test habits. Each one can run its own gateway process and service name."
+    },
+    {
+      "type": "p",
+      "text": "This changed my own setup notes on June 8 and June 9, 2026. I had been thinking in separate boxes for separate agents. After profiles landed in the actual architecture, the cleaner default became one Hermes install, Desktop as the operator surface, and profiles as the role split."
+    },
+    {
+      "type": "p",
+      "text": "The same docs also name the boundary clearly: profiles do not sandbox the filesystem. A local terminal backend still runs with the same filesystem access as the user account. If you need a predictable starting folder for gateway and cron work, set `terminal.cwd` in Hermes config. If you need stronger containment, use a backend like Docker, SSH, Modal, Daytona, or Singularity."
+    },
+    {
+      "type": "p",
+      "text": "This is where the first Hermes profile article still holds up. In [our Hermes profiles guide](/blog/hermes-profiles-guide), the rule was simple: create a profile when a role repeats and needs separate memory, tools, gateway state, or scheduled work. Desktop makes that rule easier to live with because the profile switch is now visible."
+    },
+    {
+      "type": "h2",
+      "text": "The setup that now makes sense"
+    },
+    {
+      "type": "p",
+      "text": "The setup I would run today is one Hermes install on a remote machine, Hermes Desktop connected through Remote Gateway, and profiles as the agent roles. Telegram or another message channel should usually point at one assistant profile. That assistant can delegate to researcher, engineer, writer, or reviewer profiles through explicit commands or Kanban tasks."
+    },
+    {
+      "type": "p",
+      "text": "That keeps the human entry point clean. You message one assistant. The assistant routes work to a profile with the right memory and tools. Longer work becomes a durable task instead of disappearing into one compressed chat."
+    },
+    {
+      "type": "p",
+      "text": "I would still keep a repair surface outside Hermes. Keep one repair tool outside Hermes for logs, gateway restarts, config edits, and broken profile wiring."
+    },
+    {
+      "type": "table",
+      "headers": ["Piece", "Owner", "Job"],
+      "rows": [
+        [
+          "Desktop",
+          "Human operator",
+          "Inspect sessions, files, profile state, settings, skills, cron, and gateway routing."
+        ],
+        [
+          "Assistant profile",
+          "Chat-facing Hermes role",
+          "Receive Telegram or Desktop requests, clarify the goal, route work."
+        ],
+        [
+          "Researcher profile",
+          "Source-facing Hermes role",
+          "Read docs, web pages, GitHub issues, and return source-backed notes."
+        ],
+        [
+          "Writer profile",
+          "Drafting Hermes role",
+          "Turn approved notes into drafts without holding secrets or shell access."
+        ],
+        [
+          "Reviewer profile",
+          "Safety Hermes role",
+          "Check claims, permissions, credentials, and risky handoffs."
+        ],
+        [
+          "Independent admin surface",
+          "Repair layer",
+          "Patch the runtime when the agent setup itself breaks."
+        ]
+      ]
+    },
+    {
+      "type": "table",
+      "headers": ["Choice", "Use it when", "Do not rely on it for"],
+      "rows": [
+        [
+          "Desktop on local runtime",
+          "You want one personal agent on the machine you already use.",
+          "Risky filesystem work without a sandbox."
+        ],
+        [
+          "Desktop plus Remote Gateway",
+          "You want the UI locally and the Hermes runtime on a remote machine.",
+          "Hiding weak profile permissions."
+        ],
+        [
+          "Profiles",
+          "Roles need separate memory, tools, cron, credentials, or gateway state.",
+          "Operating-system isolation."
+        ],
+        [
+          "Docker, SSH, Modal, Daytona, or Singularity backend",
+          "A profile needs a harder execution boundary.",
+          "Fixing a vague handoff contract."
+        ],
+        [
+          "OpenShell or Windows agent primitives",
+          "Local agents touch files, credentials, apps, or model routing on a primary computer.",
+          "Skipping human review for high-risk actions."
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "If a team asked webvise to map this, I would start with the permission table before writing any skills. [Our AI automation work](/services/ai-automation) starts paying off when the owner, tools, credentials, and review gates are clear enough that a bad agent run is visible immediately."
+    },
+    {
+      "type": "h2",
+      "text": "Portal removes the account mess"
+    },
+    {
+      "type": "p",
+      "text": "The official [Nous Portal docs](https://hermes-agent.nousresearch.com/docs/integrations/nous-portal) call `hermes setup --portal` the fastest setup path. One OAuth flow sets Nous as the inference provider, lets the user pick a model, and turns on the Tool Gateway."
+    },
+    {
+      "type": "p",
+      "text": "That matters because agent setup usually fails before the first useful workflow. Search needs one account. Browser automation needs another. Image generation, text-to-speech, and terminal sandboxing add more keys, dashboards, balances, and failure points."
+    },
+    {
+      "type": "p",
+      "text": "Portal bundles access to 300+ models and a Tool Gateway for search and extract, image generation, text-to-speech, cloud browser sessions, and an optional terminal sandbox. The exact model list will change. The product direction is stable: Hermes is trying to make the first useful agent setup take one command instead of five vendor accounts."
+    },
+    {
+      "type": "p",
+      "text": "Portal also changes where secrets live. The docs say OAuth leaves a refresh token in `~/.hermes/auth.json` and mints short-lived JWTs per request, rather than filling `.env` with a dozen long-lived API keys. That is better setup hygiene, but it still needs role-level rules."
+    },
+    {
+      "type": "p",
+      "text": "The serious work remains deciding which profile owns which credential, which tool can mutate data, and which action needs review. Give agents named accounts and named API keys where you can. Keep secrets in config, `.env`, or container environment paths, not in chat transcripts."
+    },
+    {
+      "type": "h2",
+      "text": "Local agents need policy before autonomy"
+    },
+    {
+      "type": "p",
+      "text": "Hermes Desktop arrived at the same time the hardware story got louder. In its RTX AI Garage post, [NVIDIA wrote](https://blogs.nvidia.com/blog/rtx-ai-garage-hermes-agent-dgx-spark/) that Hermes had crossed 140,000 GitHub stars in under three months and was, as of the previous week, the most used agent on OpenRouter."
+    },
+    {
+      "type": "p",
+      "text": "On May 31 and June 2, 2026, Microsoft and NVIDIA published the Windows side of the same story. [Microsoft's Windows post](https://blogs.windows.com/windowsexperience/2026/05/31/introducing-a-powerful-new-chapter-for-windows-pcs-accelerated-by-nvidia-rtx-spark/) names OS-enforced identity, containment, and manageability. [NVIDIA's developer post](https://developer.nvidia.com/blog/build-personal-ai-agents-on-windows-pcs-with-new-tools-from-microsoft-and-nvidia/) names Microsoft eXecution Containers, OpenShell, policy creation, inference routing, and PII obfuscation."
+    },
+    {
+      "type": "p",
+      "text": "That is the right direction for Hermes. A personal agent with file access, terminal access, browser access, memory, voice, cron, and gateway routes eventually touches the same machine you use for banking, code, documents, and work accounts. The capability is already here. The hard part is limiting who can read files, spend money, expose secrets, or change production."
+    },
+    {
+      "type": "p",
+      "text": "The [OpenShell docs](https://docs.nvidia.com/openshell/about/overview) spell out the risk table plainly: data exfiltration, credential theft, unauthorized API usage, and privilege escalation. We already argued in [the day-30 Hermes operator layer](/blog/hermes-agent-production-deployment) that handoff contracts and permission gates matter after the first demo. Desktop and profiles make those gates easier to see. OpenShell and Windows policy primitives point at the next boundary: the operating system."
+    },
+    {
+      "type": "h2",
+      "text": "How to try the setup this week"
+    },
+    {
+      "type": "p",
+      "text": "Start with one runtime and three profiles. Make the assistant profile the default human-facing route. Make researcher and writer separate workers. Keep secrets out of the writer profile."
+    },
+    {
+      "type": "table",
+      "headers": ["Step", "Command or action", "Check"],
+      "rows": [
+        [
+          "Create a researcher profile",
+          "`hermes profile create researcher --description \"Reads docs and returns source-backed notes.\"`",
+          "The profile has its own `SOUL.md`, memory, skills, and sessions."
+        ],
+        [
+          "Create a writer profile",
+          "`hermes profile create writer --description \"Turns approved notes into drafts.\"`",
+          "The profile has no shell or private credentials it does not need."
+        ],
+        [
+          "Set a project folder",
+          "`hermes config set terminal.cwd /absolute/path/to/project`",
+          "Gateway and cron tool calls start in a predictable directory."
+        ],
+        [
+          "Connect Desktop to a remote backend",
+          "Run `hermes dashboard` on the VPS and connect Desktop through Remote Gateway.",
+          "Desktop can see sessions and profile state from the remote runtime."
+        ],
+        [
+          "Keep a repair layer",
+          "Use an admin surface outside Hermes.",
+          "You can fix dashboard, gateway, and config problems when Hermes itself is confused."
+        ],
+        [
+          "Write a permission rule",
+          "List which profile may read files, call APIs, write drafts, run shell commands, or spend money.",
+          "Every high-risk action has an owner and a review gate."
+        ],
+        [
+          "Check memory timing",
+          "Treat built-in memory as session-start context.",
+          "Mid-session memory writes become reliable context on the next session, not instantly."
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "The first success metric is boring: can you ask the assistant for a source-backed brief, watch it route the task, inspect the output, and see which profile touched which files or tools? If the answer is yes, you have an operator surface. If the answer is hidden inside one chat transcript, you have a demo."
+    },
+    {
+      "type": "p",
+      "text": "At **[webvise](/#contact)**, we use this kind of agent setup research to decide which workflows deserve automation and which should stay as reviewed tools. A good first map is the recurring process, the tools it touches, and the actions that would hurt if an agent got them wrong."
+    }
+  ]
+}

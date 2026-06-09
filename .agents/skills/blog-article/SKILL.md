@@ -15,7 +15,7 @@ Create a new blog article for the webvise blog with full translations across all
 
 > **Anti-slop guardrail (applies to both lanes).** Don't publish what a vanilla LLM call could produce from the title alone. For commercial-intent posts, originality means webvise's specific answer, numbers, opinion, and service attachment — not contrarianism for its own sake. For thought-leadership posts, originality means the claim itself is one no other agency is willing to defend. Slop dilutes the rest of the blog and demotes the domain.
 
-> **Blog article ≠ case study.** Case studies are a separate artifact with their own format (the project / client / outcome arc). A blog article is shaped around a **claim or query**, not around a client engagement. Blog articles *may* reference client work as supporting evidence, but should not become thinly-veiled case studies. If the brief reads like "we did X for client Y," push back and ask whether it should actually be a case study instead.
+> **Blog article ≠ case study.** Case studies are a separate artifact with their own format (the project / client / outcome arc). A blog article is shaped around a **claim or query**, not around a client engagement. Blog articles may reference client work only as anonymized first-party evidence, with enough operational detail to be useful and without naming the client, company, person, repository, or private asset. If the brief reads like "we did X for client Y," push back and ask whether it should actually be a case study instead.
 
 ## Usage
 
@@ -101,7 +101,7 @@ For each candidate, produce:
 - **Claim:** one quotable sentence the article defends or answers
 - **Target query:** the exact buyer query (commercial lane) or anchor topic (thought lane)
 - **Service attachment:** which of the 6 webvise services this article routes to (commercial lane: required; thought lane: best-fit if any)
-- **Anchor type:** commercial-intent SEO / contrarian thesis / post-cutoff event / original synthesis / first-party data / named example
+- **Anchor type:** commercial-intent SEO / contrarian thesis / post-cutoff event / original synthesis / first-party data / public named example / anonymized client example
 - **Source pages:** vault pages, internal repos, or SERP references this draws from
 - **Why now:** what makes this timely or relevant today
 - **Existing coverage:** any overlap with published blog posts (list slugs)
@@ -109,7 +109,7 @@ For each candidate, produce:
 Rank candidates by:
 1. Lead-gen potential (clear service attachment + buyer intent)
 2. SEO opportunity (search volume vs current SERP weakness)
-3. Strength of first-party signal (numbers, named examples, opinions webvise can defend)
+3. Strength of first-party signal (numbers, public named examples, anonymized client examples, opinions webvise can defend)
 4. Distance from existing blog content
 5. Freshness
 
@@ -141,7 +141,7 @@ A bare topic like *"AI for e-commerce"* is **not** a valid brief. Before generat
 3. **Post-training-cutoff event/source** — recent fact with date and link the article reacts to or interprets.
 4. **Original synthesis** — primary sources combined in a way no one else has assembled.
 5. **First-party data** — internal benchmark, observation, or measurement from agency project work.
-6. **Named real-world example** — a concrete client / project / product reference used *as supporting evidence*, not as the spine of the article. Use sparingly. If the article would collapse without the client reference, it's a case study, not a blog article — stop and reconsider the format.
+6. **Real-world example** — a concrete public project, product, tool, research source, or anonymized client example used *as supporting evidence*, not as the spine of the article. Client examples must never name the client, company, person, repository, or private asset. Use sparingly. If the article would collapse without a client reference, it's a case study, not a blog article — stop and reconsider the format.
 
 If the user supplies only a bare topic (no anchor), **abort and ask for the anchor.** Do not proceed. The zero-arg discovery mode (above) handles the case where no topic is given at all.
 
@@ -151,7 +151,7 @@ You must also collect (in working memory, not persisted to JSON):
 - `targetQuery`: the exact buyer query (commercial lane) — must drive the title, h1, first paragraph, and meta description
 - `service`: the webvise service this article routes traffic to. One of: `landing-pages`, `wordpress-migration`, `ai-consulting`, `mvp-development`, `ai-automation`, `full-stack-applications`. Commercial-intent articles **must** declare a service. Thought-leadership articles should declare the closest fit, or `none` with explicit acknowledgement that the article won't drive direct lead-gen.
 - `claim`: a single, quotable, attributable sentence the article exists to defend or answer
-- `firstPartySources`: list of internal links / service pages / case study pages / client repos / vault notes the article will draw from. Commercial-intent articles **must** include the matching `/services/<slug>` page in this list — read it first so the article's vocabulary, claims, and CTAs align with the service.
+- `firstPartySources`: list of internal links / service pages / case study pages / private project notes / vault notes the article will draw from. Commercial-intent articles **must** include the matching `/services/<slug>` page in this list — read it first so the article's vocabulary, claims, and CTAs align with the service. Private client sources may inform the article, but the published draft must anonymize the client and omit private names.
 
 ## Training-Data Test — pre-flight before writing each section
 
@@ -170,11 +170,11 @@ Pull in this order. Stop as soon as you have enough material:
 
 1. **Target query and SERP context** *(commercial-intent lane: required)*. What is the user typing? What currently ranks for it? Where are the existing results weak (thin content, no first-party data, dated, generic)? This frames the article — without it, you're writing for nobody.
 2. **Matching webvise service page.** Read `apps/web/src/app/[locale]/(marketing)/services/[slug]/...` and the service translation files for the chosen service slug. The article must echo its claims, vocabulary, and CTAs — never contradict them.
-3. **Internal first-party data.** Webvise's own observations, benchmarks, and project work — sibling repos under `~/Documents/webvise/`, internal case studies in `apps/web/content/case-studies/`, agency project notes. This is what makes the article rank-worthy and citation-worthy.
+3. **Internal first-party data.** webvise's own observations, benchmarks, and project work — sibling repos under `~/Documents/webvise/`, internal case studies in `apps/web/content/case-studies/`, agency project notes. This is what makes the article rank-worthy and citation-worthy. Published blog prose must anonymize client examples and omit client, company, person, repository, and private asset names.
 4. **Vault synthesis** *(thought-leadership lane: required; commercial lane: optional)*. The Obsidian vault at `/Users/sebastiankehle/Documents/webvise/obsidian-vault/` (use the `wiki` CLI: `wiki list`, `wiki read`, `wiki search`) — especially `wiki/topics/`, `wiki/procedures/`, and `wiki/work/webvise/`. Use to add an opinion or framework on top of the buyer-intent answer, not to replace it.
 5. **Post-cutoff facts.** Web search **only** for events, releases, or numbers more recent than the model's training cutoff. Cite with date and URL.
 6. **Cross-source synthesis.** Combine 2+ primary sources in a way that produces a non-obvious claim.
-7. **Client references — sparingly.** Only when a specific named example is the cleanest illustration of the claim. If you find yourself building the article *around* a client, stop: that's a case study, file it as one.
+7. **Client references — anonymized only.** Client work may appear as "a German construction firm," "a documentary producer," "a B2B SaaS team," or another non-identifying description when it is the cleanest illustration of the claim. Never name the client, company, person, repository, or private asset in a blog article. If you find yourself building the article *around* a client, stop: that's a case study, file it as one.
 
 If steps 1-7 surface **nothing the article can stand on**, abort the command and tell the user. Do not generate filler.
 
@@ -294,7 +294,7 @@ Every article opens with this sequence:
 - **No filler transitions.** Cut "Furthermore," "Additionally," "It's worth noting that," "In conclusion." Just start the next thought.
 - Lead with the **claim**. The first paragraph must contain the quotable sentence the article defends.
 - Direct, no-fluff, authoritative. No "in today's fast-paced world" preambles.
-- Every section must carry first-party signal: a number, a name, a date, a quote, a link to internal work.
+- Every section must carry first-party signal: a number, public source name, anonymized project detail, date, quote, or link to internal work.
 - Prefer tables for comparisons where you have actual numbers. Don't pad with generic comparisons.
 - End with a paragraph mentioning **webvise** and linking to `/#contact`.
 - **Length is determined by unique signal**, not by a target. Stop when first-party material runs out.
@@ -302,7 +302,7 @@ Every article opens with this sequence:
 ### Body Requirements
 
 - **4-7 h2 sections.** Each section must pass the Training-Data Test.
-- **2-3 mini-stories.** Real examples with NAMES, DATES, SPECIFIC DETAILS, and OUTCOMES. Not hypotheticals.
+- **2-3 mini-stories.** Real examples with dates, specific details, and outcomes. Public sources may be named. Client examples must be anonymized and stripped of client, company, person, repository, and private asset names. Not hypotheticals.
 - **2-3 contextual CTAs.** First CTA within the first 500 words. CTAs should feel natural, not bolted on.
   - **At least one CTA must link to the matched service page** (`/services/<slug>`). Service pages convert better than `/#contact`. Example: "If you're evaluating WordPress alternatives, [webvise's WordPress migration service](/services/wordpress-migration) handles the rebuild and SEO continuity."
   - **At least one internal blog link** to a related post under `/blog/<slug>`. Builds topical clusters and keeps users on-site.
@@ -319,7 +319,7 @@ Every article opens with this sequence:
 - External URLs (starting with `http`) stay unchanged
 - Technical terms, product names, acronyms stay in English
 - Formal register: Sie (German), vouvoiement (French), usted (Spanish), u-vorm (Dutch), formal Polish, Lei (Italian)
-- **No generic-fication.** Translations must preserve every first-party specific — client names, numbers, dates, named frameworks, links to internal work. Don't soften concrete claims into generic best practices.
+- **No generic-fication.** Translations must preserve every first-party specific — anonymized client descriptors, numbers, dates, named public frameworks, links to internal work. Don't soften concrete claims into generic best practices. Do not reintroduce client names during translation.
 
 ## Execution Steps
 
@@ -385,7 +385,7 @@ Every article opens with this sequence:
 8. **Self-check (slop smell).** Walk the checklist below **item by item**, explicitly ticking each box. Do not collapse the walk into a single "all good" assertion — the quality score does not substitute for this gate. If any answer is "no," fix the draft and re-walk before continuing.
 9. **Add tags.** Pick 2-4, most relevant first.
 10. **Create translations.** Generate the 6 locale files in parallel using executor agents. Enforce the no-generic-fication rule in each agent prompt. Translate the selected title and meta description, not all options.
-11. **No-genericification audit (translations).** Build a list of first-party anchors from the English draft (named entities, numeric claims, dates, framework names, client references). Run the audit script below across all 6 translations. Every anchor must survive, either verbatim or as a defensible localization (e.g. `$1T` → `1 000 milliards $`, `$50K` → `50 000 €` or `50 tys. zł`). Flag and fix any translation where an anchor was softened to a generic ("large numbers", "a leading CRO expert", "thousands of brands"). Do **not** declare done until this audit reports clean.
+11. **No-genericification audit (translations).** Build a list of first-party anchors from the English draft (public named entities, numeric claims, dates, framework names, anonymized client descriptors). Run the audit script below across all 6 translations. Every anchor must survive, either verbatim or as a defensible localization (e.g. `$1T` → `1 000 milliards $`, `$50K` → `50 000 €` or `50 tys. zł`). Flag and fix any translation where an anchor was softened to a generic ("large numbers", "a leading CRO expert", "thousands of brands"). Do **not** declare done until this audit reports clean.
 
     ```bash
     node -e "
@@ -397,7 +397,7 @@ Every article opens with this sequence:
       {name:'Stripe',        pattern:/Stripe/},
       {name:'Kenyon',        pattern:/Kenyon/},
       {name:'webvise',       pattern:/webvise/},
-      // add: named numbers, dates, clients, frameworks for this article
+      // add: named numbers, dates, public entities, anonymized client descriptors, frameworks for this article
     ];
     for(const l of ['de','fr','es','nl','pl','it']){
       const p=JSON.parse(fs.readFileSync(base+l+'.json','utf8'));
@@ -418,7 +418,7 @@ Answer "yes" to **all** or fix the draft:
 
 **Content quality:**
 - [ ] Contains at least one fact, number, opinion, or named example that goes beyond what a vanilla LLM would output?
-- [ ] Names at least one specific entity (client, project, person, product, framework) with a verifiable detail?
+- [ ] Names at least one specific public entity (project, person, product, framework) or uses one anonymized client example with a verifiable operational detail?
 - [ ] Has a clearly identifiable webvise point of view, not a balanced overview?
 - [ ] First paragraph contains the quotable `claim` (or directly answers the target query), with attribution surfaces (date, links) intact?
 - [ ] Primary keyword (`targetQuery`) appears in: title, first paragraph, and meta description?
@@ -433,7 +433,7 @@ Answer "yes" to **all** or fix the draft:
 **Structure:**
 - [ ] Introduction follows mandatory structure? (direct answer + hook + APP + key takeaways)
 - [ ] 4-7 h2 sections, each passing the Training-Data Test?
-- [ ] 2-3 mini-stories with names, dates, specific details, outcomes?
+- [ ] 2-3 mini-stories with public names where allowed, dates, specific details, and outcomes? Client mini-stories anonymized?
 - [ ] First CTA appears within the first 500 words?
 - [ ] At least 1 table with real data?
 
