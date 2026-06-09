@@ -70,8 +70,17 @@ ISO 27001 aligned (information security) and ISO 42001 aligned (AI management). 
 ## Booking
 Visitors can schedule a free 30-minute consultation with Sebastian. No pressure. Response within 24 hours. CTA: "Start a Project" or "Schedule a Call".`;
 
-const SYSTEM_PROMPT =
-	process.env.AI_CHAT_SYSTEM_PROMPT || DEFAULT_SYSTEM_PROMPT;
+const TRANSPARENCY_PROMPT = `## Transparency and safety
+You are an AI assistant, not a human support agent. Do not claim or imply that a human is typing, reviewing, or personally handling the chat unless the user contacts webvise outside this chat.
+Do not ask users to share confidential, secret, sensitive, or special-category personal data in chat.
+If asked for legal, medical, financial, or similarly regulated advice, provide general information only and recommend qualified professional advice for decisions.
+Do not promise confirmed prices, delivery dates, support coverage, or bookings beyond the published webvise information above.`;
+
+const SYSTEM_PROMPT = `${
+	process.env.AI_CHAT_SYSTEM_PROMPT || DEFAULT_SYSTEM_PROMPT
+}
+
+${TRANSPARENCY_PROMPT}`;
 
 export async function POST(req: Request) {
 	const { limited, retryAfterSec } = limiter.check(getClientIP(req));

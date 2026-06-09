@@ -4,6 +4,7 @@ import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import { MessageCircle, Send, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
+import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Streamdown } from "streamdown";
 
@@ -24,12 +25,7 @@ function ChatLink(props: React.AnchorHTMLAttributes<HTMLAnchorElement>) {
 	);
 }
 
-const SUGGESTED_QUESTIONS = [
-	"What services do you offer?",
-	"How much does an MVP cost?",
-	"What's your tech stack?",
-	"How fast can you ship?",
-];
+const suggestedQuestionKeys = ["services", "mvp", "stack", "timeline"];
 
 function useIsMobile() {
 	const [mobile, setMobile] = useState(false);
@@ -43,6 +39,7 @@ function useIsMobile() {
 }
 
 export default function ChatWidget() {
+	const t = useTranslations("chatWidget");
 	const [open, setOpen] = useState(false);
 	const [input, setInput] = useState("");
 	const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -145,6 +142,8 @@ export default function ChatWidget() {
 							"inset-0 h-dvh",
 							"md:inset-auto md:right-6 md:bottom-20 md:h-[min(520px,80svh)] md:w-[400px]"
 						)}
+						data-ai-disclosure="direct-interaction"
+						data-ai-system="chatbot"
 						exit={{ opacity: 0, y: 12, scale: 0.97 }}
 						initial={{ opacity: 0, y: 12, scale: 0.97 }}
 						ref={panelRef}
@@ -155,13 +154,13 @@ export default function ChatWidget() {
 								<Logo className="h-5 w-5" />
 								<div>
 									<Body className="font-medium text-sm leading-none">
-										webvise AI
+										{t("title")}
 									</Body>
-									<Caption className="mt-0.5 block">Ask us anything</Caption>
+									<Caption className="mt-0.5 block">{t("subtitle")}</Caption>
 								</div>
 							</div>
 							<button
-								aria-label="Close chat"
+								aria-label={t("close")}
 								className="flex h-8 w-8 items-center justify-center text-muted-foreground transition-colors hover:text-foreground md:h-7 md:w-7"
 								onClick={() => setOpen(false)}
 								type="button"
@@ -170,24 +169,35 @@ export default function ChatWidget() {
 							</button>
 						</div>
 
+						<div
+							className="border-border/60 border-b bg-muted/30 px-4 py-2.5"
+							data-ai-disclosure="true"
+							role="note"
+						>
+							<Caption className="block text-muted-foreground">
+								{t("disclosure")}
+							</Caption>
+						</div>
+
 						<div className="flex-1 space-y-3 overflow-y-auto px-4 py-4">
 							{messages.length === 0 ? (
 								<div className="flex h-full flex-col justify-end gap-3">
-									<Caption className="text-center">
-										Hi! I can answer questions about our services, pricing,
-										process, and tech stack.
-									</Caption>
+									<Caption className="text-center">{t("intro")}</Caption>
 									<div className="flex flex-wrap justify-center gap-1.5">
-										{SUGGESTED_QUESTIONS.map((q) => (
-											<button
-												className="border border-border bg-card px-2.5 py-1.5 text-muted-foreground text-xs transition-colors hover:bg-muted hover:text-foreground md:py-1"
-												key={q}
-												onClick={() => handleSuggestion(q)}
-												type="button"
-											>
-												{q}
-											</button>
-										))}
+										{suggestedQuestionKeys.map((key) => {
+											const question = t(`suggestions.${key}`);
+
+											return (
+												<button
+													className="border border-border bg-card px-2.5 py-1.5 text-muted-foreground text-xs transition-colors hover:bg-muted hover:text-foreground md:py-1"
+													key={key}
+													onClick={() => handleSuggestion(question)}
+													type="button"
+												>
+													{question}
+												</button>
+											);
+										})}
 									</div>
 								</div>
 							) : (
@@ -246,14 +256,14 @@ export default function ChatWidget() {
 								enterKeyHint="send"
 								name={`msg-${Date.now()}`}
 								onChange={(e) => setInput(e.target.value)}
-								placeholder="Type a message…"
+								placeholder={t("placeholder")}
 								ref={inputRef}
 								spellCheck={false}
 								type="search"
 								value={input}
 							/>
 							<button
-								aria-label="Send message"
+								aria-label={t("send")}
 								className="flex h-8 w-8 shrink-0 items-center justify-center bg-brand text-brand-foreground transition-colors disabled:bg-muted disabled:text-muted-foreground md:h-7 md:w-7"
 								disabled={!input.trim() || isStreaming}
 								type="submit"
@@ -266,7 +276,7 @@ export default function ChatWidget() {
 			</AnimatePresence>
 
 			<motion.button
-				aria-label={open ? "Close chat" : "Open AI chat"}
+				aria-label={open ? t("close") : t("open")}
 				className={cn(
 					"hover:!bg-brand-hover fixed right-6 bottom-6 z-40 flex h-12 w-12 items-center justify-center bg-brand text-brand-foreground shadow-lg transition-colors",
 					open && "max-md:hidden"

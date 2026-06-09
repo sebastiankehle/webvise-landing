@@ -3,6 +3,7 @@
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import { Send } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { Streamdown } from "streamdown";
 
@@ -11,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Body, Muted } from "@/components/ui/typography";
 
 export default function AIPage() {
+	const t = useTranslations("chatWidget");
 	const [input, setInput] = useState("");
 	const { messages, sendMessage, status } = useChat({
 		transport: new DefaultChatTransport({
@@ -36,12 +38,16 @@ export default function AIPage() {
 	};
 
 	return (
-		<div className="mx-auto grid w-full grid-rows-[1fr_auto] overflow-hidden p-4">
+		<div
+			className="mx-auto grid w-full grid-rows-[1fr_auto] overflow-hidden p-4"
+			data-ai-disclosure="direct-interaction"
+			data-ai-system="chatbot"
+		>
 			<div className="space-y-4 overflow-y-auto pb-4">
 				{messages.length === 0 ? (
-					<Muted className="mt-8 text-center">
-						Ask me anything to get started!
-					</Muted>
+					<div className="mt-8 space-y-2 text-center">
+						<Muted data-ai-disclosure="true">{t("disclosure")}</Muted>
+					</div>
 				) : (
 					messages.map((message) => (
 						<div
