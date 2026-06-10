@@ -1,3 +1,5 @@
+import { env } from "@webvise-app/env/server";
+
 interface SendEmailInput {
 	attachments?: Array<{ filename: string; content: string }>;
 	from: string;
@@ -21,7 +23,7 @@ export type EmailResult =
 	| { ok: false; reason: "not_configured" | "api_error"; details?: string };
 
 function getApiKey(label: string): string | null {
-	const apiKey = process.env.RESEND_API_KEY;
+	const apiKey = env.RESEND_API_KEY;
 	if (!apiKey) {
 		console.error(`[email:${label}] RESEND_API_KEY not configured`);
 		return null;

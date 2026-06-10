@@ -5,27 +5,29 @@ import {
 } from "@webvise-app/api/email/resend";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
+const envMock = { RESEND_API_KEY: "test-key" as string | undefined };
+
+vi.mock("@webvise-app/env/server", () => ({
+	get env() {
+		return envMock;
+	},
+}));
+
 describe("sendEmail", () => {
 	const fetchMock = vi.fn();
-	const ORIGINAL_KEY = process.env.RESEND_API_KEY;
 
 	beforeEach(() => {
 		fetchMock.mockReset();
 		vi.stubGlobal("fetch", fetchMock);
-		process.env.RESEND_API_KEY = "test-key";
+		envMock.RESEND_API_KEY = "test-key";
 	});
 
 	afterEach(() => {
 		vi.unstubAllGlobals();
-		if (ORIGINAL_KEY === undefined) {
-			delete process.env.RESEND_API_KEY;
-		} else {
-			process.env.RESEND_API_KEY = ORIGINAL_KEY;
-		}
 	});
 
 	it("returns not_configured when API key missing", async () => {
-		delete process.env.RESEND_API_KEY;
+		envMock.RESEND_API_KEY = undefined;
 		const r: EmailResult = await sendEmail({
 			label: "t",
 			from: "a@x",
@@ -139,21 +141,15 @@ describe("sendEmail", () => {
 
 describe("setContact", () => {
 	const fetchMock = vi.fn();
-	const ORIGINAL_KEY = process.env.RESEND_API_KEY;
 
 	beforeEach(() => {
 		fetchMock.mockReset();
 		vi.stubGlobal("fetch", fetchMock);
-		process.env.RESEND_API_KEY = "test-key";
+		envMock.RESEND_API_KEY = "test-key";
 	});
 
 	afterEach(() => {
 		vi.unstubAllGlobals();
-		if (ORIGINAL_KEY === undefined) {
-			delete process.env.RESEND_API_KEY;
-		} else {
-			process.env.RESEND_API_KEY = ORIGINAL_KEY;
-		}
 	});
 
 	it("subscribes by inverting the polarity to unsubscribed:false", async () => {
@@ -186,7 +182,7 @@ describe("setContact", () => {
 	});
 
 	it("returns not_configured when API key missing", async () => {
-		delete process.env.RESEND_API_KEY;
+		envMock.RESEND_API_KEY = undefined;
 		const r = await setContact({
 			label: "u",
 			email: "a@x",
