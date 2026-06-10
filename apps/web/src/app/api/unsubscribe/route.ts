@@ -1,4 +1,5 @@
 import { setContact } from "@webvise-app/api/email/resend";
+import { verifyUnsubscribeToken } from "@webvise-app/api/email/unsubscribe-token";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
@@ -11,17 +12,13 @@ export async function GET(request: Request) {
 		);
 	}
 
-	let email: string;
-	try {
-		email = Buffer.from(token, "base64url").toString("utf-8");
-		if (!email?.includes("@")) {
-			throw new Error("invalid");
-		}
-	} catch {
+	const verified = verifyUnsubscribeToken(token);
+	if (!verified.ok) {
 		return NextResponse.redirect(
 			new URL("/unsubscribe?error=invalid", request.url)
 		);
 	}
+	const email = verified.email;
 
 	const result = await setContact({
 		label: "unsubscribe",

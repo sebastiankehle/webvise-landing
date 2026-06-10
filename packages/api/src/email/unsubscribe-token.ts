@@ -34,7 +34,11 @@ export function verifyUnsubscribeToken(
 	if (parts.length !== 3) {
 		return { ok: false };
 	}
-	const [emailPart, issuedAtPart, signature] = parts;
+	const [emailPart, issuedAtPart, signature] = parts as [
+		string,
+		string,
+		string,
+	];
 	const payload = `${emailPart}.${issuedAtPart}`;
 	const expected = sign(payload, getSecret(secret));
 	const sigBuf = Buffer.from(signature, "utf-8");
