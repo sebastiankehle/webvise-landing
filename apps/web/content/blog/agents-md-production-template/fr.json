@@ -3,7 +3,7 @@
   "readingTime": 9,
   "keyword": "AGENTS.md",
   "title": "Votre AGENTS.md est votre avantage concurrentiel : ce que contiennent les fichiers en production",
-  "excerpt": "Next.js 16.2 a fait d'AGENTS.md un scaffolding par défaut mardi. L'étude empirique d'Augment et le modèle de production webvise montrent ce que contiennent réellement des instructions d'agents utiles.",
+  "excerpt": "Next.js 16.2 a fait d'AGENTS.md un scaffold par défaut mardi. L'étude empirique d'Augment Code et le modèle de production de webvise montrent ce que contiennent réellement des instructions d'agents utiles.",
   "metaDescription": "Next.js 16.2 livre AGENTS.md par défaut. Son contenu est désormais votre seul différenciateur. Voici à quoi ressemblent les fichiers de qualité production.",
   "tags": ["AI Agents", "AI", "Process", "Web Development"],
   "blocks": [
@@ -19,18 +19,20 @@
       "type": "p",
       "text": "La plupart des responsables techniques traitent AGENTS.md comme de la documentation. C'est un fichier de configuration chargé par le modèle à chaque appel. Cet article examine l'étude empirique d'Augment Code, la règle des 100 à 150 lignes qui décide si le fichier aide ou nuit, et le modèle de template utilisé dans des dépôts clients webvise en production."
     },
-    { "type": "h2", "text": "Points clés" },
+    {
+      "type": "h2",
+      "text": "Évolutions du contrat fichier"
+    },
     {
       "type": "ul",
       "items": [
         "**Next.js 16.2 livre AGENTS.md comme scaffold par défaut** (publié le 2026-04-28). Chaque nouveau projet sur Vercel en hérite.",
         "**L'étude AuggieBench d'Augment Code** (2026-04-23) : les fichiers entre 100 et 150 lignes obtiennent les meilleurs résultats. Au-delà de 150 lignes, les gains s'inversent.",
-        "**Le même fichier peut améliorer la précision de correction de bugs de 25% et réduire la complétude des fonctionnalités de 30%** sur des tâches différentes. La conception des sections compte plus que la longueur totale.",
-        "**AGENTS.md est la seule surface de documentation avec un taux de découverte de 100%.** Les dossiers _docs/ orphelins restent en dessous de 10%.",
+        "**Le même fichier peut améliorer la précision de correction de bugs de 25 % et réduire la complétude des fonctionnalités de 30 %** sur des tâches différentes. La conception des sections compte plus que la longueur totale.",
+        "**AGENTS.md est la seule surface de documentation avec un taux de découverte de 100 %.** Les dossiers _docs/ orphelins restent en dessous de 10 %.",
         "**Le nouvel avantage réside dans les workflows procéduraux, les tables de décision et les règles réactives en une ligne.** Pas dans les aperçus d'architecture ou les avertissements empilés."
       ]
     },
-
     {
       "type": "h2",
       "text": "Il y a trois jours, AGENTS.md a cessé d'être un différenciateur"
@@ -45,7 +47,7 @@
     },
     {
       "type": "p",
-      "text": "Deux signaux parallèles renforcent ce glissement. Le dépôt mattpocock/skills de Matt Pocock a atteint 41 000 étoiles en 85 jours, et le dépôt est son dossier .claude publié tel quel. Les gens mettent en favori les configurations d'agent d'autres personnes comme ils le faisaient autrefois avec les frameworks. C'est ce à quoi ressemble la commoditisation."
+      "text": "Deux signaux parallèles renforcent ce glissement. Le dépôt mattpocock/skills de Matt Pocock a atteint 41 000 étoiles en 85 jours, et ce dépôt est son dossier .claude publié tel quel. Les gens ajoutent aux favoris les configurations d'agent d'autres personnes comme ils le faisaient autrefois avec les frameworks. C'est ce à quoi ressemble la commoditisation."
     },
     {
       "type": "p",
@@ -53,10 +55,12 @@
     },
     {
       "type": "p",
-      "text": "Si votre équipe achats a besoin d'un moyen de noter la maturité IA lors d'évaluations de prestataires, [webvise peut vous présenter le référentiel utilisé dans des projets clients webvise](/#contact)."
+      "text": "Si votre équipe achats a besoin d'un moyen de noter la maturité IA lors d'évaluations de prestataires, [webvise peut vous présenter le référentiel utilisé dans des projets clients](/#contact)."
     },
-
-    { "type": "h2", "text": "La règle des 100 à 150 lignes, avec mesures" },
+    {
+      "type": "h2",
+      "text": "La règle des 100 à 150 lignes, avec mesures"
+    },
     {
       "type": "p",
       "text": "Augment Code a publié la première étude empirique sur la qualité du contenu des AGENTS.md le 2026-04-23. L'auteur, Slava Zhenylenko, a extrait des dizaines de fichiers AGENTS.md du monorepo d'Augment. Chaque fichier a traversé deux fois la suite d'évaluation AuggieBench, une fois avec le fichier présent et une fois sans. Le résultat a été noté par rapport à la PR de référence que des humains avaient fusionnée."
@@ -67,7 +71,7 @@
     },
     {
       "type": "p",
-      "text": "La plage optimale était étroite. Les fichiers entre 100 et 150 lignes, associés à un petit ensemble de docs de référence ciblés chargés à la demande, ont produit des gains de 10 à 15% sur toutes les métriques dans des modules de taille moyenne d'environ 100 fichiers core. Au-delà de 150 lignes, les gains se sont inversés."
+      "text": "La plage optimale était étroite. Les fichiers entre 100 et 150 lignes, associés à un petit ensemble de docs de référence ciblés chargés à la demande, ont produit des gains de 10 à 15 % sur toutes les métriques dans des modules de taille moyenne d'environ 100 fichiers core. Au-delà de 150 lignes, les gains se sont inversés."
     },
     {
       "type": "p",
@@ -87,45 +91,53 @@
       "rows": [
         [
           "AGENTS.md (chaque niveau de la hiérarchie, chargé automatiquement)",
-          "100%"
+          "100 %"
         ],
         [
           "Références depuis AGENTS.md (chargées à la demande)",
-          "90%+ si pertinentes"
+          "90 %+ si pertinentes"
         ],
         [
           "README.md au niveau du répertoire",
-          "80%+ quand l'agent travaille dans ce répertoire"
+          "80 %+ quand l'agent travaille dans ce répertoire"
         ],
         [
           "README.md imbriqué (sous-répertoires où l'agent ne se trouve pas)",
-          "environ 40%"
+          "environ 40 %"
         ],
-        ["Dossiers _docs/ orphelins que rien ne référence", "moins de 10%"]
+        ["Dossiers _docs/ orphelins que rien ne référence", "moins de 10 %"]
       ]
     },
     {
       "type": "p",
       "text": "AGENTS.md est la seule surface avec une découverte fiable. Si quelque chose doit être vu, il y vit ou y est référencé. Déplacer du contenu vers un emplacement référencé fait plus de travail qu'écrire davantage de documentation."
     },
-
-    { "type": "h2", "text": "Ce qui va dans le fichier, et ce qui le dégrade" },
+    {
+      "type": "h2",
+      "text": "Ce qui va dans le fichier, et ce qui le dégrade"
+    },
     {
       "type": "p",
       "text": "Les traces Augment ont été décomposées par type de contenu. Les patterns qui ont amélioré les résultats et ceux qui les ont dégradés ne sont pas symétriques."
     },
-    { "type": "h3", "text": "Ce qui fonctionne" },
+    {
+      "type": "h3",
+      "text": "Ce qui fonctionne"
+    },
     {
       "type": "ul",
       "items": [
-        "**Workflows procéduraux.** Les workflows multi-étapes numérotés ont été le pattern le plus efficace. Un workflow de déploiement d'une nouvelle intégration en six étapes a réduit les PRs avec des fichiers de câblage manquants de 40% à 10%, amélioré la correction de 25% et la complétude de 20%.",
-        "**Tables de décision quand 2 ou 3 options raisonnables existent.** Une table de décision React Query contre Zustand a produit une amélioration de 25% sur les best_practices dans les PRs de ce domaine. La table résout l'ambiguïté avant que l'agent écrive le code.",
+        "**Workflows procéduraux.** Les workflows multi-étapes numérotés ont été le pattern le plus efficace. Un workflow de déploiement d'une nouvelle intégration en six étapes a réduit les PRs avec des fichiers de câblage manquants de 40 % à 10 %, amélioré la correction de 25 % et la complétude de 20 %.",
+        "**Tables de décision quand 2 ou 3 options raisonnables existent.** Une table de décision React Query contre Zustand a produit une amélioration de 25 % sur les best_practices dans les PRs de ce domaine. La table résout l'ambiguïté avant que l'agent écrive le code.",
         "**Exemples réels de la codebase, 3 à 10 lignes chacun.** Améliore la réutilisation et le respect des patterns. Au-delà, l'agent fait correspondre les patterns au mauvais endroit.",
         "**Associer chaque interdiction à une directive positive.** Les docs contenant uniquement des interdictions sous-performent. Une simple prohibition rend l'agent prudent et exploratoire. Associez-la à une directive positive qui nomme le bon point d'appel, et l'agent avance.",
         "**Fichiers au niveau des modules plutôt qu'un fichier racine géant.** La plage de 100 à 150 lignes convient à un module de taille moyenne d'environ 100 fichiers. Les fichiers racines transversaux au-delà de cette taille ont perdu sur toutes les métriques."
       ]
     },
-    { "type": "h3", "text": "Ce qui dégrade les résultats" },
+    {
+      "type": "h3",
+      "text": "Ce qui dégrade les résultats"
+    },
     {
       "type": "ul",
       "items": [
@@ -135,11 +147,13 @@
         "**Prolifération de documentation autour du fichier.** Les moins bons performers d'Augment étaient des fichiers AGENTS.md posés sur 500K à 2 Mo de documentation d'architecture. Supprimer l'AGENTS.md changeait à peine le comportement. L'agent lisait la prolifération de toute façon."
       ]
     },
-
-    { "type": "h2", "text": "Réactif, pas pré-écrit" },
+    {
+      "type": "h2",
+      "text": "Réactif, pas pré-écrit"
+    },
     {
       "type": "p",
-      "text": "Elie Steinbock a publié un article séparé le 2026-04-20 avec une discipline qui corrige la plupart des fichiers AGENTS.md d'entreprise audités par webvise. Ne pré-écrivez pas des dizaines de règles avant que quoi que ce soit ait mal tourné. La sur-structuration préventive crée un gonflement que le modèle analyse à chaque exécution."
+      "text": "Elie Steinbock a publié un article séparé le 2026-04-20 avec une discipline qui corrige la plupart des fichiers AGENTS.md d'entreprise soumis à audit. Ne pré-écrivez pas des dizaines de règles avant que quoi que ce soit ait mal tourné. La sur-structuration préventive crée un gonflement que le modèle analyse à chaque exécution."
     },
     {
       "type": "p",
@@ -153,7 +167,6 @@
       "type": "p",
       "text": "Ce que cela donne dans un projet webvise : l'AGENTS.md est livré comme un fichier d'entrée compact avec des emplacements réservés. Le répertoire .claude/skills contient un petit ensemble de fichiers de skills propres à la livraison, chacun étant une procédure que l'équipe a réellement suivie pendant le projet. Le fichier n'anticipe pas les problèmes. Il enregistre ceux qui ont été résolus."
     },
-
     {
       "type": "h2",
       "text": "Cinq questions que les acheteurs devraient poser à tout prestataire"
@@ -168,7 +181,7 @@
       "rows": [
         [
           "Montrez-moi votre modèle AGENTS.md. Combien de lignes ?",
-          "100 à 150 lignes par module. Pas un seul fichier racine. Pas 1 000 lignes."
+          "100 à 150 lignes par module. Pas un seul fichier racine de 1 000 lignes."
         ],
         [
           "Comment la couche de skills est-elle structurée ?",
@@ -192,7 +205,6 @@
       "type": "p",
       "text": "Si un prestataire ne peut pas répondre à trois des cinq questions, il livre encore le modèle 2024. La plupart des équipes d'entreprise se heurtent à ce mur au niveau de la couche documentation. [Cet audit est la première phase de chaque mission de migration webvise](/#contact)."
     },
-
     {
       "type": "h2",
       "text": "Le constat fondamental : corriger l'environnement, pas seulement le point d'entrée"
@@ -209,10 +221,9 @@
       "type": "p",
       "text": "Le travail est inconfortable. Auditez les docs que l'agent charge réellement, marquez les obsolètes pour archivage, modularisez les actifs en références à portée de module, et gardez l'AGENTS.md pointant uniquement vers ce que l'agent devrait lire sur le chemin du changement. Le cadrage de Tan s'applique : le cerveau est un dépôt git, l'orchestrateur est un chef d'orchestre léger qui lit des fichiers. Si le dépôt git est plein de pages mortes, aucun fichier d'entrée ne le corrige."
     },
-
     {
       "type": "h2",
-      "text": "Ce que cela signifie pour tout commanditaire d'un projet en 2026"
+      "text": "Liste de contrôle pour la mise en service d'un projet"
     },
     {
       "type": "p",
@@ -220,7 +231,7 @@
     },
     {
       "type": "p",
-      "text": "Les projets web modernes en 2026 sont livrés lisibles par les agents dès le premier jour. C'est le contrat que [webvise](/#contact) établit par défaut sur chaque projet, d'un site landing d'une seule page à un SaaS multi-tenant. Le modèle compact, la couche .claude/skills et la discipline des règles réactives ne sont pas des extras. Ils font partie du projet."
+      "text": "Les projets web modernes en 2026 sont livrés lisibles par les agents dès le premier jour. C'est le contrat que [webvise](/#contact) établit par défaut sur chaque projet, d'un site landing d'une seule page à un SaaS multi-tenant. Le modèle compact, la couche .claude/skills et la discipline des règles réactives font partie intégrante du projet."
     }
   ]
 }

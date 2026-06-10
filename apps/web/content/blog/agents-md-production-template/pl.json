@@ -2,219 +2,233 @@
   "date": "2026-04-30",
   "readingTime": 9,
   "keyword": "AGENTS.md",
-  "title": "AGENTS.md jest teraz Pana/Pani przewagą: co zawierają produkcyjne pliki",
-  "excerpt": "Next.js 16.2 uczynił AGENTS.md domyślnym scaffoldingiem we wtorek. Empiryczne badanie Augment i produkcyjny szablon webvise pokazują, co naprawdę zawierają użyteczne instrukcje dla agentów.",
-  "metaDescription": "Next.js 16.2 dostarcza AGENTS.md domyślnie. Zawartość pliku jest teraz jedynym wyróżnikiem. Oto jak wyglądają pliki klasy produkcyjnej.",
+  "title": "AGENTS.md to teraz Panstwa przewaga: co zawieraja produkcyjne pliki",
+  "excerpt": "Next.js 16.2 wprowadzil AGENTS.md jako domyslny scaffolding we wtorek. Empiryczne badanie Augment Code i produkcyjny szablon webvise pokazuja, co naprawde zawieraja uzyteczne instrukcje dla agentow.",
+  "metaDescription": "Next.js 16.2 dostarcza AGENTS.md domyslnie. Zawartosc pliku jest teraz jedynym wyroznikiem. Tak wygladaja pliki produkcyjne w praktyce.",
   "tags": ["AI Agents", "AI", "Process", "Web Development"],
   "blocks": [
     {
       "type": "p",
-      "text": "Gdy create-next-app trzy dni temu wprowadził **AGENTS.md** jako domyślny element szablonu, wybór frameworka przestał różnicować projekty. Zawartość tego pliku jest teraz jedynym, co oddziela działający stack agentowy od niesprawnego."
+      "text": "Gdy create-next-app trzy dni temu wprowadzil **AGENTS.md** jako domyslny element szablonu, wybor frameworka przestal rozroznic projekty. Zawartosc tego pliku jest teraz jedynym, co oddziela dzialajacy stack agentowy od niesprawnego."
     },
     {
       "type": "p",
-      "text": "Przez sześć miesięcy posiadanie AGENTS.md oznaczało, że zespół jest o krok do przodu. Od 2026-04-28 każdy nowy projekt Next.js dostarcza go z pudełka. Sygnał się zatarł. To, co znajduje się wewnątrz pliku, stało się nowym sygnałem."
+      "text": "Przez szesc miesiecy posiadanie AGENTS.md oznaczalo wyprzedzenie. Od 2026-04-28 kazdy nowy projekt Next.js dostarcza go z pudelka. Sygnal sie zatrl. To, co znajduje sie wewnatrz pliku, stalo sie nowym wyroznikiem."
     },
     {
       "type": "p",
-      "text": "Większość liderów inżynieryjnych traktuje AGENTS.md jak dokumentację. To plik konfiguracyjny uruchamiany w runtime, który model ładuje przy każdym wywołaniu. Ten artykuł omawia empiryczne badanie Augment Code, regułę 100-150 linii decydującą o tym, czy plik pomaga czy szkodzi, oraz wzorzec szablonu stosowany w produkcyjnych repozytoriach klientów."
+      "text": "Wiekszosc liderow inzynieryjnych traktuje AGENTS.md jak dokumentacje. To plik konfiguracyjny uruchamiany w czasie wykonania, ktory model laduje przy kazdym wywolaniu. Ten artykul omawia empiryczne badanie Augment Code, regule 100 do 150 linii decydujaca o tym, czy plik pomaga czy szkodzi, oraz wzorzec szablonu stosowany w produkcyjnych repozytoriach klientow."
     },
-    { "type": "h2", "text": "Kluczowe wnioski" },
+    {
+      "type": "h2",
+      "text": "Zmiany w kontrakcie plikowym"
+    },
     {
       "type": "ul",
       "items": [
-        "**Next.js 16.2 dostarcza AGENTS.md jako domyślny szablon** (wydanie 2026-04-28). Każdy nowy starter na Vercel dziedziczy ten plik.",
-        "**Badanie AuggieBench Augment Code** (2026-04-23): pliki między 100 a 150 linii osiągają najlepsze wyniki. Po przekroczeniu 150 linii zyski się odwracają.",
-        "**Ten sam plik może podnieść dokładność naprawy błędów o 25% i obniżyć kompletność funkcji o 30%** przy różnych zadaniach. Projekt sekcji ma większe znaczenie niż łączna długość.",
-        "**AGENTS.md jest jedyną powierzchnią dokumentacji ze 100% wskaźnikiem odkrywalności.** Osierocone foldery _docs/ plasują się poniżej 10%.",
-        "**Nową przewagą są proceduralne workflow, tabele decyzyjne i jednoliniowe reguły reaktywne.** Nie przeglądy architektury ani stosy ostrzeżeń."
+        "**Next.js 16.2 dostarcza AGENTS.md jako domyslny szablon** (wydanie 2026-04-28). Kazdy nowy starter na Vercel dziedziczy ten plik.",
+        "**Badanie AuggieBench przeprowadzone przez Augment Code** (2026-04-23): pliki o dlugosci od 100 do 150 linii osiagaja najlepsze wyniki. Po przekroczeniu 150 linii zyski sie odwracaja.",
+        "**Ten sam plik moze podniesc dokladnosc naprawy bledow o 25% i obnizyc kompletnosc funkcji o 30%** przy roznych zadaniach. Projekt sekcji ma wieksze znaczenie niz laczna dlugosc.",
+        "**AGENTS.md jest jedyna powierzchnia dokumentacji ze 100-procentowym wskaznikiem wykrywalnosci.** Osierocone foldery _docs/ plasuja sie ponizej 10%.",
+        "**Nowa przewaga to proceduralne workflow, tabele decyzyjne i jednolinijkowe reguly reaktywne.** Nie przeglady architektury ani stosy ostrzezen."
       ]
     },
-
     {
       "type": "h2",
-      "text": "Trzy dni temu AGENTS.md przestał być wyróżnikiem"
+      "text": "Trzy dni temu AGENTS.md przestalo byc wyroznikiem"
     },
     {
       "type": "p",
-      "text": "Next.js 16.2 ukazał się 2026-04-28 z AGENTS.md jako domyślnym plikiem w szablonie create-next-app. Vercel dystrybuuje ten szablon do każdego nowego projektu startowego. Plik, który kiedyś oznaczał przewagę zespołu, teraz jest dostarczany w pustym pudełku."
+      "text": "Next.js 16.2 ukazal sie 2026-04-28 z AGENTS.md jako domyslnym plikiem w szablonie create-next-app. Vercel dystrybuuje ten szkielet do kazdego nowego projektu startowego. Plik, ktory kiedy oznaczal przewage zespolu, teraz jest dostarczany w pustym pudelku."
     },
     {
       "type": "p",
-      "text": "Zmiana w debacie jest tu kluczowa. Sześć miesięcy temu pytano, czy dany zespół ma AGENTS.md. W tym tygodniu pytanie brzmi: co się w nim znajduje. Kupujący oceniający partnerów developerskich potrzebują nowego sposobu punktowania, bo binarny sygnał zniknął."
+      "text": "Istotna jest zmiana tresci debaty. Szesc miesiecy temu pytano, czy dany zespol ma AGENTS.md. W tym tygodniu pytanie brzmi: co sie w nim znajduje. Oceniajacy partnerow developerskich potrzebuja nowego sposobu punktowania, bo binarny sygnal zniknal."
     },
     {
       "type": "p",
-      "text": "Dwa równoległe sygnały wzmacniają tę zmianę. Repozytorium mattpocock/skills Matta Pocock'a osiągnęło 41 000 gwiazdek w 85 dni, a repo to dosłownie opublikowany folder .claude. Ludzie oznaczają gwiazdkami cudze konfiguracje agentów tak, jak kiedyś oznaczali frameworki. Tak wygląda komodytyzacja."
+      "text": "Dwa rownolegne sygnaly wzmacniaja te zmiane. Repozytorium mattpocock/skills Matta Pocock'a osiagnelo 41 000 gwiazdek w 85 dni, a to dosłownie jego folder .claude opublikowany wprost. Ludzie oznaczaja gwiazdkami cudze konfiguracje agentow tak, jak kiedy oznaczali frameworki. Tak wyglada komodytyzacja."
     },
     {
       "type": "p",
-      "text": "Repozytorium gstack Garry'ego Tan'a, wydane w tym samym tygodniu, przekroczyło 23 000 gwiazdek w siedem dni. Tan użył go do dostarczenia 600 000 linii kodu produkcyjnego w 60 dni. Repo zawiera 31 plików markdown ze skill'ami. Nie ma pod spodem żadnego frameworka."
+      "text": "Repozytorium gstack Garry'ego Tan'a, wydane w tym samym tygodniu, przekroczylo 23 000 gwiazdek w siedem dni. Tan uzyl go do dostarczenia 600 000 linii kodu produkcyjnego w 60 dni. Repozytorium zawiera 31 plikow markdown ze skryptami. Nie ma pod nim zadnego frameworka."
     },
     {
       "type": "p",
-      "text": "Jeśli zespół zakupowy potrzebuje sposobu oceny gotowości AI podczas ewaluacji dostawców, [webvise może przeprowadzić Was przez rubrykę używaną w projektach klientów](/#contact)."
+      "text": "Jesli dzial zakupow potrzebuje sposobu oceny gotowosci AI podczas ewaluacji dostawcow, [webvise moze przeprowadzic Panstwa przez rubryki stosowane w projektach klientow](/#contact)."
     },
-
-    { "type": "h2", "text": "Reguła 100-150 linii z pomiarami" },
     {
-      "type": "p",
-      "text": "Augment Code opublikował pierwsze empiryczne badanie jakości zawartości AGENTS.md 2026-04-23. Autor, Slava Zhenylenko, pobrał dziesiątki plików AGENTS.md z monorepository Augment. Każdy plik przeszedł dwukrotnie przez zestaw ewaluacyjny AuggieBench: raz z plikiem i raz bez. Wyniki były oceniane względem wzorcowych PR zatwierdzonych przez ludzi."
+      "type": "h2",
+      "text": "Regula 100 do 150 linii z pomiarami"
     },
     {
       "type": "p",
-      "text": "Główny wynik: najlepsze pliki dały skok jakości równoważny ulepszeniu z Haiku do Opus. Najgorsze pliki dawały wyniki **gorsze niż brak AGENTS.md w ogóle**. Ten sam zespół inżynieryjny, ten sam model, to samo zadanie. Plik decydował o różnicy."
+      "text": "Augment Code opublikowal pierwsze empiryczne badanie jakosci zawartosci AGENTS.md 2026-04-23. Autor, Slava Zhenylenko, pobral dziesiatki plikow AGENTS.md z monorepository Augment. Kazdy plik przeszedl dwukrotnie przez zestaw ewaluacyjny AuggieBench: raz z plikiem i raz bez. Wyniki porownywano ze wzorcowymi PR zatwierdzonymi przez ludzi."
     },
     {
       "type": "p",
-      "text": "Optymalny zakres był wąski. Pliki między 100 a 150 linii, sparowane z małym zestawem skoncentrowanych dokumentów referencyjnych ładowanych na żądanie, dawały zyski między 10 a 15% we wszystkich metrykach w modułach średniej wielkości liczących około 100 plików źródłowych. Po przekroczeniu 150 linii zyski się odwracały."
+      "text": "Glowny wynik: najlepsze pliki dawaly skok jakosci rownowazny ulepseniu z Haiku do Opus. Najgorsze pliki dawaly wyniki **gorsze niz brak AGENTS.md w ogole**. Ten sam zespol inzynieryjny, ten sam model, to samo zadanie. Plik decydowal o roznicy."
     },
     {
       "type": "p",
-      "text": "Wyznanie samego Tan'a pokrywało się z tym odkryciem od strony zasad. Jego CLAUDE.md miał 20 000 linii, z każdą osobliwością, każdym wzorcem, każdą lekcją zakodowaną w jednym pliku. Claude Code sam wskazał ten przerost. Rozwiązaniem było około 200 linii wskaźników, a treść przeniesiono do skill'ów ładowanych na żądanie."
+      "text": "Optymalny zakres byl waski. Pliki o dlugosci od 100 do 150 linii, sparowane z malym zestawem skoncentrowanych dokumentow referencyjnych ladowanych na zadanie, dawaly zyski od 10 do 15% we wszystkich metrykach w modulach sredniej wielkosci liczacych okolo 100 plikow zrodlowych. Po przekroczeniu 150 linii zyski sie odwracaly."
     },
     {
       "type": "p",
-      "text": "Szablon webvise w repozytoriach klientów mieści się w zakresie rekomendowanym przez Augment. Nazwy repozytoriów klientów nie są publikowane, bo sednem jest wzorzec pracy: jeden kompaktowy plik wejściowy, placeholdery specyficzne dla projektu i skille wyciągane dopiero po tym, jak zespół rozwiąże powtarzalny problem."
+      "text": "Doswiadczenie samego Tan'a potwierdzalo to od strony zasad. Jego plik CLAUDE.md liczyl 20 000 linii i zawieral kazda osobliwosc, kazdy wzorzec i kazda lekcje w jednym pliku. Claude Code sam wskazal ten przerost. Rozwiazaniem bylo okolo 200 linii wskaznikow, a tresc przeniesiono do skryptow ladowanych na zadanie."
     },
     {
       "type": "p",
-      "text": "Wskaźniki odkrywalności z logów Augment zebranych przez setki sesji wyjaśniają, dlaczego umiejscowienie ma równie duże znaczenie co zawartość:"
+      "text": "Szablony webvise w repozytoriach klientow mieszcza sie w zakresie rekomendowanym przez Augment. Nazwy repozytoriow klientow nie sa publikowane, bo liczy sie wzorzec pracy: jeden kompaktowy plik wejsciowy, elementy zastepowalne specyficzne dla projektu i skrypty wyciagane dopiero po tym, jak zespol rozwiaze powtarzalny problem."
+    },
+    {
+      "type": "p",
+      "text": "Wskazniki wykrywalnosci z logow Augment zebranych przez setki sesji wyjasniaja, dlaczego umiejscowienie ma rownie duze znaczenie co zawartosc:"
     },
     {
       "type": "table",
-      "headers": ["Powierzchnia dokumentacji", "Wskaźnik odkrywalności"],
+      "headers": ["Powierzchnia dokumentacji", "Wskaznik wykrywalnosci"],
       "rows": [
-        ["AGENTS.md (każdy poziom hierarchii, ładowany automatycznie)", "100%"],
-        ["Referencje z AGENTS.md (ładowane na żądanie)", "90%+ przy trafności"],
+        ["AGENTS.md (kazdy poziom hierarchii, ladowany automatycznie)", "100%"],
+        [
+          "Referencje z AGENTS.md (ladowane na zadanie)",
+          "ponad 90% przy trafnosci"
+        ],
         [
           "README.md na poziomie katalogu",
-          "80%+ gdy agent pracuje w tym katalogu"
+          "ponad 80% gdy agent pracuje w tym katalogu"
         ],
         [
-          "Zagnieżdżony README.md (podkatalogi, w których agent nie pracuje)",
-          "około 40%"
+          "Zagniezdzone README.md (podkatalogi, w ktorych agent nie pracuje)",
+          "okolo 40%"
         ],
-        ["Osierocone foldery _docs/ bez żadnych referencji", "poniżej 10%"]
+        ["Osierocone foldery _docs/ bez zadnych referencji", "ponizej 10%"]
       ]
     },
     {
       "type": "p",
-      "text": "AGENTS.md jest jedyną powierzchnią z gwarantowaną odkrywalnością. Jeśli coś musi być widoczne, musi tam się znajdować lub być stamtąd wskazane. Przeniesienie treści do miejsca z referencją przynosi więcej efektów niż pisanie kolejnych dokumentów."
+      "text": "AGENTS.md jest jedyna powierzchnia z gwarantowana wykrywalnoscio. Jesli cos musi byc widoczne, musi tam sie znajdowac lub byc stamtad wskazane. Przeniesienie tresci do miejsca z referencja przynosi wiecej efektow niz pisanie kolejnych dokumentow."
     },
-
-    { "type": "h2", "text": "Co umieszcza się w pliku, a co go niszczy" },
-    {
-      "type": "p",
-      "text": "Logi Augment zostały przeanalizowane według typów zawartości. Wzorce podnoszące wyniki i te je psujące nie są symetryczne."
-    },
-    { "type": "h3", "text": "Co działa" },
-    {
-      "type": "ul",
-      "items": [
-        "**Proceduralne workflow.** Ponumerowane wieloetapowe workflow były najsilniejszym pojedynczym wzorcem. Sześcioetapowy workflow wdrożenia nowej integracji obniżył PR z brakującymi plikami konfiguracyjnymi z 40% do 10%, podniósł poprawność o 25% i kompletność o 20%.",
-        "**Tabele decyzyjne przy 2 lub 3 rozsądnych opcjach.** Tabela decyzyjna React Query kontra Zustand dała 25% poprawę w best_practices przy PR w tym obszarze. Tabela rozstrzyga niejednoznaczność, zanim agent zacznie pisać kod.",
-        "**Rzeczywiste przykłady z kodu, po 3 do 10 linii.** Poprawia ponowne użycie i przestrzeganie wzorców. Dłuższe fragmenty powodują, że agent dopasowuje wzorzec do niewłaściwego elementu.",
-        "**Do każdego \"nie\" dołącz \"tak\".** Dokumentacja zawierająca tylko zakazy wypada gorzej. Samo zakaz czyni agenta ostrożnym i skłonnym do eksploracji. Sparowanie go z pozytywną dyrektywą wskazującą właściwe miejsce w kodzie sprawia, że agent idzie dalej.",
-        "**Pliki na poziomie modułów zamiast jednego ogromnego pliku root.** Zakres 100-150 linii pasuje do modułu średniej wielkości liczącego około 100 plików. Pliki przekrojowe dla całego projektu powyżej tego rozmiaru traciły w każdej metryce."
-      ]
-    },
-    { "type": "h3", "text": "Co niszczy wyniki" },
-    {
-      "type": "ul",
-      "items": [
-        "**Przeglądy architektury.** Agent czyta przegląd, następnie otwiera dziesiątki otaczających dokumentów, by zweryfikować podejście, ładuje od 10 000 do 100 000 tokenów nieistotnego kontekstu i wyniki się pogarszają. Augment nazwał to pułapką nadmiernej eksploracji.",
-        "**Stosy ostrzeżeń bez sparowanej instrukcji.** Przy 30 do 50 zakazach i braku wskazówek agent weryfikuje swoje rozwiązanie wobec każdego ostrzeżenia indywidualnie, nawet gdy żadne nie ma zastosowania.",
-        "**Wzorce, które jeszcze nie istnieją w codebase.** Jeśli AGENTS.md opisuje architekturę, której kod nie implementuje, plik aktywnie prowadzi agenta w złym kierunku.",
-        "**Rozrost dokumentacji wokół pliku.** Najgorsze przypadki w badaniu Augment to pliki AGENTS.md spoczywające na 500K do 2 MB dokumentów architektonicznych. Usunięcie samego AGENTS.md niemal nie zmieniało zachowania. Agent i tak czytał otaczające pliki."
-      ]
-    },
-
-    { "type": "h2", "text": "Reaktywnie, nie z wyprzedzeniem" },
-    {
-      "type": "p",
-      "text": "Elie Steinbock opublikował 2026-04-20 odrębny tekst z dyscypliną, która naprawia większość plików AGENTS.md w firmach, które audytujemy. Nie należy pisać dziesiątek reguł, zanim cokolwiek pójdzie nie tak. Nadmierne strukturyzowanie z wyprzedzeniem tworzy przerost, który model parsuje przy każdym uruchomieniu."
-    },
-    {
-      "type": "p",
-      "text": "Reguły należy dodawać reaktywnie, gdy nastąpiła rzeczywista korekta, i ograniczać każde dodanie do jednej linii. Przy czymkolwiek cięższym treść powinna trafić do progresywnie ładowanego skill'a. AGENTS.md pozostaje kompaktowy. Warstwa skill'ów przejmuje ciężar."
-    },
-    {
-      "type": "p",
-      "text": "Równoległa reguła Tan'a, dyscyplina \"dwa razy poprosiłeś\", mówi to samo z drugiej strony. Jeśli trzeba prosić agenta o coś dwukrotnie, drugie prośby nie powinno być. Wzorzec trafia do warstwy skill'ów lub do AGENTS.md jako jednoliniowa reguła. System się kumuluje."
-    },
-    {
-      "type": "p",
-      "text": "W buildzie webvise wygląda to tak: AGENTS.md jest dostarczany jako kompaktowy plik wejściowy z miejscami na uzupełnienie. Katalog .claude/skills zawiera mały zestaw plików skill specyficznych dla dostawy, a każdy z nich to procedura, którą zespół faktycznie wykonał podczas buildu. Plik nie antycypuje problemów. Rejestruje rozwiązane."
-    },
-
     {
       "type": "h2",
-      "text": "Pięć pytań, które dział zakupów powinien zadać każdemu dostawcy"
+      "text": "Co wzmacnia plik, a co go niszczy"
     },
     {
       "type": "p",
-      "text": "Jakość zawartości AGENTS.md jest teraz mierzalnym wskaźnikiem egzekucji natywnej dla AI. Pięć poniższych pytań daje nieinżynierskiemu działowi zakupów szybki obraz tego, czy dostawca dostarcza na stack 2026, czy 2024."
+      "text": "Logi Augment zostaly przeanalizowane wedlug typow zawartosci. Wzorce podnoszace wyniki i te je psujace nie sa symetryczne."
+    },
+    {
+      "type": "h3",
+      "text": "Co dziala"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Proceduralne workflow.** Ponumerowane wieloetapowe workflow byly najsilniejszym pojedynczym wzorcem. Szescioetapowy workflow wdrozenia nowej integracji obnizy1 odsetek PR z brakujacymi plikami konfiguracyjnymi z 40% do 10%, podnisl poprawnosc o 25% i kompletnosc o 20%.",
+        "**Tabele decyzyjne przy 2 lub 3 rozsdnych opcjach.** Tabela decyzyjna React Query kontra Zustand dala 25% poprawe w best_practices przy PR z danego obszaru. Tabela rozstrzyga niejednoznacznosc, zanim agent zacznie pisac kod.",
+        "**Rzeczywiste przyklady z kodu, po 3 do 10 linii.** Poprawia ponowne uzycie i przestrzeganie wzorcow. Dluzsze fragmenty powoduja, ze agent dopasowuje wzorzec do niewlasciwego elementu.",
+        "**Do kazdego zakazu dolaczyc wskazanie pozytywne.** Dokumentacja zawierajaca same zakazy wypada gorzej. Samo zakazanie czyni agenta ostroznym i sklonnym do eksploracji. Parowanie go z pozytywna dyrektywa wskazujaca wlasciwe miejsce w kodzie sprawia, ze agent idzie dalej.",
+        "**Pliki na poziomie modulow zamiast jednego ogromnego pliku root.** Zakres 100 do 150 linii pasuje do modulu sredniej wielkosci liczacego okolo 100 plikow. Pliki przekrojowe dla calego projektu powyzej tego rozmiaru tracily w kazdej metryce."
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "Co niszczy wyniki"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Przeglady architektury.** Agent czyta przeglad, nastepnie otwiera dziesiatki otaczajacych dokumentow, by zweryfikowac podejscie, laduje od 10 000 do 100 000 tokenow nieistotnego kontekstu i wyniki sie pogarzaja. Augment nazwal to pulapka nadmiernej eksploracji.",
+        "**Stosy ostrzezen bez sparowanej instrukcji.** Przy 30 do 50 zakazach i braku wskazowek agent weryfikuje swoje rozwiazanie wzgledem kazdego ostrzezenia indywidualnie, nawet gdy zadne nie ma zastosowania.",
+        "**Wzorce, ktore jeszcze nie istnieja w codebase.** Jesli AGENTS.md opisuje architekture, ktorej kod nie implementuje, plik aktywnie prowadzi agenta w zlym kierunku.",
+        "**Rozrost dokumentacji wokol pliku.** Najgorsze przypadki w badaniu Augment to pliki AGENTS.md spoczywajace na dokumentacji architektonicznej o rozmiarze od 500 KB do 2 MB. Usuniecie samego AGENTS.md z uruchomienia prawie nie zmienilo zachowania. Agent i tak czytal otaczajace pliki."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Reaktywnie, nie z wyprzedzeniem"
+    },
+    {
+      "type": "p",
+      "text": "Elie Steinbock opublikowal 2026-04-20 odrebny tekst z dyscyplina, ktora naprawia wiekszosc plikow AGENTS.md w firmach poddawanych audytowi. Nie nalezy pisac dziesiatek regul, zanim cokolwiek pojdzie nie tak. Nadmierne strukturyzowanie z wyprzedzeniem tworzy przerost, ktory model parsuje przy kazdym uruchomieniu."
+    },
+    {
+      "type": "p",
+      "text": "Reguly nalezy dodawac reaktywnie, gdy nastapila rzeczywista korekta, i ograniczac kazde dodanie do jednej linii. Przy czymskolwiek ciezszym tresc powinna trafic do progresywnie ladowanego skryptu. AGENTS.md pozostaje kompaktowy, a warstwa skryptow przejmuje ciezar."
+    },
+    {
+      "type": "p",
+      "text": "Rownolegla regula Tan'a, dyscyplina dwukrotnej prosby, mowi to samo z drugiej strony. Jesli trzeba prosic agenta o cos dwukrotnie, drugiej prosby nie powinno byc. Wzorzec trafia do warstwy skryptow lub do AGENTS.md jako jednolinijkowa regula. System sie kumuluje."
+    },
+    {
+      "type": "p",
+      "text": "W buildzie webvise wyglada to nastepujaco: AGENTS.md jest dostarczany jako kompaktowy plik wejsciowy z miejscami na uzupelnienie. Katalog .claude/skills zawiera maly zestaw plikow skryptow specyficznych dla dostawy, a kazdy z nich to procedura faktycznie wykonana przez zespol podczas buildu. Plik nie antycypuje problemow. Rejestruje rozwiazane."
+    },
+    {
+      "type": "h2",
+      "text": "Piec pytan, ktore dzial zakupow powinien zadac kazdemu dostawcy"
+    },
+    {
+      "type": "p",
+      "text": "Jakosc zawartosci AGENTS.md jest teraz mierzalnym wskaznikiem egzekucji natywnej dla AI. Ponizsze piec pytan daje nieinzynierskim dzialomzakupow szybki obraz tego, czy dostawca dostarcza na stack 2026 czy 2024."
     },
     {
       "type": "table",
-      "headers": ["Pytanie", "Jak brzmi dobra odpowiedź"],
+      "headers": ["Pytanie", "Jak brzmi dobra odpowiedz"],
       "rows": [
         [
-          "Proszę pokazać szablon AGENTS.md. Ile ma linii?",
-          "100 do 150 linii na moduł. Nie jeden plik root. Nie 1 000 linii."
+          "Prosze pokazac szablon AGENTS.md. Ile ma linii?",
+          "100 do 150 linii na modul. Nalezy unikac jednego pliku root i instrukcji liczacych 1000 linii."
         ],
         [
-          "Jak zorganizowana jest warstwa skill'ów?",
-          "Progresywne ujawnianie. Skill'e ładowane na żądanie, nie w pliku root."
+          "Jak zorganizowana jest warstwa skryptow?",
+          "Progresywne ujawnianie. Skrypty ladowane na zadanie, nie w pliku root."
         ],
         [
-          "Jaka jest reguła dodawania wpisów?",
-          "Wyłącznie reaktywnie. Jednoliniowe wpisy dla powtarzających się korekt. Skill'e dla czegokolwiek cięższego."
+          "Jaka jest regula dodawania wpisow?",
+          "Wylacznie reaktywnie. Jednolinijkowe wpisy dla powtarzajacych sie korekt. Skrypty dla czegos ciezszego."
         ],
         [
-          "Jak mierzą Państwo nadmierną eksplorację przy długich zadaniach?",
-          "Padła konkretna metryka: zużycie tokenów na zadanie, wskaźnik ukończenia wieloetapowych ticket'ów lub coś równie wymiernego."
+          "Jak mierzona jest nadmierna eksploracja przy dlugich zadaniach?",
+          "Podawana jest konkretna metryka: zuzycie tokenow na zadanie, wskaznik ukonczenia biletow wieloetapowych lub cos rownie wymiernego."
         ],
         [
-          "Gdzie przechowywana jest stara dokumentacja i jak jest wskazywana?",
+          "Gdzie przechowywana jest starsza dokumentacja i jak jest przywolywana?",
           "Modularnie. Linkowana z AGENTS.md z limitem 10 do 15 referencji na plik. Nie 2 MB rozrostu w _docs."
         ]
       ]
     },
     {
       "type": "p",
-      "text": "Jeśli dostawca nie potrafi odpowiedzieć na trzy z pięciu pytań, nadal dostarcza szablon z 2024 roku. Większość korporacyjnych zespołów napotyka tę barierę na poziomie dokumentacji. [Ten audyt jest pierwszą fazą każdego zaangażowania migracyjnego webvise](/#contact)."
+      "text": "Jesli dostawca nie jest w stanie odpowiedziec na trzy z pieciu pytan, nadal dostarcza szablon z 2024 roku. Wiekszosc korporacyjnych zespolow napotyka te bariere na poziomie dokumentacji. [Ten audyt jest pierwsza faza kazdego zaangozowania migracyjnego webvise](/#contact)."
     },
-
     {
       "type": "h2",
-      "text": "Głębszy wniosek: napraw środowisko, nie tylko punkt wejścia"
+      "text": "Glebszy wniosek: naprawa srodowiska, nie tylko punktu wejscia"
     },
     {
       "type": "p",
-      "text": "Najbardziej niewygodne odkrycie Augment dotyczyło najgorzej ocenianych plików AGENTS.md. Spoczywały one na 500K do 2 MB otaczających dokumentów architektonicznych. Zespół usunął sam AGENTS.md z uruchomienia, a zachowanie niemal się nie zmieniło. Agent i tak czytał te pliki niezależnie od tego, co mówił plik wejściowy."
+      "text": "Najbardziej niepokojacy wynik Augment dotyczyl najgorzej ocenianych plikow AGENTS.md. Spoczywaly one na otaczajacej dokumentacji architektonicznej o rozmiarze od 500 KB do 2 MB. Zespol usunal sam AGENTS.md z uruchomienia, a zachowanie prawie sie nie zmienilo. Agent i tak czytal te pliki niezaleznie od tego, co mowil plik wejsciowy."
     },
     {
       "type": "p",
-      "text": "To wniosek trudny do zaakceptowania przez korporacyjne zespoły z długą historią. Większość środowisk dokumentacyjnych zbudowanych przed 2024 rokiem zawiera lata zapisów decyzji architektonicznych, dokumentów projektowych i instrukcji operacyjnych. Agent ładuje ich wystarczająco dużo, by zagłuszyć czysty AGENTS.md. Napisanie lepszego pliku wejściowego jest konieczne, ale niewystarczające."
+      "text": "To wniosek trudny do zaakceptowania przez korporacyjne zespoly z dluga historia. Wiekszosc srodowisk dokumentacyjnych zbudowanych przed 2024 rokiem zawiera lata zapisow decyzji architektonicznych, dokumentow projektowych i instrukcji operacyjnych. Agent laduje ich wystarczajaco duzo, by zgluszyl czysty AGENTS.md. Napisanie lepszego pliku wejsciowego jest konieczne, lecz niewystarczajace."
     },
     {
       "type": "p",
-      "text": "Ta praca jest niewygodna. Należy przeprowadzić audyt dokumentów faktycznie ładowanych przez agenta, oznaczyć martwe do archiwizacji, zmodularyzować aktywne w referencje na poziomie modułów i utrzymywać AGENTS.md wskazujący tylko na to, co agent powinien przeczytać na ścieżce do zmiany. Metafora Tan'a ma tu zastosowanie: mózg to repozytorium git, orkiestrator to cienki dyrygent czytający pliki. Jeśli repozytorium git jest pełne martwych stron, żaden plik wejściowy tego nie naprawi."
+      "text": "Ta praca jest mozolna. Nalezy przeprowadzic audyt dokumentow faktycznie ladowanych przez agenta, oznaczyc martwe do archiwizacji, zmodularyzowac aktywne w referencje na poziomie modulow i utrzymywac AGENTS.md wskazujacy tylko na to, co agent powinien przeczytac na sciezce do zmiany. Metafora Tan'a ma tu zastosowanie: mozg to repozytorium git, a orkiestrator to cienki dyrygent czytajacy pliki. Jesli repozytorium jest pelne martwych stron, zaden plik wejsciowy tego nie naprawi."
     },
-
     {
       "type": "h2",
-      "text": "Co to oznacza dla zamawiających build w 2026 roku"
+      "text": "Lista kontrolna oddania buildu"
     },
     {
       "type": "p",
-      "text": "Wojna o frameworki dobiegła końca. Next.js, Astro, SvelteKit i Nuxt dostarczają szablony AGENTS.md domyślnie lub uczynią to w tym kwartale. Wyróżnik przesunął się o warstwę wyżej. Zawartość pliku, struktura katalogu skill'ów i dyscyplina stojąca za oboma decydują o tym, czy stack agentowy pomaga czy przeszkadza."
+      "text": "Wojna o frameworki dobiegla konca. Next.js, Astro, SvelteKit i Nuxt dostarczaja szablony AGENTS.md domyslnie lub uczynio to w ciagu kwartalu. Wyroznik przesunol sie o warstwe wyzej. Zawartosc pliku, struktura katalogu skryptow i dyscyplina stojaca za oboma decyduja o tym, czy stack agentowy pomaga czy szkodzi."
     },
     {
       "type": "p",
-      "text": "Nowoczesne buildy webowe w 2026 roku są czytelne dla agenta od pierwszego dnia. To kontrakt, który [webvise](/#contact) realizuje domyślnie w każdym projekcie, od jednostronicowego landing site do wielotenantowego SaaS. Kompaktowy szablon, warstwa .claude/skills i dyscyplina reaktywnych reguł nie są opcjami dodatkowymi. To jest build."
+      "text": "Nowoczesne buildy webowe w 2026 roku sa gotowe do odczytu przez agenta od pierwszego dnia. To kontrakt, ktory [webvise](/#contact) realizuje domyslnie w kazdym projekcie, od jednotematycznego landing site do wielodostepowego SaaS. Kompaktowy szablon, warstwa .claude/skills i dyscyplina reaktywnych regul nie sa opcjami dodatkowymi. To jest build."
     }
   ]
 }

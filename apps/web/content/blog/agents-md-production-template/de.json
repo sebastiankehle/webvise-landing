@@ -2,80 +2,84 @@
   "date": "2026-04-30",
   "readingTime": 9,
   "keyword": "AGENTS.md",
-  "title": "Ihre AGENTS.md ist jetzt Ihr Wettbewerbsvorteil: Was in Produktionsdateien steht",
-  "excerpt": "Next.js 16.2 machte AGENTS.md am Dienstag zum Standard-Scaffolding. Die empirische Studie von Augment und das Produktionstemplate von webvise zeigen, was hilfreiche Agentenanweisungen tatsächlich enthalten.",
-  "metaDescription": "Next.js 16.2 liefert AGENTS.md standardmäßig aus. Der Inhalt ist jetzt das einzige Unterscheidungsmerkmal. So sehen Produktionsdateien tatsächlich aus.",
+  "title": "Ihre AGENTS.md ist jetzt Ihr Wettbewerbsvorteil: Was in Produktionsdateien gehört",
+  "excerpt": "Next.js 16.2 hat AGENTS.md am Dienstag zum Standard-Scaffolding gemacht. Die empirische Studie von Augment Code und das Produktions-Template zeigen, was nützliche Agent-Instruktionen tatsächlich enthalten.",
+  "metaDescription": "Next.js 16.2 liefert AGENTS.md standardmäßig aus. Der Inhalt ist jetzt das einzige Unterscheidungsmerkmal. So sehen produktionsreife Dateien tatsächlich aus.",
   "tags": ["AI Agents", "AI", "Process", "Web Development"],
   "blocks": [
     {
       "type": "p",
-      "text": "Als create-next-app vor drei Tagen **AGENTS.md** als Standard-Scaffolding ausgeliefert hat, hörte die Framework-Wahl auf, ein Differenzierungsmerkmal zu sein. Der Inhalt dieser Datei ist jetzt das Einzige, was einen funktionierenden Agent-Stack von einem defekten trennt."
+      "text": "Als create-next-app vor drei Tagen **AGENTS.md** als Standard-Scaffolding ausgeliefert hat, hörte die Framework-Wahl auf, ein Differenzierungsmerkmal zu sein. Der Inhalt dieser Datei ist jetzt das Einzige, was einen funktionierenden Agent-Stack von einem kaputten trennt."
     },
     {
       "type": "p",
-      "text": "Sechs Monate lang signalisierte eine AGENTS.md, dass Ihr Team vorne lag. Seit dem 2026-04-28 wird sie mit jedem neuen Next.js-Projekt ausgeliefert. Das Signal ist weggefallen. Was in der Datei steht, ist das neue Signal."
+      "text": "Sechs Monate lang signalisierte eine AGENTS.md, dass ein Team vorne lag. Seit dem 28. April 2026 wird jedes neue Next.js-Projekt damit ausgeliefert. Das Signal ist weggefallen. Was in der Datei steht, ist das neue Signal."
     },
     {
       "type": "p",
-      "text": "Die meisten Engineering-Leads behandeln AGENTS.md wie Dokumentation. Es ist eine Laufzeit-Konfigurationsdatei, die das Modell bei jedem Aufruf lädt. Dieser Artikel betrachtet die empirische Studie von Augment Code, die 100-bis-150-Zeilen-Regel, die entscheidet, ob die Datei hilft oder schadet, und das Template-Muster, das in produktiven Client-Repositories im Einsatz ist."
+      "text": "Die meisten Engineering-Verantwortlichen behandeln AGENTS.md wie Dokumentation. Tatsächlich ist es eine Laufzeit-Konfigurationsdatei, die das Modell bei jedem Aufruf lädt. Dieser Artikel geht die empirische Studie von Augment Code durch, die 100-bis-150-Zeilen-Regel, die entscheidet, ob die Datei hilft oder schadet, und das Template-Muster, das in produktiven Client-Repositories eingesetzt wird."
     },
-    { "type": "h2", "text": "Die wichtigsten Erkenntnisse" },
+    {
+      "type": "h2",
+      "text": "Veränderungen im Dateivertrag"
+    },
     {
       "type": "ul",
       "items": [
-        "**Next.js 16.2 liefert AGENTS.md als Standard-Scaffolding** (veröffentlicht am 2026-04-28). Jedes neue Starter-Projekt auf Vercel erbt sie.",
-        "**Die AuggieBench-Studie von Augment Code** (2026-04-23): Dateien zwischen 100 und 150 Zeilen erzielen die besten Ergebnisse. Über 150 Zeilen kehren sich die Gewinne um.",
-        "**Dieselbe Datei kann die Bugfix-Genauigkeit um 25% steigern und die Feature-Vollständigkeit bei anderen Aufgaben um 30% senken.** Das Design der Abschnitte zählt mehr als die Gesamtlänge.",
-        "**AGENTS.md ist die einzige Dokumentationsfläche mit 100% Auffindbarkeitsrate.** Verwaiste _docs/-Ordner liegen unter 10%.",
-        "**Der neue Wettbewerbsvorteil sind prozedurale Workflows, Entscheidungstabellen und einzeilige reaktive Regeln.** Keine Architekturübersichten oder gestapelten Warnungen."
+        "**Next.js 16.2 liefert AGENTS.md als Standard-Scaffolding aus** (veröffentlicht am 28. April 2026). Jedes neue Starter-Projekt auf Vercel erbt sie.",
+        "**Die AuggieBench-Studie von Augment Code** (23. April 2026): Dateien zwischen 100 und 150 Zeilen erzielen die besten Ergebnisse. Über 150 Zeilen kehren sich die Gewinne um.",
+        "**Dieselbe Datei kann die Bugfix-Genauigkeit um 25 % steigern und die Feature-Vollständigkeit bei anderen Aufgaben um 30 % senken.** Das Abschnittsdesign zählt mehr als die Gesamtlänge.",
+        "**AGENTS.md ist die einzige Dokumentationsoberfläche mit 100 % Auffindbarkeitsrate.** Verwaiste _docs/-Ordner liegen unter 10 %.",
+        "**Der neue Wettbewerbsvorteil sind prozedurale Workflows, Entscheidungstabellen und einzeilige reaktive Regeln.** Nicht Architekturübersichten oder gestapelte Warnungen."
       ]
     },
-
     {
       "type": "h2",
       "text": "Vor drei Tagen hörte AGENTS.md auf, ein Differenzierungsmerkmal zu sein"
     },
     {
       "type": "p",
-      "text": "Next.js 16.2 wurde am 2026-04-28 mit AGENTS.md als Standarddatei im create-next-app-Template ausgeliefert. Vercel verteilt das Scaffolding an jedes neue Starter-Projekt. Die Datei, die früher bedeutete, dass ein Team vorne lag, wird jetzt im leeren Paket mitgeliefert."
+      "text": "Next.js 16.2 wurde am 28. April 2026 mit AGENTS.md als Standarddatei im create-next-app-Template ausgeliefert. Vercel verteilt das Scaffolding an jedes neue Starter-Projekt. Die Datei, die früher bedeutete, dass ein Team vorne lag, liegt jetzt im leeren Paket."
     },
     {
       "type": "p",
-      "text": "Die Verschiebung in der Diskussion ist der entscheidende Punkt. Vor sechs Monaten lautete die Frage, ob Ihr Team eine AGENTS.md hatte. Diese Woche wurde daraus die Frage, was darin stand. Einkäufer, die Entwicklungspartner bewerten, brauchen ein neues Bewertungsraster, da das binäre Signal verschwunden ist."
+      "text": "Die Verschiebung in der Diskussion ist der entscheidende Punkt. Vor sechs Monaten lautete die Frage, ob ein Team eine AGENTS.md hatte. Diese Woche wurde daraus die Frage, was darin steht. Einkäufer, die Entwicklungspartner bewerten, brauchen ein neues Bewertungsraster, denn das binäre Signal ist verschwunden."
     },
     {
       "type": "p",
-      "text": "Zwei parallele Signale unterstreichen die Verschiebung. Matt Pocock's mattpocock/skills-Repository erreichte 41.000 Sterne in 85 Tagen, und das Repo ist sein .claude-Ordner, direkt veröffentlicht. Menschen vergeben Sterne für Agent-Konfigurationen anderer Personen, wie sie es früher für Frameworks taten. So sieht Commoditisierung aus."
+      "text": "Zwei parallele Signale unterstreichen die Verschiebung. Matt Pococks Repository mattpocock/skills erreichte 41.000 Sterne in 85 Tagen, und das Repo ist sein .claude-Ordner, unveränderlich veröffentlicht. Menschen vergeben Sterne für Agent-Konfigurationen anderer, wie sie es früher für Frameworks taten. So sieht Kommodifizierung aus."
     },
     {
       "type": "p",
-      "text": "Garry Tan's gstack-Repository, in derselben Woche veröffentlicht, überschritt 23.000 Sterne in sieben Tagen. Tan hat damit 600.000 Zeilen Produktionscode in 60 Tagen ausgeliefert. Das Repo enthält 31 Markdown-Skill-Dateien. Darunter liegt kein Framework."
+      "text": "Garry Tans gstack-Repository, in derselben Woche veröffentlicht, überschritt 23.000 Sterne in sieben Tagen. Tan lieferte damit 600.000 Zeilen Produktionscode in 60 Tagen. Das Repo enthält 31 Markdown-Skill-Dateien. Ein Framework liegt nicht darunter."
     },
     {
       "type": "p",
-      "text": "Wenn Ihr Einkauf eine Methode braucht, um KI-Reife in Vendor-Evaluierungen zu bewerten, [führt webvise Sie durch die Rubrik, die in Client-Projekten zum Einsatz kommt](/#contact)."
+      "text": "Wenn Ihr Beschaffungsteam eine Methode sucht, um KI-Reife in Anbieterauswertungen zu bewerten, [erklärt webvise die in Kundenprojekten eingesetzte Bewertungsrubrik](/#contact)."
     },
-
-    { "type": "h2", "text": "Die 100- bis 150-Zeilen-Regel, mit Messung" },
     {
-      "type": "p",
-      "text": "Augment Code veröffentlichte am 2026-04-23 die erste empirische Studie zur Qualität von AGENTS.md-Inhalten. Der Autor, Slava Zhenylenko, zog Dutzende von AGENTS.md-Dateien aus Augments Monorepo. Jede Datei durchlief das AuggieBench-Eval-Suite zweimal: einmal mit der Datei und einmal ohne. Die Ausgabe wurde gegen den goldenen PR bewertet, den Menschen gemergt hatten."
+      "type": "h2",
+      "text": "Die 100-bis-150-Zeilen-Regel, mit Messung"
     },
     {
       "type": "p",
-      "text": "Das zentrale Ergebnis: Die besten Dateien erzeugten einen Qualitätssprung, der dem Upgrade von Haiku auf Opus entspricht. Die schlechtesten Dateien erzeugten Ergebnisse, die **schlechter waren als gar keine AGENTS.md**. Dasselbe Engineering-Team, dasselbe Modell, dieselbe Aufgabe. Die Datei entschied den Unterschied."
+      "text": "Augment Code veröffentlichte am 23. April 2026 die erste empirische Studie zur Inhaltsqualität von AGENTS.md-Dateien. Der Autor Slava Zhenylenko zog Dutzende AGENTS.md-Dateien aus Augments Monorepo. Jede Datei durchlief die AuggieBench-Evaluierungssuite zweimal: einmal mit der Datei und einmal ohne. Die Ausgaben wurden gegen den Golden PR gemessen, den Menschen gemergt hatten."
     },
     {
       "type": "p",
-      "text": "Der optimale Bereich war eng. Dateien zwischen 100 und 150 Zeilen, kombiniert mit einer kleinen Menge fokussierter Referenzdokumente, die bei Bedarf geladen werden, erzeugten 10 bis 15% Gewinne über alle Metriken bei mittelgroßen Modulen von etwa 100 Kerndateien. Über 150 Zeilen kehrten sich die Gewinne um."
+      "text": "Das Hauptergebnis: Die besten Dateien erzeugten einen Qualitätssprung, der dem Upgrade von Haiku auf Opus entspricht. Die schlechtesten Dateien lieferten Ergebnisse, die **schlechter waren als gar keine AGENTS.md**. Dasselbe Engineering-Team, dasselbe Modell, dieselbe Aufgabe. Die Datei entschied den Unterschied."
     },
     {
       "type": "p",
-      "text": "Tan's eigenes Eingeständnis stimmte mit dem Befund aus der Prinzipien-Perspektive überein. Seine CLAUDE.md hatte 20.000 Zeilen, mit jeder Eigenheit, jedem Muster, jeder Lektion in einer Datei kodiert. Claude Code selbst markierte den Ballast. Die Lösung waren etwa 200 Zeilen Verweise, mit dem Inhalt in Skills ausgelagert, die bei Bedarf geladen werden."
+      "text": "Der optimale Bereich war eng. Dateien zwischen 100 und 150 Zeilen, kombiniert mit einer kleinen Menge fokussierter Referenzdokumente, die bei Bedarf geladen werden, erzielten 10 bis 15 % Gewinne über alle Metriken bei mittelgroßen Modulen von etwa 100 Kerndateien. Über 150 Zeilen kehrten sich die Gewinne um."
     },
     {
       "type": "p",
-      "text": "Mein eigenes Template in webvise-Client-Repos liegt innerhalb des von Augment empfohlenen Bereichs. Ich veröffentliche keine Client-Repo-Namen, weil es um das Betriebsmuster geht: eine kompakte Einstiegsdatei, projektspezifische Platzhalter und Skills, die erst extrahiert werden, nachdem das Team ein wiederkehrendes Problem gelöst hat."
+      "text": "Tans eigenes Eingeständnis stimmte mit dem Befund von der Prinzipien-Seite überein. Seine CLAUDE.md hatte 20.000 Zeilen, mit jeder Eigenheit, jedem Muster, jeder Lektion in einer einzigen Datei kodiert. Claude Code selbst meldete den Ballast. Die Lösung waren etwa 200 Zeilen Verweise, wobei der Inhalt in bei Bedarf geladene Skills ausgelagert wurde."
+    },
+    {
+      "type": "p",
+      "text": "Das eigene Template in webvise-Client-Repos liegt innerhalb des von Augment empfohlenen Bereichs. Projekt-Repository-Namen werden nicht veröffentlicht, weil das Betriebsmuster zählt: eine kompakte Einstiegsdatei, projektspezifische Platzhalter und Skills, die erst extrahiert werden, nachdem das Team ein wiederkehrendes Problem gelöst hat."
     },
     {
       "type": "p",
@@ -83,81 +87,90 @@
     },
     {
       "type": "table",
-      "headers": ["Dokumentationsfläche", "Auffindbarkeitsrate"],
+      "headers": ["Dokumentationsoberfläche", "Auffindbarkeitsrate"],
       "rows": [
-        ["AGENTS.md (jede Ebene der Hierarchie, automatisch geladen)", "100%"],
+        ["AGENTS.md (jede Ebene der Hierarchie, automatisch geladen)", "100 %"],
         [
           "Referenzen aus AGENTS.md (bei Bedarf geladen)",
-          "über 90% wenn relevant"
+          "über 90 % bei Relevanz"
         ],
         [
           "README.md auf Verzeichnisebene",
-          "über 80% wenn der Agent in diesem Verzeichnis arbeitet"
+          "über 80 % wenn der Agent in diesem Verzeichnis arbeitet"
         ],
         [
           "Verschachtelte README.md (Unterverzeichnisse, in denen der Agent nicht ist)",
-          "rund 40%"
+          "ca. 40 %"
         ],
-        ["Verwaiste _docs/-Ordner ohne Referenzen", "unter 10%"]
+        ["Verwaiste _docs/-Ordner ohne Referenzen", "unter 10 %"]
       ]
     },
     {
       "type": "p",
-      "text": "AGENTS.md ist die einzige Fläche mit zuverlässiger Auffindbarkeit. Wenn etwas gesehen werden muss, steht es dort oder wird von dort referenziert. Inhalte an einen referenzierten Ort zu verschieben leistet mehr als weitere Dokumentation zu schreiben."
+      "text": "AGENTS.md ist die einzige Oberfläche mit zuverlässiger Auffindbarkeit. Wenn etwas gesehen werden muss, steht es dort oder wird von dort referenziert. Inhalte an eine referenzierte Position zu verschieben leistet mehr als weitere Dokumentation zu schreiben."
     },
-
-    { "type": "h2", "text": "Was in die Datei gehört und was sie ruiniert" },
+    {
+      "type": "h2",
+      "text": "Was in die Datei gehört und was sie ruiniert"
+    },
     {
       "type": "p",
       "text": "Augments Traces wurden nach Inhaltstyp aufgeschlüsselt. Die Muster, die die Ausgabe verbesserten, und die Muster, die sie zerstörten, sind nicht symmetrisch."
     },
-    { "type": "h3", "text": "Was funktioniert" },
+    {
+      "type": "h3",
+      "text": "Was funktioniert"
+    },
     {
       "type": "ul",
       "items": [
-        "**Prozedurale Workflows.** Nummerierte mehrstufige Workflows waren das stärkste einzelne Muster. Ein sechsstufiger Workflow zum Einbinden einer neuen Integration senkte PRs mit fehlenden Wiring-Dateien von 40% auf 10%, steigerte die Korrektheit um 25% und die Vollständigkeit um 20%.",
-        "**Entscheidungstabellen bei 2 oder 3 sinnvollen Optionen.** Eine Entscheidungstabelle React Query versus Zustand erzielte eine 25%-Steigerung bei best_practices in PRs in diesem Bereich. Die Tabelle löst Mehrdeutigkeit, bevor der Agent Code schreibt.",
-        "**Echte Codebase-Beispiele, 3 bis 10 Zeilen lang.** Verbessert die Wiederverwendung und die Einhaltung von Mustern. Längere Beispiele führen dazu, dass der Agent am falschen Muster erkennt.",
-        "**Jedem Verbot ein Gebot gegenüberstellen.** Reine Warnungsdokumentation schneidet schlechter ab. Ein bloßes Verbot macht den Agent vorsichtig und explorativ. Gepaart mit einer positiven Direktive, die die richtige Call-Site nennt, geht der Agent weiter.",
-        "**Dateien auf Modulebene statt einer riesigen Root-Datei.** Das 100- bis 150-Zeilen-Band passt zu einem mittelgroßen Modul von etwa 100 Dateien. Übergreifende Root-Dateien über dieser Größe verloren bei jeder Metrik."
+        "**Prozedurale Workflows.** Nummerierte mehrstufige Workflows waren das stärkste einzelne Muster. Ein sechsstufiger Workflow zum Einbinden einer neuen Integration senkte PRs mit fehlenden Verdrahtungsdateien von 40 % auf 10 %, steigerte die Korrektheit um 25 % und die Vollständigkeit um 20 %.",
+        "**Entscheidungstabellen bei 2 oder 3 sinnvollen Optionen.** Eine Entscheidungstabelle React Query versus Zustand erzielte eine 25-%-Steigerung bei best_practices in PRs in diesem Bereich. Die Tabelle löst Mehrdeutigkeit, bevor der Agent Code schreibt.",
+        "**Echte Codebase-Beispiele, je 3 bis 10 Zeilen.** Verbessert Wiederverwendung und Mustereinhaltung. Bei mehr Zeilen gleicht der Agent am falschen Muster ab.",
+        "**Jedem Verbot ein Gebot gegenüberstellen.** Reine Warnungsdokumentation schneidet schlechter ab. Ein bloßes Verbot macht den Agent vorsichtig und explorativ. Gepaart mit einer positiven Direktive, die die richtige Call-Site nennt, arbeitet der Agent weiter.",
+        "**Dateien auf Modulebene statt einer riesigen Root-Datei.** Das 100-bis-150-Zeilen-Band passt zu einem mittelgroßen Modul von etwa 100 Dateien. Übergreifende Root-Dateien über dieser Größe verloren bei jeder Metrik."
       ]
     },
-    { "type": "h3", "text": "Was die Ausgabe ruiniert" },
+    {
+      "type": "h3",
+      "text": "Was die Ausgabe ruiniert"
+    },
     {
       "type": "ul",
       "items": [
-        "**Architekturübersichten.** Der Agent liest die Übersicht, öffnet dann Dutzende umliegender Dokumente, um seinen Ansatz zu überprüfen, lädt 10.000 bis 100.000 Token irrelevanten Kontext, und die Ausgabe verschlechtert sich. Augment nennt dies die Überexplorations-Falle.",
-        "**Gestapelte Warnungen ohne begleitende Anleitung.** Mit 30 bis 50 Verboten und keinen Geboten prüft der Agent seine Lösung einzeln gegen jede Warnung, auch wenn keine zutrifft.",
+        "**Architekturübersichten.** Der Agent liest die Übersicht, öffnet dann Dutzende umliegender Dokumente zur Verifikation seines Ansatzes, lädt 10.000 bis 100.000 Token irrelevanten Kontexts, und die Ausgabe verschlechtert sich. Augment nennt dies die Überexplorations-Falle.",
+        "**Gestapelte Warnungen ohne begleitende Anleitung.** Bei 30 bis 50 Verboten ohne Gebote prüft der Agent seine Lösung einzeln gegen jede Warnung, auch wenn keine davon zutrifft.",
         "**Muster, die in der Codebase noch nicht existieren.** Wenn die AGENTS.md eine Architektur beschreibt, die der Code nicht umsetzt, leitet die Datei den Agent aktiv in die falsche Richtung.",
         "**Dokumentations-Sprawl rund um die Datei.** Augments schlechteste Performer waren AGENTS.md-Dateien, die auf 500K bis 2MB Architekturdokumentation lagen. Das Entfernen der AGENTS.md änderte das Verhalten kaum. Der Agent las den Sprawl unabhängig davon."
       ]
     },
-
-    { "type": "h2", "text": "Reaktiv, nicht vorausgeschrieben" },
     {
-      "type": "p",
-      "text": "Elie Steinbock veröffentlichte am 2026-04-20 einen separaten Beitrag mit einer Disziplin, die die meisten Enterprise-AGENTS.md-Dateien, die ich prüfe, verbessert. Schreiben Sie keine Dutzenden von Regeln vor, bevor etwas schiefgelaufen ist. Präventive Überstrukturierung erzeugt Ballast, den das Modell bei jedem Durchlauf parst."
+      "type": "h2",
+      "text": "Reaktiv, nicht vorausgeschrieben"
     },
     {
       "type": "p",
-      "text": "Fügen Sie Regeln reaktiv hinzu, wenn eine echte Korrektur stattgefunden hat, und halten Sie Ergänzungen auf einzeilige Aussagen beschränkt. Für alles Schwerere verschieben Sie den Inhalt in einen progressiv geladenen Skill. Die AGENTS.md bleibt kompakt. Die Skill-Schicht nimmt das Gewicht auf."
+      "text": "Elie Steinbock veröffentlichte am 20. April 2026 einen separaten Beitrag mit einer Disziplin, die die meisten Enterprise-AGENTS.md-Dateien behebt. Keine Dutzende von Regeln vorausschreiben, bevor etwas schiefgelaufen ist. Präventive Überstrukturierung erzeugt Ballast, den das Modell bei jedem Durchlauf parst."
     },
     {
       "type": "p",
-      "text": "Tan's parallele Regel, die Zweimal-gescheitert-Disziplin, sagt dasselbe von der anderen Seite. Wenn Sie den Agent zweimal nach demselben Muster fragen müssen, sollte die zweite Anfrage nicht nötig sein. Das Muster gehört in die Skill-Schicht oder als Einzeiler in AGENTS.md. Das System wächst."
+      "text": "Regeln werden reaktiv hinzugefügt, wenn eine echte Korrektur stattgefunden hat, und Ergänzungen auf Einzeiler beschränkt. Für alles Schwerere wird der Inhalt in einen progressiv geladenen Skill ausgelagert. Die AGENTS.md bleibt kompakt. Die Skill-Schicht nimmt das Gewicht auf."
     },
     {
       "type": "p",
-      "text": "So sieht das in einem webvise-Build aus: Die AGENTS.md wird als kompakte Einstiegsdatei mit Platzhaltern ausgeliefert. Das .claude/skills-Verzeichnis enthält einen kleinen Satz lieferungsspezifischer Skill-Dateien, jede ein Verfahren, das das Team tatsächlich während des Builds durchgeführt hat. Die Datei antizipiert keine Probleme. Sie dokumentiert gelöste."
+      "text": "Tans parallele Regel, die Zweimal-gescheitert-Disziplin, sagt dasselbe von der anderen Seite. Wenn der Agent zweimal nach demselben Muster gefragt werden muss, sollte die zweite Anfrage nicht existieren. Das Muster gehört in die Skill-Schicht oder als Einzeiler in AGENTS.md. Das System verdichtet sich."
     },
-
+    {
+      "type": "p",
+      "text": "In einem webvise-Build sieht das so aus: Die AGENTS.md wird als kompakte, platzhaltergesteuerte Einstiegsdatei geliefert. Das .claude/skills-Verzeichnis enthält einen kleinen Satz lieferungsspezifischer Skill-Dateien, jede ein Verfahren, das das Team tatsächlich während des Builds durchgeführt hat. Die Datei antizipiert keine Probleme. Sie dokumentiert gelöste."
+    },
     {
       "type": "h2",
       "text": "Fünf Fragen, die der Einkauf jedem Anbieter stellen sollte"
     },
     {
       "type": "p",
-      "text": "Die Qualität des AGENTS.md-Inhalts ist jetzt ein messbarer Indikator für KI-native Ausführung. Die fünf Fragen unten geben einem nicht-technischen Beschaffungsteam einen schnellen Überblick, ob ein Anbieter für den 2026-Stack oder den 2024-Stack liefert."
+      "text": "Die Inhaltsqualität von AGENTS.md ist jetzt ein messbarer Indikator für KI-native Ausführung. Die fünf Fragen unten geben einem nicht-technischen Beschaffungsteam einen schnellen Überblick, ob ein Anbieter für den 2026-Stack oder den 2024-Stack liefert."
     },
     {
       "type": "table",
@@ -165,7 +178,7 @@
       "rows": [
         [
           "Zeigen Sie mir Ihr AGENTS.md-Template. Wie viele Zeilen hat es?",
-          "100 bis 150 Zeilen pro Modul. Keine einzelne Root-Datei. Keine 1.000 Zeilen."
+          "100 bis 150 Zeilen pro Modul. Keine einzelne Root-Datei mit 1.000 Zeilen."
         ],
         [
           "Wie ist die Skill-Schicht strukturiert?",
@@ -177,22 +190,21 @@
         ],
         [
           "Wie messen Sie Überexploration bei langen Aufgaben?",
-          "Sie nennen eine Metrik. Token-Verbrauch pro Aufgabe, Abschlussrate bei mehrstufigen Tickets oder etwas Konkretes."
+          "Eine Metrik wird genannt: Token-Verbrauch pro Aufgabe, Abschlussrate bei mehrstufigen Tickets oder etwas Konkretes."
         ],
         [
           "Wo leben Legacy-Dokumente, und wie werden sie referenziert?",
-          "Modular. Verknüpft aus AGENTS.md mit maximal 10 bis 15 Referenzen pro Datei. Kein 2MB-Sprawl in _docs."
+          "Modular. Verknüpft aus AGENTS.md mit maximal 10 bis 15 Referenzen pro Datei. Kein 2-MB-Sprawl in _docs."
         ]
       ]
     },
     {
       "type": "p",
-      "text": "Wenn ein Anbieter drei der fünf Fragen nicht beantworten kann, liefert er noch das 2024-Template. Die meisten Enterprise-Teams stoßen auf diese Grenze auf der Dokumentationsebene. [Dieses Audit ist die erste Phase jedes webvise-Migrationsprojekts](/#contact)."
+      "text": "Wer drei von fünf Fragen nicht beantworten kann, liefert noch immer mit dem 2024-Template. Die meisten Enterprise-Teams stoßen auf diese Grenze auf der Dokumentationsebene. [Dieses Audit ist die erste Phase jedes webvise-Migrationsprojekts](/#contact)."
     },
-
     {
       "type": "h2",
-      "text": "Der tiefere Befund: Die Umgebung korrigieren, nicht nur den Einstiegspunkt"
+      "text": "Der tiefere Befund: Die Umgebung bereinigen, nicht nur den Einstiegspunkt"
     },
     {
       "type": "p",
@@ -200,24 +212,23 @@
     },
     {
       "type": "p",
-      "text": "Die Schlussfolgerung ist schwer für Legacy-Enterprise-Teams. Die meisten Dokumentationsumgebungen, die vor 2024 aufgebaut wurden, tragen Jahre von Architekturentscheidungsprotokollen, Design-Dokumenten und Runbooks. Der Agent lädt genug davon, um eine saubere AGENTS.md zu übertönen. Eine bessere Einstiegsdatei zu schreiben ist notwendig, aber nicht ausreichend."
+      "text": "Die Implikation ist schwer für Legacy-Enterprise-Teams. Die meisten vor 2024 aufgebauten Dokumentationsumgebungen tragen Jahre von Architekturentscheidungsprotokollen, Design-Dokumenten und Runbooks. Der Agent lädt genug davon, um eine saubere AGENTS.md zu übertönen. Eine bessere Einstiegsdatei zu schreiben ist notwendig, aber nicht ausreichend."
     },
     {
       "type": "p",
-      "text": "Die Arbeit ist unbequem. Prüfen Sie die Dokumente, die der Agent tatsächlich lädt, markieren Sie tote Dokumente zur Archivierung, modularisieren Sie die aktiven in modulscoped Referenzen, und halten Sie AGENTS.md so ausgerichtet, dass sie nur auf das zeigt, was der Agent auf dem Weg zur Änderung lesen soll. Tan's Rahmung gilt: Das Gehirn ist ein Git-Repo, der Orchestrator ist ein schlanker Dirigent, der Dateien liest. Wenn das Git-Repo voller toter Seiten ist, kann keine Einstiegsdatei das beheben."
+      "text": "Die Arbeit ist unbequem. Die Dokumente, die der Agent tatsächlich lädt, werden auditiert, veraltete für die Archivierung markiert, aktive in modulbezogene Referenzen aufgeteilt, und AGENTS.md zeigt nur auf das, was der Agent auf dem Weg zur Änderung lesen soll. Tans Rahmung gilt: Das Gehirn ist ein Git-Repo, der Orchestrator ein schlanker Dirigent, der Dateien liest. Wenn das Git-Repo voller toter Seiten ist, behebt keine Einstiegsdatei das."
     },
-
     {
       "type": "h2",
-      "text": "Was das für jeden bedeutet, der 2026 ein Projekt beauftragt"
+      "text": "Build-Abnahme-Checkliste"
     },
     {
       "type": "p",
-      "text": "Der Framework-Krieg ist vorbei. Next.js, Astro, SvelteKit und Nuxt liefern AGENTS.md-Scaffolding standardmäßig aus oder werden es im Laufe des Quartals tun. Das Unterscheidungsmerkmal hat sich eine Ebene nach oben verschoben. Der Inhalt der Datei, die Struktur des Skill-Verzeichnisses und die dahinterstehende Disziplin entscheiden, ob der Agent-Stack hilft oder schadet."
+      "text": "Der Framework-Krieg ist vorbei. Next.js, Astro, SvelteKit und Nuxt liefern AGENTS.md-Scaffolding standardmäßig aus oder werden es innerhalb des Quartals tun. Das Differenzierungsmerkmal hat sich eine Ebene nach oben verschoben. Der Inhalt der Datei, die Struktur des Skill-Verzeichnisses und die dahinterstehende Disziplin entscheiden, ob der Agent-Stack hilft oder schadet."
     },
     {
       "type": "p",
-      "text": "Moderne Web-Builds in 2026 werden von Tag eins an agent-lesbar ausgeliefert. Das ist der Vertrag, den [webvise](/#contact) standardmäßig für jedes Projekt schreibt, von einer einseitigen Landing Page bis zu einer Multi-Tenant-SaaS. Das kompakte Template, die .claude/skills-Schicht und die reaktive Regeldisziplin sind keine Extras. Sie sind der Build."
+      "text": "Moderne Web-Projekte im Jahr 2026 werden von Tag eins an agent-lesbar geliefert. Das ist der Vertrag, den [webvise](/#contact) standardmäßig für jedes Projekt schreibt, von einer einseitigen Landing Page bis zu einem mandantenfähigen SaaS. Das kompakte Template, die .claude/skills-Schicht und die reaktive Regeldisziplin gehören zum Build."
     }
   ]
 }

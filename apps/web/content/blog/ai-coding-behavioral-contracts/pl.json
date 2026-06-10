@@ -9,7 +9,7 @@
   "blocks": [
     {
       "type": "p",
-      "text": "Kodowanie wspierane przez AI psuje się, gdy kontrakt zachowania między człowiekiem a LLM pozostaje niejasny. Zespoły, które zapisują te kontrakty w toolchainie, budują narastający zwrot. Zespoły, które pomijają tę pracę, wracają z kolejnymi zgłoszeniami o halucynowanych wynikach."
+      "text": "Kodowanie wspierane przez AI zawodzi, gdy kontrakt behawioralny między człowiekiem a LLM jest niedookreślony. Zespoły, które zapisują te kontrakty w swoim toolchainie, zyskują narastającą przewagę. Zespoły, które pomijają tę pracę, wracają z kolejnymi zgłoszeniami dotyczącymi halucynowanych wyników."
     },
     {
       "type": "p",
@@ -17,7 +17,7 @@
     },
     {
       "type": "p",
-      "text": "Ta liczba gwiazdek nie wynika z entuzjazmu wobec marki osobistej Karpathy'ego. To 22 000 deweloperów potwierdzających, że mają ten sam problem: asystenci AI do kodowania są potężni, ale nieprzewidywalni, a dobrze napisany kontrakt behawioralny to zmienia (liczba gwiazdek mierzy widoczność, a nie zweryfikowane wyniki)."
+      "text": "Ta liczba gwiazdek pokazuje, że 22 000 deweloperów zmaga się z tym samym problemem: asystenci AI do kodowania są potężni, ale nieprzewidywalni, a dobrze napisany kontrakt behawioralny to zmienia (liczba gwiazdek mierzy widoczność, nie zweryfikowane wyniki)."
     },
     {
       "type": "h2",
@@ -42,11 +42,11 @@
     },
     {
       "type": "h2",
-      "text": "CLAUDE.md to nie jest przewodnik po stylu kodu"
+      "text": "CLAUDE.md to nie przewodnik po stylu kodu"
     },
     {
       "type": "p",
-      "text": "Większość zespołów traktuje swój plik CLAUDE.md (lub równoważny plik systemowego promptu) jak przewodnik po stylu kodu: preferencje formatowania, konwencje nazewnictwa, może kilka notatek specyficznych dla projektu. To całkowicie mija się z celem."
+      "text": "Większość zespołów traktuje plik CLAUDE.md (lub równoważny plik systemowego promptu) jak przewodnik po stylu kodu: preferencje formatowania, konwencje nazewnictwa, może kilka notatek specyficznych dla projektu. To całkowicie mija się z celem."
     },
     {
       "type": "p",
@@ -70,7 +70,7 @@
     },
     {
       "type": "p",
-      "text": "webvise używa [oh-my-claudecode](https://github.com/yeachan-heo/oh-my-claudecode) (OMC), open-source'owej wieloagentowej warstwy orkiestracji dla Claude Code, do koordynacji 19 wyspecjalizowanych subagentów: architekta, executora, recenzenta, audytora bezpieczeństwa, inżyniera testów i innych. Każdy agent ma własny kontrakt behawioralny definiujący jego wzorce rozumowania, granice zakresu i wymagania weryfikacyjne."
+      "text": "Do koordynacji 19 wyspecjalizowanych subagentów służy [oh-my-claudecode](https://github.com/yeachan-heo/oh-my-claudecode) (OMC), open-source'owa wieloagentowa warstwa orkiestracji dla Claude Code, obejmująca architekta, executora, recenzenta, audytora bezpieczeństwa, inżyniera testów i innych. Każdy agent ma własny kontrakt behawioralny definiujący wzorce rozumowania, granice zakresu i wymagania weryfikacyjne."
     },
     {
       "type": "table",
@@ -105,11 +105,11 @@
     },
     {
       "type": "p",
-      "text": "Dowodem koncepcji jest pełna integracja produktu obejmująca około 25 000 linii kodu aplikacji klienckiej w naszym potoku dostarczania, wygenerowana ze specyfikacji produktu przez potok agentów OMC. Liczba linii jest miarą przepustowości, nie jakości. Kontrakty behawioralne zdefiniowane w systemowym prompcie każdego agenta stanowiły główny wkład autorski człowieka poza samą specyfikacją."
+      "text": "Dowodem koncepcji jest pełna integracja produktu wygenerowana ze specyfikacji produktu przez potok agentów OMC. Ważnym wnioskiem była kontrola jakości, nie liczba linii kodu. Kontrakty behawioralne zdefiniowane w systemowym prompcie każdego agenta stanowiły główny wkład autorski człowieka poza samą specyfikacją."
     },
     {
       "type": "p",
-      "text": "Ten wynik nie zależy od tego, czy model jest wystarczająco inteligentny. Claude był już wystarczająco inteligentny. Chodzi o to, że kontrakty były wystarczająco precyzyjne, by około 19 agentów mogło koordynować pracę bez nadpisywania pracy pozostałych."
+      "text": "Claude był już wystarczająco inteligentny. Kontrakty były wystarczająco precyzyjne, by około 19 agentów mogło koordynować pracę bez nadpisywania wyników pozostałych."
     },
     {
       "type": "h2",
@@ -121,7 +121,7 @@
     },
     {
       "type": "p",
-      "text": "Myślimy o tym jako o pięciowarstwowym stosie:"
+      "text": "Warto spojrzeć na to przez pryzmat pięciowarstwowego stosu:"
     },
     {
       "type": "table",
@@ -156,11 +156,11 @@
     },
     {
       "type": "p",
-      "text": "Kontrakty behawioralne mieszczą się w warstwie orkiestracji. Nie jest to warstwa o najwyższej obronności, ale to warstwa, w której większość zespołów obecnie zawodzi. Prawidłowe opanowanie orkiestracji oddziela \"eksperymentowaliśmy z AI w kodowaniu\" od \"AI jest naszym sposobem na dostarczanie kodu.\""
+      "text": "Kontrakty behawioralne mieszczą się w warstwie orkiestracji. To warstwa, w której większość zespołów obecnie zawodzi. Prawidłowe opanowanie orkiestracji oddziela \"eksperymentowaliśmy z AI w kodowaniu\" od \"AI jest naszym sposobem na dostarczanie kodu.\""
     },
     {
       "type": "p",
-      "text": "[Zasady inżynierii produktu zorientowanej na agenty od PostHog](https://posthog.com/blog/building-for-ai-agents) potwierdzają to od strony produktowej. Ich piąta zasada (\"traktuj agenty jak prawdziwych użytkowników\") to w istocie ten sam wniosek: AI potrzebuje jawnych, przetestowanych i zweryfikowanych ograniczeń, a nie domysłów."
+      "text": "[Zasady inżynierii produktu zorientowanej na agenty od PostHog](https://posthog.com/blog/building-for-ai-agents) potwierdzają to od strony produktowej. Ich piąta zasada (\"traktuj agenty jak prawdziwych użytkowników\") to w istocie ten sam wniosek: AI potrzebuje jawnych, przetestowanych i zweryfikowanych ograniczeń, nie domysłów."
     },
     {
       "type": "h2",
@@ -168,19 +168,19 @@
     },
     {
       "type": "p",
-      "text": "Jeśli masz wynieść jedno z repozytorium karpathy-skills, niech będą to te trzy wzorce dla Twojego zespołu:"
+      "text": "Z repozytorium karpathy-skills warto wynieść przede wszystkim te trzy wzorce:"
     },
     {
       "type": "ul",
       "items": [
-        "**Pisz kryteria sukcesu, nie instrukcje.** Zasada Wykonania Zorientowanego na Cel Karpathy'ego działa, ponieważ LLM lepiej iteruje ku mierzalnemu celowi niż podąża za krokami proceduralnym. Zdefiniuj, jak wygląda \"ukończone\". Pozwól agentowi dojść do tego samemu.",
-        "**Oddziel tworzenie od przeglądu.** W systemach wieloagentowych agent piszący kod nie powinien nigdy być agentem, który go zatwierdza. W przepływach jednoagentowych ta sama zasada dotyczy Ciebie: przeglądaj wyniki AI z taką samą rzetelnością, jaką stosowałbyś do pull requesta młodszego dewelopera.",
-        "**Wersjonuj kontrakty jak kod.** Twój CLAUDE.md, systemowe prompty i definicje agentów to artefakty produkcyjne. Należą do kontroli wersji, zasługują na code review i powinny ewoluować na podstawie zaobserwowanych awarii. Samo repozytorium karpathy-skills jest dowodem: to wersjonowany, recenzowany przez społeczność kontrakt behawioralny."
+        "**Definiuj kryteria sukcesu, nie instrukcje.** Zasada Wykonania Zorientowanego na Cel Karpathy'ego działa, ponieważ LLM lepiej iteruje ku mierzalnemu celowi niż podąża za krokami proceduralnymi. Zdefiniuj, jak wygląda \"ukończone\". Agent sam znajdzie drogę do tego punktu.",
+        "**Rozdziel tworzenie od przeglądu.** W systemach wieloagentowych agent piszący kod nie powinien być tym samym, który go zatwierdza. W przepływach jednoagentowych ta sama zasada obowiązuje: wyniki AI należy przeglądać z taką samą rzetelnością, jaką stosuje się do pull requesta młodszego dewelopera.",
+        "**Wersjonuj kontrakty jak kod.** Pliki CLAUDE.md, systemowe prompty i definicje agentów to artefakty produkcyjne. Należą do kontroli wersji, zasługują na code review i powinny ewoluować na podstawie zaobserwowanych awarii. Samo repozytorium karpathy-skills jest dowodem: to wersjonowany, recenzowany przez społeczność kontrakt behawioralny."
       ]
     },
     {
       "type": "p",
-      "text": "Te 22 000 gwiazdek nie trafia do porad Karpathy'ego na temat kodowania. Trafia do idei, że różnica między narzędziami AI produkującymi szum a narzędziami AI dostarczającymi gotowe do wdrożenia funkcje często sprowadza się do dobrze napisanego pliku kontraktów. W [webvise](https://webvise.io) budujemy na tej idei każdego dnia. Jeśli chcesz zbadać, co kontrakty behawioralne i wieloagentowa orkiestracja mogłyby zrobić dla Twojego przepływu pracy deweloperskiej, [proszę o kontakt](/#contact)."
+      "text": "Te 22 000 gwiazdek wskazuje na ideę, że różnica między narzędziami AI produkującymi szum a narzędziami AI dostarczającymi gotowe do wdrożenia funkcje często sprowadza się do dobrze napisanego pliku kontraktów. [webvise](https://webvise.io) buduje na tej idei każdego dnia. Aby zbadać, co kontrakty behawioralne i wieloagentowa orkiestracja mogłyby oznaczać dla danego przepływu pracy deweloperskiej, wystarczy [napisać](/#contact)."
     }
   ]
 }
