@@ -189,8 +189,8 @@ export default function MiniChart({
 	const current = datasets[active];
 
 	return (
-		<div className="-mx-6 mt-14 border border-grid-line">
-			<div className="flex flex-col gap-3 border-grid-line border-b px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
+		<div className="surface-card mt-5 overflow-hidden">
+			<div className="flex flex-col gap-3 border-border/60 border-b px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
 				<div>
 					<div className="flex items-center gap-3">
 						<Body className="text-foreground text-sm">{current.label}</Body>
@@ -203,7 +203,8 @@ export default function MiniChart({
 				<div className="flex gap-1">
 					{metricOrder.map((key) => (
 						<button
-							className={`px-2.5 py-1 text-xs transition-colors ${
+							aria-pressed={active === key}
+							className={`px-2.5 py-1 text-xs outline-none transition-colors focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring/50 ${
 								active === key
 									? "bg-foreground/10 text-foreground"
 									: "text-muted-foreground hover:text-foreground"

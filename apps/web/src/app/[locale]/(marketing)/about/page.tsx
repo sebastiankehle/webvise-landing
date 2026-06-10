@@ -4,19 +4,22 @@ import Image from "next/image";
 import { getLocale, getTranslations } from "next-intl/server";
 
 import JsonLd from "@/components/json-ld";
+import { MarketingTag } from "@/components/marketing/marketing-tag";
 import SectionWrapper, {
 	ConstructedGrid,
 	GridContainer,
 } from "@/components/marketing/section-wrapper";
+import { skillIcons } from "@/components/marketing/skill-icons";
+import { Button } from "@/components/ui/button";
 import {
 	Body,
 	Caption,
 	H1,
 	H2,
 	H3,
-	Label,
 	Lead,
 	Muted,
+	QuoteMark,
 } from "@/components/ui/typography";
 import { featureFlags } from "@/lib/feature-flags";
 import { generateAlternates, localizedUrl } from "@/lib/seo";
@@ -50,6 +53,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
 const experienceCount = 7;
 const bioCount = 6;
+// Paragraph rendered as a pull-quote inside the bio column.
+const bioPullQuoteIndex = 2;
 
 const connectLinks = [
 	{ key: "linkedin" as const, href: "https://linkedin.com/in/sebastiankehle" },
@@ -57,6 +62,73 @@ const connectLinks = [
 	{ key: "twitter" as const, href: "https://x.com/sebastiankehle_" },
 	{ key: "email" as const, href: "mailto:sebastian.kehle@webvise.io" },
 	{ key: "personal" as const, href: "https://sebastiankehle.com" },
+];
+
+// Mirrors sebastiankehle.com/skills — names are not translated.
+const stackSections = [
+	{
+		key: "languages" as const,
+		skills: [
+			{ name: "JavaScript", icon: "javascript" },
+			{ name: "TypeScript", icon: "typescript" },
+			{ name: "HTML", icon: "html" },
+			{ name: "CSS", icon: "css" },
+			{ name: "SQL", icon: "sql" },
+		],
+	},
+	{
+		key: "frameworks" as const,
+		skills: [
+			{ name: "React", icon: "react" },
+			{ name: "Next.js", icon: "nextjs" },
+			{ name: "TailwindCSS", icon: "tailwind" },
+			{ name: "TanStack Query", icon: "tanstack" },
+			{ name: "Express.js", icon: "express" },
+			{ name: "Hono", icon: "hono" },
+			{ name: "shadcn/ui", icon: "shadcn" },
+			{ name: "GSAP", icon: "gsap" },
+			{ name: "Motion", icon: "motion" },
+			{ name: "Mastra", icon: "mastra" },
+		],
+	},
+	{
+		key: "backendData" as const,
+		skills: [
+			{ name: "PostgreSQL", icon: "postgres" },
+			{ name: "Drizzle", icon: "drizzle" },
+			{ name: "Prisma", icon: "prisma" },
+			{ name: "Neon", icon: "neon" },
+			{ name: "Redis", icon: "redis" },
+			{ name: "tRPC", icon: "trpc" },
+			{ name: "Node.js", icon: "nodejs" },
+			{ name: "Supabase", icon: "supabase" },
+			{ name: "Better Auth", icon: "betterauth" },
+			{ name: "Convex", icon: "convex" },
+		],
+	},
+	{
+		key: "infrastructure" as const,
+		skills: [
+			{ name: "Docker", icon: "docker" },
+			{ name: "Vercel", icon: "vercel" },
+			{ name: "Cloudflare", icon: "cloudflare" },
+			{ name: "GitHub", icon: "github" },
+			{ name: "Turborepo", icon: "turborepo" },
+			{ name: "Sentry", icon: "sentry" },
+			{ name: "PostHog", icon: "posthog" },
+			{ name: "Inngest", icon: "inngest" },
+			{ name: "Grafana", icon: "grafana" },
+		],
+	},
+	{
+		key: "tools" as const,
+		skills: [
+			{ name: "Cursor", icon: "cursor" },
+			{ name: "Figma", icon: "figma" },
+			{ name: "Claude", icon: "claude" },
+			{ name: "Codex", icon: "codex" },
+		],
+	},
 ];
 
 // Independent specialists in Sebastian's network.
@@ -75,6 +147,7 @@ const network = [
 
 export default async function AboutPage() {
 	const t = await getTranslations("about");
+	const tschema = await getTranslations("schema");
 
 	const jsonLd = {
 		"@context": "https://schema.org",
@@ -98,11 +171,6 @@ export default async function AboutPage() {
 						name: "webvise",
 						url: "https://webvise.io",
 					},
-					{
-						"@type": "Organization",
-						name: "luca",
-						url: "https://luca-app.de",
-					},
 				],
 			},
 			{
@@ -112,7 +180,7 @@ export default async function AboutPage() {
 					{
 						"@type": "ListItem",
 						position: 1,
-						name: "Home",
+						name: tschema("home"),
 						item: "https://webvise.io",
 					},
 					{
@@ -140,7 +208,7 @@ export default async function AboutPage() {
 							<div className="flex items-center gap-5">
 								<Image
 									alt={t("intro.name")}
-									className="h-[72px] w-[72px] shrink-0 object-cover"
+									className="h-[72px] w-[72px] shrink-0 rounded-lg object-cover"
 									height={72}
 									priority
 									quality={85}
@@ -157,20 +225,21 @@ export default async function AboutPage() {
 						</div>
 
 						{/* Connect card */}
-						<div className="border border-border/40 p-6 md:p-8">
+						<div className="surface-card p-6 md:p-7">
 							<Caption className="mb-5 block">{t("connect.title")}</Caption>
 							<div className="flex flex-wrap gap-2">
 								{connectLinks.map(({ key, href }) => (
-									<a
-										className="group flex items-center gap-1.5 border border-border/40 px-3 py-1.5 text-sm transition-all hover:border-brand hover:bg-brand hover:text-brand-foreground"
-										href={href}
+									<Button
 										key={key}
-										rel="noopener noreferrer"
-										target="_blank"
-									>
-										{t(`connect.${key}`)}
-										<ArrowUpRight className="h-3 w-3 text-muted-foreground transition-colors group-hover:text-brand-foreground" />
-									</a>
+										render={
+											<a href={href} rel="noopener noreferrer" target="_blank">
+												{t(`connect.${key}`)}
+												<ArrowUpRight className="h-3 w-3" />
+											</a>
+										}
+										size="sm"
+										variant="outline"
+									/>
 								))}
 							</div>
 						</div>
@@ -179,18 +248,29 @@ export default async function AboutPage() {
 			</section>
 
 			{/* Bio */}
-			<SectionWrapper alternate id="background">
-				<div className="max-w-2xl">
-					<H2>{t("bio.title")}</H2>
-					<div className="mt-8 space-y-5 text-muted-foreground leading-relaxed">
-						{Array.from({ length: bioCount }, (_, i) => {
-							const paragraph = t(`bio.paragraphs.${i}`);
-							return (
-								<Body className="text-muted-foreground" key={paragraph}>
-									{paragraph}
-								</Body>
-							);
-						})}
+			<SectionWrapper id="background" surface="alternate">
+				<div className="grid items-start gap-12 md:grid-cols-[1.1fr_0.9fr] md:gap-20">
+					<div className="max-w-2xl">
+						<H2>{t("bio.title")}</H2>
+						<div className="mt-8 space-y-5">
+							{Array.from({ length: bioCount }, (_, i) => {
+								if (i === bioPullQuoteIndex) {
+									return null;
+								}
+								const paragraph = t(`bio.paragraphs.${i}`);
+								return (
+									<Body className="text-muted-foreground" key={paragraph}>
+										{paragraph}
+									</Body>
+								);
+							})}
+						</div>
+					</div>
+					<div className="surface-card w-full max-w-sm self-start p-6 md:justify-self-end md:p-7">
+						<QuoteMark className="block" />
+						<Muted className="mt-3 text-foreground/85 leading-relaxed">
+							{t(`bio.paragraphs.${bioPullQuoteIndex}`)}
+						</Muted>
 					</div>
 				</div>
 			</SectionWrapper>
@@ -205,16 +285,16 @@ export default async function AboutPage() {
 							<Lead>{t("network.lead")}</Lead>
 						</div>
 					</div>
-					<div className="mt-14 grid gap-px overflow-hidden border border-grid-line bg-grid-line sm:grid-cols-2 lg:grid-cols-3">
+					<div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
 						{network.map((member) => {
 							const role = t(`network.members.${member.id}.role`);
 							const discipline = t(`network.members.${member.id}.discipline`);
 							return (
 								<div
-									className="group flex gap-4 bg-background p-6 transition-colors duration-300 hover:bg-muted/40 sm:p-8"
+									className="surface-card group flex gap-4 p-6 md:p-7"
 									key={member.id}
 								>
-									<div className="flex h-12 w-12 shrink-0 items-center justify-center border border-border font-medium text-muted-foreground text-sm transition-colors duration-300 group-hover:border-brand group-hover:text-brand">
+									<div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-border/60 font-medium text-muted-foreground text-sm">
 										{member.initials}
 									</div>
 									<div className="min-w-0">
@@ -233,12 +313,14 @@ export default async function AboutPage() {
 
 			{/* Experience - vertical timeline like personal site */}
 			<SectionWrapper
-				alternate={featureFlags.marketing.aboutNetworkSection}
 				id="experience"
+				surface={
+					featureFlags.marketing.aboutNetworkSection ? "alternate" : "default"
+				}
 			>
-				<div className="max-w-2xl">
+				<div className="max-w-3xl">
 					<H2>{t("experience.title")}</H2>
-					<div className="mt-10 space-y-10">
+					<ol className="surface-card mt-10 divide-y divide-border/60 overflow-hidden">
 						{Array.from({ length: experienceCount }, (_, i) => {
 							const company = t(`experience.items.${i}.company`);
 							const role = t(`experience.items.${i}.role`);
@@ -247,77 +329,67 @@ export default async function AboutPage() {
 							const description = t(`experience.items.${i}.description`);
 
 							return (
-								<div
-									className="flex gap-6"
+								<li
+									className="grid gap-3 px-6 py-5 md:grid-cols-[180px_1fr] md:gap-8 md:px-7 md:py-6"
 									key={`${company}-${role}-${period}`}
 								>
-									<div className="flex w-1 shrink-0 flex-col items-center pt-2">
-										<div className="h-2 w-2 bg-brand" />
-										{i < experienceCount - 1 && (
-											<div className="mt-1 w-px flex-1 bg-border/40" />
-										)}
+									<div className="md:pt-1">
+										<Caption className="block tabular-nums">{period}</Caption>
+										<Caption className="mt-1 block text-muted-foreground">
+											{location}
+										</Caption>
 									</div>
-									<div className="flex-1 pb-2">
-										<div className="flex items-start justify-between gap-4">
-											<div>
-												<Body className="font-medium text-sm">{company}</Body>
-												<H3 className="mt-0.5">{role}</H3>
-											</div>
-											<div className="shrink-0 text-right">
-												<Caption className="block">{period}</Caption>
-												<Caption className="mt-1 block text-muted-foreground">
-													{location}
-												</Caption>
-											</div>
-										</div>
-										<Muted className="mt-3 leading-relaxed">
+									<div>
+										<Caption className="block text-brand-readable">
+											{company}
+										</Caption>
+										<H3 className="mt-1">{role}</H3>
+										<Muted className="mt-2 leading-relaxed">
 											{description}
 										</Muted>
 									</div>
-								</div>
+								</li>
 							);
 						})}
-					</div>
+					</ol>
 				</div>
 			</SectionWrapper>
 
 			{/* Skills */}
 			<SectionWrapper
-				alternate={!featureFlags.marketing.aboutNetworkSection}
 				id="skills"
+				surface={
+					featureFlags.marketing.aboutNetworkSection ? "default" : "alternate"
+				}
 			>
-				<div className="max-w-2xl">
-					<H2>{t("stack.title")}</H2>
-					<div className="mt-10 space-y-8">
-						{(
-							[
-								"languages",
-								"frontend",
-								"backend",
-								"data",
-								"ai",
-								"platform",
-							] as const
-						).map((section) => (
-							<div key={section}>
-								<Caption className="mb-3 block">
-									{t(`stack.sections.${section}.label`)}
-								</Caption>
-								<div className="flex flex-wrap gap-2">
-									{t(`stack.sections.${section}.items`)
-										.split(", ")
-										.map((tool) => (
-											<Label
-												className="border border-border/40 px-3 py-1.5 text-foreground text-sm transition-all hover:border-brand hover:bg-brand hover:text-brand-foreground"
-												key={tool}
-											>
-												{tool}
-											</Label>
-										))}
-								</div>
+				<H2>{t("stack.title")}</H2>
+				<div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+					{stackSections.map(({ key, skills }) => (
+						<div className="surface-card p-6 md:p-7" key={key}>
+							<Caption className="mb-4 block text-brand-readable">
+								{"<"}
+								{t(`stack.sections.${key}.label`)}
+								{"/>"}
+							</Caption>
+							<div className="flex flex-wrap gap-2">
+								{skills.map(({ name, icon }) => (
+									<MarketingTag
+										className="gap-1.5"
+										key={name}
+										variant="neutral"
+									>
+										<span
+											aria-hidden="true"
+											className="h-3.5 w-3.5 shrink-0 [&_svg]:h-full [&_svg]:w-full [.mono-dark_&]:grayscale [.mono-light_&]:grayscale"
+											// biome-ignore lint/security/noDangerouslySetInnerHtml: static build-time SVG markup
+											dangerouslySetInnerHTML={{ __html: skillIcons[icon] }}
+										/>
+										{name}
+									</MarketingTag>
+								))}
 							</div>
-						))}
-					</div>
+						</div>
+					))}
 				</div>
 			</SectionWrapper>
 		</>

@@ -1,39 +1,48 @@
 import Image from "next/image";
 import { getLocale, getTranslations } from "next-intl/server";
 
+import { MarketingTag } from "@/components/marketing/marketing-tag";
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import StaggerChildren from "@/components/marketing/stagger-children";
-import { H2, H3, Label, Lead, Muted } from "@/components/ui/typography";
-import { getFeaturedCaseStudies } from "@/data/case-studies";
+import {
+	H2,
+	H3,
+	inlineLinkClassName,
+	Lead,
+	Muted,
+} from "@/components/ui/typography";
+import { getCaseStudies } from "@/data/case-studies";
 import { Link } from "@/i18n/navigation";
 
 export default async function CaseStudiesPreview() {
 	const locale = await getLocale();
 	const t = await getTranslations("caseStudies");
-	const featured = getFeaturedCaseStudies(locale);
+	const featured = getCaseStudies(locale).slice(0, 6);
 
 	if (featured.length === 0) {
 		return null;
 	}
 	return (
-		<SectionWrapper dark hatch id="case-studies">
-			<div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-end">
-				<div className="max-w-[640px]">
+		<SectionWrapper hatch id="case-studies" surface="inverted">
+			<div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-end">
+				<div className="max-w-[660px]">
 					<H2>{t("title")}</H2>
-					<Lead className="mt-5 max-w-[520px]">{t("subtitle")}</Lead>
 				</div>
-				<Link
-					className="shrink-0 text-brand-readable text-sm transition-colors hover:text-brand-readable"
-					href="/case-studies"
-				>
-					{t("viewAll")}
-				</Link>
+				<div className="max-w-[560px] lg:justify-self-end">
+					<Lead>{t("subtitle")}</Lead>
+					<Link
+						className={`${inlineLinkClassName} mt-5 inline-flex`}
+						href="/case-studies"
+					>
+						{t("viewAll")}
+					</Link>
+				</div>
 			</div>
 
-			<StaggerChildren className="-mx-6 mt-16 grid border-grid-line border-t md:grid-cols-2 lg:grid-cols-3">
-				{featured.map((cs) => (
+			<StaggerChildren className="mt-10 grid gap-5 md:mt-16 md:grid-cols-2 lg:grid-cols-3">
+				{featured.map((cs, index) => (
 					<Link
-						className="group flex flex-col justify-between border-grid-line border-b p-6 md:border-r md:p-8 md:[&:nth-child(2n)]:border-r-0 lg:[&:nth-child(2n)]:border-r lg:[&:nth-child(3n)]:border-r-0"
+						className={`surface-card group flex flex-col justify-between overflow-hidden outline-none focus-visible:ring-2 focus-visible:ring-ring/50 ${index > 2 ? "max-md:hidden" : ""}`}
 						href={{
 							pathname: "/case-studies/[slug]",
 							params: { slug: cs.slug },
@@ -41,9 +50,9 @@ export default async function CaseStudiesPreview() {
 						key={cs.slug}
 					>
 						{cs.coverImage && (
-							<div className="relative mb-5 aspect-[2/1] w-full overflow-hidden">
+							<div className="relative aspect-[2/1] w-full overflow-hidden">
 								<Image
-									alt={`${cs.client} – ${cs.title}`}
+									alt={`${cs.client} - ${cs.title}`}
 									className="object-cover transition-all duration-500 group-hover:brightness-110"
 									fill
 									sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
@@ -51,9 +60,9 @@ export default async function CaseStudiesPreview() {
 								/>
 							</div>
 						)}
-						<div>
-							<Label>{cs.industry}</Label>
-							<H3 className="mt-2">{cs.title}</H3>
+						<div className="p-6 md:p-7">
+							<MarketingTag variant="brand">{cs.industry}</MarketingTag>
+							<H3 className="mt-3">{cs.title}</H3>
 							<Muted className="mt-3">{cs.excerpt}</Muted>
 						</div>
 					</Link>

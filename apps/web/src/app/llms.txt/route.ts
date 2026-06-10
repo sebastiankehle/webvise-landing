@@ -1,6 +1,7 @@
 import { blogPosts } from "@/data/blog";
 import { getCaseStudies } from "@/data/case-studies";
 import { services } from "@/data/services";
+import { customSystems } from "@/data/systems";
 
 const baseUrl = "https://webvise.io";
 
@@ -13,6 +14,14 @@ const serviceNames: Record<string, string> = {
 	"full-stack-applications": "Full-Stack Applications",
 };
 
+const systemNames: Record<string, string> = {
+	"internal-tools-dashboards": "Internal Tools and Dashboards",
+	"ai-assisted-workflow-automation": "AI-Assisted Workflow Automation",
+	"client-portals-business-apps": "Client Portals and Business Apps",
+	"booking-event-platforms": "Booking and Event Platforms",
+	"website-to-app-upgrades": "Website-to-App Upgrades",
+};
+
 export function GET() {
 	const caseStudies = getCaseStudies("en");
 
@@ -20,6 +29,13 @@ export function GET() {
 		.map(
 			(service) =>
 				`- [${serviceNames[service.slug] ?? service.slug}](${baseUrl}/services/${service.slug})`
+		)
+		.join("\n");
+
+	const systemLines = customSystems
+		.map(
+			(system) =>
+				`- [${systemNames[system.slug] ?? system.slug}](${baseUrl}/systems/${system.slug})`
 		)
 		.join("\n");
 
@@ -39,13 +55,17 @@ export function GET() {
 
 	const body = `# Webvise
 
-> Webvise is a software studio building AI-powered web applications, landing pages, WordPress migrations, MVPs, and full-stack products for founders and growing companies.
+> Webvise is a senior-led AI-native software studio for custom workflow systems, internal tools, portals, dashboards, AI-assisted workflows, and production-ready web applications.
 
-We ship production-ready websites and custom software with a focus on performance, accessibility, SEO, and measurable business outcomes. This file follows the llmstxt.org convention to help language models discover our most useful, human-authored content.
+We ship custom business software with direct senior ownership, practical AI-native delivery, performance, accessibility, SEO, and measurable business outcomes. Pricing is scoped around the workflow, users, integrations, data model, AI requirements, and support level. This file follows the llmstxt.org convention to help language models discover our most useful, human-authored content.
 
 ## Services
 
 ${serviceLines}
+
+## Custom Systems
+
+${systemLines}
 
 ## Case Studies
 

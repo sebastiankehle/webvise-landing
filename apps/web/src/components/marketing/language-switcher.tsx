@@ -3,7 +3,7 @@
 import { Globe } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useLocale } from "next-intl";
-
+import { Button } from "@/components/ui/button";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -51,8 +51,13 @@ export default function LanguageSwitcher({ id }: { id?: string }) {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger
-				className="group flex cursor-pointer items-center gap-1.5 text-muted-foreground text-xs uppercase transition-colors hover:text-foreground"
 				id={id}
+				render={
+					<Button
+						className="group gap-1.5 border-transparent bg-transparent px-3 text-muted-foreground uppercase hover:bg-transparent hover:text-foreground aria-expanded:bg-transparent"
+						variant="outline"
+					/>
+				}
 			>
 				<span className="inline-flex [perspective:80px]">
 					<Globe className="size-4 transition-transform duration-700 ease-in-out group-hover:[transform:rotateY(360deg)]" />

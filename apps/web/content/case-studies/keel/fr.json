@@ -2,16 +2,25 @@
   "industry": "Agents IA / Infrastructure d'agents",
   "title": "Keel : un concept d'infrastructure agent-native pour les produits SaaS",
   "excerpt": "Un concept de MVP porté par le design pour rendre n'importe quel produit SaaS utilisable par des agents IA. Keel analyse l'API, l'interface et la documentation d'un produit, transforme chaque opération en un outil typé et nommé avec un serveur MCP hébergé, et expose un unique endpoint gouverné derrière des scopes, des guardrails et des portes d'approbation. Chaque appel est cadré, tracé et rejouable.",
-  "challenge": "Les produits ont été conçus pour des humains, pas pour des agents. Un bouton, une modale, un article d'aide est une interface pour une personne capable de voir et de cliquer, et y ajouter une API ne comble pas l'écart : un agent ne peut toujours pas savoir ce qu'il est sûr d'appeler, avec quelle permission, ni ce qui vient de se passer. La documentation est de la prose, pas un contrat. Une seule clé d'API, c'est tout ou rien, bien trop de pouvoir pour un appelant autonome. Et un agent qui agit sans trace est un risque que personne ne peut auditer ni annuler. Le concept visait à résoudre une seule chose : comment rendre un produit SaaS existant exploitable en toute sécurité par des agents, typé, cadré et tracé, sans le reconstruire ?",
+  "challenge": "Les produits SaaS exposent encore aux agents des interfaces pensées pour des humains. Un bouton, une modale, un article d'aide est une interface pour une personne capable de voir et de cliquer, et y ajouter une API ne comble pas l'écart : un agent ne peut toujours pas savoir ce qu'il est sûr d'appeler, avec quelle permission, ni ce qui vient de se passer. La documentation n'indique pas à un agent quels appels sont sûrs, cadrés ou approuvés. Une seule clé d'API, c'est tout ou rien, bien trop de pouvoir pour un appelant autonome. Un agent qui agit sans trace ne laisse aucune piste d'audit pour revue ou rollback. La question était : comment rendre un produit SaaS existant exploitable en toute sécurité par des agents, typé, cadré et tracé, sans le reconstruire ?",
   "solution": "Nous avons conçu et construit Keel comme une histoire de produit complète sur deux écrans responsifs. La landing page présente le problème et la boucle fermée qui le sous-tend : map, generate, guard, publish, observe, exécutée à chaque changement pour que la surface de l'agent ne dérive jamais du produit qui se trouve en dessous. La console opérateur est là où le travail se fait. Elle affiche des métriques d'appels en direct, les schémas d'outils typés que Keel émet pour chaque opération, un serveur MCP hébergé régénéré à chaque changement du produit, des scopes de moindre privilège par outil, des guardrails de débit et de dépense, des portes d'approbation sur tout ce qui mute, et un trace rejouable de chaque appel. Les connecteurs s'alimentent des produits qu'une équipe utilise déjà, GitHub, Linear, Notion, Slack, Stripe et plus, et Keel normalise chaque surface en outils typés derrière un unique endpoint MCP/API auquel un agent s'authentifie une fois. Rien qui mute n'atteint un produit avant d'avoir passé son scope et sa porte d'approbation. L'interface adopte une esthétique sombre, construite et de niveau instrument, avec des visualisations animées de faisceaux de connecteurs, construite en Next.js 16.",
   "metrics": [
     {
-      "value": "214",
-      "label": "Outils typés générés à partir des surfaces produit"
+      "value": "1",
+      "label": "Concept d'infrastructure pour agents"
     },
-    { "value": "4,1 M", "label": "Appels d'agents tracés par mois" },
-    { "value": "9 min", "label": "Temps médian pour être agent-ready" },
-    { "value": "100%", "label": "Des appels cadrés et journalisés" }
+    {
+      "value": "2",
+      "label": "Surfaces produit cartographiées"
+    },
+    {
+      "value": "3",
+      "label": "Contrats d'outils conçus"
+    },
+    {
+      "value": "1",
+      "label": "Prototype de console opérateur"
+    }
   ],
   "techStack": [
     "Next.js",
@@ -21,10 +30,6 @@
     "Turborepo",
     "Vercel"
   ],
-  "testimonial": {
-    "quote": "Livrez un produit que les agents peuvent réellement piloter.",
-    "author": "Keel",
-    "role": "Infrastructure d'agents pour le SaaS"
-  },
+  "testimonial": null,
   "liveUrlLabel": "Étude conceptuelle"
 }

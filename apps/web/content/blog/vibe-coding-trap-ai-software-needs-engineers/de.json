@@ -38,7 +38,7 @@
     {
       "type": "ul",
       "items": [
-        "**Auth-Bypasses im Scaffold verankert; JWT-Secrets in Beispielen für Umgebungsvariablen, die in öffentliche Repositories committed wurden** – dies sind häufige Befunde in Code-Reviews von KI-gestützten Projekten ohne Engineering-Aufsicht. KI-generierter Auth-Code kopiert häufig Muster aus Trainingsdaten, ohne das Sicherheitsmodell zu verstehen. Row-Level Security während der Entwicklung «vorübergehend» deaktiviert, im Produktivbetrieb belassen. Rollenprüfungen, die String-Literale vergleichen und brechen, sobald ein Feld umbenannt wird.",
+        "**Auth-Bypasses im Scaffold verankert; JWT-Secrets in Beispielen für Umgebungsvariablen, die in öffentliche Repositories committed wurden** - dies sind häufige Befunde in Code-Reviews von KI-gestützten Projekten ohne Engineering-Aufsicht. KI-generierter Auth-Code kopiert häufig Muster aus Trainingsdaten, ohne das Sicherheitsmodell zu verstehen. Row-Level Security während der Entwicklung «vorübergehend» deaktiviert, im Produktivbetrieb belassen. Rollenprüfungen, die String-Literale vergleichen und brechen, sobald ein Feld umbenannt wird.",
         "**Kein Error-Handling jenseits des Happy Path.** Die KI hat den Erfolgsfall geschrieben. Was passiert, wenn der Zahlungsanbieter einen 402 zurückgibt? Was passiert, wenn die Datenbankverbindung mitten in einer Transaktion abbricht? In Vibe-codierten Apps lautet die Antwort meistens eine unbehandelte Promise-Ablehnung, die als leerer Bildschirm erscheint.",
         "**Vendor-Lock-in durch KI-generierte Muster.** Als die KI das Datenmodell auf eine bestimmte Weise strukturierte, hat der Vibe Coder es akzeptiert. Jetzt ist die gesamte App um diese Struktur herum gebaut. Eine Migration weg davon erfordert das Verständnis von Code, den der Entwickler nie gelesen hat.",
         "**Keine Tests.** Nicht weil Tests schwer sind, sondern weil der Vibe Coder nie danach gefragt hat und die KI sie nicht freiwillig angeboten hat. Wenn etwas im Produktivbetrieb bricht, gibt es keine Testsuite, die Regressionen im Fix abfängt."
@@ -54,7 +54,7 @@
     },
     {
       "type": "p",
-      "text": "Das Muster spielt sich vorhersehbar ab. Eine Vibe-codierte App geht live, sieht poliert aus, gewinnt frühe Nutzer. Dann: Ein Nutzer mit einem Nicht-ASCII-Zeichen in seinem Namen bricht die Datenbankabfrage. Ein mobiler Nutzer mit langsamer Verbindung löst eine Race Condition im State Management aus. Wir haben Szenarien erlebt, in denen API-Endpunkte Daten über Nutzerkonten hinweg leaken, weil Autorisierungsprüfungen fehlten oder unvollständig waren – eine Folge von ausgeliefertem Code, der nie auf serverseitige Durchsetzung geprüft wurde. Das sind keine exotischen Fehler. Sie sind die grundlegende Konsequenz des Auslieferns von Code, den man nie gelesen hat."
+      "text": "Das Muster spielt sich vorhersehbar ab. Eine Vibe-codierte App geht live, sieht poliert aus, gewinnt frühe Nutzer. Dann: Ein Nutzer mit einem Nicht-ASCII-Zeichen in seinem Namen bricht die Datenbankabfrage. Ein mobiler Nutzer mit langsamer Verbindung löst eine Race Condition im State Management aus. Wir haben Szenarien erlebt, in denen API-Endpunkte Daten über Nutzerkonten hinweg leaken, weil Autorisierungsprüfungen fehlten oder unvollständig waren - eine Folge von ausgeliefertem Code, der nie auf serverseitige Durchsetzung geprüft wurde. Das sind keine exotischen Fehler. Sie sind die grundlegende Konsequenz des Auslieferns von Code, den man nie gelesen hat."
     },
     {
       "type": "h2",

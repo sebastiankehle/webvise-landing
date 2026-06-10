@@ -26,14 +26,14 @@ export default async function FounderCard() {
 				<Muted className="mt-1 leading-relaxed">{t("description")}</Muted>
 				<div className="mt-3 flex items-center gap-4">
 					<Link
-						className="group inline-flex items-center gap-1.5 text-brand-readable text-xs transition-colors hover:text-brand-readable"
+						className="group inline-flex items-center gap-1.5 border border-transparent text-brand-readable text-xs outline-none transition-colors hover:text-foreground focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring/50"
 						href="/about"
 					>
 						{t("link")}
 						<ArrowUpRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
 					</Link>
 					<a
-						className="text-muted-foreground text-xs transition-colors hover:text-foreground"
+						className="border border-transparent text-muted-foreground text-xs outline-none transition-colors hover:text-foreground focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring/50"
 						href="https://linkedin.com/in/sebastiankehle"
 						rel="noopener noreferrer"
 						target="_blank"

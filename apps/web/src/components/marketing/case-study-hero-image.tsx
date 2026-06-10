@@ -1,9 +1,9 @@
 "use client";
 
-import { ExpandIcon } from "lucide-react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { Body, Caption } from "@/components/ui/typography";
+import { CaseStudyImageAction } from "@/components/marketing/case-study-image-action";
 import CaseStudyLightbox from "./case-study-lightbox";
 
 interface CaseStudyHeroImageProps {
@@ -18,19 +18,20 @@ export default function CaseStudyHeroImage({
 	alt,
 }: CaseStudyHeroImageProps) {
 	const [open, setOpen] = useState(false);
+	const t = useTranslations("caseStudies");
 	const clickable = !!fullPageImage;
 
 	return (
 		<>
 			<button
-				className={`group relative w-full ${clickable ? "cursor-zoom-in" : "cursor-default"}`}
+				className={`surface-card group relative w-full overflow-hidden outline-none focus-visible:ring-2 focus-visible:ring-ring/50 ${clickable ? "cursor-zoom-in" : "cursor-default"}`}
 				disabled={!clickable}
 				onClick={() => clickable && setOpen(true)}
 				type="button"
 			>
 				<Image
 					alt={alt}
-					className="h-auto w-full border border-border/40 transition-opacity group-hover:opacity-90"
+					className="h-auto w-full transition-opacity group-hover:opacity-90"
 					height={766}
 					priority
 					quality={95}
@@ -39,18 +40,10 @@ export default function CaseStudyHeroImage({
 					width={1512}
 				/>
 				{clickable && (
-					<>
-						<span className="pointer-events-none absolute inset-0 hidden items-center justify-center bg-black/5 opacity-0 transition-opacity group-hover:opacity-100 sm:flex">
-							<Body className="flex items-center gap-2 rounded-full bg-background/90 px-4 py-2 text-foreground text-sm ring-1 ring-border/40 backdrop-blur-sm">
-								<ExpandIcon className="size-4" />
-								Click to expand
-							</Body>
-						</span>
-						<Caption className="absolute right-3 bottom-3 flex items-center gap-1.5 rounded-full bg-background/80 px-3 py-1.5 text-muted-foreground ring-1 ring-border/40 backdrop-blur-sm sm:hidden">
-							<ExpandIcon className="size-3.5" />
-							Tap to expand
-						</Caption>
-					</>
+					<CaseStudyImageAction
+						clickLabel={t("expandImage")}
+						tapLabel={t("tapImage")}
+					/>
 				)}
 			</button>
 

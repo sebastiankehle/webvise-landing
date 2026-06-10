@@ -2,16 +2,25 @@
   "industry": "Agenti IA / Infrastruttura per agenti",
   "title": "Keel: un concept di infrastruttura agent-native per prodotti SaaS",
   "excerpt": "Un concept di MVP guidato dal design per rendere qualsiasi prodotto SaaS utilizzabile dagli agenti IA. Keel analizza l'API, l'interfaccia e la documentazione di un prodotto, trasforma ogni operazione in uno strumento tipizzato e nominato con un server MCP gestito, ed espone un unico endpoint governato dietro scope, guardrail e gate di approvazione. Ogni chiamata è circoscritta, tracciata e ripetibile.",
-  "challenge": "I prodotti sono stati costruiti per le persone, non per gli agenti. Un pulsante, una modale, un articolo di aiuto è un'interfaccia per una persona che può vedere e cliccare, e aggiungere un'API non colma il divario: un agente continua a non sapere cosa è sicuro chiamare, con quale permesso o cosa è appena successo. La documentazione è prosa, non un contratto. Una singola chiave API è tutto-o-niente, troppo potere per un chiamante autonomo. E un agente che agisce senza un registro è un rischio che nessuno può verificare o annullare. Il concept voleva risolvere una sola cosa: come rendere un prodotto SaaS esistente operabile in sicurezza dagli agenti, tipizzato, circoscritto e tracciato, senza ricostruirlo?",
-  "solution": "Abbiamo progettato e costruito Keel come una storia di prodotto completa su due schermate responsive. La landing presenta il problema e il ciclo chiuso che lo regge: map, generate, guard, publish, observe, eseguito a ogni modifica così che la superficie dell'agente non si allontani mai dal prodotto sottostante. La console operatore è dove avviene il lavoro. Mostra metriche di chiamata in tempo reale, gli schemi di strumenti tipizzati che Keel emette per ogni operazione, un server MCP gestito rigenerato a ogni modifica del prodotto, scope a privilegio minimo per strumento, guardrail di rate e spesa, gate di approvazione su tutto ciò che muta e un trace ripetibile di ogni chiamata. I connettori attingono dai prodotti che un team già usa, GitHub, Linear, Notion, Slack, Stripe e altri, e Keel normalizza ogni superficie in strumenti tipizzati dietro un unico endpoint MCP/API a cui un agente si autentica una volta. Nulla che muti raggiunge un prodotto prima di superare il suo scope e il suo gate di approvazione. L'interfaccia adotta un'estetica scura, costruita e da strumento, con visualizzazioni animate di fasci di connettori, realizzata in Next.js 16.",
+  "challenge": "I prodotti SaaS espongono ancora agli agenti interfacce pensate per le persone. Un pulsante, una modale, un articolo di aiuto è un'interfaccia per una persona che può vedere e cliccare, e aggiungere un'API non colma il divario: un agente continua a non sapere cosa è sicuro chiamare, con quale permesso o cosa è appena successo. La documentazione non indica a un agente quali chiamate sono sicure, circoscritte o approvate. Una singola chiave API è tutto-o-niente, troppo potere per un chiamante autonomo. Un agente che agisce senza registro non lascia una traccia di audit per review o rollback. La domanda era: come rendere un prodotto SaaS esistente operabile in sicurezza dagli agenti, tipizzato, circoscritto e tracciato, senza ricostruirlo?",
+  "solution": "Abbiamo progettato e costruito Keel su due schermate responsive. La landing presenta il problema e il ciclo chiuso che lo regge: map, generate, guard, publish, observe, eseguito a ogni modifica così che la superficie dell'agente non si allontani mai dal prodotto sottostante. La console operatore è dove avviene il lavoro. Mostra metriche di chiamata in tempo reale, gli schemi di strumenti tipizzati che Keel emette per ogni operazione, un server MCP gestito rigenerato a ogni modifica del prodotto, scope a privilegio minimo per strumento, guardrail di rate e spesa, gate di approvazione su tutto ciò che muta e un trace ripetibile di ogni chiamata. I connettori attingono dai prodotti che un team già usa, GitHub, Linear, Notion, Slack, Stripe e altri, e Keel normalizza ogni superficie in strumenti tipizzati dietro un unico endpoint MCP/API a cui un agente si autentica una volta. Nulla che muti raggiunge un prodotto prima di superare il suo scope e il suo gate di approvazione. L'interfaccia adotta un'estetica scura, costruita e da strumento, con visualizzazioni animate di fasci di connettori, realizzata in Next.js 16.",
   "metrics": [
     {
-      "value": "214",
-      "label": "Strumenti tipizzati generati dalle superfici di prodotto"
+      "value": "1",
+      "label": "Concept di infrastruttura per agenti"
     },
-    { "value": "4,1 Mln", "label": "Chiamate di agenti tracciate al mese" },
-    { "value": "9 min", "label": "Tempo mediano per essere agent-ready" },
-    { "value": "100%", "label": "Delle chiamate circoscritte e registrate" }
+    {
+      "value": "2",
+      "label": "Superfici prodotto mappate"
+    },
+    {
+      "value": "3",
+      "label": "Contratti tool progettati"
+    },
+    {
+      "value": "1",
+      "label": "Prototipo di console operatore"
+    }
   ],
   "techStack": [
     "Next.js",
@@ -21,10 +30,6 @@
     "Turborepo",
     "Vercel"
   ],
-  "testimonial": {
-    "quote": "Rilascia un prodotto che gli agenti possono davvero operare.",
-    "author": "Keel",
-    "role": "Infrastruttura per agenti per il SaaS"
-  },
+  "testimonial": null,
   "liveUrlLabel": "Studio concettuale"
 }

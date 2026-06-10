@@ -1,8 +1,16 @@
+import { ArrowRight } from "lucide-react";
 import { getLocale, getTranslations } from "next-intl/server";
 
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import StaggerChildren from "@/components/marketing/stagger-children";
-import { Caption, H2, H3, Lead, Muted } from "@/components/ui/typography";
+import {
+	Caption,
+	H2,
+	H3,
+	inlineLinkClassName,
+	Lead,
+	Muted,
+} from "@/components/ui/typography";
 import { getBlogPosts } from "@/data/blog";
 import { Link } from "@/i18n/navigation";
 
@@ -15,28 +23,30 @@ export default async function BlogPreview() {
 	}
 
 	return (
-		<SectionWrapper alternate hatch id="blog">
-			<div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-end">
-				<div className="max-w-[640px]">
+		<SectionWrapper hatch id="blog" surface="alternate">
+			<div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-end">
+				<div className="max-w-[660px]">
 					<H2>{t("title")}</H2>
-					<Lead className="mt-5 max-w-[520px]">{t("subtitle")}</Lead>
 				</div>
-				<Link
-					className="shrink-0 text-brand-readable text-sm transition-colors hover:text-brand-readable"
-					href="/blog"
-				>
-					{t("viewAll")}
-				</Link>
-			</div>
-			<StaggerChildren className="-mx-6 mt-16 grid border-grid-line border-t md:grid-cols-3">
-				{posts.map((post) => (
+				<div className="max-w-[560px] lg:justify-self-end">
+					<Lead>{t("subtitle")}</Lead>
 					<Link
-						className="group flex flex-col border-grid-line border-b p-6 md:border-r md:p-8 md:[&:nth-child(3n)]:border-r-0"
+						className={`${inlineLinkClassName} mt-5 inline-flex`}
+						href="/blog"
+					>
+						{t("viewAll")}
+					</Link>
+				</div>
+			</div>
+			<StaggerChildren className="mt-10 grid gap-5 md:mt-16 md:grid-cols-3">
+				{posts.map((post, index) => (
+					<Link
+						className={`surface-card group flex flex-col p-6 outline-none focus-visible:ring-2 focus-visible:ring-ring/50 md:p-7 ${index > 2 ? "max-md:hidden" : ""}`}
 						href={{ pathname: "/blog/[slug]", params: { slug: post.slug } }}
 						key={post.slug}
 					>
-						<div className="flex items-center gap-3">
-							<Caption>
+						<div className="flex items-center justify-between gap-4">
+							<Caption className="text-brand-readable">
 								<time dateTime={post.date}>
 									{new Date(post.date).toLocaleDateString(locale, {
 										day: "numeric",
@@ -45,8 +55,7 @@ export default async function BlogPreview() {
 									})}
 								</time>
 							</Caption>
-							<Caption className="text-border">/</Caption>
-							<Caption>
+							<Caption className="tabular-nums">
 								{post.readingTime} {t("minRead")}
 							</Caption>
 						</div>
@@ -54,6 +63,9 @@ export default async function BlogPreview() {
 							{post.title}
 						</H3>
 						<Muted className="mt-3 line-clamp-3">{post.excerpt}</Muted>
+						<div className="mt-auto flex items-center justify-end pt-6">
+							<ArrowRight className="h-4 w-4 -translate-x-1 text-brand-icon opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100" />
+						</div>
 					</Link>
 				))}
 			</StaggerChildren>

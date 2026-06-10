@@ -1,11 +1,11 @@
 {
   "title": "Waarom veel WordPress-sites moeite hebben met laadsnelheid",
-  "excerpt": "De gemiddelde WordPress-site scoort 45–65 op Google PageSpeed. Dat ligt vaak onder het optimale bereik - en de meeste gangbare fixes schieten tekort. Dit is wat er aan de hand is.",
+  "excerpt": "De gemiddelde WordPress-site scoort 45-65 op Google PageSpeed. Dat ligt vaak onder het optimale bereik - en de meeste gangbare fixes schieten tekort. Dit is wat er aan de hand is.",
   "tags": ["WordPress", "Performance", "Web Development"],
   "blocks": [
     {
       "type": "p",
-      "text": "U heeft tijd en geld geïnvesteerd in uw WordPress-site. U heeft een thema, wat plugins, misschien zelfs een page builder. Maar elke keer dat u uw Google [PageSpeed](https://pagespeed.web.dev/)-score bekijkt, krimp u ineen."
+      "text": "U heeft tijd en geld geïnvesteerd in uw WordPress-site. U heeft een thema, wat plugins, misschien zelfs een page builder. Maar elke keer dat u uw Google [PageSpeed](https://pagespeed.web.dev/)-score bekijkt, krimpt u ineen."
     },
     {
       "type": "p",
@@ -17,11 +17,15 @@
     },
     {
       "type": "p",
-      "text": "De gemiddelde WordPress-site scoort **45–65 van de 100** op Google PageSpeed voor mobiel. Dat ligt vaak onder het optimale bereik. Alles onder de 90 kost u echt geld aan verloren [conversies](/blog/website-speed-and-conversions) en zoekposities."
+      "text": "De gemiddelde WordPress-site scoort **45-65 van de 100** op Google PageSpeed voor mobiel. Dat ligt vaak onder het optimale bereik. Alles onder de 90 kost u echt geld aan verloren [conversies](/blog/website-speed-and-conversions) en zoekposities."
     },
     {
       "type": "p",
       "text": "Google's eigen data: een vertraging van 1 seconde in laadtijd vermindert conversies met **7%**. Een vertraging van 3 seconden verliest **53% van mobiele bezoekers** voordat ze zelfs uw homepage zien."
+    },
+    {
+      "type": "p",
+      "text": "Als uw WordPress-site in dat bereik zit, kan dat u klanten kosten."
     },
     {
       "type": "h2",
@@ -36,12 +40,40 @@
       "text": "WordPress wordt bij elk bezoek server-side gerenderd. Een gebruiker bezoekt uw URL - uw server voert PHP uit - PHP bevraagt de database - een pagina wordt samengesteld - en naar de browser gestuurd. Elke keer."
     },
     {
+      "type": "p",
+      "text": "Moderne frameworks bouwen pagina's vooraf als statische HTML en serveren ze vanaf een CDN. Geen databasequery. Geen PHP-uitvoering. Alleen een bestand dat vanaf een nabije server wordt geleverd."
+    },
+    {
       "type": "h3",
       "text": "2. Plugins stapelen zich op"
     },
     {
       "type": "p",
-      "text": "De gemiddelde WordPress-site draait 20–30 plugins. Elke plugin laadt zijn eigen CSS, JavaScript en databasequery's. Ze coördineren niet met elkaar."
+      "text": "De gemiddelde WordPress-site draait 20-30 plugins. Elke plugin laadt zijn eigen CSS, JavaScript en databasequery's. Ze coördineren niet met elkaar."
+    },
+    {
+      "type": "h3",
+      "text": "3. Shared hosting vergroot het probleem"
+    },
+    {
+      "type": "p",
+      "text": "De meeste WordPress-sites draaien op shared hosting: servers waar honderden sites concurreren om dezelfde CPU en RAM. Wanneer verkeer stijgt, vertraagt uw site. Een hostingplan van €5/maand kan geen echt verkeer aan."
+    },
+    {
+      "type": "h3",
+      "text": "4. Afbeeldingen zijn bijna nooit correct geoptimaliseerd"
+    },
+    {
+      "type": "p",
+      "text": "WordPress-beeldverwerking is reactief: het maakt meerdere formaten van uw uploads, maar dwingt geen moderne formaten zoals WebP of AVIF af, lazy-loadt niet alles standaard en serveert afbeeldingen niet vanaf een CDN-edge node dicht bij uw bezoeker."
+    },
+    {
+      "type": "h3",
+      "text": "5. Caching helpt, maar beperkt"
+    },
+    {
+      "type": "p",
+      "text": "Ja, u kunt WP Rocket of W3 Total Cache installeren. Deze tools helpen. Maar ze werken om architecturale beperkingen heen in plaats van de oorzaak op te lossen. Er zit een plafond aan wat cachinglagen bovenop een server-gerenderde stack kunnen bereiken."
     },
     {
       "type": "h2",
@@ -65,6 +97,31 @@
       ]
     },
     {
+      "type": "p",
+      "text": "Dezelfde content. Dezelfde branding. Een compleet andere architectuur."
+    },
+    {
+      "type": "h2",
+      "text": "De oorzaak: een architectuur uit een ander tijdperk"
+    },
+    {
+      "type": "p",
+      "text": "WordPress werd in 2003 gebouwd om blogs aan te drijven. Het is opmerkelijke software die het web democratiseerde. Maar de architectuur vereist meer configuratie en expertise om de prestatiebenchmarks te halen die moderne zakelijke websites in 2026 nodig hebben."
+    },
+    {
+      "type": "p",
+      "text": "Next.js-sites zijn:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Statisch gegenereerd** - pagina's zijn HTML-bestanden, geen PHP-scripts",
+        "**Edge-deployed** - geserveerd vanaf 100+ wereldwijde locaties, niet één server",
+        "**JavaScript-native** - snelle hydration, directe navigatie tussen pagina's",
+        "**Standaard beeldgeoptimaliseerd** - automatische WebP, lazy loading en responsieve formaten"
+      ]
+    },
+    {
       "type": "h2",
       "text": "Wat u moet doen"
     },
@@ -74,16 +131,19 @@
     },
     {
       "type": "p",
-      "text": "**Optie 1: WordPress gericht optimaliseren.** Betere hosting, caching-plugins en handmatige beeldoptimalisatie kunnen helpen, maar vragen doorlopend onderhoud en leveren vaak beperkte verbeteringen op."
+      "text": "**Optie 1: WordPress blijven optimaliseren.** Caching-plugins, beeldoptimalisatie en lichtere thema's kunnen zinvolle verbeteringen opleveren; reken op doorlopende onderhoudstijd en een plafond dat afhangt van plugin-aantal en thema-architectuur."
     },
     {
       "type": "p",
-      "text": "**Optie 2: Migreren.** Ga naar een moderne stack. Eénmalig betalen, een site krijgen die in minder dan een seconde laadt, 90+ scoort op PageSpeed, en nul plugin-onderhoud vereist."
+      "text": "**Optie 2: Migreren.** Ga naar een moderne stack en krijg een site die is gebouwd voor snellere laadtijden, sterkere PageSpeed-scores en minder plugin-onderhoud."
     },
     {
       "type": "p",
       "text": "Wij doen deze migraties bij webvise.io - AI-ondersteunde implementatie, offertes met vaste scope, voorspelbare doorlooptijden. We auditen uw WordPress-site eerst gratis."
     }
   ],
-  "metaDescription": "De meeste WordPress-sites scoren 45–65 op mobiele PageSpeed. Een representatieve Next.js-migratie bracht scores van de lage 40s naar de midden 90s en verlaagde het bouncepercentage meetbaar. Data en aanpak."
+  "metaDescription": "De meeste WordPress-sites scoren 45-65 op mobiele PageSpeed. Een representatieve Next.js-migratie bracht scores van de lage 40s naar de midden 90s en verlaagde het bouncepercentage meetbaar. Data en aanpak.",
+  "date": "2025-09-15",
+  "readingTime": 5,
+  "keyword": "is wordpress te traag"
 }

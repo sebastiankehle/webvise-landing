@@ -38,7 +38,7 @@
     {
       "type": "ul",
       "items": [
-        "**Auth-bypasses ingebakken in het scaffold; JWT-secrets aanwezig in voorbeelden van omgevingsvariabelen die naar publieke repositories zijn gecommit** — dit zijn veelvoorkomende bevindingen in code-reviews van AI-ondersteunde projecten zonder engineering-toezicht. AI-gegenereerde auth-code kopieert frequent patronen uit trainingsdata zonder het beveiligingsmodel te begrijpen. Row-level security «tijdelijk» uitgeschakeld tijdens ontwikkeling, in productie gelaten. Rolcontroles die stringliteralen vergelijken en kapotgaan zodra een veld wordt hernoemd.",
+        "**Auth-bypasses ingebakken in het scaffold; JWT-secrets aanwezig in voorbeelden van omgevingsvariabelen die naar publieke repositories zijn gecommit** - dit zijn veelvoorkomende bevindingen in code-reviews van AI-ondersteunde projecten zonder engineering-toezicht. AI-gegenereerde auth-code kopieert frequent patronen uit trainingsdata zonder het beveiligingsmodel te begrijpen. Row-level security «tijdelijk» uitgeschakeld tijdens ontwikkeling, in productie gelaten. Rolcontroles die stringliteralen vergelijken en kapotgaan zodra een veld wordt hernoemd.",
         "**Geen foutafhandeling voorbij het happy path.** De AI schreef het successcenario. Wat gebeurt er wanneer de betalingsprovider een 402 teruggeeft? Wat gebeurt er wanneer de databaseverbinding halverwege een transactie wegvalt? In vibe-gecodeerde applicaties is het antwoord meestal een niet-afgehandelde promise rejection die verschijnt als een leeg scherm.",
         "**Vendor lock-in op AI-gegenereerde patronen.** Toen de AI koos om het datamodel op een bepaalde manier te structureren, accepteerde de vibe coder dit. Nu is de hele applicatie rondom die structuur gebouwd. Migreren weg ervan vereist inzicht in code die de developer nooit heeft gelezen.",
         "**Geen tests.** Niet omdat tests moeilijk zijn, maar omdat de vibe coder er nooit om vroeg en de AI ze niet vrijwillig aanbood. Wanneer er iets kapotgaat in productie, is er geen testsuite om regressies in de fix op te vangen."
@@ -54,7 +54,7 @@
     },
     {
       "type": "p",
-      "text": "Het patroon speelt zich voorspelbaar af. Een vibe-gecodeerde applicatie wordt gelanceerd, ziet er gepolijst uit, krijgt vroege gebruikers. Dan: een gebruiker met een niet-ASCII-teken in zijn naam breekt de databasequery. Een mobiele gebruiker op een trage verbinding triggert een race condition in het state management. Wij hebben scenario's gezien waarbij API-endpoints data lekken tussen gebruikersaccounts omdat autorisatiecontroles ontbraken of onvolledig waren — een gevolg van het uitleveren van code die nooit is gecontroleerd op server-side handhaving. Dit zijn geen exotische fouten. Ze zijn de basale consequentie van het uitleveren van code die men nooit heeft gelezen."
+      "text": "Het patroon speelt zich voorspelbaar af. Een vibe-gecodeerde applicatie wordt gelanceerd, ziet er gepolijst uit, krijgt vroege gebruikers. Dan: een gebruiker met een niet-ASCII-teken in zijn naam breekt de databasequery. Een mobiele gebruiker op een trage verbinding triggert een race condition in het state management. Wij hebben scenario's gezien waarbij API-endpoints data lekken tussen gebruikersaccounts omdat autorisatiecontroles ontbraken of onvolledig waren - een gevolg van het uitleveren van code die nooit is gecontroleerd op server-side handhaving. Dit zijn geen exotische fouten. Ze zijn de basale consequentie van het uitleveren van code die men nooit heeft gelezen."
     },
     {
       "type": "h2",

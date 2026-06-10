@@ -2,7 +2,7 @@
 
 import { useForm } from "@tanstack/react-form";
 import { Check, Mail } from "lucide-react";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import posthog from "posthog-js";
 import { useState } from "react";
 import z from "zod";
@@ -12,25 +12,6 @@ import { Input } from "@/components/ui/input";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { H3, Muted } from "@/components/ui/typography";
 import { trpcClient } from "@/utils/trpc";
-
-const LABELS = {
-	en: {
-		emailLabel: "Email",
-		placeholder: "Your email address",
-		button: "Get the Report",
-		success: "Check your inbox!",
-		error: "Something went wrong. Please try again.",
-		emailInvalid: "Please enter a valid email address.",
-	},
-	de: {
-		emailLabel: "E-Mail",
-		placeholder: "Ihre E-Mail-Adresse",
-		button: "Report anfordern",
-		success: "Prüfen Sie Ihr Postfach!",
-		error: "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.",
-		emailInvalid: "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
-	},
-} as const;
 
 export default function ReportDownloadForm({
 	reportId,
@@ -42,8 +23,7 @@ export default function ReportDownloadForm({
 	description: string;
 }) {
 	const locale = useLocale();
-	const l =
-		locale in LABELS ? LABELS[locale as keyof typeof LABELS] : LABELS.en;
+	const t = useTranslations("reportDownload");
 	const [submitStatus, setSubmitStatus] = useState<
 		"idle" | "success" | "error"
 	>("idle");
@@ -52,7 +32,7 @@ export default function ReportDownloadForm({
 		defaultValues: { email: "" },
 		validators: {
 			onSubmit: z.object({
-				email: z.email(l.emailInvalid),
+				email: z.email(t("emailInvalid")),
 			}),
 		},
 		onSubmit: async ({ value }) => {
@@ -84,7 +64,7 @@ export default function ReportDownloadForm({
 	});
 
 	return (
-		<div className="my-10 border border-brand-border bg-brand-surface">
+		<div className="surface-card my-10 overflow-hidden">
 			<div className="p-6 md:p-8">
 				<div className="flex items-start gap-4">
 					<Mail
@@ -92,7 +72,7 @@ export default function ReportDownloadForm({
 						strokeWidth={1.5}
 					/>
 					<div className="min-w-0">
-						<H3 className="text-base tracking-tight">{title}</H3>
+						<H3 className="text-base">{title}</H3>
 						<Muted className="mt-1 text-sm leading-relaxed">
 							{description}
 						</Muted>
@@ -100,13 +80,13 @@ export default function ReportDownloadForm({
 				</div>
 
 				{submitStatus === "success" ? (
-					<div className="mt-6 flex items-center gap-3 border border-brand-border bg-brand-surface p-4">
+					<div className="mt-6 flex items-center gap-3 border-border/60 border-t pt-4">
 						<Check
 							className="h-4 w-4 shrink-0 text-brand-icon"
 							strokeWidth={2}
 						/>
 						<Muted className="font-medium text-foreground text-sm">
-							{l.success}
+							{t("success")}
 						</Muted>
 					</div>
 				) : (
@@ -123,7 +103,7 @@ export default function ReportDownloadForm({
 							{(field) => (
 								<FormItem className="flex-1">
 									<FormLabel className="sr-only" htmlFor={field.name}>
-										{l.emailLabel}
+										{t("emailLabel")}
 									</FormLabel>
 									<Input
 										aria-invalid={field.state.meta.errors.length > 0}
@@ -138,7 +118,7 @@ export default function ReportDownloadForm({
 												setSubmitStatus("idle");
 											}
 										}}
-										placeholder={l.placeholder}
+										placeholder={t("placeholder")}
 										type="email"
 										value={field.state.value}
 									/>
@@ -151,11 +131,12 @@ export default function ReportDownloadForm({
 						>
 							{([canSubmit, isSubmitting]) => (
 								<SubmitButton
-									className="[&]:hover:!bg-brand-hover h-10 border-transparent bg-brand text-brand-foreground"
+									className="h-10"
 									disabled={!canSubmit}
 									isSubmitting={isSubmitting}
+									variant="brand"
 								>
-									{l.button}
+									{t("button")}
 								</SubmitButton>
 							)}
 						</form.Subscribe>
@@ -164,7 +145,9 @@ export default function ReportDownloadForm({
 
 				<output aria-atomic="true" aria-live="polite">
 					{submitStatus === "error" && (
-						<Muted className="mt-3 text-destructive text-sm">{l.error}</Muted>
+						<Muted className="mt-3 text-destructive text-sm">
+							{t("error")}
+						</Muted>
 					)}
 				</output>
 			</div>

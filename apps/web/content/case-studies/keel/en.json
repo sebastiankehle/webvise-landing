@@ -15,13 +15,25 @@
   "liveUrlLabel": "Concept study",
   "title": "Keel: An Agent-Native Infrastructure Concept for SaaS Products",
   "excerpt": "A design-led MVP concept for making any SaaS product usable by AI agents. Keel introspects a product's API, UI, and docs, turns every operation into a typed, named tool with a hosted MCP server, and exposes one governed endpoint behind scopes, guardrails, and approval gates. Every call is scoped, traced, and replayable.",
-  "challenge": "Products were built for humans, not agents. A button, a modal, a help-center article is an interface for a person who can see and click, and bolting an API onto it doesn't fix the gap: an agent still can't tell what's safe to call, with whose permission, or what just happened. Docs are prose, not a contract. A single API key is all-or-nothing, far too much power for an autonomous caller. And an agent acting without a record is a liability nobody can audit or undo. The concept set out to solve one thing: how do you make an existing SaaS product safely operable by agents, typed, scoped, and traced, without rebuilding it?",
-  "solution": "We designed and built Keel as a full product story across two responsive screens. The landing page lays out the problem and the closed loop behind it: map, generate, guard, publish, and observe, run on every change so the agent surface never drifts from the product underneath it. The operator console is where the work happens. It shows live call metrics, the typed tool schemas Keel emits for each operation, a hosted MCP server regenerated whenever the product changes, least-privilege scopes per tool, rate and spend guardrails, approval gates on anything that mutates, and a replayable trace of every call. Connectors feed in from the products a team already runs, GitHub, Linear, Notion, Slack, Stripe, and more, and Keel normalizes each surface into typed tools behind a single MCP/API endpoint an agent authenticates to once. Nothing mutating reaches a product until it clears its scope and approval gate. The interface uses a constructed, instrument-grade dark aesthetic with animated connector-beam visualizations, built in Next.js 16.",
+  "challenge": "SaaS products still expose human-facing interfaces to agents. A button, a modal, a help-center article is an interface for a person who can see and click, and bolting an API onto it doesn't fix the gap: an agent still can't tell what's safe to call, with whose permission, or what just happened. Docs cannot tell an agent which calls are safe, scoped, or approved. A single API key is all-or-nothing, far too much power for an autonomous caller. An agent acting without a record leaves no audit trail for review or rollback. The question was: how do you make an existing SaaS product safely operable by agents, typed, scoped, and traced, without rebuilding it?",
+  "solution": "We designed and built Keel across two responsive screens. The landing page lays out the problem and the closed loop behind it: map, generate, guard, publish, and observe, run on every change so the agent surface never drifts from the product underneath it. The operator console is where the work happens. It shows live call metrics, the typed tool schemas Keel emits for each operation, a hosted MCP server regenerated whenever the product changes, least-privilege scopes per tool, rate and spend guardrails, approval gates on anything that mutates, and a replayable trace of every call. Connectors feed in from the products a team already runs, GitHub, Linear, Notion, Slack, Stripe, and more, and Keel normalizes each surface into typed tools behind a single MCP/API endpoint an agent authenticates to once. Nothing mutating reaches a product until it clears its scope and approval gate. The interface uses a constructed, instrument-grade dark aesthetic with animated connector-beam visualizations, built in Next.js 16.",
   "metrics": [
-    { "value": "214", "label": "Typed tools generated from product surfaces" },
-    { "value": "4.1M", "label": "Agent calls traced per month" },
-    { "value": "9 min", "label": "Median time to agent-ready" },
-    { "value": "100%", "label": "Of calls scoped and logged" }
+    {
+      "value": "1",
+      "label": "Agent infrastructure concept"
+    },
+    {
+      "value": "2",
+      "label": "Product surfaces mapped"
+    },
+    {
+      "value": "3",
+      "label": "Tool contracts designed"
+    },
+    {
+      "value": "1",
+      "label": "Operator console prototype"
+    }
   ],
   "techStack": [
     "Next.js",
@@ -31,9 +43,5 @@
     "Turborepo",
     "Vercel"
   ],
-  "testimonial": {
-    "quote": "Ship a product agents can actually operate.",
-    "author": "Keel",
-    "role": "Agent infrastructure for SaaS"
-  }
+  "testimonial": null
 }

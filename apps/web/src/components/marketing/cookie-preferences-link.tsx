@@ -19,7 +19,7 @@ export function CookiePreferencesLink() {
 
 	return (
 		<button
-			className="cursor-pointer bg-transparent p-0 text-muted-foreground text-xs transition-colors hover:text-[--foreground]"
+			className="cursor-pointer border border-transparent bg-transparent p-0 text-muted-foreground text-xs outline-none transition-colors hover:text-foreground focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring/50"
 			onClick={handleClick}
 			type="button"
 		>

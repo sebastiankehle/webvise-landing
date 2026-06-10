@@ -9,7 +9,7 @@ import {
 } from "@/components/marketing/media-asset";
 import { H4, Label, Muted } from "@/components/ui/typography";
 
-const VARIANTS = ["light", "dark", "brand"] as const;
+const VARIANTS = ["light", "inverted", "brand"] as const;
 
 export default function MediaContent({ heroSlogan }: { heroSlogan: string }) {
 	const t = useTranslations("media");
@@ -27,7 +27,7 @@ export default function MediaContent({ heroSlogan }: { heroSlogan: string }) {
 								{t(
 									`variant${v[0].toUpperCase()}${v.slice(1)}` as
 										| "variantLight"
-										| "variantDark"
+										| "variantInverted"
 										| "variantBrand"
 								)}
 							</Label>
@@ -48,7 +48,7 @@ export default function MediaContent({ heroSlogan }: { heroSlogan: string }) {
 								{t(
 									`variant${v[0].toUpperCase()}${v.slice(1)}` as
 										| "variantLight"
-										| "variantDark"
+										| "variantInverted"
 										| "variantBrand"
 								)}
 							</Label>
@@ -76,7 +76,7 @@ export default function MediaContent({ heroSlogan }: { heroSlogan: string }) {
 								{t(
 									`variant${v[0].toUpperCase()}${v.slice(1)}` as
 										| "variantLight"
-										| "variantDark"
+										| "variantInverted"
 										| "variantBrand"
 								)}
 							</Label>
@@ -104,7 +104,7 @@ export default function MediaContent({ heroSlogan }: { heroSlogan: string }) {
 								{t(
 									`variant${v[0].toUpperCase()}${v.slice(1)}` as
 										| "variantLight"
-										| "variantDark"
+										| "variantInverted"
 										| "variantBrand"
 								)}
 							</Label>
@@ -132,7 +132,7 @@ export default function MediaContent({ heroSlogan }: { heroSlogan: string }) {
 								{t(
 									`variant${v[0].toUpperCase()}${v.slice(1)}` as
 										| "variantLight"
-										| "variantDark"
+										| "variantInverted"
 										| "variantBrand"
 								)}
 							</Label>

@@ -2,8 +2,14 @@ import { getTranslations } from "next-intl/server";
 
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import StaggerChildren from "@/components/marketing/stagger-children";
-import { TechBadge } from "@/components/marketing/tech-badge";
-import { H2, Label, Lead } from "@/components/ui/typography";
+import { TechPillGroup } from "@/components/marketing/tech-pill-group";
+import {
+	H2,
+	inlineLinkClassName,
+	Label,
+	Lead,
+} from "@/components/ui/typography";
+import { Link } from "@/i18n/navigation";
 
 const categories = [
 	{
@@ -62,25 +68,28 @@ export default async function TechStack() {
 	const t = await getTranslations("techStack");
 
 	return (
-		<SectionWrapper alternate hatch id="tech-stack">
-			<div className="max-w-[640px]">
-				<H2>{t("title")}</H2>
-				<Lead className="mt-5 max-w-[520px]">{t("subtitle")}</Lead>
-			</div>
-			<StaggerChildren className="-mx-6 mt-16 grid border-grid-line border-t md:grid-cols-2 lg:grid-cols-4">
-				{categories.map((cat) => (
-					<div
-						className="border-grid-line border-b p-6 md:border-r md:p-8 md:[&:nth-child(2n)]:border-r-0 lg:[&:nth-child(2n)]:border-r lg:[&:nth-child(4n)]:border-r-0"
-						key={cat.key}
+		<SectionWrapper hatch id="tech-stack" surface="alternate">
+			<div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-end">
+				<div className="max-w-[660px]">
+					<H2>{t("title")}</H2>
+				</div>
+				<div className="max-w-[560px] lg:justify-self-end">
+					<Lead>{t("subtitle")}</Lead>
+					<Link
+						className={`${inlineLinkClassName} mt-5 inline-flex`}
+						href="/case-studies"
 					>
+						{t("proofLink")}
+					</Link>
+				</div>
+			</div>
+			<StaggerChildren className="mt-10 grid gap-5 md:mt-16 md:grid-cols-2 lg:grid-cols-4">
+				{categories.map((cat) => (
+					<div className="surface-card p-6 md:p-7" key={cat.key}>
 						<Label className="mb-5 block text-muted-foreground">
 							{t(cat.key)}
 						</Label>
-						<div className="flex flex-wrap gap-2">
-							{cat.items.map((tech) => (
-								<TechBadge key={tech} name={tech} />
-							))}
-						</div>
+						<TechPillGroup items={[...cat.items]} />
 					</div>
 				))}
 			</StaggerChildren>

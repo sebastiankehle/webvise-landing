@@ -7,7 +7,7 @@ function Display({ className, ...props }: React.ComponentProps<"h1">) {
 	return (
 		<h1
 			className={cn(
-				"text-balance font-display text-[32px] text-foreground leading-[1.08] tracking-[-0.04em] md:text-[48px]",
+				"text-balance font-display text-3xl text-foreground leading-tight md:text-5xl",
 				className
 			)}
 			data-slot="display"
@@ -21,7 +21,7 @@ function H1({ className, ...props }: React.ComponentProps<"h1">) {
 	return (
 		<h1
 			className={cn(
-				"font-display text-[32px] text-foreground leading-[1.08] tracking-[-0.04em] md:text-[48px]",
+				"font-display text-3xl text-foreground leading-tight md:text-5xl",
 				className
 			)}
 			data-slot="h1"
@@ -35,7 +35,7 @@ function H2({ className, ...props }: React.ComponentProps<"h2">) {
 	return (
 		<h2
 			className={cn(
-				"font-display text-[28px] text-foreground leading-[1.1] tracking-[-0.03em] md:text-[40px]",
+				"font-display text-3xl text-foreground leading-tight md:text-4xl",
 				className
 			)}
 			data-slot="h2"
@@ -49,7 +49,7 @@ function H3({ className, ...props }: React.ComponentProps<"h3">) {
 	return (
 		<h3
 			className={cn(
-				"font-display text-foreground text-xl leading-[1.25] tracking-[-0.02em]",
+				"font-display text-foreground text-xl leading-snug",
 				className
 			)}
 			data-slot="h3"
@@ -73,10 +73,7 @@ function H4({ className, ...props }: React.ComponentProps<"h4">) {
 function Lead({ className, ...props }: React.ComponentProps<"p">) {
 	return (
 		<p
-			className={cn(
-				"text-[16px] text-muted-foreground leading-[1.6]",
-				className
-			)}
+			className={cn("text-base text-muted-foreground leading-7", className)}
 			data-slot="lead"
 			{...props}
 		/>
@@ -87,7 +84,7 @@ function Lead({ className, ...props }: React.ComponentProps<"p">) {
 function Body({ className, ...props }: React.ComponentProps<"p">) {
 	return (
 		<p
-			className={cn("text-[15px] text-foreground leading-[1.6]", className)}
+			className={cn("text-base text-foreground leading-7", className)}
 			data-slot="body"
 			{...props}
 		/>
@@ -98,7 +95,7 @@ function Body({ className, ...props }: React.ComponentProps<"p">) {
 function Muted({ className, ...props }: React.ComponentProps<"p">) {
 	return (
 		<p
-			className={cn("text-muted-foreground text-sm leading-[1.6]", className)}
+			className={cn("text-muted-foreground text-sm leading-6", className)}
 			data-slot="muted"
 			{...props}
 		/>
@@ -154,7 +151,7 @@ function Stat({ className, ...props }: React.ComponentProps<"span">) {
 	return (
 		<span
 			className={cn(
-				"font-display text-3xl text-brand-readable tracking-tight md:text-[48px] md:leading-[1]",
+				"font-display text-3xl text-brand-readable md:text-5xl md:leading-none",
 				className
 			)}
 			data-slot="stat"
@@ -188,7 +185,7 @@ function DisplayH2({ className, ...props }: React.ComponentProps<"h2">) {
 	return (
 		<h2
 			className={cn(
-				"font-display text-[32px] text-foreground leading-[1.2] tracking-[-0.03em] md:text-[36px]",
+				"font-display text-3xl text-foreground leading-tight md:text-4xl",
 				className
 			)}
 			data-slot="display-h2"
@@ -197,14 +194,14 @@ function DisplayH2({ className, ...props }: React.ComponentProps<"h2">) {
 	);
 }
 
+const inlineLinkClassName =
+	"border border-transparent text-brand-readable text-sm underline decoration-brand-border/70 underline-offset-4 outline-none transition-colors hover:text-foreground focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring/50";
+
 /* ── Inline link ─────────────────────────────────────────── */
 function InlineLink({ className, ...props }: React.ComponentProps<"a">) {
 	return (
 		<a
-			className={cn(
-				"text-foreground text-sm underline underline-offset-4 transition-colors hover:text-brand-readable",
-				className
-			)}
+			className={cn(inlineLinkClassName, className)}
 			data-slot="inline-link"
 			{...props}
 		/>
@@ -221,6 +218,7 @@ export {
 	H3,
 	H4,
 	InlineLink,
+	inlineLinkClassName,
 	Label,
 	Lead,
 	Mono,

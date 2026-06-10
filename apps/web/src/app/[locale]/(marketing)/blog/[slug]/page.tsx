@@ -4,9 +4,11 @@ import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import JsonLd from "@/components/json-ld";
 import BlogShare from "@/components/marketing/blog-share";
+import { MarketingTag } from "@/components/marketing/marketing-tag";
 import ReportDownloadForm from "@/components/marketing/report-download-form";
 import SectionWrapper, {
 	ConstructedGrid,
+	DetailPageSection,
 	GridContainer,
 } from "@/components/marketing/section-wrapper";
 import {
@@ -14,7 +16,7 @@ import {
 	H1,
 	H2,
 	H3,
-	Label,
+	inlineLinkClassName,
 	Lead,
 	Muted,
 } from "@/components/ui/typography";
@@ -93,7 +95,7 @@ function renderInline(text: string) {
 				if (innerLink[2].startsWith("http")) {
 					return (
 						<a
-							className="font-medium text-brand-readable underline underline-offset-4 transition-colors hover:text-brand-readable"
+							className={inlineLinkClassName}
 							href={innerLink[2]}
 							key={key}
 							rel="noopener noreferrer"
@@ -105,7 +107,7 @@ function renderInline(text: string) {
 				}
 				return (
 					<Link
-						className="font-medium text-brand-readable underline underline-offset-4 transition-colors hover:text-brand-readable"
+						className={inlineLinkClassName}
 						href={innerLink[2] as "/blog"}
 						key={key}
 					>
@@ -124,7 +126,7 @@ function renderInline(text: string) {
 			if (linkMatch[2].startsWith("http")) {
 				return (
 					<a
-						className="text-brand-readable underline underline-offset-4 transition-colors hover:text-brand-readable"
+						className={inlineLinkClassName}
 						href={linkMatch[2]}
 						key={key}
 						rel="noopener noreferrer"
@@ -136,7 +138,7 @@ function renderInline(text: string) {
 			}
 			return (
 				<Link
-					className="text-brand-readable underline underline-offset-4 transition-colors hover:text-brand-readable"
+					className={inlineLinkClassName}
 					href={linkMatch[2] as "/blog"}
 					key={key}
 				>
@@ -178,25 +180,25 @@ function RenderBlock({ block }: { block: Block }) {
 	switch (block.type) {
 		case "h2":
 			return (
-				<H2 className="mt-14 mb-4 text-[24px] leading-[1.2] first:mt-0 md:text-[28px]">
+				<H2 className="mt-14 mb-4 text-2xl leading-tight first:mt-0 md:text-3xl">
 					{block.text}
 				</H2>
 			);
 		case "h3":
-			return <H3 className="mt-8 mb-3 text-[17px]">{block.text}</H3>;
+			return <H3 className="mt-8 mb-3 text-lg">{block.text}</H3>;
 		case "p":
 			return (
-				<Muted className="mb-5 text-[16px] leading-[1.75] last:mb-0">
+				<Muted className="mb-5 text-base leading-7 last:mb-0">
 					{renderInline(block.text)}
 				</Muted>
 			);
 		case "ul":
 			return (
-				<ul className="mb-5 space-y-2 text-[15px] text-muted-foreground leading-[1.65]">
+				<ul className="mb-5 space-y-2 text-base text-muted-foreground leading-7">
 					{block.items.map((item) => (
 						<li className="flex gap-3" key={item}>
 							<span className="mt-1.5 h-1.5 w-1.5 shrink-0 bg-brand" />
-							<Muted className="text-[15px] text-foreground leading-[1.65]">
+							<Muted className="text-base text-foreground leading-7">
 								{renderInline(item)}
 							</Muted>
 						</li>
@@ -266,6 +268,7 @@ export default async function BlogPostPage({
 	}
 
 	const t = await getTranslations("blog");
+	const tschema = await getTranslations("schema");
 	const tt = await getTranslations("trust.blogBanner");
 	const postUrl = localizedUrl(`/blog/${slug}`, locale);
 	const { prev, next } = getAdjacentPosts(slug, locale);
@@ -292,13 +295,13 @@ export default async function BlogPostPage({
 					{
 						"@type": "ListItem",
 						position: 1,
-						name: "Home",
+						name: tschema("home"),
 						item: localizedUrl("/", locale),
 					},
 					{
 						"@type": "ListItem",
 						position: 2,
-						name: "Blog",
+						name: tschema("blog"),
 						item: localizedUrl("/blog", locale),
 					},
 					{
@@ -317,7 +320,7 @@ export default async function BlogPostPage({
 			<JsonLd data={jsonLd} />
 
 			{/* Header */}
-			<section className="relative pt-32 pb-24 md:pt-44 md:pb-36">
+			<section className="relative pt-32 pb-12 md:pt-44 md:pb-16">
 				<ConstructedGrid variant="page" />
 				<GridContainer>
 					<div className="grid items-start gap-12 md:grid-cols-3 md:gap-16">
@@ -340,16 +343,11 @@ export default async function BlogPostPage({
 
 						{/* Tags box */}
 						{post.tags && post.tags.length > 0 && (
-							<div className="border border-border/40 p-6 md:p-8">
+							<div className="surface-card p-6 md:p-8">
 								<Caption className="mb-5 block">{t("tagsLabel")}</Caption>
 								<div className="flex flex-wrap gap-2">
 									{post.tags.map((tag) => (
-										<Label
-											className="border border-border/40 px-3 py-1.5 text-foreground text-sm transition-all hover:border-brand hover:bg-brand hover:text-brand-foreground"
-											key={tag}
-										>
-											{tag}
-										</Label>
+										<MarketingTag key={tag}>{tag}</MarketingTag>
 									))}
 								</div>
 							</div>
@@ -362,7 +360,11 @@ export default async function BlogPostPage({
 				</GridContainer>
 			</section>
 
-			<SectionWrapper alternate id="content">
+			<SectionWrapper
+				className="pt-14 md:pt-20"
+				id="content"
+				surface="alternate"
+			>
 				<div className="max-w-2xl">
 					{(() => {
 						const keys = getBlockKeys(post.blocks);
@@ -374,7 +376,7 @@ export default async function BlogPostPage({
 					{post.tags?.some((tag) =>
 						["ai", "security"].some((t) => tag.toLowerCase().includes(t))
 					) && (
-						<div className="mt-14 flex items-center gap-3 border border-border/40 p-5 text-sm">
+						<div className="surface-card mt-14 flex items-center gap-3 p-5 text-sm">
 							<Shield
 								className="h-4 w-4 shrink-0 text-brand-icon"
 								strokeWidth={1.5}
@@ -385,45 +387,46 @@ export default async function BlogPostPage({
 				</div>
 			</SectionWrapper>
 
-			<section className="relative border-grid-line border-t pt-12 pb-28">
-				<ConstructedGrid variant="page" />
-				<GridContainer>
-					<BlogShare title={post.title} url={postUrl} />
+			<DetailPageSection className="pt-12 pb-28" id="post-navigation">
+				<BlogShare title={post.title} url={postUrl} />
 
-					{(prev || next) && (
-						<div className="mt-12 grid gap-6 md:grid-cols-2">
-							{prev && (
-								<Link
-									className="group border border-border/40 p-6 transition-colors hover:border-brand-border"
-									href={`/blog/${prev.slug}` as "/blog"}
-								>
-									<Caption>{t("prevPost")}</Caption>
-									<H3 className="mt-2 text-lg transition-colors group-hover:text-brand-readable">
-										{prev.title}
-									</H3>
-									<Muted className="mt-2 line-clamp-2 leading-relaxed">
-										{prev.excerpt}
-									</Muted>
-								</Link>
-							)}
-							{next && (
-								<Link
-									className="group border border-border/40 p-6 transition-colors hover:border-brand-border"
-									href={`/blog/${next.slug}` as "/blog"}
-								>
-									<Caption>{t("nextPost")}</Caption>
-									<H3 className="mt-2 text-lg transition-colors group-hover:text-brand-readable">
-										{next.title}
-									</H3>
-									<Muted className="mt-2 line-clamp-2 leading-relaxed">
-										{next.excerpt}
-									</Muted>
-								</Link>
-							)}
-						</div>
-					)}
-				</GridContainer>
-			</section>
+				{(prev || next) && (
+					<div className="mt-12 grid gap-6 md:grid-cols-2">
+						{prev && (
+							<Link
+								className="surface-card group p-6 outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+								href={`/blog/${prev.slug}` as "/blog"}
+							>
+								<Caption className="text-brand-readable">
+									{t("prevPost")}
+								</Caption>
+								<H3 className="mt-2 text-lg transition-colors group-hover:text-brand-readable">
+									{prev.title}
+								</H3>
+								<Muted className="mt-2 line-clamp-2 leading-relaxed">
+									{prev.excerpt}
+								</Muted>
+							</Link>
+						)}
+						{next && (
+							<Link
+								className="surface-card group p-6 outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+								href={`/blog/${next.slug}` as "/blog"}
+							>
+								<Caption className="text-brand-readable">
+									{t("nextPost")}
+								</Caption>
+								<H3 className="mt-2 text-lg transition-colors group-hover:text-brand-readable">
+									{next.title}
+								</H3>
+								<Muted className="mt-2 line-clamp-2 leading-relaxed">
+									{next.excerpt}
+								</Muted>
+							</Link>
+						)}
+					</div>
+				)}
+			</DetailPageSection>
 		</>
 	);
 }

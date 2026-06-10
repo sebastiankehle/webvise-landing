@@ -53,7 +53,7 @@ export default function AnimatedStat({
 		return (
 			<span
 				className={cn(
-					"font-display text-3xl text-brand-readable tracking-tight md:text-[48px] md:leading-[1]",
+					"font-display text-3xl text-brand-readable md:text-5xl md:leading-none",
 					className
 				)}
 				data-slot="stat"
@@ -66,7 +66,7 @@ export default function AnimatedStat({
 	return (
 		<span
 			className={cn(
-				"font-display text-3xl text-brand-readable tracking-tight md:text-[48px] md:leading-[1]",
+				"font-display text-3xl text-brand-readable md:text-5xl md:leading-none",
 				className
 			)}
 			data-slot="stat"

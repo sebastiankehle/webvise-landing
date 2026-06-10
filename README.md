@@ -2,24 +2,26 @@
 
 **Design. Development. Automation.**
 
-Source for [webvise.io](https://webvise.io) — a digital product agency shipping marketing sites, full-stack applications, and AI-powered tools for ambitious teams.
+Source for [webvise.io](https://webvise.io), a senior-led AI-native software studio for custom workflow systems, internal tools, portals, dashboards, AI-assisted workflows, and production-ready web applications.
 
 ## Services
 
-| Service                   | Starting at | Timeline   |
-| ------------------------- | ----------- | ---------- |
-| Landing Pages             | €1,000      | 1–2 weeks  |
-| WordPress → Next.js       | €1,500      | 1–2 weeks  |
-| AI Consulting             | €2,500      | 2–4 weeks  |
-| MVP Development           | €5,000      | 3–5 weeks  |
-| AI & Automation           | €5,000      | 3–6 weeks  |
-| Full-Stack Applications   | €7,500      | 4–10 weeks |
+webvise keeps the existing service pages for SEO and buyer navigation, but public pricing is scoped around the system needed rather than fixed package anchors.
+
+| Service                   | Public scope language        | Typical timeline |
+| ------------------------- | ---------------------------- | ---------------- |
+| Landing Pages             | Focused build                | 1-2 weeks        |
+| WordPress → Next.js       | Focused build                | 1-2 weeks        |
+| AI Consulting             | Discovery or focused build   | 2-4 weeks        |
+| MVP Development           | Custom system                | 3-5 weeks        |
+| AI and Automation         | Custom system                | 3-6 weeks        |
+| Full-Stack Applications   | Custom system                | 4-10 weeks       |
 
 See [webvise.io/services](https://webvise.io/services) for full details.
 
 ## Free Tools
 
-- **[WordPress Health Report](https://webvise.io/wp-health-report)** — instant PageSpeed, SEO, security, and AI-readability audit for any WordPress site.
+- **[WordPress Health Report](https://webvise.io/wp-health-report)**, instant PageSpeed, SEO, security, and AI-readability audit for any WordPress site.
 
 ## Tech Stack
 
@@ -54,4 +56,4 @@ webvise-app/
 
 ## License
 
-Proprietary — all rights reserved. See [LICENSE](LICENSE).
+Proprietary, all rights reserved. See [LICENSE](LICENSE).

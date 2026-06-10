@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
 import { useCallback, useEffect, useRef, useState } from "react";
-
+import { Button } from "@/components/ui/button";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -30,11 +30,10 @@ const darkThemeOptions = THEME_OPTIONS.filter((option) =>
 );
 const triggerClassNames = {
 	compact:
-		"group inline-flex cursor-pointer items-center gap-1.5 text-muted-foreground text-xs uppercase transition-colors hover:text-foreground",
+		"gap-1.5 border-transparent bg-transparent px-0 text-muted-foreground uppercase hover:bg-transparent hover:text-foreground aria-expanded:bg-transparent",
 	floating:
-		"fixed bottom-6 left-6 z-40 hidden h-12 w-12 items-center justify-center bg-brand text-brand-foreground shadow-lg transition-colors hover:!bg-brand-hover md:flex",
-	inline:
-		"inline-flex h-9 items-center gap-2 border border-border/70 bg-card px-3 text-foreground text-xs transition-colors hover:border-brand-border hover:bg-brand-surface hover:text-foreground dark:bg-card/35",
+		"fixed bottom-6 left-6 z-40 hidden size-12 shadow-lg md:inline-flex",
+	inline: "h-9 gap-2 px-3",
 } satisfies Record<NonNullable<ThemeSwitcherProps["variant"]>, string>;
 const themePreviewingClassName = "theme-previewing";
 
@@ -52,7 +51,7 @@ export default function ThemeSwitcher({
 	const [mounted, setMounted] = useState(false);
 	const [open, setOpen] = useState(false);
 	const committedThemeRef = useRef<SiteThemeId>(THEME_OPTIONS[0].id);
-	const previewFrameRef = useRef<number | undefined>(undefined);
+	const guardReleaseFrameRef = useRef<number | undefined>(undefined);
 	const previewThemeRef = useRef<SiteThemeId>(THEME_OPTIONS[0].id);
 	const restoreTimeoutRef = useRef<number | undefined>(undefined);
 
@@ -60,12 +59,12 @@ export default function ThemeSwitcher({
 		setMounted(true);
 	}, []);
 
-	const cancelPreviewFrame = useCallback(() => {
-		if (previewFrameRef.current === undefined) {
+	const cancelGuardRelease = useCallback(() => {
+		if (guardReleaseFrameRef.current === undefined) {
 			return;
 		}
-		window.cancelAnimationFrame(previewFrameRef.current);
-		previewFrameRef.current = undefined;
+		window.cancelAnimationFrame(guardReleaseFrameRef.current);
+		guardReleaseFrameRef.current = undefined;
 	}, []);
 
 	const cancelRestoreTimeout = useCallback(() => {
@@ -77,21 +76,33 @@ export default function ThemeSwitcher({
 	}, []);
 
 	const startPreviewTransitionGuard = useCallback(() => {
+		cancelGuardRelease();
 		document.documentElement.classList.add(themePreviewingClassName);
-	}, []);
+	}, [cancelGuardRelease]);
 
 	const stopPreviewTransitionGuard = useCallback(() => {
-		const root = document.documentElement;
-		root.classList.remove(themePreviewingClassName);
-	}, []);
+		cancelGuardRelease();
+		document.documentElement.classList.remove(themePreviewingClassName);
+	}, [cancelGuardRelease]);
+
+	// Release the guard only after the swapped theme has painted, so the
+	// page never animates a theme change mid-swap.
+	const releaseTransitionGuardAfterPaint = useCallback(() => {
+		cancelGuardRelease();
+		guardReleaseFrameRef.current = window.requestAnimationFrame(() => {
+			guardReleaseFrameRef.current = window.requestAnimationFrame(() => {
+				guardReleaseFrameRef.current = undefined;
+				document.documentElement.classList.remove(themePreviewingClassName);
+			});
+		});
+	}, [cancelGuardRelease]);
 
 	useEffect(
 		() => () => {
-			cancelPreviewFrame();
 			cancelRestoreTimeout();
 			stopPreviewTransitionGuard();
 		},
-		[cancelPreviewFrame, cancelRestoreTimeout, stopPreviewTransitionGuard]
+		[cancelRestoreTimeout, stopPreviewTransitionGuard]
 	);
 
 	const restoreCommittedTheme = useCallback(() => {
@@ -99,15 +110,15 @@ export default function ThemeSwitcher({
 			return;
 		}
 		cancelRestoreTimeout();
-		cancelPreviewFrame();
+		startPreviewTransitionGuard();
 		previewThemeRef.current = committedThemeRef.current;
 		committedThemeRef.current = applySiteThemeToDom(committedThemeRef.current);
-		window.requestAnimationFrame(stopPreviewTransitionGuard);
+		releaseTransitionGuardAfterPaint();
 	}, [
-		cancelPreviewFrame,
 		cancelRestoreTimeout,
 		mounted,
-		stopPreviewTransitionGuard,
+		releaseTransitionGuardAfterPaint,
+		startPreviewTransitionGuard,
 	]);
 
 	const scheduleCommittedThemeRestore = useCallback(() => {
@@ -139,14 +150,9 @@ export default function ThemeSwitcher({
 			}
 			previewThemeRef.current = nextTheme;
 			startPreviewTransitionGuard();
-			cancelPreviewFrame();
-			previewFrameRef.current = window.requestAnimationFrame(() => {
-				previewFrameRef.current = undefined;
-				applySiteThemeToDom(previewThemeRef.current);
-			});
+			applySiteThemeToDom(nextTheme);
 		},
 		[
-			cancelPreviewFrame,
 			cancelRestoreTimeout,
 			canPreviewOnHover,
 			mounted,
@@ -157,18 +163,18 @@ export default function ThemeSwitcher({
 	const commitTheme = useCallback(
 		(nextTheme: string) => {
 			cancelRestoreTimeout();
-			cancelPreviewFrame();
+			startPreviewTransitionGuard();
 			const validTheme = applySiteThemeToDom(nextTheme);
 			previewThemeRef.current = validTheme;
 			committedThemeRef.current = validTheme;
-			stopPreviewTransitionGuard();
 			setTheme(validTheme);
+			releaseTransitionGuardAfterPaint();
 		},
 		[
-			cancelPreviewFrame,
 			cancelRestoreTimeout,
+			releaseTransitionGuardAfterPaint,
 			setTheme,
-			stopPreviewTransitionGuard,
+			startPreviewTransitionGuard,
 		]
 	);
 
@@ -208,12 +214,23 @@ export default function ThemeSwitcher({
 	const triggerClassName = triggerClassNames[variant];
 	const iconClassName = variant === "compact" ? "h-4 w-4" : "h-5 w-5";
 	const contentAlign = variant === "floating" ? "start" : "end";
+	const triggerVariant = variant === "floating" ? "brand" : "outline";
+	const triggerSize = variant === "floating" ? "icon-lg" : "default";
 
 	return (
 		<DropdownMenu onOpenChange={handleOpenChange} open={open}>
 			<DropdownMenuTrigger
 				aria-label={t("label")}
-				className={cn(triggerClassName, className)}
+				render={
+					<Button
+						className={cn(triggerClassName, className)}
+						data-marketing-floating={
+							variant === "floating" ? "true" : undefined
+						}
+						size={triggerSize}
+						variant={triggerVariant}
+					/>
+				}
 			>
 				<span
 					className={cn(

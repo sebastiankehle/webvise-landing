@@ -8,11 +8,13 @@ const buttonVariants = cva(
 	{
 		variants: {
 			variant: {
-				default: "bg-primary text-primary-foreground [a]:hover:bg-primary/80",
+				default: "bg-primary text-primary-foreground hover:bg-primary/80",
+				brand:
+					"bg-brand text-brand-foreground hover:bg-brand-hover aria-expanded:bg-brand-hover",
 				outline:
-					"border-border/70 bg-card text-foreground hover:border-brand-border hover:bg-brand-surface hover:text-foreground aria-expanded:border-brand-border aria-expanded:bg-brand-surface aria-expanded:text-foreground dark:border-border/70 dark:bg-card/35 dark:hover:bg-brand-surface",
+					"border-border/70 bg-card text-foreground hover:border-border hover:bg-muted/60 hover:text-foreground aria-expanded:border-border aria-expanded:bg-muted/60 aria-expanded:text-foreground dark:border-border/70 dark:bg-card/35 dark:hover:bg-muted/40",
 				secondary:
-					"border-border/60 bg-card text-card-foreground hover:border-brand-border hover:bg-brand-surface aria-expanded:border-brand-border aria-expanded:bg-brand-surface aria-expanded:text-foreground dark:bg-card/35",
+					"border-border/60 bg-card text-card-foreground hover:border-border hover:bg-muted/60 aria-expanded:border-border aria-expanded:bg-muted/60 aria-expanded:text-foreground dark:bg-card/35",
 				ghost:
 					"hover:bg-brand-surface hover:text-foreground aria-expanded:bg-brand-surface aria-expanded:text-foreground",
 				destructive:

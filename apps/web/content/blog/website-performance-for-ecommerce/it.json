@@ -98,7 +98,7 @@
           "Tempo fino a quando il contenuto principale è visibile",
           "Immagine prodotto principale o banner hero",
           "< 2,5 s",
-          "2,5 s – 4 s",
+          "2,5 s - 4 s",
           "> 4 s"
         ],
         [
@@ -106,7 +106,7 @@
           "Velocità di risposta a clic e tocchi",
           "Pulsante aggiungi al carrello, filtri, cambio quantità",
           "< 200 ms",
-          "200 ms – 500 ms",
+          "200 ms - 500 ms",
           "> 500 ms"
         ],
         [
@@ -114,7 +114,7 @@
           "Quanto la pagina si sposta durante il caricamento",
           "Griglia prodotti che si sposta mentre le immagini caricano",
           "< 0,1",
-          "0,1 – 0,25",
+          "0,1 - 0,25",
           "> 0,25"
         ]
       ]
@@ -133,7 +133,7 @@
     },
     {
       "type": "p",
-      "text": "[WooCommerce](/services/wordpress-migration) alimenta una grande parte dei negozi online - ed è anche una delle piattaforme con maggiori limitazioni di prestazioni man mano che il sito cresce. Un negozio WooCommerce funzionante gira tipicamente con 50–80 plugin. Ognuno aggiunge richieste HTTP, tempo di esecuzione JavaScript e overhead CSS."
+      "text": "[WooCommerce](/services/wordpress-migration) alimenta una grande parte dei negozi online - ed è anche una delle piattaforme con maggiori limitazioni di prestazioni man mano che il sito cresce. Un negozio WooCommerce funzionante gira tipicamente con 50-80 plugin. Ognuno aggiunge richieste HTTP, tempo di esecuzione JavaScript e overhead CSS."
     },
     {
       "type": "p",
@@ -142,7 +142,7 @@
     {
       "type": "ul",
       "items": [
-        "Le pagine prodotto trasferiscono tipicamente 4–8 MB di dati al primo caricamento",
+        "Le pagine prodotto trasferiscono tipicamente 4-8 MB di dati al primo caricamento",
         "Una pagina prodotto standard su WooCommerce può attivare più di 100 query al database",
         "I bundle JavaScript di più plugin spesso bloccano il rendering",
         "Gli script di terze parti (recensioni, live chat, analytics) allungano ulteriormente le catene di richieste",
@@ -151,7 +151,7 @@
     },
     {
       "type": "p",
-      "text": "Un LCP di 4–6 secondi rientra chiaramente nella categoria \"scarso\" della scala Google - e ben oltre la soglia di abbandono della maggior parte degli utenti mobile. I plugin di caching alleviano il sintomo, ma non cambiano l'architettura sottostante che genera il problema."
+      "text": "Un LCP di 4-6 secondi rientra chiaramente nella categoria \"scarso\" della scala Google - e ben oltre la soglia di abbandono della maggior parte degli utenti mobile. I plugin di caching alleviano il sintomo, ma non cambiano l'architettura sottostante che genera il problema."
     },
     {
       "type": "p",
@@ -173,7 +173,7 @@
       "type": "ul",
       "items": [
         "**Pagine prodotto statiche/ISR:** pre-renderizzate al build e servite direttamente da un CDN edge - niente PHP, nessuna query al database al caricamento",
-        "**Immagini prodotto con lazy loading:** le immagini fuori schermo si caricano solo quando necessario, in formati moderni (WebP, AVIF) più leggeri del 30–50 % rispetto a JPEG equivalenti a qualità comparabile (misurazioni Cloudinary e Web.dev)",
+        "**Immagini prodotto con lazy loading:** le immagini fuori schermo si caricano solo quando necessario, in formati moderni (WebP, AVIF) più leggeri del 30-50 % rispetto a JPEG equivalenti a qualità comparabile (misurazioni Cloudinary e Web.dev)",
         "**JavaScript minimo:** niente jQuery, niente Bootstrap completo, bundle con tree-shaking che includono solo il codice effettivamente necessario a ogni pagina",
         "**Incremental Static Regeneration:** le pagine prodotto si aggiornano automaticamente quando cambiano inventario o prezzi, senza un rebuild completo"
       ]
@@ -186,10 +186,10 @@
         "Next.js Headless (tipico)"
       ],
       "rows": [
-        ["LCP (mobile)", "4–6 secondi", "Meno di 1,5 secondi"],
-        ["Time to Interactive", "6–10 secondi", "Meno di 2 secondi"],
-        ["Peso della pagina (pagina prodotto)", "4–8 MB", "Meno di 500 KB"],
-        ["Punteggio Lighthouse (mobile)", "25–45", "90–98"]
+        ["LCP (mobile)", "4-6 secondi", "Meno di 1,5 secondi"],
+        ["Time to Interactive", "6-10 secondi", "Meno di 2 secondi"],
+        ["Peso della pagina (pagina prodotto)", "4-8 MB", "Meno di 500 KB"],
+        ["Punteggio Lighthouse (mobile)", "25-45", "90-98"]
       ]
     },
     {
@@ -248,7 +248,7 @@
     },
     {
       "type": "p",
-      "text": "Presta particolare attenzione all'elemento LCP. Se la tua immagine prodotto principale è in lazy loading - cosa frequente nei temi WooCommerce - questa sola modifica (rimuovere l'attributo lazy-load dalla prima immagine visibile) può migliorare l'LCP di 1–2 secondi immediatamente."
+      "text": "Presta particolare attenzione all'elemento LCP. Se la tua immagine prodotto principale è in lazy loading - cosa frequente nei temi WooCommerce - questa sola modifica (rimuovere l'attributo lazy-load dalla prima immagine visibile) può migliorare l'LCP di 1-2 secondi immediatamente."
     },
     {
       "type": "h2",
@@ -261,10 +261,10 @@
     {
       "type": "ul",
       "items": [
-        "**Compressione immagini e conversione WebP:** convertire le immagini prodotto in WebP può ridurne il peso del 40–60 %. Strumenti come Imagify o ShortPixel lo fanno automaticamente.",
+        "**Compressione immagini e conversione WebP:** convertire le immagini prodotto in WebP può ridurne il peso del 40-60 %. Strumenti come Imagify o ShortPixel lo fanno automaticamente.",
         "**Rimuovere i plugin inutilizzati:** esegui un [audit](/blog/website-audit-checklist) dei plugin. Ogni plugin installato - anche quelli disattivati - genera overhead. Elimina tutto ciò che non è attivamente necessario.",
         "**Attivare la cache delle pagine:** WP Rocket o W3 Total Cache riduce il costo della generazione dinamica delle pagine. Non risolve l'architettura, ma attenua l'impatto nelle visite ripetute.",
-        "**Aggiornare l'hosting:** l'hosting condiviso impone un tetto di prestazioni difficile da superare. Passare a un hosting WordPress gestito (Kinsta, WP Engine, Cloudways) aggiunge tipicamente 10–20 punti Lighthouse.",
+        "**Aggiornare l'hosting:** l'hosting condiviso impone un tetto di prestazioni difficile da superare. Passare a un hosting WordPress gestito (Kinsta, WP Engine, Cloudways) aggiunge tipicamente 10-20 punti Lighthouse.",
         "**Differire il JavaScript non critico:** la maggior parte dei temi carica tutti gli script su ogni pagina. Differire gli script non necessari al caricamento iniziale riduce il tempo di blocco del rendering."
       ]
     },
@@ -286,7 +286,7 @@
     },
     {
       "type": "p",
-      "text": "Con €10.000/mese e un tipico miglioramento di 0,4–0,6 punti percentuali nella conversione dopo il rebuild, l'incremento mensile è di €400–600. Per un costo di rebuild di €3.000–5.000, l'investimento si recupera in 6–10 mesi - prima ancora di contare eventuali miglioramenti SEO dai migliori Core Web Vitals."
+      "text": "Con €10.000/mese e un tipico miglioramento di 0,4-0,6 punti percentuali nella conversione dopo il rebuild, l'incremento mensile è di €400-600. Per un costo di rebuild di €3.000-5.000, l'investimento si recupera in 6-10 mesi - prima ancora di contare eventuali miglioramenti SEO dai migliori Core Web Vitals."
     },
     {
       "type": "p",

@@ -20,7 +20,6 @@ export interface AuditInput {
 export interface AuditResultData {
 	desktop: { score: number };
 	issues: ReturnType<typeof extractTopIssues>;
-	migrationEstimate: { min: number; max: number };
 	mobile: { score: number };
 	projectedScore: number;
 	securityFlags: string[];
@@ -116,9 +115,6 @@ export async function runWpHealthAudit(
 	const projectedScore = computeProjectedScore(mobileScore);
 	const securityFlags = buildSecurityFlags(input.url, tech);
 
-	const estimateMin = 750;
-	const estimateMax = mobileScore < 50 ? 2500 : 1500;
-
 	if (input.email) {
 		const adminEmail = process.env.CONTACT_EMAIL_TO || "mail@webvise.io";
 		const timestamp = new Date().toLocaleString("en-GB", {
@@ -143,8 +139,6 @@ export async function runWpHealthAudit(
 					projectedScore,
 					issues,
 					securityFlags,
-					estimateMin,
-					estimateMax,
 					timestamp,
 				}),
 				text: [
@@ -154,7 +148,7 @@ export async function runWpHealthAudit(
 					`Email: ${input.email}`,
 					input.firstName ? `Name: ${input.firstName}` : null,
 					`Received: ${timestamp}`,
-					`Est. Value: €${estimateMin.toLocaleString()}–€${estimateMax.toLocaleString()}`,
+					"Scope: migration scope review required",
 					"",
 					`Mobile: ${mobileScore}/100`,
 					`Desktop: ${desktopScore}/100`,
@@ -183,8 +177,6 @@ export async function runWpHealthAudit(
 					desktopScore,
 					projectedScore,
 					issues,
-					estimateMin,
-					estimateMax,
 				}),
 				text: [
 					`Hi ${input.firstName || "there"},`,
@@ -200,7 +192,7 @@ export async function runWpHealthAudit(
 						(i) => `- ${i.title}${i.displayValue ? ` (${i.displayValue})` : ""}`
 					),
 					"",
-					`Migration estimate: €${estimateMin.toLocaleString()}–€${estimateMax.toLocaleString()}`,
+					"Scope review: webvise can review your content model, integrations, SEO risk, and support needs before recommending the right rebuild path.",
 					"",
 					"Ready to talk? Book a free call: https://cal.com/webvise",
 					"Or reply to this email with any questions.",
@@ -221,7 +213,6 @@ export async function runWpHealthAudit(
 			vitals,
 			projectedScore,
 			securityFlags,
-			migrationEstimate: { min: estimateMin, max: estimateMax },
 		},
 	};
 }

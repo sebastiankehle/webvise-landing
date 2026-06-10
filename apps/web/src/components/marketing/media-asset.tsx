@@ -2,9 +2,33 @@
 
 import { useTranslations } from "next-intl";
 import { useCallback, useRef } from "react";
+import { marketingSurfaceClassName } from "@/components/marketing/section-wrapper";
+import { Button } from "@/components/ui/button";
 import { Body, Caption } from "@/components/ui/typography";
 
-type Variant = "light" | "dark" | "brand";
+type Variant = "light" | "inverted" | "brand";
+
+const mediaAssetCanvasPalette = {
+	brand: {
+		bg: "#e88730",
+		sub: "rgba(250,248,244,0.8)",
+		text: "#faf8f4",
+	},
+	inverted: {
+		bg: "#15171c",
+		sub: "#a09c95",
+		text: "#f0eee8",
+	},
+	light: {
+		bg: "#fbfaf7",
+		sub: "#706a61",
+		text: "#211f1b",
+	},
+} as const;
+const mediaAssetCanvasFontFamily = '"Inter", sans-serif';
+const mediaAssetCanvasGridLine = "rgba(0,0,0,0.03)";
+const mediaAssetPreviewGridImage =
+	"linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px)";
 
 const variantStyles: Record<
 	Variant,
@@ -21,25 +45,25 @@ const variantStyles: Record<
 		bg: "bg-background",
 		text: "text-foreground",
 		sub: "text-muted-foreground",
-		canvasBg: "#ffffff",
-		canvasText: "#0a0a0a",
-		canvasSub: "#737373",
+		canvasBg: mediaAssetCanvasPalette.light.bg,
+		canvasText: mediaAssetCanvasPalette.light.text,
+		canvasSub: mediaAssetCanvasPalette.light.sub,
 	},
-	dark: {
-		bg: "section-dark",
-		text: "text-[#ededed]",
-		sub: "text-[#919195]",
-		canvasBg: "#0c0c0f",
-		canvasText: "#ededed",
-		canvasSub: "#919195",
+	inverted: {
+		bg: marketingSurfaceClassName("inverted"),
+		text: "text-foreground",
+		sub: "text-muted-foreground",
+		canvasBg: mediaAssetCanvasPalette.inverted.bg,
+		canvasText: mediaAssetCanvasPalette.inverted.text,
+		canvasSub: mediaAssetCanvasPalette.inverted.sub,
 	},
 	brand: {
 		bg: "bg-brand",
-		text: "text-white",
-		sub: "text-white/80",
-		canvasBg: "#e88730",
-		canvasText: "#ffffff",
-		canvasSub: "rgba(255,255,255,0.8)",
+		text: "text-brand-foreground",
+		sub: "text-brand-foreground/80",
+		canvasBg: mediaAssetCanvasPalette.brand.bg,
+		canvasText: mediaAssetCanvasPalette.brand.text,
+		canvasSub: mediaAssetCanvasPalette.brand.sub,
 	},
 };
 
@@ -140,7 +164,7 @@ function drawLogoOnCanvas(
 }
 
 function drawGridPattern(ctx: CanvasRenderingContext2D, w: number, h: number) {
-	ctx.strokeStyle = "rgba(0,0,0,0.03)";
+	ctx.strokeStyle = mediaAssetCanvasGridLine;
 	ctx.lineWidth = 1;
 	const step = 40 * (w / 1584);
 	for (let x = 0; x <= w; x += step) {
@@ -168,14 +192,14 @@ function WebviseLogo({ size = 64 }: { size?: number }) {
 			width={size}
 			xmlns="http://www.w3.org/2000/svg"
 		>
-			<polygon fill="#f97316" opacity="0.9" points="16,2 8,10 16,12" />
-			<polygon fill="#fb923c" opacity="0.85" points="16,2 24,10 16,12" />
-			<polygon fill="#fdba74" opacity="0.8" points="8,10 4,18 16,12" />
-			<polygon fill="#f97316" opacity="0.75" points="24,10 28,18 16,12" />
-			<polygon fill="#fb923c" opacity="0.9" points="16,12 4,18 10,26" />
-			<polygon fill="#fdba74" opacity="0.85" points="16,12 28,18 22,26" />
-			<polygon fill="#f97316" opacity="0.8" points="16,12 10,26 16,30" />
-			<polygon fill="#fb923c" opacity="0.75" points="16,12 22,26 16,30" />
+			{logoPolygons.map(({ fill, opacity, points }) => (
+				<polygon
+					fill={fill}
+					key={points.map(([x, y]) => `${x},${y}`).join(" ")}
+					opacity={opacity}
+					points={points.map(([x, y]) => `${x},${y}`).join(" ")}
+				/>
+			))}
 		</svg>
 	);
 }
@@ -246,13 +270,14 @@ export function LogoAsset({
 				<Caption>
 					{size} x {size}px
 				</Caption>
-				<button
-					className="border border-border bg-background px-3 py-1.5 text-xs transition-colors hover:bg-muted"
+				<Button
 					onClick={handleDownload}
+					size="sm"
 					type="button"
+					variant="outline"
 				>
 					{t("download")}
-				</button>
+				</Button>
 			</div>
 		</div>
 	);
@@ -316,7 +341,7 @@ export function BannerAsset({
 			const subFontSize = Math.round(22 * scaleFactor);
 
 			ctx.fillStyle = style.canvasText;
-			ctx.font = `400 ${mainFontSize}px "Inter", sans-serif`;
+			ctx.font = `400 ${mainFontSize}px ${mediaAssetCanvasFontFamily}`;
 			ctx.fillText(
 				tagline,
 				textRightEdge,
@@ -324,14 +349,14 @@ export function BannerAsset({
 			);
 
 			ctx.fillStyle = style.canvasSub;
-			ctx.font = `300 ${subFontSize}px "Inter", sans-serif`;
+			ctx.font = `300 ${subFontSize}px ${mediaAssetCanvasFontFamily}`;
 			ctx.fillText(
 				subtitle,
 				textRightEdge,
 				height / 2 + Math.round(24 * scaleFactor)
 			);
 
-			ctx.fillStyle = "#e88730";
+			ctx.fillStyle = mediaAssetCanvasPalette.brand.bg;
 			ctx.fillRect(
 				0,
 				height - Math.round(4 * scaleFactor),
@@ -362,8 +387,7 @@ export function BannerAsset({
 				<div
 					className="pointer-events-none absolute inset-0 opacity-[0.03]"
 					style={{
-						backgroundImage:
-							"linear-gradient(rgba(0,0,0,1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,1) 1px, transparent 1px)",
+						backgroundImage: mediaAssetPreviewGridImage,
 						backgroundSize: "40px 40px",
 					}}
 				/>
@@ -371,7 +395,7 @@ export function BannerAsset({
 					<div className="flex items-center gap-6">
 						<div className="text-right">
 							<Body
-								className={`font-normal text-[clamp(12px,2.2vw,32px)] leading-tight tracking-tight ${style.text}`}
+								className={`font-normal text-[clamp(12px,2.2vw,32px)] leading-tight ${style.text}`}
 							>
 								{tagline}
 							</Body>
@@ -393,13 +417,14 @@ export function BannerAsset({
 				<Caption>
 					{width} x {height}px
 				</Caption>
-				<button
-					className="border border-border bg-background px-3 py-1.5 text-xs transition-colors hover:bg-muted"
+				<Button
 					onClick={handleDownload}
+					size="sm"
 					type="button"
+					variant="outline"
 				>
 					{t("download")}
-				</button>
+				</Button>
 			</div>
 		</div>
 	);
@@ -464,14 +489,14 @@ export function WallpaperAsset({
 			const subFontSize = Math.round(24 * scale);
 
 			ctx.fillStyle = style.canvasText;
-			ctx.font = `400 ${mainFontSize}px "Inter", sans-serif`;
+			ctx.font = `400 ${mainFontSize}px ${mediaAssetCanvasFontFamily}`;
 			ctx.fillText(tagline, width / 2, height / 2 + Math.round(30 * scale));
 
 			ctx.fillStyle = style.canvasSub;
-			ctx.font = `300 ${subFontSize}px "Inter", sans-serif`;
+			ctx.font = `300 ${subFontSize}px ${mediaAssetCanvasFontFamily}`;
 			ctx.fillText(subtitle, width / 2, height / 2 + Math.round(70 * scale));
 
-			ctx.fillStyle = "#e88730";
+			ctx.fillStyle = mediaAssetCanvasPalette.brand.bg;
 			ctx.fillRect(0, height - 4, width, 4);
 		},
 		[style, width, height, tagline, subtitle]
@@ -500,8 +525,7 @@ export function WallpaperAsset({
 				<div
 					className="pointer-events-none absolute inset-0 opacity-[0.03]"
 					style={{
-						backgroundImage:
-							"linear-gradient(rgba(0,0,0,1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,1) 1px, transparent 1px)",
+						backgroundImage: mediaAssetPreviewGridImage,
 						backgroundSize: "40px 40px",
 					}}
 				/>
@@ -509,7 +533,7 @@ export function WallpaperAsset({
 					<WebviseLogo size={64} />
 					<div className="text-center">
 						<Body
-							className={`font-normal text-[clamp(12px,2vw,28px)] leading-tight tracking-tight ${style.text}`}
+							className={`font-normal text-[clamp(12px,2vw,28px)] leading-tight ${style.text}`}
 						>
 							{tagline}
 						</Body>
@@ -527,13 +551,14 @@ export function WallpaperAsset({
 				<Caption>
 					{width} x {height}px
 				</Caption>
-				<button
-					className="border border-border bg-background px-3 py-1.5 text-xs transition-colors hover:bg-muted"
+				<Button
 					onClick={handleDownload}
+					size="sm"
 					type="button"
+					variant="outline"
 				>
 					{t("download")}
-				</button>
+				</Button>
 			</div>
 		</div>
 	);
