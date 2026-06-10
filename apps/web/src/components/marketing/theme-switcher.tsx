@@ -30,7 +30,7 @@ const darkThemeOptions = THEME_OPTIONS.filter((option) =>
 );
 const triggerClassNames = {
 	compact:
-		"gap-1.5 border-transparent bg-transparent px-0 text-muted-foreground uppercase hover:bg-transparent hover:text-foreground aria-expanded:bg-transparent",
+		"gap-1.5 border-transparent bg-transparent px-3 text-muted-foreground uppercase hover:bg-transparent hover:text-foreground aria-expanded:bg-transparent",
 	floating:
 		"fixed bottom-6 left-6 z-40 hidden size-12 shadow-lg md:inline-flex",
 	inline: "h-9 gap-2 px-3",
