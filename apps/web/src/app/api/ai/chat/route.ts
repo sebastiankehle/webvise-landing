@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { gateway } from "@ai-sdk/gateway";
 import {
 	createRateLimiter,
@@ -5,7 +6,9 @@ import {
 	rateLimitResponse,
 } from "@webvise-app/api/rate-limit";
 import { convertToModelMessages, streamText, type UIMessage } from "ai";
+import { NextResponse } from "next/server";
 import { getPostHogClient } from "@/lib/posthog-server";
+import { parseChatBody } from "./schema";
 
 export const maxDuration = 60;
 
@@ -103,15 +106,19 @@ export async function POST(req: Request) {
 		return rateLimitResponse(retryAfterSec);
 	}
 
-	const { messages }: { messages: UIMessage[] } = await req.json();
+	const body = await req.json().catch(() => null);
+	const parsed = parseChatBody(body);
+	if (!parsed.ok) {
+		return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+	}
+	const messages = parsed.messages as unknown as UIMessage[];
 
 	const userMessage = messages.findLast((m) => m.role === "user");
 	const posthogClient = getPostHogClient();
 	if (posthogClient) {
 		const distinctId =
 			req.headers.get("X-POSTHOG-DISTINCT-ID") ??
-			getClientIP(req) ??
-			"anonymous";
+			createHash("sha256").update(getClientIP(req)).digest("hex").slice(0, 16);
 		posthogClient.capture({
 			distinctId,
 			event: "ai_chat_requested",
@@ -127,6 +134,8 @@ export async function POST(req: Request) {
 		model: gateway("google/gemini-2.5-flash"),
 		system: SYSTEM_PROMPT,
 		messages: await convertToModelMessages(messages),
+		abortSignal: req.signal,
+		maxOutputTokens: 1024,
 	});
 
 	return result.toUIMessageStreamResponse();
