@@ -70,7 +70,7 @@ export default async function CustomSystems() {
 									);
 								})}
 							</div>
-							<ArrowRight className="absolute top-6 right-6 h-4 w-4 text-brand-icon opacity-100 transition-all md:top-8 md:right-8 md:opacity-0 md:group-hover:translate-x-1 md:group-hover:opacity-100" />
+							<ArrowRight className="absolute top-6 right-6 h-4 w-4 text-brand-icon opacity-100 transition-all md:top-8 md:right-8 md:group-hover:translate-x-1" />
 						</Link>
 					)
 				)}
