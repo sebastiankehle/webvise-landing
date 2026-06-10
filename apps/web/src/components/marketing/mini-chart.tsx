@@ -26,11 +26,50 @@ interface ChartTranslations {
 
 type Metric = "conversion" | "engagement" | "speed";
 
-function buildDatasets(t: ChartTranslations) {
+interface DataPoint {
+	after: number | null;
+	before: number | null;
+	week: string;
+}
+
+interface Dataset {
+	data: DataPoint[];
+	description: string;
+	label: string;
+	unit: string;
+}
+
+function getLastValue(data: DataPoint[], key: "after" | "before") {
+	for (let index = data.length - 1; index >= 0; index -= 1) {
+		const value = data[index]?.[key];
+
+		if (typeof value === "number") {
+			return value;
+		}
+	}
+
+	return null;
+}
+
+function formatLift(data: DataPoint[], unit: string) {
+	const start = getLastValue(data, "before");
+	const end = getLastValue(data, "after");
+
+	if (!(start && end)) {
+		return "";
+	}
+
+	if (unit === "/100") {
+		return `${start} → ${end}`;
+	}
+
+	return `+${Math.round(((end - start) / start) * 100)}%`;
+}
+
+function buildDatasets(t: ChartTranslations): Record<Metric, Dataset> {
 	return {
 		conversion: {
 			label: t.conversionLabel,
-			lift: "+210%",
 			description: t.conversionDescription,
 			unit: "%",
 			data: [
@@ -58,7 +97,6 @@ function buildDatasets(t: ChartTranslations) {
 		},
 		engagement: {
 			label: t.engagementLabel,
-			lift: "+125%",
 			description: t.engagementDescription,
 			unit: "",
 			data: [
@@ -86,7 +124,6 @@ function buildDatasets(t: ChartTranslations) {
 		},
 		speed: {
 			label: t.speedLabel,
-			lift: "57 → 100",
 			description: t.speedDescription,
 			unit: "/100",
 			data: [
@@ -187,6 +224,7 @@ export default function MiniChart({
 	const datasets = buildDatasets(translations);
 	const [active, setActive] = useState<Metric>("conversion");
 	const current = datasets[active];
+	const lift = formatLift(current.data, current.unit);
 
 	return (
 		<div className="surface-card mt-5 overflow-hidden">
@@ -195,7 +233,7 @@ export default function MiniChart({
 					<div className="flex items-center gap-3">
 						<Body className="text-foreground text-sm">{current.label}</Body>
 						<Body className="text-brand-readable text-sm tabular-nums">
-							{current.lift}
+							{lift}
 						</Body>
 					</div>
 					<Caption className="mt-0.5 block">{current.description}</Caption>

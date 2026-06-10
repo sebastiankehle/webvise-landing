@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/typography";
 import { getCaseStudyBySlug } from "@/data/case-studies";
 import { Link } from "@/i18n/navigation";
+import { homepageSectionHref } from "@/lib/homepage-section-href";
 
 const supportKeys = ["monitoring", "improvements", "extensions"];
 
@@ -33,12 +34,12 @@ export default async function Support() {
 				</div>
 				<div className="max-w-[560px] lg:justify-self-end">
 					<Lead>{t("subtitle")}</Lead>
-					<Link
+					<a
 						className={`${inlineLinkClassName} mt-5 inline-flex`}
-						href={{ pathname: "/", hash: "contact" }}
+						href={homepageSectionHref("contact", locale)}
 					>
 						{t("contactLink")}
-					</Link>
+					</a>
 				</div>
 			</div>
 			<div className="mt-14 grid items-start gap-5 lg:grid-cols-[0.95fr_1.05fr] lg:gap-10">

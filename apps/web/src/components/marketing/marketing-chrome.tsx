@@ -1,12 +1,14 @@
 "use client";
 
+import NextLink from "next/link";
+import { useLocale } from "next-intl";
 import type { ComponentProps, ReactNode } from "react";
 import LanguageSwitcher from "@/components/marketing/language-switcher";
 import ThemeSwitcher from "@/components/marketing/theme-switcher";
 import { TrackClick } from "@/components/marketing/track-click";
 import { Button } from "@/components/ui/button";
-import { Link } from "@/i18n/navigation";
 import { CAL_URL } from "@/lib/cal";
+import { homepageSectionHref } from "@/lib/homepage-section-href";
 
 type MarketingNavbarCtaLocation = "navbar" | "navbar_mobile";
 type MarketingNavbarCtaClick = ComponentProps<typeof Button>["onClick"];
@@ -92,6 +94,9 @@ export function MarketingNavbarCta({
 	onClick,
 	size,
 }: MarketingNavbarCtaProps) {
+	const locale = useLocale();
+	const ariaLabel = typeof children === "string" ? children : "Get started";
+
 	return (
 		<TrackClick
 			event="cta_clicked"
@@ -103,7 +108,12 @@ export function MarketingNavbarCta({
 			<Button
 				className={className}
 				onClick={onClick}
-				render={<Link href={{ pathname: "/", hash: "contact" }} />}
+				render={
+					<NextLink
+						aria-label={ariaLabel}
+						href={homepageSectionHref("contact", locale)}
+					/>
+				}
 				size={size}
 				variant="brand"
 			>

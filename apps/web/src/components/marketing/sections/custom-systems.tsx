@@ -1,5 +1,5 @@
 import { ArrowRight } from "lucide-react";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 
 import CardHoverIcon from "@/components/marketing/card-hover-icon";
 import { MarketingTag } from "@/components/marketing/marketing-tag";
@@ -14,11 +14,15 @@ import {
 } from "@/components/ui/typography";
 import { customSystems } from "@/data/systems";
 import { Link } from "@/i18n/navigation";
+import { homepageSectionHref } from "@/lib/homepage-section-href";
 import { cn } from "@/lib/utils";
 
 export default async function CustomSystems() {
-	const t = await getTranslations("customSystems");
-	const th = await getTranslations("hero");
+	const [locale, t, th] = await Promise.all([
+		getLocale(),
+		getTranslations("customSystems"),
+		getTranslations("hero"),
+	]);
 
 	return (
 		<SectionWrapper id="systems" surface="alternate">
@@ -28,12 +32,12 @@ export default async function CustomSystems() {
 				</div>
 				<div className="max-w-[560px] lg:justify-self-end">
 					<Lead>{t("subtitle")}</Lead>
-					<Link
+					<a
 						className={`${inlineLinkClassName} mt-5 inline-flex`}
-						href={{ pathname: "/", hash: "contact" }}
+						href={homepageSectionHref("contact", locale)}
 					>
 						{th("cta")}
-					</Link>
+					</a>
 				</div>
 			</div>
 			<StaggerChildren className="mt-10 grid gap-5 md:mt-16 md:grid-cols-2 lg:grid-cols-6">
@@ -66,7 +70,7 @@ export default async function CustomSystems() {
 									);
 								})}
 							</div>
-							<ArrowRight className="absolute top-6 right-6 h-4 w-4 text-brand-icon opacity-0 transition-all group-hover:translate-x-1 group-hover:opacity-100 md:top-8 md:right-8" />
+							<ArrowRight className="absolute top-6 right-6 h-4 w-4 text-brand-icon opacity-100 transition-all md:top-8 md:right-8 md:opacity-0 md:group-hover:translate-x-1 md:group-hover:opacity-100" />
 						</Link>
 					)
 				)}

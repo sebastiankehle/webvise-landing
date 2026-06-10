@@ -4,8 +4,11 @@ import { usePathname, useRouter } from "next/navigation";
 import { useLocale } from "next-intl";
 import { useEffect } from "react";
 import { routing } from "@/i18n/routing";
+import {
+	homepageSectionHref,
+	normalizeHomepageSectionHash,
+} from "@/lib/homepage-section-href";
 
-const LEADING_HASH_RE = /^#/;
 const TRAILING_SLASHES_RE = /\/+$/;
 
 type RouterPushHref = Parameters<ReturnType<typeof useRouter>["push"]>[0];
@@ -29,16 +32,8 @@ function stripLocale(pathname: string) {
 	return normalized;
 }
 
-function localizedPathname(pathname: string, locale: string) {
-	const barePathname = normalizePathname(pathname);
-	if (locale === routing.defaultLocale) {
-		return barePathname;
-	}
-	return barePathname === "/" ? `/${locale}` : `/${locale}${barePathname}`;
-}
-
 function getHashTarget(hash: string) {
-	const rawId = hash.replace(LEADING_HASH_RE, "");
+	const rawId = normalizeHomepageSectionHash(hash);
 	if (!rawId) {
 		return null;
 	}
@@ -88,6 +83,11 @@ function getClickableAnchor(target: EventTarget | null) {
 	return anchor;
 }
 
+function getCanonicalHash(hash: string) {
+	const sectionHash = normalizeHomepageSectionHash(hash);
+	return sectionHash ? `#${sectionHash}` : "";
+}
+
 function getSameOriginHashUrl(anchor: HTMLAnchorElement) {
 	const rawHref = anchor.getAttribute("href");
 	if (!rawHref) {
@@ -103,19 +103,24 @@ function getSameOriginHashUrl(anchor: HTMLAnchorElement) {
 }
 
 function handleSamePageHash(url: URL) {
+	const hash = getCanonicalHash(url.hash);
+	if (!hash) {
+		return false;
+	}
+
 	const currentPathname = normalizePathname(window.location.pathname);
 	const currentBarePathname = stripLocale(currentPathname);
 	const targetBarePathname = stripLocale(url.pathname);
 
-	if (targetBarePathname !== currentBarePathname || !getHashTarget(url.hash)) {
+	if (targetBarePathname !== currentBarePathname || !getHashTarget(hash)) {
 		return false;
 	}
 
-	const nextUrl = `${window.location.pathname}${window.location.search}${url.hash}`;
-	if (window.location.hash !== url.hash) {
+	const nextUrl = `${window.location.pathname}${window.location.search}${hash}`;
+	if (window.location.hash !== hash) {
 		window.history.pushState(null, "", nextUrl);
 	}
-	scrollToHash(url.hash);
+	scrollToHash(hash);
 	return true;
 }
 
@@ -124,7 +129,13 @@ function getHomepageHashHref(url: URL, locale: string) {
 		return null;
 	}
 
-	return `${localizedPathname("/", locale)}${url.search}${url.hash}`;
+	const href = homepageSectionHref(url.hash, locale);
+	if (!url.search) {
+		return href;
+	}
+
+	const [pathname, hash] = href.split("#");
+	return `${pathname}${url.search}${hash ? `#${hash}` : ""}`;
 }
 
 export default function HashLinkScrollManager() {
@@ -133,9 +144,17 @@ export default function HashLinkScrollManager() {
 	const router = useRouter();
 
 	useEffect(() => {
-		const hash = window.location.hash;
+		const hash = getCanonicalHash(window.location.hash);
 		if (!hash) {
 			return;
+		}
+
+		if (window.location.hash !== hash) {
+			window.history.replaceState(
+				null,
+				"",
+				`${window.location.pathname}${window.location.search}${hash}`
+			);
 		}
 
 		let timeout: number | undefined;

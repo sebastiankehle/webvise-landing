@@ -1,4 +1,5 @@
-import { getTranslations } from "next-intl/server";
+import { ArrowRight } from "lucide-react";
+import { getLocale, getTranslations } from "next-intl/server";
 
 import CardHoverIcon from "@/components/marketing/card-hover-icon";
 import SectionWrapper from "@/components/marketing/section-wrapper";
@@ -13,9 +14,13 @@ import {
 } from "@/components/ui/typography";
 import { services } from "@/data/services";
 import { Link } from "@/i18n/navigation";
+import { homepageSectionHref } from "@/lib/homepage-section-href";
 
 export default async function Services() {
-	const t = await getTranslations("services");
+	const [locale, t] = await Promise.all([
+		getLocale(),
+		getTranslations("services"),
+	]);
 
 	return (
 		<SectionWrapper id="services">
@@ -25,18 +30,18 @@ export default async function Services() {
 				</div>
 				<div className="max-w-[560px] lg:justify-self-end">
 					<Lead>{t("subtitle")}</Lead>
-					<Link
+					<a
 						className={`${inlineLinkClassName} mt-5 inline-flex`}
-						href={{ pathname: "/", hash: "scope" }}
+						href={homepageSectionHref("scope", locale)}
 					>
 						{t("scopeLink")}
-					</Link>
+					</a>
 				</div>
 			</div>
 			<StaggerChildren className="mt-10 grid gap-5 md:mt-16 md:grid-cols-2 lg:grid-cols-3">
 				{services.map((service) => (
 					<Link
-						className="surface-card flex flex-col p-6 outline-none focus-visible:ring-1 focus-visible:ring-ring/50 md:p-7"
+						className="surface-card group relative flex flex-col p-6 outline-none focus-visible:ring-1 focus-visible:ring-ring/50 md:p-7"
 						href={{
 							pathname: "/services/[slug]",
 							params: { slug: service.slug },
@@ -58,6 +63,7 @@ export default async function Services() {
 								{t(`${service.translationKey}.timeline`)}
 							</Caption>
 						</div>
+						<ArrowRight className="absolute top-6 right-6 h-4 w-4 text-brand-icon opacity-100 transition-all md:top-7 md:right-7 md:opacity-0 md:group-hover:translate-x-1 md:group-hover:opacity-100" />
 					</Link>
 				))}
 			</StaggerChildren>

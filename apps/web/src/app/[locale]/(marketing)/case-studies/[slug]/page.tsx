@@ -4,7 +4,6 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 import JsonLd from "@/components/json-ld";
-import AnimatedStat from "@/components/marketing/animated-stat";
 import CaseStudyGallery from "@/components/marketing/case-study-gallery";
 import CaseStudyHeroImage from "@/components/marketing/case-study-hero-image";
 import {
@@ -12,7 +11,6 @@ import {
 	DetailPageSection,
 	GridContainer,
 } from "@/components/marketing/section-wrapper";
-import StaggerChildren from "@/components/marketing/stagger-children";
 import { TechBadge } from "@/components/marketing/tech-badge";
 import {
 	Caption,
@@ -298,29 +296,6 @@ export default async function CaseStudyPage({
 					</div>
 				</GridContainer>
 			</section>
-
-			{/* Metrics */}
-			{cs.metrics && cs.metrics.length > 0 && (
-				<section
-					aria-label={t("projectMetrics")}
-					className="relative py-20 md:py-28"
-				>
-					<ConstructedGrid hatch variant="content" />
-					<GridContainer>
-						<StaggerChildren className="grid grid-cols-2 gap-5 lg:grid-cols-4">
-							{cs.metrics.map((metric) => (
-								<div
-									className="surface-card relative p-6 md:p-7"
-									key={metric.label}
-								>
-									<AnimatedStat value={metric.value} />
-									<Small className="mt-3 block">{metric.label}</Small>
-								</div>
-							))}
-						</StaggerChildren>
-					</GridContainer>
-				</section>
-			)}
 
 			{/* Image gallery */}
 			{cs.images && cs.images.length > 0 && (

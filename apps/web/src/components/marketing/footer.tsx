@@ -1,4 +1,4 @@
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import type { ReactNode } from "react";
 
 import Logo from "@/components/logo";
@@ -11,12 +11,16 @@ import { Caption, Label, Muted, Small } from "@/components/ui/typography";
 import { services } from "@/data/services";
 import { socials } from "@/data/socials";
 import { Link } from "@/i18n/navigation";
+import { homepageSectionHref } from "@/lib/homepage-section-href";
 
 export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
-	const t = await getTranslations("footer");
-	const tb = await getTranslations("blog.newsletter");
-	const ts = await getTranslations("services");
-	const tw = await getTranslations("wpHealthReport.cta");
+	const [locale, t, tb, ts, tw] = await Promise.all([
+		getLocale(),
+		getTranslations("footer"),
+		getTranslations("blog.newsletter"),
+		getTranslations("services"),
+		getTranslations("wpHealthReport.cta"),
+	]);
 
 	const companyLinks = [
 		{ hash: "services", label: t("links.services") },
@@ -72,12 +76,12 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 							<ul className="space-y-3">
 								{companyLinks.map(({ hash, label }) => (
 									<li key={hash}>
-										<Link
+										<a
 											className="text-muted-foreground text-sm transition-colors hover:text-foreground"
-											href={{ pathname: "/", hash }}
+											href={homepageSectionHref(hash, locale)}
 										>
 											{label}
-										</Link>
+										</a>
 									</li>
 								))}
 							</ul>
