@@ -5,6 +5,7 @@ import { DefaultChatTransport } from "ai";
 import { MessageCircle, Send, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useTranslations } from "next-intl";
+import posthog from "posthog-js";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { Streamdown } from "streamdown";
 
@@ -52,7 +53,18 @@ export default function ChatWidget() {
 	const isMobile = useIsMobile();
 
 	const { messages, sendMessage, status } = useChat({
-		transport: new DefaultChatTransport({ api: "/api/ai/chat" }),
+		transport: new DefaultChatTransport({
+			api: "/api/ai/chat",
+			headers: (): Record<string, string> => {
+				if (
+					(posthog as { __loaded?: boolean }).__loaded &&
+					!posthog.has_opted_out_capturing()
+				) {
+					return { "X-POSTHOG-DISTINCT-ID": posthog.get_distinct_id() };
+				}
+				return {};
+			},
+		}),
 	});
 
 	const isStreaming = status === "streaming";
