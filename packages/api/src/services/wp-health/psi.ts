@@ -1,4 +1,11 @@
-export type PSIErrorCode = "rate_limited" | "bad_url" | "key_issue" | "unknown";
+import { env } from "@webvise-app/env/server";
+
+export type PSIErrorCode =
+	| "rate_limited"
+	| "bad_url"
+	| "key_issue"
+	| "timeout"
+	| "unknown";
 
 export class PSIError extends Error {
 	code: PSIErrorCode;
@@ -35,7 +42,7 @@ export async function runPageSpeedInsights(
 	url: string,
 	strategy: "mobile" | "desktop"
 ): Promise<PSIResult> {
-	const apiKey = process.env.GOOGLE_PAGESPEED_API_KEY;
+	const apiKey = env.GOOGLE_PAGESPEED_API_KEY;
 	const params = new URLSearchParams({
 		url,
 		strategy,
@@ -45,9 +52,21 @@ export async function runPageSpeedInsights(
 		params.set("key", apiKey);
 	}
 
-	const res = await fetch(
-		`https://www.googleapis.com/pagespeedonline/v5/runPagespeed?${params}`
-	);
+	let res: Response;
+	try {
+		res = await fetch(
+			`https://www.googleapis.com/pagespeedonline/v5/runPagespeed?${params}`,
+			{ signal: AbortSignal.timeout(20_000) }
+		);
+	} catch (err) {
+		if (
+			err instanceof DOMException &&
+			(err.name === "TimeoutError" || err.name === "AbortError")
+		) {
+			throw new PSIError("timeout", "PageSpeed API timed out after 20 seconds");
+		}
+		throw err;
+	}
 	if (!res.ok) {
 		const text = await res.text();
 		const message = `PageSpeed API error ${res.status}: ${text}`;
