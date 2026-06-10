@@ -44,7 +44,6 @@ webvise-app/
 └── packages/
     ├── api/            # tRPC routers
     ├── auth/           # Better-Auth config
-    ├── config/         # Shared tooling config
     ├── db/             # Drizzle schema and migrations
     └── env/            # Typed environment variables
 ```
