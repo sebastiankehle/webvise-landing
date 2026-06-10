@@ -33,7 +33,7 @@ export const services: Service[] = [
 		faqCount: 4,
 		proof: {
 			caseStudySlug: "old-world-labs",
-			image: "/images/case-studies/old-world-labs/hero.png",
+			image: "/images/case-studies/old-world-labs/hero.webp",
 		},
 	},
 	{
@@ -47,7 +47,7 @@ export const services: Service[] = [
 		faqCount: 5,
 		proof: {
 			caseStudySlug: "mp-bau-construction",
-			image: "/images/case-studies/mp-bau-construction/hero.png",
+			image: "/images/case-studies/mp-bau-construction/hero.webp",
 		},
 	},
 	{
@@ -61,7 +61,7 @@ export const services: Service[] = [
 		faqCount: 4,
 		proof: {
 			caseStudySlug: "morrow",
-			image: "/images/case-studies/morrow/agent-safe-answer.png",
+			image: "/images/case-studies/morrow/agent-safe-answer.webp",
 		},
 	},
 	{
@@ -75,7 +75,7 @@ export const services: Service[] = [
 		faqCount: 4,
 		proof: {
 			caseStudySlug: "relay",
-			image: "/images/case-studies/relay/workflow-library.png",
+			image: "/images/case-studies/relay/workflow-library.webp",
 		},
 	},
 	{
@@ -89,7 +89,7 @@ export const services: Service[] = [
 		faqCount: 4,
 		proof: {
 			caseStudySlug: "rautenberg-pitch-engine",
-			image: "/images/case-studies/rautenberg-pitch-engine/docx-output.png",
+			image: "/images/case-studies/rautenberg-pitch-engine/docx-output.webp",
 		},
 	},
 	{
@@ -103,7 +103,7 @@ export const services: Service[] = [
 		faqCount: 4,
 		proof: {
 			caseStudySlug: "keel",
-			image: "/images/case-studies/keel/one-endpoint.png",
+			image: "/images/case-studies/keel/one-endpoint.webp",
 		},
 	},
 ];

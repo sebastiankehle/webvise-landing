@@ -27,7 +27,7 @@ const surfaceFrames: ReadonlyArray<{
 	{
 		slug: "relay",
 		captionKey: "relayMargin",
-		src: "/images/case-studies/relay/margin-dashboard.png",
+		src: "/images/case-studies/relay/margin-dashboard.webp",
 		className: "md:col-span-7 md:row-span-2",
 		imageClassName: "object-left-top",
 		featured: true,
@@ -35,7 +35,7 @@ const surfaceFrames: ReadonlyArray<{
 	{
 		slug: "keel",
 		captionKey: "keelContract",
-		src: "/images/case-studies/keel/typed-tool-contract.png",
+		src: "/images/case-studies/keel/typed-tool-contract.webp",
 		className: "md:col-span-5",
 		imageClassName: "object-left-top",
 		featured: false,
@@ -43,7 +43,7 @@ const surfaceFrames: ReadonlyArray<{
 	{
 		slug: "morrow",
 		captionKey: "morrowMemory",
-		src: "/images/case-studies/morrow/memory-health-dashboard.png",
+		src: "/images/case-studies/morrow/memory-health-dashboard.webp",
 		className: "md:col-span-5",
 		imageClassName: "object-left-top",
 		featured: false,
@@ -51,7 +51,7 @@ const surfaceFrames: ReadonlyArray<{
 	{
 		slug: "rautenberg-pitch-engine",
 		captionKey: "pitchPipeline",
-		src: "/images/case-studies/rautenberg-pitch-engine/pipeline.png",
+		src: "/images/case-studies/rautenberg-pitch-engine/pipeline.webp",
 		className: "md:col-span-4",
 		imageClassName: "object-left-top",
 		featured: false,
@@ -59,7 +59,7 @@ const surfaceFrames: ReadonlyArray<{
 	{
 		slug: "ohyp-fintech",
 		captionKey: "ohypAdmin",
-		src: "/images/case-studies/ohyp-fintech/admin-dashboard.png",
+		src: "/images/case-studies/ohyp-fintech/admin-dashboard.webp",
 		className: "md:col-span-4",
 		imageClassName: "object-left-top",
 		featured: false,
@@ -67,7 +67,7 @@ const surfaceFrames: ReadonlyArray<{
 	{
 		slug: "mp-bau-construction",
 		captionKey: "mpbauChatbot",
-		src: "/images/case-studies/mp-bau-construction/chatbot.png",
+		src: "/images/case-studies/mp-bau-construction/chatbot.webp",
 		className: "md:col-span-4",
 		imageClassName: "object-right-bottom",
 		featured: false,

@@ -73,7 +73,7 @@ export default async function WpHealthCta() {
 								className="object-cover object-left-top"
 								fill
 								sizes="(min-width: 1024px) 48vw, 100vw"
-								src="/images/case-studies/webvise/wp-health-report-v3.png"
+								src="/images/case-studies/webvise/wp-health-report-v3.webp"
 							/>
 						</div>
 					</div>
