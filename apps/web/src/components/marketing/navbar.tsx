@@ -28,6 +28,7 @@ import { services } from "@/data/services";
 import { socials } from "@/data/socials";
 import { customSystems } from "@/data/systems";
 import { Link, usePathname } from "@/i18n/navigation";
+import { homepageSectionHref } from "@/lib/homepage-section-href";
 import { cn } from "@/lib/utils";
 
 export interface NavbarPost {
@@ -92,23 +93,36 @@ function DesktopMegaShell({
 function DesktopMegaFooterLink({
 	href,
 	label,
+	nativeHref,
 	onClick,
 }: {
-	href: LocalizedLinkHref;
+	href?: LocalizedLinkHref;
 	label: string;
+	nativeHref?: string;
 	onClick?: LocalizedLinkOnClick;
 }) {
-	return (
-		<Link
-			className={cn(
-				desktopMegaLinkClass,
-				"flex items-center justify-between bg-muted/10 px-5 py-4"
-			)}
-			href={href}
-			onClick={onClick}
-		>
+	const className = cn(
+		desktopMegaLinkClass,
+		"flex items-center justify-between bg-muted/10 px-5 py-4"
+	);
+	const content = (
+		<>
 			<Caption className="text-brand-readable">{label}</Caption>
 			<ArrowRight className="h-3 w-3 text-brand-readable transition-transform group-hover:translate-x-0.5" />
+		</>
+	);
+
+	if (nativeHref) {
+		return (
+			<a className={className} href={nativeHref} onClick={onClick}>
+				{content}
+			</a>
+		);
+	}
+
+	return (
+		<Link className={className} href={href ?? "/"} onClick={onClick}>
+			{content}
 		</Link>
 	);
 }
@@ -161,6 +175,7 @@ function DesktopMegaTextLink({
 	eyebrow,
 	footer,
 	href,
+	nativeHref,
 	onClick,
 	title,
 }: {
@@ -168,20 +183,18 @@ function DesktopMegaTextLink({
 	description?: ReactNode;
 	eyebrow?: ReactNode;
 	footer: ReactNode;
-	href: LocalizedLinkHref;
+	href?: LocalizedLinkHref;
+	nativeHref?: string;
 	onClick?: LocalizedLinkOnClick;
 	title: ReactNode;
 }) {
-	return (
-		<Link
-			className={cn(
-				desktopMegaLinkClass,
-				"flex min-h-40 flex-col justify-between p-4",
-				className
-			)}
-			href={href}
-			onClick={onClick}
-		>
+	const mergedClassName = cn(
+		desktopMegaLinkClass,
+		"flex min-h-40 flex-col justify-between p-4",
+		className
+	);
+	const content = (
+		<>
 			<div>
 				{eyebrow && <Caption>{eyebrow}</Caption>}
 				<Body className="mt-1.5 text-sm leading-snug transition-colors group-hover:text-brand-readable">
@@ -197,6 +210,20 @@ function DesktopMegaTextLink({
 				<Caption className="block text-brand-readable">{footer}</Caption>
 				<ArrowRight className="h-3 w-3 shrink-0 text-brand-readable opacity-0 transition-all group-hover:translate-x-0.5 group-hover:opacity-100" />
 			</div>
+		</>
+	);
+
+	if (nativeHref) {
+		return (
+			<a className={mergedClassName} href={nativeHref} onClick={onClick}>
+				{content}
+			</a>
+		);
+	}
+
+	return (
+		<Link className={mergedClassName} href={href ?? "/"} onClick={onClick}>
+			{content}
 		</Link>
 	);
 }
@@ -536,6 +563,7 @@ export default function Navbar({
 		{ hash: "scope", label: t("pricing") },
 		{ hash: "blog", label: t("blog") },
 	];
+	const getSectionHref = (hash: string) => homepageSectionHref(hash, locale);
 	const desktopDropdownWidthClass = "max-w-[1040px]";
 
 	return (
@@ -575,7 +603,7 @@ export default function Navbar({
 						className="hidden h-full items-center gap-1 md:flex"
 					>
 						{navLinks.map(({ hash, label }) => (
-							<Link
+							<a
 								aria-expanded={activeDropdown === hash}
 								aria-haspopup={dropdownHashes.has(hash) ? "menu" : undefined}
 								className={`relative inline-flex h-full items-center border border-transparent px-4 text-sm outline-none transition-colors hover:text-foreground focus-visible:bg-muted/40 focus-visible:text-foreground ${
@@ -583,7 +611,7 @@ export default function Navbar({
 										? "text-foreground"
 										: "text-muted-foreground"
 								}`}
-								href={{ pathname: "/", hash }}
+								href={getSectionHref(hash)}
 								key={hash}
 								onClick={(e) => handleNavClick(e, hash)}
 								onFocus={() => dropdownHashes.has(hash) && open(hash)}
@@ -594,7 +622,7 @@ export default function Navbar({
 								{activeDropdown === hash && (
 									<span className="absolute right-4 bottom-0 left-4 h-px bg-brand" />
 								)}
-							</Link>
+							</a>
 						))}
 					</nav>
 
@@ -651,8 +679,8 @@ export default function Navbar({
 							eyebrow={t("systems")}
 							footer={
 								<DesktopMegaFooterLink
-									href={{ pathname: "/", hash: "systems" }}
 									label={tc("detailLink")}
+									nativeHref={getSectionHref("systems")}
 									onClick={(e) => handleNavClick(e, "systems")}
 								/>
 							}
@@ -689,8 +717,8 @@ export default function Navbar({
 							eyebrow={t("services")}
 							footer={
 								<DesktopMegaFooterLink
-									href={{ pathname: "/", hash: "services" }}
 									label={ts("viewAll")}
+									nativeHref={getSectionHref("services")}
 									onClick={(e) => handleNavClick(e, "services")}
 								/>
 							}
@@ -797,8 +825,8 @@ export default function Navbar({
 							eyebrow={t("pricing")}
 							footer={
 								<DesktopMegaFooterLink
-									href={{ pathname: "/", hash: "scope" }}
 									label={tpr("secondaryCta")}
+									nativeHref={getSectionHref("scope")}
 									onClick={(e) => handleNavClick(e, "scope")}
 								/>
 							}
@@ -812,8 +840,8 @@ export default function Navbar({
 										)}
 										description={tpr(`tiers.${key}.description`)}
 										footer={tpr(`tiers.${key}.scope`)}
-										href={{ pathname: "/", hash: "scope" }}
 										key={key}
+										nativeHref={getSectionHref("scope")}
 										onClick={(e) => handleNavClick(e, "scope")}
 										title={tpr(`tiers.${key}.name`)}
 									/>
@@ -893,16 +921,16 @@ export default function Navbar({
 					>
 						<div className="flex flex-col">
 							{navLinks.map(({ hash, label }) => (
-								<Link
+								<a
 									className="-mx-1 flex items-center border border-transparent px-1 py-4 outline-none transition-colors focus-visible:border-brand/40 focus-visible:ring-1 focus-visible:ring-brand/20"
-									href={{ pathname: "/", hash }}
+									href={getSectionHref(hash)}
 									key={hash}
 									onClick={(e) => handleNavClick(e, hash)}
 								>
 									<Label className="font-display text-foreground text-lg">
 										{label}
 									</Label>
-								</Link>
+								</a>
 							))}
 						</div>
 

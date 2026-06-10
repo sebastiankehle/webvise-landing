@@ -1,4 +1,5 @@
-import { getTranslations } from "next-intl/server";
+import NextLink from "next/link";
+import { getLocale, getTranslations } from "next-intl/server";
 
 import HeroContent from "@/components/marketing/hero-content";
 import IconCloud from "@/components/marketing/icon-cloud";
@@ -9,10 +10,10 @@ import {
 import { TrackClick } from "@/components/marketing/track-click";
 import { Button } from "@/components/ui/button";
 import { Display, Lead } from "@/components/ui/typography";
-import { Link } from "@/i18n/navigation";
+import { homepageSectionHref } from "@/lib/homepage-section-href";
 
 export default async function Hero() {
-	const t = await getTranslations("hero");
+	const [locale, t] = await Promise.all([getLocale(), getTranslations("hero")]);
 
 	return (
 		<section className="relative overflow-hidden py-48 md:py-36" id="hero">
@@ -55,7 +56,12 @@ export default async function Hero() {
 								>
 									<Button
 										className="px-8"
-										render={<Link href={{ pathname: "/", hash: "contact" }} />}
+										render={
+											<NextLink
+												aria-label={t("cta")}
+												href={homepageSectionHref("contact", locale)}
+											/>
+										}
 										size="lg"
 										variant="brand"
 									>
@@ -72,7 +78,12 @@ export default async function Hero() {
 								>
 									<Button
 										className="hidden text-muted-foreground sm:inline-flex"
-										render={<Link href={{ pathname: "/", hash: "systems" }} />}
+										render={
+											<NextLink
+												aria-label={t("ctaSecondary")}
+												href={homepageSectionHref("systems", locale)}
+											/>
+										}
 										size="lg"
 										variant="ghost"
 									>

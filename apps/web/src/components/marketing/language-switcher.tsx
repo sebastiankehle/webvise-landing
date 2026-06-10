@@ -13,6 +13,7 @@ import {
 import { Mono } from "@/components/ui/typography";
 import { getPathname, usePathname } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
+import { normalizeHomepageSectionHash } from "@/lib/homepage-section-href";
 
 const localeLabels: Record<string, string> = {
 	en: "English",
@@ -43,7 +44,9 @@ export default function LanguageSwitcher({ id }: { id?: string }) {
 			locale: nextLocale,
 			href: href as Parameters<typeof getPathname>[0]["href"],
 		});
-		const newUrl = `${newPath}${window.location.search}${window.location.hash}`;
+		const sectionHash = normalizeHomepageSectionHash(window.location.hash);
+		const hash = sectionHash ? `#${sectionHash}` : "";
+		const newUrl = `${newPath}${window.location.search}${hash}`;
 
 		// biome-ignore lint/suspicious/noDocumentCookie: Cookie Store API not supported in all browsers yet
 		document.cookie = `NEXT_LOCALE=${nextLocale};path=/;max-age=31536000;SameSite=Lax`;

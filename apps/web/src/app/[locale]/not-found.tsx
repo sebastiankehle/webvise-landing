@@ -1,11 +1,16 @@
-import { getTranslations } from "next-intl/server";
+import NextLink from "next/link";
+import { getLocale, getTranslations } from "next-intl/server";
 
 import { Button } from "@/components/ui/button";
 import { H1, Lead, Mono } from "@/components/ui/typography";
 import { Link } from "@/i18n/navigation";
+import { homepageSectionHref } from "@/lib/homepage-section-href";
 
 export default async function NotFound() {
-	const t = await getTranslations("notFound");
+	const [locale, t] = await Promise.all([
+		getLocale(),
+		getTranslations("notFound"),
+	]);
 
 	return (
 		<div className="flex min-h-screen flex-col items-center justify-center px-6">
@@ -18,7 +23,12 @@ export default async function NotFound() {
 				</Button>
 				<Button
 					className=""
-					render={<Link href={{ pathname: "/", hash: "contact" }} />}
+					render={
+						<NextLink
+							aria-label={t("contact")}
+							href={homepageSectionHref("contact", locale)}
+						/>
+					}
 					variant="outline"
 				>
 					{t("contact")}

@@ -27,6 +27,7 @@ import {
 	getBlogPosts,
 } from "@/data/blog";
 import { Link } from "@/i18n/navigation";
+import { homepageSectionHref } from "@/lib/homepage-section-href";
 import { generateAlternates, localizedUrl } from "@/lib/seo";
 
 const BOLD_RE = /^\*\*(.*?)\*\*$/;
@@ -82,7 +83,7 @@ export async function generateMetadata({
 	};
 }
 
-function renderInline(text: string) {
+function renderInline(text: string, locale: string) {
 	const tokens = text.split(/(\*\*.*?\*\*|\[.*?\]\(.*?\))/g);
 	const seen = new Map<string, number>();
 	return tokens.map((token) => {
@@ -93,7 +94,7 @@ function renderInline(text: string) {
 		if (boldMatch) {
 			const innerLink = boldMatch[1].match(LINK_RE);
 			if (innerLink) {
-				return renderLink(innerLink[2], innerLink[1], key);
+				return renderLink(innerLink[2], innerLink[1], key, locale);
 			}
 			return (
 				<strong className="font-medium text-foreground" key={key}>
@@ -103,13 +104,13 @@ function renderInline(text: string) {
 		}
 		const linkMatch = token.match(LINK_RE);
 		if (linkMatch) {
-			return renderLink(linkMatch[2], linkMatch[1], key);
+			return renderLink(linkMatch[2], linkMatch[1], key, locale);
 		}
 		return token;
 	});
 }
 
-function renderLink(href: string, label: string, key: string) {
+function renderLink(href: string, label: string, key: string, locale: string) {
 	if (href.startsWith("http")) {
 		return (
 			<a
@@ -127,13 +128,13 @@ function renderLink(href: string, label: string, key: string) {
 	const homepageHashMatch = href.match(HOMEPAGE_HASH_LINK_RE);
 	if (homepageHashMatch) {
 		return (
-			<Link
+			<a
 				className={inlineLinkClassName}
-				href={{ pathname: "/", hash: homepageHashMatch[1] }}
+				href={homepageSectionHref(homepageHashMatch[1], locale)}
 				key={key}
 			>
 				{label}
-			</Link>
+			</a>
 		);
 	}
 
@@ -170,7 +171,7 @@ function getBlockKeys(blocks: Block[]) {
 	});
 }
 
-function RenderBlock({ block }: { block: Block }) {
+function RenderBlock({ block, locale }: { block: Block; locale: string }) {
 	switch (block.type) {
 		case "h2":
 			return (
@@ -183,7 +184,7 @@ function RenderBlock({ block }: { block: Block }) {
 		case "p":
 			return (
 				<Muted className="mb-5 text-base leading-7 last:mb-0">
-					{renderInline(block.text)}
+					{renderInline(block.text, locale)}
 				</Muted>
 			);
 		case "ul":
@@ -193,7 +194,7 @@ function RenderBlock({ block }: { block: Block }) {
 						<li className="flex gap-3" key={item}>
 							<span className="mt-1.5 h-1.5 w-1.5 shrink-0 bg-brand" />
 							<Muted className="text-base text-foreground leading-7">
-								{renderInline(item)}
+								{renderInline(item, locale)}
 							</Muted>
 						</li>
 					))}
@@ -226,7 +227,7 @@ function RenderBlock({ block }: { block: Block }) {
 											className="px-4 py-3 text-muted-foreground"
 											key={`${block.headers[ci] ?? ci}:${cell}`}
 										>
-											{renderInline(cell)}
+											{renderInline(cell, locale)}
 										</td>
 									))}
 								</tr>
@@ -363,7 +364,7 @@ export default async function BlogPostPage({
 					{(() => {
 						const keys = getBlockKeys(post.blocks);
 						return post.blocks.map((block, idx) => (
-							<RenderBlock block={block} key={keys[idx]} />
+							<RenderBlock block={block} key={keys[idx]} locale={locale} />
 						));
 					})()}
 

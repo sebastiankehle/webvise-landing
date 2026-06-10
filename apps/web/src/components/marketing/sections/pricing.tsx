@@ -1,4 +1,5 @@
-import { getTranslations } from "next-intl/server";
+import NextLink from "next/link";
+import { getLocale, getTranslations } from "next-intl/server";
 
 import { MarketingTag } from "@/components/marketing/marketing-tag";
 import SectionWrapper from "@/components/marketing/section-wrapper";
@@ -6,7 +7,7 @@ import StaggerChildren from "@/components/marketing/stagger-children";
 import { TrackClick } from "@/components/marketing/track-click";
 import { Button } from "@/components/ui/button";
 import { Caption, H2, H3, Lead, Muted } from "@/components/ui/typography";
-import { Link } from "@/i18n/navigation";
+import { homepageSectionHref } from "@/lib/homepage-section-href";
 
 const tiers = [
 	{ key: "focused", featureCount: 4, featured: false },
@@ -15,7 +16,10 @@ const tiers = [
 ];
 
 export default async function Pricing() {
-	const t = await getTranslations("pricing");
+	const [locale, t] = await Promise.all([
+		getLocale(),
+		getTranslations("pricing"),
+	]);
 
 	return (
 		<SectionWrapper id="scope" surface="alternate">
@@ -71,7 +75,12 @@ export default async function Pricing() {
 				>
 					<Button
 						className="shrink-0"
-						render={<Link href={{ pathname: "/", hash: "contact" }} />}
+						render={
+							<NextLink
+								aria-label={t("cta")}
+								href={homepageSectionHref("contact", locale)}
+							/>
+						}
 						size="lg"
 						variant="brand"
 					>

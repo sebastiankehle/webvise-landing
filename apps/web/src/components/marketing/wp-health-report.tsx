@@ -1,7 +1,8 @@
 "use client";
 
 import { useForm } from "@tanstack/react-form";
-import { useTranslations } from "next-intl";
+import NextLink from "next/link";
+import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 import z from "zod";
 
@@ -22,8 +23,8 @@ import {
 	Lead,
 	Muted,
 } from "@/components/ui/typography";
-import { Link } from "@/i18n/navigation";
 import { CAL_URL } from "@/lib/cal";
+import { homepageSectionHref } from "@/lib/homepage-section-href";
 import { track } from "@/lib/track";
 import { cn } from "@/lib/utils";
 import { trpcClient } from "@/utils/trpc";
@@ -122,6 +123,7 @@ function ScoreRing({
 }
 
 function ReportResults({ data }: { data: ReportData }) {
+	const locale = useLocale();
 	const t = useTranslations("wpHealthReport");
 
 	return (
@@ -249,7 +251,12 @@ function ReportResults({ data }: { data: ReportData }) {
 								variant: "contact",
 							})
 						}
-						render={<Link href={{ pathname: "/", hash: "contact" }} />}
+						render={
+							<NextLink
+								aria-label={t("results.getInTouch")}
+								href={homepageSectionHref("contact", locale)}
+							/>
+						}
 						variant="outline"
 					>
 						{t("results.getInTouch")}

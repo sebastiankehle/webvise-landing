@@ -1,13 +1,17 @@
-import { getTranslations } from "next-intl/server";
+import NextLink from "next/link";
+import { getLocale, getTranslations } from "next-intl/server";
 
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import { TrackClick } from "@/components/marketing/track-click";
 import { Button } from "@/components/ui/button";
 import { H2, Muted } from "@/components/ui/typography";
-import { Link } from "@/i18n/navigation";
+import { homepageSectionHref } from "@/lib/homepage-section-href";
 
 export default async function MidCta() {
-	const t = await getTranslations("midCta");
+	const [locale, t] = await Promise.all([
+		getLocale(),
+		getTranslations("midCta"),
+	]);
 
 	return (
 		<SectionWrapper
@@ -37,7 +41,12 @@ export default async function MidCta() {
 				>
 					<Button
 						className="shrink-0 px-8"
-						render={<Link href={{ pathname: "/", hash: "contact" }} />}
+						render={
+							<NextLink
+								aria-label={t("cta")}
+								href={homepageSectionHref("contact", locale)}
+							/>
+						}
 						size="lg"
 						variant="brand"
 					>

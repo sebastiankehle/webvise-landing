@@ -1,6 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
+import NextLink from "next/link";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 
@@ -34,6 +35,7 @@ import {
 	getCustomSystemNumber,
 } from "@/data/systems";
 import { Link } from "@/i18n/navigation";
+import { homepageSectionHref } from "@/lib/homepage-section-href";
 import { generateAlternates, localizedUrl } from "@/lib/seo";
 
 export function generateStaticParams() {
@@ -373,7 +375,12 @@ export default async function SystemPage({
 					>
 						<Button
 							className="mt-8"
-							render={<Link href={{ pathname: "/", hash: "contact" }} />}
+							render={
+								<NextLink
+									aria-label={td("ctaButton")}
+									href={homepageSectionHref("contact", locale)}
+								/>
+							}
 							variant="brand"
 						>
 							{td("ctaButton")}
