@@ -1,4 +1,3 @@
-import { createHash } from "node:crypto";
 import { gateway } from "@ai-sdk/gateway";
 import {
 	createRateLimiter,
@@ -114,11 +113,9 @@ export async function POST(req: Request) {
 	const messages = parsed.messages as unknown as UIMessage[];
 
 	const userMessage = messages.findLast((m) => m.role === "user");
-	const posthogClient = getPostHogClient();
-	if (posthogClient) {
-		const distinctId =
-			req.headers.get("X-POSTHOG-DISTINCT-ID") ??
-			createHash("sha256").update(getClientIP(req)).digest("hex").slice(0, 16);
+	const distinctId = req.headers.get("X-POSTHOG-DISTINCT-ID");
+	const posthogClient = distinctId ? getPostHogClient() : null;
+	if (posthogClient && distinctId) {
 		posthogClient.capture({
 			distinctId,
 			event: "ai_chat_requested",
