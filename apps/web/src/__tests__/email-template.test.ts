@@ -8,7 +8,14 @@ import {
 	tableRow,
 	unsubscribeUrl,
 } from "@webvise-app/api/email/template";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+
+vi.mock("@webvise-app/env/server", () => ({
+	env: { BETTER_AUTH_SECRET: "test-secret-that-is-at-least-32-chars!!" },
+}));
+
+const UNSUBSCRIBE_TOKEN_RE = /\/api\/unsubscribe\?token=.+\..+\..+/;
+const THREE_SEGMENT_TOKEN_RE = /^.+\..+\..+$/;
 
 describe("escapeHtml", () => {
 	it("escapes the standard 5 entities", () => {
@@ -67,7 +74,7 @@ describe("emailLayout", () => {
 			unsubscribeEmail: "u@x",
 		});
 		expect(withUnsub).toContain("UNSUBSCRIBE");
-		expect(withUnsub).toContain("/api/unsubscribe?token=");
+		expect(withUnsub).toMatch(UNSUBSCRIBE_TOKEN_RE);
 	});
 
 	it("includes the optional footer when provided", () => {
@@ -86,15 +93,14 @@ describe("tableRow", () => {
 });
 
 describe("unsubscribeUrl", () => {
-	it("base64url-encodes the email into the token query param", () => {
+	it("produces a signed token with three dot-separated segments", () => {
 		const url = unsubscribeUrl("user@example.com");
 		const parsed = new URL(url);
 		expect(parsed.host).toBe("webvise.io");
 		expect(parsed.pathname).toBe("/api/unsubscribe");
 		const token = parsed.searchParams.get("token");
 		expect(token).toBeTruthy();
-		const decoded = Buffer.from(token ?? "", "base64url").toString("utf-8");
-		expect(decoded).toBe("user@example.com");
+		expect(token).toMatch(THREE_SEGMENT_TOKEN_RE);
 	});
 });
 

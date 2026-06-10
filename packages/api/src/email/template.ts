@@ -1,3 +1,5 @@
+import { createUnsubscribeToken } from "./unsubscribe-token";
+
 const ESCAPE_MAP: Record<string, string> = {
 	"&": "&amp;",
 	"<": "&lt;",
@@ -36,8 +38,7 @@ const font = "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
 const mono = "'Geist Mono', ui-monospace, SFMono-Regular, monospace";
 
 export function unsubscribeUrl(email: string): string {
-	const token = Buffer.from(email, "utf-8").toString("base64url");
-	return `https://webvise.io/api/unsubscribe?token=${token}`;
+	return `https://webvise.io/api/unsubscribe?token=${createUnsubscribeToken(email)}`;
 }
 
 export function emailLayout(opts: {
