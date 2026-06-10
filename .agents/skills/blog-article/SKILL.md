@@ -384,7 +384,7 @@ Every article opens with this sequence:
 
 8. **Self-check (slop smell).** Walk the checklist below **item by item**, explicitly ticking each box. Do not collapse the walk into a single "all good" assertion — the quality score does not substitute for this gate. If any answer is "no," fix the draft and re-walk before continuing.
 9. **Add tags.** Pick 2-4, most relevant first.
-10. **Create translations.** Generate the 6 locale files in parallel using executor agents. Enforce the no-generic-fication rule in each agent prompt. Translate the selected title and meta description, not all options.
+10. **Create translations.** Run the standalone playbook at `.claude/skills/blog-article/translate.md` (orchestrator procedure + per-executor prompt template live there). Translate the selected title and meta description, not all options.
 11. **No-genericification audit (translations).** Build a list of first-party anchors from the English draft (public named entities, numeric claims, dates, framework names, anonymized client descriptors). Run the audit script below across all 6 translations. Every anchor must survive, either verbatim or as a defensible localization (e.g. `$1T` → `1 000 milliards $`, `$50K` → `50 000 €` or `50 tys. zł`). Flag and fix any translation where an anchor was softened to a generic ("large numbers", "a leading CRO expert", "thousands of brands"). Do **not** declare done until this audit reports clean.
 
     ```bash
