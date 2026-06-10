@@ -50,7 +50,7 @@ export const newsletterRouter = router({
 				});
 			}
 
-			await sendEmail({
+			const emailResult = await sendEmail({
 				label: "newsletter-welcome",
 				from: "webvise <hello@webvise.io>",
 				to: input.email,
@@ -73,6 +73,13 @@ export const newsletterRouter = router({
 					"- The webvise team",
 				].join("\n"),
 			});
+			if (!emailResult.ok) {
+				console.error(
+					`[email:newsletter-welcome] failed to send welcome email to ${input.email}:`,
+					emailResult.reason,
+					emailResult.details ?? ""
+				);
+			}
 
 			return { success: true };
 		}),
