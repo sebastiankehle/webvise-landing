@@ -33,7 +33,7 @@ export const customSystems: CustomSystem[] = [
 		faqCount: 3,
 		proof: {
 			caseStudySlug: "relay",
-			image: "/images/case-studies/relay/margin-dashboard.png",
+			image: "/images/case-studies/relay/margin-dashboard.webp",
 		},
 		relatedSlugs: [
 			"ai-assisted-workflow-automation",
@@ -51,7 +51,7 @@ export const customSystems: CustomSystem[] = [
 		faqCount: 3,
 		proof: {
 			caseStudySlug: "rautenberg-pitch-engine",
-			image: "/images/case-studies/rautenberg-pitch-engine/pipeline.png",
+			image: "/images/case-studies/rautenberg-pitch-engine/pipeline.webp",
 		},
 		relatedSlugs: ["internal-tools-dashboards", "website-to-app-upgrades"],
 	},
@@ -66,7 +66,7 @@ export const customSystems: CustomSystem[] = [
 		faqCount: 3,
 		proof: {
 			caseStudySlug: "ohyp-fintech",
-			image: "/images/case-studies/ohyp-fintech/admin-dashboard.png",
+			image: "/images/case-studies/ohyp-fintech/admin-dashboard.webp",
 		},
 		relatedSlugs: ["booking-event-platforms", "internal-tools-dashboards"],
 	},
@@ -81,7 +81,7 @@ export const customSystems: CustomSystem[] = [
 		faqCount: 3,
 		proof: {
 			caseStudySlug: "ohyp-fintech",
-			image: "/images/case-studies/ohyp-fintech/form.png",
+			image: "/images/case-studies/ohyp-fintech/form.webp",
 		},
 		relatedSlugs: ["client-portals-business-apps", "website-to-app-upgrades"],
 	},
@@ -96,7 +96,7 @@ export const customSystems: CustomSystem[] = [
 		faqCount: 3,
 		proof: {
 			caseStudySlug: "mp-bau-construction",
-			image: "/images/case-studies/mp-bau-construction/hero.png",
+			image: "/images/case-studies/mp-bau-construction/hero.webp",
 		},
 		relatedSlugs: [
 			"internal-tools-dashboards",

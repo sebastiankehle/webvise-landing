@@ -67,7 +67,7 @@ export default async function Support() {
 								className="object-cover object-left-top"
 								fill
 								sizes="(min-width: 1024px) 50vw, 100vw"
-								src="/images/case-studies/relay/workflow-library.png"
+								src="/images/case-studies/relay/workflow-library.webp"
 							/>
 						</div>
 						<div className="flex items-center justify-between gap-4 border-border/60 border-t px-5 py-3.5">
