@@ -20,6 +20,7 @@ interface ChartTranslations {
 	conversionLabel: string;
 	engagementDescription: string;
 	engagementLabel: string;
+	resultNote: string;
 	speedDescription: string;
 	speedLabel: string;
 }
@@ -357,6 +358,9 @@ export default function MiniChart({
 					</AreaChart>
 				</ResponsiveContainer>
 			</div>
+			<Caption className="block border-border/60 border-t px-6 py-3 text-muted-foreground">
+				{translations.resultNote}
+			</Caption>
 		</div>
 	);
 }

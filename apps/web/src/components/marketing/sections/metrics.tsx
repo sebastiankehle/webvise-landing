@@ -50,6 +50,7 @@ export default async function Metrics() {
 					before: t("chart.before"),
 					afterWebvise: t("chart.afterWebvise"),
 					after: t("chart.after"),
+					resultNote: t("chart.resultNote"),
 				}}
 			/>
 		</SectionWrapper>
