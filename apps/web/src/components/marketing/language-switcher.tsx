@@ -1,7 +1,7 @@
 "use client";
 
 import { Globe } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useLocale } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,6 +11,7 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Mono } from "@/components/ui/typography";
+import { getPathname, usePathname } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 
 const localeLabels: Record<string, string> = {
@@ -26,26 +27,27 @@ const localeLabels: Record<string, string> = {
 export default function LanguageSwitcher({ id }: { id?: string }) {
 	const locale = useLocale();
 	const pathname = usePathname();
+	const params = useParams<Record<string, string | string[]>>();
 
 	function switchLocale(nextLocale: string) {
 		if (nextLocale === locale) {
 			return;
 		}
 
-		// Strip current locale prefix to get the bare path
-		const localePrefix = `/${locale}`;
-		const barePath = pathname.startsWith(localePrefix)
-			? pathname.slice(localePrefix.length) || "/"
-			: pathname;
+		const { locale: _locale, ...routeParams } = params;
+		const href =
+			Object.keys(routeParams).length > 0
+				? { pathname, params: routeParams }
+				: pathname;
+		const newPath = getPathname({
+			locale: nextLocale,
+			href: href as Parameters<typeof getPathname>[0]["href"],
+		});
+		const newUrl = `${newPath}${window.location.search}${window.location.hash}`;
 
-		// Build new path: default locale (en) needs no prefix
-		const newPath =
-			nextLocale === routing.defaultLocale
-				? barePath
-				: `/${nextLocale}${barePath}`;
 		// biome-ignore lint/suspicious/noDocumentCookie: Cookie Store API not supported in all browsers yet
 		document.cookie = `NEXT_LOCALE=${nextLocale};path=/;max-age=31536000;SameSite=Lax`;
-		window.location.href = newPath;
+		window.location.href = newUrl;
 	}
 
 	return (

@@ -3,14 +3,14 @@
   "readingTime": 8,
   "keyword": "baza wiedzy dla firm bez RAG",
   "title": "Większość firmowych baz wiedzy nie potrzebuje RAG",
-  "excerpt": "Nasz wewnętrzny wiki działa na pięciu poleceniach shell i ręcznie utrzymywanym pliku indeksu, bez żadnej vector database. Dla bazy wiedzy liczącej 200 dokumentów takie rozwiązanie jest tańsze, szybsze we wdrożeniu i dokładniejsze niż pipeline RAG. Oto dlaczego zrezygnowaliśmy z RAG i kiedy naprawdę jest potrzebny.",
-  "metaDescription": "Dlaczego większość firmowych baz wiedzy poniżej 1000 dokumentów nie potrzebuje pipeline RAG. Rzeczywiste liczby z naszego wewnętrznego vault, pięć poleceń, które go zastępują, oraz kiedy RAG nadal jest właściwym wyborem.",
+  "excerpt": "Mój wewnętrzny wiki działa na pięciu poleceniach shell i ręcznie utrzymywanym pliku indeksu, bez żadnej vector database. Dla bazy wiedzy liczącej 200 dokumentów takie rozwiązanie jest tańsze, szybsze we wdrożeniu i dokładniejsze niż pipeline RAG. Oto dlaczego zrezygnowałem z RAG i kiedy naprawdę jest potrzebny.",
+  "metaDescription": "Dlaczego większość firmowych baz wiedzy poniżej 1000 dokumentów nie potrzebuje pipeline RAG. Rzeczywiste liczby z mojego wewnętrznego vault, pięć poleceń, które go zastępują, oraz kiedy RAG nadal jest właściwym wyborem.",
   "tags": ["AI Agents", "AI", "Automation", "Business Strategy"],
-  "cta": "Skontaktuj się z nami",
+  "cta": "Skontaktuj się",
   "blocks": [
     {
       "type": "p",
-      "text": "Nasz wewnętrzny wiki firmowy działa na pięciu poleceniach shell i ręcznie utrzymywanym pliku indeksu. Żadnych embeddings, żadnej vector database, żadnego zadania re-indeksowania. Dla bazy wiedzy liczącej około 200 dokumentów takie rozwiązanie jest szybsze we wdrożeniu, tańsze w utrzymaniu i dokładniejsze niż typowy pipeline RAG. Kompromis zaczyna się opłacać gdzieś powyżej tysiąca dokumentów, nie wcześniej."
+      "text": "Mój wewnętrzny wiki firmowy działa na pięciu poleceniach shell i ręcznie utrzymywanym pliku indeksu. Żadnych embeddings, żadnej vector database, żadnego zadania re-indeksowania. Dla bazy wiedzy liczącej około 200 dokumentów takie rozwiązanie jest szybsze we wdrożeniu, tańsze w utrzymaniu i dokładniejsze niż typowy pipeline RAG. Kompromis zaczyna się opłacać gdzieś powyżej tysiąca dokumentów, nie wcześniej."
     },
     {
       "type": "h2",
@@ -18,7 +18,7 @@
     },
     {
       "type": "p",
-      "text": "Dwie rzeczy sprawiły, że to podejście stało się dla nas oczywiste. Pierwsza to konsekwentny argument Andreja Karpathy'ego, że agenty AI powinny otrzymywać narzędzia, a nie pobrane fragmenty tekstu. Jego projekt [AutoResearch](https://github.com/karpathy/autoresearch), opublikowany w marcu 2026, ilustruje tę tezę dosłownie: agent uruchamia kod zamiast odpytywać embeddings, a postęp wynika z wykonania. AutoResearch omówiliśmy szczegółowo [we wcześniejszym artykule](/blog/karpathy-autoresearch-ai-experiments)."
+      "text": "Dwie rzeczy sprawiły, że to podejście stało się dla mnie oczywiste. Pierwsza to konsekwentny argument Andreja Karpathy'ego, że agenty AI powinny otrzymywać narzędzia, a nie pobrane fragmenty tekstu. Jego projekt [AutoResearch](https://github.com/karpathy/autoresearch), opublikowany w marcu 2026, ilustruje tę tezę dosłownie: agent uruchamia kod zamiast odpytywać embeddings, a postęp wynika z wykonania. AutoResearch omówiłem szczegółowo [we wcześniejszym artykule](/blog/karpathy-autoresearch-ai-experiments)."
     },
     {
       "type": "p",
@@ -26,11 +26,11 @@
     },
     {
       "type": "h2",
-      "text": "Co faktycznie uruchamiamy"
+      "text": "Co faktycznie uruchamiam"
     },
     {
       "type": "p",
-      "text": "Nasz wewnętrzny wiki to dziś 22 strony ustrukturyzowanej wiedzy: encje (osoby, firmy, projekty), koncepty (frameworki i zasady), źródła (surowe notatki badawcze) oraz strony syntezy, które je łączą. Każda strona linkuje do innych stron za pomocą wikilinks Obsidiana, a ręcznie utrzymywany `index.md` w katalogu głównym wymienia wszystko według kategorii z jednowierszowymi opisami."
+      "text": "Mój wewnętrzny wiki to dziś 22 strony ustrukturyzowanej wiedzy: encje (osoby, firmy, projekty), koncepty (frameworki i zasady), źródła (surowe notatki badawcze) oraz strony syntezy, które je łączą. Każda strona linkuje do innych stron za pomocą wikilinks Obsidiana, a ręcznie utrzymywany `index.md` w katalogu głównym wymienia wszystko według kategorii z jednowierszowymi opisami."
     },
     {
       "type": "p",
@@ -72,7 +72,7 @@
     },
     {
       "type": "p",
-      "text": "Dla małej firmowej bazy wiedzy liczącej około 200 dokumentów przedstawiamy, ile kosztuje domyślna konfiguracja RAG w porównaniu z wzorcem dostępu do plików opartego na indeksie. Liczby tokenów pochodzą z obserwacji naszego własnego vault. Liczby dotyczące infrastruktury pochodzą z publicznych cenników najpopularniejszych usług zarządzanych."
+      "text": "Dla małej firmowej bazy wiedzy liczącej około 200 dokumentów przedstawiam, ile kosztuje domyślna konfiguracja RAG w porównaniu z wzorcem dostępu do plików opartego na indeksie. Liczby tokenów pochodzą z obserwacji mojego własnego vault. Liczby dotyczące infrastruktury pochodzą z publicznych cenników najpopularniejszych usług zarządzanych."
     },
     {
       "type": "table",
@@ -108,7 +108,7 @@
     },
     {
       "type": "p",
-      "text": "Oszczędności tokenów na zapytanie rzędu 30 do 60 procent w naszym własnym vault są realne - wyniki zależą od struktury korpusu i wzorców zapytań -, ale to nie jest najważniejsza informacja. Najważniejsze jest wszystko w drugiej kolumnie, co znika. Żadnej pozycji vector database na miesięcznej fakturze. Żadnego modelu embeddingów do utrzymywania. Żadnej sesji debugowania \"zmieniliśmy strategię chunking i odpowiedzi się zmieniły\". Dla bazy wiedzy, która swobodnie mieści się w głowie jednej osoby, każdy z tych ruchomych elementów to narzut bez odpowiadającej mu korzyści."
+      "text": "Oszczędności tokenów na zapytanie rzędu 30 do 60 procent w moim własnym vault są realne - wyniki zależą od struktury korpusu i wzorców zapytań -, ale to nie jest najważniejsza informacja. Najważniejsze jest wszystko w drugiej kolumnie, co znika. Żadnej pozycji vector database na miesięcznej fakturze. Żadnego modelu embeddingów do utrzymywania. Żadnej sesji debugowania \"zmieniliśmy strategię chunking i odpowiedzi się zmieniły\". Dla bazy wiedzy, która swobodnie mieści się w głowie jednej osoby, każdy z tych ruchomych elementów to narzut bez odpowiadającej mu korzyści."
     },
     {
       "type": "h2",
@@ -156,7 +156,7 @@
     },
     {
       "type": "p",
-      "text": "Dla większości wewnętrznych firmowych baz wiedzy (wiki firmowe, dokumentacja produktowa, playbooki sprzedażowe, przewodniki onboardingowe, wewnętrzne SOPs) żaden z tych warunków nie zachodzi. Korpus jest mały, autorów jest niewielu, struktura jest stabilna, a osoby utrzymujące dokumentację to te same osoby, którym najbardziej zależy na jej poprawności. Dla przypadków użycia, które obserwujemy, RAG jest często złym domyślnym wyborem."
+      "text": "Dla większości wewnętrznych firmowych baz wiedzy (wiki firmowe, dokumentacja produktowa, playbooki sprzedażowe, przewodniki onboardingowe, wewnętrzne SOPs) żaden z tych warunków nie zachodzi. Korpus jest mały, autorów jest niewielu, struktura jest stabilna, a osoby utrzymujące dokumentację to te same osoby, którym najbardziej zależy na jej poprawności. Dla przypadków użycia, które obserwuję, RAG jest często złym domyślnym wyborem."
     },
     {
       "type": "h2",
@@ -172,7 +172,7 @@
     },
     {
       "type": "p",
-      "text": "W **[webvise](/#contact)** budujemy wewnętrzne narzędzia AI na takich pragmatycznych podstawach: ustrukturyzowana wiedza, proste narzędzia, agenty czytające i piszące bezpośrednio. Jeśli rozważają Państwo projekt RAG dla dokumentacji swojego zespołu i chcą uzyskać drugą opinię na temat tego, czy złożoność jest uzasadniona, [skontaktujcie się z nami](/#contact), a omówimy Państwa rzeczywisty korpus przed podjęciem decyzji o infrastrukturze."
+      "text": "**[webvise](/#contact)** buduje wewnętrzne narzędzia AI na takich pragmatycznych podstawach: ustrukturyzowana wiedza, proste narzędzia, agenty czytające i piszące bezpośrednio. Jeśli rozważają Państwo projekt RAG dla dokumentacji swojego zespołu i chcą uzyskać drugą opinię na temat tego, czy złożoność jest uzasadniona, [zapraszam do kontaktu](/#contact), a wspólnie omówimy Państwa rzeczywisty korpus przed podjęciem decyzji o infrastrukturze."
     }
   ]
 }

@@ -31,6 +31,7 @@ import { generateAlternates, localizedUrl } from "@/lib/seo";
 
 const BOLD_RE = /^\*\*(.*?)\*\*$/;
 const LINK_RE = /^\[(.*?)\]\((.*?)\)$/;
+const HOMEPAGE_HASH_LINK_RE = /^\/#(.+)$/;
 
 export function generateStaticParams() {
 	return getBlogPosts("en").map((p) => ({ slug: p.slug }));
@@ -92,28 +93,7 @@ function renderInline(text: string) {
 		if (boldMatch) {
 			const innerLink = boldMatch[1].match(LINK_RE);
 			if (innerLink) {
-				if (innerLink[2].startsWith("http")) {
-					return (
-						<a
-							className={inlineLinkClassName}
-							href={innerLink[2]}
-							key={key}
-							rel="noopener noreferrer"
-							target="_blank"
-						>
-							{innerLink[1]}
-						</a>
-					);
-				}
-				return (
-					<Link
-						className={inlineLinkClassName}
-						href={innerLink[2] as "/blog"}
-						key={key}
-					>
-						{innerLink[1]}
-					</Link>
-				);
+				return renderLink(innerLink[2], innerLink[1], key);
 			}
 			return (
 				<strong className="font-medium text-foreground" key={key}>
@@ -123,31 +103,45 @@ function renderInline(text: string) {
 		}
 		const linkMatch = token.match(LINK_RE);
 		if (linkMatch) {
-			if (linkMatch[2].startsWith("http")) {
-				return (
-					<a
-						className={inlineLinkClassName}
-						href={linkMatch[2]}
-						key={key}
-						rel="noopener noreferrer"
-						target="_blank"
-					>
-						{linkMatch[1]}
-					</a>
-				);
-			}
-			return (
-				<Link
-					className={inlineLinkClassName}
-					href={linkMatch[2] as "/blog"}
-					key={key}
-				>
-					{linkMatch[1]}
-				</Link>
-			);
+			return renderLink(linkMatch[2], linkMatch[1], key);
 		}
 		return token;
 	});
+}
+
+function renderLink(href: string, label: string, key: string) {
+	if (href.startsWith("http")) {
+		return (
+			<a
+				className={inlineLinkClassName}
+				href={href}
+				key={key}
+				rel="noopener noreferrer"
+				target="_blank"
+			>
+				{label}
+			</a>
+		);
+	}
+
+	const homepageHashMatch = href.match(HOMEPAGE_HASH_LINK_RE);
+	if (homepageHashMatch) {
+		return (
+			<Link
+				className={inlineLinkClassName}
+				href={{ pathname: "/", hash: homepageHashMatch[1] }}
+				key={key}
+			>
+				{label}
+			</Link>
+		);
+	}
+
+	return (
+		<Link className={inlineLinkClassName} href={href as "/blog"} key={key}>
+			{label}
+		</Link>
+	);
 }
 
 function getBlockSignature(block: Block): string {

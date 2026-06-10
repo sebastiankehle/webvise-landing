@@ -2,6 +2,7 @@ import { getLocale } from "next-intl/server";
 
 import ChatWidgetMount from "@/components/marketing/chat-widget-mount";
 import Footer from "@/components/marketing/footer";
+import HashLinkScrollManager from "@/components/marketing/hash-link-scroll-manager";
 import Navbar from "@/components/marketing/navbar";
 import ThemeSwitcher from "@/components/marketing/theme-switcher";
 import { getBlogIndex } from "@/data/blog";
@@ -46,6 +47,7 @@ export default async function MarketingLayout({
 				featuredCaseStudies={featuredCaseStudies}
 				recentPosts={recentPosts}
 			/>
+			<HashLinkScrollManager />
 			<main className="border-grid-line border-x" id="main-content">
 				{children}
 			</main>

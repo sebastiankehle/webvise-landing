@@ -2,15 +2,15 @@
   "date": "2026-04-20",
   "readingTime": 7,
   "keyword": "vercel breach response",
-  "title": "Rotate, Redeploy, Revoke: Our Response to the Vercel Breach",
-  "excerpt": "Vercel disclosed a supply-chain breach on April 19, 2026. The response we ran across every managed project, and why this breach shape needs a different response model.",
-  "metaDescription": "Vercel disclosed a supply-chain breach on April 19, 2026. The response we ran across every managed project, and why this breach shape changes the model.",
+  "title": "Rotate, Redeploy, Revoke: The webvise Response to the Vercel Breach",
+  "excerpt": "Vercel disclosed a supply-chain breach on April 19, 2026. The response I ran across every managed project, and why this breach shape needs a different response model.",
+  "metaDescription": "Vercel disclosed a supply-chain breach on April 19, 2026. The response webvise ran across every managed project, and why this breach shape changes the model.",
   "cta": "Get a Security Review",
   "tags": ["Security", "Process", "Web Development", "Enterprise"],
   "blocks": [
     {
       "type": "p",
-      "text": "On April 19, 2026, Vercel [disclosed a security incident](https://x.com/vercel/status/2045865072074035664) traced to a compromised third-party OAuth application inside their Google Workspace. We ran the response across every webvise-managed Vercel project before the weekend was out, and audit logs on both Vercel and the Google Workspaces we administer came back clean. **This wasn't a vulnerability in Vercel's own code. It was a SaaS-to-SaaS supply-chain compromise through an OAuth trust boundary, and the shape of it changes what a proper response looks like.**"
+      "text": "On April 19, 2026, Vercel [disclosed a security incident](https://x.com/vercel/status/2045865072074035664) traced to a compromised third-party OAuth application inside their Google Workspace. I ran the response across every webvise-managed Vercel project before the weekend was out, and audit logs on both Vercel and the Google Workspaces I administer came back clean. **This wasn't a vulnerability in Vercel's own code. It was a SaaS-to-SaaS supply-chain compromise through an OAuth trust boundary, and the shape of it changes what a proper response looks like.**"
     },
     {
       "type": "p",
@@ -18,7 +18,7 @@
     },
     {
       "type": "p",
-      "text": "You read the disclosure and cycled every key you could find. That is the right first move. This article walks through what we actually ran end-to-end, the technical gotcha that makes rotation apply to running functions, and why the shape of this breach changes how your response plan should look next time."
+      "text": "You read the disclosure and cycled every key you could find. That is the right first move. This article walks through what I actually ran end-to-end, the technical gotcha that makes rotation apply to running functions, and why the shape of this breach changes how your response plan should look next time."
     },
     {
       "type": "ul",
@@ -44,7 +44,7 @@
     },
     {
       "type": "p",
-      "text": "If you want a second review of your Vercel setup before the next incident, [we run security reviews across Vercel teams, Google Workspaces, and SaaS-to-SaaS grants](/#contact)."
+      "text": "If you want a second review of your Vercel setup before the next incident, [webvise runs security reviews across Vercel teams, Google Workspaces, and SaaS-to-SaaS grants](/#contact)."
     },
     {
       "type": "h2",
@@ -52,7 +52,7 @@
     },
     {
       "type": "p",
-      "text": "We treated every environment variable that could grant access to anything as compromised by default. That is the assumption the disclosure requires. Here are the secret classes we reissued across managed projects."
+      "text": "I treated every environment variable that could grant access to anything as compromised by default. That is the assumption the disclosure requires. Here are the secret classes I reissued across managed projects."
     },
     {
       "type": "ul",
@@ -107,7 +107,7 @@
     },
     {
       "type": "p",
-      "text": "To verify your response, open the Deployments tab on each project and find a deployment timestamped after your rotation. If the top row shows a timestamp earlier than when you rotated, the rotation didn't make it into any running process. The second explicit step in our response was a forced production redeploy on every managed project after rotation, before moving on."
+      "text": "To verify your response, open the Deployments tab on each project and find a deployment timestamped after your rotation. If the top row shows a timestamp earlier than when you rotated, the rotation didn't make it into any running process. The second explicit step in the response was a forced production redeploy on every managed project after rotation, before moving on."
     },
     {
       "type": "h2",
@@ -123,7 +123,7 @@
     },
     {
       "type": "p",
-      "text": "We ran this audit on every Workspace we administer. The indicator was not present, and most grants had legitimate business purpose. A handful did not, and we revoked them. We've since moved to a monthly cadence: audit OAuth grants at the start of every month, revoke anything unused in 30 days."
+      "text": "I ran this audit on every Workspace I administer. The indicator was not present, and most grants had legitimate business purpose. A handful did not, and I revoked them. I've since moved to a monthly cadence: audit OAuth grants at the start of every month, revoke anything unused in 30 days."
     },
     {
       "type": "h2",
@@ -131,7 +131,7 @@
     },
     {
       "type": "p",
-      "text": "Rotation and revocation handled the immediate exposure. The longer moves are what stop the next incident from being a weekend scramble. We are pushing these across managed projects over the coming weeks, and they are what we recommend to any team running a SaaS-heavy stack."
+      "text": "Rotation and revocation handled the immediate exposure. The longer moves are what stop the next incident from being a weekend scramble. I am pushing these across managed projects over the coming weeks, and they are what I recommend to any team running a SaaS-heavy stack."
     },
     {
       "type": "ul",
@@ -145,7 +145,7 @@
     },
     {
       "type": "p",
-      "text": "Many teams lack a single named owner for these tasks; that gap recurs in incident post-mortems. [Talk to us](/#contact) about how webvise builds these into maintenance support for managed projects."
+      "text": "Many teams lack a single named owner for these tasks; that gap recurs in incident post-mortems. [Get in touch](/#contact) about how webvise builds these into maintenance support for managed projects."
     },
     {
       "type": "h2",
@@ -153,7 +153,7 @@
     },
     {
       "type": "p",
-      "text": "The defensive model has to match the attack model. That means treating OAuth grants as production dependencies, auditing them on a schedule, and moving secrets out of environment variables where an attacker with that grant can read them. Our audit logs came back clean this weekend. That is a payoff from this incident, while the response model still needs scheduled review."
+      "text": "The defensive model has to match the attack model. That means treating OAuth grants as production dependencies, auditing them on a schedule, and moving secrets out of environment variables where an attacker with that grant can read them. My audit logs came back clean this weekend. That is a payoff from this incident, while the response model still needs scheduled review."
     },
     {
       "type": "p",
@@ -165,7 +165,7 @@
     },
     {
       "type": "p",
-      "text": "We run security reviews on Vercel teams, Google Workspaces, and SaaS-to-SaaS identity graphs as part of every managed engagement at webvise. If you want a second review of your Vercel setup before the next incident, [contact us](/#contact)."
+      "text": "Security reviews on Vercel teams, Google Workspaces, and SaaS-to-SaaS identity graphs are part of every managed engagement at webvise. If you want a second review of your Vercel setup before the next incident, [get in touch](/#contact)."
     }
   ]
 }

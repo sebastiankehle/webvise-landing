@@ -2,7 +2,7 @@
   "date": "2026-04-08",
   "readingTime": 9,
   "keyword": "business ai agent security",
-  "title": "Why We Won't Ship AI Agents That Read the Open Web",
+  "title": "Why I Won't Ship AI Agents That Read the Open Web",
   "excerpt": "On April 5, 2026, Google DeepMind published the largest empirical study of AI agent manipulation ever conducted. 502 participants, 8 countries, 23 attack types, every defense currently on offer rated insufficient. Here is the engineering position Webvise took the next morning.",
   "metaDescription": "Google DeepMind's April 2026 study measured 23 ways to hijack a business AI agent. Webvise's rule: agents that read attacker-controlled content do not ship to clients.",
   "tags": ["AI Agents", "AI", "Security", "B2B"],
@@ -10,7 +10,7 @@
   "blocks": [
     {
       "type": "p",
-      "text": "On April 5, 2026, Google DeepMind published the largest empirical study of AI agent manipulation ever run: 502 real participants across 8 countries, 23 distinct attack types, frontier models including GPT-4o, Claude, and Gemini. The single sentence we took from it and pinned in our engineering channel the next morning is the only one that matters for anyone shipping a business chatbot in 2026: **if your AI agent reads attacker-controlled text and then performs any action with user privileges, you have built a data exfiltration vulnerability.** This is the reason webvise will not build, for any client at any price, an AI agent that browses the open web."
+      "text": "On April 5, 2026, Google DeepMind published the largest empirical study of AI agent manipulation ever run: 502 real participants across 8 countries, 23 distinct attack types, frontier models including GPT-4o, Claude, and Gemini. The single sentence I took from it and pinned in my engineering notes the next morning is the only one that matters for anyone shipping a business chatbot in 2026: **if your AI agent reads attacker-controlled text and then performs any action with user privileges, you have built a data exfiltration vulnerability.** This is the reason webvise will not build, for any client at any price, an AI agent that browses the open web."
     },
     {
       "type": "h2",
@@ -31,7 +31,7 @@
     },
     {
       "type": "p",
-      "text": "The category we keep coming back to is the eighth one, *goal hijacking through gradual instruction drift across interactions.* Every demo of an agent system you have ever seen survives a single adversarial prompt. None of them survive a hundred carefully spaced ones."
+      "text": "The category I keep coming back to is the eighth one, *goal hijacking through gradual instruction drift across interactions.* Every demo of an agent system you have ever seen survives a single adversarial prompt. None of them survive a hundred carefully spaced ones."
     },
     {
       "type": "h2",
@@ -43,7 +43,7 @@
     },
     {
       "type": "p",
-      "text": "Our founder runs a personal multi-agent setup with **Hermes**, a NousResearch agent on Telegram that drives 14 cron jobs across daily news, medical guideline summaries, and personal logistics. Every single one of those 14 jobs reads from a source explicitly trusted and curated by hand. None of them follow links. None of them execute external instructions. After the DeepMind paper landed we audited every cron and the rule held. It held because it was written down two years ago and never relaxed. Most production agent stacks we see in client briefs do not have this rule, and the engineers building them have never been asked to write it down."
+      "text": "I run a personal multi-agent setup with **Hermes**, a NousResearch agent on Telegram that drives 14 cron jobs across daily news, medical guideline summaries, and personal logistics. Every single one of those 14 jobs reads from a source explicitly trusted and curated by hand. None of them follow links. None of them execute external instructions. After the DeepMind paper landed I audited every cron and the rule held. It held because it was written down two years ago and never relaxed. Most production agent stacks I see in client briefs do not have this rule, and the engineers building them have never been asked to write it down."
     },
     {
       "type": "h2",
@@ -51,14 +51,14 @@
     },
     {
       "type": "p",
-      "text": "We see three variants of the same request, every month:"
+      "text": "The same request shows up in three variants, every month:"
     },
     {
       "type": "ul",
       "items": [
         "**'Have the chatbot answer questions by browsing my competitor's website.'** In effect, this would grant an attacker who controls any web page the agent visits a writable channel into the customer's session.",
         "**'Let users paste any URL and have the agent summarize it.'** In effect, this allows any user to paste a URL whose HTML contains hidden instructions that exfiltrate the next messages of conversation.",
-        "**'Add RAG over an external vendor's documentation that we don't host.'** In effect, this grants our agent's tool-calling permissions to whoever edits a docs page on the vendor's site next."
+        "**'Add RAG over an external vendor's documentation that we don't host.'** In effect, this grants the agent's tool-calling permissions to whoever edits a docs page on the vendor's site next."
       ]
     },
     {
@@ -71,7 +71,7 @@
     },
     {
       "type": "p",
-      "text": "DeepMind tested all four of the obvious defense families. Here is their assessment, with our gloss on each one:"
+      "text": "DeepMind tested all four of the obvious defense families. Here is their assessment, with my gloss on each one:"
     },
     {
       "type": "table",
@@ -105,20 +105,20 @@
     },
     {
       "type": "h2",
-      "text": "What We Ship Instead"
+      "text": "What I Ship Instead"
     },
     {
       "type": "p",
-      "text": "Webvise has shipped AI features into client production, including a construction landing page whose model calls route through the **Vercel AI Gateway** for provider routing and observability. The five rules below are what made that build defensible, and they are now hard preconditions for any AI work we take on:"
+      "text": "Webvise has shipped AI features into client production, including a construction landing page whose model calls route through the **Vercel AI Gateway** for provider routing and observability. The five rules below are what made that build defensible, and they are now hard preconditions for any AI work I take on:"
     },
     {
       "type": "ul",
       "items": [
-        "**Closed-input agents only.** The agent reads from a finite, hand-curated set of sources we control. No open web. No user-pasted URLs. No external RAG over uncontrolled documentation.",
-        "**Read-only by default.** If the agent must read something we do not fully trust, it cannot also call tools, send email, write to a database, or generate outbound network requests in the same session. You get one or the other, never both at once.",
+        "**Closed-input agents only.** The agent reads from a finite, hand-curated set of sources under direct control. No open web. No user-pasted URLs. No external RAG over uncontrolled documentation.",
+        "**Read-only by default.** If the agent must read something that is not fully trusted, it cannot also call tools, send email, write to a database, or generate outbound network requests in the same session. You get one or the other, never both at once.",
         "**Cross-agent isolation.** When agent A's output flows into agent B, B treats A's output as user input, not as system instructions. This is one line of code in the prompt and it is the entire defense against the cascade attack.",
         "**Capability budgets per agent.** Every agent has a fixed list of tools and a token cap. The cap is small enough that even a successful injection cannot exfiltrate more than one short message.",
-        "**Provider isolation through a gateway.** We route every model call through Vercel AI Gateway so we can swap providers, log every prompt and completion, and revoke a key in seconds. If something looks wrong in the logs we can stop the bleeding the same minute we notice."
+        "**Provider isolation through a gateway.** I route every model call through Vercel AI Gateway so I can swap providers, log every prompt and completion, and revoke a key in seconds. If something looks wrong in the logs I can stop the bleeding the same minute I notice."
       ]
     },
     {
@@ -127,11 +127,11 @@
     },
     {
       "type": "h2",
-      "text": "Why We Decline Certain Builds"
+      "text": "Why I Decline Certain Builds"
     },
     {
       "type": "p",
-      "text": "It would be easy to read this article as an agency saying we are too cautious to take your money. The opposite is true. The DeepMind paper hands every team that built engineering credibility before the agent boom a clear advantage: we are able to decline specific feature requests with a clear technical rationale; clients generally welcome this in retrospect. Vendors that build agents without these constraints take on significant exfiltration risk that is increasingly visible in incident reports."
+      "text": "It would be easy to read this article as an agency saying it is too cautious to take your money. The opposite is true. The DeepMind paper hands every team that built engineering credibility before the agent boom a clear advantage: the ability to decline specific feature requests with a clear technical rationale; clients generally welcome this in retrospect. Vendors that build agents without these constraints take on significant exfiltration risk that is increasingly visible in incident reports."
     },
     {
       "type": "p",
@@ -139,15 +139,15 @@
     },
     {
       "type": "h2",
-      "text": "Where We Draw the Line"
+      "text": "Where I Draw the Line"
     },
     {
       "type": "p",
-      "text": "The shortest version of the rule, the one we now write into every project kickoff doc, is this: an agent can read untrusted content, or it can act with user privileges, but not in the same session. Everything else flows from that. If a feature request crosses the line, it does not get built. If it can be reshaped to stay on one side, we reshape it together with the client and ship the reshaped version. The DeepMind paper did not invent this discipline. It just took away every excuse for not having one."
+      "text": "The shortest version of the rule, the one I now write into every project kickoff doc, is this: an agent can read untrusted content, or it can act with user privileges, but not in the same session. Everything else flows from that. If a feature request crosses the line, it does not get built. If it can be reshaped to stay on one side, I reshape it together with the client and ship the reshaped version. The DeepMind paper did not invent this discipline. It just took away every excuse for not having one."
     },
     {
       "type": "p",
-      "text": "At **webvise** we build AI features for businesses where the cost of a single leaked customer message is higher than the cost of saying no to a feature request. If that describes your project, [get in touch](/#contact) and we will draw the trust boundary together before any code is written."
+      "text": "**webvise** builds AI features for businesses where the cost of a single leaked customer message is higher than the cost of saying no to a feature request. If that describes your project, [get in touch](/#contact) - the first step is drawing the trust boundary together, before any code is written."
     }
   ]
 }

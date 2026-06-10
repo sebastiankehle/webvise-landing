@@ -17,7 +17,7 @@
     },
     {
       "type": "p",
-      "text": "Als u vandaag agents laat werken op klantdata, wordt PII-redactie doorgaans geregeld via een regex-bibliotheek die u zelf onderhoudt of door aanvragen via een LLM te routeren - beide met hun eigen afwegingen. Dit artikel bespreekt wat openai/privacy-filter werkelijk is, de architectuurkeuzes die ertoe doen en waar het thuishoort in een serieuze agent governance stack. We leggen ook uit waarom deze release ons standpunt bijstelt over agents die onbetrouwbare invoer verwerken, en wat u daarmee doet als u gereguleerde workloads in productie brengt."
+      "text": "Als u vandaag agents laat werken op klantdata, wordt PII-redactie doorgaans geregeld via een regex-bibliotheek die u zelf onderhoudt of door aanvragen via een LLM te routeren - beide met hun eigen afwegingen. Dit artikel bespreekt wat openai/privacy-filter werkelijk is, de architectuurkeuzes die ertoe doen en waar het thuishoort in een serieuze agent governance stack. Het artikel legt ook uit waarom deze release het eerdere standpunt bijstelt over agents die onbetrouwbare invoer verwerken, en wat u daarmee doet als u gereguleerde workloads in productie brengt."
     },
     {
       "type": "h2",
@@ -107,7 +107,7 @@
     },
     {
       "type": "p",
-      "text": "Een serieuze agent governance stack heeft afzonderlijke lagen. Het werkmodel dat we bij webvise hanteren, ziet er als volgt uit:"
+      "text": "Een serieuze agent governance stack heeft afzonderlijke lagen. Het werkmodel dat bij webvise geldt, ziet er als volgt uit:"
     },
     {
       "type": "ul",
@@ -147,7 +147,7 @@
     },
     {
       "type": "p",
-      "text": "Voor de meeste client stacks die wij ontwerpen, is het antwoord Laag 2 en Laag 5 in combinatie. De browser-lokale controle voorkomt dat onbedoelde PII de context window binnenkomt. De server-side uitvoercontrole onderschept alles wat het model genereert of lekt in zijn antwoord. Defense in depth is het doel."
+      "text": "Voor de meeste client stacks die ik ontwerp, is het antwoord Laag 2 en Laag 5 in combinatie. De browser-lokale controle voorkomt dat onbedoelde PII de context window binnenkomt. De server-side uitvoercontrole onderschept alles wat het model genereert of lekt in zijn antwoord. Defense in depth is het doel."
     },
     {
       "type": "p",
@@ -209,7 +209,7 @@
     },
     {
       "type": "p",
-      "text": "Als uw domein categorieën heeft buiten deze lijst, voert u fine-tuning uit. De model card vermeldt expliciet dat u het labelbeleid niet tijdens runtime kunt wijzigen. Dat is de prijs van een classifier met 50 miljoen actieve parameters: de taxonomie is ingebakken. Voor teams die opties vergelijken, behandelt onze gids over [de beste lokale AI-modellen voor compliant bedrijven in 2026](/blog/best-local-ai-models-2026) de algemene LLM-kant van dezelfde beslissing."
+      "text": "Als uw domein categorieën heeft buiten deze lijst, voert u fine-tuning uit. De model card vermeldt expliciet dat u het labelbeleid niet tijdens runtime kunt wijzigen. Dat is de prijs van een classifier met 50 miljoen actieve parameters: de taxonomie is ingebakken. Voor teams die opties vergelijken, behandelt de gids over [de beste lokale AI-modellen voor compliant bedrijven in 2026](/blog/best-local-ai-models-2026) de algemene LLM-kant van dezelfde beslissing."
     },
     {
       "type": "p",
@@ -229,7 +229,7 @@
     },
     {
       "type": "p",
-      "text": "Dit is een hulpmiddel voor redactie, geen anonimiseringsgarantie. Het verwijderen van oppervlakkige PII elimineert het risico op heridentificatie niet wanneer quasi-identifiers (postcode, leeftijd, zeldzame diagnose) samenkomen. Als uw compliance-verplichting GDPR-anonimisering of HIPAA-de-identificatie onder de Safe Harbor-methode is, heeft u een toegewijde pipeline bovenop dit nodig, niet dit alleen. Onze analyse over [AI-regelgeving en certificeringen in Duitsland en Europa](/blog/ai-regulations-certifications-europe) brengt de regelgevingsstack gedetailleerd in kaart."
+      "text": "Dit is een hulpmiddel voor redactie, geen anonimiseringsgarantie. Het verwijderen van oppervlakkige PII elimineert het risico op heridentificatie niet wanneer quasi-identifiers (postcode, leeftijd, zeldzame diagnose) samenkomen. Als uw compliance-verplichting GDPR-anonimisering of HIPAA-de-identificatie onder de Safe Harbor-methode is, heeft u een toegewijde pipeline bovenop dit nodig, niet dit alleen. De analyse over [AI-regelgeving en certificeringen in Duitsland en Europa](/blog/ai-regulations-certifications-europe) brengt de regelgevingsstack gedetailleerd in kaart."
     },
     {
       "type": "h3",
@@ -241,15 +241,15 @@
     },
     {
       "type": "p",
-      "text": "Onze regel: Privacy Filter staat in een stack met ten minste één andere controle stroomafwaarts. Als het de enige laag is, bent u één modelupdate verwijderd van een regressie die niemand opmerkt."
+      "text": "De regel: Privacy Filter staat in een stack met ten minste één andere controle stroomafwaarts. Als het de enige laag is, bent u één modelupdate verwijderd van een regressie die niemand opmerkt."
     },
     {
       "type": "h2",
-      "text": "Bijstelling van ons standpunt over \"geen agents op het open web\""
+      "text": "Bijstelling van het standpunt over \"geen agents op het open web\""
     },
     {
       "type": "p",
-      "text": "Eerder deze maand publiceerden we een standpunt: webvise brengt geen AI-agents in productie die het open web lezen voor klanten. [De reden was concreet](/blog/business-ai-agents-untrusted-web). Door aanvallers gecontroleerde invoer (een gescrapete pagina, een door gebruikers ingediende URL, een derde-partij feed) geeft de agent PII, inloggegevens of prompt-injection payloads die via downstreamacties lekken."
+      "text": "Eerder deze maand verscheen hier een standpunt: webvise brengt geen AI-agents in productie die het open web lezen voor klanten. [De reden was concreet](/blog/business-ai-agents-untrusted-web). Door aanvallers gecontroleerde invoer (een gescrapete pagina, een door gebruikers ingediende URL, een derde-partij feed) geeft de agent PII, inloggegevens of prompt-injection payloads die via downstreamacties lekken."
     },
     {
       "type": "p",
@@ -261,7 +261,7 @@
     },
     {
       "type": "p",
-      "text": "De bijgestelde positie: we brengen nu smalle open-web-lezers in productie voor niet-gevoelige workflows (aggregatie van publieke data, concurrentie-inlichtingen, marktonderzoek) als Privacy Filter op beide zijden van de model-aanroep is gekoppeld. We brengen ze nog steeds niet in productie voor workflows die klantdossiers, interne documenten of geauthenticeerde acties raken zonder eerst een toegewijde red-team-doorloop."
+      "text": "De bijgestelde positie: er gaan nu smalle open-web-lezers in productie voor niet-gevoelige workflows (aggregatie van publieke data, concurrentie-inlichtingen, marktonderzoek) als Privacy Filter op beide zijden van de model-aanroep is gekoppeld. Ze gaan nog steeds niet in productie voor workflows die klantdossiers, interne documenten of geauthenticeerde acties raken zonder eerst een toegewijde red-team-doorloop."
     },
     {
       "type": "h2",
@@ -289,7 +289,7 @@
     },
     {
       "type": "p",
-      "text": "De privacy-filter-release van OpenAI is geen model. Het is een these over de richting waarin de sector beweegt: doelgerichte, in de browser uitvoerbare, Apache 2.0-classifiers die aan de randen van uw stack draaien en bewaken wat uw LLMs te zien krijgen en wat ze teruggeven. Dat is de vorm van het compliance-werk dat we bij webvise uitvoeren, en het is de vorm van de governance-laag die de meeste agents vandaag missen."
+      "text": "De privacy-filter-release van OpenAI is geen model. Het is een these over de richting waarin de sector beweegt: doelgerichte, in de browser uitvoerbare, Apache 2.0-classifiers die aan de randen van uw stack draaien en bewaken wat uw LLMs te zien krijgen en wat ze teruggeven. Dat is de vorm van het compliance-werk dat bij webvise wordt uitgevoerd, en het is de vorm van de governance-laag die de meeste agents vandaag missen."
     },
     {
       "type": "p",

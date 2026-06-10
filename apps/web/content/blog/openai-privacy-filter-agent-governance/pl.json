@@ -17,7 +17,7 @@
     },
     {
       "type": "p",
-      "text": "Jeśli uruchamia Pan/Pani agenty na danych klientów, redakcja PII jest zazwyczaj obsługiwana przez bibliotekę wyrażeń regularnych, którą Pan/Pani utrzymuje, lub przez kierowanie żądań przez LLM - oba podejścia mają swoje kompromisy. Ten artykuł omawia, czym naprawdę jest openai/privacy-filter, jakie decyzje architektoniczne mają znaczenie i gdzie powinien on znaleźć się w rzeczywistym stosie agent governance. Wyjaśniamy również, dlaczego to wydanie zmienia nasze stanowisko dotyczące agentów odczytujących niezaufane dane wejściowe, oraz co z tym zrobić w przypadku regulowanych obciążeń."
+      "text": "Jeśli uruchamia Pan/Pani agenty na danych klientów, redakcja PII jest zazwyczaj obsługiwana przez bibliotekę wyrażeń regularnych, którą Pan/Pani utrzymuje, lub przez kierowanie żądań przez LLM - oba podejścia mają swoje kompromisy. Ten artykuł omawia, czym naprawdę jest openai/privacy-filter, jakie decyzje architektoniczne mają znaczenie i gdzie powinien on znaleźć się w rzeczywistym stosie agent governance. Wyjaśniam również, dlaczego to wydanie zmienia moje stanowisko dotyczące agentów odczytujących niezaufane dane wejściowe, oraz co z tym zrobić w przypadku regulowanych obciążeń."
     },
     {
       "type": "h2",
@@ -107,7 +107,7 @@
     },
     {
       "type": "p",
-      "text": "Rzeczywisty stos agent governance ma odrębne warstwy. Model roboczy, którego używamy w webvise, wygląda następująco:"
+      "text": "Rzeczywisty stos agent governance ma odrębne warstwy. Model roboczy używany w webvise wygląda następująco:"
     },
     {
       "type": "ul",
@@ -147,7 +147,7 @@
     },
     {
       "type": "p",
-      "text": "Dla większości stosów klientów, które projektujemy, odpowiedzią jest połączenie Warstwy 2 i Warstwy 5. Sprawdzenie lokalne w przeglądarce zatrzymuje przypadkowe PII przed wejściem do okna kontekstu. Sprawdzenie wyjść po stronie serwera wychwytuje wszystko, co model wygenerował lub ujawnił w odpowiedzi. Obrona w głąb jest tutaj celem."
+      "text": "Dla większości stosów klientów, które projektuję, odpowiedzią jest połączenie Warstwy 2 i Warstwy 5. Sprawdzenie lokalne w przeglądarce zatrzymuje przypadkowe PII przed wejściem do okna kontekstu. Sprawdzenie wyjść po stronie serwera wychwytuje wszystko, co model wygenerował lub ujawnił w odpowiedzi. Obrona w głąb jest tutaj celem."
     },
     {
       "type": "p",
@@ -209,7 +209,7 @@
     },
     {
       "type": "p",
-      "text": "Jeśli domena zawiera kategorie spoza tej listy, należy przeprowadzić fine-tuning. Karta modelu wyraźnie wskazuje, że nie można zmienić polityki etykiet w czasie działania. To jest koszt klasyfikatora o 50 milionach aktywnych parametrów: taksonomia jest wbudowana. Dla zespołów porównujących opcje, nasz przewodnik po [najlepszych lokalnych modelach AI dla firm z wymogami compliance w 2026 roku](/blog/best-local-ai-models-2026) omawia stronę ogólnych LLM w tej samej decyzji."
+      "text": "Jeśli domena zawiera kategorie spoza tej listy, należy przeprowadzić fine-tuning. Karta modelu wyraźnie wskazuje, że nie można zmienić polityki etykiet w czasie działania. To jest koszt klasyfikatora o 50 milionach aktywnych parametrów: taksonomia jest wbudowana. Dla zespołów porównujących opcje, przewodnik po [najlepszych lokalnych modelach AI dla firm z wymogami compliance w 2026 roku](/blog/best-local-ai-models-2026) omawia stronę ogólnych LLM w tej samej decyzji."
     },
     {
       "type": "p",
@@ -229,7 +229,7 @@
     },
     {
       "type": "p",
-      "text": "To narzędzie wspomagające redakcję, nie gwarancja anonimizacji. Usunięcie powierzchniowych PII nie eliminuje ryzyka reidentyfikacji, gdy quasi-identyfikatory (kod pocztowy, wiek, rzadka diagnoza) koncentrują się razem. Jeśli obowiązek compliance to anonimizacja RODO lub de-identyfikacja HIPAA metodą Safe Harbor, potrzebny jest dedykowany pipeline ponad tym narzędziem, nie samo to narzędzie. Nasz artykuł o [regulacjach i certyfikacjach AI w Niemczech i Europie](/blog/ai-regulations-certifications-europe) szczegółowo mapuje stos regulacyjny."
+      "text": "To narzędzie wspomagające redakcję, nie gwarancja anonimizacji. Usunięcie powierzchniowych PII nie eliminuje ryzyka reidentyfikacji, gdy quasi-identyfikatory (kod pocztowy, wiek, rzadka diagnoza) koncentrują się razem. Jeśli obowiązek compliance to anonimizacja RODO lub de-identyfikacja HIPAA metodą Safe Harbor, potrzebny jest dedykowany pipeline ponad tym narzędziem, nie samo to narzędzie. Artykuł o [regulacjach i certyfikacjach AI w Niemczech i Europie](/blog/ai-regulations-certifications-europe) szczegółowo mapuje stos regulacyjny."
     },
     {
       "type": "h3",
@@ -241,15 +241,15 @@
     },
     {
       "type": "p",
-      "text": "Nasza zasada: Privacy Filter znajduje się w stosie z co najmniej jednym dodatkowym sprawdzeniem poniżej. Jeśli jest jedyną warstwą, jest się o jedną aktualizację modelu od regresji, której nikt nie wychwytuje."
+      "text": "Moja zasada: Privacy Filter znajduje się w stosie z co najmniej jednym dodatkowym sprawdzeniem poniżej. Jeśli jest jedyną warstwą, jest się o jedną aktualizację modelu od regresji, której nikt nie wychwytuje."
     },
     {
       "type": "h2",
-      "text": "Aktualizacja naszego stanowiska dotyczącego agentów na otwartym webie"
+      "text": "Aktualizacja stanowiska dotyczącego agentów na otwartym webie"
     },
     {
       "type": "p",
-      "text": "Wcześniej w tym miesiącu opublikowaliśmy stanowisko: webvise nie będzie wdrażać agentów AI odczytujących otwarty web dla klientów. [Powód był konkretny](/blog/business-ai-agents-untrusted-web). Dane wejściowe kontrolowane przez atakującego (zescrapowana strona, URL przesłany przez użytkownika, feed strony trzeciej) dostarczają agentowi PII, dane uwierzytelniające lub payloady prompt injection, które wyciekają do dalszych działań."
+      "text": "Wcześniej w tym miesiącu opublikowałem stanowisko: webvise nie będzie wdrażać agentów AI odczytujących otwarty web dla klientów. [Powód był konkretny](/blog/business-ai-agents-untrusted-web). Dane wejściowe kontrolowane przez atakującego (zescrapowana strona, URL przesłany przez użytkownika, feed strony trzeciej) dostarczają agentowi PII, dane uwierzytelniające lub payloady prompt injection, które wyciekają do dalszych działań."
     },
     {
       "type": "p",
@@ -261,7 +261,7 @@
     },
     {
       "type": "p",
-      "text": "Aktualizacja stanowiska: będziemy teraz wdrażać wąskie narzędzia odczytu otwartego webu dla workflow niewymagających wrażliwości (agregacja danych publicznych, intelligence konkurencji, badania rynku), jeśli Privacy Filter jest podłączony po obu stronach wywołania modelu. Nadal nie będziemy ich wdrażać dla workflow dotykających rekordów klientów, dokumentów wewnętrznych lub autoryzowanych działań bez wcześniejszego dedykowanego red-teamu."
+      "text": "Aktualizacja stanowiska: webvise będzie teraz wdrażać wąskie narzędzia odczytu otwartego webu dla workflow niewymagających wrażliwości (agregacja danych publicznych, intelligence konkurencji, badania rynku), jeśli Privacy Filter jest podłączony po obu stronach wywołania modelu. Nadal nie będzie ich wdrażać dla workflow dotykających rekordów klientów, dokumentów wewnętrznych lub autoryzowanych działań bez wcześniejszego dedykowanego red-teamu."
     },
     {
       "type": "h2",
@@ -289,7 +289,7 @@
     },
     {
       "type": "p",
-      "text": "Wydanie privacy-filter przez OpenAI to nie model. To teza o kierunku, w którym zmierza branża: modele klasyfikatorów budowane do konkretnych celów, działające w przeglądarce, na licencji Apache 2.0, uruchomione na krawędziach stosu, bramkujące to, co widzi LLM i co zwraca. To jest kształt pracy compliance, którą wykonujemy w webvise, i kształt warstwy governance, której brakuje większości agentów."
+      "text": "Wydanie privacy-filter przez OpenAI to nie model. To teza o kierunku, w którym zmierza branża: modele klasyfikatorów budowane do konkretnych celów, działające w przeglądarce, na licencji Apache 2.0, uruchomione na krawędziach stosu, bramkujące to, co widzi LLM i co zwraca. To jest kształt pracy compliance, którą wykonuję w webvise, i kształt warstwy governance, której brakuje większości agentów."
     },
     {
       "type": "p",

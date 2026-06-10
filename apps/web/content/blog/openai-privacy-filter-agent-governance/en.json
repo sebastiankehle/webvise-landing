@@ -17,7 +17,7 @@
     },
     {
       "type": "p",
-      "text": "If you are running agents on client data today, PII redaction is commonly handled by an in-house regex library or by routing requests through an LLM, both of which carry trade-offs. This article walks through what openai/privacy-filter actually is, the architectural choices that matter, and where it belongs in a real agent governance stack. We will also explain why this release updates our position on agents that read untrusted inputs, and what to do with it if you are shipping regulated workloads."
+      "text": "If you are running agents on client data today, PII redaction is commonly handled by an in-house regex library or by routing requests through an LLM, both of which carry trade-offs. This article walks through what openai/privacy-filter actually is, the architectural choices that matter, and where it belongs in a real agent governance stack. I will also explain why this release updates my position on agents that read untrusted inputs, and what to do with it if you are shipping regulated workloads."
     },
     {
       "type": "h2",
@@ -107,7 +107,7 @@
     },
     {
       "type": "p",
-      "text": "A real agent governance stack has distinct layers. The working model we use at webvise looks like this:"
+      "text": "A real agent governance stack has distinct layers. The working model I use at webvise looks like this:"
     },
     {
       "type": "ul",
@@ -147,7 +147,7 @@
     },
     {
       "type": "p",
-      "text": "For most client stacks we architect, the answer is Layers 2 and 5 in combination. The browser-local check stops accidental PII from entering the context window in the first place. The server-side output check catches anything the model generates or leaks in its response. Defense in depth is the point."
+      "text": "For most client stacks I architect, the answer is Layers 2 and 5 in combination. The browser-local check stops accidental PII from entering the context window in the first place. The server-side output check catches anything the model generates or leaks in its response. Defense in depth is the point."
     },
     {
       "type": "p",
@@ -209,7 +209,7 @@
     },
     {
       "type": "p",
-      "text": "If your domain has categories outside this list, you fine-tune. The model card is explicit that you cannot change the label policy at runtime. That is the cost of a 50-million active-parameter classifier: the taxonomy is baked in. For teams comparing options, our guide to [the best local AI models for compliant businesses in 2026](/blog/best-local-ai-models-2026) covers the general-purpose LLM side of the same decision."
+      "text": "If your domain has categories outside this list, you fine-tune. The model card is explicit that you cannot change the label policy at runtime. That is the cost of a 50-million active-parameter classifier: the taxonomy is baked in. For teams comparing options, the guide to [the best local AI models for compliant businesses in 2026](/blog/best-local-ai-models-2026) covers the general-purpose LLM side of the same decision."
     },
     {
       "type": "p",
@@ -229,7 +229,7 @@
     },
     {
       "type": "p",
-      "text": "This is a redaction aid, not an anonymization guarantee. Removing surface PII does not eliminate re-identification risk when quasi-identifiers (zip code, age, rare diagnosis) cluster together. If your compliance obligation is GDPR anonymization or HIPAA de-identification under the Safe Harbor method, you need a dedicated pipeline on top of this, not this alone. Our write-up on [AI regulations and certifications in Germany and Europe](/blog/ai-regulations-certifications-europe) maps the regulatory stack in detail."
+      "text": "This is a redaction aid, not an anonymization guarantee. Removing surface PII does not eliminate re-identification risk when quasi-identifiers (zip code, age, rare diagnosis) cluster together. If your compliance obligation is GDPR anonymization or HIPAA de-identification under the Safe Harbor method, you need a dedicated pipeline on top of this, not this alone. My write-up on [AI regulations and certifications in Germany and Europe](/blog/ai-regulations-certifications-europe) maps the regulatory stack in detail."
     },
     {
       "type": "h3",
@@ -241,15 +241,15 @@
     },
     {
       "type": "p",
-      "text": "Our rule: Privacy Filter sits in a stack with at least one other check downstream. If it is the only layer, you are one model update away from a regression no one catches."
+      "text": "My rule: Privacy Filter sits in a stack with at least one other check downstream. If it is the only layer, you are one model update away from a regression no one catches."
     },
     {
       "type": "h2",
-      "text": "Updating our \"no agents on the open web\" position"
+      "text": "Updating my \"no agents on the open web\" position"
     },
     {
       "type": "p",
-      "text": "Earlier this month we published a position: webvise will not ship AI agents that read the open web for clients. [The reason was concrete](/blog/business-ai-agents-untrusted-web). Attacker-controlled inputs (a scraped page, a user-submitted URL, a third-party feed) give the agent PII, credentials, or prompt-injection payloads that leak through to downstream actions."
+      "text": "Earlier this month I published a position: webvise will not ship AI agents that read the open web for clients. [The reason was concrete](/blog/business-ai-agents-untrusted-web). Attacker-controlled inputs (a scraped page, a user-submitted URL, a third-party feed) give the agent PII, credentials, or prompt-injection payloads that leak through to downstream actions."
     },
     {
       "type": "p",
@@ -261,7 +261,7 @@
     },
     {
       "type": "p",
-      "text": "The position update: we will now ship narrow open-web readers for non-sensitive workflows (public data aggregation, competitive intel, market research) if Privacy Filter is wired on both sides of the model call. We still will not ship them for workflows that touch customer records, internal documents, or authenticated actions without a dedicated red-team pass first."
+      "text": "The position update: I will now ship narrow open-web readers for non-sensitive workflows (public data aggregation, competitive intel, market research) if Privacy Filter is wired on both sides of the model call. I still will not ship them for workflows that touch customer records, internal documents, or authenticated actions without a dedicated red-team pass first."
     },
     {
       "type": "h2",
@@ -289,7 +289,7 @@
     },
     {
       "type": "p",
-      "text": "OpenAI's privacy-filter release is a thesis about where the industry is heading: purpose-built, browser-runnable, Apache 2.0 classifiers running at the edges of your stack, gating what your LLMs see and what they return. That is the shape of the compliance work we do at webvise, and it is the shape of the governance layer most agents are missing today."
+      "text": "OpenAI's privacy-filter release is a thesis about where the industry is heading: purpose-built, browser-runnable, Apache 2.0 classifiers running at the edges of your stack, gating what your LLMs see and what they return. That is the shape of the compliance work I do at webvise, and it is the shape of the governance layer most agents are missing today."
     },
     {
       "type": "p",
