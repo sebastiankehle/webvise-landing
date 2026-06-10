@@ -7,28 +7,33 @@ import {
 } from "@webvise-app/api/services/wp-health/psi";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
+const envMock = {
+	GOOGLE_PAGESPEED_API_KEY: undefined as string | undefined,
+};
+
+vi.mock("@webvise-app/env/server", () => ({
+	get env() {
+		return envMock;
+	},
+}));
+
 const PSI_400_RE = /PageSpeed API error 400/;
 
 describe("runPageSpeedInsights", () => {
 	const fetchMock = vi.fn();
-	const ORIGINAL_KEY = process.env.GOOGLE_PAGESPEED_API_KEY;
 
 	beforeEach(() => {
 		fetchMock.mockReset();
 		vi.stubGlobal("fetch", fetchMock);
+		envMock.GOOGLE_PAGESPEED_API_KEY = undefined;
 	});
 
 	afterEach(() => {
 		vi.unstubAllGlobals();
-		if (ORIGINAL_KEY === undefined) {
-			delete process.env.GOOGLE_PAGESPEED_API_KEY;
-		} else {
-			process.env.GOOGLE_PAGESPEED_API_KEY = ORIGINAL_KEY;
-		}
 	});
 
 	it("calls the v5 endpoint with strategy + category and the API key", async () => {
-		process.env.GOOGLE_PAGESPEED_API_KEY = "k123";
+		envMock.GOOGLE_PAGESPEED_API_KEY = "k123";
 		fetchMock.mockResolvedValueOnce(new Response("{}", { status: 200 }));
 		await runPageSpeedInsights("https://example.com", "mobile");
 		const url = new URL(fetchMock.mock.calls[0][0]);
@@ -41,7 +46,7 @@ describe("runPageSpeedInsights", () => {
 	});
 
 	it("omits the key parameter when env var is not set", async () => {
-		delete process.env.GOOGLE_PAGESPEED_API_KEY;
+		envMock.GOOGLE_PAGESPEED_API_KEY = undefined;
 		fetchMock.mockResolvedValueOnce(new Response("{}", { status: 200 }));
 		await runPageSpeedInsights("https://example.com", "desktop");
 		const url = new URL(fetchMock.mock.calls[0][0]);
@@ -71,6 +76,22 @@ describe("runPageSpeedInsights", () => {
 			expect((e as Error).message).toMatch(PSI_400_RE);
 			expect((e as Error).message).toContain("nope");
 		}
+	});
+
+	it("maps a fetch AbortError (TimeoutError) to PSIError code 'timeout'", async () => {
+		const abortErr = new DOMException("signal timed out", "TimeoutError");
+		fetchMock.mockRejectedValueOnce(abortErr);
+		await expect(
+			runPageSpeedInsights("https://example.com", "mobile")
+		).rejects.toMatchObject({ name: "PSIError", code: "timeout" });
+	});
+
+	it("maps a fetch AbortError (AbortError) to PSIError code 'timeout'", async () => {
+		const abortErr = new DOMException("aborted", "AbortError");
+		fetchMock.mockRejectedValueOnce(abortErr);
+		await expect(
+			runPageSpeedInsights("https://example.com", "mobile")
+		).rejects.toMatchObject({ name: "PSIError", code: "timeout" });
 	});
 });
 
