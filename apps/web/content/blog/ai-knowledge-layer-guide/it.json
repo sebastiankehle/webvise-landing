@@ -2,11 +2,11 @@
   "date": "2026-04-15",
   "readingTime": 8,
   "keyword": "knowledge layer IA",
-  "title": "Il Knowledge Layer IA: 127 pagine, zero vector database, e cosa abbiamo capito nel modo sbagliato",
-  "excerpt": "Il gist di Karpathy sull'LLM wiki ha raggiunto 99.000 bookmark in una settimana. Ha risuonato perché ha dato un nome a quello che ogni utente IA sente: i tuoi agenti non hanno memoria. Noi gestiamo un knowledge layer in produzione. Ecco cosa funziona, cosa non funziona, e come costruirne uno in 20 minuti.",
-  "metaDescription": "Guida pratica alla costruzione di un knowledge layer IA da un team che lo usa in produzione. Architettura, setup, dati reali e quello che abbiamo imparato sulla nostra pelle.",
+  "title": "Il Knowledge Layer IA: 127 pagine, zero vector database, e cosa ho capito nel modo sbagliato",
+  "excerpt": "Il gist di Karpathy sull'LLM wiki ha raggiunto 99.000 bookmark in una settimana. Ha risuonato perché ha dato un nome a quello che ogni utente IA sente: i tuoi agenti non hanno memoria. Gestisco un knowledge layer in produzione. Ecco cosa funziona, cosa non funziona, e come costruirne uno in 20 minuti.",
+  "metaDescription": "Guida pratica alla costruzione di un knowledge layer IA da un team che lo usa in produzione. Architettura, setup, dati reali e quello che ho imparato sulla mia pelle.",
   "tags": ["AI Agents", "AI", "Automation", "Business Strategy"],
-  "cta": "Contattaci",
+  "cta": "Mi contatti",
   "blocks": [
     {
       "type": "p",
@@ -14,11 +14,11 @@
     },
     {
       "type": "p",
-      "text": "Noi gestiamo un knowledge layer in webvise che alimenta la nostra ricerca interna, la documentazione dei clienti e la pipeline di contenuti che produce questo blog. Questo è quello che abbiamo imparato."
+      "text": "In webvise uso un livello di conoscenza per ricerca interna e documentazione cliente. Questo è ciò che ho imparato."
     },
     {
       "type": "h2",
-      "text": "Il problema non è il prompting. È l'amnesia."
+      "text": "Gli agenti dimenticano tra una sessione e l'altra."
     },
     {
       "type": "p",
@@ -54,11 +54,11 @@
     },
     {
       "type": "p",
-      "text": "Il RAG ri-deriva le risposte al momento della query dividendo i documenti in chunk e cercando i frammenti rilevanti. L'approccio del wiki compilato salta tutto questo. graphify ha misurato **71,5 volte meno token per query** rispetto alla ricerca nei file raw nel loro confronto pubblicato; i risultati dipendono dalle caratteristiche del corpus e dalla distribuzione delle query. Le nostre misurazioni mostrano circa 1.000 token di contenuto del vault per query, rispetto ai 3.000 o più token che una pipeline RAG tipica inietta."
+      "text": "Il RAG ri-deriva le risposte al momento della query dividendo i documenti in chunk e cercando i frammenti rilevanti. L'approccio del wiki compilato salta tutto questo. graphify ha misurato **71,5 volte meno token per query** rispetto alla ricerca nei file raw nel loro confronto pubblicato; i risultati dipendono dalle caratteristiche del corpus e dalla distribuzione delle query. Le misurazioni mostrano circa 1.000 token di contenuto del vault per query, rispetto ai 3.000 o più token che una pipeline RAG tipica inietta."
     },
     {
       "type": "p",
-      "text": "Abbiamo scritto un [confronto tecnico completo](/blog/business-knowledge-base-without-rag) tra RAG e recupero basato su indice. La versione breve: nei carichi di lavoro analizzati, il wiki compilato ha superato il RAG in accuratezza, costo e complessità per knowledge base sotto i 1.000 documenti. Nessun vector database, nessun modello di embedding, nessuna strategia di chunking, nessun job di re-indicizzazione. Cinque comandi shell e un file indice ben mantenuto."
+      "text": "Ho scritto un [confronto tecnico completo](/blog/business-knowledge-base-without-rag) tra RAG e recupero basato su indice. La versione breve: nei carichi di lavoro analizzati, il wiki compilato ha superato il RAG in accuratezza, costo e complessità per knowledge base sotto i 1.000 documenti. Nessun vector database, nessun modello di embedding, nessuna strategia di chunking, nessun job di re-indicizzazione. Cinque comandi shell e un file indice ben mantenuto."
     },
     {
       "type": "p",
@@ -66,20 +66,20 @@
     },
     {
       "type": "h2",
-      "text": "Quello che abbiamo imparato gestendo il nostro"
+      "text": "Quello che ho imparato gestendo il mio"
     },
     {
       "type": "p",
-      "text": "Il nostro wiki interno contiene attualmente 127 pagine strutturate in sette categorie: persone, aziende, concetti, playbook, collezioni, sintesi e strumenti. Ogni pagina segue un template standard con frontmatter YAML, cross-reference tramite wikilink di Obsidian e attribuzione delle sorgenti. L'agente esegue sei operazioni definite: ingest, aggiornamento conversazionale, query, lint, enrich e riorganizzazione."
+      "text": "Il wiki interno contiene attualmente 127 pagine strutturate in sette categorie: persone, aziende, concetti, playbook, collezioni, sintesi e strumenti. Ogni pagina segue un template standard con frontmatter YAML, cross-reference tramite wikilink di Obsidian e attribuzione delle sorgenti. L'agente esegue sei operazioni definite: ingest, aggiornamento conversazionale, query, lint, enrich e riorganizzazione."
     },
     {
       "type": "ul",
       "items": [
         "**Il file schema è tutto.** Tutto il resto ne deriva. Uno schema ben scritto produce un wiki disciplinato con convenzioni coerenti. Uno schema vago produce allucinazioni e sprawl. La versione attuale è circa 200 righe e copre struttura delle directory, formato delle pagine, tutte e sei le operazioni, convenzioni di naming e gestione delle contraddizioni. Ci sono volute diverse iterazioni per farlo funzionare.",
-        "**Il dedup-first previene lo sprawl delle pagine.** La nostra regola: prima di creare qualsiasi nuova pagina, cerca nel wiki esistente contenuti sovrapposti. Se una pagina esistente copre il 60% o più dello stesso terreno, arricchisci quella pagina invece di crearne una nuova. Senza questa regola, il wiki si riempie di pagine ridondanti che frammentano la conoscenza in pezzi inutilizzabili.",
+        "**Il dedup-first previene lo sprawl delle pagine.** La regola: prima di creare qualsiasi nuova pagina, cerca nel wiki esistente contenuti sovrapposti. Se una pagina esistente copre il 60% o più dello stesso terreno, arricchisci quella pagina invece di crearne una nuova. Senza questa regola, il wiki si riempie di pagine ridondanti che frammentano la conoscenza in pezzi inutilizzabili.",
         "**Le query si compongono nella knowledge base.** Quando fai una buona domanda e ottieni una risposta utile, quella risposta viene archiviata come nuova pagina del wiki. La prossima volta che qualcuno fa una domanda correlata, l'agente ha già una sintesi pre-compilata da cui attingere. Questo è l'effetto compounding che rende il sistema migliore nel tempo, non solo più grande.",
-        "**La qualità dell'ingest dipende interamente dalla disciplina.** Scaricare un articolo raw e dire \"ingest this\" produce un riassunto superficiale. Analizzare la sorgente con l'agente, discutere i takeaway e indicare cosa enfatizzare produce pagine che restano utili man mano che il wiki cresce. Imponiamo un workflow rigoroso: pulisci il file raw, discuti i takeaway principali, aspetta l'approvazione, poi estrai completamente.",
-        "**Il file indice è il sistema di retrieval.** Il nostro indice root ha 22 righe. Ogni sottodirectory ha il proprio indice che elenca ogni pagina con una descrizione di una riga. L'agente legge l'indice root a circa 400 token, identifica la sottodirectory giusta, legge quell'indice, poi recupera le pagine specifiche di cui ha bisogno. La maggior parte delle query si completa con tre letture e circa 1.000 token di contenuto del vault."
+        "**La qualità dell'ingest dipende interamente dalla disciplina.** Scaricare un articolo raw e dire \"ingest this\" produce un riassunto superficiale. Analizzare la sorgente con l'agente, discutere i takeaway e indicare cosa enfatizzare produce pagine che restano utili man mano che il wiki cresce. Il workflow è rigoroso: pulisci il file raw, discuti i takeaway principali, aspetta l'approvazione, poi estrai completamente.",
+        "**Il file indice è il sistema di retrieval.** Il mio indice root ha 22 righe. Ogni sottodirectory ha il proprio indice che elenca ogni pagina con una descrizione di una riga. L'agente legge l'indice root a circa 400 token, identifica la sottodirectory giusta, legge quell'indice, poi recupera le pagine specifiche di cui ha bisogno. La maggior parte delle query si completa con tre letture e circa 1.000 token di contenuto del vault."
       ]
     },
     {
@@ -88,7 +88,7 @@
     },
     {
       "type": "p",
-      "text": "Karpathy lo chiama schema. Noi lo chiamiamo CLAUDE.md. Alcuni framework lo dividono in un Knowledge Base Layer e un Brand Foundation. Il nome non conta. Quello che conta è che questo unico file controlla come si comporta l'agente in ogni sessione."
+      "text": "Karpathy lo chiama schema. Qui si chiama CLAUDE.md. Alcuni framework lo dividono in un Knowledge Base Layer e un Brand Foundation. Il nome non conta. Quello che conta è che questo unico file controlla come si comporta l'agente in ogni sessione."
     },
     {
       "type": "p",
@@ -105,7 +105,7 @@
     },
     {
       "type": "p",
-      "text": "Senza questi, l'agente improvvisa. Crea pagine in posizioni casuali, usa formati inconsistenti, duplica contenuti tra le pagine e devia dalle tue convenzioni a ogni sessione. Lo schema previene la deriva. Trattiamo il nostro come codice di produzione: ogni modifica è deliberata e testata contro ingest reali."
+      "text": "Senza questi, l'agente improvvisa. Crea pagine in posizioni casuali, usa formati inconsistenti, duplica contenuti tra le pagine e devia dalle tue convenzioni a ogni sessione. Lo schema previene la deriva. Tratto il mio come codice di produzione: ogni modifica è deliberata e testata contro ingest reali."
     },
     {
       "type": "h2",
@@ -162,7 +162,7 @@
     },
     {
       "type": "p",
-      "text": "In **[webvise](/#contact)**, costruiamo knowledge layer per le aziende che vogliono che i loro agenti IA sappiano davvero di cosa stanno parlando. Se stai passando più tempo a spiegare il contesto ai tuoi strumenti che a ricevere valore da loro, questo è il problema che risolviamo. [Contattaci](/#contact)."
+      "text": "**[webvise](/#contact)** costruisce knowledge layer per le aziende che vogliono che i loro agenti IA sappiano davvero di cosa stanno parlando. Se stai passando più tempo a spiegare il contesto ai tuoi strumenti che a ricevere valore da loro, questo è il problema che risolvo. [Mi contatti](/#contact)."
     }
   ]
 }

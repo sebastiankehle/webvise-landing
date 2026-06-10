@@ -2,18 +2,24 @@
   "industry": "Agenci AI / Infrastruktura dla agentów",
   "title": "Keel: koncepcja infrastruktury agent-native dla produktów SaaS",
   "excerpt": "Koncepcja MVP prowadzona przez design, która sprawia, że dowolny produkt SaaS staje się użyteczny dla agentów AI. Keel analizuje API, interfejs i dokumentację produktu, zamienia każdą operację w typowane, nazwane narzędzie z hostowanym serwerem MCP i udostępnia jeden zarządzany endpoint za scope'ami, guardrailami i bramkami zatwierdzania. Każde wywołanie jest ograniczone zakresem, śledzone i odtwarzalne.",
-  "challenge": "Produkty zbudowano dla ludzi, nie dla agentów. Przycisk, modal, artykuł pomocy to interfejs dla osoby, która widzi i klika, a doczepienie API nie zamyka luki: agent nadal nie wie, co bezpiecznie wywołać, z czyim uprawnieniem ani co się właśnie wydarzyło. Dokumentacja to proza, nie kontrakt. Pojedynczy klucz API to wszystko albo nic, zbyt wiele mocy dla autonomicznego wywołującego. A agent działający bez zapisu to ryzyko, którego nikt nie skontroluje ani nie cofnie. Koncepcja miała rozwiązać jedną rzecz: jak sprawić, by istniejący produkt SaaS dał się bezpiecznie obsługiwać agentom, typowany, ograniczony zakresem i śledzony, bez przebudowy?",
-  "solution": "Zaprojektowaliśmy i zbudowaliśmy Keel jako pełną historię produktu na dwóch responsywnych ekranach. Strona docelowa przedstawia problem i zamkniętą pętlę za nim: map, generate, guard, publish, observe, uruchamianą przy każdej zmianie, tak by powierzchnia dla agenta nigdy nie odbiegała od produktu pod spodem. W konsoli operatora dzieje się właściwa praca. Pokazuje metryki wywołań na żywo, typowane schematy narzędzi, które Keel emituje dla każdej operacji, hostowany serwer MCP regenerowany przy każdej zmianie produktu, scope'y o minimalnych uprawnieniach na narzędzie, guardraile tempa i wydatków, bramki zatwierdzania dla wszystkiego, co modyfikuje, oraz odtwarzalny trace każdego wywołania. Konektory zasilają się z produktów, których zespół już używa, GitHub, Linear, Notion, Slack, Stripe i więcej, a Keel normalizuje każdą powierzchnię do typowanych narzędzi za jednym endpointem MCP/API, do którego agent uwierzytelnia się raz. Nic, co modyfikuje, nie dociera do produktu, zanim nie przejdzie swojego zakresu i bramki zatwierdzania. Interfejs stawia na skonstruowaną, przyrządową ciemną estetykę z animowanymi wizualizacjami wiązek konektorów, zbudowaną w Next.js 16.",
+  "challenge": "Produkty SaaS nadal pokazują agentom interfejsy projektowane dla ludzi. Przycisk, modal, artykuł pomocy to interfejs dla osoby, która widzi i klika, a doczepienie API nie zamyka luki: agent nadal nie wie, co bezpiecznie wywołać, z czyim uprawnieniem ani co się właśnie wydarzyło. Dokumentacja nie mówi agentowi, które wywołania są bezpieczne, ograniczone zakresem lub zatwierdzone. Pojedynczy klucz API to wszystko albo nic, zbyt wiele mocy dla autonomicznego wywołującego. Agent działający bez zapisu nie zostawia ścieżki audytu do kontroli lub rollbacku. Pytanie brzmiało: jak sprawić, by istniejący produkt SaaS dał się bezpiecznie obsługiwać agentom, typowany, ograniczony zakresem i śledzony, bez przebudowy?",
+  "solution": "Zaprojektowaliśmy i zbudowaliśmy Keel na dwóch responsywnych ekranach. Strona docelowa przedstawia problem i zamkniętą pętlę za nim: map, generate, guard, publish, observe, uruchamianą przy każdej zmianie, tak by powierzchnia dla agenta nigdy nie odbiegała od produktu pod spodem. W konsoli operatora dzieje się właściwa praca. Pokazuje metryki wywołań na żywo, typowane schematy narzędzi, które Keel emituje dla każdej operacji, hostowany serwer MCP regenerowany przy każdej zmianie produktu, scope'y o minimalnych uprawnieniach na narzędzie, guardraile tempa i wydatków, bramki zatwierdzania dla wszystkiego, co modyfikuje, oraz odtwarzalny trace każdego wywołania. Konektory zasilają się z produktów, których zespół już używa, GitHub, Linear, Notion, Slack, Stripe i więcej, a Keel normalizuje każdą powierzchnię do typowanych narzędzi za jednym endpointem MCP/API, do którego agent uwierzytelnia się raz. Nic, co modyfikuje, nie dociera do produktu, zanim nie przejdzie swojego zakresu i bramki zatwierdzania. Interfejs stawia na skonstruowaną, przyrządową ciemną estetykę z animowanymi wizualizacjami wiązek konektorów, zbudowaną w Next.js 16.",
   "metrics": [
     {
-      "value": "214",
-      "label": "Typowanych narzędzi wygenerowanych z powierzchni produktów"
+      "value": "1",
+      "label": "Koncepcja infrastruktury agentów"
     },
-    { "value": "4,1 mln", "label": "Wywołań agentów śledzonych miesięcznie" },
-    { "value": "9 min", "label": "Mediana czasu do gotowości dla agentów" },
     {
-      "value": "100%",
-      "label": "Wywołań ograniczonych zakresem i zarejestrowanych"
+      "value": "2",
+      "label": "Powierzchnie produktu zmapowane"
+    },
+    {
+      "value": "3",
+      "label": "Kontrakty narzędzi zaprojektowane"
+    },
+    {
+      "value": "1",
+      "label": "Prototyp konsoli operatora"
     }
   ],
   "techStack": [
@@ -24,10 +30,6 @@
     "Turborepo",
     "Vercel"
   ],
-  "testimonial": {
-    "quote": "Wydaj produkt, którym agenci naprawdę mogą operować.",
-    "author": "Keel",
-    "role": "Infrastruktura dla agentów w SaaS"
-  },
+  "testimonial": null,
   "liveUrlLabel": "Studium koncepcyjne"
 }

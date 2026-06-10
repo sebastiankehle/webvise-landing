@@ -15,7 +15,7 @@
     { "type": "h2", "text": "What Mythos Did That No Model Has Done Before" },
     {
       "type": "p",
-      "text": "Previous AI models could find individual vulnerabilities when pointed at specific codebases. Mythos did something qualitatively different: it autonomously scanned entire operating systems and produced working exploit chains at a scale no human security team has ever matched. The [benchmark numbers](https://red.anthropic.com/2026/mythos-preview/) tell the story: 93.9% on SWE-bench Verified, 94.5% on GPQA Diamond, 97.6% on the 2026 USA Mathematical Olympiad. This is not a model that occasionally stumbles onto a bug. This is a model that understands software systems deeply enough to find the gaps humans missed for decades."
+      "text": "Previous AI models could find individual vulnerabilities when pointed at specific codebases. Mythos did something qualitatively different: it autonomously scanned entire operating systems and produced working exploit chains at a scale no human security team has ever matched. The [benchmark numbers](https://red.anthropic.com/2026/mythos-preview/) tell the story: 93.9% on SWE-bench Verified, 94.5% on GPQA Diamond, 97.6% on the 2026 USA Mathematical Olympiad. This model understands software systems deeply enough to find gaps humans missed for decades."
     },
     {
       "type": "p",
@@ -36,16 +36,16 @@
     },
     {
       "type": "p",
-      "text": "Andrej Karpathy, co-founder of OpenAI, [published a response](https://karpathy.bearblog.dev/digital-hygiene/) the day after the announcement and [described it](https://x.com/itsolelehmann/status/2041946673895854569) in striking terms: **\"It's like COVID for software.\"** The Karpathy framing — that vulnerability discovery is becoming systemic — is striking, though analogies have limits. Mythos is currently in the hands of defenders. But the capability is out of the bottle. Models with similar offensive potential will be available to bad actors within months, whether through open-source replication, model theft, or simply the next generation of frontier models from any lab."
+      "text": "Andrej Karpathy, co-founder of OpenAI, [published a response](https://karpathy.bearblog.dev/digital-hygiene/) the day after the announcement and [described it](https://x.com/itsolelehmann/status/2041946673895854569) in striking terms: **\"It's like COVID for software.\"** The Karpathy framing - that vulnerability discovery is becoming systemic - is striking, though analogies have limits. Mythos is currently in the hands of defenders. But the capability is out of the bottle. Models with similar offensive potential will be available to bad actors within months, whether through open-source replication, model theft, or simply the next generation of frontier models from any lab."
     },
     { "type": "h2", "text": "Two Sides of the Same Problem" },
     {
       "type": "p",
-      "text": "Two days before the Mythos announcement, we published [Why We Won't Ship AI Agents That Read the Open Web](/blog/business-ai-agents-untrusted-web), our response to the Google DeepMind study that measured 23 ways to hijack a business AI agent. That article covered one side of the problem: AI agents as targets, manipulated through the data they consume."
+      "text": "Two days before the Mythos announcement, I published [Why I Won't Ship AI Agents That Read the Open Web](/blog/business-ai-agents-untrusted-web), my response to the Google DeepMind study that measured 23 ways to hijack a business AI agent. That article covered one side of the problem: AI agents as targets, manipulated through the data they consume."
     },
     {
       "type": "p",
-      "text": "Mythos is the other side: AI as the attacker. Together, they define the threat landscape that every business running software in production now faces:"
+      "text": "Mythos is the other side: AI as the attacker. Together, they define the threat model that every business running software in production now faces:"
     },
     {
       "type": "table",
@@ -82,18 +82,18 @@
     },
     {
       "type": "p",
-      "text": "For businesses, the bar is higher. Karpathy's step 1 is a password manager. The business equivalent: do you know every piece of software running in your stack, its version, and whether it has a known vulnerability right now? Most companies we talk to cannot answer that question. Sites running multiple plugins from many independent authors carry the highest aggregated dependency risk, and they represent the majority of the small and mid-size business web."
+      "text": "For businesses, the bar is higher. Karpathy's step 1 is a password manager. The business equivalent: do you know every piece of software running in your stack, its version, and whether it has a known vulnerability right now? Most companies I talk to cannot answer that question. Sites running multiple plugins from many independent authors carry the highest aggregated dependency risk, and they represent the majority of the small and mid-size business web."
     },
     {
       "type": "p",
-      "text": "We wrote about [WordPress security risks](/blog/wordpress-security-risks) before Mythos existed. The thesis was already straightforward: a plugin ecosystem where any author can push code to millions of sites is an indefensible attack surface. Mythos turns that from a theoretical concern into an operational one. An AI model capable of identifying vulnerabilities in mature codebases like the Linux kernel can also identify them in less-maintained plugins and dependencies."
+      "text": "I wrote about [WordPress security risks](/blog/wordpress-security-risks) before Mythos existed. The thesis was already plain: a plugin ecosystem where any author can push code to millions of sites is an indefensible attack surface. Mythos turns that from a theoretical concern into an operational one. An AI model capable of identifying vulnerabilities in mature codebases like the Linux kernel can also identify them in less-maintained plugins and dependencies."
     },
-    { "type": "h2", "text": "What We Changed This Week" },
+    { "type": "h2", "text": "What I Changed This Week" },
     {
       "type": "p",
-      "text": "At webvise, we audited every client-facing system the morning after the Mythos announcement. Our delivery stack is intentionally narrow (Next.js on Vercel, no WordPress, no third-party plugins with write access, no AI agents reading untrusted content). This reduces patch surface; it does not eliminate risk. The personal agent setup our founder runs with [Hermes](/blog/hermes-agent-self-improving-ai) already operates under the rule that no agent follows external links or executes external instructions. That rule held."
+      "text": "At webvise, I audited every client-facing system the morning after the Mythos announcement. The delivery stack is intentionally narrow (Next.js on Vercel, no WordPress, no third-party plugins with write access, no AI agents reading untrusted content). This reduces patch surface; it does not eliminate risk. The personal agent setup I run with [Hermes](/blog/hermes-agent-self-improving-ai) already operates under the rule that no agent follows external links or executes external instructions. That rule held."
     },
-    { "type": "p", "text": "What we did change:" },
+    { "type": "p", "text": "What I did change:" },
     {
       "type": "ul",
       "items": [
@@ -113,11 +113,11 @@
     },
     {
       "type": "p",
-      "text": "If your business runs software that has not been audited in the last quarter, if your CMS has plugins you cannot vouch for, if your AI features consume untrusted data, the time to fix those problems is now. Not because a human attacker might find the hole. Because a model already has."
+      "text": "If your business runs software that has not been audited in the last quarter, if your CMS has plugins you cannot vouch for, if your AI features consume untrusted data, the time to fix those problems is now. A model can already find the hole faster than a human attacker."
     },
     {
       "type": "p",
-      "text": "We help businesses build and maintain web infrastructure designed for this threat environment. If you want an honest assessment of where your stack stands, **[get in touch](/#contact)**."
+      "text": "webvise helps businesses build and maintain web infrastructure designed for this threat environment. If you want an honest assessment of where your stack stands, **[get in touch](/#contact)**."
     }
   ]
 }

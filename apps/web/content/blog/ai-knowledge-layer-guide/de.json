@@ -2,23 +2,23 @@
   "date": "2026-04-15",
   "readingTime": 8,
   "keyword": "KI Knowledge Layer",
-  "title": "Der KI Knowledge Layer: 127 Seiten, keine Vektordatenbank, und was wir falsch gemacht haben",
-  "excerpt": "Karpathys LLM-Wiki-Gist hatte in einer Woche 99.000 Bookmarks. Das traf einen Nerv, weil es benennt, was jeder KI-Nutzer spürt: deine Agenten haben kein Gedächtnis. Wir betreiben einen Knowledge Layer in Produktion. Was funktioniert, was nicht, und wie du in 20 Minuten einen aufbaust.",
-  "metaDescription": "Praxisleitfaden zum Aufbau eines KI Knowledge Layers von einem Team, das einen in Produktion betreibt. Architektur, Setup, echte Zahlen und was wir auf die harte Tour gelernt haben.",
+  "title": "Der KI Knowledge Layer: 127 Seiten, keine Vektordatenbank, und was ich falsch gemacht habe",
+  "excerpt": "Karpathys LLM-Wiki-Gist hatte in einer Woche 99.000 Bookmarks. Das traf einen Nerv, weil es benennt, was jeder KI-Nutzer spürt: deine Agenten haben kein Gedächtnis. Ich betreibe einen Knowledge Layer in Produktion. Was funktioniert, was nicht, und wie du in 20 Minuten einen aufbaust.",
+  "metaDescription": "Praxisleitfaden zum Aufbau eines KI Knowledge Layers aus echtem Produktionsbetrieb. Architektur, Setup, echte Zahlen und was ich auf die harte Tour gelernt habe.",
   "tags": ["AI Agents", "AI", "Automation", "Business Strategy"],
   "cta": "Kontakt aufnehmen",
   "blocks": [
     {
       "type": "p",
-      "text": "Andrej Karpathy veröffentlichte im April 2026 einen [Gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f), der ein Muster für den Aufbau persönlicher Wissensdatenbanken mit LLMs beschreibt. In einer Woche: 99.000 Bookmarks. Mehrere Implementierungen wurden innerhalb von Tagen Open Source. [graphify](https://github.com/safishamsi/graphify) erschien nach 48 Stunden und sammelte weitere 27.000. Das Muster traf einen Nerv, weil es ein bekanntes Problem benennt: Die meisten Agenten haben kein persistentes Gedächtnis über Sitzungen hinweg. Jedes Gespräch beginnt bei null. Du erklärst dein Unternehmen, deine Ziele, deine Sprache, deinen Kontext immer wieder neu — und das Ergebnis ist generisch, weil der Input nichts hatte, womit er arbeiten konnte."
+      "text": "Andrej Karpathy veröffentlichte im April 2026 einen [Gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f), der ein Muster für den Aufbau persönlicher Wissensdatenbanken mit LLMs beschreibt. In einer Woche: 99.000 Bookmarks. Mehrere Implementierungen wurden innerhalb von Tagen Open Source. [graphify](https://github.com/safishamsi/graphify) erschien nach 48 Stunden und sammelte weitere 27.000. Das Muster traf einen Nerv, weil es ein bekanntes Problem benennt: Die meisten Agenten haben kein persistentes Gedächtnis über Sitzungen hinweg. Jedes Gespräch beginnt bei null. Du erklärst dein Unternehmen, deine Ziele, deine Sprache, deinen Kontext immer wieder neu - und das Ergebnis ist generisch, weil der Input nichts hatte, womit er arbeiten konnte."
     },
     {
       "type": "p",
-      "text": "Bei webvise betreiben wir einen Knowledge Layer, der unsere interne Recherche, unsere Kundendokumentation und die Content-Pipeline antreibt, die diesen Blog produziert. Das haben wir dabei gelernt."
+      "text": "Bei webvise läuft eine Wissensebene für interne Recherche und Kundendokumentation. Das habe ich dabei gelernt."
     },
     {
       "type": "h2",
-      "text": "Das Problem ist nicht das Prompting. Es ist Amnesie."
+      "text": "Agenten vergessen zwischen Sitzungen."
     },
     {
       "type": "p",
@@ -54,11 +54,11 @@
     },
     {
       "type": "p",
-      "text": "RAG leitet Antworten zur Abfragezeit ab, indem es Dokumente in Chunks zerlegt und nach relevanten Fragmenten sucht. Der kompilierte Wiki-Ansatz überspringt das vollständig. Das graphify-Benchmark maß **71,5-mal weniger Tokens pro Anfrage** in ihrem veröffentlichten Vergleich; Ergebnisse hängen von den Korpuseigenschaften und der Abfrageverteilung ab. Unsere eigenen Messungen zeigen rund 1.000 Tokens Vault-Inhalt pro Anfrage, verglichen mit den 3.000 oder mehr Tokens, die eine typische RAG-Pipeline injiziert."
+      "text": "RAG leitet Antworten zur Abfragezeit ab, indem es Dokumente in Chunks zerlegt und nach relevanten Fragmenten sucht. Der kompilierte Wiki-Ansatz überspringt das vollständig. Das graphify-Benchmark maß **71,5-mal weniger Tokens pro Anfrage** in ihrem veröffentlichten Vergleich; Ergebnisse hängen von den Korpuseigenschaften und der Abfrageverteilung ab. Meine eigenen Messungen zeigen rund 1.000 Tokens Vault-Inhalt pro Anfrage, verglichen mit den 3.000 oder mehr Tokens, die eine typische RAG-Pipeline injiziert."
     },
     {
       "type": "p",
-      "text": "Wir haben einen [ausführlichen technischen Vergleich](/blog/business-knowledge-base-without-rag) von RAG versus indexbasiertem Retrieval geschrieben. Die Kurzversion: In den von uns gemessenen Workloads übertraf der kompilierte Wiki-Ansatz RAG in Genauigkeit, Kosten und operativer Komplexität. Keine Vektordatenbank, kein Embedding-Modell, keine Chunking-Strategie, kein Re-Indexing-Job. Fünf Shell-Befehle und eine gepflegte Index-Datei."
+      "text": "Ich habe einen [ausführlichen technischen Vergleich](/blog/business-knowledge-base-without-rag) von RAG versus indexbasiertem Retrieval geschrieben. Die Kurzversion: In den gemessenen Workloads übertraf der kompilierte Wiki-Ansatz RAG in Genauigkeit, Kosten und operativer Komplexität. Keine Vektordatenbank, kein Embedding-Modell, keine Chunking-Strategie, kein Re-Indexing-Job. Fünf Shell-Befehle und eine gepflegte Index-Datei."
     },
     {
       "type": "p",
@@ -66,20 +66,20 @@
     },
     {
       "type": "h2",
-      "text": "Was wir beim Betrieb gelernt haben"
+      "text": "Was ich beim Betrieb gelernt habe"
     },
     {
       "type": "p",
-      "text": "Unser internes Wiki umfasst derzeit 127 strukturierte Seiten in sieben Kategorien: Personen, Unternehmen, Konzepte, Playbooks, Sammlungen, Synthesen und Tools. Jede Seite folgt einem Standardtemplate mit YAML-Frontmatter, Querverweisen über Obsidian-Wikilinks und Quellenangaben. Der Agent führt sechs definierte Operationen aus: Ingest, Conversational Update, Query, Lint, Enrich und Reorganize."
+      "text": "Das interne Wiki umfasst derzeit 127 strukturierte Seiten in sieben Kategorien: Personen, Unternehmen, Konzepte, Playbooks, Sammlungen, Synthesen und Tools. Jede Seite folgt einem Standardtemplate mit YAML-Frontmatter, Querverweisen über Obsidian-Wikilinks und Quellenangaben. Der Agent führt sechs definierte Operationen aus: Ingest, Conversational Update, Query, Lint, Enrich und Reorganize."
     },
     {
       "type": "ul",
       "items": [
         "**Die Schema-Datei ist entscheidend.** Alles andere folgt daraus. Ein gut geschriebenes Schema produziert ein diszipliniertes Wiki mit konsistenten Konventionen. Ein vages Schema produziert Halluzinationen und Wildwuchs. Die aktuelle Version umfasst rund 200 Zeilen und deckt Verzeichnisstruktur, Seitenformat, alle sechs Operationen, Namenskonventionen und den Umgang mit Widersprüchen ab. Es hat mehrere Iterationen gebraucht, bis es stimmte.",
-        "**Dedup-first verhindert Seiten-Wildwuchs.** Unsere Regel: Bevor eine neue Seite erstellt wird, wird das bestehende Wiki auf überlappende Inhalte durchsucht. Wenn eine vorhandene Seite 60 Prozent oder mehr desselben Themas abdeckt, wird diese angereichert statt eine neue zu erstellen. Ohne diese Regel füllt sich das Wiki mit redundanten Seiten, die Wissen in unbrauchbare Fragmente zersplittern.",
+        "**Dedup-first verhindert Seiten-Wildwuchs.** Die Regel: Bevor eine neue Seite erstellt wird, wird das bestehende Wiki auf überlappende Inhalte durchsucht. Wenn eine vorhandene Seite 60 Prozent oder mehr desselben Themas abdeckt, wird diese angereichert statt eine neue zu erstellen. Ohne diese Regel füllt sich das Wiki mit redundanten Seiten, die Wissen in unbrauchbare Fragmente zersplittern.",
         "**Anfragen verdichten sich zur Wissensbasis.** Wenn du eine gute Frage stellst und eine nützliche Antwort bekommst, wird diese Antwort als neue Wiki-Seite abgelegt. Beim nächsten Mal, wenn jemand eine verwandte Frage stellt, hat der Agent bereits eine vorkompilierte Synthese. Das ist der Compounding-Effekt, der das System mit der Zeit besser macht, nicht nur größer.",
-        "**Ingest-Qualität hängt vollständig von Disziplin ab.** Eine rohe Quelle hineinwerfen und \"ingest this\" sagen produziert eine dünne Zusammenfassung. Die Quelle mit dem Agenten durcharbeiten, Erkenntnisse diskutieren und steuern, was betont werden soll, produziert Seiten, die mit wachsendem Wiki nützlich bleiben. Wir erzwingen einen strikten Workflow: die Rohdatei bereinigen, Kernaussagen diskutieren, auf Freigabe warten, dann vollständig extrahieren.",
-        "**Die Index-Datei ist das Retrieval-System.** Unser Root-Index hat 22 Zeilen. Jedes Unterverzeichnis hat seinen eigenen Index, der jede Seite mit einer einzeiligen Beschreibung auflistet. Der Agent liest den Root-Index bei rund 400 Tokens, identifiziert das richtige Unterverzeichnis, liest diesen Index und zieht dann die spezifischen Seiten, die er braucht. Die meisten Anfragen sind nach drei Lesevorgängen und etwa 1.000 Tokens Vault-Inhalt abgeschlossen."
+        "**Ingest-Qualität hängt vollständig von Disziplin ab.** Eine rohe Quelle hineinwerfen und \"ingest this\" sagen produziert eine dünne Zusammenfassung. Die Quelle mit dem Agenten durcharbeiten, Erkenntnisse diskutieren und steuern, was betont werden soll, produziert Seiten, die mit wachsendem Wiki nützlich bleiben. Der Workflow ist strikt: die Rohdatei bereinigen, Kernaussagen diskutieren, auf Freigabe warten, dann vollständig extrahieren.",
+        "**Die Index-Datei ist das Retrieval-System.** Mein Root-Index hat 22 Zeilen. Jedes Unterverzeichnis hat seinen eigenen Index, der jede Seite mit einer einzeiligen Beschreibung auflistet. Der Agent liest den Root-Index bei rund 400 Tokens, identifiziert das richtige Unterverzeichnis, liest diesen Index und zieht dann die spezifischen Seiten, die er braucht. Die meisten Anfragen sind nach drei Lesevorgängen und etwa 1.000 Tokens Vault-Inhalt abgeschlossen."
       ]
     },
     {
@@ -88,7 +88,7 @@
     },
     {
       "type": "p",
-      "text": "Karpathy nennt es das Schema. Wir nennen es CLAUDE.md. Einige Frameworks teilen es in einen Knowledge Base Layer und ein Brand Foundation auf. Der Name ist egal. Entscheidend ist, dass diese eine Datei steuert, wie sich der Agent über jede Session hinweg verhält."
+      "text": "Karpathy nennt es das Schema. Hier heißt es CLAUDE.md. Einige Frameworks teilen es in einen Knowledge Base Layer und ein Brand Foundation auf. Der Name ist egal. Entscheidend ist, dass diese eine Datei steuert, wie sich der Agent über jede Session hinweg verhält."
     },
     {
       "type": "p",
@@ -105,7 +105,7 @@
     },
     {
       "type": "p",
-      "text": "Ohne diese Vorgaben improvisiert der Agent. Er erstellt Seiten an zufälligen Orten, verwendet inkonsistente Formate, dupliziert Inhalte über Seiten hinweg und weicht mit jeder Session von deinen Konventionen ab. Das Schema verhindert Drift. Wir behandeln unseres wie Produktionscode: jede Änderung ist bewusst und wird gegen echte Ingests getestet."
+      "text": "Ohne diese Vorgaben improvisiert der Agent. Er erstellt Seiten an zufälligen Orten, verwendet inkonsistente Formate, dupliziert Inhalte über Seiten hinweg und weicht mit jeder Session von deinen Konventionen ab. Das Schema verhindert Drift. Ich behandle meines wie Produktionscode: jede Änderung ist bewusst und wird gegen echte Ingests getestet."
     },
     {
       "type": "h2",
@@ -162,7 +162,7 @@
     },
     {
       "type": "p",
-      "text": "Bei **[webvise](/#contact)** bauen wir Knowledge Layers für Unternehmen, die wollen, dass ihre KI-Agenten tatsächlich wissen, worum es geht. Wenn du mehr Zeit damit verbringst, deinen Tools Kontext zu erklären, als Mehrwert aus ihnen zu ziehen, ist das genau das Problem, das das löst. [Meld dich](/#contact)."
+      "text": "**[webvise](/#contact)** baut Knowledge Layers für Unternehmen, die wollen, dass ihre KI-Agenten tatsächlich wissen, worum es geht. Wenn du mehr Zeit damit verbringst, deinen Tools Kontext zu erklären, als Mehrwert aus ihnen zu ziehen, ist das genau das Problem, das das löst. [Meld dich](/#contact)."
     }
   ]
 }

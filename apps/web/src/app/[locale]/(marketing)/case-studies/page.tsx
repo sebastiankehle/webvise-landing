@@ -2,13 +2,13 @@ import { ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { getLocale, getTranslations } from "next-intl/server";
-
+import { MarketingTag } from "@/components/marketing/marketing-tag";
 import SectionWrapper, {
 	ConstructedGrid,
 	GridContainer,
 } from "@/components/marketing/section-wrapper";
 import StaggerChildren from "@/components/marketing/stagger-children";
-import { H1, H3, Label, Lead, Muted } from "@/components/ui/typography";
+import { Caption, H1, H3, Lead, Muted } from "@/components/ui/typography";
 import { getCaseStudies } from "@/data/case-studies";
 import { Link } from "@/i18n/navigation";
 import { generateAlternates, localizedUrl } from "@/lib/seo";
@@ -51,23 +51,21 @@ export default async function CaseStudiesPage() {
 				<GridContainer>
 					<div className="max-w-[720px]">
 						<H1>{t("title")}</H1>
-						<Lead className="mt-5 max-w-[560px] text-[17px] leading-[1.55]">
-							{t("subtitle")}
-						</Lead>
+						<Lead className="mt-5 max-w-[560px]">{t("subtitle")}</Lead>
 					</div>
 				</GridContainer>
 			</section>
 
 			<SectionWrapper
-				alternate
-				className="pt-0 md:pt-0"
+				className="pt-12 md:pt-16"
 				hatch
 				id="case-studies-list"
+				surface="alternate"
 			>
-				<StaggerChildren className="-mx-6 grid border-grid-line border-t md:grid-cols-2 lg:grid-cols-3">
+				<StaggerChildren className="grid gap-5 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
 					{caseStudies.map((cs) => (
 						<Link
-							className="group flex flex-col justify-between border-grid-line border-b p-6 transition-all hover:bg-muted/30 md:border-r md:p-8 md:[&:nth-child(2n)]:border-r-0 lg:[&:nth-child(2n)]:border-r lg:[&:nth-child(3n)]:border-r-0"
+							className="surface-card group relative flex flex-col overflow-hidden outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
 							href={{
 								pathname: "/case-studies/[slug]",
 								params: { slug: cs.slug },
@@ -75,33 +73,34 @@ export default async function CaseStudiesPage() {
 							key={cs.slug}
 						>
 							{cs.coverImage && (
-								<div className="relative mb-5 aspect-[2/1] w-full overflow-hidden border border-border/40">
+								<div className="relative aspect-[2/1] w-full overflow-hidden">
 									<Image
-										alt={`${cs.client} – ${cs.title}`}
-										className="object-cover transition-all duration-500 group-hover:brightness-110"
+										alt={`${cs.client} - ${cs.title}`}
+										className="object-cover object-left-top transition-transform duration-700 ease-out group-hover:scale-[1.02]"
 										fill
 										sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
 										src={cs.coverImage}
 									/>
 								</div>
 							)}
-							<div>
-								<Label>{cs.industry}</Label>
-								<H3 className="mt-2">{cs.title}</H3>
-								<Muted className="mt-3 leading-[1.6]">{cs.excerpt}</Muted>
-							</div>
-							<div className="mt-6 flex items-center justify-between border-border/40 border-t pt-5">
-								<div className="flex flex-wrap gap-1.5">
+							<div className="flex flex-1 flex-col p-5 md:p-6">
+								<div className="flex items-start justify-between gap-4">
+									<Caption className="text-brand-readable">
+										{cs.client} &middot; {cs.industry}
+									</Caption>
+									<ArrowRight className="h-4 w-4 shrink-0 text-brand-icon transition-transform duration-300 group-hover:translate-x-1" />
+								</div>
+								<H3 className="mt-2 line-clamp-2 text-lg">{cs.title}</H3>
+								<Muted className="mt-2 line-clamp-3 leading-relaxed">
+									{cs.excerpt}
+								</Muted>
+								<div className="mt-auto flex flex-wrap gap-1.5 pt-5">
 									{cs.techStack.slice(0, 3).map((tech) => (
-										<Label
-											className="border border-border/40 px-2 py-0.5 text-muted-foreground"
-											key={tech}
-										>
+										<MarketingTag key={tech} variant="brand">
 											{tech}
-										</Label>
+										</MarketingTag>
 									))}
 								</div>
-								<ArrowRight className="h-4 w-4 text-muted-foreground transition-all group-hover:translate-x-1 group-hover:text-brand-readable" />
 							</div>
 						</Link>
 					))}

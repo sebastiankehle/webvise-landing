@@ -2,18 +2,18 @@
   "date": "2026-04-16",
   "readingTime": 9,
   "keyword": "architettura agentica",
-  "title": "Perche la Maggior Parte dei Setup AI Funziona Molto Piu Lentamente di Quanto Potrebbe",
-  "excerpt": "Il divario tra risultati di produttivita AI modesti e sostanziali non dipende dal modello. Dipende dall'architettura che lo avvolge. Cinque builder hanno pubblicato la stessa tesi in una settimana.",
-  "metaDescription": "Il divario tra risultati di produttivita AI modesti e sostanziali non dipende dal modello. Dipende da dove metti l'intelligenza. L'architettura su cui i migliori builder concordano.",
+  "title": "Perché la Maggior Parte dei Setup AI Funziona Molto Più Lentamente di Quanto Potrebbe",
+  "excerpt": "Il divario tra risultati di produttività AI modesti e sostanziali non dipende dal modello. Dipende dall'architettura che lo avvolge. Cinque builder hanno pubblicato la stessa tesi in una settimana.",
+  "metaDescription": "Il divario tra risultati di produttività AI modesti e sostanziali non dipende dal modello. Dipende da dove metti l'intelligenza. L'architettura su cui i migliori builder concordano.",
   "tags": ["AI Agents", "AI", "Automation", "Web Development"],
   "blocks": [
     {
       "type": "p",
-      "text": "Il divario tra uno sviluppatore che ottiene risultati modesti dagli strumenti AI e uno che ottiene risultati sostanzialmente superiori non dipende dal modello che usa. Dipende dall'architettura che avvolge quel modello. Steve Yegge [ha osservato all'inizio del 2026](https://asksurf.ai/pulse/en/thin-harnesses-beat-thick-wrappers-garry-tan) che gli sviluppatori che usano agenti di codice AI riportano guadagni di produttivita significativi per compiti appropriati; le cifre riportate variano ampiamente in base alla metodologia e al tipo di attivita. Stessi modelli. Stessa intelligenza di fondo. La variabile e la struttura."
+      "text": "Il divario tra uno sviluppatore che ottiene risultati modesti dagli strumenti AI e uno che ottiene risultati sostanzialmente superiori non dipende dal modello che usa. Dipende dall'architettura che avvolge quel modello. Steve Yegge [ha osservato all'inizio del 2026](https://asksurf.ai/pulse/en/thin-harnesses-beat-thick-wrappers-garry-tan) che gli sviluppatori che usano agenti di codice AI riportano guadagni di produttività significativi per compiti appropriati; le cifre riportate variano ampiamente in base alla metodologia e al tipo di attività. Stessi modelli. Stessa intelligenza di fondo. La variabile è la struttura."
     },
     {
       "type": "p",
-      "text": "In una sola settimana nell'aprile 2026, cinque builder indipendenti hanno pubblicato framework per l'architettura degli agenti AI. [Garry Tan](https://x.com/garrytan) (Y Combinator), Andrej Karpathy, Viv Trivedy, Daniel Miessler e un [repository community](https://github.com/hesreallyhim/awesome-claude-code) che ha raggiunto 19.700 stelle su GitHub sono convergiti sulla stessa tesi centrale: metti l'intelligenza in file markdown portabili, mantieni l'infrastruttura di orchestrazione il piu snella possibile, lascia che il modello faccia il ragionamento. Questo articolo analizza su cosa sono d'accordo, dove divergono e cosa significa per chiunque stia costruendo con l'AI."
+      "text": "In una sola settimana nell'aprile 2026, cinque builder indipendenti hanno pubblicato framework per l'architettura degli agenti AI. [Garry Tan](https://x.com/garrytan) (Y Combinator), Andrej Karpathy, Viv Trivedy, Daniel Miessler e un [repository community](https://github.com/hesreallyhim/awesome-claude-code) che ha raggiunto 19.700 stelle su GitHub sono convergiti sulla stessa tesi centrale: metti l'intelligenza in file markdown portabili, mantieni l'infrastruttura di orchestrazione il più snella possibile, lascia che il modello faccia il ragionamento. Questo articolo analizza su cosa sono d'accordo, dove divergono e cosa significa per chiunque stia costruendo con l'AI."
     },
     {
       "type": "h2",
@@ -24,18 +24,18 @@
       "items": [
         "**L'intelligenza appartiene ai file skill in markdown, non al codice del framework.** Le skill sono portabili, versionabili e migliorano automaticamente quando il modello migliora.",
         "**L'harness deve fare quattro cose e nient'altro.** Eseguire il modello in un loop, leggere e scrivere file, gestire il contesto, applicare la sicurezza. Ogni funzione aggiunta oltre questo consuma contesto e rallenta il ragionamento.",
-        "**Cinque builder hanno pubblicato indipendentemente la stessa tesi in tre giorni (dal 12 al 15 aprile 2026).** Garry Tan, Andrej Karpathy, Viv Trivedy, Daniel Miessler e un repo community con 19.700 stelle. La convergenza di piu fonti indipendenti e uno dei segnali che un pattern architetturale e solido.",
-        "**LangChain non e d'accordo e ha benchmark per dimostrarlo.** Harrison Chase sostiene che l'harness E il prodotto. La risposta potrebbe dipendere dal fatto che si stia costruendo strumenti consumer o pipeline enterprise.",
+        "**Cinque builder hanno pubblicato indipendentemente la stessa tesi in tre giorni (dal 12 al 15 aprile 2026).** Garry Tan, Andrej Karpathy, Viv Trivedy, Daniel Miessler e un repo community con 19.700 stelle. La convergenza di più fonti indipendenti è uno dei segnali che un pattern architetturale è solido.",
+        "**LangChain non è d'accordo e ha benchmark per dimostrarlo.** Harrison Chase sostiene che l'harness È il prodotto. La risposta potrebbe dipendere dal fatto che si stia costruendo strumenti consumer o pipeline enterprise.",
         "**Le istruzioni prescrittive scadono. Il contesto no.** Ogni procedura passo-passo che scrivi per un'AI degrada con la prossima versione del modello. Il contesto su chi sei e cosa vuoi si accumula nel tempo."
       ]
     },
     {
       "type": "h2",
-      "text": "L'Architettura e Compatta"
+      "text": "L'Architettura è Compatta"
     },
     {
       "type": "p",
-      "text": "Le fonti degli harness per agenti in produzione sono sempre piu disponibili per l'ispezione, inclusa una istantanea pubblicamente osservata dell'harness di Claude Code nel 2026. Garry Tan ha esaminato una di queste fonti. Cio che ha trovato ha confermato un pattern che insegnava a Y Combinator da mesi: il divario di produttivita non riguarda l'intelligenza del modello. Riguarda cio che avvolge il modello."
+      "text": "Le fonti degli harness per agenti in produzione sono sempre più disponibili per l'ispezione, inclusa una istantanea pubblicamente osservata dell'harness di Claude Code nel 2026. Garry Tan ha esaminato una di queste fonti. Ciò che ha trovato ha confermato un pattern che insegnava a Y Combinator da mesi: il divario di produttività non riguarda l'intelligenza del modello. Riguarda ciò che avvolge il modello."
     },
     {
       "type": "p",
@@ -43,7 +43,7 @@
     },
     {
       "type": "table",
-      "headers": ["Livello", "Contenuto", "Proprieta Chiave"],
+      "headers": ["Livello", "Contenuto", "Proprietà Chiave"],
       "rows": [
         [
           "Fat skills",
@@ -64,11 +64,11 @@
     },
     {
       "type": "p",
-      "text": "Il principio e direzionale. Spingi l'intelligenza verso l'alto nelle skill. Spingi l'esecuzione verso il basso negli strumenti deterministici. Mantieni l'harness snello. Il 90% del valore vive nel livello delle skill. L'harness e un conduttore che legge file. Non li possiede."
+      "text": "Il principio è direzionale. Spingi l'intelligenza verso l'alto nelle skill. Spingi l'esecuzione verso il basso negli strumenti deterministici. Mantieni l'harness snello. Il 90% del valore vive nel livello delle skill. L'harness è un conduttore che legge file. Non li possiede."
     },
     {
       "type": "p",
-      "text": "L'esperienza personale di Tan lo dimostra. Il suo CLAUDE.md personale era partito da 20.000 righe. Ogni quirk, ogni convenzione, ogni lezione mai incontrata. Il risultato: l'attenzione di Claude Code degradava. Il modello gli ha detto letteralmente di ridurlo. La sua soluzione e stata [200 righe di puntatori](https://codex.danielvaughan.com/2026/03/30/gstack-garry-tan-production-skills-toolkit/) a documenti che si caricano su richiesta. Le 20.000 righe complete di conoscenza esistono ancora. Si caricano semplicemente quando sono rilevanti invece di inquinare la finestra di contesto ad ogni turno."
+      "text": "L'esperienza personale di Tan lo dimostra. Il suo CLAUDE.md personale era partito da 20.000 righe. Ogni quirk, ogni convenzione, ogni lezione mai incontrata. Il risultato: l'attenzione di Claude Code degradava. Il modello gli ha detto letteralmente di ridurlo. La sua soluzione è stata [200 righe di puntatori](https://codex.danielvaughan.com/2026/03/30/gstack-garry-tan-production-skills-toolkit/) a documenti che si caricano su richiesta. Le 20.000 righe complete di conoscenza esistono ancora. Si caricano semplicemente quando sono rilevanti invece di inquinare la finestra di contesto ad ogni turno."
     },
     {
       "type": "p",
@@ -88,11 +88,11 @@
     },
     {
       "type": "p",
-      "text": "Una skill e un documento markdown riutilizzabile che insegna al modello come fare qualcosa. Non cosa fare. L'utente fornisce il compito. La skill fornisce il processo. Funziona come una chiamata a metodo: stessa procedura, argomenti diversi, output radicalmente diversi."
+      "text": "Una skill è un documento markdown riutilizzabile che insegna al modello come fare qualcosa. Non cosa fare. L'utente fornisce il compito. La skill fornisce il processo. Funziona come una chiamata a metodo: stessa procedura, argomenti diversi, output radicalmente diversi."
     },
     {
       "type": "p",
-      "text": "L'esempio di Tan: una skill chiamata /investigate ha sette passaggi (definire il dataset, costruire una timeline, dirarizzare ogni documento, sintetizzare, argomentare entrambi i lati, citare le fonti). Puntala su uno scienziato della sicurezza e 2,1 milioni di email di discovery e ottieni un analista di ricerca medica. Puntala su una shell company e i documenti FEC e ottieni un investigatore forense. Stessi sette passaggi. E l'invocazione a fornire il contesto."
+      "text": "L'esempio di Tan: una skill chiamata /investigate ha sette passaggi (definire il dataset, costruire una timeline, dirarizzare ogni documento, sintetizzare, argomentare entrambi i lati, citare le fonti). Puntala su uno scienziato della sicurezza e 2,1 milioni di email di discovery e ottieni un analista di ricerca medica. Puntala su una shell company e i documenti FEC e ottieni un investigatore forense. Stessi sette passaggi. È l'invocazione a fornire il contesto."
     },
     {
       "type": "h3",
@@ -100,7 +100,7 @@
     },
     {
       "type": "p",
-      "text": "Un resolver e una tabella di routing per il contesto. Quando appare il tipo di task X, carica prima il documento Y. Senza un resolver, uno sviluppatore modifica un prompt e lo pubblica. Con un resolver, il modello legge prima la documentazione della suite di valutazione, esegue i benchmark e fa il rollback se l'accuratezza scende di piu del 2%. Lo sviluppatore non sapeva che la suite di valutazione esistesse. Il resolver ha caricato il contesto giusto al momento giusto."
+      "text": "Un resolver è una tabella di routing per il contesto. Quando appare il tipo di task X, carica prima il documento Y. Senza un resolver, uno sviluppatore modifica un prompt e lo pubblica. Con un resolver, il modello legge prima la documentazione della suite di valutazione, esegue i benchmark e fa il rollback se l'accuratezza scende di più del 2%. Lo sviluppatore non sapeva che la suite di valutazione esistesse. Il resolver ha caricato il contesto giusto al momento giusto."
     },
     {
       "type": "h3",
@@ -108,7 +108,7 @@
     },
     {
       "type": "p",
-      "text": "Ogni passaggio in un sistema e uno o l'altro. Confonderli e l'errore piu comune nel design degli agenti. Un LLM puo disporre 8 persone attorno a un tavolo da cena, tenendo conto delle personalita. Chiedigli di disporne 800 e allucinera una disposizione che sembra plausibile ma e completamente sbagliata. Questo e un problema deterministico forzato nello spazio latente. I migliori sistemi sono spietati riguardo a questa distinzione."
+      "text": "Ogni passaggio in un sistema è uno o l'altro. Confonderli è l'errore più comune nel design degli agenti. Un LLM può disporre 8 persone attorno a un tavolo da cena, tenendo conto delle personalità. Chiedigli di disporne 800 e allucinerà una disposizione che sembra plausibile ma è completamente sbagliata. Questo è un problema deterministico forzato nello spazio latente. I migliori sistemi sono spietati riguardo a questa distinzione."
     },
     {
       "type": "h3",
@@ -116,7 +116,7 @@
     },
     {
       "type": "p",
-      "text": "Il modello legge tutto su un soggetto e scrive un profilo strutturato. Nessuna query SQL produce questo. Nessuna pipeline RAG produce questo. Il modello deve leggere, tenere in mente le contraddizioni, notare cosa e cambiato e quando, e sintetizzare intelligence strutturata."
+      "text": "Il modello legge tutto su un soggetto e scrive un profilo strutturato. Nessuna query SQL produce questo. Nessuna pipeline RAG produce questo. Il modello deve leggere, tenere in mente le contraddizioni, notare cosa è cambiato e quando, e sintetizzare intelligence strutturata."
     },
     {
       "type": "p",
@@ -128,7 +128,7 @@
     },
     {
       "type": "p",
-      "text": "L'istruzione di Tan alla sua AI: \"Se ti chiedo di fare qualcosa ed e il tipo di cosa che dovra accadere di nuovo, codificala in un file skill. Se deve girare automaticamente, mettila in un cron. Se devo chiederti qualcosa due volte, hai fallito.\" Ogni skill scritta e un aggiornamento permanente. Non degrada mai. Quando esce il prossimo modello, ogni skill migliora istantaneamente. Il sistema si accumula."
+      "text": "L'istruzione di Tan alla sua AI: \"Se ti chiedo di fare qualcosa ed è il tipo di cosa che dovrà accadere di nuovo, codificala in un file skill. Se deve girare automaticamente, mettila in un cron. Se devo chiederti qualcosa due volte, hai fallito.\" Ogni skill scritta è un aggiornamento permanente. Non degrada mai. Quando esce il prossimo modello, ogni skill migliora istantaneamente. Il sistema si accumula."
     },
     {
       "type": "h2",
@@ -136,7 +136,7 @@
     },
     {
       "type": "p",
-      "text": "La convergenza e il segnale piu forte. Questi cinque corpus di lavoro sono emersi indipendentemente tra il 12 e il 15 aprile 2026. Nessuno di questi builder sta collaborando. Sono arrivati alla stessa architettura da punti di partenza diversi."
+      "text": "La convergenza è il segnale più forte. Questi cinque corpus di lavoro sono emersi indipendentemente tra il 12 e il 15 aprile 2026. Nessuno di questi builder sta collaborando. Sono arrivati alla stessa architettura da punti di partenza diversi."
     },
     {
       "type": "table",
@@ -163,7 +163,7 @@
         ],
         [
           "Miessler (bitter lesson)",
-          "Contesto su identita, obiettivi, gusto",
+          "Contesto su identità, obiettivi, gusto",
           "Istruzioni su come eseguire"
         ],
         [
@@ -175,15 +175,15 @@
     },
     {
       "type": "p",
-      "text": "Tan e arrivato qui dopo aver pubblicato [un alto volume di codice di produzione in due mesi — il conteggio delle righe non e una metrica di qualita, ma il throughput e insolito](https://codex.danielvaughan.com/2026/03/30/gstack-garry-tan-production-skills-toolkit/) con gstack (oltre 23.000 stelle GitHub nella prima settimana; il numero di stelle misura la visibilita, non l'idoneita alla produzione). Karpathy e arrivato dal debug dei tre modalita di fallimento persistenti degli assistenti di codice AI. Trivedy e arrivato dall'iterazione sul design dell'harness attraverso oltre 30 versioni. Miessler e arrivato dall'applicazione della [bitter lesson di Richard Sutton](http://www.incompleteideas.net/IncIdeas/BitterLesson.html) agli strumenti AI."
+      "text": "Tan è arrivato qui dopo aver pubblicato [un alto volume di codice di produzione in due mesi - il conteggio delle righe non è una metrica di qualità, ma il throughput è insolito](https://codex.danielvaughan.com/2026/03/30/gstack-garry-tan-production-skills-toolkit/) con gstack (oltre 23.000 stelle GitHub nella prima settimana; il numero di stelle misura la visibilità, non l'idoneità alla produzione). Karpathy è arrivato dal debug delle tre modalità di fallimento persistenti degli assistenti di codice AI. Trivedy è arrivato dall'iterazione sul design dell'harness attraverso oltre 30 versioni. Miessler è arrivato dall'applicazione della [bitter lesson di Richard Sutton](http://www.incompleteideas.net/IncIdeas/BitterLesson.html) agli strumenti AI."
     },
     {
       "type": "p",
-      "text": "La convergenza di piu fonti indipendenti e uno dei segnali che un pattern architetturale e solido."
+      "text": "La convergenza di più fonti indipendenti è uno dei segnali che un pattern architetturale è solido."
     },
     {
       "type": "h2",
-      "text": "LangChain Non e d'Accordo e Ha Benchmark per Dimostrarlo"
+      "text": "LangChain Non è d'Accordo e Ha Benchmark per Dimostrarlo"
     },
     {
       "type": "p",
@@ -191,15 +191,15 @@
     },
     {
       "type": "p",
-      "text": "Non e un'obiezione marginale. LangChain elabora milioni di chiamate agente al giorno. I loro benchmark sono pubblici. La vera divisione: la posizione di Tan e che ogni pezzo di logica nell'harness limita il ragionamento che il modello avrebbe potuto fare. Piu il modello migliora, piu l'harness dovrebbe essere snello. La posizione di Chase e che l'ingegneria dell'harness estende la capacita del modello invece di sostituirla."
+      "text": "Non è un'obiezione marginale. LangChain elabora milioni di chiamate agente al giorno. I loro benchmark sono pubblici. La vera divisione: la posizione di Tan è che ogni pezzo di logica nell'harness limita il ragionamento che il modello avrebbe potuto fare. Più il modello migliora, più l'harness dovrebbe essere snello. La posizione di Chase è che l'ingegneria dell'harness estende la capacità del modello invece di sostituirla."
     },
     {
       "type": "p",
-      "text": "Entrambe le posizioni possono essere corrette per contesti diversi. Gli agenti consumer e personali (dove portabilita e longevita contano) favoriscono un harness snello. Le pipeline enterprise (dove contano affidabilita e auditabilita) possono giustificare un harness pesante. Nessuna delle due parti contesta che le skill debbano essere fat. La domanda per il tuo progetto non e quale campo abbia ragione. E da quale parte della linea si colloca il tuo caso d'uso."
+      "text": "Entrambe le posizioni possono essere corrette per contesti diversi. Gli agenti consumer e personali (dove portabilità e longevità contano) favoriscono un harness snello. Le pipeline enterprise (dove contano affidabilità e auditabilità) possono giustificare un harness pesante. Nessuna delle due parti contesta che le skill debbano essere fat. La domanda per il tuo progetto non è quale campo abbia ragione. È da quale parte della linea si colloca il tuo caso d'uso."
     },
     {
       "type": "p",
-      "text": "La maggior parte delle aziende che costruisce funzionalita AI per la prima volta dovrebbe iniziare snella e aggiungere infrastruttura solo quando si scontra con specifici muri di affidabilita. Non sai dove si colloca il tuo progetto? [Parla con il nostro team](/#contact) su quale architettura si adatta."
+      "text": "La maggior parte delle aziende che costruisce funzionalità AI per la prima volta dovrebbe iniziare snella e aggiungere infrastruttura solo quando si scontra con specifici muri di affidabilità. Non sai dove si colloca il tuo progetto? [Mettiti in contatto](/#contact) per capire quale architettura si adatta."
     },
     {
       "type": "h2",
@@ -207,27 +207,27 @@
     },
     {
       "type": "p",
-      "text": "Daniel Miessler ha pubblicato la diagnosi piu acuta della settimana. La chiama il bitter lesson engineering audit, ispirata all'[osservazione di Richard Sutton del 2019](http://www.incompleteideas.net/IncIdeas/BitterLesson.html) secondo cui gli approcci generali scalati con la computazione battono costantemente gli approcci codificati a mano nel lungo periodo."
+      "text": "Daniel Miessler ha pubblicato la diagnosi più acuta della settimana. La chiama il bitter lesson engineering audit, ispirata all'[osservazione di Richard Sutton del 2019](http://www.incompleteideas.net/IncIdeas/BitterLesson.html) secondo cui gli approcci generali scalati con la computazione battono costantemente gli approcci codificati a mano nel lungo periodo."
     },
     {
       "type": "p",
-      "text": "Applicato agli strumenti AI: la cattiva ingegneria dell'harness e fatta di istruzioni prescrittive. \"Prima copia questo file, poi carica questo, poi fai questo, poi fai quello.\" Microgestione passo-passo dell'esecuzione dell'AI. Questo approccio degrada man mano che i modelli diventano piu intelligenti. Passaggi troppo rigidi impediscono al modello di applicare il proprio ragionamento."
+      "text": "Applicato agli strumenti AI: la cattiva ingegneria dell'harness è fatta di istruzioni prescrittive. \"Prima copia questo file, poi carica questo, poi fai questo, poi fai quello.\" Microgestione passo-passo dell'esecuzione dell'AI. Questo approccio degrada man mano che i modelli diventano più intelligenti. Passaggi troppo rigidi impediscono al modello di applicare il proprio ragionamento."
     },
     {
       "type": "p",
-      "text": "La buona ingegneria dell'harness e contestuale. Chi sei, su cosa stai lavorando, cosa stai cercando di realizzare, come appare il bene e il male. Identita, gusto, standard, obiettivi. Il modello capisce il come."
+      "text": "La buona ingegneria dell'harness è contestuale. Chi sei, su cosa stai lavorando, cosa stai cercando di realizzare, come appare il bene e il male. Identità, gusto, standard, obiettivi. Il modello capisce il come."
     },
     {
       "type": "p",
-      "text": "La diagnostica di Miessler e semplice. Se la tua configurazione si legge come una ricetta (passo 1, passo 2, passo 3), stai facendo cattiva ingegneria dell'harness. Se si legge come un documento di briefing (ecco chi sono, ecco cosa conta, ecco gli strumenti), stai facendo buona ingegneria dell'harness. Il contesto su chi sei non scade mai. Le istruzioni prescrittive diventano obsolete ad ogni miglioramento del modello."
+      "text": "La diagnostica di Miessler è semplice. Se la tua configurazione si legge come una ricetta (passo 1, passo 2, passo 3), stai facendo cattiva ingegneria dell'harness. Se si legge come un documento di briefing (ecco chi sono, ecco cosa conta, ecco gli strumenti), stai facendo buona ingegneria dell'harness. Il contesto su chi sei non scade mai. Le istruzioni prescrittive diventano obsolete ad ogni miglioramento del modello."
     },
     {
       "type": "p",
-      "text": "L'architettura non e complicata. Fat skills, thin harness, separazione spietata tra lavoro latente e deterministico. La parte difficile e la disciplina: codificare il giudizio in skill riutilizzabili invece di fare lavoro una tantum, mantenere l'harness snello quando la tentazione e aggiungere funzionalita, e fidarsi del modello per capire il \"come\" quando gli dai il giusto \"cosa\" e \"perche\"."
+      "text": "L'architettura non è complicata. Fat skills, thin harness, separazione spietata tra lavoro latente e deterministico. La parte difficile è la disciplina: codificare il giudizio in skill riutilizzabili invece di fare lavoro una tantum, mantenere l'harness snello quando la tentazione è aggiungere funzionalità, e fidarsi del modello per capire il \"come\" quando gli dai il giusto \"cosa\" e \"perché\"."
     },
     {
       "type": "p",
-      "text": "Da [webvise](/#contact), costruiamo sistemi basati su AI seguendo questi principi architetturali. Che tu abbia bisogno di un workflow agente, di una pipeline automatizzata o di un'integrazione AI di livello produttivo, [l'architettura conta piu del modello](/#contact)."
+      "text": "[webvise](/#contact) costruisce sistemi basati su AI seguendo questi principi architetturali. Che tu abbia bisogno di un workflow agente, di una pipeline automatizzata o di un'integrazione AI di livello produttivo, [l'architettura conta più del modello](/#contact)."
     }
   ]
 }

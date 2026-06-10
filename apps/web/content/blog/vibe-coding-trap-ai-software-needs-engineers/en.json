@@ -3,7 +3,7 @@
   "readingTime": 7,
   "keyword": "vibe coding AI software engineering",
   "title": "Why AI-Generated Software Still Needs Engineering Review",
-  "excerpt": "Andrej Karpathy coined \"vibe coding\" in February 2025. Since then, a wave of AI-generated apps has shipped that work in demos and break in production. The problem is not the AI tools - it is using them without engineering discipline.",
+  "excerpt": "Andrej Karpathy coined \"vibe coding\" in February 2025. Since then, a wave of AI-generated apps has shipped that work in demos and break in production. The problem is using AI tools without engineering discipline.",
   "metaDescription": "Vibe coding creates a new class of technical debt harder to fix than hand-written bad code. Why AI amplifies engineering skill instead of replacing it.",
   "tags": ["AI", "Web Development", "Business Strategy"],
   "blocks": [
@@ -21,7 +21,7 @@
     },
     {
       "type": "p",
-      "text": "It is not. And the resulting technical debt is qualitatively different from ordinary bad code."
+      "text": "The resulting technical debt is qualitatively different from ordinary bad code."
     },
     {
       "type": "h2",
@@ -33,15 +33,15 @@
     },
     {
       "type": "p",
-      "text": "The failure patterns we see consistently across AI-generated production apps:"
+      "text": "The failure patterns I see consistently across AI-generated production apps:"
     },
     {
       "type": "ul",
       "items": [
-        "**Auth bypasses baked into a scaffold; JWT secrets present in environment-variable examples committed to public repositories** — these are common findings in code reviews of AI-assisted projects without engineering oversight. AI-generated auth code frequently copies patterns from training data without understanding the security model. Row-level security disabled \"temporarily\" during development, left in production. Role checks that compare string literals and break the moment a field is renamed.",
+        "**Auth bypasses baked into a scaffold; JWT secrets present in environment-variable examples committed to public repositories** - these are common findings in code reviews of AI-assisted projects without engineering oversight. AI-generated auth code frequently copies patterns from training data without understanding the security model. Row-level security disabled \"temporarily\" during development, left in production. Role checks that compare string literals and break the moment a field is renamed.",
         "**No error handling past the happy path.** The AI wrote the success case. What happens when the payment provider returns a 402? What happens when the database connection drops mid-transaction? In vibe-coded apps, the answer is usually an unhandled promise rejection that surfaces as a blank screen.",
         "**Vendor lock-in to AI-generated patterns.** When the AI chose to structure the data model a particular way, the vibe coder accepted it. Now the entire app is built around that structure. Migrating away from it requires understanding code the developer never read.",
-        "**No tests.** Not because tests are hard, but because the vibe coder never asked for them and the AI did not volunteer them. When something breaks in production, there is no test suite to catch regressions in the fix."
+        "**No tests.** The tests are missing because the vibe coder never asked for them and the AI did not volunteer them. When something breaks in production, there is no test suite to catch regressions in the fix."
       ]
     },
     {
@@ -54,7 +54,7 @@
     },
     {
       "type": "p",
-      "text": "The pattern plays out predictably. A vibe-coded app launches, looks polished, gets early users. Then: a user with a non-ASCII character in their name breaks the database query. A mobile user on a slow connection triggers a race condition in the state management. We have seen scenarios where API endpoints leak data across user accounts because authorization checks were missing or incomplete — a consequence of shipping code that was never reviewed for server-side enforcement. None of these are exotic failures. They are the basic consequence of shipping code you never read."
+      "text": "The pattern plays out predictably. A vibe-coded app launches, looks polished, gets early users. Then: a user with a non-ASCII character in their name breaks the database query. A mobile user on a slow connection triggers a race condition in the state management. I have seen scenarios where API endpoints leak data across user accounts because authorization checks were missing or incomplete - a consequence of shipping code that was never reviewed for server-side enforcement. None of these are exotic failures. They are the basic consequence of shipping code you never read."
     },
     {
       "type": "h2",
@@ -62,11 +62,11 @@
     },
     {
       "type": "p",
-      "text": "This is the claim the vibe coding narrative inverts. The tools are real and the productivity gains are real. At webvise, we use Claude Code, Cursor, and multi-agent orchestration on every project we deliver. Senior engineers using Claude Code report meaningful time savings on tasks that would otherwise take days. The same tools in the hands of someone without engineering fundamentals produce a demo that cannot survive its first real user."
+      "text": "This is the claim the vibe coding narrative inverts. The tools are real and the productivity gains are real. At webvise, I use Claude Code, Cursor, and multi-agent orchestration on every project I deliver. Senior engineers using Claude Code report meaningful time savings on tasks that would otherwise take days. The same tools in the hands of someone without engineering fundamentals produce a demo that cannot survive its first real user."
     },
     {
       "type": "p",
-      "text": "The difference is not the tool - it is what the engineer brings to the tool. Engineering fundamentals are not about writing code by hand. They are about understanding system boundaries, failure modes, security models, and data integrity. An engineer using Claude Code reads the generated authentication code and recognizes when it is wrong. An inexperienced developer accepts the suggestion and ships it."
+      "text": "The engineer brings the difference to the tool. Engineering fundamentals are about understanding system boundaries, failure modes, security models, and data integrity. An engineer using Claude Code reads the generated authentication code and recognizes when it is wrong. An inexperienced developer accepts the suggestion and ships it."
     },
     {
       "type": "table",
@@ -136,7 +136,7 @@
     },
     {
       "type": "p",
-      "text": "At [webvise](/#contact), we use AI-augmented development on every project - Claude Code, Cursor, multi-agent pipelines - but with the engineering discipline that makes the output production-ready. If you are building software that needs to survive real users, real edge cases, and real security requirements, [let's talk about how we work](/#contact)."
+      "text": "[webvise](/#contact) uses AI-augmented development on every project - Claude Code, Cursor, multi-agent pipelines - but with the engineering discipline that makes the output production-ready. If you are building software that needs to survive real users, real edge cases, and real security requirements, [get in touch to see how the process works](/#contact)."
     }
   ]
 }

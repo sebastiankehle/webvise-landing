@@ -54,9 +54,10 @@ export default async function Hero() {
 									}}
 								>
 									<Button
-										className="[&]:hover:!bg-brand-hover border-transparent bg-brand px-8 text-brand-foreground"
+										className="px-8"
 										render={<Link href={{ pathname: "/", hash: "contact" }} />}
 										size="lg"
+										variant="brand"
 									>
 										{t("cta")}
 									</Button>
@@ -66,12 +67,12 @@ export default async function Hero() {
 									properties={{
 										location: "hero",
 										variant: "secondary",
-										destination: "services",
+										destination: "systems",
 									}}
 								>
 									<Button
 										className="hidden text-muted-foreground sm:inline-flex"
-										render={<Link href={{ pathname: "/", hash: "services" }} />}
+										render={<Link href={{ pathname: "/", hash: "systems" }} />}
 										size="lg"
 										variant="ghost"
 									>

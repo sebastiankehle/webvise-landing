@@ -2,9 +2,9 @@
   "date": "2026-04-15",
   "readingTime": 8,
   "keyword": "capa de conocimiento para IA",
-  "title": "La capa de conocimiento para IA: 127 páginas, cero bases de datos vectoriales y lo que entendimos mal",
-  "excerpt": "El gist de LLM wiki de Karpathy acumuló 99.000 bookmarks en una semana. Resonó porque puso nombre a lo que todo usuario de IA ya sentía: tus agentes no tienen memoria. Nosotros ejecutamos una capa de conocimiento en producción. Esto es lo que funciona, lo que no, y cómo construir una en 20 minutos.",
-  "metaDescription": "Guía práctica para construir una capa de conocimiento para IA, desde un equipo que la ejecuta en producción. Arquitectura, configuración, números reales y lo que aprendimos por las malas.",
+  "title": "La capa de conocimiento para IA: 127 páginas, cero bases de datos vectoriales y lo que entendí mal",
+  "excerpt": "El gist de LLM wiki de Karpathy acumuló 99.000 bookmarks en una semana. Resonó porque puso nombre a lo que todo usuario de IA ya sentía: tus agentes no tienen memoria. Yo llevo una capa de conocimiento en producción. Esto es lo que funciona, lo que no, y cómo construir una en 20 minutos.",
+  "metaDescription": "Guía práctica para construir una capa de conocimiento para IA, escrita por quien la ejecuta en producción. Arquitectura, configuración, números reales y lo que aprendí por las malas.",
   "tags": ["AI Agents", "AI", "Automation", "Business Strategy"],
   "cta": "Contactar",
   "blocks": [
@@ -14,11 +14,11 @@
     },
     {
       "type": "p",
-      "text": "En webvise ejecutamos una capa de conocimiento que impulsa nuestra investigación interna, la documentación de clientes y el pipeline de contenidos que produce este blog. Esto es lo que aprendimos."
+      "text": "En webvise uso una capa de conocimiento para investigación interna y documentación de clientes. Esto es lo que aprendí."
     },
     {
       "type": "h2",
-      "text": "El problema no es el prompt. Es la amnesia."
+      "text": "Los agentes olvidan entre sesiones."
     },
     {
       "type": "p",
@@ -54,11 +54,11 @@
     },
     {
       "type": "p",
-      "text": "RAG re-deriva respuestas en el momento de la consulta fragmentando documentos y buscando fragmentos relevantes. El enfoque del wiki compilado se salta ese paso por completo. graphify midió **71,5 veces menos tokens por consulta** comparado con buscar en archivos en bruto en su comparativa publicada; los resultados dependen de las características del corpus y la distribución de consultas. Nuestras propias mediciones muestran aproximadamente 1.000 tokens de contenido del vault por consulta, frente a los 3.000 o más tokens que inyecta un pipeline RAG típico."
+      "text": "RAG re-deriva respuestas en el momento de la consulta fragmentando documentos y buscando fragmentos relevantes. El enfoque del wiki compilado se salta ese paso por completo. graphify midió **71,5 veces menos tokens por consulta** comparado con buscar en archivos en bruto en su comparativa publicada; los resultados dependen de las características del corpus y la distribución de consultas. Mis propias mediciones muestran aproximadamente 1.000 tokens de contenido del vault por consulta, frente a los 3.000 o más tokens que inyecta un pipeline RAG típico."
     },
     {
       "type": "p",
-      "text": "Escribimos una [comparativa técnica completa](/blog/business-knowledge-base-without-rag) de RAG frente a recuperación basada en índices. La versión corta: en las cargas de trabajo analizadas, el wiki compilado superó a RAG en precisión, coste y complejidad para bases de conocimiento de menos de 1.000 documentos. Sin base de datos vectorial, sin modelo de embeddings, sin estrategia de chunking, sin job de re-indexación. Cinco comandos de shell y un archivo de índice mantenido."
+      "text": "Escribí una [comparativa técnica completa](/blog/business-knowledge-base-without-rag) de RAG frente a recuperación basada en índices. La versión corta: en las cargas de trabajo analizadas, el wiki compilado superó a RAG en precisión, coste y complejidad para bases de conocimiento de menos de 1.000 documentos. Sin base de datos vectorial, sin modelo de embeddings, sin estrategia de chunking, sin job de re-indexación. Cinco comandos de shell y un archivo de índice mantenido."
     },
     {
       "type": "p",
@@ -66,20 +66,20 @@
     },
     {
       "type": "h2",
-      "text": "Lo que aprendimos ejecutando la nuestra"
+      "text": "Lo que aprendí ejecutando la mía"
     },
     {
       "type": "p",
-      "text": "Nuestro wiki interno tiene actualmente 127 páginas estructuradas en siete categorías: personas, empresas, conceptos, playbooks, colecciones, síntesis y herramientas. Cada página sigue una plantilla estándar con frontmatter YAML, referencias cruzadas mediante wikilinks de Obsidian y atribución de fuentes. El agente ejecuta seis operaciones definidas: ingest, actualización conversacional, consulta, lint, enriquecimiento y reorganización."
+      "text": "Mi wiki interno tiene actualmente 127 páginas estructuradas en siete categorías: personas, empresas, conceptos, playbooks, colecciones, síntesis y herramientas. Cada página sigue una plantilla estándar con frontmatter YAML, referencias cruzadas mediante wikilinks de Obsidian y atribución de fuentes. El agente ejecuta seis operaciones definidas: ingest, actualización conversacional, consulta, lint, enriquecimiento y reorganización."
     },
     {
       "type": "ul",
       "items": [
-        "**El archivo de esquema lo es todo.** Todo lo demás se deriva de él. Un esquema bien escrito produce un wiki disciplinado con convenciones consistentes. Un esquema vago produce alucinaciones y dispersión. La versión actual tiene unas 200 líneas y cubre estructura de directorios, formato de páginas, las seis operaciones, convenciones de nombres y gestión de contradicciones. Tardamos varias iteraciones en afinarla.",
-        "**Dedup primero evita la proliferación de páginas.** Nuestra regla: antes de crear cualquier página nueva, busca en el wiki existente contenido solapado. Si una página existente cubre el 60% o más del mismo terreno, enriquece esa página en lugar de crear una nueva. Sin esta regla, el wiki se llena de páginas redundantes que fragmentan el conocimiento en piezas inútiles.",
+        "**El archivo de esquema lo es todo.** Todo lo demás se deriva de él. Un esquema bien escrito produce un wiki disciplinado con convenciones consistentes. Un esquema vago produce alucinaciones y dispersión. La versión actual tiene unas 200 líneas y cubre estructura de directorios, formato de páginas, las seis operaciones, convenciones de nombres y gestión de contradicciones. Tardé varias iteraciones en afinarla.",
+        "**Dedup primero evita la proliferación de páginas.** Mi regla: antes de crear cualquier página nueva, busca en el wiki existente contenido solapado. Si una página existente cubre el 60% o más del mismo terreno, enriquece esa página en lugar de crear una nueva. Sin esta regla, el wiki se llena de páginas redundantes que fragmentan el conocimiento en piezas inútiles.",
         "**Las consultas se acumulan en la base de conocimiento.** Cuando haces una buena pregunta y obtienes una respuesta útil, esa respuesta se archiva como una nueva página del wiki. La próxima vez que alguien haga una pregunta relacionada, el agente ya tiene una síntesis pre-compilada de la que partir. Este es el efecto compuesto que mejora el sistema con el tiempo, no solo lo hace más grande.",
-        "**La calidad del ingest depende completamente de la disciplina.** Soltar un artículo en bruto y decir \"ingest esto\" produce un resumen superficial. Revisar la fuente con el agente, discutir los puntos clave y dirigir qué enfatizar produce páginas que siguen siendo útiles a medida que el wiki crece. Aplicamos un flujo de trabajo estricto: limpiar el archivo en bruto, discutir los puntos clave, esperar aprobación y luego extraer de forma completa.",
-        "**El archivo de índice es el sistema de recuperación.** Nuestro índice raíz tiene 22 líneas. Cada subdirectorio tiene su propio índice que lista cada página con una descripción de una línea. El agente lee el índice raíz con aproximadamente 400 tokens, identifica el subdirectorio correcto, lee ese índice y luego accede a las páginas específicas que necesita. La mayoría de consultas terminan con tres lecturas y unos 1.000 tokens de contenido del vault."
+        "**La calidad del ingest depende completamente de la disciplina.** Soltar un artículo en bruto y decir \"ingest esto\" produce un resumen superficial. Revisar la fuente con el agente, discutir los puntos clave y dirigir qué enfatizar produce páginas que siguen siendo útiles a medida que el wiki crece. Aplico un flujo de trabajo estricto: limpiar el archivo en bruto, discutir los puntos clave, esperar aprobación y luego extraer de forma completa.",
+        "**El archivo de índice es el sistema de recuperación.** Mi índice raíz tiene 22 líneas. Cada subdirectorio tiene su propio índice que lista cada página con una descripción de una línea. El agente lee el índice raíz con aproximadamente 400 tokens, identifica el subdirectorio correcto, lee ese índice y luego accede a las páginas específicas que necesita. La mayoría de consultas terminan con tres lecturas y unos 1.000 tokens de contenido del vault."
       ]
     },
     {
@@ -88,7 +88,7 @@
     },
     {
       "type": "p",
-      "text": "Karpathy lo llama el esquema. Nosotros lo llamamos CLAUDE.md. Algunos frameworks lo dividen en una Knowledge Base Layer y una Brand Foundation. El nombre no importa. Lo que importa es que este único archivo controla cómo se comporta el agente en cada sesión."
+      "text": "Karpathy lo llama el esquema. Yo lo llamo CLAUDE.md. Algunos frameworks lo dividen en una Knowledge Base Layer y una Brand Foundation. El nombre no importa. Lo que importa es que este único archivo controla cómo se comporta el agente en cada sesión."
     },
     {
       "type": "p",
@@ -105,7 +105,7 @@
     },
     {
       "type": "p",
-      "text": "Sin esto, el agente improvisa. Crea páginas en ubicaciones aleatorias, usa formatos inconsistentes, duplica contenido entre páginas y se desvía de tus convenciones en cada sesión. El esquema previene la deriva. Lo tratamos como código de producción: cada cambio es deliberado y se prueba contra ingest real."
+      "text": "Sin esto, el agente improvisa. Crea páginas en ubicaciones aleatorias, usa formatos inconsistentes, duplica contenido entre páginas y se desvía de tus convenciones en cada sesión. El esquema previene la deriva. Lo trato como código de producción: cada cambio es deliberado y se prueba contra ingest real."
     },
     {
       "type": "h2",
@@ -162,7 +162,7 @@
     },
     {
       "type": "p",
-      "text": "En **[webvise](/#contact)**, construimos capas de conocimiento para negocios que quieren que sus agentes de IA sepan realmente de lo que hablan. Si pasas más tiempo explicando contexto a tus herramientas que obteniendo valor de ellas, este es el problema que esto resuelve. [Contacta con nosotros](/#contact)."
+      "text": "**[webvise](/#contact)** construye capas de conocimiento para negocios que quieren que sus agentes de IA sepan realmente de lo que hablan. Si pasas más tiempo explicando contexto a tus herramientas que obteniendo valor de ellas, este es el problema que esto resuelve. [Ponte en contacto](/#contact)."
     }
   ]
 }

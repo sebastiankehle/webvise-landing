@@ -22,7 +22,7 @@ export default async function Process() {
 	}));
 
 	return (
-		<SectionWrapper alternate id="process">
+		<SectionWrapper id="process" surface="alternate">
 			<div className="max-w-[640px]">
 				<H2>{t("title")}</H2>
 				<Lead className="mt-5 max-w-[520px]">{t("subtitle")}</Lead>

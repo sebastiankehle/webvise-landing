@@ -15,7 +15,7 @@ export default function FooterCtaBanner({
 	buttonText,
 }: FooterCtaBannerProps) {
 	return (
-		<div className="border-[--border] border-b">
+		<div className="border-border border-b">
 			<div className="mx-auto flex max-w-[1320px] flex-col items-start justify-between gap-8 px-6 py-20 md:flex-row md:items-center md:py-24">
 				<div>
 					<H2>{headline}</H2>
@@ -30,9 +30,10 @@ export default function FooterCtaBanner({
 					}}
 				>
 					<Button
-						className="[a]:hover:!bg-brand-hover shrink-0 border-transparent bg-brand px-8 text-brand-foreground"
+						className="shrink-0 px-8"
 						render={<Link href={{ pathname: "/", hash: "contact" }} />}
 						size="lg"
+						variant="brand"
 					>
 						{buttonText}
 					</Button>

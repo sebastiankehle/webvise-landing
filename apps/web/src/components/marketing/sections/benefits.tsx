@@ -1,14 +1,17 @@
-import { Activity, Gauge, ShieldCheck } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
+import CardHoverIcon from "@/components/marketing/card-hover-icon";
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import StaggerChildren from "@/components/marketing/stagger-children";
+import { ActivityIcon } from "@/components/ui/activity";
+import { GaugeIcon } from "@/components/ui/gauge";
+import { ShieldCheckIcon } from "@/components/ui/shield-check";
 import { H2, H3, Lead, Muted } from "@/components/ui/typography";
 
 const benefitKeys = [
-	{ key: "speed", icon: Gauge },
-	{ key: "futureProof", icon: ShieldCheck },
-	{ key: "performance", icon: Activity },
+	{ key: "speed", icon: GaugeIcon },
+	{ key: "futureProof", icon: ShieldCheckIcon },
+	{ key: "performance", icon: ActivityIcon },
 ];
 
 export default async function Benefits() {
@@ -20,16 +23,10 @@ export default async function Benefits() {
 				<H2>{t("title")}</H2>
 				<Lead className="mt-5 max-w-[520px]">{t("subtitle")}</Lead>
 			</div>
-			<StaggerChildren className="-mx-6 mt-16 grid border-grid-line border-t md:grid-cols-3">
+			<StaggerChildren className="mt-10 grid gap-5 md:mt-16 md:grid-cols-3">
 				{benefitKeys.map(({ key, icon: Icon }) => (
-					<div
-						className="group border-grid-line border-b p-6 md:border-r md:p-8 md:[&:nth-child(3n)]:border-r-0"
-						key={key}
-					>
-						<Icon
-							className="h-5 w-5 shrink-0 text-brand-icon"
-							strokeWidth={1.5}
-						/>
+					<div className="surface-card p-6 md:p-7" key={key}>
+						<CardHoverIcon className="shrink-0 text-brand-icon" icon={Icon} />
 						<H3 className="mt-5">{t(`${key}.title`)}</H3>
 						<Muted className="mt-3">{t(`${key}.description`)}</Muted>
 					</div>

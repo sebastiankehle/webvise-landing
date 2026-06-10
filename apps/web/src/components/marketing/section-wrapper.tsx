@@ -2,17 +2,18 @@ import { cn } from "@/lib/utils";
 
 type ConstructedGridVariant = "hero" | "section" | "page" | "content";
 type GridContainerWidth = "site" | "media";
+export type SectionSurface = "default" | "alternate" | "inverted";
 
 const gridContainerWidths: Record<GridContainerWidth, string> = {
 	site: "max-w-[1320px]",
 	media: "max-w-[1200px]",
 };
 
-function sectionBackground(dark: boolean, alternate: boolean): string {
-	if (dark) {
-		return "section-dark";
+export function marketingSurfaceClassName(surface: SectionSurface): string {
+	if (surface === "inverted") {
+		return "section-inverted";
 	}
-	return alternate ? "section-alternate" : "bg-background";
+	return surface === "alternate" ? "section-alternate" : "bg-background";
 }
 
 export function CornerMarker({ className }: { className?: string }) {
@@ -105,7 +106,6 @@ export function ConstructedGrid({
 			<>
 				{hatch && <GridHatch />}
 				<GridRails />
-				<GridTopSeparator />
 				<GridFrame className="inset-0" />
 			</>
 		);
@@ -162,31 +162,51 @@ export function GridContainer({
 	);
 }
 
-export default function SectionWrapper({
+export function DetailPageSection({
 	id,
 	children,
 	className,
-	alternate = false,
-	dark = false,
-	hatch = false,
 }: {
 	id: string;
 	children: React.ReactNode;
 	className?: string;
-	alternate?: boolean;
-	dark?: boolean;
+}) {
+	return (
+		<section
+			className={cn("relative border-grid-line border-t", className)}
+			id={id}
+		>
+			<ConstructedGrid variant="page" />
+			<GridContainer>{children}</GridContainer>
+		</section>
+	);
+}
+
+export default function SectionWrapper({
+	id,
+	children,
+	className,
+	surface = "default",
+	hatch = false,
+	showGrid = true,
+}: {
+	id: string;
+	children: React.ReactNode;
+	className?: string;
+	surface?: SectionSurface;
 	hatch?: boolean;
+	showGrid?: boolean;
 }) {
 	return (
 		<section
 			className={cn(
-				"relative py-24 md:py-40",
-				sectionBackground(dark, alternate),
+				"relative py-16 md:py-40",
+				marketingSurfaceClassName(surface),
 				className
 			)}
 			id={id}
 		>
-			<ConstructedGrid hatch={hatch} variant="section" />
+			{showGrid ? <ConstructedGrid hatch={hatch} variant="section" /> : null}
 			<GridContainer>{children}</GridContainer>
 		</section>
 	);

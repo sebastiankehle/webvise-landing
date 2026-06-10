@@ -6,6 +6,7 @@ import posthog from "posthog-js";
 import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import { inlineLinkClassName } from "@/components/ui/typography";
 import { Link } from "@/i18n/navigation";
 
 const STORAGE_KEY = "webvise-consent-v1";
@@ -95,10 +96,7 @@ export function ConsentBanner() {
 					</p>
 					<p className="mt-3 text-muted-foreground text-sm leading-relaxed">
 						{t("body")}{" "}
-						<Link
-							className="text-foreground underline underline-offset-4 transition-colors hover:text-brand-readable"
-							href="/privacy"
-						>
+						<Link className={inlineLinkClassName} href="/privacy">
 							{t("privacyLink")}
 						</Link>
 						.
@@ -106,10 +104,11 @@ export function ConsentBanner() {
 
 					<div className="mt-6 flex items-center gap-2">
 						<Button
-							className="[&]:hover:!bg-brand-hover flex-1 border-transparent bg-brand px-5 text-brand-foreground"
+							className="flex-1 px-5"
 							nativeButton
 							onClick={handleAccept}
 							size="lg"
+							variant="brand"
 						>
 							{t("accept")}
 						</Button>

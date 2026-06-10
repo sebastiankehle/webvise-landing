@@ -17,7 +17,7 @@
     },
     {
       "type": "p",
-      "text": "Se oggi si gestiscono agent su dati client, la redazione dei dati PII viene comunemente gestita con una libreria regex da mantenere o instradando le richieste attraverso un LLM — entrambe con i propri trade-off. Questo articolo illustra cosa sia effettivamente openai/privacy-filter, le scelte architetturali rilevanti e dove si colloca in uno stack di governance agent reale. Spiegheremo inoltre perché questa release aggiorna la nostra posizione sugli agent che leggono input non attendibili e cosa fare con essa se si distribuiscono workload regolamentati."
+      "text": "Se oggi si gestiscono agent su dati client, la redazione dei dati PII viene comunemente gestita con una libreria regex da mantenere o instradando le richieste attraverso un LLM - entrambe con i propri trade-off. Questo articolo illustra cosa sia effettivamente openai/privacy-filter, le scelte architetturali rilevanti e dove si colloca in uno stack di governance agent reale. Spiega inoltre perché questa release aggiorna la posizione di webvise sugli agent che leggono input non attendibili e cosa fare con essa se si distribuiscono workload regolamentati."
     },
     {
       "type": "h2",
@@ -209,7 +209,7 @@
     },
     {
       "type": "p",
-      "text": "Se il proprio dominio ha categorie al di fuori di questo elenco, è necessario eseguire il fine-tuning. La scheda tecnica del modello è esplicita sul fatto che non è possibile modificare la policy delle etichette a runtime. Questo è il costo di un classificatore con 50 milioni di parametri attivi: la tassonomia è incorporata nel modello. Per i team che confrontano le opzioni, la nostra guida ai [migliori modelli AI locali per aziende conformi nel 2026](/blog/best-local-ai-models-2026) copre il lato LLM general-purpose della stessa decisione."
+      "text": "Se il proprio dominio ha categorie al di fuori di questo elenco, è necessario eseguire il fine-tuning. La scheda tecnica del modello è esplicita sul fatto che non è possibile modificare la policy delle etichette a runtime. Questo è il costo di un classificatore con 50 milioni di parametri attivi: la tassonomia è incorporata nel modello. Per i team che confrontano le opzioni, la guida ai [migliori modelli AI locali per aziende conformi nel 2026](/blog/best-local-ai-models-2026) copre il lato LLM general-purpose della stessa decisione."
     },
     {
       "type": "p",
@@ -229,7 +229,7 @@
     },
     {
       "type": "p",
-      "text": "Si tratta di un ausilio alla redazione, non di una garanzia di anonimizzazione. Rimuovere i dati PII di superficie non elimina il rischio di re-identificazione quando i quasi-identificatori (codice postale, età, diagnosi rara) si concentrano insieme. Se l'obbligo di conformità riguarda l'anonimizzazione GDPR o la de-identificazione HIPAA con il metodo Safe Harbor, è necessaria una pipeline dedicata che si aggiunga a questo strumento, non solo questo strumento. Il nostro articolo sulle [normative e certificazioni AI in Germania e in Europa](/blog/ai-regulations-certifications-europe) mappa in dettaglio lo stack regolatorio."
+      "text": "Si tratta di un ausilio alla redazione, non di una garanzia di anonimizzazione. Rimuovere i dati PII di superficie non elimina il rischio di re-identificazione quando i quasi-identificatori (codice postale, età, diagnosi rara) si concentrano insieme. Se l'obbligo di conformità riguarda l'anonimizzazione GDPR o la de-identificazione HIPAA con il metodo Safe Harbor, è necessaria una pipeline dedicata che si aggiunga a questo strumento, non solo questo strumento. L'articolo sulle [normative e certificazioni AI in Germania e in Europa](/blog/ai-regulations-certifications-europe) mappa in dettaglio lo stack regolatorio."
     },
     {
       "type": "h3",
@@ -241,11 +241,11 @@
     },
     {
       "type": "p",
-      "text": "La nostra regola: Privacy Filter si inserisce in uno stack con almeno un altro controllo a valle. Se è l'unico livello, si è a un aggiornamento del modello di distanza da una regressione che nessuno intercetterà."
+      "text": "Regola pratica: Privacy Filter si inserisce in uno stack con almeno un altro controllo a valle. Se è l'unico livello, si è a un aggiornamento del modello di distanza da una regressione che nessuno intercetterà."
     },
     {
       "type": "h2",
-      "text": "Aggiornamento della nostra posizione \"nessun agent sul web aperto\""
+      "text": "Aggiornamento della posizione \"nessun agent sul web aperto\""
     },
     {
       "type": "p",

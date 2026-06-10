@@ -56,16 +56,18 @@ export function FaqAccordion({ items }: { items: FaqItem[] }) {
 				const isOpen = openIndex === i;
 				return (
 					<div
-						className={`border-border/40 border-b transition-colors duration-200 ${isOpen ? "border-l-2 border-l-foreground" : "border-l-2 border-l-transparent"}`}
+						className={`border-border/40 border-b transition-colors duration-200 ${
+							isOpen ? "bg-muted/20" : ""
+						}`}
 						key={item.question}
 					>
 						<button
 							aria-expanded={isOpen}
-							className="flex w-full items-center justify-between px-6 py-5 text-left text-foreground transition-colors duration-150 hover:bg-muted/30"
+							className="flex w-full items-center justify-between px-6 py-5 text-left text-foreground outline-none transition-colors duration-150 hover:bg-muted/30 focus-visible:bg-muted/30 focus-visible:ring-1 focus-visible:ring-ring/50"
 							onClick={() => setOpenIndex(isOpen ? null : i)}
 							type="button"
 						>
-							<Label className="flex-1 font-medium text-[15px] text-foreground leading-snug tracking-[-0.011em]">
+							<Label className="flex-1 font-medium text-foreground text-sm leading-snug">
 								{item.question}
 							</Label>
 							<span
@@ -78,7 +80,7 @@ export function FaqAccordion({ items }: { items: FaqItem[] }) {
 							className={`grid transition-[grid-template-rows] duration-200 ease-out ${isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}
 						>
 							<div className="overflow-hidden">
-								<Muted className="px-6 pb-6 leading-[1.65]">
+								<Muted className="px-6 pb-6 leading-relaxed">
 									{item.answer}
 								</Muted>
 							</div>

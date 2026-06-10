@@ -29,8 +29,6 @@ export function buildAdminHtml(data: {
 	projectedScore: number;
 	issues: Array<{ title: string; displayValue?: string; savingsMs?: number }>;
 	securityFlags: string[];
-	estimateMin: number;
-	estimateMax: number;
 	timestamp: string;
 }) {
 	const urgency = urgencyLabel(data.mobileScore);
@@ -65,10 +63,7 @@ export function buildAdminHtml(data: {
 		),
 		tableRow("Website", `<a href="${url}" style="${s.link}">${url}</a>`),
 		tableRow("Received", data.timestamp),
-		tableRow(
-			"Est. Value",
-			`<strong>${"€"}${data.estimateMin.toLocaleString()}${"–€"}${data.estimateMax.toLocaleString()}</strong>`
-		),
+		tableRow("Scope", "Migration scope review required"),
 	].join("");
 
 	return emailLayout({
@@ -114,8 +109,6 @@ export function buildProspectHtml(data: {
 	desktopScore: number;
 	projectedScore: number;
 	issues: Array<{ title: string; displayValue?: string }>;
-	estimateMin: number;
-	estimateMax: number;
 }) {
 	const firstName = escapeHtml(data.firstName || "there");
 	const url = escapeHtml(data.url);
@@ -161,9 +154,8 @@ export function buildProspectHtml(data: {
 					: ""
 			}
       <div style="${s.box}">
-        <p style="${s.label};color:${c.brand}">Migration Estimate</p>
-        <p style="margin:0;font-size:22px;font-weight:600;color:${c.text}">${"€"}${data.estimateMin.toLocaleString()} ${"–"} ${"€"}${data.estimateMax.toLocaleString()}</p>
-        <p style="margin:8px 0 0;font-size:13px;color:${c.textMuted};line-height:1.5">Fixed-price, from WordPress to a fast, modern Next.js site. No surprises.</p>
+        <p style="${s.label};color:${c.brand}">Scope Review</p>
+        <p style="margin:0;font-size:15px;color:${c.text};line-height:1.6">webvise can review your content model, integrations, SEO risk, and support needs before recommending the right rebuild path.</p>
       </div>
       <div style="margin-bottom:8px">
         <a href="https://cal.com/webvise" style="${s.button};margin-right:12px">Book a Free Call</a>

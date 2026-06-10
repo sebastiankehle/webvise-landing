@@ -1,17 +1,24 @@
-import { Shield } from "lucide-react";
+import { ArrowRight, Shield } from "lucide-react";
 import type { Metadata } from "next";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 
 import JsonLd from "@/components/json-ld";
+import { MarketingTag } from "@/components/marketing/marketing-tag";
+import {
+	RelatedLinkCardContent,
+	relatedLinkCardClassName,
+} from "@/components/marketing/related-link-card";
 import SectionWrapper, {
 	ConstructedGrid,
+	DetailPageSection,
 	GridContainer,
 } from "@/components/marketing/section-wrapper";
 import { FaqAccordion } from "@/components/marketing/sections/faq";
 import WpHealthCta from "@/components/marketing/sections/wp-health-cta";
-import { TechBadge } from "@/components/marketing/tech-badge";
 import {
+	Body,
 	Caption,
 	H1,
 	H2,
@@ -20,6 +27,7 @@ import {
 	Muted,
 	Small,
 } from "@/components/ui/typography";
+import { getCaseStudyBySlug } from "@/data/case-studies";
 import { getServiceBySlug, relatedServices, services } from "@/data/services";
 import { Link } from "@/i18n/navigation";
 import { generateAlternates, localizedUrl } from "@/lib/seo";
@@ -80,9 +88,15 @@ export default async function ServicePage({
 
 	const t = await getTranslations("services");
 	const td = await getTranslations("serviceDetail");
+	const tschema = await getTranslations("schema");
 	const tt = await getTranslations("trust.serviceCallout");
+	const locale = await getLocale();
 	const key = service.translationKey;
 	const ServiceIcon = service.icon;
+	const proofCaseStudy = getCaseStudyBySlug(
+		service.proof.caseStudySlug,
+		locale
+	);
 
 	const relatedServiceSlugs = relatedServices[slug] ?? [];
 	const relatedServiceData = relatedServiceSlugs
@@ -125,7 +139,7 @@ export default async function ServicePage({
 				},
 				areaServed: {
 					"@type": "GeoShape",
-					name: "Worldwide",
+					name: tschema("worldwide"),
 				},
 				serviceType: t(`${key}.title`),
 			},
@@ -136,13 +150,13 @@ export default async function ServicePage({
 					{
 						"@type": "ListItem",
 						position: 1,
-						name: "Home",
+						name: tschema("home"),
 						item: "https://webvise.io",
 					},
 					{
 						"@type": "ListItem",
 						position: 2,
-						name: "Services",
+						name: tschema("services"),
 						item: "https://webvise.io/#services",
 					},
 					{
@@ -165,15 +179,23 @@ export default async function ServicePage({
 			<section className="relative pt-32 pb-24 md:pt-44 md:pb-36">
 				<ConstructedGrid variant="page" />
 				<GridContainer>
-					<div className="grid items-start gap-12 md:grid-cols-3 md:gap-16">
+					<div className="grid items-center gap-14 lg:grid-cols-[1.02fr_0.98fr] lg:gap-20">
 						{/* Title + info */}
-						<div className="md:col-span-2">
-							<ServiceIcon
-								className="h-5 w-5 text-brand-icon"
-								strokeWidth={1.5}
-							/>
+						<div>
+							<ServiceIcon className="text-brand-icon" size={24} />
 							<H1 className="mt-6 max-w-3xl">{t(`${key}.title`)}</H1>
 							<Lead className="mt-5 max-w-lg">{t(`${key}.description`)}</Lead>
+							<div className="mt-8 flex max-w-xl flex-wrap gap-2">
+								{Array.from({ length: service.toolCount }, (_, i) => {
+									const tool = t(`${key}.tools.${i}`);
+
+									return (
+										<MarketingTag key={tool} variant="subtle">
+											{tool}
+										</MarketingTag>
+									);
+								})}
+							</div>
 							<div className="mt-10 flex flex-wrap items-start gap-x-8 gap-y-4 border-grid-line border-t pt-6">
 								<div>
 									<Caption className="block">{td("pricingLabel")}</Caption>
@@ -190,18 +212,34 @@ export default async function ServicePage({
 							</div>
 						</div>
 
-						{/* Tools box */}
-						<div className="border border-border/40 p-6 md:p-8">
-							<Caption className="mb-5 block">{td("toolsTitle")}</Caption>
-							<div className="flex flex-wrap gap-2">
-								{Array.from({ length: service.toolCount }, (_, i) => (
-									<TechBadge
-										key={t(`${key}.tools.${i}`)}
-										name={t(`${key}.tools.${i}`)}
+						{proofCaseStudy && (
+							<Link
+								className="surface-card group relative block overflow-hidden outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+								href={{
+									pathname: "/case-studies/[slug]",
+									params: { slug: proofCaseStudy.slug },
+								}}
+							>
+								<div className="relative aspect-[16/10]">
+									<Image
+										alt={`${proofCaseStudy.client}: ${proofCaseStudy.title}`}
+										className="object-cover object-left-top"
+										fill
+										sizes="(min-width: 1024px) 46vw, 100vw"
+										src={service.proof.image}
 									/>
-								))}
-							</div>
-						</div>
+								</div>
+								<div className="flex items-center justify-between gap-4 border-border/60 border-t px-5 py-3.5">
+									<Caption className="text-brand-readable">
+										{td("proofLabel")} &middot; {proofCaseStudy.client}
+									</Caption>
+									<span className="inline-flex items-center gap-1.5 text-muted-foreground text-xs transition-colors group-hover:text-brand-readable">
+										{td("proofCta")}
+										<ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
+									</span>
+								</div>
+							</Link>
+						)}
 					</div>
 				</GridContainer>
 			</section>
@@ -221,64 +259,65 @@ export default async function ServicePage({
 
 			<SectionWrapper className="pt-8 md:pt-12" id="why">
 				<div className="grid gap-x-8 gap-y-10 md:grid-cols-3">
-					{Array.from({ length: service.painPointCount }, (_, i) => {
-						const PainIcon = service.painPointIcons[i];
-						return (
-							<div className="group" key={t(`${key}.painPoints.${i}.heading`)}>
-								<PainIcon
-									className="mb-3 h-5 w-5 text-brand-icon"
-									strokeWidth={1.5}
-								/>
-								<H3>{t(`${key}.painPoints.${i}.heading`)}</H3>
-								<Muted className="mt-3 leading-relaxed">
-									{t(`${key}.painPoints.${i}.description`)}
-								</Muted>
-							</div>
-						);
-					})}
+					{Array.from({ length: service.painPointCount }, (_, i) => (
+						<div className="group" key={t(`${key}.painPoints.${i}.heading`)}>
+							<Caption className="mb-3 block text-brand-readable tabular-nums">
+								{String(i + 1).padStart(2, "0")}
+							</Caption>
+							<H3>{t(`${key}.painPoints.${i}.heading`)}</H3>
+							<Muted className="mt-3 leading-relaxed">
+								{t(`${key}.painPoints.${i}.description`)}
+							</Muted>
+						</div>
+					))}
 				</div>
 			</SectionWrapper>
 
-			<SectionWrapper className="py-16 md:py-24" dark id="features">
-				<div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-14">
+			<SectionWrapper id="features" surface="inverted">
+				<div className="grid items-start gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20">
 					<div>
 						<H2>{td("featuresTitle")}</H2>
-						<ul className="mt-6 space-y-3">
+						<ol className="mt-8 border-grid-line border-t">
 							{Array.from({ length: service.featureCount }, (_, i) => (
 								<li
-									className="flex items-start gap-3 text-sm"
+									className="flex items-baseline gap-5 border-grid-line border-b py-4"
 									key={t(`${key}.features.${i}`)}
 								>
-									<span className="mt-1.5 h-1.5 w-1.5 shrink-0 bg-brand" />
-									<Muted className="text-foreground leading-relaxed">
+									<Caption className="shrink-0 text-brand-readable tabular-nums">
+										{String(i + 1).padStart(2, "0")}
+									</Caption>
+									<Body className="text-sm leading-relaxed">
 										{t(`${key}.features.${i}`)}
-									</Muted>
+									</Body>
 								</li>
 							))}
-						</ul>
+						</ol>
 					</div>
 
 					<div id="deliverables">
 						<H2>{td("deliverablesTitle")}</H2>
-						<ul className="mt-6 space-y-3">
+						<div className="surface-card mt-8 divide-y divide-border/40">
 							{Array.from({ length: service.deliverableCount }, (_, i) => (
-								<li
-									className="flex items-start gap-3 text-sm"
+								<div
+									className="flex items-baseline gap-4 px-5 py-3.5"
 									key={t(`${key}.deliverables.${i}`)}
 								>
-									<span className="mt-1.5 h-1.5 w-1.5 shrink-0 bg-brand" />
-									<Muted className="text-foreground leading-relaxed">
+									<span
+										aria-hidden="true"
+										className="h-1.5 w-1.5 shrink-0 self-center bg-brand"
+									/>
+									<Muted className="text-foreground/90 text-sm leading-relaxed">
 										{t(`${key}.deliverables.${i}`)}
 									</Muted>
-								</li>
+								</div>
 							))}
-						</ul>
+						</div>
 					</div>
 				</div>
 			</SectionWrapper>
 
 			{service.faqCount > 0 && (
-				<SectionWrapper alternate id="faq">
+				<SectionWrapper id="faq" surface="alternate">
 					<div className="grid gap-12 md:grid-cols-[1fr_2fr] md:gap-20">
 						<div>
 							<H2>{td("faqTitle")}</H2>
@@ -298,60 +337,47 @@ export default async function ServicePage({
 			{(slug === "ai-automation" ||
 				slug === "ai-consulting" ||
 				slug === "full-stack-applications") && (
-				<section className="relative border-grid-line border-t pt-20 pb-20">
-					<ConstructedGrid variant="page" />
-					<GridContainer>
-						<div className="flex items-start gap-5 border border-border/40 p-6 md:p-8">
-							<Shield
-								className="mt-0.5 h-5 w-5 shrink-0 text-brand-icon"
-								strokeWidth={1.5}
-							/>
-							<div>
-								<H3>{tt("title")}</H3>
-								<Muted className="mt-1 max-w-lg leading-relaxed">
-									{tt("description")}
-								</Muted>
-							</div>
+				<DetailPageSection className="pt-20 pb-20" id="trust-callout">
+					<div className="flex items-start gap-5 border border-border/40 p-6 md:p-8">
+						<Shield
+							className="mt-0.5 h-5 w-5 shrink-0 text-brand-icon"
+							strokeWidth={1.5}
+						/>
+						<div>
+							<H3>{tt("title")}</H3>
+							<Muted className="mt-1 max-w-lg leading-relaxed">
+								{tt("description")}
+							</Muted>
 						</div>
-					</GridContainer>
-				</section>
+					</div>
+				</DetailPageSection>
 			)}
 
 			{relatedServiceData.length > 0 && (
-				<section className="relative border-grid-line border-t pt-20 pb-28">
-					<ConstructedGrid variant="page" />
-					<GridContainer>
-						<H2>{td("relatedServicesTitle")}</H2>
-						<div className="mt-10 grid gap-6 md:grid-cols-2">
-							{relatedServiceData.map((rs) => {
-								const RsIcon = rs.icon;
-								return (
-									<Link
-										className="group flex items-start gap-5 border border-border/40 p-6 transition-colors hover:border-brand-border"
-										href={{
-											pathname: "/services/[slug]",
-											params: { slug: rs.slug },
-										}}
-										key={rs.slug}
-									>
-										<RsIcon
-											className="mt-0.5 h-5 w-5 shrink-0 text-brand-icon"
-											strokeWidth={1.5}
-										/>
-										<div>
-											<H3 className="transition-colors group-hover:text-brand-readable">
-												{t(`${rs.translationKey}.title`)}
-											</H3>
-											<Muted className="mt-1 line-clamp-2 leading-relaxed">
-												{t(`${rs.translationKey}.tagline`)}
-											</Muted>
-										</div>
-									</Link>
-								);
-							})}
-						</div>
-					</GridContainer>
-				</section>
+				<DetailPageSection className="pt-20 pb-28" id="related-services">
+					<H2>{td("relatedServicesTitle")}</H2>
+					<div className="mt-10 grid gap-6 md:grid-cols-2">
+						{relatedServiceData.map((rs) => {
+							const RsIcon = rs.icon;
+							return (
+								<Link
+									className={relatedLinkCardClassName}
+									href={{
+										pathname: "/services/[slug]",
+										params: { slug: rs.slug },
+									}}
+									key={rs.slug}
+								>
+									<RelatedLinkCardContent
+										description={t(`${rs.translationKey}.tagline`)}
+										icon={RsIcon}
+										title={t(`${rs.translationKey}.title`)}
+									/>
+								</Link>
+							);
+						})}
+					</div>
+				</DetailPageSection>
 			)}
 		</>
 	);

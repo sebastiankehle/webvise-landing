@@ -91,13 +91,12 @@ describe("runWpHealthAudit", () => {
 		expect(out.result.desktop).toEqual({ score: 90 });
 		// projectedScore: mobile 60 (>=50, <70) → 95
 		expect(out.result.projectedScore).toBe(95);
-		// estimateMax: mobile >= 50 → 1500
-		expect(out.result.migrationEstimate).toEqual({ min: 750, max: 1500 });
+		expect(out.result).not.toHaveProperty("migrationEstimate");
 		expect(out.result.issues.length).toBeGreaterThan(0);
 		expect(out.result.vitals.length).toBeGreaterThan(0);
 	});
 
-	it("computes a higher migration estimate when mobile score is critical", async () => {
+	it("computes a lower projected score when mobile score is critical", async () => {
 		setupPsi(30, 60);
 		const out = await runWpHealthAudit({ url: "https://example.com" });
 		expect(out.ok).toBe(true);
@@ -105,7 +104,7 @@ describe("runWpHealthAudit", () => {
 			return;
 		}
 		expect(out.result.projectedScore).toBe(93); // mobile < 50
-		expect(out.result.migrationEstimate.max).toBe(2500);
+		expect(out.result).not.toHaveProperty("migrationEstimate");
 	});
 
 	it("flags 'No HTTPS' when the URL is plain http", async () => {

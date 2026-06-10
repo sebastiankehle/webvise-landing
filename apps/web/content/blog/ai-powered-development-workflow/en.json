@@ -2,17 +2,17 @@
   "date": "2026-03-26",
   "readingTime": 8,
   "keyword": "ai powered software development",
-  "title": "How We Use AI to Build Better Software, Faster",
-  "excerpt": "AI coding tools are everywhere, but using them effectively requires more than installing an extension. Here's how we've integrated AI into every stage of our development workflow - from planning to code review to deployment.",
+  "title": "How I Use AI to Build Better Software, Faster",
+  "excerpt": "AI coding tools are everywhere, but using them effectively requires more than installing an extension. Here's how I've integrated AI into every stage of my development workflow - from planning to code review to deployment.",
   "tags": ["AI", "Web Development", "Automation"],
   "blocks": [
     {
       "type": "p",
-      "text": "Every developer has access to AI coding assistants now. The tools are no longer a competitive advantage on their own. What separates teams that ship faster with AI from teams that get marginal gains is **how the AI is integrated into the workflow** - not which tool they use, but how they configure it, what context they give it, and where they draw the line between AI autonomy and human judgment."
+      "text": "Every developer has access to AI coding assistants now. The tools create little advantage on their own. Teams ship faster with AI when the tool is integrated into the workflow: how they configure it, what context they give it, and where they draw the line between AI autonomy and human judgment."
     },
     {
       "type": "p",
-      "text": "At webvise, AI is embedded in every stage of our development process. This is not about replacing developers - it is about removing friction so our engineers spend their time on architecture, design decisions, and business logic rather than boilerplate, repetitive refactoring, and manual review checklists."
+      "text": "At webvise, AI is embedded in every stage of the development process. It removes friction so engineering time goes to architecture, design decisions, and business logic rather than boilerplate, repetitive refactoring, and manual review checklists."
     },
     {
       "type": "h2",
@@ -28,7 +28,7 @@
     },
     {
       "type": "p",
-      "text": "For well-scoped changes - a single-file bug fix, adding a validation check - we skip plan mode entirely and execute directly. The key is matching the approach to the complexity: planning for architectural decisions, direct execution for clear tasks."
+      "text": "For well-scoped changes - a single-file bug fix, adding a validation check - I skip plan mode entirely and execute directly. The key is matching the approach to the complexity: planning for architectural decisions, direct execution for clear tasks."
     },
     {
       "type": "h2",
@@ -36,15 +36,15 @@
     },
     {
       "type": "p",
-      "text": "The single most impactful thing you can do with an AI coding assistant is **give it the right context**. We maintain structured configuration files that tell the AI our coding standards, testing conventions, API patterns, and deployment requirements. This context is loaded automatically for every session."
+      "text": "The single most impactful thing you can do with an AI coding assistant is **give it the right context**. I maintain structured configuration files that tell the AI my coding standards, testing conventions, API patterns, and deployment requirements. This context is loaded automatically for every session."
     },
     {
       "type": "p",
-      "text": "But not all context is relevant all the time. Loading API conventions when editing a React component wastes tokens and can confuse the AI. We use **path-specific rules** with glob patterns - rules that activate only when editing matching files. Test conventions load for `**/*.test.tsx` files. API patterns load for `src/api/**/*`. Database conventions load for migration files."
+      "text": "But not all context is relevant all the time. Loading API conventions when editing a React component wastes tokens and can confuse the AI. I use **path-specific rules** with glob patterns - rules that activate only when editing matching files. Test conventions load for `**/*.test.tsx` files. API patterns load for `src/api/**/*`. Database conventions load for migration files."
     },
     {
       "type": "p",
-      "text": "This approach reduces noise and improves output quality. The AI generates code that matches our standards because it knows what those standards are - and only the standards relevant to the file it is editing."
+      "text": "This approach reduces noise and improves output quality. The AI generates code that matches my standards because it knows what those standards are - and only the standards relevant to the file it is editing."
     },
     {
       "type": "h2",
@@ -56,16 +56,16 @@
     },
     {
       "type": "p",
-      "text": "Our workflow is test-driven: we write the test suite first - covering expected behaviour, edge cases, and performance requirements - then have the AI implement against those tests. When tests fail, we share the specific failures, and the AI corrects its implementation. Each iteration narrows the gap between the output and the requirement."
+      "text": "My workflow is test-driven: I write the test suite first - covering expected behaviour, edge cases, and performance requirements - then have the AI implement against those tests. When tests fail, I share the specific failures, and the AI corrects its implementation. Each iteration narrows the gap between the output and the requirement."
     },
     {
       "type": "p",
-      "text": "For ambiguous requirements, we use the **interview pattern**: instead of implementing immediately, we have the AI ask clarifying questions first. This surfaces considerations the developer might not have anticipated - cache invalidation strategies, failure modes, concurrency issues. Two minutes of questions can prevent two hours of rework."
+      "text": "For ambiguous requirements, I use the **interview pattern**: instead of implementing immediately, I have the AI ask clarifying questions first. This surfaces considerations the developer might not have anticipated - cache invalidation strategies, failure modes, concurrency issues. Two minutes of questions can prevent two hours of rework."
     },
     {
       "type": "ul",
       "items": [
-        "**Concrete examples beat prose descriptions.** When natural language produces inconsistent results, 2–3 input/output examples clarify the requirement instantly",
+        "**Concrete examples beat prose descriptions.** When natural language produces inconsistent results, 2-3 input/output examples clarify the requirement instantly",
         "**Interacting issues go in one message.** When multiple fixes affect each other, provide them together so the AI considers the interactions",
         "**Independent issues go sequentially.** Fix unrelated problems one at a time with focused feedback"
       ]
@@ -80,7 +80,7 @@
     },
     {
       "type": "p",
-      "text": "We use **independent review instances** - a fresh AI session with no prior reasoning context from the generation phase. This second pair of eyes catches subtle issues that self-review misses. For large pull requests touching many files, we split reviews into per-file analysis passes for local issues, plus a separate integration pass examining cross-file data flow."
+      "text": "I use **independent review instances** - a fresh AI session with no prior reasoning context from the generation phase. This second pair of eyes catches subtle issues that self-review misses. For large pull requests touching many files, I split reviews into per-file analysis passes for local issues, plus a separate integration pass examining cross-file data flow."
     },
     {
       "type": "p",
@@ -92,7 +92,7 @@
     },
     {
       "type": "p",
-      "text": "AI review runs automatically on every pull request as part of our CI pipeline. The AI analyses changes, produces structured findings with file location, issue description, severity, and suggested fix, and posts them as inline PR comments. Structured output ensures the findings are machine-parseable and can be integrated into existing code review dashboards."
+      "text": "AI review runs automatically on every pull request as part of the CI pipeline. The AI analyses changes, produces structured findings with file location, issue description, severity, and suggested fix, and posts them as inline PR comments. Structured output ensures the findings are machine-parseable and can be integrated into existing code review dashboards."
     },
     {
       "type": "p",
@@ -104,7 +104,7 @@
     },
     {
       "type": "p",
-      "text": "Every technique above depends on effective [context management](/blog/what-is-model-context-protocol). AI models have finite context windows, and how you fill that window determines output quality. We apply several principles consistently:"
+      "text": "Every technique above depends on effective [context management](/blog/what-is-model-context-protocol). AI models have finite context windows, and how you fill that window determines output quality. I apply several principles consistently:"
     },
     {
       "type": "ul",
@@ -112,7 +112,7 @@
         "**Incremental exploration.** Start with targeted searches to find entry points, then follow imports and trace flows - do not load all files upfront",
         "**Subagent delegation.** Verbose discovery tasks run in isolated sub-contexts that return summaries, keeping the main conversation focused",
         "**Structured state persistence.** Key findings are written to scratchpad files and referenced in subsequent queries, counteracting context degradation in long sessions",
-        "**Context compaction.** When the context fills with verbose output from exploration, we compact it - summarising what was learned before continuing"
+        "**Context compaction.** When the context fills with verbose output from exploration, I compact it - summarising what was learned before continuing"
       ]
     },
     {
@@ -121,15 +121,15 @@
     },
     {
       "type": "p",
-      "text": "This workflow is part of how we typically deliver production-ready applications in weeks rather than months for the scopes we accept; outcomes scale with project complexity. AI handles the volume work - boilerplate generation, test writing, code review, documentation - while our engineers focus on the decisions that require human judgment: architecture, user experience, business logic, and quality standards."
+      "text": "This workflow is part of how I typically deliver production-ready applications in weeks rather than months for the scopes I accept; outcomes scale with project complexity. AI handles the volume work - boilerplate generation, test writing, code review, documentation - while I focus on the decisions that require human judgment: architecture, user experience, business logic, and quality standards."
     },
     {
       "type": "p",
-      "text": "The result is not just faster delivery. It is **more consistent quality** at speed. Every pull request gets a thorough review. Every feature gets comprehensive tests. Every component follows established conventions. AI tooling does not fatigue, does not cut corners under deadline pressure, and does not forget context — though it requires careful prompting and review."
+      "text": "The result is **more consistent quality** at speed. Every pull request gets a thorough review. Every feature gets comprehensive tests. Every component follows established conventions. AI tooling does not fatigue, does not cut corners under deadline pressure, and does not forget context - though it requires careful prompting and review."
     },
     {
       "type": "p",
-      "text": "If you are building a product and want a team that combines modern AI-powered workflows with experienced engineering judgment, [let's talk](/#contact). We aim to ship quickly without compromising quality; we are happy to walk through the process."
+      "text": "If you are building a product and want a partner that combines modern AI-powered workflows with experienced engineering judgment, [get in touch](/#contact). The aim is to ship quickly without compromising quality, and I am happy to walk through the process."
     }
   ],
   "metaDescription": "See how webvise integrates AI into every stage of software development - from planning and coding to review and deployment. Build production apps in weeks, not months."

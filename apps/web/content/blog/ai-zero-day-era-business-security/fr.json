@@ -39,12 +39,12 @@
     },
     {
       "type": "p",
-      "text": "Andrej Karpathy, cofondateur d'OpenAI, [a publié une réponse](https://karpathy.bearblog.dev/digital-hygiene/) le lendemain de l'annonce et [l'a qualifié](https://x.com/itsolelehmann/status/2041946673895854569) de ce qu'il est vraiment : **\"C'est comme le COVID pour les logiciels.\"** La formulation de Karpathy — que la découverte de vulnérabilités devient systémique — est frappante, même si les analogies ont leurs limites. Mythos est actuellement entre les mains des défenseurs. Mais la capacité est sortie de la boîte. Des modèles aux potentiels offensifs similaires seront accessibles aux acteurs malveillants dans les mois à venir, que ce soit par réplication open-source, vol de modèle ou simplement la prochaine génération de modèles frontier de n'importe quel laboratoire."
+      "text": "Andrej Karpathy, cofondateur d'OpenAI, [a publié une réponse](https://karpathy.bearblog.dev/digital-hygiene/) le lendemain de l'annonce et [l'a qualifié](https://x.com/itsolelehmann/status/2041946673895854569) de ce qu'il est vraiment : **\"C'est comme le COVID pour les logiciels.\"** La formulation de Karpathy - que la découverte de vulnérabilités devient systémique - est frappante, même si les analogies ont leurs limites. Mythos est actuellement entre les mains des défenseurs. Mais la capacité est sortie de la boîte. Des modèles aux potentiels offensifs similaires seront accessibles aux acteurs malveillants dans les mois à venir, que ce soit par réplication open-source, vol de modèle ou simplement la prochaine génération de modèles frontier de n'importe quel laboratoire."
     },
     { "type": "h2", "text": "Deux faces du même problème" },
     {
       "type": "p",
-      "text": "Deux jours avant l'annonce de Mythos, nous avons publié [Pourquoi nous ne déploierons pas d'agents IA qui lisent le web ouvert](/blog/business-ai-agents-untrusted-web), notre réponse à l'étude de Google DeepMind qui a mesuré 23 façons de détourner un agent IA d'entreprise. Cet article couvrait un côté du problème : les agents IA en tant que cibles, manipulés via les données qu'ils consomment."
+      "text": "Deux jours avant l'annonce de Mythos, j'ai publié [Pourquoi je ne livre pas d'agents IA qui lisent le web ouvert](/blog/business-ai-agents-untrusted-web), ma réponse à l'étude de Google DeepMind qui a mesuré 23 façons de détourner un agent IA d'entreprise. Cet article couvrait un côté du problème : les agents IA en tant que cibles, manipulés via les données qu'ils consomment."
     },
     {
       "type": "p",
@@ -88,18 +88,18 @@
     },
     {
       "type": "p",
-      "text": "Pour les entreprises, le niveau d'exigence est plus élevé. L'étape 1 de Karpathy est un gestionnaire de mots de passe. L'équivalent pour une entreprise : savez-vous exactement quel logiciel tourne dans votre stack, quelle version, et s'il présente une vulnérabilité connue en ce moment ? La plupart des entreprises avec lesquelles nous travaillons ne peuvent pas répondre à cette question. Les sites utilisant de nombreux plugins de multiples auteurs indépendants cumulent le risque de dépendances agrégé le plus élevé, et ils constituent la majorité du web des PME."
+      "text": "Pour les entreprises, le niveau d'exigence est plus élevé. L'étape 1 de Karpathy est un gestionnaire de mots de passe. L'équivalent pour une entreprise : savez-vous exactement quel logiciel tourne dans votre stack, quelle version, et s'il présente une vulnérabilité connue en ce moment ? La plupart des entreprises avec lesquelles je travaille ne peuvent pas répondre à cette question. Les sites utilisant de nombreux plugins de multiples auteurs indépendants cumulent le risque de dépendances agrégé le plus élevé, et ils constituent la majorité du web des PME."
     },
     {
       "type": "p",
-      "text": "Nous avions écrit sur [les risques de sécurité de WordPress](/blog/wordpress-security-risks) avant que Mythos n'existe. La thèse était déjà claire : un écosystème de plugins où n'importe quel auteur peut pousser du code vers des millions de sites est une surface d'attaque indéfendable. Mythos fait passer cela d'une préoccupation théorique à un enjeu opérationnel. Un modèle d'IA capable d'identifier des vulnérabilités dans des bases de code matures comme le noyau Linux peut également les identifier dans des plugins et dépendances moins maintenus."
+      "text": "J'avais écrit sur [les risques de sécurité de WordPress](/blog/wordpress-security-risks) avant que Mythos n'existe. La thèse était déjà claire : un écosystème de plugins où n'importe quel auteur peut pousser du code vers des millions de sites est une surface d'attaque indéfendable. Mythos fait passer cela d'une préoccupation théorique à un enjeu opérationnel. Un modèle d'IA capable d'identifier des vulnérabilités dans des bases de code matures comme le noyau Linux peut également les identifier dans des plugins et dépendances moins maintenus."
     },
-    { "type": "h2", "text": "Ce que nous avons modifié cette semaine" },
+    { "type": "h2", "text": "Ce que j'ai modifié cette semaine" },
     {
       "type": "p",
-      "text": "Chez webvise, nous avons audité tous les systèmes orientés clients le matin suivant l'annonce de Mythos. La checklist était courte parce que notre stack est délibérément restreint : Next.js sur Vercel, pas de WordPress, pas de plugins tiers avec accès en écriture, pas d'agents IA lisant du contenu non fiable. La configuration d'agents personnelle de notre fondateur avec [Hermes](/blog/hermes-agent-self-improving-ai) opère déjà selon la règle qu'aucun agent ne suit de liens externes ni n'exécute d'instructions externes. Cette règle a tenu."
+      "text": "Chez webvise, tous les systèmes orientés clients ont été audités le matin suivant l'annonce de Mythos. La checklist était courte parce que la stack est délibérément restreinte : Next.js sur Vercel, pas de WordPress, pas de plugins tiers avec accès en écriture, pas d'agents IA lisant du contenu non fiable. Ma configuration d'agents personnelle avec [Hermes](/blog/hermes-agent-self-improving-ai) opère déjà selon la règle qu'aucun agent ne suit de liens externes ni n'exécute d'instructions externes. Cette règle a tenu."
     },
-    { "type": "p", "text": "Ce que nous avons effectivement modifié :" },
+    { "type": "p", "text": "Ce qui a effectivement changé :" },
     {
       "type": "ul",
       "items": [
@@ -123,7 +123,7 @@
     },
     {
       "type": "p",
-      "text": "Nous aidons les entreprises à construire et maintenir une infrastructure web conçue pour cet environnement de menaces. Si vous souhaitez une évaluation honnête de l'état de votre stack, **[contactez-nous](/#contact)**."
+      "text": "webvise aide les entreprises à construire et maintenir une infrastructure web conçue pour cet environnement de menaces. Si vous souhaitez une évaluation honnête de l'état de votre stack, **[prenez contact](/#contact)**."
     }
   ]
 }

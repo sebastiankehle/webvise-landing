@@ -1,15 +1,15 @@
 {
-  "title": "Dlaczego wiele witryn WordPress ma problemy z szybkoscia ladowania",
-  "excerpt": "Przeciętna witryna WordPress uzyskuje 45–65 punktów w Google PageSpeed. To czesto ponizej optymalnego zakresu - a wiekszosc typowych poprawek jest niewystarczajaca. Oto dlaczego.",
+  "title": "Dlaczego wiele witryn WordPress ma problemy z szybkością ładowania",
+  "excerpt": "Przeciętna witryna WordPress uzyskuje 45-65 punktów w Google PageSpeed. To często poniżej optymalnego zakresu - a większość typowych poprawek jest niewystarczająca. Oto dlaczego.",
   "tags": ["WordPress", "Performance", "Web Development"],
   "blocks": [
     {
       "type": "p",
-      "text": "Zainwestowałeś czas i pieniądze w swoją witrynę WordPress. Masz motyw, kilka wtyczek, może nawet kreator stron. Ale za każdym razem, gdy sprawdzasz swój wynik w Google [PageSpeed](https://pagespeed.web.dev/), wzdryga się."
+      "text": "Zainwestowałeś czas i pieniądze w swoją witrynę WordPress. Masz motyw, kilka wtyczek, może nawet kreator stron. Ale za każdym razem, gdy sprawdzasz swój wynik w Google [PageSpeed](https://pagespeed.web.dev/), wzdrygasz się."
     },
     {
       "type": "p",
-      "text": "To nie zludzenie. WordPress moze byc wolny bez starannej optymalizacji - a wiele typowych poprawek leczy objawy, nie przyczyne."
+      "text": "To nie złudzenie. WordPress może być wolny bez starannej optymalizacji - a wiele typowych poprawek leczy objawy, nie przyczynę."
     },
     {
       "type": "h2",
@@ -17,15 +17,19 @@
     },
     {
       "type": "p",
-      "text": "Przeciętna witryna WordPress uzyskuje **45–65 na 100 punktów** w Google PageSpeed na urządzeniach [mobilnych](/blog/wordpress-slow-on-mobile). To czesto ponizej optymalnego zakresu. Wszystko ponizej 90 kosztuje Cię realne pieniądze w postaci utraconych konwersji i pozycji w wyszukiwarkach."
+      "text": "Przeciętna witryna WordPress uzyskuje **45-65 na 100 punktów** w Google PageSpeed na urządzeniach [mobilnych](/blog/wordpress-slow-on-mobile). To często poniżej optymalnego zakresu. Wszystko poniżej 90 kosztuje Cię realne pieniądze w postaci utraconych konwersji i pozycji w wyszukiwarkach."
     },
     {
       "type": "p",
       "text": "Własne dane Google: opóźnienie ładowania o 1 sekundę zmniejsza konwersje o **7%**. Opóźnienie o 3 sekundy powoduje utratę **53% użytkowników mobilnych**, zanim w ogóle zobaczą Twoją stronę główną."
     },
     {
+      "type": "p",
+      "text": "Jeśli Twoja witryna WordPress jest w tym zakresie, może kosztować Cię klientów."
+    },
+    {
       "type": "h2",
-      "text": "Dlaczego witryny WordPress czesto laduja sie wolno"
+      "text": "Dlaczego witryny WordPress często ładują się wolno"
     },
     {
       "type": "h3",
@@ -36,12 +40,40 @@
       "text": "WordPress jest renderowany po stronie serwera przy każdej wizycie. Użytkownik trafia na Twój URL - serwer wykonuje PHP - PHP odpytuje bazę danych - strona jest składana - i wysyłana do przeglądarki. Za każdym razem."
     },
     {
+      "type": "p",
+      "text": "Nowoczesne frameworki budują strony wcześniej jako statyczny HTML i serwują je z CDN. Bez zapytania do bazy danych. Bez wykonywania PHP. Tylko plik dostarczony z pobliskiego serwera."
+    },
+    {
       "type": "h3",
       "text": "2. Wtyczki się nawarstwiają"
     },
     {
       "type": "p",
-      "text": "Przeciętna witryna WordPress korzysta z 20–30 wtyczek. Każda wtyczka ładuje własny CSS, JavaScript i zapytania do bazy danych. Nie koordynują się ze sobą."
+      "text": "Przeciętna witryna WordPress korzysta z 20-30 wtyczek. Każda wtyczka ładuje własny CSS, JavaScript i zapytania do bazy danych. Nie koordynują się ze sobą."
+    },
+    {
+      "type": "h3",
+      "text": "3. Hosting współdzielony pogłębia problem"
+    },
+    {
+      "type": "p",
+      "text": "Większość stron WordPress działa na hostingu współdzielonym: serwerach, gdzie setki stron konkurują o tę samą CPU i RAM. Gdy ruch rośnie, Twoja strona zwalnia. Plan hostingowy za €5/miesiąc nie obsłuży realnego ruchu."
+    },
+    {
+      "type": "h3",
+      "text": "4. Obrazy prawie nigdy nie są optymalizowane poprawnie"
+    },
+    {
+      "type": "p",
+      "text": "Obsługa obrazów w WordPressie jest reaktywna: tworzy kilka rozmiarów przesłanych plików, ale nie wymusza nowoczesnych formatów, takich jak WebP lub AVIF, nie ładuje wszystkiego lazy-load domyślnie i nie serwuje obrazów z węzła CDN blisko odwiedzającego."
+    },
+    {
+      "type": "h3",
+      "text": "5. Cache pomaga, ale niewiele"
+    },
+    {
+      "type": "p",
+      "text": "Tak, możesz zainstalować WP Rocket lub W3 Total Cache. Te narzędzia pomagają. Ale obchodzą ograniczenia architektoniczne zamiast rozwiązywać przyczynę. Istnieje pułap tego, co warstwy cache mogą osiągnąć na stacku renderowanym po stronie serwera."
     },
     {
       "type": "h2",
@@ -49,11 +81,11 @@
     },
     {
       "type": "p",
-      "text": "W reprezentatywnej migracji z WordPress do Next.js, którą przeprowadziliśmy, mobilny PageSpeed wzrósł z niskich 40 do środkowych 90, FCP z około 3,8 s do poniżej 1 s, TTI z ponad 8 s do poniżej 1 s, a współczynnik odrzuceń obniżył się mierzalnie w pierwszym miesiącu. Konkretne wyniki zależą od wagi treści, skryptów zewnętrznych i profilu urządzeń odbiorców."
+      "text": "W reprezentatywnej migracji z WordPress do Next.js mobilny PageSpeed wzrósł z niskich 40 do środkowych 90, FCP z około 3,8 s do poniżej 1 s, TTI z ponad 8 s do poniżej 1 s, a współczynnik odrzuceń obniżył się mierzalnie w pierwszym miesiącu. Konkretne wyniki zależą od wagi treści, skryptów zewnętrznych i profilu urządzeń odbiorców."
     },
     {
       "type": "p",
-      "text": "Po migracji:"
+      "text": "Po [migracji](/blog/should-i-migrate-wordpress-to-nextjs):"
     },
     {
       "type": "ul",
@@ -62,6 +94,31 @@
         "**First Contentful Paint: poniżej 1 s** (z około 3,8 s)",
         "**Time to Interactive: poniżej 1 s** (z ponad 8 s)",
         "**Współczynnik odrzuceń obniżył się mierzalnie** w pierwszym miesiącu"
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Ta sama treść. Ten sam branding. Zupełnie inna architektura."
+    },
+    {
+      "type": "h2",
+      "text": "Przyczyna: architektura z innej epoki"
+    },
+    {
+      "type": "p",
+      "text": "WordPress powstał w 2003 roku, aby obsługiwać blogi. To wyjątkowe oprogramowanie, które zdemokratyzowało web. Ale jego architektura wymaga więcej konfiguracji i wiedzy, aby osiągnąć benchmarki wydajności, których nowoczesne strony firmowe potrzebują w 2026 roku."
+    },
+    {
+      "type": "p",
+      "text": "Strony Next.js są:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Generowane statycznie** - strony są plikami HTML, nie skryptami PHP",
+        "**Wdrażane na edge** - serwowane z ponad 100 globalnych lokalizacji, nie z jednego serwera",
+        "**Natywne JavaScript** - szybka hydratacja, natychmiastowa nawigacja między stronami",
+        "**Domyślnie zoptymalizowane pod obrazy** - automatyczny WebP, lazy loading i responsywne rozmiary"
       ]
     },
     {
@@ -74,16 +131,19 @@
     },
     {
       "type": "p",
-      "text": "**Opcja 1: Optymalizowac WordPress doglebnie.** Lepszy hosting, wtyczki cache i reczna optymalizacja obrazow moga pomoc, ale wymagaja ciaglego wysilku, a wyniki sa czesto ograniczone."
+      "text": "**Opcja 1: Dalej optymalizować WordPress.** Wtyczki cache, optymalizacja obrazów i lżejsze motywy mogą dać znaczące poprawy; spodziewaj się ciągłego czasu utrzymania i pułapu zależnego od liczby wtyczek oraz architektury motywu."
     },
     {
       "type": "p",
-      "text": "**Opcja 2:** [Migracja](/blog/should-i-migrate-wordpress-to-nextjs). Przejdź na nowoczesny stos. Zapłać raz, uzyskaj witrynę, która ładuje się w mniej niż sekundę, uzyskuje 90+ w PageSpeed i nie wymaga żadnej konserwacji wtyczek."
+      "text": "**Opcja 2: Migracja.** Przejdź na nowoczesny stack i uzyskaj stronę zbudowaną pod szybsze ładowanie, mocniejsze wyniki PageSpeed i mniej konserwacji wtyczek."
     },
     {
       "type": "p",
-      "text": "Przeprowadzamy te migracje w webvise.io - wdrożenie wspierane przez AI, wyceny o stałym zakresie, przewidywalne terminy. Najpierw bezpłatnie auditujemy Twoją witrynę WordPress."
+      "text": "webvise przeprowadza te migracje z wdrożeniem wspieranym przez AI, wycenami o stałym zakresie i przewidywalnymi terminami. Najpierw Twoja witryna WordPress jest bezpłatnie audytowana."
     }
   ],
-  "metaDescription": "Większość stron WordPress: 45–65 w mobilnym PageSpeed. Reprezentatywna migracja do Next.js przeniosła wyniki z niskich 40 do środkowych 90 i obniżyła współczynnik odrzuceń mierzalnie. Dane i metoda."
+  "metaDescription": "Większość stron WordPress: 45-65 w mobilnym PageSpeed. Reprezentatywna migracja do Next.js przeniosła wyniki z niskich 40 do środkowych 90 i obniżyła współczynnik odrzuceń mierzalnie. Dane i metoda.",
+  "date": "2025-09-15",
+  "readingTime": 5,
+  "keyword": "czy wordpress jest za wolny"
 }

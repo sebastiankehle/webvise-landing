@@ -9,6 +9,7 @@ import CaseStudyGallery from "@/components/marketing/case-study-gallery";
 import CaseStudyHeroImage from "@/components/marketing/case-study-hero-image";
 import {
 	ConstructedGrid,
+	DetailPageSection,
 	GridContainer,
 } from "@/components/marketing/section-wrapper";
 import StaggerChildren from "@/components/marketing/stagger-children";
@@ -18,6 +19,7 @@ import {
 	H1,
 	H2,
 	H3,
+	inlineLinkClassName,
 	Lead,
 	QuoteMark,
 	Small,
@@ -64,7 +66,7 @@ export async function generateMetadata({
 						url: cs.coverImage,
 						width: 1512,
 						height: 766,
-						alt: `${cs.client} – ${cs.title}`,
+						alt: `${cs.client} - ${cs.title}`,
 					},
 				],
 			}),
@@ -92,6 +94,7 @@ export default async function CaseStudyPage({
 	}
 
 	const t = await getTranslations("caseStudies");
+	const tschema = await getTranslations("schema");
 	const csUrl = localizedUrl(`/case-studies/${slug}`, locale);
 
 	const relatedCaseStudies = getRelatedCaseStudies(slug, locale);
@@ -106,7 +109,7 @@ export default async function CaseStudyPage({
 					{
 						"@type": "ListItem",
 						position: 1,
-						name: "Home",
+						name: tschema("home"),
 						item: localizedUrl("/", locale),
 					},
 					{
@@ -203,7 +206,7 @@ export default async function CaseStudyPage({
 										if (cs.liveUrl) {
 											return (
 												<a
-													className="mt-1 inline-flex items-center gap-1.5 text-brand-readable text-sm transition-colors hover:text-brand-readable"
+													className={`${inlineLinkClassName} mt-1 inline-flex items-center gap-1.5`}
 													href={cs.liveUrl}
 													rel="noopener noreferrer"
 													target="_blank"
@@ -229,7 +232,7 @@ export default async function CaseStudyPage({
 						</div>
 
 						{/* Tech stack box */}
-						<div className="border border-border/40 p-6 md:p-8">
+						<div className="surface-card p-6 md:p-8">
 							<Caption className="mb-5 block">{t("techStackLabel")}</Caption>
 							<div className="flex flex-wrap gap-2">
 								{cs.techStack.map((tech) => (
@@ -245,12 +248,12 @@ export default async function CaseStudyPage({
 			<section className="relative py-20 md:py-28">
 				<ConstructedGrid hatch variant="content" />
 				<div className="relative mx-auto max-w-[1320px]">
-					<div className="grid items-start gap-3 md:grid-cols-3">
+					<div className="grid items-start gap-5 md:grid-cols-3">
 						{/* Hero - spans 2 cols */}
 						{cs.coverImage && (
 							<div className="md:col-span-2">
 								<CaseStudyHeroImage
-									alt={`${cs.client} – ${cs.title}`}
+									alt={`${cs.client} - ${cs.title}`}
 									fullPageImage={cs.fullPageImage}
 									src={cs.coverImage}
 								/>
@@ -258,7 +261,7 @@ export default async function CaseStudyPage({
 						)}
 						{/* Quote card */}
 						{cs.testimonial && (
-							<figure className="flex flex-col justify-between border border-border/40 p-8 md:p-10">
+							<figure className="surface-card flex flex-col justify-between p-8 md:p-10">
 								<div>
 									<QuoteMark />
 									<blockquote className="mt-3 text-muted-foreground text-sm leading-relaxed">
@@ -299,15 +302,15 @@ export default async function CaseStudyPage({
 			{/* Metrics */}
 			{cs.metrics && cs.metrics.length > 0 && (
 				<section
-					aria-label="Project metrics"
+					aria-label={t("projectMetrics")}
 					className="relative py-20 md:py-28"
 				>
 					<ConstructedGrid hatch variant="content" />
 					<GridContainer>
-						<StaggerChildren className="-mx-6 grid grid-cols-2 border-grid-line border-t md:grid-cols-4">
+						<StaggerChildren className="grid grid-cols-2 gap-5 lg:grid-cols-4">
 							{cs.metrics.map((metric) => (
 								<div
-									className="border-grid-line border-b p-6 md:border-r md:p-8 md:[&:nth-child(4n)]:border-r-0"
+									className="surface-card relative p-6 md:p-7"
 									key={metric.label}
 								>
 									<AnimatedStat value={metric.value} />
@@ -331,44 +334,41 @@ export default async function CaseStudyPage({
 
 			{/* Related case studies */}
 			{relatedCaseStudies.length > 0 && (
-				<section className="relative border-grid-line border-t pt-20 pb-28">
-					<ConstructedGrid variant="page" />
-					<GridContainer>
-						<H2>{t("relatedTitle")}</H2>
-						<div className="mt-10 grid gap-6 md:grid-cols-2">
-							{relatedCaseStudies.map((related) => (
-								<Link
-									className="group border border-border/40 transition-colors hover:border-brand-border"
-									href={{
-										pathname: "/case-studies/[slug]",
-										params: { slug: related.slug },
-									}}
-									key={related.slug}
-								>
-									{related.coverImage && (
-										<Image
-											alt={`${related.client} – ${related.title}`}
-											className="h-auto w-full"
-											height={383}
-											quality={80}
-											sizes="(max-width: 768px) 100vw, 50vw"
-											src={related.coverImage}
-											width={756}
-										/>
-									)}
-									<div className="p-6">
-										<Caption>
-											{related.client} &middot; {related.industry}
-										</Caption>
-										<H3 className="mt-2 text-lg transition-colors group-hover:text-brand-readable">
-											{related.title}
-										</H3>
-									</div>
-								</Link>
-							))}
-						</div>
-					</GridContainer>
-				</section>
+				<DetailPageSection className="pt-20 pb-28" id="related-case-studies">
+					<H2>{t("relatedTitle")}</H2>
+					<div className="mt-10 grid gap-6 md:grid-cols-2">
+						{relatedCaseStudies.map((related) => (
+							<Link
+								className="surface-card group overflow-hidden outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+								href={{
+									pathname: "/case-studies/[slug]",
+									params: { slug: related.slug },
+								}}
+								key={related.slug}
+							>
+								{related.coverImage && (
+									<Image
+										alt={`${related.client} - ${related.title}`}
+										className="h-auto w-full"
+										height={383}
+										quality={80}
+										sizes="(max-width: 768px) 100vw, 50vw"
+										src={related.coverImage}
+										width={756}
+									/>
+								)}
+								<div className="p-6">
+									<Caption>
+										{related.client} &middot; {related.industry}
+									</Caption>
+									<H3 className="mt-2 text-lg transition-colors group-hover:text-brand-readable">
+										{related.title}
+									</H3>
+								</div>
+							</Link>
+						))}
+					</div>
+				</DetailPageSection>
 			)}
 		</>
 	);

@@ -2,6 +2,8 @@
 
 import { XIcon } from "lucide-react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
+import { marketingSurfaceClassName } from "@/components/marketing/section-wrapper";
 import {
 	Dialog,
 	DialogClose,
@@ -24,10 +26,14 @@ export default function CaseStudyLightbox({
 	src,
 	alt,
 }: CaseStudyLightboxProps) {
+	const t = useTranslations("caseStudies");
+
 	return (
 		<Dialog onOpenChange={onOpenChange} open={open}>
 			<DialogPortal>
-				<DialogOverlay className="bg-black/90 backdrop-blur-sm" />
+				<DialogOverlay
+					className={`${marketingSurfaceClassName("inverted")} bg-background/90 backdrop-blur-sm`}
+				/>
 				<DialogContent
 					className="data-open:zoom-in-100 data-closed:zoom-out-100 fixed inset-0 mx-auto max-w-3xl translate-x-0 translate-y-0 overflow-y-auto overscroll-contain bg-transparent p-0 ring-0 sm:inset-6 sm:max-w-3xl"
 					showCloseButton={false}
@@ -49,13 +55,13 @@ export default function CaseStudyLightbox({
 				<DialogClose
 					render={
 						<button
-							className="fixed top-4 right-4 z-[60] flex size-10 items-center justify-center rounded-full text-white/70 transition-colors hover:text-white sm:top-3 sm:right-3"
+							className={`${marketingSurfaceClassName("inverted")} fixed top-4 right-4 z-[60] flex size-10 items-center justify-center border border-border bg-card/80 text-foreground/80 outline-none transition-colors hover:bg-muted hover:text-foreground focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring/50 sm:top-3 sm:right-3`}
 							type="button"
 						/>
 					}
 				>
 					<XIcon className="size-5" />
-					<span className="sr-only">Close</span>
+					<span className="sr-only">{t("closeLightbox")}</span>
 				</DialogClose>
 			</DialogPortal>
 		</Dialog>

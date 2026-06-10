@@ -5,11 +5,13 @@ import { DefaultChatTransport } from "ai";
 import { MessageCircle, Send, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useTranslations } from "next-intl";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { Streamdown } from "streamdown";
 
 import Logo from "@/components/logo";
-import { Body, Caption } from "@/components/ui/typography";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Body, Caption, inlineLinkClassName } from "@/components/ui/typography";
 import { track } from "@/lib/track";
 import { cn } from "@/lib/utils";
 
@@ -19,7 +21,7 @@ function ChatLink(props: React.AnchorHTMLAttributes<HTMLAnchorElement>) {
 	return (
 		<a
 			{...props}
-			className="font-medium text-brand-readable underline underline-offset-2 transition-colors hover:text-brand-readable"
+			className={inlineLinkClassName}
 			{...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
 		/>
 	);
@@ -45,6 +47,8 @@ export default function ChatWidget() {
 	const messagesEndRef = useRef<HTMLDivElement>(null);
 	const inputRef = useRef<HTMLInputElement>(null);
 	const panelRef = useRef<HTMLDivElement>(null);
+	const triggerRef = useRef<HTMLButtonElement>(null);
+	const titleId = useId();
 	const isMobile = useIsMobile();
 
 	const { messages, sendMessage, status } = useChat({
@@ -64,6 +68,28 @@ export default function ChatWidget() {
 			inputRef.current?.focus();
 		}
 	}, [open]);
+
+	const closeChat = useCallback(() => {
+		setOpen(false);
+		window.requestAnimationFrame(() => {
+			triggerRef.current?.focus({ preventScroll: true });
+		});
+	}, []);
+
+	useEffect(() => {
+		if (!open) {
+			return;
+		}
+
+		const onKeyDown = (event: KeyboardEvent) => {
+			if (event.key === "Escape") {
+				closeChat();
+			}
+		};
+
+		window.addEventListener("keydown", onKeyDown);
+		return () => window.removeEventListener("keydown", onKeyDown);
+	}, [closeChat, open]);
 
 	useEffect(() => {
 		if (!(open && isMobile)) {
@@ -137,6 +163,8 @@ export default function ChatWidget() {
 				{open && (
 					<motion.div
 						animate={{ opacity: 1, y: 0, scale: 1 }}
+						aria-labelledby={titleId}
+						aria-modal="true"
 						className={cn(
 							"fixed z-50 flex flex-col overflow-hidden border border-border bg-background shadow-2xl",
 							"inset-0 h-dvh",
@@ -144,29 +172,36 @@ export default function ChatWidget() {
 						)}
 						data-ai-disclosure="direct-interaction"
 						data-ai-system="chatbot"
+						data-marketing-floating="true"
 						exit={{ opacity: 0, y: 12, scale: 0.97 }}
+						id="webvise-chat-widget"
 						initial={{ opacity: 0, y: 12, scale: 0.97 }}
 						ref={panelRef}
+						role="dialog"
 						transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
 					>
 						<div className="flex items-center justify-between border-border/60 border-b bg-card px-4 py-3">
 							<div className="flex items-center gap-2.5">
 								<Logo className="h-5 w-5" />
 								<div>
-									<Body className="font-medium text-sm leading-none">
+									<Body
+										className="font-medium text-sm leading-none"
+										id={titleId}
+									>
 										{t("title")}
 									</Body>
 									<Caption className="mt-0.5 block">{t("subtitle")}</Caption>
 								</div>
 							</div>
-							<button
+							<Button
 								aria-label={t("close")}
-								className="flex h-8 w-8 items-center justify-center text-muted-foreground transition-colors hover:text-foreground md:h-7 md:w-7"
-								onClick={() => setOpen(false)}
+								onClick={closeChat}
+								size="icon"
 								type="button"
+								variant="ghost"
 							>
 								<X className="h-4 w-4" />
-							</button>
+							</Button>
 						</div>
 
 						<div
@@ -188,14 +223,15 @@ export default function ChatWidget() {
 											const question = t(`suggestions.${key}`);
 
 											return (
-												<button
-													className="border border-border bg-card px-2.5 py-1.5 text-muted-foreground text-xs transition-colors hover:bg-muted hover:text-foreground md:py-1"
+												<Button
 													key={key}
 													onClick={() => handleSuggestion(question)}
+													size="xs"
 													type="button"
+													variant="outline"
 												>
 													{question}
-												</button>
+												</Button>
 											);
 										})}
 									</div>
@@ -245,11 +281,11 @@ export default function ChatWidget() {
 							className="flex items-center gap-2 border-border/60 border-t px-3 py-2.5 pb-[max(0.625rem,env(safe-area-inset-bottom))]"
 							onSubmit={handleSubmit}
 						>
-							<input
+							<Input
 								autoCapitalize="off"
 								autoComplete="one-time-code"
 								autoCorrect="off"
-								className="h-9 flex-1 bg-transparent px-1 text-base outline-none placeholder:text-muted-foreground md:h-8 md:text-sm"
+								className="h-9 flex-1 border-transparent bg-transparent px-1 text-base focus-visible:border-transparent focus-visible:ring-0 md:h-8 md:text-sm dark:bg-transparent"
 								data-1p-ignore="true"
 								data-form-type="other"
 								data-lpignore="true"
@@ -262,25 +298,30 @@ export default function ChatWidget() {
 								type="search"
 								value={input}
 							/>
-							<button
+							<Button
 								aria-label={t("send")}
-								className="flex h-8 w-8 shrink-0 items-center justify-center bg-brand text-brand-foreground transition-colors disabled:bg-muted disabled:text-muted-foreground md:h-7 md:w-7"
 								disabled={!input.trim() || isStreaming}
+								size="icon"
 								type="submit"
+								variant="brand"
 							>
 								<Send className="h-3.5 w-3.5" />
-							</button>
+							</Button>
 						</form>
 					</motion.div>
 				)}
 			</AnimatePresence>
 
-			<motion.button
+			<Button
+				aria-controls="webvise-chat-widget"
+				aria-expanded={open}
 				aria-label={open ? t("close") : t("open")}
 				className={cn(
-					"hover:!bg-brand-hover fixed right-6 bottom-6 z-40 flex h-12 w-12 items-center justify-center bg-brand text-brand-foreground shadow-lg transition-colors",
+					"fixed right-6 bottom-6 z-40 size-12 shadow-lg",
 					open && "max-md:hidden"
 				)}
+				data-marketing-floating="true"
+				nativeButton
 				onClick={() => {
 					const next = !open;
 					setOpen(next);
@@ -288,7 +329,11 @@ export default function ChatWidget() {
 						track("chat_opened");
 					}
 				}}
+				ref={triggerRef}
+				render={<motion.button />}
+				size="icon-lg"
 				type="button"
+				variant="brand"
 			>
 				<AnimatePresence mode="wait">
 					{open ? (
@@ -313,7 +358,7 @@ export default function ChatWidget() {
 						</motion.span>
 					)}
 				</AnimatePresence>
-			</motion.button>
+			</Button>
 		</>
 	);
 }

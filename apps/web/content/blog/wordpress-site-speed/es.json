@@ -1,6 +1,6 @@
 {
-  "title": "Por que muchos sitios WordPress tienen problemas de velocidad",
-  "excerpt": "El sitio de WordPress promedio obtiene entre 45 y 65 puntos en Google PageSpeed. Eso suele estar por debajo del rango optimo - y la mayoria de las soluciones habituales se quedan cortas. Esto es lo que realmente ocurre.",
+  "title": "Por qué muchos sitios WordPress tienen problemas de velocidad",
+  "excerpt": "El sitio de WordPress promedio obtiene entre 45 y 65 puntos en Google PageSpeed. Eso suele estar por debajo del rango óptimo - y la mayoría de las soluciones habituales se quedan cortas. Esto es lo que realmente ocurre.",
   "tags": ["WordPress", "Performance", "Web Development"],
   "blocks": [
     {
@@ -9,7 +9,7 @@
     },
     {
       "type": "p",
-      "text": "No te lo estas imaginando. WordPress puede volverse lento sin una optimizacion cuidadosa - y muchas soluciones habituales tratan los sintomas, no la causa."
+      "text": "No te lo estás imaginando. WordPress puede volverse lento sin una optimización cuidadosa - y muchas soluciones habituales tratan los síntomas, no la causa."
     },
     {
       "type": "h2",
@@ -17,15 +17,19 @@
     },
     {
       "type": "p",
-      "text": "El sitio WordPress promedio obtiene **entre 45 y 65 puntos sobre 100** en Google PageSpeed para móviles. Eso suele estar por debajo del rango optimo. Todo lo que este por debajo de 90 te cuesta dinero real en [conversiones](/blog/website-speed-and-conversions) perdidas y posicionamiento en buscadores."
+      "text": "El sitio WordPress promedio obtiene **entre 45 y 65 puntos sobre 100** en Google PageSpeed para móviles. Eso suele estar por debajo del rango óptimo. Todo lo que esté por debajo de 90 te cuesta dinero real en [conversiones](/blog/website-speed-and-conversions) perdidas y posicionamiento en buscadores."
     },
     {
       "type": "p",
       "text": "Los propios datos de Google: un retraso de 1 segundo en el tiempo de carga reduce las conversiones en un **7 %**. Un retraso de 3 segundos hace perder el **53 % de los visitantes móviles** antes de que siquiera vean tu página de inicio."
     },
     {
+      "type": "p",
+      "text": "Si tu sitio WordPress está en ese rango, puede estar costándote clientes."
+    },
+    {
       "type": "h2",
-      "text": "Por que los sitios WordPress suelen cargar lento"
+      "text": "Por qué los sitios WordPress suelen cargar lento"
     },
     {
       "type": "h3",
@@ -36,12 +40,40 @@
       "text": "WordPress se renderiza en el servidor en cada visita. Un usuario accede a tu URL - tu servidor ejecuta PHP - PHP consulta la base de datos - se ensambla una página - se envía al navegador. Cada vez."
     },
     {
+      "type": "p",
+      "text": "Los frameworks modernos preconstruyen páginas como HTML estático y las sirven desde un CDN. Sin consulta de base de datos. Sin ejecución de PHP. Solo un archivo entregado desde un servidor cercano."
+    },
+    {
       "type": "h3",
       "text": "2. Los plugins se acumulan"
     },
     {
       "type": "p",
       "text": "El sitio WordPress promedio tiene entre 20 y 30 plugins. Cada plugin carga su propio CSS, JavaScript y consultas de base de datos. No se coordinan entre sí."
+    },
+    {
+      "type": "h3",
+      "text": "3. El hosting compartido agrava el problema"
+    },
+    {
+      "type": "p",
+      "text": "La mayoría de los sitios WordPress viven en hosting compartido: servidores donde cientos de sitios compiten por la misma CPU y RAM. Cuando el tráfico sube, tu sitio se ralentiza. Un plan de hosting de €5/mes no puede gestionar tráfico real."
+    },
+    {
+      "type": "h3",
+      "text": "4. Las imágenes casi nunca se optimizan correctamente"
+    },
+    {
+      "type": "p",
+      "text": "La gestión de imágenes de WordPress es reactiva: crea varios tamaños de tus subidas, pero no impone formatos modernos como WebP o AVIF, no aplica lazy loading a todo por defecto y no sirve imágenes desde un nodo CDN cercano al visitante."
+    },
+    {
+      "type": "h3",
+      "text": "5. La caché ayuda, pero apenas"
+    },
+    {
+      "type": "p",
+      "text": "Sí, puedes instalar WP Rocket o W3 Total Cache. Estas herramientas ayudan. Pero rodean restricciones arquitectónicas en lugar de resolver la causa raíz. Hay un techo para lo que las capas de caché pueden conseguir sobre un stack renderizado en servidor."
     },
     {
       "type": "h2",
@@ -65,6 +97,31 @@
       ]
     },
     {
+      "type": "p",
+      "text": "Mismo contenido. Misma marca. Arquitectura completamente distinta."
+    },
+    {
+      "type": "h2",
+      "text": "La causa raíz: una arquitectura de otra época"
+    },
+    {
+      "type": "p",
+      "text": "WordPress se creó en 2003 para impulsar blogs. Es una pieza de software notable que democratizó la web. Pero su arquitectura requiere más configuración y experiencia para alcanzar los benchmarks de rendimiento que los sitios empresariales modernos necesitan en 2026."
+    },
+    {
+      "type": "p",
+      "text": "Los sitios Next.js son:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Generados estáticamente** - las páginas son archivos HTML, no scripts PHP",
+        "**Desplegados en edge** - servidos desde más de 100 ubicaciones globales, no desde un único servidor",
+        "**Nativos de JavaScript** - hidratación rápida, navegación instantánea entre páginas",
+        "**Optimizados para imágenes por defecto** - WebP automático, lazy loading y tamaños responsive"
+      ]
+    },
+    {
       "type": "h2",
       "text": "Qué deberías hacer"
     },
@@ -74,16 +131,19 @@
     },
     {
       "type": "p",
-      "text": "**Opcion 1: Optimizar WordPress a fondo.** Mejor hosting, plugins de cache y optimizacion manual de imagenes pueden ayudar, pero requieren esfuerzo continuo y los resultados suelen ser limitados."
+      "text": "**Opción 1: Seguir optimizando WordPress.** Los plugins de caché, la optimización de imágenes y los temas más ligeros pueden lograr mejoras significativas; espera tiempo de mantenimiento continuo y un techo que depende del número de plugins y la arquitectura del tema."
     },
     {
       "type": "p",
-      "text": "**Opción 2: Migrar.** Pasa a un stack moderno. Paga una vez, obtén un sitio que carga en menos de un segundo, obtiene 90+ en PageSpeed y no requiere mantenimiento de plugins."
+      "text": "**Opción 2: Migrar.** Pasa a un stack moderno y obtén un sitio construido para cargas más rápidas, mejores puntuaciones PageSpeed y menos mantenimiento de plugins."
     },
     {
       "type": "p",
       "text": "Hacemos estas migraciones en webvise.io - implementación asistida por IA, presupuestos de alcance fijo, plazos predecibles. Auditamos tu sitio WordPress gratis primero."
     }
   ],
-  "metaDescription": "La mayoría de sitios WordPress puntúan 45–65 en PageSpeed móvil. Una migración representativa a Next.js movió las puntuaciones de los 40 bajos a los 90 medios y redujo el rebote de forma medible. Datos y método."
+  "metaDescription": "La mayoría de sitios WordPress puntúan 45-65 en PageSpeed móvil. Una migración representativa a Next.js movió las puntuaciones de los 40 bajos a los 90 medios y redujo el rebote de forma medible. Datos y método.",
+  "date": "2025-09-15",
+  "readingTime": 5,
+  "keyword": "wordpress es demasiado lento"
 }

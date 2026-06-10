@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
 		name: "webvise",
 		short_name: "webvise",
 		description:
-			"We turn ideas into production-ready software. Design, engineering, and AI. Shipped in weeks, built to scale.",
+			"Design, development, and AI automation for custom workflow software.",
 		start_url: "/",
 		display: "standalone",
 		background_color: "#fafafa",

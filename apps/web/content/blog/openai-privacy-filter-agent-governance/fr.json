@@ -17,7 +17,7 @@
     },
     {
       "type": "p",
-      "text": "Si vous faites tourner des agents sur des données clients aujourd'hui, la suppression des données personnelles est généralement gérée par une bibliothèque regex que vous maintenez ou en routant les requêtes via un LLM — les deux approches présentant des compromis. Cet article explique ce qu'est réellement openai/privacy-filter, les choix architecturaux qui importent et la place qu'il occupe dans une véritable architecture de gouvernance d'agents. Nous expliquerons également pourquoi cette publication fait évoluer notre position sur les agents qui lisent des entrées non fiables, et ce que vous devez en faire si vous déployez des charges de travail réglementées."
+      "text": "Si vous faites tourner des agents sur des données clients aujourd'hui, la suppression des données personnelles est généralement gérée par une bibliothèque regex que vous maintenez ou en routant les requêtes via un LLM - les deux approches présentant des compromis. Cet article explique ce qu'est réellement openai/privacy-filter, les choix architecturaux qui importent et la place qu'il occupe dans une véritable architecture de gouvernance d'agents. Il explique également pourquoi cette publication fait évoluer ma position sur les agents qui lisent des entrées non fiables, et ce que vous devez en faire si vous déployez des charges de travail réglementées."
     },
     {
       "type": "h2",
@@ -107,7 +107,7 @@
     },
     {
       "type": "p",
-      "text": "Une véritable architecture de gouvernance d'agents comporte des couches distinctes. Le modèle de travail que nous utilisons chez webvise se présente comme suit :"
+      "text": "Une véritable architecture de gouvernance d'agents comporte des couches distinctes. Le modèle de travail utilisé chez webvise se présente comme suit :"
     },
     {
       "type": "ul",
@@ -147,7 +147,7 @@
     },
     {
       "type": "p",
-      "text": "Pour la plupart des architectures clients que nous concevons, la réponse est la combinaison des Couches 2 et 5. La vérification locale au navigateur empêche les données personnelles accidentelles d'entrer dans la fenêtre de contexte en premier lieu. La vérification côté serveur en sortie intercepte tout ce que le modèle génère ou laisse filtrer dans sa réponse. La défense en profondeur est l'objectif."
+      "text": "Pour la plupart des architectures clients que je conçois, la réponse est la combinaison des Couches 2 et 5. La vérification locale au navigateur empêche les données personnelles accidentelles d'entrer dans la fenêtre de contexte en premier lieu. La vérification côté serveur en sortie intercepte tout ce que le modèle génère ou laisse filtrer dans sa réponse. La défense en profondeur est l'objectif."
     },
     {
       "type": "p",
@@ -241,15 +241,15 @@
     },
     {
       "type": "p",
-      "text": "Notre règle : Privacy Filter s'intègre dans une architecture comprenant au moins une autre vérification en aval. S'il constitue la seule couche, vous êtes à une mise à jour de modèle d'une régression que personne ne détectera."
+      "text": "Ma règle : Privacy Filter s'intègre dans une architecture comprenant au moins une autre vérification en aval. S'il constitue la seule couche, vous êtes à une mise à jour de modèle d'une régression que personne ne détectera."
     },
     {
       "type": "h2",
-      "text": "Évolution de notre position sur les agents exposés au web ouvert"
+      "text": "Évolution de ma position sur les agents exposés au web ouvert"
     },
     {
       "type": "p",
-      "text": "Début du mois, nous avons publié une position : webvise ne déploie pas d'agents IA qui lisent le web ouvert pour ses clients. [La raison était concrète](/blog/business-ai-agents-untrusted-web). Les entrées contrôlées par des attaquants (une page scrapée, une URL soumise par l'utilisateur, un flux tiers) transmettent à l'agent des données personnelles, des credentials ou des charges d'injection de prompts qui fuient vers des actions en aval."
+      "text": "Début du mois, j'ai publié une position : webvise ne déploie pas d'agents IA qui lisent le web ouvert pour ses clients. [La raison était concrète](/blog/business-ai-agents-untrusted-web). Les entrées contrôlées par des attaquants (une page scrapée, une URL soumise par l'utilisateur, un flux tiers) transmettent à l'agent des données personnelles, des credentials ou des charges d'injection de prompts qui fuient vers des actions en aval."
     },
     {
       "type": "p",
@@ -261,7 +261,7 @@
     },
     {
       "type": "p",
-      "text": "L'évolution de notre position : nous déploierons désormais des lecteurs web ouverts restreints pour les processus non sensibles (agrégation de données publiques, veille concurrentielle, études de marché) si Privacy Filter est intégré des deux côtés de l'appel au modèle. Nous ne les déploierons toujours pas pour des processus touchant aux dossiers clients, aux documents internes ou aux actions authentifiées sans un test red-team dédié au préalable."
+      "text": "L'évolution de ma position : je déploierai désormais des lecteurs web ouverts restreints pour les processus non sensibles (agrégation de données publiques, veille concurrentielle, études de marché) si Privacy Filter est intégré des deux côtés de l'appel au modèle. Je ne les déploierai toujours pas pour des processus touchant aux dossiers clients, aux documents internes ou aux actions authentifiées sans un test red-team dédié au préalable."
     },
     {
       "type": "h2",
@@ -289,7 +289,7 @@
     },
     {
       "type": "p",
-      "text": "La publication de privacy-filter par OpenAI n'est pas un modèle. C'est une thèse sur la direction que prend le secteur : des classificateurs à vocation spécifique, exécutables dans le navigateur, sous licence Apache 2.0, fonctionnant aux frontières de votre architecture pour filtrer ce que vos LLM voient et ce qu'ils retournent. C'est la forme du travail de conformité que nous réalisons chez webvise, et c'est la forme de la couche de gouvernance qui manque à la plupart des agents aujourd'hui."
+      "text": "La publication de privacy-filter par OpenAI n'est pas un modèle. C'est une thèse sur la direction que prend le secteur : des classificateurs à vocation spécifique, exécutables dans le navigateur, sous licence Apache 2.0, fonctionnant aux frontières de votre architecture pour filtrer ce que vos LLM voient et ce qu'ils retournent. C'est la forme du travail de conformité réalisé chez webvise, et c'est la forme de la couche de gouvernance qui manque à la plupart des agents aujourd'hui."
     },
     {
       "type": "p",

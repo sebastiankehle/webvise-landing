@@ -3,14 +3,14 @@
   "readingTime": 8,
   "keyword": "knowledge base für unternehmen ohne rag",
   "title": "Die meisten unternehmensinternen Knowledge Bases brauchen kein RAG",
-  "excerpt": "Wir betreiben unser internes Wiki mit fünf Shell-Befehlen und einer manuell gepflegten Indexdatei, ohne vector database. Für eine Knowledge Base mit 200 Dokumenten ist dieser Aufbau günstiger, schneller zu bauen und präziser als eine RAG-Pipeline. Hier ist, warum wir auf RAG verzichtet haben und wann Sie es tatsächlich benötigen.",
-  "metaDescription": "Warum die meisten unternehmensinternen Knowledge Bases mit weniger als 1.000 Dokumenten keine RAG-Pipeline brauchen. Reale Zahlen aus unserem internen Vault, die fünf Befehle, die RAG ersetzen, und wann RAG die richtige Wahl bleibt.",
+  "excerpt": "Ich betreibe das interne Wiki mit fünf Shell-Befehlen und einer manuell gepflegten Indexdatei, ohne vector database. Für eine Knowledge Base mit 200 Dokumenten ist dieser Aufbau günstiger, schneller zu bauen und präziser als eine RAG-Pipeline. Hier ist, warum ich auf RAG verzichtet habe und wann Sie es tatsächlich benötigen.",
+  "metaDescription": "Warum die meisten unternehmensinternen Knowledge Bases mit weniger als 1.000 Dokumenten keine RAG-Pipeline brauchen. Reale Zahlen aus dem internen webvise-Vault, die fünf Befehle, die RAG ersetzen, und wann RAG die richtige Wahl bleibt.",
   "tags": ["AI Agents", "AI", "Automation", "Business Strategy"],
   "cta": "Kontakt aufnehmen",
   "blocks": [
     {
       "type": "p",
-      "text": "Wir betreiben unser internes Unternehmens-Wiki mit fünf Shell-Befehlen und einer manuell gepflegten Indexdatei. Keine embeddings, keine vector database, kein Re-Indexing-Job. Für eine Knowledge Base mit rund 200 Dokumenten ist dieser Aufbau schneller zu bauen, günstiger zu betreiben und präziser als eine typische RAG-Pipeline. Der Trade-off lohnt sich erst irgendwo jenseits von tausend Dokumenten, nicht davor."
+      "text": "Ich betreibe das interne Unternehmens-Wiki mit fünf Shell-Befehlen und einer manuell gepflegten Indexdatei. Keine embeddings, keine vector database, kein Re-Indexing-Job. Für eine Knowledge Base mit rund 200 Dokumenten ist dieser Aufbau schneller zu bauen, günstiger zu betreiben und präziser als eine typische RAG-Pipeline. Der Trade-off lohnt sich erst irgendwo jenseits von tausend Dokumenten, nicht davor."
     },
     {
       "type": "h2",
@@ -18,7 +18,7 @@
     },
     {
       "type": "p",
-      "text": "Zwei Dinge haben uns diesen Ansatz nahegelegt. Das erste ist Andrej Karpathys konsequentes Argument, dass KI-Agenten Werkzeuge erhalten sollten, statt abgerufene Textfragmente zu erhalten. Sein [AutoResearch](https://github.com/karpathy/autoresearch)-Projekt, das im März 2026 veröffentlicht wurde, macht diesen Fall buchstäblich deutlich: Der Agent führt Code aus, statt embeddings abzufragen, und Fortschritt entsteht durch Ausführung. Wir haben AutoResearch ausführlich in [einem früheren Beitrag](/blog/karpathy-autoresearch-ai-experiments) behandelt."
+      "text": "Zwei Dinge haben mir diesen Ansatz nahegelegt. Das erste ist Andrej Karpathys konsequentes Argument, dass KI-Agenten Werkzeuge erhalten sollten, statt abgerufene Textfragmente zu erhalten. Sein [AutoResearch](https://github.com/karpathy/autoresearch)-Projekt, das im März 2026 veröffentlicht wurde, macht diesen Fall buchstäblich deutlich: Der Agent führt Code aus, statt embeddings abzufragen, und Fortschritt entsteht durch Ausführung. Ich habe AutoResearch ausführlich in [einem früheren Beitrag](/blog/karpathy-autoresearch-ai-experiments) behandelt."
     },
     {
       "type": "p",
@@ -26,11 +26,11 @@
     },
     {
       "type": "h2",
-      "text": "Was wir tatsächlich betreiben"
+      "text": "Was tatsächlich in Betrieb ist"
     },
     {
       "type": "p",
-      "text": "Unser internes Wiki umfasst heute 22 Seiten strukturierten Wissens: Entitäten (Personen, Unternehmen, Projekte), Konzepte (Frameworks und Prinzipien), Quellen (rohe Recherche-Notizen) und Syntheseseiten, die diese miteinander verbinden. Jede Seite verweist über Obsidian wikilinks auf andere Seiten, und eine manuell gepflegte `index.md` im Stammverzeichnis listet alles nach Kategorie mit einzeiligen Beschreibungen auf."
+      "text": "Das interne Wiki umfasst heute 22 Seiten strukturierten Wissens: Entitäten (Personen, Unternehmen, Projekte), Konzepte (Frameworks und Prinzipien), Quellen (rohe Recherche-Notizen) und Syntheseseiten, die diese miteinander verbinden. Jede Seite verweist über Obsidian wikilinks auf andere Seiten, und eine manuell gepflegte `index.md` im Stammverzeichnis listet alles nach Kategorie mit einzeiligen Beschreibungen auf."
     },
     {
       "type": "p",
@@ -56,7 +56,7 @@
     },
     {
       "type": "p",
-      "text": "Das ist der Teil, den wir eine Weile zu akzeptieren gebraucht haben. Wenn der Agent eine Frage erhält, beginnt er nicht damit, irgendetwas abzurufen. Er beginnt damit, `wiki/index.md` zu lesen, ein kuratiertes Inhaltsverzeichnis, das von einem Menschen (oder einem Pflege-Agenten, der nach Zeitplan läuft) geschrieben wurde. Der Index listet jede Seite mit einer Ein-Satz-Beschreibung nach Kategorie geordnet auf. Aus diesem einzelnen Lesevorgang mit rund 400 Token weiß der Agent bereits, welche ein oder zwei Seiten relevant sind."
+      "text": "Der unbequeme Teil: Der Agent startet mit `wiki/index.md`. Dieses kuratierte Inhaltsverzeichnis listet jede Seite mit einer Ein-Satz-Beschreibung nach Kategorien. Nach diesem einzelnen Read von rund 400 Tokens weiß der Agent bereits, welche ein oder zwei Seiten relevant sind."
     },
     {
       "type": "p",
@@ -72,7 +72,7 @@
     },
     {
       "type": "p",
-      "text": "Für eine kleine unternehmensweite Knowledge Base mit rund 200 Dokumenten: hier sind die Kosten eines Standard-RAG-Aufbaus im Vergleich zum index-gesteuerten Dateizugriffsmuster. Die Token-Zahlen basieren auf dem, was wir in unserem eigenen Vault beobachten. Die Infrastrukturzahlen stammen aus den öffentlichen Preislisten der gängigsten verwalteten Dienste."
+      "text": "Für eine kleine unternehmensweite Knowledge Base mit rund 200 Dokumenten: hier sind die Kosten eines Standard-RAG-Aufbaus im Vergleich zum index-gesteuerten Dateizugriffsmuster. Die Token-Zahlen basieren auf dem, was ich im eigenen Vault beobachte. Die Infrastrukturzahlen stammen aus den öffentlichen Preislisten der gängigsten verwalteten Dienste."
     },
     {
       "type": "table",
@@ -108,7 +108,7 @@
     },
     {
       "type": "p",
-      "text": "Token-Einsparungen pro Query von rund 30 bis 60 Prozent in unserem eigenen Vault sind real – die tatsächlichen Werte hängen von Corpus-Struktur und Abfragemustern ab –, aber das ist nicht die Überschrift. Die Überschrift ist alles in der zweiten Spalte, das wegfällt. Keine vector database-Position auf der monatlichen Rechnung. Kein embedding-Modell zu warten. Keine Debugging-Session nach dem Motto \"wir haben unsere chunking-Strategie geändert und die Antworten haben sich verschoben\". Für eine Knowledge Base, die bequem in den Kopf einer einzelnen Person passt, ist jedes dieser beweglichen Teile Overhead ohne entsprechenden Nutzen."
+      "text": "Token-Einsparungen pro Query von rund 30 bis 60 Prozent im eigenen Vault sind real - die tatsächlichen Werte hängen von Corpus-Struktur und Abfragemustern ab -, aber das ist nicht die Überschrift. Die Überschrift ist alles in der zweiten Spalte, das wegfällt. Keine vector database-Position auf der monatlichen Rechnung. Kein embedding-Modell zu warten. Keine Debugging-Session nach dem Motto \"wir haben unsere chunking-Strategie geändert und die Antworten haben sich verschoben\". Für eine Knowledge Base, die bequem in den Kopf einer einzelnen Person passt, ist jedes dieser beweglichen Teile Overhead ohne entsprechenden Nutzen."
     },
     {
       "type": "h2",
@@ -156,7 +156,7 @@
     },
     {
       "type": "p",
-      "text": "Für die meisten internen unternehmensweiten Knowledge Bases (Unternehmens-Wikis, Produktdokumentation, Sales-Playbooks, Onboarding-Leitfäden, interne SOPs) trifft keine dieser Bedingungen zu. Das Corpus ist klein, die Autoren sind wenige, die Struktur ist stabil, und die Personen, die die Dokumentation pflegen, sind dieselben, denen am meisten daran gelegen ist, dass sie korrekt ist. Für die Anwendungsfälle, die wir sehen, ist RAG häufig die falsche Standardwahl."
+      "text": "Für die meisten internen unternehmensweiten Knowledge Bases (Unternehmens-Wikis, Produktdokumentation, Sales-Playbooks, Onboarding-Leitfäden, interne SOPs) trifft keine dieser Bedingungen zu. Das Corpus ist klein, die Autoren sind wenige, die Struktur ist stabil, und die Personen, die die Dokumentation pflegen, sind dieselben, denen am meisten daran gelegen ist, dass sie korrekt ist. Für die Anwendungsfälle, die ich sehe, ist RAG häufig die falsche Standardwahl."
     },
     {
       "type": "h2",
@@ -172,7 +172,7 @@
     },
     {
       "type": "p",
-      "text": "Bei **[webvise](/#contact)** bauen wir interne KI-Tools auf diesem pragmatischen Fundament: strukturiertes Wissen, einfache Werkzeuge, Agenten, die direkt lesen und schreiben. Wenn Sie ein RAG-Projekt für die Dokumentation Ihres Teams in Betracht ziehen und eine zweite Meinung möchten, ob die Komplexität gerechtfertigt ist, [nehmen Sie Kontakt auf](/#contact) und wir sprechen über Ihr tatsächliches Corpus, bevor Sie sich zur Infrastruktur verpflichten."
+      "text": "**[webvise](/#contact)** baut interne KI-Tools auf diesem pragmatischen Fundament: strukturiertes Wissen, einfache Werkzeuge, Agenten, die direkt lesen und schreiben. Wenn Sie ein RAG-Projekt für die Dokumentation Ihres Teams in Betracht ziehen und eine zweite Meinung möchten, ob die Komplexität gerechtfertigt ist, [nehmen Sie Kontakt auf](/#contact) - das Gespräch beginnt bei Ihrem tatsächlichen Corpus, bevor Sie sich zur Infrastruktur verpflichten."
     }
   ]
 }

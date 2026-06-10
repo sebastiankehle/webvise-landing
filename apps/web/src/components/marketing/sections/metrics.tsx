@@ -1,33 +1,41 @@
 import { getTranslations } from "next-intl/server";
 
-import AnimatedStat from "@/components/marketing/animated-stat";
+import CardHoverIcon from "@/components/marketing/card-hover-icon";
 import MiniChart from "@/components/marketing/mini-chart";
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import StaggerChildren from "@/components/marketing/stagger-children";
-import { H2, Lead, Small } from "@/components/ui/typography";
+import { BlocksIcon } from "@/components/ui/blocks";
+import { CompassIcon } from "@/components/ui/compass";
+import { H2, H3, Lead, Muted } from "@/components/ui/typography";
+import { UserIcon } from "@/components/ui/user";
+import { WrenchIcon } from "@/components/ui/wrench";
 
-const metricKeys = ["projects", "raised", "users", "launch"];
+const metricKeys = [
+	{ key: "projects", icon: UserIcon },
+	{ key: "raised", icon: CompassIcon },
+	{ key: "users", icon: BlocksIcon },
+	{ key: "launch", icon: WrenchIcon },
+];
 
 export default async function Metrics() {
 	const t = await getTranslations("metrics");
 
 	return (
-		<SectionWrapper dark hatch id="metrics">
-			<div className="max-w-[640px]">
-				<H2>{t("title")}</H2>
-				<Lead className="mt-5 max-w-[520px]">{t("subtitle")}</Lead>
+		<SectionWrapper hatch id="metrics" surface="inverted">
+			<div className="grid gap-10 lg:grid-cols-[1fr_auto] lg:items-end">
+				<div className="max-w-[640px]">
+					<H2>{t("title")}</H2>
+					<Lead className="mt-5 max-w-[520px]">{t("subtitle")}</Lead>
+				</div>
 			</div>
-			<StaggerChildren className="-mx-6 mt-16 grid grid-cols-2 border-grid-line border-t md:grid-cols-4">
-				{metricKeys.map((key) => (
-					<div
-						className="border-grid-line border-b p-6 md:border-r md:p-8 md:[&:nth-child(4n)]:border-r-0"
-						key={key}
-					>
-						<AnimatedStat
-							className="text-foreground"
-							value={t(`${key}.value`)}
-						/>
-						<Small className="mt-3 block">{t(`${key}.label`)}</Small>
+			<StaggerChildren className="mt-10 grid gap-5 sm:grid-cols-2 md:mt-16 lg:grid-cols-4">
+				{metricKeys.map(({ key, icon: Icon }) => (
+					<div className="surface-card p-6 md:p-7" key={key}>
+						<CardHoverIcon className="shrink-0 text-brand-icon" icon={Icon} />
+						<H3 className="mt-6 text-2xl md:mt-10 md:text-3xl">
+							{t(`${key}.value`)}
+						</H3>
+						<Muted className="mt-2 leading-relaxed">{t(`${key}.label`)}</Muted>
 					</div>
 				))}
 			</StaggerChildren>

@@ -2,9 +2,9 @@
   "date": "2026-04-15",
   "readingTime": 8,
   "keyword": "ai knowledge layer",
-  "title": "The AI Knowledge Layer: 127 Pages, Zero Vector Databases, and What We Got Wrong",
-  "excerpt": "Karpathy's LLM wiki gist hit 99,000 bookmarks in a week. It resonated because it named what every AI user feels: your agents have no memory. We run a knowledge layer in production. Here is what works, what does not, and how to build one in 20 minutes.",
-  "metaDescription": "Practical guide to building an AI knowledge layer from a team that runs one in production. Architecture, setup, real numbers, and what we learned the hard way.",
+  "title": "The AI Knowledge Layer: 127 Pages, Zero Vector Databases, and What I Got Wrong",
+  "excerpt": "Karpathy's LLM wiki gist hit 99,000 bookmarks in a week. It resonated because it named what every AI user feels: your agents have no memory. I run a knowledge layer in production. Here is what works, what does not, and how to build one in 20 minutes.",
+  "metaDescription": "Practical guide to building an AI knowledge layer from someone who runs one in production. Architecture, setup, real numbers, and what I learned the hard way.",
   "tags": ["AI Agents", "AI", "Automation", "Business Strategy"],
   "cta": "Get in Touch",
   "blocks": [
@@ -14,11 +14,11 @@
     },
     {
       "type": "p",
-      "text": "We run a knowledge layer at webvise that powers our internal research, our client documentation, and the content pipeline that produces this blog. This is what we learned."
+      "text": "I use a knowledge layer at webvise for research and project documentation. This is what I learned."
     },
     {
       "type": "h2",
-      "text": "The Problem Is Not Prompting. It Is Amnesia."
+      "text": "Agents forget between sessions."
     },
     {
       "type": "p",
@@ -54,11 +54,11 @@
     },
     {
       "type": "p",
-      "text": "RAG re-derives answers at query time by chunking documents and searching for relevant fragments. The compiled wiki approach skips that entirely. The graphify benchmark measured **71.5x fewer tokens per query** in their published comparison; results depend on corpus characteristics and query distribution. Our own measurements show roughly 1,000 tokens of vault content per query, compared to the 3,000 or more tokens a typical RAG pipeline injects."
+      "text": "RAG re-derives answers at query time by chunking documents and searching for relevant fragments. The compiled wiki approach skips that entirely. The graphify benchmark measured **71.5x fewer tokens per query** in their published comparison; results depend on corpus characteristics and query distribution. My own measurements show roughly 1,000 tokens of vault content per query, compared to the 3,000 or more tokens a typical RAG pipeline injects."
     },
     {
       "type": "p",
-      "text": "We wrote a [full technical comparison](/blog/business-knowledge-base-without-rag) of RAG versus index-based retrieval. The short version: in the workloads we benchmarked, the compiled-wiki approach outperformed RAG on accuracy, cost, and operational complexity. No vector database, no embedding model, no chunking strategy, no re-indexing job. Five shell commands and a maintained index file."
+      "text": "I wrote a [full technical comparison](/blog/business-knowledge-base-without-rag) of RAG versus index-based retrieval. The short version: in the workloads I benchmarked, the compiled-wiki approach outperformed RAG on accuracy, cost, and operational complexity. No vector database, no embedding model, no chunking strategy, no re-indexing job. Five shell commands and a maintained index file."
     },
     {
       "type": "p",
@@ -66,20 +66,20 @@
     },
     {
       "type": "h2",
-      "text": "What We Learned Running Ours"
+      "text": "What I Learned Running Mine"
     },
     {
       "type": "p",
-      "text": "Our internal wiki currently holds 127 structured pages across seven categories: people, companies, concepts, playbooks, collections, synthesis, and tools. Every page follows a standard template with YAML frontmatter, cross-references via Obsidian wikilinks, and source attribution. The agent runs six defined operations: ingest, conversational update, query, lint, enrich, and reorganize."
+      "text": "My internal wiki currently holds 127 structured pages across seven categories: people, companies, concepts, playbooks, collections, synthesis, and tools. Every page follows a standard template with YAML frontmatter, cross-references via Obsidian wikilinks, and source attribution. The agent runs six defined operations: ingest, conversational update, query, lint, enrich, and reorganize."
     },
     {
       "type": "ul",
       "items": [
         "**The schema file is the whole game.** Everything else follows from it. A well-written schema produces a disciplined wiki with consistent conventions. A vague schema produces hallucination and sprawl. The current version is roughly 200 lines and covers directory structure, page format, all six operations, naming conventions, and contradiction handling. It took several iterations to get right.",
-        "**Dedup-first prevents page sprawl.** Our rule: before creating any new page, search the existing wiki for overlapping content. If an existing page covers 60% or more of the same ground, enrich that page instead of creating a new one. Without this rule, the wiki fills with redundant pages that fragment knowledge into unusable pieces.",
+        "**Dedup-first prevents page sprawl.** My rule: before creating any new page, search the existing wiki for overlapping content. If an existing page covers 60% or more of the same ground, enrich that page instead of creating a new one. Without this rule, the wiki fills with redundant pages that fragment knowledge into unusable pieces.",
         "**Queries compound into the knowledge base.** When you ask a good question and get a useful answer, that answer gets filed back as a new wiki page. The next time someone asks a related question, the agent already has a pre-compiled synthesis to draw from. This is the compounding effect that makes the system better over time, not just bigger.",
-        "**Ingest quality depends entirely on discipline.** Dumping a raw article and saying \"ingest this\" produces a thin summary. Walking through the source with the agent, discussing takeaways, and directing what to emphasize produces pages that stay useful as the wiki grows. We enforce a strict workflow: clean the raw file, discuss key takeaways, wait for approval, then extract completely.",
-        "**The index file is the retrieval system.** Our root index is 22 lines. Each subdirectory has its own index listing every page with a one-line description. The agent reads the root index at roughly 400 tokens, identifies the right subdirectory, reads that index, then pulls the specific pages it needs. Most queries finish with three reads and about 1,000 tokens of vault content."
+        "**Ingest quality depends entirely on discipline.** Dumping a raw article and saying \"ingest this\" produces a thin summary. Walking through the source with the agent, discussing takeaways, and directing what to emphasize produces pages that stay useful as the wiki grows. I enforce a strict workflow: clean the raw file, discuss key takeaways, wait for approval, then extract completely.",
+        "**The index file is the retrieval system.** My root index is 22 lines. Each subdirectory has its own index listing every page with a one-line description. The agent reads the root index at roughly 400 tokens, identifies the right subdirectory, reads that index, then pulls the specific pages it needs. Most queries finish with three reads and about 1,000 tokens of vault content."
       ]
     },
     {
@@ -88,7 +88,7 @@
     },
     {
       "type": "p",
-      "text": "Karpathy calls it the schema. We call it CLAUDE.md. Some frameworks split it into a Knowledge Base Layer and a Brand Foundation. The name does not matter. What matters is that this one file controls how the agent behaves across every session."
+      "text": "Karpathy calls it the schema. I call it CLAUDE.md. Some frameworks split it into a Knowledge Base Layer and a Brand Foundation. The name is secondary. The operational fact is that this one file controls how the agent behaves across every session."
     },
     {
       "type": "p",
@@ -105,7 +105,7 @@
     },
     {
       "type": "p",
-      "text": "Without these, the agent improvises. It creates pages in random locations, uses inconsistent formats, duplicates content across pages, and drifts from your conventions with every session. The schema prevents drift. We treat ours like production code: every change is deliberate and tested against real ingest."
+      "text": "Without these, the agent improvises. It creates pages in random locations, uses inconsistent formats, duplicates content across pages, and drifts from your conventions with every session. The schema prevents drift. I treat mine like production code: every change is deliberate and tested against real ingest."
     },
     {
       "type": "h2",
@@ -146,7 +146,7 @@
     },
     {
       "type": "h2",
-      "text": "What This Means for Businesses"
+      "text": "Business Use Cases"
     },
     {
       "type": "p",
@@ -162,7 +162,7 @@
     },
     {
       "type": "p",
-      "text": "At **[webvise](/#contact)**, we build knowledge layers for businesses that want their AI agents to actually know what they are talking about. If you are spending more time explaining context to your tools than getting value from them, that is the problem this solves. [Get in touch](/#contact)."
+      "text": "**[webvise](/#contact)** builds knowledge layers for businesses that want their AI agents to actually know what they are talking about. If you are spending more time explaining context to your tools than getting value from them, that is the problem this solves. [Get in touch](/#contact)."
     }
   ]
 }

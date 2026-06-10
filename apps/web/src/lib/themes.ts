@@ -1,7 +1,7 @@
 export const SITE_THEMES = [
 	{
 		id: "light",
-		label: "Generic Light",
+		label: "webvise Light",
 		swatch: "oklch(0.75 0.18 55)",
 	},
 	{
@@ -18,7 +18,7 @@ export const SITE_THEMES = [
 	},
 	{
 		id: "dark",
-		label: "Generic Dark",
+		label: "webvise Dark",
 		swatch: "oklch(0.75 0.18 55)",
 	},
 	{

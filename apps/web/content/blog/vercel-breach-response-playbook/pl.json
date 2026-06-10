@@ -2,15 +2,15 @@
   "date": "2026-04-20",
   "readingTime": 7,
   "keyword": "reakcja na incydent Vercel",
-  "title": "Rotuj, ponownie wdróż, cofnij: nasza reakcja na incydent Vercel",
-  "excerpt": "19 kwietnia 2026 Vercel ujawnił incydent typu supply-chain. Opisujemy działania, które podjęliśmy we wszystkich zarządzanych projektach, oraz wyjaśniamy, dlaczego ten typ naruszenia wymaga innego modelu reakcji.",
-  "metaDescription": "19 kwietnia 2026 Vercel ujawnił incydent typu supply-chain. Opisujemy podjęte działania i wyjaśniamy, dlaczego ten typ naruszenia zmienia model reagowania.",
+  "title": "Rotuj, ponownie wdróż, cofnij: reakcja webvise na incydent Vercel",
+  "excerpt": "19 kwietnia 2026 Vercel ujawnił incydent typu supply-chain. Opisuję działania podjęte we wszystkich zarządzanych projektach i wyjaśniam, dlaczego ten typ naruszenia wymaga innego modelu reakcji.",
+  "metaDescription": "19 kwietnia 2026 Vercel ujawnił incydent typu supply-chain. Opisuję podjęte działania i wyjaśniam, dlaczego ten typ naruszenia zmienia model reagowania.",
   "cta": "Zamów audyt bezpieczeństwa",
   "tags": ["Security", "Process", "Web Development", "Enterprise"],
   "blocks": [
     {
       "type": "p",
-      "text": "19 kwietnia 2026 Vercel [ujawnił incydent bezpieczeństwa](https://x.com/vercel/status/2045865072074035664) wywołany przez skompromitowaną aplikację OAuth innej firmy działającą wewnątrz ich Google Workspace. Przeprowadziliśmy procedurę reagowania we wszystkich projektach Vercel zarządzanych przez webvise jeszcze przed końcem weekendu, a logi audytowe zarówno Vercel, jak i Google Workspaces, które administrujemy, nie wykazały żadnych nieprawidłowości. **Nie była to luka w kodzie samego Vercel. Był to kompromis łańcucha dostaw SaaS-to-SaaS przez granicę zaufania OAuth, a jego charakter zmienia to, jak powinna wyglądać właściwa reakcja.**"
+      "text": "19 kwietnia 2026 Vercel [ujawnił incydent bezpieczeństwa](https://x.com/vercel/status/2045865072074035664) wywołany przez skompromitowaną aplikację OAuth innej firmy działającą wewnątrz ich Google Workspace. Przeprowadziłem procedurę reagowania we wszystkich projektach Vercel zarządzanych przez webvise jeszcze przed końcem weekendu, a logi audytowe zarówno Vercel, jak i administrowanych Google Workspaces nie wykazały żadnych nieprawidłowości. **Nie była to luka w kodzie samego Vercel. Był to kompromis łańcucha dostaw SaaS-to-SaaS przez granicę zaufania OAuth, a jego charakter zmienia to, jak powinna wyglądać właściwa reakcja.**"
     },
     {
       "type": "p",
@@ -18,7 +18,7 @@
     },
     {
       "type": "p",
-      "text": "Przeczytali Państwo ujawnienie i zmienili każdy klucz, jaki mogli znaleźć. To właściwy pierwszy krok. Niniejszy artykuł opisuje całą procedurę, którą przeprowadziliśmy od początku do końca, techniczny szczegół powodujący, że rotacja musi obejmować działające funkcje, oraz dlaczego charakter tego naruszenia powinien zmienić Państwa plan reagowania na przyszłość."
+      "text": "Przeczytali Państwo ujawnienie i zmienili każdy klucz, jaki mogli znaleźć. To właściwy pierwszy krok. Niniejszy artykuł opisuje całą procedurę, którą przeprowadziłem od początku do końca, techniczny szczegół powodujący, że rotacja musi obejmować działające funkcje, oraz dlaczego charakter tego naruszenia powinien zmienić Państwa plan reagowania na przyszłość."
     },
     {
       "type": "ul",
@@ -44,7 +44,7 @@
     },
     {
       "type": "p",
-      "text": "Jeśli chcą Państwo przeprowadzić drugą weryfikację konfiguracji Vercel przed kolejnym incydentem, [przeprowadzamy przeglądy bezpieczeństwa dla zespołów Vercel, Google Workspaces i nadań SaaS-to-SaaS](/pl/#contact)."
+      "text": "Jeśli chcą Państwo przeprowadzić drugą weryfikację konfiguracji Vercel przed kolejnym incydentem, [przeprowadzam przeglądy bezpieczeństwa dla zespołów Vercel, Google Workspaces i nadań SaaS-to-SaaS](/#contact)."
     },
     {
       "type": "h2",
@@ -52,7 +52,7 @@
     },
     {
       "type": "p",
-      "text": "Każdą zmienną środowiskową mogącą przyznać dostęp do czegokolwiek traktowaliśmy domyślnie jako skompromitowaną. Taki wniosek wynika z treści ujawnienia. Poniżej wymieniono klasy sekretów, które ponownie wystawiliśmy we wszystkich zarządzanych projektach."
+      "text": "Każdą zmienną środowiskową mogącą przyznać dostęp do czegokolwiek traktowałem domyślnie jako skompromitowaną. Taki wniosek wynika z treści ujawnienia. Poniżej wymieniono klasy sekretów, które ponownie wystawiłem we wszystkich zarządzanych projektach."
     },
     {
       "type": "ul",
@@ -107,7 +107,7 @@
     },
     {
       "type": "p",
-      "text": "Aby zweryfikować procedurę, należy otworzyć zakładkę Deployments w każdym projekcie i znaleźć wdrożenie z sygnaturą czasową późniejszą niż rotacja. Jeśli górny wiersz pokazuje sygnaturę czasową wcześniejszą niż moment rotacji, rotacja nie trafiła do żadnego działającego procesu. Drugim wyraźnym krokiem w naszej procedurze było wymuszone ponowne wdrożenie produkcji w każdym zarządzanym projekcie po rotacji, przed przejściem dalej."
+      "text": "Aby zweryfikować procedurę, należy otworzyć zakładkę Deployments w każdym projekcie i znaleźć wdrożenie z sygnaturą czasową późniejszą niż rotacja. Jeśli górny wiersz pokazuje sygnaturę czasową wcześniejszą niż moment rotacji, rotacja nie trafiła do żadnego działającego procesu. Drugim wyraźnym krokiem procedury było wymuszone ponowne wdrożenie produkcji w każdym zarządzanym projekcie po rotacji, przed przejściem dalej."
     },
     {
       "type": "h2",
@@ -123,7 +123,7 @@
     },
     {
       "type": "p",
-      "text": "Przeprowadziliśmy ten audyt w każdym administrowanym przez nas Workspace. Wskaźnik nie był obecny, a większość nadań miała uzasadniony cel biznesowy. Kilka nie miało i zostały cofnięte. Od tamtej pory przyjęliśmy miesięczny rytm: audyt nadań OAuth na początku każdego miesiąca, cofanie wszystkiego nieużywanego przez 30 dni."
+      "text": "Przeprowadziłem ten audyt w każdym administrowanym Workspace. Wskaźnik nie był obecny, a większość nadań miała uzasadniony cel biznesowy. Kilka nie miało i zostały cofnięte. Od tamtej pory obowiązuje miesięczny rytm: audyt nadań OAuth na początku każdego miesiąca, cofanie wszystkiego nieużywanego przez 30 dni."
     },
     {
       "type": "h2",
@@ -131,7 +131,7 @@
     },
     {
       "type": "p",
-      "text": "Rotacja i cofnięcie nadań zamknęły bezpośrednie narażenie. Działania długoterminowe mają zapobiec temu, żeby kolejny incydent znów był weekendowym chaosem. Wdrażamy je w zarządzanych projektach w nadchodzących tygodniach i rekomendujemy każdemu zespołowi prowadzącemu infrastrukturę opartą na SaaS."
+      "text": "Rotacja i cofnięcie nadań zamknęły bezpośrednie narażenie. Działania długoterminowe mają zapobiec temu, żeby kolejny incydent znów był weekendowym chaosem. Wdrażam je w zarządzanych projektach w nadchodzących tygodniach i rekomenduję każdemu zespołowi prowadzącemu infrastrukturę opartą na SaaS."
     },
     {
       "type": "ul",
@@ -145,7 +145,7 @@
     },
     {
       "type": "p",
-      "text": "Wiele zespołów nie ma wyznaczonego właściciela dla tych zadań; ta luka powtarza się w post-mortemach incydentów. [Porozmawiajmy](/pl/#contact) o tym, jak webvise wbudowuje te elementy w retainer utrzymaniowy każdego zarządzanego projektu."
+      "text": "Wielu zespołom brakuje jednej nazwanej osoby odpowiedzialnej za te zadania; ta luka regularnie wraca w post-mortemach incydentów. [Zapytaj](/#contact), jak webvise wbudowuje te działania we wsparcie utrzymaniowe dla prowadzonych projektów."
     },
     {
       "type": "h2",
@@ -161,11 +161,11 @@
     },
     {
       "type": "p",
-      "text": "Model obronny musi odpowiadać modelowi ataku. Oznacza to traktowanie nadań OAuth jako zależności produkcyjnych, audytowanie ich według harmonogramu i przenoszenie sekretów z zmiennych środowiskowych, z których atakujący z takim nadaniem może je odczytać. Nasze logi audytowe wyszły czyste tego weekendu, ale to efekt tego konkretnego incydentu, nie dowód na to, że model reagowania jest przyszłościowy."
+      "text": "Model obronny musi odpowiadać modelowi ataku. Oznacza to traktowanie nadań OAuth jako zależności produkcyjnych, audytowanie ich według harmonogramu i przenoszenie sekretów z zmiennych środowiskowych, z których atakujący z takim nadaniem może je odczytać. Logi audytowe wyszły czyste tego weekendu, ale to efekt tego konkretnego incydentu, nie dowód na to, że model reagowania jest przyszłościowy."
     },
     {
       "type": "p",
-      "text": "Przeprowadzamy przeglądy bezpieczeństwa dla zespołów Vercel, Google Workspaces i grafów tożsamości SaaS-to-SaaS w ramach każdego zaangażowania zarządzanego przez webvise. Jeśli chcą Państwo przeprowadzić drugą weryfikację konfiguracji Vercel przed kolejnym incydentem, [skontaktujmy się](/pl/#contact)."
+      "text": "Przeglądy bezpieczeństwa dla zespołów Vercel, Google Workspaces i grafów tożsamości SaaS-to-SaaS wchodzą w zakres każdego zaangażowania zarządzanego przez webvise. Jeśli chcą Państwo przeprowadzić drugą weryfikację konfiguracji Vercel przed kolejnym incydentem, [skontaktujmy się](/#contact)."
     }
   ]
 }

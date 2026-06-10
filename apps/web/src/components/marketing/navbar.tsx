@@ -1,20 +1,34 @@
 "use client";
 
-import { ArrowRight, ChevronDown } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+	type ComponentProps,
+	type ReactNode,
+	useCallback,
+	useEffect,
+	useRef,
+	useState,
+} from "react";
 import Logo from "@/components/logo";
+import CardHoverIcon, {
+	type AnimatedIcon,
+} from "@/components/marketing/card-hover-icon";
 import IconCloud from "@/components/marketing/icon-cloud";
 import {
 	MarketingMobileMenuControls,
 	MarketingNavbarActions,
+	MarketingNavbarCalLink,
 	MarketingNavbarCta,
 } from "@/components/marketing/marketing-chrome";
-import { Body, Caption, H3, Label } from "@/components/ui/typography";
+import { SocialIconButton } from "@/components/marketing/social-icon-button";
+import { Body, Caption, Label } from "@/components/ui/typography";
 import { services } from "@/data/services";
 import { socials } from "@/data/socials";
+import { customSystems } from "@/data/systems";
 import { Link, usePathname } from "@/i18n/navigation";
+import { cn } from "@/lib/utils";
 
 export interface NavbarPost {
 	date: string;
@@ -31,13 +45,205 @@ export interface NavbarCaseStudy {
 	title: string;
 }
 
-type NavHash = "services" | "case-studies" | "blog" | "pricing";
+type NavHash = "systems" | "services" | "case-studies" | "blog" | "scope";
 const dropdownHashes = new Set<NavHash>([
+	"systems",
 	"services",
 	"case-studies",
 	"blog",
-	"pricing",
+	"scope",
 ]);
+const pricingDropdownKeys = ["focused", "system", "support"] as const;
+const desktopMegaLinkClass =
+	"group border-border/40 outline-none transition-colors hover:bg-muted/40 focus-visible:border-brand/40 focus-visible:ring-1 focus-visible:ring-brand/20";
+const mobileMenuFocusableSelector =
+	'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+type LocalizedLinkHref = ComponentProps<typeof Link>["href"];
+type LocalizedLinkOnClick = ComponentProps<typeof Link>["onClick"];
+
+function DesktopMegaShell({
+	children,
+	description,
+	eyebrow,
+	footer,
+	title,
+}: {
+	children: ReactNode;
+	description: string;
+	eyebrow: string;
+	footer: ReactNode;
+	title: string;
+}) {
+	return (
+		<div className="grid grid-cols-[minmax(230px,0.74fr)_minmax(0,1.56fr)] overflow-hidden">
+			<div className="flex flex-col border-border/40 border-r bg-muted/10 p-5">
+				<Caption className="text-brand-readable">{eyebrow}</Caption>
+				<Body className="mt-2 max-w-[280px] leading-snug">{title}</Body>
+				<Caption className="mt-3 block max-w-[300px] leading-relaxed">
+					{description}
+				</Caption>
+			</div>
+			<div className="min-w-0">{children}</div>
+			<div className="col-span-full border-border/40 border-t">{footer}</div>
+		</div>
+	);
+}
+
+function DesktopMegaFooterLink({
+	href,
+	label,
+	onClick,
+}: {
+	href: LocalizedLinkHref;
+	label: string;
+	onClick?: LocalizedLinkOnClick;
+}) {
+	return (
+		<Link
+			className={cn(
+				desktopMegaLinkClass,
+				"flex items-center justify-between bg-muted/10 px-5 py-4"
+			)}
+			href={href}
+			onClick={onClick}
+		>
+			<Caption className="text-brand-readable">{label}</Caption>
+			<ArrowRight className="h-3 w-3 text-brand-readable transition-transform group-hover:translate-x-0.5" />
+		</Link>
+	);
+}
+
+function DesktopMegaIconLink({
+	className,
+	description,
+	href,
+	icon,
+	onClick,
+	title,
+}: {
+	className?: string;
+	description: ReactNode;
+	href: LocalizedLinkHref;
+	icon: AnimatedIcon;
+	onClick?: LocalizedLinkOnClick;
+	title: ReactNode;
+}) {
+	return (
+		<Link
+			className={cn(
+				desktopMegaLinkClass,
+				"flex items-start gap-3 p-4",
+				className
+			)}
+			href={href}
+			onClick={onClick}
+		>
+			<CardHoverIcon
+				className="mt-0.5 shrink-0 text-brand-icon"
+				icon={icon}
+				size={16}
+			/>
+			<div className="min-w-0">
+				<Body className="text-sm transition-colors group-hover:text-brand-readable">
+					{title}
+				</Body>
+				<Caption className="mt-1 line-clamp-3 block leading-relaxed">
+					{description}
+				</Caption>
+			</div>
+		</Link>
+	);
+}
+
+function DesktopMegaTextLink({
+	className,
+	description,
+	eyebrow,
+	footer,
+	href,
+	onClick,
+	title,
+}: {
+	className?: string;
+	description?: ReactNode;
+	eyebrow?: ReactNode;
+	footer: ReactNode;
+	href: LocalizedLinkHref;
+	onClick?: LocalizedLinkOnClick;
+	title: ReactNode;
+}) {
+	return (
+		<Link
+			className={cn(
+				desktopMegaLinkClass,
+				"flex min-h-40 flex-col justify-between p-4",
+				className
+			)}
+			href={href}
+			onClick={onClick}
+		>
+			<div>
+				{eyebrow && <Caption>{eyebrow}</Caption>}
+				<Body className="mt-1.5 text-sm leading-snug transition-colors group-hover:text-brand-readable">
+					{title}
+				</Body>
+				{description && (
+					<Caption className="mt-2 line-clamp-4 block leading-relaxed">
+						{description}
+					</Caption>
+				)}
+			</div>
+			<div className="mt-6 flex items-end justify-between gap-4 border-border/40 border-t pt-3">
+				<Caption className="block text-brand-readable">{footer}</Caption>
+				<ArrowRight className="h-3 w-3 shrink-0 text-brand-readable opacity-0 transition-all group-hover:translate-x-0.5 group-hover:opacity-100" />
+			</div>
+		</Link>
+	);
+}
+
+function DesktopMegaMediaLink({
+	className,
+	href,
+	imageAlt,
+	imageSrc,
+	meta,
+	onClick,
+	title,
+}: {
+	className?: string;
+	href: LocalizedLinkHref;
+	imageAlt: string;
+	imageSrc?: string;
+	meta: ReactNode;
+	onClick?: LocalizedLinkOnClick;
+	title: ReactNode;
+}) {
+	return (
+		<Link
+			className={cn(desktopMegaLinkClass, "flex min-h-48 flex-col", className)}
+			href={href}
+			onClick={onClick}
+		>
+			<div className="relative aspect-[16/9] w-full overflow-hidden border-border/40 border-b bg-muted/25">
+				{imageSrc && (
+					<Image
+						alt={imageAlt}
+						className="object-cover transition-transform duration-300 group-hover:scale-105"
+						fill
+						sizes="(max-width: 768px) 100vw, 240px"
+						src={imageSrc}
+					/>
+				)}
+			</div>
+			<div className="flex flex-1 flex-col p-4">
+				<Caption>{meta}</Caption>
+				<Body className="mt-1.5 text-sm leading-snug transition-colors group-hover:text-brand-readable">
+					{title}
+				</Body>
+			</div>
+		</Link>
+	);
+}
 
 function MobileMenuIcon({ open }: { open: boolean }) {
 	return (
@@ -65,13 +271,17 @@ export default function Navbar({
 	const [mobileOpen, setMobileOpen] = useState(false);
 	const [_scrolled, setScrolled] = useState(false);
 	const [activeDropdown, setActiveDropdown] = useState<NavHash | null>(null);
-	const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
 	const closeRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 	const dropdownRef = useRef<HTMLElement>(null);
 	const mobileCloseButtonRef = useRef<HTMLButtonElement>(null);
+	const mobileMenuRef = useRef<HTMLDivElement>(null);
 	const mobileOpenButtonRef = useRef<HTMLButtonElement>(null);
+	const pendingMobileScrollHashRef = useRef<string | null>(null);
 	const restoreMobileFocusRef = useRef(false);
+	const skipScrollRestoreRef = useRef(false);
+	const mobileMenuTitleId = "marketing-mobile-menu-title";
 	const t = useTranslations("nav");
+	const tc = useTranslations("customSystems");
 	const ts = useTranslations("services");
 	const tpr = useTranslations("pricing");
 	const tb = useTranslations("blog");
@@ -87,28 +297,86 @@ export default function Navbar({
 	}, []);
 
 	useEffect(() => {
-		document.body.style.overflow = mobileOpen ? "hidden" : "";
+		if (!mobileOpen) {
+			return;
+		}
+
+		const scrollY = window.scrollY;
+		const originalRootOverflow = document.documentElement.style.overflow;
+		const originalBodyStyles = {
+			left: document.body.style.left,
+			overflow: document.body.style.overflow,
+			position: document.body.style.position,
+			right: document.body.style.right,
+			top: document.body.style.top,
+			width: document.body.style.width,
+		};
+
+		document.documentElement.style.overflow = "hidden";
+		document.body.style.position = "fixed";
+		document.body.style.top = `-${scrollY}px`;
+		document.body.style.left = "0";
+		document.body.style.right = "0";
+		document.body.style.width = "100%";
+		document.body.style.overflow = "hidden";
+
 		return () => {
-			document.body.style.overflow = "";
+			const shouldRestoreScroll = !skipScrollRestoreRef.current;
+			skipScrollRestoreRef.current = false;
+
+			document.documentElement.style.overflow = originalRootOverflow;
+			document.body.style.position = originalBodyStyles.position;
+			document.body.style.top = originalBodyStyles.top;
+			document.body.style.left = originalBodyStyles.left;
+			document.body.style.right = originalBodyStyles.right;
+			document.body.style.width = originalBodyStyles.width;
+			document.body.style.overflow = originalBodyStyles.overflow;
+
+			if (shouldRestoreScroll) {
+				window.scrollTo(0, scrollY);
+				window.requestAnimationFrame(() => {
+					window.scrollTo(0, scrollY);
+					window.requestAnimationFrame(() => {
+						window.scrollTo(0, scrollY);
+					});
+				});
+			}
 		};
 	}, [mobileOpen]);
 
-	useEffect(() => {
-		if (!mobileOpen) {
-			setMobileServicesOpen(false);
-		}
-	}, [mobileOpen]);
+	const closeMobileMenu = useCallback(
+		({ restoreScroll = true }: { restoreScroll?: boolean } = {}) => {
+			skipScrollRestoreRef.current = !restoreScroll;
+			restoreMobileFocusRef.current = true;
+			setMobileOpen(false);
+		},
+		[]
+	);
 
-	const closeMobileMenu = useCallback(() => {
-		restoreMobileFocusRef.current = true;
-		setMobileOpen(false);
-	}, []);
+	useEffect(() => {
+		if (mobileOpen) {
+			return;
+		}
+
+		const hash = pendingMobileScrollHashRef.current;
+		if (!hash) {
+			return;
+		}
+
+		pendingMobileScrollHashRef.current = null;
+		const frame = window.requestAnimationFrame(() => {
+			document.getElementById(hash)?.scrollIntoView({ behavior: "smooth" });
+		});
+
+		return () => window.cancelAnimationFrame(frame);
+	}, [mobileOpen]);
 
 	useEffect(() => {
 		const backgroundElements = [
 			document.querySelector<HTMLElement>('a[href="#main-content"]'),
 			document.getElementById("main-content"),
 			document.querySelector<HTMLElement>("footer"),
+			...document.querySelectorAll<HTMLElement>("[data-marketing-floating]"),
 		];
 
 		for (const element of backgroundElements) {
@@ -130,6 +398,46 @@ export default function Navbar({
 				element?.removeAttribute("inert");
 			}
 		};
+	}, [mobileOpen]);
+
+	useEffect(() => {
+		if (!mobileOpen) {
+			return;
+		}
+
+		const onKeyDown = (e: KeyboardEvent) => {
+			if (e.key !== "Tab") {
+				return;
+			}
+
+			const menu = mobileMenuRef.current;
+			if (!menu) {
+				return;
+			}
+
+			const focusable = Array.from(
+				menu.querySelectorAll<HTMLElement>(mobileMenuFocusableSelector)
+			).filter((element) => element.offsetParent !== null);
+			const first = focusable.at(0);
+			const last = focusable.at(-1);
+			if (!(first && last)) {
+				return;
+			}
+
+			if (e.shiftKey && document.activeElement === first) {
+				e.preventDefault();
+				last.focus();
+				return;
+			}
+
+			if (!e.shiftKey && document.activeElement === last) {
+				e.preventDefault();
+				first.focus();
+			}
+		};
+
+		document.addEventListener("keydown", onKeyDown);
+		return () => document.removeEventListener("keydown", onKeyDown);
 	}, [mobileOpen]);
 
 	useEffect(() => {
@@ -203,24 +511,32 @@ export default function Navbar({
 	const handleNavClick = useCallback(
 		(e: React.MouseEvent, hash: string) => {
 			close();
-			closeMobileMenu();
 			if (pathname === "/") {
 				e.preventDefault();
-				const el = document.getElementById(hash);
-				if (el) {
-					el.scrollIntoView({ behavior: "smooth" });
+				if (mobileOpen) {
+					pendingMobileScrollHashRef.current = hash;
+					closeMobileMenu({ restoreScroll: false });
+				} else {
+					const el = document.getElementById(hash);
+					if (el) {
+						el.scrollIntoView({ behavior: "smooth" });
+					}
 				}
+			} else {
+				closeMobileMenu();
 			}
 		},
-		[pathname, close, closeMobileMenu]
+		[pathname, mobileOpen, close, closeMobileMenu]
 	);
 
 	const navLinks: { hash: NavHash; label: string }[] = [
+		{ hash: "systems", label: t("systems") },
 		{ hash: "services", label: t("services") },
 		{ hash: "case-studies", label: t("caseStudies") },
-		{ hash: "pricing", label: t("pricing") },
+		{ hash: "scope", label: t("pricing") },
 		{ hash: "blog", label: t("blog") },
 	];
+	const desktopDropdownWidthClass = "max-w-[1040px]";
 
 	return (
 		<>
@@ -230,35 +546,39 @@ export default function Navbar({
 				inert={mobileOpen ? true : undefined}
 			>
 				<div className="mx-auto flex h-16 max-w-[1320px] items-center justify-between px-6 md:h-20">
-					<Link
-						aria-label="webvise - home"
-						className="flex items-center gap-2.5"
-						href="/"
-						onClick={(e) => {
-							if (pathname === "/") {
-								e.preventDefault();
-								window.scrollTo({ top: 0, behavior: "smooth" });
-								window.history.replaceState(
-									null,
-									"",
-									`/${locale === "en" ? "" : locale}`
-								);
-							}
-						}}
-					>
-						<Logo animated className="h-7 w-7" />
-						<Label className="font-display text-foreground text-xl tracking-[-0.02em]">
-							webvise
-						</Label>
-					</Link>
+					<div className="flex items-center md:flex-1">
+						<Link
+							aria-label={t("aria.home")}
+							className="flex items-center gap-2.5"
+							href="/"
+							onClick={(e) => {
+								if (pathname === "/") {
+									e.preventDefault();
+									window.scrollTo({ top: 0, behavior: "smooth" });
+									window.history.replaceState(
+										null,
+										"",
+										`/${locale === "en" ? "" : locale}`
+									);
+								}
+							}}
+						>
+							<Logo animated className="h-7 w-7" />
+							<Label className="font-display text-foreground text-xl">
+								webvise
+							</Label>
+						</Link>
+					</div>
 
 					<nav
-						aria-label="Main navigation"
+						aria-label={t("aria.main")}
 						className="hidden h-full items-center gap-1 md:flex"
 					>
 						{navLinks.map(({ hash, label }) => (
 							<Link
-								className={`relative inline-flex h-full items-center px-4 text-[13px] transition-colors hover:text-foreground ${
+								aria-expanded={activeDropdown === hash}
+								aria-haspopup={dropdownHashes.has(hash) ? "menu" : undefined}
+								className={`relative inline-flex h-full items-center border border-transparent px-4 text-sm outline-none transition-colors hover:text-foreground focus-visible:bg-muted/40 focus-visible:text-foreground ${
 									activeDropdown === hash
 										? "text-foreground"
 										: "text-muted-foreground"
@@ -266,6 +586,7 @@ export default function Navbar({
 								href={{ pathname: "/", hash }}
 								key={hash}
 								onClick={(e) => handleNavClick(e, hash)}
+								onFocus={() => dropdownHashes.has(hash) && open(hash)}
 								onMouseEnter={() => dropdownHashes.has(hash) && open(hash)}
 								onMouseLeave={() => dropdownHashes.has(hash) && scheduleClose()}
 							>
@@ -277,13 +598,18 @@ export default function Navbar({
 						))}
 					</nav>
 
-					<MarketingNavbarActions ctaLabel={t("getStarted")} />
+					<div className="hidden md:flex md:flex-1 md:items-center md:justify-end">
+						<MarketingNavbarActions
+							bookCallLabel={t("bookCall")}
+							ctaLabel={t("getStarted")}
+						/>
+					</div>
 
 					<button
 						aria-controls="marketing-mobile-menu"
 						aria-expanded={mobileOpen}
-						aria-label={mobileOpen ? "Close menu" : "Open menu"}
-						className="flex h-9 w-9 items-center justify-center border-0 md:hidden"
+						aria-label={mobileOpen ? t("aria.closeMenu") : t("aria.openMenu")}
+						className="flex h-9 w-9 items-center justify-center border border-transparent outline-none focus-visible:border-brand/40 focus-visible:ring-1 focus-visible:ring-brand/20 md:hidden"
 						onClick={() => setMobileOpen(!mobileOpen)}
 						ref={mobileOpenButtonRef}
 						type="button"
@@ -295,7 +621,7 @@ export default function Navbar({
 
 			{activeDropdown && (
 				<button
-					aria-label="Close menu"
+					aria-label={t("aria.closeMenu")}
 					className="fixed inset-0 z-30 hidden cursor-default transition-opacity duration-200 md:block"
 					onClick={close}
 					onMouseEnter={close}
@@ -305,7 +631,7 @@ export default function Navbar({
 			)}
 
 			<nav
-				aria-label="Section preview"
+				aria-label={t("aria.sectionPreview")}
 				className={`pointer-events-none fixed top-16 right-0 left-0 z-40 hidden justify-center px-6 md:top-20 md:flex ${
 					activeDropdown
 						? "*:pointer-events-auto *:translate-y-0 *:opacity-100"
@@ -313,207 +639,211 @@ export default function Navbar({
 				}`}
 				ref={dropdownRef}
 			>
-				<div className="w-full max-w-[720px] border border-border/40 bg-background shadow-xl transition-all duration-200 ease-out">
+				<div
+					className={cn(
+						"w-full overflow-hidden rounded-2xl border border-border/40 bg-popover shadow-xl transition-all duration-200 ease-out",
+						desktopDropdownWidthClass
+					)}
+				>
+					{activeDropdown === "systems" && (
+						<DesktopMegaShell
+							description={tc("subtitle")}
+							eyebrow={t("systems")}
+							footer={
+								<DesktopMegaFooterLink
+									href={{ pathname: "/", hash: "systems" }}
+									label={tc("detailLink")}
+									onClick={(e) => handleNavClick(e, "systems")}
+								/>
+							}
+							title={tc("title")}
+						>
+							<div className="grid grid-cols-6">
+								{customSystems.map((system, i) => (
+									<DesktopMegaIconLink
+										className={cn(
+											i < 2 ? "col-span-3 border-b" : "col-span-2",
+											i === 0 && "border-r",
+											i >= 2 && i < customSystems.length - 1 && "border-r"
+										)}
+										description={tc(
+											`items.${system.translationKey}.description`
+										)}
+										href={{
+											pathname: "/systems/[slug]",
+											params: { slug: system.slug },
+										}}
+										icon={system.icon}
+										key={system.slug}
+										onClick={close}
+										title={tc(`items.${system.translationKey}.title`)}
+									/>
+								))}
+							</div>
+						</DesktopMegaShell>
+					)}
+
 					{activeDropdown === "services" && (
-						<div>
+						<DesktopMegaShell
+							description={ts("subtitle")}
+							eyebrow={t("services")}
+							footer={
+								<DesktopMegaFooterLink
+									href={{ pathname: "/", hash: "services" }}
+									label={ts("viewAll")}
+									onClick={(e) => handleNavClick(e, "services")}
+								/>
+							}
+							title={ts("title")}
+						>
 							<div className="grid grid-cols-3">
 								{services.map((service, i) => (
-									<Link
-										className={`group flex items-start gap-3 border-border/40 p-5 transition-colors hover:bg-muted/40 ${
-											i < 3 ? "border-b" : ""
-										} ${i % 3 === 2 ? "" : "border-r"}`}
+									<DesktopMegaIconLink
+										className={cn(
+											i < 3 && "border-b",
+											i % 3 !== 2 && "border-r"
+										)}
+										description={ts(`${service.translationKey}.tagline`)}
 										href={{
 											pathname: "/services/[slug]",
 											params: { slug: service.slug },
 										}}
+										icon={service.icon}
 										key={service.slug}
 										onClick={close}
-									>
-										<service.icon
-											className="mt-0.5 h-4 w-4 shrink-0 text-brand-icon"
-											strokeWidth={1.5}
-										/>
-										<div className="min-w-0">
-											<Body className="text-sm">
-												{ts(`${service.translationKey}.title`)}
-											</Body>
-											<Caption className="mt-1 block leading-relaxed">
-												{ts(`${service.translationKey}.tagline`)}
-											</Caption>
-										</div>
-									</Link>
+										title={ts(`${service.translationKey}.title`)}
+									/>
 								))}
 							</div>
-							<Link
-								className="group flex items-center justify-between border-border/40 border-t p-4 px-5 transition-colors hover:bg-muted/40"
-								href={{ pathname: "/", hash: "services" }}
-								onClick={(e) => handleNavClick(e, "services")}
-							>
-								<Caption className="text-brand-readable">
-									{ts("viewAll")}
-								</Caption>
-								<ArrowRight className="h-3 w-3 text-brand-readable transition-transform group-hover:translate-x-0.5" />
-							</Link>
-						</div>
+						</DesktopMegaShell>
 					)}
 
 					{activeDropdown === "case-studies" && (
-						<div>
+						<DesktopMegaShell
+							description={tcs("subtitle")}
+							eyebrow={t("caseStudies")}
+							footer={
+								<DesktopMegaFooterLink
+									href="/case-studies"
+									label={tcs("viewAll")}
+									onClick={close}
+								/>
+							}
+							title={tcs("title")}
+						>
 							<div className="grid grid-cols-3">
 								{featuredCaseStudies.map((cs, i) => (
-									<Link
-										className={`group flex flex-col border-border/40 transition-colors hover:bg-muted/40 ${
-											i < 2 ? "border-r" : ""
-										} ${cs.coverImage ? "" : "p-5"}`}
+									<DesktopMegaMediaLink
+										className={cn(i < 2 && "border-r")}
 										href={{
 											pathname: "/case-studies/[slug]",
 											params: { slug: cs.slug },
 										}}
+										imageAlt={cs.title}
+										imageSrc={cs.coverImage}
 										key={cs.slug}
+										meta={cs.client}
 										onClick={close}
-									>
-										{cs.coverImage && (
-											<div className="relative aspect-[16/9] w-full overflow-hidden bg-muted/20">
-												<Image
-													alt={cs.title}
-													className="object-cover transition-transform duration-300 group-hover:scale-105"
-													fill
-													sizes="(max-width: 768px) 100vw, 240px"
-													src={cs.coverImage}
-												/>
-											</div>
-										)}
-										<div className="flex flex-1 flex-col p-4">
-											<Caption>{cs.client}</Caption>
-											<Body className="mt-1.5 text-sm leading-snug transition-colors group-hover:text-brand-readable">
-												{cs.title}
-											</Body>
-										</div>
-									</Link>
+										title={cs.title}
+									/>
 								))}
 							</div>
-							<Link
-								className="group flex items-center justify-between border-border/40 border-t p-4 px-5 transition-colors hover:bg-muted/40"
-								href="/case-studies"
-								onClick={close}
-							>
-								<Caption className="text-brand-readable">
-									{tcs("viewAll")}
-								</Caption>
-								<ArrowRight className="h-3 w-3 text-brand-readable transition-transform group-hover:translate-x-0.5" />
-							</Link>
-						</div>
+						</DesktopMegaShell>
 					)}
 
 					{activeDropdown === "blog" && (
-						<div>
+						<DesktopMegaShell
+							description={tb("subtitle")}
+							eyebrow={t("blog")}
+							footer={
+								<DesktopMegaFooterLink
+									href="/blog"
+									label={tb("viewAll")}
+									onClick={close}
+								/>
+							}
+							title={tb("title")}
+						>
 							<div className="grid grid-cols-3">
 								{recentPosts.map((post, i) => (
-									<Link
-										className={`group flex flex-col border-border/40 p-5 transition-colors hover:bg-muted/40 ${
-											i < 2 ? "border-r" : ""
-										}`}
+									<DesktopMegaTextLink
+										className={cn(i < 2 && "border-r")}
+										eyebrow={
+											<time dateTime={post.date}>
+												{new Date(post.date).toLocaleDateString(locale, {
+													day: "numeric",
+													month: "short",
+													year: "numeric",
+												})}
+											</time>
+										}
+										footer={`${post.readingTime} ${tb("minRead")}`}
 										href={{
 											pathname: "/blog/[slug]",
 											params: { slug: post.slug },
 										}}
 										key={post.slug}
 										onClick={close}
-									>
-										<time
-											className="text-muted-foreground text-xs"
-											dateTime={post.date}
-										>
-											{new Date(post.date).toLocaleDateString(locale, {
-												day: "numeric",
-												month: "short",
-												year: "numeric",
-											})}
-										</time>
-										<Body className="mt-2 text-sm leading-snug transition-colors group-hover:text-brand-readable">
-											{post.title}
-										</Body>
-										<Caption className="mt-auto pt-3">
-											{post.readingTime} {tb("minRead")}
-										</Caption>
-									</Link>
+										title={post.title}
+									/>
 								))}
 							</div>
-							<Link
-								className="group flex items-center justify-between border-border/40 border-t p-4 px-5 transition-colors hover:bg-muted/40"
-								href="/blog"
-								onClick={close}
-							>
-								<Caption className="text-brand-readable">
-									{tb("viewAll")}
-								</Caption>
-								<ArrowRight className="h-3 w-3 text-brand-readable transition-transform group-hover:translate-x-0.5" />
-							</Link>
-						</div>
+						</DesktopMegaShell>
 					)}
 
-					{activeDropdown === "pricing" && (
-						<div>
+					{activeDropdown === "scope" && (
+						<DesktopMegaShell
+							description={tpr("subtitle")}
+							eyebrow={t("pricing")}
+							footer={
+								<DesktopMegaFooterLink
+									href={{ pathname: "/", hash: "scope" }}
+									label={tpr("secondaryCta")}
+									onClick={(e) => handleNavClick(e, "scope")}
+								/>
+							}
+							title={tpr("title")}
+						>
 							<div className="grid grid-cols-3">
-								{(["project", "growth", "enterprise"] as const).map(
-									(key, i) => (
-										<Link
-											className={`group flex flex-col border-border/40 p-5 transition-colors hover:bg-muted/40 ${
-												i < 2 ? "border-r" : ""
-											}`}
-											href={{ pathname: "/", hash: "pricing" }}
-											key={key}
-											onClick={(e) => handleNavClick(e, "pricing")}
-										>
-											<div className="flex items-center gap-2">
-												<Body className="text-sm">
-													{tpr(`tiers.${key}.name`)}
-												</Body>
-												{key === "growth" && (
-													<Label className="border border-brand bg-brand px-1.5 py-0.5 text-[10px] text-brand-foreground">
-														{tpr(`tiers.${key}.badge`)}
-													</Label>
-												)}
-											</div>
-											<Caption className="mt-1 block leading-relaxed">
-												{tpr(`tiers.${key}.description`)}
-											</Caption>
-											<H3 className="mt-auto pt-3 text-xl tracking-[-0.04em]">
-												{tpr(`tiers.${key}.price`)}
-											</H3>
-											<Caption>{tpr(`tiers.${key}.basis`)}</Caption>
-										</Link>
-									)
-								)}
+								{pricingDropdownKeys.map((key, i) => (
+									<DesktopMegaTextLink
+										className={cn(
+											i < pricingDropdownKeys.length - 1 && "border-r"
+										)}
+										description={tpr(`tiers.${key}.description`)}
+										footer={tpr(`tiers.${key}.scope`)}
+										href={{ pathname: "/", hash: "scope" }}
+										key={key}
+										onClick={(e) => handleNavClick(e, "scope")}
+										title={tpr(`tiers.${key}.name`)}
+									/>
+								))}
 							</div>
-							<Link
-								className="group flex items-center justify-between border-border/40 border-t p-4 px-5 transition-colors hover:bg-muted/40"
-								href={{ pathname: "/", hash: "pricing" }}
-								onClick={(e) => handleNavClick(e, "pricing")}
-							>
-								<Caption className="text-brand-readable">{tpr("cta")}</Caption>
-								<ArrowRight className="h-3 w-3 text-brand-readable transition-transform group-hover:translate-x-0.5" />
-							</Link>
-						</div>
+						</DesktopMegaShell>
 					)}
 				</div>
 			</nav>
 
 			<div
 				aria-hidden={mobileOpen ? undefined : true}
+				aria-labelledby={mobileMenuTitleId}
 				aria-modal={mobileOpen ? true : undefined}
-				className={`fixed inset-0 z-[80] bg-background text-foreground transition-opacity duration-300 md:hidden ${
+				className={`fixed inset-0 z-[80] overflow-hidden overscroll-contain bg-background text-foreground transition-opacity duration-300 md:hidden ${
 					mobileOpen ? "opacity-100" : "pointer-events-none opacity-0"
 				}`}
 				id="marketing-mobile-menu"
 				inert={mobileOpen ? undefined : true}
+				ref={mobileMenuRef}
 				role="dialog"
 			>
 				<div className="relative flex h-full flex-col">
+					<h2 className="sr-only" id={mobileMenuTitleId}>
+						{t("aria.mobile")}
+					</h2>
 					<div className="shrink-0 border-grid-line border-b bg-background">
 						<div className="mx-auto flex h-16 max-w-[1320px] items-center justify-between px-6">
 							<Link
-								aria-label="webvise - home"
+								aria-label={t("aria.home")}
 								className="flex items-center gap-2.5"
 								href="/"
 								onClick={(e) => {
@@ -530,16 +860,16 @@ export default function Navbar({
 								}}
 							>
 								<Logo animated className="h-7 w-7" />
-								<Label className="font-display text-foreground text-xl tracking-[-0.02em]">
+								<Label className="font-display text-foreground text-xl">
 									webvise
 								</Label>
 							</Link>
 
 							<button
 								aria-controls="marketing-mobile-menu"
-								aria-label="Close menu"
-								className="flex h-9 w-9 items-center justify-center border-0 md:hidden"
-								onClick={closeMobileMenu}
+								aria-label={t("aria.closeMenu")}
+								className="flex h-9 w-9 items-center justify-center border border-transparent outline-none focus-visible:border-brand/40 focus-visible:ring-1 focus-visible:ring-brand/20 md:hidden"
+								onClick={() => closeMobileMenu()}
 								ref={mobileCloseButtonRef}
 								type="button"
 							>
@@ -548,7 +878,7 @@ export default function Navbar({
 						</div>
 					</div>
 
-					{/* Decorative icon cloud — mirrors hero placement, non-interactive */}
+					{/* Decorative icon cloud mirrors hero placement, non-interactive */}
 					<div
 						aria-hidden="true"
 						className="pointer-events-none absolute top-28 right-[-24px]"
@@ -558,97 +888,57 @@ export default function Navbar({
 						</div>
 					</div>
 					<nav
-						aria-label="Mobile navigation"
-						className="relative mx-auto flex min-h-0 w-full max-w-[1320px] flex-1 flex-col overflow-y-auto px-6 pt-6 pb-6"
+						aria-label={t("aria.mobile")}
+						className="relative mx-auto flex min-h-0 w-full max-w-[1320px] flex-1 flex-col overflow-y-auto overscroll-contain px-6 pt-6 pb-6"
 					>
-						<div className="flex flex-col gap-0.5">
-							<button
-								className="flex items-center justify-between py-4 text-foreground transition-colors hover:text-brand-readable"
-								onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
-								type="button"
-							>
-								<Label className="font-display text-foreground text-lg">
-									{t("services")}
-								</Label>
-								<span className="flex h-9 w-9 items-center justify-center">
-									<ChevronDown
-										className={`h-4 w-4 text-muted-foreground transition-transform duration-200 ${mobileServicesOpen ? "rotate-180" : ""}`}
-									/>
-								</span>
-							</button>
-							{mobileServicesOpen && (
-								<div className="mb-2 ml-1 flex flex-col gap-0.5 border-border/40 border-l pl-4">
-									{services.map(({ slug, translationKey, icon: Icon }) => (
-										<Link
-											className="flex items-center gap-3 py-2.5 text-muted-foreground text-sm transition-colors hover:text-foreground"
-											href={{
-												pathname: "/services/[slug]",
-												params: { slug },
-											}}
-											key={slug}
-											onClick={closeMobileMenu}
-										>
-											<Icon
-												className="h-4 w-4 text-brand-icon"
-												strokeWidth={1.5}
-											/>
-											{ts(`${translationKey}.title`)}
-										</Link>
-									))}
-								</div>
-							)}
-
-							<Link
-								className="py-4 text-left font-display text-foreground text-lg transition-colors hover:text-brand-readable"
-								href={{ pathname: "/", hash: "case-studies" }}
-								onClick={(e) => handleNavClick(e, "case-studies")}
-							>
-								{t("caseStudies")}
-							</Link>
-
-							<Link
-								className="py-4 text-left font-display text-foreground text-lg transition-colors hover:text-brand-readable"
-								href={{ pathname: "/", hash: "blog" }}
-								onClick={(e) => handleNavClick(e, "blog")}
-							>
-								{t("blog")}
-							</Link>
-
-							<Link
-								className="py-4 text-left font-display text-foreground text-lg transition-colors hover:text-brand-readable"
-								href={{ pathname: "/", hash: "pricing" }}
-								onClick={(e) => handleNavClick(e, "pricing")}
-							>
-								{t("pricing")}
-							</Link>
+						<div className="flex flex-col">
+							{navLinks.map(({ hash, label }) => (
+								<Link
+									className="-mx-1 flex items-center border border-transparent px-1 py-4 outline-none transition-colors focus-visible:border-brand/40 focus-visible:ring-1 focus-visible:ring-brand/20"
+									href={{ pathname: "/", hash }}
+									key={hash}
+									onClick={(e) => handleNavClick(e, hash)}
+								>
+									<Label className="font-display text-foreground text-lg">
+										{label}
+									</Label>
+								</Link>
+							))}
 						</div>
 
 						<div className="mt-auto space-y-6 border-border/40 border-t pt-6">
 							<div className="flex items-center justify-between">
 								<div className="flex items-center gap-2">
 									{socials.map((social) => (
-										<a
-											aria-label={social.name}
-											className="flex h-8 w-8 items-center justify-center border border-border/40 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+										<SocialIconButton
 											href={social.href}
 											key={social.name}
-											rel="noopener noreferrer"
-											target="_blank"
+											label={social.name}
 										>
 											{social.icon}
-										</a>
+										</SocialIconButton>
 									))}
 								</div>
 								<MarketingMobileMenuControls />
 							</div>
-							<MarketingNavbarCta
-								className="w-full"
-								location="navbar_mobile"
-								onClick={closeMobileMenu}
-								size="lg"
-							>
-								{t("getStarted")}
-							</MarketingNavbarCta>
+							<div className="flex flex-col gap-3">
+								<MarketingNavbarCalLink
+									className="w-full"
+									location="navbar_mobile"
+									onClick={() => closeMobileMenu()}
+									size="lg"
+								>
+									{t("bookCall")}
+								</MarketingNavbarCalLink>
+								<MarketingNavbarCta
+									className="w-full"
+									location="navbar_mobile"
+									onClick={() => closeMobileMenu()}
+									size="lg"
+								>
+									{t("getStarted")}
+								</MarketingNavbarCta>
+							</div>
 						</div>
 					</nav>
 				</div>

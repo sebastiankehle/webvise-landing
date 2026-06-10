@@ -1,36 +1,21 @@
-import type { LucideIcon } from "lucide-react";
-import {
-	ArrowLeftRight,
-	BarChart3,
-	Blocks,
-	BrainCircuit,
-	Clock,
-	Database,
-	DollarSign,
-	Flame,
-	FlaskConical,
-	Gauge,
-	Layers,
-	LayoutTemplate,
-	Map as MapIcon,
-	PackageX,
-	Repeat,
-	Rocket,
-	ShieldAlert,
-	Sparkles,
-	TrendingUp,
-	UserMinus,
-	Users,
-	Wrench,
-} from "lucide-react";
+import type { AnimatedIcon } from "@/components/marketing/card-hover-icon";
+import { BrainIcon } from "@/components/ui/brain";
+import { FlaskIcon } from "@/components/ui/flask";
+import { LayersIcon } from "@/components/ui/layers";
+import { LayoutPanelTopIcon } from "@/components/ui/layout-panel-top";
+import { RouteIcon } from "@/components/ui/route";
+import { WaypointsIcon } from "@/components/ui/waypoints";
 
 export interface Service {
 	deliverableCount: number;
 	faqCount: number;
 	featureCount: number;
-	icon: LucideIcon;
+	icon: AnimatedIcon;
 	painPointCount: number;
-	painPointIcons: [LucideIcon, LucideIcon, LucideIcon];
+	proof: {
+		caseStudySlug: string;
+		image: string;
+	};
 	slug: string;
 	toolCount: number;
 	translationKey: string;
@@ -40,68 +25,86 @@ export const services: Service[] = [
 	{
 		slug: "landing-pages",
 		translationKey: "landingPages",
-		icon: LayoutTemplate,
-		painPointIcons: [UserMinus, Clock, BarChart3],
+		icon: LayoutPanelTopIcon,
 		featureCount: 6,
 		deliverableCount: 5,
 		toolCount: 5,
 		painPointCount: 3,
 		faqCount: 4,
+		proof: {
+			caseStudySlug: "old-world-labs",
+			image: "/images/case-studies/old-world-labs/hero.png",
+		},
 	},
 	{
 		slug: "wordpress-migration",
 		translationKey: "wordpressMigration",
-		icon: ArrowLeftRight,
-		painPointIcons: [DollarSign, Gauge, ShieldAlert],
+		icon: RouteIcon,
 		featureCount: 6,
 		deliverableCount: 5,
 		toolCount: 5,
 		painPointCount: 3,
 		faqCount: 5,
+		proof: {
+			caseStudySlug: "mp-bau-construction",
+			image: "/images/case-studies/mp-bau-construction/hero.png",
+		},
 	},
 	{
 		slug: "ai-consulting",
 		translationKey: "aiConsulting",
-		icon: Sparkles,
-		painPointIcons: [Layers, MapIcon, PackageX],
+		icon: WaypointsIcon,
 		featureCount: 6,
 		deliverableCount: 5,
 		toolCount: 6,
 		painPointCount: 3,
 		faqCount: 4,
+		proof: {
+			caseStudySlug: "morrow",
+			image: "/images/case-studies/morrow/agent-safe-answer.png",
+		},
 	},
 	{
 		slug: "mvp-development",
 		translationKey: "mvpDevelopment",
-		icon: FlaskConical,
-		painPointIcons: [Blocks, Flame, Rocket],
+		icon: FlaskIcon,
 		featureCount: 6,
 		deliverableCount: 5,
 		toolCount: 6,
 		painPointCount: 3,
 		faqCount: 4,
+		proof: {
+			caseStudySlug: "relay",
+			image: "/images/case-studies/relay/workflow-library.png",
+		},
 	},
 	{
 		slug: "ai-automation",
 		translationKey: "aiAutomation",
-		icon: BrainCircuit,
-		painPointIcons: [Repeat, Database, Wrench],
+		icon: BrainIcon,
 		featureCount: 6,
 		deliverableCount: 5,
 		toolCount: 6,
 		painPointCount: 3,
 		faqCount: 4,
+		proof: {
+			caseStudySlug: "rautenberg-pitch-engine",
+			image: "/images/case-studies/rautenberg-pitch-engine/docx-output.png",
+		},
 	},
 	{
 		slug: "full-stack-applications",
 		translationKey: "fullStackApps",
-		icon: Database,
-		painPointIcons: [TrendingUp, Users, Wrench],
+		icon: LayersIcon,
 		featureCount: 6,
 		deliverableCount: 5,
 		toolCount: 6,
 		painPointCount: 3,
 		faqCount: 4,
+		proof: {
+			caseStudySlug: "keel",
+			image: "/images/case-studies/keel/one-endpoint.png",
+		},
 	},
 ];
 

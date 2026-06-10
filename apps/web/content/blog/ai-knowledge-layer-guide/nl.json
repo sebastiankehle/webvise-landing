@@ -2,9 +2,9 @@
   "date": "2026-04-15",
   "readingTime": 8,
   "keyword": "AI knowledge layer",
-  "title": "De AI knowledge layer: 127 pagina's, geen vector database, en wat we fout hadden",
-  "excerpt": "Karpathy's LLM wiki gist haalde in een week 99.000 bladwijzers. Het sloeg aan omdat het benoemt wat elke AI-gebruiker voelt: je agents hebben geen geheugen. Wij draaien een knowledge layer in productie. Dit is wat werkt, wat niet werkt, en hoe je er in 20 minuten een bouwt.",
-  "metaDescription": "Praktische gids voor het bouwen van een AI knowledge layer, geschreven door een team dat er een draait in productie. Architectuur, opzet, echte cijfers en wat we de harde weg hebben geleerd.",
+  "title": "De AI knowledge layer: 127 pagina's, geen vector database, en wat ik fout had",
+  "excerpt": "Karpathy's LLM wiki gist haalde in een week 99.000 bladwijzers. Het sloeg aan omdat het benoemt wat elke AI-gebruiker voelt: je agents hebben geen geheugen. Bij webvise draait een knowledge layer in productie. Dit is wat werkt, wat niet werkt, en hoe je er in 20 minuten een bouwt.",
+  "metaDescription": "Praktische gids voor het bouwen van een AI knowledge layer, geschreven door een team dat er een draait in productie. Architectuur, opzet, echte cijfers en wat ik de harde weg heb geleerd.",
   "tags": ["AI Agents", "AI", "Automation", "Business Strategy"],
   "cta": "Neem contact op",
   "blocks": [
@@ -14,11 +14,11 @@
     },
     {
       "type": "p",
-      "text": "Bij webvise draaien we een knowledge layer die ons intern onderzoek, onze klantdocumentatie en de contentpipeline aanstuurt die dit blog produceert. Dit is wat we leerden."
+      "text": "Bij webvise draait een kennislaag voor intern onderzoek en klantdocumentatie. Dit heb ik geleerd."
     },
     {
       "type": "h2",
-      "text": "Het probleem is niet je prompt. Het is geheugenverlies."
+      "text": "Agents vergeten tussen sessies."
     },
     {
       "type": "p",
@@ -54,11 +54,11 @@
     },
     {
       "type": "p",
-      "text": "RAG leidt antwoorden opnieuw af op het moment van de query door documenten op te knippen en naar relevante fragmenten te zoeken. De gecompileerde wiki-aanpak slaat dat volledig over. graphify mat **71,5x minder tokens per query** vergeleken met zoeken door ruwe bestanden in hun gepubliceerde vergelijking; de resultaten zijn afhankelijk van de corpuskenmerken en queryverdeling. Onze eigen metingen laten ruwweg 1.000 tokens vault-inhoud per query zien, tegenover de 3.000 of meer tokens die een typische RAG-pipeline injecteert."
+      "text": "RAG leidt antwoorden opnieuw af op het moment van de query door documenten op te knippen en naar relevante fragmenten te zoeken. De gecompileerde wiki-aanpak slaat dat volledig over. graphify mat **71,5x minder tokens per query** vergeleken met zoeken door ruwe bestanden in hun gepubliceerde vergelijking; de resultaten zijn afhankelijk van de corpuskenmerken en queryverdeling. Eigen metingen laten ruwweg 1.000 tokens vault-inhoud per query zien, tegenover de 3.000 of meer tokens die een typische RAG-pipeline injecteert."
     },
     {
       "type": "p",
-      "text": "We schreven een [uitgebreide technische vergelijking](/blog/business-knowledge-base-without-rag) van RAG versus index-gebaseerde retrieval. De korte versie: in de geanalyseerde workloads presteerde de gecompileerde wiki beter dan RAG op nauwkeurigheid, kosten en complexiteit voor kennisbanken onder de 1.000 documenten. Geen vector database, geen embedding-model, geen chunking-strategie, geen re-indexeringstaak. Vijf shell-commando's en een bijgehouden indexbestand."
+      "text": "Ik schreef een [uitgebreide technische vergelijking](/blog/business-knowledge-base-without-rag) van RAG versus index-gebaseerde retrieval. De korte versie: in de geanalyseerde workloads presteerde de gecompileerde wiki beter dan RAG op nauwkeurigheid, kosten en complexiteit voor kennisbanken onder de 1.000 documenten. Geen vector database, geen embedding-model, geen chunking-strategie, geen re-indexeringstaak. Vijf shell-commando's en een bijgehouden indexbestand."
     },
     {
       "type": "p",
@@ -66,20 +66,20 @@
     },
     {
       "type": "h2",
-      "text": "Wat we leerden van onze eigen knowledge layer"
+      "text": "Lessen uit de eigen knowledge layer"
     },
     {
       "type": "p",
-      "text": "Onze interne wiki telt momenteel 127 gestructureerde pagina's verdeeld over zeven categorieën: mensen, bedrijven, concepten, playbooks, collecties, syntheses en tools. Elke pagina volgt een standaardsjabloon met YAML-frontmatter, kruisverwijzingen via Obsidian wikilinks en bronvermelding. De agent voert zes gedefinieerde operaties uit: ingest, conversational update, query, lint, enrich en reorganize."
+      "text": "De interne wiki telt momenteel 127 gestructureerde pagina's verdeeld over zeven categorieën: mensen, bedrijven, concepten, playbooks, collecties, syntheses en tools. Elke pagina volgt een standaardsjabloon met YAML-frontmatter, kruisverwijzingen via Obsidian wikilinks en bronvermelding. De agent voert zes gedefinieerde operaties uit: ingest, conversational update, query, lint, enrich en reorganize."
     },
     {
       "type": "ul",
       "items": [
         "**Het schemabestand is allesbepalend.** Al het andere volgt eruit. Een goed geschreven schema produceert een gedisciplineerde wiki met consistente conventies. Een vaag schema produceert hallucinaties en wildgroei. De huidige versie telt ongeveer 200 regels en dekt directorystructuur, paginaformaat, alle zes operaties, naamgevingsconventies en het omgaan met tegenstrijdige bronnen. Het kostte meerdere iteraties om goed te krijgen.",
-        "**Dedup-eerst voorkomt paginawildgroei.** Onze regel: zoek voordat je een nieuwe pagina aanmaakt de bestaande wiki door op overlappende inhoud. Als een bestaande pagina 60% of meer van hetzelfde terrein dekt, verrijk je die pagina in plaats van een nieuwe te maken. Zonder deze regel vult de wiki zich met redundante pagina's die kennis opsplitsen in onbruikbare stukken.",
+        "**Dedup-eerst voorkomt paginawildgroei.** De regel: zoek voordat je een nieuwe pagina aanmaakt de bestaande wiki door op overlappende inhoud. Als een bestaande pagina 60% of meer van hetzelfde terrein dekt, verrijk je die pagina in plaats van een nieuwe te maken. Zonder deze regel vult de wiki zich met redundante pagina's die kennis opsplitsen in onbruikbare stukken.",
         "**Queries worden onderdeel van de kennisbank.** Stel je een goede vraag en krijg je een bruikbaar antwoord, dan wordt dat antwoord teruggearchiveerd als een nieuwe wikipagina. De volgende keer dat iemand een verwante vraag stelt, heeft de agent al een voorgecompileerde synthese om uit te putten. Dit is het samengestelde effect dat het systeem beter maakt in de loop van de tijd, niet alleen groter.",
-        "**Ingest-kwaliteit hangt volledig af van discipline.** Een ruw artikel dumpen en zeggen 'ingest dit' levert een dunne samenvatting op. De bron met de agent doornemen, takeaways bespreken en aangeven wat de nadruk moet krijgen, levert pagina's op die bruikbaar blijven naarmate de wiki groeit. Wij hanteren een strikt workflow: ruwe bestand opschonen, key takeaways bespreken, wachten op goedkeuring, dan volledig extraheren.",
-        "**Het indexbestand is het retrievalsysteem.** Onze rootindex telt 22 regels. Elke submap heeft zijn eigen index met elk pagina's en een éénregelige beschrijving. De agent leest de rootindex op ongeveer 400 tokens, identificeert de juiste submap, leest die index, en haalt vervolgens de specifieke pagina's op. De meeste queries zijn klaar met drie leesslagen en ongeveer 1.000 tokens vault-inhoud."
+        "**Ingest-kwaliteit hangt volledig af van discipline.** Een ruw artikel dumpen en zeggen 'ingest dit' levert een dunne samenvatting op. De bron met de agent doornemen, takeaways bespreken en aangeven wat de nadruk moet krijgen, levert pagina's op die bruikbaar blijven naarmate de wiki groeit. De workflow is strikt: ruwe bestand opschonen, key takeaways bespreken, wachten op goedkeuring, dan volledig extraheren.",
+        "**Het indexbestand is het retrievalsysteem.** De rootindex telt 22 regels. Elke submap heeft zijn eigen index met elk pagina's en een éénregelige beschrijving. De agent leest de rootindex op ongeveer 400 tokens, identificeert de juiste submap, leest die index, en haalt vervolgens de specifieke pagina's op. De meeste queries zijn klaar met drie leesslagen en ongeveer 1.000 tokens vault-inhoud."
       ]
     },
     {
@@ -88,7 +88,7 @@
     },
     {
       "type": "p",
-      "text": "Karpathy noemt het het schema. Wij noemen het CLAUDE.md. Sommige frameworks splitsen het op in een Knowledge Base Layer en een Brand Foundation. De naam maakt niet uit. Wat telt is dat dit ene bestand bepaalt hoe de agent zich gedraagt in elke sessie."
+      "text": "Karpathy noemt het het schema. Hier heet het CLAUDE.md. Sommige frameworks splitsen het op in een Knowledge Base Layer en een Brand Foundation. De naam maakt niet uit. Wat telt is dat dit ene bestand bepaalt hoe de agent zich gedraagt in elke sessie."
     },
     {
       "type": "p",
@@ -105,7 +105,7 @@
     },
     {
       "type": "p",
-      "text": "Zonder dit improviseert de agent. Hij maakt pagina's aan op willekeurige locaties, gebruikt inconsistente opmaak, dupliceert inhoud over pagina's heen en wijkt bij elke sessie verder af van je conventies. Het schema voorkomt die drift. Wij behandelen het als productiecode: elke wijziging is doelbewust en getest tegen echte ingests."
+      "text": "Zonder dit improviseert de agent. Hij maakt pagina's aan op willekeurige locaties, gebruikt inconsistente opmaak, dupliceert inhoud over pagina's heen en wijkt bij elke sessie verder af van je conventies. Het schema voorkomt die drift. Het wordt behandeld als productiecode: elke wijziging is doelbewust en getest tegen echte ingests."
     },
     {
       "type": "h2",
@@ -162,7 +162,7 @@
     },
     {
       "type": "p",
-      "text": "Bij **[webvise](/#contact)** bouwen we knowledge layers voor bedrijven die willen dat hun AI-agents echt weten waar ze het over hebben. Als je meer tijd kwijt bent aan het uitleggen van context aan je tools dan aan het er waarde uit halen, is dit het probleem dat dit oplost. [Neem contact op](/#contact)."
+      "text": "**[webvise](/#contact)** bouwt knowledge layers voor bedrijven die willen dat hun AI-agents echt weten waar ze het over hebben. Als je meer tijd kwijt bent aan het uitleggen van context aan je tools dan aan het er waarde uit halen, is dit het probleem dat dit oplost. [Neem contact op](/#contact)."
     }
   ]
 }

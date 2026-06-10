@@ -2,8 +2,8 @@
   "date": "2026-04-15",
   "readingTime": 8,
   "keyword": "warstwa wiedzy AI",
-  "title": "Warstwa wiedzy AI: 127 stron, zero baz wektorowych i co zrobiliśmy źle",
-  "excerpt": "Gist Karpathy'ego o LLM wiki zebrał 99 000 zakładek w tydzień. Trafił w sedno, bo nazwał problem, który czuje każdy użytkownik AI: twoje agenty nie mają pamięci. Sami uruchamiamy warstwę wiedzy na produkcji. Oto co działa, co nie działa i jak zbudować własną w 20 minut.",
+  "title": "Warstwa wiedzy AI: 127 stron, zero baz wektorowych i co zrobiłem źle",
+  "excerpt": "Gist Karpathy'ego o LLM wiki zebrał 99 000 zakładek w tydzień. Trafił w sedno, bo nazwał problem, który czuje każdy użytkownik AI: twoje agenty nie mają pamięci. Sam uruchamiam warstwę wiedzy na produkcji. Oto co działa, co nie działa i jak zbudować własną w 20 minut.",
   "metaDescription": "Praktyczny przewodnik po budowaniu warstwy wiedzy AI od zespołu, który używa jej na produkcji. Architektura, konfiguracja, liczby z rzeczywistości i wnioski z trudnych lekcji.",
   "tags": ["AI Agents", "AI", "Automation", "Business Strategy"],
   "cta": "Skontaktuj się",
@@ -14,11 +14,11 @@
     },
     {
       "type": "p",
-      "text": "W webvise uruchamiamy warstwę wiedzy, która zasila nasze wewnętrzne badania, dokumentację klientów i pipeline treści, który produkuje tego bloga. Oto czego się nauczyliśmy."
+      "text": "W webvise warstwa wiedzy służy do wewnętrznych badań i dokumentacji klientów. Tego się nauczyłem."
     },
     {
       "type": "h2",
-      "text": "Problem nie leży w promptowaniu. Leży w amnezji."
+      "text": "Agenci zapominają między sesjami."
     },
     {
       "type": "p",
@@ -54,11 +54,11 @@
     },
     {
       "type": "p",
-      "text": "RAG wyprowadza odpowiedzi w czasie zapytania przez dzielenie dokumentów na fragmenty i wyszukiwanie trafnych części. Podejście ze skompilowaną wiki całkowicie to pomija. graphify zmierzył **71,5x mniej tokenów na zapytanie** w porównaniu do przeszukiwania surowych plików w opublikowanym porównaniu; wyniki zależą od charakterystyki korpusu i rozkładu zapytań. Nasze własne pomiary pokazują około 1000 tokenów zawartości vault na zapytanie, w porównaniu do 3000 lub więcej tokenów, które typowy pipeline RAG wstrzykuje."
+      "text": "RAG wyprowadza odpowiedzi w czasie zapytania przez dzielenie dokumentów na fragmenty i wyszukiwanie trafnych części. Podejście ze skompilowaną wiki całkowicie to pomija. graphify zmierzył **71,5x mniej tokenów na zapytanie** w porównaniu do przeszukiwania surowych plików w opublikowanym porównaniu; wyniki zależą od charakterystyki korpusu i rozkładu zapytań. Moje własne pomiary pokazują około 1000 tokenów zawartości vault na zapytanie, w porównaniu do 3000 lub więcej tokenów, które typowy pipeline RAG wstrzykuje."
     },
     {
       "type": "p",
-      "text": "Napisaliśmy [pełne techniczne porównanie](/blog/business-knowledge-base-without-rag) RAG vs. wyszukiwanie oparte na indeksie. Krótka wersja: w analizowanych obciążeniach roboczych, skompilowana wiki wypadła lepiej niż RAG pod względem dokładności, kosztów i złożoności dla baz wiedzy poniżej 1000 dokumentów. Żadnej bazy wektorowej, modelu embeddingów, strategii chunkowania, zadania re-indeksowania. Pięć poleceń shell i utrzymywany plik indeksu."
+      "text": "Napisałem [pełne techniczne porównanie](/blog/business-knowledge-base-without-rag) RAG vs. wyszukiwanie oparte na indeksie. Krótka wersja: w analizowanych obciążeniach roboczych, skompilowana wiki wypadła lepiej niż RAG pod względem dokładności, kosztów i złożoności dla baz wiedzy poniżej 1000 dokumentów. Żadnej bazy wektorowej, modelu embeddingów, strategii chunkowania, zadania re-indeksowania. Pięć poleceń shell i utrzymywany plik indeksu."
     },
     {
       "type": "p",
@@ -66,20 +66,20 @@
     },
     {
       "type": "h2",
-      "text": "Czego nauczyliśmy się prowadząc własną"
+      "text": "Czego nauczyłem się, prowadząc własną"
     },
     {
       "type": "p",
-      "text": "Nasza wewnętrzna wiki zawiera obecnie 127 ustrukturyzowanych stron w siedmiu kategoriach: ludzie, firmy, koncepty, playbooki, kolekcje, synteza i narzędzia. Każda strona opiera się na standardowym szablonie z YAML frontmatter, cross-referencjami przez Obsidian wikilinks i atrybucją źródeł. Agent wykonuje sześć zdefiniowanych operacji: ingest, aktualizacja konwersacyjna, zapytanie, lint, wzbogacenie i reorganizacja."
+      "text": "Moja wewnętrzna wiki zawiera obecnie 127 ustrukturyzowanych stron w siedmiu kategoriach: ludzie, firmy, koncepty, playbooki, kolekcje, synteza i narzędzia. Każda strona opiera się na standardowym szablonie z YAML frontmatter, cross-referencjami przez Obsidian wikilinks i atrybucją źródeł. Agent wykonuje sześć zdefiniowanych operacji: ingest, aktualizacja konwersacyjna, zapytanie, lint, wzbogacenie i reorganizacja."
     },
     {
       "type": "ul",
       "items": [
         "**Plik schematu to cała gra.** Wszystko inne z niego wynika. Dobrze napisany schemat produkuje zdyscyplinowaną wiki ze spójnymi konwencjami. Niejednoznaczny schemat produkuje halucynacje i rozrastanie się struktury. Obecna wersja to około 200 linii i obejmuje strukturę katalogów, format strony, wszystkie sześć operacji, konwencje nazewnictwa i obsługę sprzeczności. Dotarcie do właściwej wersji wymagało kilku iteracji.",
-        "**Dedup-first zapobiega rozrastaniu się stron.** Nasza zasada: przed stworzeniem nowej strony przeszukaj istniejącą wiki pod kątem nakładającej się treści. Jeśli istniejąca strona pokrywa 60% lub więcej tego samego terenu, wzbogać tę stronę zamiast tworzyć nową. Bez tej zasady wiki zapełnia się redundantnymi stronami, które fragmentują wiedzę na bezużyteczne kawałki.",
+        "**Dedup-first zapobiega rozrastaniu się stron.** Moja zasada: przed stworzeniem nowej strony przeszukaj istniejącą wiki pod kątem nakładającej się treści. Jeśli istniejąca strona pokrywa 60% lub więcej tego samego terenu, wzbogać tę stronę zamiast tworzyć nową. Bez tej zasady wiki zapełnia się redundantnymi stronami, które fragmentują wiedzę na bezużyteczne kawałki.",
         "**Zapytania kumulują się w bazie wiedzy.** Gdy zadajesz dobre pytanie i dostajesz użyteczną odpowiedź, ta odpowiedź trafia z powrotem jako nowa strona wiki. Następnym razem, gdy ktoś zada powiązane pytanie, agent ma już wstępnie skompilowaną syntezę do wykorzystania. To efekt kumulowania, który sprawia, że system z czasem staje się lepszy, nie tylko większy.",
-        "**Jakość ingestu zależy całkowicie od dyscypliny.** Wrzucenie surowego artykułu i powiedzenie \"zaingestuj to\" produkuje cienkie podsumowanie. Przejście przez źródło z agentem, omówienie wniosków i wskazanie co podkreślić produkuje strony, które pozostają użyteczne wraz z rozrostem wiki. Egzekwujemy ścisły workflow: wyczyść surowy plik, omów kluczowe wnioski, poczekaj na zatwierdzenie, potem kompletna ekstrakcja.",
-        "**Plik indeksu to system wyszukiwania.** Nasz główny indeks to 22 linie. Każdy podkatalog ma własny indeks z listą każdej strony i jednolinijkowym opisem. Agent czyta główny indeks przy około 400 tokenach, identyfikuje właściwy podkatalog, czyta ten indeks, potem pobiera konkretne strony, których potrzebuje. Większość zapytań kończy się trzema odczytami i około 1000 tokenami zawartości vault."
+        "**Jakość ingestu zależy całkowicie od dyscypliny.** Wrzucenie surowego artykułu i powiedzenie \"zaingestuj to\" produkuje cienkie podsumowanie. Przejście przez źródło z agentem, omówienie wniosków i wskazanie co podkreślić produkuje strony, które pozostają użyteczne wraz z rozrostem wiki. Egzekwuję ścisły workflow: wyczyść surowy plik, omów kluczowe wnioski, poczekaj na zatwierdzenie, potem kompletna ekstrakcja.",
+        "**Plik indeksu to system wyszukiwania.** Mój główny indeks to 22 linie. Każdy podkatalog ma własny indeks z listą każdej strony i jednolinijkowym opisem. Agent czyta główny indeks przy około 400 tokenach, identyfikuje właściwy podkatalog, czyta ten indeks, potem pobiera konkretne strony, których potrzebuje. Większość zapytań kończy się trzema odczytami i około 1000 tokenami zawartości vault."
       ]
     },
     {
@@ -88,7 +88,7 @@
     },
     {
       "type": "p",
-      "text": "Karpathy nazywa to schematem. My nazywamy to CLAUDE.md. Niektóre frameworki dzielą go na warstwę bazy wiedzy i fundament marki. Nazwa nie ma znaczenia. Ważne jest to, że jeden plik kontroluje zachowanie agenta w każdej sesji."
+      "text": "Karpathy nazywa to schematem. Ja nazywam to CLAUDE.md. Niektóre frameworki dzielą go na warstwę bazy wiedzy i fundament marki. Nazwa nie ma znaczenia. Ważne jest to, że jeden plik kontroluje zachowanie agenta w każdej sesji."
     },
     {
       "type": "p",
@@ -105,7 +105,7 @@
     },
     {
       "type": "p",
-      "text": "Bez tego agent improwizuje. Tworzy strony w losowych lokalizacjach, używa niespójnych formatów, duplikuje treść między stronami i odpływa od twoich konwencji z każdą sesją. Schemat zapobiega dryfowi. Traktujemy nasz jak kod produkcyjny: każda zmiana jest celowa i testowana na rzeczywistym ingeście."
+      "text": "Bez tego agent improwizuje. Tworzy strony w losowych lokalizacjach, używa niespójnych formatów, duplikuje treść między stronami i odpływa od twoich konwencji z każdą sesją. Schemat zapobiega dryfowi. Traktuję swój jak kod produkcyjny: każda zmiana jest celowa i testowana na rzeczywistym ingeście."
     },
     {
       "type": "h2",
@@ -162,7 +162,7 @@
     },
     {
       "type": "p",
-      "text": "W **[webvise](/#contact)** budujemy warstwy wiedzy dla firm, które chcą, żeby ich agenty AI naprawdę wiedziały, o czym mówią. Jeśli spędzasz więcej czasu na tłumaczeniu kontekstu swoim narzędziom niż na czerpaniu z nich wartości, to jest właśnie ten problem, który to rozwiązuje. [Skontaktuj się z nami](/#contact)."
+      "text": "**[webvise](/#contact)** buduje warstwy wiedzy dla firm, które chcą, żeby ich agenty AI naprawdę wiedziały, o czym mówią. Jeśli spędzasz więcej czasu na tłumaczeniu kontekstu swoim narzędziom niż na czerpaniu z nich wartości, to jest właśnie ten problem, który to rozwiązuje. [Zapraszam do kontaktu](/#contact)."
     }
   ]
 }

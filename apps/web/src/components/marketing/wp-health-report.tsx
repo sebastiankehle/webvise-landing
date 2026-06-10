@@ -5,6 +5,10 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import z from "zod";
 
+import {
+	ConstructedGrid,
+	GridContainer,
+} from "@/components/marketing/section-wrapper";
 import { Button } from "@/components/ui/button";
 import { FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -19,6 +23,7 @@ import {
 	Muted,
 } from "@/components/ui/typography";
 import { Link } from "@/i18n/navigation";
+import { CAL_URL } from "@/lib/cal";
 import { track } from "@/lib/track";
 import { cn } from "@/lib/utils";
 import { trpcClient } from "@/utils/trpc";
@@ -38,7 +43,6 @@ interface ReportVital {
 interface ReportData {
 	desktop: { score: number };
 	issues: ReportIssue[];
-	migrationEstimate: { min: number; max: number };
 	mobile: { score: number };
 	projectedScore: number;
 	securityFlags: string[];
@@ -54,9 +58,9 @@ function scoreColor(score: number | null) {
 		return { text: "text-success", stroke: "stroke-success" };
 	}
 	if (score >= 50) {
-		return { text: "text-yellow-500", stroke: "stroke-yellow-500" };
+		return { text: "text-brand-readable", stroke: "stroke-brand" };
 	}
-	return { text: "text-red-500", stroke: "stroke-red-500" };
+	return { text: "text-destructive", stroke: "stroke-destructive" };
 }
 
 function ScoreRing({
@@ -132,17 +136,17 @@ function ReportResults({ data }: { data: ReportData }) {
 			</div>
 
 			{/* Scores row */}
-			<div className="mt-8 grid grid-cols-2 gap-px overflow-hidden border border-border/40">
-				<div className="flex flex-col items-center justify-center p-4">
+			<div className="mt-8 grid grid-cols-2 gap-4">
+				<div className="surface-card flex flex-col items-center justify-center p-4">
 					<ScoreRing label={t("results.mobile")} score={data.mobile.score} />
 				</div>
-				<div className="flex flex-col items-center justify-center border-border/40 border-l p-4">
+				<div className="surface-card flex flex-col items-center justify-center p-4">
 					<ScoreRing label={t("results.desktop")} score={data.desktop.score} />
 				</div>
 			</div>
 
 			{/* Projected score - visually separated */}
-			<div className="mt-4 border-2 border-brand bg-brand-surface p-5">
+			<div className="mt-4 rounded-2xl bg-brand-surface p-5">
 				<Caption className="mb-3 block text-center text-brand-readable">
 					{t("results.projectedLabel")}
 				</Caption>
@@ -160,7 +164,7 @@ function ReportResults({ data }: { data: ReportData }) {
 
 			{/* Core Web Vitals with explanations */}
 			{data.vitals && data.vitals.length > 0 && (
-				<div className="mt-px border border-border/40 border-t-0">
+				<div className="surface-card mt-4 overflow-hidden">
 					<div className="border-border/40 border-b px-5 py-3">
 						<Caption className="block">{t("results.webVitalsTitle")}</Caption>
 						<Caption className="mt-1 block">
@@ -200,7 +204,7 @@ function ReportResults({ data }: { data: ReportData }) {
 
 			{/* Security flags - only show if present */}
 			{data.securityFlags.length > 0 && (
-				<div className="mt-px border border-border/40 border-t-0 p-5">
+				<div className="surface-card mt-4 p-5">
 					<Caption className="block">{t("results.securityRisks")}</Caption>
 					<ul className="mt-3 space-y-2">
 						{data.securityFlags.map((flag) => (
@@ -208,7 +212,7 @@ function ReportResults({ data }: { data: ReportData }) {
 								className="flex items-start gap-3 font-light text-sm"
 								key={flag}
 							>
-								<span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-yellow-500" />
+								<span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand" />
 								<Body className="text-foreground text-sm">{flag}</Body>
 							</li>
 						))}
@@ -216,34 +220,24 @@ function ReportResults({ data }: { data: ReportData }) {
 				</div>
 			)}
 
-			{/* Migration estimate + CTA */}
-			<div className="mt-px grid items-center gap-6 border border-border/40 border-t-2 border-t-brand p-6 md:grid-cols-[1fr_auto]">
+			{/* Scope review + CTA */}
+			<div className="surface-card mt-4 grid items-center gap-6 p-6 md:grid-cols-[1fr_auto]">
 				<div>
-					<Caption className="block">{t("results.migrationEstimate")}</Caption>
+					<Caption className="block">{t("results.scopeReview")}</Caption>
 					<Muted className="mt-2 leading-relaxed">
-						{t.rich("results.migrationText", {
-							strong: (chunks) => (
-								<Label className="font-medium text-foreground">{chunks}</Label>
-							),
-							min: data.migrationEstimate.min.toLocaleString(),
-							max: data.migrationEstimate.max.toLocaleString(),
-						})}
+						{t("results.migrationText")}
 					</Muted>
 				</div>
 				<div className="flex flex-wrap gap-3">
 					<Button
-						className="[&]:hover:!bg-brand-hover border-brand bg-brand text-brand-foreground"
 						onClick={() =>
 							track("book_call_clicked", { location: "analyzer_results" })
 						}
 						render={
 							// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
-							<a
-								href="https://cal.com/webvise"
-								rel="noopener noreferrer"
-								target="_blank"
-							/>
+							<a href={CAL_URL} rel="noopener noreferrer" target="_blank" />
 						}
+						variant="brand"
 					>
 						{t("results.bookCall")}
 					</Button>
@@ -287,6 +281,8 @@ function TeaserResults({
 	const [email, setEmail] = useState("");
 	const [firstName, setFirstName] = useState("");
 	const [emailError, setEmailError] = useState("");
+	const emailInputId = "wp-health-gate-email";
+	const firstNameInputId = "wp-health-gate-name";
 
 	function handleUnlock(e: React.FormEvent) {
 		e.preventDefault();
@@ -310,17 +306,17 @@ function TeaserResults({
 			</div>
 
 			{/* Scores row */}
-			<div className="mt-8 grid grid-cols-2 gap-px overflow-hidden border border-border/40">
-				<div className="flex flex-col items-center justify-center p-4">
+			<div className="mt-8 grid grid-cols-2 gap-4">
+				<div className="surface-card flex flex-col items-center justify-center p-4">
 					<ScoreRing label={t("results.mobile")} score={data.mobile.score} />
 				</div>
-				<div className="flex flex-col items-center justify-center border-border/40 border-l p-4">
+				<div className="surface-card flex flex-col items-center justify-center p-4">
 					<ScoreRing label={t("results.desktop")} score={data.desktop.score} />
 				</div>
 			</div>
 
 			{/* Projected score */}
-			<div className="mt-4 border-2 border-brand bg-brand-surface p-5">
+			<div className="mt-4 rounded-2xl bg-brand-surface p-5">
 				<Caption className="mb-3 block text-center text-brand-readable">
 					{t("results.projectedLabel")}
 				</Caption>
@@ -338,39 +334,45 @@ function TeaserResults({
 
 			{/* Email gate */}
 			<form
-				className="mt-6 border border-border/40 p-6"
+				className="surface-card mt-6 p-6"
 				noValidate
 				onSubmit={handleUnlock}
 			>
 				<Body className="font-medium text-sm">{t("gate.title")}</Body>
 				<Caption className="mt-1 block">{t("gate.subtitle")}</Caption>
 				<div className="mt-4 grid gap-3 md:grid-cols-[1fr_1fr_auto]">
-					<Input
-						className="h-10 text-base md:h-8 md:text-xs"
-						onChange={(e) => setEmail(e.target.value)}
-						placeholder={t("form.emailPlaceholder")}
-						required
-						type="email"
-						value={email}
-					/>
-					<Input
-						className="h-10 text-base md:h-8 md:text-xs"
-						onChange={(e) => setFirstName(e.target.value)}
-						placeholder={t("form.namePlaceholder")}
-						value={firstName}
-					/>
-					<Button
-						className="[&]:hover:!bg-brand-hover border-transparent bg-brand text-brand-foreground md:h-8 md:text-xs"
-						type="submit"
-					>
-						{t("gate.unlock")}
+					<FormItem>
+						<FormLabel className="sr-only" htmlFor={emailInputId}>
+							{t("form.email")}
+						</FormLabel>
+						<Input
+							aria-invalid={!!emailError}
+							className="h-10 text-base md:h-8 md:text-xs"
+							id={emailInputId}
+							onChange={(e) => setEmail(e.target.value)}
+							placeholder={t("form.emailPlaceholder")}
+							required
+							type="email"
+							value={email}
+						/>
+						<FormMessage errors={emailError ? [emailError] : []} />
+					</FormItem>
+					<FormItem>
+						<FormLabel className="sr-only" htmlFor={firstNameInputId}>
+							{t("form.name")}
+						</FormLabel>
+						<Input
+							className="h-10 text-base md:h-8 md:text-xs"
+							id={firstNameInputId}
+							onChange={(e) => setFirstName(e.target.value)}
+							placeholder={t("form.namePlaceholder")}
+							value={firstName}
+						/>
+					</FormItem>
+					<Button className="md:h-8 md:text-xs" type="submit" variant="brand">
+						{t("gate.viewReport")}
 					</Button>
 				</div>
-				{emailError && (
-					<Caption className="mt-2 block text-destructive">
-						{emailError}
-					</Caption>
-				)}
 				<Caption className="mt-3 block">{t("gate.privacy")}</Caption>
 			</form>
 		</div>
@@ -440,11 +442,15 @@ export default function WpHealthReport() {
 	}
 
 	return (
-		<section className="py-16 md:py-32" id="wp-health-report">
-			<div className="mx-auto max-w-[1200px] px-6">
+		<section
+			className="relative border-grid-line border-t bg-card py-16 [--surface-card-fill-hover:var(--accent)] [--surface-card-fill:var(--secondary)] md:py-32"
+			id="wp-health-report"
+		>
+			<ConstructedGrid variant="section" />
+			<GridContainer width="media">
 				{phase === "form" && (
 					<>
-						<div className="grid items-start gap-12 md:grid-cols-2 md:gap-16">
+						<div className="grid items-stretch gap-12 md:grid-cols-2 md:gap-16">
 							<div>
 								<H1>
 									{t.rich("hero.title", {
@@ -453,9 +459,7 @@ export default function WpHealthReport() {
 										),
 									})}
 								</H1>
-								<Lead className="mt-4 font-light text-lg">
-									{t("hero.subtitle")}
-								</Lead>
+								<Lead className="mt-4">{t("hero.subtitle")}</Lead>
 
 								<ul className="mt-6 space-y-2">
 									{[0, 1, 2, 3].map((i) => (
@@ -469,84 +473,109 @@ export default function WpHealthReport() {
 								<Caption className="mt-6 block">{t("hero.trustLine")}</Caption>
 							</div>
 
-							<form
-								aria-label={t("form.ariaLabel")}
-								autoComplete="off"
-								className="space-y-4 border border-border/40 p-5 md:p-8"
-								noValidate
-								onSubmit={(e) => {
-									e.preventDefault();
-									e.stopPropagation();
-									form.handleSubmit();
-								}}
-							>
-								<form.Field
-									name="url"
-									validators={{
-										onSubmit: ({ value }) => {
-											if (!value.trim()) {
-												return t("errors.urlRequired");
-											}
-											if (!isValidUrl(value)) {
-												return t("errors.urlInvalid");
-											}
-											return;
-										},
+							<div className="flex flex-col gap-12 self-stretch lg:pt-2">
+								<form
+									aria-label={t("form.ariaLabel")}
+									autoComplete="off"
+									className="space-y-4"
+									noValidate
+									onSubmit={(e) => {
+										e.preventDefault();
+										e.stopPropagation();
+										form.handleSubmit();
 									}}
 								>
-									{(field) => (
-										<FormItem>
-											<FormLabel htmlFor={field.name}>
-												{t("form.url")}
-											</FormLabel>
-											<Input
-												aria-invalid={field.state.meta.errors.length > 0}
-												autoComplete="off"
-												className="h-10 text-base md:h-8 md:text-xs"
-												id={field.name}
-												name={field.name}
-												onBlur={field.handleBlur}
-												onChange={(e) => field.handleChange(e.target.value)}
-												placeholder={t("form.urlPlaceholder")}
-												type="url"
-												value={field.state.value}
-											/>
-											<FormMessage errors={field.state.meta.errors} />
-										</FormItem>
-									)}
-								</form.Field>
-								<form.Subscribe
-									selector={(state) => [state.canSubmit, state.isSubmitting]}
-								>
-									{([canSubmit, isSubmitting]) => (
-										<SubmitButton
-											className="[&]:hover:!bg-brand-hover w-full border-transparent bg-brand text-brand-foreground md:h-8 md:text-xs"
-											disabled={!canSubmit}
-											isSubmitting={isSubmitting}
-											size="lg"
-										>
-											{t("form.submit")}
-										</SubmitButton>
-									)}
-								</form.Subscribe>
-								<Caption className="block text-center">
-									{t("form.noSignup")}
-								</Caption>
-								<div aria-atomic="true" aria-live="polite">
-									{errorMessage && (
-										<Body className="text-destructive text-sm" role="alert">
-											{errorMessage}
-										</Body>
-									)}
+									<form.Field
+										name="url"
+										validators={{
+											onSubmit: ({ value }) => {
+												if (!value.trim()) {
+													return t("errors.urlRequired");
+												}
+												if (!isValidUrl(value)) {
+													return t("errors.urlInvalid");
+												}
+												return;
+											},
+										}}
+									>
+										{(field) => (
+											<FormItem>
+												<FormLabel htmlFor={field.name}>
+													{t("form.url")}
+												</FormLabel>
+												<Input
+													aria-invalid={field.state.meta.errors.length > 0}
+													autoComplete="off"
+													className="h-10 text-base md:h-8 md:text-xs"
+													id={field.name}
+													name={field.name}
+													onBlur={field.handleBlur}
+													onChange={(e) => field.handleChange(e.target.value)}
+													placeholder={t("form.urlPlaceholder")}
+													type="url"
+													value={field.state.value}
+												/>
+												<FormMessage errors={field.state.meta.errors} />
+											</FormItem>
+										)}
+									</form.Field>
+									<form.Subscribe
+										selector={(state) => [state.canSubmit, state.isSubmitting]}
+									>
+										{([canSubmit, isSubmitting]) => (
+											<SubmitButton
+												className="w-full md:h-8 md:text-xs"
+												disabled={!canSubmit}
+												isSubmitting={isSubmitting}
+												size="lg"
+												variant="brand"
+											>
+												{t("form.submit")}
+											</SubmitButton>
+										)}
+									</form.Subscribe>
+									<Caption className="block text-center">
+										{t("form.noSignup")}
+									</Caption>
+									<div aria-atomic="true" aria-live="polite">
+										{errorMessage && (
+											<Body className="text-destructive text-sm" role="alert">
+												{errorMessage}
+											</Body>
+										)}
+									</div>
+								</form>
+
+								{/* Sample report preview fills the column below the form */}
+								<div className="mt-auto border-border/60 border-t pt-8">
+									<div className="grid grid-cols-3 gap-4">
+										<ScoreRing label={t("results.mobile")} score={34} />
+										<ScoreRing label={t("results.desktop")} score={41} />
+										<ScoreRing label={t("results.afterNextjs")} score={95} />
+									</div>
 								</div>
-							</form>
+							</div>
+						</div>
+
+						<div className="mt-14 grid gap-8 border-border/60 border-t pt-10 md:grid-cols-3">
+							{[0, 1, 2].map((i) => (
+								<div key={i}>
+									<Body className="font-medium text-sm">
+										{t(`hero.steps.${i}.title`)}
+									</Body>
+									<Muted className="mt-1.5 text-sm leading-relaxed">
+										{t(`hero.steps.${i}.description`)}
+									</Muted>
+								</div>
+							))}
 						</div>
 
 						<form.Subscribe selector={(state) => state.isSubmitting}>
 							{(isSubmitting) =>
 								isSubmitting ? (
 									<div className="mt-12 flex flex-col items-center gap-3">
-										<div className="h-6 w-6 animate-spin border-2 border-brand border-t-transparent" />
+										<div className="h-6 w-6 animate-spin rounded-full border-2 border-brand border-t-transparent" />
 										<Muted>{t("loading")}</Muted>
 									</div>
 								) : null
@@ -560,12 +589,11 @@ export default function WpHealthReport() {
 				)}
 
 				{phase === "full" && report && <ReportResults data={report} />}
-			</div>
+			</GridContainer>
 
-			{/* Trust footer */}
-			<div className="mx-auto mt-12 max-w-[1200px] border-border/40 border-t px-6 pt-8 text-center">
-				<Caption>{t("trust")}</Caption>
-			</div>
+			<GridContainer className="mt-12" width="media">
+				<Caption className="block max-w-[560px]">{t("trust")}</Caption>
+			</GridContainer>
 		</section>
 	);
 }

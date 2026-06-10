@@ -3,7 +3,7 @@
   "readingTime": 9,
   "keyword": "AGENTS.md",
   "title": "Your AGENTS.md Is Your Moat Now: What Goes Inside Production Files",
-  "excerpt": "Next.js 16.2 made AGENTS.md default scaffolding on Tuesday. Augment's empirical study and our production template show what useful agent instructions actually contain.",
+  "excerpt": "Next.js 16.2 made AGENTS.md default scaffolding on Tuesday. Augment's empirical study and my production template show what useful agent instructions actually contain.",
   "metaDescription": "Next.js 16.2 ships AGENTS.md by default. The contents are now your only differentiator. Here is what production-grade files actually look like.",
   "tags": ["AI Agents", "AI", "Process", "Web Development"],
   "blocks": [
@@ -17,9 +17,12 @@
     },
     {
       "type": "p",
-      "text": "Most engineering leaders treat AGENTS.md as documentation. It is a runtime configuration file the model loads on every call. This article walks through Augment Code's empirical study, the 100 to 150 line rule that decides whether the file helps or hurts, and the template pattern we use across production client repositories."
+      "text": "Most engineering leaders treat AGENTS.md as documentation. It is a runtime configuration file the model loads on every call. This article walks through Augment Code's empirical study, the 100 to 150 line rule that decides whether the file helps or hurts, and the template pattern I use across production client repositories."
     },
-    { "type": "h2", "text": "Key Takeaways" },
+    {
+      "type": "h2",
+      "text": "File contract changes"
+    },
     {
       "type": "ul",
       "items": [
@@ -30,7 +33,6 @@
         "**The new moat is procedural workflows, decision tables, and one-liner reactive rules.** Not architecture overviews or stacked warnings."
       ]
     },
-
     {
       "type": "h2",
       "text": "Three Days Ago, AGENTS.md Stopped Being a Differentiator"
@@ -53,10 +55,12 @@
     },
     {
       "type": "p",
-      "text": "If your procurement team needs a way to score AI-readiness in vendor evaluations, [webvise can walk you through the rubric we use across client projects](/#contact)."
+      "text": "If your procurement team needs a way to score AI-readiness in vendor evaluations, [webvise can walk you through the rubric used across client projects](/#contact)."
     },
-
-    { "type": "h2", "text": "The 100 to 150 Line Rule, With Measurement" },
+    {
+      "type": "h2",
+      "text": "The 100 to 150 Line Rule, With Measurement"
+    },
     {
       "type": "p",
       "text": "Augment Code published the first empirical study of AGENTS.md content quality on 2026-04-23. The author, Slava Zhenylenko, pulled dozens of AGENTS.md files from Augment's monorepo. Each file ran twice through the AuggieBench eval suite, once with the file present and once without. The output was scored against the golden PR humans had merged."
@@ -75,7 +79,7 @@
     },
     {
       "type": "p",
-      "text": "Our own template across webvise client repos sits inside Augment's recommended range. We do not publish client repo names, because the point is the operating pattern: one compact entry file, project-specific placeholders, and skills extracted only after the team solves a recurring problem."
+      "text": "My own template across webvise client repos sits inside Augment's recommended range. I do not publish client repo names, because the operating pattern matters: one compact entry file, project-specific placeholders, and skills extracted only after the team solves a recurring problem."
     },
     {
       "type": "p",
@@ -102,13 +106,18 @@
       "type": "p",
       "text": "AGENTS.md is the only surface with reliable discovery. If something has to be seen, it lives there or is referenced from there. Moving content into a referenced location does more work than writing more docs."
     },
-
-    { "type": "h2", "text": "What Goes In the File, and What Tanks It" },
+    {
+      "type": "h2",
+      "text": "What Goes In the File, and What Tanks It"
+    },
     {
       "type": "p",
       "text": "Augment's traces broke down by content type. The patterns that lifted output and the patterns that wrecked it are not symmetrical."
     },
-    { "type": "h3", "text": "What works" },
+    {
+      "type": "h3",
+      "text": "What works"
+    },
     {
       "type": "ul",
       "items": [
@@ -119,7 +128,10 @@
         "**Module-level files over a giant root file.** The 100 to 150 line band fits a mid-size module of about 100 files. Cross-cutting root files past that size lost on every metric."
       ]
     },
-    { "type": "h3", "text": "What tanks output" },
+    {
+      "type": "h3",
+      "text": "What tanks output"
+    },
     {
       "type": "ul",
       "items": [
@@ -129,11 +141,13 @@
         "**Documentation sprawl around the file.** Augment's worst performers were AGENTS.md files sitting on top of 500K to 2MB of architecture docs. Removing the AGENTS.md barely changed behavior. The agent was reading the sprawl regardless."
       ]
     },
-
-    { "type": "h2", "text": "Reactive, Not Pre-Written" },
+    {
+      "type": "h2",
+      "text": "Reactive, Not Pre-Written"
+    },
     {
       "type": "p",
-      "text": "Elie Steinbock published a separate piece on 2026-04-20 with a discipline that fixes most enterprise AGENTS.md files we audit. Do not pre-write dozens of rules before anything has gone wrong. Pre-emptive over-structuring creates bloat the model parses on every run."
+      "text": "Elie Steinbock published a separate piece on 2026-04-20 with a discipline that fixes most enterprise AGENTS.md files I audit. Do not pre-write dozens of rules before anything has gone wrong. Pre-emptive over-structuring creates bloat the model parses on every run."
     },
     {
       "type": "p",
@@ -147,7 +161,6 @@
       "type": "p",
       "text": "What this looks like in a webvise build: AGENTS.md ships as a compact placeholder-driven entry file. The .claude/skills directory carries a small set of delivery-specific skill files, each one a procedure the team actually ran during the build. The file does not anticipate problems. It records solved ones."
     },
-
     {
       "type": "h2",
       "text": "Five Questions Procurement Should Ask Any Vendor"
@@ -162,7 +175,7 @@
       "rows": [
         [
           "Show me your AGENTS.md template. What is the line count?",
-          "100 to 150 lines per module. Not one root file. Not 1,000 lines."
+          "100 to 150 lines per module. Avoid one root file and 1,000-line instructions."
         ],
         [
           "How is the skill layer structured?",
@@ -186,7 +199,6 @@
       "type": "p",
       "text": "If a vendor cannot answer three of the five, they are still shipping the 2024 template. Most enterprise teams hit this wall at the documentation layer. [That audit is the first phase of every webvise migration engagement](/#contact)."
     },
-
     {
       "type": "h2",
       "text": "The Deeper Finding: Fix the Environment, Not Just the Entry Point"
@@ -203,10 +215,9 @@
       "type": "p",
       "text": "The work is uncomfortable. Audit the docs the agent actually loads, mark the dead ones for archive, modularize the live ones into module-scoped references, and keep the AGENTS.md pointing only at what the agent should read on the path to the change. Tan's framing applies: the brain is a git repo, the orchestrator is a thin conductor that reads files. If the git repo is full of dead pages, no entry file fixes it."
     },
-
     {
       "type": "h2",
-      "text": "What This Means for Anyone Commissioning a Build in 2026"
+      "text": "Build Commissioning Checklist"
     },
     {
       "type": "p",
@@ -214,7 +225,7 @@
     },
     {
       "type": "p",
-      "text": "Modern web builds in 2026 ship agent-readable from day one. That is the contract [webvise](/#contact) writes by default across every project, from a single-page landing site to a multi-tenant SaaS. The compact template, the .claude/skills layer, and the reactive-rules discipline are not extras. They are the build."
+      "text": "Modern web builds in 2026 ship agent-readable from day one. That is the contract [webvise](/#contact) writes by default across every project, from a single-page landing site to a multi-tenant SaaS. The compact template, the .claude/skills layer, and the reactive-rules discipline are part of the build."
     }
   ]
 }

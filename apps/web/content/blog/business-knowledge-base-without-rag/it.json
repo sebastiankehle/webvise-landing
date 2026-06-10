@@ -3,14 +3,14 @@
   "readingTime": 8,
   "keyword": "knowledge base aziendale senza RAG",
   "title": "La Maggior Parte delle Knowledge Base Aziendali Non Ha Bisogno di RAG",
-  "excerpt": "Gestiamo il nostro wiki interno con cinque comandi shell e un file indice curato manualmente, senza vector database. Per una knowledge base di 200 documenti, questa configurazione è più economica, più rapida da costruire e più accurata di una pipeline RAG. Ecco perché abbiamo evitato RAG e quando ha davvero senso usarlo.",
-  "metaDescription": "Perché la maggior parte delle knowledge base aziendali sotto i 1.000 documenti non ha bisogno di una pipeline RAG. Dati reali dal nostro vault interno, i cinque comandi che la sostituiscono, e quando RAG rimane la scelta giusta.",
+  "excerpt": "Gestisco il wiki interno con cinque comandi shell e un file indice curato manualmente, senza vector database. Per una knowledge base di 200 documenti, questa configurazione è più economica, più rapida da costruire e più accurata di una pipeline RAG. Ecco perché ho evitato RAG e quando ha davvero senso usarlo.",
+  "metaDescription": "Perché la maggior parte delle knowledge base aziendali sotto i 1.000 documenti non ha bisogno di una pipeline RAG. Dati reali dal vault interno, i cinque comandi che la sostituiscono, e quando RAG rimane la scelta giusta.",
   "tags": ["AI Agents", "AI", "Automation", "Business Strategy"],
-  "cta": "Contattaci",
+  "cta": "Mi contatti",
   "blocks": [
     {
       "type": "p",
-      "text": "Gestiamo il wiki aziendale interno con cinque comandi shell e un file indice curato manualmente. Nessun embedding, nessun vector database, nessun job di re-indicizzazione. Per una knowledge base di circa 200 documenti, questa configurazione è più rapida da costruire, meno costosa da mantenere e più accurata di una tipica pipeline RAG. Il compromesso diventa conveniente solo oltre la soglia dei mille documenti, non prima."
+      "text": "Gestisco il wiki aziendale interno con cinque comandi shell e un file indice curato manualmente. Nessun embedding, nessun vector database, nessun job di re-indicizzazione. Per una knowledge base di circa 200 documenti, questa configurazione è più rapida da costruire, meno costosa da mantenere e più accurata di una tipica pipeline RAG. Il compromesso diventa conveniente solo oltre la soglia dei mille documenti, non prima."
     },
     {
       "type": "h2",
@@ -18,7 +18,7 @@
     },
     {
       "type": "p",
-      "text": "Due elementi ci hanno reso questo approccio ovvio. Il primo è l'argomento costante di Andrej Karpathy: gli AI agent dovrebbero ricevere strumenti, non chunk recuperati. Il suo progetto [AutoResearch](https://github.com/karpathy/autoresearch), pubblicato a marzo 2026, lo dimostra concretamente: l'agent esegue codice invece di interrogare embeddings, e il progresso deriva dall'esecuzione. Abbiamo analizzato AutoResearch in dettaglio in [un articolo precedente](/blog/karpathy-autoresearch-ai-experiments)."
+      "text": "Due elementi ci hanno reso questo approccio ovvio. Il primo è l'argomento costante di Andrej Karpathy: gli AI agent dovrebbero ricevere strumenti, non chunk recuperati. Il suo progetto [AutoResearch](https://github.com/karpathy/autoresearch), pubblicato a marzo 2026, lo dimostra concretamente: l'agent esegue codice invece di interrogare embeddings, e il progresso deriva dall'esecuzione. Ho analizzato AutoResearch in dettaglio in [un articolo precedente](/blog/karpathy-autoresearch-ai-experiments)."
     },
     {
       "type": "p",
@@ -26,11 +26,11 @@
     },
     {
       "type": "h2",
-      "text": "Cosa Utilizziamo Concretamente"
+      "text": "Cosa Uso Concretamente"
     },
     {
       "type": "p",
-      "text": "Il nostro wiki interno conta oggi 22 pagine di conoscenza strutturata: entità (persone, aziende, progetti), concetti (framework e principi), fonti (note di ricerca grezze) e pagine di sintesi che le collegano. Ogni pagina rimanda ad altre pagine tramite wikilinks di Obsidian, e un file `index.md` curato manualmente alla radice elenca tutto per categoria con descrizioni di una riga."
+      "text": "Il wiki interno conta oggi 22 pagine di conoscenza strutturata: entità (persone, aziende, progetti), concetti (framework e principi), fonti (note di ricerca grezze) e pagine di sintesi che le collegano. Ogni pagina rimanda ad altre pagine tramite wikilinks di Obsidian, e un file `index.md` curato manualmente alla radice elenca tutto per categoria con descrizioni di una riga."
     },
     {
       "type": "p",
@@ -56,7 +56,7 @@
     },
     {
       "type": "p",
-      "text": "Questa è la parte che abbiamo impiegato un po' ad ammettere. Quando l'agent riceve una domanda, non inizia recuperando nulla. Inizia leggendo `wiki/index.md`, che è un sommario curato scritto da un essere umano (o da un agent di manutenzione eseguito a intervalli regolari). L'indice elenca ogni pagina con una descrizione di una frase, raggruppata per categoria. Da quella singola lettura di circa 400 token, l'agent sa già quali una o due pagine sono rilevanti."
+      "text": "La parte scomoda: l'agente parte da `wiki/index.md`. Quell'indice curato elenca ogni pagina con una descrizione di una frase, raggruppata per categoria. Da quella singola lettura di circa 400 token, l'agente sa già quali una o due pagine sono rilevanti."
     },
     {
       "type": "p",
@@ -72,7 +72,7 @@
     },
     {
       "type": "p",
-      "text": "Per una piccola knowledge base aziendale di circa 200 documenti, ecco cosa costa una configurazione RAG predefinita rispetto al pattern basato su indice e accesso diretto ai file. I dati sui token si basano su quanto osserviamo nel nostro vault. I dati sull'infrastruttura provengono dai prezzi pubblici dei servizi gestiti più comuni."
+      "text": "Per una piccola knowledge base aziendale di circa 200 documenti, ecco cosa costa una configurazione RAG predefinita rispetto al pattern basato su indice e accesso diretto ai file. I dati sui token si basano su quanto osservo nel mio vault. I dati sull'infrastruttura provengono dai prezzi pubblici dei servizi gestiti più comuni."
     },
     {
       "type": "table",
@@ -108,7 +108,7 @@
     },
     {
       "type": "p",
-      "text": "Un risparmio per query di circa il 30-60% sui token nel nostro vault è reale — i risultati variano in base alla struttura del corpus e ai pattern di query —, ma non è il punto principale. Il punto principale è tutto ciò che scompare dalla seconda colonna. Nessuna voce vector database nella fattura mensile. Nessun modello di embedding da manutenere. Nessuna sessione di debug del tipo \"abbiamo cambiato la strategia di chunking e le risposte sono cambiate\". Per una knowledge base che entra comodamente nella testa di una persona, ognuno di questi componenti aggiuntivi è overhead senza un beneficio corrispondente."
+      "text": "Un risparmio per query di circa il 30-60% sui token nel mio vault è reale - i risultati variano in base alla struttura del corpus e ai pattern di query -, ma non è il punto principale. Il punto principale è tutto ciò che scompare dalla seconda colonna. Nessuna voce vector database nella fattura mensile. Nessun modello di embedding da manutenere. Nessuna sessione di debug del tipo \"abbiamo cambiato la strategia di chunking e le risposte sono cambiate\". Per una knowledge base che entra comodamente nella testa di una persona, ognuno di questi componenti aggiuntivi è overhead senza un beneficio corrispondente."
     },
     {
       "type": "h2",
@@ -156,7 +156,7 @@
     },
     {
       "type": "p",
-      "text": "Per la maggior parte delle knowledge base aziendali interne (wiki aziendali, documentazione di prodotto, playbook commerciali, guide di onboarding, SOPs interni) nessuna di queste condizioni si verifica. Il corpus è piccolo, gli autori sono pochi, la struttura è stabile, e le persone che curano la documentazione sono quelle più interessate alla sua correttezza. Per i casi d'uso che vediamo, RAG è spesso la scelta predefinita sbagliata."
+      "text": "Per la maggior parte delle knowledge base aziendali interne (wiki aziendali, documentazione di prodotto, playbook commerciali, guide di onboarding, SOPs interni) nessuna di queste condizioni si verifica. Il corpus è piccolo, gli autori sono pochi, la struttura è stabile, e le persone che curano la documentazione sono quelle più interessate alla sua correttezza. Per i casi d'uso che vedo, RAG è spesso la scelta predefinita sbagliata."
     },
     {
       "type": "h2",
@@ -172,7 +172,7 @@
     },
     {
       "type": "p",
-      "text": "In **[webvise](/#contact)**, costruiamo strumenti AI interni su questa base pragmatica: conoscenza strutturata, strumenti semplici, agent che leggono e scrivono direttamente. Se sta valutando un progetto RAG per la documentazione del suo team e vuole un secondo parere sulla giustificazione della complessità, [ci contatti](/#contact) e possiamo analizzare insieme il corpus reale prima di impegnarsi nell'infrastruttura."
+      "text": "**[webvise](/#contact)** costruisce strumenti AI interni su questa base pragmatica: conoscenza strutturata, strumenti semplici, agent che leggono e scrivono direttamente. Se sta valutando un progetto RAG per la documentazione del suo team e vuole un secondo parere sulla giustificazione della complessità, [mi contatti](/#contact) per analizzare insieme il corpus reale prima di impegnarsi nell'infrastruttura."
     }
   ]
 }

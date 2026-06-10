@@ -17,7 +17,7 @@
     },
     {
       "type": "p",
-      "text": "Wenn Sie heute Agents auf Kundendaten betreiben, wird PII-Redaktion häufig mit einer Regex-Bibliothek gelöst, die Sie pflegen, oder durch Routing über ein LLM – beides mit Trade-offs. Dieser Artikel beschreibt, was openai/privacy-filter tatsächlich ist, welche architektonischen Entscheidungen wichtig sind und wo es in einen echten Agent-Governance-Stack gehört. Außerdem erklären wir, warum dieses Release unsere Position zu Agents, die nicht vertrauenswürdige Eingaben lesen, aktualisiert, und was Sie damit tun sollten, wenn Sie regulierte Workloads ausliefern."
+      "text": "Wenn Sie heute Agents auf Kundendaten betreiben, wird PII-Redaktion häufig mit einer Regex-Bibliothek gelöst, die Sie pflegen, oder durch Routing über ein LLM - beides mit Trade-offs. Dieser Artikel beschreibt, was openai/privacy-filter tatsächlich ist, welche architektonischen Entscheidungen wichtig sind und wo es in einen echten Agent-Governance-Stack gehört. Außerdem erkläre ich, warum dieses Release die webvise-Position zu Agents, die nicht vertrauenswürdige Eingaben lesen, aktualisiert, und was Sie damit tun sollten, wenn Sie regulierte Workloads ausliefern."
     },
     {
       "type": "h2",
@@ -107,7 +107,7 @@
     },
     {
       "type": "p",
-      "text": "Ein echter Agent-Governance-Stack hat verschiedene Schichten. Das Arbeitsmodell, das wir bei webvise verwenden, sieht so aus:"
+      "text": "Ein echter Agent-Governance-Stack hat verschiedene Schichten. Das Arbeitsmodell, das bei webvise im Einsatz ist, sieht so aus:"
     },
     {
       "type": "ul",
@@ -147,7 +147,7 @@
     },
     {
       "type": "p",
-      "text": "Für die meisten Client-Stacks, die wir entwerfen, lautet die Antwort: Schichten 2 und 5 in Kombination. Die browser-lokale Prüfung verhindert, dass versehentliche PII überhaupt in das Kontextfenster gelangt. Die serverseitige Output-Prüfung fängt alles ab, was das Modell generiert oder in seiner Antwort preisgibt. Defense in Depth ist der Punkt."
+      "text": "Für die meisten Client-Stacks, die ich entwerfe, lautet die Antwort: Schichten 2 und 5 in Kombination. Die browser-lokale Prüfung verhindert, dass versehentliche PII überhaupt in das Kontextfenster gelangt. Die serverseitige Output-Prüfung fängt alles ab, was das Modell generiert oder in seiner Antwort preisgibt. Defense in Depth ist der Punkt."
     },
     {
       "type": "p",
@@ -209,7 +209,7 @@
     },
     {
       "type": "p",
-      "text": "Wenn Ihre Domäne Kategorien außerhalb dieser Liste enthält, betreiben Sie Fine-Tuning. Die Model Card ist explizit: Die Label-Richtlinie lässt sich zur Laufzeit nicht ändern. Das ist der Preis eines 50-Millionen-aktiv-Parameter-Classifiers: Die Taxonomie ist eingebaut. Für Teams, die Optionen vergleichen, behandelt unser Leitfaden zu [den besten lokalen KI-Modellen für compliance-konforme Unternehmen 2026](/blog/best-local-ai-models-2026) die allgemeine LLM-Seite derselben Entscheidung."
+      "text": "Wenn Ihre Domäne Kategorien außerhalb dieser Liste enthält, betreiben Sie Fine-Tuning. Die Model Card ist explizit: Die Label-Richtlinie lässt sich zur Laufzeit nicht ändern. Das ist der Preis eines 50-Millionen-aktiv-Parameter-Classifiers: Die Taxonomie ist eingebaut. Für Teams, die Optionen vergleichen, behandelt der Leitfaden zu [den besten lokalen KI-Modellen für compliance-konforme Unternehmen 2026](/blog/best-local-ai-models-2026) die allgemeine LLM-Seite derselben Entscheidung."
     },
     {
       "type": "p",
@@ -229,7 +229,7 @@
     },
     {
       "type": "p",
-      "text": "Dies ist ein Redaktionshilfsmittel, keine Anonymisierungsgarantie. Das Entfernen von oberflächlicher PII eliminiert nicht das Re-Identifikationsrisiko, wenn Quasi-Identifikatoren (Postleitzahl, Alter, seltene Diagnose) zusammengehäuft auftreten. Wenn Ihre Compliance-Pflicht DSGVO-Anonymisierung oder HIPAA-De-Identifizierung nach der Safe-Harbor-Methode ist, benötigen Sie eine dedizierte Pipeline zusätzlich dazu, nicht diese allein. Unser Beitrag zu [KI-Vorschriften und Zertifizierungen in Deutschland und Europa](/blog/ai-regulations-certifications-europe) kartiert den regulatorischen Stack im Detail."
+      "text": "Dies ist ein Redaktionshilfsmittel, keine Anonymisierungsgarantie. Das Entfernen von oberflächlicher PII eliminiert nicht das Re-Identifikationsrisiko, wenn Quasi-Identifikatoren (Postleitzahl, Alter, seltene Diagnose) zusammengehäuft auftreten. Wenn Ihre Compliance-Pflicht DSGVO-Anonymisierung oder HIPAA-De-Identifizierung nach der Safe-Harbor-Methode ist, benötigen Sie eine dedizierte Pipeline zusätzlich dazu, nicht diese allein. Der Beitrag zu [KI-Vorschriften und Zertifizierungen in Deutschland und Europa](/blog/ai-regulations-certifications-europe) kartiert den regulatorischen Stack im Detail."
     },
     {
       "type": "h3",
@@ -241,15 +241,15 @@
     },
     {
       "type": "p",
-      "text": "Unsere Regel: Privacy Filter sitzt in einem Stack mit mindestens einer weiteren Prüfung nachgelagert. Wenn es die einzige Schicht ist, sind Sie einen Modell-Update von einer Regression entfernt, die niemand bemerkt."
+      "text": "Meine Regel: Privacy Filter sitzt in einem Stack mit mindestens einer weiteren Prüfung nachgelagert. Wenn es die einzige Schicht ist, sind Sie einen Modell-Update von einer Regression entfernt, die niemand bemerkt."
     },
     {
       "type": "h2",
-      "text": "Aktualisierung unserer Position zu Agents im offenen Web"
+      "text": "Aktualisierung der Position zu Agents im offenen Web"
     },
     {
       "type": "p",
-      "text": "Anfang dieses Monats haben wir eine Position veröffentlicht: webvise wird keine KI-Agents ausliefern, die das offene Web für Kunden lesen. [Der Grund war konkret](/blog/business-ai-agents-untrusted-web). Angreifer-kontrollierte Eingaben (eine gescrapte Seite, eine vom Nutzer eingereichte URL, ein Drittanbieter-Feed) geben dem Agent PII, Zugangsdaten oder Prompt-Injection-Payloads, die durch nachgelagerte Aktionen durchsickern."
+      "text": "Anfang dieses Monats habe ich eine Position veröffentlicht: webvise wird keine KI-Agents ausliefern, die das offene Web für Kunden lesen. [Der Grund war konkret](/blog/business-ai-agents-untrusted-web). Angreifer-kontrollierte Eingaben (eine gescrapte Seite, eine vom Nutzer eingereichte URL, ein Drittanbieter-Feed) geben dem Agent PII, Zugangsdaten oder Prompt-Injection-Payloads, die durch nachgelagerte Aktionen durchsickern."
     },
     {
       "type": "p",
@@ -261,7 +261,7 @@
     },
     {
       "type": "p",
-      "text": "Die Positionsaktualisierung: Wir werden nun schmale Open-Web-Leser für nicht-sensible Workflows (öffentliche Datenaggregation, Wettbewerbsintelligenz, Marktforschung) ausliefern, wenn Privacy Filter auf beiden Seiten des Modell-Aufrufs eingebunden ist. Wir werden sie weiterhin nicht für Workflows ausliefern, die Kundendaten, interne Dokumente oder authentifizierte Aktionen berühren, ohne einen dedizierten Red-Team-Durchlauf."
+      "text": "Die Positionsaktualisierung: webvise wird nun schmale Open-Web-Leser für nicht-sensible Workflows (öffentliche Datenaggregation, Wettbewerbsintelligenz, Marktforschung) ausliefern, wenn Privacy Filter auf beiden Seiten des Modell-Aufrufs eingebunden ist - aber weiterhin keine für Workflows, die Kundendaten, interne Dokumente oder authentifizierte Aktionen berühren, ohne einen dedizierten Red-Team-Durchlauf."
     },
     {
       "type": "h2",
@@ -289,7 +289,7 @@
     },
     {
       "type": "p",
-      "text": "OpenAIs privacy-filter-Release ist kein Modell. Es ist eine These darüber, wohin sich die Branche entwickelt: zweckgebundene, browser-ausführbare, Apache 2.0 Classifier, die an den Rändern Ihres Stacks laufen und kontrollieren, was Ihre LLMs sehen und was sie zurückgeben. Das ist die Form der Compliance-Arbeit, die wir bei webvise leisten, und es ist die Form der Governance-Schicht, die den meisten Agents heute fehlt."
+      "text": "OpenAIs privacy-filter-Release ist kein Modell. Es ist eine These darüber, wohin sich die Branche entwickelt: zweckgebundene, browser-ausführbare, Apache 2.0 Classifier, die an den Rändern Ihres Stacks laufen und kontrollieren, was Ihre LLMs sehen und was sie zurückgeben. Das ist die Form der Compliance-Arbeit, die bei webvise geleistet wird, und es ist die Form der Governance-Schicht, die den meisten Agents heute fehlt."
     },
     {
       "type": "p",

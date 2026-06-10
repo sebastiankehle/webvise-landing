@@ -2,15 +2,15 @@
   "date": "2026-04-20",
   "readingTime": 7,
   "keyword": "réponse à l'incident Vercel",
-  "title": "Roter, redéployer, révoquer : notre réponse à l'incident Vercel",
-  "excerpt": "Vercel a divulgué un incident de type supply-chain le 19 avril 2026. Voici la réponse que nous avons appliquée à chaque projet géré, et pourquoi ce type d'incident exige un modèle de réponse différent.",
-  "metaDescription": "Vercel a divulgué un incident de type supply-chain le 19 avril 2026. Voici la réponse que nous avons appliquée à chaque projet géré, et pourquoi ce type d'incident change le modèle de réponse.",
+  "title": "Roter, redéployer, révoquer : la réponse webvise à l'incident Vercel",
+  "excerpt": "Vercel a divulgué un incident de type supply-chain le 19 avril 2026. Voici la réponse appliquée à chaque projet géré, et pourquoi ce type d'incident exige un modèle de réponse différent.",
+  "metaDescription": "Vercel a divulgué un incident de type supply-chain le 19 avril 2026. Voici la réponse appliquée à chaque projet géré, et pourquoi ce type d'incident change le modèle de réponse.",
   "cta": "Demander un audit de sécurité",
   "tags": ["Security", "Process", "Web Development", "Enterprise"],
   "blocks": [
     {
       "type": "p",
-      "text": "Le 19 avril 2026, Vercel [a divulgué un incident de sécurité](https://x.com/vercel/status/2045865072074035664) attribué à une application OAuth tierce compromise au sein de leur Google Workspace. Nous avons appliqué la réponse à chaque projet Vercel géré par webvise avant la fin du week-end, et les journaux d'audit sur Vercel comme sur les Google Workspaces que nous administrons sont revenus sans anomalie. **Il ne s'agissait pas d'une vulnérabilité dans le code de Vercel. C'était une compromission de la chaîne d'approvisionnement SaaS-to-SaaS via une limite de confiance OAuth, et la nature de cet incident change ce à quoi doit ressembler une réponse adéquate.**"
+      "text": "Le 19 avril 2026, Vercel [a divulgué un incident de sécurité](https://x.com/vercel/status/2045865072074035664) attribué à une application OAuth tierce compromise au sein de leur Google Workspace. La réponse a été appliquée à chaque projet Vercel géré par webvise avant la fin du week-end, et les journaux d'audit sur Vercel comme sur les Google Workspaces administrés sont revenus sans anomalie. **Il ne s'agissait pas d'une vulnérabilité dans le code de Vercel. C'était une compromission de la chaîne d'approvisionnement SaaS-to-SaaS via une limite de confiance OAuth, et la nature de cet incident change ce à quoi doit ressembler une réponse adéquate.**"
     },
     {
       "type": "p",
@@ -18,7 +18,7 @@
     },
     {
       "type": "p",
-      "text": "Vous avez lu la divulgation et renouvelé chaque clé que vous avez pu trouver. C'est le bon premier réflexe. Cet article décrit ce que nous avons réellement exécuté de bout en bout, le point technique qui rend la rotation applicable aux fonctions en cours d'exécution, et pourquoi la nature de cet incident doit changer l'apparence de votre plan de réponse pour la prochaine fois."
+      "text": "Vous avez lu la divulgation et renouvelé chaque clé que vous avez pu trouver. C'est le bon premier réflexe. Cet article décrit ce que j'ai réellement exécuté de bout en bout, le point technique qui rend la rotation applicable aux fonctions en cours d'exécution, et pourquoi la nature de cet incident doit changer l'apparence de votre plan de réponse pour la prochaine fois."
     },
     {
       "type": "ul",
@@ -44,7 +44,7 @@
     },
     {
       "type": "p",
-      "text": "Si vous souhaitez une seconde revue de votre configuration Vercel avant le prochain incident, [nous réalisons des audits de sécurité sur les équipes Vercel, les Google Workspaces et les grants SaaS-to-SaaS](/fr/#contact)."
+      "text": "Si vous souhaitez une seconde revue de votre configuration Vercel avant le prochain incident, [demandez un audit de sécurité des équipes Vercel, des Google Workspaces et des grants SaaS-to-SaaS](/#contact)."
     },
     {
       "type": "h2",
@@ -52,7 +52,7 @@
     },
     {
       "type": "p",
-      "text": "Nous avons traité chaque variable d'environnement susceptible d'accorder un accès à quoi que ce soit comme compromise par défaut. C'est l'hypothèse qu'impose la divulgation. Voici les catégories de secrets que nous avons réémis sur les projets gérés."
+      "text": "Chaque variable d'environnement susceptible d'accorder un accès à quoi que ce soit a été traitée comme compromise par défaut. C'est l'hypothèse qu'impose la divulgation. Voici les catégories de secrets réémis sur les projets gérés."
     },
     {
       "type": "ul",
@@ -107,7 +107,7 @@
     },
     {
       "type": "p",
-      "text": "Pour vérifier votre réponse, ouvrez l'onglet Deployments sur chaque projet et trouvez un déploiement horodaté après votre rotation. Si la première ligne affiche un horodatage antérieur au moment où vous avez effectué la rotation, celle-ci n'a été intégrée dans aucun processus en cours d'exécution. La deuxième étape explicite de notre réponse a été un redéploiement forcé en production sur chaque projet géré après la rotation, avant de passer à la suite."
+      "text": "Pour vérifier votre réponse, ouvrez l'onglet Deployments sur chaque projet et trouvez un déploiement horodaté après votre rotation. Si la première ligne affiche un horodatage antérieur au moment où vous avez effectué la rotation, celle-ci n'a été intégrée dans aucun processus en cours d'exécution. La deuxième étape explicite de la réponse de webvise a été un redéploiement forcé en production sur chaque projet géré après la rotation, avant de passer à la suite."
     },
     {
       "type": "h2",
@@ -123,7 +123,7 @@
     },
     {
       "type": "p",
-      "text": "Nous avons effectué cet audit sur chaque Workspace que nous administrons. L'indicateur était absent, et la plupart des grants avaient une finalité commerciale légitime. Quelques-uns n'en avaient pas, et nous les avons révoqués. Nous sommes depuis passés à une cadence mensuelle : auditer les grants OAuth au début de chaque mois, révoquer tout ce qui n'a pas été utilisé depuis 30 jours."
+      "text": "J'ai effectué cet audit sur chaque Workspace administré. L'indicateur était absent, et la plupart des grants avaient une finalité commerciale légitime. Quelques-uns n'en avaient pas, et ils ont été révoqués. Depuis, la cadence est mensuelle : auditer les grants OAuth au début de chaque mois, révoquer tout ce qui n'a pas été utilisé depuis 30 jours."
     },
     {
       "type": "h2",
@@ -131,7 +131,7 @@
     },
     {
       "type": "p",
-      "text": "La rotation et la révocation ont traité l'exposition immédiate. Les mesures à plus long terme sont ce qui empêche le prochain incident de se transformer en course contre la montre un week-end. Nous les déployons sur les projets gérés au cours des prochaines semaines, et ce sont celles que nous recommandons à toute équipe opérant une infrastructure fortement orientée SaaS."
+      "text": "La rotation et la révocation ont traité l'exposition immédiate. Les mesures à plus long terme sont ce qui empêche le prochain incident de se transformer en course contre la montre un week-end. Elles sont déployées sur les projets gérés au cours des prochaines semaines, et ce sont celles que je recommande à toute équipe opérant une infrastructure fortement orientée SaaS."
     },
     {
       "type": "ul",
@@ -145,7 +145,7 @@
     },
     {
       "type": "p",
-      "text": "De nombreuses équipes n'ont pas de responsable désigné pour ces tâches ; cet écart revient dans les post-mortems d'incidents. [Parlez-nous](/fr/#contact) de la façon dont webvise intègre ces éléments dans le contrat de maintenance de chaque projet géré."
+      "text": "De nombreuses équipes n'ont pas de responsable désigné pour ces tâches ; cet écart revient dans les post-mortems d'incidents. [Prenez contact](/#contact) pour voir comment webvise intègre ces éléments dans le contrat de maintenance de chaque projet géré."
     },
     {
       "type": "h2",
@@ -161,11 +161,11 @@
     },
     {
       "type": "p",
-      "text": "Le modèle défensif doit correspondre au modèle d'attaque. Cela signifie traiter les grants OAuth comme des dépendances de production, les auditer selon un calendrier, et sortir les secrets des variables d'environnement où un attaquant disposant de ce grant peut les lire. Nos journaux d'audit sont revenus sans anomalie ce week-end, mais c'est le bénéfice propre à cet incident, pas la preuve que le modèle de réponse est pérenne."
+      "text": "Le modèle défensif doit correspondre au modèle d'attaque. Cela signifie traiter les grants OAuth comme des dépendances de production, les auditer selon un calendrier, et sortir les secrets des variables d'environnement où un attaquant disposant de ce grant peut les lire. Les journaux d'audit sont revenus sans anomalie ce week-end, mais c'est le bénéfice propre à cet incident, pas la preuve que le modèle de réponse est pérenne."
     },
     {
       "type": "p",
-      "text": "Nous réalisons des audits de sécurité sur les équipes Vercel, les Google Workspaces et les graphes d'identité SaaS-to-SaaS dans le cadre de chaque engagement géré chez webvise. Si vous souhaitez une seconde revue de votre configuration Vercel avant le prochain incident, [contactez-nous](/fr/#contact)."
+      "text": "Les audits de sécurité sur les équipes Vercel, les Google Workspaces et les graphes d'identité SaaS-to-SaaS font partie de chaque engagement géré chez webvise. Si vous souhaitez une seconde revue de votre configuration Vercel avant le prochain incident, [prenez contact](/#contact)."
     }
   ]
 }

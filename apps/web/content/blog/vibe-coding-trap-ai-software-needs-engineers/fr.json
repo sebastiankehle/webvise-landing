@@ -33,12 +33,12 @@
     },
     {
       "type": "p",
-      "text": "Les patterns de défaillance que nous observons systématiquement dans les applications de production générées par l'IA :"
+      "text": "Les patterns de défaillance observés systématiquement dans les applications de production générées par l'IA :"
     },
     {
       "type": "ul",
       "items": [
-        "**Des contournements d'authentification intégrés dans le scaffold ; des secrets JWT présents dans des exemples de variables d'environnement commités dans des dépôts publics** — ce sont des constatations courantes dans les revues de code de projets assistés par l'IA sans supervision d'ingénierie. Le code d'authentification généré par l'IA copie fréquemment des patterns des données d'entraînement sans comprendre le modèle de sécurité. La sécurité au niveau des lignes désactivée « temporairement » pendant le développement, laissée en production. Des vérifications de rôles qui comparent des littéraux de chaîne et se cassent dès qu'un champ est renommé.",
+        "**Des contournements d'authentification intégrés dans le scaffold ; des secrets JWT présents dans des exemples de variables d'environnement commités dans des dépôts publics** - ce sont des constatations courantes dans les revues de code de projets assistés par l'IA sans supervision d'ingénierie. Le code d'authentification généré par l'IA copie fréquemment des patterns des données d'entraînement sans comprendre le modèle de sécurité. La sécurité au niveau des lignes désactivée « temporairement » pendant le développement, laissée en production. Des vérifications de rôles qui comparent des littéraux de chaîne et se cassent dès qu'un champ est renommé.",
         "**Pas de gestion des erreurs au-delà du chemin heureux.** L'IA a écrit le cas de succès. Que se passe-t-il lorsque le fournisseur de paiement renvoie un 402 ? Que se passe-t-il lorsque la connexion à la base de données s'interrompt en pleine transaction ? Dans les applications vibe-codées, la réponse est généralement un rejet de promesse non géré qui se manifeste comme un écran blanc.",
         "**Verrouillage fournisseur sur les patterns générés par l'IA.** Quand l'IA a choisi de structurer le modèle de données d'une certaine façon, le vibe coder l'a accepté. Maintenant toute l'application est construite autour de cette structure. Migrer vers autre chose nécessite de comprendre du code que le développeur n'a jamais lu.",
         "**Pas de tests.** Pas parce que les tests sont difficiles, mais parce que le vibe coder ne les a jamais demandés et que l'IA ne les a pas proposés spontanément. Quand quelque chose tombe en panne en production, il n'y a pas de suite de tests pour détecter les régressions dans le correctif."
@@ -54,7 +54,7 @@
     },
     {
       "type": "p",
-      "text": "Le pattern se déroule de manière prévisible. Une application vibe-codée est lancée, semble soignée, attire des premiers utilisateurs. Puis : un utilisateur avec un caractère non-ASCII dans son nom casse la requête de base de données. Un utilisateur mobile sur une connexion lente déclenche une condition de course dans la gestion d'état. Nous avons observé des scénarios où des endpoints d'API laissent filtrer des données entre comptes utilisateurs parce que les vérifications d'autorisation étaient absentes ou incomplètes — conséquence de la livraison d'un code qui n'a jamais été contrôlé pour son application côté serveur. Ce ne sont pas des défaillances exotiques. Elles sont la conséquence basique de livrer du code qu'on n'a jamais lu."
+      "text": "Le pattern se déroule de manière prévisible. Une application vibe-codée est lancée, semble soignée, attire des premiers utilisateurs. Puis : un utilisateur avec un caractère non-ASCII dans son nom casse la requête de base de données. Un utilisateur mobile sur une connexion lente déclenche une condition de course dans la gestion d'état. Des scénarios audités ont montré des endpoints d'API laissant filtrer des données entre comptes utilisateurs parce que les vérifications d'autorisation étaient absentes ou incomplètes - conséquence de la livraison d'un code qui n'a jamais été contrôlé pour son application côté serveur. Ce ne sont pas des défaillances exotiques. Elles sont la conséquence basique de livrer du code qu'on n'a jamais lu."
     },
     {
       "type": "h2",
@@ -62,7 +62,7 @@
     },
     {
       "type": "p",
-      "text": "C'est la thèse que le récit du vibe coding inverse. Les outils sont réels et les gains de productivité sont réels. Chez webvise, nous utilisons Claude Code, Cursor et l'orchestration multi-agents sur chaque projet que nous livrons. Les ingénieurs seniors utilisant Claude Code font état de gains de temps significatifs sur des tâches qui auraient autrement pris des jours. Les mêmes outils entre les mains de quelqu'un sans fondamentaux d'ingénierie produisent une démo qui ne survit pas à son premier vrai utilisateur."
+      "text": "C'est la thèse que le récit du vibe coding inverse. Les outils sont réels et les gains de productivité sont réels. webvise utilise Claude Code, Cursor et l'orchestration multi-agents sur chaque projet livré. Les ingénieurs seniors utilisant Claude Code font état de gains de temps significatifs sur des tâches qui auraient autrement pris des jours. Les mêmes outils entre les mains de quelqu'un sans fondamentaux d'ingénierie produisent une démo qui ne survit pas à son premier vrai utilisateur."
     },
     {
       "type": "p",
@@ -140,7 +140,7 @@
     },
     {
       "type": "p",
-      "text": "Chez [webvise](/#contact), nous utilisons le développement augmenté par l'IA sur chaque projet - Claude Code, Cursor, pipelines multi-agents - mais avec la discipline d'ingénierie qui rend la sortie prête pour la production. Si vous construisez un logiciel qui doit survivre à de vrais utilisateurs, de vrais cas limites et de vraies exigences de sécurité, [parlons de comment nous travaillons](/#contact)."
+      "text": "[webvise](/#contact) utilise le développement augmenté par l'IA sur chaque projet - Claude Code, Cursor, pipelines multi-agents - mais avec la discipline d'ingénierie qui rend la sortie prête pour la production. Si vous construisez un logiciel qui doit survivre à de vrais utilisateurs, de vrais cas limites et de vraies exigences de sécurité, [parlons de l'approche](/#contact)."
     }
   ]
 }

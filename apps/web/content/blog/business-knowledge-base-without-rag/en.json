@@ -3,14 +3,14 @@
   "readingTime": 8,
   "keyword": "business knowledge base without rag",
   "title": "Most Business Knowledge Bases Do Not Need RAG",
-  "excerpt": "We run our internal wiki on five shell commands and a hand-maintained index file, no vector database. For a 200-document knowledge base, that setup is cheaper, faster to build, and more accurate than a RAG pipeline. Here is why we skipped RAG and when you actually need it.",
-  "metaDescription": "Why most business knowledge bases under 1,000 documents do not need a RAG pipeline. Real numbers from our internal vault, the five commands that replace it, and when RAG is still the right call.",
+  "excerpt": "I run my internal wiki on five shell commands and a hand-maintained index file, no vector database. For a 200-document knowledge base, that setup is cheaper, faster to build, and more accurate than a RAG pipeline. Here is why I skipped RAG and when you actually need it.",
+  "metaDescription": "Why most business knowledge bases under 1,000 documents do not need a RAG pipeline. Real numbers from a production internal vault, the five commands that replace it, and when RAG is still the right call.",
   "tags": ["AI Agents", "AI", "Automation", "Business Strategy"],
   "cta": "Get in Touch",
   "blocks": [
     {
       "type": "p",
-      "text": "We run our internal company wiki on five shell commands and a hand-maintained index file. No embeddings, no vector database, no re-indexing job. For a knowledge base of around 200 documents, that setup is faster to build, cheaper to run, and more accurate than a typical RAG pipeline. The trade-off only becomes worth it somewhere past a thousand documents, not before."
+      "text": "I run my internal company wiki on five shell commands and a hand-maintained index file. No embeddings, no vector database, no re-indexing job. For a knowledge base of around 200 documents, that setup is faster to build, cheaper to run, and more accurate than a typical RAG pipeline. The trade-off only becomes worth it somewhere past a thousand documents, not before."
     },
     {
       "type": "h2",
@@ -18,7 +18,7 @@
     },
     {
       "type": "p",
-      "text": "Two things made this approach obvious to us. The first is Andrej Karpathy's consistent argument that AI agents should be given tools rather than fed retrieved chunks. His [AutoResearch](https://github.com/karpathy/autoresearch) project, released in March 2026, makes the case literally: the agent runs code rather than querying embeddings, and progress comes from execution. We covered AutoResearch in detail in [an earlier post](/blog/karpathy-autoresearch-ai-experiments)."
+      "text": "Two things made this approach obvious. The first is Andrej Karpathy's consistent argument that AI agents should be given tools rather than fed retrieved chunks. His [AutoResearch](https://github.com/karpathy/autoresearch) project, released in March 2026, makes the case literally: the agent runs code rather than querying embeddings, and progress comes from execution. I covered AutoResearch in detail in [an earlier post](/blog/karpathy-autoresearch-ai-experiments)."
     },
     {
       "type": "p",
@@ -26,11 +26,11 @@
     },
     {
       "type": "h2",
-      "text": "What We Actually Run"
+      "text": "What I Actually Run"
     },
     {
       "type": "p",
-      "text": "Our internal wiki today is 22 pages of structured knowledge: entities (people, companies, projects), concepts (frameworks and principles), sources (raw research notes), and synthesis pages that connect them. Every page links to other pages with Obsidian wikilinks, and a hand-maintained `index.md` at the root lists everything by category with one-line descriptions."
+      "text": "My internal wiki today is 22 pages of structured knowledge: entities (people, companies, projects), concepts (frameworks and principles), sources (raw research notes), and synthesis pages that connect them. Every page links to other pages with Obsidian wikilinks, and a hand-maintained `index.md` at the root lists everything by category with one-line descriptions."
     },
     {
       "type": "p",
@@ -56,7 +56,7 @@
     },
     {
       "type": "p",
-      "text": "This is the part that took us a while to admit. When the agent gets a question, it does not start by retrieving anything. It starts by reading `wiki/index.md`, which is a curated table of contents written by a human (or by a maintainer agent run on a schedule). The index lists every page with a one-sentence description grouped by category. From that single ~400 token read, the agent already knows which one or two pages are relevant."
+      "text": "The uncomfortable bit: the agent starts with `wiki/index.md`. That curated table of contents lists every page with a one-sentence description grouped by category. From that single ~400 token read, the agent already knows which one or two pages are relevant."
     },
     {
       "type": "p",
@@ -72,7 +72,7 @@
     },
     {
       "type": "p",
-      "text": "For a small business knowledge base of around 200 documents, here is what a default RAG setup costs versus the index-led file access pattern. The token figures are based on what we observe in our own vault. The infrastructure figures are pulled from public pricing for the most common managed services."
+      "text": "For a small business knowledge base of around 200 documents, here is what a default RAG setup costs versus the index-led file access pattern. The token figures are directional estimates based on typical retrieval patterns. The infrastructure figures are pulled from public pricing for the most common managed services."
     },
     {
       "type": "table",
@@ -108,7 +108,7 @@
     },
     {
       "type": "p",
-      "text": "We observe per-query token savings in the 30–60% range in our own vault; results depend on corpus structure and query patterns. But the token savings are not the headline. The headline is everything in the second column that disappears. No vector database line item on the monthly invoice. No embedding model to maintain. No \"we changed our chunking strategy and the answers shifted\" debugging session. For a knowledge base that fits comfortably in a single person's head, every one of those moving parts is overhead without a corresponding benefit."
+      "text": "Token savings depend on corpus structure and query patterns. The larger point is everything in the second column that disappears: no vector database line item on the monthly invoice, no embedding model to maintain, and no chunking-strategy debugging session when answers shift. For a knowledge base that fits comfortably in a single person's head, every one of those moving parts is overhead without a corresponding benefit."
     },
     {
       "type": "h2",
@@ -156,11 +156,11 @@
     },
     {
       "type": "p",
-      "text": "For most internal business knowledge bases (company wikis, product documentation, sales playbooks, onboarding guides, internal standard operating procedures) none of those conditions hold. The corpus is small, the writers are few, the structure is stable, and the people who maintain the documentation are the people who care most about it being correct. RAG is often the wrong default for the use cases we see."
+      "text": "For most internal business knowledge bases (company wikis, product documentation, sales playbooks, onboarding guides, internal standard operating procedures) none of those conditions hold. The corpus is small, the writers are few, the structure is stable, and the people who maintain the documentation are the people who care most about it being correct. RAG is often the wrong default for the use cases I see."
     },
     {
       "type": "h2",
-      "text": "What This Means for Most Businesses"
+      "text": "Fit for Most Businesses"
     },
     {
       "type": "p",
@@ -172,7 +172,7 @@
     },
     {
       "type": "p",
-      "text": "At **[webvise](/#contact)**, we build internal AI tools on this kind of pragmatic foundation: structured knowledge, simple tools, agents that read and write directly. If you are looking at a RAG project for your team's documentation and want a second opinion on whether the complexity is justified, [get in touch](/#contact) and we can talk through your actual corpus before you commit to the infrastructure."
+      "text": "**[webvise](/#contact)** builds internal AI tools on this kind of pragmatic foundation: structured knowledge, simple tools, agents that read and write directly. If you are looking at a RAG project for your team's documentation and want a second opinion on whether the complexity is justified, [get in touch](/#contact) to talk through your actual corpus before you commit to the infrastructure."
     }
   ]
 }

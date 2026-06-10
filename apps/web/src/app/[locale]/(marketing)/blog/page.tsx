@@ -118,37 +118,36 @@ export default async function BlogPage({
 				<GridContainer>
 					<div className="max-w-[720px]">
 						<H1>{t("title")}</H1>
-						<Lead className="mt-5 max-w-[560px] text-[17px] leading-[1.55]">
-							{t("subtitle")}
-						</Lead>
+						<Lead className="mt-5 max-w-[560px]">{t("subtitle")}</Lead>
 					</div>
 
-					<div className="-mx-6 mt-16 grid border-grid-line border-t md:grid-cols-3">
+					<div className="mt-16 grid gap-5 md:grid-cols-3">
 						{paginatedPosts.map((post) => (
 							<Link
-								className="group flex flex-col border-grid-line border-b p-6 transition-colors hover:bg-muted/30 md:border-r md:p-8 md:[&:nth-child(3n)]:border-r-0"
+								className="surface-card group flex flex-col p-6 outline-none focus-visible:ring-2 focus-visible:ring-ring/50 md:p-7"
 								href={`/blog/${post.slug}` as "/blog"}
 								key={post.slug}
 							>
-								<Caption className="flex items-center gap-3">
-									<time dateTime={post.date}>
-										{new Date(post.date).toLocaleDateString(locale, {
-											day: "numeric",
-											month: "short",
-											year: "numeric",
-										})}
-									</time>
-									<Caption className="text-border">/</Caption>
-									<Caption className="text-current">
+								<div className="flex items-center justify-between gap-4">
+									<Caption className="text-brand-readable">
+										<time dateTime={post.date}>
+											{new Date(post.date).toLocaleDateString(locale, {
+												day: "numeric",
+												month: "short",
+												year: "numeric",
+											})}
+										</time>
+									</Caption>
+									<Caption className="tabular-nums">
 										{post.readingTime} {t("minRead")}
 									</Caption>
-								</Caption>
+								</div>
 								<H3 className="mt-5 transition-colors group-hover:text-brand-readable">
 									{post.title}
 								</H3>
-								<Muted className="mt-3 leading-[1.6]">{post.excerpt}</Muted>
-								<div className="mt-6 mt-auto flex items-center justify-end border-border/40 border-t pt-5">
-									<ArrowRight className="h-4 w-4 text-muted-foreground transition-all group-hover:translate-x-1 group-hover:text-brand-readable" />
+								<Muted className="mt-3 leading-relaxed">{post.excerpt}</Muted>
+								<div className="mt-auto flex items-center justify-end pt-6">
+									<ArrowRight className="h-4 w-4 -translate-x-1 text-brand-icon opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100" />
 								</div>
 							</Link>
 						))}
@@ -156,8 +155,8 @@ export default async function BlogPage({
 
 					{totalPages > 1 && (
 						<nav
-							aria-label="Pagination"
-							className="-mx-6 flex items-center justify-between gap-2 border-grid-line border-t p-6 md:p-8"
+							aria-label={t("pagination.label")}
+							className="mt-12 flex items-center justify-between gap-3 md:mt-16"
 						>
 							{page > 1 ? (
 								<Button
@@ -208,11 +207,6 @@ export default async function BlogPage({
 										<li key={item}>
 											<Button
 												aria-current={item === page ? "page" : undefined}
-												className={
-													item === page
-														? "[a]:hover:!bg-brand-hover border-brand bg-brand text-brand-foreground"
-														: undefined
-												}
 												render={
 													<Link
 														href={{
@@ -223,7 +217,7 @@ export default async function BlogPage({
 													/>
 												}
 												size="icon-sm"
-												variant={item === page ? "default" : "outline"}
+												variant={item === page ? "brand" : "outline"}
 											>
 												{item}
 											</Button>
