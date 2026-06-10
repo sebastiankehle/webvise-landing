@@ -1,0 +1,308 @@
+{
+  "date": "2026-06-10",
+  "readingTime": 9,
+  "tags": ["AI Agents", "AI", "Automation", "Security"],
+  "cta": "Book an AI Audit",
+  "keyword": "Claude Fable 5 codebase audit",
+  "title": "Claude Fable 5 Opens a Short Codebase Audit Window",
+  "excerpt": "Claude Fable 5 is available in Claude plans until June 22. webvise used the window for security and architecture audits across active client projects.",
+  "metaDescription": "Claude Fable 5 codebase audit window: how webvise used Fable for security and architecture reviews before access changes on June 23.",
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Claude Fable 5 is most useful right now as a codebase audit model. On June 10, 2026, webvise used it in read-only review loops across every active client project with repository access: security exposure, architecture drift, missing tests, and scoped remediation plans."
+    },
+    {
+      "type": "p",
+      "text": "The launch story is bigger than model intelligence. The useful thing is the temporary access window."
+    },
+    {
+      "type": "p",
+      "text": "Fable 5 is available in Claude plans until June 22, then usage credits start on June 23 unless Anthropic extends capacity. This article shows the audit shape webvise ran, where the model fits, and how teams can use the same window without handing an agent write access to production code."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Fable 5 is an audit and planning model first.** Anthropic lists a 1M-token context window, 128k max output, and use cases around days-long coding and knowledge work.",
+        "**webvise used the June 10 window across active client projects.** The pass stayed read-only and produced findings, risk tables, and task plans before any source change.",
+        "**The strongest-model pattern is planner first.** The open-source `/improve` pattern spends the most capable model on repo comprehension, findings, prioritization, and self-contained plans for cheaper executors.",
+        "**The June 22 deadline matters.** Claude plan access creates a short audit sprint before Fable moves to usage credits on June 23.",
+        "**Retention changes routing.** Fable requires 30-day data retention for safety monitoring, so secrets, production data, and private customer records stay out of context."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "If your team wants the same audit shape before the access window changes, [webvise's AI consulting service](/services/ai-consulting) can turn one repo and one workflow into a reviewed remediation plan."
+    },
+    {
+      "type": "h2",
+      "text": "The useful window closes on June 22"
+    },
+    {
+      "type": "p",
+      "text": "Anthropic launched Claude Fable 5 on June 9, 2026 as its most capable widely released model. The public Fable page frames it around days-long, complex, asynchronous work, with Claude Code and managed-agent use cases called out directly."
+    },
+    {
+      "type": "p",
+      "text": "That makes the next 12 days unusually practical. Teams with Claude plan access can spend the window on inventory, audit, and planning work that produces reviewable artifacts: findings, task plans, migration maps, and risk registers."
+    },
+    {
+      "type": "table",
+      "headers": ["Fact", "Current detail", "Operational consequence"],
+      "rows": [
+        [
+          "Claude plan window",
+          "Available until June 22",
+          "Run audits now, before usage credits start on June 23"
+        ],
+        [
+          "Model ID",
+          "`claude-fable-5`",
+          "API teams can test the same model in controlled harnesses"
+        ],
+        [
+          "Context",
+          "1M tokens",
+          "Large repos and source packets can be reviewed in fewer passes"
+        ],
+        [
+          "Max output",
+          "128k tokens",
+          "The model can return long plans, risk tables, and file-level notes"
+        ],
+        [
+          "Price",
+          "$10 input and $50 output per million tokens",
+          "Multi-hour runs need cost caps and logs"
+        ],
+        [
+          "Data retention",
+          "30-day retention for safety monitoring",
+          "Sensitive client material needs routing rules before upload"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "What webvise ran on June 10"
+    },
+    {
+      "type": "p",
+      "text": "The audit pass had one rule: read, reason, write findings, and leave source untouched. Each project got the same review packet so results could be compared without turning the day into a pile of unrelated model transcripts."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Repo map:** apps, packages, route handlers, auth boundaries, data models, deployment scripts, and test commands.",
+        "**Security pass:** auth checks, role boundaries, environment handling, uploads, webhooks, rate limits, forms, and third-party API usage.",
+        "**Architecture pass:** duplicated domain logic, unclear package boundaries, cache invalidation, stale TODOs, brittle integrations, and migrations without ownership.",
+        "**Delivery pass:** missing tests, slow scripts, docs drift, localization gaps, visual QA risk, and deployment steps that rely on memory.",
+        "**Plan output:** file paths, current behavior, proposed change, validation command, reviewer, and stop condition."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "A multilingual marketing codebase produced a typical finding: route and sitemap coverage were weaker than the localized page structure. Fable did not patch it. The useful output was a small test plan with exact route families to cover."
+    },
+    {
+      "type": "p",
+      "text": "A workflow application produced a different finding: notification logic needed duplicate-submit and idempotency tests before any agent touched the surrounding queue code. That is the kind of result a senior engineer can accept, reject, or turn into a ticket in minutes."
+    },
+    {
+      "type": "h2",
+      "text": "The `/improve` pattern is the right mental model"
+    },
+    {
+      "type": "p",
+      "text": "The most useful public pattern for Fable is the one behind `shadcn/improve`: use the most capable model to study a codebase, audit it across correctness, security, performance, tests, technical debt, dependencies, developer experience, docs, and product direction, then write plans that cheaper agents or humans can execute later."
+    },
+    {
+      "type": "p",
+      "text": "That shape matters because the plan is the expensive artifact. Good plans include file paths, current-state excerpts, repo conventions, verification commands, expected outputs, out-of-scope boundaries, and stop conditions for anything that does not match the audit."
+    },
+    {
+      "type": "table",
+      "headers": ["Model job", "Better use of Fable 5", "Review gate"],
+      "rows": [
+        [
+          "Large repo understanding",
+          "Map the system and rank the highest-risk areas",
+          "Engineer checks cited files before planning work"
+        ],
+        [
+          "Security review",
+          "Find exposure patterns and missing tests",
+          "Human triage decides which findings become tasks"
+        ],
+        [
+          "Architecture review",
+          "Explain coupling, duplication, and migration risk",
+          "Owner accepts the target shape before edits"
+        ],
+        [
+          "Execution planning",
+          "Write self-contained task files for smaller models",
+          "Each task has commands and expected output"
+        ],
+        [
+          "Branch review",
+          "Audit only the changed surface before merge",
+          "Reviewer compares findings against the diff"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "webvise adopted that shape for the June 10 audit day. Fable spent most of its budget on comprehension, edge cases, and plan quality. Execution stays bounded, reviewed, and cheaper."
+    },
+    {
+      "type": "h2",
+      "text": "What the audits actually look for"
+    },
+    {
+      "type": "p",
+      "text": "Security here means exposure inventory: where data enters, where permissions are checked, where external systems write back, and where a missing test could let a broken assumption ship."
+    },
+    {
+      "type": "table",
+      "headers": ["Area", "What Fable reviews", "Useful output"],
+      "rows": [
+        [
+          "Auth and permissions",
+          "Middleware, route handlers, server actions, role checks, admin paths",
+          "Paths that need negative tests or stricter guards"
+        ],
+        [
+          "Secrets and data flow",
+          "Env reads, logging, analytics, uploads, webhook payloads",
+          "Places where data could leave the intended system"
+        ],
+        [
+          "Architecture",
+          "Domain duplication, package boundaries, async jobs, cache invalidation",
+          "Refactor plan with file evidence and a small first step"
+        ],
+        [
+          "Reliability",
+          "Tests, build scripts, queues, deployment paths, monitoring",
+          "Commands that prove the fix worked"
+        ],
+        [
+          "UX risk",
+          "Forms, empty states, localized routes, mobile breakpoints, screenshot drift",
+          "QA checklist and screenshots to capture before release"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "This is also where [webvise's AI automation service](/services/ai-automation) connects. A finding that appears in 3 projects is usually a workflow problem, not a one-off bug: recurring report generation, repeated QA checks, stale handoff docs, or manual release review."
+    },
+    {
+      "type": "h2",
+      "text": "Privacy and review gates decide the route"
+    },
+    {
+      "type": "p",
+      "text": "Fable's 30-day retention requirement changes the default route for client work. A useful audit can still happen, but the packet needs hard boundaries before it reaches the model."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Keep secrets out.** Credentials, private customer records, production exports, and raw analytics stay outside the model context.",
+        "**Use read-only checkouts.** The first pass produces findings and plans, not commits.",
+        "**Log the run.** Record model, date, token budget, files inspected, commands run, and findings accepted.",
+        "**Gate sensitive actions.** Permission changes, billing actions, email sends, production writes, and data deletion stay human-approved.",
+        "**Keep rejected findings.** False positives are useful if the reason is recorded and the next audit can skip them."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "The goal is evidence, not autonomy theater. A good audit leaves behind a short list of issues with enough file-level proof for an engineer to move quickly."
+    },
+    {
+      "type": "h2",
+      "text": "A client-project audit template"
+    },
+    {
+      "type": "p",
+      "text": "Use the June window for one day of concentrated review. The template below works for a Next.js app, a WordPress migration, an internal tool, or an AI workflow."
+    },
+    {
+      "type": "table",
+      "headers": ["Stage", "Input", "Output"],
+      "rows": [
+        [
+          "Repo map",
+          "README, package scripts, app tree, env schema, deployment notes",
+          "System map and unknowns list"
+        ],
+        [
+          "Security pass",
+          "Auth paths, API routes, forms, uploads, webhooks",
+          "Findings ranked by impact and evidence"
+        ],
+        [
+          "Architecture pass",
+          "Packages, shared utilities, data models, integrations",
+          "Coupling and migration risks with file paths"
+        ],
+        [
+          "Test pass",
+          "Unit, integration, e2e, lint, typecheck commands",
+          "Missing coverage and failing verification paths"
+        ],
+        [
+          "Plan writing",
+          "Accepted findings",
+          "Self-contained tasks with commands, expected output, and stop conditions"
+        ],
+        [
+          "Human triage",
+          "Plans and evidence",
+          "Approved, rejected, or parked remediation list"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "This is why agent instructions matter. The better the repo contract, the better the audit. The production version is covered in [the AGENTS.md template article](/blog/agents-md-production-template), which shows what should live in the file before agents touch a serious codebase."
+    },
+    {
+      "type": "h2",
+      "text": "What this means for webvise projects"
+    },
+    {
+      "type": "p",
+      "text": "The June 10 audit changed prioritization more than code. Some projects need security hardening tasks, some need architecture cleanup, and some only need better tests around the pieces that already work."
+    },
+    {
+      "type": "p",
+      "text": "Fable 5 is valuable when a team already has repos, tests, scopes, and review habits. The model gets weaker when the surrounding process cannot prove anything."
+    },
+    {
+      "type": "p",
+      "text": "webvise is using the Fable window to turn client-project audits into scoped remediation plans, then into reviewed fixes. For a codebase, website, or AI workflow that needs the same treatment, [book a project call](/#contact) with one repo and one workflow that feels expensive to maintain."
+    },
+    {
+      "type": "h2",
+      "text": "Sources"
+    },
+    {
+      "type": "table",
+      "headers": ["Source", "URL"],
+      "rows": [
+        ["Claude Fable page", "https://www.anthropic.com/claude/fable"],
+        [
+          "Claude model docs",
+          "https://platform.claude.com/docs/en/about-claude/models/overview"
+        ],
+        [
+          "Availability report",
+          "https://www.businessinsider.com/anthropic-claude-fable-5-mythos-class-model-release-2026-6"
+        ],
+        ["shadcn/improve", "https://github.com/shadcn/improve"]
+      ]
+    }
+  ]
+}

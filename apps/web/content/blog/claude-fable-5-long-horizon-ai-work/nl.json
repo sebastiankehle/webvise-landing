@@ -1,0 +1,308 @@
+{
+  "date": "2026-06-10",
+  "readingTime": 9,
+  "tags": ["AI Agents", "AI", "Automation", "Security"],
+  "cta": "Boek een AI-audit",
+  "keyword": "Claude Fable 5 codebase audit",
+  "title": "Claude Fable 5 opent een korte codebase-auditperiode",
+  "excerpt": "Claude Fable 5 is tot 22 juni beschikbaar in Claude-abonnementen. webvise gebruikte die periode voor security- en architectuuraudits op actieve klantprojecten.",
+  "metaDescription": "Claude Fable 5 codebase audit: hoe webvise Fable gebruikte voor security- en architectuurreviews vóór de wijziging op 23 juni.",
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Claude Fable 5 is nu vooral nuttig als model voor codebase-audits. Op 10 juni 2026 gebruikte webvise het in read-only reviewloops over elk actief klantproject met repositorytoegang: security exposure, architectuurdrift, ontbrekende tests en strak afgebakende remediation plans."
+    },
+    {
+      "type": "p",
+      "text": "Het launchverhaal is groter dan modelintelligentie. De praktische waarde zit in de tijdelijke toegangsperiode."
+    },
+    {
+      "type": "p",
+      "text": "Fable 5 is tot 22 juni beschikbaar in Claude-abonnementen. Daarna starten usage credits op 23 juni, tenzij Anthropic de capaciteit verlengt. Dit artikel laat zien welke auditvorm webvise draaide, waar het model past en hoe teams dezelfde periode kunnen gebruiken zonder een agent schrijfrechten op productiecode te geven."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Fable 5 is eerst een audit- en planningsmodel.** Anthropic noemt een contextvenster van 1M tokens, 128k maximale output en use cases rond meerdaags coding en knowledge work.",
+        "**webvise gebruikte de periode van 10 juni op actieve klantprojecten.** De pass bleef read-only en produceerde findings, risicotabellen en taakplannen vóór elke broncodewijziging.",
+        "**Het patroon voor het meest capabele model begint met planning.** Het open-source patroon `/improve` gebruikt het meest capabele model voor repo-begrip, findings, prioritering en zelfstandige plannen voor goedkopere executors.",
+        "**De deadline van 22 juni telt.** Toegang via Claude-abonnementen maakt een korte audit sprint mogelijk voordat Fable op 23 juni naar usage credits gaat.",
+        "**Retention verandert de routing.** Fable vereist 30-day retention voor safety monitoring, dus secrets, productiedata en private klantrecords blijven buiten de context."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Als uw team dezelfde auditvorm wil gebruiken voordat toegang verandert, kan [webvise's AI consulting service](/services/ai-consulting) één repo en één workflow omzetten in een gereviewd remediation plan."
+    },
+    {
+      "type": "h2",
+      "text": "De nuttige periode sluit op 22 juni"
+    },
+    {
+      "type": "p",
+      "text": "Anthropic lanceerde Claude Fable 5 op 9 juni 2026 als het meest capabele breed beschikbare model van het bedrijf. De publieke Fable-pagina positioneert het voor meerdaags, complex en asynchroon werk, met Claude Code en managed-agent use cases expliciet genoemd."
+    },
+    {
+      "type": "p",
+      "text": "Daardoor zijn de komende 12 dagen ongewoon praktisch. Teams met toegang via een Claude-abonnement kunnen de periode gebruiken voor inventarisatie, audit en planning die reviewbare artefacten opleveren: findings, taakplannen, migratiekaarten en risicoregisters."
+    },
+    {
+      "type": "table",
+      "headers": ["Feit", "Huidig detail", "Operationeel gevolg"],
+      "rows": [
+        [
+          "Claude-abonnementsperiode",
+          "Beschikbaar tot 22 juni",
+          "Draai audits nu, voordat usage credits op 23 juni starten"
+        ],
+        [
+          "Model ID",
+          "`claude-fable-5`",
+          "API-teams kunnen hetzelfde model in gecontroleerde harnesses testen"
+        ],
+        [
+          "Context",
+          "1M tokens",
+          "Grote repos en sourcepakketten kunnen in minder passes worden gereviewd"
+        ],
+        [
+          "Maximale output",
+          "128k tokens",
+          "Het model kan lange plannen, risicotabellen en file-level notes teruggeven"
+        ],
+        [
+          "Prijs",
+          "$10 input en $50 output per miljoen tokens",
+          "Runs van meerdere uren hebben kostenlimieten en logs nodig"
+        ],
+        [
+          "Data retention",
+          "30-day retention voor safety monitoring",
+          "Gevoelig klantmateriaal heeft routingregels nodig vóór upload"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Wat webvise op 10 juni draaide"
+    },
+    {
+      "type": "p",
+      "text": "De auditpass had één regel: lezen, redeneren, findings schrijven en de bron ongemoeid laten. Elk project kreeg hetzelfde reviewpakket zodat resultaten vergelijkbaar bleven zonder de dag te veranderen in losse modeltranscripten."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Repo map:** apps, packages, route handlers, auth-grenzen, datamodellen, deploymentscripts en testcommando's.",
+        "**Security pass:** auth checks, rolgrenzen, environment handling, uploads, webhooks, rate limits, forms en gebruik van third-party APIs.",
+        "**Architecture pass:** gedupliceerde domeinlogica, onduidelijke packagegrenzen, cache invalidation, oude TODOs, fragiele integraties en migraties zonder ownership.",
+        "**Delivery pass:** ontbrekende tests, trage scripts, docs drift, lokalisatiegaten, visual-QA-risico en deploymentstappen die op geheugen leunen.",
+        "**Plan output:** file paths, huidig gedrag, voorgestelde wijziging, validatiecommando, reviewer en stop condition."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Een meertalige marketingcodebase leverde een typische finding op: route- en sitemapdekking waren zwakker dan de gelokaliseerde paginastructuur. Fable patchte dit niet. De nuttige output was een klein testplan met exacte routefamilies om te dekken."
+    },
+    {
+      "type": "p",
+      "text": "Een workflowapplicatie leverde een andere finding op: notificatielogica had duplicate-submit- en idempotency-tests nodig voordat een agent omliggende queuecode aanraakte. Dat soort resultaat kan een senior engineer binnen minuten accepteren, afwijzen of omzetten naar een ticket."
+    },
+    {
+      "type": "h2",
+      "text": "Het `/improve` patroon is het juiste mentale model"
+    },
+    {
+      "type": "p",
+      "text": "Het nuttigste publieke patroon voor Fable zit achter `shadcn/improve`: gebruik het meest capabele model om een codebase te bestuderen, te auditen op correctness, security, performance, tests, technical debt, dependencies, developer experience, docs en product direction, en daarna plannen te schrijven die goedkopere agents of mensen later kunnen uitvoeren."
+    },
+    {
+      "type": "p",
+      "text": "Die vorm telt omdat het plan het dure artefact is. Goede plannen bevatten file paths, current-state excerpts, repoconventies, verificatiecommando's, verwachte outputs, out-of-scope grenzen en stop conditions voor alles wat niet bij de audit past."
+    },
+    {
+      "type": "table",
+      "headers": ["Modeltaak", "Beter gebruik van Fable 5", "Review gate"],
+      "rows": [
+        [
+          "Grote repo begrijpen",
+          "Het systeem mappen en de hoogste risicozones ranken",
+          "Engineer controleert geciteerde bestanden vóór planning"
+        ],
+        [
+          "Security review",
+          "Exposurepatronen en ontbrekende tests vinden",
+          "Human triage bepaalt welke findings tasks worden"
+        ],
+        [
+          "Architecture review",
+          "Coupling, duplicatie en migratierisico uitleggen",
+          "Owner accepteert de doelvorm vóór edits"
+        ],
+        [
+          "Execution planning",
+          "Zelfstandige taskbestanden schrijven voor kleinere modellen",
+          "Elke task heeft commando's en verwachte output"
+        ],
+        [
+          "Branch review",
+          "Alleen het gewijzigde oppervlak auditen vóór merge",
+          "Reviewer vergelijkt findings met de diff"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "webvise nam die vorm over voor de auditdag op 10 juni. Fable besteedde het grootste deel van het budget aan begrip, edge cases en plankwaliteit. Uitvoering blijft begrensd, gereviewd en goedkoper."
+    },
+    {
+      "type": "h2",
+      "text": "Waar de audits echt naar zoeken"
+    },
+    {
+      "type": "p",
+      "text": "Security betekent hier exposure-inventarisatie: waar data binnenkomt, waar permissies worden gecontroleerd, waar externe systemen terugschrijven en waar een ontbrekende test een gebroken aanname kan laten shippen."
+    },
+    {
+      "type": "table",
+      "headers": ["Gebied", "Wat Fable reviewt", "Nuttige output"],
+      "rows": [
+        [
+          "Auth en permissies",
+          "Middleware, route handlers, server actions, role checks, admin paths",
+          "Paden die negative tests of strengere guards nodig hebben"
+        ],
+        [
+          "Secrets en datastroom",
+          "Env reads, logging, analytics, uploads, webhook payloads",
+          "Plekken waar data het bedoelde systeem kan verlaten"
+        ],
+        [
+          "Architectuur",
+          "Domeinduplicatie, packagegrenzen, async jobs, cache invalidation",
+          "Refactorplan met file evidence en een kleine eerste stap"
+        ],
+        [
+          "Reliability",
+          "Tests, build scripts, queues, deployment paths, monitoring",
+          "Commando's die bewijzen dat de fix werkte"
+        ],
+        [
+          "UX-risico",
+          "Forms, empty states, gelokaliseerde routes, mobile breakpoints, screenshot drift",
+          "QA-checklist en screenshots om vóór release vast te leggen"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Hier sluit ook [webvise's AI automation service](/services/ai-automation) op aan. Een finding die in 3 projecten verschijnt, is meestal een workflowprobleem, geen eenmalige bug: terugkerende rapportgeneratie, herhaalde QA-checks, verouderde handoffdocs of handmatige release review."
+    },
+    {
+      "type": "h2",
+      "text": "Privacy en review gates bepalen de route"
+    },
+    {
+      "type": "p",
+      "text": "Fable's 30-day retention requirement verandert de standaardroute voor klantwerk. Een nuttige audit kan nog steeds, maar het pakket heeft harde grenzen nodig voordat het model het ontvangt."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Houd secrets eruit.** Credentials, private klantrecords, productie-exports en raw analytics blijven buiten modelcontext.",
+        "**Gebruik read-only checkouts.** De eerste pass produceert findings en plannen, geen commits.",
+        "**Log de run.** Leg model, datum, token budget, geïnspecteerde bestanden, uitgevoerde commando's en geaccepteerde findings vast.",
+        "**Gate gevoelige acties.** Permission changes, billing actions, e-mails, production writes en dataverwijdering blijven human-approved.",
+        "**Bewaar afgewezen findings.** False positives zijn nuttig als de reden is vastgelegd en de volgende audit ze kan overslaan."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Het doel is bewijs, geen autonomietheater. Een goede audit laat een korte issuelijst achter met genoeg file-level bewijs zodat een engineer snel verder kan."
+    },
+    {
+      "type": "h2",
+      "text": "Een template voor klantprojectaudits"
+    },
+    {
+      "type": "p",
+      "text": "Gebruik de juniperiode voor één dag geconcentreerde review. Het template werkt voor een Next.js app, een WordPress-migratie, een intern tool of een AI workflow."
+    },
+    {
+      "type": "table",
+      "headers": ["Stage", "Input", "Output"],
+      "rows": [
+        [
+          "Repo map",
+          "README, package scripts, app tree, env schema, deployment notes",
+          "System map en unknowns list"
+        ],
+        [
+          "Security pass",
+          "Auth paths, API routes, forms, uploads, webhooks",
+          "Findings gerangschikt op impact en evidence"
+        ],
+        [
+          "Architecture pass",
+          "Packages, shared utilities, data models, integrations",
+          "Coupling- en migratierisico's met file paths"
+        ],
+        [
+          "Test pass",
+          "Unit, integration, e2e, lint, typecheck commands",
+          "Ontbrekende coverage en falende verification paths"
+        ],
+        [
+          "Plan writing",
+          "Accepted findings",
+          "Zelfstandige tasks met commando's, expected output en stop conditions"
+        ],
+        [
+          "Human triage",
+          "Plannen en evidence",
+          "Goedgekeurde, afgewezen of geparkeerde remediation list"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Daarom doen agentinstructies ertoe. Hoe beter het repocontract, hoe beter de audit. De productieversie staat in [het AGENTS.md template-artikel](/blog/agents-md-production-template), dat laat zien wat in het bestand hoort voordat agents een serieuze codebase aanraken."
+    },
+    {
+      "type": "h2",
+      "text": "Wat dit betekent voor webvise-projecten"
+    },
+    {
+      "type": "p",
+      "text": "De audit van 10 juni veranderde vooral prioriteiten. Sommige projecten hebben security hardening tasks nodig, sommige architectuurcleanup en sommige alleen betere tests rond de onderdelen die al werken."
+    },
+    {
+      "type": "p",
+      "text": "Fable 5 is waardevol wanneer een team al repos, tests, scopes en reviewgewoontes heeft. Het model wordt zwakker wanneer het omliggende proces niets kan bewijzen."
+    },
+    {
+      "type": "p",
+      "text": "webvise gebruikt de Fable-periode om audits van klantprojecten om te zetten in afgebakende remediation plans en daarna in gereviewde fixes. Voor een codebase, website of AI workflow die dezelfde behandeling nodig heeft, [boek een projectcall](/#contact) met één repo en één workflow die duur voelt om te onderhouden."
+    },
+    {
+      "type": "h2",
+      "text": "Bronnen"
+    },
+    {
+      "type": "table",
+      "headers": ["Bron", "URL"],
+      "rows": [
+        ["Claude Fable page", "https://www.anthropic.com/claude/fable"],
+        [
+          "Claude model docs",
+          "https://platform.claude.com/docs/en/about-claude/models/overview"
+        ],
+        [
+          "Availability report",
+          "https://www.businessinsider.com/anthropic-claude-fable-5-mythos-class-model-release-2026-6"
+        ],
+        ["shadcn/improve", "https://github.com/shadcn/improve"]
+      ]
+    }
+  ]
+}

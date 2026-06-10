@@ -1,0 +1,308 @@
+{
+  "date": "2026-06-10",
+  "readingTime": 9,
+  "tags": ["AI Agents", "AI", "Automation", "Security"],
+  "cta": "Zarezerwuj audyt AI",
+  "keyword": "audyt codebase z Claude Fable 5",
+  "title": "Claude Fable 5 otwiera krótkie okno na audyt codebase",
+  "excerpt": "Claude Fable 5 jest dostępny w planach Claude do 22 czerwca. webvise wykorzystało to okno do audytów security i architektury w aktywnych projektach klientów.",
+  "metaDescription": "Audyt codebase z Claude Fable 5: jak webvise użyło Fable do review security i architektury przed zmianą dostępu 23 czerwca.",
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Claude Fable 5 jest teraz najbardziej użyteczny jako model do audytu codebase. 10 czerwca 2026 webvise użyło go w read-only review loops na każdym aktywnym projekcie klienta z dostępem do repository: security exposure, dryf architektury, brakujące testy i jasno ograniczone plany remediation."
+    },
+    {
+      "type": "p",
+      "text": "Historia premiery jest większa niż sama inteligencja modelu. Praktyczna wartość tkwi w tymczasowym oknie dostępu."
+    },
+    {
+      "type": "p",
+      "text": "Fable 5 jest dostępny w planach Claude do 22 czerwca, a 23 czerwca zaczynają się usage credits, chyba że Anthropic przedłuży capacity. Ten artykuł pokazuje kształt audytu przeprowadzonego przez webvise, gdzie pasuje model i jak zespoły mogą użyć tego samego okna bez dawania agentowi prawa zapisu do kodu produkcyjnego."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Fable 5 jest najpierw modelem do audytu i planowania.** Anthropic podaje 1M-token context window, 128k max output oraz use cases wokół wielodniowego coding i knowledge work.",
+        "**webvise użyło okna z 10 czerwca w aktywnych projektach klientów.** Przejście pozostało read-only i wygenerowało findings, tabele ryzyka oraz plany tasks przed jakąkolwiek zmianą w kodzie źródłowym.",
+        "**Wzorzec dla najmocniejszego modelu zaczyna się od planowania.** Open-source pattern `/improve` używa najmocniejszego modelu do zrozumienia repo, findings, priorytetyzacji i samodzielnych planów dla tańszych executorów.",
+        "**Termin 22 czerwca ma znaczenie.** Dostęp w planach Claude tworzy krótki sprint audytowy, zanim Fable przejdzie na usage credits 23 czerwca.",
+        "**Retention zmienia routing.** Fable wymaga 30-day retention do safety monitoring, więc secrets, dane produkcyjne i prywatne rekordy klientów zostają poza kontekstem."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Jeśli Państwa zespół chce użyć tego samego kształtu audytu przed zmianą dostępu, [usługa AI consulting webvise](/services/ai-consulting) może zmienić jedno repo i jeden workflow w sprawdzony plan remediation."
+    },
+    {
+      "type": "h2",
+      "text": "Użyteczne okno zamyka się 22 czerwca"
+    },
+    {
+      "type": "p",
+      "text": "Anthropic uruchomiło Claude Fable 5 9 czerwca 2026 jako swój najmocniejszy szeroko dostępny model. Publiczna strona Fable opisuje go pod wielodniową, złożoną i asynchroniczną pracę, bezpośrednio wskazując Claude Code oraz managed-agent use cases."
+    },
+    {
+      "type": "p",
+      "text": "To sprawia, że najbliższe 12 dni jest wyjątkowo praktyczne. Zespoły z dostępem w planie Claude mogą wykorzystać okno na inwentaryzację, audyt i planowanie, które tworzą sprawdzalne artefakty: findings, plany tasks, mapy migracji i rejestry ryzyka."
+    },
+    {
+      "type": "table",
+      "headers": ["Fakt", "Aktualny szczegół", "Konsekwencja operacyjna"],
+      "rows": [
+        [
+          "Okno w planach Claude",
+          "Dostępne do 22 czerwca",
+          "Uruchomić audyty teraz, zanim usage credits zaczną się 23 czerwca"
+        ],
+        [
+          "Model ID",
+          "`claude-fable-5`",
+          "Zespoły API mogą testować ten sam model w kontrolowanych harnesses"
+        ],
+        [
+          "Kontekst",
+          "1M tokens",
+          "Duże repo i pakiety źródłowe można sprawdzać w mniejszej liczbie przejść"
+        ],
+        [
+          "Max output",
+          "128k tokens",
+          "Model może zwrócić długie plany, tabele ryzyka i file-level notes"
+        ],
+        [
+          "Cena",
+          "$10 input i $50 output za milion tokens",
+          "Wielogodzinne runs potrzebują limitów kosztu i logów"
+        ],
+        [
+          "Data retention",
+          "30-day retention do safety monitoring",
+          "Wrażliwy materiał klienta wymaga reguł routing przed uploadem"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Co webvise uruchomiło 10 czerwca"
+    },
+    {
+      "type": "p",
+      "text": "Przejście audytowe miało jedną zasadę: czytać, rozumować, zapisać findings i zostawić kod źródłowy nietknięty. Każdy projekt dostał ten sam pakiet review, żeby wyniki były porównywalne i dzień nie zamienił się w stertę luźnych transkryptów modelu."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Repo map:** apps, packages, route handlers, granice auth, modele danych, deployment scripts i komendy testowe.",
+        "**Security pass:** auth checks, granice ról, environment handling, uploads, webhooks, rate limits, forms i użycie third-party API.",
+        "**Architecture pass:** zduplikowana logika domenowa, niejasne granice packages, cache invalidation, stare TODOs, kruche integracje i migracje bez ownership.",
+        "**Delivery pass:** brakujące testy, wolne skrypty, docs drift, luki lokalizacyjne, ryzyko visual QA i kroki deployment zależne od pamięci.",
+        "**Plan output:** file paths, aktualne zachowanie, proponowana zmiana, komenda walidacji, reviewer i stop condition."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Wielojęzyczna marketingowa codebase dała typowy finding: pokrycie routes i sitemap było słabsze niż lokalizowana struktura stron. Fable nie patchował kodu. Użyteczny output był małym planem testów z dokładnymi rodzinami routes do pokrycia."
+    },
+    {
+      "type": "p",
+      "text": "Aplikacja workflow dała inny finding: logika powiadomień potrzebowała testów duplicate-submit i idempotency, zanim jakikolwiek agent dotknie okolicznego queue code. Taki wynik senior engineer może w kilka minut zaakceptować, odrzucić albo zmienić w ticket."
+    },
+    {
+      "type": "h2",
+      "text": "Pattern `/improve` jest właściwym modelem myślowym"
+    },
+    {
+      "type": "p",
+      "text": "Najbardziej użyteczny publiczny pattern dla Fable stoi za `shadcn/improve`: użyć najmocniejszego modelu do zbadania codebase, audytu pod correctness, security, performance, tests, technical debt, dependencies, developer experience, docs i product direction, a potem napisania planów, które tańsi agenci albo ludzie mogą wykonać później."
+    },
+    {
+      "type": "p",
+      "text": "Ten kształt ma znaczenie, bo plan jest drogim artefaktem. Dobre plany zawierają file paths, current-state excerpts, konwencje repo, komendy weryfikacyjne, oczekiwane outputy, granice out-of-scope i stop conditions dla wszystkiego, co nie pasuje do audytu."
+    },
+    {
+      "type": "table",
+      "headers": ["Praca modelu", "Lepsze użycie Fable 5", "Review gate"],
+      "rows": [
+        [
+          "Zrozumienie dużego repo",
+          "Zmapować system i uszeregować obszary najwyższego ryzyka",
+          "Engineer sprawdza cytowane pliki przed planowaniem"
+        ],
+        [
+          "Security review",
+          "Znaleźć exposure patterns i brakujące testy",
+          "Human triage decyduje, które findings stają się tasks"
+        ],
+        [
+          "Architecture review",
+          "Wyjaśnić coupling, duplikację i ryzyko migracji",
+          "Owner akceptuje docelowy kształt przed edits"
+        ],
+        [
+          "Execution planning",
+          "Napisać samodzielne task files dla mniejszych modeli",
+          "Każdy task ma komendy i oczekiwany output"
+        ],
+        [
+          "Branch review",
+          "Audytować tylko zmienioną powierzchnię przed merge",
+          "Reviewer porównuje findings z diff"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "webvise przyjęło ten kształt na dzień audytowy 10 czerwca. Fable wydał większość budżetu na zrozumienie, edge cases i jakość planu. Execution zostaje ograniczone, sprawdzane i tańsze."
+    },
+    {
+      "type": "h2",
+      "text": "Czego naprawdę szukają audyty"
+    },
+    {
+      "type": "p",
+      "text": "Security oznacza tutaj inwentaryzację exposure: gdzie wchodzą dane, gdzie sprawdzane są permissions, gdzie zewnętrzne systemy zapisują odpowiedź i gdzie brakujący test mógłby wypuścić błędne założenie."
+    },
+    {
+      "type": "table",
+      "headers": ["Obszar", "Co sprawdza Fable", "Użyteczny output"],
+      "rows": [
+        [
+          "Auth i permissions",
+          "Middleware, route handlers, server actions, role checks, admin paths",
+          "Ścieżki, które potrzebują negative tests lub ostrzejszych guards"
+        ],
+        [
+          "Secrets i przepływ danych",
+          "Env reads, logging, analytics, uploads, webhook payloads",
+          "Miejsca, w których dane mogłyby wyjść poza zamierzony system"
+        ],
+        [
+          "Architektura",
+          "Duplikacja domeny, granice packages, async jobs, cache invalidation",
+          "Refactor plan z file evidence i małym pierwszym krokiem"
+        ],
+        [
+          "Reliability",
+          "Tests, build scripts, queues, deployment paths, monitoring",
+          "Komendy dowodzące, że fix zadziałał"
+        ],
+        [
+          "Ryzyko UX",
+          "Forms, empty states, lokalizowane routes, mobile breakpoints, screenshot drift",
+          "QA checklist i screenshots do zebrania przed release"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Tu łączy się też [usługa AI automation webvise](/services/ai-automation). Finding, który pojawia się w 3 projektach, zwykle jest problemem workflow, nie pojedynczym bugiem: cykliczne generowanie raportów, powtarzane QA checks, stare dokumenty handoff albo ręczny release review."
+    },
+    {
+      "type": "h2",
+      "text": "Privacy i review gates wybierają trasę"
+    },
+    {
+      "type": "p",
+      "text": "30-day retention requirement w Fable zmienia domyślną trasę dla pracy klienta. Użyteczny audyt nadal jest możliwy, ale pakiet potrzebuje twardych granic, zanim dotrze do modelu."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Trzymać secrets poza kontekstem.** Credentials, prywatne rekordy klientów, produkcyjne eksporty i raw analytics zostają poza kontekstem modelu.",
+        "**Używać read-only checkouts.** Pierwsze przejście produkuje findings i plany, nie commity.",
+        "**Logować run.** Zapisać model, datę, token budget, sprawdzone pliki, uruchomione komendy i zaakceptowane findings.",
+        "**Bramkować wrażliwe akcje.** Permission changes, billing actions, wysyłka e-maili, production writes i usuwanie danych zostają human-approved.",
+        "**Zachować odrzucone findings.** False positives są przydatne, jeśli powód zostaje zapisany, a kolejny audyt może je pominąć."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Celem jest dowód, nie teatr autonomii. Dobry audyt zostawia krótką listę issues z wystarczającym file-level proof, żeby engineer mógł szybko ruszyć dalej."
+    },
+    {
+      "type": "h2",
+      "text": "Szablon audytu projektu klienta"
+    },
+    {
+      "type": "p",
+      "text": "Proszę użyć czerwcowego okna na jeden dzień skoncentrowanego review. Szablon działa dla aplikacji Next.js, migracji WordPress, narzędzia wewnętrznego albo AI workflow."
+    },
+    {
+      "type": "table",
+      "headers": ["Stage", "Input", "Output"],
+      "rows": [
+        [
+          "Repo map",
+          "README, package scripts, app tree, env schema, deployment notes",
+          "System map i unknowns list"
+        ],
+        [
+          "Security pass",
+          "Auth paths, API routes, forms, uploads, webhooks",
+          "Findings uszeregowane po impact i evidence"
+        ],
+        [
+          "Architecture pass",
+          "Packages, shared utilities, data models, integrations",
+          "Ryzyka coupling i migracji z file paths"
+        ],
+        [
+          "Test pass",
+          "Unit, integration, e2e, lint, typecheck commands",
+          "Brakująca coverage i failing verification paths"
+        ],
+        [
+          "Plan writing",
+          "Accepted findings",
+          "Samodzielne tasks z komendami, expected output i stop conditions"
+        ],
+        [
+          "Human triage",
+          "Plany i evidence",
+          "Zatwierdzona, odrzucona albo zaparkowana remediation list"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Dlatego instrukcje agentów mają znaczenie. Im lepszy kontrakt repo, tym lepszy audyt. Produkcyjna wersja jest opisana w [artykule o szablonie AGENTS.md](/blog/agents-md-production-template), który pokazuje, co powinno znaleźć się w pliku, zanim agenci dotkną poważnej codebase."
+    },
+    {
+      "type": "h2",
+      "text": "Co to oznacza dla projektów webvise"
+    },
+    {
+      "type": "p",
+      "text": "Audyt z 10 czerwca zmienił bardziej priorytety niż kod. Niektóre projekty potrzebują tasks do security hardening, część cleanup architektury, a część tylko lepszych testów wokół elementów, które już działają."
+    },
+    {
+      "type": "p",
+      "text": "Fable 5 ma wartość, gdy zespół ma już repo, tests, scopes i nawyki review. Model słabnie, gdy otaczający proces nie potrafi niczego udowodnić."
+    },
+    {
+      "type": "p",
+      "text": "webvise wykorzystuje okno Fable, żeby zmieniać audyty projektów klientów w ograniczone plany remediation, a potem w sprawdzone fixes. Dla codebase, website albo AI workflow, które wymagają takiego samego traktowania, można [zarezerwować rozmowę projektową](/#contact) z jednym repo i jednym workflow, który wydaje się drogi w utrzymaniu."
+    },
+    {
+      "type": "h2",
+      "text": "Źródła"
+    },
+    {
+      "type": "table",
+      "headers": ["Źródło", "URL"],
+      "rows": [
+        ["Claude Fable page", "https://www.anthropic.com/claude/fable"],
+        [
+          "Claude model docs",
+          "https://platform.claude.com/docs/en/about-claude/models/overview"
+        ],
+        [
+          "Availability report",
+          "https://www.businessinsider.com/anthropic-claude-fable-5-mythos-class-model-release-2026-6"
+        ],
+        ["shadcn/improve", "https://github.com/shadcn/improve"]
+      ]
+    }
+  ]
+}
