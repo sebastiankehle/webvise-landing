@@ -1,7 +1,7 @@
 import { getTranslations } from "next-intl/server";
 
 import CardHoverIcon from "@/components/marketing/card-hover-icon";
-import MiniChart from "@/components/marketing/mini-chart";
+import MiniChartLazy from "@/components/marketing/mini-chart-lazy";
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import StaggerChildren from "@/components/marketing/stagger-children";
 import { BlocksIcon } from "@/components/ui/blocks";
@@ -39,7 +39,7 @@ export default async function Metrics() {
 					</div>
 				))}
 			</StaggerChildren>
-			<MiniChart
+			<MiniChartLazy
 				translations={{
 					conversionLabel: t("chart.conversionLabel"),
 					conversionDescription: t("chart.conversionDescription"),
