@@ -5,8 +5,6 @@ import { getLocale } from "next-intl/server";
 import { Body, H1 } from "@/components/ui/typography";
 import { redirect } from "@/i18n/navigation";
 
-import PrivateData from "./private-data";
-
 export default async function DashboardPage() {
 	const session = await auth.api.getSession({
 		headers: await headers(),
@@ -21,7 +19,6 @@ export default async function DashboardPage() {
 		<div>
 			<H1 className="text-3xl md:text-3xl">Dashboard</H1>
 			<Body className="mt-2">Welcome {session.user.name}</Body>
-			<PrivateData />
 		</div>
 	);
 }

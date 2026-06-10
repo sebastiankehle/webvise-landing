@@ -5,18 +5,13 @@ import { toast } from "sonner";
 import z from "zod";
 
 import Loader from "@/components/loader";
-import { Button } from "@/components/ui/button";
 import { FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { H1 } from "@/components/ui/typography";
 import { authClient } from "@/lib/auth-client";
 
-export default function SignInForm({
-	onSwitchToSignUp,
-}: {
-	onSwitchToSignUp: () => void;
-}) {
+export default function SignInForm() {
 	const router = useRouter();
 	const { isPending } = authClient.useSession();
 
@@ -119,16 +114,6 @@ export default function SignInForm({
 					)}
 				</form.Subscribe>
 			</form>
-
-			<div className="mt-4 text-center">
-				<Button
-					className="text-indigo-600 hover:text-indigo-800"
-					onClick={onSwitchToSignUp}
-					variant="link"
-				>
-					Need an account? Sign Up
-				</Button>
-			</div>
 		</div>
 	);
 }
