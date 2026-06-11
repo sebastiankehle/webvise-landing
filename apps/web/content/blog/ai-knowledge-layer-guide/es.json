@@ -2,19 +2,19 @@
   "date": "2026-04-15",
   "readingTime": 8,
   "keyword": "capa de conocimiento para IA",
-  "title": "La capa de conocimiento para IA: 127 páginas, cero bases de datos vectoriales y lo que entendí mal",
-  "excerpt": "El gist de LLM wiki de Karpathy acumuló 99.000 bookmarks en una semana. Resonó porque puso nombre a lo que todo usuario de IA ya sentía: tus agentes no tienen memoria. Yo llevo una capa de conocimiento en producción. Esto es lo que funciona, lo que no, y cómo construir una en 20 minutos.",
-  "metaDescription": "Guía práctica para construir una capa de conocimiento para IA, escrita por quien la ejecuta en producción. Arquitectura, configuración, números reales y lo que aprendí por las malas.",
+  "title": "La capa de conocimiento para IA: 127 páginas estructuradas, sin bases de datos vectoriales y lo que aprendí en el proceso",
+  "excerpt": "El gist de Karpathy sobre wikis con LLMs alcanzó 99.000 marcadores en una semana. Resonó porque nombró lo que todo usuario de IA siente: sus agentes no tienen memoria. En webvise se ejecuta una capa de conocimiento en producción. Esto es lo que funciona, lo que no funciona y cómo construir una en 20 minutos.",
+  "metaDescription": "Guía práctica para construir una capa de conocimiento con IA, escrita desde la experiencia en producción real. Arquitectura, configuración, cifras reales y lecciones aprendidas.",
   "tags": ["AI Agents", "AI", "Automation", "Business Strategy"],
-  "cta": "Contactar",
+  "cta": "Ponerse en contacto",
   "blocks": [
     {
       "type": "p",
-      "text": "Andrej Karpathy publicó un [gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) en abril de 2026 describiendo un patrón para construir bases de conocimiento personales con LLMs. Acumuló 99.000 bookmarks en una semana. Varias implementaciones pasaron a ser open source en días. [graphify](https://github.com/safishamsi/graphify) se publicó en 48 horas y sumó 27.000 más. El patrón resonó porque puso nombre a un problema familiar: la mayoría de los agentes carecen de memoria persistente entre sesiones. Cada conversación empieza desde cero. Vuelves a explicar tu negocio, tus objetivos, tu tono, tu contexto, y la respuesta llega genérica porque la entrada no tenía nada con qué trabajar."
+      "text": "Andrej Karpathy publicó un [gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) en abril de 2026 con un patrón para construir bases de conocimiento personal con LLMs. Consiguió 99.000 marcadores en una semana. Varias implementaciones quedaron en código abierto en cuestión de días. [graphify](https://github.com/safishamsi/graphify) se lanzó en 48 horas y sumó 27.000 marcadores más. El patrón resonó porque dio nombre a un problema conocido: la mayoría de los agentes no tienen memoria persistente entre sesiones. Cada conversación comienza desde cero. Se vuelve a explicar el negocio, los objetivos, el estilo, el contexto, y el resultado llega genérico porque la entrada no tenía nada con qué trabajar."
     },
     {
       "type": "p",
-      "text": "En webvise uso una capa de conocimiento para investigación interna y documentación de clientes. Esto es lo que aprendí."
+      "text": "En webvise se utiliza una capa de conocimiento para investigación y documentación de proyectos. Esto es lo que se aprendió en el proceso."
     },
     {
       "type": "h2",
@@ -22,11 +22,11 @@
     },
     {
       "type": "p",
-      "text": "El flujo de trabajo estándar con IA es stateless. Abres un chat, explicas lo que necesitas, obtienes una respuesta, cierras el chat. En la siguiente sesión, la misma explicación de nuevo. El contexto que construiste ha desaparecido. La mayoría compensa escribiendo prompts más largos, copiando documentos de fondo o subiendo archivos al inicio de cada sesión. Funciona, pero no escala. En algún momento la ventana de contexto se llena, la calidad cae y pasas más tiempo preparando el prompt que haciendo el trabajo."
+      "text": "El flujo de trabajo estándar con IA es sin estado. Se abre un chat, se explica lo que se necesita, se obtiene una respuesta y se cierra. En la siguiente sesión, la misma explicación. El contexto acumulado desaparece. La mayoría de las personas compensan esto escribiendo prompts más largos, copiando documentos de contexto o subiendo archivos al inicio de cada sesión. Funciona, pero no escala. Llega un punto en que la ventana de contexto se llena, la calidad cae y se dedica más tiempo a preparar el prompt que a hacer el trabajo."
     },
     {
       "type": "p",
-      "text": "La capa de conocimiento resuelve esto a nivel de infraestructura. En lugar de meter contexto en cada prompt, le das al agente acceso a una base de conocimiento persistente y estructurada que lee antes de hacer cualquier cosa. El agente ya conoce tu negocio, tu voz, tus proyectos, tu historial. Te saltas la re-explicación y vas directo al trabajo."
+      "text": "La capa de conocimiento resuelve esto en el nivel de infraestructura. En lugar de rellenar el contexto en cada prompt, se le da al agente acceso a una base de conocimiento persistente y estructurada que lee antes de hacer cualquier cosa. El agente ya conoce el negocio, el estilo, los proyectos y el historial. Se omite la re-explicación y se va directamente al trabajo."
     },
     {
       "type": "h2",
@@ -39,56 +39,56 @@
     {
       "type": "ul",
       "items": [
-        "**Fuentes en bruto.** Una carpeta de documentos inmutables: artículos, notas, transcripciones, PDFs, grabaciones de reuniones, investigación. El agente los lee pero nunca los modifica. Son tu fuente de verdad.",
-        "**El wiki.** Un directorio de archivos markdown generados por el LLM con referencias cruzadas. Páginas de entidades, páginas de conceptos, síntesis, comparativas, playbooks. El agente es el propietario de esta capa. Crea páginas, las actualiza cuando llegan nuevas fuentes, mantiene las referencias cruzadas y preserva la coherencia. Tú lo lees. El agente lo escribe.",
-        "**El esquema.** Un documento de configuración (CLAUDE.md, AGENTS.md o equivalente) que le dice al agente cómo está estructurado el wiki, qué convenciones seguir y qué flujos de trabajo ejecutar. Esto es lo que convierte un LLM genérico en un mantenedor de wiki disciplinado."
+        "**Fuentes brutas.** Una carpeta de documentos inmutables: artículos, notas, transcripciones, PDFs, grabaciones de reuniones, investigación. El agente los lee, pero nunca los modifica. Son la fuente de verdad.",
+        "**La wiki.** Un directorio de archivos markdown generados por el LLM con referencias cruzadas. Páginas de entidades, páginas de conceptos, síntesis, comparaciones, playbooks. El agente es el propietario de esta capa por completo: crea páginas, las actualiza cuando llegan nuevas fuentes, mantiene las referencias cruzadas y garantiza la coherencia. Usted la lee. El agente la escribe.",
+        "**El esquema.** Un documento de configuración (CLAUDE.md, AGENTS.md o equivalente) que indica al agente cómo está estructurada la wiki, qué convenciones seguir y qué flujos de trabajo ejecutar. Esto es lo que convierte a un LLM genérico en un mantenedor de wiki disciplinado."
       ]
     },
     {
       "type": "p",
-      "text": "El wiki es un **artefacto compilado**. El agente no re-deriva el conocimiento en cada consulta. Compila una vez, crea referencias cruzadas y se mantiene actualizado. Cuando añades una nueva fuente, el agente la integra en el wiki existente y actualiza cada página relevante. Cuando haces una pregunta, el agente lee páginas pre-compiladas en lugar de buscar entre documentos en bruto."
+      "text": "La wiki es un **artefacto compilado**. El agente no vuelve a derivar el conocimiento en cada consulta: compila una vez, establece referencias cruzadas y se mantiene actualizado. Cuando se añade una nueva fuente, el agente la integra en la wiki existente y actualiza cada página relevante. Ante una pregunta, el agente lee páginas precompiladas en lugar de buscar entre documentos brutos."
     },
     {
       "type": "h2",
-      "text": "Por qué supera a RAG en la mayoría de casos"
+      "text": "Por qué este enfoque supera a RAG en la mayoría de los casos"
     },
     {
       "type": "p",
-      "text": "RAG re-deriva respuestas en el momento de la consulta fragmentando documentos y buscando fragmentos relevantes. El enfoque del wiki compilado se salta ese paso por completo. graphify midió **71,5 veces menos tokens por consulta** comparado con buscar en archivos en bruto en su comparativa publicada; los resultados dependen de las características del corpus y la distribución de consultas. Mis propias mediciones muestran aproximadamente 1.000 tokens de contenido del vault por consulta, frente a los 3.000 o más tokens que inyecta un pipeline RAG típico."
+      "text": "RAG vuelve a derivar las respuestas en el momento de la consulta dividiendo los documentos en fragmentos y buscando los relevantes. El enfoque de wiki compilada prescinde de eso por completo. El benchmark de graphify midió **71,5 veces menos tokens por consulta** en su comparación publicada; los resultados dependen de las características del corpus y la distribución de las consultas. Las mediciones propias muestran alrededor de 1.000 tokens de contenido del vault por consulta, frente a los 3.000 o más tokens que inyecta un pipeline RAG típico."
     },
     {
       "type": "p",
-      "text": "Escribí una [comparativa técnica completa](/blog/business-knowledge-base-without-rag) de RAG frente a recuperación basada en índices. La versión corta: en las cargas de trabajo analizadas, el wiki compilado superó a RAG en precisión, coste y complejidad para bases de conocimiento de menos de 1.000 documentos. Sin base de datos vectorial, sin modelo de embeddings, sin estrategia de chunking, sin job de re-indexación. Cinco comandos de shell y un archivo de índice mantenido."
+      "text": "Existe una [comparación técnica completa](/blog/business-knowledge-base-without-rag) de RAG frente a la recuperación basada en índices. La versión corta: en las cargas de trabajo analizadas, el enfoque de wiki compilada superó a RAG en precisión, coste y complejidad operativa. Sin base de datos vectorial, sin modelo de embeddings, sin estrategia de fragmentación, sin trabajo de reindexación. Cinco comandos de shell y un archivo de índice mantenido."
     },
     {
       "type": "p",
-      "text": "La evolución ocurrió en tres fases: RAG one-shot de 2020 a 2023, RAG agéntico con recuperación multi-hop de 2023 a 2024, y context engineering desde 2025, donde el agente construye su propio contexto a partir de múltiples fuentes. La capa de conocimiento es la infraestructura para esa tercera fase. La mayoría de equipos todavía están construyendo para la primera."
+      "text": "La evolución ocurrió en tres fases: RAG de una sola pasada de 2020 a 2023, RAG agentivo con recuperación multi-salto de 2023 a 2024, e ingeniería de contexto desde 2025, donde el agente construye su propio contexto a partir de múltiples fuentes. La capa de conocimiento es la infraestructura para esa tercera fase. La mayoría de los equipos todavía construyen para la primera."
     },
     {
       "type": "h2",
-      "text": "Lo que aprendí ejecutando la mía"
+      "text": "Lo que se aprende al operar la propia wiki"
     },
     {
       "type": "p",
-      "text": "Mi wiki interno tiene actualmente 127 páginas estructuradas en siete categorías: personas, empresas, conceptos, playbooks, colecciones, síntesis y herramientas. Cada página sigue una plantilla estándar con frontmatter YAML, referencias cruzadas mediante wikilinks de Obsidian y atribución de fuentes. El agente ejecuta seis operaciones definidas: ingest, actualización conversacional, consulta, lint, enriquecimiento y reorganización."
+      "text": "La wiki interna cuenta actualmente con 127 páginas estructuradas en siete categorías: personas, empresas, conceptos, playbooks, colecciones, síntesis y herramientas. Cada página sigue una plantilla estándar con frontmatter YAML, referencias cruzadas mediante wikilinks de Obsidian y atribución de fuentes. El agente ejecuta seis operaciones definidas: ingerir, actualizar conversacionalmente, consultar, validar, enriquecer y reorganizar."
     },
     {
       "type": "ul",
       "items": [
-        "**El archivo de esquema lo es todo.** Todo lo demás se deriva de él. Un esquema bien escrito produce un wiki disciplinado con convenciones consistentes. Un esquema vago produce alucinaciones y dispersión. La versión actual tiene unas 200 líneas y cubre estructura de directorios, formato de páginas, las seis operaciones, convenciones de nombres y gestión de contradicciones. Tardé varias iteraciones en afinarla.",
-        "**Dedup primero evita la proliferación de páginas.** Mi regla: antes de crear cualquier página nueva, busca en el wiki existente contenido solapado. Si una página existente cubre el 60% o más del mismo terreno, enriquece esa página en lugar de crear una nueva. Sin esta regla, el wiki se llena de páginas redundantes que fragmentan el conocimiento en piezas inútiles.",
-        "**Las consultas se acumulan en la base de conocimiento.** Cuando haces una buena pregunta y obtienes una respuesta útil, esa respuesta se archiva como una nueva página del wiki. La próxima vez que alguien haga una pregunta relacionada, el agente ya tiene una síntesis pre-compilada de la que partir. Este es el efecto compuesto que mejora el sistema con el tiempo, no solo lo hace más grande.",
-        "**La calidad del ingest depende completamente de la disciplina.** Soltar un artículo en bruto y decir \"ingest esto\" produce un resumen superficial. Revisar la fuente con el agente, discutir los puntos clave y dirigir qué enfatizar produce páginas que siguen siendo útiles a medida que el wiki crece. Aplico un flujo de trabajo estricto: limpiar el archivo en bruto, discutir los puntos clave, esperar aprobación y luego extraer de forma completa.",
-        "**El archivo de índice es el sistema de recuperación.** Mi índice raíz tiene 22 líneas. Cada subdirectorio tiene su propio índice que lista cada página con una descripción de una línea. El agente lee el índice raíz con aproximadamente 400 tokens, identifica el subdirectorio correcto, lee ese índice y luego accede a las páginas específicas que necesita. La mayoría de consultas terminan con tres lecturas y unos 1.000 tokens de contenido del vault."
+        "**El archivo de esquema lo es todo.** Todo lo demás se deriva de él. Un esquema bien escrito produce una wiki disciplinada con convenciones coherentes. Un esquema vago produce alucinaciones y dispersión. La versión actual tiene unas 200 líneas y cubre estructura de directorios, formato de página, las seis operaciones, convenciones de nomenclatura y gestión de contradicciones. Llevó varias iteraciones conseguirlo.",
+        "**Deduplicar primero evita la proliferación de páginas.** La regla: antes de crear cualquier página nueva, buscar en la wiki contenido que se solape. Si una página existente cubre el 60% o más del mismo terreno, se enriquece esa página en lugar de crear una nueva. Sin esta regla, la wiki se llena de páginas redundantes que fragmentan el conocimiento en piezas inutilizables.",
+        "**Las consultas se acumulan en la base de conocimiento.** Cuando se formula una buena pregunta y se obtiene una respuesta útil, esa respuesta se archiva como nueva página de la wiki. La próxima vez que alguien haga una pregunta relacionada, el agente ya tiene una síntesis precompilada de la que partir. Este es el efecto acumulativo que hace el sistema cada vez mejor, no solo más grande.",
+        "**La calidad del ingreso depende por completo de la disciplina.** Volcar un artículo bruto y decir \"ingerir esto\" produce un resumen superficial. Recorrer la fuente con el agente, analizar las conclusiones y dirigir qué enfatizar produce páginas que siguen siendo útiles a medida que la wiki crece. Se aplica un flujo estricto: limpiar el archivo bruto, analizar las conclusiones clave, esperar aprobación y luego extraer completamente.",
+        "**El archivo de índice es el sistema de recuperación.** El índice raíz tiene 22 líneas. Cada subdirectorio tiene su propio índice con todas las páginas y una descripción de una línea. El agente lee el índice raíz con unos 400 tokens, identifica el subdirectorio correcto, lee ese índice y luego accede a las páginas específicas que necesita. La mayoría de las consultas se resuelven con tres lecturas y alrededor de 1.000 tokens de contenido del vault."
       ]
     },
     {
       "type": "h2",
-      "text": "El esquema es el archivo más importante que vas a escribir"
+      "text": "El esquema es el archivo más importante que escribirá"
     },
     {
       "type": "p",
-      "text": "Karpathy lo llama el esquema. Yo lo llamo CLAUDE.md. Algunos frameworks lo dividen en una Knowledge Base Layer y una Brand Foundation. El nombre no importa. Lo que importa es que este único archivo controla cómo se comporta el agente en cada sesión."
+      "text": "Karpathy lo llama el esquema. En este contexto se llama CLAUDE.md. Algunos frameworks lo dividen en una capa de base de conocimiento y una fundación de marca. El nombre es secundario. El hecho operativo es que este único archivo controla cómo se comporta el agente en cada sesión."
     },
     {
       "type": "p",
@@ -97,15 +97,15 @@
     {
       "type": "ul",
       "items": [
-        "**Estructura de directorios.** Dónde van las fuentes en bruto, dónde van las páginas del wiki, cómo se organizan en categorías.",
-        "**Formato de página.** Campos de frontmatter, estructura de secciones, reglas de atribución de fuentes, convenciones de referencias cruzadas.",
-        "**Operaciones.** Flujos de trabajo paso a paso para ingerir fuentes, responder consultas, ejecutar comprobaciones de salud y mantener el wiki a lo largo del tiempo.",
-        "**Controles de calidad.** Qué hace que una página esté completa. Cuándo marcar incertidumbre. Cómo gestionar fuentes contradictorias. La regla de que cada afirmación debe tener una fuente rastreable."
+        "**Estructura de directorios.** Dónde van las fuentes brutas, dónde van las páginas de la wiki y cómo se organizan en categorías.",
+        "**Formato de página.** Campos del frontmatter, estructura de secciones, reglas de atribución de fuentes y convenciones de referencias cruzadas.",
+        "**Operaciones.** Flujos de trabajo paso a paso para ingerir fuentes, responder consultas, ejecutar comprobaciones de salud y mantener la wiki a lo largo del tiempo.",
+        "**Criterios de calidad.** Qué hace que una página esté completa. Cuándo marcar incertidumbre. Cómo gestionar fuentes contradictorias. La regla de que cada afirmación debe rastrearse hasta una fuente."
       ]
     },
     {
       "type": "p",
-      "text": "Sin esto, el agente improvisa. Crea páginas en ubicaciones aleatorias, usa formatos inconsistentes, duplica contenido entre páginas y se desvía de tus convenciones en cada sesión. El esquema previene la deriva. Lo trato como código de producción: cada cambio es deliberado y se prueba contra ingest real."
+      "text": "Sin estas definiciones, el agente improvisa. Crea páginas en ubicaciones aleatorias, usa formatos inconsistentes, duplica contenido y se desvía de las convenciones con cada sesión. El esquema previene esa deriva. Se trata como código de producción: cada cambio es deliberado y se prueba con un ingreso real."
     },
     {
       "type": "h2",
@@ -113,24 +113,24 @@
     },
     {
       "type": "p",
-      "text": "No necesitas 17 archivos, un grafo de skills de contenido ni un pipeline de embeddings personalizado. Necesitas cuatro cosas:"
+      "text": "No hacen falta 17 archivos, un grafo de habilidades de contenido ni un pipeline de embeddings personalizado. Solo cuatro elementos:"
     },
     {
       "type": "ul",
       "items": [
-        "**Un vault de Obsidian con dos carpetas.** `raw/` para documentos fuente y `wiki/` para páginas generadas por el agente. Ábrelo en Obsidian para la vista de grafo y la navegación.",
-        "**Un archivo de esquema.** Empieza con el [gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) de Karpathy. Personaliza la estructura de directorios y el formato de página para tu dominio. Mantenlo bajo 200 líneas para empezar.",
-        "**Un agente LLM con acceso a archivos.** [Claude Code](https://docs.anthropic.com/en/docs/claude-code), OpenAI Codex o cualquier agente que pueda leer y escribir archivos markdown. Apúntalo al vault. Lee el esquema al arrancar.",
-        "**Tu primera fuente.** Suelta un artículo, un conjunto de notas o un documento en `raw/`. Dile al agente que lo ingeste. Mira cómo crea páginas del wiki, construye referencias cruzadas y actualiza el índice."
+        "**Un vault de Obsidian con dos carpetas.** `raw/` para documentos fuente y `wiki/` para páginas generadas por el agente. Ábralo en Obsidian para la vista de grafo y la navegación.",
+        "**Un archivo de esquema.** Comience con el [gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) de Karpathy. Personalice la estructura de directorios y el formato de página para su dominio. Manténgalo en menos de 200 líneas para empezar.",
+        "**Un agente LLM con acceso a archivos.** [Claude Code](https://docs.anthropic.com/en/docs/claude-code), OpenAI Codex o cualquier agente que pueda leer y escribir archivos markdown. Apúntelo al vault. Lee el esquema al iniciarse.",
+        "**Su primera fuente.** Deposite un artículo, un conjunto de notas o un documento en `raw/`. Indíquele al agente que lo ingiera. Observará cómo crea páginas de wiki, construye referencias cruzadas y actualiza el índice."
       ]
     },
     {
       "type": "p",
-      "text": "Ese es el bucle completo. El sistema mejora cada día porque cada fuente que añades y cada pregunta que haces enriquece el wiki. El primer ingest requiere 10 minutos de atención activa. Para el vigésimo, el agente conoce tu dominio lo suficientemente bien como para extraer y crear referencias cruzadas con una guía mínima."
+      "text": "Ese es el ciclo completo. El sistema mejora cada día porque cada fuente añadida y cada pregunta formulada enriquece la wiki. El primer ingreso requiere 10 minutos de atención activa. Hacia el vigésimo, el agente conoce el dominio lo suficientemente bien como para extraer y establecer referencias cruzadas con una guía mínima."
     },
     {
       "type": "p",
-      "text": "Herramientas opcionales a medida que escala: [qmd](https://github.com/tobi/qmd) de Tobi Lutke para búsqueda híbrida local con BM25 y recuperación vectorial cuando superas las 300 páginas. La extensión Obsidian Web Clipper para llevar artículos web a tu carpeta raw rápidamente. Dataview para ejecutar consultas sobre el frontmatter de páginas. Git para el historial de versiones. Nada de esto es necesario para empezar."
+      "text": "Herramientas opcionales para cuando se escala: [qmd](https://github.com/tobi/qmd) by Tobi Lutke para búsqueda híbrida local con BM25 y recuperación vectorial cuando se superan las 300 páginas. La extensión Obsidian Web Clipper para incorporar artículos web rápidamente a la carpeta de fuentes brutas. Dataview para ejecutar consultas sobre el frontmatter de las páginas. Git para el historial de versiones. Nada de esto es necesario para empezar."
     },
     {
       "type": "h2",
@@ -138,31 +138,31 @@
     },
     {
       "type": "p",
-      "text": "La mayor parte de la complejidad que la gente asocia con los sistemas de conocimiento para IA es overhead para problemas que todavía no tienen. Una base de datos vectorial para 200 documentos. Un modelo de embeddings personalizado cuando un índice mantenido resuelve la recuperación. Un pipeline de re-indexación cuando añadir un documento significa escribir un archivo. Una estrategia de chunking cuando la página es la unidad. Nada de eso es necesario a la escala en que opera la mayoría de negocios."
+      "text": "Gran parte de la complejidad que la gente asocia con los sistemas de conocimiento para IA es sobrecarga para problemas que todavía no existen. Una base de datos vectorial para 200 documentos, un modelo de embeddings personalizado cuando un índice mantenido hace la recuperación, un pipeline de reindexación cuando añadir un documento significa escribir un archivo, una estrategia de fragmentación cuando la página es la unidad. Nada de esto es necesario a la escala en que opera la mayoría de los negocios."
     },
     {
       "type": "p",
-      "text": "El patrón funciona porque markdown es simple y los LLMs son buenos leyéndolo y escribiéndolo. El coste de infraestructura es cero. El coste de mantenimiento es bajo porque el LLM hace las tareas administrativas, aunque se recomienda una revisión humana periódica. El único coste real es la disciplina para mantener el esquema honesto y la calidad del ingest alta. Eso es un problema humano, no tecnológico."
+      "text": "El patrón funciona porque markdown es sencillo y los LLMs son buenos leyéndolo y escribiéndolo. El coste de infraestructura es cero. El coste de mantenimiento es bajo porque el LLM gestiona las actualizaciones del índice; aun así, se recomienda una revisión humana periódica para garantizar la precisión. El único coste real es la disciplina para mantener el esquema honesto y la calidad del ingreso alta. Ese es un problema humano, no tecnológico."
     },
     {
       "type": "h2",
-      "text": "Qué significa esto para los negocios"
+      "text": "Casos de uso empresariales"
     },
     {
       "type": "p",
-      "text": "La misma arquitectura funciona a escala empresarial. Sustituye las notas personales por documentación de clientes, playbooks de ventas, guías de onboarding y SOPs internos. Sustituye el agente de una persona por el agente de cada miembro del equipo leyendo desde una base de conocimiento compartida."
+      "text": "La misma arquitectura funciona a escala de empresa. Se reemplazan las notas personales por documentación de clientes, playbooks de ventas, guías de incorporación y SOPs internos. Se reemplaza el agente de una persona por el agente de cada miembro del equipo, leyendo desde una base de conocimiento compartida."
     },
     {
       "type": "p",
-      "text": "El patrón es idéntico: las fuentes en bruto entran, el agente compila páginas estructuradas, las referencias cruzadas se construyen automáticamente, los humanos validan. La diferencia es que una capa de conocimiento compartida hace que los nuevos miembros del equipo sean productivos de inmediato. Su agente ya conoce el historial del cliente, las convenciones internas y el contexto del proyecto. Sin seis semanas de rampa. Sin conocimiento tribal encerrado en la cabeza de alguien."
+      "text": "El patrón es idéntico: las fuentes brutas entran, el agente compila páginas estructuradas, las referencias cruzadas se construyen automáticamente y las personas validan. La diferencia es que una capa de conocimiento compartida hace que los nuevos miembros del equipo sean productivos de inmediato. Su agente ya conoce el historial del cliente, las convenciones internas y el contexto del proyecto. Sin incorporaciones de seis semanas. Sin conocimiento tribal bloqueado en la cabeza de alguien."
     },
     {
       "type": "p",
-      "text": "Karpathy lo llama LLM wiki. Eric Osiu lo llama shared brain. Cody Schneider lo llama data warehouse. El nombre sigue cambiando. El patrón no: los agentes necesitan conocimiento compilado y estructurado para hacer trabajo útil. Sin contexto persistente, los prompts operan sin el conocimiento institucional que necesitan."
+      "text": "Karpathy lo llama una wiki LLM. Eric Osiu lo llama un cerebro compartido. Cody Schneider lo llama un almacén de datos. El nombre sigue cambiando. El patrón no: los agentes necesitan conocimiento compilado y estructurado para hacer trabajo útil. Sin contexto persistente, los prompts operan sin el conocimiento institucional que necesitan."
     },
     {
       "type": "p",
-      "text": "**[webvise](/#contact)** construye capas de conocimiento para negocios que quieren que sus agentes de IA sepan realmente de lo que hablan. Si pasas más tiempo explicando contexto a tus herramientas que obteniendo valor de ellas, este es el problema que esto resuelve. [Ponte en contacto](/#contact)."
+      "text": "**[webvise](/#contact)** construye capas de conocimiento para empresas que quieren que sus agentes de IA realmente sepan de qué están hablando. Si usted dedica más tiempo a explicar contexto a sus herramientas que a obtener valor de ellas, este es el problema que se resuelve. [Póngase en contacto](/#contact)."
     }
   ]
 }

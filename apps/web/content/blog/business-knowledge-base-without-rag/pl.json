@@ -1,70 +1,70 @@
 {
   "date": "2026-04-07",
   "readingTime": 8,
-  "keyword": "baza wiedzy dla firm bez RAG",
+  "keyword": "firmowa baza wiedzy bez RAG",
   "title": "Większość firmowych baz wiedzy nie potrzebuje RAG",
-  "excerpt": "Mój wewnętrzny wiki działa na pięciu poleceniach shell i ręcznie utrzymywanym pliku indeksu, bez żadnej vector database. Dla bazy wiedzy liczącej 200 dokumentów takie rozwiązanie jest tańsze, szybsze we wdrożeniu i dokładniejsze niż pipeline RAG. Oto dlaczego zrezygnowałem z RAG i kiedy naprawdę jest potrzebny.",
-  "metaDescription": "Dlaczego większość firmowych baz wiedzy poniżej 1000 dokumentów nie potrzebuje pipeline RAG. Rzeczywiste liczby z mojego wewnętrznego vault, pięć poleceń, które go zastępują, oraz kiedy RAG nadal jest właściwym wyborem.",
+  "excerpt": "Wewnętrzne wiki działa na pięciu poleceniach powłoki i ręcznie utrzymywanym pliku indeksu, bez żadnej bazy wektorowej. W przypadku bazy wiedzy liczącej około 200 dokumentów takie rozwiązanie jest tańsze, szybsze w budowie i dokładniejsze niż potok RAG. Oto dlaczego RAG został pominięty i kiedy rzeczywiście jest potrzebny.",
+  "metaDescription": "Dlaczego większość firmowych baz wiedzy poniżej 1000 dokumentów nie potrzebuje potoku RAG. Rzeczywiste liczby z produkcyjnego wewnętrznego repozytorium, pięć poleceń, które go zastępują, i kiedy RAG pozostaje właściwym wyborem.",
   "tags": ["AI Agents", "AI", "Automation", "Business Strategy"],
   "cta": "Skontaktuj się",
   "blocks": [
     {
       "type": "p",
-      "text": "Mój wewnętrzny wiki firmowy działa na pięciu poleceniach shell i ręcznie utrzymywanym pliku indeksu. Żadnych embeddings, żadnej vector database, żadnego zadania re-indeksowania. Dla bazy wiedzy liczącej około 200 dokumentów takie rozwiązanie jest szybsze we wdrożeniu, tańsze w utrzymaniu i dokładniejsze niż typowy pipeline RAG. Kompromis zaczyna się opłacać gdzieś powyżej tysiąca dokumentów, nie wcześniej."
+      "text": "Wewnętrzne firmowe wiki działa na pięciu poleceniach powłoki i ręcznie utrzymywanym pliku indeksu. Bez embeddingów, bez bazy wektorowej, bez zadań re-indeksowania. W przypadku bazy wiedzy liczącej około 200 dokumentów takie rozwiązanie jest szybsze w budowie, tańsze w utrzymaniu i dokładniejsze niż typowy potok RAG. Opłacalność tego drugiego podejścia pojawia się gdzieś powyżej tysiąca dokumentów, nie wcześniej."
     },
     {
       "type": "h2",
-      "text": "Kilka słów o Karpathym i Obsidian"
+      "text": "Kilka słów o Karpathym i Obsidianie"
     },
     {
       "type": "p",
-      "text": "Dwie rzeczy sprawiły, że to podejście stało się dla mnie oczywiste. Pierwsza to konsekwentny argument Andreja Karpathy'ego, że agenty AI powinny otrzymywać narzędzia, a nie pobrane fragmenty tekstu. Jego projekt [AutoResearch](https://github.com/karpathy/autoresearch), opublikowany w marcu 2026, ilustruje tę tezę dosłownie: agent uruchamia kod zamiast odpytywać embeddings, a postęp wynika z wykonania. AutoResearch omówiłem szczegółowo [we wcześniejszym artykule](/blog/karpathy-autoresearch-ai-experiments)."
+      "text": "Dwie rzeczy sprawiły, że to podejście stało się oczywiste. Pierwsza to konsekwentny argument Andreje Karpathy'ego, że agenty AI powinny otrzymywać narzędzia, a nie wycinki pobranych fragmentów. Jego projekt [AutoResearch](https://github.com/karpathy/autoresearch), opublikowany w marcu 2026 roku, ilustruje to dosłownie: agent uruchamia kod zamiast odpytywać embeddingi, a postęp wynika z wykonania. AutoResearch zostało omówione szczegółowo w [jednym z wcześniejszych wpisów](/blog/karpathy-autoresearch-ai-experiments)."
     },
     {
       "type": "p",
-      "text": "Druga rzecz to Obsidian. Vault Obsidian to zwykły folder z plikami markdown. Nie ma tu własnościowej bazy danych, schematu do migracji ani SDK do nauki. W połączeniu z lokalną wtyczką REST API Obsidiana cała baza wiedzy jest dostępna przez normalny endpoint HTTP, który dowolny proces może odczytywać i zapisywać. To połączenie sprawia, że wzorzec \"daj agentowi narzędzia\" jest trywialny w implementacji: kilka poleceń shell i mamy LLM, który może czytać, pisać i przeszukiwać ustrukturyzowaną bazę wiedzy bezpośrednio."
+      "text": "Druga rzecz to Obsidian. Repozytorium Obsidiana to zwykły folder plików markdown. Nie ma tu zastrzeżonej bazy danych, schematu do migracji ani SDK do nauki. W połączeniu z wtyczką lokalnego REST API Obsidiana cała baza wiedzy jest dostępna za pośrednictwem zwykłego punktu końcowego HTTP, z którego każdy proces może odczytywać i zapisywać dane. To połączenie sprawia, że wzorzec \"daj agentowi narzędzia\" jest trywialnie prosty do wdrożenia: kilka poleceń powłoki wystarczy, by LLM mógł czytać, pisać i przeszukiwać ustrukturyzowaną bazę wiedzy bezpośrednio."
     },
     {
       "type": "h2",
-      "text": "Co faktycznie uruchamiam"
+      "text": "Co faktycznie działa w produkcji"
     },
     {
       "type": "p",
-      "text": "Mój wewnętrzny wiki to dziś 22 strony ustrukturyzowanej wiedzy: encje (osoby, firmy, projekty), koncepty (frameworki i zasady), źródła (surowe notatki badawcze) oraz strony syntezy, które je łączą. Każda strona linkuje do innych stron za pomocą wikilinks Obsidiana, a ręcznie utrzymywany `index.md` w katalogu głównym wymienia wszystko według kategorii z jednowierszowymi opisami."
+      "text": "Wewnętrzne wiki liczy dziś 22 strony ustrukturyzowanej wiedzy: encje (osoby, firmy, projekty), koncepcje (frameworki i zasady), źródła (surowe notatki badawcze) oraz strony syntetyzujące, które je łączą. Każda strona zawiera linki do innych stron za pomocą wikilinków Obsidiana, a ręcznie utrzymywany plik `index.md` w katalogu głównym wymienia wszystko według kategorii z opisami w jednym zdaniu."
     },
     {
       "type": "p",
-      "text": "Agent nie przeszukuje vault za pomocą embeddings. Uruchamia pięć poleceń:"
+      "text": "Agent nie przeszukuje repozytorium za pomocą embeddingów. Uruchamia pięć poleceń:"
     },
     {
       "type": "ul",
       "items": [
-        "**`wiki read <path>`**. Pobierz pojedynczą stronę markdown.",
-        "**`wiki write <path> -`**. Utwórz lub nadpisz stronę ze stdin.",
-        "**`wiki append <path> <text>`**. Dodaj linię do strony (używane do bieżącego dziennika aktywności).",
-        "**`wiki search <query>`**. Wywołaj wbudowane wyszukiwanie pełnotekstowe Obsidiana.",
-        "**`wiki list <dir>`**. Wylistuj pliki w katalogu."
+        "**`wiki read <path>`**. Pobiera pojedynczą stronę markdown.",
+        "**`wiki write <path> -`**. Tworzy lub nadpisuje stronę ze stdin.",
+        "**`wiki append <path> <text>`**. Dodaje wiersz do strony (używane w dzienniku aktywności).",
+        "**`wiki search <query>`**. Korzysta z wbudowanego wyszukiwania pełnotekstowego Obsidiana.",
+        "**`wiki list <dir>`**. Wyświetla pliki w katalogu."
       ]
     },
     {
       "type": "p",
-      "text": "Cała implementacja to mniej więcej 80 linii bash i curl. Nie ma vector database, modelu embeddingów, strategii chunking, reranker ani nocnego zadania indeksowania. Dodanie nowej notatki oznacza zapisanie pliku. Agent pobiera ją przy następnym zapytaniu bez żadnego etapu pipeline pomiędzy."
+      "text": "Cała implementacja to około 80 linii kodu bash i curl. Nie ma bazy wektorowej, modelu embeddingów, strategii podziału na fragmenty, rerankera ani nocnego zadania indeksowania. Dodanie nowej notatki polega na zapisaniu pliku. Agent uwzględnia ją przy następnym zapytaniu, bez żadnego kroku potoku pomiędzy."
     },
     {
       "type": "h2",
-      "text": "Plik indeksu jest systemem wyszukiwania"
+      "text": "Plik indeksu jako system wyszukiwania"
     },
     {
       "type": "p",
-      "text": "Niewygodny fragment: agent zaczyna od `wiki/index.md`. Ten uporządkowany spis treści wymienia każdą stronę z jednozdaniowym opisem pogrupowanym według kategorii. Po jednym odczycie około 400 tokenów agent wie już, które jedna lub dwie strony są istotne."
+      "text": "Istota podejścia: agent zaczyna od pliku `wiki/index.md`. Ten starannie prowadzony spis treści wymienia każdą stronę z opisem w jednym zdaniu, pogrupowanym według kategorii. Z tego jednego odczytu wynoszącego około 400 tokenów agent wie już, która jedna lub dwie strony są istotne."
     },
     {
       "type": "p",
-      "text": "Kolejny krok to jeden lub dwa celowane odczyty, które pobierają odpowiednie strony w całości. Każda strona ma od 200 do 800 tokenów. Większość zapytań kończy się na dwóch lub trzech odczytach i mniej więcej tysiącu tokenach zawartości vault w oknie kontekstu. To mniej niż to, co wstrzykuje domyślna konfiguracja RAG, a treść jest spójna (całe strony), a nie pocięta (fragmenty wyrwane z otaczającego kontekstu)."
+      "text": "Kolejny krok to jedno lub dwa ukierunkowane odczyty pobierające odpowiednie strony w całości. Każda strona liczy od 200 do 800 tokenów. Większość zapytań kończy się po dwóch lub trzech odczytach, z mniej więcej tysiącem tokenów zawartości repozytorium w oknie kontekstu. To mniej niż to, co wstrzykuje domyślna konfiguracja RAG, a treść jest spójna (całe strony), a nie poszatkowana (fragmenty wyrwane z otaczającego kontekstu)."
     },
     {
       "type": "p",
-      "text": "Utrzymywany indeks wykonuje pracę, którą vector database wykonuje w pipeline RAG: mapuje zapytanie na właściwe dokumenty. Różnica polega na tym, że człowiek raz stworzył to mapowanie, zamiast modelu embeddingów przybliżającego je przy każdym zapytaniu."
+      "text": "Utrzymywany indeks spełnia rolę, którą w potoku RAG pełni baza wektorowa: mapuje zapytanie na właściwe dokumenty. Różnica polega na tym, że człowiek raz stworzył to odwzorowanie, zamiast przybliżania go przez model embeddingów przy każdym zapytaniu."
     },
     {
       "type": "h2",
@@ -72,35 +72,35 @@
     },
     {
       "type": "p",
-      "text": "Dla małej firmowej bazy wiedzy liczącej około 200 dokumentów przedstawiam, ile kosztuje domyślna konfiguracja RAG w porównaniu z wzorcem dostępu do plików opartego na indeksie. Liczby tokenów pochodzą z obserwacji mojego własnego vault. Liczby dotyczące infrastruktury pochodzą z publicznych cenników najpopularniejszych usług zarządzanych."
+      "text": "W przypadku małej firmowej bazy wiedzy liczącej około 200 dokumentów poniżej przedstawiono porównanie domyślnej konfiguracji RAG z wzorcem dostępu do plików opartym na indeksie. Liczby tokenów to szacunki kierunkowe oparte na typowych wzorcach wyszukiwania. Dane dotyczące infrastruktury pochodzą z publicznych cenników najpopularniejszych usług zarządzanych."
     },
     {
       "type": "table",
-      "headers": ["Element", "Pipeline RAG", "Indeks + narzędzia"],
+      "headers": ["Element", "Potok RAG", "Indeks + narzędzia"],
       "rows": [
         [
-          "Tokeny wstrzykiwane na zapytanie",
-          "~3 000 (5 do 10 fragmentów)",
-          "~1 000 (1 odczyt indeksu + 1 do 2 stron)"
+          "Tokeny wstrzyknięte na zapytanie",
+          "~3000 (5 do 10 fragmentów)",
+          "~1000 (1 odczyt indeksu + 1 do 2 stron)"
         ],
         [
-          "Vector database (miesięcznie)",
-          "$25 do $80 (Pinecone, Weaviate, Qdrant Cloud)",
-          "$0"
+          "Baza wektorowa (miesięcznie)",
+          "25 do 80 USD (Pinecone, Weaviate, Qdrant Cloud)",
+          "0 USD"
         ],
-        ["Embedding API (wstępne + aktualizacje)", "$10 do $40", "$0"],
+        ["API embeddingów (inicjalne + aktualizacje)", "10 do 40 USD", "0 USD"],
         [
           "Re-indeksowanie przy zmianie dokumentu",
           "Wymagane, zadanie wsadowe",
           "Brak, natychmiastowe"
         ],
         [
-          "Czas wdrożenia",
-          "Dni (chunking, wyszukiwanie, ewaluacja)",
+          "Czas konfiguracji",
+          "Dni (fragmentowanie, wyszukiwanie, ewaluacja)",
           "Godziny (napisanie małego wrappera CLI)"
         ],
         [
-          "Dokładność odpowiedzi na małych zbiorach",
+          "Dokładność odpowiedzi na małych korpusach",
           "Zmienna, wrażliwa na granice fragmentów",
           "Wysoka, całe strony zachowane"
         ]
@@ -108,38 +108,38 @@
     },
     {
       "type": "p",
-      "text": "Oszczędności tokenów na zapytanie rzędu 30 do 60 procent w moim własnym vault są realne - wyniki zależą od struktury korpusu i wzorców zapytań -, ale to nie jest najważniejsza informacja. Najważniejsze jest wszystko w drugiej kolumnie, co znika. Żadnej pozycji vector database na miesięcznej fakturze. Żadnego modelu embeddingów do utrzymywania. Żadnej sesji debugowania \"zmieniliśmy strategię chunking i odpowiedzi się zmieniły\". Dla bazy wiedzy, która swobodnie mieści się w głowie jednej osoby, każdy z tych ruchomych elementów to narzut bez odpowiadającej mu korzyści."
+      "text": "Oszczędności tokenów zależą od struktury korpusu i wzorców zapytań. Ważniejsze jest to, co znika z drugiej kolumny: żadnej pozycji bazy wektorowej na miesięcznej fakturze, żadnego modelu embeddingów do utrzymania i żadnych sesji debugowania strategii podziału na fragmenty, gdy odpowiedzi się zmieniają. W przypadku bazy wiedzy, która swobodnie mieści się w głowie jednej osoby, każdy z tych ruchomych elementów to narzut bez odpowiadającej mu korzyści."
     },
     {
       "type": "h2",
-      "text": "O czym przestajesz myśleć"
+      "text": "Co przestaje zaprzątać uwagę"
     },
     {
       "type": "p",
-      "text": "Najlepszym sposobem na uzasadnienie tego wzorca jest wymienienie decyzji, które znikają:"
+      "text": "Najczystszy argument na rzecz tego wzorca to lista decyzji, które znikają:"
     },
     {
       "type": "ul",
       "items": [
-        "**Strategia chunking.** Żadnej debaty: \"czy dzielić na akapity, zdania, czy liczbę tokenów?\". Strona jest jednostką.",
-        "**Wybór modelu embeddingów.** Żadnego projektu badawczego porównującego text-embedding-3-small z dostrojonymi alternatywami.",
-        "**Operacje na vector database.** Żadnej usługi zarządzanej do monitorowania, aktualizowania ani budżetowania.",
-        "**Pipelines re-indeksowania.** Żadnego nocnego zadania wsadowego, żadnych wiadomości Slack \"indeks jest nieaktualny\".",
-        "**Harness ewaluacji wyszukiwania.** Żadnego zestawu testów precyzji i pełności działającego obok bazy wiedzy.",
-        "**Strojenie hybrid search.** Żadnego pipeline BM25 + wektor + rerank do utrzymywania w równowadze."
+        "**Strategia podziału na fragmenty.** Koniec z debatą \"czy dzielić według akapitu, zdania, liczby tokenów?\". Strona jest jednostką.",
+        "**Wybór modelu embeddingów.** Żadnych projektów badawczych porównujących text-embedding-3-small z dostrojonymi alternatywami.",
+        "**Obsługa bazy wektorowej.** Żadnej zarządzanej usługi do monitorowania, aktualizowania ani budżetowania.",
+        "**Potoki re-indeksowania.** Żadnych nocnych zadań wsadowych, żadnych wiadomości na Slacku o nieaktualnym indeksie.",
+        "**Zestaw do ewaluacji wyszukiwania.** Żadnego zestawu testów precyzji i pokrycia działającego równolegle z bazą wiedzy.",
+        "**Strojenie hybrydowego wyszukiwania.** Żadnego potoku BM25 plus wektory plus reranker do utrzymywania w równowadze."
       ]
     },
     {
       "type": "p",
-      "text": "To mniej więcej cały podręcznik operacji RAG, usunięty. Zastępuje go jeden skrypt shell i dyscyplina utrzymywania dokładnego pliku indeksu. Dyscyplina jest realna, ale jest to ta sama dyscyplina, która sprawia, że wiki jest wartościowe dla ludzi."
+      "text": "To w zasadzie cały podręcznik operacyjny RAG, wyeliminowany. Zastępuje go jeden skrypt powłoki i dyscyplina utrzymywania aktualności pliku indeksu. Ta dyscyplina jest realna, ale jest tą samą dyscypliną, która w pierwszej kolejności sprawia, że wiki jest wartościowa dla ludzi."
     },
     {
       "type": "h2",
-      "text": "Kiedy RAG nadal jest właściwym wyborem"
+      "text": "Kiedy RAG pozostaje właściwym wyborem"
     },
     {
       "type": "p",
-      "text": "Ten wzorzec ma wyraźne ograniczenia. Utrzymywany indeks przestaje działać gdzieś około tysiąca dokumentów, gdy człowiek nie jest już w stanie utrzymać struktury w głowie, a plik indeksu staje się zbyt długi, by agent mógł go sprawnie skanować przy każdym zapytaniu. Powyżej tej skali embeddings i prawdziwa warstwa wyszukiwania zaczynają się opłacać."
+      "text": "Ten wzorzec ma wyraźne ograniczenia. Utrzymywany indeks przestaje działać sprawnie gdzieś około tysiąca dokumentów, kiedy człowiek nie jest już w stanie utrzymać struktury w głowie, a plik indeksu staje się zbyt długi, by agent mógł go efektywnie skanować przy każdym zapytaniu. Powyżej tej skali embeddingi i właściwa warstwa wyszukiwania zaczynają się opłacać."
     },
     {
       "type": "p",
@@ -148,31 +148,31 @@
     {
       "type": "ul",
       "items": [
-        "**Zbiory multimodalne.** Pliki PDF z tabelami, zeskanowane dokumenty, transkrypcje audio, raporty z dużą ilością obrazów. Vault markdown zakłada, że wszystko sprowadza się do tekstu.",
-        "**Aktualizacje o wysokiej częstotliwości na dużą skalę.** Jeśli indeksujesz tysiące publicznych dokumentów zmieniających się co minutę i potrzebujesz natychmiastowej możliwości ich odpytywania.",
-        "**Ścisłe filtrowanie metadanych przy wyszukiwaniu.** Gdy zapytania wymagają ustrukturyzowanych filtrów (zakresy dat, autor, typ dokumentu) wbudowanych w etap wyszukiwania, vector database z metadanymi jest lepszym rozwiązaniem.",
-        "**Niezaufana lub wroga zawartość.** Gdy korpus pochodzi od wielu autorów o sprzecznych celach i żaden pojedynczy człowiek nie może być powierzony utrzymaniem kuratowanego indeksu."
+        "**Korpusy multimodalne.** Pliki PDF z tabelami, zeskanowane dokumenty, transkrypcje audio, raporty z dużą ilością grafik. Repozytorium markdown zakłada, że wszystko sprowadza się do tekstu.",
+        "**Częste aktualizacje na dużą skalę.** Indeksowanie tysięcy publicznych dokumentów zmieniających się co minutę z wymogiem natychmiastowej dostępności do zapytań.",
+        "**Ścisłe filtrowanie metadanych przy wyszukiwaniu.** Gdy zapytania wymagają ustrukturyzowanych filtrów (zakresy dat, autor, typ dokumentu) wbudowanych w etap wyszukiwania, baza wektorowa z metadanymi jest lepszym rozwiązaniem.",
+        "**Treści niezaufane lub wrogie.** Gdy korpus pochodzi od wielu autorów o sprzecznych celach i żadna pojedyncza osoba nie może być odpowiedzialna za utrzymanie skurowanego indeksu."
       ]
     },
     {
       "type": "p",
-      "text": "Dla większości wewnętrznych firmowych baz wiedzy (wiki firmowe, dokumentacja produktowa, playbooki sprzedażowe, przewodniki onboardingowe, wewnętrzne SOPs) żaden z tych warunków nie zachodzi. Korpus jest mały, autorów jest niewielu, struktura jest stabilna, a osoby utrzymujące dokumentację to te same osoby, którym najbardziej zależy na jej poprawności. Dla przypadków użycia, które obserwuję, RAG jest często złym domyślnym wyborem."
+      "text": "W przypadku większości wewnętrznych firmowych baz wiedzy (firmowe wiki, dokumentacja produktu, podręczniki sprzedaży, materiały onboardingowe, wewnętrzne standardowe procedury operacyjne) żaden z tych warunków nie zachodzi. Korpus jest mały, autorów jest niewielu, struktura jest stabilna, a osoby utrzymujące dokumentację najbardziej dbają o jej poprawność. RAG jest często złym domyślnym wyborem dla przypadków użycia, z którymi mamy do czynienia."
     },
     {
       "type": "h2",
-      "text": "Co to oznacza dla większości firm"
+      "text": "Rozwiązanie odpowiednie dla większości firm"
     },
     {
       "type": "p",
-      "text": "Jeśli prowadzą Państwo małą lub średnią firmę, patrzą na istniejącą dokumentację i zastanawiają się, jak uczynić ją dostępną dla AI, uczciwa odpowiedź brzmi zazwyczaj: nie potrzebujecie Państwo vector database. Potrzebujecie pliku indeksu, krótkiego skryptu do odczytu i zapisu dokumentów oraz LLM z dostępem do narzędzi. Wszystkie komponenty są gotowe do użycia. Praca polega na utrzymywaniu indeksu w aktualnym stanie."
+      "text": "Jeśli prowadzą Państwo małą lub średnią firmę i zastanawiają się, jak udostępnić istniejącą dokumentację do zapytań przez AI, szczera odpowiedź brzmi zwykle: baza wektorowa nie jest potrzebna. Potrzebny jest plik indeksu, krótki skrypt czytający i zapisujący dokumenty oraz LLM z dostępem do narzędzi. Wszystkie komponenty są ogólnodostępne. Praca polega na utrzymywaniu aktualności indeksu."
     },
     {
       "type": "p",
-      "text": "Firmy sprzedające RAG jako usługę nie mylą się co do technologii. Po prostu definiują standard szerzej niż jest to konieczne dla większości wewnętrznych przypadków użycia. RAG jest właściwym narzędziem dla problemów w skali, której większość firm nie osiąga, i dla typów treści, których większość firm nie przechowuje. Sięganie po nie jako pierwsze to sposób, w jaki wewnętrzne projekty AI kończą się sześciomiesięcznym harmonogramem i cyklicznymi rachunkami za infrastrukturę, zanim odpowiedzą na pierwsze prawdziwe pytanie."
+      "text": "Dostawcy RAG jako usługi nie mylą się co do technologii. Spór dotyczy tego, kiedy powinna ona być domyślną architekturą. RAG jest właściwym narzędziem dla problemów o skali, której większość firm nie osiąga, i typów treści, których większość firm nie przechowuje. Sięganie po RAG w pierwszej kolejności prowadzi niekiedy do długich harmonogramów i powtarzających się kosztów infrastruktury, zanim oryginalny cel zostanie zrealizowany."
     },
     {
       "type": "p",
-      "text": "**[webvise](/#contact)** buduje wewnętrzne narzędzia AI na takich pragmatycznych podstawach: ustrukturyzowana wiedza, proste narzędzia, agenty czytające i piszące bezpośrednio. Jeśli rozważają Państwo projekt RAG dla dokumentacji swojego zespołu i chcą uzyskać drugą opinię na temat tego, czy złożoność jest uzasadniona, [zapraszam do kontaktu](/#contact), a wspólnie omówimy Państwa rzeczywisty korpus przed podjęciem decyzji o infrastrukturze."
+      "text": "**[webvise](/#contact)** buduje wewnętrzne narzędzia AI na takim pragmatycznym fundamencie: ustrukturyzowana wiedza, proste narzędzia, agenty czytające i zapisujące dane bezpośrednio. Jeśli rozważają Państwo projekt RAG dla dokumentacji swojego zespołu i chcą uzyskać drugą opinię na temat tego, czy złożoność jest uzasadniona, zapraszamy do [kontaktu](/#contact) w celu omówienia rzeczywistego korpusu przed podjęciem zobowiązania wobec infrastruktury."
     }
   ]
 }

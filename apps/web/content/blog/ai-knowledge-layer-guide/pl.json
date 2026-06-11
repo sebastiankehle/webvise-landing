@@ -2,19 +2,19 @@
   "date": "2026-04-15",
   "readingTime": 8,
   "keyword": "warstwa wiedzy AI",
-  "title": "Warstwa wiedzy AI: 127 stron, zero baz wektorowych i co zrobiłem źle",
-  "excerpt": "Gist Karpathy'ego o LLM wiki zebrał 99 000 zakładek w tydzień. Trafił w sedno, bo nazwał problem, który czuje każdy użytkownik AI: twoje agenty nie mają pamięci. Sam uruchamiam warstwę wiedzy na produkcji. Oto co działa, co nie działa i jak zbudować własną w 20 minut.",
-  "metaDescription": "Praktyczny przewodnik po budowaniu warstwy wiedzy AI od zespołu, który używa jej na produkcji. Architektura, konfiguracja, liczby z rzeczywistości i wnioski z trudnych lekcji.",
+  "title": "Warstwa wiedzy AI: 127 stron, zero baz wektorowych i to, co zrozumiałem dopiero po czasie",
+  "excerpt": "Gist Karpathy'ego zebrał 99 000 zakładek w ciągu tygodnia. Trafił w sedno, bo nazwał to, co czuje każdy użytkownik AI: agenci nie mają pamięci. Warstwa wiedzy działa tu produkcyjnie od miesięcy. Poniżej to, co sprawdza się w praktyce, co nie działa i jak zbudować własną w 20 minut.",
+  "metaDescription": "Praktyczny przewodnik po budowaniu warstwy wiedzy AI na podstawie doświadczeń z wdrożenia produkcyjnego. Architektura, konfiguracja, realne liczby i wnioski z trudnych lekcji.",
   "tags": ["AI Agents", "AI", "Automation", "Business Strategy"],
   "cta": "Skontaktuj się",
   "blocks": [
     {
       "type": "p",
-      "text": "Andrej Karpathy opublikował [gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) w kwietniu 2026 roku opisujący wzorzec budowania osobistych baz wiedzy z LLM. Zebrał 99 000 zakładek w tydzień. W ciągu kilku dni powstało wiele open-source'owych implementacji. [graphify](https://github.com/safishamsi/graphify) pojawił się po 48 godzinach i zebrał kolejne 27 000. Wzorzec trafił w punkt, bo nazwał znany problem: większość agentów nie ma trwałej pamięci między sesjami. Każda rozmowa zaczyna się od zera. Ponownie tłumaczysz swój biznes, cele, głos, kontekst, a wynik wychodzi generyczny, bo na wejściu nie było nic konkretnego."
+      "text": "Andrej Karpathy opublikował w kwietniu 2026 roku [gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) opisujący wzorzec budowania osobistych baz wiedzy z wykorzystaniem LLM. Zebrał 99 000 zakładek w ciągu tygodnia. W ciągu kilku dni pojawiły się liczne implementacje open source. [graphify](https://github.com/safishamsi/graphify) powstał w 48 godzin i zdobył kolejne 27 000. Wzorzec trafił w punkt, bo nazwał dobrze znany problem: większość agentów nie ma pamięci między sesjami. Każda rozmowa zaczyna się od zera. Trzeba od nowa tłumaczyć kontekst, cele, styl i specyfikę projektu, a odpowiedź wychodzi generyczna, bo dane wejściowe nie miały na czym się oprzeć."
     },
     {
       "type": "p",
-      "text": "W webvise warstwa wiedzy służy do wewnętrznych badań i dokumentacji klientów. Tego się nauczyłem."
+      "text": "W webvise warstwa wiedzy służy do badań i dokumentacji projektowej. Poniżej wnioski z jej użytkowania."
     },
     {
       "type": "h2",
@@ -22,15 +22,15 @@
     },
     {
       "type": "p",
-      "text": "Standardowy workflow z AI jest bezstanowy. Otwierasz czat, tłumaczysz czego potrzebujesz, dostajesz odpowiedź, zamykasz czat. Następna sesja, to samo tłumaczenie od początku. Kontekst, który zbudowałeś, przepada. Większość ludzi kompensuje to pisaniem dłuższych promptów, kopiowaniem dokumentów z tłem lub uploadowaniem plików na początku każdej sesji. To działa, ale nie skaluje się. W pewnym momencie okno kontekstowe się zapełnia, jakość spada, a przygotowanie promptu zajmuje więcej czasu niż sama praca."
+      "text": "Standardowy przepływ pracy z AI jest bezstanowy. Otwiera się czat, opisuje problem, otrzymuje odpowiedź, zamyka czat. Przy kolejnej sesji to samo od początku. Zbudowany wcześniej kontekst przepada. Większość osób radzi sobie z tym, pisząc dłuższe prompty, wklejając dokumenty kontekstowe lub wgrywając pliki na początku każdej sesji. To działa, ale nie skaluje się. W pewnym momencie okno kontekstu jest pełne, jakość odpowiedzi spada i przygotowanie promptu zajmuje więcej czasu niż sama praca."
     },
     {
       "type": "p",
-      "text": "Warstwa wiedzy rozwiązuje to na poziomie infrastruktury. Zamiast upychać kontekst w każdy prompt, dajesz agentowi dostęp do trwałej, ustrukturyzowanej bazy wiedzy, którą czyta przed każdym działaniem. Agent już zna twój biznes, twój głos, twoje projekty, twoją historię. Pomijasz ponowne tłumaczenia i od razu przechodzisz do pracy."
+      "text": "Warstwa wiedzy rozwiązuje ten problem na poziomie infrastruktury. Zamiast upychać kontekst w każdym prompcie, agent otrzymuje dostęp do trwałej, ustrukturyzowanej bazy wiedzy, którą czyta przed każdym działaniem. Zna już specyfikę projektu, konwencje, historię i styl. Ponowne tłumaczenie odpada, można od razu przejść do pracy."
     },
     {
       "type": "h2",
-      "text": "Trzy warstwy, zero baz wektorowych"
+      "text": "Trzy warstwy, zero bazy wektorowej"
     },
     {
       "type": "p",
@@ -39,56 +39,56 @@
     {
       "type": "ul",
       "items": [
-        "**Surowe źródła.** Folder z niezmiennymi dokumentami: artykuły, notatki, transkrypcje, PDF-y, nagrania spotkań, badania. Agent je czyta, ale nigdy nie modyfikuje. To twoje źródło prawdy.",
-        "**Wiki.** Katalog plików markdown generowanych przez LLM z wzajemnymi odniesieniami. Strony encji, strony konceptów, synteza, porównania, playbooki. Agent jest właścicielem tej warstwy. Tworzy strony, aktualizuje je gdy pojawiają się nowe źródła, utrzymuje cross-referencje i dba o spójność. Ty to czytasz. Agent to pisze.",
-        "**Schemat.** Dokument konfiguracyjny (CLAUDE.md, AGENTS.md lub odpowiednik), który mówi agentowi jak wiki jest zorganizowana, jakich konwencji przestrzegać i jakie workflow'y uruchamiać. To właśnie zamienia generyczny LLM w zdyscyplinowanego opiekuna wiki."
+        "**Surowe źródła.** Folder z niemodyfikowalnymi dokumentami: artykuły, notatki, transkrypcje, PDF-y, nagrania, materiały badawcze. Agent czyta je, nigdy nie zmienia. To źródło prawdy.",
+        "**Wiki.** Katalog plików markdown generowanych przez LLM z wzajemnymi odnośnikami: strony encji, strony koncepcji, syntezy, porównania, playbooki. Ta warstwa należy w całości do agenta. Tworzy strony, aktualizuje je po napłynięciu nowych źródeł, utrzymuje spójność odniesień. Agent pisze, człowiek czyta.",
+        "**Schemat.** Dokument konfiguracyjny (CLAUDE.md, AGENTS.md lub odpowiednik) opisujący strukturę wiki, konwencje i przepływy pracy. To on zamienia generyczny LLM w zdyscyplinowanego opiekuna wiki."
       ]
     },
     {
       "type": "p",
-      "text": "Wiki to **skompilowany artefakt**. Agent nie wyprowadza wiedzy od nowa przy każdym zapytaniu. Kompiluje raz, tworzy cross-referencje i utrzymuje aktualność. Gdy dodajesz nowe źródło, agent integruje je z istniejącą wiki, aktualizując każdą odpowiednią stronę. Gdy zadajesz pytanie, agent czyta wstępnie skompilowane strony zamiast przeszukiwać surowe dokumenty."
+      "text": "Wiki to **skompilowany artefakt**. Agent nie wyprowadza wiedzy od nowa przy każdym zapytaniu, lecz kompiluje raz, utrzymuje spójność odsyłaczy i aktualizuje na bieżąco. Po dodaniu nowego źródła integruje je z istniejącym wiki i uaktualnia wszystkie powiązane strony. Zapytanie trafia na gotowe, skompilowane strony zamiast przeszukiwać surowe dokumenty."
     },
     {
       "type": "h2",
-      "text": "Dlaczego to bije RAG w większości przypadków użycia"
+      "text": "Dlaczego to bije RAG w większości zastosowań"
     },
     {
       "type": "p",
-      "text": "RAG wyprowadza odpowiedzi w czasie zapytania przez dzielenie dokumentów na fragmenty i wyszukiwanie trafnych części. Podejście ze skompilowaną wiki całkowicie to pomija. graphify zmierzył **71,5x mniej tokenów na zapytanie** w porównaniu do przeszukiwania surowych plików w opublikowanym porównaniu; wyniki zależą od charakterystyki korpusu i rozkładu zapytań. Moje własne pomiary pokazują około 1000 tokenów zawartości vault na zapytanie, w porównaniu do 3000 lub więcej tokenów, które typowy pipeline RAG wstrzykuje."
+      "text": "RAG wyprowadza odpowiedzi w czasie zapytania, dzieląc dokumenty na fragmenty i wyszukując te trafne. Skompilowane wiki pomija ten etap całkowicie. W opublikowanym benchmarku graphify zmierzył **71,5x mniej tokenów na zapytanie** przy konkretnych charakterystykach korpusu i rozkładzie zapytań. Własne pomiary wskazują na około 1 000 tokenów treści z vaultu na zapytanie, wobec 3 000 lub więcej tokenów wstrzykiwanych przez typowy potok RAG."
     },
     {
       "type": "p",
-      "text": "Napisałem [pełne techniczne porównanie](/blog/business-knowledge-base-without-rag) RAG vs. wyszukiwanie oparte na indeksie. Krótka wersja: w analizowanych obciążeniach roboczych, skompilowana wiki wypadła lepiej niż RAG pod względem dokładności, kosztów i złożoności dla baz wiedzy poniżej 1000 dokumentów. Żadnej bazy wektorowej, modelu embeddingów, strategii chunkowania, zadania re-indeksowania. Pięć poleceń shell i utrzymywany plik indeksu."
+      "text": "Pełne techniczne porównanie RAG i wyszukiwania opartego na indeksie jest dostępne w artykule [na blogu](/blog/business-knowledge-base-without-rag). Krótkie podsumowanie: w testowanych obciążeniach podejście ze skompilowanym wiki okazało się lepsze pod względem dokładności, kosztów i złożoności operacyjnej. Żadnej bazy wektorowej, żadnego modelu embeddingów, żadnej strategii chunkowania, żadnego zadania re-indeksowania. Pięć poleceń powłoki i zarządzany plik indeksu."
     },
     {
       "type": "p",
-      "text": "Ewolucja przebiegała w trzech fazach: jednorazowy RAG od 2020 do 2023, agentowy RAG z wieloetapowym wyszukiwaniem od 2023 do 2024 i inżynieria kontekstu od 2025 roku, gdzie agent buduje własny kontekst z wielu źródeł. Warstwa wiedzy to infrastruktura dla tej trzeciej fazy. Większość zespołów wciąż buduje dla fazy pierwszej."
+      "text": "Ewolucja przebiegała w trzech fazach: jednorazowy RAG od 2020 do 2023 roku, agentyczny RAG z wieloetapowym wyszukiwaniem od 2023 do 2024 roku, a od 2025 roku inżynieria kontekstu, w której agent sam buduje kontekst z wielu źródeł. Warstwa wiedzy to infrastruktura dla tej trzeciej fazy. Większość zespołów wciąż buduje rozwiązania dla fazy pierwszej."
     },
     {
       "type": "h2",
-      "text": "Czego nauczyłem się, prowadząc własną"
+      "text": "Wnioski z eksploatacji"
     },
     {
       "type": "p",
-      "text": "Moja wewnętrzna wiki zawiera obecnie 127 ustrukturyzowanych stron w siedmiu kategoriach: ludzie, firmy, koncepty, playbooki, kolekcje, synteza i narzędzia. Każda strona opiera się na standardowym szablonie z YAML frontmatter, cross-referencjami przez Obsidian wikilinks i atrybucją źródeł. Agent wykonuje sześć zdefiniowanych operacji: ingest, aktualizacja konwersacyjna, zapytanie, lint, wzbogacenie i reorganizacja."
+      "text": "Wewnętrzne wiki obejmuje obecnie 127 ustrukturyzowanych stron w siedmiu kategoriach: ludzie, firmy, koncepcje, playbooki, kolekcje, syntezy i narzędzia. Każda strona stosuje standardowy szablon z frontmatterem YAML, odnośnikami przez wikiliniki Obsidian i atrybucją źródeł. Agent obsługuje sześć zdefiniowanych operacji: ingest, aktualizacja konwersacyjna, zapytanie, lint, wzbogacanie i reorganizacja."
     },
     {
       "type": "ul",
       "items": [
-        "**Plik schematu to cała gra.** Wszystko inne z niego wynika. Dobrze napisany schemat produkuje zdyscyplinowaną wiki ze spójnymi konwencjami. Niejednoznaczny schemat produkuje halucynacje i rozrastanie się struktury. Obecna wersja to około 200 linii i obejmuje strukturę katalogów, format strony, wszystkie sześć operacji, konwencje nazewnictwa i obsługę sprzeczności. Dotarcie do właściwej wersji wymagało kilku iteracji.",
-        "**Dedup-first zapobiega rozrastaniu się stron.** Moja zasada: przed stworzeniem nowej strony przeszukaj istniejącą wiki pod kątem nakładającej się treści. Jeśli istniejąca strona pokrywa 60% lub więcej tego samego terenu, wzbogać tę stronę zamiast tworzyć nową. Bez tej zasady wiki zapełnia się redundantnymi stronami, które fragmentują wiedzę na bezużyteczne kawałki.",
-        "**Zapytania kumulują się w bazie wiedzy.** Gdy zadajesz dobre pytanie i dostajesz użyteczną odpowiedź, ta odpowiedź trafia z powrotem jako nowa strona wiki. Następnym razem, gdy ktoś zada powiązane pytanie, agent ma już wstępnie skompilowaną syntezę do wykorzystania. To efekt kumulowania, który sprawia, że system z czasem staje się lepszy, nie tylko większy.",
-        "**Jakość ingestu zależy całkowicie od dyscypliny.** Wrzucenie surowego artykułu i powiedzenie \"zaingestuj to\" produkuje cienkie podsumowanie. Przejście przez źródło z agentem, omówienie wniosków i wskazanie co podkreślić produkuje strony, które pozostają użyteczne wraz z rozrostem wiki. Egzekwuję ścisły workflow: wyczyść surowy plik, omów kluczowe wnioski, poczekaj na zatwierdzenie, potem kompletna ekstrakcja.",
-        "**Plik indeksu to system wyszukiwania.** Mój główny indeks to 22 linie. Każdy podkatalog ma własny indeks z listą każdej strony i jednolinijkowym opisem. Agent czyta główny indeks przy około 400 tokenach, identyfikuje właściwy podkatalog, czyta ten indeks, potem pobiera konkretne strony, których potrzebuje. Większość zapytań kończy się trzema odczytami i około 1000 tokenami zawartości vault."
+        "**Plik schematu to fundament całości.** Wszystko inne z niego wynika. Dobrze napisany schemat daje zdyscyplinowane wiki ze spójnymi konwencjami. Niejasny schemat prowadzi do halucynacji i rozrostu. Aktualna wersja ma około 200 wierszy i obejmuje strukturę katalogów, format stron, wszystkie sześć operacji, konwencje nazewnictwa i obsługę sprzeczności. Doprowadzenie go do właściwej postaci wymagało kilku iteracji.",
+        "**Deduplikacja na wejściu zapobiega nadmiernemu rozrostowi stron.** Zasada: przed utworzeniem nowej strony należy przeszukać istniejące wiki pod kątem nakładających się treści. Jeśli istniejąca strona pokrywa 60% lub więcej tego samego materiału, wzbogaca się ją zamiast tworzyć nową. Bez tej reguły wiki zapełnia się redundantnymi stronami fragmentującymi wiedzę na bezużyteczne kawałki.",
+        "**Zapytania wzbogacają bazę wiedzy.** Dobre pytanie i użyteczna odpowiedź trafiają z powrotem do wiki jako nowa strona. Przy kolejnym pokrewnym zapytaniu agent ma już gotową skompilowaną syntezę. To efekt kumulacji, który sprawia, że system staje się lepszy, a nie tylko większy.",
+        "**Jakość ingestu zależy wyłącznie od dyscypliny.** Wrzucenie surowego artykułu z poleceniem 'poddaj ingestowi' daje cienkie streszczenie. Omówienie z agentem kluczowych wniosków i wskazanie, co podkreślić, daje strony użyteczne w miarę wzrostu wiki. Obowiązuje ścisły przepływ: czyszczenie pliku, dyskusja nad wnioskami, zatwierdzenie, pełna ekstrakcja.",
+        "**Plik indeksu to system wyszukiwania.** Indeks główny ma 22 wiersze. Każdy podkatalog ma własny indeks wymieniający każdą stronę z jednolinijkowym opisem. Agent czyta indeks główny przy około 400 tokenach, identyfikuje właściwy podkatalog, czyta tamtejszy indeks, po czym pobiera potrzebne strony. Większość zapytań kończy się trzema odczytami i około 1 000 tokenami treści z vaultu."
       ]
     },
     {
       "type": "h2",
-      "text": "Schemat to najważniejszy plik, który napiszesz"
+      "text": "Schemat to najważniejszy plik, jaki się pisze"
     },
     {
       "type": "p",
-      "text": "Karpathy nazywa to schematem. Ja nazywam to CLAUDE.md. Niektóre frameworki dzielą go na warstwę bazy wiedzy i fundament marki. Nazwa nie ma znaczenia. Ważne jest to, że jeden plik kontroluje zachowanie agenta w każdej sesji."
+      "text": "Karpathy nazywa go schematem. Tu nosi nazwę CLAUDE.md. Niektóre frameworki dzielą go na Knowledge Base Layer i Brand Foundation. Nazwa jest drugorzędna. Operacyjny fakt jest jeden: ten plik decyduje o zachowaniu agenta w każdej sesji."
     },
     {
       "type": "p",
@@ -97,40 +97,40 @@
     {
       "type": "ul",
       "items": [
-        "**Strukturę katalogów.** Gdzie trafiają surowe źródła, gdzie trafiają strony wiki, jak są zorganizowane w kategorie.",
-        "**Format strony.** Pola frontmatter, struktura sekcji, zasady atrybucji źródeł, konwencje cross-referencji.",
-        "**Operacje.** Krok po kroku workflow'y do ingestowania źródeł, odpowiadania na zapytania, uruchamiania health checków i utrzymywania wiki w czasie.",
-        "**Bramki jakości.** Co sprawia, że strona jest kompletna. Kiedy sygnalizować niepewność. Jak obsługiwać sprzeczne źródła. Zasada, że każde twierdzenie musi dać się prześledzić do źródła."
+        "**Strukturę katalogów.** Gdzie trafiają surowe źródła, gdzie strony wiki, jak są pogrupowane w kategorie.",
+        "**Format stron.** Pola frontmattera, strukturę sekcji, zasady atrybucji źródeł, konwencje odsyłaczy.",
+        "**Operacje.** Krok po kroku przepływy pracy dla ingestu źródeł, odpowiadania na zapytania, kontroli jakości i bieżącego utrzymania wiki.",
+        "**Kryteria jakości.** Co czyni stronę kompletną. Kiedy sygnalizować niepewność. Jak postępować ze sprzecznymi źródłami. Zasada, że każde twierdzenie musi mieć źródło."
       ]
     },
     {
       "type": "p",
-      "text": "Bez tego agent improwizuje. Tworzy strony w losowych lokalizacjach, używa niespójnych formatów, duplikuje treść między stronami i odpływa od twoich konwencji z każdą sesją. Schemat zapobiega dryfowi. Traktuję swój jak kod produkcyjny: każda zmiana jest celowa i testowana na rzeczywistym ingeście."
+      "text": "Bez tego agent improwizuje. Tworzy strony w przypadkowych miejscach, stosuje niespójne formaty, powiela treści i z każdą sesją oddala się od przyjętych konwencji. Schemat zapobiega dryfowi. Traktuje się go jak kod produkcyjny: każda zmiana jest celowa i przetestowana na realnym ingecie."
     },
     {
       "type": "h2",
-      "text": "Jak zbudować własną w 20 minut"
+      "text": "Jak zbudować własną warstwę w 20 minut"
     },
     {
       "type": "p",
-      "text": "Nie potrzebujesz 17 plików, grafu umiejętności treści ani niestandardowego pipeline'u embeddingów. Potrzebujesz czterech rzeczy:"
+      "text": "Nie są potrzebne 17 plików, graf umiejętności treści ani niestandardowy potok embeddingów. Wystarczą cztery rzeczy:"
     },
     {
       "type": "ul",
       "items": [
-        "**Vault Obsidian z dwoma folderami.** `raw/` dla dokumentów źródłowych i `wiki/` dla stron generowanych przez agenta. Otwórz w Obsidianie dla widoku grafu i nawigacji.",
-        "**Plik schematu.** Zacznij od [gista](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) Karpathy'ego. Dostosuj strukturę katalogów i format strony do swojej domeny. Na początek trzymaj się poniżej 200 linii.",
-        "**Agent LLM z dostępem do plików.** [Claude Code](https://docs.anthropic.com/en/docs/claude-code), OpenAI Codex lub dowolny agent, który może czytać i zapisywać pliki markdown. Wskaż mu vault. Czyta schemat przy starcie.",
-        "**Pierwsze źródło.** Wrzuć artykuł, zestaw notatek lub dokument do `raw/`. Powiedz agentowi, żeby to zaingestował. Obserwuj jak tworzy strony wiki, buduje cross-referencje i aktualizuje indeks."
+        "**Vault Obsidian z dwoma folderami.** `raw/` na dokumenty źródłowe i `wiki/` na strony generowane przez agenta. Obsidian zapewnia widok grafu i nawigację.",
+        "**Plik schematu.** Wyjście od [gista](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) Karpathy'ego. Dostosowanie struktury katalogów i formatu stron do własnej domeny. Na start wystarczy limit 200 wierszy.",
+        "**Agent LLM z dostępem do plików.** [Claude Code](https://docs.anthropic.com/en/docs/claude-code), OpenAI Codex lub dowolny agent potrafiący czytać i zapisywać pliki markdown. Wskazuje się mu vault, a schemat wczytuje się przy starcie.",
+        "**Pierwsze źródło.** Artykuł, zestaw notatek lub dokument trafia do `raw/`. Agent otrzymuje polecenie ingestu, tworzy strony wiki, buduje odsyłacze i aktualizuje indeks."
       ]
     },
     {
       "type": "p",
-      "text": "To cała pętla. System poprawia się każdego dnia, bo każde źródło, które dodajesz, i każde pytanie, które zadajesz, wzbogacają wiki. Pierwszy ingest zajmuje 10 minut aktywnej uwagi. Przy dwudziestym agent zna twoją domenę na tyle dobrze, żeby ekstrahować i tworzyć cross-referencje przy minimalnym prowadzeniu."
+      "text": "To zamknięta pętla. System poprawia się każdego dnia, bo każde dodane źródło i każde zadane pytanie wzbogaca wiki. Pierwszy ingest wymaga 10 minut aktywnej uwagi. Przy dwudziestym agent zna domenę na tyle dobrze, że ekstrahuje i tworzy powiązania przy minimalnym nadzorze."
     },
     {
       "type": "p",
-      "text": "Opcjonalne narzędzia gdy skalujesz: [qmd](https://github.com/tobi/qmd) Tobiego Lutke dla lokalnego hybrydowego wyszukiwania z BM25 i wyszukiwaniem wektorowym gdy przekroczysz 300 stron. Rozszerzenie Obsidian Web Clipper do szybkiego pobierania artykułów do folderu raw. Dataview do uruchamiania zapytań na frontmatter stron. Git dla historii wersji. Żadne z nich nie jest wymagane na start."
+      "text": "Opcjonalne narzędzia przy skalowaniu: [qmd](https://github.com/tobi/qmd) autorstwa Tobi Lutke do lokalnego wyszukiwania hybrydowego z BM25 i retrieval wektorowym, gdy liczba stron przekroczy 300. Rozszerzenie Obsidian Web Clipper do szybkiego pobierania artykułów z sieci do folderu raw. Dataview do zapytań nad frontmatterem stron. Git do historii wersji. Żadne z nich nie jest wymagane na start."
     },
     {
       "type": "h2",
@@ -138,31 +138,31 @@
     },
     {
       "type": "p",
-      "text": "Większość złożoności, którą ludzie kojarzą z systemami wiedzy AI, to narzut dla problemów, których jeszcze nie mają. Baza wektorowa dla 200 dokumentów, niestandardowy model embeddingów gdy utrzymywany indeks robi wyszukiwanie, pipeline re-indeksowania gdy dodanie dokumentu oznacza zapisanie pliku, strategia chunkowania gdy strona jest jednostką. Nic z tego nie jest konieczne w skali, w której działa większość biznesów."
+      "text": "Większość złożoności kojarzonej z systemami wiedzy AI to narzut na problemy, których jeszcze nie ma. Baza wektorowa dla 200 dokumentów, niestandardowy model embeddingów tam, gdzie zarządzany indeks wystarcza do wyszukiwania, potok re-indeksowania przy dodawaniu dokumentu sprowadzającym się do zapisania pliku, strategia chunkowania gdy stroną jest jednostka. Przy skali, w jakiej działa większość firm, nic z tego nie jest potrzebne."
     },
     {
       "type": "p",
-      "text": "Wzorzec działa, bo markdown jest prosty, a LLM dobrze go czyta i pisze. Koszt infrastruktury wynosi zero. Koszt utrzymania jest niski, bo LLM zajmuje się bookkeepingiem, choć okresowy przegląd ludzki jest nadal zalecany. Jedyny realny koszt to dyscyplina, żeby trzymać schemat w ryzach i utrzymywać jakość ingestu na poziomie. To problem ludzki, nie technologiczny."
+      "text": "Wzorzec działa, bo markdown jest prosty, a LLM-y dobrze go czytają i piszą. Koszt infrastruktury wynosi zero. Koszt utrzymania jest niski, bo LLM obsługuje aktualizacje indeksu, choć okresowy przegląd przez człowieka pozostaje wskazany dla zachowania dokładności. Jedynym realnym kosztem jest dyscyplina: dbałość o schemat i wysoką jakość ingestu. To problem ludzki, nie technologiczny."
     },
     {
       "type": "h2",
-      "text": "Co to oznacza dla firm"
+      "text": "Zastosowania biznesowe"
     },
     {
       "type": "p",
-      "text": "Ta sama architektura działa w skali firmowej. Zamień osobiste notatki na dokumentację klientów, playbooki sprzedażowe, przewodniki onboardingowe i wewnętrzne SOP-y. Zamień agenta jednej osoby na agenta każdego członka zespołu czytającego ze wspólnej bazy wiedzy."
+      "text": "Ta sama architektura sprawdza się w skali całej firmy. Osobiste notatki zastępuje się dokumentacją klientów, playbook'ami sprzedażowymi, materiałami do onboardingu i wewnętrznymi SOP-ami. Zamiast jednego agenta każdy członek zespołu korzysta z agenta czytającego ze wspólnej bazy wiedzy."
     },
     {
       "type": "p",
-      "text": "Wzorzec jest identyczny: surowe źródła wchodzą, agent kompiluje ustrukturyzowane strony, cross-referencje budują się automatycznie, ludzie walidują. Różnica polega na tym, że wspólna warstwa wiedzy sprawia, że nowi członkowie zespołu są produktywni od razu. Ich agent już zna historię klienta, wewnętrzne konwencje i kontekst projektu. Żadnego sześciotygodniowego wdrożenia. Żadnej wiedzy plemiennej zablokowanej w czyjejś głowie."
+      "text": "Wzorzec jest identyczny: surowe źródła trafiają do systemu, agent kompiluje ustrukturyzowane strony, odsyłacze budują się automatycznie, ludzie zatwierdzają. Różnica polega na tym, że wspólna warstwa wiedzy sprawia, iż nowi członkowie zespołu są produktywni od razu. Ich agent zna już historię klienta, wewnętrzne konwencje i kontekst projektu. Bez sześciotygodniowego wdrożenia, bez wiedzy plemiennej zamkniętej w czyjejś głowie."
     },
     {
       "type": "p",
-      "text": "Karpathy nazywa to LLM wiki. Eric Osiu nazywa to wspólnym mózgiem. Cody Schneider nazywa to hurtownią danych. Nazwa ciągle się zmienia. Wzorzec nie: agenty potrzebują skompilowanej, ustrukturyzowanej wiedzy, żeby robić użyteczną pracę. Bez trwałego kontekstu, prompty działają bez wiedzy instytucjonalnej, której potrzebują."
+      "text": "Karpathy nazywa to LLM wiki. Eric Osiu mówi o wspólnym mózgu. Cody Schneider o hurtowni danych. Nazwa się zmienia. Wzorzec nie: agenci potrzebują skompilowanej, ustrukturyzowanej wiedzy, żeby wykonywać użyteczną pracę. Bez trwałego kontekstu prompty działają bez instytucjonalnej wiedzy, której potrzebują."
     },
     {
       "type": "p",
-      "text": "**[webvise](/#contact)** buduje warstwy wiedzy dla firm, które chcą, żeby ich agenty AI naprawdę wiedziały, o czym mówią. Jeśli spędzasz więcej czasu na tłumaczeniu kontekstu swoim narzędziom niż na czerpaniu z nich wartości, to jest właśnie ten problem, który to rozwiązuje. [Zapraszam do kontaktu](/#contact)."
+      "text": "**[webvise](/#contact)** buduje warstwy wiedzy dla firm, które chcą, by ich agenci AI naprawdę wiedzieli, o czym mówią. Jeśli więcej czasu zajmuje tłumaczenie kontekstu narzędziom niż czerpanie z nich wartości, to właśnie ten problem tu się rozwiązuje. [Skontaktuj się](/#contact)."
     }
   ]
 }
