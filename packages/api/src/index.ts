@@ -31,8 +31,8 @@ export function rateLimitedProcedure(opts: {
 	windowMs: number;
 }) {
 	const limiter = createRateLimiter(opts);
-	return t.procedure.use(({ ctx, next }) => {
-		const { limited, retryAfterSec } = limiter.check(ctx.ip);
+	return t.procedure.use(async ({ ctx, next }) => {
+		const { limited, retryAfterSec } = await limiter.check(ctx.ip);
 		if (limited) {
 			throw new TRPCError({
 				code: "TOO_MANY_REQUESTS",

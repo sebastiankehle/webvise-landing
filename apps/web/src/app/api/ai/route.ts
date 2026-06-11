@@ -31,7 +31,7 @@ export async function POST(req: Request) {
 	}
 
 	const ip = getClientIP(req);
-	const rl = limiter.check(ip);
+	const rl = await limiter.check(ip);
 	if (rl.limited) {
 		return rateLimitResponse(rl.retryAfterSec);
 	}

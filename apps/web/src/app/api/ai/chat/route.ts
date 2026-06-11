@@ -100,7 +100,7 @@ const SYSTEM_PROMPT = `${
 ${TRANSPARENCY_PROMPT}`;
 
 export async function POST(req: Request) {
-	const { limited, retryAfterSec } = limiter.check(getClientIP(req));
+	const { limited, retryAfterSec } = await limiter.check(getClientIP(req));
 	if (limited) {
 		return rateLimitResponse(retryAfterSec);
 	}

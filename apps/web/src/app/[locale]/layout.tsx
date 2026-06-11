@@ -25,6 +25,32 @@ import { routing } from "@/i18n/routing";
 import { generateAlternates, localizedUrl } from "@/lib/seo";
 import { SITE_THEME_IDS } from "@/lib/themes";
 
+const CLIENT_MESSAGE_NAMESPACES = [
+	"blog",
+	"caseStudies",
+	"chatWidget",
+	"consent",
+	"contact",
+	"customSystems",
+	"faq",
+	"media",
+	"nav",
+	"pricing",
+	"reportDownload",
+	"services",
+	"themeSwitcher",
+	"wpHealthReport",
+] as const;
+
+function pickClientMessages(messages: Record<string, unknown>) {
+	return Object.fromEntries(
+		CLIENT_MESSAGE_NAMESPACES.flatMap((namespace) => {
+			const value = messages[namespace];
+			return value === undefined ? [] : [[namespace, value]];
+		})
+	);
+}
+
 const inter = Inter({
 	variable: "--font-inter",
 	subsets: ["latin"],
@@ -135,7 +161,7 @@ export default async function LocaleLayout({
 	}
 
 	setRequestLocale(locale);
-	const messages = await getMessages();
+	const messages = pickClientMessages(await getMessages());
 
 	return (
 		<html data-scroll-behavior="smooth" lang={locale} suppressHydrationWarning>

@@ -11,6 +11,8 @@ export const env = createEnv({
 		RESEND_API_KEY: z.string().optional(),
 		GOOGLE_PAGESPEED_API_KEY: z.string().optional(),
 		AI_GATEWAY_API_KEY: z.string().optional(),
+		UPSTASH_REDIS_REST_URL: z.url().optional(),
+		UPSTASH_REDIS_REST_TOKEN: z.string().optional(),
 		GOOGLE_VERIFICATION_CODE: z.string().optional(),
 		NODE_ENV: z
 			.enum(["development", "production", "test"])

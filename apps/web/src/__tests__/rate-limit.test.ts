@@ -41,33 +41,33 @@ describe("createRateLimiter", () => {
 		vi.useRealTimers();
 	});
 
-	it("allows up to maxRequests then blocks", () => {
+	it("allows up to maxRequests then blocks", async () => {
 		const l = createRateLimiter({
 			name: `t-allow-${Math.random()}`,
 			maxRequests: 3,
 			windowMs: 60_000,
 		});
-		expect(l.check("1.1.1.1").limited).toBe(false);
-		expect(l.check("1.1.1.1").limited).toBe(false);
-		expect(l.check("1.1.1.1").limited).toBe(false);
-		const blocked = l.check("1.1.1.1");
+		expect((await l.check("1.1.1.1")).limited).toBe(false);
+		expect((await l.check("1.1.1.1")).limited).toBe(false);
+		expect((await l.check("1.1.1.1")).limited).toBe(false);
+		const blocked = await l.check("1.1.1.1");
 		expect(blocked.limited).toBe(true);
 		expect(blocked.retryAfterSec).toBeGreaterThan(0);
 	});
 
-	it("isolates buckets per IP", () => {
+	it("isolates buckets per IP", async () => {
 		const l = createRateLimiter({
 			name: `t-isolate-${Math.random()}`,
 			maxRequests: 1,
 			windowMs: 60_000,
 		});
-		expect(l.check("a").limited).toBe(false);
-		expect(l.check("b").limited).toBe(false);
-		expect(l.check("a").limited).toBe(true);
-		expect(l.check("b").limited).toBe(true);
+		expect((await l.check("a")).limited).toBe(false);
+		expect((await l.check("b")).limited).toBe(false);
+		expect((await l.check("a")).limited).toBe(true);
+		expect((await l.check("b")).limited).toBe(true);
 	});
 
-	it("isolates buckets per limiter name", () => {
+	it("isolates buckets per limiter name", async () => {
 		const a = createRateLimiter({
 			name: `t-name-a-${Math.random()}`,
 			maxRequests: 1,
@@ -78,32 +78,32 @@ describe("createRateLimiter", () => {
 			maxRequests: 1,
 			windowMs: 60_000,
 		});
-		expect(a.check("x").limited).toBe(false);
-		expect(b.check("x").limited).toBe(false);
-		expect(a.check("x").limited).toBe(true);
-		expect(b.check("x").limited).toBe(true);
+		expect((await a.check("x")).limited).toBe(false);
+		expect((await b.check("x")).limited).toBe(false);
+		expect((await a.check("x")).limited).toBe(true);
+		expect((await b.check("x")).limited).toBe(true);
 	});
 
-	it("resets the counter after the window elapses", () => {
+	it("resets the counter after the window elapses", async () => {
 		const l = createRateLimiter({
 			name: `t-reset-${Math.random()}`,
 			maxRequests: 1,
 			windowMs: 1000,
 		});
-		expect(l.check("z").limited).toBe(false);
-		expect(l.check("z").limited).toBe(true);
+		expect((await l.check("z")).limited).toBe(false);
+		expect((await l.check("z")).limited).toBe(true);
 		vi.advanceTimersByTime(1001);
-		expect(l.check("z").limited).toBe(false);
+		expect((await l.check("z")).limited).toBe(false);
 	});
 
-	it("reports retryAfterSec rounded up", () => {
+	it("reports retryAfterSec rounded up", async () => {
 		const l = createRateLimiter({
 			name: `t-retry-${Math.random()}`,
 			maxRequests: 1,
 			windowMs: 5500,
 		});
-		l.check("y");
-		const r = l.check("y");
+		await l.check("y");
+		const r = await l.check("y");
 		expect(r.limited).toBe(true);
 		expect(r.retryAfterSec).toBeLessThanOrEqual(6);
 		expect(r.retryAfterSec).toBeGreaterThan(0);
