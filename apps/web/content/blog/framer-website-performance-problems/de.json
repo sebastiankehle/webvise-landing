@@ -3,16 +3,16 @@
   "readingTime": 6,
   "keyword": "framer website langsam",
   "title": "Warum Ihre Framer-Website langsam ist (und was Sie dagegen tun können)",
-  "excerpt": "Framer-Websites sehen im Editor toll aus, schneiden aber oft schlecht bei PageSpeed ab. Hier erfahren Sie, warum das passiert und welche Optionen Sie haben.",
+  "excerpt": "Framer-Websites sehen im Editor hervorragend aus, schneiden bei PageSpeed aber oft schlecht ab. Hier sind die Ursachen und Ihre Optionen.",
   "tags": ["Performance", "Framer", "Web Development"],
   "blocks": [
     {
       "type": "p",
-      "text": "Sie haben eine schöne Website in [Framer](/blog/framer-vs-nextjs-business-website) gebaut. Die Animationen sind flüssig im Editor, das Design sieht poliert aus, und alles fühlt sich schnell an auf Ihrem MacBook Pro. Dann führen Sie einen PageSpeed-Test durch und sehen eine Punktzahl von 45."
+      "text": "Sie haben eine ansprechende Website in [Framer](/blog/framer-vs-nextjs-business-website) gebaut. Die Animationen laufen flüssig, das Design ist sauber, und auf dem MacBook Pro fühlt sich alles schnell an. Dann führen Sie einen PageSpeed-Test durch und sehen einen Score von 45."
     },
     {
       "type": "p",
-      "text": "Sie sind nicht allein. Framer-Websites schneiden bei Googles [Core Web Vitals](https://web.dev/vitals/) konstant unterdurchschnittlich ab, besonders auf Mobilgeräten. Hier ist, warum das so ist und was Sie dagegen tun können."
+      "text": "Damit sind Sie nicht allein. Viele Framer-Websites schneiden bei Googles [Core Web Vitals](https://web.dev/vitals/) schlechter ab als erwartet, besonders auf Mobilgeräten. Die Ursachen sind strukturell, und die Handlungsoptionen sind begrenzt."
     },
     {
       "type": "h2",
@@ -20,7 +20,7 @@
     },
     {
       "type": "p",
-      "text": "Ich habe im letzten Jahr Dutzende von Framer-Websites auditiert. Das Muster ist konsistent:"
+      "text": "Aus Audits Dutzender Framer-Websites im letzten Jahr ergibt sich ein konsistentes Bild:"
     },
     {
       "type": "table",
@@ -39,11 +39,11 @@
     },
     {
       "type": "p",
-      "text": "Das sind typische Bereiche für Framer-Business-Websites mit Animationen, CMS-Inhalten und [individuellen](/services/full-stack-applications) Komponenten. Einfachere Websites können besser abschneiden, aber Komplexität drückt die Scores nach unten."
+      "text": "Diese Wertebereiche stammen aus realen Framer-Business-Websites mit Animationen, CMS-Inhalten und [eigenen](/services/full-stack-applications) Komponenten. Einfachere Websites können besser abschneiden, doch mehr Komplexität drückt die Scores zuverlässig nach unten."
     },
     {
       "type": "h2",
-      "text": "Warum Framer-Websites langsam sein können"
+      "text": "Warum Framer-Websites langsam werden"
     },
     {
       "type": "h3",
@@ -51,11 +51,11 @@
     },
     {
       "type": "p",
-      "text": "Framer liefert eine große JavaScript-Runtime auf jeder Seite aus. Diese Runtime betreibt die Animations-Engine, das CMS-Rendering und das Komponenten-System. Selbst eine einfache Landing Page mit minimalem Content lädt **200-400KB JavaScript**, bevor Ihr eigentlicher Inhalt erscheint."
+      "text": "Framer liefert auf jeder Seite eine umfangreiche JavaScript-Runtime aus. Diese Runtime trägt die Animation-Engine, das CMS-Rendering und das Komponenten-System. Selbst eine einfache Landing Page mit wenig Inhalt lädt **200-400 KB JavaScript**, bevor der eigentliche Inhalt erscheint."
     },
     {
       "type": "p",
-      "text": "Auf einem Mittelklasse-Android-Smartphone mit 4G-Verbindung dauert das Parsen und Ausführen dieses JavaScripts 1-3 Sekunden. Das ist, bevor Ihre Bilder laden, bevor Ihre Schriften rendern, bevor der Nutzer etwas Nützliches sieht."
+      "text": "Auf einem Android-Mittelklassegerät mit 4G-Verbindung dauert das Parsen und Ausführen dieses JavaScripts 1-3 Sekunden. Bilder, Schriften und sichtbare Inhalte folgen erst danach."
     },
     {
       "type": "h3",
@@ -63,27 +63,27 @@
     },
     {
       "type": "p",
-      "text": "Framer rendert Seiten primär auf der Client-Seite. Der Browser lädt HTML herunter, dann JavaScript, dann baut das JavaScript die Seite auf. Vergleichen Sie das mit Next.js, das vollständig gerendertes HTML vom Server sendet: Der Browser zeigt Inhalte sofort an, während JavaScript im Hintergrund lädt."
+      "text": "Framer rendert Seiten primär im Browser: Erst kommt das HTML, dann das JavaScript, dann baut das JavaScript die Seite auf. Next.js sendet stattdessen fertig gerendertes HTML vom Server. Der Browser zeigt den Inhalt sofort, während JavaScript im Hintergrund lädt."
     },
     {
       "type": "p",
-      "text": "Deshalb fühlt sich Ihre Framer-Website auf Ihrem Laptop schnell an, schneidet aber schlecht bei PageSpeed ab. Der Test simuliert ein echtes Mobilgerät mit einer echten Mobilverbindung, nicht ein MacBook mit Glasfaser."
+      "text": "Das erklärt, warum Ihre Framer-Website auf dem Laptop schnell wirkt, bei PageSpeed aber schlecht abschneidet. Der Test simuliert ein echtes Mobilgerät mit echter Mobilverbindung, kein MacBook auf Glasfaser."
     },
     {
       "type": "h3",
-      "text": "Animations-Overhead"
+      "text": "Aufwand durch Animationen"
     },
     {
       "type": "p",
-      "text": "Framers Animations-System ist leistungsstark, aber teuer. Jede scroll-getriggerte Animation, jeder Hover-Effekt und jeder Seitenwechsel erhöhen die JavaScript-Ausführungskosten. Animationen, die auf dem Desktop flüssig wirken, können auf Mobilgeräten mit weniger Rechenleistung sichtbares Ruckeln verursachen."
+      "text": "Framers Animationssystem ist leistungsfähig, aber kostspielig. Jede scrollgetriggerte Animation, jeder Hover-Effekt und jeder Seitenübergang erhöht die JavaScript-Ausführungszeit. Was auf dem Desktop flüssig wirkt, erzeugt auf Mobilgeräten mit weniger Rechenleistung sichtbare Ruckler."
     },
     {
       "type": "h3",
-      "text": "Eingeschränkte Bildoptimierung"
+      "text": "Begrenzte Bildoptimierung"
     },
     {
       "type": "p",
-      "text": "Framer übernimmt grundlegende Bildoptimierung, aber Sie haben keine Kontrolle über Formate, Qualitätseinstellungen oder Strategien für responsive Größen. Next.js' Image-Komponente liefert automatisch WebP/AVIF in den richtigen Dimensionen für jedes Gerät, mit Lazy Loading und Blur-up-Platzhaltern. Der Unterschied bei der Bild-Payload allein kann 50-80% betragen."
+      "text": "Framer bietet grundlegende Bildoptimierung, lässt jedoch keine Kontrolle über Formate, Qualitätsstufen oder responsive Sizing-Strategien zu. Next.js' Image-Komponente liefert WebP/AVIF automatisch in den passenden Dimensionen je Gerät, inklusive Lazy Loading und Blur-up-Platzhaltern. Allein bei der Bildgröße kann der Unterschied 50-80 % betragen."
     },
     {
       "type": "h2",
@@ -91,33 +91,33 @@
     },
     {
       "type": "p",
-      "text": "Wenn Sie auf Framer bleiben möchten, gibt es konkrete Verbesserungsmöglichkeiten:"
+      "text": "Wer auf Framer bleiben möchte, hat einige sinnvolle Stellschrauben:"
     },
     {
       "type": "ul",
       "items": [
-        "Reduzieren Sie die Anzahl der Animationen, denn jede kostet Performance",
-        "Komprimieren Sie Bilder vor dem Upload, statt sich auf Framers Optimierung zu verlassen",
-        "Minimieren Sie Code Overrides und eingebettete Skripte",
-        "Entfernen Sie ungenutzte Komponenten und Sektionen",
-        "Vermeiden Sie tief verschachtelte Komponentenstrukturen"
+        "Anzahl der Animationen reduzieren, da jede einzelne Performance kostet",
+        "Bilder vor dem Upload komprimieren, statt auf Framers eigene Optimierung zu vertrauen",
+        "Benutzerdefinierte Code-Overrides und eingebettete Scripts auf ein Minimum beschränken",
+        "Ungenutzte Komponenten und Sektionen entfernen",
+        "Tief verschachtelte Komponentenstrukturen vermeiden"
       ]
     },
     {
       "type": "p",
-      "text": "Realistisch betrachtet können diese Optimierungen Ihren Score um 10-15 Punkte verbessern. Wenn Sie bei 45 sind, erreichen Sie vielleicht 55-60. Immer noch unter Googles Schwellenwert für \"gute\" Performance."
+      "text": "Realistisch betrachtet lassen sich damit 10-15 Punkte herausholen. Wer bei 45 startet, landet bei 55-60. Das liegt immer noch unterhalb von Googles Schwellenwert für \"gute\" Performance."
     },
     {
       "type": "h2",
-      "text": "Der Preis für Ihr Unternehmen"
+      "text": "Der geschäftliche Schaden"
     },
     {
       "type": "p",
-      "text": "Google nutzt Core Web Vitals als Ranking-Signal. Eine langsame mobile Erfahrung bedeutet niedrigere Suchplatzierungen. Über SEO hinaus: **53% der mobilen Besucher verlassen eine Website, die länger als 3 Sekunden zum Laden braucht** (Google-Daten). Wenn der LCP Ihrer Framer-Website bei 4+ Sekunden liegt, verlieren Sie Besucher, bevor sie Ihren Content sehen."
+      "text": "Google zieht Core Web Vitals als Rankingsignal heran. Schlechte mobile Performance bedeutet schlechtere Suchrankings. Über SEO hinaus verlassen **53 % der mobilen Besucher eine Website, die länger als 3 Sekunden zum Laden braucht** (Google-Daten). Liegt der LCP Ihrer Framer-Website bei 4+ Sekunden, verlieren Sie Besucher, bevor diese Ihren Inhalt überhaupt sehen."
     },
     {
       "type": "p",
-      "text": "Für Websites, die auf organischen Traffic oder bezahlte [Ad-Conversions](/blog/website-speed-and-conversions) angewiesen sind, wirkt sich schlechte Performance direkt auf den Umsatz aus. Jede zusätzliche 100ms Ladezeit reduziert die Conversion-Rate um etwa 1%."
+      "text": "Für Websites, die auf organischen Traffic oder bezahlte [Conversions](/blog/website-speed-and-conversions) angewiesen sind, schlägt schlechte Performance direkt auf den Umsatz durch. Jede zusätzliche Ladezeit von 100 ms senkt die Conversion-Rate um etwa 1 %."
     },
     {
       "type": "h2",
@@ -125,16 +125,16 @@
     },
     {
       "type": "p",
-      "text": "Ein Neuaufbau mit Next.js bewahrt Ihr Design und behebt die zugrundeliegenden Performance-Probleme. Die visuelle Ausgabe bleibt gleich: gleiches Layout, gleiche Animationen, gleiche Markenidentität. Der Auslieferungsmechanismus ändert sich von clientseitig gerendertem JavaScript zu serverseitig gerendertem HTML mit optimierten Assets."
+      "text": "Ein Next.js-Rebuild übernimmt Ihr Design und behebt die zugrundeliegenden Performance-Probleme. Layout, Animationen und Markenidentität bleiben unverändert. Was sich ändert: Die Auslieferung wechselt von client-seitig gerendertem JavaScript zu server-seitig gerendertem HTML mit optimierten Assets."
     },
     {
       "type": "p",
-      "text": "Das Ergebnis ist in webvise-Migrationsprojekten häufig ein Sprung von 45-65 auf dem mobilen PageSpeed auf 92-99. Gleiches Design, spürbar bessere Performance. Bessere Rankings, niedrigere Absprungraten, höhere Conversions."
+      "text": "In Migrationsprojekten ist der Sprung von 45-65 auf 92-99 beim mobilen PageSpeed-Score das übliche Ergebnis. Gleiches Design, deutlich bessere Performance: bessere Rankings, niedrigere Absprungraten, höhere Conversions."
     },
     {
       "type": "p",
-      "text": "Wenn Ihre Framer-Website ein Business-Tool ist, nicht nur ein Portfolio-Stück, sollte Performance Priorität haben. Lassen Sie Ihre Website durch PageSpeed Insights auf Mobilgeräten laufen und sehen Sie, wo Sie stehen. Die Zahlen zeigen Ihnen, ob Optimierung innerhalb der Plattform ausreicht oder ob die Architektur von Framer die Grenzen dessen definiert, was für Ihren Anwendungsfall möglich ist."
+      "text": "Wenn Ihre Framer-Website ein Geschäftswerkzeug ist und kein reines Portfolio-Stück, verdient Performance Priorität. Testen Sie Ihre Website mit PageSpeed Insights auf Mobilgeräten und sehen Sie, wo Sie stehen. Die Zahlen zeigen, ob plattforminterne Optimierung ausreicht oder ob Sie an die Grenzen von Framers Architektur gestoßen sind. webvise zeigt Ihnen den nächsten Schritt: [/#contact](/#contact)."
     }
   ],
-  "metaDescription": "Framer-Seiten erreichen durchschnittlich 42-65 im mobilen PageSpeed bei 3-6s Ladezeit. Verstehen Sie den Client-Side-Rendering-Engpass und Ihre Optimierungsmöglichkeiten."
+  "metaDescription": "Framer-Websites erzielen auf Mobilgeräten durchschnittlich 42-65 bei PageSpeed mit Ladezeiten von 3-6 Sekunden. Verstehen Sie den Client-Side-Rendering-Engpass und Ihre Optimierungsoptionen."
 }
