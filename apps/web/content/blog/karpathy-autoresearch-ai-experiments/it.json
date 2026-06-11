@@ -10,7 +10,7 @@
   "blocks": [
     {
       "type": "p",
-      "text": "Nel marzo 2026, Andrej Karpathy, cofondatore di OpenAI ed ex direttore dell'IA di Tesla, ha rilasciato un framework chiamato [AutoResearch](https://github.com/karpathy/autoresearch). La premessa è semplice: descrivi in un file di testo cosa vuoi investigare, avvii il sistema prima di andare a dormire e ti svegli con circa 100 esperimenti di machine learning completati, classificati per prestazioni. In tre settimane ha raggiunto 65.000 stelle su GitHub. La velocità di adozione riflette qualcosa di reale su ciò che il progetto rappresenta, non solo su cosa fa."
+      "text": "Nel marzo 2026, Andrej Karpathy, cofondatore di OpenAI ed ex direttore dell'IA di Tesla, ha rilasciato un framework chiamato [AutoResearch](https://github.com/karpathy/autoresearch). La premessa è semplice: si descrive in un file di testo cosa si vuole investigare, si avvia il sistema prima di andare a dormire e al mattino si trovano circa 100 esperimenti di machine learning completati, classificati per prestazioni. In tre settimane ha raggiunto 65.000 stelle su GitHub. La velocità di adozione riflette qualcosa di reale su ciò che il progetto rappresenta, non solo su cosa fa."
     },
     {
       "type": "h2",
@@ -37,7 +37,7 @@
       "items": [
         "**prepare.py** è fisso. Gestisce la preparazione dei dati e non cambia mai. Questo mantiene stabile il substrato sperimentale, in modo che le variazioni nei risultati riflettano vere differenze del modello piuttosto che cambiamenti nella pipeline dei dati.",
         "**train.py** è la tela dell'agente. Inizia come uno script di addestramento di riferimento e viene modificato, esteso e raffinato dall'agente nel corso di centinaia di iterazioni. La mattina potrebbe apparire sostanzialmente diverso da come era all'inizio.",
-        "**program.md** è scritto dall'umano. Qui descrivi la tua strategia di ricerca: quali approcci esplorare, quali vincoli rispettare, quali ipotesi testare. È l'unica cosa che l'umano deve scrivere."
+        "**program.md** è scritto dall'umano. È il luogo in cui si definisce la strategia di ricerca: quali approcci esplorare, quali vincoli rispettare, quali ipotesi testare. È l'unica cosa che l'umano deve scrivere."
       ]
     },
     {
@@ -92,14 +92,14 @@
       "type": "ol",
       "items": [
         "**Targeting di una singola GPU.** Il sistema è progettato per un H100, non un cluster. Questo rende la configurazione accessibile e i costi prevedibili. Una singola esecuzione notturna costa all'incirca quanto pagheresti per un'istanza cloud di medie dimensioni.",
-        "**Modifica di un singolo file.** Limitare l'agente a train.py rende i diff leggibili e le modifiche verificabili. Quando qualcosa va storto, o inaspettatamente bene, puoi rintracciare il perché.",
+        "**Modifica di un singolo file.** Limitare l'agente a train.py rende i diff leggibili e le modifiche verificabili. Quando qualcosa va storto, o inaspettatamente bene, è possibile risalire al motivo.",
         "**Metrica di valutazione fissa.** val_bpb dà all'agente un segnale inequivocabile. L'agente non ha bisogno di giudicare la qualità soggettivamente; ha un numero da ottimizzare.",
         "**Rollback su regressione.** Gli esperimenti falliti non si accumulano. L'agente annulla le modifiche che peggiorano le cose, così la baseline si sposta solo in avanti."
       ]
     },
     {
       "type": "p",
-      "text": "Questi vincoli rendono il sistema leggibile. Un agente più potente con meno restrizioni potrebbe produrre risultati più veloci ma più difficili da capire. AutoResearch scambia una certa capacità grezza per interpretabilità, il che conta se vuoi effettivamente imparare da ciò che l'agente scopre."
+      "text": "Questi vincoli rendono il sistema leggibile. Un agente più potente con meno restrizioni potrebbe produrre risultati più veloci ma più difficili da interpretare. AutoResearch cede una certa capacità grezza in cambio di interpretabilità, il che conta per chiunque voglia effettivamente imparare da ciò che l'agente scopre."
     },
     {
       "type": "h2",
@@ -175,15 +175,15 @@
     },
     {
       "type": "p",
-      "text": "AutoResearch è disponibile su [github.com/karpathy/autoresearch](https://github.com/karpathy/autoresearch). Il repository include istruzioni di configurazione, file program.md di esempio e documentazione su come adattarlo a diversi compiti di addestramento. Se hai accesso a un H100 o a una GPU supportata dalla comunità, la barriera per eseguire il tuo primo esperimento notturno è bassa."
+      "text": "AutoResearch è disponibile su [github.com/karpathy/autoresearch](https://github.com/karpathy/autoresearch). Il repository include istruzioni di configurazione, file program.md di esempio e documentazione su come adattarlo a diversi compiti di addestramento. Con accesso a un H100 o a una GPU supportata dalla comunità, la barriera per condurre il primo esperimento notturno è bassa."
     },
     {
       "type": "p",
-      "text": "La domanda più interessante è cosa investigheresti. AutoResearch ti fornisce il meccanismo. La direzione della ricerca, come sempre, viene dalla comprensione di quali problemi vale la pena risolvere."
+      "text": "La domanda più interessante è cosa vale la pena investigare. AutoResearch fornisce il meccanismo. La direzione della ricerca, come sempre, nasce dalla comprensione di quali problemi meritano di essere risolti."
     },
     {
       "type": "p",
-      "text": "**webvise** lavora con team che integrano l'IA nei loro flussi di lavoro di sviluppo e ricerca. Se stai pensando a come gli agenti autonomi si inseriscono nei tuoi processi, [contattami](/#contact) per discutere di cosa ha davvero senso per il tuo contesto."
+      "text": "**webvise** lavora con team che integrano l'IA nei loro flussi di lavoro di sviluppo e ricerca. Per chi sta valutando come gli agenti autonomi si inseriscono nei propri processi, [contatti webvise](/#contact) per una valutazione concreta di ciò che ha senso nel proprio contesto."
     }
   ]
 }

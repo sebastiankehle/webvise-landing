@@ -3,14 +3,14 @@
   "readingTime": 10,
   "keyword": "karpathy autoresearch ai experiments",
   "title": "AutoResearch de Karpathy: qué pasa cuando la IA hace la investigación por la noche",
-  "excerpt": "Andrej Karpathy lanzó AutoResearch en marzo de 2026, un framework open source que envía agentes de IA a ejecutar experimentos de machine learning de forma autónoma mientras duermes. 65.000 estrellas en GitHub en pocas semanas. Esto es lo que hace realmente.",
-  "metaDescription": "AutoResearch de Andrej Karpathy permite a agentes de IA ejecutar experimentos de ML de forma autónoma en una sola GPU. Descubre cómo funciona, su arquitectura de tres archivos y por qué marca el inicio de una nueva era de sistemas de IA que mejoran solos.",
+  "excerpt": "Andrej Karpathy lanzó AutoResearch en marzo de 2026, un framework open source que envía agentes de IA a ejecutar experimentos de machine learning de forma autónoma mientras duerme. 65.000 estrellas en GitHub en pocas semanas. Esto es lo que hace realmente y por qué importa.",
+  "metaDescription": "AutoResearch de Andrej Karpathy permite a agentes de IA ejecutar experimentos de ML de forma autónoma en una sola GPU. Descubra cómo funciona, su arquitectura de tres archivos y por qué marca el inicio de una nueva era de sistemas de IA que mejoran solos.",
   "tags": ["AI Agents", "AI", "Machine Learning", "Open Source"],
   "cta": "Get in Touch",
   "blocks": [
     {
       "type": "p",
-      "text": "En marzo de 2026, Andrej Karpathy, cofundador de OpenAI y ex director de IA en Tesla, publicó un framework llamado [AutoResearch](https://github.com/karpathy/autoresearch). La premisa es sencilla: describes lo que quieres investigar en un archivo de texto, arrancas el sistema antes de irte a dormir y te despiertas con unos 100 experimentos de machine learning completados, clasificados por rendimiento. En tres semanas alcanzó 65.000 estrellas en GitHub. La velocidad de adopción refleja algo real sobre lo que representa el proyecto, no solo lo que hace."
+      "text": "En marzo de 2026, Andrej Karpathy, cofundador de OpenAI y ex director de IA en Tesla, publicó un framework llamado [AutoResearch](https://github.com/karpathy/autoresearch). La premisa es sencilla: describe lo que quiere investigar en un archivo de texto, arranca el sistema antes de irse a dormir y se despierta con unos 100 experimentos de machine learning completados, clasificados por rendimiento. En tres semanas alcanzó 65.000 estrellas en GitHub. La velocidad de adopción refleja algo real sobre lo que representa el proyecto, no solo lo que hace."
     },
     {
       "type": "h2",
@@ -37,20 +37,20 @@
       "items": [
         "**prepare.py** es fijo. Gestiona la preparación de datos y nunca cambia. Esto mantiene estable el sustrato experimental para que las variaciones en los resultados reflejen diferencias reales del modelo, no cambios en el pipeline de datos.",
         "**train.py** es el lienzo del agente. Comienza como un script de entrenamiento de referencia y el agente lo modifica, amplía y refina a lo largo de cientos de iteraciones. Por la mañana puede tener un aspecto muy diferente al punto de partida.",
-        "**program.md** lo escribe el humano. Aquí describes tu estrategia de investigación: qué enfoques explorar, qué restricciones respetar, qué hipótesis probar. Es lo único que el humano necesita escribir."
+        "**program.md** lo escribe el humano. Aquí se describe la estrategia de investigación: qué enfoques explorar, qué restricciones respetar, qué hipótesis probar. Es lo único que el humano necesita escribir."
       ]
     },
     {
       "type": "p",
-      "text": "La sencillez es intencionada. Limitar las modificaciones a un solo archivo (train.py) hace que cada cambio sea revisable. Puedes mirar el diff entre la versión de la mañana y el punto de partida y entender qué hizo realmente el agente. Esto es más difícil de conseguir cuando los agentes tocan muchos archivos simultáneamente."
+      "text": "La sencillez es intencionada. Limitar las modificaciones a un solo archivo (train.py) hace que cada cambio sea revisable. Se puede mirar el diff entre la versión de la mañana y el punto de partida y entender qué hizo realmente el agente. Esto es más difícil de conseguir cuando los agentes tocan muchos archivos simultáneamente."
     },
     {
       "type": "h2",
-      "text": "Escribes la estrategia de investigación, no el código"
+      "text": "Escribir la estrategia de investigación, no el código"
     },
     {
       "type": "p",
-      "text": "Vale la pena citar directamente cómo Karpathy enmarca el papel humano. Lo describe así: **\"No estás escribiendo el código directamente el 99% del tiempo. Estás orquestando agentes.\"** El trabajo del humano es escribir program.md, lo que él llama el \"código de la organización de investigación\", la estrategia de alto nivel que define lo que el agente debe perseguir."
+      "text": "Vale la pena citar directamente cómo Karpathy enmarca el papel humano. Lo describe así: **\"No está escribiendo el código directamente el 99% del tiempo. Está orquestando agentes.\"** El trabajo del humano es escribir program.md, lo que él llama el \"código de la organización de investigación\", la estrategia de alto nivel que define lo que el agente debe perseguir."
     },
     {
       "type": "p",
@@ -70,7 +70,7 @@
     },
     {
       "type": "p",
-      "text": "La tasa de acierto de aproximadamente el 3% puede parecer baja. Pero considera la alternativa: un investigador humano ejecutando 700 experimentos manualmente tardaría meses. El agente los completa en una noche. La economía cambia por completo cuando el coste de un experimento fallido cae a cinco minutos de tiempo de GPU en lugar de días de esfuerzo humano."
+      "text": "La tasa de acierto de aproximadamente el 3% puede parecer baja. Pero considere la alternativa: un investigador humano ejecutando 700 experimentos manualmente tardaría meses. El agente los completa en una noche. La economía cambia por completo cuando el coste de un experimento fallido cae a cinco minutos de tiempo de GPU en lugar de días de esfuerzo humano."
     },
     {
       "type": "h3",
@@ -86,20 +86,20 @@
     },
     {
       "type": "p",
-      "text": "Varias decisiones en el diseño de AutoResearch reflejan lecciones de sistemas ML en producción que merece la pena señalar:"
+      "text": "Varias decisiones en el diseño de AutoResearch provienen de sistemas ML en producción:"
     },
     {
       "type": "ol",
       "items": [
-        "**Una sola GPU como objetivo.** El sistema está diseñado para un H100, no para un clúster. Esto hace que la configuración sea accesible y los costes previsibles. Una sola ejecución nocturna cuesta aproximadamente lo que pagarías por una instancia cloud de tamaño medio.",
-        "**Modificación de un solo archivo.** Restringir al agente a train.py hace que los diffs sean legibles y los cambios auditables. Cuando algo sale mal, o inesperadamente bien, puedes rastrear el porqué.",
+        "**Una sola GPU como objetivo.** El sistema está diseñado para un H100, no para un clúster. Esto hace que la configuración sea accesible y los costes previsibles. Una sola ejecución nocturna cuesta aproximadamente lo que se pagaría por una instancia cloud de tamaño medio.",
+        "**Modificación de un solo archivo.** Restringir al agente a train.py hace que los diffs sean legibles y los cambios auditables. Cuando algo sale mal, o inesperadamente bien, se puede rastrear el porqué.",
         "**Métrica de evaluación fija.** val_bpb da al agente una señal inequívoca. El agente no necesita juzgar la calidad de forma subjetiva; tiene un número que optimizar.",
         "**Rollback en regresión.** Los experimentos fallidos no se acumulan. El agente revierte los cambios que empeoran las cosas, de modo que la línea de base solo avanza."
       ]
     },
     {
       "type": "p",
-      "text": "Estas restricciones hacen el sistema comprensible. Un agente más potente con menos restricciones podría producir resultados más rápidos pero más difíciles de entender. AutoResearch intercambia algo de capacidad bruta por interpretabilidad, lo que importa si quieres aprender realmente de lo que el agente descubre."
+      "text": "Estas restricciones hacen el sistema comprensible. Un agente más potente con menos restricciones podría producir resultados más rápidos pero más difíciles de entender. AutoResearch intercambia algo de capacidad bruta por interpretabilidad, lo que importa si se quiere aprender realmente de lo que el agente descubre."
     },
     {
       "type": "h2",
@@ -111,7 +111,7 @@
     },
     {
       "type": "p",
-      "text": "Esto no es nuevo como concepto. Los investigadores han teorizado sobre la auto-mejora recursiva durante décadas. Lo que es nuevo es que la infraestructura para hacerlo, al menos en un dominio limitado, ahora cabe en una sola GPU y puede configurarse en una tarde. AutoResearch no es el bucle completo de auto-mejora. Pero demuestra una parte concreta de él: búsqueda experimental impulsada por IA que produce mejoras reales y medibles en la eficiencia del entrenamiento de IA."
+      "text": "Los investigadores han teorizado sobre la auto-mejora recursiva durante décadas. Lo nuevo es que la infraestructura para hacerlo, al menos en un dominio limitado, ahora cabe en una sola GPU y puede configurarse en una tarde. AutoResearch demuestra una parte concreta del bucle: búsqueda experimental impulsada por IA que produce mejoras reales y medibles en la eficiencia del entrenamiento de IA."
     },
     {
       "type": "p",
@@ -135,15 +135,15 @@
     },
     {
       "type": "p",
-      "text": "La amplitud de la adaptación comunitaria refleja un interés genuino más allá de la comunidad de investigación ML. Los desarrolladores que no son especialistas en ML pero quieren experimentar con la optimización del entrenamiento tienen ahora un camino de acceso, en hardware que ya poseen."
+      "text": "La amplitud de la adaptación comunitaria refleja un interés genuino más allá de la comunidad de investigación ML. Los desarrolladores ajenos a esa comunidad tienen ahora un camino de acceso a experimentos de optimización del entrenamiento en hardware que ya poseen."
     },
     {
       "type": "h2",
-      "text": "Qué significa esto para los equipos que trabajan con IA"
+      "text": "Criterios para equipos"
     },
     {
       "type": "p",
-      "text": "AutoResearch es una herramienta de investigación, no una plataforma de producción. Pero el patrón que demuestra es directamente relevante para cómo los equipos deberían pensar sobre el trabajo asistido por IA en términos más amplios."
+      "text": "AutoResearch es una herramienta de investigación. Los equipos pueden reutilizar su bucle: generar un candidato, probarlo, capturar los fallos y ejecutar la siguiente iteración contra esos fallos."
     },
     {
       "type": "h3",
@@ -151,7 +151,7 @@
     },
     {
       "type": "p",
-      "text": "Si el agente ejecuta los experimentos, el valor del humano reside en hacer las preguntas correctas. Escribir un buen program.md requiere entender qué enfoques merece la pena explorar, qué restricciones importan y cómo es realmente el éxito. Es un trabajo de nivel superior al de escribir código, pero no es más fácil. Requiere conocimiento del dominio y criterio."
+      "text": "Si el agente ejecuta los experimentos, el valor del humano reside en hacer las preguntas correctas. Escribir un buen program.md requiere entender qué enfoques merece la pena explorar, qué restricciones importan y cómo es realmente el éxito. Es un trabajo de nivel superior al de escribir código, y requiere conocimiento del dominio y criterio. El trabajo pasa de la implementación a la dirección."
     },
     {
       "type": "h3",
@@ -167,7 +167,7 @@
     },
     {
       "type": "p",
-      "text": "La restricción de un solo archivo en AutoResearch no es solo una limitación técnica; es una característica de legibilidad. Cuando los agentes pueden tocar cualquier cosa, entender lo que hicieron requiere una ingeniería inversa significativa. Diseñar sistemas donde las acciones del agente estén delimitadas y sean auditables es cada vez más importante a medida que aumenta la autonomía."
+      "text": "La restricción de un solo archivo en AutoResearch es una característica de legibilidad. Cuando los agentes pueden tocar cualquier cosa, entender lo que hicieron requiere una ingeniería inversa significativa. Diseñar sistemas donde las acciones del agente estén delimitadas y sean auditables es cada vez más importante a medida que aumenta la autonomía. Los equipos que podrán confiar en el trabajo producido por agentes e iterar sobre él serán aquellos que incorporaron la interpretabilidad desde el principio."
     },
     {
       "type": "h2",
@@ -175,15 +175,15 @@
     },
     {
       "type": "p",
-      "text": "AutoResearch está disponible en [github.com/karpathy/autoresearch](https://github.com/karpathy/autoresearch). El repositorio incluye instrucciones de configuración, archivos program.md de ejemplo y documentación sobre cómo adaptarlo a diferentes tareas de entrenamiento. Si tienes acceso a un H100 o a una GPU compatible con la comunidad, la barrera para ejecutar tu primer experimento nocturno es baja."
+      "text": "AutoResearch está disponible en [github.com/karpathy/autoresearch](https://github.com/karpathy/autoresearch). El repositorio incluye instrucciones de configuración, archivos program.md de ejemplo y documentación sobre cómo adaptarlo a diferentes tareas de entrenamiento. Si tiene acceso a un H100 o a una GPU compatible con la comunidad, la barrera para ejecutar su primer experimento nocturno es baja."
     },
     {
       "type": "p",
-      "text": "La pregunta más interesante es qué investigarías. AutoResearch te da el mecanismo. La dirección de investigación, como siempre, viene de entender qué problemas merecen ser resueltos."
+      "text": "La pregunta más interesante es qué investigaría. AutoResearch proporciona el mecanismo. La dirección de investigación, como siempre, viene de entender qué problemas merecen ser resueltos."
     },
     {
       "type": "p",
-      "text": "**webvise** trabaja con equipos que integran IA en sus flujos de trabajo de desarrollo e investigación. Si estás pensando en cómo encajan los agentes autónomos en tus procesos, [ponte en contacto](/#contact) para evaluar lo que tiene sentido en tu contexto."
+      "text": "**webvise** trabaja con equipos que integran IA en sus flujos de trabajo de desarrollo e investigación. Si está pensando en cómo encajan los agentes autónomos en sus procesos, [póngase en contacto](/#contact) para una evaluación práctica de lo que tiene sentido en su contexto."
     }
   ]
 }
