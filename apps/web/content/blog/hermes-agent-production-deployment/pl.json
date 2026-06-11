@@ -9,11 +9,11 @@
   "blocks": [
     {
       "type": "p",
-      "text": "**Warstwa operatorska Hermes Agent to zbiór dyscyplin, które utrzymują spójność zespołu wieloprofilowego po dniu 30.** Cztery prymitywy: handoff contracts z możliwością blokowania, audyty memory-KPI per profil, bramki uprawnień per rola i skoordynowany stan cron. Bez nich 4-profilowy zespół (Hermes, Alan, Mira, Turing) wykazuje oznaki konwergencji głosów w ciągu miesiąca."
+      "text": "**Warstwa operatorska Hermes Agent to zbiór dyscyplin utrzymujących spójność zespołu wieloprofilowego po dniu 30.** Cztery prymitywy: handoff contracts z możliwością blokowania, audyty memory-KPI per profil, bramki uprawnień per rola i skoordynowany stan cron. Bez nich 4-profilowy zespół (Hermes, Alan, Mira, Turing) wykazuje oznaki konwergencji głosów w ciągu miesiąca."
     },
     {
       "type": "p",
-      "text": "Większość przewodników operatorskich Hermes zatrzymuje się obecnie na bootstrapie 4-profilowym; materiał dotyczący wdrożenia na dzień 30 jest rzadki w publicznej dokumentacji. Dzień 30 to moment, w którym profile zaczynają brzmieć tak samo, handoffy po cichu przestają działać, a build, z którego byliśmy dumni, staje się nie do odróżnienia od konfiguracji z jednym agentem."
+      "text": "Większość przewodników operatorskich Hermes zatrzymuje się na bootstrapie 4-profilowym; materiał dotyczący wdrożenia na dzień 30 jest rzadki w publicznej dokumentacji. Dzień 30 to moment, w którym profile zaczynają brzmieć tak samo, handoffy po cichu przestają działać, a build stanowiący powód do dumy staje się nie do odróżnienia od konfiguracji z jednym agentem."
     },
     {
       "type": "p",
@@ -22,10 +22,10 @@
     {
       "type": "ul",
       "items": [
-        "**Handoff contracts są prawdziwe tylko wtedy, gdy mogą blokować.** Jeśli kształt wejścia odbierającego profilu jest nieprawidłowy, handoff musi zakończyć się niepowodzeniem, nie tylko ostrzeżeniem.",
-        "**Pamięć gnije per profil.** Uruchamiaj cotygodniowy audyt `memory-kpi`. Przekroczenie 15% nieaktualnych notatek wyzwala przebieg `brain-resolve`.",
+        "**Handoff contracts są prawdziwe tylko wtedy, gdy mogą blokować.** Jeśli kształt wejścia odbierającego profilu jest nieprawidłowy, handoff musi zakończyć się niepowodzeniem, a nie tylko ostrzeżeniem.",
+        "**Pamięć gnije per profil.** Cotygodniowy audyt `memory-kpi` wyłapuje to wcześnie. Przekroczenie progu 15% nieaktualnych notatek wyzwala przebieg `brain-resolve`.",
         "**Bramki uprawnień zapobiegają cichemu rozszerzaniu przywilejów.** Alan nigdy nie otrzymuje dostępu do powłoki. Tylko orchestrator może zatwierdzać commity do main.",
-        "**Cztery tryby awarii na dzień 30 wyjaśniają większość regresji wdrożeniowych, które zaobserwowaliśmy.** Dryf profili, rotacja handoffów, rozrost SOUL.md, kolizja cron. Każdy ma konkretne przeciwdziałanie.",
+        "**Cztery tryby awarii na dzień 30 wyjaśniają większość regresji wdrożeniowych obserwowanych w środowiskach wieloagentowych.** Dryf profili, rotacja handoffów, rozrost SOUL.md, kolizja cron. Każdy ma konkretne przeciwdziałanie.",
         "**Przeczytaj najpierw [przewodnik po definicji Hermes Agent](/blog/hermes-agent-self-improving-ai)**, jeśli potrzebny jest kontekst dotyczący czym jest ten agent przed warstwą operatorską."
       ]
     },
@@ -43,7 +43,7 @@
         "**Hermes** (orchestrator). Planuje, dekompozuje, kieruje, syntetyzuje. Kontroler ruchu, nie wąskie gardło.",
         "**Alan** (specjalista ds. badań). Opiera się na źródłach, sceptyczny, świadomy niepewności. Chroni zespół przed zmyśloną pewnością.",
         "**Mira** (architekt narracji). Klarowność, struktura, świadomość odbiorcy. Przekształca zweryfikowany materiał w komunikację.",
-        "**Turing** (budowniczy i debugger). Implementacja, logi, diffy, odtwarzalność. Zależy mu na testach, nie na narracyjnym szlifie."
+        "**Turing** (budowniczy i debugger). Implementacja, logi, diffy, odtwarzalność. Liczy się z testami, nie z narracyjnym szlifem."
       ]
     },
     {
@@ -60,7 +60,7 @@
     },
     {
       "type": "p",
-      "text": "Handoff contract to czteroPolowa specyfikacja przechowywana w `~/.hermes/team/handoffs/<from>-to-<to>.md`. Contract jest prawdziwy tylko wtedy, gdy może blokować. Jeśli wejście nie pasuje do zadeklarowanego kształtu, harness kończy handoff niepowodzeniem i wymaga przeglądu przez człowieka. Cztery wymagane pola:"
+      "text": "Handoff contract to czteroelementowa specyfikacja przechowywana w `~/.hermes/team/handoffs/<from>-to-<to>.md`. Contract jest prawdziwy tylko wtedy, gdy może blokować. Jeśli wejście nie pasuje do zadeklarowanego kształtu, harness kończy handoff niepowodzeniem i wymaga przeglądu przez człowieka. Cztery wymagane pola:"
     },
     {
       "type": "table",
@@ -148,7 +148,7 @@
     },
     {
       "type": "p",
-      "text": "Zasada jest nośna. Agent badawczy z dostępem do powłoki w końcu uruchomi polecenie, którego nie powinien był uruchamiać. Profil pisarza z dostępem do sekretów w końcu wycieknie je do szkicu. Dryf uprawnień dzieje się cicho i jest oczywisty dopiero z perspektywy czasu, co jest trudnym momentem na odkrycie luki."
+      "text": "Zasada jest nośna. Agent badawczy z dostępem do powłoki w końcu uruchomi polecenie, którego uruchamiać nie powinien. Profil pisarza z dostępem do sekretów w końcu wycieknie je do szkicu. Dryf uprawnień dzieje się cicho i jest oczywisty dopiero z perspektywy czasu, co jest trudnym momentem na odkrycie luki."
     },
     {
       "type": "h2",
@@ -156,7 +156,7 @@
     },
     {
       "type": "p",
-      "text": "Cztery konkretne tryby awarii odpowiadają za większość krachów wieloagentowych Hermes. Każdy ma bezpośrednie przeciwdziałanie. Pominięcie któregokolwiek sprawi, że zespół wygląda świetnie w pierwszym dniu i jest rozmyty w dniu 30."
+      "text": "Cztery konkretne tryby awarii odpowiadają za większość regresji wdrożeniowych obserwowanych w konfiguracji wieloagentowej Hermes. Każdy ma bezpośrednie przeciwdziałanie. Pominięcie któregokolwiek sprawi, że zespół wygląda świetnie w pierwszym dniu, a rozmywa się w dniu 30."
     },
     {
       "type": "h3",
@@ -164,7 +164,7 @@
     },
     {
       "type": "p",
-      "text": "Edycje SOUL.md narastają po cichu. Mira powoli staje się Turingiem. Rozwiązanie: diffuj każdy SOUL.md co tydzień względem wersji z pierwszego dnia. Każda nowa odpowiedzialność otrzymuje wpis zatwierdzenia w dzienniku albo zostaje cofnięta. Bez wyjątków dla małych edycji, bo małe edycje są właśnie tym, jak dochodzi do dryfu."
+      "text": "Edycje SOUL.md narastają po cichu. Mira powoli staje się Turingiem. Rozwiązanie: co tydzień porównuj każdy SOUL.md z wersją z pierwszego dnia. Każda nowa odpowiedzialność otrzymuje wpis zatwierdzenia w dzienniku albo zostaje cofnięta. Bez wyjątków dla małych edycji, bo to właśnie z nich wynika dryf."
     },
     {
       "type": "h3",
@@ -180,7 +180,7 @@
     },
     {
       "type": "p",
-      "text": "Każda rola rośnie o akapity obsługujące przypadki graniczne, aż agent traci swoją pierwotną tożsamość w szumie. Rozwiązanie: ogranicz SOUL.md do 400 słów. Wszystko ponad to trafia do AGENTS.md lub pliku referencyjnego per domena. Ograniczenie zmusza zespół do utrzymania tożsamości w ryzach."
+      "text": "Każda rola rośnie o akapity obsługujące przypadki graniczne, aż agent traci swoją pierwotną tożsamość w szumie. Rozwiązanie: ogranicz SOUL.md do 400 słów. Wszystko ponad to trafia do AGENTS.md lub pliku referencyjnego per domena. Ograniczenie zmusza do utrzymania tożsamości w ryzach."
     },
     {
       "type": "h3",
@@ -188,15 +188,15 @@
     },
     {
       "type": "p",
-      "text": "Wiele profili planuje zadania o 3 w nocy bez koordynacji. Orchestrator budzi się, zastając czterech agentów walczących o ten sam limit API. Rozwiązanie: jeden wspólny plik `~/.hermes/team/cron.md` wymieniający każde zaplanowane zadanie we wszystkich profilach z dokładną godziną, czasem trwania i zależnościami. Sprawdź go przed dodaniem nowego crona."
+      "text": "Wiele profili planuje zadania na godzinę 3 w nocy bez koordynacji. Orchestrator budzi się, zastając czterech agentów walczących o ten sam limit API. Rozwiązanie: jeden wspólny plik `~/.hermes/team/cron.md` wymieniający każde zaplanowane zadanie we wszystkich profilach z dokładną godziną, czasem trwania i zależnościami. Sprawdź go przed dodaniem nowego crona."
     },
     {
       "type": "h2",
-      "text": "Co to oznacza dla zespołów biznesowych"
+      "text": "Dopasowanie do zespołów biznesowych"
     },
     {
       "type": "p",
-      "text": "Warstwa operatorska to część, która przekształca demo Hermes w trwałą infrastrukturę produkcyjną. Większość zespołów oceniających frameworki wieloagentowe skupia się na koszcie wstępnej konfiguracji i pomija model utrzymania. 4-profilowy zespół bez handoff contracts, audytów pamięci i bramek uprawnień ma tę samą krzywą awarii co agent jednoprofilowy z sześciotygodniowym opóźnieniem: działa pięknie na początku, niewidocznie się degraduje, odpada gdy jest najbardziej potrzebny."
+      "text": "Warstwa operatorska to część, która przekształca demo Hermes w trwałą infrastrukturę produkcyjną. Większość zespołów oceniających frameworki wieloagentowe skupia się na koszcie wstępnej konfiguracji i pomija model utrzymania. 4-profilowy zespół bez handoff contracts, audytów pamięci i bramek uprawnień ma tę samą krzywą awarii co agent jednoprofilowy z sześciotygodniowym opóźnieniem: działa sprawnie na początku, niewidocznie się degraduje, odpada gdy jest najbardziej potrzebny."
     },
     {
       "type": "p",
@@ -204,7 +204,7 @@
     },
     {
       "type": "p",
-      "text": "**webvise** pomaga projektować i obsługiwać architektury agentów AI, w tym wieloprofilowe zespoły Hermes z dyscypliną zarządzania pozwalającą przetrwać po dniu 30. Jeśli oceniają Państwo wdrożenie Hermes lub mają już takie, które zaczyna się rozmywać, [zapraszam do kontaktu](/#contact), aby wzmocnić warstwę operatorską, zanim tryby awarii się skumulują."
+      "text": "**webvise** pomaga firmom projektować i obsługiwać architektury agentów AI, w tym wieloprofilowe zespoły Hermes z dyscypliną zarządzania pozwalającą przetrwać po dniu 30. Jeśli oceniają Państwo wdrożenie Hermes lub mają już takie, które zaczyna się rozmywać, [zapraszamy do kontaktu](/#contact), aby wzmocnić warstwę operatorską, zanim tryby awarii się skumulują."
     }
   ]
 }

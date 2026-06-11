@@ -1,58 +1,61 @@
 {
-  "title": "Dlaczego Twoja strona na Framer jest wolna (i co mozesz z tym zrobic)",
-  "excerpt": "Strony Framer wygladaja swietnie w edytorze, ale czesto uzyskuja slabe wyniki w PageSpeed. Oto dlaczego tak sie dzieje i jakie masz opcje.",
+  "date": "2025-10-20",
+  "readingTime": 6,
+  "keyword": "wolna strona framer",
+  "title": "Dlaczego strona na Framer jest wolna (i co z tym zrobić)",
+  "excerpt": "Strony Framer wyglądają świetnie w edytorze, ale często uzyskują słabe wyniki w PageSpeed. Oto dlaczego tak się dzieje i jakie są dostępne opcje.",
   "tags": ["Performance", "Framer", "Web Development"],
   "blocks": [
     {
       "type": "p",
-      "text": "Zbudowales piekna strone w [Framer](/blog/framer-vs-nextjs-business-website). Animacje sa plynne w edytorze, design wyglada dopracowanie, a wszystko wydaje sie szybkie na Twoim MacBooku Pro. Potem uruchamiasz test PageSpeed i widzisz wynik 45."
+      "text": "Piękna strona zbudowana w [Framer](/blog/framer-vs-nextjs-business-website). Animacje działają płynnie w edytorze, projekt wygląda dopracowanie, a całość sprawia wrażenie szybkiej na MacBooku Pro. Po uruchomieniu testu PageSpeed na ekranie pojawia się wynik 45."
     },
     {
       "type": "p",
-      "text": "Nie jestes sam. Strony Framer konsekwentnie nie spelniaja wymagan Google's [Core Web Vitals](https://web.dev/vitals/) - szczegolnie na urzadzeniach mobilnych. Przyjrzyjmy sie dlaczego i co mozesz z tym zrobic."
+      "text": "To częsty problem. Strony Framer regularnie nie spełniają wymagań Google [Core Web Vitals](https://web.dev/vitals/), szczególnie na urządzeniach mobilnych. Poniżej wyjaśnienie, dlaczego tak się dzieje, oraz dostępne opcje działania."
     },
     {
       "type": "h2",
-      "text": "Liczby wydajnosciowe"
+      "text": "Liczby dotyczące wydajności"
     },
     {
       "type": "p",
-      "text": "W ciagu ostatniego roku przeanalizowalismy dziesiatki stron Framer. Wzorzec jest konsekwentny:"
+      "text": "W ciągu ostatniego roku przebadano dziesiątki firmowych stron Framer. Wzorzec jest spójny:"
     },
     {
       "type": "table",
       "headers": [
         "Metryka",
-        "Srednia Framer",
-        "Prog \"dobry\" Google",
-        "Srednia Next.js"
+        "Średnia Framer",
+        "Próg \"dobry\" Google",
+        "Średnia Next.js"
       ],
       "rows": [
         ["Mobilny wynik PageSpeed", "42-65", "90+", "92-99"],
-        ["Largest Contentful Paint", "3,2-5,8s", "Ponizej 2,5s", "0,8-1,5s"],
-        ["Total Blocking Time", "400-1200ms", "Ponizej 200ms", "10-80ms"],
-        ["Cumulative Layout Shift", "0,05-0,25", "Ponizej 0,1", "0-0,02"]
+        ["Largest Contentful Paint", "3,2-5,8s", "Poniżej 2,5s", "0,8-1,5s"],
+        ["Total Blocking Time", "400-1200ms", "Poniżej 200ms", "10-80ms"],
+        ["Cumulative Layout Shift", "0,05-0,25", "Poniżej 0,1", "0-0,02"]
       ]
     },
     {
       "type": "p",
-      "text": "To nie sa wybrane przyklady. To typowy zakres dla firmowych stron Framer z animacjami, trescia CMS i niestandardowymi komponentami."
+      "text": "To typowe zakresy dla firmowych stron Framer z animacjami, treścią CMS i [niestandardowymi](/services/full-stack-applications) komponentami. Prostsze witryny mogą wypadać lepiej, jednak złożoność konsekwentnie obniża wyniki."
     },
     {
       "type": "h2",
-      "text": "Dlaczego strony Framer sa wolne"
+      "text": "Dlaczego strony Framer bywają wolne"
     },
     {
       "type": "h3",
-      "text": "Ciezka paczka JavaScript"
+      "text": "Ciężka paczka JavaScript"
     },
     {
       "type": "p",
-      "text": "Framer dostarcza duze srodowisko uruchomieniowe JavaScript na kazda strone. To srodowisko zasila silnik animacji, renderowanie CMS i system komponentow. Nawet prosta strona docelowa z minimalna trescia laduje **200-400KB JavaScript** zanim pojawi sie Twoja wlasciwa tresc."
+      "text": "Framer dostarcza duże środowisko uruchomieniowe JavaScript na każdą stronę. Zasila ono silnik animacji, renderowanie CMS i system komponentów. Nawet prosta strona docelowa z minimalną treścią ładuje **200-400KB JavaScript** zanim pojawi się właściwa zawartość."
     },
     {
       "type": "p",
-      "text": "Na sredniej klasy telefonie z Androidem z polaczeniem 4G parsowanie i wykonywanie tego JavaScript zajmuje 1-3 sekundy. To zanim zaladuja sie obrazy, zanim wyrenderuja sie czcionki, zanim uzytkownik zobaczy cokolwiek uzytecznego."
+      "text": "Na średniej klasy telefonie z Androidem podłączonym przez 4G parsowanie i wykonanie tego kodu zajmuje od 1 do 3 sekund. To zanim załadują się obrazy, zanim wyrenderują się czcionki, zanim użytkownik zobaczy cokolwiek użytecznego."
     },
     {
       "type": "h3",
@@ -60,11 +63,11 @@
     },
     {
       "type": "p",
-      "text": "Framer renderuje strony glownie po stronie klienta. Przegladarka pobiera HTML, potem JavaScript, a nastepnie JavaScript buduje strone. Porownaj to z [Next.js](/services/full-stack-applications), ktory wysyla w pelni wyrenderowany HTML z serwera - przegladarka wyswietla tresc natychmiast, podczas gdy JavaScript laduje sie w tle."
+      "text": "Framer renderuje strony głównie po stronie klienta. Przeglądarka pobiera HTML, następnie JavaScript, a dopiero potem JavaScript buduje stronę. Next.js wysyła w pełni wyrenderowany HTML z serwera, dzięki czemu przeglądarka wyświetla treść natychmiast, a JavaScript ładuje się w tle."
     },
     {
       "type": "p",
-      "text": "Dlatego Twoja strona Framer wydaje sie szybka na laptopie, ale uzyskuje slabe wyniki w PageSpeed. Test symuluje prawdziwe urzadzenie mobilne na prawdziwym polaczeniu mobilnym, nie MacBooka na swiatlowodzie."
+      "text": "Stąd strona Framer sprawia wrażenie szybkiej na laptopie, a uzyskuje słabe wyniki w PageSpeed. Test symuluje rzeczywiste urządzenie mobilne z rzeczywistym połączeniem mobilnym, nie MacBooka na łączu światłowodowym."
     },
     {
       "type": "h3",
@@ -72,49 +75,49 @@
     },
     {
       "type": "p",
-      "text": "System animacji Framer jest potezny, ale kosztowny. Kazda animacja wyzwalana przewijaniem, efekt hover i przejscie strony dodaje do kosztow wykonywania JavaScript. Animacje, ktore sa plynne na desktopie, moga powodowac widoczne zacinanie na urzadzeniach mobilnych z mniejsza moca obliczeniowa."
+      "text": "System animacji Framer jest rozbudowany, ale kosztowny obliczeniowo. Każda animacja wyzwalana przewijaniem, efekt hover i przejście między stronami zwiększa koszt wykonywania JavaScript. Animacje płynne na komputerze stacjonarnym mogą powodować widoczne zacinanie na urządzeniach mobilnych z mniejszą mocą obliczeniową."
     },
     {
       "type": "h3",
-      "text": "Ograniczona optymalizacja obrazow"
+      "text": "Ograniczona optymalizacja obrazów"
     },
     {
       "type": "p",
-      "text": "Framer obsluguje podstawowa optymalizacje obrazow, ale nie masz kontroli nad formatami, ustawieniami jakosci ani strategiami responsywnego rozmiaru. Komponent Image w Next.js automatycznie serwuje WebP/AVIF w odpowiednich wymiarach dla kazdego urzadzenia, z lazy loading i placeholderami blur-up. Roznica w samym rozmiarze obrazow moze wynosic 50-80%."
+      "text": "Framer obsługuje podstawową optymalizację obrazów, ale bez kontroli nad formatami, ustawieniami jakości ani strategiami responsywnego wymiarowania. Komponent Image w Next.js automatycznie serwuje WebP/AVIF w odpowiednich wymiarach dla każdego urządzenia, z lazy loading i rozmytymi placeholderami. Sama różnica w rozmiarze plików graficznych sięga 50-80%."
     },
     {
       "type": "h2",
-      "text": "Co mozesz zrobic w ramach Framer"
+      "text": "Co można zrobić w ramach Framer"
     },
     {
       "type": "p",
-      "text": "Jesli chcesz zostac na Framer, dostepne sa marginalne ulepszenia:"
+      "text": "Dla tych, którzy chcą pozostać na Framer, dostępne są konkretne usprawnienia:"
     },
     {
       "type": "ul",
       "items": [
-        "Zmniejsz liczbe animacji - kazda kosztuje wydajnosc",
-        "Kompresuj obrazy przed przeslaniem zamiast polegac na optymalizacji Framer",
-        "Minimalizuj niestandardowe code overrides i osadzone skrypty",
-        "Usun nieuzywane komponenty i sekcje",
-        "Unikaj gleoko zagniezdzonych struktur komponentow"
+        "Ograniczyć liczbę animacji, każda z nich kosztuje wydajność",
+        "Kompresować obrazy przed przesłaniem zamiast polegać na optymalizacji Framer",
+        "Minimalizować niestandardowe code overrides i osadzone skrypty",
+        "Usunąć nieużywane komponenty i sekcje",
+        "Unikać głęboko zagnieżdżonych struktur komponentów"
       ]
     },
     {
       "type": "p",
-      "text": "Realistycznie, te optymalizacje moga poprawic Twoj wynik o 10-15 punktow. Jesli jestes na 45, mozesz osiagnac 55-60. Wciaz ponizej progu Google dla \"dobrej\" wydajnosci."
+      "text": "Realistycznie te optymalizacje mogą poprawić wynik o 10-15 punktów. Przy wyjściowym wyniku 45 można osiągnąć poziom 55-60, co nadal plasuje się poniżej progu Google dla \"dobrej\" wydajności."
     },
     {
       "type": "h2",
-      "text": "Dlaczego to ma znaczenie dla Twojego biznesu"
+      "text": "Koszt biznesowy"
     },
     {
       "type": "p",
-      "text": "Google uzywa Core Web Vitals jako sygnalu rankingowego. Wolne doswiadczenie mobilne oznacza nizsze pozycje w wynikach wyszukiwania. Poza SEO, **53% mobilnych uzytkownikow opuszcza strone, ktora laduje sie dluzej niz 3 sekundy** (dane Google). Jesli LCP Twojej strony Framer wynosi 4+ sekundy, tracisz odwiedzajacych zanim zobacza Twoja tresc."
+      "text": "Google używa Core Web Vitals jako sygnału rankingowego. Słabe wyniki mobilne przekładają się na niższe pozycje w wyszukiwarce. Poza SEO, **53% mobilnych użytkowników opuszcza strony, które ładują się dłużej niż 3 sekundy** (dane Google). Gdy LCP strony na Framer przekracza 4 sekundy, odwiedzający odchodzą, zanim zobaczą jakąkolwiek treść."
     },
     {
       "type": "p",
-      "text": "Dla stron, ktore polegaja na ruchu organicznym lub [konwersjach](/blog/website-speed-and-conversions) z platnych reklam, slaba wydajnosc bezposrednio wplywa na przychody. Kazde dodatkowe 100ms czasu ladowania zmniejsza wskaznik konwersji o okolo 1%."
+      "text": "Strony zależne od ruchu organicznego lub [konwersji](/blog/website-speed-and-conversions) z płatnych kampanii odczuwają wpływ słabej wydajności bezpośrednio na wynikach finansowych. Każde dodatkowe 100ms czasu ładowania obniża współczynnik konwersji o około 1%."
     },
     {
       "type": "h2",
@@ -122,19 +125,16 @@
     },
     {
       "type": "p",
-      "text": "Przebudowa na Next.js zachowuje Twoj design, naprawiajac podstawowe problemy z wydajnoscia. Wizualny wynik pozostaje taki sam - ten sam uklad, te same animacje, ta sama tozsamosc marki. Mechanizm dostarczania zmienia sie z renderowanego po stronie klienta JavaScript na renderowany po stronie serwera HTML z zoptymalizowanymi zasobami."
+      "text": "Przebudowa na Next.js zachowuje projekt, eliminując jednocześnie podstawowe problemy z wydajnością. Efekt wizualny pozostaje identyczny: ten sam układ, te same animacje, ta sama tożsamość marki. Mechanizm dostarczania zmienia się z renderowanego po stronie klienta JavaScript na renderowany po stronie serwera HTML ze zoptymalizowanymi zasobami."
     },
     {
       "type": "p",
-      "text": "Wynik to zazwyczaj skok z 45-65 w mobilnym PageSpeed do 92-99 w naszych projektach migracyjnych. Ten sam design, odczuwalnie lepsza wydajność. Lepsze pozycje, niższe wskaźniki odrzuceń, wyższe konwersje."
+      "text": "W projektach migracyjnych realizowanych przez webvise wynik mobilny PageSpeed skacze regularnie z poziomu 45-65 do 92-99. Ten sam projekt, mierzalnie lepsza wydajność. Wyższe pozycje, niższy współczynnik odrzuceń, wyższe konwersje."
     },
     {
       "type": "p",
-      "text": "Jesli Twoja strona Framer jest narzedziem biznesowym - nie tylko elementem portfolio - wydajnosc powinna byc priorytetem. Przepusc swoja strone przez PageSpeed Insights na mobilnych i zobacz, gdzie stoisz. Liczby powiedza Ci, czy optymalizacja wystarczy, czy architektura platformy ogranicza mozliwosci optymalizacji."
+      "text": "Jeśli strona Framer pełni rolę narzędzia biznesowego, a nie tylko prezentacji portfolio, wydajność powinna być priorytetem. Wystarczy uruchomić ją w PageSpeed Insights na urządzeniu mobilnym i sprawdzić wynik. Liczby pokażą, czy optymalizacja wewnątrz platformy wystarczy, czy architektura Framer osiągnęła swoje granice w danym zastosowaniu."
     }
   ],
-  "metaDescription": "Strony Framer osiągają średnio 42-65 w mobilnym PageSpeed przy 3-6s ładowania. Zrozum wąskie gardło renderowania po stronie klienta i swoje opcje.",
-  "date": "2025-10-20",
-  "readingTime": 6,
-  "keyword": "wolna strona framer"
+  "metaDescription": "Strony Framer uzyskują średnio 42-65 w mobilnym PageSpeed przy 3-6s ładowania. Poznaj wąskie gardło renderowania po stronie klienta i dostępne opcje optymalizacji."
 }

@@ -3,39 +3,39 @@
   "readingTime": 9,
   "keyword": "architettura agentica",
   "title": "Perché la Maggior Parte dei Setup AI Funziona Molto Più Lentamente di Quanto Potrebbe",
-  "excerpt": "Il divario tra risultati di produttività AI modesti e sostanziali non dipende dal modello. Dipende dall'architettura che lo avvolge. Cinque builder hanno pubblicato la stessa tesi in una settimana.",
-  "metaDescription": "Il divario tra risultati di produttività AI modesti e sostanziali non dipende dal modello. Dipende da dove metti l'intelligenza. L'architettura su cui i migliori builder concordano.",
+  "excerpt": "L'architettura attorno al modello spiega il divario tra risultati di produttività AI modesti e sostanziali. Cinque builder hanno pubblicato la stessa tesi in una settimana.",
+  "metaDescription": "L'architettura attorno al modello spiega il divario tra risultati di produttività AI modesti e sostanziali. L'architettura agentica su cui i migliori builder concordano.",
   "tags": ["AI Agents", "AI", "Automation", "Web Development"],
   "blocks": [
     {
       "type": "p",
-      "text": "Il divario tra uno sviluppatore che ottiene risultati modesti dagli strumenti AI e uno che ottiene risultati sostanzialmente superiori non dipende dal modello che usa. Dipende dall'architettura che avvolge quel modello. Steve Yegge [ha osservato all'inizio del 2026](https://asksurf.ai/pulse/en/thin-harnesses-beat-thick-wrappers-garry-tan) che gli sviluppatori che usano agenti di codice AI riportano guadagni di produttività significativi per compiti appropriati; le cifre riportate variano ampiamente in base alla metodologia e al tipo di attività. Stessi modelli. Stessa intelligenza di fondo. La variabile è la struttura."
+      "text": "Il divario tra risultati modesti e sostanziali dagli strumenti AI dipende dall'architettura che avvolge il modello. Steve Yegge [ha osservato all'inizio del 2026](https://asksurf.ai/pulse/en/thin-harnesses-beat-thick-wrappers-garry-tan) che gli sviluppatori che usano agenti AI per la scrittura di codice riportano guadagni di produttività significativi per compiti appropriati; le cifre variano ampiamente in base alla metodologia e al tipo di attività. Stessi modelli. Stessa intelligenza di fondo. La variabile è la struttura."
     },
     {
       "type": "p",
-      "text": "In una sola settimana nell'aprile 2026, cinque builder indipendenti hanno pubblicato framework per l'architettura degli agenti AI. [Garry Tan](https://x.com/garrytan) (Y Combinator), Andrej Karpathy, Viv Trivedy, Daniel Miessler e un [repository community](https://github.com/hesreallyhim/awesome-claude-code) che ha raggiunto 19.700 stelle su GitHub sono convergiti sulla stessa tesi centrale: metti l'intelligenza in file markdown portabili, mantieni l'infrastruttura di orchestrazione il più snella possibile, lascia che il modello faccia il ragionamento. Questo articolo analizza su cosa sono d'accordo, dove divergono e cosa significa per chiunque stia costruendo con l'AI."
+      "text": "In una sola settimana nell'aprile 2026, cinque builder indipendenti hanno pubblicato framework per l'architettura degli agenti AI. [Garry Tan](https://x.com/garrytan) (Y Combinator), Andrej Karpathy, Viv Trivedy, Daniel Miessler e un [repository della community](https://github.com/hesreallyhim/awesome-claude-code) che ha raggiunto 19.700 stelle su GitHub sono convergiti sulla stessa tesi centrale: mettere l'intelligenza in file markdown portabili, mantenere l'infrastruttura di orchestrazione il più snella possibile, lasciare che il modello faccia il ragionamento. Questo articolo analizza su cosa sono d'accordo, dove divergono e cosa significa per chi costruisce con l'AI."
     },
     {
       "type": "h2",
-      "text": "Punti Chiave"
+      "text": "Punti chiave"
     },
     {
       "type": "ul",
       "items": [
         "**L'intelligenza appartiene ai file skill in markdown, non al codice del framework.** Le skill sono portabili, versionabili e migliorano automaticamente quando il modello migliora.",
-        "**L'harness deve fare quattro cose e nient'altro.** Eseguire il modello in un loop, leggere e scrivere file, gestire il contesto, applicare la sicurezza. Ogni funzione aggiunta oltre questo consuma contesto e rallenta il ragionamento.",
-        "**Cinque builder hanno pubblicato indipendentemente la stessa tesi in tre giorni (dal 12 al 15 aprile 2026).** Garry Tan, Andrej Karpathy, Viv Trivedy, Daniel Miessler e un repo community con 19.700 stelle. La convergenza di più fonti indipendenti è uno dei segnali che un pattern architetturale è solido.",
+        "**L'harness deve fare quattro cose e nient'altro.** Eseguire il modello in un loop, leggere e scrivere file, gestire il contesto, applicare i controlli di sicurezza. Ogni funzione aggiunta oltre queste consuma contesto e rallenta il ragionamento.",
+        "**Cinque builder hanno pubblicato indipendentemente la stessa tesi in tre giorni (12-15 aprile 2026).** Garry Tan, Andrej Karpathy, Viv Trivedy, Daniel Miessler e un repo della community con 19.700 stelle. La convergenza di più fonti indipendenti è uno dei segnali che un pattern architetturale è solido.",
         "**LangChain non è d'accordo e ha benchmark per dimostrarlo.** Harrison Chase sostiene che l'harness È il prodotto. La risposta potrebbe dipendere dal fatto che si stia costruendo strumenti consumer o pipeline enterprise.",
-        "**Le istruzioni prescrittive scadono. Il contesto no.** Ogni procedura passo-passo che scrivi per un'AI degrada con la prossima versione del modello. Il contesto su chi sei e cosa vuoi si accumula nel tempo."
+        "**Le istruzioni prescrittive scadono. Il contesto no.** Ogni procedura passo-passo scritta per un'AI degrada con la prossima versione del modello. Il contesto su chi si è e cosa si vuole si accumula nel tempo."
       ]
     },
     {
       "type": "h2",
-      "text": "L'Architettura è Compatta"
+      "text": "L'architettura è compatta"
     },
     {
       "type": "p",
-      "text": "Le fonti degli harness per agenti in produzione sono sempre più disponibili per l'ispezione, inclusa una istantanea pubblicamente osservata dell'harness di Claude Code nel 2026. Garry Tan ha esaminato una di queste fonti. Ciò che ha trovato ha confermato un pattern che insegnava a Y Combinator da mesi: il divario di produttività non riguarda l'intelligenza del modello. Riguarda ciò che avvolge il modello."
+      "text": "Le discussioni pubbliche sugli harness per agenti in produzione si sono concentrate sempre più su un'architettura compatta: un loop con il modello, strumenti, gestione del contesto e controlli di sicurezza. Garry Tan ha descritto quel pattern come un fattore di produttività che insegnava a Y Combinator da mesi: il divario di produttività viene da ciò che avvolge il modello."
     },
     {
       "type": "p",
@@ -43,11 +43,11 @@
     },
     {
       "type": "table",
-      "headers": ["Livello", "Contenuto", "Proprietà Chiave"],
+      "headers": ["Livello", "Contenuto", "Proprietà chiave"],
       "rows": [
         [
           "Fat skills",
-          "Procedure markdown che codificano giudizio, processo, conoscenza di dominio",
+          "Procedure markdown che codificano giudizio, processo e conoscenza di dominio",
           "Portabili. Sono tuoi."
         ],
         [
@@ -64,23 +64,23 @@
     },
     {
       "type": "p",
-      "text": "Il principio è direzionale. Spingi l'intelligenza verso l'alto nelle skill. Spingi l'esecuzione verso il basso negli strumenti deterministici. Mantieni l'harness snello. Il 90% del valore vive nel livello delle skill. L'harness è un conduttore che legge file. Non li possiede."
+      "text": "Il principio è direzionale. Spingi l'intelligenza verso l'alto nelle skill. Spingi l'esecuzione verso il basso negli strumenti deterministici. Mantieni l'harness snello. Il 90% del valore vive nel livello delle skill. L'harness è un conduttore che legge file, non li possiede."
     },
     {
       "type": "p",
-      "text": "L'esperienza personale di Tan lo dimostra. Il suo CLAUDE.md personale era partito da 20.000 righe. Ogni quirk, ogni convenzione, ogni lezione mai incontrata. Il risultato: l'attenzione di Claude Code degradava. Il modello gli ha detto letteralmente di ridurlo. La sua soluzione è stata [200 righe di puntatori](https://codex.danielvaughan.com/2026/03/30/gstack-garry-tan-production-skills-toolkit/) a documenti che si caricano su richiesta. Le 20.000 righe complete di conoscenza esistono ancora. Si caricano semplicemente quando sono rilevanti invece di inquinare la finestra di contesto ad ogni turno."
+      "text": "L'esperienza personale di Tan è illuminante. Il suo CLAUDE.md personale era partito da 20.000 righe. Ogni quirk, ogni convenzione, ogni lezione mai incontrata. Il risultato: l'attenzione di Claude Code degradava. Il modello gli ha detto letteralmente di ridurlo. La soluzione: [200 righe di puntatori](https://codex.danielvaughan.com/2026/03/30/gstack-garry-tan-production-skills-toolkit/) a documenti caricati su richiesta. Le 20.000 righe di conoscenza esistono ancora, ma si caricano solo quando sono rilevanti, invece di inquinare la finestra di contesto ad ogni turno."
     },
     {
       "type": "p",
-      "text": "Se stai costruendo strumenti o workflow basati su AI per la tua azienda, [impostare l'architettura correttamente fin dall'inizio](/#contact) determina se finisci con una demo che impressiona o un sistema che va in produzione."
+      "text": "Per chi sta costruendo strumenti o workflow basati su AI per la propria azienda, [impostare correttamente l'architettura fin dall'inizio](/#contact) determina se il risultato sarà una demo che impressiona o un sistema che va davvero in produzione."
     },
     {
       "type": "h2",
-      "text": "Cinque Definizioni che Distinguono i Build AI ad Alto Rendimento"
+      "text": "Cinque definizioni che distinguono i build AI ad alto rendimento"
     },
     {
       "type": "p",
-      "text": "L'architettura si basa su cinque concetti. Tralascia anche solo uno e il sistema sottoperforma."
+      "text": "L'architettura si basa su cinque concetti. Tralasciarne anche uno solo fa sottoperformare il sistema."
     },
     {
       "type": "h3",
@@ -88,11 +88,11 @@
     },
     {
       "type": "p",
-      "text": "Una skill è un documento markdown riutilizzabile che insegna al modello come fare qualcosa. Non cosa fare. L'utente fornisce il compito. La skill fornisce il processo. Funziona come una chiamata a metodo: stessa procedura, argomenti diversi, output radicalmente diversi."
+      "text": "Una skill è un documento markdown riutilizzabile che insegna al modello il processo per una categoria di compiti. L'utente fornisce il compito; la skill fornisce la procedura. Funziona come una chiamata a metodo: stessa procedura, argomenti diversi, output radicalmente diversi."
     },
     {
       "type": "p",
-      "text": "L'esempio di Tan: una skill chiamata /investigate ha sette passaggi (definire il dataset, costruire una timeline, dirarizzare ogni documento, sintetizzare, argomentare entrambi i lati, citare le fonti). Puntala su uno scienziato della sicurezza e 2,1 milioni di email di discovery e ottieni un analista di ricerca medica. Puntala su una shell company e i documenti FEC e ottieni un investigatore forense. Stessi sette passaggi. È l'invocazione a fornire il contesto."
+      "text": "L'esempio di Tan: una skill chiamata /investigate ha sette passaggi (definire il dataset, costruire una timeline, diarizzare ogni documento, sintetizzare, argomentare entrambi i lati, citare le fonti). Puntata su uno scienziato della sicurezza e 2,1 milioni di email di discovery, produce un analista di ricerca medica. Puntata su una shell company e i documenti FEC, produce un investigatore forense. Stessi sette passaggi. È l'invocazione a fornire il contesto al mondo."
     },
     {
       "type": "h3",
@@ -100,7 +100,7 @@
     },
     {
       "type": "p",
-      "text": "Un resolver è una tabella di routing per il contesto. Quando appare il tipo di task X, carica prima il documento Y. Senza un resolver, uno sviluppatore modifica un prompt e lo pubblica. Con un resolver, il modello legge prima la documentazione della suite di valutazione, esegue i benchmark e fa il rollback se l'accuratezza scende di più del 2%. Lo sviluppatore non sapeva che la suite di valutazione esistesse. Il resolver ha caricato il contesto giusto al momento giusto."
+      "text": "Un resolver è una tabella di routing per il contesto. Quando appare il tipo di task X, carica prima il documento Y. Senza un resolver, uno sviluppatore modifica un prompt e lo pubblica. Con un resolver, il modello legge prima la documentazione della suite di valutazione, esegue i benchmark e torna indietro se l'accuratezza scende di più del 2%. Lo sviluppatore non sapeva che la suite esistesse: il resolver ha caricato il contesto giusto al momento giusto."
     },
     {
       "type": "h3",
@@ -108,7 +108,7 @@
     },
     {
       "type": "p",
-      "text": "Ogni passaggio in un sistema è uno o l'altro. Confonderli è l'errore più comune nel design degli agenti. Un LLM può disporre 8 persone attorno a un tavolo da cena, tenendo conto delle personalità. Chiedigli di disporne 800 e allucinerà una disposizione che sembra plausibile ma è completamente sbagliata. Questo è un problema deterministico forzato nello spazio latente. I migliori sistemi sono spietati riguardo a questa distinzione."
+      "text": "Ogni passaggio in un sistema è l'uno o l'altro. Confonderli è l'errore più comune nel design degli agenti. Un LLM può disporre 8 persone attorno a un tavolo tenendo conto delle personalità. Chiedigli di disporne 800 e allucinerà una disposizione che sembra plausibile ma è completamente sbagliata. Questo è un problema deterministico forzato nello spazio latente. I migliori sistemi sono spietati nel tracciare questa distinzione."
     },
     {
       "type": "h3",
@@ -116,11 +116,11 @@
     },
     {
       "type": "p",
-      "text": "Il modello legge tutto su un soggetto e scrive un profilo strutturato. Nessuna query SQL produce questo. Nessuna pipeline RAG produce questo. Il modello deve leggere, tenere in mente le contraddizioni, notare cosa è cambiato e quando, e sintetizzare intelligence strutturata."
+      "text": "Il modello legge tutto su un soggetto e scrive un profilo strutturato. Nessuna query SQL produce questo. Nessuna pipeline RAG produce questo. Il modello deve leggere, tenere le contraddizioni in mente, notare cosa è cambiato e quando, e sintetizzare intelligence strutturata."
     },
     {
       "type": "p",
-      "text": "Il team di Tan ha costruito un sistema per YC Startup School che gestisce 6.000 profili di fondatori in questo modo. L'output della diarizzazione cattura cose che nessuna ricerca per parole chiave potrebbe trovare: una fondatrice che dice \"Datadog per agenti AI\" ma i cui commit su GitHub sono all'80% codice di billing. Sta costruendo uno strumento FinOps mascherato da observability. Quel divario tra \"dice\" e \"sta costruendo davvero\" richiede di leggere simultaneamente la cronologia dei commit, la candidatura e la trascrizione dell'advisor. Nessuna ricerca per similarita di embedding lo trova."
+      "text": "Il team di Tan ha costruito un sistema per YC Startup School che gestisce 6.000 profili di fondatori in questo modo. L'output della diarizzazione cattura ciò che nessuna ricerca per parole chiave potrebbe trovare: una fondatrice che dice \"Datadog per agenti AI\" ma i cui commit su GitHub sono all'80% codice di billing. Sta costruendo uno strumento FinOps mascherato da observability. Quel divario tra \"dice\" e \"sta costruendo davvero\" richiede di leggere simultaneamente la cronologia dei commit, la candidatura e la trascrizione dell'advisor. Nessuna ricerca per similarità di embedding lo trova."
     },
     {
       "type": "h3",
@@ -128,11 +128,11 @@
     },
     {
       "type": "p",
-      "text": "L'istruzione di Tan alla sua AI: \"Se ti chiedo di fare qualcosa ed è il tipo di cosa che dovrà accadere di nuovo, codificala in un file skill. Se deve girare automaticamente, mettila in un cron. Se devo chiederti qualcosa due volte, hai fallito.\" Ogni skill scritta è un aggiornamento permanente. Non degrada mai. Quando esce il prossimo modello, ogni skill migliora istantaneamente. Il sistema si accumula."
+      "text": "L'istruzione di Tan alla sua AI: \"Se mi chiedi di fare qualcosa ed è il tipo di cosa che dovrà accadere di nuovo, codificala in un file skill. Se deve girare automaticamente, mettila in un cron. Se devo chiederti qualcosa due volte, hai fallito.\" Ogni skill scritta è un aggiornamento permanente. Non degrada mai. Quando esce il prossimo modello, ogni skill migliora istantaneamente. Il sistema si accumula."
     },
     {
       "type": "h2",
-      "text": "Cinque Framework Pubblicati in Una Settimana Dicono Tutti la Stessa Cosa"
+      "text": "Cinque framework pubblicati in una settimana dicono tutti la stessa cosa"
     },
     {
       "type": "p",
@@ -142,8 +142,8 @@
       "type": "table",
       "headers": [
         "Framework",
-        "Dove Vive l'Intelligenza",
-        "Cosa Rimane Snello"
+        "Dove vive l'intelligenza",
+        "Cosa rimane snello"
       ],
       "rows": [
         [
@@ -154,7 +154,7 @@
         [
           "Karpathy (CLAUDE.md)",
           "File di istruzioni comportamentali",
-          "Nessun framework necessario. Un file .md"
+          "Nessun framework necessario. Un solo file .md"
         ],
         [
           "Trivedy (frammenti di contesto)",
@@ -167,7 +167,7 @@
           "Istruzioni su come eseguire"
         ],
         [
-          "Community (repo 19.700 stelle)",
+          "Community (repo con 19.700 stelle)",
           "Skill, slash command, regole CLAUDE.md",
           "I subagenti sostituiscono la compattazione. Grep sostituisce RAG"
         ]
@@ -175,7 +175,7 @@
     },
     {
       "type": "p",
-      "text": "Tan è arrivato qui dopo aver pubblicato [un alto volume di codice di produzione in due mesi - il conteggio delle righe non è una metrica di qualità, ma il throughput è insolito](https://codex.danielvaughan.com/2026/03/30/gstack-garry-tan-production-skills-toolkit/) con gstack (oltre 23.000 stelle GitHub nella prima settimana; il numero di stelle misura la visibilità, non l'idoneità alla produzione). Karpathy è arrivato dal debug delle tre modalità di fallimento persistenti degli assistenti di codice AI. Trivedy è arrivato dall'iterazione sul design dell'harness attraverso oltre 30 versioni. Miessler è arrivato dall'applicazione della [bitter lesson di Richard Sutton](http://www.incompleteideas.net/IncIdeas/BitterLesson.html) agli strumenti AI."
+      "text": "Tan è arrivato qui dopo aver pubblicato [un alto volume di codice di produzione in due mesi: il conteggio delle righe è una metrica di throughput, e quel throughput è insolito](https://codex.danielvaughan.com/2026/03/30/gstack-garry-tan-production-skills-toolkit/) con gstack (23.000+ stelle su GitHub nella prima settimana; il numero di stelle misura la visibilità, non l'idoneità alla produzione). Karpathy è arrivato dal debug delle tre modalità di fallimento persistenti degli assistenti AI per la scrittura di codice. Trivedy è arrivato dall'iterazione sul design dell'harness attraverso oltre 30 versioni. Miessler è arrivato applicando la [bitter lesson di Richard Sutton](http://www.incompleteideas.net/IncIdeas/BitterLesson.html) agli strumenti AI."
     },
     {
       "type": "p",
@@ -183,27 +183,27 @@
     },
     {
       "type": "h2",
-      "text": "LangChain Non è d'Accordo e Ha Benchmark per Dimostrarlo"
+      "text": "LangChain non è d'accordo e ha benchmark per dimostrarlo"
     },
     {
       "type": "p",
-      "text": "Harrison Chase (CEO di LangChain) ha pubblicato Deep Agents la stessa settimana sostenendo l'opposto: l'harness E il prodotto. Pianificazione dei task integrata, spawning di sub-agenti, middleware, hook, infrastruttura di orchestrazione completa. La sua evidenza: cambiare solo l'harness ha portato DeepAgent di LangChain dall'esterno della top 30 alla top 5 su TerminalBench 2.0."
+      "text": "Harrison Chase (CEO di LangChain) ha pubblicato Deep Agents la stessa settimana sostenendo l'opposto: l'harness È il prodotto. Pianificazione dei task integrata, spawning di sub-agenti, middleware, hook, infrastruttura di orchestrazione completa. La sua evidenza: cambiare solo l'harness ha portato DeepAgent di LangChain dall'esterno della top 30 alla top 5 su TerminalBench 2.0."
     },
     {
       "type": "p",
-      "text": "Non è un'obiezione marginale. LangChain elabora milioni di chiamate agente al giorno. I loro benchmark sono pubblici. La vera divisione: la posizione di Tan è che ogni pezzo di logica nell'harness limita il ragionamento che il modello avrebbe potuto fare. Più il modello migliora, più l'harness dovrebbe essere snello. La posizione di Chase è che l'ingegneria dell'harness estende la capacità del modello invece di sostituirla."
+      "text": "LangChain elabora milioni di chiamate agente al giorno, quindi l'obiezione merita attenzione. I loro benchmark sono pubblici. La vera divisione: la posizione di Tan è che ogni pezzo di logica nell'harness limita il ragionamento che il modello avrebbe potuto fare autonomamente. Più il modello migliora, più l'harness dovrebbe essere snello. La posizione di Chase è che l'ingegneria dell'harness estende la capacità del modello invece di sostituirla."
     },
     {
       "type": "p",
-      "text": "Entrambe le posizioni possono essere corrette per contesti diversi. Gli agenti consumer e personali (dove portabilità e longevità contano) favoriscono un harness snello. Le pipeline enterprise (dove contano affidabilità e auditabilità) possono giustificare un harness pesante. Nessuna delle due parti contesta che le skill debbano essere fat. La domanda per il tuo progetto non è quale campo abbia ragione. È da quale parte della linea si colloca il tuo caso d'uso."
+      "text": "Entrambe le posizioni possono essere corrette per contesti diversi. Gli agenti consumer e personali, dove portabilità e longevità contano, favoriscono un harness snello. Le pipeline enterprise, dove contano affidabilità e auditabilità, possono giustificare un harness più robusto. Nessuna delle due parti contesta che le skill debbano essere fat. La domanda utile per il proprio progetto è da quale parte di questa linea si colloca il proprio caso d'uso."
     },
     {
       "type": "p",
-      "text": "La maggior parte delle aziende che costruisce funzionalità AI per la prima volta dovrebbe iniziare snella e aggiungere infrastruttura solo quando si scontra con specifici muri di affidabilità. Non sai dove si colloca il tuo progetto? [Mettiti in contatto](/#contact) per capire quale architettura si adatta."
+      "text": "La maggior parte delle aziende che costruisce funzionalità AI per la prima volta dovrebbe iniziare con un harness snello e aggiungere infrastruttura solo quando si scontra con specifici problemi di affidabilità. Non sa dove si colloca il suo progetto? [Parli con webvise](/#contact) per capire quale architettura è più adatta."
     },
     {
       "type": "h2",
-      "text": "Le Tue Istruzioni Scadranno. Il Tuo Contesto No."
+      "text": "Le sue istruzioni scadranno. Il suo contesto no."
     },
     {
       "type": "p",
@@ -211,23 +211,23 @@
     },
     {
       "type": "p",
-      "text": "Applicato agli strumenti AI: la cattiva ingegneria dell'harness è fatta di istruzioni prescrittive. \"Prima copia questo file, poi carica questo, poi fai questo, poi fai quello.\" Microgestione passo-passo dell'esecuzione dell'AI. Questo approccio degrada man mano che i modelli diventano più intelligenti. Passaggi troppo rigidi impediscono al modello di applicare il proprio ragionamento."
+      "text": "Applicato agli strumenti AI: la cattiva ingegneria dell'harness è fatta di istruzioni prescrittive. \"Prima copia questo file, poi carica questo, poi fai questo, poi fai quello.\" Microgestione passo-passo dell'esecuzione dell'AI. Questo approccio degrada man mano che i modelli diventano più intelligenti: passaggi troppo rigidi impediscono al modello di applicare il proprio ragionamento."
     },
     {
       "type": "p",
-      "text": "La buona ingegneria dell'harness è contestuale. Chi sei, su cosa stai lavorando, cosa stai cercando di realizzare, come appare il bene e il male. Identità, gusto, standard, obiettivi. Il modello capisce il come."
+      "text": "La buona ingegneria dell'harness è contestuale. Chi si è, su cosa si sta lavorando, cosa si cerca di realizzare, come appare il buono e il cattivo risultato. Identità, gusto, standard, obiettivi. Il modello capisce il come."
     },
     {
       "type": "p",
-      "text": "La diagnostica di Miessler è semplice. Se la tua configurazione si legge come una ricetta (passo 1, passo 2, passo 3), stai facendo cattiva ingegneria dell'harness. Se si legge come un documento di briefing (ecco chi sono, ecco cosa conta, ecco gli strumenti), stai facendo buona ingegneria dell'harness. Il contesto su chi sei non scade mai. Le istruzioni prescrittive diventano obsolete ad ogni miglioramento del modello."
+      "text": "La diagnostica di Miessler è semplice. Se la configurazione si legge come una ricetta (passo 1, passo 2, passo 3), si sta facendo cattiva ingegneria dell'harness. Se si legge come un documento di briefing (ecco chi sono, ecco cosa conta, ecco gli strumenti), si sta facendo buona ingegneria dell'harness. Il contesto su chi si è non scade mai. Le istruzioni prescrittive diventano obsolete ad ogni miglioramento del modello."
     },
     {
       "type": "p",
-      "text": "L'architettura non è complicata. Fat skills, thin harness, separazione spietata tra lavoro latente e deterministico. La parte difficile è la disciplina: codificare il giudizio in skill riutilizzabili invece di fare lavoro una tantum, mantenere l'harness snello quando la tentazione è aggiungere funzionalità, e fidarsi del modello per capire il \"come\" quando gli dai il giusto \"cosa\" e \"perché\"."
+      "text": "L'architettura non è complicata. Fat skills, thin harness, separazione spietata tra lavoro latente e deterministico. La parte difficile è la disciplina: codificare il giudizio in skill riutilizzabili invece di fare lavoro una tantum, mantenere l'harness snello quando la tentazione è aggiungere funzionalità, e fidarsi del modello per capire il \"come\" quando gli si fornisce il giusto \"cosa\" e \"perché\"."
     },
     {
       "type": "p",
-      "text": "[webvise](/#contact) costruisce sistemi basati su AI seguendo questi principi architetturali. Che tu abbia bisogno di un workflow agente, di una pipeline automatizzata o di un'integrazione AI di livello produttivo, [l'architettura conta più del modello](/#contact)."
+      "text": "[webvise](/#contact) costruisce sistemi basati su AI seguendo questi principi architetturali. Che si tratti di un workflow agentico, di una pipeline automatizzata o di un'integrazione AI di livello produttivo, [l'architettura conta più del modello](/#contact)."
     }
   ]
 }

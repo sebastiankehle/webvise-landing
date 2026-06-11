@@ -1,210 +1,210 @@
 {
   "date": "2026-04-17",
   "readingTime": 9,
-  "keyword": "hermes agent production deployment",
-  "title": "Hermes Agent in produzione: l'operator layer per il giorno 30",
-  "excerpt": "La maggior parte dei team con 4 profile in Hermes Agent funziona bene il primo giorno e mostra segni di convergenza vocale entro il giorno 30 nei deployment reali. L'operator layer che lo previene: handoff contracts, audit memory-KPI e policy gates per ruolo.",
-  "metaDescription": "I team multi-profile di Hermes Agent mostrano convergenza vocale entro il giorno 30. L'operator layer: handoff contracts, audit memory-KPI e policy gates per ruolo per prevenirlo.",
+  "keyword": "hermes agent distribuzione in produzione",
+  "title": "Hermes Agent in produzione: il livello operatore al giorno 30",
+  "excerpt": "La maggior parte dei team a 4 profili con Hermes Agent funziona dal primo giorno e mostra segnali di convergenza vocale entro il giorno 30 nei deployment reali. Il livello operatore che la previene: contratti di handoff, audit memoria-KPI e policy gate per ruolo.",
+  "metaDescription": "I team Hermes Agent a più profili mostrano convergenza vocale entro il giorno 30. Il livello operatore: contratti di handoff, audit memoria-KPI e policy gate per ruolo per prevenirla.",
   "tags": ["AI Agents", "AI", "Open Source", "Process"],
   "blocks": [
     {
       "type": "p",
-      "text": "**L'operator layer di Hermes Agent è l'insieme di discipline che mantiene coerente un team multi-profile oltre il giorno 30.** Quattro primitive: handoff contracts che possono bloccare, audit memory-KPI per profile, policy gates per ruolo e stato cron coordinato. Senza di essi, un team a 4 profile (Hermes + Alan + Mira + Turing) mostra segni di convergenza vocale nel giro di un mese."
+      "text": "**Il livello operatore di Hermes Agent è l'insieme di discipline che mantiene coerente un team a più profili oltre il giorno 30.** Quattro primitive: contratti di handoff che possono bloccare, audit memoria-KPI per profilo, policy gate per ruolo e stato cron coordinato. Senza di esse, un team a 4 profili (Hermes + Alan + Mira + Turing) mostra segnali di convergenza vocale nell'arco di un mese."
     },
     {
       "type": "p",
-      "text": "La maggior parte delle guide per operatori di Hermes si ferma attualmente al bootstrap a 4 profile; il materiale di deployment per il giorno 30 è scarso nella documentazione pubblica. Il giorno 30 è quando i profile iniziano a suonare uguali, gli handoff si rompono silenziosamente, e una build di cui si era orgogliosi diventa indistinguibile da un setup a singolo agente."
+      "text": "La maggior parte delle guide per operatori Hermes si ferma al bootstrap dei 4 profili; il materiale sul deployment al giorno 30 è scarso nella documentazione pubblica. È al giorno 30 che i profili iniziano a suonare uguali, gli handoff si interrompono in silenzio e una build di cui si era orgogliosi diventa indistinguibile da un setup a singolo agente."
     },
     {
       "type": "p",
-      "text": "Se [Hermes Agent](/blog/hermes-agent-self-improving-ai) versione 0.9.0 è in esecuzione con il bootstrap standard che include i profile Alan, Mira e Turing, la build di base è completa; il lavoro del giorno 30 inizia da lì. Ogni primitiva qui sotto è tratta da pattern di deployment reali, abbinata al failure mode specifico che la rende necessaria."
+      "text": "Se [Hermes Agent](/blog/hermes-agent-self-improving-ai) versione 0.9.0 è in esecuzione con il bootstrap standard che include i profili Alan, Mira e Turing, la build fondamentale è completa; il lavoro del giorno 30 parte da lì. Ogni primitiva descritta di seguito è tratta da pattern di deployment reali, abbinata al modo specifico in cui si manifesta il fallimento che la rende necessaria."
     },
     {
       "type": "ul",
       "items": [
-        "**Gli handoff contracts sono reali solo se bloccano.** Se la forma dell'input del profile ricevente è errata, l'handoff deve fallire, non solo avvertire.",
-        "**La memoria si deteriora per ogni profile.** Eseguire un audit `memory-kpi` settimanale. Superare il 15% di note obsolete attiva un passaggio `brain-resolve`.",
-        "**I policy gates prevengono il privilege drift silenzioso.** Alan non ottiene mai accesso shell. Solo l'orchestrator può approvare commit su main.",
-        "**Quattro failure mode al giorno 30 spiegano la maggior parte delle regressioni di deployment che ho osservato.** Profile drift, handoff rot, SOUL.md bloat, cron collision. Ognuno ha una contromisura specifica.",
-        "**Leggere prima la [guida alla definizione di Hermes Agent](/blog/hermes-agent-self-improving-ai)** per il contesto cos'è-cosa-fa prima dell'operator layer."
+        "**I contratti di handoff sono reali solo se bloccano.** Se la forma di input del profilo ricevente non corrisponde, l'handoff deve fallire, non solo avvertire.",
+        "**La memoria si deteriora per ciascun profilo.** Eseguire un audit `memory-kpi` settimanale. Superare il 15% di note obsolete attiva un passaggio `brain-resolve`.",
+        "**I policy gate prevengono la deriva silenziosa dei privilegi.** Alan non ottiene mai accesso alla shell. Solo l'orchestratore può approvare commit su main.",
+        "**Quattro modalità di fallimento al giorno 30 spiegano la maggior parte delle regressioni nei deployment osservati.** Deriva del profilo, deterioramento degli handoff, bloat di SOUL.md, collisione cron. Ognuna ha una contromisura specifica.",
+        "**Leggere prima la [guida alla definizione di Hermes Agent](/blog/hermes-agent-self-improving-ai)** per il contesto su cos'è il sistema, prima di affrontare il livello operatore."
       ]
     },
     {
       "type": "h2",
-      "text": "Il punto di partenza a 4 profile (riepilogo)"
+      "text": "Il team base a 4 profili (riepilogo)"
     },
     {
       "type": "p",
-      "text": "Prima che l'operator layer sia rilevante, il team starter a 4 profile deve essere in esecuzione. La suddivisione canonica descritta di seguito è quella su cui converge la maggior parte dei deployment Hermes in produzione."
+      "text": "Prima che il livello operatore abbia senso, il team di avvio a 4 profili deve essere operativo. La suddivisione canonica riportata di seguito è quella su cui converge la maggior parte dei deployment Hermes in produzione."
     },
     {
       "type": "ul",
       "items": [
-        "**Hermes** (orchestrator). Pianifica, scompone, instrada, sintetizza. Controllore del traffico, non collo di bottiglia.",
-        "**Alan** (specialista della ricerca). Basato sulle fonti, scettico, consapevole dell'incertezza. Protegge il team dalla fiducia allucinata.",
-        "**Mira** (architetto narrativo). Chiarezza, struttura, consapevolezza del pubblico. Trasforma il materiale validato in comunicazione.",
-        "**Turing** (builder e debugger). Implementazione, log, diff, riproducibilità. Si preoccupa dei test, non della resa narrativa."
+        "**Hermes** (orchestratore). Pianifica, scompone, instrada, sintetizza. Controllore del traffico, non collo di bottiglia.",
+        "**Alan** (specialista della ricerca). Basato sulle fonti, scettico, consapevole dell'incertezza. Protegge il team dalla confidenza allucinata.",
+        "**Mira** (architetta narrativa). Chiarezza, struttura, consapevolezza del pubblico. Trasforma il materiale validato in comunicazione.",
+        "**Turing** (costruttore e debugger). Implementazione, log, diff, riproducibilità. Si preoccupa dei test, non della resa narrativa."
       ]
     },
     {
       "type": "p",
-      "text": "I profile isolano sette parti di stato contemporaneamente: configurazione, sessioni, memoria, competenze, personalità, stato cron e stato gateway. Questo isolamento è la primitiva da cui dipende l'operator layer. Se si sta ancora usando un singolo profile che porta cinque ruoli, nessuno dei pattern qui sotto aiuterà. Correggere prima la primitiva."
+      "text": "I profili isolano sette elementi di stato contemporaneamente: configurazione, sessioni, memoria, skill, personalità, stato cron e stato gateway. Quell'isolamento è la primitiva su cui si regge il livello operatore. Chi sta ancora eseguendo un singolo profilo che porta cinque ruoli non trarrà beneficio da nessuno dei pattern seguenti. La primitiva va corretta prima."
     },
     {
       "type": "p",
-      "text": "Per decidere se un deployment Hermes a 4 profile si adatta al carico di lavoro reale del proprio team, [webvise può accompagnarvi nel processo](/#contact)."
+      "text": "Per valutare se un deployment Hermes a 4 profili si adatta al carico di lavoro reale del proprio team, [webvise può guidare nell'analisi](/#contact)."
     },
     {
       "type": "h2",
-      "text": "Handoff contracts: l'unica cosa che blocca il profile drift"
+      "text": "Contratti di handoff: l'unico strumento che blocca la deriva dei profili"
     },
     {
       "type": "p",
-      "text": "Un handoff contract è una specifica a quattro campi memorizzata in `~/.hermes/team/handoffs/<from>-to-<to>.md`. Il contract è reale solo se può bloccare. Se l'input non corrisponde alla forma dichiarata, il harness fa fallire l'handoff e richiede revisione umana. I quattro campi obbligatori:"
+      "text": "Un contratto di handoff è una specifica a quattro campi salvata in `~/.hermes/team/handoffs/<from>-to-<to>.md`. Il contratto è reale solo se può bloccare. Se l'input non corrisponde alla forma dichiarata, il harness fa fallire l'handoff e richiede la revisione umana. I quattro campi obbligatori:"
     },
     {
       "type": "table",
-      "headers": ["Campo", "Definizione", "Esempio (Alan -> Mira)"],
+      "headers": ["Campo", "Definizione", "Esempio (Alan → Mira)"],
       "rows": [
         [
           "Forma dell'input",
-          "Cosa si aspetta il profile ricevente",
+          "Cosa si aspetta il profilo ricevente",
           "Affermazioni classificate con URL delle fonti, non estratti grezzi"
         ],
         [
           "Forma dell'output",
-          "Cosa restituirà il profile ricevente",
-          "Sezione redatta con log delle modifiche, non un articolo finito"
+          "Cosa restituirà il profilo ricevente",
+          "Sezione bozza con log delle modifiche, non un articolo finito"
         ],
         [
           "Azione in caso di errore",
-          "Cosa succede quando l'input è malformato",
-          "block, require-human-review, o retry"
+          "Cosa succede quando l'input non è valido",
+          "block, require-human-review o retry"
         ],
         [
           "Gate di verifica",
-          "Un'asserzione che deve essere vera prima che l'handoff sia completato",
-          "Ogni affermazione ha un URL di fonte"
+          "Un'asserzione che deve essere vera prima che l'handoff si completi",
+          "Ogni affermazione ha un URL della fonte"
         ]
       ]
     },
     {
       "type": "p",
-      "text": "Il gate è fondamentale. La maggior parte dei team scrive documenti di handoff come suggerimenti e si chiede perché i profile si confondono. Un suggerimento non blocca mai. Senza un blocco, Alan alla fine invia trascrizioni grezze a Mira, Mira inizia a redigere senza attribuzione delle fonti, e la qualità dell'output del team si erode un handoff silenzioso alla volta."
+      "text": "Il gate è portante. La maggior parte dei team scrive la documentazione degli handoff come suggerimenti e poi si chiede perché i profili derivano. Un suggerimento non blocca mai. Senza un blocco, Alan finisce per inviare trascrizioni grezze a Mira, Mira inizia a redigere senza attribuzione delle fonti e la qualità dell'output del team si erode un handoff silenzioso alla volta."
     },
     {
       "type": "h2",
-      "text": "Memory-KPI: la soglia del 15% di note obsolete"
+      "text": "Memoria-KPI: la soglia del 15% di note obsolete"
     },
     {
       "type": "p",
-      "text": "La memoria si deteriora all'interno di ogni profile nello stesso modo in cui un wiki condiviso si deteriora oltre le 100 pagine. Un audit settimanale intercetta il deterioramento prima che il profile inizi a citarsi da contesti obsoleti. Tre metriche per profile sono rilevanti:"
+      "text": "La memoria si deteriora all'interno di ciascun profilo nello stesso modo in cui un wiki condiviso decade oltre le 100 pagine. Un audit settimanale intercetta il deterioramento prima che il profilo inizi a citare se stesso da un contesto obsoleto. Tre metriche per profilo sono rilevanti:"
     },
     {
       "type": "ul",
       "items": [
-        "**`source_backed_pct`**: percentuale di note che hanno ancora una fonte recuperabile. Scende quando le fonti danno 404 o vengono eliminate.",
+        "**`source_backed_pct`**: percentuale di note che hanno ancora una fonte recuperabile. Diminuisce quando le fonti restituiscono 404 o vengono eliminate.",
         "**`stale_notes`**: numero di note il cui codice, URL o configurazione di riferimento non corrisponde più alla realtà.",
-        "**`contradiction_notes`**: numero di note che contraddicono qualcos'altro nella memoria dello stesso profile."
+        "**`contradiction_notes`**: numero di note che contraddicono qualcos'altro nella memoria dello stesso profilo."
       ]
     },
     {
       "type": "p",
-      "text": "Il comando di audit settimanale viene eseguito su ogni profile specialista: `for p in alan mira turing; do hermes -p $p memory-kpi --json | jq '.source_backed_pct, .stale_notes, .contradiction_notes'; done`. Tenere d'occhio `stale_notes`. Una volta che supera il 15% del totale delle note in un profile, programmare un passaggio `brain-resolve` prima che quel profile inizi a citarsi da contesti obsoleti."
+      "text": "Il comando di audit settimanale viene eseguito su ogni profilo specialistico: `for p in alan mira turing; do hermes -p $p memory-kpi --json | jq '.source_backed_pct, .stale_notes, .contradiction_notes'; done`. Monitorare `stale_notes`. Una volta che supera il 15% del totale delle note in un profilo, pianificare un passaggio `brain-resolve` prima che quel profilo inizi a citare se stesso da un contesto obsoleto."
     },
     {
       "type": "h2",
-      "text": "Policy gates: permessi per ruolo"
+      "text": "Policy gate: permessi per ruolo"
     },
     {
       "type": "p",
-      "text": "Nessun profile ottiene più permessi di quanti ne richieda il suo ruolo. L'orchestrator è l'unico profile autorizzato ad ampliare lo scope di qualsiasi altro profile. Annotare questo in una tabella da verificare settimanalmente è la differenza tra un team governato e quattro agenti che lentamente diventano tutti amministratori."
+      "text": "Nessun profilo ottiene più permessi di quanti ne richieda il suo ruolo. L'orchestratore è l'unico profilo autorizzato ad ampliare l'ambito di qualsiasi altro profilo. Annotare queste regole in una tabella da controllare settimanalmente è la differenza tra un team governato e quattro agenti che diventano lentamente tutti amministratori."
     },
     {
       "type": "table",
-      "headers": ["Profile", "Classe di rischio", "Permessi"],
+      "headers": ["Profilo", "Classe di rischio", "Permessi"],
       "rows": [
         [
           "Alan (ricerca)",
           "sicuro",
-          "Lettura web e repo, scrittura solo in research/. Nessun accesso shell, nessuna scrittura fuori dalla sandbox."
+          "Lettura web e repo, scrittura solo in research/. Nessuna shell, nessuna scrittura fuori dalla sandbox."
         ],
         [
-          "Mira (writer)",
+          "Mira (scrittura)",
           "sicuro",
-          "Lettura degli output di ricerca, scrittura solo in drafts/. Nessun accesso ai segreti, nessuna esecuzione di codice."
+          "Lettura degli output di ricerca, scrittura solo in drafts/. Nessun accesso a segreti, nessuna esecuzione di codice."
         ],
         [
-          "Turing (engineer)",
+          "Turing (engineering)",
           "revisione",
-          "Lettura repo, esecuzione di test in sandbox, scrittura su feature branch. Ogni commit su main richiede approvazione dell'orchestrator."
+          "Lettura del repo, esecuzione di test in sandbox, scrittura su feature branch. Ogni commit su main richiede l'approvazione dell'orchestratore."
         ],
         [
-          "Hermes (orchestrator)",
+          "Hermes (orchestratore)",
           "critico",
-          "Unico profile autorizzato ad approvare i commit di Turing, unire branch, o attivare chiamate API a pagamento oltre il tetto di budget."
+          "Unico profilo autorizzato ad approvare i commit di Turing, unire branch o attivare chiamate API a pagamento oltre il tetto di budget."
         ]
       ]
     },
     {
       "type": "p",
-      "text": "Il principio è fondamentale. Un agente di ricerca con accesso shell alla fine eseguirà un comando che non avrebbe dovuto eseguire. Un profile writer con accesso ai segreti alla fine li farà trapelare in una bozza. Il privilege drift avviene silenziosamente ed è evidente solo a posteriori, il che è un momento difficile per scoprire il problema."
+      "text": "Il principio è portante. Un agente di ricerca con accesso alla shell finirà prima o poi per eseguire un comando che non avrebbe dovuto. Un profilo scrittore con accesso ai segreti finirà per includerli in una bozza. La deriva dei permessi avviene in silenzio ed è evidente solo a posteriori: un momento difficile per scoprire la lacuna."
     },
     {
       "type": "h2",
-      "text": "I quattro failure mode del giorno 30"
+      "text": "Le quattro modalità di fallimento al giorno 30"
     },
     {
       "type": "p",
-      "text": "Quattro failure mode specifici spiegano la maggior parte delle regressioni di deployment osservate nei setup multi-agente di Hermes. Ognuno ha una contromisura diretta. Saltarne uno e il team funziona bene il primo giorno, si degrada entro il giorno 30."
+      "text": "Quattro specifiche modalità di fallimento spiegano la maggior parte delle regressioni nei setup Hermes multi-agente. Ognuna ha una contromisura diretta. Trascurarne una qualsiasi e il team funziona bene al giorno uno, è degradato al giorno 30."
     },
     {
       "type": "h3",
-      "text": "1. Profile drift"
+      "text": "1. Deriva del profilo"
     },
     {
       "type": "p",
-      "text": "Le modifiche a SOUL.md si accumulano silenziosamente. Mira diventa lentamente Turing. Soluzione: fare il diff di ogni SOUL.md settimanalmente rispetto alla versione del primo giorno. Qualsiasi nuova responsabilità richiede una voce di approvazione registrata, altrimenti viene ripristinata. Nessuna eccezione per modifiche piccole, perché le modifiche piccole sono il modo in cui avviene il drift."
+      "text": "Le modifiche a SOUL.md si accumulano in silenzio. Mira diventa lentamente Turing. La soluzione: confrontare ogni SOUL.md settimanalmente rispetto alla versione del giorno uno. Ogni nuova responsabilità richiede un'approvazione registrata, altrimenti viene ripristinata. Nessuna eccezione per modifiche piccole, perché la deriva avviene proprio attraverso le modifiche piccole."
     },
     {
       "type": "h3",
-      "text": "2. Handoff rot"
+      "text": "2. Deterioramento degli handoff"
     },
     {
       "type": "p",
-      "text": "Il file del contract esiste ma nessuno lo fa rispettare. Alan inizia di nuovo a inviare trascrizioni grezze a Mira. Soluzione: collegare ogni file di handoff al harness in modo che l'input non corrispondente blocchi. Un contract che non può bloccare è documentazione, non controllo."
+      "text": "Il file del contratto esiste ma nessuno lo fa rispettare. Alan ricomincia a inviare trascrizioni grezze a Mira. La soluzione: collegare ogni file di handoff al harness in modo che un input non corrispondente blocchi. Un contratto che non può bloccare è documentazione, non controllo."
     },
     {
       "type": "h3",
-      "text": "3. SOUL.md bloat"
+      "text": "3. Bloat di SOUL.md"
     },
     {
       "type": "p",
-      "text": "Ogni ruolo accumula paragrafi per casi limite finché l'agente perde la sua identità originale nel rumore. Soluzione: limitare SOUL.md a 400 parole. Tutto ciò che supera questo limite va in AGENTS.md o in un file di riferimento per dominio. Il vincolo costringe il team a mantenere l'identità concisa."
+      "text": "Ogni ruolo accumula paragrafi per casi limite finché l'agente perde la propria identità originale nel rumore. La soluzione: mantenere SOUL.md entro il limite di 400 parole. Tutto il resto va in AGENTS.md o in un file di riferimento per dominio. Il vincolo obbliga il team a mantenere l'identità ben definita."
     },
     {
       "type": "h3",
-      "text": "4. Cron collision"
+      "text": "4. Collisione cron"
     },
     {
       "type": "p",
-      "text": "Più profile pianificano lavori alle 3 di notte senza coordinamento. L'orchestrator si sveglia con quattro agenti che si contendono la stessa quota API. Soluzione: un unico `~/.hermes/team/cron.md` condiviso che elenca ogni task pianificato in ogni profile con ora esatta, durata e dipendenza. Verificarlo prima di aggiungere qualsiasi nuovo cron."
+      "text": "Più profili pianificano job alle 3:00 senza coordinamento. L'orchestratore si ritrova con quattro agenti in competizione per la stessa quota API. La soluzione: un unico `~/.hermes/team/cron.md` condiviso che elenca ogni task pianificato su ogni profilo con orario esatto, durata e dipendenze. Va consultato prima di aggiungere qualsiasi nuovo cron."
     },
     {
       "type": "h2",
-      "text": "Cosa significa per i team aziendali"
+      "text": "Adattabilità al team aziendale"
     },
     {
       "type": "p",
-      "text": "L'operator layer è la parte che trasforma una demo di Hermes in un'infrastruttura di produzione duratura. La maggior parte dei team che valuta i framework multi-agente si concentra sul costo di configurazione iniziale e non considera il modello di manutenzione. Un team a 4 profile senza handoff contracts, audit della memoria e policy gates ha la stessa curva di fallimento di un agente a singolo profile con sei settimane di ritardo: funziona splendidamente all'inizio, si degrada invisibilmente, crolla quando è più necessario."
+      "text": "Il livello operatore è ciò che trasforma una demo di Hermes in un'infrastruttura di produzione duratura. La maggior parte dei team che valuta framework multi-agente si concentra sul costo di setup iniziale e trascura il modello di manutenzione. Un team a 4 profili privo di contratti di handoff, audit della memoria e policy gate ha la stessa curva di fallimento di un singolo agente con un ritardo di sei settimane: funziona magnificamente all'inizio, decade in modo invisibile, crolla nel momento in cui serve di più."
     },
     {
       "type": "p",
-      "text": "Il valore che si accumula nel tempo per Hermes, il motivo per cui [la libreria di competenze è importante](/blog/hermes-agent-self-improving-ai), vale solo se regge l'operator layer. Le competenze accumulate da un profile che è silenziosamente diventato un ruolo diverso sono competenze per un ruolo che non si ha più."
+      "text": "Il valore composto di Hermes, la ragione per cui [la libreria di skill conta](/blog/hermes-agent-self-improving-ai), regge solo se regge il livello operatore. Le skill accumulate da un profilo che ha silenziosamente derivato verso un ruolo diverso sono skill per un ruolo che non esiste più."
     },
     {
       "type": "p",
-      "text": "**webvise** aiuta le aziende a progettare e gestire architetture di agenti IA, inclusi team multi-profile di Hermes con la disciplina di governance necessaria per sopravvivere oltre il giorno 30. Se si sta valutando un deployment di Hermes o se ne ha già uno che inizia a confondersi, [mettetevi in contatto](/#contact) per consolidare l'operator layer prima che i failure mode si compongano."
+      "text": "**webvise** aiuta le aziende a progettare e gestire architetture di agenti AI, inclusi i team Hermes a più profili con la disciplina di governance necessaria per sopravvivere oltre il giorno 30. Per chi sta valutando un deployment Hermes o ne ha già uno che inizia a perdere coerenza, [contattare](/#contact) per rafforzare il livello operatore prima che le modalità di fallimento si sommino."
     }
   ]
 }
