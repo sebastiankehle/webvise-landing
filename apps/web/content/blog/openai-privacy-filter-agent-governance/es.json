@@ -17,7 +17,7 @@
     },
     {
       "type": "p",
-      "text": "Si hoy ejecuta agentes sobre datos de clientes, la redacción de PII suele resolverse con una biblioteca de expresiones regulares que usted mantiene o enrutando las solicitudes a través de un LLM, ambas opciones con sus propios trade-offs. Este artículo explica qué es realmente openai/privacy-filter, las decisiones arquitectónicas que importan y dónde encaja en un agent governance stack real. También explicaremos por qué esta versión actualiza nuestra posición sobre los agentes que leen entradas no confiables, y qué hacer con ella si usted trabaja con cargas de trabajo reguladas."
+      "text": "Si hoy ejecuta agentes sobre datos de clientes, la redacción de PII suele resolverse con una biblioteca de expresiones regulares que usted mantiene o enrutando las solicitudes a través de un LLM, ambas opciones con sus propios trade-offs. Este artículo explica qué es realmente openai/privacy-filter, las decisiones arquitectónicas que importan y dónde encaja en un agent governance stack real. También explicaré por qué esta versión actualiza mi posición sobre los agentes que leen entradas no confiables, y qué hacer con ella si usted trabaja con cargas de trabajo reguladas."
     },
     {
       "type": "h2",
@@ -107,7 +107,7 @@
     },
     {
       "type": "p",
-      "text": "Un agent governance stack real tiene capas diferenciadas. El modelo de trabajo que usamos en webvise es el siguiente:"
+      "text": "Un agent governance stack real tiene capas diferenciadas. El modelo de trabajo que uso en webvise es el siguiente:"
     },
     {
       "type": "ul",
@@ -147,7 +147,7 @@
     },
     {
       "type": "p",
-      "text": "Para la mayoría de los client stacks que diseñamos, la respuesta es la combinación de Capas 2 y 5. La verificación local en el navegador impide que el PII accidental entre en el context window desde el principio. La verificación de salida en el servidor detecta cualquier dato que el modelo genere o filtre en su respuesta. La defensa en profundidad es el objetivo."
+      "text": "Para la mayoría de los client stacks que diseño, la respuesta es la combinación de Capas 2 y 5. La verificación local en el navegador impide que el PII accidental entre en el context window desde el principio. La verificación de salida en el servidor detecta cualquier dato que el modelo genere o filtre en su respuesta. La defensa en profundidad es el objetivo."
     },
     {
       "type": "p",
@@ -209,7 +209,7 @@
     },
     {
       "type": "p",
-      "text": "Si su dominio tiene categorías fuera de esta lista, realice fine-tuning. La model card es explícita en que no se puede cambiar la política de etiquetas en tiempo de ejecución. Ese es el coste de un clasificador con 50 millones de parámetros activos: la taxonomía está incorporada. Para equipos que comparan opciones, nuestra guía sobre [los mejores modelos de IA locales para empresas con compliance en 2026](/blog/best-local-ai-models-2026) cubre el lado de los LLMs de propósito general de la misma decisión."
+      "text": "Si su dominio tiene categorías fuera de esta lista, realice fine-tuning. La model card es explícita en que no se puede cambiar la política de etiquetas en tiempo de ejecución. Ese es el coste de un clasificador con 50 millones de parámetros activos: la taxonomía está incorporada. Para equipos que comparan opciones, la guía sobre [los mejores modelos de IA locales para empresas con compliance en 2026](/blog/best-local-ai-models-2026) cubre el lado de los LLMs de propósito general de la misma decisión."
     },
     {
       "type": "p",
@@ -229,7 +229,7 @@
     },
     {
       "type": "p",
-      "text": "Esta es una ayuda para la redacción, no una garantía de anonimización. Eliminar el PII superficial no elimina el riesgo de re-identificación cuando los quasi-identifiers (código postal, edad, diagnóstico poco frecuente) se agrupan. Si su obligación de compliance es la anonimización del RGPD o la de-identificación HIPAA bajo el método Safe Harbor, necesita un pipeline dedicado por encima de esto, no solo esto. Nuestro análisis sobre [regulaciones y certificaciones de IA en Alemania y Europa](/blog/ai-regulations-certifications-europe) detalla el stack regulatorio."
+      "text": "Esta es una ayuda para la redacción, no una garantía de anonimización. Eliminar el PII superficial no elimina el riesgo de re-identificación cuando los quasi-identifiers (código postal, edad, diagnóstico poco frecuente) se agrupan. Si su obligación de compliance es la anonimización del RGPD o la de-identificación HIPAA bajo el método Safe Harbor, necesita un pipeline dedicado por encima de esto, no solo esto. Mi análisis sobre [regulaciones y certificaciones de IA en Alemania y Europa](/blog/ai-regulations-certifications-europe) detalla el stack regulatorio."
     },
     {
       "type": "h3",
@@ -241,15 +241,15 @@
     },
     {
       "type": "p",
-      "text": "Nuestra norma: Privacy Filter se integra en un stack con al menos otra verificación posterior. Si es la única capa, una actualización del modelo puede introducir una regresión que nadie detecta."
+      "text": "Mi norma: Privacy Filter se integra en un stack con al menos otra verificación posterior. Si es la única capa, una actualización del modelo puede introducir una regresión que nadie detecta."
     },
     {
       "type": "h2",
-      "text": "Actualización de nuestra posición sobre \"no agents en la web abierta\""
+      "text": "Actualización de mi posición sobre \"no agents en la web abierta\""
     },
     {
       "type": "p",
-      "text": "A principios de este mes publicamos una posición: webvise no publicará agentes de IA que lean la web abierta para sus clientes. [La razón era concreta](/blog/business-ai-agents-untrusted-web). Las entradas controladas por atacantes (una página scrapeada, una URL enviada por el usuario, un feed de terceros) proporcionan al agente PII, credenciales o payloads de prompt injection que se filtran hacia acciones posteriores."
+      "text": "A principios de este mes publiqué una posición: webvise no publicará agentes de IA que lean la web abierta para sus clientes. [La razón era concreta](/blog/business-ai-agents-untrusted-web). Las entradas controladas por atacantes (una página scrapeada, una URL enviada por el usuario, un feed de terceros) proporcionan al agente PII, credenciales o payloads de prompt injection que se filtran hacia acciones posteriores."
     },
     {
       "type": "p",
@@ -261,7 +261,7 @@
     },
     {
       "type": "p",
-      "text": "La actualización de posición: ahora publicaremos lectores de web abierta de alcance limitado para flujos de trabajo no sensibles (agregación de datos públicos, inteligencia competitiva, investigación de mercado) si Privacy Filter está integrado en ambos lados de la llamada al modelo. Seguiremos sin publicarlos para flujos de trabajo que involucren registros de clientes, documentos internos o acciones autenticadas sin un red-team pass dedicado previo."
+      "text": "La actualización de posición: ahora publicaré lectores de web abierta de alcance limitado para flujos de trabajo no sensibles (agregación de datos públicos, inteligencia competitiva, investigación de mercado) si Privacy Filter está integrado en ambos lados de la llamada al modelo. Seguiré sin publicarlos para flujos de trabajo que involucren registros de clientes, documentos internos o acciones autenticadas sin un red-team pass dedicado previo."
     },
     {
       "type": "h2",
@@ -289,7 +289,7 @@
     },
     {
       "type": "p",
-      "text": "El lanzamiento de privacy-filter de OpenAI no es un modelo. Es una tesis sobre hacia dónde se dirige el sector: clasificadores de propósito específico, ejecutables en el navegador, bajo Apache 2.0, funcionando en los extremos de su stack, controlando lo que sus LLMs reciben y lo que devuelven. Esa es la forma del trabajo de compliance que realizamos en webvise, y es la forma de la capa de governance que la mayoría de los agentes no tienen hoy."
+      "text": "El lanzamiento de privacy-filter de OpenAI no es un modelo. Es una tesis sobre hacia dónde se dirige el sector: clasificadores de propósito específico, ejecutables en el navegador, bajo Apache 2.0, funcionando en los extremos de su stack, controlando lo que sus LLMs reciben y lo que devuelven. Esa es la forma del trabajo de compliance que hago en webvise, y es la forma de la capa de governance que la mayoría de los agentes no tienen hoy."
     },
     {
       "type": "p",

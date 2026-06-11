@@ -17,11 +17,11 @@
     },
     {
       "type": "p",
-      "text": "Wenn Sie heute Agents auf Kundendaten betreiben, wird PII-Redaktion häufig mit einer Regex-Bibliothek gelöst, die Sie pflegen, oder durch Routing über ein LLM - beides mit Trade-offs. Dieser Artikel beschreibt, was openai/privacy-filter tatsächlich ist, welche architektonischen Entscheidungen wichtig sind und wo es in einen echten Agent-Governance-Stack gehört. Außerdem erkläre ich, warum dieses Release die webvise-Position zu Agents, die nicht vertrauenswürdige Eingaben lesen, aktualisiert, und was Sie damit tun sollten, wenn Sie regulierte Workloads ausliefern."
+      "text": "Wenn Sie heute Agents auf Kundendaten betreiben, wird PII-Redaktion häufig mit einer Regex-Bibliothek gelöst oder durch Routing über ein LLM, beides mit Trade-offs. Dieser Artikel beschreibt, was openai/privacy-filter tatsächlich ist, welche architektonischen Entscheidungen wichtig sind und wo es in einen echten Agent-Governance-Stack gehört. Außerdem erkläre ich, warum dieses Release meine Position zu Agents aktualisiert, die nicht vertrauenswürdige Eingaben lesen, und was zu tun ist, wenn Sie regulierte Workloads ausliefern."
     },
     {
       "type": "h2",
-      "text": "Wichtigste Erkenntnisse"
+      "text": "Governance-Einschränkungen"
     },
     {
       "type": "ul",
@@ -35,7 +35,7 @@
     },
     {
       "type": "h2",
-      "text": "OpenAI hat ein Werkzeug geliefert, kein Modell. Das ist die Nachricht."
+      "text": "OpenAI hat ein Privacy-Classifier-Werkzeug geliefert."
     },
     {
       "type": "p",
@@ -261,7 +261,7 @@
     },
     {
       "type": "p",
-      "text": "Die Positionsaktualisierung: webvise wird nun schmale Open-Web-Leser für nicht-sensible Workflows (öffentliche Datenaggregation, Wettbewerbsintelligenz, Marktforschung) ausliefern, wenn Privacy Filter auf beiden Seiten des Modell-Aufrufs eingebunden ist - aber weiterhin keine für Workflows, die Kundendaten, interne Dokumente oder authentifizierte Aktionen berühren, ohne einen dedizierten Red-Team-Durchlauf."
+      "text": "Die Positionsaktualisierung: webvise wird nun schmale Open-Web-Leser für nicht-sensible Workflows ausliefern (öffentliche Datenaggregation, Wettbewerbsintelligenz, Marktforschung), sofern Privacy Filter auf beiden Seiten des Modell-Aufrufs eingebunden ist. Für Workflows, die Kundendaten, interne Dokumente oder authentifizierte Aktionen berühren, gilt das weiterhin nicht, ohne einen dedizierten Red-Team-Durchlauf."
     },
     {
       "type": "h2",
