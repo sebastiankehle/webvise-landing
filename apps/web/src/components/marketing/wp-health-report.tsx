@@ -148,7 +148,7 @@ function ReportResults({ data }: { data: ReportData }) {
 			</div>
 
 			{/* Projected score - visually separated */}
-			<div className="mt-4 rounded-2xl bg-brand-surface p-5">
+			<div className="surface-card mt-4 p-5">
 				<Caption className="mb-3 block text-center text-brand-readable">
 					{t("results.projectedLabel")}
 				</Caption>
@@ -323,7 +323,7 @@ function TeaserResults({
 			</div>
 
 			{/* Projected score */}
-			<div className="mt-4 rounded-2xl bg-brand-surface p-5">
+			<div className="surface-card mt-4 p-5">
 				<Caption className="mb-3 block text-center text-brand-readable">
 					{t("results.projectedLabel")}
 				</Caption>

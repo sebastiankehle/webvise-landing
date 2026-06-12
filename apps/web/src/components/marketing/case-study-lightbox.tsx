@@ -20,6 +20,29 @@ interface CaseStudyLightboxProps {
 	src: string;
 }
 
+const imageDimensions: Record<string, { height: number; width: number }> = {
+	"/images/case-studies/keel/fullpage.webp": { height: 9349, width: 1512 },
+	"/images/case-studies/morrow/fullpage.webp": { height: 8131, width: 1600 },
+	"/images/case-studies/mp-bau-construction/fullpage.webp": {
+		height: 7061,
+		width: 1511,
+	},
+	"/images/case-studies/ohyp-fintech/fullpage.webp": {
+		height: 4594,
+		width: 1600,
+	},
+	"/images/case-studies/old-world-labs/fullpage.webp": {
+		height: 3575,
+		width: 1512,
+	},
+	"/images/case-studies/rautenberg-pitch-engine/fullpage.webp": {
+		height: 2772,
+		width: 1512,
+	},
+	"/images/case-studies/relay/fullpage.webp": { height: 6037, width: 1512 },
+	"/images/case-studies/webvise/fullpage.png": { height: 17_317, width: 1512 },
+};
+
 export default function CaseStudyLightbox({
 	open,
 	onOpenChange,
@@ -27,6 +50,7 @@ export default function CaseStudyLightbox({
 	alt,
 }: CaseStudyLightboxProps) {
 	const t = useTranslations("caseStudies");
+	const dimensions = imageDimensions[src] ?? { height: 7150, width: 3024 };
 
 	return (
 		<Dialog onOpenChange={onOpenChange} open={open}>
@@ -43,12 +67,12 @@ export default function CaseStudyLightbox({
 						<Image
 							alt={alt}
 							className="m-auto h-auto w-full"
-							height={7150}
+							height={dimensions.height}
 							quality={100}
 							sizes="(max-width: 768px) 100vw, 768px"
 							src={src}
 							unoptimized
-							width={3024}
+							width={dimensions.width}
 						/>
 					</div>
 				</DialogContent>

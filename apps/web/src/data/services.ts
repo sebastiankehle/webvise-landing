@@ -48,7 +48,7 @@ export const services: Service[] = [
 		faqCount: 5,
 		proof: {
 			caseStudySlug: "mp-bau-construction",
-			image: "/images/case-studies/mp-bau-construction/business-fields.webp",
+			image: "/images/case-studies/mp-bau-construction/hero.webp",
 		},
 	},
 	{
@@ -112,7 +112,7 @@ export const services: Service[] = [
 
 export const serviceCaseStudies: Record<string, string[]> = {
 	"landing-pages": ["old-world-labs", "mp-bau-construction"],
-	"wordpress-migration": ["old-world-labs"],
+	"wordpress-migration": ["mp-bau-construction"],
 	"ai-consulting": ["mp-bau-construction"],
 	"mvp-development": ["ohyp-fintech"],
 	"ai-automation": ["mp-bau-construction"],

@@ -24,7 +24,7 @@ const testimonialImages: Partial<
 	"0": "/images/testimonials/philipp-berger.jpeg",
 	"1": "/images/testimonials/anna-maria-von-platen.png",
 	"2": "/images/testimonials/felix-rautenberg.jpeg",
-	"3": "/images/testimonials/joshua-kunish.png",
+	"3": "/images/testimonials/joshua-kunisch.png",
 	"4": "/images/testimonials/lennart-brauer.webp",
 	"5": "/images/testimonials/sebastian-kundoch.jpeg",
 	"6": "/images/testimonials/richard-heinbach.jpeg",

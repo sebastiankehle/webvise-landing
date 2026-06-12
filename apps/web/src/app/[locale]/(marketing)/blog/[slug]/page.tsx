@@ -184,13 +184,13 @@ function RenderBlock({ block, locale }: { block: Block; locale: string }) {
 			return <H3 className="mt-8 mb-3 font-medium text-base">{block.text}</H3>;
 		case "p":
 			return (
-				<Muted className="mb-5 text-base leading-7 last:mb-0">
+				<Muted className="mb-5 break-words text-base leading-7 last:mb-0">
 					{renderInline(block.text, locale)}
 				</Muted>
 			);
 		case "ul":
 			return (
-				<ul className="mb-6 list-disc space-y-2 pl-5 text-base text-muted-foreground leading-7 marker:text-brand-readable/50">
+				<ul className="mb-6 list-disc space-y-2 break-words pl-5 text-base text-muted-foreground leading-7 marker:text-brand-readable/50">
 					{block.items.map((item) => (
 						<li className="pl-1" key={item}>
 							{renderInline(item, locale)}
@@ -200,7 +200,7 @@ function RenderBlock({ block, locale }: { block: Block; locale: string }) {
 			);
 		case "table":
 			return (
-				<div className="mb-5 overflow-x-auto">
+				<div className="mb-5 max-w-full overflow-x-auto">
 					<table className="w-full border border-border/40 text-sm">
 						<thead>
 							<tr className="border-border/40 border-b bg-muted/30">
@@ -317,8 +317,8 @@ export default async function BlogPostPage({
 			<section className="relative pt-32 pb-12 md:pt-44 md:pb-16">
 				<ConstructedGrid variant="page" />
 				<GridContainer>
-					<div className="grid items-center gap-14 lg:grid-cols-[1.02fr_0.98fr] lg:gap-20">
-						<div>
+					<div className="grid min-w-0 items-center gap-14 lg:grid-cols-[1.02fr_0.98fr] lg:gap-20">
+						<div className="w-full min-w-0 max-w-[20rem] sm:max-w-none">
 							<Caption className="text-brand-readable">
 								<time dateTime={post.date}>
 									{new Date(post.date).toLocaleDateString(locale, {
@@ -330,7 +330,9 @@ export default async function BlogPostPage({
 								{" \u00B7 "}
 								{post.readingTime} {t("minRead")}
 							</Caption>
-							<H1 className="mt-4 max-w-3xl md:text-4xl">{post.title}</H1>
+							<H1 className="mt-4 max-w-full text-pretty break-words [overflow-wrap:anywhere] md:max-w-3xl md:text-4xl md:[overflow-wrap:normal]">
+								{post.title}
+							</H1>
 							<Lead className="mt-8 max-w-2xl">{post.excerpt}</Lead>
 							{post.tags && post.tags.length > 0 && (
 								<div className="mt-6 flex flex-wrap items-center gap-2">
@@ -359,8 +361,8 @@ export default async function BlogPostPage({
 			</section>
 
 			<SectionWrapper className="pt-14 md:pt-20" id="content">
-				<div className="grid items-start gap-12 lg:grid-cols-[minmax(0,42rem)_24rem] lg:gap-14">
-					<article className="max-w-2xl">
+				<div className="grid min-w-0 items-start gap-12 lg:grid-cols-[minmax(0,42rem)_24rem] lg:gap-14">
+					<article className="w-full min-w-0 max-w-full [overflow-wrap:anywhere] md:max-w-2xl">
 						{(() => {
 							const keys = getBlockKeys(post.blocks);
 							return post.blocks.map((block, idx) => (

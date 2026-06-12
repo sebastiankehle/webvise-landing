@@ -47,7 +47,7 @@ import { generateAlternates, localizedUrl } from "@/lib/seo";
 const testimonialAvatars: Record<string, string> = {
 	"Anna-Maria von Platen": "/images/testimonials/anna-maria-von-platen.png",
 	"Felix Rautenberg": "/images/testimonials/felix-rautenberg.jpeg",
-	"Joshua Kunish": "/images/testimonials/joshua-kunish.png",
+	"Joshua Kunisch": "/images/testimonials/joshua-kunisch.png",
 	"Nick Liverman": "/images/testimonials/nick-liverman.jpg",
 	"Richard Heinbach": "/images/testimonials/richard-heinbach.jpeg",
 	"Sebastian Kundoch": "/images/testimonials/sebastian-kundoch.jpeg",
