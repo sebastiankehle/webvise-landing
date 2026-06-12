@@ -10,6 +10,7 @@ import {
 	ConstructedGrid,
 	GridContainer,
 } from "@/components/marketing/section-wrapper";
+import { WpHealthScorePreview } from "@/components/marketing/wp-health-score-preview";
 import { Button } from "@/components/ui/button";
 import { FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -478,7 +479,12 @@ export default function WpHealthReport() {
 								</ul>
 							</div>
 
-							<div className="flex flex-col gap-12 self-stretch lg:pt-2">
+							<div className="flex flex-col gap-8 self-stretch lg:pt-2">
+								<WpHealthScorePreview
+									afterLabel={t("results.afterNextjs")}
+									currentLabel={t("results.pageSpeed")}
+								/>
+
 								<form
 									aria-label={t("form.ariaLabel")}
 									autoComplete="off"
@@ -548,15 +554,6 @@ export default function WpHealthReport() {
 										)}
 									</div>
 								</form>
-
-								{/* Sample report preview fills the column below the form */}
-								<div className="mt-auto border-border/60 border-t pt-8">
-									<div className="grid grid-cols-3 gap-4">
-										<ScoreRing label={t("results.mobile")} score={34} />
-										<ScoreRing label={t("results.desktop")} score={41} />
-										<ScoreRing label={t("results.afterNextjs")} score={95} />
-									</div>
-								</div>
 							</div>
 						</div>
 

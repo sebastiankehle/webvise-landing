@@ -111,7 +111,7 @@ function GroupImage({
 	return (
 		<div
 			aria-hidden="true"
-			className={cn("surface-card media-frame relative self-start", className)}
+			className={cn("surface-card media-frame relative self-center", className)}
 		>
 			<Image
 				alt={alt}
@@ -140,7 +140,9 @@ function ServiceGroupSection({
 	return (
 		<section
 			aria-labelledby={`services-${group.key}-heading`}
-			className="border-grid-line border-t pt-9 md:pt-12"
+			className={cn(
+				group.key !== "launch" && "border-grid-line border-t pt-9 md:pt-12"
+			)}
 			id={`services-${group.key}`}
 		>
 			<div>

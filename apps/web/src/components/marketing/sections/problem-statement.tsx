@@ -12,7 +12,7 @@ function ScrollFillHeading({ text }: { text: string }) {
 	}));
 
 	return (
-		<DisplayH2 className="max-w-none md:text-5xl">
+		<DisplayH2 className="max-w-none md:text-[2.1875rem] md:leading-[1.18]">
 			{chars.map(({ char, index, key }) => (
 				<span
 					className="scroll-fill-char"
