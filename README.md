@@ -2,7 +2,7 @@
 
 **Design. Development. Automation.**
 
-Source for [webvise.io](https://webvise.io), a senior-led AI-native software studio for custom workflow systems, internal tools, portals, dashboards, AI-assisted workflows, and production-ready web applications.
+Source for [webvise.io](https://webvise.io), an AI-native software studio for custom workflow systems, internal tools, portals, dashboards, AI-assisted workflows, and production-ready web applications.
 
 ## Services
 

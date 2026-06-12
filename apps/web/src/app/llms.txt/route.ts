@@ -43,7 +43,7 @@ const offeringDescriptions: Record<string, string> = {
 	"full-stack-applications":
 		"Production applications with product UX, backend logic, integrations, deployment, and monitoring.",
 	"ai-consulting":
-		"Senior AI opportunity audits that map workflows, data, risks, review gates, and the smallest useful prototype or build plan.",
+		"AI opportunity audits that map workflows, data, risks, review gates, and the smallest useful prototype or build plan.",
 	"ai-automation":
 		"Production AI workflows for extraction, routing, reporting, handoffs, review states, monitoring, and fallbacks.",
 	"company-brain-memory-systems":
@@ -85,9 +85,9 @@ export function GET() {
 
 	const body = `# Webvise
 
-> Webvise is a senior-led AI-native software studio for custom software, internal tools, portals, dashboards, agentic workflows, and production-ready business applications.
+> Webvise is an engineer-led AI-native software studio for custom software, internal tools, portals, dashboards, agentic workflows, and production-ready business applications.
 
-We ship custom business software with direct senior ownership, practical AI-native delivery, performance, accessibility, SEO, and measurable business outcomes. Services are organized as Launch, Operate, and Automate so buyers can start from the workflow before choosing technology. This file follows the llmstxt.org convention to help language models discover our most useful, human-authored content.
+We ship custom business software with direct engineering ownership, practical AI-native delivery, performance, accessibility, SEO, and measurable business outcomes. Services are organized as Launch, Operate, and Automate so buyers can start from the workflow before choosing technology. This file follows the llmstxt.org convention to help language models discover our most useful, human-authored content.
 
 ## Services
 

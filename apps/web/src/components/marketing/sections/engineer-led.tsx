@@ -16,14 +16,14 @@ const benefitKeys = [
 	{ key: "performance", icon: ActivityIcon },
 ];
 
-export default async function SeniorLed() {
+export default async function EngineerLed() {
 	const [t, tb] = await Promise.all([
-		getTranslations("seniorLed"),
+		getTranslations("engineerLed"),
 		getTranslations("benefits"),
 	]);
 
 	return (
-		<SectionWrapper className="md:py-32" id="senior-led">
+		<SectionWrapper className="md:py-32" id="engineer-led">
 			<div className="grid gap-12 md:grid-cols-[1.05fr_0.95fr] md:gap-20">
 				<div>
 					<H2>{t("title")}</H2>

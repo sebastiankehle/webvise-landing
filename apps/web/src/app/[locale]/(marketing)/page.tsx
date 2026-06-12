@@ -5,6 +5,7 @@ import BlogPreview from "@/components/marketing/sections/blog-preview";
 import CaseStudiesPreview from "@/components/marketing/sections/case-studies-preview";
 import Comparison from "@/components/marketing/sections/comparison";
 import Contact from "@/components/marketing/sections/contact";
+import EngineerLed from "@/components/marketing/sections/engineer-led";
 import FAQ from "@/components/marketing/sections/faq";
 import Hero from "@/components/marketing/sections/hero";
 import Metrics from "@/components/marketing/sections/metrics";
@@ -12,7 +13,6 @@ import MidCta from "@/components/marketing/sections/mid-cta";
 import ProblemStatement from "@/components/marketing/sections/problem-statement";
 import Process from "@/components/marketing/sections/process";
 import ProjectSurfaces from "@/components/marketing/sections/project-surfaces";
-import SeniorLed from "@/components/marketing/sections/senior-led";
 import Services from "@/components/marketing/sections/services";
 import Support from "@/components/marketing/sections/support";
 import TechStack from "@/components/marketing/sections/tech-stack";
@@ -69,7 +69,7 @@ export default async function HomePage() {
 			<Metrics />
 			<Services />
 			<MidCta />
-			<SeniorLed />
+			<EngineerLed />
 			<TechStack />
 			<Testimonials />
 			<CaseStudiesPreview />
