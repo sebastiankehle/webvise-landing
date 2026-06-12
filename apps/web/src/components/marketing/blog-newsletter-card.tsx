@@ -59,7 +59,7 @@ export function BlogNewsletterCard({
 				) : (
 					<form className="mt-8 flex flex-col gap-3" onSubmit={handleSubscribe}>
 						<Input
-							className="h-12 w-full px-4 text-sm md:text-sm"
+							className="h-9 px-2.5 text-xs md:text-xs"
 							onChange={(e) => setEmail(e.target.value)}
 							placeholder={placeholder}
 							required
@@ -67,7 +67,7 @@ export function BlogNewsletterCard({
 							value={email}
 						/>
 						<Button
-							className="h-12 self-start text-sm"
+							className="self-start"
 							disabled={status === "loading"}
 							size="lg"
 							type="submit"

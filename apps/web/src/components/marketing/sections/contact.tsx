@@ -137,7 +137,7 @@ export default function Contact() {
 									<Input
 										aria-invalid={field.state.meta.errors.length > 0}
 										autoComplete="off"
-										className="h-10 text-base md:h-9 md:text-sm"
+										className="h-9 text-sm md:text-xs"
 										id={field.name}
 										name={field.name}
 										onBlur={field.handleBlur}
@@ -156,7 +156,7 @@ export default function Contact() {
 									<Input
 										aria-invalid={field.state.meta.errors.length > 0}
 										autoComplete="off"
-										className="h-10 text-base md:h-9 md:text-sm"
+										className="h-9 text-sm md:text-xs"
 										id={field.name}
 										name={field.name}
 										onBlur={field.handleBlur}
@@ -179,7 +179,7 @@ export default function Contact() {
 									</FormLabel>
 									<Input
 										autoComplete="off"
-										className="h-10 text-base md:h-9 md:text-sm"
+										className="h-9 text-sm md:text-xs"
 										id={field.name}
 										name={field.name}
 										onBlur={field.handleBlur}
@@ -197,7 +197,7 @@ export default function Contact() {
 										{t("form.service")}
 									</FormLabel>
 									<NativeSelect
-										className="h-10 pr-10 pl-3 text-base md:h-9 md:text-sm"
+										className="h-9 pr-10 pl-3 text-sm md:text-xs"
 										id={field.name}
 										name={field.name}
 										onBlur={field.handleBlur}
@@ -237,7 +237,7 @@ export default function Contact() {
 								<Textarea
 									aria-invalid={field.state.meta.errors.length > 0}
 									autoComplete="off"
-									className="px-3 py-2.5 text-base md:text-sm"
+									className="px-3 py-2.5 text-sm md:text-xs"
 									id={field.name}
 									name={field.name}
 									onBlur={field.handleBlur}
