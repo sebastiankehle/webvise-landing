@@ -26,7 +26,12 @@ export default async function MidCta() {
 							brand: (chunks) => (
 								<span className="text-brand-readable">{chunks}</span>
 							),
-							br: () => <br className="hidden md:block" />,
+							br: () => (
+								<>
+									<span className="md:hidden"> </span>
+									<br className="hidden md:block" />
+								</>
+							),
 						})}
 					</H2>
 					<Muted className="mt-4 max-w-[560px]">{t("subtitle")}</Muted>

@@ -451,7 +451,7 @@ export default function WpHealthReport() {
 
 	return (
 		<section
-			className="relative border-grid-line border-t bg-card py-16 [--surface-card-fill-hover:var(--accent)] [--surface-card-fill:var(--secondary)] md:py-32"
+			className="section-inverted relative border-grid-line border-t py-16 md:py-32"
 			id="wp-health-report"
 		>
 			<ConstructedGrid variant="section" />
@@ -483,6 +483,20 @@ export default function WpHealthReport() {
 								<WpHealthScorePreview
 									afterLabel={t("results.afterNextjs")}
 									currentLabel={t("results.pageSpeed")}
+									metricLabels={{
+										cumulativeLayoutShift: t(
+											"results.previewMetrics.cumulativeLayoutShift"
+										),
+										firstContentfulPaint: t(
+											"results.previewMetrics.firstContentfulPaint"
+										),
+										interactionToNextPaint: t(
+											"results.previewMetrics.interactionToNextPaint"
+										),
+										largestContentfulPaint: t(
+											"results.previewMetrics.largestContentfulPaint"
+										),
+									}}
 								/>
 
 								<form
@@ -557,10 +571,13 @@ export default function WpHealthReport() {
 							</div>
 						</div>
 
-						<div className="mt-14 grid gap-8 border-border/60 border-t pt-10 md:grid-cols-3">
+						<div className="mt-14 grid gap-5 md:grid-cols-3">
 							{[0, 1, 2].map((i) => (
-								<div key={i}>
-									<Body className="font-medium text-sm">
+								<div className="surface-card p-6 md:p-7" key={i}>
+									<Caption className="block text-brand-readable">
+										{String(i + 1).padStart(2, "0")}
+									</Caption>
+									<Body className="mt-5 font-medium text-foreground text-sm">
 										{t(`hero.steps.${i}.title`)}
 									</Body>
 									<Muted className="mt-1.5 text-sm leading-relaxed">

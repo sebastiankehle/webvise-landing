@@ -3,9 +3,9 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import JsonLd from "@/components/json-ld";
+import { BlogNewsletterCard } from "@/components/marketing/blog-newsletter-card";
 import BlogShare from "@/components/marketing/blog-share";
 import { MarketingTag } from "@/components/marketing/marketing-tag";
-import { NewsletterForm } from "@/components/marketing/newsletter-form";
 import ReportDownloadForm from "@/components/marketing/report-download-form";
 import SectionWrapper, {
 	ConstructedGrid,
@@ -317,39 +317,49 @@ export default async function BlogPostPage({
 			<section className="relative pt-32 pb-12 md:pt-44 md:pb-16">
 				<ConstructedGrid variant="page" />
 				<GridContainer>
-					<div className="max-w-[920px]">
-						<Caption className="text-brand-readable">
-							<time dateTime={post.date}>
-								{new Date(post.date).toLocaleDateString(locale, {
-									day: "numeric",
-									month: "long",
-									year: "numeric",
-								})}
-							</time>
-							{" \u00B7 "}
-							{post.readingTime} {t("minRead")}
-						</Caption>
-						<H1 className="mt-4 max-w-3xl md:text-4xl">{post.title}</H1>
-						<Lead className="mt-5 max-w-2xl">{post.excerpt}</Lead>
-						{post.tags && post.tags.length > 0 && (
-							<div className="mt-6 flex flex-wrap items-center gap-2">
-								{post.tags.map((tag) => (
-									<MarketingTag key={tag}>{tag}</MarketingTag>
-								))}
-							</div>
-						)}
-						<BlogShare
-							className="mt-8"
-							title={post.title}
-							url={postUrl}
-							withBorder={false}
+					<div className="grid items-center gap-14 lg:grid-cols-[1.02fr_0.98fr] lg:gap-20">
+						<div>
+							<Caption className="text-brand-readable">
+								<time dateTime={post.date}>
+									{new Date(post.date).toLocaleDateString(locale, {
+										day: "numeric",
+										month: "long",
+										year: "numeric",
+									})}
+								</time>
+								{" \u00B7 "}
+								{post.readingTime} {t("minRead")}
+							</Caption>
+							<H1 className="mt-4 max-w-3xl md:text-4xl">{post.title}</H1>
+							<Lead className="mt-8 max-w-2xl">{post.excerpt}</Lead>
+							{post.tags && post.tags.length > 0 && (
+								<div className="mt-6 flex flex-wrap items-center gap-2">
+									{post.tags.map((tag) => (
+										<MarketingTag key={tag}>{tag}</MarketingTag>
+									))}
+								</div>
+							)}
+							<BlogShare
+								className="mt-8"
+								title={post.title}
+								url={postUrl}
+								withBorder={false}
+							/>
+						</div>
+
+						<BlogNewsletterCard
+							buttonLabel={tn("button")}
+							error={tn("error")}
+							placeholder={tn("placeholder")}
+							success={tn("success")}
+							title={tn("divider")}
 						/>
 					</div>
 				</GridContainer>
 			</section>
 
 			<SectionWrapper className="pt-14 md:pt-20" id="content">
-				<div className="grid items-start gap-12 lg:grid-cols-[minmax(0,42rem)_20rem] lg:gap-20">
+				<div className="grid items-start gap-12 lg:grid-cols-[minmax(0,42rem)_24rem] lg:gap-14">
 					<article className="max-w-2xl">
 						{(() => {
 							const keys = getBlockKeys(post.blocks);
@@ -370,20 +380,7 @@ export default async function BlogPostPage({
 							</div>
 						)}
 					</article>
-					<aside className="surface-card media-frame p-6 lg:sticky lg:top-28">
-						<Caption className="block text-brand-readable">
-							{tn("divider")}
-						</Caption>
-						<div className="mt-6">
-							<NewsletterForm
-								buttonLabel={tn("button")}
-								error={tn("error")}
-								location="blog_article"
-								placeholder={tn("placeholder")}
-								success={tn("success")}
-							/>
-						</div>
-					</aside>
+					<div className="hidden lg:block" />
 				</div>
 			</SectionWrapper>
 

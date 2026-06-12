@@ -68,15 +68,15 @@ export default async function HomePage() {
 			<ProjectSurfaces />
 			<Metrics />
 			<Services />
+			<MidCta />
 			<SeniorLed />
 			<TechStack />
-			<MidCta />
 			<Testimonials />
 			<CaseStudiesPreview />
 			<Process />
 			<Comparison />
-			<Support />
 			<WpHealthCta />
+			<Support />
 			<BlogPreview />
 			<FAQ />
 			<Contact />

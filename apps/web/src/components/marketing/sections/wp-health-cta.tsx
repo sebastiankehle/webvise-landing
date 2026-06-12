@@ -14,7 +14,7 @@ export default async function WpHealthCta() {
 	]);
 
 	return (
-		<SectionWrapper id="wp-health">
+		<SectionWrapper id="wp-health" surface="inverted">
 			<div className="grid items-center gap-8 lg:grid-cols-[0.42fr_0.58fr] lg:gap-12">
 				<div className="max-w-[560px]">
 					<H2>{t("title")}</H2>
@@ -42,6 +42,20 @@ export default async function WpHealthCta() {
 					afterLabel={tw("results.afterNextjs")}
 					className="self-center"
 					currentLabel={tw("results.pageSpeed")}
+					metricLabels={{
+						cumulativeLayoutShift: tw(
+							"results.previewMetrics.cumulativeLayoutShift"
+						),
+						firstContentfulPaint: tw(
+							"results.previewMetrics.firstContentfulPaint"
+						),
+						interactionToNextPaint: tw(
+							"results.previewMetrics.interactionToNextPaint"
+						),
+						largestContentfulPaint: tw(
+							"results.previewMetrics.largestContentfulPaint"
+						),
+					}}
 				/>
 			</div>
 		</SectionWrapper>

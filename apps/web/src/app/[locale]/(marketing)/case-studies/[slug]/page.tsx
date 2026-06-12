@@ -307,7 +307,7 @@ export default async function CaseStudyPage({
 					{cs.techStack.length > 0 && (
 						<div>
 							<H3>{t("techStackLabel")}</H3>
-							<div className="surface-card mt-8 flex flex-wrap gap-2 p-5">
+							<div className="mt-8 flex flex-wrap gap-2">
 								{cs.techStack.map((tech) => (
 									<MarketingTag
 										className="bg-foreground/10 text-foreground"

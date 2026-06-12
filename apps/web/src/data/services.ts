@@ -1,5 +1,5 @@
 import type { AnimatedIcon } from "@/components/marketing/card-hover-icon";
-import { BrainIcon } from "@/components/ui/brain";
+import { BlocksIcon } from "@/components/ui/blocks";
 import { FlaskIcon } from "@/components/ui/flask";
 import { LayersIcon } from "@/components/ui/layers";
 import { LayoutPanelTopIcon } from "@/components/ui/layout-panel-top";
@@ -82,7 +82,7 @@ export const services: Service[] = [
 	{
 		slug: "ai-automation",
 		translationKey: "aiAutomation",
-		icon: BrainIcon,
+		icon: BlocksIcon,
 		featureCount: 6,
 		deliverableCount: 5,
 		toolCount: 6,
