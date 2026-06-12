@@ -10,6 +10,7 @@ import {
 import { TrackClick } from "@/components/marketing/track-click";
 import { Button } from "@/components/ui/button";
 import { Display, Lead } from "@/components/ui/typography";
+import { Link } from "@/i18n/navigation";
 import { homepageSectionHref } from "@/lib/homepage-section-href";
 
 export default async function Hero() {
@@ -73,15 +74,15 @@ export default async function Hero() {
 									properties={{
 										location: "hero",
 										variant: "secondary",
-										destination: "systems",
+										destination: "case-studies",
 									}}
 								>
 									<Button
 										className="hidden text-muted-foreground sm:inline-flex"
 										render={
-											<NextLink
+											<Link
 												aria-label={t("ctaSecondary")}
-												href={homepageSectionHref("systems", locale)}
+												href="/case-studies"
 											/>
 										}
 										size="lg"

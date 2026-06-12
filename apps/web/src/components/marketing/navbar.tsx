@@ -12,9 +12,6 @@ import {
 	useState,
 } from "react";
 import Logo from "@/components/logo";
-import CardHoverIcon, {
-	type AnimatedIcon,
-} from "@/components/marketing/card-hover-icon";
 import IconCloud from "@/components/marketing/icon-cloud";
 import {
 	MarketingMobileMenuControls,
@@ -24,17 +21,22 @@ import {
 } from "@/components/marketing/marketing-chrome";
 import { SocialIconButton } from "@/components/marketing/social-icon-button";
 import { Body, Caption, Label } from "@/components/ui/typography";
-import { services } from "@/data/services";
+import {
+	getOfferingBySlug,
+	getOfferingTranslationKey,
+	offeringGroups,
+} from "@/data/offerings";
 import { socials } from "@/data/socials";
-import { customSystems } from "@/data/systems";
 import { Link, usePathname } from "@/i18n/navigation";
 import { homepageSectionHref } from "@/lib/homepage-section-href";
 import { cn } from "@/lib/utils";
 
 export interface NavbarPost {
 	date: string;
+	excerpt: string;
 	readingTime: number;
 	slug: string;
+	tags?: string[];
 	title: string;
 }
 
@@ -42,19 +44,14 @@ export interface NavbarCaseStudy {
 	client: string;
 	coverImage?: string;
 	excerpt: string;
+	kind: "client" | "concept";
+	services: string[];
 	slug: string;
 	title: string;
 }
 
-type NavHash = "systems" | "services" | "case-studies" | "blog" | "scope";
-const dropdownHashes = new Set<NavHash>([
-	"systems",
-	"services",
-	"case-studies",
-	"blog",
-	"scope",
-]);
-const pricingDropdownKeys = ["focused", "system", "support"] as const;
+type NavHash = "services" | "case-studies" | "blog";
+const dropdownHashes = new Set<NavHash>(["services", "case-studies", "blog"]);
 const desktopMegaLinkClass =
 	"group border-border/40 outline-none transition-colors hover:bg-muted/40 focus-visible:border-brand/40 focus-visible:ring-1 focus-visible:ring-brand/20";
 const mobileMenuFocusableSelector =
@@ -66,150 +63,86 @@ function DesktopMegaShell({
 	children,
 	description,
 	eyebrow,
-	footer,
 	title,
 }: {
 	children: ReactNode;
 	description: string;
 	eyebrow: string;
-	footer: ReactNode;
 	title: string;
 }) {
 	return (
-		<div className="grid grid-cols-[minmax(230px,0.74fr)_minmax(0,1.56fr)] overflow-hidden">
-			<div className="flex flex-col border-border/40 border-r bg-muted/10 p-5">
+		<div className="grid h-[26rem] grid-cols-[minmax(300px,0.9fr)_minmax(0,2.1fr)] overflow-hidden">
+			<div className="flex min-h-0 flex-col border-border/40 border-r bg-muted/10 p-6">
 				<Caption className="text-brand-readable">{eyebrow}</Caption>
-				<Body className="mt-2 max-w-[280px] leading-snug">{title}</Body>
-				<Caption className="mt-3 block max-w-[300px] leading-relaxed">
+				<Body className="mt-4 max-w-[300px] font-display text-xl leading-snug">
+					{title}
+				</Body>
+				<Body className="mt-5 max-w-[310px] text-muted-foreground text-sm leading-6">
 					{description}
-				</Caption>
+				</Body>
 			</div>
-			<div className="min-w-0">{children}</div>
-			<div className="col-span-full border-border/40 border-t">{footer}</div>
+			<div className="min-h-0 min-w-0">{children}</div>
 		</div>
 	);
 }
 
-function DesktopMegaFooterLink({
-	href,
-	label,
-	nativeHref,
-	onClick,
-}: {
-	href?: LocalizedLinkHref;
-	label: string;
-	nativeHref?: string;
-	onClick?: LocalizedLinkOnClick;
-}) {
-	const className = cn(
-		desktopMegaLinkClass,
-		"flex items-center justify-between bg-muted/10 px-5 py-4"
-	);
-	const content = (
-		<>
-			<Caption className="text-brand-readable">{label}</Caption>
-			<ArrowRight className="h-3 w-3 text-brand-readable transition-transform group-hover:translate-x-0.5" />
-		</>
-	);
-
-	if (nativeHref) {
-		return (
-			<a className={className} href={nativeHref} onClick={onClick}>
-				{content}
-			</a>
-		);
-	}
-
-	return (
-		<Link className={className} href={href ?? "/"} onClick={onClick}>
-			{content}
-		</Link>
-	);
+function DesktopMegaPanel({ children }: { children: ReactNode }) {
+	return <div className="grid h-full grid-cols-3">{children}</div>;
 }
 
-function DesktopMegaIconLink({
-	className,
-	description,
-	href,
-	icon,
-	onClick,
-	title,
-}: {
-	className?: string;
-	description: ReactNode;
-	href: LocalizedLinkHref;
-	icon: AnimatedIcon;
-	onClick?: LocalizedLinkOnClick;
-	title: ReactNode;
-}) {
-	return (
-		<Link
-			className={cn(
-				desktopMegaLinkClass,
-				"flex items-start gap-3 p-4",
-				className
-			)}
-			href={href}
-			onClick={onClick}
-		>
-			<CardHoverIcon
-				className="mt-0.5 shrink-0 text-brand-icon"
-				icon={icon}
-				size={16}
-			/>
-			<div className="min-w-0">
-				<Body className="text-sm transition-colors group-hover:text-brand-readable">
-					{title}
-				</Body>
-				<Caption className="mt-1 line-clamp-3 block leading-relaxed">
-					{description}
-				</Caption>
-			</div>
-		</Link>
-	);
-}
-
-function DesktopMegaTextLink({
+function DesktopMegaColumnLink({
+	children,
 	className,
 	description,
 	eyebrow,
-	footer,
 	href,
 	nativeHref,
 	onClick,
+	titleHoverColor = true,
 	title,
 }: {
 	className?: string;
+	children?: ReactNode;
 	description?: ReactNode;
 	eyebrow?: ReactNode;
-	footer: ReactNode;
 	href?: LocalizedLinkHref;
 	nativeHref?: string;
 	onClick?: LocalizedLinkOnClick;
+	titleHoverColor?: boolean;
 	title: ReactNode;
 }) {
 	const mergedClassName = cn(
 		desktopMegaLinkClass,
-		"flex min-h-40 flex-col justify-between p-4",
+		"flex h-full min-h-0 flex-col p-5",
 		className
 	);
 	const content = (
 		<>
-			<div>
-				{eyebrow && <Caption>{eyebrow}</Caption>}
-				<Body className="mt-1.5 text-sm leading-snug transition-colors group-hover:text-brand-readable">
+			<div className="flex items-start justify-between gap-5">
+				{eyebrow && (
+					<Caption className="line-clamp-1 text-brand-readable">
+						{eyebrow}
+					</Caption>
+				)}
+				<ArrowRight className="size-4 shrink-0 text-brand-icon transition-transform group-hover:translate-x-1" />
+			</div>
+			<div className="mt-5">
+				<Body
+					className={cn(
+						"line-clamp-2 text-base leading-snug",
+						titleHoverColor &&
+							"transition-colors group-hover:text-brand-readable"
+					)}
+				>
 					{title}
 				</Body>
 				{description && (
-					<Caption className="mt-2 line-clamp-4 block leading-relaxed">
+					<Caption className="mt-3 line-clamp-3 leading-5">
 						{description}
 					</Caption>
 				)}
 			</div>
-			<div className="mt-6 flex items-end justify-between gap-4 border-border/40 border-t pt-3">
-				<Caption className="block text-brand-readable">{footer}</Caption>
-				<ArrowRight className="h-3 w-3 shrink-0 text-brand-readable opacity-0 transition-all group-hover:translate-x-0.5 group-hover:opacity-100" />
-			</div>
+			{children && <div className="mt-auto pt-5">{children}</div>}
 		</>
 	);
 
@@ -228,47 +161,67 @@ function DesktopMegaTextLink({
 	);
 }
 
-function DesktopMegaMediaLink({
-	className,
-	href,
-	imageAlt,
-	imageSrc,
-	meta,
-	onClick,
-	title,
+function DesktopMegaServiceList({
+	getOfferingTitle,
+	group,
 }: {
-	className?: string;
-	href: LocalizedLinkHref;
-	imageAlt: string;
-	imageSrc?: string;
-	meta: ReactNode;
-	onClick?: LocalizedLinkOnClick;
-	title: ReactNode;
+	getOfferingTitle: (slug: string) => string;
+	group: (typeof offeringGroups)[number];
 }) {
 	return (
-		<Link
-			className={cn(desktopMegaLinkClass, "flex min-h-48 flex-col", className)}
-			href={href}
-			onClick={onClick}
-		>
-			<div className="relative aspect-[16/9] w-full overflow-hidden border-border/40 border-b bg-muted/25">
-				{imageSrc && (
-					<Image
-						alt={imageAlt}
-						className="object-cover transition-transform duration-300 group-hover:scale-105"
-						fill
-						sizes="(max-width: 768px) 100vw, 240px"
-						src={imageSrc}
-					/>
-				)}
-			</div>
-			<div className="flex flex-1 flex-col p-4">
-				<Caption>{meta}</Caption>
-				<Body className="mt-1.5 text-sm leading-snug transition-colors group-hover:text-brand-readable">
-					{title}
-				</Body>
-			</div>
-		</Link>
+		<div className="grid gap-2.5 border-border/40 border-t pt-4">
+			{group.items.map((item) => (
+				<Caption
+					className="flex min-w-0 items-center gap-2.5 text-foreground"
+					key={item.slug}
+				>
+					<span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 bg-brand" />
+					<span className="min-w-0 truncate">
+						{getOfferingTitle(item.slug)}
+					</span>
+				</Caption>
+			))}
+		</div>
+	);
+}
+
+function DesktopMegaImage({ alt, src }: { alt: string; src?: string }) {
+	if (!src) {
+		return null;
+	}
+
+	return (
+		<div className="media-frame relative h-32 bg-muted">
+			<Image
+				alt={alt}
+				className="object-cover object-left-top transition-transform duration-700 group-hover:scale-[1.02]"
+				fill
+				quality={95}
+				sizes="320px"
+				src={src}
+			/>
+		</div>
+	);
+}
+
+function DesktopMegaPostMeta({
+	minRead,
+	post,
+}: {
+	minRead: string;
+	post: NavbarPost;
+}) {
+	const tags = post.tags?.slice(0, 2).join(" / ");
+
+	return (
+		<div className="border-border/40 border-t pt-4">
+			{tags && (
+				<Caption className="line-clamp-1 text-muted-foreground">{tags}</Caption>
+			)}
+			<Caption className="mt-2 block text-brand-readable tabular-nums">
+				{post.readingTime} {minRead}
+			</Caption>
+		</div>
 	);
 }
 
@@ -310,7 +263,6 @@ export default function Navbar({
 	const t = useTranslations("nav");
 	const tc = useTranslations("customSystems");
 	const ts = useTranslations("services");
-	const tpr = useTranslations("pricing");
 	const tb = useTranslations("blog");
 	const tcs = useTranslations("caseStudies");
 	const pathname = usePathname();
@@ -557,14 +509,23 @@ export default function Navbar({
 	);
 
 	const navLinks: { hash: NavHash; label: string }[] = [
-		{ hash: "systems", label: t("systems") },
 		{ hash: "services", label: t("services") },
 		{ hash: "case-studies", label: t("caseStudies") },
-		{ hash: "scope", label: t("pricing") },
 		{ hash: "blog", label: t("blog") },
 	];
 	const getSectionHref = (hash: string) => homepageSectionHref(hash, locale);
 	const desktopDropdownWidthClass = "max-w-[1040px]";
+	const getOfferingTitle = (slug: string) => {
+		const offering = getOfferingBySlug(slug);
+
+		if (!offering) {
+			return slug;
+		}
+
+		return offering.kind === "service"
+			? ts(`${getOfferingTranslationKey(offering)}.title`)
+			: tc(`items.${getOfferingTranslationKey(offering)}.title`);
+	};
 
 	return (
 		<>
@@ -673,76 +634,32 @@ export default function Navbar({
 						desktopDropdownWidthClass
 					)}
 				>
-					{activeDropdown === "systems" && (
-						<DesktopMegaShell
-							description={tc("subtitle")}
-							eyebrow={t("systems")}
-							footer={
-								<DesktopMegaFooterLink
-									label={tc("detailLink")}
-									nativeHref={getSectionHref("systems")}
-									onClick={(e) => handleNavClick(e, "systems")}
-								/>
-							}
-							title={tc("title")}
-						>
-							<div className="grid grid-cols-6">
-								{customSystems.map((system, i) => (
-									<DesktopMegaIconLink
-										className={cn(
-											i < 2 ? "col-span-3 border-b" : "col-span-2",
-											i === 0 && "border-r",
-											i >= 2 && i < customSystems.length - 1 && "border-r"
-										)}
-										description={tc(
-											`items.${system.translationKey}.description`
-										)}
-										href={{
-											pathname: "/systems/[slug]",
-											params: { slug: system.slug },
-										}}
-										icon={system.icon}
-										key={system.slug}
-										onClick={close}
-										title={tc(`items.${system.translationKey}.title`)}
-									/>
-								))}
-							</div>
-						</DesktopMegaShell>
-					)}
-
 					{activeDropdown === "services" && (
 						<DesktopMegaShell
 							description={ts("subtitle")}
 							eyebrow={t("services")}
-							footer={
-								<DesktopMegaFooterLink
-									label={ts("viewAll")}
-									nativeHref={getSectionHref("services")}
-									onClick={(e) => handleNavClick(e, "services")}
-								/>
-							}
 							title={ts("title")}
 						>
-							<div className="grid grid-cols-3">
-								{services.map((service, i) => (
-									<DesktopMegaIconLink
+							<DesktopMegaPanel>
+								{offeringGroups.map((group, index) => (
+									<DesktopMegaColumnLink
 										className={cn(
-											i < 3 && "border-b",
-											i % 3 !== 2 && "border-r"
+											index < offeringGroups.length - 1 && "border-r"
 										)}
-										description={ts(`${service.translationKey}.tagline`)}
-										href={{
-											pathname: "/services/[slug]",
-											params: { slug: service.slug },
-										}}
-										icon={service.icon}
-										key={service.slug}
-										onClick={close}
-										title={ts(`${service.translationKey}.title`)}
-									/>
+										description={ts(`groups.${group.key}.description`)}
+										eyebrow={ts(`groups.${group.key}.eyebrow`)}
+										key={group.key}
+										nativeHref={getSectionHref(`services-${group.key}`)}
+										onClick={(e) => handleNavClick(e, `services-${group.key}`)}
+										title={ts(`groups.${group.key}.title`)}
+									>
+										<DesktopMegaServiceList
+											getOfferingTitle={getOfferingTitle}
+											group={group}
+										/>
+									</DesktopMegaColumnLink>
 								))}
-							</div>
+							</DesktopMegaPanel>
 						</DesktopMegaShell>
 					)}
 
@@ -750,32 +667,35 @@ export default function Navbar({
 						<DesktopMegaShell
 							description={tcs("subtitle")}
 							eyebrow={t("caseStudies")}
-							footer={
-								<DesktopMegaFooterLink
-									href="/case-studies"
-									label={tcs("viewAll")}
-									onClick={close}
-								/>
-							}
 							title={tcs("title")}
 						>
-							<div className="grid grid-cols-3">
+							<DesktopMegaPanel>
 								{featuredCaseStudies.map((cs, i) => (
-									<DesktopMegaMediaLink
-										className={cn(i < 2 && "border-r")}
+									<DesktopMegaColumnLink
+										className={cn(
+											i < featuredCaseStudies.length - 1 && "border-r"
+										)}
+										description={cs.excerpt}
+										eyebrow={
+											cs.kind === "concept"
+												? tcs("conceptStudyLabel", { client: cs.client })
+												: cs.client
+										}
 										href={{
 											pathname: "/case-studies/[slug]",
 											params: { slug: cs.slug },
 										}}
-										imageAlt={cs.title}
-										imageSrc={cs.coverImage}
 										key={cs.slug}
-										meta={cs.client}
 										onClick={close}
 										title={cs.title}
-									/>
+									>
+										<DesktopMegaImage
+											alt={`${cs.client} - ${cs.title}`}
+											src={cs.coverImage}
+										/>
+									</DesktopMegaColumnLink>
 								))}
-							</div>
+							</DesktopMegaPanel>
 						</DesktopMegaShell>
 					)}
 
@@ -783,19 +703,13 @@ export default function Navbar({
 						<DesktopMegaShell
 							description={tb("subtitle")}
 							eyebrow={t("blog")}
-							footer={
-								<DesktopMegaFooterLink
-									href="/blog"
-									label={tb("viewAll")}
-									onClick={close}
-								/>
-							}
 							title={tb("title")}
 						>
-							<div className="grid grid-cols-3">
+							<DesktopMegaPanel>
 								{recentPosts.map((post, i) => (
-									<DesktopMegaTextLink
-										className={cn(i < 2 && "border-r")}
+									<DesktopMegaColumnLink
+										className={cn(i < recentPosts.length - 1 && "border-r")}
+										description={post.excerpt}
 										eyebrow={
 											<time dateTime={post.date}>
 												{new Date(post.date).toLocaleDateString(locale, {
@@ -805,7 +719,6 @@ export default function Navbar({
 												})}
 											</time>
 										}
-										footer={`${post.readingTime} ${tb("minRead")}`}
 										href={{
 											pathname: "/blog/[slug]",
 											params: { slug: post.slug },
@@ -813,40 +726,12 @@ export default function Navbar({
 										key={post.slug}
 										onClick={close}
 										title={post.title}
-									/>
+										titleHoverColor={false}
+									>
+										<DesktopMegaPostMeta minRead={tb("minRead")} post={post} />
+									</DesktopMegaColumnLink>
 								))}
-							</div>
-						</DesktopMegaShell>
-					)}
-
-					{activeDropdown === "scope" && (
-						<DesktopMegaShell
-							description={tpr("subtitle")}
-							eyebrow={t("pricing")}
-							footer={
-								<DesktopMegaFooterLink
-									label={tpr("secondaryCta")}
-									nativeHref={getSectionHref("scope")}
-									onClick={(e) => handleNavClick(e, "scope")}
-								/>
-							}
-							title={tpr("title")}
-						>
-							<div className="grid grid-cols-3">
-								{pricingDropdownKeys.map((key, i) => (
-									<DesktopMegaTextLink
-										className={cn(
-											i < pricingDropdownKeys.length - 1 && "border-r"
-										)}
-										description={tpr(`tiers.${key}.description`)}
-										footer={tpr(`tiers.${key}.scope`)}
-										key={key}
-										nativeHref={getSectionHref("scope")}
-										onClick={(e) => handleNavClick(e, "scope")}
-										title={tpr(`tiers.${key}.name`)}
-									/>
-								))}
-							</div>
+							</DesktopMegaPanel>
 						</DesktopMegaShell>
 					)}
 				</div>

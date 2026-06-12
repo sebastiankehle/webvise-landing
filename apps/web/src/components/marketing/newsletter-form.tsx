@@ -10,6 +10,7 @@ import { trpcClient } from "@/utils/trpc";
 interface NewsletterFormProps {
 	buttonLabel: string;
 	error: string;
+	location?: string;
 	placeholder: string;
 	success: string;
 }
@@ -19,6 +20,7 @@ export function NewsletterForm({
 	buttonLabel,
 	success,
 	error,
+	location = "footer",
 }: NewsletterFormProps) {
 	const [email, setEmail] = useState("");
 	const [status, setStatus] = useState<
@@ -32,16 +34,16 @@ export function NewsletterForm({
 		}
 
 		setStatus("loading");
-		track("newsletter_signup", { location: "footer" });
+		track("newsletter_signup", { location });
 
 		try {
 			await trpcClient.newsletter.subscribe.mutate({ email: email.trim() });
 			setStatus("success");
-			track("newsletter_success", { location: "footer" });
+			track("newsletter_success", { location });
 			setEmail("");
 		} catch {
 			setStatus("error");
-			track("newsletter_error", { reason: "server_error" });
+			track("newsletter_error", { location, reason: "server_error" });
 		}
 	}
 

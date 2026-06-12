@@ -15,6 +15,7 @@ export interface Service {
 	proof: {
 		caseStudySlug: string;
 		image: string;
+		imageClassName?: string;
 	};
 	slug: string;
 	toolCount: number;
@@ -47,7 +48,7 @@ export const services: Service[] = [
 		faqCount: 5,
 		proof: {
 			caseStudySlug: "mp-bau-construction",
-			image: "/images/case-studies/mp-bau-construction/hero.webp",
+			image: "/images/case-studies/mp-bau-construction/business-fields.webp",
 		},
 	},
 	{
@@ -103,18 +104,19 @@ export const services: Service[] = [
 		faqCount: 4,
 		proof: {
 			caseStudySlug: "keel",
-			image: "/images/case-studies/keel/one-endpoint.webp",
+			image: "/images/case-studies/keel/typed-tool-contract.webp",
+			imageClassName: "object-contain object-center bg-black",
 		},
 	},
 ];
 
 export const serviceCaseStudies: Record<string, string[]> = {
-	"landing-pages": ["mp-bau-construction", "old-world-labs"],
+	"landing-pages": ["old-world-labs", "mp-bau-construction"],
 	"wordpress-migration": ["old-world-labs"],
 	"ai-consulting": ["mp-bau-construction"],
 	"mvp-development": ["ohyp-fintech"],
 	"ai-automation": ["mp-bau-construction"],
-	"full-stack-applications": ["ohyp-fintech", "old-world-labs"],
+	"full-stack-applications": ["ohyp-fintech", "keel"],
 };
 
 export const relatedServices: Record<string, string[]> = {

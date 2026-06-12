@@ -5,6 +5,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import JsonLd from "@/components/json-ld";
 import BlogShare from "@/components/marketing/blog-share";
 import { MarketingTag } from "@/components/marketing/marketing-tag";
+import { NewsletterForm } from "@/components/marketing/newsletter-form";
 import ReportDownloadForm from "@/components/marketing/report-download-form";
 import SectionWrapper, {
 	ConstructedGrid,
@@ -175,12 +176,12 @@ function RenderBlock({ block, locale }: { block: Block; locale: string }) {
 	switch (block.type) {
 		case "h2":
 			return (
-				<H2 className="mt-14 mb-4 text-2xl leading-tight first:mt-0 md:text-3xl">
+				<H2 className="mt-14 mb-4 text-2xl leading-tight first:mt-0 md:text-2xl">
 					{block.text}
 				</H2>
 			);
 		case "h3":
-			return <H3 className="mt-8 mb-3 text-lg">{block.text}</H3>;
+			return <H3 className="mt-8 mb-3 font-medium text-base">{block.text}</H3>;
 		case "p":
 			return (
 				<Muted className="mb-5 text-base leading-7 last:mb-0">
@@ -189,13 +190,10 @@ function RenderBlock({ block, locale }: { block: Block; locale: string }) {
 			);
 		case "ul":
 			return (
-				<ul className="mb-5 space-y-2 text-base text-muted-foreground leading-7">
+				<ul className="mb-6 list-disc space-y-2 pl-5 text-base text-muted-foreground leading-7 marker:text-brand-readable/50">
 					{block.items.map((item) => (
-						<li className="flex gap-3" key={item}>
-							<span className="mt-1.5 h-1.5 w-1.5 shrink-0 bg-brand" />
-							<Muted className="text-base text-foreground leading-7">
-								{renderInline(item, locale)}
-							</Muted>
+						<li className="pl-1" key={item}>
+							{renderInline(item, locale)}
 						</li>
 					))}
 				</ul>
@@ -208,7 +206,7 @@ function RenderBlock({ block, locale }: { block: Block; locale: string }) {
 							<tr className="border-border/40 border-b bg-muted/30">
 								{block.headers.map((h) => (
 									<th
-										className="px-4 py-3 text-left font-medium text-foreground text-xs"
+										className="px-4 py-3 text-left font-medium text-foreground text-sm"
 										key={h}
 									>
 										{h}
@@ -263,6 +261,7 @@ export default async function BlogPostPage({
 	}
 
 	const t = await getTranslations("blog");
+	const tn = await getTranslations("blog.newsletter");
 	const tschema = await getTranslations("schema");
 	const tt = await getTranslations("trust.blogBanner");
 	const postUrl = localizedUrl(`/blog/${slug}`, locale);
@@ -318,75 +317,79 @@ export default async function BlogPostPage({
 			<section className="relative pt-32 pb-12 md:pt-44 md:pb-16">
 				<ConstructedGrid variant="page" />
 				<GridContainer>
-					<div className="grid items-start gap-12 md:grid-cols-3 md:gap-16">
-						{/* Title + info */}
-						<div className="md:col-span-2">
-							<Caption>
-								<time dateTime={post.date}>
-									{new Date(post.date).toLocaleDateString(locale, {
-										day: "numeric",
-										month: "long",
-										year: "numeric",
-									})}
-								</time>
-								{" \u00B7 "}
-								{post.readingTime} {t("minRead")}
-							</Caption>
-							<H1 className="mt-3">{post.title}</H1>
-							<Lead className="mt-5 max-w-[620px]">{post.excerpt}</Lead>
-						</div>
-
-						{/* Tags box */}
+					<div className="max-w-[920px]">
+						<Caption className="text-brand-readable">
+							<time dateTime={post.date}>
+								{new Date(post.date).toLocaleDateString(locale, {
+									day: "numeric",
+									month: "long",
+									year: "numeric",
+								})}
+							</time>
+							{" \u00B7 "}
+							{post.readingTime} {t("minRead")}
+						</Caption>
+						<H1 className="mt-4 max-w-3xl md:text-4xl">{post.title}</H1>
+						<Lead className="mt-5 max-w-2xl">{post.excerpt}</Lead>
 						{post.tags && post.tags.length > 0 && (
-							<div className="surface-card p-6 md:p-8">
-								<Caption className="mb-5 block">{t("tagsLabel")}</Caption>
-								<div className="flex flex-wrap gap-2">
-									{post.tags.map((tag) => (
-										<MarketingTag key={tag}>{tag}</MarketingTag>
-									))}
-								</div>
+							<div className="mt-6 flex flex-wrap items-center gap-2">
+								{post.tags.map((tag) => (
+									<MarketingTag key={tag}>{tag}</MarketingTag>
+								))}
 							</div>
 						)}
+						<BlogShare
+							className="mt-8"
+							title={post.title}
+							url={postUrl}
+							withBorder={false}
+						/>
 					</div>
-				</GridContainer>
-
-				<GridContainer className="mt-10">
-					<BlogShare title={post.title} url={postUrl} />
 				</GridContainer>
 			</section>
 
-			<SectionWrapper
-				className="pt-14 md:pt-20"
-				id="content"
-				surface="alternate"
-			>
-				<div className="max-w-2xl">
-					{(() => {
-						const keys = getBlockKeys(post.blocks);
-						return post.blocks.map((block, idx) => (
-							<RenderBlock block={block} key={keys[idx]} locale={locale} />
-						));
-					})()}
+			<SectionWrapper className="pt-14 md:pt-20" id="content">
+				<div className="grid items-start gap-12 lg:grid-cols-[minmax(0,42rem)_20rem] lg:gap-20">
+					<article className="max-w-2xl">
+						{(() => {
+							const keys = getBlockKeys(post.blocks);
+							return post.blocks.map((block, idx) => (
+								<RenderBlock block={block} key={keys[idx]} locale={locale} />
+							));
+						})()}
 
-					{post.tags?.some((tag) =>
-						["ai", "security"].some((t) => tag.toLowerCase().includes(t))
-					) && (
-						<div className="surface-card mt-14 flex items-center gap-3 p-5 text-sm">
-							<Shield
-								className="h-4 w-4 shrink-0 text-brand-icon"
-								strokeWidth={1.5}
+						{post.tags?.some((tag) =>
+							["ai", "security"].some((t) => tag.toLowerCase().includes(t))
+						) && (
+							<div className="surface-card mt-14 flex items-center gap-3 p-5 text-sm">
+								<Shield
+									className="h-4 w-4 shrink-0 text-brand-icon"
+									strokeWidth={1.5}
+								/>
+								<Muted>{tt("text")}</Muted>
+							</div>
+						)}
+					</article>
+					<aside className="surface-card media-frame p-6 lg:sticky lg:top-28">
+						<Caption className="block text-brand-readable">
+							{tn("divider")}
+						</Caption>
+						<div className="mt-6">
+							<NewsletterForm
+								buttonLabel={tn("button")}
+								error={tn("error")}
+								location="blog_article"
+								placeholder={tn("placeholder")}
+								success={tn("success")}
 							/>
-							<Muted>{tt("text")}</Muted>
 						</div>
-					)}
+					</aside>
 				</div>
 			</SectionWrapper>
 
 			<DetailPageSection className="pt-12 pb-28" id="post-navigation">
-				<BlogShare title={post.title} url={postUrl} />
-
 				{(prev || next) && (
-					<div className="mt-12 grid gap-6 md:grid-cols-2">
+					<div className="grid gap-6 md:grid-cols-2">
 						{prev && (
 							<Link
 								className="surface-card group p-6 outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
@@ -395,9 +398,7 @@ export default async function BlogPostPage({
 								<Caption className="text-brand-readable">
 									{t("prevPost")}
 								</Caption>
-								<H3 className="mt-2 text-lg transition-colors group-hover:text-brand-readable">
-									{prev.title}
-								</H3>
+								<H3 className="mt-2 text-base">{prev.title}</H3>
 								<Muted className="mt-2 line-clamp-2 leading-relaxed">
 									{prev.excerpt}
 								</Muted>
@@ -411,9 +412,7 @@ export default async function BlogPostPage({
 								<Caption className="text-brand-readable">
 									{t("nextPost")}
 								</Caption>
-								<H3 className="mt-2 text-lg transition-colors group-hover:text-brand-readable">
-									{next.title}
-								</H3>
+								<H3 className="mt-2 text-base">{next.title}</H3>
 								<Muted className="mt-2 line-clamp-2 leading-relaxed">
 									{next.excerpt}
 								</Muted>

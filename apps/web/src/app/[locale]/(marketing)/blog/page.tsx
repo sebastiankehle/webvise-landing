@@ -116,12 +116,16 @@ export default async function BlogPage({
 			<section className="relative pt-32 pb-24 md:pt-44 md:pb-44">
 				<ConstructedGrid hatch variant="page" />
 				<GridContainer>
-					<div className="max-w-[720px]">
-						<H1>{t("title")}</H1>
-						<Lead className="mt-5 max-w-[560px]">{t("subtitle")}</Lead>
+					<div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-end">
+						<div className="max-w-[660px]">
+							<H1>{t("title")}</H1>
+						</div>
+						<div className="max-w-[560px] lg:justify-self-end">
+							<Lead>{t("subtitle")}</Lead>
+						</div>
 					</div>
 
-					<div className="mt-16 grid gap-5 md:grid-cols-3">
+					<div className="mt-10 grid gap-5 md:mt-16 md:grid-cols-3">
 						{paginatedPosts.map((post) => (
 							<Link
 								className="surface-card group flex flex-col p-6 outline-none focus-visible:ring-2 focus-visible:ring-ring/50 md:p-7"
@@ -142,12 +146,10 @@ export default async function BlogPage({
 										{post.readingTime} {t("minRead")}
 									</Caption>
 								</div>
-								<H3 className="mt-5 transition-colors group-hover:text-brand-readable">
-									{post.title}
-								</H3>
-								<Muted className="mt-3 leading-relaxed">{post.excerpt}</Muted>
+								<H3 className="mt-5 line-clamp-2">{post.title}</H3>
+								<Muted className="mt-3 line-clamp-3">{post.excerpt}</Muted>
 								<div className="mt-auto flex items-center justify-end pt-6">
-									<ArrowRight className="h-4 w-4 -translate-x-1 text-brand-icon opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100" />
+									<ArrowRight className="h-4 w-4 text-brand-icon transition-transform duration-300 group-hover:translate-x-1" />
 								</div>
 							</Link>
 						))}

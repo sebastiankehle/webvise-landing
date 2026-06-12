@@ -24,7 +24,8 @@ export default function CaseStudyHeroImage({
 	return (
 		<>
 			<button
-				className={`surface-card group relative w-full overflow-hidden outline-none focus-visible:ring-2 focus-visible:ring-ring/50 ${clickable ? "cursor-zoom-in" : "cursor-default"}`}
+				aria-label={clickable ? t("expandImage") : undefined}
+				className={`surface-card media-frame group relative w-full outline-none focus-visible:ring-2 focus-visible:ring-ring/50 ${clickable ? "cursor-zoom-in" : "cursor-default"}`}
 				disabled={!clickable}
 				onClick={() => clickable && setOpen(true)}
 				type="button"
@@ -39,12 +40,7 @@ export default function CaseStudyHeroImage({
 					src={src}
 					width={1512}
 				/>
-				{clickable && (
-					<CaseStudyImageAction
-						clickLabel={t("expandImage")}
-						tapLabel={t("tapImage")}
-					/>
-				)}
+				{clickable && <CaseStudyImageAction />}
 			</button>
 
 			{fullPageImage && (

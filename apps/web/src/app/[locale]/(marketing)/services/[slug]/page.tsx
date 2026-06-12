@@ -1,22 +1,22 @@
-import { ArrowRight, Shield } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
+import NextLink from "next/link";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 
 import JsonLd from "@/components/json-ld";
-import { MarketingTag } from "@/components/marketing/marketing-tag";
 import {
 	RelatedLinkCardContent,
 	relatedLinkCardClassName,
 } from "@/components/marketing/related-link-card";
 import SectionWrapper, {
 	ConstructedGrid,
-	DetailPageSection,
 	GridContainer,
 } from "@/components/marketing/section-wrapper";
 import { FaqAccordion } from "@/components/marketing/sections/faq";
-import WpHealthCta from "@/components/marketing/sections/wp-health-cta";
+import { TrackClick } from "@/components/marketing/track-click";
+import { Button } from "@/components/ui/button";
 import {
 	Body,
 	Caption,
@@ -25,15 +25,49 @@ import {
 	H3,
 	Lead,
 	Muted,
-	Small,
 } from "@/components/ui/typography";
 import { getCaseStudyBySlug } from "@/data/case-studies";
-import { getServiceBySlug, relatedServices, services } from "@/data/services";
+import {
+	getOfferingBySlug,
+	getOfferingIcon,
+	getOfferingProof,
+	getOfferingTranslationKey,
+	getRelatedOfferings,
+	type Offering,
+	offerings,
+} from "@/data/offerings";
 import { Link } from "@/i18n/navigation";
+import { homepageSectionHref } from "@/lib/homepage-section-href";
 import { generateAlternates, localizedUrl } from "@/lib/seo";
+import { cn } from "@/lib/utils";
+
+const terminalHeadingPunctuationPattern = /[.!?]+$/;
+
+function HeroSummary({
+	items,
+}: {
+	items: Array<{ label: string; value: string }>;
+}) {
+	return (
+		<dl className="mt-10 grid max-w-xl grid-cols-2 gap-5">
+			{items.map((item) => (
+				<div key={item.label}>
+					<dt className="text-muted-foreground text-xs">{item.label}</dt>
+					<dd className="mt-1.5 text-foreground text-sm leading-6">
+						{item.value}
+					</dd>
+				</div>
+			))}
+		</dl>
+	);
+}
+
+function trimHeading(value: string) {
+	return value.replace(terminalHeadingPunctuationPattern, "");
+}
 
 export function generateStaticParams() {
-	return services.map((s) => ({ slug: s.slug }));
+	return offerings.map((offering) => ({ slug: offering.slug }));
 }
 
 export async function generateMetadata({
@@ -42,18 +76,26 @@ export async function generateMetadata({
 	params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
 	const { slug } = await params;
-	const service = getServiceBySlug(slug);
-	if (!service) {
+	const offering = getOfferingBySlug(slug);
+	if (!offering) {
 		return {};
 	}
 
-	const [t, locale] = await Promise.all([
+	const [ts, tc, locale] = await Promise.all([
 		getTranslations("services"),
+		getTranslations("customSystems"),
 		getLocale(),
 	]);
 
-	const title = t(`${service.translationKey}.title`);
-	const description = t(`${service.translationKey}.description`);
+	const key = getOfferingTranslationKey(offering);
+	const title =
+		offering.kind === "service"
+			? ts(`${key}.title`)
+			: tc(`items.${key}.detail.metaTitle`);
+	const description =
+		offering.kind === "service"
+			? ts(`${key}.description`)
+			: tc(`items.${key}.detail.metaDescription`);
 	const path = `/services/${slug}`;
 
 	return {
@@ -80,46 +122,130 @@ export default async function ServicePage({
 	params: Promise<{ slug: string }>;
 }) {
 	const { slug } = await params;
-	const service = getServiceBySlug(slug);
+	const offering = getOfferingBySlug(slug);
 
-	if (!service) {
+	if (!offering) {
 		notFound();
 	}
 
-	const t = await getTranslations("services");
-	const td = await getTranslations("serviceDetail");
-	const tschema = await getTranslations("schema");
-	const tt = await getTranslations("trust.serviceCallout");
-	const locale = await getLocale();
-	const key = service.translationKey;
-	const ServiceIcon = service.icon;
-	const proofCaseStudy = getCaseStudyBySlug(
-		service.proof.caseStudySlug,
-		locale
-	);
+	return <ServiceOfferingPage offering={offering} />;
+}
 
-	const relatedServiceSlugs = relatedServices[slug] ?? [];
-	const relatedServiceData = relatedServiceSlugs
-		.map((s) => getServiceBySlug(s))
-		.filter(
-			(
-				relatedService
-			): relatedService is NonNullable<ReturnType<typeof getServiceBySlug>> =>
-				Boolean(relatedService)
-		);
+async function ServiceOfferingPage({ offering }: { offering: Offering }) {
+	const slug = offering.slug;
+	const [t, tc, td, tschema, locale] = await Promise.all([
+		getTranslations("services"),
+		getTranslations("customSystems"),
+		getTranslations("serviceDetail"),
+		getTranslations("schema"),
+		getLocale(),
+	]);
+	const key = getOfferingTranslationKey(offering);
+	const OfferingIcon = getOfferingIcon(offering);
+	const proof = getOfferingProof(offering);
+	const proofCaseStudy = getCaseStudyBySlug(proof.caseStudySlug, locale);
+	const relatedOfferings = getRelatedOfferings(slug);
+	const detail =
+		offering.kind === "service"
+			? {
+					approach: t(`${key}.approach`),
+					deliverableItems: Array.from(
+						{ length: offering.service.deliverableCount },
+						(_, i) => t(`${key}.deliverables.${i}`)
+					),
+					description: t(`${key}.description`),
+					faqItems: Array.from(
+						{ length: offering.service.faqCount },
+						(_, i) => ({
+							answer: t(`${key}.faq.${i}.answer`),
+							question: t(`${key}.faq.${i}.question`),
+						})
+					),
+					featureItems: Array.from(
+						{ length: offering.service.featureCount },
+						(_, i) => t(`${key}.features.${i}`)
+					),
+					outcome: t(`${key}.outcome`),
+					painPoints: Array.from(
+						{ length: offering.service.painPointCount },
+						(_, i) => ({
+							description: t(`${key}.painPoints.${i}.description`),
+							heading: t(`${key}.painPoints.${i}.heading`),
+						})
+					),
+					schemaDescription: t(`${key}.description`),
+					schemaTitle: t(`${key}.title`),
+					summaryItems: [
+						{
+							label: td("pricingLabel"),
+							value: t(`${key}.price`),
+						},
+						{
+							label: td("timelineLabel"),
+							value: t(`${key}.timeline`),
+						},
+					],
+					title: t(`${key}.title`),
+				}
+			: {
+					approach: tc(`items.${key}.detail.approach`),
+					deliverableItems: Array.from(
+						{ length: offering.system.moduleCount },
+						(_, i) => tc(`items.${key}.detail.modules.${i}`)
+					),
+					description: tc(`items.${key}.description`),
+					faqItems: Array.from(
+						{ length: offering.system.faqCount },
+						(_, i) => ({
+							answer: tc(`items.${key}.detail.faq.${i}.answer`),
+							question: tc(`items.${key}.detail.faq.${i}.question`),
+						})
+					),
+					featureItems: Array.from(
+						{ length: offering.system.capabilityCount },
+						(_, i) => tc(`items.${key}.detail.capabilities.${i}`)
+					),
+					outcome: tc(`items.${key}.detail.outcome`),
+					painPoints: Array.from(
+						{
+							length: Math.min(
+								3,
+								offering.system.capabilityCount,
+								offering.system.outcomeCount
+							),
+						},
+						(_, i) => ({
+							description: tc(`items.${key}.detail.outcomes.${i}`),
+							heading: trimHeading(tc(`items.${key}.detail.capabilities.${i}`)),
+						})
+					),
+					schemaDescription: tc(`items.${key}.description`),
+					schemaTitle: tc(`items.${key}.title`),
+					summaryItems: [
+						{
+							label: td("pricingLabel"),
+							value: td("estimatedAfterDiscovery"),
+						},
+						{
+							label: td("timelineLabel"),
+							value: td("plannedAfterDiscovery"),
+						},
+					],
+					title: tc(`items.${key}.title`),
+				};
 
 	const faqEntries =
-		service.faqCount > 0
+		detail.faqItems.length > 0
 			? [
 					{
 						"@type": "FAQPage" as const,
 						"@id": `https://webvise.io/services/${slug}#faq`,
-						mainEntity: Array.from({ length: service.faqCount }, (_, i) => ({
+						mainEntity: detail.faqItems.map((item) => ({
 							"@type": "Question" as const,
-							name: t(`${key}.faq.${i}.question`),
+							name: item.question,
 							acceptedAnswer: {
 								"@type": "Answer" as const,
-								text: t(`${key}.faq.${i}.answer`),
+								text: item.answer,
 							},
 						})),
 					},
@@ -132,8 +258,8 @@ export default async function ServicePage({
 			{
 				"@type": "Service",
 				"@id": `https://webvise.io/services/${slug}#service`,
-				name: t(`${key}.title`),
-				description: t(`${key}.description`),
+				name: detail.schemaTitle,
+				description: detail.schemaDescription,
 				provider: {
 					"@id": "https://webvise.io/#organization",
 				},
@@ -141,7 +267,7 @@ export default async function ServicePage({
 					"@type": "GeoShape",
 					name: tschema("worldwide"),
 				},
-				serviceType: t(`${key}.title`),
+				serviceType: detail.schemaTitle,
 			},
 			{
 				"@type": "BreadcrumbList",
@@ -162,7 +288,7 @@ export default async function ServicePage({
 					{
 						"@type": "ListItem",
 						position: 3,
-						name: t(`${key}.title`),
+						name: detail.schemaTitle,
 						item: `https://webvise.io/services/${slug}`,
 					},
 				],
@@ -175,46 +301,25 @@ export default async function ServicePage({
 		<>
 			<JsonLd data={jsonLd} />
 
-			{/* Header */}
 			<section className="relative pt-32 pb-24 md:pt-44 md:pb-36">
 				<ConstructedGrid variant="page" />
 				<GridContainer>
 					<div className="grid items-center gap-14 lg:grid-cols-[1.02fr_0.98fr] lg:gap-20">
-						{/* Title + info */}
 						<div>
-							<ServiceIcon className="text-brand-icon" size={24} />
-							<H1 className="mt-6 max-w-3xl">{t(`${key}.title`)}</H1>
-							<Lead className="mt-5 max-w-lg">{t(`${key}.description`)}</Lead>
-							<div className="mt-8 flex max-w-xl flex-wrap gap-2">
-								{Array.from({ length: service.toolCount }, (_, i) => {
-									const tool = t(`${key}.tools.${i}`);
-
-									return (
-										<MarketingTag key={tool} variant="subtle">
-											{tool}
-										</MarketingTag>
-									);
-								})}
+							<div className="flex items-center">
+								<OfferingIcon className="text-brand-icon" size={24} />
+								<Caption className="sr-only">
+									{t(`groups.${offering.group}.title`)}
+								</Caption>
 							</div>
-							<div className="mt-10 flex flex-wrap items-start gap-x-8 gap-y-4 border-grid-line border-t pt-6">
-								<div>
-									<Caption className="block">{td("pricingLabel")}</Caption>
-									<Small className="mt-1 block text-foreground">
-										{t(`${key}.price`)}
-									</Small>
-								</div>
-								<div>
-									<Caption className="block">{td("timelineLabel")}</Caption>
-									<Small className="mt-1 block text-foreground">
-										{t(`${key}.timeline`)}
-									</Small>
-								</div>
-							</div>
+							<H1 className="mt-6 max-w-3xl">{detail.title}</H1>
+							<Lead className="mt-5 max-w-lg">{detail.description}</Lead>
+							<HeroSummary items={detail.summaryItems} />
 						</div>
 
 						{proofCaseStudy && (
 							<Link
-								className="surface-card group relative block overflow-hidden outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+								className="surface-card media-frame group relative block outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
 								href={{
 									pathname: "/case-studies/[slug]",
 									params: { slug: proofCaseStudy.slug },
@@ -223,17 +328,27 @@ export default async function ServicePage({
 								<div className="relative aspect-[16/10]">
 									<Image
 										alt={`${proofCaseStudy.client}: ${proofCaseStudy.title}`}
-										className="object-cover object-left-top"
+										className={cn(
+											"object-cover object-left-top",
+											proof.imageClassName
+										)}
 										fill
+										priority
+										quality={95}
 										sizes="(min-width: 1024px) 46vw, 100vw"
-										src={service.proof.image}
+										src={proof.image}
 									/>
 								</div>
 								<div className="flex items-center justify-between gap-4 border-border/60 border-t px-5 py-3.5">
 									<Caption className="text-brand-readable">
-										{td("proofLabel")} &middot; {proofCaseStudy.client}
+										{td(
+											proofCaseStudy.kind === "concept"
+												? "conceptStudyLabel"
+												: "recentProjectLabel",
+											{ client: proofCaseStudy.client }
+										)}
 									</Caption>
-									<span className="inline-flex items-center gap-1.5 text-muted-foreground text-xs transition-colors group-hover:text-brand-readable">
+									<span className="inline-flex items-center gap-1.5 text-muted-foreground text-xs">
 										{td("proofCta")}
 										<ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
 									</span>
@@ -247,27 +362,25 @@ export default async function ServicePage({
 			<SectionWrapper className="pt-8 md:pt-12" id="approach">
 				<div className="grid gap-16 md:grid-cols-2 md:gap-20">
 					<div>
-						<H2>{td("approachTitle")}</H2>
-						<Lead className="mt-4 leading-relaxed">{t(`${key}.approach`)}</Lead>
+						<H3>{td("approachTitle")}</H3>
+						<Lead className="mt-4 leading-relaxed">{detail.approach}</Lead>
 					</div>
 					<div>
-						<H2>{td("outcomeTitle")}</H2>
-						<Lead className="mt-4 leading-relaxed">{t(`${key}.outcome`)}</Lead>
+						<H3>{td("outcomeTitle")}</H3>
+						<Lead className="mt-4 leading-relaxed">{detail.outcome}</Lead>
 					</div>
 				</div>
 			</SectionWrapper>
 
 			<SectionWrapper className="pt-8 md:pt-12" id="why">
 				<div className="grid gap-x-8 gap-y-10 md:grid-cols-3">
-					{Array.from({ length: service.painPointCount }, (_, i) => (
-						<div className="group" key={t(`${key}.painPoints.${i}.heading`)}>
+					{detail.painPoints.map((item, i) => (
+						<div className="group" key={item.heading}>
 							<Caption className="mb-3 block text-brand-readable tabular-nums">
 								{String(i + 1).padStart(2, "0")}
 							</Caption>
-							<H3>{t(`${key}.painPoints.${i}.heading`)}</H3>
-							<Muted className="mt-3 leading-relaxed">
-								{t(`${key}.painPoints.${i}.description`)}
-							</Muted>
+							<H3>{item.heading}</H3>
+							<Muted className="mt-3 leading-relaxed">{item.description}</Muted>
 						</div>
 					))}
 				</div>
@@ -276,38 +389,36 @@ export default async function ServicePage({
 			<SectionWrapper id="features" surface="inverted">
 				<div className="grid items-start gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20">
 					<div>
-						<H2>{td("featuresTitle")}</H2>
+						<H3>{td("featuresTitle")}</H3>
 						<ol className="mt-8 border-grid-line border-t">
-							{Array.from({ length: service.featureCount }, (_, i) => (
+							{detail.featureItems.map((item, i) => (
 								<li
 									className="flex items-baseline gap-5 border-grid-line border-b py-4"
-									key={t(`${key}.features.${i}`)}
+									key={item}
 								>
 									<Caption className="shrink-0 text-brand-readable tabular-nums">
 										{String(i + 1).padStart(2, "0")}
 									</Caption>
-									<Body className="text-sm leading-relaxed">
-										{t(`${key}.features.${i}`)}
-									</Body>
+									<Body className="text-sm leading-relaxed">{item}</Body>
 								</li>
 							))}
 						</ol>
 					</div>
 
 					<div id="deliverables">
-						<H2>{td("deliverablesTitle")}</H2>
+						<H3>{td("deliverablesTitle")}</H3>
 						<div className="surface-card mt-8 divide-y divide-border/40">
-							{Array.from({ length: service.deliverableCount }, (_, i) => (
+							{detail.deliverableItems.map((item) => (
 								<div
 									className="flex items-baseline gap-4 px-5 py-3.5"
-									key={t(`${key}.deliverables.${i}`)}
+									key={item}
 								>
 									<span
 										aria-hidden="true"
 										className="h-1.5 w-1.5 shrink-0 self-center bg-brand"
 									/>
 									<Muted className="text-foreground/90 text-sm leading-relaxed">
-										{t(`${key}.deliverables.${i}`)}
+										{item}
 									</Muted>
 								</div>
 							))}
@@ -316,69 +427,123 @@ export default async function ServicePage({
 				</div>
 			</SectionWrapper>
 
-			{service.faqCount > 0 && (
+			{detail.faqItems.length > 0 && (
 				<SectionWrapper id="faq" surface="alternate">
 					<div className="grid gap-12 md:grid-cols-[1fr_2fr] md:gap-20">
 						<div>
 							<H2>{td("faqTitle")}</H2>
 						</div>
-						<FaqAccordion
-							items={Array.from({ length: service.faqCount }, (_, i) => ({
-								question: t(`${key}.faq.${i}.question`),
-								answer: t(`${key}.faq.${i}.answer`),
-							}))}
-						/>
+						<FaqAccordion items={detail.faqItems} />
 					</div>
 				</SectionWrapper>
 			)}
 
-			{slug === "wordpress-migration" && <WpHealthCta />}
+			<OfferingNextStep
+				ctaButton={td("ctaButton")}
+				ctaDescription={td("ctaDescription")}
+				ctaEyebrow={td("ctaEyebrow")}
+				ctaTitle={td("ctaTitle")}
+				getRelatedDescription={(relatedOffering) => {
+					const relatedKey = getOfferingTranslationKey(relatedOffering);
 
-			{(slug === "ai-automation" ||
-				slug === "ai-consulting" ||
-				slug === "full-stack-applications") && (
-				<DetailPageSection className="pt-20 pb-20" id="trust-callout">
-					<div className="flex items-start gap-5 border border-border/40 p-6 md:p-8">
-						<Shield
-							className="mt-0.5 h-5 w-5 shrink-0 text-brand-icon"
-							strokeWidth={1.5}
-						/>
-						<div>
-							<H3>{tt("title")}</H3>
-							<Muted className="mt-1 max-w-lg leading-relaxed">
-								{tt("description")}
-							</Muted>
+					return relatedOffering.kind === "service"
+						? t(`${relatedKey}.tagline`)
+						: tc(`items.${relatedKey}.description`);
+				}}
+				getRelatedTitle={(relatedOffering) => {
+					const relatedKey = getOfferingTranslationKey(relatedOffering);
+
+					return relatedOffering.kind === "service"
+						? t(`${relatedKey}.title`)
+						: tc(`items.${relatedKey}.title`);
+				}}
+				locale={locale}
+				relatedOfferings={relatedOfferings}
+				relatedTitle={td("relatedOfferingsTitle")}
+			/>
+		</>
+	);
+}
+
+function OfferingNextStep({
+	ctaButton,
+	ctaDescription,
+	ctaEyebrow,
+	ctaTitle,
+	getRelatedDescription,
+	getRelatedTitle,
+	locale,
+	relatedOfferings,
+	relatedTitle,
+}: {
+	ctaButton: string;
+	ctaDescription: string;
+	ctaEyebrow: string;
+	ctaTitle: string;
+	getRelatedDescription: (offering: Offering) => string;
+	getRelatedTitle: (offering: Offering) => string;
+	locale: string;
+	relatedOfferings: Offering[];
+	relatedTitle: string;
+}) {
+	return (
+		<SectionWrapper id="offering-next-step" surface="inverted">
+			<div className="grid gap-12 lg:grid-cols-[0.86fr_1.14fr] lg:items-start lg:gap-16">
+				<div className="max-w-xl">
+					<Caption className="text-brand-readable">{ctaEyebrow}</Caption>
+					<H2 className="mt-3">{ctaTitle}</H2>
+					<Muted className="mt-4 leading-relaxed">{ctaDescription}</Muted>
+					<TrackClick
+						event="cta_clicked"
+						properties={{
+							location: "service_detail",
+							variant: "primary",
+							destination: "contact",
+						}}
+					>
+						<Button
+							className="mt-8"
+							render={
+								<NextLink
+									aria-label={ctaButton}
+									href={homepageSectionHref("contact", locale)}
+								/>
+							}
+							variant="brand"
+						>
+							{ctaButton}
+						</Button>
+					</TrackClick>
+				</div>
+
+				{relatedOfferings.length > 0 && (
+					<div>
+						<Caption className="text-brand-readable">{relatedTitle}</Caption>
+						<div className="mt-5 grid gap-4 md:grid-cols-2">
+							{relatedOfferings.map((relatedOffering) => {
+								const Icon = getOfferingIcon(relatedOffering);
+
+								return (
+									<Link
+										className={relatedLinkCardClassName}
+										href={{
+											pathname: "/services/[slug]",
+											params: { slug: relatedOffering.slug },
+										}}
+										key={relatedOffering.slug}
+									>
+										<RelatedLinkCardContent
+											description={getRelatedDescription(relatedOffering)}
+											icon={Icon}
+											title={getRelatedTitle(relatedOffering)}
+										/>
+									</Link>
+								);
+							})}
 						</div>
 					</div>
-				</DetailPageSection>
-			)}
-
-			{relatedServiceData.length > 0 && (
-				<DetailPageSection className="pt-20 pb-28" id="related-services">
-					<H2>{td("relatedServicesTitle")}</H2>
-					<div className="mt-10 grid gap-6 md:grid-cols-2">
-						{relatedServiceData.map((rs) => {
-							const RsIcon = rs.icon;
-							return (
-								<Link
-									className={relatedLinkCardClassName}
-									href={{
-										pathname: "/services/[slug]",
-										params: { slug: rs.slug },
-									}}
-									key={rs.slug}
-								>
-									<RelatedLinkCardContent
-										description={t(`${rs.translationKey}.tagline`)}
-										icon={RsIcon}
-										title={t(`${rs.translationKey}.title`)}
-									/>
-								</Link>
-							);
-						})}
-					</div>
-				</DetailPageSection>
-			)}
-		</>
+				)}
+			</div>
+		</SectionWrapper>
 	);
 }

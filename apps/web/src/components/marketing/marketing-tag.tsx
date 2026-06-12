@@ -8,8 +8,8 @@ const marketingTagVariants = cva(
 	{
 		variants: {
 			variant: {
-				neutral: "rounded-md bg-foreground/65 px-2.5 py-1 text-background",
-				subtle: "rounded-md bg-foreground/65 px-2.5 py-1 text-background",
+				neutral: "rounded-md bg-muted/70 px-2.5 py-1 text-muted-foreground",
+				subtle: "rounded-md bg-muted/70 px-2.5 py-1 text-muted-foreground",
 				interactive:
 					"rounded-md bg-foreground/65 px-3 py-1.5 text-background hover:bg-foreground/75",
 				brand: "rounded-md bg-brand px-2 py-0.5 text-brand-foreground",

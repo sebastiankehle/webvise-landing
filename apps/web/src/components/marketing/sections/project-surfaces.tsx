@@ -140,14 +140,7 @@ export default async function ProjectSurfaces() {
 									<Caption className="block text-brand-readable">
 										{caseStudy.client}
 									</Caption>
-									<H3
-										className={cn(
-											"mt-1.5 line-clamp-2",
-											frame.featured ? "text-xl" : "text-lg"
-										)}
-									>
-										{surfaceTitle}
-									</H3>
+									<H3 className="mt-1.5 line-clamp-2">{surfaceTitle}</H3>
 									{frame.featured ? (
 										<Muted className="mt-2 line-clamp-2 max-w-md">
 											{caseStudy.excerpt}

@@ -1,17 +1,15 @@
 import { getLocale, getTranslations } from "next-intl/server";
 
 import JsonLd from "@/components/json-ld";
-import Benefits from "@/components/marketing/sections/benefits";
 import BlogPreview from "@/components/marketing/sections/blog-preview";
 import CaseStudiesPreview from "@/components/marketing/sections/case-studies-preview";
 import Comparison from "@/components/marketing/sections/comparison";
 import Contact from "@/components/marketing/sections/contact";
-import CustomSystems from "@/components/marketing/sections/custom-systems";
 import FAQ from "@/components/marketing/sections/faq";
 import Hero from "@/components/marketing/sections/hero";
 import Metrics from "@/components/marketing/sections/metrics";
 import MidCta from "@/components/marketing/sections/mid-cta";
-import Pricing from "@/components/marketing/sections/pricing";
+import ProblemStatement from "@/components/marketing/sections/problem-statement";
 import Process from "@/components/marketing/sections/process";
 import ProjectSurfaces from "@/components/marketing/sections/project-surfaces";
 import SeniorLed from "@/components/marketing/sections/senior-led";
@@ -66,19 +64,17 @@ export default async function HomePage() {
 		<>
 			<JsonLd data={jsonLd} />
 			<Hero />
+			<ProblemStatement />
 			<ProjectSurfaces />
 			<Metrics />
-			<CustomSystems />
 			<Services />
 			<SeniorLed />
 			<TechStack />
-			<Benefits />
 			<MidCta />
 			<Testimonials />
 			<CaseStudiesPreview />
 			<Process />
 			<Comparison />
-			<Pricing />
 			<Support />
 			<WpHealthCta />
 			<BlogPreview />

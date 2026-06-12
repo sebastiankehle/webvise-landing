@@ -18,7 +18,7 @@ import {
 	Lead,
 	Muted,
 } from "@/components/ui/typography";
-import { services } from "@/data/services";
+import { getOfferingTranslationKey, offeringGroups } from "@/data/offerings";
 import { Link } from "@/i18n/navigation";
 import { CAL_URL } from "@/lib/cal";
 import { track } from "@/lib/track";
@@ -32,6 +32,7 @@ export default function Contact() {
 	const formRef = useRef<HTMLFormElement>(null);
 	const t = useTranslations("contact");
 	const ts = useTranslations("services");
+	const tc = useTranslations("customSystems");
 
 	useEffect(() => {
 		const node = formRef.current;
@@ -119,7 +120,7 @@ export default function Contact() {
 				<form
 					aria-label={t("title")}
 					autoComplete="off"
-					className="space-y-5 border border-border/20 p-6 md:space-y-6 md:p-10"
+					className="surface-card space-y-5 p-6 md:space-y-6 md:p-10"
 					noValidate
 					onSubmit={(e) => {
 						e.preventDefault();
@@ -196,7 +197,7 @@ export default function Contact() {
 										{t("form.service")}
 									</FormLabel>
 									<NativeSelect
-										className="h-10 px-3 text-base md:h-9 md:text-sm"
+										className="h-10 pr-10 pl-3 text-base md:h-9 md:text-sm"
 										id={field.name}
 										name={field.name}
 										onBlur={field.handleBlur}
@@ -204,10 +205,25 @@ export default function Contact() {
 										value={field.state.value}
 									>
 										<option value="">{t("form.servicePlaceholder")}</option>
-										{services.map((s) => (
-											<option key={s.slug} value={s.slug}>
-												{ts(`${s.translationKey}.title`)}
-											</option>
+										{offeringGroups.map((group) => (
+											<optgroup
+												key={group.key}
+												label={ts(`groups.${group.key}.title`)}
+											>
+												{group.items.map((offering) => {
+													const key = getOfferingTranslationKey(offering);
+													const label =
+														offering.kind === "service"
+															? ts(`${key}.title`)
+															: tc(`items.${key}.title`);
+
+													return (
+														<option key={offering.slug} value={offering.slug}>
+															{label}
+														</option>
+													);
+												})}
+											</optgroup>
 										))}
 									</NativeSelect>
 								</FormItem>

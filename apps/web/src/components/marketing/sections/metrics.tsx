@@ -6,7 +6,7 @@ import SectionWrapper from "@/components/marketing/section-wrapper";
 import StaggerChildren from "@/components/marketing/stagger-children";
 import { BlocksIcon } from "@/components/ui/blocks";
 import { CompassIcon } from "@/components/ui/compass";
-import { H2, H3, Lead, Muted } from "@/components/ui/typography";
+import { Body, H2, Lead, Muted } from "@/components/ui/typography";
 import { UserIcon } from "@/components/ui/user";
 import { WrenchIcon } from "@/components/ui/wrench";
 
@@ -32,9 +32,9 @@ export default async function Metrics() {
 				{metricKeys.map(({ key, icon: Icon }) => (
 					<div className="surface-card p-6 md:p-7" key={key}>
 						<CardHoverIcon className="shrink-0 text-brand-icon" icon={Icon} />
-						<H3 className="mt-6 text-2xl md:mt-10 md:text-3xl">
+						<Body className="mt-6 font-medium text-sm leading-6 md:mt-10">
 							{t(`${key}.value`)}
-						</H3>
+						</Body>
 						<Muted className="mt-2 leading-relaxed">{t(`${key}.label`)}</Muted>
 					</div>
 				))}

@@ -6,18 +6,13 @@ Source for [webvise.io](https://webvise.io), a senior-led AI-native software stu
 
 ## Services
 
-webvise keeps the existing service pages for SEO and buyer navigation, but public pricing is scoped around the system needed rather than fixed package anchors.
+webvise groups offerings by business workflow:
 
-| Service                   | Public scope language        | Typical timeline |
-| ------------------------- | ---------------------------- | ---------------- |
-| Landing Pages             | Focused build                | 1-2 weeks        |
-| WordPress → Next.js       | Focused build                | 1-2 weeks        |
-| AI Consulting             | Discovery or focused build   | 2-4 weeks        |
-| MVP Development           | Custom system                | 3-5 weeks        |
-| AI and Automation         | Custom system                | 3-6 weeks        |
-| Full-Stack Applications   | Custom system                | 4-10 weeks       |
+- **Launch**: landing pages, MVPs, website workflow layers, and WordPress or legacy migrations.
+- **Operate**: internal tools, dashboards, client portals, booking platforms, and full-stack business applications.
+- **Automate**: AI consulting, AI automation, company brain / memory systems, and agentic workflow automation.
 
-See [webvise.io/services](https://webvise.io/services) for full details.
+See [webvise.io/#services](https://webvise.io/#services) for the current model.
 
 ## Free Tools
 

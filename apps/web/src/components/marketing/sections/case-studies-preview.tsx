@@ -1,10 +1,11 @@
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { getLocale, getTranslations } from "next-intl/server";
 
-import { MarketingTag } from "@/components/marketing/marketing-tag";
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import StaggerChildren from "@/components/marketing/stagger-children";
 import {
+	Caption,
 	H2,
 	H3,
 	inlineLinkClassName,
@@ -50,7 +51,7 @@ export default async function CaseStudiesPreview() {
 						key={cs.slug}
 					>
 						{cs.coverImage && (
-							<div className="relative aspect-[2/1] w-full overflow-hidden">
+							<div className="media-frame relative aspect-[2/1] w-full">
 								<Image
 									alt={`${cs.client} - ${cs.title}`}
 									className="object-cover transition-all duration-500 group-hover:brightness-110"
@@ -60,10 +61,15 @@ export default async function CaseStudiesPreview() {
 								/>
 							</div>
 						)}
-						<div className="p-6 md:p-7">
-							<MarketingTag variant="brand">{cs.industry}</MarketingTag>
+						<div className="flex flex-1 flex-col p-6 md:p-7">
+							<Caption className="block text-brand-readable">
+								{cs.industry}
+							</Caption>
 							<H3 className="mt-3">{cs.title}</H3>
 							<Muted className="mt-3">{cs.excerpt}</Muted>
+							<div className="mt-auto flex items-center justify-end pt-6">
+								<ArrowRight className="h-4 w-4 text-brand-icon transition-transform duration-300 group-hover:translate-x-1" />
+							</div>
 						</div>
 					</Link>
 				))}

@@ -6,13 +6,18 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Caption } from "@/components/ui/typography";
+import { cn } from "@/lib/utils";
 
 export default function BlogShare({
+	className,
 	url,
 	title,
+	withBorder = true,
 }: {
+	className?: string;
 	url: string;
 	title: string;
+	withBorder?: boolean;
 }) {
 	const t = useTranslations("blog");
 	const [copied, setCopied] = useState(false);
@@ -41,7 +46,13 @@ export default function BlogShare({
 	}, [url]);
 
 	return (
-		<div className="flex flex-wrap items-start gap-x-8 gap-y-4 border-border/40 border-t pt-6">
+		<div
+			className={cn(
+				"flex flex-wrap items-start gap-x-8 gap-y-4",
+				withBorder && "border-border/40 border-t pt-6",
+				className
+			)}
+		>
 			<div>
 				<Caption className="block">{t("shareArticle")}</Caption>
 				<div className="mt-1 flex items-center gap-1.5">

@@ -8,7 +8,6 @@ import { NewsletterForm } from "@/components/marketing/newsletter-form";
 import { marketingSurfaceClassName } from "@/components/marketing/section-wrapper";
 import { SocialIconButton } from "@/components/marketing/social-icon-button";
 import { Caption, Label, Muted, Small } from "@/components/ui/typography";
-import { services } from "@/data/services";
 import { socials } from "@/data/socials";
 import { Link } from "@/i18n/navigation";
 import { homepageSectionHref } from "@/lib/homepage-section-href";
@@ -24,10 +23,14 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 
 	const companyLinks = [
 		{ hash: "services", label: t("links.services") },
-		{ hash: "benefits", label: t("links.benefits") },
+		{ hash: "senior-led", label: t("links.benefits") },
 		{ hash: "process", label: t("links.process") },
-		{ hash: "scope", label: t("links.pricing") },
 		{ hash: "contact", label: t("links.contact") },
+	];
+	const serviceLinks = [
+		{ hash: "services-launch", label: ts("groups.launch.title") },
+		{ hash: "services-operate", label: ts("groups.operate.title") },
+		{ hash: "services-automate", label: ts("groups.automate.title") },
 	];
 
 	const year = new Date().getFullYear();
@@ -93,14 +96,14 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 								{t("sections.services")}
 							</Caption>
 							<ul className="space-y-3">
-								{services.map(({ slug, translationKey }) => (
-									<li key={slug}>
-										<Link
+								{serviceLinks.map(({ hash, label }) => (
+									<li key={hash}>
+										<a
 											className="text-muted-foreground text-sm transition-colors hover:text-foreground"
-											href={{ pathname: "/services/[slug]", params: { slug } }}
+											href={homepageSectionHref(hash, locale)}
 										>
-											{ts(`${translationKey}.title`)}
-										</Link>
+											{label}
+										</a>
 									</li>
 								))}
 							</ul>
@@ -122,7 +125,6 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 								</li>
 								<li className="text-muted-foreground">{t("address.street")}</li>
 								<li className="text-muted-foreground">{t("address.city")}</li>
-								<li className="text-muted-foreground">{t("address.hours")}</li>
 							</ul>
 						</div>
 

@@ -50,6 +50,38 @@ const nextConfig: NextConfig = {
 				destination: "/de/datenschutz",
 				permanent: true,
 			},
+			{
+				source: "/systems/ai-assisted-workflow-automation",
+				destination: "/services/agentic-workflow-automation",
+				permanent: true,
+			},
+			{
+				source:
+					"/:locale(en|de|fr|es|nl|pl|it)/systems/ai-assisted-workflow-automation",
+				destination: "/:locale/services/agentic-workflow-automation",
+				permanent: true,
+			},
+			{
+				source: "/services/ai-assisted-workflow-automation",
+				destination: "/services/agentic-workflow-automation",
+				permanent: true,
+			},
+			{
+				source:
+					"/:locale(en|de|fr|es|nl|pl|it)/services/ai-assisted-workflow-automation",
+				destination: "/:locale/services/agentic-workflow-automation",
+				permanent: true,
+			},
+			{
+				source: "/systems/:slug",
+				destination: "/services/:slug",
+				permanent: true,
+			},
+			{
+				source: "/:locale(en|de|fr|es|nl|pl|it)/systems/:slug",
+				destination: "/:locale/services/:slug",
+				permanent: true,
+			},
 		];
 	},
 };

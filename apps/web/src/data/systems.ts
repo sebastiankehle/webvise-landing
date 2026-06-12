@@ -1,5 +1,6 @@
 import type { AnimatedIcon } from "@/components/marketing/card-hover-icon";
 import { BotMessageSquareIcon } from "@/components/ui/bot-message-square";
+import { BrainIcon } from "@/components/ui/brain";
 import { CalendarCheckIcon } from "@/components/ui/calendar-check";
 import { IdCardIcon } from "@/components/ui/id-card";
 import { LayoutGridIcon } from "@/components/ui/layout-grid";
@@ -15,6 +16,7 @@ export interface CustomSystem {
 	proof: {
 		caseStudySlug: string;
 		image: string;
+		imageClassName?: string;
 	};
 	relatedSlugs: string[];
 	slug: string;
@@ -36,12 +38,12 @@ export const customSystems: CustomSystem[] = [
 			image: "/images/case-studies/relay/margin-dashboard.webp",
 		},
 		relatedSlugs: [
-			"ai-assisted-workflow-automation",
+			"agentic-workflow-automation",
 			"client-portals-business-apps",
 		],
 	},
 	{
-		slug: "ai-assisted-workflow-automation",
+		slug: "agentic-workflow-automation",
 		translationKey: "aiWorkflows",
 		icon: BotMessageSquareIcon,
 		exampleCount: 6,
@@ -54,6 +56,21 @@ export const customSystems: CustomSystem[] = [
 			image: "/images/case-studies/rautenberg-pitch-engine/pipeline.webp",
 		},
 		relatedSlugs: ["internal-tools-dashboards", "website-to-app-upgrades"],
+	},
+	{
+		slug: "company-brain-memory-systems",
+		translationKey: "companyBrain",
+		icon: BrainIcon,
+		exampleCount: 6,
+		capabilityCount: 6,
+		moduleCount: 6,
+		outcomeCount: 4,
+		faqCount: 3,
+		proof: {
+			caseStudySlug: "morrow",
+			image: "/images/case-studies/morrow/memory-health-dashboard.webp",
+		},
+		relatedSlugs: ["agentic-workflow-automation", "internal-tools-dashboards"],
 	},
 	{
 		slug: "client-portals-business-apps",
@@ -95,13 +112,10 @@ export const customSystems: CustomSystem[] = [
 		outcomeCount: 4,
 		faqCount: 3,
 		proof: {
-			caseStudySlug: "mp-bau-construction",
-			image: "/images/case-studies/mp-bau-construction/hero.webp",
+			caseStudySlug: "old-world-labs",
+			image: "/images/case-studies/old-world-labs/benefits.webp",
 		},
-		relatedSlugs: [
-			"internal-tools-dashboards",
-			"ai-assisted-workflow-automation",
-		],
+		relatedSlugs: ["client-portals-business-apps", "internal-tools-dashboards"],
 	},
 ];
 

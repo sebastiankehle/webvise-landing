@@ -22,9 +22,7 @@ export function RelatedLinkCardContent({
 		<>
 			<CardHoverIcon className="mt-0.5 shrink-0 text-brand-icon" icon={icon} />
 			<div className="min-w-0 flex-1">
-				<H3 className="transition-colors group-hover:text-brand-readable">
-					{title}
-				</H3>
+				<H3>{title}</H3>
 				<Muted className="mt-1 line-clamp-2 leading-relaxed">
 					{description}
 				</Muted>

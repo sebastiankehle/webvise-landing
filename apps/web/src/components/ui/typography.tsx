@@ -169,7 +169,7 @@ function QuoteMark({
 	return (
 		<span
 			className={cn(
-				"block select-none font-display text-5xl text-brand-icon leading-none",
+				"block select-none font-display text-3xl text-brand-icon leading-none",
 				className
 			)}
 			data-slot="quote-mark"

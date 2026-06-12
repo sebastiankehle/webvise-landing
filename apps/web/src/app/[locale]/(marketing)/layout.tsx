@@ -18,19 +18,23 @@ export default async function MarketingLayout({
 	const locale = await getLocale();
 	const recentPosts = getBlogIndex(locale)
 		.slice(0, 3)
-		.map(({ slug, title, date, readingTime }) => ({
+		.map(({ slug, title, date, excerpt, tags, readingTime }) => ({
 			slug,
 			title,
 			date,
+			excerpt,
+			tags,
 			readingTime,
 		}));
 
 	const featuredCaseStudies = getFeaturedCaseStudies(locale).map(
-		({ slug, client, title, excerpt, coverImage }) => ({
+		({ slug, client, title, excerpt, kind, services, coverImage }) => ({
 			slug,
 			client,
 			title,
 			excerpt,
+			kind,
+			services,
 			coverImage,
 		})
 	);

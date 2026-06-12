@@ -23,7 +23,7 @@ export default async function BlogPreview() {
 	}
 
 	return (
-		<SectionWrapper hatch id="blog" surface="alternate">
+		<SectionWrapper hatch id="blog" surface="inverted">
 			<div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-end">
 				<div className="max-w-[660px]">
 					<H2>{t("title")}</H2>
@@ -59,12 +59,10 @@ export default async function BlogPreview() {
 								{post.readingTime} {t("minRead")}
 							</Caption>
 						</div>
-						<H3 className="mt-5 transition-colors group-hover:text-brand-readable">
-							{post.title}
-						</H3>
+						<H3 className="mt-5">{post.title}</H3>
 						<Muted className="mt-3 line-clamp-3">{post.excerpt}</Muted>
 						<div className="mt-auto flex items-center justify-end pt-6">
-							<ArrowRight className="h-4 w-4 -translate-x-1 text-brand-icon opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100" />
+							<ArrowRight className="h-4 w-4 text-brand-icon transition-transform duration-300 group-hover:translate-x-1" />
 						</div>
 					</Link>
 				))}

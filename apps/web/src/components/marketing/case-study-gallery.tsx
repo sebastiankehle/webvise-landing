@@ -26,29 +26,26 @@ export default function CaseStudyGallery({
 
 	return (
 		<>
-			<div className="grid items-start gap-5 md:grid-cols-3">
+			<div className="grid gap-5 md:grid-cols-3">
 				{items.map((src, i) => (
 					<button
-						className="surface-card group relative cursor-zoom-in overflow-hidden outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+						aria-label={t("expandImage")}
+						className="surface-card media-frame group relative min-h-[220px] cursor-zoom-in outline-none focus-visible:ring-2 focus-visible:ring-ring/50 md:min-h-[260px]"
 						key={src}
 						onClick={() => setLightboxSrc(src)}
 						type="button"
 					>
 						<Image
 							alt={`${alt} - screenshot ${i + 1}`}
-							className="block h-auto w-full transition-opacity group-hover:opacity-90"
+							className="object-cover object-left-top transition-transform duration-700 ease-out group-hover:scale-[1.02]"
 							decoding="async"
-							height={766}
+							fill
 							loading="lazy"
 							quality={95}
-							sizes="(max-width: 768px) 100vw, (max-width: 1320px) 33vw, 440px"
+							sizes="(max-width: 768px) 100vw, (max-width: 1320px) 33vw, 420px"
 							src={src}
-							width={1512}
 						/>
-						<CaseStudyImageAction
-							clickLabel={t("expandImage")}
-							tapLabel={t("tapImage")}
-						/>
+						<CaseStudyImageAction />
 					</button>
 				))}
 			</div>

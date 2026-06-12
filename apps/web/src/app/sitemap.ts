@@ -2,8 +2,7 @@ import type { MetadataRoute } from "next";
 
 import { blogPosts } from "@/data/blog";
 import { getCaseStudies } from "@/data/case-studies";
-import { services } from "@/data/services";
-import { customSystems } from "@/data/systems";
+import { offerings } from "@/data/offerings";
 import { routing } from "@/i18n/routing";
 
 const baseUrl = "https://webvise.io";
@@ -93,16 +92,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
 		}),
 	];
 
-	const servicePages = services.flatMap((service) =>
-		entriesForPath(`/services/${service.slug}`, {
-			lastModified: now,
-			changeFrequency: "monthly",
-			priority: 0.8,
-		})
-	);
-
-	const systemPages = customSystems.flatMap((system) =>
-		entriesForPath(`/systems/${system.slug}`, {
+	const servicePages = offerings.flatMap((offering) =>
+		entriesForPath(`/services/${offering.slug}`, {
 			lastModified: now,
 			changeFrequency: "monthly",
 			priority: 0.8,
@@ -125,11 +116,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
 		})
 	);
 
-	return [
-		...staticPages,
-		...servicePages,
-		...systemPages,
-		...caseStudyPages,
-		...blogPages,
-	];
+	return [...staticPages, ...servicePages, ...caseStudyPages, ...blogPages];
 }

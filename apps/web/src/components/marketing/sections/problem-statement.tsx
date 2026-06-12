@@ -1,18 +1,42 @@
 import { getTranslations } from "next-intl/server";
+import type { CSSProperties } from "react";
 
+import SectionWrapper from "@/components/marketing/section-wrapper";
 import { DisplayH2 } from "@/components/ui/typography";
+
+function ScrollFillHeading({ text }: { text: string }) {
+	const chars = Array.from(text).map((char, index) => ({
+		char,
+		index,
+		key: `${text.slice(0, index)}${char}`,
+	}));
+
+	return (
+		<DisplayH2 className="max-w-none md:text-5xl">
+			{chars.map(({ char, index, key }) => (
+				<span
+					className="scroll-fill-char"
+					key={key}
+					style={
+						{
+							"--i": index,
+							"--n": chars.length,
+						} as CSSProperties
+					}
+				>
+					{char}
+				</span>
+			))}
+		</DisplayH2>
+	);
+}
 
 export default async function ProblemStatement() {
 	const t = await getTranslations("problemStatement");
 
 	return (
-		<section className="py-28 md:py-44">
-			<div className="mx-auto max-w-[1320px] px-6">
-				<DisplayH2 className="max-w-[840px]">
-					<span className="text-foreground">{t("known")}</span>{" "}
-					<span className="text-muted-foreground">{t("pain")}</span>
-				</DisplayH2>
-			</div>
-		</section>
+		<SectionWrapper className="md:py-28" id="problem" surface="alternate">
+			<ScrollFillHeading text={`${t("known")} ${t("pain")}`} />
+		</SectionWrapper>
 	);
 }

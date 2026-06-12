@@ -476,8 +476,6 @@ export default function WpHealthReport() {
 										</li>
 									))}
 								</ul>
-
-								<Caption className="mt-6 block">{t("hero.trustLine")}</Caption>
 							</div>
 
 							<div className="flex flex-col gap-12 self-stretch lg:pt-2">
@@ -542,9 +540,6 @@ export default function WpHealthReport() {
 											</SubmitButton>
 										)}
 									</form.Subscribe>
-									<Caption className="block text-center">
-										{t("form.noSignup")}
-									</Caption>
 									<div aria-atomic="true" aria-live="polite">
 										{errorMessage && (
 											<Body className="text-destructive text-sm" role="alert">
@@ -596,10 +591,6 @@ export default function WpHealthReport() {
 				)}
 
 				{phase === "full" && report && <ReportResults data={report} />}
-			</GridContainer>
-
-			<GridContainer className="mt-12" width="media">
-				<Caption className="block max-w-[560px]">{t("trust")}</Caption>
 			</GridContainer>
 		</section>
 	);

@@ -22,7 +22,7 @@ export default async function Support() {
 	const [locale, t, td] = await Promise.all([
 		getLocale(),
 		getTranslations("support"),
-		getTranslations("systemDetail"),
+		getTranslations("serviceDetail"),
 	]);
 	const proofCaseStudy = getCaseStudyBySlug("relay", locale);
 
@@ -55,7 +55,7 @@ export default async function Support() {
 				</StaggerChildren>
 				{proofCaseStudy && (
 					<Link
-						className="surface-card group relative block self-stretch overflow-hidden outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+						className="surface-card media-frame group relative block self-stretch outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
 						href={{
 							pathname: "/case-studies/[slug]",
 							params: { slug: proofCaseStudy.slug },
@@ -72,7 +72,12 @@ export default async function Support() {
 						</div>
 						<div className="flex items-center justify-between gap-4 border-border/60 border-t px-5 py-3.5">
 							<Caption className="text-brand-readable">
-								{td("proofLabel")} &middot; {proofCaseStudy.client}
+								{td(
+									proofCaseStudy.kind === "concept"
+										? "conceptStudyLabel"
+										: "recentProjectLabel",
+									{ client: proofCaseStudy.client }
+								)}
 							</Caption>
 							<ArrowRight className="h-3.5 w-3.5 shrink-0 text-muted-foreground transition-all group-hover:translate-x-0.5 group-hover:text-brand-readable" />
 						</div>

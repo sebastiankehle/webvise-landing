@@ -3,9 +3,20 @@ import { join } from "node:path";
 import { z } from "zod";
 
 export const CASE_STUDY_COLLECTIONS = {
-	featured: ["rautenberg-pitch-engine", "old-world-labs", "webvise"],
+	featured: ["rautenberg-pitch-engine", "ohyp-fintech", "relay"],
 	concept: ["relay", "keel", "morrow"],
 } as const;
+
+const CASE_STUDY_ORDER = [
+	"rautenberg-pitch-engine",
+	"ohyp-fintech",
+	"relay",
+	"keel",
+	"morrow",
+	"mp-bau-construction",
+	"old-world-labs",
+	"webvise",
+] as const;
 
 export type CaseStudyCollection = keyof typeof CASE_STUDY_COLLECTIONS;
 export type CaseStudyKind = "client" | "concept";
@@ -198,6 +209,27 @@ function byMostRecentDate(a: CaseStudy, b: CaseStudy): number {
 	return new Date(b.date).getTime() - new Date(a.date).getTime();
 }
 
+function byEditorialOrder(a: CaseStudy, b: CaseStudy): number {
+	const aIndex = CASE_STUDY_ORDER.indexOf(
+		a.slug as (typeof CASE_STUDY_ORDER)[number]
+	);
+	const bIndex = CASE_STUDY_ORDER.indexOf(
+		b.slug as (typeof CASE_STUDY_ORDER)[number]
+	);
+
+	if (aIndex !== -1 && bIndex !== -1) {
+		return aIndex - bIndex;
+	}
+	if (aIndex !== -1) {
+		return -1;
+	}
+	if (bIndex !== -1) {
+		return 1;
+	}
+
+	return byMostRecentDate(a, b);
+}
+
 function toCaseStudy(slug: string, locale: string): CaseStudy | null {
 	const enFile = getEnglishFile(slug);
 	if (!enFile) {
@@ -241,7 +273,7 @@ export function getCaseStudies(
 	const caseStudies = getSlugs()
 		.map((slug) => toCaseStudy(slug, locale))
 		.filter((cs): cs is CaseStudy => cs !== null)
-		.sort(byMostRecentDate);
+		.sort(byEditorialOrder);
 
 	if (query.kind) {
 		return caseStudies.filter((caseStudy) => caseStudy.kind === query.kind);

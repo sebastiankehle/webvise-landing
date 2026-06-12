@@ -50,14 +50,14 @@
 	--success-base: oklch(0.54 0.18 148);
 	--grid-line: oklch(0.145 0 0 / 11%);
 	--grid-line-strong: oklch(0.145 0 0 / 17%);
-	--alternate-background: oklch(0.9885 0.0025 250);
+	--alternate-background: oklch(0.969 0.0035 250);
 	--alternate-foreground: oklch(0.145 0 0);
 	--alternate-card: oklch(1 0 0);
-	--alternate-muted: oklch(0.958 0.0025 250);
-	--alternate-border: oklch(0.922 0.002 250);
+	--alternate-muted: oklch(0.94 0.0035 250);
+	--alternate-border: oklch(0.885 0.003 250);
 	--alternate-muted-foreground: oklch(0.44 0 0);
-	--alternate-grid-line: oklch(0.145 0 0 / 11%);
-	--alternate-grid-line-strong: oklch(0.145 0 0 / 17%);
+	--alternate-grid-line: oklch(0.145 0 0 / 9%);
+	--alternate-grid-line-strong: oklch(0.145 0 0 / 14%);
 	--surface-inverted: oklch(0.11 0.008 250);
 	--surface-inverted-secondary: oklch(0.14 0.015 250);
 	--surface-inverted-foreground: oklch(0.94 0.005 80);
@@ -136,14 +136,14 @@
 	--success-base: oklch(0.54 0.18 148);
 	--grid-line: oklch(0.18 0.012 250 / 7%);
 	--grid-line-strong: oklch(0.18 0.012 250 / 12%);
-	--alternate-background: oklch(0.984 0.0025 245);
+	--alternate-background: oklch(0.965 0.006 245);
 	--alternate-foreground: oklch(0.18 0.012 250);
 	--alternate-card: oklch(1 0 0);
-	--alternate-muted: oklch(0.954 0.008 245);
+	--alternate-muted: oklch(0.932 0.008 245);
 	--alternate-muted-foreground: oklch(0.46 0.014 250);
-	--alternate-border: oklch(0.75 0.016 245);
-	--alternate-grid-line: oklch(0.18 0.012 250 / 8%);
-	--alternate-grid-line-strong: oklch(0.18 0.012 250 / 14%);
+	--alternate-border: oklch(0.72 0.016 245);
+	--alternate-grid-line: oklch(0.18 0.012 250 / 9%);
+	--alternate-grid-line-strong: oklch(0.18 0.012 250 / 15%);
 	--surface-inverted: oklch(0.14 0.014 250);
 	--surface-inverted-secondary: oklch(0.2 0.016 250);
 	--surface-inverted-foreground: oklch(0.95 0.004 240);
@@ -393,14 +393,14 @@
 	--success-base: oklch(0.32 0 0);
 	--grid-line: oklch(0 0 0 / 7%);
 	--grid-line-strong: oklch(0 0 0 / 12%);
-	--alternate-background: oklch(0.984 0 0);
+	--alternate-background: oklch(0.965 0 0);
 	--alternate-foreground: oklch(0.08 0 0);
 	--alternate-card: oklch(1 0 0);
-	--alternate-muted: oklch(0.954 0 0);
+	--alternate-muted: oklch(0.934 0 0);
 	--alternate-muted-foreground: oklch(0.36 0 0);
-	--alternate-border: oklch(0.66 0 0);
-	--alternate-grid-line: oklch(0 0 0 / 10%);
-	--alternate-grid-line-strong: oklch(0 0 0 / 16%);
+	--alternate-border: oklch(0.62 0 0);
+	--alternate-grid-line: oklch(0 0 0 / 9%);
+	--alternate-grid-line-strong: oklch(0 0 0 / 15%);
 	--surface-inverted: oklch(0.08 0 0);
 	--surface-inverted-secondary: oklch(0.08 0 0);
 	--surface-inverted-foreground: oklch(0.96 0 0);
@@ -760,6 +760,11 @@
 	border-radius: var(--radius-2xl);
 }
 
+.media-frame {
+	overflow: hidden;
+	border-radius: var(--radius-2xl) 0 var(--radius-2xl) 0;
+}
+
 a.surface-card,
 button.surface-card {
 	transition: background-color 0.2s ease;
@@ -885,6 +890,35 @@ html.mono-dark .font-display {
 
 .reveal-visible {
 	animation: stagger-reveal 0.7s cubic-bezier(0.21, 0.47, 0.32, 0.98) both;
+}
+
+/* Scroll-driven per-character fill: statement ink-fills as it enters view */
+@keyframes scroll-fill-char-anim {
+	to {
+		color: var(--foreground);
+	}
+}
+
+.scroll-fill-char {
+	color: color-mix(in oklab, var(--foreground) 34%, transparent);
+	animation: scroll-fill-char-anim linear both;
+	animation-timeline: view();
+	animation-range: cover calc(12% + (var(--i) / var(--n)) * 55%) cover
+		calc(20% + (var(--i) / var(--n)) * 55%);
+}
+
+@supports not (animation-timeline: view()) {
+	.scroll-fill-char {
+		color: var(--foreground);
+		animation: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.scroll-fill-char {
+		color: var(--foreground);
+		animation: none;
+	}
 }
 
 /* ── Logo hover animation - segments assemble clockwise ─── */

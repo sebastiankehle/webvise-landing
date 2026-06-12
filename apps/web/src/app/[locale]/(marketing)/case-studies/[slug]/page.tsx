@@ -1,24 +1,31 @@
-import { ExternalLink } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
+import NextLink from "next/link";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
+
 import JsonLd from "@/components/json-ld";
 import CaseStudyGallery from "@/components/marketing/case-study-gallery";
 import CaseStudyHeroImage from "@/components/marketing/case-study-hero-image";
+import { MarketingTag } from "@/components/marketing/marketing-tag";
 import {
+	RelatedLinkCardContent,
+	relatedLinkCardClassName,
+} from "@/components/marketing/related-link-card";
+import SectionWrapper, {
 	ConstructedGrid,
 	DetailPageSection,
 	GridContainer,
 } from "@/components/marketing/section-wrapper";
-import { TechBadge } from "@/components/marketing/tech-badge";
+import { TrackClick } from "@/components/marketing/track-click";
+import { Button } from "@/components/ui/button";
 import {
 	Caption,
 	H1,
 	H2,
 	H3,
-	inlineLinkClassName,
 	Lead,
+	Muted,
 	QuoteMark,
 	Small,
 } from "@/components/ui/typography";
@@ -27,8 +34,34 @@ import {
 	getCaseStudyBySlug,
 	getRelatedCaseStudies,
 } from "@/data/case-studies";
+import {
+	getOfferingBySlug,
+	getOfferingIcon,
+	getOfferingTranslationKey,
+	type Offering,
+} from "@/data/offerings";
 import { Link } from "@/i18n/navigation";
+import { homepageSectionHref } from "@/lib/homepage-section-href";
 import { generateAlternates, localizedUrl } from "@/lib/seo";
+
+function CaseStudySummary({
+	items,
+}: {
+	items: Array<{ label: string; value: string }>;
+}) {
+	return (
+		<dl className="mt-10 grid max-w-xl grid-cols-2 gap-5">
+			{items.map((item) => (
+				<div key={item.label}>
+					<dt className="text-muted-foreground text-xs">{item.label}</dt>
+					<dd className="mt-1.5 text-foreground text-sm leading-6">
+						{item.value}
+					</dd>
+				</div>
+			))}
+		</dl>
+	);
+}
 
 export function generateStaticParams() {
 	return getCaseStudies("en").map((cs) => ({ slug: cs.slug }));
@@ -91,11 +124,38 @@ export default async function CaseStudyPage({
 		notFound();
 	}
 
-	const t = await getTranslations("caseStudies");
-	const tschema = await getTranslations("schema");
+	const [t, td, ts, tc, tschema] = await Promise.all([
+		getTranslations("caseStudies"),
+		getTranslations("serviceDetail"),
+		getTranslations("services"),
+		getTranslations("customSystems"),
+		getTranslations("schema"),
+	]);
 	const csUrl = localizedUrl(`/case-studies/${slug}`, locale);
-
 	const relatedCaseStudies = getRelatedCaseStudies(slug, locale);
+	const relatedOfferings = cs.services
+		.map((serviceSlug) => getOfferingBySlug(serviceSlug))
+		.filter((offering): offering is Offering => Boolean(offering))
+		.slice(0, 2);
+	const summaryItems = [
+		{ label: t("location"), value: cs.location ?? "" },
+		{ label: t("deliveryTime"), value: cs.deliveryTime ?? "" },
+	];
+
+	const getRelatedTitle = (offering: Offering) => {
+		const key = getOfferingTranslationKey(offering);
+
+		return offering.kind === "service"
+			? ts(`${key}.title`)
+			: tc(`items.${key}.title`);
+	};
+	const getRelatedDescription = (offering: Offering) => {
+		const key = getOfferingTranslationKey(offering);
+
+		return offering.kind === "service"
+			? ts(`${key}.tagline`)
+			: tc(`items.${key}.description`);
+	};
 
 	const jsonLd = {
 		"@context": "https://schema.org",
@@ -167,106 +227,65 @@ export default async function CaseStudyPage({
 		<>
 			<JsonLd data={jsonLd} />
 
-			{/* Header */}
 			<section className="relative pt-32 pb-24 md:pt-44 md:pb-36">
-				<ConstructedGrid hatch variant="page" />
+				<ConstructedGrid variant="page" />
 				<GridContainer>
-					<div className="grid items-start gap-12 md:grid-cols-3 md:gap-16">
-						{/* Title + info */}
-						<div className="md:col-span-2">
-							<Caption>
+					<div className="grid items-center gap-14 lg:grid-cols-[1.02fr_0.98fr] lg:gap-20">
+						<div>
+							<Caption className="text-brand-readable">
 								{cs.client} &middot; {cs.industry}
 							</Caption>
-							<H1 className="mt-3">{cs.title}</H1>
-							<Lead className="mt-5 max-w-[620px]">{cs.excerpt}</Lead>
-
-							{/* Metadata bar */}
-							<div className="mt-10 flex flex-wrap items-start gap-x-8 gap-y-4 border-border/40 border-t pt-6">
-								{cs.location && (
-									<div>
-										<Caption className="block">{t("location")}</Caption>
-										<Small className="mt-1 block text-foreground">
-											{cs.location}
-										</Small>
-									</div>
-								)}
-								{cs.deliveryTime && (
-									<div>
-										<Caption className="block">{t("deliveryTime")}</Caption>
-										<Small className="mt-1 block text-foreground">
-											{cs.deliveryTime}
-										</Small>
-									</div>
-								)}
-								<div>
-									<Caption className="block">{t("liveProject")}</Caption>
-									{(() => {
-										if (cs.liveUrl) {
-											return (
-												<a
-													className={`${inlineLinkClassName} mt-1 inline-flex items-center gap-1.5`}
-													href={cs.liveUrl}
-													rel="noopener noreferrer"
-													target="_blank"
-												>
-													{cs.liveUrlLabel ?? t("visitSite")}
-													<ExternalLink className="h-3 w-3" />
-												</a>
-											);
-										}
-										if (cs.liveUrlLabel) {
-											return (
-												<Small className="mt-1 block text-foreground">
-													{cs.liveUrlLabel}
-												</Small>
-											);
-										}
-										return (
-											<Small className="mt-1 block">{t("launchingSoon")}</Small>
-										);
-									})()}
-								</div>
-							</div>
+							<H1 className="mt-4 max-w-3xl md:text-4xl">{cs.title}</H1>
+							<Lead className="mt-5 max-w-xl">{cs.excerpt}</Lead>
+							<CaseStudySummary items={summaryItems} />
 						</div>
 
-						{/* Tech stack box */}
-						<div className="surface-card p-6 md:p-8">
-							<Caption className="mb-5 block">{t("techStackLabel")}</Caption>
-							<div className="flex flex-wrap gap-2">
-								{cs.techStack.map((tech) => (
-									<TechBadge key={tech} name={tech} />
-								))}
-							</div>
-						</div>
+						{cs.coverImage && (
+							<CaseStudyHeroImage
+								alt={`${cs.client} - ${cs.title}`}
+								fullPageImage={cs.fullPageImage}
+								src={cs.coverImage}
+							/>
+						)}
 					</div>
 				</GridContainer>
 			</section>
 
-			{/* Hero image + Testimonial */}
-			<section className="relative py-20 md:py-28">
-				<ConstructedGrid hatch variant="content" />
-				<div className="relative mx-auto max-w-[1320px]">
-					<div className="grid items-start gap-5 md:grid-cols-3">
-						{/* Hero - spans 2 cols */}
-						{cs.coverImage && (
-							<div className="md:col-span-2">
-								<CaseStudyHeroImage
-									alt={`${cs.client} - ${cs.title}`}
-									fullPageImage={cs.fullPageImage}
-									src={cs.coverImage}
-								/>
-							</div>
-						)}
-						{/* Quote card */}
-						{cs.testimonial && (
-							<figure className="surface-card flex flex-col justify-between p-8 md:p-10">
-								<div>
-									<QuoteMark />
-									<blockquote className="mt-3 text-muted-foreground text-sm leading-relaxed">
-										{cs.testimonial.quote}
-									</blockquote>
-								</div>
-								<figcaption className="mt-8 border-border/40 border-t pt-5">
+			<SectionWrapper
+				className="pt-8 pb-20 md:pt-12 md:pb-28"
+				id="challenge-solution"
+			>
+				<div className="grid gap-16 md:grid-cols-2 md:gap-20">
+					<div>
+						<H3>{t("challenge")}</H3>
+						<Lead className="mt-4 leading-relaxed">{cs.challenge}</Lead>
+					</div>
+					<div>
+						<H3>{t("solution")}</H3>
+						<Lead className="mt-4 leading-relaxed">{cs.solution}</Lead>
+					</div>
+				</div>
+			</SectionWrapper>
+
+			{cs.images && cs.images.length > 0 && (
+				<SectionWrapper
+					className="pt-8 pb-20 md:pt-12 md:pb-28"
+					id="case-study-images"
+				>
+					<CaseStudyGallery alt={cs.client} images={cs.images} />
+				</SectionWrapper>
+			)}
+
+			<SectionWrapper id="case-study-build" surface="inverted">
+				<div className="grid items-start gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20">
+					<div>
+						{cs.testimonial ? (
+							<figure>
+								<QuoteMark />
+								<blockquote className="mt-4 max-w-2xl text-base text-muted-foreground leading-7">
+									{cs.testimonial.quote}
+								</blockquote>
+								<figcaption className="mt-8 border-grid-line border-t pt-5">
 									<Small className="text-foreground">
 										{cs.testimonial.author}
 									</Small>
@@ -275,46 +294,42 @@ export default async function CaseStudyPage({
 									</Caption>
 								</figcaption>
 							</figure>
+						) : (
+							<div>
+								<H3>{cs.client}</H3>
+								<Lead className="mt-4 max-w-2xl leading-relaxed">
+									{cs.excerpt}
+								</Lead>
+							</div>
 						)}
 					</div>
+
+					{cs.techStack.length > 0 && (
+						<div>
+							<H3>{t("techStackLabel")}</H3>
+							<div className="surface-card mt-8 flex flex-wrap gap-2 p-5">
+								{cs.techStack.map((tech) => (
+									<MarketingTag
+										className="bg-foreground/10 text-foreground"
+										key={tech}
+										variant="subtle"
+									>
+										{tech}
+									</MarketingTag>
+								))}
+							</div>
+						</div>
+					)}
 				</div>
-			</section>
+			</SectionWrapper>
 
-			{/* Challenge / Solution */}
-			<section className="relative py-20 md:py-28">
-				<ConstructedGrid hatch variant="content" />
-				<GridContainer>
-					<div className="grid gap-16 md:grid-cols-2 md:gap-20">
-						<div>
-							<H2>{t("challenge")}</H2>
-							<Lead className="mt-4 leading-relaxed">{cs.challenge}</Lead>
-						</div>
-						<div>
-							<H2>{t("solution")}</H2>
-							<Lead className="mt-4 leading-relaxed">{cs.solution}</Lead>
-						</div>
-					</div>
-				</GridContainer>
-			</section>
-
-			{/* Image gallery */}
-			{cs.images && cs.images.length > 0 && (
-				<section className="relative py-20 md:py-28">
-					<ConstructedGrid hatch variant="content" />
-					<GridContainer>
-						<CaseStudyGallery alt={cs.client} images={cs.images} />
-					</GridContainer>
-				</section>
-			)}
-
-			{/* Related case studies */}
 			{relatedCaseStudies.length > 0 && (
 				<DetailPageSection className="pt-20 pb-28" id="related-case-studies">
 					<H2>{t("relatedTitle")}</H2>
 					<div className="mt-10 grid gap-6 md:grid-cols-2">
 						{relatedCaseStudies.map((related) => (
 							<Link
-								className="surface-card group overflow-hidden outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+								className="surface-card media-frame group outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
 								href={{
 									pathname: "/case-studies/[slug]",
 									params: { slug: related.slug },
@@ -336,15 +351,108 @@ export default async function CaseStudyPage({
 									<Caption>
 										{related.client} &middot; {related.industry}
 									</Caption>
-									<H3 className="mt-2 text-lg transition-colors group-hover:text-brand-readable">
-										{related.title}
-									</H3>
+									<H3 className="mt-2 text-base">{related.title}</H3>
 								</div>
 							</Link>
 						))}
 					</div>
 				</DetailPageSection>
 			)}
+
+			<CaseStudyNextStep
+				ctaButton={td("ctaButton")}
+				ctaDescription={td("ctaDescription")}
+				ctaEyebrow={td("ctaEyebrow")}
+				ctaTitle={td("ctaTitle")}
+				getRelatedDescription={getRelatedDescription}
+				getRelatedTitle={getRelatedTitle}
+				locale={locale}
+				relatedOfferings={relatedOfferings}
+				relatedTitle={td("relatedOfferingsTitle")}
+			/>
 		</>
+	);
+}
+
+function CaseStudyNextStep({
+	ctaButton,
+	ctaDescription,
+	ctaEyebrow,
+	ctaTitle,
+	getRelatedDescription,
+	getRelatedTitle,
+	locale,
+	relatedOfferings,
+	relatedTitle,
+}: {
+	ctaButton: string;
+	ctaDescription: string;
+	ctaEyebrow: string;
+	ctaTitle: string;
+	getRelatedDescription: (offering: Offering) => string;
+	getRelatedTitle: (offering: Offering) => string;
+	locale: string;
+	relatedOfferings: Offering[];
+	relatedTitle: string;
+}) {
+	return (
+		<SectionWrapper id="case-study-next-step" surface="inverted">
+			<div className="grid gap-12 lg:grid-cols-[0.86fr_1.14fr] lg:items-start lg:gap-16">
+				<div className="max-w-xl">
+					<Caption className="text-brand-readable">{ctaEyebrow}</Caption>
+					<H2 className="mt-3">{ctaTitle}</H2>
+					<Muted className="mt-4 leading-relaxed">{ctaDescription}</Muted>
+					<TrackClick
+						event="cta_clicked"
+						properties={{
+							location: "case_study_detail",
+							variant: "primary",
+							destination: "contact",
+						}}
+					>
+						<Button
+							className="mt-8"
+							render={
+								<NextLink
+									aria-label={ctaButton}
+									href={homepageSectionHref("contact", locale)}
+								/>
+							}
+							variant="brand"
+						>
+							{ctaButton}
+						</Button>
+					</TrackClick>
+				</div>
+
+				{relatedOfferings.length > 0 && (
+					<div>
+						<Caption className="text-brand-readable">{relatedTitle}</Caption>
+						<div className="mt-5 grid gap-4 md:grid-cols-2">
+							{relatedOfferings.map((relatedOffering) => {
+								const Icon = getOfferingIcon(relatedOffering);
+
+								return (
+									<Link
+										className={relatedLinkCardClassName}
+										href={{
+											pathname: "/services/[slug]",
+											params: { slug: relatedOffering.slug },
+										}}
+										key={relatedOffering.slug}
+									>
+										<RelatedLinkCardContent
+											description={getRelatedDescription(relatedOffering)}
+											icon={Icon}
+											title={getRelatedTitle(relatedOffering)}
+										/>
+									</Link>
+								);
+							})}
+						</div>
+					</div>
+				)}
+			</div>
+		</SectionWrapper>
 	);
 }

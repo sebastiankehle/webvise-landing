@@ -35,7 +35,6 @@ const CLIENT_MESSAGE_NAMESPACES = [
 	"faq",
 	"media",
 	"nav",
-	"pricing",
 	"reportDownload",
 	"services",
 	"themeSwitcher",
