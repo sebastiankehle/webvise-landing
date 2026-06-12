@@ -59,7 +59,7 @@ export default function LanguageSwitcher({ id }: { id?: string }) {
 				id={id}
 				render={
 					<Button
-						className="group gap-1.5 border-transparent bg-transparent px-3 text-muted-foreground uppercase hover:bg-transparent hover:text-foreground aria-expanded:bg-transparent"
+						className="group gap-1.5 border-transparent bg-transparent px-3 text-foreground uppercase hover:bg-transparent hover:text-foreground aria-expanded:bg-transparent"
 						variant="outline"
 					/>
 				}
