@@ -1,3 +1,4 @@
+import { createNewsletterConfirmationToken } from "./newsletter-confirmation-token";
 import { createUnsubscribeToken } from "./unsubscribe-token";
 
 const ESCAPE_MAP: Record<string, string> = {
@@ -39,6 +40,10 @@ const mono = "'Geist Mono', ui-monospace, SFMono-Regular, monospace";
 
 export function unsubscribeUrl(email: string): string {
 	return `https://webvise.io/api/unsubscribe?token=${createUnsubscribeToken(email)}`;
+}
+
+export function newsletterConfirmationUrl(email: string): string {
+	return `https://webvise.io/api/newsletter/confirm?token=${createNewsletterConfirmationToken(email)}`;
 }
 
 export function emailLayout(opts: {

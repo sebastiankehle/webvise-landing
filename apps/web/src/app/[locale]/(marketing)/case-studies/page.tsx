@@ -45,7 +45,7 @@ export default async function CaseStudiesPage() {
 
 	return (
 		<>
-			<section className="relative pt-32 pb-24 md:pt-44 md:pb-24">
+			<section className="section-inverted relative pt-32 pb-24 md:pt-44 md:pb-24">
 				<ConstructedGrid hatch variant="page" />
 				<GridContainer>
 					<div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-end">
@@ -63,7 +63,7 @@ export default async function CaseStudiesPage() {
 				className="pt-12 md:pt-16"
 				hatch
 				id="case-studies-list"
-				surface="alternate"
+				surface="inverted"
 			>
 				<StaggerChildren className="grid gap-5 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
 					{caseStudies.map((cs) => (

@@ -2,6 +2,7 @@ import {
 	c,
 	emailLayout,
 	escapeHtml,
+	newsletterConfirmationUrl,
 	s,
 	scoreBadge,
 	scoreColor,
@@ -98,6 +99,18 @@ describe("unsubscribeUrl", () => {
 		const parsed = new URL(url);
 		expect(parsed.host).toBe("webvise.io");
 		expect(parsed.pathname).toBe("/api/unsubscribe");
+		const token = parsed.searchParams.get("token");
+		expect(token).toBeTruthy();
+		expect(token).toMatch(THREE_SEGMENT_TOKEN_RE);
+	});
+});
+
+describe("newsletterConfirmationUrl", () => {
+	it("produces a signed token with three dot-separated segments", () => {
+		const url = newsletterConfirmationUrl("user@example.com");
+		const parsed = new URL(url);
+		expect(parsed.host).toBe("webvise.io");
+		expect(parsed.pathname).toBe("/api/newsletter/confirm");
 		const token = parsed.searchParams.get("token");
 		expect(token).toBeTruthy();
 		expect(token).toMatch(THREE_SEGMENT_TOKEN_RE);

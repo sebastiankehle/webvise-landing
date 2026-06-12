@@ -113,7 +113,7 @@ export default async function BlogPage({
 	return (
 		<>
 			<JsonLd data={jsonLd} />
-			<section className="relative pt-32 pb-24 md:pt-44 md:pb-44">
+			<section className="section-inverted relative pt-32 pb-24 md:pt-44 md:pb-44">
 				<ConstructedGrid hatch variant="page" />
 				<GridContainer>
 					<div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-end">

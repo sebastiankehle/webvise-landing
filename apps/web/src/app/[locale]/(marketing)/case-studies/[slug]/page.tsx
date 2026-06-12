@@ -44,6 +44,17 @@ import { Link } from "@/i18n/navigation";
 import { homepageSectionHref } from "@/lib/homepage-section-href";
 import { generateAlternates, localizedUrl } from "@/lib/seo";
 
+const testimonialAvatars: Record<string, string> = {
+	"Anna-Maria von Platen": "/images/testimonials/anna-maria-von-platen.png",
+	"Felix Rautenberg": "/images/testimonials/felix-rautenberg.jpeg",
+	"Joshua Kunish": "/images/testimonials/joshua-kunish.png",
+	"Nick Liverman": "/images/testimonials/nick-liverman.jpg",
+	"Richard Heinbach": "/images/testimonials/richard-heinbach.jpeg",
+	"Sebastian Kundoch": "/images/testimonials/sebastian-kundoch.jpeg",
+};
+
+const whitespacePattern = /\s+/;
+
 function CaseStudySummary({
 	items,
 }: {
@@ -285,13 +296,35 @@ export default async function CaseStudyPage({
 								<blockquote className="mt-4 max-w-2xl text-base text-muted-foreground leading-7">
 									{cs.testimonial.quote}
 								</blockquote>
-								<figcaption className="mt-8 border-grid-line border-t pt-5">
-									<Small className="text-foreground">
-										{cs.testimonial.author}
-									</Small>
-									<Caption className="mt-0.5 block">
-										{cs.testimonial.role}
-									</Caption>
+								<figcaption className="mt-8 flex items-center gap-3 border-grid-line border-t pt-5">
+									{testimonialAvatars[cs.testimonial.author] ? (
+										<Image
+											alt=""
+											className="size-10 shrink-0 rounded-full object-cover"
+											height={40}
+											src={testimonialAvatars[cs.testimonial.author]}
+											width={40}
+										/>
+									) : (
+										<div
+											aria-hidden="true"
+											className="flex size-10 shrink-0 items-center justify-center rounded-full bg-foreground/10 text-muted-foreground text-xs"
+										>
+											{cs.testimonial.author
+												.split(whitespacePattern)
+												.map((part) => part[0])
+												.join("")
+												.slice(0, 2)}
+										</div>
+									)}
+									<div className="min-w-0">
+										<Small className="text-foreground">
+											{cs.testimonial.author}
+										</Small>
+										<Caption className="mt-0.5 block">
+											{cs.testimonial.role}
+										</Caption>
+									</div>
 								</figcaption>
 							</figure>
 						) : (

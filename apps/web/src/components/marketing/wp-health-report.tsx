@@ -10,7 +10,6 @@ import {
 	ConstructedGrid,
 	GridContainer,
 } from "@/components/marketing/section-wrapper";
-import { WpHealthScorePreview } from "@/components/marketing/wp-health-score-preview";
 import { Button } from "@/components/ui/button";
 import { FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -468,37 +467,9 @@ export default function WpHealthReport() {
 									})}
 								</H1>
 								<Lead className="mt-4">{t("hero.subtitle")}</Lead>
-
-								<ul className="mt-6 space-y-2">
-									{[0, 1, 2, 3].map((i) => (
-										<li className="flex items-start gap-3 text-sm" key={i}>
-											<span className="mt-1.5 h-1.5 w-1.5 shrink-0 bg-brand" />
-											<Body className="text-sm">{t(`hero.benefits.${i}`)}</Body>
-										</li>
-									))}
-								</ul>
 							</div>
 
-							<div className="flex flex-col gap-8 self-stretch lg:pt-2">
-								<WpHealthScorePreview
-									afterLabel={t("results.afterNextjs")}
-									currentLabel={t("results.pageSpeed")}
-									metricLabels={{
-										cumulativeLayoutShift: t(
-											"results.previewMetrics.cumulativeLayoutShift"
-										),
-										firstContentfulPaint: t(
-											"results.previewMetrics.firstContentfulPaint"
-										),
-										interactionToNextPaint: t(
-											"results.previewMetrics.interactionToNextPaint"
-										),
-										largestContentfulPaint: t(
-											"results.previewMetrics.largestContentfulPaint"
-										),
-									}}
-								/>
-
+							<div className="flex flex-col justify-center self-stretch lg:pt-2">
 								<form
 									aria-label={t("form.ariaLabel")}
 									autoComplete="off"

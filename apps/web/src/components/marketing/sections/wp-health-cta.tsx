@@ -2,15 +2,15 @@ import { getTranslations } from "next-intl/server";
 
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import { TrackClick } from "@/components/marketing/track-click";
-import { WpHealthScorePreview } from "@/components/marketing/wp-health-score-preview";
+import { WpHealthPageSpeedPreview } from "@/components/marketing/wp-health-pagespeed-preview";
 import { Button } from "@/components/ui/button";
 import { H2, Lead } from "@/components/ui/typography";
 import { Link } from "@/i18n/navigation";
 
 export default async function WpHealthCta() {
-	const [t, tw] = await Promise.all([
+	const [t, previewT] = await Promise.all([
 		getTranslations("wpHealthReport.cta"),
-		getTranslations("wpHealthReport"),
+		getTranslations("wpHealthReport.preview"),
 	]);
 
 	return (
@@ -22,9 +22,9 @@ export default async function WpHealthCta() {
 					<TrackClick
 						event="cta_clicked"
 						properties={{
+							destination: "wp-health-report",
 							location: "wp-health-cta",
 							variant: "analyzer",
-							destination: "wp-health-report",
 						}}
 					>
 						<Button
@@ -38,24 +38,9 @@ export default async function WpHealthCta() {
 					</TrackClick>
 				</div>
 
-				<WpHealthScorePreview
-					afterLabel={tw("results.afterNextjs")}
+				<WpHealthPageSpeedPreview
 					className="self-center"
-					currentLabel={tw("results.pageSpeed")}
-					metricLabels={{
-						cumulativeLayoutShift: tw(
-							"results.previewMetrics.cumulativeLayoutShift"
-						),
-						firstContentfulPaint: tw(
-							"results.previewMetrics.firstContentfulPaint"
-						),
-						interactionToNextPaint: tw(
-							"results.previewMetrics.interactionToNextPaint"
-						),
-						largestContentfulPaint: tw(
-							"results.previewMetrics.largestContentfulPaint"
-						),
-					}}
+					hint={previewT("hint")}
 				/>
 			</div>
 		</SectionWrapper>

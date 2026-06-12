@@ -50,7 +50,7 @@
 	--success-base: oklch(0.54 0.18 148);
 	--grid-line: oklch(0.145 0 0 / 11%);
 	--grid-line-strong: oklch(0.145 0 0 / 17%);
-	--alternate-background: oklch(0.969 0.0035 250);
+	--alternate-background: oklab(98.7% -0.002 -0.008);
 	--alternate-foreground: oklch(0.145 0 0);
 	--alternate-card: oklch(1 0 0);
 	--alternate-muted: oklch(0.94 0.0035 250);
@@ -879,6 +879,24 @@ html.mono-dark .font-display {
 	to {
 		opacity: 1;
 		transform: none;
+	}
+}
+
+@keyframes marquee {
+	from {
+		transform: translateX(0);
+	}
+	to {
+		transform: translateX(calc(-100% - var(--gap)));
+	}
+}
+
+@keyframes marquee-vertical {
+	from {
+		transform: translateY(0);
+	}
+	to {
+		transform: translateY(calc(-100% - var(--gap)));
 	}
 }
 

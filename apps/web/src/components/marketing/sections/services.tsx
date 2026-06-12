@@ -140,17 +140,12 @@ function ServiceGroupSection({
 	return (
 		<section
 			aria-labelledby={`services-${group.key}-heading`}
-			className={cn(
-				group.key !== "launch" && "border-grid-line border-t pt-9 md:pt-12"
-			)}
 			id={`services-${group.key}`}
 		>
 			<div>
-				{group.key !== "launch" && (
-					<Caption className="mb-3 block text-brand-readable">
-						{t(`groups.${group.key}.title`)}
-					</Caption>
-				)}
+				<Caption className="mb-3 block text-brand-readable">
+					{t(`groups.${group.key}.title`)}
+				</Caption>
 				<H2
 					className="max-w-[980px] text-balance md:text-4xl"
 					id={`services-${group.key}-heading`}
@@ -219,17 +214,27 @@ export default async function Services() {
 	};
 
 	return (
-		<SectionWrapper className="md:py-32" id="services">
-			<StaggerChildren className="space-y-12 md:space-y-16">
-				{offeringGroups.map((group) => (
-					<ServiceGroupSection
-						getCopy={getCopy}
-						group={group}
-						key={group.key}
-						t={t}
-					/>
-				))}
-			</StaggerChildren>
-		</SectionWrapper>
+		<>
+			{offeringGroups.map((group, index) => (
+				<SectionWrapper
+					className={cn(
+						index === 0 && "pt-16 pb-12 md:pt-32 md:pb-16",
+						index === 1 && "py-12 md:py-20",
+						index === 2 && "pt-12 pb-16 md:pt-20 md:pb-32"
+					)}
+					id={
+						group.key === "launch"
+							? "services"
+							: `services-${group.key}-surface`
+					}
+					key={group.key}
+					surface={group.key === "operate" ? "alternate" : "default"}
+				>
+					<StaggerChildren>
+						<ServiceGroupSection getCopy={getCopy} group={group} t={t} />
+					</StaggerChildren>
+				</SectionWrapper>
+			))}
+		</>
 	);
 }

@@ -89,7 +89,7 @@ export default function Contact() {
 	});
 
 	return (
-		<SectionWrapper hatch id="contact">
+		<SectionWrapper hatch id="contact" surface="alternate">
 			<div className="grid gap-12 md:grid-cols-2 md:gap-20">
 				<div>
 					<H2>{t("title")}</H2>
