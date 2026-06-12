@@ -211,7 +211,7 @@ function ReportResults({ data }: { data: ReportData }) {
 					<ul className="mt-3 space-y-2">
 						{data.securityFlags.map((flag) => (
 							<li
-								className="flex items-start gap-3 font-light text-sm"
+								className="flex items-start gap-3 font-normal text-sm"
 								key={flag}
 							>
 								<span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand" />
@@ -521,7 +521,7 @@ export default function WpHealthReport() {
 									>
 										{([canSubmit, isSubmitting]) => (
 											<SubmitButton
-												className="w-full md:h-8 md:text-xs"
+												className="self-start md:h-8 md:text-xs"
 												disabled={!canSubmit}
 												isSubmitting={isSubmitting}
 												size="lg"

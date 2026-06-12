@@ -10,10 +10,10 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Mono } from "@/components/ui/typography";
 import { getPathname, usePathname } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 import { normalizeHomepageSectionHash } from "@/lib/homepage-section-href";
+import { cn } from "@/lib/utils";
 
 const localeLabels: Record<string, string> = {
 	en: "English",
@@ -25,7 +25,19 @@ const localeLabels: Record<string, string> = {
 	it: "Italiano",
 };
 
-export default function LanguageSwitcher({ id }: { id?: string }) {
+function formatLocaleShortCode(locale: string) {
+	return `${locale.slice(0, 1).toUpperCase()}${locale.slice(1).toLowerCase()}`;
+}
+
+interface LanguageSwitcherProps {
+	className?: string;
+	id?: string;
+}
+
+export default function LanguageSwitcher({
+	className,
+	id,
+}: LanguageSwitcherProps) {
 	const locale = useLocale();
 	const pathname = usePathname();
 	const params = useParams<Record<string, string | string[]>>();
@@ -59,7 +71,10 @@ export default function LanguageSwitcher({ id }: { id?: string }) {
 				id={id}
 				render={
 					<Button
-						className="group gap-1.5 border-transparent bg-transparent px-3 text-foreground uppercase hover:bg-transparent hover:text-foreground aria-expanded:bg-transparent"
+						className={cn(
+							"group gap-1.5 border-0 bg-transparent px-3 text-foreground hover:border-0 hover:bg-transparent hover:text-foreground aria-expanded:border-0 aria-expanded:bg-transparent",
+							className
+						)}
 						variant="outline"
 					/>
 				}
@@ -67,7 +82,7 @@ export default function LanguageSwitcher({ id }: { id?: string }) {
 				<span className="inline-flex [perspective:80px]">
 					<Globe className="size-4 transition-transform duration-700 ease-in-out group-hover:[transform:rotateY(360deg)]" />
 				</span>
-				{locale}
+				{formatLocaleShortCode(locale)}
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="end" sideOffset={8}>
 				{routing.locales.map((loc) => (
@@ -76,7 +91,7 @@ export default function LanguageSwitcher({ id }: { id?: string }) {
 						key={loc}
 						onClick={() => switchLocale(loc)}
 					>
-						<Mono className="w-6 uppercase">{loc}</Mono>
+						<span className="w-6">{formatLocaleShortCode(loc)}</span>
 						{localeLabels[loc]}
 					</DropdownMenuItem>
 				))}

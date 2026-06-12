@@ -46,7 +46,7 @@ export default async function Hero() {
 								})}
 							</Display>
 							<Lead className="mt-6 max-w-[500px]">{t("subtitle")}</Lead>
-							<div className="mt-10 flex flex-col gap-4 sm:flex-row">
+							<div className="mt-10 flex flex-wrap items-center gap-4">
 								<TrackClick
 									event="cta_clicked"
 									properties={{
@@ -78,7 +78,7 @@ export default async function Hero() {
 									}}
 								>
 									<Button
-										className="hidden text-muted-foreground sm:inline-flex"
+										className="text-muted-foreground"
 										render={
 											<Link
 												aria-label={t("ctaSecondary")}

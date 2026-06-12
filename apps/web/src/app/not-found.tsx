@@ -6,11 +6,13 @@ import "../index.css";
 const inter = Inter({
 	variable: "--font-inter",
 	subsets: ["latin"],
+	weight: ["400", "500"],
 });
 
 const geistMono = Geist_Mono({
 	variable: "--font-geist-mono",
 	subsets: ["latin"],
+	weight: ["400", "500"],
 });
 
 export default async function GlobalNotFound() {
@@ -21,7 +23,7 @@ export default async function GlobalNotFound() {
 			<body className="flex min-h-screen flex-col items-center justify-center bg-background px-6 font-sans antialiased">
 				<Mono className="text-muted-foreground">404</Mono>
 				<H1 className="mt-4">{t("title")}</H1>
-				<Lead className="mt-4 max-w-md text-center font-light">
+				<Lead className="mt-4 max-w-md text-center font-normal">
 					{t("description")}
 				</Lead>
 				<div className="mt-8 flex gap-3">

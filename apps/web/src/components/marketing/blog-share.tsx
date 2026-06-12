@@ -58,6 +58,7 @@ export default function BlogShare({
 				<div className="mt-1 flex items-center gap-1.5">
 					<Button
 						aria-label={t("shareOnX")}
+						className="border-0 hover:border-0 hover:bg-transparent"
 						onClick={() =>
 							window.open(
 								`https://x.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`,
@@ -67,7 +68,7 @@ export default function BlogShare({
 						}
 						size="icon"
 						type="button"
-						variant="outline"
+						variant="ghost"
 					>
 						<svg
 							aria-hidden="true"
@@ -80,6 +81,7 @@ export default function BlogShare({
 					</Button>
 					<Button
 						aria-label={t("shareOnLinkedIn")}
+						className="border-0 hover:border-0 hover:bg-transparent"
 						onClick={() =>
 							window.open(
 								`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
@@ -89,7 +91,7 @@ export default function BlogShare({
 						}
 						size="icon"
 						type="button"
-						variant="outline"
+						variant="ghost"
 					>
 						<svg
 							aria-hidden="true"

@@ -30,7 +30,7 @@ const darkThemeOptions = THEME_OPTIONS.filter((option) =>
 );
 const triggerClassNames = {
 	compact:
-		"gap-1.5 border-transparent bg-transparent px-3 text-muted-foreground uppercase hover:bg-transparent hover:text-foreground aria-expanded:bg-transparent",
+		"gap-1.5 border-0 bg-transparent px-3 text-muted-foreground hover:border-0 hover:bg-transparent hover:text-foreground aria-expanded:border-0 aria-expanded:bg-transparent",
 	floating:
 		"fixed bottom-6 left-6 z-40 hidden size-12 shadow-lg md:inline-flex",
 	inline: "h-9 gap-2 px-3",
@@ -284,7 +284,7 @@ export default function ThemeSwitcher({
 				sideOffset={8}
 			>
 				<div className="flex flex-col">
-					<div className="px-2 pt-2 pb-1 font-medium text-muted-foreground text-xs uppercase">
+					<div className="px-2 pt-2 pb-1 font-medium text-muted-foreground text-xs">
 						{lightGroupLabel}
 					</div>
 					{lightThemeOptions.map((option) => (
@@ -300,7 +300,7 @@ export default function ThemeSwitcher({
 						</DropdownMenuItem>
 					))}
 					<DropdownMenuSeparator />
-					<div className="px-2 pt-2 pb-1 font-medium text-muted-foreground text-xs uppercase">
+					<div className="px-2 pt-2 pb-1 font-medium text-muted-foreground text-xs">
 						{darkGroupLabel}
 					</div>
 					{darkThemeOptions.map((option) => (

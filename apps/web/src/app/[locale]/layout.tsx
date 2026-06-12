@@ -53,26 +53,31 @@ function pickClientMessages(messages: Record<string, unknown>) {
 const inter = Inter({
 	variable: "--font-inter",
 	subsets: ["latin"],
+	weight: ["400", "500"],
 });
 
 const geist = Geist({
 	variable: "--font-geist-sans",
 	subsets: ["latin"],
+	weight: ["400", "500"],
 });
 
 const hankenGrotesk = Hanken_Grotesk({
 	variable: "--font-hanken-grotesk",
 	subsets: ["latin"],
+	weight: ["400", "500"],
 });
 
 const spaceGrotesk = Space_Grotesk({
 	variable: "--font-space-grotesk",
 	subsets: ["latin"],
+	weight: ["400", "500"],
 });
 
 const geistMono = Geist_Mono({
 	variable: "--font-geist-mono",
 	subsets: ["latin"],
+	weight: ["400", "500"],
 });
 
 export async function generateMetadata({

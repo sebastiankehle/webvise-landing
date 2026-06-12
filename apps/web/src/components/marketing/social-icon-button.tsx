@@ -19,7 +19,10 @@ export function SocialIconButton({
 	return (
 		<Button
 			aria-label={label}
-			className={cn("text-muted-foreground", className)}
+			className={cn(
+				"border-0 text-muted-foreground hover:border-0 hover:bg-transparent",
+				className
+			)}
 			onClick={onClick}
 			render={
 				<a href={href} rel="noopener noreferrer" target="_blank">
@@ -27,7 +30,7 @@ export function SocialIconButton({
 				</a>
 			}
 			size="icon"
-			variant="outline"
+			variant="ghost"
 		/>
 	);
 }

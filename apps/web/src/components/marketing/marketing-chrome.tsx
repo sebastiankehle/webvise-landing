@@ -48,13 +48,9 @@ export function MarketingMobileMenuControls() {
 	return (
 		<div className="flex items-center gap-4">
 			<ThemeSwitcher variant="compact" />
-			<LanguageSwitcher id="lang-mobile" />
+			<LanguageSwitcher className="text-muted-foreground" id="lang-mobile" />
 		</div>
 	);
-}
-
-export function MarketingFooterThemeControl() {
-	return <ThemeSwitcher className="md:hidden" variant="compact" />;
 }
 
 export function MarketingNavbarCalLink({

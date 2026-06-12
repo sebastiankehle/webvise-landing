@@ -62,7 +62,7 @@ export function NewsletterForm({
 				value={email}
 			/>
 			<Button
-				className="h-8 w-full text-xs"
+				className="h-8 self-start text-xs"
 				disabled={status === "loading"}
 				size="sm"
 				type="submit"

@@ -6,6 +6,7 @@ import {
 } from "@webvise-app/api/rate-limit";
 import { convertToModelMessages, streamText, type UIMessage } from "ai";
 import { NextResponse } from "next/server";
+import { CAL_URL } from "@/lib/cal";
 import { getPostHogClient } from "@/lib/posthog-server";
 import { parseChatBody } from "./schema";
 
@@ -89,9 +90,14 @@ Do not ask users to share confidential, secret, sensitive, or special-category p
 If asked for legal, medical, financial, or similarly regulated advice, provide general information only and recommend qualified professional advice for decisions.
 Do not promise confirmed prices, delivery dates, support coverage, or bookings beyond the planning model above.`;
 
+const BOOKING_LINK_PROMPT = `## Booking link
+The public booking link for a free 30-minute consultation with Sebastian is ${CAL_URL}. When visitors ask to book, schedule, talk, or arrange a consultation, share this exact link. Do not invent another booking link.`;
+
 const SYSTEM_PROMPT = `${
 	process.env.AI_CHAT_SYSTEM_PROMPT || DEFAULT_SYSTEM_PROMPT
 }
+
+${BOOKING_LINK_PROMPT}
 
 ${TRANSPARENCY_PROMPT}`;
 

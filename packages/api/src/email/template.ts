@@ -85,8 +85,8 @@ export function emailLayout(opts: {
 
 // Reusable inline style fragments
 export const s = {
-	h1: `margin:0 0 8px;font-size:20px;font-weight:600;color:${c.text};letter-spacing:-0.02em;font-family:${font}`,
-	h2: `margin:0 0 8px;font-size:16px;font-weight:600;color:${c.text};letter-spacing:-0.01em;font-family:${font}`,
+	h1: `margin:0 0 8px;font-size:20px;font-weight:500;color:${c.text};letter-spacing:-0.02em;font-family:${font}`,
+	h2: `margin:0 0 8px;font-size:16px;font-weight:500;color:${c.text};letter-spacing:-0.01em;font-family:${font}`,
 	p: `margin:0 0 16px;font-size:14px;color:${c.textMuted};line-height:1.6`,
 	label: `display:block;margin:0 0 8px;font-size:11px;color:${c.textFaint};text-transform:uppercase;letter-spacing:0.06em;font-weight:500;font-family:${mono}`,
 	cellLabel: `padding:6px 16px 6px 0;color:${c.textMuted};font-size:13px;white-space:nowrap;vertical-align:top`,
@@ -113,7 +113,7 @@ export function scoreColor(score: number): string {
 
 export function scoreBadge(score: number): string {
 	const color = scoreColor(score);
-	return `<span style="display:inline-block;background:${color};color:#fff;font-size:12px;font-weight:600;padding:2px 8px">${score}/100</span>`;
+	return `<span style="display:inline-block;background:${color};color:#fff;font-size:12px;font-weight:500;padding:2px 8px">${score}/100</span>`;
 }
 
 export function tableRow(label: string, value: string): string {

@@ -105,7 +105,7 @@ export default function SignInForm() {
 				>
 					{([canSubmit, isSubmitting]) => (
 						<SubmitButton
-							className="w-full"
+							className="self-start"
 							disabled={!canSubmit}
 							isSubmitting={isSubmitting}
 						>

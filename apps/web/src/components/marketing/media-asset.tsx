@@ -400,7 +400,7 @@ export function BannerAsset({
 								{tagline}
 							</Body>
 							<Body
-								className={`mt-1 font-light text-[clamp(8px,1.2vw,16px)] ${style.sub}`}
+								className={`mt-1 font-normal text-[clamp(8px,1.2vw,16px)] ${style.sub}`}
 							>
 								{subtitle}
 							</Body>
@@ -538,7 +538,7 @@ export function WallpaperAsset({
 							{tagline}
 						</Body>
 						<Body
-							className={`mt-1 font-light text-[clamp(8px,1vw,14px)] ${style.sub}`}
+							className={`mt-1 font-normal text-[clamp(8px,1vw,14px)] ${style.sub}`}
 						>
 							{subtitle}
 						</Body>

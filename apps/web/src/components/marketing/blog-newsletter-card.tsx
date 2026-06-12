@@ -67,7 +67,7 @@ export function BlogNewsletterCard({
 							value={email}
 						/>
 						<Button
-							className="h-12 w-full text-sm"
+							className="h-12 self-start text-sm"
 							disabled={status === "loading"}
 							size="lg"
 							type="submit"

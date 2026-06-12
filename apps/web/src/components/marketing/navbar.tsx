@@ -836,7 +836,7 @@ export default function Navbar({
 							</div>
 							<div className="flex flex-col gap-3">
 								<MarketingNavbarCalLink
-									className="w-full"
+									className="self-start"
 									location="navbar_mobile"
 									onClick={() => closeMobileMenu()}
 									size="lg"
@@ -844,7 +844,7 @@ export default function Navbar({
 									{t("bookCall")}
 								</MarketingNavbarCalLink>
 								<MarketingNavbarCta
-									className="w-full"
+									className="self-start"
 									location="navbar_mobile"
 									onClick={() => closeMobileMenu()}
 									size="lg"

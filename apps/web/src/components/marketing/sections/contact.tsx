@@ -255,7 +255,7 @@ export default function Contact() {
 					>
 						{([canSubmit, isSubmitting]) => (
 							<SubmitButton
-								className="w-full md:h-10 md:text-sm"
+								className="self-start md:h-10 md:text-sm"
 								disabled={!canSubmit}
 								isSubmitting={isSubmitting}
 								size="lg"

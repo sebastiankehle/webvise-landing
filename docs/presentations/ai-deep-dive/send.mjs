@@ -43,11 +43,11 @@ async function sendEmail(attachments) {
 <body style="margin:0;padding:0;background:#f9fafb;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
   <div style="max-width:560px;margin:40px auto;background:#ffffff;border:1px solid #e5e7eb">
     <div style="background:#111827;padding:20px 28px">
-      <span style="color:#ffffff;font-size:14px;font-weight:600;letter-spacing:0.05em">webvise</span>
+      <span style="color:#ffffff;font-size:14px;font-weight:500;letter-spacing:0.05em">webvise</span>
       <span style="color:#f97316;font-size:14px;margin-left:8px">/ Deep Dive</span>
     </div>
     <div style="padding:28px">
-      <h1 style="margin:0 0 16px;font-size:20px;font-weight:600;color:#111827">
+      <h1 style="margin:0 0 16px;font-size:20px;font-weight:500;color:#111827">
         AI, Agents & AI Coding Tools
       </h1>
       <p style="margin:0 0 20px;font-size:14px;color:#6b7280;line-height:1.6">

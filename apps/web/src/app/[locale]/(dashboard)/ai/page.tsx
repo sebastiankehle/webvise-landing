@@ -58,7 +58,7 @@ export default function AIPage() {
 							}`}
 							key={message.id}
 						>
-							<Body className="mb-1 font-semibold text-sm">
+							<Body className="mb-1 font-medium text-sm">
 								{message.role === "user" ? "You" : "AI Assistant"}
 							</Body>
 							{message.parts?.map((part) => {

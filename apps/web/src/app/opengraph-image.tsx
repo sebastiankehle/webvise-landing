@@ -45,7 +45,7 @@ export default function OpenGraphImage() {
 				<span
 					style={{
 						fontSize: 64,
-						fontWeight: 600,
+						fontWeight: 500,
 						color: "#ededed",
 						letterSpacing: "-0.02em",
 					}}
