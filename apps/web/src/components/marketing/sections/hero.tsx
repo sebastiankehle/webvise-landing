@@ -78,7 +78,6 @@ export default async function Hero() {
 									}}
 								>
 									<Button
-										className="text-muted-foreground"
 										render={
 											<Link
 												aria-label={t("ctaSecondary")}
@@ -86,7 +85,7 @@ export default async function Hero() {
 											/>
 										}
 										size="lg"
-										variant="ghost"
+										variant="outline"
 									>
 										{t("ctaSecondary")}
 									</Button>
