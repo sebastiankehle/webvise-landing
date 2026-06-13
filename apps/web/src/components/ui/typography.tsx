@@ -35,7 +35,7 @@ function H2({ className, ...props }: React.ComponentProps<"h2">) {
 	return (
 		<h2
 			className={cn(
-				"text-balance font-display text-3xl text-foreground leading-tight md:text-4xl",
+				"text-balance font-display text-[1.625rem] text-foreground leading-[1.15] md:text-4xl md:leading-tight",
 				className
 			)}
 			data-slot="h2"
@@ -185,7 +185,7 @@ function DisplayH2({ className, ...props }: React.ComponentProps<"h2">) {
 	return (
 		<h2
 			className={cn(
-				"text-balance font-display text-3xl text-foreground leading-tight md:text-4xl",
+				"text-balance font-display text-[1.625rem] text-foreground leading-[1.15] md:text-4xl md:leading-tight",
 				className
 			)}
 			data-slot="display-h2"
