@@ -508,10 +508,18 @@ export default function Navbar({
 		[pathname, mobileOpen, close, closeMobileMenu]
 	);
 
-	const navLinks: { hash: NavHash; label: string }[] = [
+	const navLinks: {
+		hash: NavHash;
+		label: string;
+		mobilePage?: "/case-studies" | "/blog";
+	}[] = [
 		{ hash: "services", label: t("services") },
-		{ hash: "case-studies", label: t("caseStudies") },
-		{ hash: "blog", label: t("blog") },
+		{
+			hash: "case-studies",
+			label: t("caseStudies"),
+			mobilePage: "/case-studies",
+		},
+		{ hash: "blog", label: t("blog"), mobilePage: "/blog" },
 	];
 	const getSectionHref = (hash: string) => homepageSectionHref(hash, locale);
 	const desktopDropdownWidthClass = "max-w-[1040px]";
@@ -805,18 +813,41 @@ export default function Navbar({
 						className="relative mx-auto flex min-h-0 w-full max-w-[1320px] flex-1 flex-col overflow-y-auto overscroll-contain px-6 pt-6 pb-6"
 					>
 						<div className="flex flex-col">
-							{navLinks.map(({ hash, label }) => (
-								<a
-									className="-mx-1 flex items-center border border-transparent px-1 py-4 outline-none transition-colors focus-visible:border-brand/40 focus-visible:ring-1 focus-visible:ring-brand/20"
-									href={getSectionHref(hash)}
-									key={hash}
-									onClick={(e) => handleNavClick(e, hash)}
-								>
+							{navLinks.map(({ hash, label, mobilePage }) => {
+								const linkClassName =
+									"-mx-1 flex items-center border border-transparent px-1 py-4 outline-none transition-colors focus-visible:border-brand/40 focus-visible:ring-1 focus-visible:ring-brand/20";
+								const labelNode = (
 									<Label className="font-display text-foreground text-lg">
 										{label}
 									</Label>
-								</a>
-							))}
+								);
+
+								// Sections hidden on mobile link to their dedicated page instead
+								// of scrolling to a homepage section that isn't rendered here.
+								if (mobilePage) {
+									return (
+										<Link
+											className={linkClassName}
+											href={mobilePage}
+											key={hash}
+											onClick={() => closeMobileMenu()}
+										>
+											{labelNode}
+										</Link>
+									);
+								}
+
+								return (
+									<a
+										className={linkClassName}
+										href={getSectionHref(hash)}
+										key={hash}
+										onClick={(e) => handleNavClick(e, hash)}
+									>
+										{labelNode}
+									</a>
+								);
+							})}
 						</div>
 
 						<div className="mt-auto space-y-6 border-border/40 border-t pt-6">

@@ -27,7 +27,7 @@ export default async function Support() {
 	const proofCaseStudy = getCaseStudyBySlug("relay", locale);
 
 	return (
-		<SectionWrapper id="support">
+		<SectionWrapper hideOnMobile id="support">
 			<div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-end">
 				<div className="max-w-[660px]">
 					<H2>{t("title")}</H2>

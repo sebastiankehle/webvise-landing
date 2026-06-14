@@ -24,7 +24,7 @@ export default async function CaseStudiesPreview() {
 		return null;
 	}
 	return (
-		<SectionWrapper hatch id="case-studies" surface="inverted">
+		<SectionWrapper hatch hideOnMobile id="case-studies" surface="inverted">
 			<div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-end">
 				<div className="max-w-[660px]">
 					<H2>{t("title")}</H2>

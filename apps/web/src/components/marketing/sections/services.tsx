@@ -111,7 +111,10 @@ function GroupImage({
 	return (
 		<div
 			aria-hidden="true"
-			className={cn("surface-card media-frame relative self-center", className)}
+			className={cn(
+				"surface-card media-frame relative hidden self-center md:block",
+				className
+			)}
 		>
 			<Image
 				alt={alt}

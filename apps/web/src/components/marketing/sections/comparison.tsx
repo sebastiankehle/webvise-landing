@@ -17,7 +17,7 @@ export default async function Comparison() {
 	const t = await getTranslations("comparison");
 
 	return (
-		<SectionWrapper id="comparison" surface="alternate">
+		<SectionWrapper hideOnMobile id="comparison" surface="alternate">
 			<div className="max-w-[640px]">
 				<H2 className="text-balance">
 					{t.rich("title", {

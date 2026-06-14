@@ -20,10 +20,16 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 		getTranslations("wpHealthReport.cta"),
 	]);
 
-	const companyLinks = [
+	// `hideOnMobile` links point to sections that are hidden on mobile and have no
+	// dedicated page, so we drop them from the mobile footer to avoid dead links.
+	const companyLinks: {
+		hash: string;
+		label: string;
+		hideOnMobile?: boolean;
+	}[] = [
 		{ hash: "services", label: t("links.services") },
-		{ hash: "engineer-led", label: t("links.benefits") },
-		{ hash: "process", label: t("links.process") },
+		{ hash: "engineer-led", label: t("links.benefits"), hideOnMobile: true },
+		{ hash: "process", label: t("links.process"), hideOnMobile: true },
 		{ hash: "contact", label: t("links.contact") },
 	];
 	const serviceLinks = [
@@ -76,8 +82,11 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 								{t("sections.company")}
 							</Caption>
 							<ul className="space-y-3">
-								{companyLinks.map(({ hash, label }) => (
-									<li key={hash}>
+								{companyLinks.map(({ hash, label, hideOnMobile }) => (
+									<li
+										className={hideOnMobile ? "hidden md:list-item" : undefined}
+										key={hash}
+									>
 										<a
 											className="text-muted-foreground text-sm transition-colors hover:text-foreground"
 											href={homepageSectionHref(hash, locale)}

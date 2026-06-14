@@ -23,7 +23,7 @@ export default async function EngineerLed() {
 	]);
 
 	return (
-		<SectionWrapper className="md:py-32" id="engineer-led">
+		<SectionWrapper className="md:py-32" hideOnMobile id="engineer-led">
 			<div className="grid gap-12 md:grid-cols-[1.05fr_0.95fr] md:gap-20">
 				<div>
 					<H2>{t("title")}</H2>

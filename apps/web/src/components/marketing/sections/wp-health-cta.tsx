@@ -14,7 +14,7 @@ export default async function WpHealthCta() {
 	]);
 
 	return (
-		<SectionWrapper id="wp-health" surface="inverted">
+		<SectionWrapper hideOnMobile id="wp-health" surface="inverted">
 			<div className="grid items-center gap-8 lg:grid-cols-[0.42fr_0.58fr] lg:gap-12">
 				<div className="max-w-[560px]">
 					<H2>{t("title")}</H2>
