@@ -294,7 +294,7 @@ Every article opens with this sequence:
 - **No filler transitions.** Cut "Furthermore," "Additionally," "It's worth noting that," "In conclusion." Just start the next thought.
 - Lead with the **claim**. The first paragraph must contain the quotable sentence the article defends.
 - Direct, no-fluff, authoritative. No "in today's fast-paced world" preambles.
-- Every section must carry first-party signal: a number, public source name, anonymized project detail, date, quote, or link to internal work.
+- Every section must carry first-party signal: a number, public source name, anonymized project detail, date, or link to internal work.
 - Prefer tables for comparisons where you have actual numbers. Don't pad with generic comparisons.
 - End with a paragraph mentioning **webvise** and linking to `/#contact`.
 - **Length is determined by unique signal**, not by a target. Stop when first-party material runs out.
@@ -303,6 +303,7 @@ Every article opens with this sequence:
 
 - **4-7 h2 sections.** Each section must pass the Training-Data Test.
 - **2-3 mini-stories.** Real examples with dates, specific details, and outcomes. Public sources may be named. Client examples must be anonymized and stripped of client, company, person, repository, and private asset names. Not hypotheticals.
+- **No testimonials.** Never quote, paraphrase, or attribute a client testimonial or endorsement in a blog article, even anonymized. Do not pull from a case study's `testimonial` field. First-party proof comes from numbers, outcomes, and operational detail, never from a client's words.
 - **2-3 contextual CTAs.** First CTA within the first 500 words. CTAs should feel natural, not bolted on.
   - **At least one CTA must link to the matched service page** (`/services/<slug>`). Service pages convert better than `/#contact`. Example: "If you're evaluating WordPress alternatives, [webvise's WordPress migration service](/services/wordpress-migration) handles the rebuild and SEO continuity."
   - **At least one internal blog link** to a related post under `/blog/<slug>`. Builds topical clusters and keeps users on-site.
