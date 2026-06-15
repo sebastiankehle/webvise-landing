@@ -33,9 +33,9 @@ const groupVisuals: Record<
 	launch: {
 		altKey: "groups.launch.imageAlt",
 		className: "",
-		height: 766,
+		height: 768,
 		shellClassName: "lg:grid-cols-[0.42fr_0.58fr]",
-		src: "/images/case-studies/old-world-labs/hero.webp",
+		src: "/images/case-studies/hyyve/hero.webp",
 		width: 1512,
 	},
 	operate: {

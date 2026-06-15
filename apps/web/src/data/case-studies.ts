@@ -8,6 +8,7 @@ export const CASE_STUDY_COLLECTIONS = {
 } as const;
 
 const CASE_STUDY_ORDER = [
+	"hyyve",
 	"rautenberg-pitch-engine",
 	"ohyp-fintech",
 	"relay",

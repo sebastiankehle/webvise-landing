@@ -33,8 +33,8 @@ export const services: Service[] = [
 		painPointCount: 3,
 		faqCount: 4,
 		proof: {
-			caseStudySlug: "old-world-labs",
-			image: "/images/case-studies/old-world-labs/hero.webp",
+			caseStudySlug: "hyyve",
+			image: "/images/case-studies/hyyve/hero.webp",
 		},
 	},
 	{
