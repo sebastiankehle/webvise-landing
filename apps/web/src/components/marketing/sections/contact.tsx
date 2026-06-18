@@ -29,6 +29,7 @@ export default function Contact() {
 		"idle" | "success" | "error"
 	>("idle");
 	const formStarted = useRef(false);
+	const mountedAt = useRef(Date.now());
 	const formRef = useRef<HTMLFormElement>(null);
 	const t = useTranslations("contact");
 	const ts = useTranslations("services");
@@ -56,6 +57,8 @@ export default function Contact() {
 			company: "",
 			service: "",
 			message: "",
+			// Honeypot: hidden from humans, only bots fill it.
+			website: "",
 		},
 		validators: {
 			onSubmit: z.object({
@@ -64,6 +67,7 @@ export default function Contact() {
 				company: z.string(),
 				service: z.string(),
 				message: z.string(),
+				website: z.string(),
 			}),
 		},
 		onSubmit: async ({ value }) => {
@@ -76,6 +80,8 @@ export default function Contact() {
 					company: value.company,
 					service: value.service,
 					message: value.message.trim(),
+					website: value.website,
+					elapsedMs: Date.now() - mountedAt.current,
 				});
 				setSubmitStatus("success");
 				track("contact_form_success", { service: value.service || null });
@@ -248,6 +254,22 @@ export default function Contact() {
 								/>
 								<FormMessage errors={field.state.meta.errors} />
 							</FormItem>
+						)}
+					</form.Field>
+					{/* Honeypot: hidden from humans; bots that fill it are dropped server-side. */}
+					<form.Field name="website">
+						{(field) => (
+							<div aria-hidden="true" className="sr-only">
+								<label htmlFor={field.name}>Leave this field empty</label>
+								<input
+									autoComplete="off"
+									id={field.name}
+									name={field.name}
+									onChange={(e) => field.handleChange(e.target.value)}
+									tabIndex={-1}
+									value={field.state.value}
+								/>
+							</div>
 						)}
 					</form.Field>
 					<form.Subscribe

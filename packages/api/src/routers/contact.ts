@@ -66,6 +66,9 @@ const contactProcedure = rateLimitedProcedure({
 	windowMs: 60_000,
 });
 
+// Submissions faster than this are almost certainly bots, not humans typing.
+const MIN_FILL_MS = 2000;
+
 export const contactRouter = router({
 	submit: contactProcedure
 		.input(
@@ -75,9 +78,21 @@ export const contactRouter = router({
 				company: z.string().max(200).optional(),
 				service: z.string().max(100).optional(),
 				message: z.string().max(5000).optional(),
+				// Anti-spam: honeypot field + time-to-submit. Never set by real users.
+				website: z.string().max(200).optional(),
+				elapsedMs: z.number().nonnegative().optional(),
 			})
 		)
 		.mutation(async ({ input }) => {
+			// Honeypot tripped or form submitted impossibly fast: silently accept
+			// and discard so the bot believes it succeeded and stops retrying.
+			if (
+				input.website ||
+				(input.elapsedMs !== undefined && input.elapsedMs < MIN_FILL_MS)
+			) {
+				return { success: true };
+			}
+
 			const contactEmail = process.env.CONTACT_EMAIL_TO || "mail@webvise.io";
 			const timestamp = new Date().toLocaleString("en-GB", {
 				dateStyle: "long",
