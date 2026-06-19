@@ -1,0 +1,186 @@
+{
+  "date": "2026-06-19",
+  "readingTime": 7,
+  "keyword": "scroll animation performance",
+  "title": "Scroll Animation and Performance: Why Good Motion Needs a Real Engineer",
+  "excerpt": "Cheap scroll animations and scrollytelling can look premium and quietly drag down Core Web Vitals. Here are the effects that cost performance and the engineering that keeps motion fast.",
+  "metaDescription": "Scrollytelling can look premium and still kill conversions. The real performance cost of cheap scroll animation, and the engineering that fixes it.",
+  "tags": ["Performance", "Web Design", "Web Development"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Most scroll animation makes your website slower, and the cheap versions cost the most performance. Scrollytelling, parallax plugins, and fade-in-on-scroll effects bolted onto a page are the most common reason a good-looking site fails Core Web Vitals."
+    },
+    {
+      "type": "p",
+      "text": "Google's field data is blunt about the stakes. Every extra second of load time cuts conversions by about 7%, and a 3-second mobile load loses roughly 53% of visitors before they ever see your content."
+    },
+    {
+      "type": "p",
+      "text": "You added the motion for a reason. The site felt flat, a template promised a premium feel, or a competitor's homepage scrolled like a video. This article shows which scroll effects cost performance, the exact browser work behind each one, and the engineering decisions that keep motion smooth and fast."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Cheap scroll animation is a performance tax.** Scroll-jacking and animated layout properties force the browser to recalculate the page on every frame.",
+        "**INP and CLS take the hit.** Heavy scroll handlers delay how fast the page responds to taps, and late motion shifts the layout under the reader.",
+        "**Some properties are free, most are not.** Animating opacity, translate, scale, and rotate stays on the GPU. Animating width, height, top, or margin triggers full layout work.",
+        "**Good motion is an engineering decision.** Compositor-only properties, IntersectionObserver, passive listeners, and a reduced-motion fallback keep effects fast.",
+        "**A real engineer measures it.** Field INP, CLS, and a test on a mid-range Android phone tell you whether the animation is helping or costing you sales."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "What Cheap Scroll Animation Does to Your Page"
+    },
+    {
+      "type": "p",
+      "text": "Cheap scroll animation usually arrives as a plugin or a copied snippet. It attaches a handler to the scroll event and runs JavaScript on every frame the user scrolls."
+    },
+    {
+      "type": "p",
+      "text": "That handler often reads layout values and writes new styles in the same frame, which forces the browser to recalculate the page geometry again and again. Each parallax or animate-on-scroll library also ships its own code, often 30KB to 150KB that the browser has to parse before anything moves."
+    },
+    {
+      "type": "p",
+      "text": "On a fast laptop the cost hides. On a mid-range Android phone, where much of your traffic actually is, the page stutters and scrolling feels heavy."
+    },
+    {
+      "type": "p",
+      "text": "This is why webvise builds [landing pages and launch sites](/services/landing-pages) with a performance budget set from the first commit. Motion becomes a deliberate layer, measured against Core Web Vitals, rather than something stacked on at the end."
+    },
+    {
+      "type": "h2",
+      "text": "The Core Web Vitals It Breaks"
+    },
+    {
+      "type": "p",
+      "text": "Google judges page speed on three metrics, and scroll animation can hurt all three."
+    },
+    {
+      "type": "table",
+      "headers": ["Metric", "Good score", "How scroll animation hurts it"],
+      "rows": [
+        [
+          "INP (Interaction to Next Paint)",
+          "under 200ms",
+          "Scroll handlers run long tasks on the main thread, so taps and clicks wait their turn"
+        ],
+        [
+          "CLS (Cumulative Layout Shift)",
+          "under 0.1",
+          "Elements that animate in late, or animate width and height, push content around"
+        ],
+        [
+          "LCP (Largest Contentful Paint)",
+          "under 2.5s",
+          "Animation libraries load early and compete with your hero image and fonts for bandwidth"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "INP replaced FID as a Core Web Vital in March 2024, and it is the metric scroll animation hurts most. INP measures how quickly a page responds after a tap or click. A scroll handler doing layout work blocks that response and pushes your score past 200ms."
+    },
+    {
+      "type": "h2",
+      "text": "What Is Free to Animate, and What Is Not"
+    },
+    {
+      "type": "p",
+      "text": "Browsers render in stages: layout, then paint, then composite. The stage a property touches decides how expensive it is to animate."
+    },
+    {
+      "type": "table",
+      "headers": ["Animate this", "Browser stage", "Cost per frame"],
+      "rows": [
+        ["opacity", "Composite only", "Cheap, handled by the GPU"],
+        [
+          "translate, scale, rotate",
+          "Composite only",
+          "Cheap, handled by the GPU"
+        ],
+        [
+          "width, height, top, left, margin",
+          "Full layout",
+          "Expensive, recalculates the page"
+        ],
+        [
+          "box-shadow, filter, background",
+          "Paint",
+          "Moderate, repaints large areas"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "The rule behind every smooth website is short. Animate opacity and the position properties translate, scale, and rotate, because the GPU handles them without touching layout. Cheap effects reach for width, height, and top, which forces a layout recalculation on every single frame."
+    },
+    {
+      "type": "h2",
+      "text": "Why Scrollytelling Is a Performance Trap"
+    },
+    {
+      "type": "p",
+      "text": "Scrollytelling hijacks the scrollbar to drive an animation timeline. The page stops scrolling at its natural speed and starts playing a sequence the developer controls."
+    },
+    {
+      "type": "p",
+      "text": "That creates three problems. The custom scroll feels wrong on a trackpad and worse on a phone, where people expect their thumb to move the page directly. Screen readers and keyboard users lose the normal reading order. Every scroll frame runs JavaScript, which is the exact main-thread work that wrecks INP."
+    },
+    {
+      "type": "p",
+      "text": "Scrollytelling earns its place in rare cases: a data story in a news feature, a product walkthrough where the scene matters more than speed, a brand campaign with a real motion budget. For a landing page that exists to book inquiries, the cost almost always beats the payoff."
+    },
+    {
+      "type": "h2",
+      "text": "What Good Motion Actually Costs"
+    },
+    {
+      "type": "p",
+      "text": "Smooth motion comes from a short list of decisions, and each one takes an engineer who knows the browser."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Animate compositor properties only.** Stick to opacity, translate, scale, and rotate so the GPU does the work and the main thread stays free.",
+        "**Trigger on visibility, not on scroll position.** IntersectionObserver fires once when an element enters the viewport, instead of running code on every scroll frame.",
+        "**Keep listeners passive.** A passive scroll listener tells the browser it will not block scrolling, which protects your INP score.",
+        "**Budget the timing.** Micro-interactions run 120ms to 250ms, entrances 500ms to 800ms, larger choreography 800ms to 1500ms. Slower than that feels broken.",
+        "**Ship a reduced-motion fallback.** Honor prefers-reduced-motion so people who get motion sick, and the tools that audit for it, get a calm version.",
+        "**Load animation code as an island.** A client-only component that cleans up on navigation keeps animation JavaScript out of your first paint."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "A page builder hides every one of these choices. A drag-and-drop tool hands you the effect and the performance cost in a single click, with no say over the property being animated or the JavaScript being loaded. An engineer picks the property, the trigger, and the timing on purpose, then checks the result."
+    },
+    {
+      "type": "p",
+      "text": "The payoff is real money. Faster pages convert better, and we ran the conversion math in [how website speed affects conversions](/blog/website-speed-and-conversions). Motion that respects that math adds polish and spends none of your speed."
+    },
+    {
+      "type": "h2",
+      "text": "A 6-Point Audit for Your Own Site"
+    },
+    {
+      "type": "p",
+      "text": "You can check your own site in about 10 minutes. For a full-site version, work through our [website audit checklist](/blog/website-audit-checklist). Run these steps in order."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Open PageSpeed Insights** and read the field INP and CLS, not only the lab score. Field data reflects real phones.",
+        "**Record a Performance trace in Chrome DevTools** while you scroll. Long red tasks on the main thread mean your scroll handlers are doing too much.",
+        "**Watch the layout-shift count** as the page loads. Anything that animates in late is a CLS risk.",
+        "**Check the JavaScript bundle** for animation libraries. A single scroll library over 40KB is worth questioning.",
+        "**Toggle prefers-reduced-motion** in the DevTools rendering panel. If the page breaks or looks empty, the motion was never optional.",
+        "**Test on a real mid-range Android,** not your laptop. The phone is where the jank lives."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Animation should make a page feel considered, and it should cost you nothing in speed. That balance comes from picking the right property, the right trigger, and the right timing, then measuring the result on a real phone. webvise builds launch sites and landing pages where motion is engineered against Core Web Vitals from day one. If your site looks good and scores badly, [tell us what you are building](/#contact) and we will show you where the motion is costing you."
+    }
+  ]
+}

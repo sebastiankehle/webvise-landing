@@ -1,0 +1,190 @@
+{
+  "date": "2026-06-19",
+  "readingTime": 7,
+  "keyword": "performance des animations au défilement",
+  "title": "Animation au défilement et performance : pourquoi un bon mouvement exige un vrai ingénieur",
+  "excerpt": "Les animations au défilement bon marché et le scrollytelling peuvent sembler premium tout en plombant les Core Web Vitals. Voici les effets qui coûtent en performance et l'ingénierie qui maintient le mouvement rapide.",
+  "metaDescription": "Le scrollytelling peut paraître premium et détruire quand même vos conversions. Le vrai coût en performance des animations au défilement bas de gamme, et l'ingénierie qui y remédie.",
+  "tags": ["Performance", "Web Design", "Web Development"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "La plupart des animations au défilement ralentissent votre site, et les versions bon marché sont les plus coûteuses en performance. Le scrollytelling, les plugins parallax et les effets de fondu à l'apparition vissés sur une page sont la principale raison pour laquelle un site au bel aspect échoue aux Core Web Vitals."
+    },
+    {
+      "type": "p",
+      "text": "Les données terrain de Google sont sans équivoque sur les enjeux. Chaque seconde de chargement supplémentaire réduit les conversions d'environ 7%, et un chargement mobile de 3 secondes fait fuir environ 53% des visiteurs avant qu'ils voient votre contenu."
+    },
+    {
+      "type": "p",
+      "text": "Vous avez ajouté ce mouvement pour une raison : le site semblait plat, un template promettait un rendu premium, ou la page d'accueil d'un concurrent défilait comme une vidéo. Cet article montre quels effets de défilement coûtent en performance, le travail exact du navigateur derrière chacun d'eux, et les décisions d'ingénierie qui maintiennent le mouvement fluide et rapide."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**L'animation au défilement bon marché est une taxe sur la performance.** Le scroll-jacking et les propriétés de mise en page animées forcent le navigateur à recalculer la page à chaque image.",
+        "**L'INP et le CLS en pâtissent.** Des gestionnaires de défilement lourds retardent la réactivité de la page aux touches et aux clics, et un mouvement tardif décale la mise en page sous le lecteur.",
+        "**Certaines propriétés sont gratuites, la plupart ne le sont pas.** Animer opacity, translate, scale et rotate reste sur le GPU. Animer width, height, top ou margin déclenche un travail de mise en page complet.",
+        "**Un bon mouvement est une décision d'ingénierie.** Les propriétés de compositeur uniquement, IntersectionObserver, les passive listeners et un fallback prefers-reduced-motion maintiennent les effets rapides.",
+        "**Un vrai ingénieur le mesure.** Les scores terrain d'INP et de CLS, ainsi qu'un test sur un téléphone Android milieu de gamme, révèlent si l'animation aide ou vous coûte des ventes."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Ce que l'animation au défilement bon marché fait à votre page"
+    },
+    {
+      "type": "p",
+      "text": "L'animation au défilement bon marché arrive généralement sous forme de plugin ou de snippet copié. Elle attache un gestionnaire à l'événement scroll et exécute du JavaScript à chaque image que l'utilisateur fait défiler."
+    },
+    {
+      "type": "p",
+      "text": "Ce gestionnaire lit souvent des valeurs de mise en page et écrit de nouveaux styles dans la même image, ce qui force le navigateur à recalculer la géométrie de la page encore et encore. Chaque bibliothèque parallax ou animate-on-scroll embarque aussi son propre code, souvent 30KB à 150KB que le navigateur doit analyser avant que quoi que ce soit ne bouge."
+    },
+    {
+      "type": "p",
+      "text": "Sur un ordinateur portable rapide, le coût se cache. Sur un téléphone Android milieu de gamme, là où se trouve une grande partie de votre trafic, la page saccade et le défilement devient lourd."
+    },
+    {
+      "type": "p",
+      "text": "C'est pourquoi webvise conçoit des [pages d'atterrissage et sites de lancement](/services/landing-pages) avec un budget de performance défini dès le premier commit. Le mouvement devient une couche délibérée, mesurée par rapport aux Core Web Vitals, plutôt qu'un ajout de dernière minute."
+    },
+    {
+      "type": "h2",
+      "text": "Les Core Web Vitals mis à mal"
+    },
+    {
+      "type": "p",
+      "text": "Google évalue la vitesse d'une page sur trois métriques, et l'animation au défilement peut nuire aux trois."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Métrique",
+        "Bon score",
+        "Comment l'animation au défilement la pénalise"
+      ],
+      "rows": [
+        [
+          "INP (Interaction to Next Paint)",
+          "sous 200ms",
+          "Les gestionnaires de défilement exécutent de longues tâches sur le main thread, les touches et les clics attendent leur tour"
+        ],
+        [
+          "CLS (Cumulative Layout Shift)",
+          "sous 0,1",
+          "Les éléments qui s'animent tardivement, ou qui animent width et height, repoussent le contenu"
+        ],
+        [
+          "LCP (Largest Contentful Paint)",
+          "sous 2,5s",
+          "Les bibliothèques d'animation se chargent tôt et concurrencent votre image hero et vos polices pour la bande passante"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "L'INP a remplacé le FID comme Core Web Vital en mars 2024, et c'est la métrique que l'animation au défilement pénalise le plus. L'INP mesure la rapidité avec laquelle une page répond après une touche ou un clic. Un gestionnaire de défilement effectuant un travail de mise en page bloque cette réponse et pousse votre score au-delà de 200ms."
+    },
+    {
+      "type": "h2",
+      "text": "Ce qui est gratuit à animer, et ce qui ne l'est pas"
+    },
+    {
+      "type": "p",
+      "text": "Les navigateurs rendent en plusieurs étapes : mise en page, puis peinture, puis composite. L'étape qu'une propriété touche détermine son coût d'animation."
+    },
+    {
+      "type": "table",
+      "headers": ["Animez ceci", "Étape du navigateur", "Coût par image"],
+      "rows": [
+        ["opacity", "Composite uniquement", "Économique, géré par le GPU"],
+        [
+          "translate, scale, rotate",
+          "Composite uniquement",
+          "Économique, géré par le GPU"
+        ],
+        [
+          "width, height, top, left, margin",
+          "Mise en page complète",
+          "Coûteux, recalcule la page"
+        ],
+        [
+          "box-shadow, filter, background",
+          "Peinture",
+          "Modéré, repeint de grandes zones"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "La règle derrière tout site fluide est concise. Animez opacity et les propriétés de position translate, scale et rotate, car le GPU les gère sans toucher à la mise en page. Les effets bon marché recourent à width, height et top, ce qui force un recalcul de la mise en page à chaque image."
+    },
+    {
+      "type": "h2",
+      "text": "Pourquoi le scrollytelling est un piège à performance"
+    },
+    {
+      "type": "p",
+      "text": "Le scrollytelling détourne la barre de défilement pour piloter une timeline d'animation. La page cesse de défiler à sa vitesse naturelle et commence à jouer une séquence contrôlée par le développeur."
+    },
+    {
+      "type": "p",
+      "text": "Cela crée trois problèmes. Le défilement personnalisé semble étrange sur un trackpad et encore pire sur un téléphone, où les utilisateurs s'attendent à ce que leur pouce déplace directement la page. Les lecteurs d'écran et les utilisateurs au clavier perdent l'ordre de lecture normal. Chaque image de défilement exécute du JavaScript, soit exactement le travail sur le main thread qui détruit l'INP."
+    },
+    {
+      "type": "p",
+      "text": "Le scrollytelling justifie sa place dans de rares cas : un récit de données dans un reportage, une présentation de produit où la scène compte plus que la vitesse, une campagne de marque avec un vrai budget motion. Pour une page d'atterrissage dont l'objectif est de générer des demandes, le coût dépasse presque toujours le bénéfice."
+    },
+    {
+      "type": "h2",
+      "text": "Ce que coûte vraiment un bon mouvement"
+    },
+    {
+      "type": "p",
+      "text": "Un mouvement fluide repose sur une courte liste de décisions, et chacune requiert un ingénieur qui connaît le navigateur."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**N'animez que les propriétés de compositeur.** Restez sur opacity, translate, scale et rotate pour que le GPU fasse le travail et que le main thread reste libre.",
+        "**Déclenchez sur la visibilité, pas sur la position de défilement.** IntersectionObserver se déclenche une seule fois quand un élément entre dans le viewport, au lieu d'exécuter du code à chaque image de défilement.",
+        "**Gardez les écouteurs passifs.** Un passive scroll listener indique au navigateur qu'il ne bloquera pas le défilement, ce qui protège votre score INP.",
+        "**Budgétisez le timing.** Les micro-interactions s'exécutent de 120ms à 250ms, les entrances de 500ms à 800ms, les chorégraphies plus larges de 800ms à 1500ms. Au-delà, l'effet semble cassé.",
+        "**Livrez un fallback prefers-reduced-motion.** Respectez prefers-reduced-motion pour que les personnes sujettes au mal des transports, et les outils qui l'auditent, obtiennent une version apaisée.",
+        "**Chargez le code d'animation en island.** Un composant client uniquement qui se nettoie à la navigation maintient le JavaScript d'animation hors de votre premier rendu."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Un page builder cache chacun de ces choix. Un outil glisser-déposer vous remet l'effet et le coût en performance en un seul clic, sans contrôle sur la propriété animée ni sur le JavaScript chargé. Un ingénieur choisit la propriété, le déclencheur et le timing délibérément, puis vérifie le résultat."
+    },
+    {
+      "type": "p",
+      "text": "Le gain est réel. Des pages plus rapides convertissent mieux, et les calculs de conversion sont détaillés dans [comment la vitesse d'un site affecte les conversions](/blog/website-speed-and-conversions). Un mouvement qui respecte ce calcul apporte du soin sans consommer votre vitesse."
+    },
+    {
+      "type": "h2",
+      "text": "Un audit en 6 points pour votre propre site"
+    },
+    {
+      "type": "p",
+      "text": "Vous pouvez auditer votre site en une dizaine de minutes. Pour une version complète, suivez la [checklist d'audit de site](/blog/website-audit-checklist). Effectuez ces étapes dans l'ordre."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Ouvrez PageSpeed Insights** et lisez l'INP et le CLS terrain, pas seulement le score lab. Les données terrain reflètent de vrais téléphones.",
+        "**Enregistrez une trace de Performance dans Chrome DevTools** pendant que vous faites défiler la page. Les longues tâches rouges sur le main thread signalent que vos gestionnaires de défilement font trop.",
+        "**Observez le compteur de layout-shift** pendant le chargement de la page. Tout ce qui s'anime tardivement est un risque CLS.",
+        "**Vérifiez le bundle JavaScript** pour les bibliothèques d'animation. Une seule bibliothèque de défilement dépassant 40KB mérite d'être remise en question.",
+        "**Activez prefers-reduced-motion** dans le panneau de rendu de Chrome DevTools. Si la page se casse ou semble vide, le mouvement n'était jamais facultatif.",
+        "**Testez sur un vrai Android milieu de gamme,** pas sur votre ordinateur portable. C'est là que les saccades se manifestent."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Une animation devrait donner à une page un aspect soigné sans rien coûter en vitesse. Cet équilibre s'obtient en choisissant la bonne propriété, le bon déclencheur et le bon timing, puis en mesurant le résultat sur un vrai téléphone. webvise conçoit des sites de lancement et des pages d'atterrissage où le mouvement est optimisé pour les Core Web Vitals dès le premier jour. Si votre site est beau mais obtient de mauvais scores, [décrivez votre projet](/#contact) et vous verrez où le mouvement vous coûte des conversions."
+    }
+  ]
+}

@@ -1,0 +1,186 @@
+{
+  "date": "2026-06-19",
+  "readingTime": 7,
+  "keyword": "Scroll-Animation Performance",
+  "title": "Scroll-Animationen und Performance: Warum gute Animationen echtes Engineering brauchen",
+  "excerpt": "Billige Scroll-Animationen und Scrollytelling wirken hochwertig und drücken nebenbei die Core Web Vitals. Welche Effekte Performance kosten und welches Engineering Animation schnell hält.",
+  "metaDescription": "Scrollytelling kann hochwertig wirken und trotzdem Conversions kosten. Die echten Performance-Kosten billiger Scroll-Animationen, und wie gutes Engineering sie behebt.",
+  "tags": ["Performance", "Web Design", "Web Development"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Die meisten Scroll-Animationen machen eine Website langsamer, und die billig gebauten gehen am stärksten zulasten der Performance. Scrollytelling, Parallax-Plugins und nachträglich aufgesetzte Einblende-Effekte beim Scrollen sind der häufigste Grund, warum eine gut aussehende Seite bei den Core Web Vitals durchfällt."
+    },
+    {
+      "type": "p",
+      "text": "Die Felddaten von Google sind eindeutig. Jede zusätzliche Sekunde Ladezeit senkt die Conversions um rund 7%, und bei 3 Sekunden Ladezeit auf dem Smartphone springen etwa 53% der Besucher ab, bevor sie den Inhalt überhaupt sehen."
+    },
+    {
+      "type": "p",
+      "text": "Die Animation kam aus gutem Grund auf die Seite: Sie wirkte flach, ein Template versprach Premium-Optik, oder die Startseite eines Wettbewerbers scrollte wie ein Video. Dieser Artikel zeigt, welche Scroll-Effekte Performance kosten, was im Browser dahinter passiert und mit welchen Engineering-Entscheidungen Animation flüssig und schnell bleibt."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Billige Scroll-Animationen kosten unbemerkt Performance.** Scroll-Jacking und animierte Layout-Eigenschaften zwingen den Browser, die Seite in jedem Frame neu zu berechnen.",
+        "**INP und CLS leiden zuerst.** Aufwändige Scroll-Handler verzögern, wie schnell die Seite auf Eingaben reagiert, und spät geladene Animationen verschieben das Layout, während jemand schon liest.",
+        "**Manche Eigenschaften kosten nichts, die meisten schon.** opacity, translate, scale und rotate zu animieren, bleibt auf der GPU. width, height, top oder margin zu animieren, löst eine komplette Layout-Berechnung aus.",
+        "**Gute Bewegung ist eine Frage des Engineerings.** Compositor-Eigenschaften, IntersectionObserver, passive Listener und ein reduced-motion-Fallback halten Animationen schnell.",
+        "**Ein echter Entwickler misst nach.** INP und CLS aus echten Felddaten und ein Test auf einem Android-Mittelklassegerät zeigen, ob die Animation hilft oder Umsatz kostet."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Was billige Scroll-Animationen mit einer Seite anrichten"
+    },
+    {
+      "type": "p",
+      "text": "Billige Scroll-Animationen kommen meist als Plugin oder kopiertes Code-Snippet. Sie hängen einen Handler an das Scroll-Event und führen bei jedem gescrollten Frame JavaScript aus."
+    },
+    {
+      "type": "p",
+      "text": "Dieser Handler liest oft Layout-Werte und schreibt im selben Frame neue Styles, was den Browser zwingt, die Seitengeometrie immer wieder neu zu berechnen. Jede Parallax- oder Animate-on-scroll-Bibliothek bringt außerdem eigenen Code mit, oft 30KB bis 150KB, die der Browser erst parsen muss, bevor sich überhaupt etwas bewegt."
+    },
+    {
+      "type": "p",
+      "text": "Auf einem schnellen Laptop fällt das nicht auf. Auf einem Android-Mittelklassegerät, wo ein großer Teil des Traffics tatsächlich herkommt, ruckelt die Seite und das Scrollen fühlt sich zäh an."
+    },
+    {
+      "type": "p",
+      "text": "Deshalb baut webvise [Landing Pages und Launch Sites](/services/landing-pages) mit einem Performance-Budget, das ab dem ersten Commit feststeht. Animation ist dann eine bewusste Entscheidung, gemessen an den Core Web Vitals, und wird nicht am Ende draufgesetzt."
+    },
+    {
+      "type": "h2",
+      "text": "Welche Core Web Vitals darunter leiden"
+    },
+    {
+      "type": "p",
+      "text": "Google bewertet die Geschwindigkeit einer Seite über drei Werte, und Scroll-Animationen können allen dreien schaden."
+    },
+    {
+      "type": "table",
+      "headers": ["Metrik", "Guter Wert", "Wie Scroll-Animationen schaden"],
+      "rows": [
+        [
+          "INP (Interaction to Next Paint)",
+          "unter 200ms",
+          "Scroll-Handler blockieren den main thread mit langen Aufgaben, sodass Taps und Klicks warten müssen"
+        ],
+        [
+          "CLS (Cumulative Layout Shift)",
+          "unter 0,1",
+          "Spät eingeblendete Elemente oder Animationen von width und height verschieben den Inhalt"
+        ],
+        [
+          "LCP (Largest Contentful Paint)",
+          "unter 2,5s",
+          "Animationsbibliotheken laden früh und konkurrieren mit dem Hero-Image und den Schriften um Bandbreite"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "INP hat FID im März 2024 als Core Web Vital abgelöst, und genau hier richten Scroll-Animationen den größten Schaden an. INP misst, wie schnell eine Seite nach einem Tap oder Klick reagiert. Ein Scroll-Handler, der Layout-Arbeit erledigt, blockiert diese Reaktion und treibt den Wert über 200ms."
+    },
+    {
+      "type": "h2",
+      "text": "Was sich kostenlos animieren lässt und was nicht"
+    },
+    {
+      "type": "p",
+      "text": "Browser rendern in Stufen: erst Layout, dann Paint, dann Composite. Welche Stufe eine Eigenschaft betrifft, entscheidet, wie teuer ihre Animation ist."
+    },
+    {
+      "type": "table",
+      "headers": ["Animierte Eigenschaft", "Browser-Stufe", "Kosten pro Frame"],
+      "rows": [
+        ["opacity", "Composite only", "Günstig, läuft auf der GPU"],
+        [
+          "translate, scale, rotate",
+          "Composite only",
+          "Günstig, läuft auf der GPU"
+        ],
+        [
+          "width, height, top, left, margin",
+          "Full Layout",
+          "Teuer, berechnet die ganze Seite neu"
+        ],
+        [
+          "box-shadow, filter, background",
+          "Paint",
+          "Mittel, zeichnet große Flächen neu"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Die Regel hinter jeder flüssigen Seite ist kurz. Animiert werden sollten opacity und die Positionswerte translate, scale und rotate, weil die GPU sie übernimmt, ohne das Layout anzufassen. Billige Effekte fassen stattdessen width, height und top an und erzwingen so in jedem Frame eine neue Layout-Berechnung."
+    },
+    {
+      "type": "h2",
+      "text": "Warum Scrollytelling eine Performance-Falle ist"
+    },
+    {
+      "type": "p",
+      "text": "Scrollytelling kapert die Scrollleiste, um damit eine Animations-Timeline zu steuern. Die Seite scrollt dann nicht mehr in ihrem natürlichen Tempo. Stattdessen läuft eine vorgegebene Sequenz ab."
+    },
+    {
+      "type": "p",
+      "text": "Daraus entstehen drei Probleme. Das eigene Scroll-Verhalten fühlt sich auf dem Trackpad falsch an und auf dem Smartphone noch schlechter, wo der Daumen die Seite eigentlich direkt bewegen soll. Nutzer von Screen-Readern und Tastatur verlieren die normale Lesereihenfolge. Und jeder Scroll-Frame führt JavaScript aus, also genau die Arbeit auf dem main thread, die INP ruiniert."
+    },
+    {
+      "type": "p",
+      "text": "In seltenen Fällen hat Scrollytelling seine Berechtigung: eine Datenstory in einem journalistischen Beitrag, eine Produkttour, bei der die Inszenierung wichtiger ist als Tempo, eine Markenkampagne mit echtem Motion-Budget. Für eine Landing Page, die Anfragen bringen soll, überwiegen die Kosten fast immer den Nutzen."
+    },
+    {
+      "type": "h2",
+      "text": "Was gute Animation wirklich kostet"
+    },
+    {
+      "type": "p",
+      "text": "Flüssige Animation entsteht aus einer kurzen Liste von Entscheidungen, und jede davon braucht jemanden, der den Browser wirklich kennt."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Nur Compositor-Eigenschaften animieren.** Bei opacity, translate, scale und rotate bleiben, damit die GPU die Arbeit macht und der main thread frei bleibt.",
+        "**Bei Sichtbarkeit auslösen, nicht bei der Scroll-Position.** IntersectionObserver feuert einmal, wenn ein Element in den Viewport kommt, statt bei jedem Scroll-Frame Code auszuführen.",
+        "**Listener auf passive setzen.** Ein passive Scroll-Listener sagt dem Browser, dass er das Scrollen nicht blockiert, und schützt so den INP-Score.",
+        "**Das Timing budgetieren.** Micro-Interaktionen laufen 120ms bis 250ms, Einblendungen 500ms bis 800ms, größere Choreografien 800ms bis 1500ms. Alles, was langsamer ist, wirkt kaputt.",
+        "**Einen reduced-motion-Fallback liefern.** prefers-reduced-motion respektieren, damit Menschen, die empfindlich auf Bewegung reagieren, und die Tools, die darauf prüfen, eine ruhige Version bekommen.",
+        "**Animations-Code als Island laden.** Eine Client-only-Komponente, die beim Navigieren aufräumt, hält Animations-JavaScript aus dem ersten Paint heraus."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Ein Page Builder blendet jede dieser Entscheidungen aus. Ein Drag-and-drop-Tool liefert den Effekt und die Performance-Kosten in einem Klick, ohne dass man Einfluss darauf hat, welche Eigenschaft animiert und welches JavaScript geladen wird. Ein erfahrener Entwickler wählt Eigenschaft, Auslöser und Timing bewusst und prüft hinterher das Ergebnis."
+    },
+    {
+      "type": "p",
+      "text": "Am Ende geht es um bares Geld. Schnellere Seiten konvertieren besser, und die genaue Rechnung dazu steht in [wie sich die Geschwindigkeit einer Website auf Conversions auswirkt](/blog/website-speed-and-conversions). Animation, die diese Rechnung berücksichtigt, wirkt hochwertig und kostet kein Tempo."
+    },
+    {
+      "type": "h2",
+      "text": "Ein 6-Punkte-Audit für die eigene Website"
+    },
+    {
+      "type": "p",
+      "text": "Die eigene Website lässt sich in rund 10 Minuten prüfen. Eine ausführlichere Variante für die ganze Seite steht in der [Website-Audit-Checkliste](/blog/website-audit-checklist). Die folgenden Schritte der Reihe nach durchgehen."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**PageSpeed Insights öffnen** und die Feldwerte für INP und CLS ansehen, nicht nur den Laborwert. Felddaten stammen von echten Geräten.",
+        "**Einen Performance-Trace in Chrome DevTools aufzeichnen,** während gescrollt wird. Lange rote Tasks auf dem main thread bedeuten, dass die Scroll-Handler zu viel tun.",
+        "**Die Layout-Shifts beim Laden beobachten.** Alles, was spät eingeblendet wird, ist ein CLS-Risiko.",
+        "**Das JavaScript-Bundle auf Animationsbibliotheken prüfen.** Eine einzelne Scroll-Bibliothek über 40KB sollte man hinterfragen.",
+        "**prefers-reduced-motion im Rendering-Panel der DevTools aktivieren.** Wenn die Seite zerbricht oder leer wirkt, war die Animation nie optional.",
+        "**Auf einem echten Android-Mittelklassegerät testen,** nicht auf dem Laptop. Auf dem Smartphone zeigt sich das Ruckeln."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Animation soll eine Seite durchdacht wirken lassen, ohne Tempo zu kosten. Diese Balance entsteht durch die richtige Eigenschaft, den richtigen Auslöser und das richtige Timing, gemessen auf einem echten Smartphone. webvise baut Launch Sites und Landing Pages, bei denen Animation von Tag eins an an den Core Web Vitals ausgerichtet wird. Wenn Ihre Seite gut aussieht, aber schlecht abschneidet: [beschreiben Sie Ihr Projekt](/#contact), und Sie sehen, wo die Animation Sie Performance kostet."
+    }
+  ]
+}

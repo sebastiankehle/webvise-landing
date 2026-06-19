@@ -1,0 +1,194 @@
+{
+  "date": "2026-06-19",
+  "readingTime": 7,
+  "keyword": "wydajność animacji przewijania",
+  "title": "Animacje przewijania a wydajność: dobry ruch wymaga prawdziwego inżyniera",
+  "excerpt": "Tanie animacje przewijania i scrollytelling mogą wyglądać premium, a jednocześnie po cichu obniżać Core Web Vitals. Oto efekty, które kosztują wydajność, i inżynierskie podejście, które utrzymuje ruch w szybkim tempie.",
+  "metaDescription": "Scrollytelling może wyglądać premium i wciąż niszczyć konwersje. Rzeczywisty koszt wydajnościowy tanich animacji przewijania i inżynierskie rozwiązania tego problemu.",
+  "tags": ["Performance", "Web Design", "Web Development"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Większość animacji przewijania spowalnia stronę, a najtańsze wersje kosztują wydajność najbardziej. Scrollytelling, wtyczki parallax i efekty pojawiania się przy przewijaniu doklejone do gotowej strony to najczęstszy powód, dla którego dobrze wyglądająca witryna nie zdaje egzaminu Core Web Vitals."
+    },
+    {
+      "type": "p",
+      "text": "Dane terenowe Google są bezlitosne w swoich wnioskach. Każda dodatkowa sekunda ładowania obcina konwersje o około 7%, a 3-sekundowe ładowanie na urządzeniu mobilnym sprawia, że około 53% odwiedzających opuszcza stronę, zanim w ogóle zobaczy jej treść."
+    },
+    {
+      "type": "p",
+      "text": "Ruch pojawił się na stronie z konkretnego powodu: witryna wydawała się płaska, szablon obiecywał efekt premium albo konkurencyjna strona przewijała się jak film. Ten artykuł pokazuje, które efekty przewijania pochłaniają wydajność, jaką konkretną pracę wykonuje przy tym przeglądarka i jakie decyzje inżynierskie pozwalają zachować płynność i szybkość ruchu."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Tanie animacje przewijania to podatek od wydajności.** Scroll-jacking i animowanie właściwości układu zmuszają przeglądarkę do przeliczania strony na każdej klatce.",
+        "**INP i CLS ponoszą konsekwencje.** Rozbudowane handlery przewijania opóźniają reakcję strony na dotknięcia, a spóźnione animacje przesuwają układ pod czytającym.",
+        "**Niektóre właściwości są bezpłatne, większość nie.** Animowanie opacity, translate, scale i rotate pozostaje na GPU. Animowanie width, height, top czy margin wyzwala pełne przeliczenie układu.",
+        "**Dobry ruch to decyzja inżynierska.** Właściwości obsługiwane przez compositor, IntersectionObserver, passive listener i wariant reduced-motion utrzymują efekty w szybkim tempie.",
+        "**Prawdziwy inżynier mierzy wyniki.** Terenowe wartości INP i CLS oraz test na przeciętnym telefonie z Androidem pokażą, czy animacja pomaga, czy odbiera sprzedaż."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Co tania animacja przewijania robi ze stroną"
+    },
+    {
+      "type": "p",
+      "text": "Tania animacja przewijania pojawia się zazwyczaj jako wtyczka lub skopiowany fragment kodu. Podpina handler do zdarzenia scroll i uruchamia JavaScript na każdej klatce, gdy użytkownik przewija stronę."
+    },
+    {
+      "type": "p",
+      "text": "Taki handler często odczytuje wartości układu i zapisuje nowe style w tej samej klatce, zmuszając przeglądarkę do wielokrotnego przeliczania geometrii strony. Każda biblioteka parallax lub animate-on-scroll dołącza własny kod, nierzadko od 30KB do 150KB, który przeglądarka musi przetworzyć, zanim cokolwiek się poruszy."
+    },
+    {
+      "type": "p",
+      "text": "Na szybkim laptopie koszt pozostaje niewidoczny. Na przeciętnym telefonie z Androidem, na którym odbywa się znaczna część ruchu, strona zacina się, a przewijanie sprawia wrażenie ciężkiego."
+    },
+    {
+      "type": "p",
+      "text": "Dlatego webvise buduje [strony docelowe i witryny startowe](/services/landing-pages) z budżetem wydajnościowym ustalonym od pierwszego commita. Ruch staje się świadomą warstwą mierzoną względem Core Web Vitals, a nie czymś dodawanym na końcu."
+    },
+    {
+      "type": "h2",
+      "text": "Które Core Web Vitals na tym cierpią"
+    },
+    {
+      "type": "p",
+      "text": "Google ocenia szybkość strony według trzech metryk, a animacje przewijania mogą zaszkodzić każdej z nich."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Metryka",
+        "Dobry wynik",
+        "Jak animacje przewijania jej szkodzą"
+      ],
+      "rows": [
+        [
+          "INP (Interaction to Next Paint)",
+          "poniżej 200ms",
+          "Handlery przewijania uruchamiają długie zadania na głównym wątku, przez co dotknięcia i kliknięcia muszą czekać na swoją kolej"
+        ],
+        [
+          "CLS (Cumulative Layout Shift)",
+          "poniżej 0,1",
+          "Elementy pojawiające się z opóźnieniem lub animujące width i height przesuwają treść"
+        ],
+        [
+          "LCP (Largest Contentful Paint)",
+          "poniżej 2,5s",
+          "Biblioteki animacji ładują się wcześnie i rywalizują z obrazem hero oraz czcionkami o pasmo"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "INP zastąpiło FID jako metrykę Core Web Vitals w marcu 2024 roku i to właśnie ona najbardziej odczuwa skutki animacji przewijania. INP mierzy, jak szybko strona reaguje po dotknięciu lub kliknięciu. Handler przewijania wykonujący pracę layoutową blokuje tę odpowiedź i przesuwa wynik powyżej 200ms."
+    },
+    {
+      "type": "h2",
+      "text": "Co można animować bezpłatnie, a co nie"
+    },
+    {
+      "type": "p",
+      "text": "Przeglądarki renderują w etapach: layout, następnie paint, następnie composite. To, którego etapu dotyczy dana właściwość, decyduje o koszcie jej animowania."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Animowana właściwość",
+        "Etap przeglądarki",
+        "Koszt na klatkę"
+      ],
+      "rows": [
+        ["opacity", "Tylko composite", "Tani, obsługiwany przez GPU"],
+        [
+          "translate, scale, rotate",
+          "Tylko composite",
+          "Tani, obsługiwany przez GPU"
+        ],
+        [
+          "width, height, top, left, margin",
+          "Pełny layout",
+          "Drogi, przelicza całą stronę"
+        ],
+        [
+          "box-shadow, filter, background",
+          "Paint",
+          "Umiarkowany, przerysowuje duże obszary"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Zasada stojąca za każdą płynną stroną jest krótka. Animuje się opacity i właściwości pozycji: translate, scale i rotate, ponieważ GPU obsługuje je bez ingerencji w layout. Tanie efekty sięgają po width, height i top, co wymusza przeliczenie układu na każdej pojedynczej klatce."
+    },
+    {
+      "type": "h2",
+      "text": "Dlaczego scrollytelling to pułapka wydajnościowa"
+    },
+    {
+      "type": "p",
+      "text": "Scrollytelling przejmuje pasek przewijania, by sterować osią czasu animacji. Strona przestaje przewijać się w naturalnym tempie i zaczyna odtwarzać sekwencję kontrolowaną przez dewelopera."
+    },
+    {
+      "type": "p",
+      "text": "Rodzi to trzy problemy. Niestandardowe przewijanie źle działa na touchpadzie, a na telefonie jest jeszcze gorsze, bo użytkownicy oczekują, że kciuk bezpośrednio przesuwa stronę. Czytniki ekranu i użytkownicy klawiatury tracą normalną kolejność czytania. Na każdej klatce przewijania uruchamia się JavaScript, co jest dokładnie tym rodzajem pracy na głównym wątku, który niszczy INP."
+    },
+    {
+      "type": "p",
+      "text": "Scrollytelling ma rację bytu w wyjątkowych przypadkach: interaktywna historia danych w serwisie informacyjnym, prezentacja produktu, w której scena jest ważniejsza niż szybkość, kampania brandingowa z prawdziwym budżetem na ruch. Dla strony docelowej, której celem jest pozyskiwanie zapytań, koszt prawie zawsze przeważa nad korzyścią."
+    },
+    {
+      "type": "h2",
+      "text": "Ile naprawdę kosztuje dobry ruch"
+    },
+    {
+      "type": "p",
+      "text": "Płynny ruch wynika z krótkiej listy decyzji, z których każda wymaga inżyniera znającego przeglądarkę."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Animować wyłącznie właściwości compositor.** Należy stosować opacity, translate, scale i rotate, aby GPU wykonywał pracę, a główny wątek pozostał wolny.",
+        "**Wyzwalać animacje widocznością, nie pozycją przewijania.** IntersectionObserver odpala się raz, gdy element wchodzi w pole widzenia, zamiast uruchamiać kod na każdej klatce przewijania.",
+        "**Utrzymywać listenery jako passive.** Passive scroll listener informuje przeglądarkę, że nie będzie blokował przewijania, co chroni wynik INP.",
+        "**Zaplanować timing.** Mikrointerakcje trwają 120ms do 250ms, wejścia elementów 500ms do 800ms, większa choreografia 800ms do 1500ms. Wolniej niż to wydaje się zepsute.",
+        "**Dostarczyć wariant reduced-motion.** Należy respektować prefers-reduced-motion, żeby osoby wrażliwe na ruch i narzędzia audytujące otrzymały spokojną wersję.",
+        "**Ładować kod animacji jako wyspę.** Komponent tylko po stronie klienta, który sprząta po sobie przy nawigacji, eliminuje JavaScript animacji z pierwszego renderu."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Page builder ukrywa każdą z tych decyzji. Narzędzie drag-and-drop oddaje efekt i koszt wydajnościowy w jednym kliknięciu, bez żadnej kontroli nad animowaną właściwością ani ładowanym JavaScript. Inżynier dobiera właściwość, wyzwalacz i timing świadomie, a następnie sprawdza wynik."
+    },
+    {
+      "type": "p",
+      "text": "Zwrot jest realny finansowo. Szybsze strony lepiej konwertują, a matematykę konwersji rozpisano w artykule o [tym, jak szybkość strony wpływa na konwersje](/blog/website-speed-and-conversions). Ruch respektujący tę matematykę dodaje szlifu i nie zużywa ani odrobiny szybkości."
+    },
+    {
+      "type": "h2",
+      "text": "6-punktowy audyt własnej strony"
+    },
+    {
+      "type": "p",
+      "text": "Własną stronę można sprawdzić w około 10 minut. Pełna wersja dla całej witryny jest dostępna w [checkliście audytu strony](/blog/website-audit-checklist). Poniższe kroki należy wykonywać po kolei."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Otworzyć PageSpeed Insights** i odczytać terenowe wartości INP i CLS, nie tylko wynik laboratoryjny. Dane terenowe odzwierciedlają rzeczywiste telefony.",
+        "**Nagrać ślad Performance w Chrome DevTools** podczas przewijania. Długie czerwone zadania na głównym wątku oznaczają, że handlery przewijania robią zbyt wiele.",
+        "**Obserwować liczbę przesunięć układu** podczas ładowania strony. Wszystko, co pojawia się z opóźnieniem, stanowi ryzyko dla CLS.",
+        "**Sprawdzić bundle JavaScript** pod kątem bibliotek animacji. Pojedyncza biblioteka przewijania powyżej 40KB jest warta przemyślenia.",
+        "**Przełączyć prefers-reduced-motion** w panelu renderowania Chrome DevTools. Jeśli strona się psuje lub wygląda na pustą, ruch nigdy nie był opcjonalny.",
+        "**Testować na prawdziwym przeciętnym Androidzie,** nie na laptopie. To na telefonie żyje zacięcie."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Animacja powinna sprawić, że strona wydaje się przemyślana, a nie kosztować nic w szybkości. Ta równowaga bierze się z wyboru właściwej właściwości, właściwego wyzwalacza i właściwego timingu, a następnie zmierzenia wyniku na prawdziwym telefonie. webvise buduje witryny startowe i strony docelowe, w których ruch jest inżynierowany względem Core Web Vitals od pierwszego dnia. Jeśli strona wygląda dobrze, ale ma słabe wyniki, [proszę opisać swój projekt](/#contact), a zostanie pokazane, gdzie ruch kosztuje konwersje."
+    }
+  ]
+}
