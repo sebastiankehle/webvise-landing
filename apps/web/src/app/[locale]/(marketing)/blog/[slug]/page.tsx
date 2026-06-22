@@ -201,12 +201,12 @@ function RenderBlock({ block, locale }: { block: Block; locale: string }) {
 		case "table":
 			return (
 				<div className="mb-5 max-w-full overflow-x-auto">
-					<table className="w-full border border-border/40 text-sm">
+					<table className="w-full hyphens-none break-normal border border-border/40 text-sm">
 						<thead>
 							<tr className="border-border/40 border-b bg-muted/30">
 								{block.headers.map((h) => (
 									<th
-										className="px-4 py-3 text-left font-medium text-foreground text-sm"
+										className="min-w-28 px-4 py-3 text-left align-top font-medium text-foreground text-sm"
 										key={h}
 									>
 										{h}
@@ -222,7 +222,7 @@ function RenderBlock({ block, locale }: { block: Block; locale: string }) {
 								>
 									{row.map((cell, ci) => (
 										<td
-											className="px-4 py-3 text-muted-foreground"
+											className="min-w-28 px-4 py-3 align-top text-muted-foreground"
 											key={`${block.headers[ci] ?? ci}:${cell}`}
 										>
 											{renderInline(cell, locale)}
