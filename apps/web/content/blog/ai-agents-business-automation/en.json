@@ -3,7 +3,7 @@
   "readingTime": 10,
   "keyword": "ai agents business automation",
   "title": "How AI Agents Are Transforming Business Automation in 2026",
-  "excerpt": "AI agents go far beyond chatbots. They reason, use tools, escalate intelligently, and execute multi-step workflows autonomously. Here's how businesses are using them in production - and what separates a reliable agent from a demo.",
+  "excerpt": "AI agents go far beyond chatbots. They reason, use tools, escalate intelligently, and execute multi-step workflows autonomously. Here's how businesses are using them in production, and what separates a reliable agent from a demo.",
   "tags": ["AI Agents", "Automation", "Business Strategy"],
   "blocks": [
     {
@@ -59,11 +59,11 @@
     },
     {
       "type": "p",
-      "text": "A well-built support agent connects to your backend systems - customer database, order management, refund processing - through [standardised tool interfaces](/blog/what-is-model-context-protocol). When a customer reports a problem, the agent verifies their identity, looks up the order, diagnoses the issue, and either resolves it or escalates with a complete summary."
+      "text": "A well-built support agent connects to your backend systems, customer database, order management, refund processing, through [standardised tool interfaces](/blog/what-is-model-context-protocol). When a customer reports a problem, the agent verifies their identity, looks up the order, diagnoses the issue, and either resolves it or escalates with a complete summary."
     },
     {
       "type": "p",
-      "text": "The critical insight is that **escalation logic must be programmatic, not prompt-based**. If your business rule says \"verify identity before processing refunds,\" you cannot rely on a prompt instruction alone - it will fail in a percentage of cases. Instead, programmatic prerequisites block downstream tool calls until verification is complete. This is the difference between a demo and a production system."
+      "text": "The critical insight is that **escalation logic must be programmatic, not prompt-based**. If your business rule says \"verify identity before processing refunds,\" you cannot rely on a prompt instruction alone: it will fail in a percentage of cases. Instead, programmatic prerequisites block downstream tool calls until verification is complete. This is the difference between a demo and a production system."
     },
     {
       "type": "h3",
@@ -71,11 +71,11 @@
     },
     {
       "type": "p",
-      "text": "Complex tasks benefit from a **coordinator-subagent architecture**. A coordinator agent receives the request, breaks it into subtasks, and delegates to specialised subagents - one for web research, one for document analysis, one for synthesis. Each subagent has its own focused tool set and context, which improves reliability."
+      "text": "Complex tasks benefit from a **coordinator-subagent architecture**. A coordinator agent receives the request, breaks it into subtasks, and delegates to specialised subagents: one for web research, one for document analysis, one for synthesis. Each subagent has its own focused tool set and context, which improves reliability."
     },
     {
       "type": "p",
-      "text": "Why not give one agent all the tools? Because agents with access to too many tools (say 18 instead of [4-5](https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview)) make significantly more tool selection errors. Keeping each agent focused on its specialisation - with only the tools it needs - produces dramatically better results."
+      "text": "Why not give one agent all the tools? Because agents with access to too many tools (say 18 instead of [4-5](https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview)) make significantly more tool selection errors. Keeping each agent focused on its specialisation, with only the tools it needs, produces dramatically better results."
     },
     {
       "type": "h3",
@@ -83,7 +83,7 @@
     },
     {
       "type": "p",
-      "text": "Agents can extract structured data from unstructured documents - invoices, contracts, reports - and validate the output against strict schemas. When extraction fails validation, the agent retries with specific error feedback, correcting format issues automatically. For documents where information is genuinely absent, the agent returns null rather than fabricating values."
+      "text": "Agents can extract structured data from unstructured documents, invoices, contracts, reports, and validate the output against strict schemas. When extraction fails validation, the agent retries with specific error feedback, correcting format issues automatically. For documents where information is genuinely absent, the agent returns null rather than fabricating values."
     },
     {
       "type": "h2",
@@ -99,7 +99,7 @@
     },
     {
       "type": "p",
-      "text": "When deterministic compliance is required - identity verification before financial operations, approval gates before deployments - prompt instructions have a non-zero failure rate. Production systems use **hooks** that intercept tool calls and enforce business rules programmatically. A hook can block a refund above a threshold and redirect to human escalation, with zero chance of the agent bypassing the rule."
+      "text": "When deterministic compliance is required, identity verification before financial operations, approval gates before deployments, prompt instructions have a non-zero failure rate. Production systems use **hooks** that intercept tool calls and enforce business rules programmatically. A hook can block a refund above a threshold and redirect to human escalation, with zero chance of the agent bypassing the rule."
     },
     {
       "type": "h3",
@@ -115,7 +115,7 @@
     },
     {
       "type": "p",
-      "text": "The most common agent failure mode is getting escalation wrong - either escalating everything (defeating the purpose of [automation](/services/ai-automation)) or escalating nothing (frustrating customers). Effective escalation criteria are explicit and scenario-based:"
+      "text": "The most common agent failure mode is getting escalation wrong: either escalating everything (defeating the purpose of [automation](/services/ai-automation)) or escalating nothing (frustrating customers). Effective escalation criteria are explicit and scenario-based:"
     },
     {
       "type": "ul",
@@ -123,7 +123,7 @@
         "**Escalate immediately** when a customer explicitly requests a human agent",
         "**Escalate on policy gaps** when the customer's request falls outside documented policy",
         "**Resolve autonomously** when the issue is within the agent's documented capability, even if the customer is frustrated",
-        "**Avoid sentiment analysis as the primary escalation signal** - sentiment correlates poorly with case complexity in reviewed customer-support data"
+        "**Avoid sentiment analysis as the primary escalation signal**: sentiment correlates poorly with case complexity in reviewed customer-support data"
       ]
     },
     {
@@ -136,7 +136,7 @@
     },
     {
       "type": "p",
-      "text": "Production agents solve this by **extracting key facts into a persistent block** - customer ID, order numbers, amounts, statuses - that stays consistent across the conversation, separate from summarised history. Verbose tool outputs are trimmed to only the fields relevant to the current task before they enter the conversation context."
+      "text": "Production agents solve this by **extracting key facts into a persistent block**, customer ID, order numbers, amounts, statuses, that stays consistent across the conversation, separate from summarised history. Verbose tool outputs are trimmed to only the fields relevant to the current task before they enter the conversation context."
     },
     {
       "type": "p",
@@ -148,7 +148,7 @@
     },
     {
       "type": "p",
-      "text": "Not every AI workflow needs real-time processing. [Batch](https://docs.anthropic.com/en/docs/build-with-claude/batch-processing) APIs offer **50% cost savings** for workloads that can tolerate up to 24-hour processing windows - overnight reports, weekly audits, bulk data extraction. The key is matching the API approach to the latency requirement: real-time for blocking workflows, batch for everything else."
+      "text": "Not every AI workflow needs real-time processing. [Batch](https://docs.anthropic.com/en/docs/build-with-claude/batch-processing) APIs offer **50% cost savings** for workloads that can tolerate up to 24-hour processing windows: overnight reports, weekly audits, bulk data extraction. The key is matching the API approach to the latency requirement: real-time for blocking workflows, batch for everything else."
     },
     {
       "type": "h2",
@@ -160,7 +160,7 @@
     },
     {
       "type": "p",
-      "text": "But the gap between a working demo and a reliable production system is significant. It requires understanding agentic architecture, tool design, error handling, escalation logic, and context management - the same skills that define production-grade AI engineering."
+      "text": "But the gap between a working demo and a reliable production system is significant. It requires understanding agentic architecture, tool design, error handling, escalation logic, and context management, the same skills that define production-grade AI engineering."
     },
     {
       "type": "p",

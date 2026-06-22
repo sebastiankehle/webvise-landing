@@ -3,7 +3,7 @@
   "readingTime": 8,
   "keyword": "ai powered software development",
   "title": "How I Use AI to Build Better Software, Faster",
-  "excerpt": "AI coding tools are everywhere, but using them effectively requires more than installing an extension. Here's how I've integrated AI into every stage of my development workflow - from planning to code review to deployment.",
+  "excerpt": "AI coding tools are everywhere, but using them effectively requires more than installing an extension. Here's how I've integrated AI into every stage of my development workflow, from planning to code review to deployment.",
   "tags": ["AI", "Web Development", "Automation"],
   "blocks": [
     {
@@ -20,7 +20,7 @@
     },
     {
       "type": "p",
-      "text": "Complex tasks - library migrations, architecture changes, features that touch dozens of files - start in **plan mode**. Before any code is written, the AI explores the codebase, maps dependencies, and proposes an implementation approach. This is fundamentally different from giving the AI a task and hoping the output is right."
+      "text": "Complex tasks, library migrations, architecture changes, features that touch dozens of files, start in **plan mode**. Before any code is written, the AI explores the codebase, maps dependencies, and proposes an implementation approach. This is fundamentally different from giving the AI a task and hoping the output is right."
     },
     {
       "type": "p",
@@ -28,7 +28,7 @@
     },
     {
       "type": "p",
-      "text": "For well-scoped changes - a single-file bug fix, adding a validation check - I skip plan mode entirely and execute directly. The key is matching the approach to the complexity: planning for architectural decisions, direct execution for clear tasks."
+      "text": "For well-scoped changes, a single-file bug fix, adding a validation check, I skip plan mode entirely and execute directly. The key is matching the approach to the complexity: planning for architectural decisions, direct execution for clear tasks."
     },
     {
       "type": "h2",
@@ -40,11 +40,11 @@
     },
     {
       "type": "p",
-      "text": "But not all context is relevant all the time. Loading API conventions when editing a React component wastes tokens and can confuse the AI. I use **path-specific rules** with glob patterns - rules that activate only when editing matching files. Test conventions load for `**/*.test.tsx` files. API patterns load for `src/api/**/*`. Database conventions load for migration files."
+      "text": "But not all context is relevant all the time. Loading API conventions when editing a React component wastes tokens and can confuse the AI. I use **path-specific rules** with glob patterns, rules that activate only when editing matching files. Test conventions load for `**/*.test.tsx` files. API patterns load for `src/api/**/*`. Database conventions load for migration files."
     },
     {
       "type": "p",
-      "text": "This approach reduces noise and improves output quality. The AI generates code that matches my standards because it knows what those standards are - and only the standards relevant to the file it is editing."
+      "text": "This approach reduces noise and improves output quality. The AI generates code that matches my standards because it knows what those standards are, and only the standards relevant to the file it is editing."
     },
     {
       "type": "h2",
@@ -56,11 +56,11 @@
     },
     {
       "type": "p",
-      "text": "My workflow is test-driven: I write the test suite first - covering expected behaviour, edge cases, and performance requirements - then have the AI implement against those tests. When tests fail, I share the specific failures, and the AI corrects its implementation. Each iteration narrows the gap between the output and the requirement."
+      "text": "My workflow is test-driven: I write the test suite first, covering expected behaviour, edge cases, and performance requirements, then have the AI implement against those tests. When tests fail, I share the specific failures, and the AI corrects its implementation. Each iteration narrows the gap between the output and the requirement."
     },
     {
       "type": "p",
-      "text": "For ambiguous requirements, I use the **interview pattern**: instead of implementing immediately, I have the AI ask clarifying questions first. This surfaces considerations the developer might not have anticipated - cache invalidation strategies, failure modes, concurrency issues. Two minutes of questions can prevent two hours of rework."
+      "text": "For ambiguous requirements, I use the **interview pattern**: instead of implementing immediately, I have the AI ask clarifying questions first. This surfaces considerations the developer might not have anticipated: cache invalidation strategies, failure modes, concurrency issues. Two minutes of questions can prevent two hours of rework."
     },
     {
       "type": "ul",
@@ -80,11 +80,11 @@
     },
     {
       "type": "p",
-      "text": "I use **independent review instances** - a fresh AI session with no prior reasoning context from the generation phase. This second pair of eyes catches subtle issues that self-review misses. For large pull requests touching many files, I split reviews into per-file analysis passes for local issues, plus a separate integration pass examining cross-file data flow."
+      "text": "I use **independent review instances**, a fresh AI session with no prior reasoning context from the generation phase. This second pair of eyes catches subtle issues that self-review misses. For large pull requests touching many files, I split reviews into per-file analysis passes for local issues, plus a separate integration pass examining cross-file data flow."
     },
     {
       "type": "p",
-      "text": "Review prompts are specific about what to look for. Vague instructions like \"check that the code is correct\" produce unreliable results. Explicit criteria - \"flag logic bugs and security issues, skip minor style differences\" - reduce false positives and build developer trust in the review process."
+      "text": "Review prompts are specific about what to look for. Vague instructions like \"check that the code is correct\" produce unreliable results. Explicit criteria, \"flag logic bugs and security issues, skip minor style differences\", reduce false positives and build developer trust in the review process."
     },
     {
       "type": "h2",
@@ -96,7 +96,7 @@
     },
     {
       "type": "p",
-      "text": "Two details make this work in practice. First, when reviews re-run after new commits, prior findings are included in context so the AI reports only **new or still-unaddressed issues** - avoiding duplicate comments that erode trust. Second, existing test files are included in context so test generation avoids suggesting scenarios already covered by the test suite."
+      "text": "Two details make this work in practice. First, when reviews re-run after new commits, prior findings are included in context so the AI reports only **new or still-unaddressed issues**, avoiding duplicate comments that erode trust. Second, existing test files are included in context so test generation avoids suggesting scenarios already covered by the test suite."
     },
     {
       "type": "h2",
@@ -109,10 +109,10 @@
     {
       "type": "ul",
       "items": [
-        "**Incremental exploration.** Start with targeted searches to find entry points, then follow imports and trace flows - do not load all files upfront",
+        "**Incremental exploration.** Start with targeted searches to find entry points, then follow imports and trace flows. Do not load all files upfront.",
         "**Subagent delegation.** Verbose discovery tasks run in isolated sub-contexts that return summaries, keeping the main conversation focused",
         "**Structured state persistence.** Key findings are written to scratchpad files and referenced in subsequent queries, counteracting context degradation in long sessions",
-        "**Context compaction.** When the context fills with verbose output from exploration, I compact it - summarising what was learned before continuing"
+        "**Context compaction.** When the context fills with verbose output from exploration, I compact it, summarising what was learned before continuing"
       ]
     },
     {
@@ -121,16 +121,16 @@
     },
     {
       "type": "p",
-      "text": "This workflow is part of how I typically deliver production-ready applications in weeks rather than months for the scopes I accept; outcomes scale with project complexity. AI handles the volume work - boilerplate generation, test writing, code review, documentation - while I focus on the decisions that require human judgment: architecture, user experience, business logic, and quality standards."
+      "text": "This workflow is part of how I typically deliver production-ready applications in weeks rather than months for the scopes I accept; outcomes scale with project complexity. AI handles the volume work, boilerplate generation, test writing, code review, documentation, while I focus on the decisions that require human judgment: architecture, user experience, business logic, and quality standards."
     },
     {
       "type": "p",
-      "text": "The result is **more consistent quality** at speed. Every pull request gets a thorough review. Every feature gets comprehensive tests. Every component follows established conventions. AI tooling does not fatigue, does not cut corners under deadline pressure, and does not forget context - though it requires careful prompting and review."
+      "text": "The result is **more consistent quality** at speed. Every pull request gets a thorough review. Every feature gets comprehensive tests. Every component follows established conventions. AI tooling does not fatigue, does not cut corners under deadline pressure, and does not forget context, though it requires careful prompting and review."
     },
     {
       "type": "p",
       "text": "If you are building a product and want a partner that combines modern AI-powered workflows with experienced engineering judgment, [get in touch](/#contact). The aim is to ship quickly without compromising quality, and I am happy to walk through the process."
     }
   ],
-  "metaDescription": "See how webvise integrates AI into every stage of software development - from planning and coding to review and deployment. Build production apps in weeks, not months."
+  "metaDescription": "See how webvise integrates AI into every stage of software development, from planning and coding to review and deployment. Build production apps in weeks, not months."
 }
