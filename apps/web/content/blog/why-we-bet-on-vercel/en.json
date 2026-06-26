@@ -1,0 +1,181 @@
+{
+  "date": "2026-06-26",
+  "readingTime": 8,
+  "keyword": "build on Vercel",
+  "title": "Why We Bet on Vercel for Every Client Build",
+  "excerpt": "We build nearly every client project on Vercel: one platform for deploy, scaling, analytics, and AI agents. Why it is our default, the real costs, and when we host your way instead.",
+  "metaDescription": "We build every client project on Vercel: one platform for deploy, scaling, and AI agents. Why it's our default, the real costs, and when we host your way.",
+  "cta": "Plan Your Production App",
+  "tags": ["Web Development", "Next.js", "AI Agents", "Business Strategy"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "We build nearly every client project on Vercel because one platform now covers deployment, scaling, analytics, and the AI agent layer, which lets a lean team ship production software fast. It is our default recommendation, not a requirement: if you want to host on your own infrastructure, we build the app portable and support that too."
+    },
+    {
+      "type": "p",
+      "text": "Start with the page you are reading. webvise.io runs on Vercel: Next.js 16, seven languages, an AI assistant, and a WordPress Health Report, all shipping from one Git push."
+    },
+    {
+      "type": "p",
+      "text": "If you are hiring someone to build your app, where it gets hosted sounds like a detail you can skip past. It quietly sets how fast you ship, what the monthly bill looks like, and whether next year's AI features are a rewrite or a config flag. Here is the bet we made, the real costs that come with it, and the cases where we point clients somewhere else."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**One platform, not five.** Vercel folds deployment, preview environments, global delivery, serverless functions, and analytics into a single pipeline, so a small team ships what used to need a dedicated DevOps hire.",
+        "**A default, not a cage.** We build on standard Next.js. If you prefer AWS, your own servers, or another host, the same code moves and we support it.",
+        "**The agent layer is the real reason.** Vercel Ship 2026 delivered a full stack for running AI agents in production, so client AI features become additions instead of rewrites.",
+        "**The costs are real.** Vendor pull, usage pricing that can spike, and an April 2026 supply-chain breach we had to respond to. We price those in before we recommend it.",
+        "**Where we step off it:** static brochure sites, hard multi-cloud mandates, and clients who already run a platform team."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "What All-In on Vercel Actually Means Here"
+    },
+    {
+      "type": "p",
+      "text": "The site itself is the first piece of evidence. webvise.io is a full Next.js 16 application on Vercel, not a static brochure. It serves seven locales through next-intl, runs an AI assistant and a WordPress Health Report, and reports its own Core Web Vitals through Speed Insights. Every change goes live through one deploy from a single Git push."
+    },
+    {
+      "type": "p",
+      "text": "Client apps ride the same spine. Next.js and React on the front, TypeScript end to end, PostgreSQL on Neon with Drizzle, tRPC for type-safe APIs, Better Auth for login, all deployed to Vercel with CI/CD, staging, and monitoring on Sentry and PostHog. The stack is boring on purpose. Boring is what survives a handover and still runs two years later."
+    },
+    {
+      "type": "p",
+      "text": "That is exactly what we hand over in [custom full-stack applications](/services/full-stack-applications): a production app deployed, monitored, and running, with source code you own. The reason it starts with Next.js at all is a separate argument we made in [Framer vs Next.js for a business website](/blog/framer-vs-nextjs-business-website)."
+    },
+    {
+      "type": "h2",
+      "text": "One Platform Replaced a Stack of Vendors"
+    },
+    {
+      "type": "p",
+      "text": "The bet is really a bet on consolidation. A conventional production setup stitches together a host, a CDN, a CI runner, a preview-environment tool, an analytics product, and a secrets manager. Each one is a contract, an integration, and a thing that breaks on its own schedule. Vercel collapses that list into one account with one bill."
+    },
+    {
+      "type": "p",
+      "text": "For a lean shop the math is direct. Every vendor we remove is an integration we do not maintain and an invoice we do not reconcile. That is often the difference between taking a project and turning it down."
+    },
+    {
+      "type": "table",
+      "headers": ["Job", "Stitched stack", "On Vercel"],
+      "rows": [
+        [
+          "Hosting and scaling",
+          "A VPS or container platform you patch",
+          "Managed, scales on request"
+        ],
+        [
+          "Preview per change",
+          "A staging server you maintain",
+          "A live URL on every pull request"
+        ],
+        ["Global delivery", "A separate CDN to configure", "Built in"],
+        [
+          "Serverless functions",
+          "Lambda plus API gateway wiring",
+          "Same repo, zero config"
+        ],
+        ["Web vitals", "A third-party RUM tool", "Speed Insights, one toggle"],
+        [
+          "AI model routing",
+          "Per-provider SDKs and keys",
+          "AI Gateway, one endpoint"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Preview deployments are the piece clients feel first. Every pull request gets its own live URL, so a client clicks the actual change before it reaches production. Approvals stop being a guessing game over screenshots."
+    },
+    {
+      "type": "h2",
+      "text": "The Agent Layer Is Why the Bet Compounds"
+    },
+    {
+      "type": "p",
+      "text": "On 25 June 2026 I was in the room at Vercel Ship in Berlin when AI SDK 7 went GA. The keynote thesis was blunt: for a decade Vercel shaped how the web gets built, and it is now doing the same for agents. The London keynote a week earlier drew more than 2,500 people to the same message."
+    },
+    {
+      "type": "p",
+      "text": "The proof Vercel put on stage was its own usage. It runs more than 100 agents in production on its agent framework, and agents now trigger roughly 29% of its deployments, up from under 3% a year earlier. That is a company shipping its own software with the tools it sells."
+    },
+    {
+      "type": "p",
+      "text": "What shipped is a set of primitives that each solve one job an agent needs, plus eve, a framework that assembles them and deploys with one command. The labels matter because they map to real client requests."
+    },
+    {
+      "type": "table",
+      "headers": ["Need", "Vercel primitive"],
+      "rows": [
+        ["Call any model with one API", "AI SDK"],
+        [
+          "Route across 100+ models, with failover and cost tracking",
+          "AI Gateway"
+        ],
+        ["Make a function durable, with retries and pause/resume", "Workflow"],
+        ["Run agent-written code in an isolated microVM", "Sandbox"],
+        ["Hand out scoped, short-lived credentials at runtime", "Connect"],
+        ["Put one agent across Slack, Discord, and GitHub", "Chat SDK"]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "When a client asks for an AI feature later, a support agent, a document workflow, a chatbot that reads their data, it slots into the app we already run, wired through the AI Gateway. No second platform to learn, no second bill to track."
+    },
+    {
+      "type": "h2",
+      "text": "The Honest Costs: Lock-In, Pricing, and the April Breach"
+    },
+    {
+      "type": "p",
+      "text": "Betting on one platform has a bill attached, and pretending otherwise would be dishonest. Three costs are worth naming before anyone signs off on the choice."
+    },
+    {
+      "type": "p",
+      "text": "The first is lock-in. Preview comments, Speed Insights, and the AI Gateway are Vercel-specific conveniences. The core application underneath is standard Next.js and Postgres, so the app itself moves to another host. What you would rebuild is the platform glue, and we tell clients exactly which parts those are."
+    },
+    {
+      "type": "p",
+      "text": "The second is pricing. Vercel bills on usage: Hobby is free, Pro is $20 a month plus what you consume. A traffic spike or a runaway function can push that higher than a flat server, so we set spend limits and watch the meter on projects with unpredictable load."
+    },
+    {
+      "type": "p",
+      "text": "The third is security, and it is real rather than theoretical. On 19 April 2026 Vercel disclosed a supply-chain breach. That weekend we ran a rotate, redeploy, and revoke response across every managed project, and I wrote the exact steps up in [the webvise Vercel breach response playbook](/blog/vercel-breach-response-playbook). A platform you trust still needs a plan for the day it gets compromised."
+    },
+    {
+      "type": "h2",
+      "text": "When We Step Off Vercel, and How We Host Your Way"
+    },
+    {
+      "type": "p",
+      "text": "Vercel is our recommendation, and recommendations have edges. A few cases send us elsewhere by default."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Static brochure sites.** A marketing page with no app logic runs fine and cheaper on a plain CDN host. We will not upsell a runtime nobody needs.",
+        "**An existing platform team.** If a client already runs AWS or GCP with their own standards, we build to that target and deploy where their team operates.",
+        "**Hard multi-cloud or data-residency rules.** When single-cloud lock-in is off the table, we reach for portable pieces, containerized Next.js and Mastra in place of eve for agents."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "And the simplest case: you just want to host it yourself. We build the app on standard Next.js so it runs on your servers, your cloud account, or wherever your infrastructure already lives, and we support the deployment there. The bet is our default. Your infrastructure stays your call."
+    },
+    {
+      "type": "h2",
+      "text": "What This Means If webvise Builds Your App"
+    },
+    {
+      "type": "p",
+      "text": "If you are choosing a partner to build a production app, the platform underneath is part of what you are buying. We default to Vercel for two reasons. It lets a small senior team deliver and operate software that would otherwise need a separate platform team. The agent stack means your AI roadmap becomes a set of additions instead of a future rebuild."
+    },
+    {
+      "type": "p",
+      "text": "You can see how that ships in [custom full-stack applications](/services/full-stack-applications), from architecture to a handover that runs. If you are weighing where to build your next app, tell webvise what you are planning at [our contact form](/#contact), and we will map it to the right stack, on Vercel or wherever you already run."
+    }
+  ]
+}
