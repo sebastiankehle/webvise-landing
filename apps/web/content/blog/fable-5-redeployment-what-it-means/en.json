@@ -1,0 +1,239 @@
+{
+  "date": "2026-07-01",
+  "readingTime": 8,
+  "keyword": "Fable 5 redeployment",
+  "title": "Fable 5 Is Coming Back: What the Redeployment Means and How to Prepare",
+  "excerpt": "Anthropic is bringing Fable 5 back on July 1 after an 18-day export-control suspension. Here is the timeline, the safeguard fix, what to point the model at, and how to get ready before access returns.",
+  "metaDescription": "Anthropic is redeploying Fable 5 on July 1 after an 18-day export-control suspension. The timeline, the safeguard fix, and how to prepare before it returns.",
+  "cta": "Review Your AI Workflow Risk",
+  "tags": ["AI", "Automation", "Business Strategy", "AI Agents"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Anthropic is bringing Fable 5 back. Access returns on July 1, 2026 and rolls out from there, ending an 18-day suspension that began when a US government export-control directive pulled the model on June 12. The useful move now is preparation, before the model is back in your hands."
+    },
+    {
+      "type": "p",
+      "text": "A model that went dark for 18 days on national-security grounds is being switched on again this week, and the teams that get value first are the ones with prompts and context ready to go."
+    },
+    {
+      "type": "p",
+      "text": "If you run AI in production, you already know access can shift outside your own release calendar. This post walks the full timeline, the safeguard Anthropic shipped to bring Fable 5 back, what to point the model at, and a short plan to prepare before access returns. Every date and claim below links to a primary source."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Fable 5 returns July 1, 2026.** Anthropic is restoring global access on the Claude Platform, Claude.ai, Claude Code, and Claude Cowork after the US government lifted export controls on June 30.",
+        "**The trigger was a jailbreak report from Amazon.** Researchers bypassed Fable 5's safeguards to identify software vulnerabilities, and in one case produced code showing how a vulnerability could be exploited.",
+        "**Capability turned out to be fungible.** Anthropic's testing showed Opus 4.8, GPT-5.5, and Kimi K2.7 could find the same vulnerabilities, and every model it tested could produce the same exploit demonstration.",
+        "**The fix is a routing fallback.** A new classifier blocks the reported technique in over 99% of cases, and blocked requests are sent to Opus 4.8 instead of failing.",
+        "**Prepare before the window opens.** Included access runs at up to 50% of weekly usage limits through July 7, so context packets, repo instructions, and privacy boundaries decided now turn that window into judgment work instead of setup."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "The practical response is preparation. If your team is moving AI into daily operations, [webvise's AI automation service](/services/ai-automation) builds workflows with structured inputs, review states, monitoring, and fallbacks, so a capable model is useful the day it arrives and keeps working when one goes dark."
+    },
+    {
+      "type": "h2",
+      "text": "The redeployment timeline"
+    },
+    {
+      "type": "p",
+      "text": "Anthropic released Fable 5 and Mythos 5 on June 9, 2026. Three days later, a US export-control directive forced the company to restrict access for foreign nationals, and because it could not verify nationality in real time, it suspended both models for everyone."
+    },
+    {
+      "type": "table",
+      "headers": ["Date (2026)", "What happened", "Status"],
+      "rows": [
+        ["June 9", "Anthropic releases Fable 5 and Mythos 5", "Both live"],
+        [
+          "June 12",
+          "US export-control directive; Anthropic suspends both models for all users",
+          "Both dark"
+        ],
+        [
+          "June 26",
+          "US government approves restoring Mythos 5 for a set of US organizations",
+          "Mythos partially restored"
+        ],
+        [
+          "June 30",
+          "Export controls on Fable 5 and Mythos 5 lifted",
+          "Cleared to redeploy"
+        ],
+        [
+          "July 1",
+          "Fable 5 returning globally on Claude Platform, Claude.ai, Claude Code, and Cowork",
+          "Access coming back"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "For Pro, Max, Team, and select Enterprise plans, Anthropic is including Fable 5 for up to 50% of weekly usage limits through July 7, then moving it to usage credits. Access on AWS, Google Cloud, and Microsoft Foundry returns as the company re-enables each platform. Anthropic published the details in its [redeployment post](https://www.anthropic.com/news/redeploying-fable-5) on June 30."
+    },
+    {
+      "type": "h2",
+      "text": "Why the model was pulled"
+    },
+    {
+      "type": "p",
+      "text": "The export-control directive followed a report from Amazon researchers. They found a way to prompt Fable 5 so that it identified a number of software vulnerabilities, and in one case the model produced code demonstrating how a vulnerability could be exploited."
+    },
+    {
+      "type": "p",
+      "text": "Anthropic's own testing put that finding in context. Many weaker models could identify the same vulnerabilities, including Opus 4.8, GPT-5.5, and Kimi K2.7. When it came to demonstrating the single exploit, every model the company tested produced the same result, among them Haiku 4.5, Sonnet 4.6, and several earlier Opus versions."
+    },
+    {
+      "type": "p",
+      "text": "Anthropic described the blocked behavior as a borderline case that involved routine defensive cybersecurity work. For operators, that matters: the capability was already spread across the model market, so no single provider held an advantage a business could lean on."
+    },
+    {
+      "type": "h2",
+      "text": "The fix is a routing fallback"
+    },
+    {
+      "type": "p",
+      "text": "Anthropic moved before the controls lifted. It trained a new safety classifier that targets the exact technique in the Amazon report and blocks it in over 99% of cases."
+    },
+    {
+      "type": "p",
+      "text": "The interesting part for anyone building on AI is what happens when the classifier fires. Users get notified, and the blocked request is sent to Opus 4.8 instead of returning an error. The vendor built graceful degradation into its own product."
+    },
+    {
+      "type": "p",
+      "text": "That is the pattern worth copying before you run anything serious. A production automation should name a primary model, an acceptable fallback, and the quality bar that decides which one runs."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "What Anthropic did",
+        "What it protects",
+        "How to copy it in a workflow"
+      ],
+      "rows": [
+        [
+          "Trained a targeted classifier",
+          "Blocks one known-bad technique without disabling the model",
+          "Add input and output checks that catch the failure you actually saw"
+        ],
+        [
+          "Notified users on a block",
+          "No silent failures",
+          "Surface a clear state when the automation cannot proceed"
+        ],
+        [
+          "Routed blocked calls to Opus 4.8",
+          "Requests still complete",
+          "Keep a tested fallback model and a routing rule"
+        ],
+        [
+          "Left other models unaffected",
+          "One policy event stays contained",
+          "Avoid pinning critical steps to a single model or account"
+        ]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "The shared framework and deeper government role"
+    },
+    {
+      "type": "p",
+      "text": "Anthropic framed the episode as evidence the industry needs a common way to judge jailbreaks. Together with Amazon, Microsoft, Google, and other Project Glasswing partners, it is drafting a consensus framework for scoring how severe a given jailbreak is."
+    },
+    {
+      "type": "p",
+      "text": "The current proposal scores a jailbreak on four criteria. The first two describe what the technique gives an attacker, starting with capability gain, meaning how far beyond existing tools it takes the user. The last two describe how quickly the technique can become a real-world problem."
+    },
+    {
+      "type": "p",
+      "text": "Anthropic also committed to deeper US government collaboration, including pre-release access for designated partners to evaluate models and safeguards before broad release. That work sits under the June 2 Executive Order on advanced AI innovation and security. A shared severity standard could lower the odds of another abrupt, market-wide suspension over a borderline finding."
+    },
+    {
+      "type": "h2",
+      "text": "What we will run when access returns"
+    },
+    {
+      "type": "p",
+      "text": "When access returns, the first Fable 5 runs at webvise are read-only analysis passes over the assets that carry the most risk and the most upside: the most important repositories, the business offer and its public competition, and the internal knowledge base. Fable 5 is built for long, high-context work, so it earns its price on questions that span a whole system rather than a single file."
+    },
+    {
+      "type": "p",
+      "text": "This repeats the calibration run from the earlier window. On June 10, before the suspension, a fixed packet went across selected active projects and internal workflows."
+    },
+    {
+      "type": "p",
+      "text": "It produced a repo map, a ranked risk pass, a test-gap pass, and small task packets. Each task carried a file path, a proposed change, a validation command, an owner, and a stop condition. Secrets and customer records stayed out of the context because Fable carries a 30-day retention rule for safety monitoring. The full method is in [the Fable 5 codebase audit write-up](/blog/claude-fable-5-long-horizon-ai-work)."
+    },
+    {
+      "type": "p",
+      "text": "The suspension proved why that shape matters. The audit output was a set of model-agnostic task packets, so a cheaper model or an engineer could execute every item without Fable in the loop. The expensive model did the planning, and the plan outlived the model."
+    },
+    {
+      "type": "h2",
+      "text": "What to point Fable 5 at once it's back"
+    },
+    {
+      "type": "p",
+      "text": "Fable 5 is available for coding again, and its long-context strength makes it useful for far more than code. The highest-return first runs are read-only: ask it to analyze, evaluate, and plan improvements before it changes anything. Point it at work you rarely have time to review end to end, and keep confidential material out, because Fable carries a 30-day retention rule for safety monitoring."
+    },
+    {
+      "type": "table",
+      "headers": ["Point it at", "Ask it to", "What you get back"],
+      "rows": [
+        [
+          "Your most important repositories",
+          "Map the system, rank risk, and write a remediation plan before any edit",
+          "A read-only audit with cited files and bounded tasks"
+        ],
+        [
+          "Your website and marketing copy",
+          "Audit structure, clarity, and conversion paths against your goals",
+          "A prioritized list of pages and fixes worth shipping"
+        ],
+        [
+          "Your offer and public competition",
+          "Compare your positioning against named competitors and find the gaps",
+          "A written read on where the offer is weak or undifferentiated"
+        ],
+        [
+          "Your internal knowledge base",
+          "Turn scattered non-sensitive docs into current SOPs and open questions",
+          "A consolidated view of what the team actually knows"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "A capable model reading across your codebase, site, and internal docs will surface things you would rather not see: a page that leaks conversions, a weak part of the offer, a repository nobody wants to open. Those are usually the findings worth acting on first. Anything under a confidentiality obligation, plus financials, contracts, and customer records, stays with a human or a tool that does not retain the data."
+    },
+    {
+      "type": "h2",
+      "text": "How to prepare before access returns"
+    },
+    {
+      "type": "p",
+      "text": "The redeployment is a good prompt to get ready. Included access is capped through July 7, so the preparation you do now decides whether that window goes to judgment work or to setup."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Assemble the context packets.** Pull together repo maps, sanitized file groups, the business offer, competitor notes, and the non-sensitive internal docs you want reviewed, so a run starts on real material.",
+        "**Write the prompts before the window opens.** Decide the questions worth the most capable model: system-wide audits, migration plans, exposure inventories, and cross-document review that a cheaper model handles poorly.",
+        "**Set the privacy boundary.** Fable carries a 30-day retention rule, so secrets, production exports, and customer records stay out of the context, and packets get sanitized first.",
+        "**Name the fallback.** Pick the model or manual step that takes over when a run is blocked or access changes again, the way Anthropic routes blocked calls to Opus 4.8.",
+        "**Gate the expensive actions.** Payments, deletions, permission changes, production writes, and customer messages stay behind human approval, whatever the model recommends."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "webvise wrote up the vendor-risk version during the outage in [what the Fable 5 and Mythos 5 suspension means for business AI](/blog/fable-5-repo-hardening-before-suspension). If you want the analysis run on your own stack when access returns, [webvise's AI consulting service](/services/ai-consulting) maps one workflow, its data boundary, and its fallback path, then leaves you with a build decision."
+    },
+    {
+      "type": "p",
+      "text": "Frontier AI is becoming part of business infrastructure, and infrastructure needs both a plan for using it and a plan for when it disappears. Fable 5 is coming back this week, and the teams that prepared during the outage will get the first useful runs. If a capable model returning would change what your business could ship this month, [book a project call with webvise](/#contact) and bring the repository, workflow, or decision you want analyzed first."
+    }
+  ]
+}
