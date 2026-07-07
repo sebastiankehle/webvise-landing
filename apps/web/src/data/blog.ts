@@ -4,6 +4,7 @@ import { cache } from "react";
 
 export type Block =
 	| { type: "p"; text: string }
+	| { type: "callout"; text: string }
 	| { type: "h2"; text: string }
 	| { type: "h3"; text: string }
 	| { type: "ul"; items: string[] }

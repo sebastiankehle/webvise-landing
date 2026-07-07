@@ -188,6 +188,14 @@ function RenderBlock({ block, locale }: { block: Block; locale: string }) {
 					{renderInline(block.text, locale)}
 				</Muted>
 			);
+		case "callout":
+			return (
+				<div className="surface-card mb-8 border-brand-readable/50 border-l-2 p-5">
+					<Muted className="break-words text-base leading-7">
+						{renderInline(block.text, locale)}
+					</Muted>
+				</div>
+			);
 		case "ul":
 			return (
 				<ul className="mb-6 list-disc space-y-2 break-words pl-5 text-base text-muted-foreground leading-7 marker:text-brand-readable/50">
