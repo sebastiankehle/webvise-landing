@@ -291,6 +291,7 @@ Every article opens with this sequence:
 - **Max 4 sentences per paragraph.** Break longer paragraphs.
 - **Max 25 words average per sentence.** Vary length (short punchy + longer explanatory), but keep the average tight.
 - **No em dashes, en dashes, or spaced hyphens.** Never write `—`, `–`, ` - `, or `  -  `. Use periods, commas, colons, or restructure the sentence. Any dash-like separator between clauses is an LLM tell.
+- **No first-person plural. Ever.** The blog never speaks as "we," "our," or "us" — webvise is not a team voice. Refer to the agency in third person as **webvise** ("the checklist webvise uses," "webvise's read"), use "I" or Sebastian when a personal first-party observation needs an owner, or rephrase so no subject is needed ("the mechanics are covered in..."). Only exception: verbatim quotes from third parties (e.g. an Anthropic statement) keep their original pronouns. `translate.md` enforces the same rule per locale (no wir/uns, nous, nosotros, wij/ons, my/nasz, noi/nostro — including hidden first-person-plural verb conjugations in es/it/pl).
 - **No filler transitions.** Cut "Furthermore," "Additionally," "It's worth noting that," "In conclusion." Just start the next thought.
 - Lead with the **claim**. The first paragraph must contain the quotable sentence the article defends.
 - Direct, no-fluff, authoritative. No "in today's fast-paced world" preambles.
@@ -338,6 +339,7 @@ Every article opens with this sequence:
    - **FATAL negation-correction (hard fail):** never negate one framing and then assert a corrected one. Bans "This isn't X, it's Y," "not X but Y," "X is not Y, it is Z," "doesn't need X, needs Y," "Forget X. This is Y," "Less X, more Y," and every variant. One hit fails the draft. Delete the negation and state the positive claim on its own.
    - **Engagement bait and fake-insider lines:** cut "let that sink in," "read that again," "this changes everything," "what nobody tells you," "most people don't realize," "here's the part nobody's talking about," "follow for more."
    - **No synthetic conclusion:** no "Takeaway:," "Lesson:," "the point is," "what this means is" closers. The required closing webvise + `/#contact` line stays, written as a flat concrete next step rather than a motivational summary or aphorism.
+   - **First-person plural:** rewrite every "we/our/us" that speaks as the agency. Use "webvise" in third person, "I"/Sebastian for personal observations, or rephrase the sentence away from a first-person subject. Third-party quotes are exempt
    - **Em/en dashes and spaced hyphens:** replace `—`, `–`, ` - `, and `  -  ` with periods, commas, or colons. Never use any dash-like separator between clauses
    - **Filler transitions:** cut "Furthermore," "Additionally," "Moreover," "In conclusion," "That being said"
    - **Sentence structure bans:** (1) no stacked short sentences under 12 words with the same subject — combine them; (2) no more than two sentences in a paragraph starting with the same word; (3) every paragraph needs rhythm — at least one sentence under 15 words and one over 25 words; (4) no vague optimism endings — end on facts, consequences, or tension; (5) no forced rule-of-three — use as many points as the argument needs; (6) no synonym swapping for variety — repeat the clearest noun; (7) let paragraphs have texture — asides, turns, slight mess are fine
@@ -360,13 +362,15 @@ Every article opens with this sequence:
    const fatal=[/\\bnot\\s+[\\w']+[ ,]+but\\b/gi,/\\bisn't\\s+[\\w']+.{0,25}\\bit'?s\\b/gi,/\\bis not\\s+[\\w']+.{0,25}\\bit is\\b/gi,/\\bdoesn't need\\b.{0,30}\\bneeds?\\b/gi,/\\bless\\s+[\\w']+,\\s*more\\b/gi,/\\bforget\\s+[\\w']+\\./gi];
    const fhits=[]; fatal.forEach((r,i)=>{const m=t.match(r);if(m)fhits.push('p'+i+':'+JSON.stringify(m))});
    console.log('FATAL negation-correction:', fhits.length?fhits:'clean');
+   const fpp=t.match(/\\b(we|our|us|ours|we're|we've|we'll)\\b/gi)||[];
+   console.log('first-person plural we/our/us:', fpp.length?fpp.length+' hits (only third-party quotes allowed)':'clean');
    const longParas=[]; p.blocks.filter(b=>b.type==='p').forEach((b,i)=>{const s=b.text.split(/(?<=[.!?])\\s+/).filter(x=>x.trim());if(s.length>4)longParas.push(i+':'+s.length)});
    console.log('paragraphs>4 sentences:', longParas.length?longParas:'clean');
    console.log('words:', t.split(/\\s+/).filter(w=>w).length);
    "
    ```
 
-   All counts (dashes, blacklist, FATAL negation-correction, paragraphs>4) must be zero/clean before proceeding. If a blacklisted word is a direct citation of a framework name (e.g. Kenyon's "Transformation" section), rename in the draft rather than overriding the gate. The FATAL check is conservative and can flag legitimate sentences; read each hit and either rewrite the negation away or confirm it is not a negation-then-correction hook.
+   All counts (dashes, blacklist, FATAL negation-correction, first-person plural, paragraphs>4) must be zero/clean before proceeding. First-person-plural hits inside a verbatim third-party quote are the only allowed exception; inspect each hit. If a blacklisted word is a direct citation of a framework name (e.g. Kenyon's "Transformation" section), rename in the draft rather than overriding the gate. The FATAL check is conservative and can flag legitimate sentences; read each hit and either rewrite the negation away or confirm it is not a negation-then-correction hook.
 7. **Quality score.** Rate the English draft on a 0-100 composite before proceeding:
 
    | Dimension | Weight | What it measures |
@@ -440,6 +444,7 @@ Answer "yes" to **all** or fix the draft:
 
 **Prose hygiene:**
 - [ ] No em dashes, en dashes, or spaced hyphens (`—`, `–`, ` - `)?
+- [ ] No first-person plural ("we/our/us") speaking as the agency, in any locale? (third person "webvise", "I"/Sebastian, or rephrased; third-party quotes exempt)
 - [ ] No AI phrase patterns? (check scrubber list)
 - [ ] No paragraph longer than 4 sentences?
 - [ ] No filler transitions? ("Furthermore," "Additionally," "Moreover")
