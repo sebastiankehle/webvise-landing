@@ -953,6 +953,17 @@ html.mono-dark .font-display {
 		color: var(--foreground);
 		animation: none;
 	}
+
+	.stagger-hidden > *,
+	.reveal-hidden {
+		opacity: 1;
+		transform: none;
+	}
+
+	.stagger-visible > *,
+	.reveal-visible {
+		animation: none;
+	}
 }
 
 /* ── Logo hover animation - segments assemble clockwise ─── */
@@ -998,4 +1009,11 @@ html.mono-dark .font-display {
 }
 .logo-animated:hover .logo-seg-8 {
 	animation-delay: 0.35s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.logo-animated:hover .logo-seg {
+		fill-opacity: var(--seg-opacity, 1);
+		animation: none;
+	}
 }

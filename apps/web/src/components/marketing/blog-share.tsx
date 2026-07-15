@@ -110,11 +110,14 @@ export default function BlogShare({
 						variant="outline"
 					>
 						{copied ? (
-							<Check className="h-3.5 w-3.5" />
+							<Check className="fade-in zoom-in-50 h-3.5 w-3.5 animate-in duration-150 motion-reduce:animate-none" />
 						) : (
-							<Copy className="h-3.5 w-3.5" />
+							<Copy className="fade-in zoom-in-50 h-3.5 w-3.5 animate-in duration-150 motion-reduce:animate-none" />
 						)}
-						<Caption className="text-current">
+						<Caption
+							className="fade-in animate-in text-current duration-150"
+							key={copied ? "copied" : "copy"}
+						>
 							{copied ? t("linkCopied") : t("copyLink")}
 						</Caption>
 					</Button>

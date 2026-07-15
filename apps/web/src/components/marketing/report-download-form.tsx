@@ -80,7 +80,7 @@ export default function ReportDownloadForm({
 				</div>
 
 				{submitStatus === "success" ? (
-					<div className="mt-6 flex items-center gap-3 border-border/60 border-t pt-4">
+					<div className="fade-in slide-in-from-bottom-1 mt-6 flex animate-in items-center gap-3 border-border/60 border-t pt-4 duration-300 ease-out motion-reduce:animate-none">
 						<Check
 							className="h-4 w-4 shrink-0 text-brand-icon"
 							strokeWidth={2}
@@ -145,7 +145,7 @@ export default function ReportDownloadForm({
 
 				<output aria-atomic="true" aria-live="polite">
 					{submitStatus === "error" && (
-						<Muted className="mt-3 text-destructive text-sm">
+						<Muted className="fade-in slide-in-from-bottom-1 mt-3 animate-in text-destructive text-sm duration-300 ease-out motion-reduce:animate-none">
 							{t("error")}
 						</Muted>
 					)}

@@ -48,7 +48,11 @@ export function NewsletterForm({
 	}
 
 	if (status === "success") {
-		return <Muted className="text-success text-xs">{success}</Muted>;
+		return (
+			<Muted className="fade-in slide-in-from-bottom-1 animate-in text-success text-xs duration-300 ease-out motion-reduce:animate-none">
+				{success}
+			</Muted>
+		);
 	}
 
 	return (
@@ -71,7 +75,9 @@ export function NewsletterForm({
 				{buttonLabel}
 			</Button>
 			{status === "error" && (
-				<Muted className="text-destructive text-xs">{error}</Muted>
+				<Muted className="fade-in slide-in-from-bottom-1 animate-in text-destructive text-xs duration-300 ease-out motion-reduce:animate-none">
+					{error}
+				</Muted>
 			)}
 		</form>
 	);

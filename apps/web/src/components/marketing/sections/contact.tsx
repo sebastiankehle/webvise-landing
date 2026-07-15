@@ -289,10 +289,12 @@ export default function Contact() {
 					</form.Subscribe>
 					<output aria-atomic="true" aria-live="polite">
 						{submitStatus === "success" && (
-							<Muted className="text-sm">{t("form.success")}</Muted>
+							<Muted className="fade-in slide-in-from-bottom-1 animate-in text-sm duration-300 ease-out motion-reduce:animate-none">
+								{t("form.success")}
+							</Muted>
 						)}
 						{submitStatus === "error" && (
-							<Muted className="text-destructive text-sm">
+							<Muted className="fade-in slide-in-from-bottom-1 animate-in text-destructive text-sm duration-300 ease-out motion-reduce:animate-none">
 								{t("form.error")}
 							</Muted>
 						)}

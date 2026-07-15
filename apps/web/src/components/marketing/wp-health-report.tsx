@@ -1,9 +1,10 @@
 "use client";
 
 import { useForm } from "@tanstack/react-form";
+import { animate, motion, useMotionValue, useTransform } from "motion/react";
 import NextLink from "next/link";
 import { useLocale, useTranslations } from "next-intl";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import z from "zod";
 
 import {
@@ -77,6 +78,16 @@ function ScoreRing({
 	const circumference = 2 * Math.PI * radius;
 	const offset = circumference - (score / 100) * circumference;
 	const { text, stroke } = scoreColor(score);
+	const count = useMotionValue(0);
+	const rounded = useTransform(count, (v) => Math.round(v));
+
+	useEffect(() => {
+		const controls = animate(count, score, {
+			duration: 1,
+			ease: [0.16, 1, 0.3, 1],
+		});
+		return () => controls.stop();
+	}, [count, score]);
 
 	return (
 		<div className="flex flex-col items-center gap-1.5">
@@ -96,16 +107,18 @@ function ScoreRing({
 						stroke="currentColor"
 						strokeWidth={3}
 					/>
-					<circle
-						className={cn("transition-all duration-1000", stroke)}
+					<motion.circle
+						animate={{ strokeDashoffset: offset }}
+						className={stroke}
 						cx={size / 2}
 						cy={size / 2}
 						fill="none"
+						initial={{ strokeDashoffset: circumference }}
 						r={radius}
 						strokeDasharray={circumference}
-						strokeDashoffset={offset}
 						strokeLinecap="butt"
 						strokeWidth={3}
+						transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
 					/>
 				</svg>
 				<Body
@@ -114,7 +127,7 @@ function ScoreRing({
 						text
 					)}
 				>
-					{score}
+					<motion.span>{rounded}</motion.span>
 				</Body>
 			</div>
 			<Caption>{label}</Caption>
@@ -127,7 +140,7 @@ function ReportResults({ data }: { data: ReportData }) {
 	const t = useTranslations("wpHealthReport");
 
 	return (
-		<div>
+		<div className="stagger-visible">
 			{/* Header */}
 			<div className="flex flex-col gap-1 md:flex-row md:items-baseline md:justify-between">
 				<H2>{t("results.title")}</H2>
@@ -303,7 +316,7 @@ function TeaserResults({
 	}
 
 	return (
-		<div>
+		<div className="stagger-visible">
 			<div className="flex flex-col gap-1 md:flex-row md:items-baseline md:justify-between">
 				<H2>{t("results.title")}</H2>
 				<Muted>

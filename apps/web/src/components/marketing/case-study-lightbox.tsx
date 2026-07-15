@@ -59,7 +59,7 @@ export default function CaseStudyLightbox({
 					className={`${marketingSurfaceClassName("inverted")} bg-background/90 backdrop-blur-sm`}
 				/>
 				<DialogContent
-					className="data-open:zoom-in-100 data-closed:zoom-out-100 fixed inset-0 mx-auto max-w-3xl translate-x-0 translate-y-0 overflow-y-auto overscroll-contain bg-transparent p-0 ring-0 sm:inset-6 sm:max-w-3xl"
+					className="data-open:zoom-in-97 data-closed:zoom-out-97 fixed inset-0 mx-auto max-w-3xl translate-x-0 translate-y-0 overflow-y-auto overscroll-contain bg-transparent p-0 ring-0 sm:inset-6 sm:max-w-3xl"
 					showCloseButton={false}
 				>
 					<DialogTitle className="sr-only">{alt}</DialogTitle>

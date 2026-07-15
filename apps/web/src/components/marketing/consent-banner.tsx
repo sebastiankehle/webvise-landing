@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { inlineLinkClassName } from "@/components/ui/typography";
 import { Link } from "@/i18n/navigation";
+import { cn } from "@/lib/utils";
 
 const STORAGE_KEY = "webvise-consent-v1";
 
@@ -45,6 +46,7 @@ function persistChoice(choice: ConsentChoice) {
 export function ConsentBanner() {
 	const t = useTranslations("consent");
 	const [visible, setVisible] = useState(false);
+	const [closing, setClosing] = useState(false);
 
 	useEffect(() => {
 		try {
@@ -61,27 +63,37 @@ export function ConsentBanner() {
 		return null;
 	}
 
+	function dismiss() {
+		setClosing(true);
+		window.setTimeout(() => setVisible(false), 300);
+	}
+
 	function handleAccept() {
 		updateConsent("granted");
 		persistChoice("granted");
 		posthog.set_config({ persistence: "localStorage+cookie" });
 		posthog.opt_in_capturing();
 		posthog.capture("consent_accepted");
-		setVisible(false);
+		dismiss();
 	}
 
 	function handleDecline() {
 		updateConsent("denied");
 		persistChoice("denied");
 		posthog.opt_out_capturing();
-		setVisible(false);
+		dismiss();
 	}
 
 	return (
 		<div
 			aria-label={t("ariaLabel")}
 			aria-live="polite"
-			className="slide-in-from-bottom-4 fade-in fixed inset-x-0 bottom-0 z-[60] animate-in px-4 pb-4 duration-500 ease-out md:inset-x-auto md:right-6 md:bottom-6 md:left-auto md:max-w-[420px] md:px-0 md:pb-0"
+			className={cn(
+				"fixed inset-x-0 bottom-0 z-[60] px-4 pb-4 motion-reduce:animate-none md:inset-x-auto md:right-6 md:bottom-6 md:left-auto md:max-w-[420px] md:px-0 md:pb-0",
+				closing
+					? "fade-out slide-out-to-bottom-4 pointer-events-none animate-out fill-mode-forwards duration-300 ease-in"
+					: "slide-in-from-bottom-4 fade-in animate-in duration-500 ease-out"
+			)}
 			role="dialog"
 		>
 			<div className="relative bg-background ring-1 ring-foreground/10">

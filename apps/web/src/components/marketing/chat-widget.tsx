@@ -250,14 +250,17 @@ export default function ChatWidget() {
 								</div>
 							) : (
 								messages.map((message) => (
-									<div
+									<motion.div
+										animate={{ opacity: 1, y: 0 }}
 										className={cn(
 											"max-w-[85%] px-3 py-2 text-sm",
 											message.role === "user"
 												? "ml-auto bg-primary/10"
 												: "mr-auto bg-secondary/40"
 										)}
+										initial={{ opacity: 0, y: 8 }}
 										key={message.id}
+										transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
 									>
 										{message.parts?.map((part) => {
 											if (part.type === "text") {
@@ -275,7 +278,7 @@ export default function ChatWidget() {
 											}
 											return null;
 										})}
-									</div>
+									</motion.div>
 								))
 							)}
 							{isThinking && (
