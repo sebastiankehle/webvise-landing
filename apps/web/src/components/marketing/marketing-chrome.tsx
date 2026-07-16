@@ -7,7 +7,7 @@ import LanguageSwitcher from "@/components/marketing/language-switcher";
 import ThemeSwitcher from "@/components/marketing/theme-switcher";
 import { TrackClick } from "@/components/marketing/track-click";
 import { Button } from "@/components/ui/button";
-import { CAL_URL } from "@/lib/cal";
+import { Link } from "@/i18n/navigation";
 import { homepageSectionHref } from "@/lib/homepage-section-href";
 
 type MarketingNavbarCtaLocation = "navbar" | "navbar_mobile";
@@ -71,11 +71,7 @@ export function MarketingNavbarCalLink({
 			<Button
 				className={className}
 				onClick={onClick}
-				render={
-					<a href={CAL_URL} rel="noopener noreferrer" target="_blank">
-						{children}
-					</a>
-				}
+				render={<Link href="/book">{children}</Link>}
 				size={size}
 				variant="outline"
 			/>

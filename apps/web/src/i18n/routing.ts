@@ -14,6 +14,7 @@ export const routing = defineRouting({
 		"/case-studies/[slug]": "/case-studies/[slug]",
 		"/wp-health-report": "/wp-health-report",
 		"/about": "/about",
+		"/book": "/book",
 		"/privacy": {
 			en: "/privacy",
 			de: "/datenschutz",

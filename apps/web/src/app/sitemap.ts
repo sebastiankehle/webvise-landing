@@ -75,6 +75,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
 			changeFrequency: "monthly",
 			priority: 0.5,
 		}),
+		...entriesForPath("/book", {
+			lastModified: now,
+			changeFrequency: "monthly",
+			priority: 0.8,
+		}),
 		...entriesForPath("/privacy", {
 			lastModified: now,
 			changeFrequency: "yearly",

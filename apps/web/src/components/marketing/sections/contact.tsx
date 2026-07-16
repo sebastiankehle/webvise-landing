@@ -20,7 +20,6 @@ import {
 } from "@/components/ui/typography";
 import { getOfferingTranslationKey, offeringGroups } from "@/data/offerings";
 import { Link } from "@/i18n/navigation";
-import { CAL_URL } from "@/lib/cal";
 import { track } from "@/lib/track";
 import { trpcClient } from "@/utils/trpc";
 
@@ -112,10 +111,7 @@ export default function Contact() {
 						onClick={() =>
 							track("cal_booking_clicked", { location: "contact" })
 						}
-						render={
-							// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
-							<a href={CAL_URL} rel="noopener noreferrer" target="_blank" />
-						}
+						render={<Link href="/book" />}
 						size="lg"
 						variant="outline"
 					>

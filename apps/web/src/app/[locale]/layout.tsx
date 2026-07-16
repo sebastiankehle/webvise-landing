@@ -27,6 +27,7 @@ import { SITE_THEME_IDS } from "@/lib/themes";
 
 const CLIENT_MESSAGE_NAMESPACES = [
 	"blog",
+	"book",
 	"caseStudies",
 	"chatWidget",
 	"consent",
