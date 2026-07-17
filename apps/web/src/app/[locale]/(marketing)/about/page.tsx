@@ -5,6 +5,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 
 import JsonLd from "@/components/json-ld";
 import { MarketingTag } from "@/components/marketing/marketing-tag";
+import { OpenAiPartnerBadge } from "@/components/marketing/openai-partner-badge";
 import SectionWrapper, {
 	ConstructedGrid,
 	GridContainer,
@@ -222,6 +223,7 @@ export default async function AboutPage() {
 							</div>
 							<Lead className="mt-6">{t("intro.tagline")}</Lead>
 							<Lead className="mt-3">{t("intro.description")}</Lead>
+							<OpenAiPartnerBadge className="mt-8 w-[93px]" />
 						</div>
 
 						{/* Connect card */}

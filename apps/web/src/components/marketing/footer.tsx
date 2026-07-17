@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import Logo from "@/components/logo";
 import { CookiePreferencesLink } from "@/components/marketing/cookie-preferences-link";
 import { NewsletterForm } from "@/components/marketing/newsletter-form";
+import { OpenAiPartnerBadge } from "@/components/marketing/openai-partner-badge";
 import { marketingSurfaceClassName } from "@/components/marketing/section-wrapper";
 import { SocialIconButton } from "@/components/marketing/social-icon-button";
 import { Caption, Label, Muted, Small } from "@/components/ui/typography";
@@ -72,6 +73,7 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 								</SocialIconButton>
 							))}
 						</div>
+						<OpenAiPartnerBadge className="mt-8 w-[132px]" />
 					</div>
 
 					{/* Navigation grid */}

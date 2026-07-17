@@ -3,6 +3,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 
 import HeroContent from "@/components/marketing/hero-content";
 import IconCloud from "@/components/marketing/icon-cloud";
+import { OpenAiPartnerBadge } from "@/components/marketing/openai-partner-badge";
 import {
 	ConstructedGrid,
 	GridContainer,
@@ -27,7 +28,7 @@ export default async function Hero() {
 			</div>
 			<GridContainer>
 				<HeroContent>
-					<div className="grid items-center gap-12 md:grid-cols-12">
+					<div className="relative grid items-center gap-12 md:grid-cols-12">
 						<div className="md:col-span-7">
 							<Display>
 								{t.rich("title", {
@@ -97,6 +98,10 @@ export default async function Hero() {
 								<IconCloud />
 							</div>
 						</div>
+						<OpenAiPartnerBadge className="absolute right-0 bottom-0 hidden w-[93px] md:inline-flex" />
+					</div>
+					<div className="mt-10 flex md:hidden">
+						<OpenAiPartnerBadge className="ml-auto w-[93px]" />
 					</div>
 				</HeroContent>
 			</GridContainer>
