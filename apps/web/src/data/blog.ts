@@ -47,6 +47,7 @@ interface LocaleContent {
 
 const contentDir = join(process.cwd(), "content/blog");
 
+const isDev = process.env.NODE_ENV !== "production";
 const postCache = new Map<string, PostFile | LocaleContent>();
 const collectionCache = new Map<string, BlogPost[]>();
 const indexCache = new Map<string, BlogIndexEntry[]>();
@@ -70,9 +71,11 @@ function readPostFile(
 	locale: string
 ): PostFile | LocaleContent | null {
 	const key = cacheKey(slug, locale);
-	const cached = postCache.get(key);
-	if (cached) {
-		return cached;
+	if (!isDev) {
+		const cached = postCache.get(key);
+		if (cached) {
+			return cached;
+		}
 	}
 
 	const filePath = join(contentDir, slug, `${locale}.json`);
@@ -81,7 +84,9 @@ function readPostFile(
 	}
 
 	const data = JSON.parse(readFileSync(filePath, "utf-8"));
-	postCache.set(key, data);
+	if (!isDev) {
+		postCache.set(key, data);
+	}
 	return data;
 }
 
@@ -111,7 +116,7 @@ function loadContent(
 
 /** Discover all post slugs from content/blog directories */
 function getPostSlugs(): string[] {
-	if (slugsCache) {
+	if (!isDev && slugsCache) {
 		return slugsCache;
 	}
 	if (!existsSync(contentDir)) {
@@ -148,22 +153,28 @@ function toPost(slug: string, locale: string): BlogPost | null {
 }
 
 export function getBlogPosts(locale: string): BlogPost[] {
-	const cached = collectionCache.get(locale);
-	if (cached) {
-		return cached;
+	if (!isDev) {
+		const cached = collectionCache.get(locale);
+		if (cached) {
+			return cached;
+		}
 	}
 	const posts = getPostSlugs()
 		.map((slug) => toPost(slug, locale))
 		.filter((post): post is BlogPost => post !== null)
 		.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-	collectionCache.set(locale, posts);
+	if (!isDev) {
+		collectionCache.set(locale, posts);
+	}
 	return posts;
 }
 
 export function getBlogIndex(locale: string): BlogIndexEntry[] {
-	const cached = indexCache.get(locale);
-	if (cached) {
-		return cached;
+	if (!isDev) {
+		const cached = indexCache.get(locale);
+		if (cached) {
+			return cached;
+		}
 	}
 	const index = getBlogPosts(locale).map(
 		({ slug, title, date, readingTime, excerpt, tags }) => ({
@@ -175,7 +186,9 @@ export function getBlogIndex(locale: string): BlogIndexEntry[] {
 			tags,
 		})
 	);
-	indexCache.set(locale, index);
+	if (!isDev) {
+		indexCache.set(locale, index);
+	}
 	return index;
 }
 
