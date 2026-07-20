@@ -39,7 +39,7 @@ export const socials: SocialLink[] = [
 	},
 	{
 		name: "X",
-		href: "https://x.com/sebastiankehle_",
+		href: "https://x.com/sebastiankehle",
 		icon: (
 			<svg
 				aria-label="X"
