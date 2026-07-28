@@ -1,0 +1,198 @@
+{
+  "date": "2026-07-28",
+  "readingTime": 8,
+  "keyword": "llm wiki",
+  "title": "Das LLM-Wiki bei 490 Seiten: Was 3 Monate agentengepflegtes Wissen wirklich kosten",
+  "excerpt": "Coding-Agenten pflegen seit 3 Monaten meine Wissensbasis: 490 Seiten, 880 Commits seit Mai und ein Lint-Gate mit 20 Prüfungen bei jeder Änderung. Der Betriebsbericht, samt Fehlschlägen.",
+  "metaDescription": "3 Monate LLM-Wiki im Betrieb: 490 Seiten, 6 Operationen, ein Lint-Gate mit 20 Prüfungen und zwei Rückgänge der Seitenzahl. Die Daten hinter agentengepflegtem Wissen.",
+  "tags": ["AI Agents", "AI", "Process"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Eine agentengepflegte Wissensbasis überlebt, sobald man aufhört, ihr Bibliothekar zu sein. Mein LLM-Wiki erreichte in 3 Monaten 490 Seiten, und es hält zusammen wegen dreier Entscheidungen: Agenten besitzen die kompilierte Ebene, jede Interaktion läuft über eine von sechs benannten Operationen, und ein Linter mit 20 Prüfungen blockiert jeden Commit, der die Messlatte verfehlt. Fast keine dieser Seiten habe ich von Hand geschrieben."
+    },
+    {
+      "type": "p",
+      "text": "Von Hand gebaute zweite Gehirne sterben immer denselben Tod: Der Wert liegt in der Pflege, und genau die Pflege endet nach der dritten Woche. Wer einen Friedhof verlassener Notion-Workspaces besitzt, kennt das Muster. Coding-Agenten heben diese Kosten auf, denn sie langweilen sich nie und reparieren an einem Dienstagabend bereitwillig 40 defekte Links. [Der Leitfaden zur KI-Wissensschicht](/blog/ai-knowledge-layer-guide) zeigt den Aufbau in 20 Minuten; dies ist der Bericht über den Betrieb bei 490 Seiten, mit 3 Monaten wöchentlicher Health-Report-Daten und den Fehlschlägen inklusive."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Eigentum zuerst trennen.** Eine Ebene für Quellen gehört Ihnen, eine Ebene für kompilierte Seiten gehört den Agenten, Wissen fließt nur in eine Richtung. Diese eine Entscheidung macht die Pflege delegierbar.",
+        "**Ein geschlossenes Set an Operationen schlägt Improvisation.** Sechs benannte Operationen (Ingest, Update, Query, Lint, Enrich, Reorganize) verhindern, dass Agenten in jeder Sitzung einen neuen Workflow erfinden.",
+        "**Deterministische Gates schlagen geschriebene Richtlinien.** Agenten respektieren eine fehlschlagende Prüfung, an Fließtext-Regeln driften sie vorbei. Ein Linter mit 1.671 Zeilen und 20 Prüfungen läuft bei jedem Commit.",
+        "**Eine gesunde Wissensbasis schrumpft manchmal.** Die zwei Wochen, in denen die Seitenzahl sank, waren Konsolidierungsdurchläufe, und sie waren die gesündesten Wochen im Log.",
+        "**Jede Regel sollte auf einen Fehlschlag zurückführen.** Das Regelwerk mit 246 Zeilen wuchs wie ein Changelog der Dinge, die schiefliefen, und genau deshalb halten Agenten sich daran."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Eigentum trennen, noch bevor irgendetwas anderes zählt"
+    },
+    {
+      "type": "p",
+      "text": "Der Vault liegt in Obsidian, aufgeteilt in zwei Ebenen, und alles hier überträgt sich auf jeden Ordner mit Markdown-Dateien. Die **raw**-Ebene gehört mir: 341 gespeicherte Artikel, 20 Transkripte, Notizen und Journaleinträge, die Agenten lesen, aber nie umschreiben. Die **wiki**-Ebene gehört den Agenten: Jede Seite wird von ihnen generiert und gepflegt, Korrekturen geschehen im Gespräch statt von Hand. Wissen fließt nur in eine Richtung, von raw zu wiki, nie zurück."
+    },
+    {
+      "type": "p",
+      "text": "Diese Trennung macht die Pflege delegierbar. Teilen sich menschliche Notizen und Agentennotizen eine Datei, kann jede Agenten-Bearbeitung etwas Gemeintes überschreiben, sodass am Ende alles geprüft werden muss, wieder der Bibliothekarsjob. Trennt man die Ebenen, schrumpft die Prüfung auf eine Frage: Ist das kompilierte Verständnis den Quellen treu?"
+    },
+    {
+      "type": "p",
+      "text": "Dieselbe Eigentumsfrage entscheidet, ob eine Wissensbasis im Unternehmen funktioniert. Herauszufinden, welche Seite welche Tatsache besitzt, ist auch die erste Übung in webvises [KI-Audit- und Beratungssprint](/services/ai-consulting), denn eine Automatisierung auf Basis widersprüchlicher Dokumente automatisiert den Widerspruch."
+    },
+    {
+      "type": "h2",
+      "text": "Die Regeln liegen in Dateien, jede Regel führt auf einen Fehlschlag zurück"
+    },
+    {
+      "type": "p",
+      "text": "Alles, was die Agenten über den Vault wissen, stammt aus Dateien darin. AGENTS.md im Wurzelverzeichnis ist die Verfassung: 246 Zeilen zu Verzeichnisbaum, Seitenvorlage, Quellenregeln und Indexsystem. CLAUDE.md daneben ist eine einzige Zeile, ein Shim, der dafür sorgt, dass Claude Code dieselbe Datei lädt, die auch Codex und jedes andere AGENTS.md-fähige Tool liest."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Keine Erfindung.** Jede Behauptung führt auf eine Quelle zurück oder wird als unbelegt markiert.",
+        "**Ein Chat ist keine Quelle.** Ein bereinigter Auszug wird zuerst als Datei gespeichert, erst dann wird die Datei zitiert. \"Nutzer sagte das im Chat\" ist ein Beleg, der sich nie wieder öffnen lässt.",
+        "**Eine Eigentümerseite pro veränderlicher Tatsache.** Jede andere Seite verlinkt darauf, statt sie zu kopieren.",
+        "**Jede Erwähnung einer bekannten Entität ist ein Link.** Eine unverlinkte Tatsache ist für den Graphen und für das Retrieval unsichtbar."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Nichts davon stammt aus einem im Voraus entworfenen Governance-Modell. Eines Morgens waren Instruktionsdateien auf 0 Byte geleert, also zog der Vault aus der Dateisynchronisation in ein Git-Repository mit Commit-Gate um. Nicht nachvollziehbare Chat-Zitate tauchten immer wieder in Quellenlisten auf, also wurden Chats als Quelle verboten, und CRM-artige Datensätze verunreinigten Wissensseiten, also zogen Datensätze ganz aus dem Vault aus. Schreiben Sie die Regel in der Woche, in der ihr Fehlen etwas kostet, und lassen Sie die 50 spekulativen weg."
+    },
+    {
+      "type": "h2",
+      "text": "Sechs Operationen und sonst nichts"
+    },
+    {
+      "type": "p",
+      "text": "Ein Agent mit einem Vault und ohne definierte Operationen erfindet in jeder Sitzung einen neuen Workflow. An einem Tag führt er Duplikate zusammen, am nächsten erzeugt er neue, und beides lässt sich jeweils rechtfertigen. Deshalb läuft jede Interaktion über eine von sechs Operationen, jede festgehalten in einer Skill-Datei, die jedes Agent-Tool lädt."
+    },
+    {
+      "type": "table",
+      "headers": ["Operation", "Auslöser", "Was sie tut"],
+      "rows": [
+        [
+          "Ingest",
+          "Neue Dateien landen in der raw-Ebene",
+          "Kompiliert Quellen zu Wiki-Seiten, dedupliziert gegen bestehende"
+        ],
+        [
+          "Update",
+          "\"File this\"",
+          "Trägt eine genannte Tatsache in ihre eine Eigentümerseite ein"
+        ],
+        [
+          "Query",
+          "\"What is in the wiki on X\"",
+          "Index-first-Suche, Antwort mit Belegen"
+        ],
+        [
+          "Lint",
+          "Wöchentlich oder auf Abruf",
+          "Zweistufige Integritätsprüfung, mechanisch plus semantisch"
+        ],
+        [
+          "Enrich",
+          "\"Complete this page\"",
+          "Füllt Lücken aus Quellen, Repositories und Web-Recherche"
+        ],
+        [
+          "Reorganize",
+          "\"Split this\", \"merge these\"",
+          "Strukturelle Umzüge mit kartiertem Plan und Bestätigung"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Die Leitplanken innerhalb der Operationen leisten mehr als die Liste selbst. Ingest behandelt Anweisungen in gespeicherten Artikeln als nicht vertrauenswürdigen Inhalt, denn eine Leseliste ist eine Angriffsfläche: Ein Artikel, der \"ignoriere deine vorherigen Anweisungen\" sagt, wird als Artikel gespeichert, der das sagt, und nichts, was ein Artikel sagt, kann im selben Durchlauf Schemaänderungen autorisieren. Query hat eine harte Untergrenze: Der Agent darf erst behaupten, dem Vault fehle eine Information, nachdem eine Volltextsuche leer ausging, denn sonst wird aus \"der Index zeigte es nicht\" ein \"es existiert nicht\". Reorganize verlangt eine vollständige Zuordnung von alten zu neuen Dateien und eine ausdrückliche Bestätigung, bevor irgendetwas verschoben wird."
+    },
+    {
+      "type": "h2",
+      "text": "Ein deterministisches Gate unter dem Modell"
+    },
+    {
+      "type": "p",
+      "text": "Agenten respektieren ein fehlschlagendes Gate, an einer geschriebenen Richtlinie driften sie vorbei. Man kann \"Indizes synchron halten\" in ein Regelwerk schreiben und zusehen, wie es binnen einer Woche verfällt, oder man kann einen nicht synchronen Index eine Prüfung scheitern lassen, die den Commit blockiert, und das Problem verschwindet dauerhaft."
+    },
+    {
+      "type": "p",
+      "text": "Mein Gate ist ein Python-Linter mit 1.671 Zeilen, nur Standardbibliothek, 20 Prüfungen, rund 2 Sekunden pro vollständigem Durchlauf. Strukturelle Probleme sind Fehler: defekte Wikilinks, fehlerhafte Frontmatter, Indexeinträge, die auf nicht mehr existierende Dateien zeigen. Drift-Probleme sind Warnungen: verwaiste Seiten, Indexzahlen, die nicht mehr mit der Realität übereinstimmen, Seiten, die seit 90 Tagen unangetastet blieben. Ein Pre-Commit-Hook mit 13 Zeilen führt den Linter im Strict-Modus aus, wo auch Warnungen den Commit blockieren, sodass nichts unterhalb der Messlatte in die Git-Historie gelangt."
+    },
+    {
+      "type": "p",
+      "text": "Das Gate liest alles, auch Texte über das Gate selbst. Beim Verfassen der Langfassung dieses Berichts am 2026-07-21 formulierte ich beispielhaft eine deutsche Frist-Wendung aus, und der Linter interpretierte sie als abgelaufene Frist im Artikel. Ein Beispiel-Zitatstempel wurde als in der Quellenliste fehlende Quelle registriert. Beide Passagen mussten umformuliert werden, bevor der Commit durchging."
+    },
+    {
+      "type": "table",
+      "headers": ["Aufgabe", "Liegt bei"],
+      "rows": [
+        ["Links, Zahlen, Benennung, Daten, Existenz", "Skript"],
+        [
+          "Widersprüche, Beurteilung von Veralterung, Zusammenführungsentscheidungen",
+          "Modell"
+        ],
+        ["Geschmack, Prioritäten, was gestrichen wird", "Ich"]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Drei Monate Feinjustierung liefen auf eine Richtung hinaus: Wo immer sich ein Urteil in eine Prüfung verwandeln ließ, wurde es zur Prüfung. Bei jedem Schritt sanken die Kosten, und die Zuverlässigkeit stieg. Das Modell ist die teuerste und am wenigsten wiederholbare Komponente im System, deshalb wird es ausschließlich für Urteile eingesetzt."
+    },
+    {
+      "type": "h2",
+      "text": "Was die Zahlen nach 3 Monaten sagen"
+    },
+    {
+      "type": "p",
+      "text": "Die wöchentlichen Berichte zeigen die Seitenzahl bei 188 Mitte April, 279 Anfang Mai, dann auf 263 nach einem Konsolidierungsdurchlauf, hoch auf 479 Anfang Juli, dann runter auf 430, bevor sie Ende Juli 490 erreichte. Die beiden Rückgänge waren die gesündesten Wochen im Log, weil sie dünne und doppelte Seiten in ihre Eigentümerseiten überführten. Ungepflegte Wissensbasen wachsen nur. Ist Ihre Seitenzahl noch nie gesunken, pflegt niemand den Garten."
+    },
+    {
+      "type": "p",
+      "text": "Ein Audit des gesamten Vaults am 2026-06-22 fand eine Preistabelle, die auf 4 verschiedenen Seiten wiederholt war, und die Geschichte eines Projekts, dreimal in Absatzlänge erzählt. Jede Kopie war beim Schreiben korrekt, und jede Kopie war eine künftige Lüge, weil die nächste Änderung eine von ihnen träfe und die übrigen verfehlte. Die Lösung war Eigentum statt Zusammenführung: Ein Register nennt genau eine Eigentümerseite pro veränderlicher Tatsache, und kleine Einzelthema-Seiten bleiben klein, weil diese Form am besten abrufbar ist. Dasselbe Audit fand über mehr als 400 Seiten hinweg null harte faktische Widersprüche, weil die Struktur Widersprüchen keinen Ort zum Bestehen lässt."
+    },
+    {
+      "type": "p",
+      "text": "Die Bewertungsmethode, die sich zu kopieren lohnt, ist eine Scorecard statt einer Graphenansicht. Schreiben Sie die 15 Fragen auf, die die Wissensbasis am dringendsten beantworten muss, stellen Sie sie kalt, und bewerten Sie jede Antwort als eindeutig oder verstreut. Bei mir kamen 13 eindeutig zurück, und die 2 verstreuten drehten sich beide um Geschmack, der in nie aufgeschriebenen Entscheidungen lebt. Ob das System echte Fragen in einem Schritt beantwortet, ist die Kennzahl."
+    },
+    {
+      "type": "p",
+      "text": "Die laufenden Kosten liegen bei 5 Minuten am Tag plus einer 30 bis 45 Minuten langen Agentensitzung sonntags, und das Repository zeigt 880 Commits seit Mai."
+    },
+    {
+      "type": "h2",
+      "text": "Was noch kaputt ist"
+    },
+    {
+      "type": "p",
+      "text": "Die Qualität des Retrievals ist eine Wette, und sie bleibt offen. Der Agent findet immer eine plausible Seite, und falsch, aber plausibel ist schlimmer als ein Fehltreffer, weil nichts kaputt aussieht. Meine Arbeitsthese: Unter rund 10.000 Seiten ist Keyword-Suche über gut strukturiertem Markdown richtig dimensioniert, und bei 490 Seiten ist diese Schwelle noch lange nicht getestet."
+    },
+    {
+      "type": "p",
+      "text": "Tag-Wildwuchs entstand trotzdem: 662 verschiedene Tags, jeweils ein plausibles Tag nach dem anderen hinzugefügt, weil Agenten plausible Tags kostenlos erzeugen. Veralterung kostet ununterbrochen, mit rund 30 Seiten, die als maßgeblich, aber veraltet markiert sind, trotz datierter Stand-Markierungen und einer 90-Tage-Lint-Warnung. Und im April lag der Vault bei 0,68 Rohquellen pro kompilierter Seite, was bedeutet, dass das System schneller schrieb, als es las. Kostet Schreiben nichts, werden unbelegte Seiten zum Weg des geringsten Widerstands, und die Regel gegen Erfindung ist das Einzige, was zwischen einer Wissensbasis und einem sehr geordneten Haufen Behauptungen steht."
+    },
+    {
+      "type": "p",
+      "text": "Dedizierte Memory-Produkte versprechen, das Retrieval jenseits der 10.000-Seiten-Grenze zu lösen, und die ehrliche Antwort ist, dass dieser Vault weit unter dieser Grenze liegt. Die Aufteilung dieses Marktes in zwei Lager steht in [Kontext-Substrate für langläufige Agenten](/blog/agent-memory-vs-context)."
+    },
+    {
+      "type": "h2",
+      "text": "Dasselbe Muster im Unternehmen"
+    },
+    {
+      "type": "p",
+      "text": "Karpathy skizzierte das LLM-Wiki-Muster in einem Gist, und Google brachte im Juni 2026 ein passendes offenes Wissensformat heraus, Markdown-Bundles mit typisierter Frontmatter, die dieses Layout fast Feld für Feld spiegeln. Diese Konvergenz lese ich als Beleg dafür, dass die Form stimmt. Die Unternehmensversion kompiliert Positionierung, Preise, SOPs, Entscheidungsprotokolle und Kundenkontext statt persönlicher Notizen, und sie scheitert auf identische Weise: ein Wiki, das jemand mit Begeisterung aufgebaut hat und das niemand pflegt. Für eine Unternehmens-Wissensbasis mit 200 Dokumenten ist die obige Maschinerie bereits mehr, als Sie brauchen, und [Die meisten Unternehmens-Wissensdatenbanken brauchen kein RAG](/blog/business-knowledge-base-without-rag) erklärt, warum."
+    },
+    {
+      "type": "p",
+      "text": "Die Urteilsarbeit liegt im Setup: welche Tatsachen Eigentümerseiten bekommen, wo Prüfgates sitzen, und wohin Agenten schreiben dürfen. Diese Zuordnung ist die Form von webvises [KI-Audit- und Beratungsengagement](/services/ai-consulting): einen Workflow auswählen, Eingaben, Ausnahmen und Prüfpunkte kartieren, und mit einem funktionierenden Prototyp und einem Bauplan herausgehen. Die Wissensschicht erweist sich meist als Voraussetzung für jede Automatisierung, die danach kommt."
+    },
+    {
+      "type": "p",
+      "text": "webvise baut agentengepflegte Wissenssysteme und die Automatisierungen darauf, mit einem menschlichen Prüfgate in jedem Workflow. Um herauszufinden, wie das mit Ihren Dokumenten aussieht, nutzen Sie [das Kontaktformular](/#contact)."
+    }
+  ]
+}

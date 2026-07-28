@@ -1,0 +1,195 @@
+{
+  "date": "2026-07-28",
+  "readingTime": 8,
+  "keyword": "llm wiki",
+  "title": "The LLM Wiki at 490 Pages: What 3 Months of Agent-Maintained Knowledge Actually Takes",
+  "excerpt": "Coding agents have maintained my knowledge base for 3 months: 490 pages, 880 commits since May, and a 20-check lint gate under every change. The operations report, failures included.",
+  "metaDescription": "3 months of running an LLM wiki: 490 pages, 6 operations, a 20-check lint gate, and two page-count contractions. The data behind agent-maintained knowledge.",
+  "tags": ["AI Agents", "AI", "Process"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "An agent-maintained knowledge base survives when you stop being its librarian. My LLM wiki reached 490 pages in 3 months, and it holds together because of three decisions: agents own the compiled layer, every interaction runs through one of six named operations, and a 20-check linter blocks every commit that falls below the bar. I wrote almost none of those pages by hand."
+    },
+    {
+      "type": "p",
+      "text": "Hand-built second brains die the same death every time: the value lives in the maintenance, and the maintenance is exactly what stops after week three. If you own a graveyard of abandoned Notion workspaces, you know the pattern. Coding agents remove that cost, because they never get bored and will happily fix 40 broken links on a Tuesday night. [The AI knowledge layer guide](/blog/ai-knowledge-layer-guide) covers building one in 20 minutes; this is the report on running one at 490 pages, with 3 months of weekly health-report data and the failures left in."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Split ownership first.** One layer you own for sources, one layer agents own for compiled pages, knowledge flows one way. This single decision makes maintenance delegatable.",
+        "**A closed set of operations beats improvisation.** Six named operations (ingest, update, query, lint, enrich, reorganize) stop agents from inventing a new workflow every session.",
+        "**Deterministic gates outperform written guidelines.** Agents respect a failing check and drift past prose rules. A 1,671-line linter with 20 checks runs on every commit.",
+        "**A healthy knowledge base sometimes shrinks.** The two weeks the page count dropped were consolidation passes, and they were the healthiest weeks in the log.",
+        "**Every rule should trace to a failure.** The 246-line rulebook grew like a changelog of things going wrong, and that is why agents follow it."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Split ownership before anything else"
+    },
+    {
+      "type": "p",
+      "text": "The vault lives in Obsidian, split into two layers, and everything here transfers to any folder of markdown. The **raw** layer is mine: 341 saved articles, 20 transcripts, notes, and journal entries that agents read but never rewrite. The **wiki** layer belongs to the agents: every page is generated and maintained by them, and corrections happen in conversation instead of by hand. Knowledge flows one way, from raw to wiki, never back."
+    },
+    {
+      "type": "p",
+      "text": "This split is what makes maintenance delegatable. When human notes and agent notes share files, every agent edit can overwrite something you meant, so you end up reviewing everything, which is the librarian job again. Separate the layers and review shrinks to one question: is the compiled understanding faithful to the sources?"
+    },
+    {
+      "type": "p",
+      "text": "The same ownership question decides whether a company knowledge base works. Figuring out which page owns which fact is also the first exercise in webvise's [AI auditing and consulting sprint](/services/ai-consulting), because an automation built on contradictory documents automates the contradiction."
+    },
+    {
+      "type": "h2",
+      "text": "The rules live in files, and every rule traces to a failure"
+    },
+    {
+      "type": "p",
+      "text": "Everything the agents know about the vault comes from files inside it. AGENTS.md at the root is the constitution: 246 lines covering the directory tree, the page template, the source rules, and the index system. CLAUDE.md next to it is one line, a shim that makes Claude Code load the same file Codex and every other AGENTS.md-aware tool reads."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**No invention.** Every claim traces to a source or gets flagged as unverified.",
+        "**A chat is not a source.** A cleaned excerpt gets saved as a file first, then the file gets cited. \"User said so in chat\" is a citation you can never reopen.",
+        "**One owner page per volatile fact.** Every other page links to it instead of copying it.",
+        "**Every mention of a known entity is a link.** An unlinked fact is invisible to the graph and to retrieval."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "None of this came from a governance model designed up front. Instruction files turned up blanked to 0 bytes one morning, so the vault moved out of file sync and into a git repo with a commit gate. Untraceable chat citations kept appearing in source lists, so chats got banned as sources, and CRM-style records started polluting knowledge pages, so records moved out of the vault entirely. Write the rule the week its absence costs you something, and skip the 50 speculative ones."
+    },
+    {
+      "type": "h2",
+      "text": "Six operations and nothing else"
+    },
+    {
+      "type": "p",
+      "text": "An agent with a vault and no defined operations invents a new workflow every session. One day it merges duplicates, the next day it creates them, and both times it can justify itself. So every interaction runs through one of six operations, each written down as a skill file that every agent tool loads."
+    },
+    {
+      "type": "table",
+      "headers": ["Operation", "Trigger", "What it does"],
+      "rows": [
+        [
+          "Ingest",
+          "New files land in the raw layer",
+          "Compiles sources into wiki pages, dedupes against existing ones"
+        ],
+        [
+          "Update",
+          "\"File this\"",
+          "Applies a stated fact to its one owner page"
+        ],
+        [
+          "Query",
+          "\"What is in the wiki on X\"",
+          "Index-first lookup, answers with citations"
+        ],
+        [
+          "Lint",
+          "Weekly, or on demand",
+          "Two-layer integrity check, mechanical plus semantic"
+        ],
+        [
+          "Enrich",
+          "\"Complete this page\"",
+          "Fills gaps from sources, repos, and web research"
+        ],
+        [
+          "Reorganize",
+          "\"Split this\", \"merge these\"",
+          "Structural moves with a mapped plan and confirmation"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "The guardrails inside the operations do more than the list itself. Ingest treats instructions embedded in saved articles as untrusted content, because a reading list is an attack surface: an article that says \"ignore your previous instructions\" gets stored as an article saying that, and nothing an article says can authorize schema changes in the same pass. Query has a hard floor: the agent may claim the vault lacks information only after a full-text search comes up empty, because \"the index did not show it\" otherwise becomes \"it does not exist\". Reorganize demands a complete old-to-new file mapping and explicit confirmation before anything moves."
+    },
+    {
+      "type": "h2",
+      "text": "A deterministic gate under the model"
+    },
+    {
+      "type": "p",
+      "text": "Agents respect a failing gate and drift past a written guideline. You can write \"keep indexes in sync\" into a rulebook and watch it decay within a week, or you can make an out-of-sync index fail a check that blocks the commit, and the problem disappears permanently."
+    },
+    {
+      "type": "p",
+      "text": "My gate is a 1,671-line Python linter, standard library only, 20 checks, about 2 seconds per full run. Structural problems are errors: broken wikilinks, malformed frontmatter, index entries pointing at files that no longer exist. Drift problems are warnings: orphaned pages, index counts that stopped matching reality, pages untouched for 90 days. A 13-line pre-commit hook runs the linter in strict mode, where warnings block the commit too, so nothing enters git history below the bar."
+    },
+    {
+      "type": "p",
+      "text": "The gate reads everything, including writing about the gate. While drafting the long-form version of this report on 2026-07-21, I spelled out a German deadline phrase as an example, and the linter parsed it as a lapsed deadline inside the article. An example citation stamp registered as a source missing from the source list. Both passages had to be rephrased before the commit went through."
+    },
+    {
+      "type": "table",
+      "headers": ["Job", "Lives in"],
+      "rows": [
+        ["Links, counts, naming, dates, existence", "Script"],
+        ["Contradictions, staleness judgment, merge decisions", "Model"],
+        ["Taste, priorities, what gets killed", "Me"]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Three months of tuning collapsed into one direction: whenever a judgment could become a check, it became a check. Cost went down and reliability went up at every step. The model is the most expensive and least repeatable component in the system, so it gets spent on judgment only."
+    },
+    {
+      "type": "h2",
+      "text": "What the numbers say after 3 months"
+    },
+    {
+      "type": "p",
+      "text": "The weekly reports put the page count at 188 in mid April, 279 in early May, down to 263 after a consolidation pass, up to 479 by early July, then down to 430 before reaching 490 in late July. The two contractions were the healthiest weeks in the log, because they folded thin and duplicate pages into their owners. Unmaintained knowledge bases only grow. If your page count has never gone down, nobody is tending the garden."
+    },
+    {
+      "type": "p",
+      "text": "A full-vault audit on 2026-06-22 found one pricing table restated on 4 different pages and one project's story told 3 times at paragraph length. Every copy was correct when written, and every copy was a future lie, because the next change would hit one of them and miss the rest. The fix was ownership rather than merging: a registry names exactly one owner page per volatile fact, and small single-topic pages stay small because that shape retrieves best. The same audit found zero hard factual contradictions across 400-plus pages, because the structure leaves contradictions nowhere to live."
+    },
+    {
+      "type": "p",
+      "text": "The evaluation method worth copying is a scorecard rather than a graph view. Write down the 15 questions the knowledge base most needs to answer, ask them cold, and score each answer as single-clear or scattered. Mine came back 13 single-clear, and the 2 that scattered were both about taste, which lives in decisions nobody ever wrote down. Whether the system answers real questions in one hop is the metric."
+    },
+    {
+      "type": "p",
+      "text": "The running cost sits at 5 minutes a day plus one 30-to-45-minute agent session on Sundays, and the repo shows 880 commits since May."
+    },
+    {
+      "type": "h2",
+      "text": "What is still broken"
+    },
+    {
+      "type": "p",
+      "text": "Retrieval quality is a bet, and it stays open. The agent always finds a plausible page, and wrong-but-plausible is worse than a miss because nothing looks broken. My working position: under roughly 10,000 pages, keyword search over well-structured markdown is right-sized, and at 490 pages that threshold is nowhere near tested."
+    },
+    {
+      "type": "p",
+      "text": "Tag sprawl happened anyway: 662 distinct tags, added one plausible tag at a time, because agents generate plausible tags for free. Staleness never stops costing, with around 30 pages flagged as authoritative but stale despite dated as-of markers and a 90-day lint warning. And in April the vault ran at 0.68 raw sources per compiled page, which means the system was writing faster than it was reading. When writing costs nothing, unsourced pages become the path of least resistance, and the no-invention rule is the only thing standing between a knowledge base and a very organized pile of assertions."
+    },
+    {
+      "type": "p",
+      "text": "Dedicated memory products promise to solve retrieval past the 10,000-page line, and the honest answer is that this vault sits far below that line. The two-camp breakdown of that market is in [Context Substrates for Long-Running Agents](/blog/agent-memory-vs-context)."
+    },
+    {
+      "type": "h2",
+      "text": "The same pattern inside a business"
+    },
+    {
+      "type": "p",
+      "text": "Karpathy sketched the LLM wiki pattern in a gist, and Google shipped a matching open knowledge format in June 2026, markdown bundles with typed frontmatter that mirror this layout almost field for field. I read the convergence as evidence the shape is right. The business version compiles positioning, pricing, SOPs, decision logs, and customer context instead of personal notes, and it fails the identical way: a wiki someone built with enthusiasm and nobody maintains. For a 200-document company knowledge base, the machinery above is already more than you need, and [Most Business Knowledge Bases Do Not Need RAG](/blog/business-knowledge-base-without-rag) covers why."
+    },
+    {
+      "type": "p",
+      "text": "The judgment work is the setup: which facts get owner pages, where review gates sit, and what agents may write to. That mapping is the shape of webvise's [AI auditing and consulting](/services/ai-consulting) engagement: pick one workflow, map inputs, exceptions, and review points, and leave with a working prototype and a build plan. The knowledge layer usually turns out to be the prerequisite for every automation that comes after it."
+    },
+    {
+      "type": "p",
+      "text": "webvise builds agent-maintained knowledge systems and the automations on top of them, with a human review gate kept in every workflow. To find out what this looks like on your documents, use [the contact form](/#contact)."
+    }
+  ]
+}

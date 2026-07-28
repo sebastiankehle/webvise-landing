@@ -1,0 +1,198 @@
+{
+  "date": "2026-07-28",
+  "readingTime": 8,
+  "keyword": "llm wiki",
+  "title": "L'LLM Wiki a 490 pagine: cosa richiede davvero una base di conoscenza gestita da agenti dopo 3 mesi",
+  "excerpt": "Agenti di coding mantengono la mia base di conoscenza da 3 mesi: 490 pagine, 880 commit da maggio e un gate di lint a 20 controlli su ogni modifica. Il report operativo, errori inclusi.",
+  "metaDescription": "3 mesi di gestione di un LLM wiki: 490 pagine, 6 operazioni, un gate di lint a 20 controlli e due contrazioni nel conteggio delle pagine. I dati dietro la conoscenza gestita da agenti.",
+  "tags": ["AI Agents", "AI", "Process"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Una base di conoscenza gestita da agenti sopravvive quando si smette di farne il bibliotecario. Il mio LLM wiki ha raggiunto le 490 pagine in 3 mesi, e regge grazie a tre decisioni: gli agenti possiedono il livello compilato, ogni interazione passa attraverso una di sei operazioni definite, e un linter con 20 controlli blocca ogni commit che non raggiunge lo standard. Quasi nessuna di quelle pagine è stata scritta a mano da me."
+    },
+    {
+      "type": "p",
+      "text": "I secondi cervelli costruiti a mano muoiono sempre nello stesso modo: il valore sta nella manutenzione, ed è proprio la manutenzione a fermarsi dopo la terza settimana. Chi possiede un cimitero di workspace Notion abbandonati conosce bene lo schema. Gli agenti di coding eliminano questo costo, perché non si annoiano mai e sistemano volentieri 40 link rotti in una notte qualunque. [La guida al livello di conoscenza per l'IA](/blog/ai-knowledge-layer-guide) spiega come costruirne uno in 20 minuti; questo è il report su come gestirne uno a 490 pagine, con 3 mesi di dati settimanali sullo stato di salute e gli errori inclusi."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Prima di tutto, separi la proprietà.** Un livello di Sua proprietà per le fonti, un livello di proprietà degli agenti per le pagine compilate: la conoscenza scorre in una sola direzione. Questa singola decisione rende la manutenzione delegabile.",
+        "**Un insieme chiuso di operazioni batte l'improvvisazione.** Sei operazioni definite (ingest, update, query, lint, enrich, reorganize) impediscono agli agenti di inventare un nuovo flusso di lavoro a ogni sessione.",
+        "**I gate deterministici superano le linee guida scritte.** Gli agenti rispettano un controllo che fallisce e si allontanano dalle regole scritte in prosa. Un linter di 1.671 righe con 20 controlli viene eseguito a ogni commit.",
+        "**Una base di conoscenza sana a volte si riduce.** Le due settimane in cui il conteggio delle pagine è calato sono state passaggi di consolidamento, e sono state le settimane più sane del registro.",
+        "**Ogni regola dovrebbe risalire a un fallimento.** Il regolamento di 246 righe è cresciuto come un changelog di cose andate storte, ed è per questo che gli agenti lo rispettano."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Prima di tutto, separi la proprietà"
+    },
+    {
+      "type": "p",
+      "text": "Il vault vive in Obsidian, diviso in due livelli, e tutto ciò che segue si applica a qualsiasi cartella di markdown. Il livello **raw** è mio: 341 articoli salvati, 20 trascrizioni, note e voci di diario che gli agenti leggono ma non riscrivono mai. Il livello **wiki** appartiene agli agenti: ogni pagina viene generata e mantenuta da loro, e le correzioni avvengono in conversazione anziché a mano. La conoscenza scorre in una sola direzione, da raw a wiki, mai al contrario."
+    },
+    {
+      "type": "p",
+      "text": "Questa separazione è ciò che rende delegabile la manutenzione. Quando note umane e note degli agenti condividono gli stessi file, ogni modifica di un agente rischia di sovrascrivere qualcosa di voluto, così si finisce per rivedere tutto, tornando al ruolo di bibliotecario. Separando i livelli, la revisione si riduce a una sola domanda: la comprensione compilata è fedele alle fonti?"
+    },
+    {
+      "type": "p",
+      "text": "La stessa domanda sulla proprietà decide se una base di conoscenza aziendale funziona. Capire quale pagina possiede quale fatto è anche il primo esercizio dello [sprint di audit e consulenza IA](/services/ai-consulting) di webvise, perché un'automazione costruita su documenti contraddittori automatizza la contraddizione."
+    },
+    {
+      "type": "h2",
+      "text": "Le regole vivono nei file, e ogni regola risale a un fallimento"
+    },
+    {
+      "type": "p",
+      "text": "Tutto ciò che gli agenti sanno del vault proviene dai file al suo interno. AGENTS.md, nella radice, è la costituzione: 246 righe che coprono l'albero delle directory, il template delle pagine, le regole sulle fonti e il sistema degli indici. CLAUDE.md, accanto ad esso, è una sola riga: uno shim che fa caricare a Claude Code lo stesso file letto da Codex e da ogni altro strumento compatibile con AGENTS.md."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Nessuna invenzione.** Ogni affermazione risale a una fonte o viene segnalata come non verificata.",
+        "**Una chat non è una fonte.** Un estratto ripulito viene prima salvato come file, poi il file viene citato. \"L'utente lo ha detto in chat\" è una citazione che non si può mai riaprire.",
+        "**Una pagina proprietaria per ogni fatto volatile.** Ogni altra pagina vi rimanda con un link invece di copiarlo.",
+        "**Ogni menzione di un'entità nota è un link.** Un fatto senza link è invisibile al grafo e al retrieval."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Niente di tutto questo nasce da un modello di governance progettato a tavolino. Una mattina i file di istruzioni sono comparsi azzerati a 0 byte, così il vault è passato dalla sincronizzazione file a un repository git con un gate sui commit. Continuavano ad apparire citazioni di chat non tracciabili negli elenchi delle fonti, così le chat sono state bandite come fonti, e record in stile CRM hanno iniziato a inquinare le pagine di conoscenza, così i record sono usciti del tutto dal vault. Scriva la regola nella settimana in cui la sua assenza costa qualcosa, e salti le 50 speculative."
+    },
+    {
+      "type": "h2",
+      "text": "Sei operazioni e nient'altro"
+    },
+    {
+      "type": "p",
+      "text": "Un agente con un vault e nessuna operazione definita inventa un nuovo flusso di lavoro a ogni sessione. Un giorno unisce i duplicati, il giorno dopo li crea, e in entrambi i casi riesce a giustificarsi. Per questo ogni interazione passa attraverso una di sei operazioni, ciascuna scritta come file di skill caricato da ogni strumento agente."
+    },
+    {
+      "type": "table",
+      "headers": ["Operazione", "Trigger", "Cosa fa"],
+      "rows": [
+        [
+          "Ingest",
+          "Nuovi file arrivano nel livello raw",
+          "Compila le fonti in pagine wiki, deduplicando rispetto a quelle esistenti"
+        ],
+        [
+          "Update",
+          "\"Archivi questo\"",
+          "Applica un fatto dichiarato alla sua pagina proprietaria"
+        ],
+        [
+          "Query",
+          "\"Cosa c'è nel wiki su X\"",
+          "Ricerca prima nell'indice, risponde con citazioni"
+        ],
+        [
+          "Lint",
+          "Settimanale, o su richiesta",
+          "Controllo di integrità a due livelli, meccanico e semantico"
+        ],
+        [
+          "Enrich",
+          "\"Completi questa pagina\"",
+          "Colma le lacune da fonti, repository e ricerche sul web"
+        ],
+        [
+          "Reorganize",
+          "\"Divida questo\", \"unisca questi\"",
+          "Spostamenti strutturali con un piano mappato e conferma"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "I guardrail interni alle operazioni contano più della lista in sé. Ingest tratta le istruzioni incorporate negli articoli salvati come contenuto non fidato, perché una reading list è una superficie di attacco: un articolo che dice \"ignora le istruzioni precedenti\" viene archiviato come un articolo che lo dice, e nulla di ciò che dice un articolo può autorizzare cambi di schema nello stesso passaggio. Query ha un vincolo rigido: l'agente può affermare che il vault manca di un'informazione solo dopo che una ricerca full-text è risultata vuota, perché altrimenti \"l'indice non lo mostrava\" diventa \"non esiste\". Reorganize richiede una mappatura completa da vecchio a nuovo file e una conferma esplicita prima che qualcosa venga spostato."
+    },
+    {
+      "type": "h2",
+      "text": "Un gate deterministico sotto il modello"
+    },
+    {
+      "type": "p",
+      "text": "Gli agenti rispettano un gate che fallisce e si allontanano da una linea guida scritta. Si può scrivere \"mantenga gli indici sincronizzati\" in un regolamento e vederlo decadere in una settimana, oppure si può far fallire un controllo quando l'indice non è sincronizzato, bloccando il commit, e il problema scompare per sempre."
+    },
+    {
+      "type": "p",
+      "text": "Il mio gate è un linter Python di 1.671 righe, solo standard library, 20 controlli, circa 2 secondi per un'esecuzione completa. I problemi strutturali sono errori: wikilink rotti, frontmatter malformato, voci di indice che puntano a file non più esistenti. I problemi di drift sono avvisi: pagine orfane, conteggi dell'indice che non corrispondono più alla realtà, pagine non toccate da 90 giorni. Un pre-commit hook di 13 righe esegue il linter in modalità strict, dove anche gli avvisi bloccano il commit, così nulla entra nella cronologia git sotto lo standard."
+    },
+    {
+      "type": "p",
+      "text": "Il gate legge tutto, compresi i testi che parlano del gate stesso. Mentre scrivevo la versione lunga di questo report il 2026-07-21, ho riportato per esteso, come esempio, una frase tedesca su una scadenza, e il linter l'ha interpretata come una scadenza superata all'interno dell'articolo. Un timbro di citazione usato come esempio è stato registrato come una fonte mancante dall'elenco delle fonti. Entrambi i passaggi hanno dovuto essere riformulati prima che il commit passasse."
+    },
+    {
+      "type": "table",
+      "headers": ["Compito", "Vive in"],
+      "rows": [
+        ["Link, conteggi, denominazione, date, esistenza", "Script"],
+        [
+          "Contraddizioni, giudizio sull'obsolescenza, decisioni di merge",
+          "Modello"
+        ],
+        ["Gusto, priorità, cosa viene eliminato", "Io"]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Tre mesi di messa a punto si sono ridotti a una sola direzione: ogni volta che un giudizio poteva diventare un controllo, lo è diventato. Il costo è sceso e l'affidabilità è salita a ogni passaggio. Il modello è il componente più costoso e meno ripetibile del sistema, quindi viene impiegato solo per il giudizio."
+    },
+    {
+      "type": "h2",
+      "text": "Cosa dicono i numeri dopo 3 mesi"
+    },
+    {
+      "type": "p",
+      "text": "I report settimanali fissano il conteggio delle pagine a 188 a metà aprile, 279 all'inizio di maggio, sceso a 263 dopo un passaggio di consolidamento, salito a 479 all'inizio di luglio, poi sceso a 430 prima di raggiungere le 490 a fine luglio. Le due contrazioni sono state le settimane più sane del registro, perché hanno assorbito pagine sottili e duplicate nelle rispettive pagine proprietarie. Una base di conoscenza non mantenuta cresce soltanto. Se il conteggio delle pagine non è mai sceso, nessuno sta curando il giardino."
+    },
+    {
+      "type": "p",
+      "text": "Un audit completo del vault del 2026-06-22 ha trovato una tabella prezzi ripetuta su 4 pagine diverse e la storia di un progetto raccontata 3 volte in paragrafi separati. Ogni copia era corretta al momento della scrittura, e ogni copia era una bugia futura, perché la modifica successiva avrebbe colpito una di esse e mancato le altre. La soluzione è stata la proprietà, non la fusione: un registro assegna esattamente una pagina proprietaria per ogni fatto volatile, e le pagine piccole e monotematiche restano piccole perché quella forma si recupera meglio. Lo stesso audit non ha trovato alcuna contraddizione fattuale netta su oltre 400 pagine, perché la struttura non lascia spazio alle contraddizioni."
+    },
+    {
+      "type": "p",
+      "text": "Il metodo di valutazione che vale la pena copiare è una scorecard, non una vista a grafo. Scriva le 15 domande a cui la base di conoscenza deve rispondere con più urgenza, ponga ciascuna a freddo, e valuti ogni risposta come chiara e univoca oppure dispersiva. Nel mio caso 13 sono risultate chiare e univoche, e le 2 dispersive riguardavano entrambe il gusto, che vive in decisioni che nessuno ha mai messo per iscritto. La metrica è se il sistema risponde a domande reali in un solo passaggio."
+    },
+    {
+      "type": "p",
+      "text": "Il costo operativo si attesta a 5 minuti al giorno più una sessione con l'agente di 30-45 minuti la domenica, e il repository mostra 880 commit da maggio."
+    },
+    {
+      "type": "h2",
+      "text": "Cosa non funziona ancora"
+    },
+    {
+      "type": "p",
+      "text": "La qualità del retrieval è una scommessa, e resta aperta. L'agente trova sempre una pagina plausibile, e una risposta sbagliata ma plausibile è peggiore di un buco, perché nulla sembra rotto. La mia posizione di lavoro: sotto circa 10.000 pagine, la ricerca per parole chiave su markdown ben strutturato è dimensionata correttamente, e a 490 pagine quella soglia è ben lontana dall'essere testata."
+    },
+    {
+      "type": "p",
+      "text": "La proliferazione dei tag è comunque avvenuta: 662 tag distinti, aggiunti uno plausibile alla volta, perché gli agenti generano tag plausibili gratis. L'obsolescenza continua a costare, con circa 30 pagine segnalate come autorevoli ma superate nonostante i marcatori di data e un avviso di lint a 90 giorni. E ad aprile il vault viaggiava a 0,68 fonti raw per pagina compilata, il che significa che il sistema scriveva più velocemente di quanto leggesse. Quando scrivere non costa nulla, le pagine senza fonti diventano la via di minor resistenza, e la regola del non inventare è l'unica cosa che separa una base di conoscenza da un mucchio molto organizzato di affermazioni."
+    },
+    {
+      "type": "p",
+      "text": "I prodotti di memoria dedicati promettono di risolvere il retrieval oltre la soglia delle 10.000 pagine, e la risposta onesta è che questo vault si trova molto al di sotto di quella soglia. La suddivisione in due schieramenti di quel mercato è in [Substrati di contesto per agenti di lunga durata](/blog/agent-memory-vs-context)."
+    },
+    {
+      "type": "h2",
+      "text": "Lo stesso schema all'interno di un'azienda"
+    },
+    {
+      "type": "p",
+      "text": "Karpathy ha abbozzato lo schema dell'LLM wiki in un gist, e Google ha rilasciato un formato di conoscenza aperto corrispondente nel giugno 2026, bundle markdown con frontmatter tipizzato che rispecchia questa struttura quasi campo per campo. Leggo questa convergenza come prova che la forma è quella giusta. La versione aziendale compila posizionamento, prezzi, SOP, log delle decisioni e contesto clienti al posto di note personali, e fallisce nello stesso identico modo: un wiki che qualcuno ha costruito con entusiasmo e che nessuno mantiene. Per una base di conoscenza aziendale di 200 documenti, i meccanismi descritti sopra sono già più del necessario, e [La maggior parte delle basi di conoscenza aziendali non ha bisogno di RAG](/blog/business-knowledge-base-without-rag) spiega perché."
+    },
+    {
+      "type": "p",
+      "text": "Il lavoro di giudizio è nell'impostazione: quali fatti ottengono una pagina proprietaria, dove si collocano i gate di revisione, e su cosa possono scrivere gli agenti. Quella mappatura è la forma dell'incarico di [audit e consulenza IA](/services/ai-consulting) di webvise: si sceglie un flusso di lavoro, si mappano input, eccezioni e punti di revisione, e si esce con un prototipo funzionante e un piano di realizzazione. Il livello di conoscenza risulta di solito il prerequisito per ogni automazione che viene dopo."
+    },
+    {
+      "type": "p",
+      "text": "webvise costruisce sistemi di conoscenza gestiti da agenti e le automazioni che vi si basano, mantenendo un gate di revisione umana in ogni flusso di lavoro. Per scoprire come si traduce questo sui Suoi documenti, utilizzi [il modulo di contatto](/#contact)."
+    }
+  ]
+}
