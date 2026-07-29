@@ -41,10 +41,10 @@ export async function POST(req: Request) {
 	const model =
 		process.env.NODE_ENV === "development"
 			? wrapLanguageModel({
-					model: gateway("google/gemini-2.5-flash"),
+					model: gateway("google/gemini-3.5-flash-lite"),
 					middleware: devToolsMiddleware(),
 				})
-			: gateway("google/gemini-2.5-flash");
+			: gateway("google/gemini-3.5-flash-lite");
 
 	const result = streamText({
 		model,

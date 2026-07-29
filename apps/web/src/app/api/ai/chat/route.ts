@@ -130,7 +130,7 @@ export async function POST(req: Request) {
 	}
 
 	const result = streamText({
-		model: gateway("google/gemini-2.5-flash"),
+		model: gateway("google/gemini-3.5-flash-lite"),
 		system: SYSTEM_PROMPT,
 		messages: await convertToModelMessages(messages),
 		abortSignal: req.signal,
