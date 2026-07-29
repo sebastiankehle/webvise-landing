@@ -101,7 +101,7 @@ export default async function Hero() {
 						<OpenAiPartnerBadge className="absolute right-0 bottom-0 hidden w-[93px] md:inline-flex" />
 					</div>
 					<div className="mt-10 flex md:hidden">
-						<OpenAiPartnerBadge className="ml-auto w-[93px]" />
+						<OpenAiPartnerBadge className="w-[93px]" />
 					</div>
 				</HeroContent>
 			</GridContainer>
