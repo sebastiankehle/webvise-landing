@@ -1,0 +1,258 @@
+{
+  "date": "2026-08-03",
+  "readingTime": 9,
+  "keyword": "spam seo wordpress",
+  "title": "Il suo sito WordPress ha spam SEO. Ripulirlo non basterà.",
+  "excerpt": "Lo spam SEO su WordPress torna dopo ogni pulizia perché la backdoor e l'account amministratore malevolo le sopravvivono. Ecco l'audit da 20 minuti, i dati che spiegano il fallimento della rimozione e la ricostruzione che chiude il ciclo.",
+  "metaDescription": "Lo spam SEO su WordPress torna perché il 49,21% dei siti violati conserva una backdoor. Lo rilevi in 20 minuti, poi elimini la superficie d'attacco.",
+  "tags": ["WordPress", "Security", "SEO", "Business Strategy"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Lo spam SEO su WordPress continua a tornare perché la pulizia cancella il sintomo e lascia intatta la via d'ingresso. Sucuri ha trovato una backdoor sul [49,21% dei siti compromessi](https://sucuri.net/reports/2023-hacked-website-report/) al momento dell'infezione, e almeno un account amministratore malevolo sul 55% dei siti con malware nel database."
+    },
+    {
+      "type": "p",
+      "text": "Lei scansiona le pagine, cancella i link iniettati, aggiorna ogni plugin, e nel giro di un mese i link alle farmacie sono di nuovo lì. L'account che li reinstalla è stato creato durante la prima violazione ed è sopravvissuto alla pulizia."
+    },
+    {
+      "type": "p",
+      "text": "Chi ha già ripulito un'installazione WordPress violata lo sa: la seconda infezione arriva più in fretta della prima. Seguono il danno al posizionamento, un audit da 20 minuti senza comprare alcuno scanner, le ragioni per cui la rimozione fallisce e il modo di chiudere la falla in via definitiva."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Lo spam SEO è tra le infezioni più comuni che Sucuri bonifica.** È comparso sul 20,30% dei siti infetti durante la pulizia e sul 42,22% tramite scansioni remote.",
+        "**La pulizia rimuove il payload e lascia l'accesso.** Il 49,21% dei siti compromessi aveva una backdoor, e il 55% dei siti con malware nel database un account amministratore malevolo.",
+        "**Applicare la patch è spesso impossibile.** Patchstack ha contato 11.334 nuove vulnerabilità WordPress nel 2025, il 91% nei plugin, e per il 46% non esisteva alcuna correzione il giorno della pubblicazione.",
+        "**Gran parte dello spam vive nel database.** Il 38,3% dei database compromessi conteneva spam SEO, ed è per questo che uno scanner di file dichiara il sito pulito mentre Google mostra titoli da farmacia.",
+        "**Una ricostruzione statica chiude il ciclo.** Senza database a runtime e senza livello plugin, sul server non resta nulla in cui iniettare qualcosa."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Che cosa fa un'iniezione di spam SEO a un sito WordPress"
+    },
+    {
+      "type": "p",
+      "text": "L'attaccante punta alla reputazione del suo dominio. Un sito di cui Google si fida già trasferisce quella fiducia a pagine che vendono farmaci contraffatti, iscrizioni a casinò o sneaker false. I link restano invisibili a lei e vengono serviti a Googlebot. Nel browser il sito appare impeccabile, nell'indice si legge come una farmacia."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Blocchi di link nascosti.** Centinaia di tag anchor spinti fuori dallo schermo via CSS, iniettati nel footer, in un'area widget o in un vecchio articolo che nessuno apre.",
+        "**Pagine mascherate (cloaking).** Il server controlla user-agent e referrer prima di decidere cosa inviare. I visitatori umani ricevono la sua home page, Googlebot riceve spam, e il proprietario lo scopre per ultimo.",
+        "**Il Japanese keyword hack.** Google Search Central lo documenta con questo nome: migliaia di pagine generate automaticamente con testo giapponese e link di affiliazione, più un proprietario estraneo aggiunto a Search Console perché l'attaccante mantenga l'accesso dopo che lei ha ripulito i file.",
+        "**Redirect condizionali.** I visitatori che arrivano da un risultato di ricerca finiscono sulla destinazione spam. Chi digita il dominio direttamente vede un sito normale, ed è per questo che i proprietari raramente credono alla prima segnalazione."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Il 38,3% dei database compromessi nel dataset di Sucuri conteneva spam SEO, per lo più link nascosti verso farmaci contraffatti e gioco d'azzardo. Quel numero spiega la parte più frustrante. Uno scanner malware percorre il filesystem, dichiara tutto pulito, e il contenuto iniettato se ne sta in una tabella del database che non ha mai aperto."
+    },
+    {
+      "type": "p",
+      "text": "Se nei suoi risultati di ricerca compaiono già pagine di spam, la strada della ricostruzione conta più della prossima scansione. [Il servizio di migrazione WordPress di webvise](/services/wordpress-migration) copre il passaggio a un frontend statico in Next.js, insieme alla mappa dei redirect che porta con sé il posizionamento attuale."
+    },
+    {
+      "type": "h2",
+      "text": "Confermare l'infezione in 20 minuti"
+    },
+    {
+      "type": "p",
+      "text": "Esegua questi quattro controlli prima di pagare qualcuno per una pulizia. Ognuno richiede pochi minuti, non ha bisogno di alcun plugin e trova qualcosa che lo scanner nella sua dashboard si lascia sfuggire."
+    },
+    {
+      "type": "h3",
+      "text": "1. Chieda a Google che cosa ha indicizzato"
+    },
+    {
+      "type": "p",
+      "text": "Cerchi il suo dominio con l'operatore site e legga il numero di risultati prima di leggere i risultati."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**site:suodominio.it viagra** e **site:suodominio.it casino** restituiscono pagine che lei non ha mai scritto. Basta un risultato.",
+        "**site:suodominio.it** da solo restituisce molte più pagine di quante ne abbia il suo sito. Un sito vetrina da 40 pagine che dichiara 6.000 URL indicizzate è già la diagnosi completa.",
+        "I titoli dei risultati compaiono in caratteri giapponesi, cirillici o cinesi su un sito che pubblica in italiano o in inglese."
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "2. Richiami il suo sito fingendosi Googlebot"
+    },
+    {
+      "type": "p",
+      "text": "Lo spam mascherato compare solo quando il server crede che a chiedere sia Googlebot. Confronti da terminale ciò che ricevono i due visitatori."
+    },
+    {
+      "type": "callout",
+      "text": "**curl -s https://suodominio.it | grep -ci \"casino\\|viagra\\|payday\"** restituisce il conteggio che vede un visitatore normale. Rilanci il comando aggiungendo **-A \"Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)\"**. Numeri diversi confermano il cloaking."
+    },
+    {
+      "type": "p",
+      "text": "Numeri uguali non scagionano il sito. Molte iniezioni colpiscono URL specifiche anziché la home page. Ripeta quindi il confronto su due o tre pagine profonde prima di fidarsi del risultato."
+    },
+    {
+      "type": "h3",
+      "text": "3. Legga Search Console, poi controlli chi altro può farlo"
+    },
+    {
+      "type": "p",
+      "text": "Apra prima le sezioni Azioni manuali e Problemi di sicurezza. Un'azione manuale per spam da violazione, un'impennata improvvisa di impressioni per query estranee alla sua attività, o un proprietario verificato sconosciuto in Impostazioni puntano tutti nella stessa direzione. Quest'ultimo punto sfugge quasi sempre, ed è proprio quello che consente a un attaccante di riverificare la proprietà molto tempo dopo la ricostruzione del sito."
+    },
+    {
+      "type": "h3",
+      "text": "4. Cerchi nel database, non nei file"
+    },
+    {
+      "type": "p",
+      "text": "È qui che lo scanner di file ha smesso di guardare. Tre query fanno emergere quasi tutto ciò che si è lasciato alle spalle."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**SELECT ID, post_title FROM wp_posts WHERE post_content LIKE '%display:none%' OR post_content LIKE '%position:absolute;left:-%';** individua i blocchi di link nascosti salvati nei suoi contenuti.",
+        "**SELECT user_login, user_registered FROM wp_users ORDER BY user_registered DESC LIMIT 10;** elenca gli account più recenti. Metta in discussione ognuno a cui non sa associare un volto.",
+        "**SELECT option_name FROM wp_options WHERE autoload='yes' AND LENGTH(option_value) > 100000;** intercetta payload iniettati fuori misura, impostati per caricarsi a ogni singola richiesta."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Perché la pulizia continua a fallire"
+    },
+    {
+      "type": "p",
+      "text": "Una pulizia colpisce il payload visibile. La via d'accesso è tutt'altra cosa, e sopravvive alla scansione, all'aggiornamento dei plugin e al ripristino del backup che la maggior parte delle agenzie esegue come primo passo."
+    },
+    {
+      "type": "p",
+      "text": "I dati di bonifica di Sucuri collocano una backdoor sul 49,21% dei siti compromessi al momento dell'infezione. Sui siti con malware nel database, il 55% aveva in più almeno un account amministratore malevolo, quindi la seconda volta l'attaccante entra dalla porta principale e si risparmia l'exploit. Cancellare link di spam da un sito che conserva entrambe le cose sono faccende domestiche. La reinfezione è programmata più che sorprendente."
+    },
+    {
+      "type": "p",
+      "text": "WP Automatic rende il meccanismo concreto. Patchstack ha pubblicato [CVE-2024-27956](https://thehackernews.com/2024/04/hackers-exploiting-wp-automatic-plugin.html) il 13 marzo 2024, una SQL injection non autenticata con punteggio 9,8, e gli attacchi successivi l'hanno usata per creare nuovi account amministratore. I ricercatori hanno registrato oltre 5,5 milioni di tentativi di sfruttarla. Ogni sito colpito e poi ripulito senza che nessuno controllasse la tabella degli utenti ha consegnato all'attaccante un accesso funzionante."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Che cosa ha lasciato l'infezione",
+        "Rimosso da una pulizia tipica",
+        "Ancora presente dopo"
+      ],
+      "rows": [
+        [
+          "Link iniettati nel contenuto degli articoli",
+          "Sì",
+          "Reinseriti al passaggio successivo"
+        ],
+        [
+          "Shell PHP caricata in wp-content/uploads",
+          "Di solito",
+          "Seconda e terza copia altrove"
+        ],
+        [
+          "Account amministratore malevolo",
+          "Raramente controllato",
+          "Accesso completo alla dashboard"
+        ],
+        [
+          "Proprietario estraneo in Search Console",
+          "Quasi mai controllato",
+          "Accesso alla proprietà dopo la ricostruzione"
+        ],
+        [
+          "Cron job che riscrive il payload",
+          "Raramente controllato",
+          "Parte secondo la pianificazione"
+        ],
+        [
+          "Il plugin non aggiornato che ha permesso l'ingresso",
+          "Solo se esiste una correzione",
+          "Il 46% non aveva correzione alla pubblicazione"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "L'ultima riga decide l'intera strategia. Patchstack ha contato [11.334 nuove vulnerabilità WordPress nel 2025](https://patchstack.com/whitepaper/state-of-wordpress-security-in-2026/), il 42% in più rispetto all'anno prima, con il 91% nei plugin e il 46% senza correzione il giorno della pubblicazione. Per quasi metà di quanto è stato divulgato lo scorso anno, applicare la patch non era un'opzione a sua disposizione."
+    },
+    {
+      "type": "p",
+      "text": "È esattamente ciò che trasforma una questione di manutenzione in una questione di piattaforma. Lo stesso ragionamento attraversa [i rischi di sicurezza di un'installazione lasciata obsoleta](/blog/wordpress-security-risks), e il conto peggiora ogni anno in cui il numero di vulnerabilità sale."
+    },
+    {
+      "type": "h2",
+      "text": "Quanto le costa davvero lo spam su Google"
+    },
+    {
+      "type": "p",
+      "text": "Il danno al posizionamento corre molto più avanti della scoperta. Quando una pagina di spam affiora in una ricerca site, Google la sta scansionando e indicizzando da settimane, e lo schema che ha imparato sul suo dominio è già assestato."
+    },
+    {
+      "type": "p",
+      "text": "Il recupero segue una sequenza fissa e non c'è nulla di rapido. Ripulire il sito, rimuovere account e proprietari estranei, inviare una richiesta di riconsiderazione, poi attendere la revoca dell'azione manuale. Google non dichiara alcun tempo di lavorazione per quella revisione. Le pagine deindicizzate come spam non tornano con le vecchie posizioni."
+    },
+    {
+      "type": "p",
+      "text": "Un sito che ha servito pagine di farmacia mascherate per due mesi porta quella storia dentro tutto ciò che verrà costruito dopo, e questo alza la posta sulla ricostruzione stessa. [I meccanismi per tenere il posizionamento durante un rifacimento](/blog/will-i-lose-seo-rankings-rebuild) meritano una lettura prima che qualcuno tocchi il DNS."
+    },
+    {
+      "type": "h2",
+      "text": "Eliminare la superficie d'attacco invece di applicarci una patch"
+    },
+    {
+      "type": "p",
+      "text": "WordPress esegue PHP sul suo server, legge e scrive su un database a ogni richiesta, e fa girare codice di plugin di terze parti con accesso quasi totale a entrambi. Sono precisamente le tre proprietà di cui ha bisogno un'iniezione di spam SEO. Un sito Next.js generato staticamente non ne offre nessuna a runtime."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Nessun database a runtime.** Le pagine vengono costruite in fase di deploy e servite come file da una CDN. Non esiste alcuna tabella wp_posts in cui scrivere div nascosti.",
+        "**Nessun livello plugin.** Il 91% delle vulnerabilità WordPress del 2025 stava nei plugin. Un sito senza livello plugin non ne eredita nessuna.",
+        "**Nulla di scrivibile sul server.** Solo un deploy cambia ciò che vedono i visitatori, e parte dal controllo di versione. Un file iniettato compare come diff prima ancora di essere pubblicato.",
+        "**Nessun pannello di amministrazione esposto su internet.** Il problema dell'account amministratore malevolo smette di esistere quando non c'è alcun modulo di login da raggiungere."
+      ]
+    },
+    {
+      "type": "table",
+      "headers": ["Superficie d'attacco", "WordPress", "Next.js statico"],
+      "rows": [
+        [
+          "Codice di terze parti in esecuzione sul suo server",
+          "Un'installazione tipica usa da 20 a 50 plugin",
+          "Nessuno"
+        ],
+        [
+          "Database scrivibile durante una richiesta",
+          "A ogni caricamento di pagina",
+          "Nessuno a runtime"
+        ],
+        [
+          "Modulo di login pubblico",
+          "wp-admin, esposto per impostazione predefinita",
+          "Nessuno"
+        ],
+        [
+          "Nuove vulnerabilità pubblicate nel 2025",
+          "11.334 nell'intero ecosistema",
+          "Aggiornamenti del framework, applicati con un redeploy"
+        ],
+        [
+          "Correzione disponibile quando una falla diventa pubblica",
+          "Il 46% non ne aveva",
+          "Aggiornamento delle dipendenze e redeploy"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "La migrazione in sé è una grandezza nota: audit completo del sito esistente, ricostruzione in Next.js con generazione statica, un 301 per ogni URL oggi esistente, poi monitoraggio del posizionamento dopo il passaggio. [webvise lavora esattamente in quest'ordine](/services/wordpress-migration), con un prototipo funzionante abbastanza presto da permetterle di vedere i suoi contenuti al loro posto prima di impegnarsi nel cambio. [Se il passo sia adatto al suo sito](/blog/should-i-migrate-wordpress-to-nextjs) dipende da quanta parte di esso abbia davvero bisogno di un server."
+    },
+    {
+      "type": "p",
+      "text": "Faccia prima i quattro controlli. Se una ricerca site restituisce pagine che lei non ha mai scritto, la via d'accesso va chiusa prima di ogni altra cosa, e il preventivo di pulizia fermo nella sua casella compra qualche settimana di quiete invece di una soluzione. webvise verifica l'installazione esistente, riferisce che cosa trova e ricostruisce su una base in cui non c'è nulla da iniettare: [prenoti qui l'audit](/#contact)."
+    }
+  ]
+}

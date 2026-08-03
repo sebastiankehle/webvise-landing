@@ -1,0 +1,246 @@
+{
+  "date": "2026-08-03",
+  "readingTime": 9,
+  "keyword": "wordpress seo spam",
+  "title": "Your WordPress Site Has SEO Spam. Cleaning It Won't Fix It.",
+  "excerpt": "WordPress SEO spam returns after every cleanup because the backdoor and the rogue admin account survive it. Here is the 20-minute audit, the data on why removal fails, and the rebuild that ends the cycle.",
+  "metaDescription": "WordPress SEO spam comes back because 49.21% of hacked sites keep a backdoor. Detect it in 20 minutes, then remove the attack surface for good.",
+  "tags": ["WordPress", "Security", "SEO", "Business Strategy"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "WordPress SEO spam keeps coming back because the cleanup deletes the symptom and leaves the way in. Sucuri found a backdoor on [49.21% of compromised websites](https://sucuri.net/reports/2023-hacked-website-report/) at the point of infection, and at least one malicious admin account on 55% of the sites carrying database malware."
+    },
+    {
+      "type": "p",
+      "text": "You scan the pages, delete the injected links, update every plugin, and the pharmacy links are back inside a month. The account that reinstalls them was created during the first breach and survived the cleaning."
+    },
+    {
+      "type": "p",
+      "text": "Anyone who has cleaned a hacked WordPress install knows the second infection arrives faster than the first. What follows: the damage this does to your rankings, a 20-minute audit that confirms it without buying a scanner, why removal fails, and how to close the hole for good."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**SEO spam is one of the most common infections Sucuri remediates.** It showed up on 20.30% of infected websites during cleanup and on 42.22% via remote scans.",
+        "**Cleaning removes the payload and leaves the access.** 49.21% of compromised sites carried a backdoor, and 55% of database-infected sites had a malicious admin user.",
+        "**Patching is often impossible.** Patchstack counted 11,334 new WordPress vulnerabilities in 2025, 91% of them in plugins, and 46% had no fix available on the day they went public.",
+        "**Most of the spam lives in the database.** 38.3% of compromised databases held SEO spam, which is why a file scanner reports a clean site while Google shows pharmacy titles.",
+        "**A static rebuild ends the loop.** No database at request time and no plugin layer means nothing on the server to inject into."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "What SEO spam injection does to a WordPress site"
+    },
+    {
+      "type": "p",
+      "text": "The attacker wants your domain's reputation. A site Google already trusts passes that trust to pages selling counterfeit medication, casino sign-ups, or fake sneakers. The links are hidden from you and served to Googlebot, so the site looks fine in your browser and reads as a pharmacy in the index."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Hidden link blocks.** Hundreds of anchor tags pushed off-screen with CSS, injected into the footer, a widget area, or an old post nobody opens.",
+        "**Cloaked pages.** The server checks the user agent and referrer before deciding what to send. Human visitors get your homepage, Googlebot gets spam, and the owner is usually last to find out.",
+        "**The Japanese keyword hack.** Google Search Central documents this one by name: thousands of auto-generated pages with Japanese text and affiliate links, plus a rogue owner added to Search Console so the attacker keeps property access after you clean the files.",
+        "**Conditional redirects.** Visitors arriving from a search result get bounced to the spam destination. Anyone typing the domain directly sees a normal site, which is why owners rarely believe the first report."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "38.3% of compromised databases in Sucuri's dataset contained SEO spam, mostly concealed links to counterfeit drugs and gambling. That number explains the most frustrating part. A malware scanner walks the filesystem, reports everything clean, and the injected content sits in a database table it never opened."
+    },
+    {
+      "type": "p",
+      "text": "If spam pages are already showing in your search results, the rebuild path matters more than the next scan. [webvise's WordPress migration service](/services/wordpress-migration) covers the move to a static Next.js frontend along with the redirect map that carries your existing rankings across."
+    },
+    {
+      "type": "h2",
+      "text": "Confirm the infection in 20 minutes"
+    },
+    {
+      "type": "p",
+      "text": "Run these four checks before paying anyone for a cleanup. Each takes a few minutes, needs no plugin, and catches something the scanner in your dashboard will miss."
+    },
+    {
+      "type": "h3",
+      "text": "1. Ask Google what it has indexed"
+    },
+    {
+      "type": "p",
+      "text": "Search your own domain with the site operator and read the result count before reading the results."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**site:yourdomain.com viagra** and **site:yourdomain.com casino** return pages you never wrote. One hit is enough.",
+        "**site:yourdomain.com** on its own returns far more pages than your site has. A 40-page brochure site reporting 6,000 indexed URLs is the whole diagnosis.",
+        "Result titles render in Japanese, Cyrillic, or Chinese characters on a site that publishes in German or English."
+      ]
+    },
+    {
+      "type": "h3",
+      "text": "2. Fetch your own site as Googlebot"
+    },
+    {
+      "type": "p",
+      "text": "Cloaked spam only appears when the server believes Googlebot is asking. Compare what the two visitors receive, straight from a terminal."
+    },
+    {
+      "type": "callout",
+      "text": "**curl -s https://yourdomain.com | grep -ci \"casino\\|viagra\\|payday\"** returns the count a normal visitor sees. Now run it again with **-A \"Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)\"** added. Different numbers confirm cloaking."
+    },
+    {
+      "type": "p",
+      "text": "Matching numbers do not clear the site. Plenty of injections are scoped to specific URLs rather than the homepage, so repeat the comparison against two or three deep pages before you trust the result."
+    },
+    {
+      "type": "h3",
+      "text": "3. Read Search Console, then check who else can"
+    },
+    {
+      "type": "p",
+      "text": "Open the Manual Actions and Security Issues panels first. A hacked-spam manual action, a sudden run of impressions for queries unrelated to your business, or an unfamiliar verified owner under Settings all point the same direction. That last one gets missed almost every time, and it is what lets an attacker re-verify the property long after the site itself was rebuilt."
+    },
+    {
+      "type": "h3",
+      "text": "4. Search the database, not the files"
+    },
+    {
+      "type": "p",
+      "text": "This is where the file scanner stopped looking. Three queries surface most of what it walked past."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**SELECT ID, post_title FROM wp_posts WHERE post_content LIKE '%display:none%' OR post_content LIKE '%position:absolute;left:-%';** finds hidden link blocks stored in your content.",
+        "**SELECT user_login, user_registered FROM wp_users ORDER BY user_registered DESC LIMIT 10;** lists the newest accounts. Question every one you cannot put a face to.",
+        "**SELECT option_name FROM wp_options WHERE autoload='yes' AND LENGTH(option_value) > 100000;** catches oversized injected payloads set to load on every single request."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Why the cleanup keeps failing"
+    },
+    {
+      "type": "p",
+      "text": "A cleanup targets the visible payload. The access path is a separate thing entirely, and it survives the scan, the plugin update, and the restore-from-backup that most agencies run as step one."
+    },
+    {
+      "type": "p",
+      "text": "Sucuri's remediation data puts a backdoor on 49.21% of compromised websites at the point of infection. On sites carrying database malware, 55% also had at least one malicious admin user, which means the attacker can log in through the front door and skip the exploit entirely the second time. Deleting spam links from a site that still has both is housekeeping. The reinfection is scheduled rather than surprising."
+    },
+    {
+      "type": "p",
+      "text": "WP Automatic makes the pattern concrete. Patchstack disclosed [CVE-2024-27956](https://thehackernews.com/2024/04/hackers-exploiting-wp-automatic-plugin.html) on 13 March 2024, an unauthenticated SQL injection scored 9.8, and the attacks that followed used it to create new admin accounts. Researchers logged more than 5.5 million attempts to exploit it. Every site that was hit and then cleaned without anyone auditing the user table handed the attacker a working login."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "What the infection left behind",
+        "Removed by a typical cleanup",
+        "Still there afterwards"
+      ],
+      "rows": [
+        ["Injected links in post content", "Yes", "Reinserted on the next run"],
+        [
+          "PHP shell uploaded to wp-content/uploads",
+          "Usually",
+          "Second and third copies elsewhere"
+        ],
+        ["Malicious admin account", "Rarely checked", "Full dashboard access"],
+        [
+          "Rogue Search Console owner",
+          "Almost never checked",
+          "Property access after the rebuild"
+        ],
+        [
+          "Cron job that rewrites the payload",
+          "Rarely checked",
+          "Fires on schedule"
+        ],
+        [
+          "The unpatched plugin that allowed entry",
+          "Only when a fix exists",
+          "46% had no fix at disclosure"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "The last row decides the whole strategy. Patchstack counted [11,334 new WordPress vulnerabilities in 2025](https://patchstack.com/whitepaper/state-of-wordpress-security-in-2026/), a 42% jump on the year before, with 91% of them in plugins and 46% carrying no fix on the day they were published. For close to half of everything disclosed last year, applying the patch was not an option available to you."
+    },
+    {
+      "type": "p",
+      "text": "That is the part that turns a maintenance question into a platform question. The same argument runs through [the security risks of leaving an install outdated](/blog/wordpress-security-risks), and the arithmetic gets worse every year the vulnerability count climbs."
+    },
+    {
+      "type": "h2",
+      "text": "What the spam actually costs you in Google"
+    },
+    {
+      "type": "p",
+      "text": "Ranking damage runs well ahead of discovery. By the time a spam page shows up in a site search, Google has been crawling and indexing it for weeks, and the pattern it learned about your domain is already in place."
+    },
+    {
+      "type": "p",
+      "text": "Recovery follows a fixed sequence and none of it is quick. Clean the site, remove the rogue accounts and owners, submit a reconsideration request, then wait for the manual action to be lifted. Google publishes no turnaround commitment on that review. Pages deindexed as spam do not come back carrying their old positions."
+    },
+    {
+      "type": "p",
+      "text": "A site that served cloaked pharmacy pages for two months carries that history into whatever gets built next, which raises the stakes on the rebuild itself. [The mechanics of holding rankings through a rebuild](/blog/will-i-lose-seo-rankings-rebuild) are worth reading before anyone touches DNS."
+    },
+    {
+      "type": "h2",
+      "text": "Removing the surface instead of patching it"
+    },
+    {
+      "type": "p",
+      "text": "WordPress executes PHP on your server, reads and writes a database on every request, and runs third-party plugin code with near-total access to both. Those three properties are precisely what an SEO spam injection needs. A statically generated Next.js site offers none of them at request time."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**No database at request time.** Pages are built at deploy and served as files from a CDN. There is no wp_posts table for anyone to write hidden divs into.",
+        "**No plugin layer.** 91% of 2025's WordPress vulnerabilities lived in plugins. A site without a plugin layer inherits none of that year's disclosures.",
+        "**Nothing writable on the server.** Deployment is the only route that changes what visitors see, and it runs from version control. An injected file shows up as a diff before it ever ships.",
+        "**No admin panel facing the public internet.** The rogue-admin problem stops being available when there is no login form to reach."
+      ]
+    },
+    {
+      "type": "table",
+      "headers": ["Attack surface", "WordPress", "Static Next.js"],
+      "rows": [
+        [
+          "Third-party code executing on your server",
+          "A typical install runs 20 to 50 plugins",
+          "None"
+        ],
+        [
+          "Database writable during a page request",
+          "Every page load",
+          "None at request time"
+        ],
+        ["Public login form", "wp-admin, exposed by default", "None"],
+        [
+          "New vulnerabilities disclosed in 2025",
+          "11,334 across the ecosystem",
+          "Framework updates, applied by redeploy"
+        ],
+        [
+          "Fix available when a flaw goes public",
+          "46% had none",
+          "Dependency bump and redeploy"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "The migration itself is a known quantity: a full audit of the existing site, a Next.js rebuild with static generation, a 301 for every URL that exists today, then ranking monitoring after cutover. [webvise runs it in that order](/services/wordpress-migration), with a working prototype early enough that you see your content in place before committing to the switch. [Whether the move suits your site](/blog/should-i-migrate-wordpress-to-nextjs) comes down to how much of it genuinely needs a server."
+    },
+    {
+      "type": "p",
+      "text": "Run the four checks first. If a site search returns pages you never wrote, the access path needs closing before anything else, and the cleanup quote sitting in your inbox buys a few quiet weeks rather than a fix. webvise audits the existing install, reports what it finds, and rebuilds on a foundation with nothing to inject into: [book the audit here](/#contact)."
+    }
+  ]
+}
