@@ -11,6 +11,7 @@ import SectionWrapper, {
 	GridContainer,
 } from "@/components/marketing/section-wrapper";
 import { skillIcons } from "@/components/marketing/skill-icons";
+import { SocialIconButton } from "@/components/marketing/social-icon-button";
 import { Button } from "@/components/ui/button";
 import {
 	Body,
@@ -132,18 +133,27 @@ const stackSections = [
 	},
 ];
 
-// Independent specialists in Sebastian's network.
-// `role` and `discipline` are translated; names are not.
+// Independent partners in Sebastian's network.
+// `role` and `article` are translated; names are not.
 const network = [
-	{ id: "lisa", name: "Lisa Kehle", initials: "LK" },
-	{ id: "felix", name: "Felix von Rautenberg", initials: "FR" },
-	{ id: "alexander", name: "Alexander Friebe", initials: "AF" },
-	{ id: "haidar", name: "Haidar Hammoud", initials: "HH" },
-	{ id: "lennart", name: "Lennart Brauer", initials: "LB" },
-	{ id: "jen", name: "Jen Krause", initials: "JK" },
-	{ id: "thomas", name: "Thomas Hottewitzsch", initials: "TH" },
-	{ id: "tim", name: "Tim Kehle", initials: "TK" },
-	{ id: "sandra", name: "Sandra Voß", initials: "SV" },
+	{
+		id: "alexander",
+		name: "Alexander Friebe",
+		image: "/images/network/alexander.jpeg",
+		linkedin: "https://www.linkedin.com/in/alexander-friebe-35a197184/",
+	},
+	{
+		id: "felix",
+		name: "Felix von Rautenberg",
+		image: "/images/network/felix.jpeg",
+		linkedin: "https://www.linkedin.com/in/felix-von-rautenberg-259a05246/",
+	},
+	{
+		id: "lennart",
+		name: "Lennart Brauer",
+		image: "/images/network/lennart.jpeg",
+		linkedin: "https://www.linkedin.com/in/lennart-brauer0427/",
+	},
 ] as const;
 
 export default async function AboutPage() {
@@ -290,22 +300,43 @@ export default async function AboutPage() {
 					<div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
 						{network.map((member) => {
 							const role = t(`network.members.${member.id}.role`);
-							const discipline = t(`network.members.${member.id}.discipline`);
+							const article = t(`network.members.${member.id}.article`);
 							return (
 								<div
-									className="surface-card group flex gap-4 p-6 md:p-7"
+									className="surface-card flex flex-col p-6 md:p-7"
 									key={member.id}
 								>
-									<div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-border/60 font-medium text-muted-foreground text-sm">
-										{member.initials}
+									<div className="flex items-start gap-4">
+										<Image
+											alt={member.name}
+											className="h-12 w-12 shrink-0 rounded-lg object-cover"
+											height={48}
+											quality={85}
+											src={member.image}
+											width={48}
+										/>
+										<div className="min-w-0 flex-1">
+											<Body className="font-medium text-sm">{member.name}</Body>
+											<Caption className="mt-0.5 block text-muted-foreground">
+												{role}
+											</Caption>
+										</div>
+										<SocialIconButton
+											href={member.linkedin}
+											label={`${member.name} — LinkedIn`}
+										>
+											<svg
+												aria-hidden="true"
+												className="h-4 w-4"
+												fill="currentColor"
+												focusable="false"
+												viewBox="0 0 24 24"
+											>
+												<path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+											</svg>
+										</SocialIconButton>
 									</div>
-									<div className="min-w-0">
-										<Body className="font-medium text-sm">{member.name}</Body>
-										<Caption className="mt-0.5 block text-muted-foreground">
-											{role}
-										</Caption>
-										<Muted className="mt-3 text-sm">{discipline}</Muted>
-									</div>
+									<Muted className="mt-5 leading-relaxed">{article}</Muted>
 								</div>
 							);
 						})}

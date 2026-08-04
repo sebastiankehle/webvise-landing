@@ -2,6 +2,6 @@ type FeatureFlagGroups = Record<string, Record<string, boolean>>;
 
 export const featureFlags = {
 	marketing: {
-		aboutNetworkSection: false,
+		aboutNetworkSection: true,
 	},
 } as const satisfies FeatureFlagGroups;
