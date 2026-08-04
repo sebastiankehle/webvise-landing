@@ -26,6 +26,7 @@ import { generateAlternates, localizedUrl } from "@/lib/seo";
 import { SITE_THEME_IDS } from "@/lib/themes";
 
 const CLIENT_MESSAGE_NAMESPACES = [
+	"becomePartner",
 	"blog",
 	"book",
 	"caseStudies",
