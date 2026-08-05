@@ -1,0 +1,213 @@
+{
+  "date": "2026-08-05",
+  "readingTime": 6,
+  "keyword": "update website without CMS",
+  "title": "How to Update a Website Without a CMS: Message In, Preview Link Out",
+  "excerpt": "Change requests go over WhatsApp, email, or Slack, an AI agent implements them, a preview link comes back for approval, then it goes live. The exact editing workflow webvise runs on custom sites, and when Sanity CMS is the better fit.",
+  "metaDescription": "Updating a website without a CMS in 2026: send the change over WhatsApp or email, review a preview link, approve, live. The exact workflow webvise runs.",
+  "tags": ["CMS", "AI", "Web Development", "Maintenance"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Updating a website without a CMS works like this: you send the change in plain language over WhatsApp, email, or Slack, an AI agent implements it in the site's codebase, and a preview link comes back for your approval. After a senior developer reviews the change, it goes live. No admin panel, no plugin updates, no layout that quietly breaks."
+    },
+    {
+      "type": "p",
+      "text": "You have wanted to leave WordPress for a while, and one question keeps stopping you: who changes the opening hours when there is no backend to log into?"
+    },
+    {
+      "type": "p",
+      "text": "That fear is reasonable, because for twenty years leaving the CMS meant emailing a developer and paying an hourly minimum for a two-minute fix. This article walks through the exact update workflow webvise runs on client sites, what a change request looks like in practice, and when a headless CMS like Sanity is the better choice. By the end, the editing question should stop being the reason you keep a WordPress install alive."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Plain language replaces the admin panel.** Change requests go over WhatsApp, email, or Slack, in the words you would use with a colleague.",
+        "**Every change comes back as a preview link:** a full private copy of the site with the change applied, at its own URL, before anything goes live.",
+        "**Two review gates instead of zero.** The client approves the preview, and a senior developer reads the actual code change before it ships.",
+        "**Every change is versioned in git**, so any earlier state of the site can be restored.",
+        "**High edit volume still calls for a CMS.** Teams that publish daily get Sanity wired into the build instead."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "The Fear That Blocks Every Migration"
+    },
+    {
+      "type": "p",
+      "text": "The question that opens nearly every webvise migration call is some version of 'can I still edit my site afterwards?' It comes up before cost, before timeline, sometimes before SEO. The [WordPress to Next.js migration FAQ](/blog/wordpress-to-nextjs-migration-faq) answers eleven common objections, and this is the one people ask first."
+    },
+    {
+      "type": "p",
+      "text": "The fear has history. Leaving the CMS used to mean waiting three days for a developer to swap a photo, so keeping a bloated WordPress install felt rational, even at the [€1,500 to €5,000 a year it actually costs](/blog/hidden-cost-of-wordpress). The admin panel bought a feeling of control, and the yearly invoice was the price of that feeling."
+    },
+    {
+      "type": "p",
+      "text": "Two things ended that trade: AI agents that can implement scoped changes in a real codebase, and preview deployments that show every change before it ships. [webvise's WordPress migration service](/services/wordpress-migration) builds this editing workflow into every rebuild. The rest of this article shows what it looks like from the client side."
+    },
+    {
+      "type": "h2",
+      "text": "The Workflow: Message In, Preview Link Out"
+    },
+    {
+      "type": "p",
+      "text": "The loop has six steps, and you are only needed for two of them."
+    },
+    {
+      "type": "table",
+      "headers": ["Step", "Who", "What happens"],
+      "rows": [
+        [
+          "1. Send the change",
+          "You",
+          "A plain-language message over WhatsApp, email, or Slack. Screenshots and photos work too."
+        ],
+        [
+          "2. Implementation",
+          "AI agent",
+          "The agent makes the change in the site's codebase, following the existing design system."
+        ],
+        [
+          "3. Preview deploy",
+          "Automatic",
+          "A full copy of the site with the change applied goes live at its own private URL."
+        ],
+        [
+          "4. Approval",
+          "You",
+          "Open the link on your phone, reply with an OK or with corrections. Corrections loop back to step 2."
+        ],
+        [
+          "5. Code review",
+          "webvise",
+          "A senior developer reads the actual change before merge. Nothing ships on agent output alone."
+        ],
+        [
+          "6. Live",
+          "Automatic",
+          "The change deploys to the production site. The previous state stays restorable from git history."
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "The preview link is what removes the fear. It is the real site with your change applied, so what you approve is exactly what goes live. WordPress never gave you that: you edited in the backend and hoped the frontend agreed."
+    },
+    {
+      "type": "p",
+      "text": "The code review matters just as much. I read every change before it merges, which is a stricter bar than any CMS ever enforced. An admin panel publishes whatever the last person with a login typed into it."
+    },
+    {
+      "type": "h2",
+      "text": "What This Looks Like in Practice"
+    },
+    {
+      "type": "p",
+      "text": "The site you are reading runs on this exact loop. webvise.io ships in 7 languages, the blog behind it is 124 posts and 868 content files in one git repository, and every article, price update, and copy change flows through an agent, a preview deployment, and a review before merge. There is no CMS anywhere in the stack, and this article reached you through that same pipeline."
+    },
+    {
+      "type": "p",
+      "text": "Client requests are mundane, and that is the point. New opening hours, a team member joining, fresh project photos, a seasonal banner, an updated price list: each one is a two-line message instead of a login and a page-builder session that can quietly break the layout. Turnaround stops depending on a developer's calendar, because the implementation starts the moment the request lands. The two humans in the loop, you approving and me reviewing, are the only wait."
+    },
+    {
+      "type": "p",
+      "text": "Anything bigger than a content change gets scoped first. A new page, a booking flow, a third language: those go through a short estimate before any agent touches the codebase. The channel is for the routine changes that used to justify keeping a CMS installed."
+    },
+    {
+      "type": "h2",
+      "text": "Update Channel vs WordPress Admin vs Sanity CMS"
+    },
+    {
+      "type": "p",
+      "text": "Three editing models cover nearly every business site. The honest comparison looks like this:"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "",
+        "WordPress admin",
+        "Sanity CMS (headless)",
+        "Update channel"
+      ],
+      "rows": [
+        [
+          "Who makes the change",
+          "You, in a page builder",
+          "You, in a structured editor",
+          "You describe it, an agent implements it"
+        ],
+        [
+          "Layout can break",
+          "Yes, routinely",
+          "No, content is separate from design",
+          "No, every change is reviewed code"
+        ],
+        [
+          "Review before live",
+          "None",
+          "Optional drafts",
+          "Preview link plus code review"
+        ],
+        [
+          "Version history",
+          "Posts only, with plugins",
+          "Per document",
+          "The entire site, in git"
+        ],
+        [
+          "Best at",
+          "Habit",
+          "Daily publishing, structured content",
+          "A handful of changes per month"
+        ],
+        [
+          "Ongoing cost driver",
+          "Plugins, hosting, patching",
+          "CMS plan plus the build",
+          "Support retainer"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "The deciding variable is edit volume. A firm that updates references twice a year and posts a job ad per quarter gets nothing from a CMS license except its security patches. A content team that publishes every morning needs direct access, and no message channel should sit in their way."
+    },
+    {
+      "type": "h2",
+      "text": "When Sanity Is the Right Answer"
+    },
+    {
+      "type": "p",
+      "text": "webvise wires [Sanity](https://www.sanity.io) into Next.js builds when the edit volume justifies a real editorial interface. The editing experience feels close to WordPress, the frontend stays static and fast, and publishing needs no approval loop at all. What a headless CMS is, what it costs, and where the tradeoffs sit is covered in [the plain-language headless CMS guide](/blog/headless-cms-explained)."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Publishing on a schedule.** Blog posts, news, or case studies going out weekly or faster.",
+        "**Several editors.** Marketing, HR, and sales all touch content, with drafts and roles.",
+        "**Structured content.** Product catalogs, locations, or courses: data with fields, not pages.",
+        "**Same-minute publishing**, because volume makes a review loop impractical."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Both models run happily on one build. A site can serve its product pages from Sanity while design and feature changes keep going through the channel. The two answer different questions: who edits, and how often."
+    },
+    {
+      "type": "h2",
+      "text": "What It Costs and How It Is Structured"
+    },
+    {
+      "type": "p",
+      "text": "Update work runs inside webvise's ongoing support shape: monitoring, fixes, small improvements, and a support cadence agreed before the engagement starts. Retainers are never required, and an as-needed arrangement exists for sites that change twice a year. What a maintenance budget should and should not include is broken down in [the website maintenance cost guide](/blog/website-maintenance-costs)."
+    },
+    {
+      "type": "p",
+      "text": "Compare that against the €1,500 to €5,000 a year a typical small-business WordPress site costs to keep alive. Most of that spend buys standing still: plugin renewals, hosting tiers, security patching. A message channel converts the same budget into visible changes on the site."
+    },
+    {
+      "type": "p",
+      "text": "If the editing question has been the reason you kept WordPress, the workflow above answers it. webvise handles the rebuild through the [WordPress migration service](/services/wordpress-migration), then sets up the update channel, a Sanity install, or both, matched to your edit volume. For anything else, [webvise.io/#contact](/#contact) reaches Sebastian directly."
+    }
+  ]
+}

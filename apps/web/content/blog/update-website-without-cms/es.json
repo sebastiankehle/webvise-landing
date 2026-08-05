@@ -1,0 +1,213 @@
+{
+  "date": "2026-08-05",
+  "readingTime": 6,
+  "keyword": "actualizar sitio web sin CMS",
+  "title": "Cómo actualizar un sitio web sin CMS: entra un mensaje, sale un enlace de vista previa",
+  "excerpt": "Las solicitudes de cambio se envían por WhatsApp, correo electrónico o Slack, un agente de IA las implementa, vuelve un enlace de vista previa para su aprobación y después se publica. El flujo de edición exacto que webvise aplica en sitios a medida, y cuándo Sanity CMS es la mejor opción.",
+  "metaDescription": "Actualizar un sitio web sin CMS en 2026: envíe el cambio por WhatsApp o correo electrónico, revise un enlace de vista previa, apruebe, publíquelo. El flujo de trabajo exacto que aplica webvise.",
+  "tags": ["CMS", "AI", "Web Development", "Maintenance"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Actualizar un sitio web sin CMS funciona así: usted envía el cambio en lenguaje sencillo por WhatsApp, correo electrónico o Slack, un agente de IA lo implementa en el código del sitio y recibe un enlace de vista previa para su aprobación. Tras la revisión de un desarrollador senior, el cambio se publica. Sin panel de administración, sin actualizaciones de plugins, sin diseños que se rompen sin previo aviso."
+    },
+    {
+      "type": "p",
+      "text": "Lleva tiempo queriendo dejar WordPress, y una pregunta se lo sigue impidiendo: ¿quién cambia el horario de apertura cuando no hay backend en el que iniciar sesión?"
+    },
+    {
+      "type": "p",
+      "text": "Ese temor es razonable, porque durante veinte años dejar el CMS significaba escribir a un desarrollador y pagar un mínimo por hora para arreglar algo de dos minutos. Este artículo recorre el flujo de actualización exacto que webvise aplica en los sitios de sus clientes, cómo es una solicitud de cambio en la práctica y cuándo un CMS headless como Sanity es la mejor opción. Al final, la cuestión de la edición debería dejar de ser el motivo para mantener con vida una instalación de WordPress."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**El lenguaje sencillo sustituye al panel de administración.** Las solicitudes de cambio se envían por WhatsApp, correo electrónico o Slack, con las mismas palabras que usaría con un colega.",
+        "**Cada cambio vuelve como un enlace de vista previa:** una copia privada completa del sitio con el cambio aplicado, en su propia URL, antes de que nada se publique.",
+        "**Dos filtros de revisión en lugar de ninguno.** El cliente aprueba la vista previa, y un desarrollador senior revisa el cambio de código real antes de publicarlo.",
+        "**Cada cambio queda versionado en git**, de modo que se puede restaurar cualquier estado anterior del sitio.",
+        "**Un volumen de edición alto sigue requiriendo un CMS.** Para los equipos que publican a diario, se integra Sanity en la construcción del sitio."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "El temor que frena toda migración"
+    },
+    {
+      "type": "p",
+      "text": "La pregunta que abre casi toda llamada de migración con webvise es alguna variante de '¿podré seguir editando mi sitio después?'. Surge antes que el coste, antes que el plazo, a veces antes que el SEO. Las [preguntas frecuentes sobre la migración de WordPress a Next.js](/blog/wordpress-to-nextjs-migration-faq) responden once objeciones habituales, y esta es la primera que se plantea."
+    },
+    {
+      "type": "p",
+      "text": "El temor tiene historia. Dejar el CMS solía significar esperar tres días a que un desarrollador cambiara una foto, así que mantener una instalación de WordPress sobrecargada parecía razonable, incluso a los [1.500 a 5.000 € al año que realmente cuesta](/blog/hidden-cost-of-wordpress). El panel de administración compraba una sensación de control, y la factura anual era el precio de esa sensación."
+    },
+    {
+      "type": "p",
+      "text": "Dos cosas acabaron con ese trato: los agentes de IA capaces de implementar cambios acotados en un código real, y los despliegues de vista previa que muestran cada cambio antes de publicarlo. El [servicio de migración de WordPress de webvise](/services/wordpress-migration) integra este flujo de edición en cada reconstrucción. El resto del artículo muestra cómo se ve desde el lado del cliente."
+    },
+    {
+      "type": "h2",
+      "text": "El flujo de trabajo: llega un mensaje, sale un enlace de vista previa"
+    },
+    {
+      "type": "p",
+      "text": "El ciclo tiene seis pasos, y usted solo interviene en dos de ellos."
+    },
+    {
+      "type": "table",
+      "headers": ["Paso", "Quién", "Qué ocurre"],
+      "rows": [
+        [
+          "1. Envíe el cambio",
+          "Usted",
+          "Un mensaje en lenguaje sencillo por WhatsApp, correo electrónico o Slack. También sirven capturas de pantalla y fotos."
+        ],
+        [
+          "2. Implementación",
+          "Agente de IA",
+          "El agente realiza el cambio en el código del sitio, siguiendo el sistema de diseño existente."
+        ],
+        [
+          "3. Despliegue de vista previa",
+          "Automático",
+          "Una copia completa del sitio con el cambio aplicado se publica en su propia URL privada."
+        ],
+        [
+          "4. Aprobación",
+          "Usted",
+          "Abra el enlace en su teléfono y responda con un visto bueno o con correcciones. Las correcciones vuelven al paso 2."
+        ],
+        [
+          "5. Revisión de código",
+          "webvise",
+          "Un desarrollador senior revisa el cambio real antes de fusionarlo. Nada se publica solo por el resultado del agente."
+        ],
+        [
+          "6. Publicación",
+          "Automático",
+          "El cambio se despliega en el sitio de producción. El estado anterior sigue siendo restaurable desde el historial de git."
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "El enlace de vista previa es lo que elimina el temor. Es el sitio real con su cambio aplicado, de modo que lo que usted aprueba es exactamente lo que se publica. WordPress nunca ofreció eso: usted editaba en el backend y confiaba en que el frontend estuviera de acuerdo."
+    },
+    {
+      "type": "p",
+      "text": "La revisión de código importa igual. Yo reviso cada cambio antes de fusionarlo, un listón más exigente que el que jamás impuso ningún CMS. Un panel de administración publica lo que sea que haya escrito la última persona con acceso."
+    },
+    {
+      "type": "h2",
+      "text": "Cómo se ve esto en la práctica"
+    },
+    {
+      "type": "p",
+      "text": "El sitio que está leyendo funciona con este mismo ciclo. webvise.io se publica en 7 idiomas, el blog que hay detrás son 124 posts y 868 archivos de contenido en un único repositorio de git, y cada artículo, actualización de precios y cambio de texto pasa por un agente, un despliegue de vista previa y una revisión antes de fusionarse. No hay ningún CMS en toda la pila, y este artículo llegó hasta usted por ese mismo proceso."
+    },
+    {
+      "type": "p",
+      "text": "Las solicitudes de los clientes son cotidianas, y ese es justamente el punto. Un nuevo horario de apertura, la incorporación de un miembro del equipo, fotos nuevas de un proyecto, un banner de temporada, una lista de precios actualizada: cada una es un mensaje de dos líneas en lugar de un inicio de sesión y una sesión de editor visual que puede romper el diseño sin avisar. El plazo de entrega deja de depender de la agenda de un desarrollador, porque la implementación empieza en el momento en que llega la solicitud. Las dos personas del proceso, usted aprobando y yo revisando, son la única espera."
+    },
+    {
+      "type": "p",
+      "text": "Todo lo que supere un simple cambio de contenido se acota primero. Una página nueva, un flujo de reservas, un tercer idioma: eso pasa por un presupuesto breve antes de que ningún agente toque el código. El canal es para los cambios rutinarios que antes justificaban mantener un CMS instalado."
+    },
+    {
+      "type": "h2",
+      "text": "Canal de actualización frente a administrador de WordPress frente a Sanity CMS"
+    },
+    {
+      "type": "p",
+      "text": "Tres modelos de edición cubren casi cualquier sitio empresarial. La comparación honesta es esta:"
+    },
+    {
+      "type": "table",
+      "headers": [
+        "",
+        "Administrador de WordPress",
+        "Sanity CMS (headless)",
+        "Canal de actualización"
+      ],
+      "rows": [
+        [
+          "Quién hace el cambio",
+          "Usted, en un editor visual",
+          "Usted, en un editor estructurado",
+          "Usted lo describe, un agente lo implementa"
+        ],
+        [
+          "El diseño puede romperse",
+          "Sí, con frecuencia",
+          "No, el contenido está separado del diseño",
+          "No, cada cambio es código revisado"
+        ],
+        [
+          "Revisión antes de publicar",
+          "Ninguna",
+          "Borradores opcionales",
+          "Enlace de vista previa más revisión de código"
+        ],
+        [
+          "Historial de versiones",
+          "Solo entradas, con plugins",
+          "Por documento",
+          "Todo el sitio, en git"
+        ],
+        [
+          "Mejor para",
+          "La costumbre",
+          "Publicación diaria, contenido estructurado",
+          "Un puñado de cambios al mes"
+        ],
+        [
+          "Coste recurrente",
+          "Plugins, hosting, parches",
+          "Plan de CMS más la construcción",
+          "Contrato de soporte"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "La variable decisiva es el volumen de edición. Una empresa que actualiza sus referencias dos veces al año y publica una oferta de empleo por trimestre no obtiene nada de una licencia de CMS salvo sus parches de seguridad. Un equipo de contenidos que publica cada mañana necesita acceso directo, y ningún canal de mensajes debería interponerse."
+    },
+    {
+      "type": "h2",
+      "text": "Cuándo Sanity es la respuesta correcta"
+    },
+    {
+      "type": "p",
+      "text": "webvise integra [Sanity](https://www.sanity.io) en las construcciones de Next.js cuando el volumen de edición justifica una interfaz editorial real. La experiencia de edición se siente parecida a WordPress, el frontend se mantiene estático y rápido, y publicar no necesita ningún circuito de aprobación. Qué es un CMS headless, cuánto cuesta y dónde están sus contrapartidas se explica en [la guía de CMS headless en lenguaje sencillo](/blog/headless-cms-explained)."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Publicación con calendario fijo.** Entradas de blog, noticias o casos de éxito que salen cada semana o con más frecuencia.",
+        "**Varios editores.** Marketing, RR. HH. y ventas tocan el contenido, con borradores y roles.",
+        "**Contenido estructurado.** Catálogos de productos, ubicaciones o cursos: datos con campos, no páginas.",
+        "**Publicación al instante**, porque el volumen hace inviable un circuito de revisión."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Ambos modelos conviven sin problema en una misma construcción. Un sitio puede servir sus páginas de producto desde Sanity mientras los cambios de diseño y de funciones siguen pasando por el canal. Los dos responden a preguntas distintas: quién edita, y con qué frecuencia."
+    },
+    {
+      "type": "h2",
+      "text": "Qué cuesta y cómo se estructura"
+    },
+    {
+      "type": "p",
+      "text": "El trabajo de actualización se enmarca en el soporte continuo de webvise: monitorización, correcciones, mejoras pequeñas y un ritmo de soporte acordado antes de empezar. Nunca es obligatorio un contrato fijo, y existe una modalidad bajo demanda para los sitios que cambian dos veces al año. Qué debería incluir un presupuesto de mantenimiento, y qué no, se detalla en [la guía de costes de mantenimiento web](/blog/website-maintenance-costs)."
+    },
+    {
+      "type": "p",
+      "text": "Compárelo con los 1.500 a 5.000 € al año que cuesta mantener con vida un sitio de WordPress típico de una pequeña empresa. La mayor parte de ese gasto solo sirve para no moverse del sitio: renovaciones de plugins, planes de hosting, parches de seguridad. Un canal de mensajes convierte ese mismo presupuesto en cambios visibles en el sitio."
+    },
+    {
+      "type": "p",
+      "text": "Si la cuestión de la edición ha sido el motivo para mantener WordPress, el flujo descrito arriba la resuelve. webvise se encarga de la reconstrucción a través del [servicio de migración de WordPress](/services/wordpress-migration), y después configura el canal de actualización, una instalación de Sanity, o ambos, según su volumen de edición. Para cualquier otra cosa, [webvise.io/#contact](/#contact) llega directamente a Sebastian."
+    }
+  ]
+}
