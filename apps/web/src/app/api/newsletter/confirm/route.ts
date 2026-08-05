@@ -1,7 +1,9 @@
 import {
 	buildNewsletterWelcomeHtml,
+	buildSubscriberNotificationHtml,
 	NEWSLETTER_WELCOME_SUBJECT,
 	newsletterWelcomeText,
+	subscriberNotificationText,
 } from "@webvise-app/api/email/newsletter";
 import { verifyNewsletterConfirmationToken } from "@webvise-app/api/email/newsletter-confirmation-token";
 import { sendEmail, setContact } from "@webvise-app/api/email/resend";
@@ -36,6 +38,7 @@ export async function GET(request: Request) {
 	// Confirm the subscriber row and read back the signup source. The insert
 	// covers the edge case where the pending row was never written.
 	let subscriberPath: string | null = null;
+	let subscriberPlacement = "unknown";
 	try {
 		const [row] = await db
 			.insert(newsletterSubscriber)
@@ -54,8 +57,12 @@ export async function GET(request: Request) {
 					updatedAt: new Date(),
 				},
 			})
-			.returning({ path: newsletterSubscriber.path });
+			.returning({
+				path: newsletterSubscriber.path,
+				placement: newsletterSubscriber.placement,
+			});
 		subscriberPath = row?.path ?? null;
+		subscriberPlacement = row?.placement ?? "unknown";
 	} catch (err) {
 		console.error(
 			"[email:newsletter-confirm] failed to update subscriber row:",
@@ -93,6 +100,32 @@ export async function GET(request: Request) {
 			`[email:newsletter-welcome] failed to send welcome email to ${email}:`,
 			emailResult.reason,
 			emailResult.details ?? ""
+		);
+	}
+
+	const notifyResult = await sendEmail({
+		label: "newsletter-notify",
+		from: "webvise <noreply@webvise.io>",
+		to: process.env.CONTACT_EMAIL_TO || "mail@webvise.io",
+		subject: `New newsletter subscriber: ${email}`,
+		html: buildSubscriberNotificationHtml({
+			email,
+			placement: subscriberPlacement,
+			path: subscriberPath ?? "",
+			postTitle: source?.postTitle,
+		}),
+		text: subscriberNotificationText({
+			email,
+			placement: subscriberPlacement,
+			path: subscriberPath ?? "",
+			postTitle: source?.postTitle,
+		}),
+	});
+	if (!notifyResult.ok) {
+		console.error(
+			"[email:newsletter-notify] failed to send subscriber notification:",
+			notifyResult.reason,
+			notifyResult.details ?? ""
 		);
 	}
 

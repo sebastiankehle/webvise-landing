@@ -16,7 +16,9 @@ vi.mock("@webvise-app/env/server", () => ({
 
 const dbMock = vi.hoisted(() => {
 	const returning = vi.fn(
-		async (): Promise<Array<{ path: string }>> => [{ path: "" }]
+		async (): Promise<Array<{ path: string; placement?: string }>> => [
+			{ path: "", placement: "unknown" },
+		]
 	);
 	const onConflictDoUpdate = vi.fn(() => ({ returning }));
 	const values = vi.fn(() => ({ onConflictDoUpdate }));
@@ -46,7 +48,7 @@ describe("GET /api/newsletter/confirm", () => {
 		dbMock.insert.mockClear();
 		dbMock.values.mockClear();
 		dbMock.returning.mockClear();
-		dbMock.returning.mockResolvedValue([{ path: "" }]);
+		dbMock.returning.mockResolvedValue([{ path: "", placement: "unknown" }]);
 	});
 
 	afterEach(() => {
@@ -68,7 +70,7 @@ describe("GET /api/newsletter/confirm", () => {
 		expect(response.headers.get("location")).toBe(
 			"https://webvise.io/newsletter-confirmed?success=true"
 		);
-		expect(fetchMock).toHaveBeenCalledTimes(2);
+		expect(fetchMock).toHaveBeenCalledTimes(3);
 		expect(fetchMock.mock.calls[0][0]).toBe("https://api.resend.com/contacts");
 		expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toEqual({
 			email: "reader@example.com",
@@ -78,6 +80,31 @@ describe("GET /api/newsletter/confirm", () => {
 		const welcomeBody = JSON.parse(fetchMock.mock.calls[1][1].body);
 		expect(welcomeBody.subject).toBe("Welcome to the webvise newsletter");
 		expect(welcomeBody.headers).toHaveProperty("List-Unsubscribe");
+	});
+
+	it("notifies the team about the new subscriber and their source", async () => {
+		dbMock.returning.mockResolvedValue([
+			{ path: "/blog/agent-memory-vs-context", placement: "blog_article" },
+		]);
+		const token = createNewsletterConfirmationToken(
+			"reader@example.com",
+			Date.now(),
+			envMock.BETTER_AUTH_SECRET
+		);
+
+		await GET(
+			new Request(`https://webvise.io/api/newsletter/confirm?token=${token}`)
+		);
+
+		const notifyBody = JSON.parse(fetchMock.mock.calls[2][1].body);
+		expect(notifyBody.to).toEqual(["mail@webvise.io"]);
+		expect(notifyBody.subject).toBe(
+			"New newsletter subscriber: reader@example.com"
+		);
+		expect(notifyBody.html).toContain("blog_article");
+		expect(notifyBody.html).toContain("/blog/agent-memory-vs-context");
+		expect(notifyBody.html).toContain("Agent Memory vs Context");
+		expect(notifyBody.text).toContain("Placement: blog_article");
 	});
 
 	it("marks the subscriber row confirmed", async () => {

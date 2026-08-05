@@ -3,6 +3,7 @@ import {
 	escapeHtml,
 	newsletterConfirmationUrl,
 	s,
+	tableRow,
 } from "./template";
 
 export type WelcomeTopic = "ai-agents" | "ai-automation" | "web";
@@ -122,5 +123,44 @@ export function newsletterWelcomeText(source?: WelcomeSource) {
 		"Book a free call: https://cal.com/webvise",
 		"",
 		"- The webvise team",
+	].join("\n");
+}
+
+export interface SubscriberNotification {
+	email: string;
+	path: string;
+	placement: string;
+	postTitle?: string;
+}
+
+function notificationRows(info: SubscriberNotification): [string, string][] {
+	return [
+		["Email", info.email],
+		["Placement", info.placement],
+		["Page", info.path || "—"],
+		...(info.postTitle
+			? [["Article", info.postTitle] as [string, string]]
+			: []),
+	];
+}
+
+export function buildSubscriberNotificationHtml(info: SubscriberNotification) {
+	const rows = notificationRows(info)
+		.map(([label, value]) => tableRow(label, escapeHtml(value)))
+		.join("");
+
+	return emailLayout({
+		label: "Newsletter",
+		content: `
+      <h1 style="${s.h1}">New newsletter subscriber</h1>
+      <table style="border-collapse:collapse">${rows}</table>`,
+	});
+}
+
+export function subscriberNotificationText(info: SubscriberNotification) {
+	return [
+		"New newsletter subscriber",
+		"",
+		...notificationRows(info).map(([label, value]) => `${label}: ${value}`),
 	].join("\n");
 }
