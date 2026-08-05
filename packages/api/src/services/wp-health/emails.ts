@@ -70,7 +70,7 @@ export function buildAdminHtml(data: {
 		label: "WP Health Report Lead",
 		content: `
       <div style="border-left:3px solid ${urgency.color};padding:8px 0 8px 16px;margin-bottom:24px">
-        <span style="${s.mono};color:${urgency.color}">${urgency.text}</span>
+        <span style="${s.small};color:${urgency.color}">${urgency.text}</span>
       </div>
       <table style="border-collapse:collapse;width:100%;margin-bottom:24px">${rows}</table>
       <div style="${s.box}">

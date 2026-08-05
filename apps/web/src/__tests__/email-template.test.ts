@@ -54,7 +54,7 @@ describe("emailLayout", () => {
 	it("renders DOCTYPE, brand bar, and content", () => {
 		const html = emailLayout({ label: "L", content: "<p>hi</p>" });
 		expect(html).toContain("<!DOCTYPE html>");
-		expect(html).toContain("WEBVISE");
+		expect(html).toContain("webvise");
 		expect(html).toContain("<p>hi</p>");
 	});
 
@@ -69,12 +69,12 @@ describe("emailLayout", () => {
 
 	it("includes the unsubscribe link only when an email is provided", () => {
 		const without = emailLayout({ content: "x" });
-		expect(without).not.toContain("UNSUBSCRIBE");
+		expect(without).not.toContain(">Unsubscribe<");
 		const withUnsub = emailLayout({
 			content: "x",
 			unsubscribeEmail: "u@x",
 		});
-		expect(withUnsub).toContain("UNSUBSCRIBE");
+		expect(withUnsub).toContain(">Unsubscribe<");
 		expect(withUnsub).toMatch(UNSUBSCRIBE_TOKEN_RE);
 	});
 
