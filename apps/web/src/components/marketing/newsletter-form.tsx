@@ -4,14 +4,16 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Muted } from "@/components/ui/typography";
-import { track } from "@/lib/track";
-import { trpcClient } from "@/utils/trpc";
+import {
+	type NewsletterPlacement,
+	useNewsletterSubscribe,
+} from "@/hooks/use-newsletter-subscribe";
 
 interface NewsletterFormProps {
 	buttonLabel: string;
 	error: string;
-	location?: string;
 	placeholder: string;
+	placement?: NewsletterPlacement;
 	success: string;
 }
 
@@ -20,30 +22,15 @@ export function NewsletterForm({
 	buttonLabel,
 	success,
 	error,
-	location = "footer",
+	placement = "footer",
 }: NewsletterFormProps) {
 	const [email, setEmail] = useState("");
-	const [status, setStatus] = useState<
-		"idle" | "loading" | "success" | "error"
-	>("idle");
+	const { status, subscribe } = useNewsletterSubscribe(placement);
 
 	async function handleSubscribe(e: React.FormEvent) {
 		e.preventDefault();
-		if (!email.trim()) {
-			return;
-		}
-
-		setStatus("loading");
-		track("newsletter_signup", { location });
-
-		try {
-			await trpcClient.newsletter.subscribe.mutate({ email: email.trim() });
-			setStatus("success");
-			track("newsletter_success", { location });
+		if (await subscribe(email)) {
 			setEmail("");
-		} catch {
-			setStatus("error");
-			track("newsletter_error", { location, reason: "server_error" });
 		}
 	}
 

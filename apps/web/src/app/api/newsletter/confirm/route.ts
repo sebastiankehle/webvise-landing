@@ -6,7 +6,10 @@ import {
 import { verifyNewsletterConfirmationToken } from "@webvise-app/api/email/newsletter-confirmation-token";
 import { sendEmail, setContact } from "@webvise-app/api/email/resend";
 import { unsubscribeUrl } from "@webvise-app/api/email/template";
+import { db } from "@webvise-app/db";
+import { newsletterSubscriber } from "@webvise-app/db/schema/newsletter";
 import { NextResponse } from "next/server";
+import { welcomeSourceFromPath } from "@/lib/newsletter-topic";
 
 function redirectToResult(request: Request, params: Record<string, string>) {
 	const url = new URL("/newsletter-confirmed", request.url);
@@ -30,6 +33,36 @@ export async function GET(request: Request) {
 	}
 	const email = verified.email;
 
+	// Confirm the subscriber row and read back the signup source. The insert
+	// covers the edge case where the pending row was never written.
+	let subscriberPath: string | null = null;
+	try {
+		const [row] = await db
+			.insert(newsletterSubscriber)
+			.values({
+				email,
+				placement: "unknown",
+				path: "",
+				status: "confirmed",
+				confirmedAt: new Date(),
+			})
+			.onConflictDoUpdate({
+				target: newsletterSubscriber.email,
+				set: {
+					status: "confirmed",
+					confirmedAt: new Date(),
+					updatedAt: new Date(),
+				},
+			})
+			.returning({ path: newsletterSubscriber.path });
+		subscriberPath = row?.path ?? null;
+	} catch (err) {
+		console.error(
+			"[email:newsletter-confirm] failed to update subscriber row:",
+			err instanceof Error ? err.message : err
+		);
+	}
+
 	const contactResult = await setContact({
 		label: "newsletter-confirm",
 		email,
@@ -42,6 +75,7 @@ export async function GET(request: Request) {
 		});
 	}
 
+	const source = welcomeSourceFromPath(subscriberPath);
 	const emailResult = await sendEmail({
 		label: "newsletter-welcome",
 		from: "webvise <hello@webvise.io>",
@@ -51,8 +85,8 @@ export async function GET(request: Request) {
 			"List-Unsubscribe": `<${unsubscribeUrl(email)}>`,
 			"List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
 		},
-		html: buildNewsletterWelcomeHtml(email),
-		text: newsletterWelcomeText(),
+		html: buildNewsletterWelcomeHtml(email, source),
+		text: newsletterWelcomeText(source),
 	});
 	if (!emailResult.ok) {
 		console.error(

@@ -1,4 +1,7 @@
 import { TRPCError } from "@trpc/server";
+import { db } from "@webvise-app/db";
+import { newsletterSubscriber } from "@webvise-app/db/schema/newsletter";
+import { sql } from "drizzle-orm";
 import { z } from "zod";
 import {
 	buildNewsletterConfirmationHtml,
@@ -19,10 +22,33 @@ export const newsletterRouter = router({
 		.input(
 			z.object({
 				email: z.string().email().max(200),
+				// Optional so stale client bundles deployed before source tracking keep working.
+				placement: z.enum(["footer", "blog_article"]).optional(),
+				path: z.string().startsWith("/").max(300).optional(),
 			})
 		)
 		.mutation(async ({ input }) => {
 			const email = input.email.trim().toLowerCase();
+			const placement = input.placement ?? "unknown";
+			const path = input.path ?? "";
+
+			// Source tracking must not block the signup itself.
+			try {
+				await db
+					.insert(newsletterSubscriber)
+					.values({ email, placement, path })
+					.onConflictDoUpdate({
+						target: newsletterSubscriber.email,
+						set: { placement, path, updatedAt: new Date() },
+						// Confirmed subscribers keep their first-touch source.
+						setWhere: sql`${newsletterSubscriber.status} = 'pending'`,
+					});
+			} catch (err) {
+				console.error(
+					"[newsletter:subscribe] failed to store signup source:",
+					err instanceof Error ? err.message : err
+				);
+			}
 
 			const emailResult = await sendEmail({
 				label: "newsletter-confirmation",

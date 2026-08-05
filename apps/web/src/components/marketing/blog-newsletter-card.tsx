@@ -4,8 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Caption, Muted } from "@/components/ui/typography";
-import { track } from "@/lib/track";
-import { trpcClient } from "@/utils/trpc";
+import { useNewsletterSubscribe } from "@/hooks/use-newsletter-subscribe";
 
 interface BlogNewsletterCardProps {
 	buttonLabel: string;
@@ -23,30 +22,12 @@ export function BlogNewsletterCard({
 	error,
 }: BlogNewsletterCardProps) {
 	const [email, setEmail] = useState("");
-	const [status, setStatus] = useState<
-		"idle" | "loading" | "success" | "error"
-	>("idle");
+	const { status, subscribe } = useNewsletterSubscribe("blog_article");
 
 	async function handleSubscribe(e: React.FormEvent) {
 		e.preventDefault();
-		if (!email.trim()) {
-			return;
-		}
-
-		setStatus("loading");
-		track("newsletter_signup", { location: "blog_article" });
-
-		try {
-			await trpcClient.newsletter.subscribe.mutate({ email: email.trim() });
-			setStatus("success");
-			track("newsletter_success", { location: "blog_article" });
+		if (await subscribe(email)) {
 			setEmail("");
-		} catch {
-			setStatus("error");
-			track("newsletter_error", {
-				location: "blog_article",
-				reason: "server_error",
-			});
 		}
 	}
 

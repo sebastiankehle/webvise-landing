@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
 	typedRoutes: true,
 	reactCompiler: true,
 	transpilePackages: ["shiki"],
+	// The confirm route reads blog content at request time to pick the
+	// topic-specific welcome email; without this the files are not bundled.
+	outputFileTracingIncludes: {
+		"/api/newsletter/confirm": ["./content/blog/**/*"],
+	},
 	images: {
 		qualities: [75, 80, 85, 90, 95, 100],
 	},
