@@ -3,6 +3,7 @@ import { z } from "zod";
 import { sendEmail } from "../email/resend";
 import { c, emailLayout, escapeHtml, s, tableRow } from "../email/template";
 import { rateLimitedProcedure, router } from "../index";
+import { syncContactToAttio } from "../services/attio";
 
 const SERVICE_LABELS: Record<string, string> = {
 	"landing-pages": "Landing Pages",
@@ -144,6 +145,14 @@ export const contactRouter = router({
 							: "Failed to send email",
 				});
 			}
+
+			await syncContactToAttio({
+				name: input.name,
+				email: input.email,
+				company: input.company,
+				service: serviceLabel ?? undefined,
+				message: input.message,
+			});
 
 			return { success: true };
 		}),

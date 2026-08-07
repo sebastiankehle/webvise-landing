@@ -9,6 +9,7 @@ export const env = createEnv({
 		BETTER_AUTH_URL: z.url().optional(),
 		CORS_ORIGIN: z.url().optional(),
 		RESEND_API_KEY: z.string().optional(),
+		ATTIO_API_KEY: z.string().optional(),
 		GOOGLE_PAGESPEED_API_KEY: z.string().optional(),
 		AI_GATEWAY_API_KEY: z.string().optional(),
 		UPSTASH_REDIS_REST_URL: z.url().optional(),
