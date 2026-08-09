@@ -173,12 +173,12 @@ export default async function AboutPage() {
 		"@graph": [
 			{
 				"@type": "Person",
-				"@id": "https://webvise.io/about#person",
+				"@id": "https://www.webvise.io/about#person",
 				name: t("intro.name"),
 				jobTitle: t("intro.role"),
 				description: t("intro.description"),
 				url: "https://sebastiankehle.com",
-				image: "https://webvise.io/images/founder.jpeg",
+				image: "https://www.webvise.io/images/founder.jpeg",
 				sameAs: [
 					"https://linkedin.com/in/sebastiankehle",
 					"https://github.com/sebastiankehle",
@@ -188,25 +188,25 @@ export default async function AboutPage() {
 					{
 						"@type": "Organization",
 						name: "webvise",
-						url: "https://webvise.io",
+						url: "https://www.webvise.io",
 					},
 				],
 			},
 			{
 				"@type": "BreadcrumbList",
-				"@id": "https://webvise.io/about#breadcrumb",
+				"@id": "https://www.webvise.io/about#breadcrumb",
 				itemListElement: [
 					{
 						"@type": "ListItem",
 						position: 1,
 						name: tschema("home"),
-						item: "https://webvise.io",
+						item: "https://www.webvise.io",
 					},
 					{
 						"@type": "ListItem",
 						position: 2,
 						name: t("title"),
-						item: "https://webvise.io/about",
+						item: "https://www.webvise.io/about",
 					},
 				],
 			},

@@ -1,8 +1,9 @@
 import { blogPosts } from "@/data/blog";
 import { getCaseStudies } from "@/data/case-studies";
 import { offeringGroups } from "@/data/offerings";
+import { SITE_URL } from "@/lib/seo";
 
-const baseUrl = "https://webvise.io";
+const baseUrl = SITE_URL;
 
 const offeringNames: Record<string, string> = {
 	"landing-pages": "Landing Pages and Launch Sites",

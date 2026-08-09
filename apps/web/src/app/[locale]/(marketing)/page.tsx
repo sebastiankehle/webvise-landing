@@ -31,9 +31,9 @@ export default async function HomePage() {
 		"@graph": [
 			{
 				"@type": "Organization",
-				"@id": "https://webvise.io/#organization",
+				"@id": "https://www.webvise.io/#organization",
 				name: "webvise",
-				url: "https://webvise.io",
+				url: "https://www.webvise.io",
 				description: t("organizationDescription"),
 				sameAs: [
 					"https://github.com/webvise",
@@ -42,10 +42,10 @@ export default async function HomePage() {
 			},
 			{
 				"@type": "WebSite",
-				"@id": "https://webvise.io/#website",
-				url: "https://webvise.io",
+				"@id": "https://www.webvise.io/#website",
+				url: "https://www.webvise.io",
 				name: "webvise",
-				publisher: { "@id": "https://webvise.io/#organization" },
+				publisher: { "@id": "https://www.webvise.io/#organization" },
 				inLanguage: ["en", "de", "fr", "es", "nl", "pl", "it"],
 			},
 			{
@@ -53,8 +53,8 @@ export default async function HomePage() {
 				"@id": `${url}#webpage`,
 				url,
 				name: t("title"),
-				isPartOf: { "@id": "https://webvise.io/#website" },
-				about: { "@id": "https://webvise.io/#organization" },
+				isPartOf: { "@id": "https://www.webvise.io/#website" },
+				about: { "@id": "https://www.webvise.io/#organization" },
 				description: t("description"),
 			},
 		],

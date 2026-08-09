@@ -4,8 +4,9 @@ import { blogPosts } from "@/data/blog";
 import { getCaseStudies } from "@/data/case-studies";
 import { offerings } from "@/data/offerings";
 import { routing } from "@/i18n/routing";
+import { SITE_URL } from "@/lib/seo";
 
-const baseUrl = "https://webvise.io";
+const baseUrl = SITE_URL;
 
 type ChangeFrequency = NonNullable<
 	MetadataRoute.Sitemap[number]["changeFrequency"]

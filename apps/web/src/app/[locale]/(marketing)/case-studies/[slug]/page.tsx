@@ -204,12 +204,12 @@ export default async function CaseStudyPage({
 				author: {
 					"@type": "Organization",
 					name: "webvise",
-					url: "https://webvise.io",
+					url: "https://www.webvise.io",
 				},
 				publisher: {
 					"@type": "Organization",
 					name: "webvise",
-					url: "https://webvise.io",
+					url: "https://www.webvise.io",
 				},
 				mainEntityOfPage: csUrl,
 				...(cs.coverImage && { image: `https://webvise.io${cs.coverImage}` }),

@@ -261,7 +261,7 @@ async function ServiceOfferingPage({ offering }: { offering: Offering }) {
 				name: detail.schemaTitle,
 				description: detail.schemaDescription,
 				provider: {
-					"@id": "https://webvise.io/#organization",
+					"@id": "https://www.webvise.io/#organization",
 				},
 				areaServed: {
 					"@type": "GeoShape",
@@ -277,13 +277,13 @@ async function ServiceOfferingPage({ offering }: { offering: Offering }) {
 						"@type": "ListItem",
 						position: 1,
 						name: tschema("home"),
-						item: "https://webvise.io",
+						item: "https://www.webvise.io",
 					},
 					{
 						"@type": "ListItem",
 						position: 2,
 						name: tschema("services"),
-						item: "https://webvise.io/#services",
+						item: "https://www.webvise.io/#services",
 					},
 					{
 						"@type": "ListItem",

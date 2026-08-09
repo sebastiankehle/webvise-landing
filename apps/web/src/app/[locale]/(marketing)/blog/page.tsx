@@ -91,7 +91,7 @@ export default async function BlogPage({
 		name: t("title"),
 		description: t("subtitle"),
 		url: blogUrl,
-		isPartOf: { "@id": "https://webvise.io/#website" },
+		isPartOf: { "@id": "https://www.webvise.io/#website" },
 		mainEntity: {
 			"@type": "Blog",
 			"@id": `${blogUrl}#blog`,

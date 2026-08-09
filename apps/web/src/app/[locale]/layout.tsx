@@ -22,7 +22,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { routing } from "@/i18n/routing";
-import { generateAlternates, localizedUrl } from "@/lib/seo";
+import { generateAlternates, localizedUrl, SITE_URL } from "@/lib/seo";
 import { SITE_THEME_IDS } from "@/lib/themes";
 
 const CLIENT_MESSAGE_NAMESPACES = [
@@ -108,7 +108,7 @@ export async function generateMetadata({
 			template: "%s - webvise",
 		},
 		description,
-		metadataBase: new URL("https://webvise.io"),
+		metadataBase: new URL(SITE_URL),
 		openGraph: {
 			type: "website",
 			siteName: "webvise",
