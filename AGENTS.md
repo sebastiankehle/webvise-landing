@@ -37,10 +37,13 @@ packages/env          # Typed env vars
 | Format       | `pnpm format`          |
 | Fix          | `pnpm check`           |
 | Test         | `pnpm test`            |
+| Verify (all) | `pnpm verify`          |
 | DB push      | `pnpm db:push`         |
 | DB studio    | `pnpm db:studio`       |
 | DB generate  | `pnpm db:generate`     |
 | DB migrate   | `pnpm db:migrate`      |
+| DB start     | `pnpm db:start`        |
+| DB stop      | `pnpm db:stop`         |
 
 Package manager: **pnpm 10.1.0**. Don't use npm or yarn.
 
@@ -58,10 +61,16 @@ Package manager: **pnpm 10.1.0**. Don't use npm or yarn.
 
 Project-local skills live in `.agents/skills/` and are surfaced to Claude Code via symlinks in `.claude/skills/`.
 
-| Skill          | Purpose                              |
-| -------------- | ------------------------------------ |
-| `blog-article` | Author blog posts in all 7 locales   |
-| `expect`       | (see `.agents/skills/expect`)        |
+| Skill                          | Purpose                                              |
+| ------------------------------ | ---------------------------------------------------- |
+| `animation-vocabulary`         | Name a motion effect from a vague description        |
+| `apple-design`                 | Apple-style interface design and motion for the web  |
+| `blog-article`                 | Author blog posts in all 7 locales                   |
+| `emil-design-eng`              | Emil Kowalski's UI polish and animation philosophy   |
+| `find-animation-opportunities` | Find UI spots that should animate but don't          |
+| `improve-animations`           | Audit motion code and plan improvements              |
+| `review-animations`            | Review animation code against a high craft bar       |
+| `shadcn`                       | Add, compose, and debug shadcn/ui components         |
 
 To register a new `.agents/skills/<name>` skill for Claude Code:
 
