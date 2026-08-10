@@ -1,0 +1,198 @@
+{
+  "date": "2026-08-10",
+  "readingTime": 7,
+  "keyword": "come creare una base di conoscenza aziendale",
+  "title": "Come creare una base di conoscenza aziendale che i Suoi agenti AI possono davvero usare",
+  "excerpt": "La conoscenza dispersa è il motivo per cui la Sua AI risponde con i dati di addestramento. La soluzione è un ordine di configurazione: una checklist di acquisizione in otto punti, il formato di file standardizzato da Google a giugno 2026 e fasce di costo reali.",
+  "metaDescription": "La Sua AI risponde con i dati di addestramento perché la conoscenza è dispersa. Come creare una base di conoscenza aziendale leggibile dagli agenti: checklist, formato, costi.",
+  "tags": ["AI", "Business Strategy", "Process"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Per creare una base di conoscenza aziendale nel 2026, riempia una cartella di semplici file markdown che il team e gli agenti AI possano leggere entrambi, seguendo un ordine preciso: prima i documenti di riferimento, poi le SOP, i registri delle decisioni e le mappe di responsabilità. Scelga il software per ultimo, dopo che i contenuti esistono già."
+    },
+    {
+      "type": "p",
+      "text": "Ha già condotto l'esperimento che dimostra l'importanza di questo ordine: chieda al Suo assistente AI quale sia la Sua politica di rimborso e osservi la risposta arrivare dal web aperto."
+    },
+    {
+      "type": "p",
+      "text": "Ogni azienda sotto le 200 persone conserva la conoscenza allo stesso modo: cartelle Drive, un wiki semiabbandonato, thread email e due persone senior con tutto in testa. Questa guida illustra cosa raccogliere, il formato di file standardizzato da Google a giugno 2026, l'ordine di configurazione che uso in produzione e quanto costa una configurazione. I dati arrivano da una base di conoscenza mantenuta dagli agenti per 3 mesi: 490 pagine, 880 commit, un unico gate di lint a 20 controlli."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**I contenuti prima degli strumenti.** Raccolga i documenti di riferimento, le SOP, i registri delle decisioni e le mappe di responsabilità prima di confrontare qualsiasi software.",
+        "**I file sono il formato.** L'Open Knowledge Format di Google (giugno 2026) ha reso standard ciò su cui quattro laboratori AI erano già convergenti: file markdown con frontmatter YAML, versionati in git.",
+        "**All'inizio, salti il database vettoriale.** Sotto le circa 10.000 pagine, la ricerca per parole chiave più un file indice aggiornato bastano e restano facili da correggere.",
+        "**La responsabilità decide la sopravvivenza.** Le persone possiedono strategia, prezzi e decisioni; gli agenti possiedono le pagine compilate. Senza questa suddivisione, la base diventa obsoleta in un trimestre.",
+        "**Preveda un budget da 2.500 $ alle prime decine di migliaia di dollari.** Le configurazioni a scopo fisso vengono consegnate in una settimana; una configurazione basata su audit con un prototipo funzionante richiede da 2 a 4 settimane."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Raccolga queste otto cose prima di confrontare gli strumenti"
+    },
+    {
+      "type": "p",
+      "text": "Una base di conoscenza riesce o fallisce in base a cosa viene inserito, e la maggior parte dei team salta dritta alla demo del software. webvise guida i clienti attraverso la stessa lista di acquisizione ogni volta: otto categorie, ordinate in base alla frequenza con cui servono agli agenti."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Cosa raccogliere",
+        "Perché serve a un agente",
+        "Dove si trova di solito oggi"
+      ],
+      "rows": [
+        [
+          "Documenti di riferimento: posizionamento, prezzi, specifiche di prodotto, FAQ",
+          "Fonda ogni risposta; impedisce all'agente di inventare i prezzi",
+          "Pitch deck, il sito web, la testa del fondatore"
+        ],
+        [
+          "SOP e flussi di lavoro: onboarding, reportistica, QA, approvazioni",
+          "Trasforma un \"aiutami a fare X\" in passaggi che un agente può seguire",
+          "Da nessuna parte, o in una pagina wiki del 2023"
+        ],
+        [
+          "Esempi di lavoro ben fatto, con note sul perché sono validi",
+          "Calibra la qualità dell'output oltre le best practice generiche",
+          "Cartelle di progetto sparse"
+        ],
+        [
+          "Registri delle decisioni: cosa è cambiato, perché, chi ha deciso, cosa è stato respinto",
+          "Evita che agenti e nuovi assunti riaprano questioni già chiuse",
+          "Thread Slack e verbali di riunione"
+        ],
+        [
+          "Mappe di responsabilità: chi possiede ogni flusso di lavoro, decisione ed escalation",
+          "Instrada le bozze verso l'approvatore giusto",
+          "Conoscenza tribale"
+        ],
+        [
+          "Contesto cliente: chiamate, ticket, motivi di abbandono, obiezioni",
+          "Fonda le risposte di vendita e supporto nel linguaggio reale dei clienti",
+          "Note CRM, casella del supporto"
+        ],
+        [
+          "Permessi e limiti: cosa gli agenti possono leggere, scrivere, inviare",
+          "Previene in anticipo i modi di fallimento più costosi",
+          "Solitamente non definiti"
+        ],
+        [
+          "Cicli di feedback: lavoro consegnato, modifiche umane, output falliti",
+          "Rende l'output del sesto mese migliore di quello della prima settimana",
+          "Solitamente scartati"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Raccogliere questi elementi è la parte lenta, ed è la parte che un audit ingegneristico anticipa. [Lo sprint di consulenza AI di webvise](/services/ai-consulting) mappa un intero flusso di lavoro dall'inizio alla fine, documenti, eccezioni e punti di revisione inclusi, e si conclude con un prototipo funzionante invece che con una presentazione. Se le Sue SOP esistono solo nella testa delle persone, [un agente AI può intervistare il team e redigerle per prima cosa](/blog/document-sops-with-ai)."
+    },
+    {
+      "type": "h2",
+      "text": "Usi il formato di file standardizzato da Google a giugno 2026"
+    },
+    {
+      "type": "p",
+      "text": "Il 12 giugno 2026, Google Cloud ha pubblicato l'[Open Knowledge Format](https://cloud.google.com/blog/products/data-analytics/how-the-open-knowledge-format-can-improve-data-sharing), una specifica aperta per questo tipo di artefatto: una directory di file markdown con frontmatter YAML tipizzato, versionati in git, senza strumenti obbligatori. La specifica è deliberatamente minimale. Markdown che qualsiasi editor renderizza, file che qualsiasi repository ospita, un solo campo di frontmatter obbligatorio."
+    },
+    {
+      "type": "p",
+      "text": "La specifica ha formalizzato una struttura a cui quattro team AI erano già arrivati in modo indipendente. L'indagine sui wiki per agenti di Mem0 di luglio 2026 ha rilevato che DeepWiki di Cognition, AutoWiki di Factory, OpenWiki di LangChain e GBrain di Garry Tan hanno costruito, a distanza di pochi mesi l'uno dall'altro, gli stessi tre livelli: fonti grezze, un wiki markdown scritto da un LLM e un unico file schema che contiene le regole. Quando quattro laboratori e Google convergono su semplici file in git, la questione del formato è chiusa."
+    },
+    {
+      "type": "p",
+      "text": "La conseguenza pratica per chi acquista: giudichi ogni strumento di conoscenza in base al fatto che il suo contenuto si esporti in file semplici. Notion, Confluence e SharePoint conservano testo che un agente può raggiungere tramite API. Una cartella di markdown tipizzato in git è la forma che gli agenti leggono nel modo più economico, confrontano con i diff più puliti e mantengono quando si cambia fornitore."
+    },
+    {
+      "type": "p",
+      "text": "Il recupero delle informazioni richiede meno infrastruttura di quanto sostenga la narrativa RAG. Sotto le circa 10.000 pagine, la ricerca per parole chiave su un file indice aggiornato trova ciò di cui gli agenti hanno bisogno, e superare quella soglia costa circa 10 $ di embedding ogni 100.000 pagine ai prezzi OpenAI attuali. L'argomentazione completa, con i numeri sui token, si trova in [La maggior parte delle basi di conoscenza aziendali non ha bisogno di RAG](/blog/business-knowledge-base-without-rag)."
+    },
+    {
+      "type": "h2",
+      "text": "La configuri in quest'ordine"
+    },
+    {
+      "type": "p",
+      "text": "Ogni passaggio seguente rende il successivo più economico, e il software compare solo al passaggio 5. I team che iniziano dal passaggio 5 di solito ricominciano dal passaggio 1 entro un trimestre."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**1. Faccia un audit di ciò che esiste.** Elenchi ogni luogo dove risiede la conoscenza: Drive, il wiki, le caselle di posta, il CRM, la testa delle persone. La maggior parte delle aziende trova da 5 a 8 sistemi sparsi.",
+        "**2. Crei un unico albero di cartelle con un indice.** Un file indice di primo livello che indica cosa si trova dove è il sistema di recupero. Gli agenti partono da lì e aprono solo le pagine di cui hanno bisogno.",
+        "**3. Scriva il file schema.** Un unico AGENTS.md che definisce i tipi di pagina, la nomenclatura e le regole di aggiornamento. Questo file fa più lavoro di qualsiasi scelta di strumento che farà.",
+        "**4. Acquisisca le otto categorie.** Una pagina per argomento, ciascuna con un proprietario e una data di aggiornamento. Inizi dalle 20 pagine su cui le persone chiedono davvero, ed eviti la migrazione tutta in una volta.",
+        "**5. Colleghi i Suoi agenti.** Punti Claude, o qualsiasi cosa usi il Suo team, verso l'indice con un unico comando di caricamento, così ogni sessione parte dallo stesso contesto.",
+        "**6. Chiuda il ciclo.** Quando qualcuno corregge la risposta di un agente, la correzione entra nella pagina, e la pagina prevale la volta successiva."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Uso questa struttura in produzione. La base ha raggiunto 490 pagine e 880 commit in 3 mesi di manutenzione da parte degli agenti, e regge perché un gate di lint a 20 controlli blocca ogni commit che viola una regola, dai link rotti alle scadenze superate. Il report operativo, fallimenti inclusi, si trova in [il report dei 3 mesi](/blog/llm-wiki-3-month-report)."
+    },
+    {
+      "type": "h2",
+      "text": "Decida chi possiede cosa, o la guardi marcire"
+    },
+    {
+      "type": "p",
+      "text": "L'obsolescenza uccide più basi di conoscenza di qualsiasi errore di strumentazione. L'indagine di Mem0 definisce un wiki scorretto peggiore di nessun wiki, perché gli errori arrivano con la forma di fatti. La difesa è una suddivisione delle responsabilità, decisa fin dal primo giorno."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Le persone possiedono le pagine ancora.** Posizionamento, prezzi, tono di voce, permessi, registri delle decisioni. Gli agenti le leggono prima di produrre qualsiasi cosa e non le riscrivono mai.",
+        "**Gli agenti possiedono il livello compilato.** Pagine di riferimento, link incrociati, indici, riepiloghi. La manutenzione è il lavoro che le persone abbandonano puntualmente, e quello di cui gli agenti non si stancano mai.",
+        "**Ogni pagina riporta un proprietario e una data di aggiornamento.** Una pagina che non appartiene a nessuno è una pagina di cui nessuno si fida."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "I registri delle decisioni sono la categoria che nessuno raccoglie e quella che ripaga per prima. Cosa è cambiato, perché, chi ha deciso, quali alternative sono state respinte: quattro campi che evitano a un nuovo assunto o a un nuovo agente di riaprire le questioni già chiuse del trimestre scorso. Nella mia base, metà delle segnalazioni di lint sono avvisi di obsolescenza, una scadenza superata o un prezzo cambiato, intercettati prima che un agente potesse ripeterli."
+    },
+    {
+      "type": "h2",
+      "text": "Quanto costa una base di conoscenza aziendale nel 2026"
+    },
+    {
+      "type": "p",
+      "text": "Tre percorsi realistici, con i prezzi che il mercato applica a metà del 2026."
+    },
+    {
+      "type": "table",
+      "headers": ["Percorso", "Ambito", "Prezzo", "Tempistica"],
+      "rows": [
+        [
+          "Fai da te con questa guida",
+          "Albero di cartelle, file schema, prime 20 pagine",
+          "Il Suo tempo, circa una settimana concentrata",
+          "Da 1 a 2 settimane"
+        ],
+        [
+          "Offerta di configurazione a scopo fisso",
+          "Base di conoscenza costruita dai dati aziendali, un flusso di lavoro collegato",
+          "Tipicamente 2.500 $ (mercato USA, metà 2026)",
+          "Circa 7 giorni"
+        ],
+        [
+          "Configurazione con agenzia basata su audit",
+          "Mappa dei processi, base di conoscenza, prototipo AI funzionante, piano di realizzazione",
+          "Stimato dopo la fase di discovery",
+          "Da 2 a 4 settimane"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Il mercato ha trasformato in prodotto la fascia più piccola: offerte di configurazione a prezzo fisso intorno ai 2.500 $ con consegna in 7 giorni sono comparse a metà del 2026, tipicamente un audit di 60 minuti più un flusso di lavoro collegato. Questa formula funziona quando i Suoi processi sono già documentati. Quando sono disordinati, l'audit è il prodotto: [la consulenza AI di webvise](/services/ai-consulting) dura da 2 a 4 settimane perché mappare eccezioni e punti di revisione è la maggior parte del lavoro, e il prototipo finale Le dice se vale la pena finanziare una realizzazione in produzione."
+    },
+    {
+      "type": "p",
+      "text": "Una base di conoscenza è il primo pezzo di infrastruttura AI che vale la pena costruire, perché ogni agente che distribuisce in seguito la eredita. Per la versione basata su audit, con i Suoi flussi di lavoro mappati e un prototipo che legge dalle Sue pagine, [si metta in contatto con webvise](/#contact)."
+    }
+  ]
+}

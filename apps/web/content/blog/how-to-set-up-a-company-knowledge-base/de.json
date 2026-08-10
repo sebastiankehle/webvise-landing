@@ -1,0 +1,198 @@
+{
+  "date": "2026-08-10",
+  "readingTime": 7,
+  "keyword": "unternehmens-wissensdatenbank aufbauen",
+  "title": "Wie Sie eine Unternehmens-Wissensdatenbank aufbauen, die Ihre KI-Agenten wirklich nutzen können",
+  "excerpt": "Verstreutes Wissen ist der Grund, warum Ihre KI aus Trainingsdaten antwortet. Die Lösung ist eine Aufbaureihenfolge: eine Checkliste mit acht Aufnahmepunkten, das Dateiformat, das Google im Juni 2026 standardisiert hat, und reale Kostenbänder.",
+  "metaDescription": "Ihre KI antwortet aus Trainingsdaten, weil Ihr Wissen verstreut ist. So richten Sie eine Unternehmens-Wissensdatenbank ein, die Agenten lesen können: Checkliste, Format, Kosten.",
+  "tags": ["AI", "Business Strategy", "Process"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Um 2026 eine Unternehmens-Wissensdatenbank aufzubauen, füllen Sie einen Ordner mit reinen Markdown-Dateien, die sowohl Ihr Team als auch Ihre KI-Agenten lesen können, und zwar in einer bestimmten Reihenfolge: zuerst die Source-of-Truth-Dokumente, dann SOPs, Entscheidungsprotokolle und Zuständigkeitsübersichten. Die Software wählen Sie zuletzt, nachdem der Inhalt existiert."
+    },
+    {
+      "type": "p",
+      "text": "Den Beweis für diese Reihenfolge haben Sie bereits selbst erbracht: Fragen Sie Ihren KI-Assistenten nach Ihrer eigenen Rückerstattungsrichtlinie und beobachten Sie, wie er aus dem offenen Web antwortet."
+    },
+    {
+      "type": "p",
+      "text": "Jedes Unternehmen mit weniger als 200 Mitarbeitenden speichert Wissen auf dieselbe Weise: Drive-Ordner, ein halb aufgegebenes Wiki, E-Mail-Threads und zwei erfahrene Köpfe. Dieser Leitfaden behandelt, was zu sammeln ist, das Dateiformat, das Google im Juni 2026 standardisiert hat, die Setup-Reihenfolge, die ich produktiv einsetze, und was ein Setup kostet. Die Belege stammen aus einer Wissensdatenbank, die Agenten seit 3 Monaten pflegen: 490 Seiten, 880 Commits, ein Lint-Gate mit 20 Prüfungen."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Inhalt vor Tooling.** Sammeln Sie Source-of-Truth-Dokumente, SOPs, Entscheidungsprotokolle und Zuständigkeitsübersichten, bevor Sie Software vergleichen.",
+        "**Dateien sind das Format.** Googles Open Knowledge Format (Juni 2026) standardisierte, worauf vier KI-Labore bereits unabhängig voneinander gekommen waren: Markdown-Dateien mit YAML-Frontmatter, versioniert in Git.",
+        "**Verzichten Sie zunächst auf die Vektordatenbank.** Unter rund 10.000 Seiten genügen Keyword-Suche und eine gepflegte Index-Datei, und das System bleibt leicht zu debuggen.",
+        "**Zuständigkeit entscheidet über das Überleben.** Menschen verantworten Strategie, Preise und Entscheidungen, Agenten verantworten die kompilierten Seiten. Ohne diese Aufteilung veraltet die Wissensbasis innerhalb eines Quartals.",
+        "**Budget: 2.500 $ bis niedrige fünfstellige Beträge.** Setups mit festem Umfang liefern innerhalb einer Woche, ein auditgeführtes Setup mit funktionierendem Prototyp dauert 2 bis 4 Wochen."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Sammeln Sie diese acht Dinge, bevor Sie Tools vergleichen"
+    },
+    {
+      "type": "p",
+      "text": "Ob eine Wissensdatenbank gelingt oder scheitert, entscheidet sich an dem, was hineinkommt, und die meisten Teams springen direkt zur Software-Demo. webvise führt Kunden jedes Mal durch dieselbe Aufnahme-Checkliste: acht Kategorien, sortiert danach, wie oft Agenten sie brauchen."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Was zu sammeln ist",
+        "Warum ein Agent es braucht",
+        "Wo es heute meist liegt"
+      ],
+      "rows": [
+        [
+          "Source-of-Truth-Dokumente: Positionierung, Preise, Produktspezifikationen, FAQs",
+          "Fundiert jede Antwort, verhindert, dass der Agent Preise erfindet",
+          "Pitch-Decks, die Website, der Kopf der Geschäftsführung"
+        ],
+        [
+          "SOPs und Workflows: Onboarding, Reporting, QA, Freigaben",
+          "Macht aus „Hilf mir bei X\" konkrete Schritte, denen ein Agent folgen kann",
+          "Nirgendwo, oder auf einer Wiki-Seite aus 2023"
+        ],
+        [
+          "Beispiele guter Arbeit, mit Notizen dazu, warum sie gut ist",
+          "Kalibriert die Ausgabequalität über generische Best Practices hinaus",
+          "Verstreute Projektordner"
+        ],
+        [
+          "Entscheidungsprotokolle: was sich geändert hat, warum, wer entschieden hat, was abgelehnt wurde",
+          "Verhindert, dass Agenten und neue Mitarbeitende geklärte Fragen erneut aufrollen",
+          "Slack-Threads und Erinnerungen an Meetings"
+        ],
+        [
+          "Zuständigkeitsübersichten: wer welchen Workflow, welche Entscheidung, welche Eskalation verantwortet",
+          "Leitet Entwürfe an die richtige freigebende Person weiter",
+          "Ungeschriebenes Wissen"
+        ],
+        [
+          "Kundenkontext: Calls, Tickets, Abwanderungsgründe, Einwände",
+          "Fundiert Vertriebs- und Support-Antworten in der echten Sprache der Kunden",
+          "CRM-Notizen, Support-Postfach"
+        ],
+        [
+          "Berechtigungen und Grenzen: was Agenten lesen, schreiben, senden dürfen",
+          "Verhindert die teuren Fehlerfälle von vornherein",
+          "Meist nicht definiert"
+        ],
+        [
+          "Feedback-Schleifen: ausgelieferte Arbeit, menschliche Korrekturen, fehlgeschlagene Ausgaben",
+          "Macht die Ausgabe in Monat 6 besser als die in Woche 1",
+          "Wird meist verworfen"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Diese Punkte zu sammeln ist der langsame Teil, und genau diesen Teil nimmt ein technisches Audit vorweg. [webvises KI-Beratungssprint](/services/ai-consulting) bildet einen Workflow von Anfang bis Ende ab, inklusive Dokumenten, Ausnahmen und Prüfpunkten, und endet in einem funktionierenden Prototyp statt in einer Folienpräsentation. Wenn Ihre SOPs nur in den Köpfen der Mitarbeitenden existieren, [kann ein KI-Agent das Team interviewen und sie zuerst entwerfen](/blog/document-sops-with-ai)."
+    },
+    {
+      "type": "h2",
+      "text": "Verwenden Sie das Dateiformat, das Google im Juni 2026 standardisiert hat"
+    },
+    {
+      "type": "p",
+      "text": "Am 12. Juni 2026 veröffentlichte Google Cloud das [Open Knowledge Format](https://cloud.google.com/blog/products/data-analytics/how-the-open-knowledge-format-can-improve-data-sharing), eine offene Spezifikation für dieses Artefakt: ein Verzeichnis aus Markdown-Dateien mit typisiertem YAML-Frontmatter, versioniert in Git, ohne erforderliches Tooling. Die Spezifikation ist bewusst schlank gehalten. Markdown, das jeder Editor rendert, Dateien, die jedes Repo hostet, ein einziges Pflichtfeld im Frontmatter."
+    },
+    {
+      "type": "p",
+      "text": "Die Spezifikation formalisierte eine Struktur, auf die vier KI-Teams bereits unabhängig voneinander gekommen waren. Mem0s Umfrage zu Agenten-Wikis vom Juli 2026 fand heraus, dass Cognitions DeepWiki, Factorys AutoWiki, LangChains OpenWiki und Garry Tans GBrain innerhalb weniger Monate jeweils dieselben drei Ebenen aufgebaut hatten: Rohquellen, ein von einem LLM geschriebenes Markdown-Wiki und eine Schema-Datei mit den Regeln. Wenn vier Labore und Google bei einfachen Dateien in Git landen, ist die Formatfrage entschieden."
+    },
+    {
+      "type": "p",
+      "text": "Die Konsequenz für die Kaufentscheidung: Bewerten Sie jedes Wissenstool danach, ob sich sein Inhalt in reine Dateien exportieren lässt. Notion, Confluence und SharePoint speichern Text, den ein Agent über eine API erreichen kann. Ein Ordner mit typisiertem Markdown in Git ist die Form, die Agenten am günstigsten lesen, am saubersten diffen und beim Wechsel des Anbieters behalten."
+    },
+    {
+      "type": "p",
+      "text": "Retrieval braucht weniger Maschinerie, als das RAG-Versprechen behauptet. Unter rund 10.000 Seiten findet Keyword-Suche über eine gepflegte Index-Datei, was Agenten brauchen, und das Überschreiten dieser Grenze kostet bei aktuellen OpenAI-Preisen etwa 10 $ an Embeddings pro 100.000 Seiten. Das vollständige Argument, mit Token-Zahlen, steht in [Die meisten Business-Wissensdatenbanken brauchen kein RAG](/blog/business-knowledge-base-without-rag)."
+    },
+    {
+      "type": "h2",
+      "text": "So richten Sie es in dieser Reihenfolge ein"
+    },
+    {
+      "type": "p",
+      "text": "Jeder der folgenden Schritte macht den nächsten günstiger, und Software taucht erst in Schritt 5 auf. Teams, die bei Schritt 5 anfangen, starten meist innerhalb eines Quartals wieder bei Schritt 1."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**1. Bestandsaufnahme.** Listen Sie jeden Ort auf, an dem Wissen liegt: Drive, das Wiki, Postfächer, das CRM, die Köpfe der Mitarbeitenden. Die meisten Unternehmen finden 5 bis 8 verstreute Systeme.",
+        "**2. Erstellen Sie einen Ordnerbaum mit Index.** Eine Index-Datei auf oberster Ebene, die festhält, was wo liegt, ist das Retrieval-System. Agenten starten dort und öffnen nur die Seiten, die sie brauchen.",
+        "**3. Schreiben Sie die Schema-Datei.** Eine einzige AGENTS.md, die Seitentypen, Benennung und Aktualisierungsregeln festlegt. Diese Datei leistet mehr als jede Tool-Entscheidung, die Sie treffen werden.",
+        "**4. Nehmen Sie die acht Kategorien auf.** Eine Seite pro Thema, jeweils mit einer zuständigen Person und einem Aktualisierungsdatum. Beginnen Sie mit den 20 Seiten, nach denen tatsächlich gefragt wird, und verzichten Sie auf die Big-Bang-Migration.",
+        "**5. Verbinden Sie Ihre Agenten.** Richten Sie Claude, oder was auch immer Ihr Team einsetzt, über einen einzigen Load-Befehl auf den Index aus, damit jede Sitzung mit demselben Kontext startet.",
+        "**6. Schließen Sie den Kreis.** Wenn jemand die Antwort eines Agenten korrigiert, fließt die Korrektur in die Seite ein, und die Seite setzt sich beim nächsten Mal durch."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Ich setze diese Struktur produktiv ein. Die Wissensbasis erreichte in 3 Monaten agentengeführter Pflege 490 Seiten und 880 Commits, und sie hält, weil ein Lint-Gate mit 20 Prüfungen jeden Commit blockiert, der eine Regel verletzt, von defekten Links bis zu abgelaufenen Fristen. Der Betriebsbericht, samt Fehlschlägen, steht in [dem 3-Monats-Bericht](/blog/llm-wiki-3-month-report)."
+    },
+    {
+      "type": "h2",
+      "text": "Legen Sie fest, wer wofür zuständig ist, sonst verfällt sie"
+    },
+    {
+      "type": "p",
+      "text": "Veraltung tötet mehr Wissensdatenbanken als jeder Tooling-Fehler. Mem0s Umfrage bezeichnet ein falsches Wiki als schlimmer als gar kein Wiki, weil Fehler im Gewand von Fakten daherkommen. Der Schutz davor ist eine von Tag eins an festgelegte Zuständigkeitsaufteilung."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Menschen verantworten die Ankerseiten.** Positionierung, Preise, Tonalität, Berechtigungen, Entscheidungsprotokolle. Agenten lesen diese, bevor sie irgendetwas produzieren, und schreiben sie nie um.",
+        "**Agenten verantworten die kompilierte Ebene.** Referenzseiten, Querverweise, Indizes, Zusammenfassungen. Pflege ist die Arbeit, die Menschen zuverlässig vernachlässigen, und die Arbeit, bei der Agenten nie ermüden.",
+        "**Jede Seite trägt eine verantwortliche Person und ein Aktualisierungsdatum.** Eine Seite, die niemandem gehört, ist eine Seite, der niemand vertraut."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Entscheidungsprotokolle sind die Kategorie, die niemand sammelt und die sich zuerst auszahlt. Was sich geändert hat, warum, wer entschieden hat, welche Alternativen abgelehnt wurden: vier Felder, die verhindern, dass eine neue Mitarbeiterin oder ein neuer Agent die geklärten Fragen des letzten Quartals wieder aufrollt. In meiner eigenen Wissensbasis ist die Hälfte der Lint-Befunde eine Veraltungsmarkierung, eine verstrichene Frist oder ein geänderter Preis, erkannt, bevor ein Agent sie wiederholen konnte."
+    },
+    {
+      "type": "h2",
+      "text": "Was eine Unternehmens-Wissensdatenbank 2026 kostet"
+    },
+    {
+      "type": "p",
+      "text": "Drei realistische Wege, bepreist nach dem, was der Markt Mitte 2026 verlangt."
+    },
+    {
+      "type": "table",
+      "headers": ["Weg", "Umfang", "Preis", "Zeitrahmen"],
+      "rows": [
+        [
+          "Eigenständig mit diesem Leitfaden",
+          "Ordnerbaum, Schema-Datei, erste 20 Seiten",
+          "Ihre Zeit, etwa eine fokussierte Woche",
+          "1 bis 2 Wochen"
+        ],
+        [
+          "Angebot mit festem Umfang",
+          "Wissensdatenbank aus Unternehmensdaten aufgebaut, ein Workflow angebunden",
+          "Typisch 2.500 $ (US-Markt, Mitte 2026)",
+          "Etwa 7 Tage"
+        ],
+        [
+          "Auditgeführtes Agentur-Setup",
+          "Prozesslandkarte, Wissensdatenbank, funktionierender KI-Prototyp, Umsetzungsplan",
+          "Geschätzt nach der Discovery-Phase",
+          "2 bis 4 Wochen"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Der Markt hat das untere Ende produktisiert: Festpreis-Angebote um 2.500 $ mit 7-Tage-Lieferzeit tauchten Mitte 2026 auf, typischerweise ein 60-minütiges Audit plus ein angebundener Workflow. Diese Form funktioniert, wenn Ihre Prozesse bereits dokumentiert sind. Sind sie unübersichtlich, ist das Audit das Produkt: [webvises KI-Beratung](/services/ai-consulting) dauert 2 bis 4 Wochen, weil das Kartieren von Ausnahmen und Prüfpunkten den Großteil der Arbeit ausmacht, und der Prototyp am Ende zeigt, ob sich ein Produktivbau finanziell lohnt."
+    },
+    {
+      "type": "p",
+      "text": "Eine Wissensdatenbank ist das erste Stück KI-Infrastruktur, das sich zu bauen lohnt, weil jeder Agent, den Sie danach einsetzen, sie erbt. Für die auditgeführte Variante, mit kartierten Workflows und einem Prototyp, der aus Ihren eigenen Seiten liest, [nehmen Sie Kontakt zu webvise auf](/#contact)."
+    }
+  ]
+}

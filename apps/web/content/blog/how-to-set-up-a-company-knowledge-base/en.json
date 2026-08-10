@@ -1,0 +1,198 @@
+{
+  "date": "2026-08-10",
+  "readingTime": 7,
+  "keyword": "how to set up a company knowledge base",
+  "title": "How to Set Up a Company Knowledge Base Your AI Agents Can Actually Use",
+  "excerpt": "Scattered knowledge is why your AI answers from training data. The fix is a setup order: an eight-item ingest checklist, the file format Google standardized in June 2026, and real cost bands.",
+  "metaDescription": "Your AI answers from training data because your knowledge is scattered. How to set up a company knowledge base agents can read: checklist, format, costs.",
+  "tags": ["AI", "Business Strategy", "Process"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "To set up a company knowledge base in 2026, fill a folder of plain markdown files that your team and your AI agents can both read, in a specific order: source-of-truth documents first, then SOPs, decision logs, and ownership maps. Pick the software last, after the content exists."
+    },
+    {
+      "type": "p",
+      "text": "You have already run the experiment that proves the order matters: ask your AI assistant about your own refund policy and watch it answer from the open web."
+    },
+    {
+      "type": "p",
+      "text": "Every company under 200 people stores knowledge the same way: Drive folders, a half-abandoned wiki, email threads, and two senior heads. This guide covers what to collect, the file format Google standardized in June 2026, the setup order I run in production, and what a setup costs. The receipts come from a knowledge base that agents have maintained for 3 months: 490 pages, 880 commits, one 20-check lint gate."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Content before tooling.** Collect source-of-truth docs, SOPs, decision logs, and ownership maps before you compare any software.",
+        "**Files are the format.** Google's Open Knowledge Format (June 2026) standardized what four AI labs already converged on: markdown files with YAML frontmatter, versioned in git.",
+        "**Skip the vector database at first.** Below roughly 10,000 pages, keyword search plus a maintained index file is enough, and it stays debuggable.",
+        "**Ownership decides survival.** Humans own strategy, pricing, and decisions; agents own the compiled pages. Without that split the base goes stale in a quarter.",
+        "**Budget $2,500 to low five figures.** Fixed-scope setups ship in a week; an audit-first setup with a working prototype runs 2 to 4 weeks."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Collect these eight things before you compare tools"
+    },
+    {
+      "type": "p",
+      "text": "A knowledge base succeeds or fails on what goes in, and most teams skip straight to the software demo. webvise walks clients through the same intake list every time: eight categories, ordered by how often agents need them."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "What to collect",
+        "Why an agent needs it",
+        "Where it usually lives today"
+      ],
+      "rows": [
+        [
+          "Source-of-truth docs: positioning, pricing, product specs, FAQs",
+          "Grounds every answer; stops the agent from inventing your pricing",
+          "Pitch decks, the website, the founder's head"
+        ],
+        [
+          "SOPs and workflows: onboarding, reporting, QA, approvals",
+          "Turns \"help me do X\" into steps an agent can follow",
+          "Nowhere, or a wiki page from 2023"
+        ],
+        [
+          "Examples of good work, with notes on why they are good",
+          "Calibrates output quality beyond generic best practice",
+          "Scattered project folders"
+        ],
+        [
+          "Decision logs: what changed, why, who decided, what was rejected",
+          "Keeps agents and new hires from reopening settled questions",
+          "Slack threads and meeting memories"
+        ],
+        [
+          "Ownership maps: who owns each workflow, decision, and escalation",
+          "Routes drafts to the right approver",
+          "Tribal knowledge"
+        ],
+        [
+          "Customer context: calls, tickets, churn reasons, objections",
+          "Grounds sales and support answers in real customer language",
+          "CRM notes, support inbox"
+        ],
+        [
+          "Permissions and boundaries: what agents may read, write, send",
+          "Prevents the expensive failure modes up front",
+          "Usually undefined"
+        ],
+        [
+          "Feedback loops: shipped work, human edits, failed outputs",
+          "Makes month 6 output better than week 1",
+          "Usually discarded"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Collecting these is the slow part, and it is the part an engineering audit front-loads. [webvise's AI consulting sprint](/services/ai-consulting) maps one workflow end to end, documents, exceptions, and review points included, and ends in a working prototype rather than a slide deck. If your SOPs live only in people's heads, [an AI agent can interview the team and draft them first](/blog/document-sops-with-ai)."
+    },
+    {
+      "type": "h2",
+      "text": "Use the file format Google standardized in June 2026"
+    },
+    {
+      "type": "p",
+      "text": "On June 12, 2026, Google Cloud published the [Open Knowledge Format](https://cloud.google.com/blog/products/data-analytics/how-the-open-knowledge-format-can-improve-data-sharing), an open spec for this artifact: a directory of markdown files with typed YAML frontmatter, versioned in git, no required tooling. The spec is deliberately small. Markdown any editor renders, files any repo hosts, one required frontmatter field."
+    },
+    {
+      "type": "p",
+      "text": "The spec formalized a shape four AI teams had already landed on independently. Mem0's July 2026 agent-wiki survey found Cognition's DeepWiki, Factory's AutoWiki, LangChain's OpenWiki, and Garry Tan's GBrain each built the same three layers within months of each other: raw sources, an LLM-written markdown wiki, and one schema file holding the rules. When four labs and Google land on plain files in git, the format question is settled."
+    },
+    {
+      "type": "p",
+      "text": "The buying consequence: judge every knowledge tool by whether its content exports to plain files. Notion, Confluence, and SharePoint hold text an agent can reach through an API. A folder of typed markdown in git is the shape agents read cheapest, diff cleanest, and keep when you change vendors."
+    },
+    {
+      "type": "p",
+      "text": "Retrieval needs less machinery than the RAG pitch claims. Under roughly 10,000 pages, keyword search over a maintained index file finds what agents need, and crossing that line costs about $10 of embeddings per 100,000 pages at current OpenAI pricing. The full argument, with token numbers, is in [Most Business Knowledge Bases Do Not Need RAG](/blog/business-knowledge-base-without-rag)."
+    },
+    {
+      "type": "h2",
+      "text": "Set it up in this order"
+    },
+    {
+      "type": "p",
+      "text": "Each step below makes the next one cheaper, and software only appears in step 5. Teams that start at step 5 usually restart at step 1 within a quarter."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**1. Audit what exists.** List every place knowledge lives: Drive, the wiki, inboxes, the CRM, people's heads. Most companies find 5 to 8 scattered systems.",
+        "**2. Create one folder tree with an index.** A top-level index file that says what lives where is the retrieval system. Agents start there and open only the pages they need.",
+        "**3. Write the schema file.** One AGENTS.md defining page types, naming, and update rules. This file does more work than any tool choice you will make.",
+        "**4. Ingest the eight categories.** One page per topic, each with an owner and an updated date. Start with the 20 pages people actually ask about, and skip the big-bang migration.",
+        "**5. Connect your agents.** Point Claude, or whatever your team runs, at the index through one load command, so every session starts from the same context.",
+        "**6. Close the loop.** When someone corrects an agent's answer, the correction goes into the page, and the page wins next time."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "I run this structure in production. The base reached 490 pages and 880 commits in 3 months of agent maintenance, and it holds because a 20-check lint gate blocks every commit that breaks a rule, from broken links to stale deadlines. The operations report, failures included, is in [the 3-month report](/blog/llm-wiki-3-month-report)."
+    },
+    {
+      "type": "h2",
+      "text": "Decide who owns what, or watch it rot"
+    },
+    {
+      "type": "p",
+      "text": "Staleness kills more knowledge bases than any tooling mistake. Mem0's survey calls an incorrect wiki worse than no wiki, because errors arrive formatted like facts. The defense is an ownership split, decided on day one."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Humans own the anchor pages.** Positioning, pricing, voice, permissions, decision logs. Agents read these before producing anything and never rewrite them.",
+        "**Agents own the compiled layer.** Reference pages, cross-links, indexes, summaries. Maintenance is the work humans reliably abandon, and the work agents never tire of.",
+        "**Every page carries an owner and an updated date.** A page nobody owns is a page nobody trusts."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Decision logs are the category nobody collects and the one that pays back first. What changed, why, who decided, which alternatives were rejected: four fields that keep a new hire or a new agent from reopening last quarter's settled questions. In my own base, half the lint findings are staleness flags, a passed deadline or a changed price, caught before an agent could repeat them."
+    },
+    {
+      "type": "h2",
+      "text": "What a company knowledge base costs in 2026"
+    },
+    {
+      "type": "p",
+      "text": "Three realistic routes, priced from what the market charges in mid-2026."
+    },
+    {
+      "type": "table",
+      "headers": ["Route", "Scope", "Price", "Timeline"],
+      "rows": [
+        [
+          "DIY with this guide",
+          "Folder tree, schema file, first 20 pages",
+          "Your time, roughly one focused week",
+          "1 to 2 weeks"
+        ],
+        [
+          "Fixed-scope setup offer",
+          "Knowledge base built from company data, one workflow wired up",
+          "$2,500 typical (US market, mid-2026)",
+          "About 7 days"
+        ],
+        [
+          "Audit-first agency setup",
+          "Process map, knowledge base, working AI prototype, build plan",
+          "Estimated after discovery",
+          "2 to 4 weeks"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "The market has productized the small end: fixed-price setup offers around $2,500 with a 7-day ship appeared in mid-2026, typically a 60-minute audit plus one wired workflow. That shape works when your processes are already documented. When they are messy, the audit is the product: [webvise's AI consulting](/services/ai-consulting) runs 2 to 4 weeks because mapping exceptions and review gates is most of the work, and the prototype at the end tells you whether a production build is worth funding."
+    },
+    {
+      "type": "p",
+      "text": "A knowledge base is the first piece of AI infrastructure worth building, because every agent you deploy afterward inherits it. For the audit-first version, with your workflows mapped and a prototype reading from your own pages, [get in touch with webvise](/#contact)."
+    }
+  ]
+}
