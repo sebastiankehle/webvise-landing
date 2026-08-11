@@ -11,6 +11,7 @@ import { FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { H3, Muted } from "@/components/ui/typography";
+import { cn } from "@/lib/utils";
 import { trpcClient } from "@/utils/trpc";
 
 export default function ReportDownloadForm({
@@ -18,11 +19,13 @@ export default function ReportDownloadForm({
 	title,
 	description,
 	buttonLabel,
+	className,
 }: {
 	reportId: string;
 	title: string;
 	description: string;
 	buttonLabel?: string;
+	className?: string;
 }) {
 	const locale = useLocale();
 	const t = useTranslations("reportDownload");
@@ -66,7 +69,7 @@ export default function ReportDownloadForm({
 	});
 
 	return (
-		<div className="surface-card my-10 overflow-hidden">
+		<div className={cn("surface-card my-10 overflow-hidden", className)}>
 			<div className="p-6 md:p-8">
 				<div className="flex items-start gap-4">
 					<Mail
