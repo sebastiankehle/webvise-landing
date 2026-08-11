@@ -17,10 +17,12 @@ export default function ReportDownloadForm({
 	reportId,
 	title,
 	description,
+	buttonLabel,
 }: {
 	reportId: string;
 	title: string;
 	description: string;
+	buttonLabel?: string;
 }) {
 	const locale = useLocale();
 	const t = useTranslations("reportDownload");
@@ -136,7 +138,7 @@ export default function ReportDownloadForm({
 									isSubmitting={isSubmitting}
 									variant="brand"
 								>
-									{t("button")}
+									{buttonLabel ?? t("button")}
 								</SubmitButton>
 							)}
 						</form.Subscribe>

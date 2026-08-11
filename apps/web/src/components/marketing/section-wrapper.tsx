@@ -86,8 +86,11 @@ export function GridFrame({
 				<span className="absolute inset-y-0 right-0 w-px bg-grid-line" />
 				<CornerMarker className="-top-[6.5px] -left-[6.5px]" />
 				<CornerMarker className="-top-[6.5px] -right-[6.5px]" />
-				<CornerMarker className="-bottom-[6.5px] -left-[6.5px]" />
-				<CornerMarker className="-right-[6.5px] -bottom-[6.5px]" />
+				{/* 7.5px statt 6.5px: der Querstrich muss auf derselben Pixelzeile
+				    liegen wie der GridTopSeparator der Folgesektion, sonst
+				    entstehen an jeder Sektionsgrenze zwei um 1px versetzte Kreuze. */}
+				<CornerMarker className="-bottom-[7.5px] -left-[6.5px]" />
+				<CornerMarker className="-right-[6.5px] -bottom-[7.5px]" />
 				{children}
 			</div>
 		</div>

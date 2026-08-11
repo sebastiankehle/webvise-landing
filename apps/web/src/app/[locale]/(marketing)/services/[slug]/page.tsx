@@ -10,6 +10,7 @@ import {
 	RelatedLinkCardContent,
 	relatedLinkCardClassName,
 } from "@/components/marketing/related-link-card";
+import ReportDownloadForm from "@/components/marketing/report-download-form";
 import SectionWrapper, {
 	ConstructedGrid,
 	GridContainer,
@@ -27,6 +28,7 @@ import {
 	Muted,
 } from "@/components/ui/typography";
 import { getCaseStudyBySlug } from "@/data/case-studies";
+import { getDeckBySlug } from "@/data/decks";
 import {
 	getOfferingBySlug,
 	getOfferingIcon,
@@ -133,13 +135,15 @@ export default async function ServicePage({
 
 async function ServiceOfferingPage({ offering }: { offering: Offering }) {
 	const slug = offering.slug;
-	const [t, tc, td, tschema, locale] = await Promise.all([
+	const [t, tc, td, tg, tschema, locale] = await Promise.all([
 		getTranslations("services"),
 		getTranslations("customSystems"),
 		getTranslations("serviceDetail"),
+		getTranslations("deckGate"),
 		getTranslations("schema"),
 		getLocale(),
 	]);
+	const deck = getDeckBySlug(slug);
 	const key = getOfferingTranslationKey(offering);
 	const OfferingIcon = getOfferingIcon(offering);
 	const proof = getOfferingProof(offering);
@@ -371,6 +375,26 @@ async function ServiceOfferingPage({ offering }: { offering: Offering }) {
 					</div>
 				</div>
 			</SectionWrapper>
+
+			{deck && (
+				<SectionWrapper className="pt-8 md:pt-12" id="service-deck">
+					<div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-16">
+						<div>
+							<Caption className="text-brand-readable">{tg("eyebrow")}</Caption>
+							<H2 className="mt-3">{tg("sectionTitle")}</H2>
+							<Muted className="mt-4 leading-relaxed">
+								{tg("description")}
+							</Muted>
+						</div>
+						<ReportDownloadForm
+							buttonLabel={tg("formButton")}
+							description={tg("formDescription")}
+							reportId={deck.reportId}
+							title={tg("formTitle")}
+						/>
+					</div>
+				</SectionWrapper>
+			)}
 
 			<SectionWrapper className="pt-8 md:pt-12" id="why">
 				<div className="grid gap-x-8 gap-y-10 md:grid-cols-3">
