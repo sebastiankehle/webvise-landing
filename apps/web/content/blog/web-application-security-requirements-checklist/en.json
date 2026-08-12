@@ -1,0 +1,307 @@
+{
+  "date": "2026-08-12",
+  "readingTime": 10,
+  "keyword": "web application security requirements checklist",
+  "title": "Web Application Security Requirements Checklist for Custom Software Contracts",
+  "excerpt": "A contract-ready web application security checklist with 12 testable requirements, evidence rules, acceptance criteria, and handover duties for custom software buyers.",
+  "metaDescription": "Use this web application security requirements checklist to define testable controls, evidence, ownership, and acceptance before development starts.",
+  "cta": "Scope a secure application",
+  "tags": ["Security", "Web Development", "Business Strategy", "Process"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "A **web application security requirements checklist** turns security into contract scope: each requirement gets an owner, a pass/fail check, required evidence, and a remediation term. Put that schedule beside the feature list before development starts."
+    },
+    {
+      "type": "p",
+      "text": "Broken access control remains first in the [OWASP Top 10:2025](https://owasp.org/Top10/2025/A01_2025-Broken_Access_Control/). A scan can still miss the business rule that decides whether one customer may open another customer's invoice."
+    },
+    {
+      "type": "p",
+      "text": "Buyers usually know which data needs protection, yet a contract may describe the screens in far more detail than the security tests. This guide provides a contract-ready schedule based on OWASP ASVS 5.0, plus the evidence needed at acceptance. It also assigns the duties that continue after handover."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Reference OWASP ASVS 5.0 by version and level.** The OWASP Top 10 explains risk, while ASVS supplies requirements that produce a pass/fail result.",
+        "**Give every requirement four fields:** owner, acceptance test, evidence, and remediation term.",
+        "**Test authorization with two users or tenants.** Login success says nothing about access to another customer's records, exports, files, or admin actions.",
+        "**Make evidence part of delivery.** The buyer should receive the requirement matrix, test results, known exceptions, deployment notes, and recovery proof.",
+        "**Keep maintenance in scope.** Dependency patches, incident help, credential transfer, and response times begin when the application goes live."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "A Security Promise Needs an Acceptance Test"
+    },
+    {
+      "type": "p",
+      "text": "OWASP describes its Top 10 as an awareness document and recommends the [Application Security Verification Standard](https://owasp.org/www-project-application-security-verification-standard/) for testable application security requirements. ASVS 5.0 contains around **350 requirements across 17 chapters**, each designed to produce a pass or fail decision."
+    },
+    {
+      "type": "p",
+      "text": "ASVS also supports custom software procurement. A buyer can name a level, select the relevant requirements, and ask the supplier to prove compliance with versioned references such as `v5.0.0-1.2.5`. That is usable contract language because the reference survives a change in supplier or test provider."
+    },
+    {
+      "type": "p",
+      "text": "A six-week webvise build for a German real estate service combined a **10-step financial intake**, automated PDF generation, and an admin dashboard with a turnaround target below **24 hours**. That workflow creates specific security questions: who may read an application, change its status, generate the PDF, download it, and inspect the audit history? A line that says `authentication included` leaves every one of those decisions open."
+    },
+    {
+      "type": "p",
+      "text": "If your application contains that kind of private workflow, [webvise's custom application service](/services/full-stack-applications) includes authentication, authorization, API design, CI/CD, monitoring, and tests for the agreed critical flows. The security schedule defines which risks those deliverables must cover."
+    },
+    {
+      "type": "h2",
+      "text": "Choose an ASVS Level Before the Estimate"
+    },
+    {
+      "type": "p",
+      "text": "ASVS has three levels that increase in depth. OWASP gives an early-stage product with limited sensitive data as a possible Level 1 case, while an online bank may struggle to justify anything below Level 3. The buyer and supplier choose the level from the application's data, users, business impact, and likely attackers."
+    },
+    {
+      "type": "table",
+      "headers": ["ASVS level", "Practical buyer fit", "Contract instruction"],
+      "rows": [
+        [
+          "Level 1",
+          "Early product with limited sensitive data and a narrow threat model",
+          "Apply every relevant L1 requirement and document excluded chapters"
+        ],
+        [
+          "Level 2",
+          "B2B SaaS, customer portals, billing, private records, or meaningful business interruption",
+          "Apply relevant L2 requirements, name sensitive flows, and require traceable evidence"
+        ],
+        [
+          "Level 3",
+          "Banking, health, critical administration, or systems where a breach could cause severe harm",
+          "Agree the L3 scope with a security specialist and define independent verification"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "The table is a buyer's risk guide, since OWASP leaves the final level choice to each organization. Tailor the chapters too. An application without OAuth, WebSockets, GraphQL, or a browser frontend can exclude those sections, as long as the exclusions appear in the contract schedule."
+    },
+    {
+      "type": "p",
+      "text": "Write the exact ASVS release into the agreement. `ASVS Level 2` can drift after a major release, while `OWASP ASVS v5.0.0, selected L2 requirements in Appendix A` gives both sides a stable test target."
+    },
+    {
+      "type": "h2",
+      "text": "Copy the 12-Requirement Security Schedule"
+    },
+    {
+      "type": "p",
+      "text": "Use the following schedule as the security appendix to a brief or statement of work. Each row needs a named owner, the final test, the evidence delivered to the buyer, and the time allowed to fix a failed test."
+    },
+    {
+      "type": "table",
+      "headers": ["Area", "Contract requirement", "Acceptance evidence"],
+      "rows": [
+        [
+          "1. Risk and data map",
+          "List sensitive data, actors, systems, trust boundaries, retention, and prohibited uses",
+          "Approved data-flow note and risk register"
+        ],
+        [
+          "2. Authentication and sessions",
+          "Define login, reset, logout, session expiry, MFA, and account recovery rules",
+          "Automated flow tests and configuration record"
+        ],
+        [
+          "3. Authorization",
+          "Define every role, protected resource, allowed action, and tenant boundary",
+          "Access matrix plus horizontal, vertical, and cross-tenant tests"
+        ],
+        [
+          "4. Input and file handling",
+          "Validate all client, API, webhook, query, and upload input on the server",
+          "Tests for invalid types, size limits, malformed input, and unsafe files"
+        ],
+        [
+          "5. Secrets and cryptography",
+          "Keep secrets outside source code and define encryption, rotation, and access rules",
+          "Secret inventory, storage configuration, and rotation procedure"
+        ],
+        [
+          "6. Dependencies and supply chain",
+          "Track direct and transitive dependencies, scan them, and set patch response times",
+          "Lockfile, dependency inventory, scan report, and exception register"
+        ],
+        [
+          "7. External services",
+          "Define authentication, scopes, timeouts, retries, validation, and failure behavior for each integration",
+          "Integration tests and credential ownership list"
+        ],
+        [
+          "8. Logging and alerts",
+          "Log security events without sensitive payloads and route actionable alerts to a named owner",
+          "Event catalogue, retention setting, and triggered alert test"
+        ],
+        [
+          "9. Error behavior",
+          "Define safe behavior for failed requests, partial writes, unavailable services, and unexpected states",
+          "Failure-path tests showing rollback or safe termination"
+        ],
+        [
+          "10. Backup, restore, and deletion",
+          "Set backup frequency, restore target, retention, export, and verified deletion rules",
+          "Restore test result and deletion test"
+        ],
+        [
+          "11. Build and release pipeline",
+          "Protect branches, restrict production access, scan changes, and record deployments",
+          "CI/CD configuration, access list, and release history"
+        ],
+        [
+          "12. Handover and remediation",
+          "Transfer source, infrastructure, credentials, known issues, response targets, and maintenance duties",
+          "Signed handover list and severity-based remediation table"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "The dependency row carries real weight. On **September 14, 2025**, the Shai-Hulud worm entered npm through compromised maintainer accounts and malicious post-install scripts. [OWASP records more than 500 affected package versions](https://owasp.org/Top10/2025/A03_2025-Software_Supply_Chain_Failures/) before npm disrupted the worm."
+    },
+    {
+      "type": "p",
+      "text": "A supplier cannot warrant every package forever. The contract can require an inventory at delivery, automated checks during development, written exceptions, and a defined response window for new critical findings. Those items make third-party code an owned risk rather than an invisible assumption."
+    },
+    {
+      "type": "p",
+      "text": "Add this schedule to the technical section of [the web agency brief](/blog/how-to-brief-a-web-agency) before asking for an estimate. A supplier can then price the required evidence and flag controls that need an independent security specialist."
+    },
+    {
+      "type": "h2",
+      "text": "Rewrite Every Line as Pass or Fail"
+    },
+    {
+      "type": "p",
+      "text": "ASVS limits its requirements to outcomes that can be verified. Apply the same rule to the contract: another qualified person should reach the same result after reading the criterion and running the named test."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Vague requirement",
+        "Pass/fail acceptance criterion",
+        "Evidence"
+      ],
+      "rows": [
+        [
+          "Use secure login",
+          "Expired, revoked, and missing sessions receive 401; five failed attempts trigger the agreed control",
+          "Automated authentication test results"
+        ],
+        [
+          "Keep customer data private",
+          "User B cannot read, change, delete, or export records created inside User A's tenant",
+          "Two-tenant request tests returning 403 or 404"
+        ],
+        [
+          "Protect admin functions",
+          "Every admin route rejects anonymous and standard-user requests at the server",
+          "Role matrix and route-level test results"
+        ],
+        [
+          "Validate uploads",
+          "The server rejects disallowed types, mismatched MIME data, oversize files, and unsafe filenames",
+          "Upload test set and stored-file inspection"
+        ],
+        [
+          "Monitor attacks",
+          "A test burst of failed logins creates one alert for the named owner within the agreed time",
+          "Timestamped event, alert, and receipt record"
+        ],
+        [
+          "Keep dependencies safe",
+          "Delivery contains no unresolved critical finding outside the signed exception register",
+          "Dated dependency report and approved exceptions"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Next.js makes this concrete. Its data-security guide, updated **February 27, 2026**, says every exported Server Action creates a public HTTP endpoint and needs the same authorization checks as an API. Use an automated request test as evidence. Hiding a button proves only the interface state."
+    },
+    {
+      "type": "p",
+      "text": "Authorization deserves several tests because a login check covers only identity. Repeat protected actions as another user with the same role, a lower role, a different tenant, an expired session, and no session. Apply that matrix to reads, writes, exports, files, background jobs, and admin tools."
+    },
+    {
+      "type": "h2",
+      "text": "Require Evidence Before Acceptance"
+    },
+    {
+      "type": "p",
+      "text": "The [OWASP Secure Software Contract Annex](https://owasp.org/www-community/OWASP_Secure_Software_Contract_Annex) calls the final evidence a certification package. OWASP says a short risk assessment, a few pages of requirements, a security design note, a test plan, and the results can be enough for some projects."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Risk and data-flow note:** actors, sensitive fields, systems, trust boundaries, retention, and the owner who approved each decision.",
+        "**Versioned requirement matrix:** selected ASVS 5.0 IDs, applicability, owner, status, test reference, and any exception.",
+        "**Authorization matrix:** actor, resource, action, expected result, and automated test result for protected flows.",
+        "**Dependency record:** direct and transitive inventory, dated scan, unresolved findings, and signed exceptions.",
+        "**Deployment note:** production access, secret locations, security settings, domains, external services, and rollback procedure.",
+        "**Recovery proof:** one completed restore test with date, duration, result, and any gap found.",
+        "**Monitoring proof:** a triggered security event, the alert it created, the recipient, and the receipt time."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Automated scanners cover only part of this package. OWASP warns that the Top 10 cannot serve as full tool coverage because insecure design, business authorization, and effective alerting need review or live verification. Use a specialist for independent testing when the application handles regulated data, money movement, health records, or high-impact administration."
+    },
+    {
+      "type": "p",
+      "text": "The acceptance clause should state who reviews the package and which findings block delivery. One workable rule blocks acceptance for unresolved critical or high findings, while a signed exception may defer a lower finding with an owner and due date. A qualified lawyer should review the final contract language for the governing jurisdiction."
+    },
+    {
+      "type": "h2",
+      "text": "Define Security Duties After Handover"
+    },
+    {
+      "type": "p",
+      "text": "Delivery closes the build phase and starts the operating phase. New dependency findings, expired certificates, leaked credentials, staff changes, abuse patterns, and failed integrations arrive on their own schedule. The agreement needs an owner for each one."
+    },
+    {
+      "type": "table",
+      "headers": ["Post-handover term", "Decision to record"],
+      "rows": [
+        [
+          "Disclosure route",
+          "Where security reports go, who receives them, and how receipt is confirmed"
+        ],
+        [
+          "Severity and response",
+          "How severity is set and the response or fix target for each band"
+        ],
+        [
+          "Dependency maintenance",
+          "Who reviews alerts, applies updates, tests compatibility, and deploys patches"
+        ],
+        [
+          "Incident help",
+          "Availability, rates, evidence preservation, communication, and decision authority"
+        ],
+        [
+          "Credential ownership",
+          "Which accounts belong to the buyer and when keys, domains, and tokens rotate"
+        ],
+        [
+          "End of service",
+          "Source export, infrastructure transfer, data return, verified deletion, and access removal"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Source ownership helps only when the buyer can also run the application. Require the repository, CI/CD configuration, infrastructure settings, environment inventory, database migration history, monitoring access, and a tested deployment path. webvise includes source ownership, documented critical flows, CI/CD, monitoring, and running infrastructure in custom application delivery."
+    },
+    {
+      "type": "p",
+      "text": "webvise can turn this checklist into a scoped security schedule for a new custom application, with the relevant ASVS level, evidence, and handover terms attached to the build. [Send the workflow and data types to webvise](/#contact) before the estimate is fixed."
+    }
+  ]
+}

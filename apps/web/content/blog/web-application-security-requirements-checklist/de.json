@@ -1,0 +1,314 @@
+{
+  "date": "2026-08-12",
+  "readingTime": 10,
+  "keyword": "Checkliste für Sicherheitsanforderungen an Webanwendungen",
+  "title": "Checkliste für Sicherheitsanforderungen an Webanwendungen in Verträgen über Individualsoftware",
+  "excerpt": "Eine vertragsfertige Sicherheitscheckliste für Webanwendungen mit 12 prüfbaren Anforderungen, Nachweisregeln, Abnahmekriterien und Übergabepflichten für Käufer von Individualsoftware.",
+  "metaDescription": "Die Checkliste für Sicherheitsanforderungen an Webanwendungen legt vor Entwicklungsbeginn prüfbare Kontrollen, Nachweise, Zuständigkeiten und Abnahme fest.",
+  "cta": "Sichere Anwendung planen",
+  "tags": ["Security", "Web Development", "Business Strategy", "Process"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Eine **Checkliste für Sicherheitsanforderungen an Webanwendungen** macht Sicherheit zum Vertragsgegenstand: Jede Anforderung erhält einen Verantwortlichen, eine eindeutige Bestehensprüfung, die nötigen Nachweise und eine Frist zur Behebung. Fügen Sie diesen Anhang vor Entwicklungsbeginn neben der Funktionsliste in den Vertrag ein."
+    },
+    {
+      "type": "p",
+      "text": "Fehlerhafte Zugriffskontrolle steht im [OWASP Top 10:2025](https://owasp.org/Top10/2025/A01_2025-Broken_Access_Control/) weiterhin an erster Stelle. Ein Scan kann trotzdem die Geschäftsregel übersehen, die festlegt, ob ein Kunde die Rechnung eines anderen Kunden öffnen darf."
+    },
+    {
+      "type": "p",
+      "text": "Käufer wissen meist, welche Daten geschützt werden müssen. Dennoch beschreibt ein Vertrag die Benutzeroberfläche oft viel genauer als die Sicherheitstests. Dieser Leitfaden bietet einen vertragsfertigen Anhang auf Grundlage von OWASP ASVS 5.0 sowie die für die Abnahme nötigen Nachweise. Zudem weist er die Pflichten zu, die nach der Übergabe fortbestehen."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Verweisen Sie mit Version und Level auf OWASP ASVS 5.0.** Die OWASP Top 10 erläutern Risiken, ASVS liefert Anforderungen mit einem eindeutigen Prüfergebnis.",
+        "**Geben Sie jeder Anforderung vier Felder:** Verantwortlicher, Abnahmetest, Nachweis und Frist zur Behebung.",
+        "**Testen Sie die Autorisierung mit zwei Benutzern oder Mandanten.** Eine erfolgreiche Anmeldung belegt keinen Schutz für Datensätze, Exporte, Dateien oder Admin-Aktionen anderer Kunden.",
+        "**Machen Sie Nachweise zum Lieferbestandteil.** Der Käufer sollte die Anforderungsmatrix, Testergebnisse, bekannte Ausnahmen, Bereitstellungshinweise und den Wiederherstellungsnachweis erhalten.",
+        "**Nehmen Sie die Wartung in den Leistungsumfang auf.** Abhängigkeitspatches, Hilfe bei Vorfällen, die Übergabe von Zugangsdaten und Reaktionszeiten beginnen mit dem Produktivstart der Anwendung."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Ein Sicherheitsversprechen braucht einen Abnahmetest"
+    },
+    {
+      "type": "p",
+      "text": "OWASP bezeichnet die Top 10 als Dokument zur Sensibilisierung und empfiehlt den [Application Security Verification Standard](https://owasp.org/www-project-application-security-verification-standard/) für prüfbare Anforderungen an die Anwendungssicherheit. ASVS 5.0 umfasst rund **350 Anforderungen in 17 Kapiteln**, die jeweils zu einem eindeutigen Prüfergebnis führen."
+    },
+    {
+      "type": "p",
+      "text": "ASVS eignet sich auch für die Beschaffung von Individualsoftware. Ein Käufer kann ein Level benennen, die maßgeblichen Anforderungen auswählen und vom Anbieter einen Konformitätsnachweis mit versionierten Referenzen wie `v5.0.0-1.2.5` verlangen. Diese Formulierung ist vertragstauglich, weil die Referenz auch bei einem Wechsel des Anbieters oder Prüfdienstleisters Bestand hat."
+    },
+    {
+      "type": "p",
+      "text": "Bei einem sechswöchigen Projekt von webvise für einen deutschen Immobiliendienstleister wurden eine **10-stufige Finanzdatenerfassung**, die automatische PDF-Erstellung und ein Admin-Dashboard mit einer Bearbeitungszeit von unter **24 Stunden** kombiniert. Dieser Ablauf wirft konkrete Sicherheitsfragen auf: Wer darf einen Antrag lesen, seinen Status ändern, das PDF erstellen, es herunterladen und den Prüfverlauf einsehen? Eine Zeile mit `Authentifizierung enthalten` lässt all diese Entscheidungen offen."
+    },
+    {
+      "type": "p",
+      "text": "Wenn Ihre Anwendung einen solchen vertraulichen Ablauf enthält, umfasst [der Service von webvise für individuelle Anwendungen](/services/full-stack-applications) Authentifizierung, Autorisierung, API-Design, CI/CD, Monitoring und Tests für die vereinbarten kritischen Abläufe. Der Sicherheitsanhang legt fest, welche Risiken diese Leistungen abdecken müssen."
+    },
+    {
+      "type": "h2",
+      "text": "Wählen Sie vor der Kostenschätzung ein ASVS Level"
+    },
+    {
+      "type": "p",
+      "text": "ASVS hat drei Level mit zunehmender Prüftiefe. OWASP nennt ein Produkt in einer frühen Phase mit wenigen sensiblen Daten als möglichen Fall für Level 1. Bei einer Onlinebank lässt sich dagegen kaum ein Level unter Level 3 rechtfertigen. Käufer und Anbieter wählen das Level anhand der Daten, Benutzer, geschäftlichen Auswirkungen und wahrscheinlichen Angreifer der Anwendung."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "ASVS Level",
+        "Praktische Eignung für Käufer",
+        "Vertragliche Vorgabe"
+      ],
+      "rows": [
+        [
+          "Level 1",
+          "Produkt in einer frühen Phase mit wenigen sensiblen Daten und einem eng begrenzten Bedrohungsmodell",
+          "Alle relevanten L1-Anforderungen anwenden und ausgeschlossene Kapitel dokumentieren"
+        ],
+        [
+          "Level 2",
+          "B2B SaaS, Kundenportale, Abrechnung, vertrauliche Datensätze oder erhebliche Betriebsunterbrechungen",
+          "Relevante L2-Anforderungen anwenden, sensible Abläufe benennen und nachvollziehbare Nachweise verlangen"
+        ],
+        [
+          "Level 3",
+          "Bankwesen, Gesundheit, kritische Verwaltung oder Systeme, bei denen ein Sicherheitsverstoß schweren Schaden verursachen könnte",
+          "L3-Umfang mit einem Sicherheitsexperten abstimmen und eine unabhängige Prüfung festlegen"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Die Tabelle dient Käufern als Risikoleitfaden, da OWASP die endgültige Wahl des Levels jeder Organisation überlässt. Passen Sie auch die Kapitel an. Eine Anwendung ohne OAuth, WebSockets, GraphQL oder Browser-Frontend kann diese Abschnitte ausschließen, sofern die Ausschlüsse im Vertragsanhang stehen."
+    },
+    {
+      "type": "p",
+      "text": "Nehmen Sie die genaue ASVS-Version in die Vereinbarung auf. `ASVS Level 2` kann sich nach einer Hauptversion inhaltlich verschieben. `OWASP ASVS v5.0.0, ausgewählte L2-Anforderungen in Anhang A` gibt beiden Seiten dagegen ein stabiles Prüfziel."
+    },
+    {
+      "type": "h2",
+      "text": "Übernehmen Sie den Sicherheitsanhang mit 12 Anforderungen"
+    },
+    {
+      "type": "p",
+      "text": "Verwenden Sie den folgenden Plan als Sicherheitsanhang für ein Briefing oder eine Leistungsbeschreibung. Jede Zeile braucht einen benannten Verantwortlichen, den abschließenden Test, die an den Käufer zu liefernden Nachweise und die Frist zur Behebung eines fehlgeschlagenen Tests."
+    },
+    {
+      "type": "table",
+      "headers": ["Bereich", "Vertragliche Anforderung", "Abnahmenachweis"],
+      "rows": [
+        [
+          "1. Risiko- und Datenübersicht",
+          "Sensible Daten, Akteure, Systeme, Vertrauensgrenzen, Aufbewahrung und untersagte Nutzungen aufführen",
+          "Freigegebene Datenflussdokumentation und Risikoregister"
+        ],
+        [
+          "2. Authentifizierung und Sitzungen",
+          "Regeln für Anmeldung, Zurücksetzen, Abmeldung, Sitzungsablauf, MFA und Kontowiederherstellung festlegen",
+          "Automatisierte Ablaufprüfungen und Konfigurationsdokumentation"
+        ],
+        [
+          "3. Autorisierung",
+          "Jede Rolle, geschützte Ressource, erlaubte Aktion und Mandantengrenze festlegen",
+          "Zugriffsmatrix sowie horizontale, vertikale und mandantenübergreifende Tests"
+        ],
+        [
+          "4. Eingabe- und Dateiverarbeitung",
+          "Alle Eingaben von Clients, APIs, Webhooks, Abfragen und Uploads auf dem Server validieren",
+          "Tests für ungültige Typen, Größenbeschränkungen, fehlerhafte Eingaben und unsichere Dateien"
+        ],
+        [
+          "5. Secrets und Kryptografie",
+          "Secrets außerhalb des Quellcodes aufbewahren sowie Regeln für Verschlüsselung, Rotation und Zugriff festlegen",
+          "Secret-Inventar, Speicherkonfiguration und Rotationsverfahren"
+        ],
+        [
+          "6. Abhängigkeiten und Lieferkette",
+          "Direkte und transitive Abhängigkeiten erfassen und scannen sowie Reaktionszeiten für Patches festlegen",
+          "Lockfile, Abhängigkeitsinventar, Scanbericht und Ausnahmeregister"
+        ],
+        [
+          "7. Externe Dienste",
+          "Authentifizierung, Berechtigungsumfänge, Timeouts, Wiederholungsversuche, Validierung und Fehlerverhalten für jede Integration festlegen",
+          "Integrationstests und Liste der Verantwortlichen für Zugangsdaten"
+        ],
+        [
+          "8. Protokollierung und Warnmeldungen",
+          "Sicherheitsereignisse ohne sensible Nutzdaten protokollieren und handlungsrelevante Warnmeldungen an einen benannten Verantwortlichen leiten",
+          "Ereigniskatalog, Aufbewahrungseinstellung und ausgelöster Warnmeldungstest"
+        ],
+        [
+          "9. Fehlerverhalten",
+          "Sicheres Verhalten bei fehlgeschlagenen Anfragen, unvollständigen Schreibvorgängen, nicht verfügbaren Diensten und unerwarteten Zuständen festlegen",
+          "Tests der Fehlerpfade mit Nachweis einer Rückabwicklung oder sicheren Beendigung"
+        ],
+        [
+          "10. Sicherung, Wiederherstellung und Löschung",
+          "Häufigkeit der Sicherung, Wiederherstellungsziel, Aufbewahrung, Export und Regeln für die verifizierte Löschung festlegen",
+          "Ergebnis des Wiederherstellungstests und Löschtest"
+        ],
+        [
+          "11. Build- und Release-Pipeline",
+          "Branches schützen, Produktionszugriffe beschränken, Änderungen scannen und Deployments protokollieren",
+          "CI/CD-Konfiguration, Zugriffsliste und Release-Verlauf"
+        ],
+        [
+          "12. Übergabe und Behebung",
+          "Quellcode, Infrastruktur, Zugangsdaten, bekannte Probleme, Reaktionsziele und Wartungspflichten übertragen",
+          "Unterzeichnete Übergabeliste und nach Schweregrad gestaffelte Behebungstabelle"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Die Zeile zu Abhängigkeiten hat erhebliches Gewicht. Am **14. September 2025** gelangte der Wurm Shai-Hulud über kompromittierte Maintainer-Konten und schädliche Post-Install-Skripte in npm. [OWASP dokumentiert mehr als 500 betroffene Paketversionen](https://owasp.org/Top10/2025/A03_2025-Software_Supply_Chain_Failures/), bevor npm die Ausbreitung des Wurms unterband."
+    },
+    {
+      "type": "p",
+      "text": "Ein Anbieter kann die Sicherheit jedes Pakets nicht unbegrenzt gewährleisten. Der Vertrag kann bei Lieferung ein Inventar, automatisierte Prüfungen während der Entwicklung, schriftlich festgehaltene Ausnahmen und ein festes Reaktionsfenster für neue kritische Befunde verlangen. Damit erhält Code von Drittanbietern einen klaren Risikoverantwortlichen."
+    },
+    {
+      "type": "p",
+      "text": "Fügen Sie diesen Plan in den technischen Teil des [Briefings für eine Webagentur](/blog/how-to-brief-a-web-agency) ein, bevor Sie eine Kostenschätzung anfordern. Der Anbieter kann dann die erforderlichen Nachweise einkalkulieren und auf Kontrollen hinweisen, für die ein unabhängiger Sicherheitsexperte nötig ist."
+    },
+    {
+      "type": "h2",
+      "text": "Formulieren Sie für jede Zeile ein eindeutiges Bestehenskriterium"
+    },
+    {
+      "type": "p",
+      "text": "ASVS beschränkt seine Anforderungen auf überprüfbare Ergebnisse. Wenden Sie dieselbe Regel auf den Vertrag an: Eine andere qualifizierte Person sollte nach der Lektüre des Kriteriums und der Ausführung des benannten Tests zum selben Ergebnis kommen."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Unklare Anforderung",
+        "Eindeutiges Abnahmekriterium",
+        "Nachweis"
+      ],
+      "rows": [
+        [
+          "Sichere Anmeldung verwenden",
+          "Abgelaufene, widerrufene und fehlende Sitzungen erhalten den Status 401. Fünf fehlgeschlagene Versuche lösen die vereinbarte Kontrolle aus",
+          "Ergebnisse automatisierter Authentifizierungstests"
+        ],
+        [
+          "Kundendaten vertraulich behandeln",
+          "Benutzer B kann Datensätze, die im Mandanten von Benutzer A erstellt wurden, weder lesen, ändern, löschen noch exportieren",
+          "Anfragetests mit zwei Mandanten, die 403 oder 404 zurückgeben"
+        ],
+        [
+          "Admin-Funktionen schützen",
+          "Jede Admin-Route weist anonyme Anfragen und Anfragen von Standardbenutzern auf dem Server zurück",
+          "Rollenmatrix und Testergebnisse auf Routenebene"
+        ],
+        [
+          "Uploads validieren",
+          "Der Server weist unzulässige Typen, abweichende MIME-Daten, zu große Dateien und unsichere Dateinamen zurück",
+          "Upload-Testreihe und Prüfung der gespeicherten Dateien"
+        ],
+        [
+          "Angriffe überwachen",
+          "Eine Testserie fehlgeschlagener Anmeldungen erzeugt innerhalb der vereinbarten Zeit eine Warnmeldung für den benannten Verantwortlichen",
+          "Ereignis, Warnmeldung und Empfangsbestätigung mit Zeitstempel"
+        ],
+        [
+          "Abhängigkeiten absichern",
+          "Die Lieferung enthält außerhalb des unterzeichneten Ausnahmeregisters keinen ungeklärten kritischen Befund",
+          "Datierter Abhängigkeitsbericht und genehmigte Ausnahmen"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Der am **27. Februar 2026** aktualisierte Next.js-Leitfaden zur Datensicherheit macht diese Vorgabe konkret: Er erklärt, dass jede exportierte Server Action einen öffentlichen HTTP-Endpunkt erstellt und dieselben Autorisierungsprüfungen wie eine API benötigt. Verwenden Sie einen automatisierten Anfragetest als Nachweis. Das Ausblenden einer Schaltfläche belegt lediglich den Zustand der Benutzeroberfläche."
+    },
+    {
+      "type": "p",
+      "text": "Die Autorisierung braucht mehrere Tests, weil eine Anmeldeprüfung nur die Identität abdeckt. Wiederholen Sie geschützte Aktionen als anderer Benutzer mit derselben Rolle, mit einer niedrigeren Rolle, in einem anderen Mandanten, mit einer abgelaufenen Sitzung und ohne Sitzung. Wenden Sie diese Matrix auf Lese- und Schreibvorgänge, Exporte, Dateien, Hintergrundaufgaben und Admin-Werkzeuge an."
+    },
+    {
+      "type": "h2",
+      "text": "Verlangen Sie Nachweise vor der Abnahme"
+    },
+    {
+      "type": "p",
+      "text": "Der [OWASP Secure Software Contract Annex](https://owasp.org/www-community/OWASP_Secure_Software_Contract_Annex) bezeichnet die abschließenden Nachweise als Zertifizierungspaket. Laut OWASP können für einige Projekte eine kurze Risikobewertung, wenige Seiten mit Anforderungen, eine Notiz zum Sicherheitskonzept, ein Testplan und die Ergebnisse ausreichen."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Risiko- und Datenflussdokumentation:** Akteure, sensible Felder, Systeme, Vertrauensgrenzen, Aufbewahrung und der Verantwortliche, der jede Entscheidung genehmigt hat.",
+        "**Versionierte Anforderungsmatrix:** ausgewählte ASVS 5.0-IDs, Anwendbarkeit, Verantwortlicher, Status, Testreferenz und etwaige Ausnahmen.",
+        "**Autorisierungsmatrix:** Akteur, Ressource, Aktion, erwartetes Ergebnis und Ergebnis des automatisierten Tests für geschützte Abläufe.",
+        "**Abhängigkeitsdokumentation:** direktes und transitives Inventar, datierter Scan, ungeklärte Befunde und unterzeichnete Ausnahmen.",
+        "**Bereitstellungshinweise:** Produktionszugriff, Orte der Secrets, Sicherheitseinstellungen, Domains, externe Dienste und Rollback-Verfahren.",
+        "**Wiederherstellungsnachweis:** ein abgeschlossener Wiederherstellungstest mit Datum, Dauer, Ergebnis und festgestellten Lücken.",
+        "**Monitoring-Nachweis:** ein ausgelöstes Sicherheitsereignis, die dadurch erzeugte Warnmeldung, der Empfänger und die Empfangszeit."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Automatisierte Scanner decken nur einen Teil dieses Pakets ab. OWASP warnt davor, die Top 10 als vollständige Abdeckung durch Werkzeuge zu behandeln, weil unsicheres Design, geschäftliche Autorisierung und wirksame Warnmeldungen eine Prüfung oder Live-Verifizierung erfordern. Ziehen Sie einen Spezialisten für unabhängige Tests hinzu, wenn die Anwendung regulierte Daten, Geldbewegungen, Gesundheitsdaten oder Verwaltungsvorgänge mit großen Auswirkungen verarbeitet."
+    },
+    {
+      "type": "p",
+      "text": "Die Abnahmeklausel sollte festlegen, wer das Paket prüft und welche Befunde die Lieferung blockieren. Eine praktikable Regel blockiert die Abnahme bei ungeklärten kritischen oder schwerwiegenden Befunden. Eine unterzeichnete Ausnahme kann einen Befund mit geringerem Schweregrad aufschieben, wenn ein Verantwortlicher und ein Fälligkeitsdatum feststehen. Ein qualifizierter Jurist sollte die endgültige Vertragsformulierung für die maßgebliche Rechtsordnung prüfen."
+    },
+    {
+      "type": "h2",
+      "text": "Legen Sie die Sicherheitspflichten nach der Übergabe fest"
+    },
+    {
+      "type": "p",
+      "text": "Mit der Lieferung endet die Entwicklungsphase und beginnt der Betrieb. Neue Befunde zu Abhängigkeiten, abgelaufene Zertifikate, offengelegte Zugangsdaten, Personalwechsel, Missbrauchsmuster und ausgefallene Integrationen treten nach ihrem eigenen Zeitplan auf. Die Vereinbarung braucht für jeden Fall einen Verantwortlichen."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Regelung nach der Übergabe",
+        "Zu dokumentierende Entscheidung"
+      ],
+      "rows": [
+        [
+          "Meldeweg",
+          "Wohin Sicherheitsmeldungen gehen, wer sie erhält und wie der Empfang bestätigt wird"
+        ],
+        [
+          "Schweregrad und Reaktion",
+          "Wie der Schweregrad festgelegt wird und welches Reaktions- oder Behebungsziel für jede Stufe gilt"
+        ],
+        [
+          "Wartung von Abhängigkeiten",
+          "Wer Warnmeldungen prüft, Aktualisierungen einspielt, die Kompatibilität testet und Patches bereitstellt"
+        ],
+        [
+          "Hilfe bei Vorfällen",
+          "Verfügbarkeit, Preise, Beweissicherung, Kommunikation und Entscheidungsbefugnis"
+        ],
+        [
+          "Inhaberschaft von Zugangsdaten",
+          "Welche Konten dem Käufer gehören und wann Schlüssel, Domains und Tokens rotiert werden"
+        ],
+        [
+          "Vertragsende",
+          "Export des Quellcodes, Übertragung der Infrastruktur, Datenrückgabe, verifizierte Löschung und Entzug der Zugriffe"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Das Eigentum am Quellcode hilft nur, wenn der Käufer die Anwendung auch betreiben kann. Verlangen Sie das Repository, die CI/CD-Konfiguration, Infrastruktureinstellungen, das Umgebungsinventar, den Verlauf der Datenbankmigrationen, Monitoring-Zugriff und einen getesteten Bereitstellungsweg. Bei der Lieferung individueller Anwendungen durch webvise gehören das Eigentum am Quellcode, dokumentierte kritische Abläufe, CI/CD, Monitoring und eine laufende Infrastruktur zum Leistungsumfang."
+    },
+    {
+      "type": "p",
+      "text": "webvise kann diese Checkliste in einen abgegrenzten Sicherheitsanhang für eine neue individuelle Anwendung überführen. Das passende ASVS Level, die Nachweise und die Übergaberegeln werden dabei mit dem Projektumfang verknüpft. [Senden Sie webvise den Ablauf und die Datentypen](/#contact), bevor die Kostenschätzung feststeht."
+    }
+  ]
+}

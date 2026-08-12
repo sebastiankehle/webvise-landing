@@ -1,0 +1,311 @@
+{
+  "date": "2026-08-12",
+  "readingTime": 10,
+  "keyword": "lista wymagań bezpieczeństwa aplikacji webowej",
+  "title": "Lista wymagań bezpieczeństwa aplikacji webowej do umów na oprogramowanie dedykowane",
+  "excerpt": "Gotowa do ujęcia w umowie lista 12 weryfikowalnych wymagań bezpieczeństwa aplikacji webowej, obejmująca zasady dokumentowania, kryteria odbioru i obowiązki po przekazaniu oprogramowania.",
+  "metaDescription": "Ta lista wymagań bezpieczeństwa aplikacji webowej pozwala określić weryfikowalne zabezpieczenia, dowody, odpowiedzialność i kryteria odbioru przed rozpoczęciem prac.",
+  "cta": "Określ zakres bezpiecznej aplikacji",
+  "tags": ["Security", "Web Development", "Business Strategy", "Process"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "**Lista wymagań bezpieczeństwa aplikacji webowej** zmienia bezpieczeństwo w konkretny zakres umowy: każde wymaganie ma właściciela, test z wynikiem spełnione lub niespełnione, wymagane dowody oraz termin usunięcia niezgodności. Taki harmonogram należy umieścić obok listy funkcji jeszcze przed rozpoczęciem prac."
+    },
+    {
+      "type": "p",
+      "text": "Nieprawidłowa kontrola dostępu nadal zajmuje pierwsze miejsce w [OWASP Top 10:2025](https://owasp.org/Top10/2025/A01_2025-Broken_Access_Control/). Skan może jednak nie wykryć reguły biznesowej, która rozstrzyga, czy jeden klient może otworzyć fakturę innego klienta."
+    },
+    {
+      "type": "p",
+      "text": "Kupujący zwykle wiedzą, które dane wymagają ochrony, lecz umowa często opisuje ekrany znacznie dokładniej niż testy bezpieczeństwa. Ten przewodnik zawiera gotowy do ujęcia w umowie harmonogram oparty na OWASP ASVS 5.0, wraz z dowodami wymaganymi przy odbiorze. Przypisuje też obowiązki, które trwają po przekazaniu oprogramowania."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Należy wskazać wersję i poziom OWASP ASVS 5.0.** OWASP Top 10 wyjaśnia ryzyko, a ASVS określa wymagania, które dają wynik spełnione lub niespełnione.",
+        "**Każde wymaganie powinno mieć cztery pola:** właściciela, test odbiorowy, dowód oraz termin usunięcia niezgodności.",
+        "**Autoryzację należy testować z użyciem dwóch kont użytkowników lub dwóch tenantów.** Udane logowanie nie mówi nic o dostępie do danych, eksportów, plików ani działań administracyjnych innego klienta.",
+        "**Dowody powinny być częścią dostawy.** Kupujący powinien otrzymać macierz wymagań, wyniki testów, znane wyjątki, notatki wdrożeniowe oraz dowód odtworzenia danych.",
+        "**Utrzymanie musi pozostać w zakresie.** Poprawki zależności, wsparcie przy incydentach, przekazanie danych uwierzytelniających i czasy reakcji zaczynają obowiązywać wraz z uruchomieniem aplikacji."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Obietnica bezpieczeństwa wymaga testu odbiorowego"
+    },
+    {
+      "type": "p",
+      "text": "OWASP opisuje Top 10 jako dokument zwiększający świadomość i zaleca [Application Security Verification Standard](https://owasp.org/www-project-application-security-verification-standard/) do definiowania weryfikowalnych wymagań bezpieczeństwa aplikacji. ASVS 5.0 zawiera około **350 wymagań w 17 rozdziałach**, a każde z nich pozwala jednoznacznie stwierdzić, czy zostało spełnione."
+    },
+    {
+      "type": "p",
+      "text": "ASVS sprawdza się również przy zakupie oprogramowania dedykowanego. Kupujący może wskazać poziom, wybrać właściwe wymagania i zażądać od dostawcy dowodu zgodności z wersjonowanymi identyfikatorami, takimi jak `v5.0.0-1.2.5`. Taki zapis nadaje się do umowy, ponieważ identyfikator pozostaje ważny także po zmianie dostawcy lub podmiotu prowadzącego testy."
+    },
+    {
+      "type": "p",
+      "text": "Sześciotygodniowy projekt webvise dla niemieckiego usługodawcy z branży nieruchomości łączył **10-etapowy proces zbierania danych finansowych**, automatyczne generowanie plików PDF i panel administracyjny, przy zakładanym czasie realizacji poniżej **24 godzin**. Taki proces rodzi konkretne pytania o bezpieczeństwo: kto może odczytać wniosek, zmienić jego status, wygenerować PDF, pobrać go i przejrzeć historię audytu? Zapis `uwierzytelnianie w zakresie` pozostawia wszystkie te decyzje otwarte."
+    },
+    {
+      "type": "p",
+      "text": "Jeśli aplikacja zawiera podobny prywatny proces, [usługa tworzenia aplikacji dedykowanych webvise](/services/full-stack-applications) obejmuje uwierzytelnianie, autoryzację, projektowanie API, CI/CD, monitoring oraz testy uzgodnionych procesów krytycznych. Harmonogram bezpieczeństwa określa ryzyka, które muszą uwzględniać te elementy dostawy."
+    },
+    {
+      "type": "h2",
+      "text": "Poziom ASVS należy wybrać przed wyceną"
+    },
+    {
+      "type": "p",
+      "text": "ASVS ma trzy poziomy o rosnącym stopniu szczegółowości. OWASP wskazuje produkt na wczesnym etapie, przetwarzający niewiele danych wrażliwych, jako możliwy przypadek dla Level 1, natomiast bank internetowy może z trudem uzasadnić poziom niższy niż Level 3. Kupujący i dostawca wybierają poziom na podstawie danych aplikacji, jej użytkowników, skutków biznesowych i prawdopodobnych atakujących."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Poziom ASVS",
+        "Praktyczne zastosowanie po stronie kupującego",
+        "Zapis do umowy"
+      ],
+      "rows": [
+        [
+          "Level 1",
+          "Produkt na wczesnym etapie, z niewielką ilością danych wrażliwych i wąskim modelem zagrożeń",
+          "Zastosować każde właściwe wymaganie L1 i udokumentować wyłączone rozdziały"
+        ],
+        [
+          "Level 2",
+          "B2B SaaS, portale klientów, rozliczenia, prywatne dane lub istotne zakłócenie działalności",
+          "Zastosować właściwe wymagania L2, wskazać procesy dotyczące danych wrażliwych i wymagać identyfikowalnych dowodów"
+        ],
+        [
+          "Level 3",
+          "Bankowość, ochrona zdrowia, administracja krytyczna lub systemy, w których naruszenie może spowodować poważne szkody",
+          "Uzgodnić zakres L3 ze specjalistą ds. bezpieczeństwa i określić niezależną weryfikację"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Tabela służy kupującemu jako przewodnik po ryzyku, ponieważ OWASP pozostawia każdej organizacji ostateczny wybór poziomu. Należy też dostosować rozdziały. W aplikacji bez OAuth, WebSockets, GraphQL lub interfejsu przeglądarkowego można wyłączyć odpowiednie sekcje, o ile wyłączenia zostaną zapisane w harmonogramie stanowiącym część umowy."
+    },
+    {
+      "type": "p",
+      "text": "W umowie należy wpisać dokładne wydanie ASVS. Znaczenie zapisu `ASVS Level 2` może się zmienić po wydaniu nowej wersji głównej, natomiast `OWASP ASVS v5.0.0, wybrane wymagania L2 w Załączniku A` zapewnia obu stronom stały punkt odniesienia do testów."
+    },
+    {
+      "type": "h2",
+      "text": "Gotowy harmonogram 12 wymagań bezpieczeństwa"
+    },
+    {
+      "type": "p",
+      "text": "Poniższy harmonogram można wykorzystać jako załącznik dotyczący bezpieczeństwa do briefu lub opisu przedmiotu prac. Każdy wiersz wymaga wskazania właściciela, testu końcowego, dowodów przekazywanych kupującemu oraz czasu na usunięcie niezgodności ujawnionej przez test."
+    },
+    {
+      "type": "table",
+      "headers": ["Obszar", "Wymaganie umowne", "Dowód odbiorowy"],
+      "rows": [
+        [
+          "1. Mapa ryzyka i danych",
+          "Wymienić dane wrażliwe, aktorów, systemy, granice zaufania, okresy przechowywania i zabronione sposoby użycia",
+          "Zatwierdzony opis przepływu danych i rejestr ryzyka"
+        ],
+        [
+          "2. Uwierzytelnianie i sesje",
+          "Określić zasady logowania, resetowania, wylogowania, wygaśnięcia sesji, MFA i odzyskiwania konta",
+          "Automatyczne testy procesów i zapis konfiguracji"
+        ],
+        [
+          "3. Autoryzacja",
+          "Określić każdą rolę, chroniony zasób, dozwolone działanie i granicę tenanta",
+          "Macierz dostępu oraz testy poziome, pionowe i między tenantami"
+        ],
+        [
+          "4. Obsługa danych wejściowych i plików",
+          "Walidować na serwerze wszystkie dane wejściowe od klienta, API, webhooków, zapytań i przesyłanych plików",
+          "Testy nieprawidłowych typów, limitów rozmiaru, błędnie sformatowanych danych i niebezpiecznych plików"
+        ],
+        [
+          "5. Sekrety i kryptografia",
+          "Przechowywać sekrety poza kodem źródłowym oraz określić zasady szyfrowania, rotacji i dostępu",
+          "Inwentaryzacja sekretów, konfiguracja przechowywania i procedura rotacji"
+        ],
+        [
+          "6. Zależności i łańcuch dostaw",
+          "Śledzić zależności bezpośrednie i przechodnie, skanować je oraz ustalić czasy reakcji na poprawki",
+          "Plik lockfile, inwentaryzacja zależności, raport ze skanowania i rejestr wyjątków"
+        ],
+        [
+          "7. Usługi zewnętrzne",
+          "Określić uwierzytelnianie, zakresy uprawnień, limity czasu, ponowienia, walidację i zachowanie przy awarii dla każdej integracji",
+          "Testy integracji i lista właścicieli danych uwierzytelniających"
+        ],
+        [
+          "8. Rejestrowanie zdarzeń i alerty",
+          "Rejestrować zdarzenia bezpieczeństwa bez wrażliwych danych oraz kierować alerty wymagające działania do wskazanego właściciela",
+          "Katalog zdarzeń, ustawienia retencji i test wywołanego alertu"
+        ],
+        [
+          "9. Obsługa błędów",
+          "Określić bezpieczne zachowanie przy nieudanych żądaniach, częściowych zapisach, niedostępnych usługach i nieoczekiwanych stanach",
+          "Testy ścieżek awarii pokazujące wycofanie zmian lub bezpieczne zakończenie"
+        ],
+        [
+          "10. Kopie zapasowe, odtwarzanie i usuwanie",
+          "Ustalić częstotliwość kopii zapasowych, cel odtworzenia oraz zasady retencji, eksportu i zweryfikowanego usuwania",
+          "Wynik testu odtworzenia i test usunięcia"
+        ],
+        [
+          "11. Proces kompilacji i wydania",
+          "Chronić gałęzie, ograniczać dostęp do środowiska produkcyjnego, skanować zmiany i rejestrować wdrożenia",
+          "Konfiguracja CI/CD, lista dostępów i historia wydań"
+        ],
+        [
+          "12. Przekazanie i usuwanie niezgodności",
+          "Przekazać kod źródłowy, infrastrukturę, dane uwierzytelniające, znane problemy, docelowe czasy reakcji i obowiązki utrzymaniowe",
+          "Podpisana lista przekazania i tabela terminów usunięcia niezgodności według poziomu ważności"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Wiersz dotyczący zależności ma duże znaczenie. **14 września 2025 r.** robak Shai-Hulud przedostał się do npm przez przejęte konta opiekunów pakietów i złośliwe skrypty uruchamiane po instalacji. [Według OWASP problem objął ponad 500 wersji pakietów](https://owasp.org/Top10/2025/A03_2025-Software_Supply_Chain_Failures/), zanim npm przerwało działanie robaka."
+    },
+    {
+      "type": "p",
+      "text": "Dostawca nie może bezterminowo gwarantować bezpieczeństwa każdego pakietu. Umowa może wymagać inwentaryzacji przy dostawie, automatycznych kontroli podczas prac, pisemnych wyjątków oraz określonego czasu reakcji na nowe ustalenia krytyczne. Dzięki tym punktom ryzyko związane z kodem podmiotów trzecich ma właściciela i nie pozostaje ukrytym założeniem."
+    },
+    {
+      "type": "p",
+      "text": "Ten harmonogram warto dodać do technicznej części [briefu dla agencji webowej](/blog/how-to-brief-a-web-agency) przed poproszeniem o wycenę. Dostawca może wtedy wycenić wymagane dowody i wskazać zabezpieczenia, które wymagają udziału niezależnego specjalisty ds. bezpieczeństwa."
+    },
+    {
+      "type": "h2",
+      "text": "Każdy zapis powinien dawać wynik spełnione lub niespełnione"
+    },
+    {
+      "type": "p",
+      "text": "ASVS ogranicza wymagania do rezultatów, które można zweryfikować. Tę samą zasadę należy zastosować w umowie: inna wykwalifikowana osoba powinna uzyskać ten sam wynik po przeczytaniu kryterium i wykonaniu wskazanego testu."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Nieprecyzyjne wymaganie",
+        "Kryterium odbioru z wynikiem spełnione lub niespełnione",
+        "Dowód"
+      ],
+      "rows": [
+        [
+          "Stosować bezpieczne logowanie",
+          "Wygasłe, unieważnione i brakujące sesje otrzymują odpowiedź 401, a pięć nieudanych prób uruchamia uzgodnione zabezpieczenie",
+          "Wyniki automatycznych testów uwierzytelniania"
+        ],
+        [
+          "Chronić prywatność danych klientów",
+          "Użytkownik B nie może odczytać, zmienić, usunąć ani wyeksportować rekordów utworzonych w tenancie użytkownika A",
+          "Testy żądań w dwóch tenantach, zwracające 403 lub 404"
+        ],
+        [
+          "Chronić funkcje administracyjne",
+          "Każda trasa administracyjna odrzuca na serwerze żądania anonimowe oraz żądania zwykłych użytkowników",
+          "Macierz ról i wyniki testów na poziomie tras"
+        ],
+        [
+          "Walidować przesyłane pliki",
+          "Serwer odrzuca niedozwolone typy, niezgodne dane MIME, zbyt duże pliki i niebezpieczne nazwy plików",
+          "Zestaw testów przesyłania i kontrola zapisanych plików"
+        ],
+        [
+          "Monitorować ataki",
+          "Testowa seria nieudanych logowań tworzy jeden alert dla wskazanego właściciela w uzgodnionym czasie",
+          "Zdarzenie, alert i potwierdzenie odbioru ze znacznikami czasu"
+        ],
+        [
+          "Dbać o bezpieczeństwo zależności",
+          "W chwili dostawy nie ma nierozwiązanych ustaleń krytycznych poza podpisanym rejestrem wyjątków",
+          "Datowany raport zależności i zatwierdzone wyjątki"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Next.js nadaje temu konkretny wymiar. Przewodnik Next.js dotyczący bezpieczeństwa danych, zaktualizowany **27 lutego 2026 r.**, wskazuje, że każda wyeksportowana Server Action tworzy publiczny endpoint HTTP i wymaga takich samych kontroli autoryzacji jak API. Jako dowód należy wykorzystać automatyczny test żądania. Ukrycie przycisku potwierdza jedynie stan interfejsu."
+    },
+    {
+      "type": "p",
+      "text": "Autoryzacja wymaga kilku testów, ponieważ sprawdzenie logowania obejmuje tylko tożsamość. Chronione działania należy powtórzyć jako inny użytkownik o tej samej roli, użytkownik o niższej roli, użytkownik z innego tenanta, użytkownik z wygasłą sesją oraz bez sesji. Taką macierz należy zastosować do odczytu, zapisu, eksportu, plików, zadań w tle i narzędzi administracyjnych."
+    },
+    {
+      "type": "h2",
+      "text": "Przed odbiorem należy wymagać dowodów"
+    },
+    {
+      "type": "p",
+      "text": "[OWASP Secure Software Contract Annex](https://owasp.org/www-community/OWASP_Secure_Software_Contract_Annex) nazywa końcowy zestaw dowodów pakietem certyfikacyjnym. Według OWASP w niektórych projektach może wystarczyć krótka ocena ryzyka, kilka stron wymagań, opis projektu zabezpieczeń, plan testów i wyniki."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Opis ryzyka i przepływu danych:** aktorzy, pola zawierające dane wrażliwe, systemy, granice zaufania, retencja oraz właściciel, który zatwierdził każdą decyzję.",
+        "**Wersjonowana macierz wymagań:** wybrane identyfikatory ASVS 5.0, zakres zastosowania, właściciel, status, odwołanie do testu i ewentualny wyjątek.",
+        "**Macierz autoryzacji:** aktor, zasób, działanie, oczekiwany wynik oraz wynik automatycznego testu chronionych procesów.",
+        "**Rejestr zależności:** inwentaryzacja zależności bezpośrednich i przechodnich, datowany skan, nierozwiązane ustalenia oraz podpisane wyjątki.",
+        "**Opis wdrożenia:** dostęp do środowiska produkcyjnego, lokalizacje sekretów, ustawienia bezpieczeństwa, domeny, usługi zewnętrzne oraz procedura wycofania wdrożenia.",
+        "**Dowód odtworzenia:** jeden zakończony test odtworzenia z datą, czasem trwania, wynikiem i wszystkimi wykrytymi lukami.",
+        "**Dowód monitoringu:** wywołane zdarzenie bezpieczeństwa, utworzony alert, jego odbiorca i czas odbioru."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Automatyczne skanery obejmują tylko część tego pakietu. OWASP ostrzega, że Top 10 nie może stanowić pełnego zakresu narzędzia, ponieważ niebezpieczny projekt, autoryzacja biznesowa i skuteczne alerty wymagają przeglądu lub weryfikacji w działającym systemie. Niezależne testy należy powierzyć specjaliście, gdy aplikacja przetwarza dane regulowane, obsługuje przepływ pieniędzy, dokumentację medyczną lub administrację o dużym wpływie."
+    },
+    {
+      "type": "p",
+      "text": "Klauzula odbiorowa powinna wskazywać osobę oceniającą pakiet i ustalenia, które blokują odbiór. Praktyczna reguła może blokować odbiór w razie nierozwiązanych ustaleń krytycznych lub wysokiego ryzyka, a podpisany wyjątek może odroczyć ustalenie niższego ryzyka pod warunkiem wskazania właściciela i terminu. Ostateczne brzmienie umowy powinien sprawdzić wykwalifikowany prawnik znający właściwą jurysdykcję."
+    },
+    {
+      "type": "h2",
+      "text": "Obowiązki w zakresie bezpieczeństwa po przekazaniu oprogramowania"
+    },
+    {
+      "type": "p",
+      "text": "Dostawa zamyka etap tworzenia i rozpoczyna etap eksploatacji. Nowe ustalenia dotyczące zależności, wygasłe certyfikaty, ujawnione dane uwierzytelniające, zmiany personelu, wzorce nadużyć i awarie integracji pojawiają się we własnym tempie. Umowa musi przypisać właściciela do każdego z tych zdarzeń."
+    },
+    {
+      "type": "table",
+      "headers": ["Warunek po przekazaniu", "Decyzja do zapisania"],
+      "rows": [
+        [
+          "Kanał zgłoszeń",
+          "Dokąd trafiają zgłoszenia dotyczące bezpieczeństwa, kto je otrzymuje i jak potwierdza się odbiór"
+        ],
+        [
+          "Poziom ważności i reakcja",
+          "Jak ustala się poziom ważności oraz docelowy czas reakcji lub naprawy dla każdego poziomu"
+        ],
+        [
+          "Utrzymanie zależności",
+          "Kto przegląda alerty, stosuje aktualizacje, testuje zgodność i wdraża poprawki"
+        ],
+        [
+          "Wsparcie przy incydentach",
+          "Dostępność, stawki, zachowanie dowodów, komunikacja i uprawnienia decyzyjne"
+        ],
+        [
+          "Własność danych uwierzytelniających",
+          "Które konta należą do kupującego oraz kiedy rotuje się klucze, domeny i tokeny"
+        ],
+        [
+          "Zakończenie usługi",
+          "Eksport kodu źródłowego, przekazanie infrastruktury, zwrot danych, zweryfikowane usunięcie i odebranie dostępu"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Własność kodu źródłowego pomaga tylko wtedy, gdy kupujący potrafi również uruchomić aplikację. Należy wymagać repozytorium, konfiguracji CI/CD, ustawień infrastruktury, inwentaryzacji środowiska, historii migracji bazy danych, dostępu do monitoringu oraz przetestowanej ścieżki wdrożenia. Przy dostawie aplikacji dedykowanej webvise zapewnia własność kodu źródłowego, udokumentowane procesy krytyczne, CI/CD, monitoring oraz działającą infrastrukturę."
+    },
+    {
+      "type": "p",
+      "text": "webvise może przekształcić tę listę w harmonogram bezpieczeństwa o ustalonym zakresie dla nowej aplikacji dedykowanej, wraz z właściwym poziomem ASVS, dowodami i warunkami przekazania powiązanymi z realizacją. [Proszę przesłać do webvise opis procesu i typy danych](/#contact) przed ostatecznym ustaleniem wyceny."
+    }
+  ]
+}

@@ -1,0 +1,311 @@
+{
+  "date": "2026-08-12",
+  "readingTime": 10,
+  "keyword": "checklist met beveiligingseisen voor webapplicaties",
+  "title": "Checklist met beveiligingseisen voor webapplicaties in maatwerksoftwarecontracten",
+  "excerpt": "Een contractklare checklist voor webapplicatiebeveiliging met 12 toetsbare eisen, bewijsregels, acceptatiecriteria en overdrachtstaken voor kopers van maatwerksoftware.",
+  "metaDescription": "Gebruik deze checklist met beveiligingseisen voor webapplicaties: leg vóór ontwikkeling toetsbare maatregelen, bewijs, eigenaarschap en acceptatie vast.",
+  "cta": "Bepaal de scope van een veilige applicatie",
+  "tags": ["Security", "Web Development", "Business Strategy", "Process"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Een **checklist met beveiligingseisen voor webapplicaties** maakt beveiliging onderdeel van de contractscope: elke eis krijgt een eigenaar, een toets met een slaag- of faalresultaat, het vereiste bewijs en een hersteltermijn. Neem dit schema vóór de start van de ontwikkeling naast de functielijst op."
+    },
+    {
+      "type": "p",
+      "text": "Gebrekkige toegangscontrole staat nog altijd op de eerste plaats in de [OWASP Top 10:2025](https://owasp.org/Top10/2025/A01_2025-Broken_Access_Control/). Een scan kan de bedrijfsregel missen die bepaalt of de ene klant de factuur van een andere klant mag openen."
+    },
+    {
+      "type": "p",
+      "text": "Opdrachtgevers weten doorgaans welke gegevens bescherming nodig hebben, maar een contract beschrijft de schermen vaak veel uitvoeriger dan de beveiligingstests. Deze gids biedt een contractklaar schema op basis van OWASP ASVS 5.0, met het bewijs dat bij acceptatie nodig is. Ook legt het schema vast welke taken na de overdracht doorlopen."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Verwijs met versie en niveau naar OWASP ASVS 5.0.** De OWASP Top 10 legt risico's uit, terwijl ASVS eisen levert die een slaag- of faalresultaat opleveren.",
+        "**Geef elke eis vier velden:** eigenaar, acceptatietest, bewijs en hersteltermijn.",
+        "**Test autorisatie met twee gebruikers of tenants.** Een geslaagde aanmelding zegt niets over de toegang tot gegevens, exports, bestanden of beheeracties van een andere klant.",
+        "**Maak bewijs onderdeel van de oplevering.** De opdrachtgever hoort de eisenmatrix, testresultaten, bekende uitzonderingen, implementatienotities en herstelbewijzen te ontvangen.",
+        "**Houd onderhoud binnen de scope.** Patches voor dependencies, hulp bij incidenten, overdracht van inloggegevens en responstijden gaan in zodra de applicatie live staat."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Een beveiligingsbelofte vereist een acceptatietest"
+    },
+    {
+      "type": "p",
+      "text": "OWASP omschrijft de Top 10 als een bewustwordingsdocument en raadt de [Application Security Verification Standard](https://owasp.org/www-project-application-security-verification-standard/) aan voor toetsbare eisen aan applicatiebeveiliging. ASVS 5.0 bevat ongeveer **350 eisen verdeeld over 17 hoofdstukken**, elk bedoeld om een slaag- of faalbeslissing op te leveren."
+    },
+    {
+      "type": "p",
+      "text": "ASVS helpt ook bij de inkoop van maatwerksoftware. Een opdrachtgever kan een niveau noemen, de relevante eisen selecteren en de leverancier vragen om naleving te bewijzen met versiereferenties zoals `v5.0.0-1.2.5`. Dat levert bruikbare contracttaal op, omdat de referentie ook bij een andere leverancier of testpartij overeind blijft."
+    },
+    {
+      "type": "p",
+      "text": "Een webvise-project van zes weken voor een Duitse vastgoeddienst combineerde een **financiële intake in 10 stappen**, automatische PDF-generatie en een beheerdashboard met een beoogde doorlooptijd van minder dan **24 uur**. Zo'n workflow roept gerichte beveiligingsvragen op: wie mag een aanvraag lezen, de status ervan wijzigen, de PDF genereren, deze downloaden en de auditgeschiedenis bekijken? De regel `authenticatie inbegrepen` laat al die beslissingen open."
+    },
+    {
+      "type": "p",
+      "text": "Bevat uw applicatie zo'n vertrouwelijke workflow, dan omvat [de maatwerkapplicatiedienst van webvise](/services/full-stack-applications) authenticatie, autorisatie, API-ontwerp, CI/CD, monitoring en tests voor de afgesproken kritieke processen. Het beveiligingsschema bepaalt welke risico's deze resultaten moeten afdekken."
+    },
+    {
+      "type": "h2",
+      "text": "Kies een ASVS-niveau vóór de kostenraming"
+    },
+    {
+      "type": "p",
+      "text": "ASVS kent drie niveaus die steeds grondiger worden. OWASP noemt een product in een vroege fase met weinig gevoelige gegevens als mogelijk geval voor Level 1, terwijl een online bank doorgaans geen lager niveau dan Level 3 kan verantwoorden. De opdrachtgever en leverancier kiezen het niveau op basis van de gegevens, gebruikers, bedrijfsimpact en waarschijnlijke aanvallers van de applicatie."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "ASVS-niveau",
+        "Praktische toepassing voor de opdrachtgever",
+        "Contractinstructie"
+      ],
+      "rows": [
+        [
+          "Level 1",
+          "Product in een vroege fase met weinig gevoelige gegevens en een beperkt dreigingsmodel",
+          "Pas elke relevante L1-eis toe en leg uitgesloten hoofdstukken vast"
+        ],
+        [
+          "Level 2",
+          "B2B SaaS, klantportalen, facturatie, vertrouwelijke gegevens of een wezenlijke bedrijfsonderbreking",
+          "Pas relevante L2-eisen toe, benoem gevoelige processen en eis traceerbaar bewijs"
+        ],
+        [
+          "Level 3",
+          "Bankieren, gezondheidszorg, kritiek beheer of systemen waarbij een inbreuk ernstige schade kan veroorzaken",
+          "Stem de L3-scope af met een beveiligingsspecialist en leg onafhankelijke verificatie vast"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "De tabel is een risicogids voor opdrachtgevers, want OWASP laat de uiteindelijke niveaukeuze aan elke organisatie. Stem ook de hoofdstukken af op de applicatie. Een applicatie zonder OAuth, WebSockets, GraphQL of een browserfrontend kan die delen uitsluiten, mits de uitsluitingen in het contractschema staan."
+    },
+    {
+      "type": "p",
+      "text": "Neem de exacte ASVS-versie op in de overeenkomst. `ASVS Level 2` kan na een grote nieuwe versie van betekenis veranderen, terwijl `OWASP ASVS v5.0.0, geselecteerde L2-eisen in Bijlage A` beide partijen een stabiel testdoel geeft."
+    },
+    {
+      "type": "h2",
+      "text": "Neem het beveiligingsschema met 12 eisen over"
+    },
+    {
+      "type": "p",
+      "text": "Gebruik het volgende schema als beveiligingsbijlage bij een briefing of opdrachtomschrijving. Elke rij heeft een benoemde eigenaar nodig, plus de eindtest, het bewijs dat de opdrachtgever ontvangt en de termijn voor het herstellen van een mislukte test."
+    },
+    {
+      "type": "table",
+      "headers": ["Onderdeel", "Contracteis", "Acceptatiebewijs"],
+      "rows": [
+        [
+          "1. Risico- en gegevenskaart",
+          "Breng gevoelige gegevens, actoren, systemen, vertrouwensgrenzen, bewaartermijnen en verboden toepassingen in kaart",
+          "Goedgekeurde notitie over gegevensstromen en risicoregister"
+        ],
+        [
+          "2. Authenticatie en sessies",
+          "Leg regels vast voor aanmelden, resetten, afmelden, sessieverloop, MFA en accountherstel",
+          "Geautomatiseerde tests van processen en configuratieoverzicht"
+        ],
+        [
+          "3. Autorisatie",
+          "Leg elke rol, beschermde resource, toegestane actie en tenantgrens vast",
+          "Toegangsmatrix met horizontale, verticale en tenantoverschrijdende tests"
+        ],
+        [
+          "4. Invoer- en bestandsverwerking",
+          "Valideer alle invoer van clients, API's, webhooks, query's en uploads op de server",
+          "Tests voor ongeldige typen, groottelimieten, misvormde invoer en onveilige bestanden"
+        ],
+        [
+          "5. Secrets en cryptografie",
+          "Bewaar secrets buiten de broncode en leg regels vast voor versleuteling, rotatie en toegang",
+          "Inventaris van secrets, opslagconfiguratie en rotatieprocedure"
+        ],
+        [
+          "6. Dependencies en supply chain",
+          "Houd directe en transitieve dependencies bij, scan ze en stel responstijden voor patches vast",
+          "Lockfile, dependency-inventaris, scanrapport en uitzonderingsregister"
+        ],
+        [
+          "7. Externe diensten",
+          "Leg voor elke integratie authenticatie, scopes, time-outs, nieuwe pogingen na fouten, validatie en gedrag bij storingen vast",
+          "Integratietests en overzicht van het eigenaarschap van inloggegevens"
+        ],
+        [
+          "8. Logging en waarschuwingen",
+          "Log beveiligingsgebeurtenissen zonder gevoelige inhoud en stuur bruikbare waarschuwingen naar een benoemde eigenaar",
+          "Gebeurteniscatalogus, bewaartermijn en test met een geactiveerde waarschuwing"
+        ],
+        [
+          "9. Foutgedrag",
+          "Leg veilig gedrag vast voor mislukte aanvragen, gedeeltelijke schrijfacties, onbeschikbare diensten en onverwachte toestanden",
+          "Tests van foutpaden die terugdraaien of veilig beëindigen aantonen"
+        ],
+        [
+          "10. Back-up, herstel en verwijdering",
+          "Leg de back-upfrequentie, hersteldoelstelling, bewaartermijn, export en regels voor gecontroleerde verwijdering vast",
+          "Resultaat van de hersteltest en verwijderingstest"
+        ],
+        [
+          "11. Build- en releasepipeline",
+          "Bescherm branches, beperk productietoegang, scan wijzigingen en registreer deployments",
+          "CI/CD-configuratie, toegangslijst en releasegeschiedenis"
+        ],
+        [
+          "12. Overdracht en herstelmaatregelen",
+          "Draag broncode, infrastructuur, inloggegevens, bekende problemen, responstijden en onderhoudstaken over",
+          "Ondertekende overdrachtslijst en hersteltabel op basis van ernst"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "De rij over dependencies weegt zwaar. Op **14 september 2025** drong de Shai-Hulud-worm npm binnen via gecompromitteerde accounts van beheerders en schadelijke post-install-scripts. [OWASP registreert meer dan 500 getroffen pakketversies](https://owasp.org/Top10/2025/A03_2025-Software_Supply_Chain_Failures/) voordat npm de worm stopte."
+    },
+    {
+      "type": "p",
+      "text": "Een leverancier kan niet eeuwig instaan voor elk pakket. Het contract kan een inventaris bij oplevering, geautomatiseerde controles tijdens de ontwikkeling, schriftelijke uitzonderingen en een vaste reactietermijn voor nieuwe kritieke bevindingen eisen. Zo behandelt het contract code van derden als een risico met een duidelijke eigenaar."
+    },
+    {
+      "type": "p",
+      "text": "Voeg dit schema toe aan het technische deel van [de briefing voor een webbureau](/blog/how-to-brief-a-web-agency) voordat u een kostenraming vraagt. Een leverancier kan dan het vereiste bewijs inprijzen en maatregelen aanwijzen waarvoor een onafhankelijke beveiligingsspecialist nodig is."
+    },
+    {
+      "type": "h2",
+      "text": "Formuleer elke regel als goedgekeurd of afgekeurd"
+    },
+    {
+      "type": "p",
+      "text": "ASVS beperkt zijn eisen tot resultaten die verifieerbaar zijn. Pas dezelfde regel toe op het contract: een andere gekwalificeerde persoon hoort na het lezen van het criterium en het uitvoeren van de genoemde test tot hetzelfde resultaat te komen."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Vage eis",
+        "Acceptatiecriterium met slaag- of faalresultaat",
+        "Bewijs"
+      ],
+      "rows": [
+        [
+          "Gebruik veilige authenticatie",
+          "Verlopen, ingetrokken en ontbrekende sessies krijgen een 401-respons; vijf mislukte pogingen activeren de afgesproken maatregel",
+          "Resultaten van geautomatiseerde authenticatietests"
+        ],
+        [
+          "Houd klantgegevens vertrouwelijk",
+          "Gebruiker B kan geen gegevens lezen, wijzigen, verwijderen of exporteren die binnen de tenant van gebruiker A zijn aangemaakt",
+          "Aanvraagtests met twee tenants die 403 of 404 teruggeven"
+        ],
+        [
+          "Bescherm beheerfuncties",
+          "Elke beheerroute weigert aanvragen van anonieme en standaardgebruikers op de server",
+          "Rollenmatrix en testresultaten per route"
+        ],
+        [
+          "Valideer uploads",
+          "De server weigert niet-toegestane typen, afwijkende MIME-gegevens, te grote bestanden en onveilige bestandsnamen",
+          "Uploadtestset en controle van opgeslagen bestanden"
+        ],
+        [
+          "Bewaak aanvallen",
+          "Een testreeks van mislukte aanmeldingen maakt binnen de afgesproken tijd één waarschuwing voor de benoemde eigenaar aan",
+          "Gebeurtenis, waarschuwing en ontvangstregistratie met tijdstempel"
+        ],
+        [
+          "Houd dependencies veilig",
+          "De oplevering bevat geen onopgeloste kritieke bevinding buiten het ondertekende uitzonderingsregister",
+          "Gedateerd dependencyrapport en goedgekeurde uitzonderingen"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Next.js maakt dit concreet. De gids voor gegevensbeveiliging van Next.js, bijgewerkt op **27 februari 2026**, stelt dat elke geëxporteerde Server Action een publiek HTTP-endpoint creëert en dezelfde autorisatiecontroles nodig heeft als een API. Gebruik een geautomatiseerde aanvraagtest als bewijs. Een verborgen knop bewijst alleen de toestand van de interface."
+    },
+    {
+      "type": "p",
+      "text": "Autorisatie verdient meerdere tests, omdat een aanmeldcontrole alleen de identiteit afdekt. Herhaal beschermde acties als een andere gebruiker met dezelfde rol, een lagere rol, een andere tenant, een verlopen sessie en zonder sessie. Pas die matrix toe op leesacties, schrijfacties, exports, bestanden, achtergrondtaken en beheertools."
+    },
+    {
+      "type": "h2",
+      "text": "Eis bewijs vóór acceptatie"
+    },
+    {
+      "type": "p",
+      "text": "De [OWASP Secure Software Contract Annex](https://owasp.org/www-community/OWASP_Secure_Software_Contract_Annex) noemt het eindbewijs een certificeringspakket. Volgens OWASP kunnen voor sommige projecten een korte risicobeoordeling, enkele pagina's met eisen, een notitie over het beveiligingsontwerp, een testplan en de resultaten volstaan."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Notitie over risico's en gegevensstromen:** actoren, gevoelige velden, systemen, vertrouwensgrenzen, bewaartermijnen en de eigenaar die elke beslissing goedkeurde.",
+        "**Eisenmatrix met versies:** geselecteerde ASVS 5.0-ID's, toepasselijkheid, eigenaar, status, testreferentie en eventuele uitzondering.",
+        "**Autorisatiematrix:** actor, resource, actie, verwacht resultaat en geautomatiseerd testresultaat voor beschermde processen.",
+        "**Dependencyoverzicht:** directe en transitieve inventaris, gedateerde scan, onopgeloste bevindingen en ondertekende uitzonderingen.",
+        "**Implementatienotitie:** productietoegang, locaties van secrets, beveiligingsinstellingen, domeinen, externe diensten en terugdraaiprocedure.",
+        "**Herstelbewijs:** één voltooide hersteltest met datum, duur, resultaat en elke gevonden tekortkoming.",
+        "**Monitoringbewijs:** een geactiveerde beveiligingsgebeurtenis, de waarschuwing die deze aanmaakte, de ontvanger en de ontvangsttijd."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Geautomatiseerde scanners dekken slechts een deel van dit pakket. OWASP waarschuwt dat tools de Top 10 niet volledig kunnen afdekken, omdat onveilig ontwerp, autorisatie volgens bedrijfsregels en doeltreffende waarschuwingen een beoordeling of live verificatie vereisen. Schakel een specialist in voor onafhankelijke tests wanneer de applicatie gereguleerde gegevens, geldstromen, medische dossiers of beheer met grote impact verwerkt."
+    },
+    {
+      "type": "p",
+      "text": "De acceptatieclausule hoort te vermelden wie het pakket beoordeelt en welke bevindingen de oplevering blokkeren. Een bruikbare regel blokkeert acceptatie bij onopgeloste bevindingen met kritieke of hoge ernst, terwijl een ondertekende uitzondering een minder ernstige bevinding kan uitstellen met een eigenaar en uiterste datum. Laat een bevoegde jurist de uiteindelijke contracttekst beoordelen voor het rechtsgebied dat van toepassing is."
+    },
+    {
+      "type": "h2",
+      "text": "Leg beveiligingstaken na de overdracht vast"
+    },
+    {
+      "type": "p",
+      "text": "De oplevering sluit de bouwfase af en start de beheerfase. Nieuwe bevindingen in dependencies, verlopen certificaten, gelekte inloggegevens, personeelswisselingen, misbruikpatronen en uitgevallen integraties volgen hun eigen tijdlijn. De overeenkomst moet voor elk punt een eigenaar aanwijzen."
+    },
+    {
+      "type": "table",
+      "headers": ["Voorwaarde na overdracht", "Vast te leggen beslissing"],
+      "rows": [
+        [
+          "Meldroute",
+          "Waar beveiligingsmeldingen terechtkomen, wie ze ontvangt en hoe de ontvangst wordt bevestigd"
+        ],
+        [
+          "Ernst en reactie",
+          "Hoe de ernst wordt bepaald en welke reactie- of hersteltermijn voor elke categorie geldt"
+        ],
+        [
+          "Onderhoud van dependencies",
+          "Wie waarschuwingen beoordeelt, updates toepast, compatibiliteit test en patches implementeert"
+        ],
+        [
+          "Hulp bij incidenten",
+          "Beschikbaarheid, tarieven, behoud van bewijs, communicatie en beslissingsbevoegdheid"
+        ],
+        [
+          "Eigenaarschap van inloggegevens",
+          "Welke accounts van de opdrachtgever zijn en wanneer sleutels, domeinen en tokens roteren"
+        ],
+        [
+          "Einde van de dienstverlening",
+          "Export van broncode, overdracht van infrastructuur, teruggave van gegevens, gecontroleerde verwijdering en intrekking van toegang"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Eigendom van de broncode heeft pas waarde als de opdrachtgever de applicatie ook kan uitvoeren. Eis de repository, CI/CD-configuratie, infrastructuurinstellingen, omgevingsinventaris, geschiedenis van databasemigraties, toegang tot monitoring en een geteste implementatieroute. Bij maatwerkapplicaties omvat de oplevering door webvise het eigendom van de broncode, gedocumenteerde kritieke processen, CI/CD, monitoring en werkende infrastructuur."
+    },
+    {
+      "type": "p",
+      "text": "webvise kan van deze checklist een afgebakend beveiligingsschema voor een nieuwe maatwerkapplicatie maken, met het relevante ASVS-niveau, bewijs en overdrachtsvoorwaarden als onderdeel van het project. [Stuur de workflow en gegevenstypen naar webvise](/#contact) voordat de kostenraming wordt vastgelegd."
+    }
+  ]
+}
