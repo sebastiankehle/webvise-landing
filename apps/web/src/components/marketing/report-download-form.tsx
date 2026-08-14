@@ -11,6 +11,7 @@ import { FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { H3, Muted } from "@/components/ui/typography";
+import { usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { trpcClient } from "@/utils/trpc";
 
@@ -28,6 +29,7 @@ export default function ReportDownloadForm({
 	className?: string;
 }) {
 	const locale = useLocale();
+	const path = usePathname();
 	const t = useTranslations("reportDownload");
 	const [submitStatus, setSubmitStatus] = useState<
 		"idle" | "success" | "error"
@@ -51,6 +53,7 @@ export default function ReportDownloadForm({
 					email: value.email.trim(),
 					reportId,
 					locale,
+					path,
 				});
 				setSubmitStatus("success");
 				posthog.capture("report_download_success", {

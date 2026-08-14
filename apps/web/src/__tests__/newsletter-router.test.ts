@@ -56,7 +56,7 @@ describe("newsletterRouter.subscribe", () => {
 		expect(body.text).toContain("/api/newsletter/confirm?token=");
 	});
 
-	it("stores the signup source as a pending subscriber row", async () => {
+	it("stores the pending subscriber and an immutable topic-interest event", async () => {
 		const caller = newsletterRouter.createCaller({
 			ip: "newsletter-router-test-2",
 			session: null,
@@ -68,11 +68,18 @@ describe("newsletterRouter.subscribe", () => {
 			path: "/blog/agent-memory-vs-context",
 		});
 
-		expect(dbMock.insert).toHaveBeenCalledOnce();
-		expect(dbMock.values).toHaveBeenCalledWith({
+		expect(dbMock.insert).toHaveBeenCalledTimes(2);
+		expect(dbMock.values).toHaveBeenNthCalledWith(1, {
 			email: "reader@example.com",
 			placement: "blog_article",
 			path: "/blog/agent-memory-vs-context",
+		});
+		expect(dbMock.values).toHaveBeenNthCalledWith(2, {
+			email: "reader@example.com",
+			eventType: "newsletter_signup",
+			placement: "blog_article",
+			path: "/blog/agent-memory-vs-context",
+			topic: "agent-memory-vs-context",
 		});
 		expect(dbMock.onConflictDoUpdate).toHaveBeenCalledOnce();
 	});

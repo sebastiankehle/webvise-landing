@@ -10,18 +10,56 @@ import { sendEmail, setContact } from "@webvise-app/api/email/resend";
 import { unsubscribeUrl } from "@webvise-app/api/email/template";
 import { db } from "@webvise-app/db";
 import { newsletterSubscriber } from "@webvise-app/db/schema/newsletter";
+import { sql } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { welcomeSourceFromPath } from "@/lib/newsletter-topic";
 
-function redirectToResult(request: Request, params: Record<string, string>) {
-	const url = new URL("/newsletter-confirmed", request.url);
+interface Interest {
+	eventType: "newsletter_signup" | "deck_request";
+	path: string;
+	topic: string | null;
+}
+
+function redirectToResult(
+	request: Request,
+	params: Record<string, string>,
+	status: 303 | 307 = 307
+) {
+	const forwardedHost = request.headers.get("x-forwarded-host");
+	const forwardedProto = request.headers.get("x-forwarded-proto");
+	const fallbackOrigin = new URL(request.url).origin;
+	const publicOrigin = forwardedHost
+		? `${forwardedProto === "http" ? "http" : "https"}://${forwardedHost}`
+		: fallbackOrigin;
+	const url = new URL("/newsletter-confirmed", publicOrigin);
 	for (const [key, value] of Object.entries(params)) {
 		url.searchParams.set(key, value);
 	}
-	return NextResponse.redirect(url);
+	return NextResponse.redirect(url, status);
 }
 
-export async function GET(request: Request) {
+async function getInterests(email: string): Promise<Interest[]> {
+	try {
+		return await db.query.leadEvent.findMany({
+			where: (event, { eq }) => eq(event.email, email),
+			orderBy: (event, { asc }) => [asc(event.createdAt)],
+			columns: {
+				eventType: true,
+				path: true,
+				topic: true,
+			},
+			limit: 20,
+		});
+	} catch (err) {
+		console.error(
+			"[email:newsletter-confirm] failed to read interest events:",
+			err instanceof Error ? err.message : err
+		);
+		return [];
+	}
+}
+
+export function GET(request: Request) {
 	const { searchParams } = new URL(request.url);
 	const token = searchParams.get("token");
 
@@ -32,6 +70,21 @@ export async function GET(request: Request) {
 	const verified = verifyNewsletterConfirmationToken(token);
 	if (!verified.ok) {
 		return redirectToResult(request, { error: "invalid" });
+	}
+
+	return redirectToResult(request, { token });
+}
+
+export async function POST(request: Request) {
+	const formData = await request.formData();
+	const token = formData.get("token");
+	if (typeof token !== "string") {
+		return redirectToResult(request, { error: "missing" }, 303);
+	}
+
+	const verified = verifyNewsletterConfirmationToken(token);
+	if (!verified.ok) {
+		return redirectToResult(request, { error: "invalid" }, 303);
 	}
 	const email = verified.email;
 
@@ -56,6 +109,7 @@ export async function GET(request: Request) {
 					confirmedAt: new Date(),
 					updatedAt: new Date(),
 				},
+				setWhere: sql`${newsletterSubscriber.status} = 'pending'`,
 			})
 			.returning({
 				path: newsletterSubscriber.path,
@@ -63,6 +117,9 @@ export async function GET(request: Request) {
 			});
 		subscriberPath = row?.path ?? null;
 		subscriberPlacement = row?.placement ?? "unknown";
+		if (!row) {
+			return redirectToResult(request, { success: "true" }, 303);
+		}
 	} catch (err) {
 		console.error(
 			"[email:newsletter-confirm] failed to update subscriber row:",
@@ -77,12 +134,17 @@ export async function GET(request: Request) {
 	});
 
 	if (!contactResult.ok) {
-		return redirectToResult(request, {
-			error: contactResult.reason === "not_configured" ? "config" : "failed",
-		});
+		return redirectToResult(
+			request,
+			{
+				error: contactResult.reason === "not_configured" ? "config" : "failed",
+			},
+			303
+		);
 	}
 
 	const source = welcomeSourceFromPath(subscriberPath);
+	const interests = await getInterests(email);
 	const emailResult = await sendEmail({
 		label: "newsletter-welcome",
 		from: "webvise <hello@webvise.io>",
@@ -113,12 +175,14 @@ export async function GET(request: Request) {
 			placement: subscriberPlacement,
 			path: subscriberPath ?? "",
 			postTitle: source?.postTitle,
+			interests,
 		}),
 		text: subscriberNotificationText({
 			email,
 			placement: subscriberPlacement,
 			path: subscriberPath ?? "",
 			postTitle: source?.postTitle,
+			interests,
 		}),
 	});
 	if (!notifyResult.ok) {
@@ -129,5 +193,5 @@ export async function GET(request: Request) {
 		);
 	}
 
-	return redirectToResult(request, { success: "true" });
+	return redirectToResult(request, { success: "true" }, 303);
 }

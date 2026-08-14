@@ -2,8 +2,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { TRPCError } from "@trpc/server";
 import { db } from "@webvise-app/db";
-import { newsletterSubscriber } from "@webvise-app/db/schema/newsletter";
-import { sql } from "drizzle-orm";
+import { leadEvent } from "@webvise-app/db/schema/newsletter";
 import { z } from "zod";
 import { sendEmail } from "../email/resend";
 import { emailLayout, s } from "../email/template";
@@ -132,6 +131,7 @@ export const reportDownloadRouter = router({
 				email: z.string().email().max(200),
 				reportId: z.string().max(100),
 				locale: z.string().max(5).optional(),
+				path: z.string().startsWith("/").max(300).optional(),
 			})
 		)
 		.mutation(async ({ input }) => {
@@ -150,16 +150,14 @@ export const reportDownloadRouter = router({
 			// Source tracking must not block the send itself.
 			if (isDeck) {
 				try {
-					const path = `/decks/${input.reportId.slice("deck-".length)}`;
-					await db
-						.insert(newsletterSubscriber)
-						.values({ email, placement: "deck_gate", path })
-						.onConflictDoUpdate({
-							target: newsletterSubscriber.email,
-							set: { placement: "deck_gate", path, updatedAt: new Date() },
-							// Confirmed subscribers keep their first-touch source.
-							setWhere: sql`${newsletterSubscriber.status} = 'pending'`,
-						});
+					const topic = input.reportId.slice("deck-".length);
+					await db.insert(leadEvent).values({
+						email,
+						eventType: "deck_request",
+						placement: "deck_gate",
+						path: input.path ?? `/decks/${topic}`,
+						topic,
+					});
 				} catch (err) {
 					console.error(
 						"[report-download:request] failed to store deck lead:",

@@ -1,6 +1,6 @@
 import { createNewsletterConfirmationToken } from "@webvise-app/api/email/newsletter-confirmation-token";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { GET } from "../app/api/newsletter/confirm/route";
+import { GET, POST } from "../app/api/newsletter/confirm/route";
 
 const envMock = vi.hoisted(() => ({
 	BETTER_AUTH_SECRET: "test-secret-that-is-at-least-32-chars!!",
@@ -15,6 +15,15 @@ vi.mock("@webvise-app/env/server", () => ({
 }));
 
 const dbMock = vi.hoisted(() => {
+	const findMany = vi.fn(
+		async (): Promise<
+			Array<{
+				eventType: "newsletter_signup" | "deck_request";
+				path: string;
+				topic: string | null;
+			}>
+		> => []
+	);
 	const returning = vi.fn(
 		async (): Promise<Array<{ path: string; placement?: string }>> => [
 			{ path: "", placement: "unknown" },
@@ -23,11 +32,14 @@ const dbMock = vi.hoisted(() => {
 	const onConflictDoUpdate = vi.fn(() => ({ returning }));
 	const values = vi.fn(() => ({ onConflictDoUpdate }));
 	const insert = vi.fn(() => ({ values }));
-	return { insert, values, onConflictDoUpdate, returning };
+	return { findMany, insert, values, onConflictDoUpdate, returning };
 });
 
 vi.mock("@webvise-app/db", () => ({
-	db: { insert: dbMock.insert },
+	db: {
+		insert: dbMock.insert,
+		query: { leadEvent: { findMany: dbMock.findMany } },
+	},
 }));
 
 vi.mock("@/data/blog", () => ({
@@ -38,7 +50,18 @@ vi.mock("@/data/blog", () => ({
 	),
 }));
 
-describe("GET /api/newsletter/confirm", () => {
+function postConfirmation(token: string) {
+	const formData = new FormData();
+	formData.set("token", token);
+	return POST(
+		new Request("https://webvise.io/api/newsletter/confirm", {
+			method: "POST",
+			body: formData,
+		})
+	);
+}
+
+describe("/api/newsletter/confirm", () => {
 	const fetchMock = vi.fn();
 
 	beforeEach(() => {
@@ -48,6 +71,8 @@ describe("GET /api/newsletter/confirm", () => {
 		dbMock.insert.mockClear();
 		dbMock.values.mockClear();
 		dbMock.returning.mockClear();
+		dbMock.findMany.mockClear();
+		dbMock.findMany.mockResolvedValue([]);
 		dbMock.returning.mockResolvedValue([{ path: "", placement: "unknown" }]);
 	});
 
@@ -55,7 +80,7 @@ describe("GET /api/newsletter/confirm", () => {
 		vi.unstubAllGlobals();
 	});
 
-	it("subscribes the contact and redirects to the success page for a valid token", async () => {
+	it("does not confirm a subscriber when a mail scanner follows the GET link", async () => {
 		const token = createNewsletterConfirmationToken(
 			"Reader@Example.com",
 			Date.now(),
@@ -67,6 +92,47 @@ describe("GET /api/newsletter/confirm", () => {
 		);
 
 		expect(response.status).toBe(307);
+		expect(response.headers.get("location")).toBe(
+			`https://webvise.io/newsletter-confirmed?token=${token}`
+		);
+		expect(dbMock.insert).not.toHaveBeenCalled();
+		expect(fetchMock).not.toHaveBeenCalled();
+	});
+
+	it("redirects through the public forwarded host", async () => {
+		const token = createNewsletterConfirmationToken(
+			"reader@example.com",
+			Date.now(),
+			envMock.BETTER_AUTH_SECRET
+		);
+
+		const response = await GET(
+			new Request(
+				`http://localhost:4430/api/newsletter/confirm?token=${token}`,
+				{
+					headers: {
+						"x-forwarded-host": "webvise.localhost",
+						"x-forwarded-proto": "https",
+					},
+				}
+			)
+		);
+
+		expect(response.headers.get("location")).toBe(
+			`https://webvise.localhost/newsletter-confirmed?token=${token}`
+		);
+	});
+
+	it("subscribes the contact and redirects to the success page for a valid token", async () => {
+		const token = createNewsletterConfirmationToken(
+			"Reader@Example.com",
+			Date.now(),
+			envMock.BETTER_AUTH_SECRET
+		);
+
+		const response = await postConfirmation(token);
+
+		expect(response.status).toBe(303);
 		expect(response.headers.get("location")).toBe(
 			"https://webvise.io/newsletter-confirmed?success=true"
 		);
@@ -92,9 +158,7 @@ describe("GET /api/newsletter/confirm", () => {
 			envMock.BETTER_AUTH_SECRET
 		);
 
-		await GET(
-			new Request(`https://webvise.io/api/newsletter/confirm?token=${token}`)
-		);
+		await postConfirmation(token);
 
 		const notifyBody = JSON.parse(fetchMock.mock.calls[2][1].body);
 		expect(notifyBody.to).toEqual(["mail@webvise.io"]);
@@ -107,6 +171,36 @@ describe("GET /api/newsletter/confirm", () => {
 		expect(notifyBody.text).toContain("Placement: blog_article");
 	});
 
+	it("includes the confirmed subscriber's captured interests", async () => {
+		dbMock.findMany.mockResolvedValue([
+			{
+				eventType: "newsletter_signup",
+				path: "/services/website-to-app-upgrades",
+				topic: null,
+			},
+			{
+				eventType: "deck_request",
+				path: "/services/website-to-app-upgrades",
+				topic: "website-to-app-upgrades",
+			},
+		]);
+		const token = createNewsletterConfirmationToken(
+			"reader@example.com",
+			Date.now(),
+			envMock.BETTER_AUTH_SECRET
+		);
+
+		await postConfirmation(token);
+
+		const notifyBody = JSON.parse(fetchMock.mock.calls[2][1].body);
+		expect(notifyBody.text).toContain(
+			"Interest: Newsletter signup · /services/website-to-app-upgrades"
+		);
+		expect(notifyBody.text).toContain(
+			"Interest: Deck request: website-to-app-upgrades · /services/website-to-app-upgrades"
+		);
+	});
+
 	it("marks the subscriber row confirmed", async () => {
 		const token = createNewsletterConfirmationToken(
 			"reader@example.com",
@@ -114,9 +208,7 @@ describe("GET /api/newsletter/confirm", () => {
 			envMock.BETTER_AUTH_SECRET
 		);
 
-		await GET(
-			new Request(`https://webvise.io/api/newsletter/confirm?token=${token}`)
-		);
+		await postConfirmation(token);
 
 		expect(dbMock.insert).toHaveBeenCalledOnce();
 		expect(dbMock.values).toHaveBeenCalledWith(
@@ -125,6 +217,23 @@ describe("GET /api/newsletter/confirm", () => {
 				status: "confirmed",
 			})
 		);
+	});
+
+	it("does not send duplicate emails when the subscriber is already confirmed", async () => {
+		dbMock.returning.mockResolvedValue([]);
+		const token = createNewsletterConfirmationToken(
+			"reader@example.com",
+			Date.now(),
+			envMock.BETTER_AUTH_SECRET
+		);
+
+		const response = await postConfirmation(token);
+
+		expect(response.status).toBe(303);
+		expect(response.headers.get("location")).toBe(
+			"https://webvise.io/newsletter-confirmed?success=true"
+		);
+		expect(fetchMock).not.toHaveBeenCalled();
 	});
 
 	it("sends a topic-specific welcome email when the signup came from a blog post", async () => {
@@ -137,9 +246,7 @@ describe("GET /api/newsletter/confirm", () => {
 			envMock.BETTER_AUTH_SECRET
 		);
 
-		await GET(
-			new Request(`https://webvise.io/api/newsletter/confirm?token=${token}`)
-		);
+		await postConfirmation(token);
 
 		const welcomeBody = JSON.parse(fetchMock.mock.calls[1][1].body);
 		expect(welcomeBody.html).toContain("Agent Memory vs Context");
@@ -155,11 +262,9 @@ describe("GET /api/newsletter/confirm", () => {
 			envMock.BETTER_AUTH_SECRET
 		);
 
-		const response = await GET(
-			new Request(`https://webvise.io/api/newsletter/confirm?token=${token}`)
-		);
+		const response = await postConfirmation(token);
 
-		expect(response.status).toBe(307);
+		expect(response.status).toBe(303);
 		expect(response.headers.get("location")).toBe(
 			"https://webvise.io/newsletter-confirmed?success=true"
 		);

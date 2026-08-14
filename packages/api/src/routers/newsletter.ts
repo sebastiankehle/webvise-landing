@@ -1,6 +1,9 @@
 import { TRPCError } from "@trpc/server";
 import { db } from "@webvise-app/db";
-import { newsletterSubscriber } from "@webvise-app/db/schema/newsletter";
+import {
+	leadEvent,
+	newsletterSubscriber,
+} from "@webvise-app/db/schema/newsletter";
 import { sql } from "drizzle-orm";
 import { z } from "zod";
 import {
@@ -31,6 +34,10 @@ export const newsletterRouter = router({
 			const email = input.email.trim().toLowerCase();
 			const placement = input.placement ?? "unknown";
 			const path = input.path ?? "";
+			const topic =
+				placement === "blog_article"
+					? (path.split("/").filter(Boolean).at(-1) ?? null)
+					: null;
 
 			// Source tracking must not block the signup itself.
 			try {
@@ -46,6 +53,21 @@ export const newsletterRouter = router({
 			} catch (err) {
 				console.error(
 					"[newsletter:subscribe] failed to store signup source:",
+					err instanceof Error ? err.message : err
+				);
+			}
+
+			try {
+				await db.insert(leadEvent).values({
+					email,
+					eventType: "newsletter_signup",
+					placement,
+					path,
+					topic,
+				});
+			} catch (err) {
+				console.error(
+					"[newsletter:subscribe] failed to store interest event:",
 					err instanceof Error ? err.message : err
 				);
 			}

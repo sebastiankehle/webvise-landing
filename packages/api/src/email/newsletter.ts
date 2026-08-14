@@ -128,9 +128,27 @@ export function newsletterWelcomeText(source?: WelcomeSource) {
 
 export interface SubscriberNotification {
 	email: string;
+	interests?: Array<{
+		eventType: "newsletter_signup" | "deck_request";
+		path: string;
+		topic: string | null;
+	}>;
 	path: string;
 	placement: string;
 	postTitle?: string;
+}
+
+function formatInterest(
+	interest: NonNullable<SubscriberNotification["interests"]>[number]
+) {
+	let label =
+		interest.eventType === "deck_request"
+			? "Deck request"
+			: "Newsletter signup";
+	if (interest.topic) {
+		label += `: ${interest.topic}`;
+	}
+	return `${label} · ${interest.path || "unknown"}`;
 }
 
 function notificationRows(info: SubscriberNotification): [string, string][] {
@@ -141,6 +159,10 @@ function notificationRows(info: SubscriberNotification): [string, string][] {
 		...(info.postTitle
 			? [["Article", info.postTitle] as [string, string]]
 			: []),
+		...(info.interests ?? []).map((interest): [string, string] => [
+			"Interest",
+			formatInterest(interest),
+		]),
 	];
 }
 
