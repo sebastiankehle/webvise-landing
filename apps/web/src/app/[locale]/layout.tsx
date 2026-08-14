@@ -1,13 +1,9 @@
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { GeistMono } from "geist/font/mono";
+import { GeistSans } from "geist/font/sans";
 import type { Metadata } from "next";
-import {
-	Geist,
-	Geist_Mono,
-	Hanken_Grotesk,
-	Inter,
-	Space_Grotesk,
-} from "next/font/google";
+import { Hanken_Grotesk, Inter, Space_Grotesk } from "next/font/google";
 import { notFound } from "next/navigation";
 import Script from "next/script";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
@@ -58,12 +54,6 @@ const inter = Inter({
 	weight: ["400", "500"],
 });
 
-const geist = Geist({
-	variable: "--font-geist-sans",
-	subsets: ["latin"],
-	weight: ["400", "500"],
-});
-
 const hankenGrotesk = Hanken_Grotesk({
 	variable: "--font-hanken-grotesk",
 	subsets: ["latin"],
@@ -72,12 +62,6 @@ const hankenGrotesk = Hanken_Grotesk({
 
 const spaceGrotesk = Space_Grotesk({
 	variable: "--font-space-grotesk",
-	subsets: ["latin"],
-	weight: ["400", "500"],
-});
-
-const geistMono = Geist_Mono({
-	variable: "--font-geist-mono",
 	subsets: ["latin"],
 	weight: ["400", "500"],
 });
@@ -192,7 +176,7 @@ export default async function LocaleLayout({
 				</Script>
 			</head>
 			<body
-				className={`${inter.variable} ${geist.variable} ${hankenGrotesk.variable} ${spaceGrotesk.variable} ${geistMono.variable} antialiased`}
+				className={`${inter.variable} ${GeistSans.variable} ${hankenGrotesk.variable} ${spaceGrotesk.variable} ${GeistMono.variable} antialiased`}
 			>
 				<ThemeProvider
 					attribute="class"
