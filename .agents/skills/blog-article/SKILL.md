@@ -20,7 +20,7 @@ Create a new blog article for the webvise blog with full translations across all
 ## Usage
 
 ```
-/blog-article            # zero-arg: auto-discovers topic from vault
+/blog-article            # zero-arg: discovers a topic from service gaps, published coverage, and editorial history
 /blog-article <brief>    # with brief: skips discovery, goes straight to entry contract
 ```
 
@@ -45,6 +45,8 @@ release and the death of pSEO
 
 When invoked without a brief, auto-discover a topic. Default to the **commercial-intent SEO lane**. Only fall back to the thought-leadership lane if no SEO gap is high-value enough to fill.
 
+> **A keyword gap is not automatically a topic gap.** A new exact query, year, vertical, title formula, or service CTA can still repeat the same reader problem, buying decision, claim, evidence, and recommendation as an existing article. Topic discovery must prove semantic distance before SERP research or candidate presentation.
+
 ### Step 1: Service & Keyword Gap Analysis (primary signal)
 
 Read `apps/web/src/data/services.ts` for the canonical 6 webvise services:
@@ -65,12 +67,40 @@ Buyer-intent keyword templates that historically convert for webvise:
 - `signs your [thing] needs [action]`
 - `[service] for [vertical]` (b2b, e-commerce, manufacturing, local business)
 
-### Step 2: Read Blog Log
-Read existing blog articles to avoid repetition. List all existing slugs and their primary tags/keywords. Note overlap candidates.
+### Step 2: Build a Semantic Coverage Map
 
-### Step 3: Vault scan (only if a thought-leadership angle is needed)
+Read existing English blog articles at two levels:
 
-If Step 1 surfaced a commercial-intent topic with a clear service attachment, **skip this step**. Otherwise, scan recently updated pages in the Obsidian vault for a thought-leadership angle. Use the `wiki` CLI (`wiki list wiki/<dir>`, `wiki read wiki/<path>`, `wiki search <query>`) — the vault lives at:
+1. Build a coverage fingerprint for every post from its slug, title, keyword, excerpt, meta description, h2/h3 headings, key-takeaway list, and internal links.
+2. For each provisional candidate, read the full English version of the 3-5 nearest posts.
+
+Map each post by:
+- reader and buying stage
+- problem or decision it helps with
+- core answer or claim
+- evidence, examples, and framework used
+- attached webvise service
+
+List all existing slugs and their primary tags/keywords, then record the closest semantic overlaps. Comparing only slugs, titles, tags, or exact keywords is insufficient.
+
+### Step 3: Check Editorial History (mandatory for every lane)
+
+Read `wiki/content/index.md`, then read the active blog or content strategy page it names. Search the vault for each provisional candidate's exact query, 2-3 core noun phrases, proposed claim, and service slug:
+
+```bash
+wiki read wiki/content/index.md
+wiki search "<target query>"
+wiki search "<core phrase>"
+wiki search "<proposed claim phrase>"
+```
+
+Review the current conversation and any available prior task context for proposed, rejected, deferred, drafted, or published angles. A topic the user says has already been discussed counts as covered unless the user explicitly asks to revisit it.
+
+This is a lightweight dedup pass, not a source-mining pass. Run it even when Step 1 finds a strong commercial query. If prior task history is unavailable and the vault has no record, say that cross-task conversational dedup could not be verified. Never claim novelty from the published directory alone.
+
+### Step 4: Deep Vault Scan (only if a thought-leadership angle is needed)
+
+If Step 1 surfaced a commercial-intent topic with a clear service attachment, skip this deeper source-mining pass. Step 3's editorial-history check still applies. Otherwise, scan recently updated pages in the Obsidian vault for a thought-leadership angle. Use the `wiki` CLI (`wiki list wiki/<dir>`, `wiki read wiki/<path>`, `wiki search <query>`) — the vault lives at:
 
 ```
 /Users/sebastiankehle/Documents/webvise/obsidian-vault/
@@ -83,16 +113,36 @@ Focus on:
 
 Also check `raw/articles/` for recently ingested sources that haven't been turned into blog content yet.
 
-### Step 4: Tweet performance (optional secondary signal)
+### Step 5: Tweet Performance (optional secondary signal)
 
-Tweet engagement is a *signal*, not a brief. Only check this if Steps 1 and 3 produced nothing publishable. Read via:
+Tweet engagement is a *signal*, not a brief. Only check this if Steps 1 and 4 produced nothing publishable. Read via:
 ```
 wiki read wiki/content/x/log.md
 ```
 
 Escalate a tweet to a blog article only when (a) the topic also matches a buyer query (preferred) or webvise service, (b) impressions > 5K or likes > 100, and (c) there is enough first-party material for 1500+ words. Personal-voice tweets without commercial intent are not a blog candidate.
 
-### Step 5: Generate 3 Candidate Briefs
+### Step 6: Candidate Novelty Gate
+
+Before a provisional candidate can enter the shortlist, compare it with its 3 closest published posts and the editorial-history results. Answer these questions:
+
+1. Does it serve the same reader at the same buying stage?
+2. Does it answer the same problem or buying decision?
+3. Does it defend the same core claim or recommendation?
+4. Does it rely on substantially the same evidence, examples, or framework?
+
+Reject the candidate when questions 2 and 3 are both yes, or when any 3 of the 4 answers are yes. An exact-keyword gap, a vertical swap, a year refresh, or a new checklist/cost title does not override this rule.
+
+A close candidate may survive only when one of these is true:
+- a new event or rule materially changes the answer
+- new first-party data changes the recommendation or buying decision
+- the article intentionally consolidates a cluster into a pillar, and the user approves that consolidation
+
+For every surviving candidate, write a **novelty proof** that names the nearest posts, states the distinct reader question, identifies the material new evidence, and explains why the idea cannot be handled by updating an existing article. If that proof is weak, reject the candidate.
+
+Distance from existing content is a pass/fail gate. Do not rank a failing candidate lower and present it anyway.
+
+### Step 7: Generate 3 Candidate Briefs
 
 Default to **at least 2 of 3 candidates being commercial-intent SEO** with a service attachment. Only include a thought-leadership candidate if it carries unusually strong first-party signal.
 
@@ -104,16 +154,17 @@ For each candidate, produce:
 - **Anchor type:** commercial-intent SEO / contrarian thesis / post-cutoff event / original synthesis / first-party data / public named example / anonymized client example
 - **Source pages:** vault pages, internal repos, or SERP references this draws from
 - **Why now:** what makes this timely or relevant today
-- **Existing coverage:** any overlap with published blog posts (list slugs)
+- **Closest coverage:** the 3 nearest published posts and the overlap with each
+- **Novelty proof:** the distinct reader question, new evidence, and reason an existing post cannot absorb it
+- **Editorial history:** vault pages and conversation context checked for prior discussion
 
 Rank candidates by:
 1. Lead-gen potential (clear service attachment + buyer intent)
 2. SEO opportunity (search volume vs current SERP weakness)
 3. Strength of first-party signal (numbers, public named examples, anonymized client examples, opinions webvise can defend)
-4. Distance from existing blog content
-5. Freshness
+4. Freshness
 
-### Step 6: Present & Confirm
+### Step 8: Present & Confirm
 
 Show all 3 candidates to the user. **Do not proceed until they pick one or provide their own brief.** Format:
 
@@ -126,6 +177,9 @@ Service: /services/<slug> (or "thought-leadership only")
 Anchor: [type]
 Sources: [pages]
 Why now: ...
+Closest coverage: [3 slugs + overlap]
+Novelty proof: ...
+Editorial history: [sources checked]
 ```
 
 After selection, proceed to the Entry Contract with the chosen brief.
@@ -144,6 +198,10 @@ A bare topic like *"AI for e-commerce"* is **not** a valid brief. Before generat
 6. **Real-world example** — a concrete public project, product, tool, research source, or anonymized client example used *as supporting evidence*, not as the spine of the article. Client examples must never name the client, company, person, repository, or private asset. Use sparingly. If the article would collapse without a client reference, it's a case study, not a blog article — stop and reconsider the format.
 
 If the user supplies only a bare topic (no anchor), **abort and ask for the anchor.** Do not proceed. The zero-arg discovery mode (above) handles the case where no topic is given at all.
+
+### Existing Coverage Gate
+
+A valid anchor does not prove that the article should exist. For a user-supplied brief, repeat Topic Discovery Steps 2, 3, and 6 before outlining. Skip this only when the user explicitly asks to update, replace, consolidate, or revisit existing coverage. If the brief fails the novelty gate, stop and show the nearest published posts and the repeated reader decision.
 
 You must also collect (in working memory, not persisted to JSON):
 
@@ -325,7 +383,7 @@ Every article opens with this sequence:
 
 ## Execution Steps
 
-1. **Validate brief.** Does it contain at least one unique-context anchor? Did the user provide a `claim` and `firstPartySources`? If not, **abort and ask.**
+1. **Validate brief and novelty.** Does it contain at least one unique-context anchor? Did the user provide a `claim` and `firstPartySources`? Does it pass the Existing Coverage Gate? If any answer is no, **abort and ask or show the conflicting coverage.**
 2. **Research (internal first).** Walk the research hierarchy. Stop when you have enough unique material. If nothing unique surfaces, abort.
 3. **Outline.** Sketch sections and run the **Training-Data Test** on each. Cut anything a vanilla LLM could produce. Verify: introduction follows the mandatory structure (direct answer + hook + APP + key takeaways). Body has 4-7 h2 sections, 2-3 mini-stories, 2-3 CTAs, at least 1 table.
 4. **Generate meta options.** Before writing, produce **3 title options** and **3 meta description options** for the English version. Present to Sebastian for selection.

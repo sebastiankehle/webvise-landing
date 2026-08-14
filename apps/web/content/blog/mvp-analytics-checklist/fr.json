@@ -1,0 +1,339 @@
+{
+  "date": "2026-08-14",
+  "readingTime": 10,
+  "keyword": "checklist analytics pour MVP",
+  "title": "Checklist analytics pour MVP : que suivre avant votre premier utilisateur",
+  "excerpt": "Une checklist analytics pratique pour votre MVP, afin de définir l'activation, les échecs de parcours, la rétention et les décisions produit à prendre au cours des 30 premiers jours.",
+  "metaDescription": "Utilisez cette checklist analytics pour définir les événements d'activation, d'échec et de rétention avant le lancement, puis transformer les 30 premiers jours en décisions produit.",
+  "cta": "Instrumenter mon MVP",
+  "tags": ["Web Development", "Business Strategy", "Process", "Small Business"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Avant le lancement, une **checklist analytics pour MVP** doit couvrir quatre points : un parcours essentiel, son événement d'activation, ses situations d'échec et le comportement de retour qui justifie un nouveau cycle de développement. Chaque événement doit aider à décider, dans les 30 premiers jours, s'il faut conserver, corriger ou arrêter."
+    },
+    {
+      "type": "p",
+      "text": "Les pages vues ne mesurent pas la promesse centrale du produit."
+    },
+    {
+      "type": "p",
+      "text": "Les fondateurs ont peu de trafic et encore moins de temps. Le premier plan de suivi doit donc rester court. Ce guide vous fournit une checklist prête à copier, de vrais noms d'événements tirés du site webvise en production et un registre de décisions sur 30 jours. Le [service de développement de MVP de webvise](/services/mvp-development) intègre l'analyse des utilisateurs dès le premier jour, afin que la première cohorte puisse influer sur la prochaine décision de développement."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Instrumentez un seul parcours critique.** Enregistrez son démarrage, sa réussite, son échec et sa répétition ultérieure avant d'ajouter des tunnels secondaires.",
+        "**Définissez l'activation par la valeur fournie.** La création d'un compte prouve l'accès au produit. L'événement qui montre que le produit a rempli sa mission doit figurer dans la définition de l'activation.",
+        "**Enregistrez la réussite après confirmation du serveur.** Les clics sur un bouton et les états optimistes de l'interface peuvent surestimer le travail accompli.",
+        "**Fixez la règle de décision avant le lancement.** Chaque métrique doit avoir un responsable, une date de revue et une action convenue : conserver, corriger ou arrêter."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Partez de la décision que le MVP doit éclairer"
+    },
+    {
+      "type": "p",
+      "text": "Un MVP mérite un nouveau cycle de développement lorsque son usage réel répond à une question commerciale. Le plan d'événements part de cette question, puis remonte jusqu'au plus petit ensemble d'actions capable d'y répondre."
+    },
+    {
+      "type": "p",
+      "text": "Le [modèle de document des exigences d'un MVP](/blog/mvp-requirements-document-template) vous demande déjà de définir un utilisateur, un parcours et une métrique de réussite. L'analytics associe à cette métrique un nom d'événement, un point de capture, une fenêtre temporelle et un responsable de la décision."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Question produit",
+        "Données à recueillir",
+        "Décision éclairée"
+      ],
+      "rows": [
+        [
+          "Un nouvel utilisateur peut-il atteindre la valeur promise ?",
+          "Démarrage, réussite et erreur du parcours principal, ainsi que le temps nécessaire pour le terminer",
+          "Conserver le parcours ou corriger l'étape qui bloque"
+        ],
+        [
+          "La valeur justifie-t-elle une nouvelle visite ?",
+          "Un deuxième parcours mené à bien un autre jour",
+          "Investir dans la rétention ou revoir la promesse du produit"
+        ],
+        [
+          "L'acheteur est-il prêt à s'engager ou à payer ?",
+          "Un paiement, un pilote signé, une demande qualifiée ou un autre événement commercial défini",
+          "Poursuivre avec le modèle économique ou modifier l'offre"
+        ],
+        [
+          "Où le parcours échoue-t-il ?",
+          "Code d'erreur nommé, étape, durée et version de l'application",
+          "Corriger l'erreur qui pénalise le plus les utilisateurs"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Sans décision clairement nommée, une métrique ne sert qu'à décorer un tableau de bord. Inscrivez la décision à côté de l'événement tant que chacun se souvient encore de sa raison d'être."
+    },
+    {
+      "type": "h2",
+      "text": "Copiez cette checklist analytics pour MVP"
+    },
+    {
+      "type": "p",
+      "text": "Utilisez cette checklist pendant le cadrage du produit et conservez le catalogue final des événements avec le brief du MVP. Remplacez `core_workflow` par l'action qui produit la valeur, par exemple `report_generated`, `booking_confirmed` ou `certificate_issued`."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Élément de la checklist",
+        "Exemple d'événement ou de champ",
+        "Règle d'acceptation"
+      ],
+      "rows": [
+        [
+          "Entrée",
+          "`account_created` ou première session identifiée",
+          "Un identifiant stable d'utilisateur ou d'espace de travail relie les événements ultérieurs"
+        ],
+        [
+          "Intention",
+          "`core_workflow_started`",
+          "Enregistrer lorsque l'utilisateur commence la tâche utile"
+        ],
+        [
+          "Valeur fournie",
+          "`core_workflow_completed`",
+          "Enregistrer après confirmation du résultat par le backend"
+        ],
+        [
+          "Échec",
+          "`core_workflow_failed` avec `error_code` et `step`",
+          "L'événement identifie un échec qui peut être corrigé sans stocker de saisie sensible"
+        ],
+        [
+          "Activation",
+          "Parcours terminé dans la fenêtre définie",
+          "La définition précise le nombre d'événements et le délai"
+        ],
+        [
+          "Valeur au retour",
+          "Un nouveau parcours terminé un autre jour",
+          "La requête exclut les nouvelles tentatives et les envois en double"
+        ],
+        [
+          "Résultat commercial",
+          "`payment_completed`, `pilot_signed` ou `qualified_request_sent`",
+          "Utiliser uniquement l'événement qui correspond à l'hypothèse commerciale"
+        ],
+        [
+          "Contexte",
+          "`source`, `plan`, `workspace_id`, `duration_ms`, `app_version`",
+          "Chaque propriété répond à un besoin de décision et possède un type de données défini"
+        ],
+        [
+          "Confidentialité",
+          "Liste de propriétés approuvées et durée de conservation",
+          "Les adresses e-mail, le corps des messages, les jetons d'accès et les fichiers privés restent absents des propriétés d'événement"
+        ],
+        [
+          "Vérification",
+          "Test en staging, test en production et requête de tableau de bord",
+          "Un responsable désigné vérifie chaque événement critique avant le lancement"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Le catalogue reste volontairement court. Un fondateur peut examiner dix événements après chaque session utilisateur. Un catalogue de 80 événements crée des écarts de nommage avant même l'existence de la première cohorte utile."
+    },
+    {
+      "type": "h2",
+      "text": "Un parcours exige des événements de démarrage, de réussite et d'erreur"
+    },
+    {
+      "type": "p",
+      "text": "Le formulaire de contact de webvise a commencé par `contact_form_submitted` le **2026-03-13**. Cet événement comptait les tentatives. `contact_form_started` est arrivé le **2026-04-30**, suivi de `contact_form_success` et de `contact_form_error` le **2026-05-01**."
+    },
+    {
+      "type": "p",
+      "text": "Quatre événements permettent désormais de distinguer trois problèmes : les personnes qui commencent puis abandonnent, les envois qui atteignent le serveur et les échecs de transmission après l'envoi. Chaque problème appelle une intervention différente. Le texte du formulaire influe sur les démarrages, la conception des champs sur la finalisation et les erreurs du serveur relèvent du développement."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Événement en production",
+        "Question à laquelle il répond",
+        "Action probable"
+      ],
+      "rows": [
+        [
+          "`contact_form_started`",
+          "La page a-t-elle suscité assez d'intérêt pour commencer ?",
+          "Revoir l'offre, le CTA et l'emplacement du formulaire"
+        ],
+        [
+          "`contact_form_submitted`",
+          "Le visiteur a-t-il fini de remplir les champs ?",
+          "Revoir les obstacles liés aux champs et à la validation"
+        ],
+        [
+          "`contact_form_success`",
+          "Le backend a-t-il accepté la demande ?",
+          "Compter les demandes reçues"
+        ],
+        [
+          "`contact_form_error`",
+          "Le parcours a-t-il échoué alors que l'intention était claire ?",
+          "Examiner le chemin côté serveur et prévenir le responsable"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Le rapport de santé WordPress suit la même structure sur un tunnel plus long. `analyzer_submitted` a été mis en production le **2026-03-13**, `analyzer_unlocked` le **2026-03-30**, puis des événements distincts de réussite et d'erreur le **2026-05-01**. L'événement de réussite stocke aussi les scores mobile, desktop et prévisionnel. Un seul parcours peut ainsi répondre aux questions de produit et de qualification sans copier le rapport envoyé dans l'outil analytics."
+    },
+    {
+      "type": "p",
+      "text": "Ces exemples fonctionnent dans l'application webvise actuelle. Ils montrent aussi pourquoi le [développement d'un MVP prêt pour la production](/services/mvp-development) inclut le déploiement, la surveillance et l'analyse des utilisateurs dès le premier périmètre. Le plan d'événements doit résister aux mêmes scénarios d'échec que le produit."
+    },
+    {
+      "type": "h2",
+      "text": "Définissez l'activation par la valeur fournie"
+    },
+    {
+      "type": "p",
+      "text": "L'activation correspond à la première livraison crédible de la valeur du produit. Pour un produit documentaire, elle peut avoir lieu lorsqu'un document valide est terminé. Pour un produit de réservation, elle peut avoir lieu quand les deux parties reçoivent une confirmation. La définition doit refléter la promesse du produit."
+    },
+    {
+      "type": "p",
+      "text": "PostHog a publié sa méthode d'activation le **2025-02-06**. Ses équipes testent des groupes de **3 à 5 événements**, comparent **5 à 10 groupes candidats** et vérifient la rétention des comptes activés au bout de trois mois. Product analytics utilise une fenêtre d'activation de 30 jours. Experimentation et Feature flags utilisent 14 jours."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Produit PostHog",
+        "Définition publiée de l'activation",
+        "Fenêtre"
+      ],
+      "rows": [
+        ["Experimentation", "1 expérimentation lancée", "14 jours"],
+        [
+          "Feature flags",
+          "2 flags créés et 2 flags mis à jour avec des filtres de propriétés",
+          "14 jours"
+        ],
+        [
+          "Product analytics",
+          "Premier événement d'équipe ingéré, 1 tableau de bord créé et 3 insights enregistrés",
+          "30 jours"
+        ],
+        [
+          "Session replay",
+          "5 enregistrements analysés et 1 filtre de liste d'enregistrements modifié",
+          "14 jours"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Le [guide d'activation de PostHog](https://newsletter.posthog.com/p/wtf-is-activation-and-why-should) fournit aussi un exemple d'échec utile. L'événement `recording analyzed` se déclenchait à tort, si bien que la métrique d'activation sous-estimait le nombre d'équipes ayant réussi. PostHog recommande d'enregistrer les événements d'activation critiques sur le serveur, car les bloqueurs du navigateur peuvent supprimer des événements côté client."
+    },
+    {
+      "type": "p",
+      "text": "Un nouveau MVP compte rarement assez d'utilisateurs pour prouver une corrélation avec la rétention dès le premier mois. Commencez par l'événement le plus proche de la valeur fournie, examinez de vraies sessions et consignez la définition comme provisoire. Ne la remplacez que lorsqu'une cohorte plus large montre quel comportement prédit un nouvel usage."
+    },
+    {
+      "type": "h2",
+      "text": "Tenez un registre de décisions sur 30 jours"
+    },
+    {
+      "type": "p",
+      "text": "Fixez la date de revue avant le lancement. Une date ferme empêche une seule session marquante de bouleverser la feuille de route du jour au lendemain, tandis que le registre de décisions évite qu'un usage faible ne conduise à un mois supplémentaire de développement de fonctionnalités."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Métrique",
+        "Objectif fixé avant le lancement",
+        "Valeur réelle au jour 7",
+        "Valeur réelle au jour 30",
+        "Règle de décision",
+        "Responsable"
+      ],
+      "rows": [
+        [
+          "Taux de démarrage du parcours principal",
+          "___ % des utilisateurs invités",
+          "___ %",
+          "___ %",
+          "Corriger l'entrée ou l'onboarding si les utilisateurs invités ne commencent jamais",
+          "___"
+        ],
+        [
+          "Taux de réussite du parcours",
+          "___ % des démarrages",
+          "___ %",
+          "___ %",
+          "Corriger l'étape qui bloque si l'intention ne mène pas à la valeur",
+          "___"
+        ],
+        [
+          "Taux d'activation",
+          "___ % en ___ jours",
+          "___ %",
+          "___ %",
+          "Conserver ou revoir le parcours d'activation",
+          "___"
+        ],
+        [
+          "Nouvel usage",
+          "___ % terminent à nouveau le parcours",
+          "___ %",
+          "___ %",
+          "Revoir la fréquence de la valeur si les utilisateurs satisfaits ne reviennent jamais",
+          "___"
+        ],
+        [
+          "Résultat commercial",
+          "___ paiements, pilotes ou demandes qualifiées",
+          "___",
+          "___",
+          "Poursuivre, modifier l'offre ou arrêter",
+          "___"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Fixez les objectifs à partir de la promesse commerciale du produit, de l'accord de pilote ou d'une référence manuelle. Les taux d'activation génériques comparent des produits dont les moments de valeur, les sources de trafic, les prix et les fenêtres temporelles diffèrent."
+    },
+    {
+      "type": "p",
+      "text": "Un faible nombre de démarrages renvoie à l'invitation ou à l'onboarding. Des démarrages suivis d'erreurs renvoient au développement. Une seule utilisation réussie suivie de silence pose la question de la fréquence de la valeur. Un usage répété sans résultat commercial oriente l'examen vers le prix, l'acheteur ou l'offre."
+    },
+    {
+      "type": "h2",
+      "text": "Transmettez le plan d'événements à la personne qui développe le produit"
+    },
+    {
+      "type": "p",
+      "text": "Insérez le catalogue d'événements dans le brief de développement et traitez les événements critiques comme des critères d'acceptation. Une capture d'écran du tableau de bord prouve peu de choses si le timing des événements, l'identité et les scénarios d'échec n'ont pas été testés."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Nommez le point de capture.** Précisez si le navigateur, la route API, la tâche en arrière-plan ou le webhook enregistre chaque événement.",
+        "**Testez la réussite après confirmation.** L'événement d'achèvement du parcours se déclenche après la création du résultat durable, jamais lors du clic initial sur le bouton.",
+        "**Testez délibérément l'échec.** Provoquez une erreur de validation, une erreur de serveur et un dépassement de délai d'un service externe avant le lancement.",
+        "**Vérifiez l'identité.** Après l'inscription, les événements anonymes d'entrée doivent être reliés au même utilisateur ou espace de travail sans créer une deuxième personne.",
+        "**Limitez les propriétés.** Tenez une liste d'autorisation écrite pour les identifiants, catégories, durées, versions et données approuvées sur le canal d'acquisition.",
+        "**Attribuez la revue.** Nommez la personne chargée de vérifier l'état des événements au lancement et de lire le registre du jour 30."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "webvise définit le parcours critique et le catalogue d'événements, puis intègre la configuration de PostHog, le déploiement et la surveillance dans un développement de MVP ciblé. Si votre première version comporte une liste de fonctionnalités sans plan de mesure, [envoyez votre brief à webvise](/#contact) avant que les noms d'événements ne se figent dans le code de production."
+    }
+  ]
+}

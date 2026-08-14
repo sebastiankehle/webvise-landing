@@ -1,0 +1,335 @@
+{
+  "date": "2026-08-14",
+  "readingTime": 10,
+  "keyword": "MVP analytics checklist",
+  "title": "MVP Analytics Checklist: What to Track Before Your First User",
+  "excerpt": "A practical MVP analytics checklist for defining activation, workflow failures, retention, and the product decisions your first 30 days must support.",
+  "metaDescription": "Use this MVP analytics checklist to define activation, failure, and retention events before launch, then turn the first 30 days into product decisions.",
+  "cta": "Instrument my MVP",
+  "tags": ["Web Development", "Business Strategy", "Process", "Small Business"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "An **MVP analytics checklist** should cover four things before launch: one core workflow, its activation event, its failure states, and the return behavior that justifies another build cycle. Every event should support a keep, fix, or stop decision within the first 30 days."
+    },
+    {
+      "type": "p",
+      "text": "Page views leave the product's main promise unmeasured."
+    },
+    {
+      "type": "p",
+      "text": "Founders have little traffic and even less time, so the first event plan has to stay small. This guide gives you a copyable checklist, real event names from webvise's production site, and a 30-day decision ledger. [webvise's MVP development service](/services/mvp-development) includes user analytics from day one so the first cohort can change the next build decision."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Instrument one critical workflow.** Capture its start, successful completion, failure, and later repeat before adding secondary funnels.",
+        "**Define activation as delivered value.** Account creation records access. The event that proves the product did its job belongs in the activation definition.",
+        "**Capture success after the server confirms it.** Button clicks and optimistic interface states can overcount completed work.",
+        "**Write the decision rule before launch.** Each metric needs an owner, review date, and an agreed keep, fix, or stop action."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Start With the Decision the MVP Must Support"
+    },
+    {
+      "type": "p",
+      "text": "An MVP earns another build cycle when real use answers a commercial question. The event plan starts with that question, then works backward to the smallest set of actions that can answer it."
+    },
+    {
+      "type": "p",
+      "text": "The [MVP requirements document template](/blog/mvp-requirements-document-template) already asks for one user, one workflow, and one success metric. Analytics gives that metric an event name, a capture point, a time window, and a decision owner."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Product question",
+        "Evidence to capture",
+        "Decision it supports"
+      ],
+      "rows": [
+        [
+          "Can a new user reach the promised value?",
+          "Core workflow start, success, error, and time to complete",
+          "Keep the workflow or fix the blocked step"
+        ],
+        [
+          "Does the value deserve a return visit?",
+          "A second successful workflow on a later day",
+          "Invest in retention work or revisit the product promise"
+        ],
+        [
+          "Will the buyer exchange money or commitment?",
+          "Payment, signed pilot, qualified request, or another declared commercial event",
+          "Continue the business model or change the offer"
+        ],
+        [
+          "Where does the workflow break?",
+          "Named error code, step, duration, and application version",
+          "Fix the fault with the highest user impact"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "A metric without a named decision becomes dashboard decoration. Write the decision beside the event while the team still remembers why the event exists."
+    },
+    {
+      "type": "h2",
+      "text": "Copy This MVP Analytics Checklist"
+    },
+    {
+      "type": "p",
+      "text": "Use the checklist during product scoping and keep the final event catalogue beside the MVP brief. Replace `core_workflow` with the value-producing action, such as `report_generated`, `booking_confirmed`, or `certificate_issued`."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Checklist item",
+        "Example event or field",
+        "Acceptance rule"
+      ],
+      "rows": [
+        [
+          "Entry",
+          "`account_created` or first identified session",
+          "A stable user or workspace ID joins later events"
+        ],
+        [
+          "Intent",
+          "`core_workflow_started`",
+          "Capture once the user begins the meaningful task"
+        ],
+        [
+          "Delivered value",
+          "`core_workflow_completed`",
+          "Capture after the backend confirms the result"
+        ],
+        [
+          "Failure",
+          "`core_workflow_failed` with `error_code` and `step`",
+          "The event identifies a fixable failure without storing sensitive input"
+        ],
+        [
+          "Activation",
+          "Completed workflow within the declared window",
+          "The definition states the event count and time limit"
+        ],
+        [
+          "Return value",
+          "Another completed workflow on a later day",
+          "The query excludes retries and duplicate deliveries"
+        ],
+        [
+          "Commercial result",
+          "`payment_completed`, `pilot_signed`, or `qualified_request_sent`",
+          "Use only the event that matches the commercial hypothesis"
+        ],
+        [
+          "Context",
+          "`source`, `plan`, `workspace_id`, `duration_ms`, `app_version`",
+          "Every property has a decision use and a defined data type"
+        ],
+        [
+          "Privacy",
+          "Approved property list and retention period",
+          "Emails, message bodies, access tokens, and private files stay out of event properties"
+        ],
+        [
+          "Verification",
+          "Staging test, production test, and dashboard query",
+          "A named owner checks each critical event before launch"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "The catalogue stays short on purpose. A founder can inspect ten events after each user session; a catalogue of 80 events creates naming drift before the first useful cohort exists."
+    },
+    {
+      "type": "h2",
+      "text": "One Workflow Needs Start, Success, and Error Events"
+    },
+    {
+      "type": "p",
+      "text": "webvise's contact form began with `contact_form_submitted` on **2026-03-13**. That event counted attempts. `contact_form_started` arrived on **2026-04-30**, followed by `contact_form_success` and `contact_form_error` on **2026-05-01**."
+    },
+    {
+      "type": "p",
+      "text": "Four events now separate three problems: people who start and leave, submissions that reach the server, and delivery failures after submission. Each problem points to different work. Form copy affects starts, field design affects completion, and server errors belong to engineering."
+    },
+    {
+      "type": "table",
+      "headers": ["Production event", "Question it answers", "Likely action"],
+      "rows": [
+        [
+          "`contact_form_started`",
+          "Did the page create enough intent to begin?",
+          "Review offer, CTA, and form placement"
+        ],
+        [
+          "`contact_form_submitted`",
+          "Did the visitor finish the fields?",
+          "Review field friction and validation"
+        ],
+        [
+          "`contact_form_success`",
+          "Did the backend accept the request?",
+          "Count delivered inquiries"
+        ],
+        [
+          "`contact_form_error`",
+          "Did the workflow fail after intent was clear?",
+          "Inspect the server path and alert owner"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "The WordPress health report uses the same shape across a longer funnel. `analyzer_submitted` shipped on **2026-03-13**, `analyzer_unlocked` on **2026-03-30**, and separate success and error events on **2026-05-01**. The success event also stores mobile, desktop, and projected scores, which lets one workflow answer product and qualification questions without copying the submitted report into analytics."
+    },
+    {
+      "type": "p",
+      "text": "These examples run in the current webvise application. They also explain why [production MVP development](/services/mvp-development) includes deployment, monitoring, and user analytics in the first scope. The event plan has to survive the same failure paths as the product."
+    },
+    {
+      "type": "h2",
+      "text": "Define Activation as Delivered Value"
+    },
+    {
+      "type": "p",
+      "text": "Activation records the first credible delivery of the product's value. A document product may activate when a valid document finishes. A booking product may activate when both sides receive confirmation. The definition belongs to the product promise."
+    },
+    {
+      "type": "p",
+      "text": "PostHog published its activation method on **2025-02-06**. Its teams test groups of **3 to 5 events**, compare **5 to 10 candidate groups**, and check whether activated accounts retain after three months. Product analytics uses a 30-day activation window; experimentation and feature flags use 14 days."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "PostHog product",
+        "Published activation definition",
+        "Window"
+      ],
+      "rows": [
+        ["Experimentation", "1 experiment launched", "14 days"],
+        [
+          "Feature flags",
+          "2 flags created and 2 flags updated with property filters",
+          "14 days"
+        ],
+        [
+          "Product analytics",
+          "First team event ingested, 1 dashboard created, and 3 insights saved",
+          "30 days"
+        ],
+        [
+          "Session replay",
+          "5 recordings analyzed and 1 recording list filter changed",
+          "14 days"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "The [PostHog activation guide](https://newsletter.posthog.com/p/wtf-is-activation-and-why-should) contains a useful failure receipt too. The `recording analyzed` event fired incorrectly, so the activation metric undercounted successful teams. PostHog recommends capturing critical activation events on the server because browser blockers can drop client-side events."
+    },
+    {
+      "type": "p",
+      "text": "A new MVP rarely has enough users to prove a retention correlation in month one. Start with the event closest to delivered value, inspect real sessions, and record the definition as provisional. Replace it only when a larger cohort shows which behavior predicts return use."
+    },
+    {
+      "type": "h2",
+      "text": "Use a 30-Day Decision Ledger"
+    },
+    {
+      "type": "p",
+      "text": "Set the review date before launch. A fixed date prevents one loud session from rewriting the roadmap overnight, while the decision ledger keeps weak usage from drifting into another month of feature work."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Metric",
+        "Target set before launch",
+        "Actual at day 7",
+        "Actual at day 30",
+        "Decision rule",
+        "Owner"
+      ],
+      "rows": [
+        [
+          "Core workflow start rate",
+          "___% of invited users",
+          "___%",
+          "___%",
+          "Fix entry or onboarding when invited users never begin",
+          "___"
+        ],
+        [
+          "Workflow success rate",
+          "___% of starts",
+          "___%",
+          "___%",
+          "Fix the blocked step when intent fails to reach value",
+          "___"
+        ],
+        [
+          "Activation rate",
+          "___% within ___ days",
+          "___%",
+          "___%",
+          "Keep or revise the activation path",
+          "___"
+        ],
+        [
+          "Return use",
+          "___% complete the workflow again",
+          "___%",
+          "___%",
+          "Revisit value frequency when successful users never return",
+          "___"
+        ],
+        [
+          "Commercial result",
+          "___ payments, pilots, or qualified requests",
+          "___",
+          "___",
+          "Continue, change the offer, or stop",
+          "___"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Set targets from the product's own sales promise, pilot agreement, or manual baseline. Generic activation benchmarks compare products with different value moments, traffic sources, prices, and time windows."
+    },
+    {
+      "type": "p",
+      "text": "Low starts point toward invitation or onboarding. Starts followed by errors point toward engineering. One successful use followed by silence raises a value-frequency question. Repeated use without a commercial result moves the review toward price, buyer, or offer."
+    },
+    {
+      "type": "h2",
+      "text": "Hand the Event Plan to the Builder"
+    },
+    {
+      "type": "p",
+      "text": "Put the event catalogue in the build brief and treat critical events as acceptance criteria. A dashboard screenshot proves little when event timing, identity, and failure paths remain untested."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Name the capture point.** State whether the browser, API route, background job, or webhook records each event.",
+        "**Test success after confirmation.** The workflow completion event fires after the durable result exists, never on the initial button click.",
+        "**Test failure deliberately.** Force one validation error, one server error, and one external-service timeout before launch.",
+        "**Verify identity.** Anonymous entry events must join the same user or workspace after signup without creating a second person.",
+        "**Restrict properties.** Keep a written allowlist for IDs, categories, durations, versions, and approved acquisition context.",
+        "**Assign the review.** Name the person who checks event health at launch and reads the day-30 ledger."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "webvise scopes the critical workflow, event catalogue, PostHog setup, deployment, and monitoring inside a focused MVP build. If your first release has a feature list and no measurement plan, [send the brief to webvise](/#contact) before the event names harden into production code."
+    }
+  ]
+}
