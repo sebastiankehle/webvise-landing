@@ -9,15 +9,19 @@ Create the smallest asset that meets the brief while keeping the current webvise
 
 ## Start with the source order
 
-Read [references/reference-map.md](references/reference-map.md) before designing.
+Read both local references before designing:
+
+- [references/design.md](references/design.md) — exact web and print styles
+- [references/reference-map.md](references/reference-map.md) — which example fits which asset
 
 Use sources in this order:
 
 1. Treat `apps/web/src/index.css` and the live site components as the current CI.
-2. Use the vault Print-Kit for A4 mechanics, embedded Geist, and print checks.
-3. Choose the closest August service or sales HTML as the layout reference.
-4. Use the July DEKRA offer only for proposal structure.
-5. Treat the April DEKRA slim offer as archive material. Never copy its client branding, colors, fonts, rates, or claims.
+2. Use `references/design.md` as the portable, exact CI specification.
+3. Use the vault Print-Kit for A4 mechanics, embedded Geist, and print checks.
+4. Choose the closest August service or sales HTML as the layout reference.
+5. Use the July DEKRA offer only for proposal structure.
+6. Treat the April DEKRA slim offer as archive material. Never copy its client branding, colors, fonts, rates, or claims.
 
 When sources disagree, the higher source wins. Do not average old and new styles.
 
@@ -44,9 +48,11 @@ Ask only when a missing choice would change the result. Do not invent prices, pr
 
 ## Apply the CI
 
-- Pull colors and tokens from `apps/web/src/index.css`; do not substitute remembered hex values.
-- Use Geist only at weights 400 and 500. Embed it for standalone files.
-- Build hierarchy with spacing, scale, alignment, restrained hairlines, and 10 px radii.
+- Apply the exact tokens, typography, radii, surfaces, motion, and print measurements in `references/design.md`.
+- Pull live values from `apps/web/src/index.css` when it is available; update the local specification when they differ.
+- Do not substitute remembered hex values, generic Tailwind defaults, or styles inferred from screenshots.
+- Use Geist only at weights 400 and 500 in the default CI. Embed it for standalone files.
+- Build hierarchy with spacing, scale, alignment, restrained hairlines, and the documented radii.
 - Use one orange brand accent with neutral light surfaces and dark text.
 - Avoid heavy bold type, decorative bars, dense full-surface grids, and generic template styling.
 - Render arrows with `<i class="ar"></i>` in print HTML; do not type the missing Geist arrow glyph.

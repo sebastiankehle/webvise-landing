@@ -1,5 +1,7 @@
 # Reference Map
 
+Read [design.md](design.md) first for exact styles. This file only selects the closest structural example.
+
 ## Source roots
 
 - Repo: use the workspace root that contains `.agents/skills/design-webvise-asset/`
@@ -25,6 +27,7 @@ When the vault is unavailable, locate the shared `webvise-ci-reference-pack` fol
 
 ## Current implementation sources
 
+- Portable CI specification: `.agents/skills/design-webvise-asset/references/design.md`
 - Website tokens: `apps/web/src/index.css`
 - Print guide: `wiki/work/webvise/operations/print-kit.md`
 - Print files: `wiki/work/webvise/operations/print-kit/`
