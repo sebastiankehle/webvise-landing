@@ -3,7 +3,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 import type { Metadata } from "next";
-import { Hanken_Grotesk, Inter, Space_Grotesk } from "next/font/google";
+import { Hanken_Grotesk, Space_Grotesk } from "next/font/google";
 import { notFound } from "next/navigation";
 import Script from "next/script";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
@@ -47,12 +47,6 @@ function pickClientMessages(messages: Record<string, unknown>) {
 		})
 	);
 }
-
-const inter = Inter({
-	variable: "--font-inter",
-	subsets: ["latin"],
-	weight: ["400", "500"],
-});
 
 const hankenGrotesk = Hanken_Grotesk({
 	variable: "--font-hanken-grotesk",
@@ -176,7 +170,7 @@ export default async function LocaleLayout({
 				</Script>
 			</head>
 			<body
-				className={`${inter.variable} ${GeistSans.variable} ${hankenGrotesk.variable} ${spaceGrotesk.variable} ${GeistMono.variable} antialiased`}
+				className={`${GeistSans.variable} ${hankenGrotesk.variable} ${spaceGrotesk.variable} ${GeistMono.variable} antialiased`}
 			>
 				<ThemeProvider
 					attribute="class"
