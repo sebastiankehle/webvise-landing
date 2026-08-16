@@ -1,11 +1,11 @@
 ---
 name: blog-article
-description: Create a new blog article for the webvise blog with full translations across all 7 supported locales. Use when the user wants a new blog post, mentions writing for the blog, or invokes /blog-article.
+description: Create a new blog article for the webvise blog in English and German (max 1 article/week, hard first-party gate). Use when the user wants a new blog post, mentions writing for the blog, or invokes /blog-article.
 ---
 
 # Blog Article Creation Skill
 
-Create a new blog article for the webvise blog with full translations across all 7 supported locales.
+Create a new blog article for the webvise blog in English and German.
 
 > **Primary goal — in priority order:** (1) rank in classical search and LLM citations for queries webvise's customers are typing, (2) route qualified traffic to a webvise service page that converts to a booked inquiry, (3) demonstrate competence so the reader trusts webvise to deliver. Every article must do at least two of the three. The blog is webvise's lead channel, not a personal megaphone.
 
@@ -13,7 +13,9 @@ Create a new blog article for the webvise blog with full translations across all
 > - **Commercial-intent SEO (default lane).** Buyer queries like "wordpress vs next.js for business", "how much does a website cost", "signs your website needs a redesign", "ai automation for small business". These map directly to a webvise service, target a real search query with a known SERP, and route to `/services/<slug>`. Most articles should be this lane.
 > - **Thought-leadership (secondary lane).** Contrarian or synthetic takes that build webvise's authority on AI, agency economics, or web strategy. Use sparingly and only when there is genuine first-party signal. These articles still need to mention webvise and link to a service or `/#contact`, but rank via citations and shares rather than buyer queries.
 
-> **Anti-slop guardrail (applies to both lanes).** Don't publish what a vanilla LLM call could produce from the title alone. For commercial-intent posts, originality means webvise's specific answer, numbers, opinion, and service attachment — not contrarianism for its own sake. For thought-leadership posts, originality means the claim itself is one no other agency is willing to defend. Slop dilutes the rest of the blog and demotes the domain.
+> **Cadence gate (hard, check first).** Max **1 article per week**. Before anything else, find the newest published date: `node -e "const fs=require('fs');console.log(fs.readdirSync('apps/web/content/blog').map(s=>{try{return JSON.parse(fs.readFileSync('apps/web/content/blog/'+s+'/en.json')).date}catch(e){return null}}).filter(Boolean).sort().pop())"`. If it is less than 7 days ago, stop and tell the user when the next slot opens. Quality beats frequency; missed weeks are **never** batched up later. Only exception: a news-reactive analysis of a post-cutoff event (the Fable-5 pattern, which measurably worked) may ship off-cadence while the news is live — it still passes the first-party gate below.
+>
+> **First-party gate (hard, applies to both lanes).** Every article must contain **verifiable first-party material**: numbers from real webvise projects, named tools/workflows from webvise's own stack, or documented decisions with dates. This is stricter than "originality": a competent, well-written synthesis of public sources with no own receipts **fails** — that is exactly the pattern Google demoted site-wide in July 2026. An article a vanilla LLM call could produce from the title alone is not published, and neither is one a vanilla LLM call plus a web search could produce. If the brief carries no receipts, abort and say what receipt is missing. News-reactive posts pass by carrying webvise's own read (own testing, own usage data, own stack impact), never neutral reporting.
 
 > **Blog article ≠ case study.** Case studies are a separate artifact with their own format (the project / client / outcome arc). A blog article is shaped around a **claim or query**, not around a client engagement. Blog articles may reference client work only as anonymized first-party evidence, with enough operational detail to be useful and without naming the client, company, person, repository, or private asset. If the brief reads like "we did X for client Y," push back and ask whether it should actually be a case study instead.
 
@@ -152,6 +154,7 @@ For each candidate, produce:
 - **Target query:** the exact buyer query (commercial lane) or anchor topic (thought lane)
 - **Service attachment:** which of the 6 webvise services this article routes to (commercial lane: required; thought lane: best-fit if any)
 - **Anchor type:** commercial-intent SEO / contrarian thesis / post-cutoff event / original synthesis / first-party data / public named example / anonymized client example
+- **Receipts:** the concrete first-party material this article will carry (project numbers, named stack tools/workflows, documented decisions). A candidate without receipts is not presentable — drop it.
 - **Source pages:** vault pages, internal repos, or SERP references this draws from
 - **Why now:** what makes this timely or relevant today
 - **Closest coverage:** the 3 nearest published posts and the overlap with each
@@ -199,6 +202,8 @@ A bare topic like *"AI for e-commerce"* is **not** a valid brief. Before generat
 
 If the user supplies only a bare topic (no anchor), **abort and ask for the anchor.** Do not proceed. The zero-arg discovery mode (above) handles the case where no topic is given at all.
 
+**An anchor alone is not enough.** Anchors 1, 2, and 4 (buyer query, contrarian thesis, original synthesis) must additionally be paired with at least one first-party receipt per the gate at the top: a number from a real webvise project, a named tool/workflow from webvise's own stack, or a documented decision with a date. A buyer query with only public-source synthesis behind it fails the gate, no matter how good the SERP opportunity looks.
+
 ### Existing Coverage Gate
 
 A valid anchor does not prove that the article should exist. For a user-supplied brief, repeat Topic Discovery Steps 2, 3, and 6 before outlining. Skip this only when the user explicitly asks to update, replace, consolidate, or revisit existing coverage. If the brief fails the novelty gate, stop and show the nearest published posts and the repeated reader decision.
@@ -218,9 +223,9 @@ For every planned section, ask: *could a vanilla LLM call produce this paragraph
 - If **yes** → the section must earn its place via at least one of: webvise's specific opinion, a concrete number, a named example, a service-attached recommendation, or a comparison the reader is actually searching for.
 - If **no** → keep it.
 
-For commercial-intent SEO articles, the bar is "does this section help the reader make a buying decision and route them toward a webvise service?" — pure originality is not required, but boilerplate-only sections are still cut. For thought-leadership articles, the bar is stricter: vanilla-LLM output must be replaced with first-party material or cut.
+The bar is identical in both lanes: a section that a vanilla LLM (with or without a web search) could produce must either carry a first-party receipt — webvise's number, named stack tool/workflow, documented decision, own measurement — or be cut. "Helps the buying decision" no longer excuses receipt-free sections; the dead keyword mass was full of helpful, receipt-free buying advice.
 
-Reject any draft where more than ~30% of blocks fail this test. Cap the article at the point first-party signal and buyer-decision content run out — don't pad to a target word count.
+Reject any draft where more than ~30% of blocks fail this test, and reject the article outright if it reads as competent synthesis without own receipts. Cap the article at the point first-party signal runs out — don't pad to a target word count.
 
 ## Research Hierarchy
 
@@ -267,7 +272,7 @@ When Sebastian provides another article as inspiration, treat it as reference ma
 ## Blog System Reference
 
 - **Content location:** `apps/web/content/blog/{slug}/` with one JSON file per locale
-- **Supported locales:** en (required), de, fr, es, nl, pl, it
+- **Supported locales:** en (required), de
 - **Routing:** auto-discovered, no config changes needed. Post appears at `/blog/{slug}`
 - **Type definitions:** `apps/web/src/data/blog.ts` — `BlogPost`, `Block`
 
@@ -349,7 +354,7 @@ Every article opens with this sequence:
 - **Max 4 sentences per paragraph.** Break longer paragraphs.
 - **Max 25 words average per sentence.** Vary length (short punchy + longer explanatory), but keep the average tight.
 - **No em dashes, en dashes, or spaced hyphens.** Never write `—`, `–`, ` - `, or `  -  `. Use periods, commas, colons, or restructure the sentence. Any dash-like separator between clauses is an LLM tell.
-- **No first-person plural. Ever.** The blog never speaks as "we," "our," or "us" — webvise is not a team voice. Refer to the agency in third person as **webvise** ("the checklist webvise uses," "webvise's read"), use "I" or Sebastian when a personal first-party observation needs an owner, or rephrase so no subject is needed ("the mechanics are covered in..."). Only exception: verbatim quotes from third parties (e.g. an Anthropic statement) keep their original pronouns. `translate.md` enforces the same rule per locale (no wir/uns, nous, nosotros, wij/ons, my/nasz, noi/nostro — including hidden first-person-plural verb conjugations in es/it/pl).
+- **No first-person plural. Ever.** The blog never speaks as "we," "our," or "us" — webvise is not a team voice. Refer to the agency in third person as **webvise** ("the checklist webvise uses," "webvise's read"), use "I" or Sebastian when a personal first-party observation needs an owner, or rephrase so no subject is needed ("the mechanics are covered in..."). Only exception: verbatim quotes from third parties (e.g. an Anthropic statement) keep their original pronouns. `translate.md` enforces the same rule for German (no wir/uns/unser as the studio's voice).
 - **No filler transitions.** Cut "Furthermore," "Additionally," "It's worth noting that," "In conclusion." Just start the next thought.
 - Lead with the **claim**. The first paragraph must contain the quotable sentence the article defends.
 - Direct, no-fluff, authoritative. No "in today's fast-paced world" preambles.
@@ -375,10 +380,10 @@ Every article opens with this sequence:
 - `keyword`, `title`, `excerpt`, `metaDescription`, `cta` are translated per locale
 - All block text is translated to natural, fluent prose in each language
 - **Bold** and [link](url) markdown syntax must be preserved
-- **Internal links MUST be locale-agnostic.** Always write `/blog/foo`, `/services/ai-automation`, `/#contact` — never prefix with a locale. The blog renderer uses next-intl `<Link>`, which auto-prepends the current locale at render time. Writing `/de/blog/foo` produces `/de/de/blog/foo` (double-locale) → 404. This rule applies identically to every locale file (en, de, fr, es, nl, pl, it): the path is the same across all translations.
+- **Internal links MUST be locale-agnostic.** Always write `/blog/foo`, `/services/ai-automation`, `/#contact` — never prefix with a locale. The blog renderer uses next-intl `<Link>`, which auto-prepends the current locale at render time. Writing `/de/blog/foo` produces `/de/de/blog/foo` (double-locale) → 404. This rule applies identically to both locale files (en, de): the path is the same in both.
 - External URLs (starting with `http`) stay unchanged
 - Technical terms, product names, acronyms stay in English
-- Formal register: Sie (German), vouvoiement (French), usted (Spanish), u-vorm (Dutch), formal Polish, Lei (Italian)
+- Formal register: Sie (German)
 - **No generic-fication.** Translations must preserve every first-party specific — anonymized client descriptors, numbers, dates, named public frameworks, links to internal work. Don't soften concrete claims into generic best practices. Do not reintroduce client names during translation.
 
 ## Execution Steps
@@ -447,8 +452,8 @@ Every article opens with this sequence:
 
 8. **Self-check (slop smell).** Walk the checklist below **item by item**, explicitly ticking each box. Do not collapse the walk into a single "all good" assertion — the quality score does not substitute for this gate. If any answer is "no," fix the draft and re-walk before continuing.
 9. **Add tags.** Pick 2-4, most relevant first.
-10. **Create translations.** Run the standalone playbook at `.claude/skills/blog-article/translate.md` (orchestrator procedure + per-executor prompt template live there). Translate the selected title and meta description, not all options.
-11. **No-genericification audit (translations).** Build a list of first-party anchors from the English draft (public named entities, numeric claims, dates, framework names, anonymized client descriptors). Run the audit script below across all 6 translations. Every anchor must survive, either verbatim or as a defensible localization (e.g. `$1T` → `1 000 milliards $`, `$50K` → `50 000 €` or `50 tys. zł`). Flag and fix any translation where an anchor was softened to a generic ("large numbers", "a leading CRO expert", "thousands of brands"). Do **not** declare done until this audit reports clean.
+10. **Create the German translation.** Run the standalone playbook at `.claude/skills/blog-article/translate.md` (orchestrator procedure + executor prompt template live there). Translate the selected title and meta description, not all options.
+11. **No-genericification audit (translation).** Build a list of first-party anchors from the English draft (public named entities, numeric claims, dates, framework names, anonymized client descriptors). Run the audit script below against the German translation. Every anchor must survive, either verbatim or as a defensible localization (e.g. `$50K` → `50.000 €`). Flag and fix any spot where an anchor was softened to a generic ("large numbers", "a leading CRO expert", "thousands of brands"). Do **not** declare done until this audit reports clean.
 
     ```bash
     node -e "
@@ -462,7 +467,7 @@ Every article opens with this sequence:
       {name:'webvise',       pattern:/webvise/},
       // add: named numbers, dates, public entities, anonymized client descriptors, frameworks for this article
     ];
-    for(const l of ['de','fr','es','nl','pl','it']){
+    for(const l of ['de']){
       const p=JSON.parse(fs.readFileSync(base+l+'.json','utf8'));
       let t=''; p.blocks.forEach(b=>{if(b.text)t+=b.text+' ';if(b.items)b.items.forEach(i=>t+=i+' ');if(b.rows)b.rows.forEach(r=>r.forEach(c=>t+=c+' '))});
       const missing=anchors.filter(a=>!a.pattern.test(t)).map(a=>a.name);
@@ -471,7 +476,7 @@ Every article opens with this sequence:
     "
     ```
 
-    Also verify per-locale: (a) zero em/en/spaced dashes, (b) every internal link is locale-agnostic — zero occurrences of `/en/`, `/de/`, `/fr/`, `/es/`, `/nl/`, `/pl/`, `/it/` anywhere inside a markdown `](...)` target; paths must start with a bare segment like `/blog/`, `/services/`, `/#contact` (c) block count matches English.
+    Also verify for `de.json`: (a) zero em/en/spaced dashes, (b) every internal link is locale-agnostic — zero occurrences of `/en/` or `/de/` anywhere inside a markdown `](...)` target; paths must start with a bare segment like `/blog/`, `/services/`, `/#contact` (c) block count matches English.
 12. **Validate JSON.** Run the validation command below.
 13. **Type check.** Run `npx tsc --noEmit --project apps/web/tsconfig.json`.
 
@@ -480,6 +485,7 @@ Every article opens with this sequence:
 Answer "yes" to **all** or fix the draft:
 
 **Content quality:**
+- [ ] Carries at least one verifiable first-party receipt: a number from a real webvise project, a named tool/workflow from webvise's own stack, or a documented decision with a date? (Competent synthesis of public sources alone fails, however well-written.)
 - [ ] Contains at least one fact, number, opinion, or named example that goes beyond what a vanilla LLM would output?
 - [ ] Names at least one specific public entity (project, person, product, framework) or uses one anonymized client example with a verifiable operational detail?
 - [ ] Has a clearly identifiable webvise point of view, not a balanced overview?
@@ -508,12 +514,12 @@ Answer "yes" to **all** or fix the draft:
 - [ ] No filler transitions? ("Furthermore," "Additionally," "Moreover")
 - [ ] Quality score >= 70?
 
-**Translations (mandatory before declaring done):**
-- [ ] Every first-party anchor from the English draft survives in each of de, fr, es, nl, pl, it (verbatim or as a defensible localization — never softened to a generic)?
-- [ ] No em dashes, en dashes, or spaced hyphens in any locale?
-- [ ] Every internal link in each translation is locale-agnostic (e.g. `/blog/slug`, `/#contact`, `/services/ai-automation`)? `grep -E '\]\(/(en\|de\|fr\|es\|nl\|pl\|it)/' apps/web/content/blog/<slug>/` MUST return zero matches. next-intl `<Link>` auto-prepends the current locale; any locale-prefixed link produces a double-locale 404.
-- [ ] Block count matches the English source for every locale?
-- [ ] No-genericification audit script (step 11) reported "all anchors present" for every locale?
+**Translation (mandatory before declaring done):**
+- [ ] Every first-party anchor from the English draft survives in de (verbatim or as a defensible localization — never softened to a generic)?
+- [ ] No em dashes, en dashes, or spaced hyphens in either locale?
+- [ ] Every internal link in the translation is locale-agnostic (e.g. `/blog/slug`, `/#contact`, `/services/ai-automation`)? `grep -E '\]\(/(en\|de)/' apps/web/content/blog/<slug>/` MUST return zero matches. next-intl `<Link>` auto-prepends the current locale; any locale-prefixed link produces a double-locale 404.
+- [ ] Block count matches the English source?
+- [ ] No-genericification audit script (step 11) reported "all anchors present" for de?
 
 ## Validation Command
 
@@ -525,4 +531,4 @@ for f in apps/web/content/blog/<slug>/*.json; do
 done
 ```
 
-All 7 files must parse and the block counts must match across locales.
+Both files (en, de) must parse and the block counts must match.
