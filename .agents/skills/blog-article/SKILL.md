@@ -285,6 +285,7 @@ Each locale file follows this structure:
 ```json
 {
   "date": "YYYY-MM-DD",
+  "updated": "YYYY-MM-DD (optional; rewrites keep the original date and set this instead)",
   "readingTime": <integer minutes>,
   "keyword": "<primary SEO keyword phrase>",
   "title": "<article title>",
@@ -378,7 +379,7 @@ Every article opens with this sequence:
 
 ## Translation Rules
 
-- `date`, `readingTime`, and `tags` are identical across all locales
+- `date`, `updated` (when present), `readingTime`, and `tags` are identical across all locales
 - `keyword`, `title`, `excerpt`, `metaDescription`, `cta` are translated per locale
 - All block text is translated to natural, fluent prose in each language
 - **Bold** and [link](url) markdown syntax must be preserved

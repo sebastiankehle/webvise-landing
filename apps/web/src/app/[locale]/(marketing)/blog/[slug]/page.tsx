@@ -66,6 +66,7 @@ export async function generateMetadata({
 			url: localizedUrl(path, locale),
 			type: "article",
 			publishedTime: post.date,
+			modifiedTime: post.updated,
 			images: [
 				{
 					url: "/opengraph-image",
@@ -284,7 +285,7 @@ export default async function BlogPostPage({
 				headline: post.title,
 				description: post.metaDescription ?? post.excerpt,
 				datePublished: post.date,
-				dateModified: post.date,
+				dateModified: post.updated ?? post.date,
 				author: { "@id": "https://www.webvise.io/#organization" },
 				publisher: { "@id": "https://www.webvise.io/#organization" },
 				mainEntityOfPage: { "@type": "WebPage", "@id": postUrl },
@@ -335,6 +336,19 @@ export default async function BlogPostPage({
 										year: "numeric",
 									})}
 								</time>
+								{post.updated && (
+									<>
+										{" \u00B7 "}
+										{t("updatedOn")}{" "}
+										<time dateTime={post.updated}>
+											{new Date(post.updated).toLocaleDateString(locale, {
+												day: "numeric",
+												month: "long",
+												year: "numeric",
+											})}
+										</time>
+									</>
+								)}
 								{" \u00B7 "}
 								{post.readingTime} {t("minRead")}
 							</Caption>

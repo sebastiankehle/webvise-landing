@@ -127,7 +127,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
 	const blogPages = blogPosts.flatMap((post) =>
 		entriesForPath(`/blog/${post.slug}`, {
-			lastModified: new Date(post.date),
+			lastModified: new Date(post.updated ?? post.date),
 			changeFrequency: "monthly",
 			priority: 0.7,
 		})

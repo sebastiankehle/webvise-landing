@@ -34,7 +34,7 @@ freely to sound native.
 
 1. **JSON shape is frozen.** Same keys, same block count, same block order and
    `type`s as `en.json`. Translate values only.
-2. **Identical across locales:** `date`, `readingTime`, `tags` — copy from
+2. **Identical across locales:** `date`, `updated` (when present), `readingTime`, `tags` — copy from
    `en.json` byte-for-byte. Translate: `keyword`, `title`, `excerpt`,
    `metaDescription`, `cta` (if present), and all block text/items/cells/
    `download` titles+descriptions (`reportId` stays).

@@ -22,6 +22,8 @@ export interface BlogPost {
 
 	tags?: string[];
 	title: string;
+	/** Set when a rewrite replaced the content after first publication. */
+	updated?: string;
 }
 
 interface PostFile {
@@ -34,6 +36,7 @@ interface PostFile {
 
 	tags?: string[];
 	title: string;
+	updated?: string;
 }
 
 interface LocaleContent {
@@ -142,6 +145,7 @@ function toPost(slug: string, locale: string): BlogPost | null {
 	return {
 		slug,
 		date: meta.date,
+		updated: meta.updated,
 		readingTime: meta.readingTime,
 		keyword: meta.keyword,
 		title: content.title,
