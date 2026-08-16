@@ -6,14 +6,25 @@ export const SITE_URL = "https://www.webvise.io";
 
 const BASE_URL = SITE_URL;
 
+/** Resolve per-locale pathnames (e.g. /imprint → /impressum for de) so
+ * canonicals and hreflang never point at URLs that 307-redirect. */
+function localizedPath(path: string, locale: string): string {
+	const pathnames = routing.pathnames[path as keyof typeof routing.pathnames];
+	if (typeof pathnames === "object" && pathnames !== null) {
+		return (pathnames as Record<string, string>)[locale] ?? path;
+	}
+	return path;
+}
+
 /**
  * Build a locale-aware full URL.
  * Path should not include locale prefix (e.g., "/blog/my-post").
  */
 export function localizedUrl(path: string, locale: string): string {
+	const resolved = localizedPath(path, locale);
 	return locale === routing.defaultLocale
-		? `${BASE_URL}${path}`
-		: `${BASE_URL}/${locale}${path}`;
+		? `${BASE_URL}${resolved}`
+		: `${BASE_URL}/${locale}${resolved}`;
 }
 
 /**
