@@ -1,196 +1,172 @@
 {
-  "date": "2026-02-19",
+  "date": "2026-08-16",
   "readingTime": 6,
   "keyword": "website audit checklist",
-  "title": "The 10-Point Website Audit Checklist for Business Owners",
-  "excerpt": "Most business owners have never reviewed their own website systematically. This 30-minute checklist shows you exactly what's working, and what's silently costing you enquiries.",
-  "tags": ["Performance", "SEO", "Web Development"],
+  "title": "Website Audit Checklist: 13 Checks, 5 Vitals, 3 Security Flags",
+  "excerpt": "The exact checklist behind webvise's free WP Health Report: 13 named performance checks, 5 Core Web Vitals, 3 rule-based security flags, and the 30-minute manual version you can run yourself.",
+  "metaDescription": "Website audit checklist from shipped code: 13 performance checks, 5 Core Web Vitals, 3 security flags. Run it by hand in 30 minutes or free in 60 seconds.",
+  "tags": ["WordPress", "Performance", "SEO"],
   "blocks": [
     {
       "type": "p",
-      "text": "Most business websites are built, launched, and then left alone. The design dates, the copy gets stale, new pages get added without a plan, and the team stops checking whether the site is actually doing its job. Meanwhile, it's receiving visitors every day, some of whom would have become customers if the site had made it easier."
+      "text": "A useful website audit checklist is fixed and inspectable: the same checks, the same thresholds, on every site. webvise published its own as a free tool. The [WP Health Report](/wp-health-report) runs 13 named performance checks, 5 Core Web Vitals, and 3 rule-based security flags against any public URL in about 60 seconds, with no access, plugin, or install required."
     },
     {
       "type": "p",
-      "text": "A website audit doesn't require technical expertise or expensive tools. What it requires is a structured approach and the willingness to look at your own site the way a stranger would: arriving for the first time, on a phone, with no prior knowledge of your business."
+      "text": "Every check in this article is copied from the tool's source code, down to the threshold that decides whether a finding makes the report. Most audit checklists end in judgment calls, like rating your own value proposition. A check you cannot score the same way twice is an opinion."
     },
     {
       "type": "p",
-      "text": "This checklist covers the 10 things that most directly affect whether your website generates enquiries. You can complete it in 30 minutes with nothing more than a browser and a phone."
-    },
-    {
-      "type": "h2",
-      "text": "Before You Start"
-    },
-    {
-      "type": "p",
-      "text": "Have these tools open before you begin. All are free and require no account for basic use:"
+      "text": "If you searched for a website audit checklist, you want something you can run today without hiring anyone. This article delivers the 60-second pipeline, the 13 checks with their 0.9 scoring rule, the 5 vitals with green thresholds, the WordPress fingerprinting logic, and a 30-minute manual runbook."
     },
     {
       "type": "ul",
       "items": [
-        "**Google** [PageSpeed Insights](https://pagespeed.web.dev/) (pagespeed.web.dev): tests your mobile and desktop speed score",
-        "**Google Search**: type `site:yourdomain.com` to see how your pages appear in search results",
-        "**An incognito browser window**: removes cached data and logged-in state, so you see what a new visitor sees",
-        "**Your actual mobile phone**: not a resized desktop browser. Use the phone you use every day."
+        "**The [WP Health Report](/wp-health-report) is the automated version of this checklist.** It runs entirely on public data and takes about 60 seconds per site.",
+        "**Only Lighthouse audits scoring below 0.9 count as findings.** The report sorts them worst first and shows the top 5 with estimated savings.",
+        "**5 Core Web Vitals are read from the mobile run:** FCP, LCP, TBT, CLS, and Speed Index.",
+        "**WordPress is detected through 5 markers, PHP through 3.** One hit is enough to raise the matching security flag.",
+        "**Every step can be reproduced by hand in about 30 minutes.** The runbook is in the second half of this article."
       ]
     },
     {
       "type": "h2",
-      "text": "The 10-Point Audit"
-    },
-    {
-      "type": "h3",
-      "text": "1. Mobile Speed Score"
+      "text": "How the 60-second pipeline works"
     },
     {
       "type": "p",
-      "text": "Go to Google [PageSpeed](/blog/website-speed-and-conversions) Insights and enter your homepage URL. Run the analysis and check the **mobile score**, not desktop. Green (90-100) is good. Yellow (50-89) needs attention. Red (below 50) means you are actively losing visitors: Google/SOASTA research (2017, replicated since) found 53% of mobile visitors leave a page that takes more than 3 seconds to load."
+      "text": "The tool validates the URL, then calls Google's PageSpeed Insights API v5 twice in parallel: one mobile run, one desktop run, performance category only, each with a 20-second timeout. Fingerprinting, issue extraction, vitals, and the security rules follow. The PageSpeed calls dominate the runtime, which is why the whole report lands in about 60 seconds."
     },
     {
       "type": "p",
-      "text": "Also test your most important service or product page, not just the homepage. Performance varies significantly between pages, and the homepage is rarely where conversions happen."
-    },
-    {
-      "type": "h3",
-      "text": "2. Value Proposition Above the Fold"
-    },
-    {
-      "type": "p",
-      "text": "Open your homepage in an incognito window on your phone. Without scrolling, can you answer: what does this business do, who is it for, and why should I care? A first-time visitor has no patience and no context. If the hero section doesn't answer all three questions immediately, most visitors will leave before scrolling."
-    },
-    {
-      "type": "p",
-      "text": "Common failures: taglines that sound good but say nothing (\"Empowering your potential\"), stock photos that could belong to any business, no mention of who the service is actually for."
-    },
-    {
-      "type": "h3",
-      "text": "3. Contact Path Length"
-    },
-    {
-      "type": "p",
-      "text": "Count the clicks it takes to contact you from your homepage. One click is good. Two is acceptable. Three or more means you're adding friction at the most important moment. Also check: is your contact path visible without scrolling on mobile? A phone number or contact link buried in the footer [costs](/blog/how-much-does-a-website-cost) you enquiries from people who are ready to reach out but won't hunt for the option."
-    },
-    {
-      "type": "h3",
-      "text": "4. Trust Signals"
-    },
-    {
-      "type": "p",
-      "text": "Look at your site with fresh eyes: what evidence does it provide that you're competent and reliable? Check for: named client testimonials with a photo or company name (initials don't count), recognisable client logos, certifications or accreditations, a visible team page or founder bio, review scores from Google or Trustpilot. Generic praise without attribution is worth almost nothing. Specific, named testimonials are worth a great deal."
-    },
-    {
-      "type": "h3",
-      "text": "5. Every Page Has a Clear Next Step"
-    },
-    {
-      "type": "p",
-      "text": "Click through to 5 pages on your site: homepage, a service page, an about page, a blog post if you have one, and your contact page. On each page, ask: what is the one thing this page wants me to do next? If the answer isn't immediately obvious, if there are three CTAs competing, or no CTA at all, that page is a dead end for anyone who isn't already determined to contact you."
-    },
-    {
-      "type": "h3",
-      "text": "6. Mobile Navigation Usability"
-    },
-    {
-      "type": "p",
-      "text": "On your actual phone, open the site and try to navigate to your services and contact page. Are tap targets large enough? Does the hamburger menu work smoothly? Do links overlap or sit too close together? Test with your thumb, not your index finger. If navigation is frustrating, you're filtering out mobile visitors at the point of highest intent."
-    },
-    {
-      "type": "h3",
-      "text": "7. Google Appearance"
-    },
-    {
-      "type": "p",
-      "text": "In Google, search for `site:yourdomain.com`. Your pages appear as Google shows them to the world: title, URL, and meta description. Check: do the titles accurately describe each page? Are meta descriptions cut off or missing entirely? Do any pages show generic titles (\"Home\" or just the site name)? What appears here is your first impression in search results, and most businesses have never looked at it."
-    },
-    {
-      "type": "h3",
-      "text": "8. SSL Certificate and HTTPS"
-    },
-    {
-      "type": "p",
-      "text": "In your browser address bar, does your site show a padlock icon and start with `https://`? If not, or if clicking the padlock shows \"Not Secure\", your site is flagged as unsafe by browsers. Google uses HTTPS as a ranking signal. More importantly, visitors see the security warning and leave. This is a basic credibility issue that has been entirely free to fix for several years."
-    },
-    {
-      "type": "h3",
-      "text": "9. Analytics Setup"
-    },
-    {
-      "type": "p",
-      "text": "Do you have Google Analytics (or equivalent) installed and actually checking the data? If you don't know how many people visit your site, which pages they look at, or where they come from, you're flying blind. Open your analytics and check: in the last 30 days, how many sessions did you receive? Which pages got the most traffic? What's your average bounce rate? If you can't answer these from your own data, that's the gap to close first."
-    },
-    {
-      "type": "h3",
-      "text": "10. Broken Links and 404 Pages"
-    },
-    {
-      "type": "p",
-      "text": "Broken links are invisible until they cost you. A visitor clicking a dead link gets a 404 error. Most of them leave rather than navigate back. Use Google Search Console's Coverage report to find broken links, or a free crawler like Screaming Frog (free up to 500 URLs). Also check: does your 404 page offer a helpful next step, or is it just an error message?"
+      "text": "Findings and vitals both come from the mobile run, and that is deliberate. Mobile Lighthouse throttles CPU and network, so it produces the stricter of the two scores, and mobile is the surface Google indexes first. The desktop score appears in the report for context."
     },
     {
       "type": "h2",
-      "text": "Scoring Your Audit"
+      "text": "The 13 performance checks and the 0.9 rule"
     },
     {
       "type": "p",
-      "text": "Give yourself 1 point for each check your site passes clearly. 0 for anything that fails or you're uncertain about."
+      "text": "The tool requests exactly 13 Lighthouse audits, listed in the table below. An audit becomes a finding only when its score drops below 0.9. Everything above that passes silently. Findings are sorted worst first, and the report shows the top 5 with estimated savings in milliseconds where Lighthouse provides them."
+    },
+    {
+      "type": "p",
+      "text": "I capped the output at 5 findings on purpose. A 30-item issue dump reads like noise and gets ignored, while 5 findings with the worst on top work as a fix order a developer can start on today."
     },
     {
       "type": "table",
-      "headers": ["Score", "Interpretation", "Priority Action"],
+      "headers": ["Check (Lighthouse audit ID)", "What it flags"],
       "rows": [
         [
-          "9-10",
-          "Your website is in strong shape. Focus on content and traffic growth.",
-          "Optimise conversion rate and invest in SEO or email"
+          "render-blocking-resources",
+          "CSS and scripts that delay the first paint"
         ],
+        ["unused-javascript", "Shipped JavaScript the page never executes"],
+        ["unused-css-rules", "Stylesheets loaded but never applied"],
+        ["unminified-javascript", "Scripts served without minification"],
+        ["unminified-css", "Stylesheets served without minification"],
+        ["total-byte-weight", "Total page weight across all requests"],
+        ["server-response-time", "Slow time to first byte from the host"],
+        ["dom-size", "Oversized DOM trees, often from page builders"],
+        ["redirects", "Redirect chains before the final URL"],
+        ["uses-text-compression", "Missing gzip or Brotli compression"],
         [
-          "7-8",
-          "Solid foundation with identifiable gaps. Fix the failures first.",
-          "Address failing checks in order of traffic impact"
+          "uses-optimized-images",
+          "Images served oversized or in legacy formats"
         ],
+        ["offscreen-images", "Below-the-fold images loaded eagerly"],
+        ["uses-responsive-images", "One large image served to every viewport"]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "WordPress sites tend to fail the same three: render-blocking-resources from theme stylesheets, unused-javascript from page builders, and server-response-time from PHP hosting without caching. The mechanics behind that pattern are covered in [why WordPress is slow on mobile](/blog/wordpress-slow-on-mobile)."
+    },
+    {
+      "type": "h2",
+      "text": "The 5 Core Web Vitals in the report"
+    },
+    {
+      "type": "p",
+      "text": "The report reads 5 metrics from the mobile run: First Contentful Paint, Largest Contentful Paint, Total Blocking Time, Cumulative Layout Shift, and Speed Index. Each arrives with its raw value and a score from 0 to 100."
+    },
+    {
+      "type": "table",
+      "headers": ["Metric", "What it measures", "Green threshold (mobile)"],
+      "rows": [
+        ["FCP", "First content painted on screen", "1.8 s or under"],
+        ["LCP", "Largest element painted", "2.5 s or under"],
+        ["TBT", "Main thread blocked during load", "200 ms or under"],
+        ["CLS", "Visual layout shifting", "0.1 or under"],
         [
-          "5-6",
-          "Significant issues affecting conversion. Your website is costing you leads.",
-          "Prioritise speed, mobile, and trust signals immediately"
-        ],
-        [
-          "Under 5",
-          "Your website is creating friction in your funnel. A structural review is overdue.",
-          "Get a professional audit and build a remediation plan"
+          "Speed Index",
+          "How fast content visibly fills the page",
+          "3.4 s or under"
         ]
       ]
     },
     {
+      "type": "p",
+      "text": "Google's ranking set is LCP, CLS, and INP. Lab runs cannot measure INP because it needs real user input, so TBT stands in for it. If mobile LCP is red, fix that first: it is a ranking factor and the delay visitors actually feel."
+    },
+    {
       "type": "h2",
-      "text": "What to Fix First"
+      "text": "WordPress fingerprinting and the 3 security flags"
     },
     {
       "type": "p",
-      "text": "If you've identified multiple failures, fix in this order:"
+      "text": "To fingerprint the stack, the tool fetches the page once and checks 5 WordPress markers: wp-content paths, wp-includes paths, a generator meta tag naming WordPress, an x-powered-by header mentioning WordPress, and a wp-json reference in the Link header. One hit is enough."
+    },
+    {
+      "type": "p",
+      "text": "PHP detection uses 3 markers: a WordPress hit, since WordPress runs on PHP, an x-powered-by header naming PHP, or .php file references in the markup. When the fingerprint request fails, the tool reports nothing instead of guessing."
+    },
+    {
+      "type": "p",
+      "text": "The 3 security flags are rules with exact triggers. \"No HTTPS encryption\" fires when the URL does not start with https. \"WordPress plugin ecosystem exposure\" fires on any WordPress hit. \"PHP server-side attack surface\" fires on any PHP hit."
+    },
+    {
+      "type": "p",
+      "text": "A flag is a reason to look closer, and the report says so instead of dressing rules up as a vulnerability scan. What plugin exposure costs in practice is covered in [WordPress security risks](/blog/wordpress-security-risks)."
+    },
+    {
+      "type": "h2",
+      "text": "The manual version: 30 minutes, 6 steps"
+    },
+    {
+      "type": "p",
+      "text": "You can reproduce the full audit with a browser and a terminal. Same checks, same thresholds, same order."
     },
     {
       "type": "ul",
       "items": [
-        "**Speed and mobile usability first:** these affect every visitor and every channel. Fixing speed before anything else multiplies the impact of every other improvement.",
-        "**Value proposition and CTA clarity second:** without a clear message and a clear next step, you're losing people who would otherwise convert.",
-        "**Trust signals third:** testimonials and social proof close the gap between interest and action. Add them to your highest-traffic pages first.",
-        "**SEO and analytics fourth:** once the site converts, improving visibility and measurement makes your investment compound over time.",
-        "**Broken links and SSL last:** these are typically quick fixes, but they matter for both credibility and search ranking."
+        "**Run PageSpeed twice.** Open [pagespeed.web.dev](https://pagespeed.web.dev/), test your most important page, and read the mobile tab first. Note the performance score and the 5 vitals.",
+        "**Apply the 0.9 rule.** Go through the 13 checks in the table above and mark every one PageSpeed lists under Diagnostics as a finding.",
+        "**Sort worst first, keep 5.** Order your findings by estimated savings and ignore everything past the fifth. That is your fix order.",
+        "**Fingerprint your own stack.** View the page source and search for wp-content, wp-includes, and generator.",
+        "**Check the headers.** Run `curl -sI https://yourdomain.com` and read the x-powered-by and link headers.",
+        "**Score the security flags.** Missing https in the address bar, a WordPress hit, or a PHP hit each raise one flag."
       ]
     },
     {
       "type": "p",
-      "text": "If your score is below 6 and your site is generating meaningful traffic, the cost of delay is measurable: each month with poor site performance is a month of suboptimal lead capture."
+      "text": "That is the entire checklist. The [WP Health Report](/wp-health-report) automates all 6 steps in about 60 seconds and emails you the findings if you want them in writing."
     },
     {
       "type": "h2",
-      "text": "Get a Professional Assessment"
+      "text": "Where the checklist ends"
     },
     {
       "type": "p",
-      "text": "This checklist gives you a self-diagnostic. A professional website audit goes deeper: it analyses your Core Web Vitals against real user data, audits your technical SEO, evaluates your conversion paths against industry benchmarks, and identifies structural issues that a self-review won't catch. Get a free website health report at [webvise.io/wp-health-report](/wp-health-report). Webvise reviews your site and sends you a prioritised findings report with no obligation."
+      "text": "The audit scores what public data can score: performance, vitals, and stack exposure. Copy, conversion paths, and design quality need a human, and a checklist that pretends to score them turns into opinion with numbers attached."
+    },
+    {
+      "type": "p",
+      "text": "A report showing WordPress markers next to a mobile score under 50 usually points at a structural ceiling. [The hidden cost of WordPress](/blog/hidden-cost-of-wordpress) itemizes what keeping that setup costs. When a rebuild is on the table, [webvise's WordPress migration service](/services/wordpress-migration) covers it end to end, at a 3-week average to launch across webvise projects."
+    },
+    {
+      "type": "p",
+      "text": "webvise built the WP Health Report as the intake step of its own audit work, and the tool ships inside webvise.io, a site that is 100% AI-coded via Claude Code. Run your site through it at [wp-health-report](/wp-health-report), or [get in touch](/#contact) and I will go through the findings with you."
     }
-  ],
-  "metaDescription": "Run a 30-minute website audit with this 10-point checklist. Check mobile speed, trust signals, CTAs, SEO basics, and more, no technical skills required."
+  ]
 }

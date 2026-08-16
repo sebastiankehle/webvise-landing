@@ -1,196 +1,182 @@
 {
-  "date": "2026-02-19",
+  "date": "2026-08-16",
   "readingTime": 6,
   "keyword": "Website Audit Checkliste",
-  "title": "Die 10-Punkte-Website-Audit-Checkliste für Unternehmer",
-  "excerpt": "Die meisten Unternehmer haben ihre eigene Website noch nie systematisch unter die Lupe genommen. Diese 30-Minuten-Checkliste zeigt Ihnen, was funktioniert und was Ihnen täglich Anfragen kostet.",
-  "tags": ["Performance", "SEO", "Web Development"],
+  "title": "Website-Audit-Checkliste: 13 Checks, 5 Vitals, 3 Sicherheits-Flags",
+  "excerpt": "Die exakte Checkliste hinter dem kostenlosen WP Health Report von webvise: 13 benannte Performance-Checks, 5 Core Web Vitals, 3 regelbasierte Sicherheits-Flags, plus die manuelle 30-Minuten-Version zum Selbermachen.",
+  "metaDescription": "Website Audit Checkliste aus echtem Code: 13 Performance-Checks, 5 Core Web Vitals, 3 Sicherheits-Flags. Von Hand in 30 Minuten oder kostenlos in 60 Sekunden.",
+  "tags": ["WordPress", "Performance", "SEO"],
   "blocks": [
     {
       "type": "p",
-      "text": "Die meisten Unternehmenswebsites werden gebaut, live gestellt und dann sich selbst überlassen. Das Design altert, die Texte veralten, neue Seiten entstehen ohne Konzept, und niemand prüft mehr, ob die Website ihren Job überhaupt noch erledigt. Dabei empfängt sie täglich Besucher, von denen manche Kunden geworden wären, hätte die Website es ihnen einfacher gemacht."
+      "text": "Eine brauchbare Website-Audit-Checkliste ist fest definiert und nachprüfbar: dieselben Checks, dieselben Schwellenwerte, bei jeder Website. webvise hat die eigene als kostenloses Tool veröffentlicht. Der [WP Health Report](/wp-health-report) prüft jede öffentliche URL in rund 60 Sekunden mit 13 benannten Performance-Checks, 5 Core Web Vitals und 3 regelbasierten Sicherheits-Flags, ganz ohne Zugang, Plugin oder Installation."
     },
     {
       "type": "p",
-      "text": "Für einen Website-Audit braucht es kein technisches Fachwissen und keine teuren Tools. Gefragt sind eine strukturierte Vorgehensweise und die Bereitschaft, die eigene Website so zu betrachten wie ein Fremder: Erstbesuch, mobiles Gerät, null Vorkenntnisse über Ihr Unternehmen."
+      "text": "Jeder Check in diesem Artikel stammt direkt aus dem Quellcode des Tools, bis hin zum Schwellenwert, der entscheidet, ob ein Befund in den Report kommt. Die meisten Audit-Checklisten enden in Ermessensfragen, etwa der Bewertung des eigenen Nutzenversprechens. Ein Check, der bei zwei Durchläufen unterschiedlich ausfallen kann, ist eine Meinung."
     },
     {
       "type": "p",
-      "text": "Diese Checkliste deckt die 10 Faktoren ab, die am direktesten beeinflussen, ob Ihre Website Anfragen generiert. Alles, was Sie brauchen, ist ein Browser und ein Smartphone. Zeitaufwand: 30 Minuten."
-    },
-    {
-      "type": "h2",
-      "text": "Vorbereitung"
-    },
-    {
-      "type": "p",
-      "text": "Öffnen Sie diese Tools, bevor Sie beginnen. Alle sind kostenlos und für die Grundnutzung ohne Konto verfügbar:"
+      "text": "Wer nach einer Website Audit Checkliste sucht, will etwas, das sich heute ohne Agentur durchführen lässt. Dieser Artikel liefert die 60-Sekunden-Pipeline, die 13 Checks mit ihrer 0,9-Regel, die 5 Vitals mit grünen Schwellenwerten, die WordPress-Erkennung und ein manuelles 30-Minuten-Runbook."
     },
     {
       "type": "ul",
       "items": [
-        "**Google** [PageSpeed Insights](https://pagespeed.web.dev/) (pagespeed.web.dev): prüft den Geschwindigkeitswert Ihrer Website auf Mobilgeräten und Desktop",
-        "**Google-Suche**: geben Sie `site:ihredomain.com` ein, um zu sehen, wie Ihre Seiten in den Suchergebnissen erscheinen",
-        "**Ein Inkognito-Browserfenster**: entfernt Cache und den eingeloggten Zustand, sodass Sie sehen, was ein neuer Besucher sieht",
-        "**Ihr echtes Mobiltelefon**: kein verkleinertes Desktop-Browserfenster. Nutzen Sie das Gerät, das Sie täglich verwenden."
+        "**Der [WP Health Report](/wp-health-report) ist die automatisierte Version dieser Checkliste.** Er läuft komplett auf öffentlichen Daten und braucht rund 60 Sekunden pro Website.",
+        "**Nur Lighthouse-Audits mit einem Score unter 0,9 zählen als Befund.** Der Report sortiert sie nach dem schlechtesten Wert zuerst und zeigt die Top 5 mit geschätztem Einsparpotenzial.",
+        "**5 Core Web Vitals kommen aus dem Mobile-Lauf:** FCP, LCP, TBT, CLS und Speed Index.",
+        "**WordPress wird über 5 Merkmale erkannt, PHP über 3.** Ein Treffer genügt, um das passende Sicherheits-Flag auszulösen.",
+        "**Jeder Schritt lässt sich in rund 30 Minuten von Hand reproduzieren.** Das Runbook steht in der zweiten Hälfte dieses Artikels."
       ]
     },
     {
       "type": "h2",
-      "text": "Der 10-Punkte-Audit"
-    },
-    {
-      "type": "h3",
-      "text": "1. Mobile Geschwindigkeit"
+      "text": "So funktioniert die 60-Sekunden-Pipeline"
     },
     {
       "type": "p",
-      "text": "Rufen Sie Google [PageSpeed](/blog/website-speed-and-conversions) Insights auf und geben Sie die URL Ihrer Startseite ein. Prüfen Sie nach der Analyse den **mobilen Score**, nicht den Desktop-Wert. Grün (90-100) ist gut. Gelb (50-89) zeigt Handlungsbedarf. Rot (unter 50) bedeutet, dass Sie aktiv Besucher verlieren: Laut Google/SOASTA-Forschung (2017, seitdem mehrfach repliziert) verlassen 53 % der mobilen Besucher eine Seite, die länger als 3 Sekunden lädt."
+      "text": "Das Tool validiert die URL und ruft dann Googles PageSpeed Insights API v5 zweimal parallel auf: ein Mobile-Lauf, ein Desktop-Lauf, nur die Kategorie Performance, jeweils mit 20 Sekunden Timeout. Danach folgen Fingerprinting, Befund-Extraktion, Vitals und die Sicherheitsregeln. Die PageSpeed-Aufrufe machen den Großteil der Laufzeit aus, deshalb steht der komplette Report nach rund 60 Sekunden."
     },
     {
       "type": "p",
-      "text": "Testen Sie außerdem Ihre wichtigste Leistungs- oder Produktseite, nicht nur die Startseite. Die Performance variiert erheblich zwischen einzelnen Seiten, und Conversions entstehen selten auf der Startseite."
-    },
-    {
-      "type": "h3",
-      "text": "2. Nutzenversprechen Above the Fold"
-    },
-    {
-      "type": "p",
-      "text": "Öffnen Sie Ihre Startseite im Inkognito-Modus auf dem Smartphone. Ohne zu scrollen: Können Sie beantworten, was dieses Unternehmen macht, für wen es arbeitet und warum das relevant ist? Ein Erstbesucher hat weder Geduld noch Vorwissen. Beantwortet der Hero-Bereich diese drei Fragen nicht sofort, scrollen die meisten Besucher gar nicht erst weiter."
-    },
-    {
-      "type": "p",
-      "text": "Typische Schwachstellen: Slogans, die gut klingen, aber nichts sagen (\"Ihr Potenzial entfalten\"), Stockfotos ohne Wiedererkennungswert, kein Hinweis darauf, für wen das Angebot überhaupt gedacht ist."
-    },
-    {
-      "type": "h3",
-      "text": "3. Länge des Kontaktwegs"
-    },
-    {
-      "type": "p",
-      "text": "Zählen Sie, wie viele Klicks es von Ihrer Startseite bis zur Kontaktaufnahme braucht. Ein Klick ist gut. Zwei sind akzeptabel. Drei oder mehr bedeuten unnötige Reibung am entscheidenden Moment. Prüfen Sie außerdem: Ist der Kontaktweg auf dem Smartphone sichtbar, ohne zu scrollen? Eine Telefonnummer oder ein Kontaktlink, der im Footer vergraben ist, [kostet](/blog/how-much-does-a-website-cost) Sie Anfragen von Menschen, die bereit wären zu schreiben, aber die Option nicht suchen."
-    },
-    {
-      "type": "h3",
-      "text": "4. Vertrauenssignale"
-    },
-    {
-      "type": "p",
-      "text": "Betrachten Sie Ihre Website mit frischen Augen: Welche Belege liefert sie dafür, dass Sie kompetent und verlässlich sind? Prüfen Sie: namentliche Kundenstimmen mit Foto oder Unternehmensangabe (Initialen zählen nicht), erkennbare Kundenlogos, Zertifizierungen oder Auszeichnungen, eine sichtbare Team- oder Gründerseite, Bewertungsscores von Google oder Trustpilot. Allgemeines Lob ohne Zuordnung ist kaum etwas wert. Konkrete, namentliche Testimonials sind es umso mehr."
-    },
-    {
-      "type": "h3",
-      "text": "5. Jede Seite hat einen klaren nächsten Schritt"
-    },
-    {
-      "type": "p",
-      "text": "Klicken Sie sich durch 5 Seiten: Startseite, eine Leistungsseite, eine Über-uns-Seite, einen Blogartikel (wenn vorhanden) und die Kontaktseite. Fragen Sie sich jeweils: Was ist das Eine, das diese Seite von mir als nächstes will? Ist die Antwort nicht sofort klar, konkurrieren drei CTAs miteinander oder fehlt ein CTA ganz, ist diese Seite eine Sackgasse für alle, die nicht schon fest entschlossen sind, Sie zu kontaktieren."
-    },
-    {
-      "type": "h3",
-      "text": "6. Mobile Navigation"
-    },
-    {
-      "type": "p",
-      "text": "Öffnen Sie die Website auf Ihrem echten Smartphone und navigieren Sie zu Ihren Leistungen und der Kontaktseite. Sind die Tipp-Ziele groß genug? Funktioniert das Hamburger-Menü reibungslos? Überlappen Links oder liegen sie zu nah beieinander? Testen Sie mit dem Daumen, nicht mit dem Zeigefinger. Frustrierende Navigation filtert mobile Besucher genau dann aus, wenn deren Interesse am größten ist."
-    },
-    {
-      "type": "h3",
-      "text": "7. Darstellung in Google"
-    },
-    {
-      "type": "p",
-      "text": "Suchen Sie in Google nach `site:ihredomain.com`. Ihre Seiten erscheinen so, wie Google sie der Welt zeigt: Titel, URL und Meta-Beschreibung. Prüfen Sie: Beschreiben die Titel jede Seite treffend? Werden Meta-Beschreibungen abgeschnitten oder fehlen ganz? Zeigen Seiten generische Titel wie \"Startseite\" oder nur den Firmennamen? Was hier steht, ist Ihr erster Eindruck in den Suchergebnissen, und die meisten Unternehmen haben das noch nie überprüft."
-    },
-    {
-      "type": "h3",
-      "text": "8. SSL-Zertifikat und HTTPS"
-    },
-    {
-      "type": "p",
-      "text": "Zeigt Ihre Website in der Adresszeile des Browsers ein Schloss-Symbol und beginnt die URL mit `https://`? Falls nicht, oder falls ein Klick auf das Schloss \"Nicht sicher\" anzeigt, stufen Browser Ihre Website als unsicher ein. Google wertet HTTPS als Rankingfaktor. Wichtiger noch: Besucher sehen die Sicherheitswarnung und verlassen die Seite. Dieses grundlegende Glaubwürdigkeitsproblem ist seit Jahren kostenlos zu beheben."
-    },
-    {
-      "type": "h3",
-      "text": "9. Analytics-Einrichtung"
-    },
-    {
-      "type": "p",
-      "text": "Ist Google Analytics (oder ein vergleichbares Tool) installiert, und schauen Sie tatsächlich in die Daten? Wer nicht weiß, wie viele Besucher die Website hat, welche Seiten sie aufrufen und woher sie kommen, navigiert im Blindflug. Öffnen Sie Ihre Analytics und prüfen Sie: Wie viele Sitzungen gab es in den letzten 30 Tagen? Welche Seiten erhielten den meisten Traffic? Wie hoch ist Ihre durchschnittliche Absprungrate? Wenn Sie diese Fragen nicht anhand eigener Daten beantworten können, ist das die erste Lücke, die es zu schließen gilt."
-    },
-    {
-      "type": "h3",
-      "text": "10. Tote Links und 404-Seiten"
-    },
-    {
-      "type": "p",
-      "text": "Tote Links fallen erst auf, wenn sie Schaden anrichten. Ein Besucher, der auf einen defekten Link klickt, landet auf einer 404-Seite, und die meisten verlassen die Website, anstatt zurückzunavigieren. Nutzen Sie den Coverage-Bericht der Google Search Console, um defekte Links zu finden, oder einen kostenlosen Crawler wie Screaming Frog (kostenlos bis 500 URLs). Prüfen Sie außerdem: Bietet Ihre 404-Seite einen hilfreichen nächsten Schritt, oder ist es nur eine Fehlermeldung?"
+      "text": "Befunde und Vitals stammen beide aus dem Mobile-Lauf, und das ist Absicht. Mobiles Lighthouse drosselt CPU und Netzwerk, liefert also den strengeren der beiden Scores, und Google indexiert zuerst die mobile Version. Der Desktop-Score steht als Kontext daneben."
     },
     {
       "type": "h2",
-      "text": "Auswertung"
+      "text": "Die 13 Performance-Checks und die 0,9-Regel"
     },
     {
       "type": "p",
-      "text": "Vergeben Sie 1 Punkt für jeden Check, den Ihre Website klar besteht. 0 Punkte für alles, was nicht funktioniert oder bei dem Sie unsicher sind."
+      "text": "Das Tool fragt exakt 13 Lighthouse-Audits ab, alle stehen in der Tabelle unten. Ein Audit wird erst dann zum Befund, wenn sein Score unter 0,9 fällt. Alles darüber passiert den Check ohne Meldung. Die Befunde werden nach dem schlechtesten Wert zuerst sortiert, und der Report zeigt die Top 5 mit geschätztem Einsparpotenzial in Millisekunden, wo Lighthouse es liefert."
+    },
+    {
+      "type": "p",
+      "text": "Ich habe die Ausgabe bewusst bei 5 Befunden gedeckelt. Eine Liste mit 30 Punkten liest sich wie Rauschen und wird ignoriert, während 5 Befunde mit dem schlimmsten zuoberst als Arbeitsauftrag funktionieren, den ein Entwickler heute anfangen kann."
     },
     {
       "type": "table",
-      "headers": ["Punkte", "Bewertung", "Sofortmaßnahme"],
+      "headers": ["Check (Lighthouse-Audit-ID)", "Was er meldet"],
       "rows": [
         [
-          "9-10",
-          "Ihre Website ist in guter Verfassung. Konzentrieren Sie sich auf Inhalte und Traffic-Wachstum.",
-          "Conversion Rate optimieren, in SEO oder E-Mail investieren"
+          "render-blocking-resources",
+          "CSS und Skripte, die den ersten Seitenaufbau verzögern"
         ],
         [
-          "7-8",
-          "Solide Basis mit klar erkennbaren Lücken. Beheben Sie die Schwachstellen zuerst.",
-          "Fehlgeschlagene Checks nach Traffic-Auswirkung priorisieren"
+          "unused-javascript",
+          "Ausgeliefertes JavaScript, das die Seite nie ausführt"
+        ],
+        ["unused-css-rules", "Geladene Stylesheets ohne angewendete Regeln"],
+        ["unminified-javascript", "Skripte ohne Minifizierung"],
+        ["unminified-css", "Stylesheets ohne Minifizierung"],
+        ["total-byte-weight", "Gesamtgewicht der Seite über alle Requests"],
+        ["server-response-time", "Langsame Serverantwort (Time to First Byte)"],
+        ["dom-size", "Aufgeblähter DOM-Baum, oft durch Page Builder"],
+        ["redirects", "Weiterleitungsketten vor der finalen URL"],
+        ["uses-text-compression", "Fehlende gzip- oder Brotli-Kompression"],
+        [
+          "uses-optimized-images",
+          "Bilder in Übergröße oder in veralteten Formaten"
         ],
         [
-          "5-6",
-          "Erhebliche Probleme kosten Conversions. Ihre Website kostet Sie Leads.",
-          "Geschwindigkeit, Mobile und Vertrauenssignale sofort angehen"
+          "offscreen-images",
+          "Bilder unterhalb des Sichtbereichs, die sofort laden"
         ],
+        ["uses-responsive-images", "Ein großes Bild für alle Bildschirmgrößen"]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "WordPress-Websites scheitern typischerweise an denselben drei Checks: render-blocking-resources durch Theme-Stylesheets, unused-javascript durch Page Builder und server-response-time durch PHP-Hosting ohne Caching. Die Mechanik dahinter steht in [Warum WordPress auf dem Smartphone langsam ist](/blog/wordpress-slow-on-mobile)."
+    },
+    {
+      "type": "h2",
+      "text": "Die 5 Core Web Vitals im Report"
+    },
+    {
+      "type": "p",
+      "text": "Der Report liest 5 Metriken aus dem Mobile-Lauf: First Contentful Paint, Largest Contentful Paint, Total Blocking Time, Cumulative Layout Shift und Speed Index. Jede kommt mit ihrem Rohwert und einem Score von 0 bis 100."
+    },
+    {
+      "type": "table",
+      "headers": ["Metrik", "Was sie misst", "Grüner Schwellenwert (mobil)"],
+      "rows": [
         [
-          "Unter 5",
-          "Ihre Website erzeugt Reibung im Funnel. Eine grundlegende Überarbeitung ist überfällig.",
-          "Professionellen Audit beauftragen und Sanierungsplan erstellen"
+          "FCP",
+          "Erster sichtbarer Inhalt auf dem Bildschirm",
+          "1,8 s oder weniger"
+        ],
+        ["LCP", "Größtes gerendertes Element", "2,5 s oder weniger"],
+        ["TBT", "Blockierter Main Thread beim Laden", "200 ms oder weniger"],
+        ["CLS", "Visuelle Layout-Verschiebungen", "0,1 oder weniger"],
+        [
+          "Speed Index",
+          "Wie schnell sich der sichtbare Inhalt aufbaut",
+          "3,4 s oder weniger"
         ]
       ]
     },
     {
+      "type": "p",
+      "text": "Googles Ranking-Set besteht aus LCP, CLS und INP. Labor-Läufe können INP nicht messen, weil dafür echte Nutzereingaben nötig sind, also springt TBT als Labor-Näherung ein. Steht das mobile LCP auf Rot, gehört es zuerst repariert: Es ist Ranking-Faktor und zugleich die Verzögerung, die Besucher tatsächlich spüren."
+    },
+    {
       "type": "h2",
-      "text": "Was zuerst beheben"
+      "text": "WordPress-Erkennung und die 3 Sicherheits-Flags"
     },
     {
       "type": "p",
-      "text": "Wenn Sie mehrere Schwachstellen identifiziert haben, arbeiten Sie in dieser Reihenfolge:"
+      "text": "Für das Fingerprinting lädt das Tool die Seite einmal und prüft 5 WordPress-Merkmale: wp-content-Pfade, wp-includes-Pfade, ein Generator-Meta-Tag mit WordPress, einen x-powered-by-Header mit WordPress und einen wp-json-Verweis im Link-Header. Ein Treffer genügt."
+    },
+    {
+      "type": "p",
+      "text": "Die PHP-Erkennung nutzt 3 Merkmale: einen WordPress-Treffer, denn WordPress läuft auf PHP, einen x-powered-by-Header mit PHP oder .php-Dateiverweise im Markup. Schlägt die Fingerprint-Anfrage fehl, meldet das Tool nichts, statt zu raten."
+    },
+    {
+      "type": "p",
+      "text": "Die 3 Sicherheits-Flags sind Regeln mit exakten Auslösern. \"Keine HTTPS-Verschlüsselung\" greift, wenn die URL nicht mit https beginnt. \"Angriffsfläche WordPress-Plugin-Ökosystem\" greift bei jedem WordPress-Treffer. \"Serverseitige PHP-Angriffsfläche\" greift bei jedem PHP-Treffer."
+    },
+    {
+      "type": "p",
+      "text": "Ein Flag ist ein Anlass, genauer hinzusehen, und der Report sagt das auch, statt Regeln als Schwachstellen-Scan zu verkaufen. Was Plugin-Exposition in der Praxis kostet, steht in [WordPress-Sicherheitsrisiken](/blog/wordpress-security-risks)."
+    },
+    {
+      "type": "h2",
+      "text": "Die manuelle Version: 30 Minuten, 6 Schritte"
+    },
+    {
+      "type": "p",
+      "text": "Das komplette Audit lässt sich mit Browser und Terminal reproduzieren. Gleiche Checks, gleiche Schwellenwerte, gleiche Reihenfolge."
     },
     {
       "type": "ul",
       "items": [
-        "**Geschwindigkeit und Mobile zuerst:** diese Faktoren betreffen jeden Besucher und jeden Kanal. Wer die Performance als erstes verbessert, verstärkt die Wirkung jeder weiteren Maßnahme.",
-        "**Nutzenversprechen und CTA-Klarheit als zweites:** ohne klare Botschaft und klaren nächsten Schritt verlieren Sie Menschen, die sonst konvertiert hätten.",
-        "**Vertrauenssignale als drittes:** Testimonials und Social Proof schließen die Lücke zwischen Interesse und Handlung. Beginnen Sie mit den meistbesuchten Seiten.",
-        "**SEO und Analytics als viertes:** sobald die Website konvertiert, lässt sich durch bessere Sichtbarkeit und Messbarkeit der Gesamteffekt über Zeit steigern.",
-        "**Tote Links und SSL zuletzt:** meist schnell behoben, aber relevant für Glaubwürdigkeit und Suchranking."
+        "**PageSpeed zweimal laufen lassen.** [pagespeed.web.dev](https://pagespeed.web.dev/) öffnen, die wichtigste Seite testen und zuerst den Mobile-Tab lesen. Performance-Score und die 5 Vitals notieren.",
+        "**Die 0,9-Regel anwenden.** Die 13 Checks aus der Tabelle oben durchgehen und jeden als Befund markieren, den PageSpeed unter Diagnostics auflistet.",
+        "**Nach dem schlechtesten Wert sortieren, 5 behalten.** Befunde nach geschätztem Einsparpotenzial ordnen und alles ab Platz 6 ignorieren. Das ist der Arbeitsauftrag.",
+        "**Den eigenen Stack fingerprinten.** Den Seitenquelltext öffnen und nach wp-content, wp-includes und generator suchen.",
+        "**Die Header prüfen.** `curl -sI https://ihredomain.de` ausführen und die Header x-powered-by und link lesen.",
+        "**Die Sicherheits-Flags auszählen.** Fehlendes https in der Adresszeile, ein WordPress-Treffer oder ein PHP-Treffer setzen je ein Flag."
       ]
     },
     {
       "type": "p",
-      "text": "Liegt Ihr Score unter 6 und generiert Ihre Website nennenswerten Traffic, sind die Kosten des Abwartens messbar: Jeder Monat mit schwacher Site-Performance ist ein Monat suboptimaler Lead-Gewinnung."
+      "text": "Das ist die gesamte Checkliste. Der [WP Health Report](/wp-health-report) automatisiert alle 6 Schritte in rund 60 Sekunden und schickt die Befunde auf Wunsch per E-Mail."
     },
     {
       "type": "h2",
-      "text": "Professionelle Einschätzung holen"
+      "text": "Wo die Checkliste endet"
     },
     {
       "type": "p",
-      "text": "Diese Checkliste ermöglicht eine erste Selbstdiagnose. Ein professioneller Website-Audit geht tiefer: Er analysiert Ihre Core Web Vitals anhand realer Nutzerdaten, prüft Ihr technisches SEO, bewertet Ihre Conversion-Pfade anhand von Branchen-Benchmarks und deckt strukturelle Schwachstellen auf, die ein Selbstcheck nicht erfasst. Einen kostenlosen Website-Health-Report gibt es unter [webvise.io/wp-health-report](/wp-health-report): webvise analysiert Ihre Website und schickt Ihnen einen priorisierten Befundbericht ohne jede Verpflichtung."
+      "text": "Das Audit bewertet, was sich aus öffentlichen Daten bewerten lässt: Performance, Vitals und Stack-Exposition. Texte, Conversion-Pfade und Designqualität brauchen einen Menschen, und eine Checkliste, die dort Scores vortäuscht, wird zur Meinung mit Zahlen dran."
+    },
+    {
+      "type": "p",
+      "text": "Ein Report mit WordPress-Merkmalen neben einem Mobile-Score unter 50 deutet meist auf eine strukturelle Obergrenze. [Die versteckten Kosten von WordPress](/blog/hidden-cost-of-wordpress) rechnet vor, was der Betrieb dieses Setups kostet. Steht ein Neuaufbau im Raum, übernimmt [die WordPress-Migration von webvise](/services/wordpress-migration) das komplett, mit im Schnitt 3 Wochen bis zum Launch über die webvise-Projekte hinweg."
+    },
+    {
+      "type": "p",
+      "text": "webvise hat den WP Health Report als Einstiegsschritt der eigenen Audit-Arbeit gebaut, und das Tool läuft innerhalb von webvise.io, einer Website, die selbst zu 100 % mit Claude Code KI-entwickelt ist. Testen Sie Ihre Website unter [wp-health-report](/wp-health-report), oder [melden Sie sich](/#contact), dann gehe ich die Befunde mit Ihnen durch."
     }
-  ],
-  "metaDescription": "Website-Audit in 30 Minuten: Diese 10-Punkte-Checkliste prüft mobile Geschwindigkeit, Vertrauenssignale, CTAs und SEO-Grundlagen, ganz ohne technische Vorkenntnisse."
+  ]
 }

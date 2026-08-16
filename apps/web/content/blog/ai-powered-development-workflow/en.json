@@ -1,136 +1,187 @@
 {
-  "date": "2026-03-26",
-  "readingTime": 8,
-  "keyword": "ai powered software development",
-  "title": "How I Use AI to Build Better Software, Faster",
-  "excerpt": "AI coding tools are everywhere, but using them effectively requires more than installing an extension. Here's how I've integrated AI into every stage of my development workflow, from planning to code review to deployment.",
-  "tags": ["AI", "Web Development", "Automation"],
+  "date": "2026-08-16",
+  "readingTime": 7,
+  "keyword": "ai powered development workflow",
+  "title": "The AI-Powered Development Workflow Behind Every webvise Build",
+  "excerpt": "The exact pipeline webvise ships client software through: six build stages, three model tiers, verifier agents that never self-approve, and a browser-verified QA pass. webvise.io is the public proof, 100% AI-coded via Claude Code.",
+  "metaDescription": "webvise's AI-powered development workflow, documented: plan mode, DESIGN.md before UI, verifier agents, and a 100% AI-coded site as proof. See the six stages.",
+  "tags": ["AI Agents", "Web Development", "Process"],
   "blocks": [
     {
       "type": "p",
-      "text": "Every developer has access to AI coding assistants now. The tools create little advantage on their own. Teams ship faster with AI when the tool is integrated into the workflow: how they configure it, what context they give it, and where they draw the line between AI autonomy and human judgment."
+      "text": "webvise ships client software through a documented, AI-powered development workflow: plan mode before any code, a DESIGN.md before any UI, a public skill library, and verifier agents that never approve their own work. The standing proof is webvise.io itself, 100% AI-coded via Claude Code, scoring 96 on Lighthouse, with the repo public at [github.com/sebastiankehle](https://github.com/sebastiankehle)."
     },
     {
       "type": "p",
-      "text": "At webvise, AI is embedded in every stage of the development process. It removes friction so engineering time goes to architecture, design decisions, and business logic rather than boilerplate, repetitive refactoring, and manual review checklists."
-    },
-    {
-      "type": "h2",
-      "text": "Planning: Explore Before You Commit"
-    },
-    {
-      "type": "p",
-      "text": "Complex tasks, library migrations, architecture changes, features that touch dozens of files, start in **plan mode**. Before any code is written, the AI explores the codebase, maps dependencies, and proposes an implementation approach. This is fundamentally different from giving the AI a task and hoping the output is right."
-    },
-    {
-      "type": "p",
-      "text": "Plan mode matters because the cost of rework on a large change is high. A microservice restructuring that discovers unexpected dependencies after half the code is written wastes days. Having the AI map the full dependency graph first, then propose service boundaries, catches those issues before a single line changes."
-    },
-    {
-      "type": "p",
-      "text": "For well-scoped changes, a single-file bug fix, adding a validation check, I skip plan mode entirely and execute directly. The key is matching the approach to the complexity: planning for architectural decisions, direct execution for clear tasks."
-    },
-    {
-      "type": "h2",
-      "text": "Project Configuration: Teaching the AI Your Standards"
-    },
-    {
-      "type": "p",
-      "text": "The single most impactful thing you can do with an AI coding assistant is **give it the right context**. I maintain structured configuration files that tell the AI my coding standards, testing conventions, API patterns, and deployment requirements. This context is loaded automatically for every session."
-    },
-    {
-      "type": "p",
-      "text": "But not all context is relevant all the time. Loading API conventions when editing a React component wastes tokens and can confuse the AI. I use **path-specific rules** with glob patterns, rules that activate only when editing matching files. Test conventions load for `**/*.test.tsx` files. API patterns load for `src/api/**/*`. Database conventions load for migration files."
-    },
-    {
-      "type": "p",
-      "text": "This approach reduces noise and improves output quality. The AI generates code that matches my standards because it knows what those standards are, and only the standards relevant to the file it is editing."
-    },
-    {
-      "type": "h2",
-      "text": "Development: Iterative Refinement Over One-Shot Generation"
-    },
-    {
-      "type": "p",
-      "text": "The biggest mistake teams make with AI coding tools is treating them as one-shot generators. You describe what you want, the AI produces code, and you either accept it or start over. This approach consistently underperforms **iterative refinement**."
-    },
-    {
-      "type": "p",
-      "text": "My workflow is test-driven: I write the test suite first, covering expected behaviour, edge cases, and performance requirements, then have the AI implement against those tests. When tests fail, I share the specific failures, and the AI corrects its implementation. Each iteration narrows the gap between the output and the requirement."
-    },
-    {
-      "type": "p",
-      "text": "For ambiguous requirements, I use the **interview pattern**: instead of implementing immediately, I have the AI ask clarifying questions first. This surfaces considerations the developer might not have anticipated: cache invalidation strategies, failure modes, concurrency issues. Two minutes of questions can prevent two hours of rework."
+      "text": "One receipt up front: a 61-page bilingual website for an architecture client, rebuilt in one day and QA'd with a report covering 60 page loads and zero console errors. You probably have the same tools installed and the output still looks generic. This article documents the pipeline that closes that gap. Six build stages, three model tiers, three agent roles, and the numbers each one has produced."
     },
     {
       "type": "ul",
       "items": [
-        "**Concrete examples beat prose descriptions.** When natural language produces inconsistent results, 2-3 input/output examples clarify the requirement instantly",
-        "**Interacting issues go in one message.** When multiple fixes affect each other, provide them together so the AI considers the interactions",
-        "**Independent issues go sequentially.** Fix unrelated problems one at a time with focused feedback"
+        "**Every build runs six named stages:** Validate, Scaffold, DESIGN.md, Build, Polish, Ship. The design constraints exist as a file before any UI code does.",
+        "**Models are routed in three tiers.** The strongest model plans, an efficient model implements, a cheap model does lookups. The expensive model authors a skill once and cheap models run it from then on.",
+        "**A verifier agent never self-approves.** Review runs in a fresh context with no memory of writing the code, and UI changes get exercised in a real browser before shipping.",
+        "**Nine skills live in the public repo**, from animation-vocabulary to shadcn. Registering a new one is a single symlink line.",
+        "**The receipts are public:** webvise.io is 100% AI-coded with a 96 Lighthouse score, and the same pipeline has delivered 25+ client projects at a 3-week average to launch."
       ]
     },
     {
-      "type": "h2",
-      "text": "Code Review: Independent Passes Catch More Bugs"
-    },
-    {
       "type": "p",
-      "text": "AI-generated code still needs review. One pattern worth examining: having the **same AI session** that wrote the code review it. This tends to underperform independent review because the model retains its reasoning context and is less likely to question its own decisions."
-    },
-    {
-      "type": "p",
-      "text": "I use **independent review instances**, a fresh AI session with no prior reasoning context from the generation phase. This second pair of eyes catches subtle issues that self-review misses. For large pull requests touching many files, I split reviews into per-file analysis passes for local issues, plus a separate integration pass examining cross-file data flow."
-    },
-    {
-      "type": "p",
-      "text": "Review prompts are specific about what to look for. Vague instructions like \"check that the code is correct\" produce unreliable results. Explicit criteria, \"flag logic bugs and security issues, skip minor style differences\", reduce false positives and build developer trust in the review process."
+      "text": "The pipeline stays the same whether the deliverable is a marketing site or a portal with auth, roles, and dashboards. If you need that class of software shipped, [webvise's full-stack application service](/services/full-stack-applications) runs every engagement through the stages below."
     },
     {
       "type": "h2",
-      "text": "CI/CD Integration: AI in the Pipeline"
+      "text": "The six-stage build sequence"
     },
     {
       "type": "p",
-      "text": "AI review runs automatically on every pull request as part of the CI pipeline. The AI analyses changes, produces structured findings with file location, issue description, severity, and suggested fix, and posts them as inline PR comments. Structured output ensures the findings are machine-parseable and can be integrated into existing code review dashboards."
+      "text": "Every project moves through six stages in a fixed order, and each stage has an exit condition that gets checked before the next one starts. The sequence is boring on purpose. Boring sequences survive deadline pressure."
+    },
+    {
+      "type": "table",
+      "headers": ["Stage", "What happens", "Exit condition"],
+      "rows": [
+        [
+          "1. Validate",
+          "Scope, content, and success criteria get pinned down",
+          "A build decision in writing"
+        ],
+        [
+          "2. Scaffold",
+          "Better-T-Stack generates the base, the example app gets deleted",
+          "A clean repo that builds and runs"
+        ],
+        [
+          "3. DESIGN.md",
+          "Colors, type scale, spacing, and motion rules written as a file",
+          "Constraints the model must obey"
+        ],
+        [
+          "4. Build",
+          "Features implemented against the plan, plan mode before code",
+          "Working software behind every route"
+        ],
+        [
+          "5. Polish",
+          "Motion, empty states, edge cases, copy",
+          "Review by a separate verifier agent"
+        ],
+        [
+          "6. Ship",
+          "Browser-verified QA, then deploy",
+          "Zero console errors across all pages"
+        ]
+      ]
     },
     {
       "type": "p",
-      "text": "Two details make this work in practice. First, when reviews re-run after new commits, prior findings are included in context so the AI reports only **new or still-unaddressed issues**, avoiding duplicate comments that erode trust. Second, existing test files are included in context so test generation avoids suggesting scenarios already covered by the test suite."
+      "text": "Stage 3 is the one most teams skip, and skipping it is what makes AI-generated interfaces look generic: the model has no constraint to obey. A DESIGN.md pins the palette, the type scale, the spacing system, and the motion rules before any UI code exists. \"Make it look good\" becomes a set of checkable instructions."
+    },
+    {
+      "type": "p",
+      "text": "Stage 2 carries one habit worth stealing: right after Better-T-Stack scaffolds the project, its example app gets deleted. Demo code that survives into week two becomes load-bearing."
     },
     {
       "type": "h2",
-      "text": "Context Management: The Skill That Anchors The Workflow"
+      "text": "Three model tiers and one economic rule"
     },
     {
       "type": "p",
-      "text": "Every technique above depends on effective context management. AI models have finite context windows, and how you fill that window determines output quality. I apply several principles consistently:"
+      "text": "The strongest model plans. An efficient mid-tier model implements against that plan. A cheap model handles lookups, doc searches, and file reads. Routing this way reserves the expensive context for the decisions that branch the project and keeps costs low through the mechanical middle."
+    },
+    {
+      "type": "p",
+      "text": "One rule carries the economics: the expensive model authors a skill once, then cheap models execute it on every later run. Authoring is the judgment-heavy part, execution follows patterns, and the price of each should match."
+    },
+    {
+      "type": "h2",
+      "text": "Orchestrator, executor, verifier"
+    },
+    {
+      "type": "p",
+      "text": "Agent work splits into three roles. An orchestrator holds the plan and dispatches tasks. Executors implement one task each, with only the context that task needs. A verifier checks the result, and it never runs in the same context that produced the code."
+    },
+    {
+      "type": "p",
+      "text": "Self-approval is the failure mode this prevents. A model reviewing its own output inherits its own assumptions, so the review confirms the code instead of testing it. A fresh verifier context has to reconstruct the reasoning from the diff, and the gaps show up exactly there."
+    },
+    {
+      "type": "p",
+      "text": "For UI work the verifier's job is physical: run the dev server and exercise the change in a real browser. The 61-page bilingual rebuild for Gabrys Architektur went through that gate in one day, and the handover included a QA report covering 60 page loads with zero console errors."
+    },
+    {
+      "type": "h2",
+      "text": "A skill library instead of prompts in chat history"
+    },
+    {
+      "type": "p",
+      "text": "Recurring judgment gets packaged as skills, instruction files the agent loads when a task matches. Nine live in the public webvise repo: animation-vocabulary, apple-design, blog-article, design-webvise-asset, emil-design-eng, find-animation-opportunities, improve-animations, review-animations, and shadcn. Registering a new one for Claude Code is one symlink line."
+    },
+    {
+      "type": "p",
+      "text": "The same mechanism ships to clients. MP Bau, a construction client, got a document-conversion skill packaged as a client-facing tool. For Gabrys Architektur, three agents wrote blog content in parallel while sharing one authoring skill, so every article came out in the same voice."
+    },
+    {
+      "type": "p",
+      "text": "The MP Bau build has its own writeup in [the document-automation article](/blog/ai-document-automation-small-business). If you are still picking which workflow in your company deserves a skill first, [webvise's AI consulting](/services/ai-consulting) starts every engagement exactly there."
+    },
+    {
+      "type": "h2",
+      "text": "AGENTS.md is the contract"
+    },
+    {
+      "type": "p",
+      "text": "Every repo carries an AGENTS.md the agent reads before touching a file. It holds the command table (dev, build, lint, test, db), the conventions (Biome for formatting, typed env vars, Server Components by default), and the behavioral rules that keep output predictable."
     },
     {
       "type": "ul",
       "items": [
-        "**Incremental exploration.** Start with targeted searches to find entry points, then follow imports and trace flows. Do not load all files upfront.",
-        "**Subagent delegation.** Verbose discovery tasks run in isolated sub-contexts that return summaries, keeping the main conversation focused",
-        "**Structured state persistence.** Key findings are written to scratchpad files and referenced in subsequent queries, counteracting context degradation in long sessions",
-        "**Context compaction.** When the context fills with verbose output from exploration, I compact it, summarising what was learned before continuing"
+        "**Read before editing.** No change lands in a file the agent has never opened.",
+        "**Minimum code that solves the problem.** No speculative abstractions, no configurability nobody asked for.",
+        "**For UI work: run the dev server and exercise the change in a browser.** The rule that turns \"looks done\" into \"verified done\"."
       ]
     },
     {
+      "type": "p",
+      "text": "A production-ready template with the full rule set is in [the AGENTS.md template article](/blog/agents-md-production-template). Copying it takes five minutes and removes a whole category of agent misfires."
+    },
+    {
       "type": "h2",
-      "text": "The Results"
+      "text": "The proof is public"
     },
     {
       "type": "p",
-      "text": "This workflow is part of how I typically deliver production-ready applications in weeks rather than months for the scopes I accept; outcomes scale with project complexity. AI handles the volume work, boilerplate generation, test writing, code review, documentation, while I focus on the decisions that require human judgment: architecture, user experience, business logic, and quality standards."
+      "text": "webvise.io is the pipeline's standing demo: 100% AI-coded via Claude Code, 96 on Lighthouse, repo public at [github.com/sebastiankehle](https://github.com/sebastiankehle). Every page, every animation, and the blog system itself went through the six stages above."
+    },
+    {
+      "type": "table",
+      "headers": ["Project", "Shipped through the pipeline", "Numbers"],
+      "rows": [
+        [
+          "webvise.io",
+          "Marketing site, blog, dashboard",
+          "100% AI-coded, 96 Lighthouse"
+        ],
+        [
+          "Gabrys Architektur",
+          "61-page bilingual site rebuild",
+          "1 day, 60 page loads QA'd, 0 console errors"
+        ],
+        [
+          "MP Bau",
+          "Document-conversion skill as a client tool",
+          "Authored once, runs on cheap models"
+        ],
+        [
+          "All projects",
+          "Client software across 25+ deliveries",
+          "3-week average to launch"
+        ]
+      ]
     },
     {
       "type": "p",
-      "text": "The result is **more consistent quality** at speed. Every pull request gets a thorough review. Every feature gets comprehensive tests. Every component follows established conventions. AI tooling does not fatigue, does not cut corners under deadline pressure, and does not forget context, though it requires careful prompting and review."
-    },
-    {
-      "type": "p",
-      "text": "If you are building a product and want a partner that combines modern AI-powered workflows with experienced engineering judgment, [get in touch](/#contact). The aim is to ship quickly without compromising quality, and I am happy to walk through the process."
+      "text": "Every claim above has a public URL or a repo behind it. If your next build should run through this pipeline, [get in touch with webvise](/#contact) and I will map the six stages onto your project."
     }
-  ],
-  "metaDescription": "See how webvise integrates AI into every stage of software development, from planning and coding to review and deployment. Build production apps in weeks, not months."
+  ]
 }

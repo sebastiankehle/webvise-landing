@@ -1,183 +1,135 @@
 {
-  "date": "2026-07-13",
-  "readingTime": 8,
-  "keyword": "replace excel with web application",
-  "title": "How to Replace Excel With a Web App: Migration Path, Real Costs, and What Stays in the Sheet",
-  "excerpt": "Most Excel replacements are 4 to 6 week internal tool builds from €7,500. The workbook becomes the spec: the exact migration path, real costs by tier, and the parts that should stay in Excel.",
-  "metaDescription": "Replacing Excel with a web application takes 4 to 6 weeks from €7,500. The exact migration path, real project numbers, and what should stay in the sheet.",
+  "date": "2026-08-16",
+  "readingTime": 5,
+  "keyword": "replace excel with a web app",
+  "title": "When to Replace Excel With a Web App, and When to Keep the Sheet",
+  "excerpt": "Three data failures justify replacing Excel with a web app: business rules in free text, duplicates nobody can merge, and status columns with two meanings. One shipped webvise project kept Excel as the review surface on purpose.",
+  "metaDescription": "Replace Excel with a web app when free-text rules, duplicates, and ambiguous status columns break shared editing. Plus the honest case for keeping the sheet.",
   "cta": "Scope your build with webvise",
   "tags": ["Web Development", "Business Strategy", "Process", "B2B"],
   "blocks": [
     {
       "type": "p",
-      "text": "Replacing Excel with a web application costs **€7,500 to €20,000** and takes **4 to 6 weeks** for a typical internal tool. The workbook you want to retire is also the best spec you will ever hand a developer."
+      "text": "Replace Excel with a web app when the data breaks under shared editing: free-text fields that secretly carry business rules, duplicate records nobody can merge, and status columns with two meanings. Below that threshold, keeping the sheet is the cheaper decision."
     },
     {
       "type": "p",
-      "text": "Somewhere in your company a file named something like dispo_FINAL_v7.xlsx runs a process that earns money, and everyone quietly hopes it survives the week."
+      "text": "webvise builds internal tools for a living and has shipped Excel as an output format on purpose."
     },
     {
       "type": "p",
-      "text": "That setup got you further than anyone admits, and replacing it feels risky precisely because it still works. This article walks the migration path webvise uses on real builds: what each part of the workbook becomes, where the hours actually go, and which parts should stay in Excel. The numbers come from shipped projects, including a five-week build that replaced a Google Sheets logistics tracker handling 1,800 shipments a month."
+      "text": "Your workbook runs a real process, and most advice online says a serious operation has to move off spreadsheets. This article names the three data failures that justify a build, drawn from real webvise migrations. It also covers the opposite case: a shipped project where Excel stayed in the loop by design, and the situations where a build is the wrong purchase."
     },
     {
       "type": "ul",
       "items": [
-        "**A typical Excel replacement is an internal tool build: €7,500 to €20,000, 4 to 6 weeks.** Customer-facing versions run higher.",
-        "**The workbook is the spec.** Columns become the data model, formulas become business logic, tab handoffs become permissions.",
-        "**Data migration is the most underestimated line item.** Plan 60 to 200 hours if history has to survive the move.",
-        "**Excel stays for ad-hoc analysis.** Every application webvise ships includes CSV export, because finance will pivot the data anyway.",
-        "**Still deciding whether to build at all?** The [decision-stage checklist](/blog/custom-web-application-cost-2026) covers that question. This article covers execution."
-      ]
-    },
-    {
-      "type": "h2",
-      "text": "First, Name the Four Jobs Your Workbook Is Doing"
-    },
-    {
-      "type": "p",
-      "text": "Every operational workbook does some mix of four jobs: database (rows of records), calculator (formulas and models), report (pivots and charts), and workflow (status columns, tab handoffs, someone emailing \"updated!\"). The web application replaces the database and workflow jobs. The calculator and report jobs often stay in Excel or shrink into a single dashboard screen."
-    },
-    {
-      "type": "p",
-      "text": "webvise audits start by printing the workbook's tab list and labeling every tab with one of the four jobs. A 14-tab monster usually collapses into 4 to 6 database entities and 2 or 3 write paths. That one-page label exercise is the difference between a scoped quote and a guess."
-    },
-    {
-      "type": "p",
-      "text": "If you want that mapping done on your actual workbook, [webvise's full-stack application service](/services/full-stack-applications) starts every project with exactly this exercise in a discovery call."
-    },
-    {
-      "type": "h2",
-      "text": "The 5-Step Migration Path"
-    },
-    {
-      "type": "p",
-      "text": "The path is the same on every build, whether the sheet tracks shipments, candidates, or certificates. The order matters more than the tooling."
-    },
-    {
-      "type": "ul",
-      "items": [
-        "**Step 1: Extract the data model.** Columns become fields, tabs become entities, VLOOKUP chains become relations. This is reading work, and it goes faster with the person who built the sheet in the room.",
-        "**Step 2: Name the write paths.** List who changes which data, and when. Most workbooks have ten viewers and two real editors, which hands you the permission model before any code exists.",
-        "**Step 3: Turn validation into business logic.** Dropdown validations become enums. Conditional-formatting warnings become rules that block a bad save instead of coloring it red.",
-        "**Step 4: Migrate the data.** Dates stored as text, duplicated customers, half-filled legacy rows: cleaning them is the most underestimated part of the project. Plan 60 to 200 hours if history has to survive.",
-        "**Step 5: Run both in parallel for one full cycle.** One month-end close, one full order cycle, whatever your rhythm is. Then revoke write access to the sheet."
+        "**Three data failures justify a build:** business rules living in free-text fields, duplicates nobody can merge, and status columns with more than one meaning.",
+        "**Excel can stay as the review surface.** For construction company MP Bau, a webvise AI tool writes quantity takeoffs into Excel because the estimator checks every line there.",
+        "**The qualifying pattern is a team** working from spreadsheets, scattered admin screens, or status meetings. One careful editor with low volume keeps the sheet.",
+        "**Budget is a separate question.** The [custom web application cost guide](/blog/custom-web-application-cost-2026) covers prices; this article covers the build or keep decision."
       ]
     },
     {
       "type": "p",
-      "text": "On launch day the sheet goes read-only and stays available as an archive. That gives the team a rollback path that costs nothing, and it removes the scariest part of cutover."
+      "text": "If a shared workbook runs one of your core processes, [webvise's internal tools and dashboards service](/services/internal-tools-dashboards) starts with exactly this diagnosis: which of the three failures the sheet shows, and whether a build clears the threshold at all."
     },
     {
       "type": "h2",
-      "text": "A Five-Week Build: 1,800 Shipments a Month Out of Google Sheets"
+      "text": "The Three Data Failures That Justify a Build"
     },
     {
       "type": "p",
-      "text": "A Berlin logistics SME with 22 employees tracked 1,800 shipments a month across Google Sheets and Notion. Keeping the two in sync cost roughly six hours of manual reconciliation every week."
+      "text": "The grid, the formulas, and the filters hold up at surprising scale. The data underneath fails first, and across webvise migrations it has failed in the same three ways."
     },
     {
       "type": "p",
-      "text": "The replacement was a focused internal tool on Next.js, PostgreSQL, and Vercel, with role-based sign-in, monitoring, and only the integrations the team used daily. The build came in at 280 hours over five weeks, retired €1,400 a month in SaaS subscriptions, and removed the weekly reconciliation."
+      "text": "The first failure is business rules living in free text. A notes column full of lines like \"always invoice net 14\" or \"call before delivery\" holds logic the software cannot see and a new hire cannot find. In the application those notes become real columns, payment terms and delivery instructions as dedicated fields, with validation that blocks a save when a rule is broken."
     },
     {
       "type": "p",
-      "text": "That project sits at the bottom of the cost range for a reason. One team, one database, a small set of forms and views. Scope discipline is what keeps an Excel replacement inside five figures."
-    },
-    {
-      "type": "h2",
-      "text": "What Replacing Excel Costs in 2026"
+      "text": "The second failure is duplicates. The same customer sits in the sheet three times under three spellings, and each row carries part of the truth. A spreadsheet never forces anyone to merge them, so the database migration is often the first moment the conflict becomes visible. On real webvise migrations, that merge step has surfaced records nobody had ever been forced to reconcile."
     },
     {
       "type": "p",
-      "text": "The price follows who touches the data. The tier system from the [custom web application cost guide](/blog/custom-web-application-cost-2026) maps cleanly onto spreadsheet replacements."
+      "text": "The third failure is ambiguous status. On one webvise migration, two status columns looked redundant, and each turned out to track something different that only the sheet's builder could explain. The replacement kept both fields and documented both meanings. That was the entire fix."
     },
     {
       "type": "table",
       "headers": [
-        "What the workbook runs",
-        "Project shape",
-        "Cost",
-        "Timeline"
+        "Spreadsheet symptom",
+        "What it hides",
+        "What the web app does"
       ],
       "rows": [
         [
-          "One team's records and status tracking",
-          "Internal tool",
-          "€7,500 to €20K",
-          "4 to 6 weeks"
+          "Notes column carrying rules like \"always invoice net 14\"",
+          "Business logic in free text, invisible to software and new hires",
+          "Dedicated fields with validation that blocks a rule-breaking save"
         ],
         [
-          "Customers wait on data that lives in the sheet",
-          "Customer portal",
-          "€20K to €50K",
-          "6 to 8 weeks"
+          "The same customer entered three times, three spellings",
+          "Duplicates the sheet never forces anyone to merge",
+          "One record per customer, a merge step, a duplicate warning at entry"
         ],
         [
-          "The sheet plus 3 to 5 SaaS tools run the whole operation",
-          "Vertical SaaS or custom CRM",
-          "€40K to €80K",
-          "8 to 12 weeks"
+          "Two status columns that look redundant",
+          "Two distinct meanings nobody wrote down",
+          "Both fields survive, each with a documented meaning and defined values"
         ]
       ]
     },
     {
-      "type": "p",
-      "text": "The middle row is where workbooks that face customers land. A property-finance team issued creditworthiness certificates by hand, checking conditions across more than 550 partner banks inside a 24-hour promise. webvise rebuilt the flow as a 10-step self-serve form with automated PDF generation and an admin dashboard. It shipped in six weeks, loads in under 1.2 seconds, and scores 96 on Lighthouse."
+      "type": "h2",
+      "text": "The Project That Kept Excel on Purpose"
     },
     {
       "type": "p",
-      "text": "A useful threshold from webvise's project data: custom starts beating SaaS at roughly €36,000 of annual SaaS spend. Below that, tightening the sheet or paying for one off-the-shelf tool usually wins."
+      "text": "MP Bau, a German construction company, runs a webvise-built AI tool that produces quantity takeoffs from construction plans. The output is an Excel file, and that is a deliberate design decision. The estimator verifies every line of a takeoff before it is used, and that verification happens in Excel."
+    },
+    {
+      "type": "p",
+      "text": "The tool replaced the typing. The checking stayed exactly where it was, in a grid the estimator already trusts and can work through line by line."
+    },
+    {
+      "type": "p",
+      "text": "The principle generalizes: keep the human review surface familiar. A replacement earns its money when entry, handoffs, and status tracking move into the application. The format a person uses to verify output can remain a spreadsheet, because a new review interface adds retraining risk while fixing none of the three data failures."
     },
     {
       "type": "h2",
-      "text": "What Excel Does That the Application Must Replace"
+      "text": "When Not to Build"
     },
     {
       "type": "p",
-      "text": "Most failed replacements rebuild the visible screens and forget the invisible features. Excel is a genuinely good interface. The application has to beat it on multi-user access, validation, and audit, while matching the features nobody lists in a brief."
+      "text": "webvise qualifies internal tool projects on one pattern: a team working from spreadsheets, scattered admin screens, or recurring status meetings about the sheet. Remove the team and most of the case for a build disappears with it."
     },
     {
-      "type": "table",
-      "headers": ["Excel habit", "What the application needs instead"],
-      "rows": [
-        [
-          "Formulas and VLOOKUP chains",
-          "Server-side business logic, computed once and tested"
-        ],
-        ["Data-validation dropdowns", "Enums and rules that block a bad save"],
-        [
-          "Conditional formatting",
-          "Status fields with alerts on the conditions that matter"
-        ],
-        ["Pivot tables", "A reports screen for the questions asked every week"],
-        [
-          "Emailing the file or a shared drive",
-          "Roles and permissions with an audit trail"
-        ],
-        ["Ctrl+Z", "Change history showing who edited what, and when"],
-        ["Exporting to Excel", "Keep it. Ship CSV export from day one"]
+      "type": "ul",
+      "items": [
+        "**One careful editor.** A workbook maintained by a single person has no shared-editing failures to fix, because one head still holds all the context.",
+        "**Ad-hoc analysis and one-off models.** A this-quarter forecast or a scratch calculation is exactly what Excel is for, and rebuilding it as software is paid scope creep.",
+        "**No handoffs.** Ambiguous status columns only hurt when rows move between people. A sheet that never changes hands can keep its private vocabulary.",
+        "**Clean data, ugly file.** A workbook with sound columns, no duplicates, and one editor needs a formatting pass and zero code."
       ]
     },
     {
       "type": "p",
-      "text": "The last row is the one teams argue about and the one webvise never cuts. Finance will pivot the data no matter what the dashboard shows, and export is cheaper than the argument."
+      "text": "When the pattern does hold, budget becomes the next filter. The [custom web application cost guide](/blog/custom-web-application-cost-2026) covers what builds of this shape cost in 2026 and which drivers move the price."
     },
     {
       "type": "h2",
-      "text": "What Stays in Excel"
+      "text": "What Moves Into the Application"
     },
     {
       "type": "p",
-      "text": "The goal is retiring the sheet as the database of record. Ad-hoc analysis, one-off models, and this-quarter-only planning stay in Excel, where they belong. Rebuilding those as software features is how a €15,000 internal tool quietly becomes a €60,000 project nobody asked for."
+      "text": "The target webvise sells under internal tools and dashboards is one reliable system for the operation, replacing spreadsheets, inboxes, and fragmented tools as the place work lives. Concretely: entry gets validation, records get owners, status gets defined values, and reports come out of the system itself, with the copy-paste step gone."
     },
     {
       "type": "p",
-      "text": "The same restraint applies before the project starts. A single-user workbook with low volume and no customer waiting on it needs data validation and a cleanup pass, and the [five signs you've outgrown that fix](/blog/custom-web-application-cost-2026) tell you when the line gets crossed."
+      "text": "The moment people outside the company wait on data inside the sheet, the project changes shape and becomes a portal with its own login and roles. That variant, and what webvise has shipped in it, is covered in [the client portal guide](/blog/client-portal-development)."
     },
     {
       "type": "p",
-      "text": "If a workbook runs a core process at your company right now, the fastest next step is the tab-label exercise from the first section. Send webvise the labeled list through [the contact form](/#contact) and you will get an honest read on the project shape, the tier it lands in, and whether a build is the cheapest fix at all."
+      "text": "If a shared workbook shows one of the three failures, describe what the sheet does and who edits it, and send that to webvise through [the contact form](/#contact). The reply is an honest read on which failure you have, whether a build clears the threshold, and what should stay in Excel."
     }
   ]
 }

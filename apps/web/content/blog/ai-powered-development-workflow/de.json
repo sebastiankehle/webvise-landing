@@ -1,136 +1,187 @@
 {
-  "date": "2026-03-26",
-  "readingTime": 8,
-  "keyword": "KI-gestützte Softwareentwicklung",
-  "title": "Mit KI zu besserer Software, schneller entwickelt",
-  "excerpt": "KI-Coding-Tools gibt es überall. Effektiv einsetzen lassen sie sich nur mit der richtigen Integration. Wie KI bei webvise in jeden Schritt des Entwicklungsprozesses eingebettet ist: von der Planung über das Code-Review bis zum Deployment.",
-  "tags": ["AI", "Web Development", "Automation"],
+  "date": "2026-08-16",
+  "readingTime": 7,
+  "keyword": "ki-gestützter entwicklungsworkflow",
+  "title": "Der KI-gestützte Entwicklungsworkflow hinter jedem webvise-Projekt",
+  "excerpt": "Die exakte Pipeline, mit der webvise Kundensoftware liefert: sechs Build-Stufen, drei Modell-Ebenen, Verifier-Agents ohne Selbstfreigabe und eine browser-verifizierte QA. webvise.io ist der öffentliche Beweis, zu 100 % KI-codiert mit Claude Code.",
+  "metaDescription": "Der KI-gestützte Entwicklungsworkflow von webvise, dokumentiert: Plan-Modus, DESIGN.md vor dem UI, Verifier-Agents und eine zu 100 % KI-codierte Site als Beweis.",
+  "tags": ["AI Agents", "Web Development", "Process"],
   "blocks": [
     {
       "type": "p",
-      "text": "KI-Coding-Assistenten stehen heute jedem Entwickler offen. Den Unterschied macht nicht das Tool selbst, sondern wie es eingesetzt wird: die Konfiguration, der bereitgestellte Kontext und die Frage, wo menschliches Urteil gefragt ist und wo die KI autonom agieren darf."
+      "text": "webvise liefert Kundensoftware über einen dokumentierten, KI-gestützten Entwicklungsworkflow: Plan-Modus vor jeder Zeile Code, eine DESIGN.md vor jedem UI, eine öffentliche Skill-Bibliothek und Verifier-Agents, die ihre eigene Arbeit nie selbst freigeben. Der stehende Beweis ist webvise.io selbst, zu 100 % KI-codiert mit Claude Code, 96 Punkte im Lighthouse, Repo öffentlich unter [github.com/sebastiankehle](https://github.com/sebastiankehle)."
     },
     {
       "type": "p",
-      "text": "Bei webvise ist KI in jeden Schritt des Entwicklungsprozesses eingebettet. Sie beseitigt Reibung, sodass Engineering-Zeit in Architektur, Designentscheidungen und Geschäftslogik fließt statt in Boilerplate, repetitives Refactoring und manuelle Review-Checklisten."
-    },
-    {
-      "type": "h2",
-      "text": "Planung: Erst erkunden, dann committen"
-    },
-    {
-      "type": "p",
-      "text": "Komplexe Aufgaben, also Library-Migrationen, Architekturumbauten oder Features, die Dutzende Dateien berühren, beginnen im **Plan Mode**. Noch bevor eine Zeile Code entsteht, erkundet die KI die Codebasis, kartiert Abhängigkeiten und schlägt einen Implementierungsweg vor. Das ist grundlegend anders, als der KI eine Aufgabe zu übergeben und das Ergebnis zu hoffen."
-    },
-    {
-      "type": "p",
-      "text": "Der Plan Mode lohnt sich, weil Nacharbeiten bei großen Änderungen teuer sind. Ein Microservice-Umbau, der nach der Hälfte der Arbeit unerwartete Abhängigkeiten aufdeckt, kostet Tage. Den vollständigen Abhängigkeitsgraph zuerst zu kartieren und Servicegrenzen zu definieren, fängt solche Probleme ab, bevor die erste Zeile geändert wurde."
-    },
-    {
-      "type": "p",
-      "text": "Für klar abgegrenzte Aufgaben, einen Bugfix in einer einzelnen Datei oder das Hinzufügen einer Validierungsprüfung, entfällt der Plan Mode. Der Ansatz muss zur Komplexität passen: Planung für Architekturentscheidungen, direkte Ausführung für eindeutige Aufgaben."
-    },
-    {
-      "type": "h2",
-      "text": "Projektkonfiguration: Der KI eigene Standards beibringen"
-    },
-    {
-      "type": "p",
-      "text": "Was bei einem KI-Coding-Assistenten den größten Unterschied macht, ist **der richtige Kontext**. Strukturierte Konfigurationsdateien übermitteln der KI Coding-Standards, Test-Konventionen, API-Muster und Deployment-Anforderungen. Dieser Kontext wird in jeder Session automatisch geladen."
-    },
-    {
-      "type": "p",
-      "text": "Nicht jeder Kontext ist zu jedem Zeitpunkt relevant. API-Konventionen beim Bearbeiten einer React-Komponente zu laden, verschwendet Tokens und verwirrt die KI. **Pfadspezifische Regeln** mit Glob-Patterns schaffen Abhilfe: Regeln aktivieren sich nur für passende Dateien. Test-Konventionen greifen für `**/*.test.tsx`. API-Muster für `src/api/**/*`. Datenbankkonventionen für Migrationsdateien."
-    },
-    {
-      "type": "p",
-      "text": "Dieser Ansatz reduziert Rauschen und steigert die Ausgabequalität. Code entsteht nach definierten Standards, weil die KI sie kennt, und zwar nur die Standards, die für die jeweilige Datei relevant sind."
-    },
-    {
-      "type": "h2",
-      "text": "Entwicklung: Iterative Verfeinerung statt One-Shot-Generierung"
-    },
-    {
-      "type": "p",
-      "text": "Der häufigste Fehler beim Einsatz von KI-Coding-Tools: sie als One-Shot-Generator zu behandeln. Man beschreibt, was man will, die KI produziert Code, man akzeptiert ihn oder fängt von vorn an. Dieser Ansatz schneidet gegenüber **iterativer Verfeinerung** regelmäßig schlechter ab."
-    },
-    {
-      "type": "p",
-      "text": "Der Workflow ist testgetrieben: Zuerst entsteht die Testsuite mit erwartetem Verhalten, Grenzfällen und Performance-Anforderungen, dann implementiert die KI gegen diese Tests. Schlagen Tests fehl, werden die spezifischen Fehler geteilt, und die KI korrigiert ihre Implementierung. Jede Iteration verringert die Lücke zwischen Ausgabe und Anforderung."
-    },
-    {
-      "type": "p",
-      "text": "Bei unklaren Anforderungen hilft das **Interview-Pattern**: Statt sofort zu implementieren, stellt die KI zunächst Klärungsfragen. Das fördert Überlegungen zutage, die man selbst nicht im Blick hatte: Cache-Invalidierungsstrategien, Fehlerszenarien, Nebenläufigkeitsprobleme. Zwei Minuten Fragen können zwei Stunden Nacharbeit verhindern."
+      "text": "Ein Beleg vorab: eine 61-seitige zweisprachige Website für ein Architekturbüro, in einem Tag neu gebaut und mit einem QA-Report über 60 Seitenaufrufe ohne einen einzigen Konsolenfehler abgenommen. Sie haben vermutlich dieselben Tools installiert, und das Ergebnis wirkt trotzdem generisch. Dieser Artikel dokumentiert die Pipeline, die diese Lücke schließt. Sechs Build-Stufen, drei Modell-Ebenen, drei Agentenrollen und die Zahlen, die jede davon geliefert hat."
     },
     {
       "type": "ul",
       "items": [
-        "**Konkrete Beispiele schlagen Textbeschreibungen.** Liefert natürliche Sprache inkonsistente Ergebnisse, klären 2 bis 3 Input-/Output-Beispiele die Anforderung sofort",
-        "**Zusammenhängende Probleme kommen in eine Nachricht.** Betreffen mehrere Fixes einander, sollten sie gemeinsam übergeben werden, damit die KI die Wechselwirkungen berücksichtigt",
-        "**Unabhängige Probleme werden sequenziell behandelt.** Nicht zusammenhängende Fehler werden einzeln mit gezieltem Feedback behoben"
+        "**Jeder Build durchläuft sechs feste Stufen:** Validate, Scaffold, DESIGN.md, Build, Polish, Ship. Die Design-Constraints existieren als Datei, bevor die erste Zeile UI-Code entsteht.",
+        "**Modelle laufen in drei Ebenen.** Das stärkste Modell plant, ein effizientes Modell implementiert, ein günstiges Modell übernimmt Lookups. Das teure Modell schreibt einen Skill einmal, danach führen ihn günstige Modelle aus.",
+        "**Ein Verifier-Agent gibt nie seine eigene Arbeit frei.** Das Review läuft in einem frischen Kontext ohne Erinnerung an den geschriebenen Code, und UI-Änderungen werden vor dem Shipping in einem echten Browser geprüft.",
+        "**Neun Skills liegen im öffentlichen Repo**, von animation-vocabulary bis shadcn. Ein neuer Skill wird mit einer einzigen Symlink-Zeile registriert.",
+        "**Die Belege sind öffentlich:** webvise.io ist zu 100 % KI-codiert mit 96 Lighthouse-Punkten, und dieselbe Pipeline hat 25+ Kundenprojekte mit im Schnitt 3 Wochen bis zum Launch geliefert."
       ]
     },
     {
-      "type": "h2",
-      "text": "Code-Review: Unabhängige Durchläufe finden mehr Fehler"
-    },
-    {
       "type": "p",
-      "text": "KI-generierter Code braucht weiterhin Review. Ein Muster verdient Aufmerksamkeit: denselben KI-Session, der den Code geschrieben hat, auch das Review zu überlassen. Das funktioniert schlechter als unabhängiges Review, weil das Modell seinen Reasoning-Kontext beibehält und eigene Entscheidungen seltener hinterfragt."
-    },
-    {
-      "type": "p",
-      "text": "**Unabhängige Review-Instanzen** erzielen bessere Ergebnisse: eine frische KI-Session ohne Reasoning-Kontext aus der Generierungsphase. Dieses zweite Augenpaar findet subtile Probleme, die Self-Review übersieht. Bei großen Pull Requests, die viele Dateien berühren, werden Reviews in dateiweise Analysedurchläufe für lokale Probleme aufgeteilt, ergänzt durch einen separaten Integration-Pass, der den dateiübergreifenden Datenfluss prüft."
-    },
-    {
-      "type": "p",
-      "text": "Review-Prompts benennen konkret, wonach gesucht wird. Vage Anweisungen wie \"prüfe, ob der Code korrekt ist\" liefern unzuverlässige Ergebnisse. Klare Kriterien, etwa \"markiere Logic-Bugs und Sicherheitsprobleme, überspringe geringfügige Stilunterschiede\", reduzieren False Positives und stärken das Vertrauen in den Review-Prozess."
+      "text": "Die Pipeline bleibt gleich, ob am Ende eine Marketing-Site steht oder ein Portal mit Auth, Rollen und Dashboards. Wenn Sie diese Klasse von Software brauchen: Der [Full-Stack-Service von webvise](/services/full-stack-applications) führt jedes Projekt durch genau die Stufen unten."
     },
     {
       "type": "h2",
-      "text": "CI/CD-Integration: KI in der Pipeline"
+      "text": "Die sechs Build-Stufen"
     },
     {
       "type": "p",
-      "text": "KI-Review läuft automatisch bei jedem Pull Request als Teil der CI-Pipeline. Analysiert werden die Änderungen, strukturierte Findings mit Dateiort, Problembeschreibung, Schweregrad und Lösungsvorschlag entstehen und werden als Inline-Kommentare im PR gepostet. Strukturierte Ausgabe stellt sicher, dass die Findings maschinell parsebar sind und in bestehende Code-Review-Dashboards integriert werden können."
+      "text": "Jedes Projekt durchläuft sechs Stufen in fester Reihenfolge, und jede Stufe hat eine Exit-Bedingung, die vor der nächsten geprüft wird. Die Abfolge ist bewusst unspektakulär. Unspektakuläre Abläufe überleben Termindruck."
+    },
+    {
+      "type": "table",
+      "headers": ["Stufe", "Was passiert", "Exit-Bedingung"],
+      "rows": [
+        [
+          "1. Validate",
+          "Scope, Inhalte und Erfolgskriterien werden festgezurrt",
+          "Eine schriftliche Build-Entscheidung"
+        ],
+        [
+          "2. Scaffold",
+          "Better-T-Stack generiert die Basis, die Beispiel-App wird gelöscht",
+          "Ein sauberes Repo, das baut und läuft"
+        ],
+        [
+          "3. DESIGN.md",
+          "Farben, Typo-Skala, Abstände und Motion-Regeln als Datei",
+          "Constraints, an die sich das Modell halten muss"
+        ],
+        [
+          "4. Build",
+          "Features nach Plan, Plan-Modus vor dem Code",
+          "Funktionierende Software hinter jeder Route"
+        ],
+        [
+          "5. Polish",
+          "Motion, Empty States, Edge Cases, Texte",
+          "Review durch einen separaten Verifier-Agent"
+        ],
+        [
+          "6. Ship",
+          "Browser-verifizierte QA, dann Deployment",
+          "Null Konsolenfehler auf allen Seiten"
+        ]
+      ]
     },
     {
       "type": "p",
-      "text": "Zwei Details machen das in der Praxis zuverlässig. Erstens: Bei erneuten Reviews nach neuen Commits fließen frühere Findings in den Kontext ein, sodass die KI nur **neue oder noch offene Probleme** meldet und keine Kommentarduplikate entstehen, die das Vertrauen untergraben. Zweitens: Bestehende Testdateien werden in den Kontext einbezogen, damit die Testgenerierung keine Szenarien vorschlägt, die die Testsuite bereits abdeckt."
+      "text": "Stufe 3 lassen die meisten Teams aus, und genau dieses Auslassen macht KI-generierte Interfaces generisch: Das Modell hat keinen Constraint, an den es sich halten muss. Eine DESIGN.md legt Palette, Typo-Skala, Abstandssystem und Motion-Regeln fest, bevor UI-Code existiert. Aus \"mach es hübsch\" wird eine prüfbare Anweisung."
+    },
+    {
+      "type": "p",
+      "text": "Stufe 2 enthält eine Gewohnheit, die sich zu übernehmen lohnt: Direkt nach dem Scaffolding mit Better-T-Stack wird die mitgelieferte Beispiel-App gelöscht. Demo-Code, der Woche zwei erlebt, wird tragend."
     },
     {
       "type": "h2",
-      "text": "Kontextmanagement: Die Fähigkeit, die den Workflow trägt"
+      "text": "Drei Modell-Ebenen und eine ökonomische Regel"
     },
     {
       "type": "p",
-      "text": "Alle genannten Techniken hängen von wirksamem Kontextmanagement ab. KI-Modelle haben endliche Kontextfenster, und wie dieses Fenster befüllt wird, bestimmt die Ausgabequalität. Mehrere Prinzipien werden dabei konsequent angewendet:"
+      "text": "Das stärkste Modell plant. Ein effizientes Modell der Mittelklasse implementiert gegen diesen Plan. Ein günstiges Modell übernimmt Lookups, Doku-Recherchen und Dateizugriffe. Diese Verteilung reserviert den teuren Kontext für die Entscheidungen, die das Projekt verzweigen, und hält die Kosten im mechanischen Mittelteil niedrig."
+    },
+    {
+      "type": "p",
+      "text": "Eine Regel trägt die Ökonomie: Das teure Modell schreibt einen Skill genau einmal, danach führen ihn günstige Modelle bei jedem weiteren Lauf aus. Das Schreiben ist der urteilsintensive Teil, die Ausführung folgt Mustern, und der Preis sollte jeweils dazu passen."
+    },
+    {
+      "type": "h2",
+      "text": "Orchestrator, Executor, Verifier"
+    },
+    {
+      "type": "p",
+      "text": "Agentenarbeit teilt sich in drei Rollen. Ein Orchestrator hält den Plan und verteilt Aufgaben. Executor-Agents implementieren je eine Aufgabe, mit genau dem Kontext, den diese Aufgabe braucht. Ein Verifier prüft das Ergebnis, und er läuft nie in dem Kontext, der den Code erzeugt hat."
+    },
+    {
+      "type": "p",
+      "text": "Selbstfreigabe ist der Fehlermodus, den das verhindert. Ein Modell, das seinen eigenen Output prüft, übernimmt seine eigenen Annahmen, und das Review bestätigt den Code, statt ihn zu testen. Ein frischer Verifier-Kontext muss die Logik aus dem Diff rekonstruieren, und genau dort zeigen sich die Lücken."
+    },
+    {
+      "type": "p",
+      "text": "Bei UI-Arbeit ist der Job des Verifiers physisch: Dev-Server starten und die Änderung in einem echten Browser durchklicken. Der 61-seitige zweisprachige Rebuild für Gabrys Architektur ging in einem Tag durch dieses Gate, und zur Übergabe gehörte ein QA-Report über 60 Seitenaufrufe mit null Konsolenfehlern."
+    },
+    {
+      "type": "h2",
+      "text": "Eine Skill-Bibliothek statt Prompts im Chatverlauf"
+    },
+    {
+      "type": "p",
+      "text": "Wiederkehrendes Urteilsvermögen wird als Skill verpackt, als Anweisungsdatei, die der Agent lädt, sobald eine Aufgabe passt. Neun davon liegen im öffentlichen webvise-Repo: animation-vocabulary, apple-design, blog-article, design-webvise-asset, emil-design-eng, find-animation-opportunities, improve-animations, review-animations und shadcn. Ein neuer Skill ist für Claude Code mit einer Symlink-Zeile registriert."
+    },
+    {
+      "type": "p",
+      "text": "Derselbe Mechanismus geht auch an Kunden. MP Bau, ein Bauunternehmen, bekam einen Dokumentkonvertierungs-Skill als eigenes, kundenseitiges Tool. Für Gabrys Architektur schrieben drei Agents parallel Blog-Inhalte mit einem gemeinsamen Autoren-Skill, sodass jeder Artikel in derselben Stimme herauskam."
+    },
+    {
+      "type": "p",
+      "text": "Der MP-Bau-Build hat einen eigenen Beitrag: [der Artikel zur Dokumentautomatisierung](/blog/ai-document-automation-small-business). Wenn noch offen ist, welcher Workflow in Ihrem Unternehmen zuerst einen Skill verdient, beginnt [die AI-Beratung von webvise](/services/ai-consulting) jedes Projekt genau an dieser Stelle."
+    },
+    {
+      "type": "h2",
+      "text": "AGENTS.md ist der Vertrag"
+    },
+    {
+      "type": "p",
+      "text": "Jedes Repo trägt eine AGENTS.md, die der Agent liest, bevor er eine Datei anfasst. Darin stehen die Kommandotabelle (dev, build, lint, test, db), die Konventionen (Biome fürs Formatieren, typisierte Env-Variablen, Server Components als Standard) und die Verhaltensregeln, die den Output berechenbar halten."
     },
     {
       "type": "ul",
       "items": [
-        "**Inkrementelles Erkunden.** Mit gezielten Suchen beginnen, um Einstiegspunkte zu finden, dann Imports folgen und Flows nachverfolgen, statt alle Dateien vorab zu laden",
-        "**Delegation an Subagenten.** Aufwändige Discovery-Aufgaben laufen in isolierten Sub-Kontexten und liefern Zusammenfassungen zurück, damit der Hauptkonversationsfluss fokussiert bleibt",
-        "**Strukturierte Zustandspersistenz.** Wichtige Erkenntnisse werden in Scratchpad-Dateien festgehalten und in Folgeanfragen referenziert, um Kontextdegradation in langen Sessions entgegenzuwirken",
-        "**Kontextverdichtung.** Füllt sich der Kontext mit ausführlichem Output aus der Exploration, wird er komprimiert: Was gelernt wurde, wird zusammengefasst, bevor es weitergeht"
+        "**Lesen vor dem Editieren.** Keine Änderung landet in einer Datei, die der Agent nie geöffnet hat.",
+        "**Minimaler Code, der das Problem löst.** Keine spekulativen Abstraktionen, keine Konfigurierbarkeit, die niemand bestellt hat.",
+        "**Bei UI-Arbeit: Dev-Server starten und die Änderung im Browser prüfen.** Die Regel, die aus \"sieht fertig aus\" ein \"verifiziert fertig\" macht."
       ]
     },
     {
+      "type": "p",
+      "text": "Ein produktionsreifes Template mit dem vollständigen Regelsatz steht im [AGENTS.md-Template-Artikel](/blog/agents-md-production-template). Das Kopieren dauert fünf Minuten und beseitigt eine ganze Kategorie von Agenten-Fehlgriffen."
+    },
+    {
       "type": "h2",
-      "text": "Die Ergebnisse"
+      "text": "Der Beweis ist öffentlich"
     },
     {
       "type": "p",
-      "text": "Dieser Workflow trägt dazu bei, produktionsreife Anwendungen im Rahmen der angenommenen Projekte typischerweise in Wochen statt Monaten zu liefern. Die KI übernimmt die Volumenarbeit: Boilerplate-Generierung, Testschreiben, Code-Review, Dokumentation. Der Fokus liegt auf Entscheidungen, die menschliches Urteilsvermögen erfordern: Architektur, User Experience, Geschäftslogik und Qualitätsstandards."
+      "text": "webvise.io ist die Dauervorführung der Pipeline: zu 100 % KI-codiert mit Claude Code, 96 Punkte im Lighthouse, Repo öffentlich unter [github.com/sebastiankehle](https://github.com/sebastiankehle). Jede Seite, jede Animation und das Blog-System selbst sind durch die sechs Stufen oben gegangen."
+    },
+    {
+      "type": "table",
+      "headers": ["Projekt", "Durch die Pipeline geliefert", "Zahlen"],
+      "rows": [
+        [
+          "webvise.io",
+          "Marketing-Site, Blog, Dashboard",
+          "100 % KI-codiert, 96 Lighthouse"
+        ],
+        [
+          "Gabrys Architektur",
+          "61-seitiger zweisprachiger Rebuild",
+          "1 Tag, 60 Seitenaufrufe geprüft, 0 Konsolenfehler"
+        ],
+        [
+          "MP Bau",
+          "Dokumentkonvertierungs-Skill als Kunden-Tool",
+          "Einmal geschrieben, läuft auf günstigen Modellen"
+        ],
+        [
+          "Alle Projekte",
+          "Kundensoftware über 25+ Lieferungen",
+          "Im Schnitt 3 Wochen bis zum Launch"
+        ]
+      ]
     },
     {
       "type": "p",
-      "text": "Das Ergebnis ist **gleichbleibend hohe Qualität bei Geschwindigkeit**. Jeder Pull Request erhält ein gründliches Review. Jedes Feature bekommt umfassende Tests. Jede Komponente folgt etablierten Konventionen. KI-Tooling ermüdet nicht, schneidet keine Ecken unter Zeitdruck und vergisst keinen Kontext, verlangt aber sorgfältiges Prompting und Review."
-    },
-    {
-      "type": "p",
-      "text": "Wer ein Produkt baut und einen Partner sucht, der moderne KI-gestützte Workflows mit erfahrenem Engineering-Urteilsvermögen verbindet, kann sich gern [melden](/#contact). Das Ziel ist, schnell zu liefern, ohne Abstriche bei der Qualität. Der Prozess lässt sich gerne im Detail durchgehen."
+      "text": "Jede Behauptung oben hat eine öffentliche URL oder ein Repo hinter sich. Wenn Ihr nächster Build durch diese Pipeline laufen soll, [melden Sie sich bei webvise](/#contact), und Sebastian legt die sechs Stufen auf Ihr Projekt um."
     }
-  ],
-  "metaDescription": "Wie webvise KI in jeden Schritt der Softwareentwicklung integriert: von Planung und Coding über Review bis zum Deployment. Produktions-Apps in Wochen statt Monaten."
+  ]
 }
