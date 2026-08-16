@@ -44,7 +44,7 @@ vi.mock("@webvise-app/db", () => ({
 
 vi.mock("@/data/blog", () => ({
 	getBlogPostBySlug: vi.fn((slug: string) =>
-		slug === "agent-memory-vs-context"
+		slug === "llm-wiki-3-month-report"
 			? { title: "Agent Memory vs Context", tags: ["AI", "AI Agents"] }
 			: undefined
 	),
@@ -150,7 +150,7 @@ describe("/api/newsletter/confirm", () => {
 
 	it("notifies the team about the new subscriber and their source", async () => {
 		dbMock.returning.mockResolvedValue([
-			{ path: "/blog/agent-memory-vs-context", placement: "blog_article" },
+			{ path: "/blog/llm-wiki-3-month-report", placement: "blog_article" },
 		]);
 		const token = createNewsletterConfirmationToken(
 			"reader@example.com",
@@ -166,7 +166,7 @@ describe("/api/newsletter/confirm", () => {
 			"New newsletter subscriber: reader@example.com"
 		);
 		expect(notifyBody.html).toContain("blog_article");
-		expect(notifyBody.html).toContain("/blog/agent-memory-vs-context");
+		expect(notifyBody.html).toContain("/blog/llm-wiki-3-month-report");
 		expect(notifyBody.html).toContain("Agent Memory vs Context");
 		expect(notifyBody.text).toContain("Placement: blog_article");
 	});
@@ -238,7 +238,7 @@ describe("/api/newsletter/confirm", () => {
 
 	it("sends a topic-specific welcome email when the signup came from a blog post", async () => {
 		dbMock.returning.mockResolvedValue([
-			{ path: "/blog/agent-memory-vs-context" },
+			{ path: "/blog/llm-wiki-3-month-report" },
 		]);
 		const token = createNewsletterConfirmationToken(
 			"reader@example.com",

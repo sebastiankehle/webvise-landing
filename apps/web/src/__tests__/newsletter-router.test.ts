@@ -65,21 +65,21 @@ describe("newsletterRouter.subscribe", () => {
 		await caller.subscribe({
 			email: "Reader@Example.com",
 			placement: "blog_article",
-			path: "/blog/agent-memory-vs-context",
+			path: "/blog/llm-wiki-3-month-report",
 		});
 
 		expect(dbMock.insert).toHaveBeenCalledTimes(2);
 		expect(dbMock.values).toHaveBeenNthCalledWith(1, {
 			email: "reader@example.com",
 			placement: "blog_article",
-			path: "/blog/agent-memory-vs-context",
+			path: "/blog/llm-wiki-3-month-report",
 		});
 		expect(dbMock.values).toHaveBeenNthCalledWith(2, {
 			email: "reader@example.com",
 			eventType: "newsletter_signup",
 			placement: "blog_article",
-			path: "/blog/agent-memory-vs-context",
-			topic: "agent-memory-vs-context",
+			path: "/blog/llm-wiki-3-month-report",
+			topic: "llm-wiki-3-month-report",
 		});
 		expect(dbMock.onConflictDoUpdate).toHaveBeenCalledOnce();
 	});
