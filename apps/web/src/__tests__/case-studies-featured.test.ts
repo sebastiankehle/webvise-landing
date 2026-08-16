@@ -8,7 +8,7 @@ import {
 	getRelatedCaseStudies,
 } from "../data/case-studies";
 
-const LOCALES = ["en", "de", "es", "fr", "it", "nl", "pl"] as const;
+const LOCALES = ["en", "de"] as const;
 
 describe("case study content module", () => {
 	it("validates and loads every locale", () => {

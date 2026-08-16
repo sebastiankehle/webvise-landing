@@ -18,11 +18,6 @@ import { cn } from "@/lib/utils";
 const localeLabels: Record<string, string> = {
 	en: "English",
 	de: "Deutsch",
-	fr: "Français",
-	es: "Español",
-	nl: "Nederlands",
-	pl: "Polski",
-	it: "Italiano",
 };
 
 function formatLocaleShortCode(locale: string) {

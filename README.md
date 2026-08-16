@@ -25,7 +25,7 @@ See [webvise.io/#services](https://webvise.io/#services) for the current model.
 - **TailwindCSS 4** · **shadcn/ui** · Motion
 - **Better-Auth** for auth, **Resend** for email
 - **AI SDK 6** via **Vercel AI Gateway**
-- **next-intl** with 7 locales (en, de, es, fr, it, nl, pl)
+- **next-intl** with 2 locales (en, de)
 - **Biome** · **Vitest** · **Turborepo** · **pnpm**
 
 Deployed on Vercel with Analytics and Speed Insights.

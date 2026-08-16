@@ -18,10 +18,21 @@ interface EntryOptions {
 	priority: number;
 }
 
+/** Resolve per-locale pathnames (e.g. /imprint → /impressum for de) so the
+ * sitemap never lists a URL that 307-redirects to its localized twin. */
+function localizedPath(path: string, locale: string): string {
+	const pathnames = routing.pathnames[path as keyof typeof routing.pathnames];
+	if (typeof pathnames === "object" && pathnames !== null) {
+		return (pathnames as Record<string, string>)[locale] ?? path;
+	}
+	return path;
+}
+
 function localizedUrl(path: string, locale: string): string {
+	const resolved = localizedPath(path, locale);
 	return locale === routing.defaultLocale
-		? `${baseUrl}${path}`
-		: `${baseUrl}/${locale}${path}`;
+		? `${baseUrl}${resolved}`
+		: `${baseUrl}/${locale}${resolved}`;
 }
 
 function alternatesFor(path: string) {

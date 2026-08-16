@@ -46,7 +46,7 @@ export default async function HomePage() {
 				url: "https://www.webvise.io",
 				name: "webvise",
 				publisher: { "@id": "https://www.webvise.io/#organization" },
-				inLanguage: ["en", "de", "fr", "es", "nl", "pl", "it"],
+				inLanguage: ["en", "de"],
 			},
 			{
 				"@type": "WebPage",

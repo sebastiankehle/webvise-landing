@@ -12,7 +12,7 @@ Guidance for AI agents working in this repo. Mirrors the role of `CLAUDE.md` but
 - tRPC 11 · Drizzle ORM · PostgreSQL
 - TailwindCSS 4 · shadcn/ui · Motion
 - Better-Auth · Resend · AI SDK 6 via Vercel AI Gateway
-- next-intl (locales: en, de, es, fr, it, nl, pl)
+- next-intl (locales: en, de)
 - Biome (via ultracite) · Vitest · Turborepo · pnpm
 
 ## Monorepo
@@ -51,7 +51,7 @@ Package manager: **pnpm 10.1.0**. Don't use npm or yarn.
 
 - **Formatter/linter**: Biome via ultracite. `lint-staged` runs `ultracite fix` on commit — don't bypass with `--no-verify`.
 - **Imports**: workspace packages as `@webvise-app/*`.
-- **i18n**: 7 locales must stay in sync. New blog posts and copy ship in all locales.
+- **i18n**: en and de must stay in sync. New blog posts and copy ship in both locales.
 - **Env**: typed in `packages/env`. Don't read `process.env` directly in app code.
 - **Components**: shadcn/ui first; only build custom when shadcn doesn't fit.
 - **Server vs client**: prefer Server Components; mark `"use client"` only when needed (state, effects, event handlers, browser APIs).
@@ -65,7 +65,7 @@ Project-local skills live in `.agents/skills/` and are surfaced to Claude Code v
 | ------------------------------ | ---------------------------------------------------- |
 | `animation-vocabulary`         | Name a motion effect from a vague description        |
 | `apple-design`                 | Apple-style interface design and motion for the web  |
-| `blog-article`                 | Author blog posts in all 7 locales                   |
+| `blog-article`                 | Author blog posts in EN + DE                         |
 | `emil-design-eng`              | Emil Kowalski's UI polish and animation philosophy   |
 | `find-animation-opportunities` | Find UI spots that should animate but don't          |
 | `improve-animations`           | Audit motion code and plan improvements              |
@@ -87,6 +87,6 @@ ln -s ../../.agents/skills/<name> .claude/skills/<name>
 - Match existing style. Every changed line should trace to the request.
 - Verify before claiming completion: type-check, lint, and (where relevant) build or test.
 - For UI work: run dev server and exercise the change in a browser before reporting done.
-- i18n: if you add user-facing copy in one locale, add it in all 7.
+- i18n: if you add user-facing copy in one locale, add it in the other (en + de).
 - Don't commit `.env*`, secrets, or generated artifacts.
 - Don't push or open PRs unless explicitly asked.

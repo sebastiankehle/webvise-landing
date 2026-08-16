@@ -61,8 +61,7 @@ const nextConfig: NextConfig = {
 				permanent: true,
 			},
 			{
-				source:
-					"/:locale(en|de|fr|es|nl|pl|it)/systems/ai-assisted-workflow-automation",
+				source: "/:locale(en|de)/systems/ai-assisted-workflow-automation",
 				destination: "/:locale/services/agentic-workflow-automation",
 				permanent: true,
 			},
@@ -72,8 +71,7 @@ const nextConfig: NextConfig = {
 				permanent: true,
 			},
 			{
-				source:
-					"/:locale(en|de|fr|es|nl|pl|it)/services/ai-assisted-workflow-automation",
+				source: "/:locale(en|de)/services/ai-assisted-workflow-automation",
 				destination: "/:locale/services/agentic-workflow-automation",
 				permanent: true,
 			},
@@ -83,7 +81,7 @@ const nextConfig: NextConfig = {
 				permanent: true,
 			},
 			{
-				source: "/:locale(en|de|fr|es|nl|pl|it)/systems/:slug",
+				source: "/:locale(en|de)/systems/:slug",
 				destination: "/:locale/services/:slug",
 				permanent: true,
 			},

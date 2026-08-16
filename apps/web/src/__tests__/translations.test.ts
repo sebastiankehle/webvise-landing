@@ -2,7 +2,7 @@ import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 
-const LOCALES = ["en", "de", "fr", "es", "nl", "pl", "it"] as const;
+const LOCALES = ["en", "de"] as const;
 const MESSAGES_DIR = join(import.meta.dirname, "../messages");
 const CONTENT_DIR = join(import.meta.dirname, "../../content");
 
