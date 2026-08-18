@@ -34,7 +34,7 @@ When the vault is unavailable, locate the shared `webvise-ci-reference-pack` fol
 - Claim controls: `wiki/work/webvise/operations/business-context/proof.md`
 - Sales context: `wiki/work/webvise/operations/sales-assets.md`
 
-The Print-Kit contains `webvise-ci.css`, embedded Geist, `build.py`, source bodies, and fit rules. Use it instead of rebuilding A4 chrome from memory.
+The Print-Kit contains `webvise-ci.css`, embedded Hanken Grotesk, `build.py`, source bodies, and fit rules. Use it instead of rebuilding A4 chrome from memory.
 
 ## The 12 service decks
 
@@ -61,7 +61,7 @@ The numbered files live in `wiki/work/webvise/operations/`:
 
 ## Hard checks
 
-- Current print output uses Geist 400/500 only.
+- Current print output uses Hanken Grotesk 400/500 only.
 - Standalone output has no external font or asset dependency unless the brief requires one.
 - A4 output has no overflow and no accidental blank page.
 - Claims come from the Proof stack or user-supplied approved copy.

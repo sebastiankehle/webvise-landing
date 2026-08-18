@@ -25,7 +25,14 @@ const mediaAssetCanvasPalette = {
 		text: "#211f1b",
 	},
 } as const;
-const mediaAssetCanvasFontFamily = '"Inter", sans-serif';
+// next/font registers Hanken Grotesk under a hashed family name; resolve it
+// from the CSS variable so canvas exports use the same font as the site.
+function mediaAssetCanvasFontFamily() {
+	const family = getComputedStyle(document.body)
+		.getPropertyValue("--font-hanken-grotesk")
+		.trim();
+	return family ? `${family}, sans-serif` : '"Hanken Grotesk", sans-serif';
+}
 const mediaAssetCanvasGridLine = "rgba(0,0,0,0.03)";
 const mediaAssetPreviewGridImage =
 	"linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px)";
@@ -323,46 +330,54 @@ export function BannerAsset({
 			}
 			ctx.scale(dpr, dpr);
 
-			ctx.fillStyle = style.canvasBg;
-			ctx.fillRect(0, 0, width, height);
+			const draw = () => {
+				const fontFamily = mediaAssetCanvasFontFamily();
 
-			drawGridPattern(ctx, width, height);
+				ctx.fillStyle = style.canvasBg;
+				ctx.fillRect(0, 0, width, height);
 
-			const logoSize = Math.round(80 * scaleFactor);
-			const logoX = width - Math.round(130 * scaleFactor) - logoSize;
-			const logoY = (height - logoSize) / 2;
-			drawLogoOnCanvas(ctx, logoX, logoY, logoSize);
+				drawGridPattern(ctx, width, height);
 
-			const textRightEdge = logoX - Math.round(30 * scaleFactor);
-			ctx.textAlign = "right";
-			ctx.textBaseline = "middle";
+				const logoSize = Math.round(80 * scaleFactor);
+				const logoX = width - Math.round(130 * scaleFactor) - logoSize;
+				const logoY = (height - logoSize) / 2;
+				drawLogoOnCanvas(ctx, logoX, logoY, logoSize);
 
-			const mainFontSize = Math.round(42 * scaleFactor);
-			const subFontSize = Math.round(22 * scaleFactor);
+				const textRightEdge = logoX - Math.round(30 * scaleFactor);
+				ctx.textAlign = "right";
+				ctx.textBaseline = "middle";
 
-			ctx.fillStyle = style.canvasText;
-			ctx.font = `400 ${mainFontSize}px ${mediaAssetCanvasFontFamily}`;
-			ctx.fillText(
-				tagline,
-				textRightEdge,
-				height / 2 - Math.round(14 * scaleFactor)
-			);
+				const mainFontSize = Math.round(42 * scaleFactor);
+				const subFontSize = Math.round(22 * scaleFactor);
 
-			ctx.fillStyle = style.canvasSub;
-			ctx.font = `300 ${subFontSize}px ${mediaAssetCanvasFontFamily}`;
-			ctx.fillText(
-				subtitle,
-				textRightEdge,
-				height / 2 + Math.round(24 * scaleFactor)
-			);
+				ctx.fillStyle = style.canvasText;
+				ctx.font = `400 ${mainFontSize}px ${fontFamily}`;
+				ctx.fillText(
+					tagline,
+					textRightEdge,
+					height / 2 - Math.round(14 * scaleFactor)
+				);
 
-			ctx.fillStyle = mediaAssetCanvasPalette.brand.bg;
-			ctx.fillRect(
-				0,
-				height - Math.round(4 * scaleFactor),
-				width,
-				Math.round(4 * scaleFactor)
-			);
+				ctx.fillStyle = style.canvasSub;
+				ctx.font = `400 ${subFontSize}px ${fontFamily}`;
+				ctx.fillText(
+					subtitle,
+					textRightEdge,
+					height / 2 + Math.round(24 * scaleFactor)
+				);
+
+				ctx.fillStyle = mediaAssetCanvasPalette.brand.bg;
+				ctx.fillRect(
+					0,
+					height - Math.round(4 * scaleFactor),
+					width,
+					Math.round(4 * scaleFactor)
+				);
+			};
+
+			draw();
+			// Redraw once webfonts are in so the exported PNG uses Hanken Grotesk.
+			document.fonts.ready.then(draw);
 		},
 		[style, width, height, tagline, subtitle, scaleFactor]
 	);
@@ -468,36 +483,44 @@ export function WallpaperAsset({
 			}
 			ctx.scale(dpr, dpr);
 
-			ctx.fillStyle = style.canvasBg;
-			ctx.fillRect(0, 0, width, height);
+			const draw = () => {
+				const fontFamily = mediaAssetCanvasFontFamily();
 
-			drawGridPattern(ctx, width, height);
+				ctx.fillStyle = style.canvasBg;
+				ctx.fillRect(0, 0, width, height);
 
-			const scale = Math.min(width, height) / 1000;
-			const logoSize = Math.round(160 * scale);
-			drawLogoOnCanvas(
-				ctx,
-				(width - logoSize) / 2,
-				height / 2 - logoSize - Math.round(20 * scale),
-				logoSize
-			);
+				drawGridPattern(ctx, width, height);
 
-			ctx.textAlign = "center";
-			ctx.textBaseline = "middle";
+				const scale = Math.min(width, height) / 1000;
+				const logoSize = Math.round(160 * scale);
+				drawLogoOnCanvas(
+					ctx,
+					(width - logoSize) / 2,
+					height / 2 - logoSize - Math.round(20 * scale),
+					logoSize
+				);
 
-			const mainFontSize = Math.round(48 * scale);
-			const subFontSize = Math.round(24 * scale);
+				ctx.textAlign = "center";
+				ctx.textBaseline = "middle";
 
-			ctx.fillStyle = style.canvasText;
-			ctx.font = `400 ${mainFontSize}px ${mediaAssetCanvasFontFamily}`;
-			ctx.fillText(tagline, width / 2, height / 2 + Math.round(30 * scale));
+				const mainFontSize = Math.round(48 * scale);
+				const subFontSize = Math.round(24 * scale);
 
-			ctx.fillStyle = style.canvasSub;
-			ctx.font = `300 ${subFontSize}px ${mediaAssetCanvasFontFamily}`;
-			ctx.fillText(subtitle, width / 2, height / 2 + Math.round(70 * scale));
+				ctx.fillStyle = style.canvasText;
+				ctx.font = `400 ${mainFontSize}px ${fontFamily}`;
+				ctx.fillText(tagline, width / 2, height / 2 + Math.round(30 * scale));
 
-			ctx.fillStyle = mediaAssetCanvasPalette.brand.bg;
-			ctx.fillRect(0, height - 4, width, 4);
+				ctx.fillStyle = style.canvasSub;
+				ctx.font = `400 ${subFontSize}px ${fontFamily}`;
+				ctx.fillText(subtitle, width / 2, height / 2 + Math.round(70 * scale));
+
+				ctx.fillStyle = mediaAssetCanvasPalette.brand.bg;
+				ctx.fillRect(0, height - 4, width, 4);
+			};
+
+			draw();
+			// Redraw once webfonts are in so the exported PNG uses Hanken Grotesk.
+			document.fonts.ready.then(draw);
 		},
 		[style, width, height, tagline, subtitle]
 	);

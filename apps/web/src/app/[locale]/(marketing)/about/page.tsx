@@ -431,7 +431,7 @@ export default async function AboutPage() {
 									>
 										<span
 											aria-hidden="true"
-											className="h-3.5 w-3.5 shrink-0 [&_svg]:h-full [&_svg]:w-full [.mono-dark_&]:grayscale [.mono-light_&]:grayscale"
+											className="h-3.5 w-3.5 shrink-0 [&_svg]:h-full [&_svg]:w-full"
 											// biome-ignore lint/security/noDangerouslySetInnerHtml: static build-time SVG markup
 											dangerouslySetInnerHTML={{ __html: skillIcons[icon] }}
 										/>

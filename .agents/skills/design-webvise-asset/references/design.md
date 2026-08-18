@@ -1,6 +1,6 @@
 # webvise Design System
 
-Portable specification for webvise web, sales, proposal, and print assets. Values below were taken from `apps/web/src/index.css` and the vault Print-Kit on 2026-08-14.
+Portable specification for webvise web, sales, proposal, and print assets. Values below were taken from `apps/web/src/index.css` and the vault Print-Kit on 2026-08-18.
 
 If the repo is available, compare this file with `apps/web/src/index.css` before building. The live stylesheet wins when values differ; update this file in the same change.
 
@@ -20,7 +20,7 @@ If the repo is available, compare this file with `apps/web/src/index.css` before
 
 - Use the default light theme unless the brief requests another current site theme.
 - Use OKLCH values, not converted hex approximations.
-- Use Geist for the default CI. Use weights 400 and 500 only.
+- Use Hanken Grotesk for the default CI. Use weights 400 and 500 only.
 - Use orange as the sole brand accent. Let neutral surfaces, type, space, and lines carry the layout.
 - Keep cards borderless on the web unless a documented pattern calls for a line. Print cards may use the Print-Kit hairline.
 - Use a 10 px base radius. Larger hero surfaces may use the documented 14–18 px print exceptions.
@@ -32,35 +32,35 @@ Copy these values exactly for a standalone default-CI asset:
 
 ```css
 :root {
-  --background: oklch(0.9885 0.0025 250);
-  --foreground: oklch(0.145 0 0);
+  --background: oklch(0.984 0.0025 245);
+  --foreground: oklch(0.18 0.012 250);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  --card-foreground: oklch(0.18 0.012 250);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.958 0.0025 250);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.958 0.0025 250);
-  --muted-foreground: oklch(0.44 0 0);
-  --accent: oklch(0.958 0.0025 250);
-  --accent-foreground: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.18 0.012 250);
+  --primary: oklch(0.22 0.014 250);
+  --primary-foreground: oklch(0.996 0.002 245);
+  --secondary: oklch(0.954 0.004 245);
+  --secondary-foreground: oklch(0.22 0.014 250);
+  --muted: oklch(0.954 0.004 245);
+  --muted-foreground: oklch(0.48 0.014 250);
+  --accent: oklch(0.945 0.008 245);
+  --accent-foreground: oklch(0.22 0.014 250);
   --destructive: oklch(0.58 0.22 27);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  --border: oklch(0.78 0.014 245);
+  --input: oklch(0.78 0.014 245);
+  --ring: oklch(0.75 0.18 55);
   --brand: oklch(0.75 0.18 55);
   --brand-hover: oklch(0.68 0.19 50);
   --brand-text: oklch(0.75 0.18 55);
   --brand-icon: oklch(0.75 0.18 55);
   --brand-border: oklch(0.82 0.12 62);
-  --brand-surface: oklch(0.97 0.035 70);
+  --brand-surface: oklch(0.965 0.032 70);
   --brand-foreground: oklch(0.985 0 0);
-  --brand-subtle: oklch(0.75 0.18 55 / 8%);
+  --brand-subtle: oklch(0.75 0.18 55 / 10%);
   --success: oklch(0.54 0.18 148);
-  --grid-line: oklch(0.145 0 0 / 11%);
-  --grid-line-strong: oklch(0.145 0 0 / 17%);
+  --grid-line: oklch(0.18 0.012 250 / 7%);
+  --grid-line-strong: oklch(0.18 0.012 250 / 12%);
   --radius: 0.625rem;
 }
 ```
@@ -69,32 +69,32 @@ Copy these values exactly for a standalone default-CI asset:
 
 ```css
 --chart-1: oklch(0.75 0.18 55);
---chart-2: oklch(0.623 0.214 259.815);
---chart-3: oklch(0.546 0.245 262.881);
---chart-4: oklch(0.488 0.243 264.376);
---chart-5: oklch(0.424 0.199 265.638);
+--chart-2: oklch(0.58 0.14 148);
+--chart-3: oklch(0.52 0.11 245);
+--chart-4: oklch(0.45 0.08 260);
+--chart-5: oklch(0.36 0.06 250);
 ```
 
-Use chart colors only for data. Do not turn the blue chart sequence into a general brand palette.
+Use chart colors only for data. Do not turn the chart sequence into a general brand palette.
 
 ## 3. Inverted surfaces
 
 Use the inverted set for one deliberate dark section, cover, closing CTA, or proof band:
 
 ```css
---surface-inverted: oklch(0.11 0.008 250);
---surface-inverted-secondary: oklch(0.14 0.015 250);
---surface-inverted-foreground: oklch(0.94 0.005 80);
---surface-inverted-muted: oklch(0.2 0.01 250);
---surface-inverted-muted-foreground: oklch(0.62 0.01 250);
+--surface-inverted: oklch(0.14 0.014 250);
+--surface-inverted-secondary: oklch(0.2 0.016 250);
+--surface-inverted-foreground: oklch(0.95 0.004 240);
+--surface-inverted-muted: oklch(0.26 0.016 250);
+--surface-inverted-muted-foreground: oklch(0.7 0.01 240);
 --surface-inverted-brand: oklch(0.75 0.18 55);
 --surface-inverted-brand-hover: oklch(0.68 0.19 50);
---surface-inverted-brand-border: oklch(0.42 0.08 55);
---surface-inverted-brand-surface: oklch(0.22 0.035 55);
+--surface-inverted-brand-border: oklch(0.45 0.08 55);
+--surface-inverted-brand-surface: oklch(0.23 0.035 55);
 --surface-inverted-brand-foreground: oklch(0.985 0 0);
---surface-inverted-border: oklch(1 0 0 / 10%);
---surface-inverted-grid-line: oklch(1 0 0 / 6%);
---surface-inverted-grid-line-strong: oklch(1 0 0 / 10%);
+--surface-inverted-border: oklch(0.95 0.004 240 / 12%);
+--surface-inverted-grid-line: oklch(0.95 0.004 240 / 6%);
+--surface-inverted-grid-line-strong: oklch(0.95 0.004 240 / 10%);
 ```
 
 Do not make every page dark. The default rhythm is light content with a limited inverted moment.
@@ -104,12 +104,12 @@ Do not make every page dark. The default rhythm is light content with a limited 
 ### Families
 
 ```css
---theme-font-sans: var(--font-geist-sans), Geist, sans-serif;
---theme-font-display: var(--font-geist-sans), Geist, sans-serif;
+--theme-font-sans: var(--font-hanken-grotesk), "Hanken Grotesk", sans-serif;
+--theme-font-display: var(--font-hanken-grotesk), "Hanken Grotesk", sans-serif;
 --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 ```
 
-Standalone output must embed Geist. Do not use Google Fonts or rely on a local system copy.
+Standalone output must embed Hanken Grotesk. Do not use Google Fonts or rely on a local system copy.
 
 ### Weights
 
@@ -132,7 +132,7 @@ The default CI deliberately collapses every named weight to two real values:
 - Never synthesize 600–900.
 - Display letter-spacing: `-0.015em` on the site.
 - Body letter-spacing: `0` with `liga` and `calt` enabled.
-- Print uses tabular numerals and Geist stylistic set `ss01`.
+- Print uses tabular numerals.
 
 ### Print type scale
 
@@ -176,7 +176,7 @@ Print uses 10 px for cards and notes. The approved Bau one-pager uses 12 px for 
 ```css
 :root {
   --surface-card-fill: oklch(1 0 0);
-  --surface-card-fill-hover: oklch(0.993 0.0015 250);
+  --surface-card-fill-hover: oklch(0.99 0.001 245);
 }
 
 .surface-card {
@@ -233,22 +233,22 @@ Do not add motion to print files. Do not invent spring or blur effects unless th
 
 ```css
 :root {
-  --background: oklch(0.9885 0.0025 250);
-  --foreground: oklch(0.145 0 0);
+  --background: oklch(0.984 0.0025 245);
+  --foreground: oklch(0.18 0.012 250);
   --card: oklch(1 0 0);
-  --muted: oklch(0.958 0.0025 250);
-  --muted-foreground: oklch(0.44 0 0);
-  --border: oklch(0.922 0 0);
-  --grid-line: oklch(0.145 0 0 / 11%);
-  --grid-line-strong: oklch(0.145 0 0 / 17%);
+  --muted: oklch(0.954 0.004 245);
+  --muted-foreground: oklch(0.48 0.014 250);
+  --border: oklch(0.78 0.014 245);
+  --grid-line: oklch(0.18 0.012 250 / 7%);
+  --grid-line-strong: oklch(0.18 0.012 250 / 12%);
   --brand: oklch(0.75 0.18 55);
   --brand-border: oklch(0.82 0.12 62);
-  --brand-surface: oklch(0.97 0.035 70);
-  --inv: oklch(0.11 0.008 250);
-  --inv-fg: oklch(0.94 0.005 80);
-  --inv-muted-fg: oklch(0.62 0.01 250);
-  --inv-border: oklch(1 0 0 / 10%);
-  --inv-grid: oklch(1 0 0 / 6%);
+  --brand-surface: oklch(0.965 0.032 70);
+  --inv: oklch(0.14 0.014 250);
+  --inv-fg: oklch(0.95 0.004 240);
+  --inv-muted-fg: oklch(0.7 0.01 240);
+  --inv-border: oklch(0.95 0.004 240 / 12%);
+  --inv-grid: oklch(0.95 0.004 240 / 6%);
   --radius: 10px;
   --w-normal: 400;
   --w-medium: 500;
@@ -287,8 +287,8 @@ Screen preview shadow only:
 
 ```css
 box-shadow:
-  0 1px 3px oklch(0.145 0 0 / 6%),
-  0 12px 32px oklch(0.145 0 0 / 8%);
+  0 1px 3px oklch(0.18 0.012 250 / 6%),
+  0 12px 32px oklch(0.18 0.012 250 / 8%);
 ```
 
 Use the numbered service deck as the mechanical source for A4 landscape. Keep the same tokens and type rules; do not rotate portrait spacing blindly.
@@ -306,14 +306,14 @@ Use the numbered service deck as the mechanical source for A4 landscape. Keep th
 
 ### Arrow icon
 
-Geist does not contain U+2192. Never type a right-arrow character in print output. Use `<i class="ar"></i>` with the masked SVG from the Print-Kit.
+The embedded Hanken Grotesk subsets do not contain U+2192. Never type a right-arrow character in print output. Use `<i class="ar"></i>` with the masked SVG from the Print-Kit.
 
 ### Print delivery checks
 
-- Embed Geist in the HTML.
+- Embed Hanken Grotesk in the HTML.
 - Print with no browser margins and exact colors.
 - Match the PDF page count to the number of `.sheet` elements.
-- Run `pdffonts`; only `Geist-Regular` and `Geist-Medium` may appear.
+- Run `pdffonts`; only Hanken Grotesk faces (`HankenGrotesk-Regular`, `HankenGrotesk-Regular_Medium`) may appear.
 - Reject clipped content, hidden overflow, extra pages, and external font requests.
 
 ## 8. Composition rules
@@ -332,7 +332,7 @@ Geist does not contain U+2192. Never type a right-arrow character in print outpu
 
 - No Inter, Arial, or generic sans-serif in default-CI output.
 - No font weight above 500.
-- No warm cream background; use `oklch(0.9885 0.0025 250)`.
+- No warm cream background; use `oklch(0.984 0.0025 245)`.
 - No arbitrary hex orange; use `oklch(0.75 0.18 55)`.
 - No Tailwind default radii in place of the mappings above.
 - No heavy shadows on web cards.

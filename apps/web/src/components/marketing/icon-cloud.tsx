@@ -11,13 +11,6 @@ import {
 	type SimpleIcon,
 } from "react-icon-cloud";
 
-import {
-	getSiteThemeIdFromDom,
-	isDarkSiteTheme,
-	type SiteThemeId,
-	subscribeToSiteThemeDomChange,
-} from "@/lib/themes";
-
 const darkSurfaceFallbackHex = "#f4f1ea";
 
 const cloudProps: Omit<ICloud, "children"> = {
@@ -95,34 +88,25 @@ const iconSlugs = [
 type IconData = Awaited<ReturnType<typeof fetchSimpleIcons>>;
 
 export default function IconCloud() {
-	const { resolvedTheme, theme } = useTheme();
+	const { resolvedTheme } = useTheme();
 	const [mounted, setMounted] = useState(false);
 	const [data, setData] = useState<IconData | null>(null);
-	const [previewTheme, setPreviewTheme] = useState<SiteThemeId | undefined>();
 
 	useEffect(() => {
 		setMounted(true);
 		fetchSimpleIcons({ slugs: iconSlugs }).then(setData);
 	}, []);
 
-	useEffect(() => {
-		setPreviewTheme(getSiteThemeIdFromDom());
-
-		return subscribeToSiteThemeDomChange(setPreviewTheme);
-	}, []);
-
 	const renderedIcons = useMemo(() => {
 		if (!data) {
 			return null;
 		}
-		const activeTheme =
-			previewTheme ?? (theme === "system" ? resolvedTheme : theme);
-		const isDarkSurface = isDarkSiteTheme(activeTheme);
+		const isDarkSurface = resolvedTheme === "dark";
 
 		return Object.values(data.simpleIcons).map((icon) =>
 			renderCustomIcon(icon, isDarkSurface)
 		);
-	}, [data, previewTheme, resolvedTheme, theme]);
+	}, [data, resolvedTheme]);
 
 	return (
 		<div className="h-[300px] w-full md:h-[400px]">
