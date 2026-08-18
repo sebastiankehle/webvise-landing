@@ -77,26 +77,26 @@ export default function ThemeSwitcher({
 							animate={{ rotate: 0, opacity: 1 }}
 							exit={{ rotate: 90, opacity: 0 }}
 							initial={{ rotate: -90, opacity: 0 }}
-							key="moon"
+							key="sun"
 							transition={{ duration: 0.15 }}
 						>
-							<Moon className={iconClassName} />
+							<Sun className={iconClassName} />
 						</motion.span>
 					) : (
 						<motion.span
 							animate={{ rotate: 0, opacity: 1 }}
 							exit={{ rotate: -90, opacity: 0 }}
 							initial={{ rotate: 90, opacity: 0 }}
-							key="sun"
+							key="moon"
 							transition={{ duration: 0.15 }}
 						>
-							<Sun className={iconClassName} />
+							<Moon className={iconClassName} />
 						</motion.span>
 					)}
 				</AnimatePresence>
 			</span>
 			{variant !== "floating" && (
-				<span className="truncate">{isDark ? t("dark") : t("light")}</span>
+				<span className="truncate">{isDark ? t("light") : t("dark")}</span>
 			)}
 		</Button>
 	);
