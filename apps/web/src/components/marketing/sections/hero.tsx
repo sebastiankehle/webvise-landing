@@ -20,12 +20,6 @@ export default async function Hero() {
 	return (
 		<section className="relative overflow-hidden py-48 md:py-36" id="hero">
 			<ConstructedGrid hatch variant="hero" />
-			{/* Mobile: subtle cloud in top-right, partially off-screen as depth layer */}
-			<div className="pointer-events-none absolute top-12 right-[-24px] md:hidden">
-				<div className="h-[220px] w-[180px]">
-					<IconCloud />
-				</div>
-			</div>
 			<GridContainer>
 				<HeroContent>
 					<div className="relative grid items-center gap-12 md:grid-cols-12">

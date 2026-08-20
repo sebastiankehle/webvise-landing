@@ -5,11 +5,12 @@ import type { MouseEvent as ReactMouseEvent } from "react";
 import { useEffect, useMemo, useState } from "react";
 import {
 	Cloud,
-	fetchSimpleIcons,
 	type ICloud,
 	renderSimpleIcon,
 	type SimpleIcon,
 } from "react-icon-cloud";
+
+import { iconCloudIcons } from "./icon-cloud-icons";
 
 const darkSurfaceFallbackHex = "#f4f1ea";
 
@@ -60,59 +61,23 @@ function renderCustomIcon(icon: SimpleIcon, isDarkSurface: boolean) {
 	});
 }
 
-const iconSlugs = [
-	"typescript",
-	"react",
-	"nextdotjs",
-	"tailwindcss",
-	"vercel",
-	"nodedotjs",
-	"docker",
-	"github",
-	"linear",
-	"turborepo",
-	"biome",
-	"posthog",
-	"sentry",
-	"drizzle",
-	"redis",
-	"trpc",
-	"postgresql",
-	"hono",
-	"pnpm",
-	"openai",
-	"claude",
-	"googlegemini",
-];
-
-type IconData = Awaited<ReturnType<typeof fetchSimpleIcons>>;
-
 export default function IconCloud() {
 	const { resolvedTheme } = useTheme();
 	const [mounted, setMounted] = useState(false);
-	const [data, setData] = useState<IconData | null>(null);
 
 	useEffect(() => {
 		setMounted(true);
-		fetchSimpleIcons({ slugs: iconSlugs }).then(setData);
 	}, []);
 
 	const renderedIcons = useMemo(() => {
-		if (!data) {
-			return null;
-		}
 		const isDarkSurface = resolvedTheme === "dark";
 
-		return Object.values(data.simpleIcons).map((icon) =>
-			renderCustomIcon(icon, isDarkSurface)
-		);
-	}, [data, resolvedTheme]);
+		return iconCloudIcons.map((icon) => renderCustomIcon(icon, isDarkSurface));
+	}, [resolvedTheme]);
 
 	return (
 		<div className="h-[300px] w-full md:h-[400px]">
-			{mounted && renderedIcons ? (
-				<Cloud {...cloudProps}>{renderedIcons}</Cloud>
-			) : null}
+			{mounted ? <Cloud {...cloudProps}>{renderedIcons}</Cloud> : null}
 		</div>
 	);
 }
