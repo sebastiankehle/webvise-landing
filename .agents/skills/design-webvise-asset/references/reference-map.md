@@ -6,6 +6,7 @@ Read [design.md](design.md) first for exact styles. This file only selects the c
 
 - Repo: use the workspace root that contains `.agents/skills/design-webvise-asset/`
 - Sebastian's vault: `$HOME/Documents/webvise/obsidian-vault`
+- Presentation library: `$HOME/Documents/webvise/presentations`
 - Vault guide: `wiki/work/webvise/operations/webvise-ci-reference-pack.md`
 
 Use `wiki read` and `wiki list` when the vault is open through Obsidian. Use the filesystem paths for HTML inspection and browser rendering.
@@ -16,29 +17,30 @@ When the vault is unavailable, locate the shared `webvise-ci-reference-pack` fol
 
 | Asset | Primary reference | Use it for |
 |---|---|---|
-| Service or pitch deck | `wiki/work/webvise/operations/00_WEBVISE_Leistungsuebersicht.html` and the closest numbered service deck | A4 landscape, short argument, objection handling, service hierarchy |
-| Compact sales aid | `wiki/work/webvise/operations/sales-call-sheet-2026-08.html` | Scan-friendly hierarchy and compact prompts |
-| Long guide or handbook | `wiki/work/webvise/operations/sales-playbook-2026-08.html` | Long-form navigation, pacing, section breaks |
-| Comparison or research report | `wiki/work/webvise/operations/wettbewerbsvergleich-2026-08.html` | Fact cards, tables, evidence labels |
-| General team brochure | `wiki/work/webvise/operations/team-sales-brochure-2026-08.html` | Short company and offer overview |
-| Service catalog | `wiki/work/webvise/operations/team-service-katalog-2026-08.html` | Offer matrices and reference routing |
-| One-pager | `wiki/work/webvise/operations/bau-kmu-ki-portal-one-pager-2026-08.html` | Single-page proof and CTA structure |
-| Proposal | `wiki/work/webvise/proposals/dekra/offer-ai-transformation-styled.html` | Proposal sequence and restrained page composition only |
+| Service or pitch deck | `$HOME/Documents/webvise/presentations/internal/service-catalog/de/00_WEBVISE_Leistungsuebersicht.html` and the closest numbered service deck | A4 landscape, short argument, objection handling, service hierarchy |
+| Compact sales aid | `$HOME/Documents/webvise/presentations/internal/sales-kit/2026-08/sales-call-sheet-2026-08.html` | Scan-friendly hierarchy and compact prompts |
+| Long guide or handbook | `$HOME/Documents/webvise/presentations/internal/sales-kit/2026-08/sales-playbook-2026-08.html` | Long-form navigation, pacing, section breaks |
+| Comparison or research report | `$HOME/Documents/webvise/presentations/internal/sales-kit/2026-08/wettbewerbsvergleich-2026-08.html` | Fact cards, tables, evidence labels |
+| General team brochure | `$HOME/Documents/webvise/presentations/internal/sales-kit/2026-08/team-sales-brochure-2026-08.html` | Short company and offer overview |
+| Service catalog | `$HOME/Documents/webvise/presentations/internal/sales-kit/2026-08/team-service-katalog-2026-08.html` | Offer matrices and reference routing |
+| One-pager | `$HOME/Documents/webvise/presentations/internal/sales-kit/2026-08/bau-kmu-ki-portal-one-pager-2026-08.html` | Single-page proof and CTA structure |
+| Proposal | `$HOME/Documents/webvise/presentations/proposals/dekra/offer-ai-transformation-styled.html` | Proposal sequence and restrained page composition only |
 
 ## Current implementation sources
 
 - Portable CI specification: `.agents/skills/design-webvise-asset/references/design.md`
 - Website tokens: `apps/web/src/index.css`
 - Print guide: `wiki/work/webvise/operations/print-kit.md`
-- Print files: `wiki/work/webvise/operations/print-kit/`
+- Print files: `$HOME/Documents/webvise/presentations/internal/sales-kit/print-kit/`
 - Claim controls: `wiki/work/webvise/operations/business-context/proof.md`
-- Sales context: `wiki/work/webvise/operations/sales-assets.md`
+- Offer context: `wiki/work/webvise/offers/architecture.md`
+- Relationship context: `wiki/work/webvise/clients/proposals/index.md`
 
 The Print-Kit contains `webvise-ci.css`, embedded Hanken Grotesk, `build.py`, source bodies, and fit rules. Use it instead of rebuilding A4 chrome from memory.
 
 ## The 12 service decks
 
-The numbered files live in `wiki/work/webvise/operations/`:
+The numbered files live in `$HOME/Documents/webvise/presentations/internal/service-catalog/de/`:
 
 - `01_WEBVISE_Launch_Landing-Pages.html`
 - `02_WEBVISE_Launch_MVPs-und-Produktprototypen.html`
@@ -55,9 +57,9 @@ The numbered files live in `wiki/work/webvise/operations/`:
 
 ## DEKRA boundaries
 
-`offer-ai-transformation-styled.html` is the newer July proposal. Study its cover, scope, conditions, and sign-off sequence. It still uses Inter and older color values, so restyle it with the current CI.
+`$HOME/Documents/webvise/presentations/proposals/dekra/offer-ai-transformation-styled.html` is the newer July proposal. Study its cover, scope, conditions, and sign-off sequence. It still uses Inter and older color values, so restyle it with the current CI. Current engagement context lives at `wiki/work/webvise/clients/proposals/dekra.md`.
 
-`offer-slim-styled.html` is an April archive with DEKRA colors, inline DEKRA logos, old rates, and outdated role framing. Never send or clone it. It may only answer structural questions that the newer proposal and current references do not cover.
+`$HOME/Documents/webvise/presentations/proposals/dekra/offer-slim-styled.html` is an April archive with DEKRA colors, inline DEKRA logos, old rates, and outdated role framing. Never send or clone it. It may only answer structural questions that the newer proposal and current references do not cover.
 
 ## Hard checks
 
