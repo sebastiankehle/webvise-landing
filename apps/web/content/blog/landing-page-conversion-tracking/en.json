@@ -1,0 +1,274 @@
+{
+  "date": "2026-09-01",
+  "readingTime": 8,
+  "keyword": "landing page conversion tracking",
+  "title": "Landing Page Conversion Tracking: What Your Agency Must Deliver",
+  "excerpt": "A buyer-facing acceptance checklist from webvise's production analytics stack: five events, source attribution, consent behavior, failure tests, and handover proof before campaign spend.",
+  "metaDescription": "Landing page conversion tracking should prove CTA clicks, form success, errors, source and consent. Use this agency checklist before buying traffic.",
+  "cta": "Audit the tracking",
+  "tags": ["Lead Generation", "Marketing", "Web Development", "Process"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Landing page conversion tracking is ready for acceptance when your agency can prove five events in production: CTA click, form start, form submit, server-accepted submission, and delivery failure. The same proof must show traffic source, consent state, and the exact point where a request fails."
+    },
+    {
+      "type": "p",
+      "text": "Since March 2026, webvise has changed its contact-form tracking code twice without renaming those events."
+    },
+    {
+      "type": "p",
+      "text": "An analytics line in a proposal can mean anything from a GA4 pageview to a tested lead funnel. If campaign spend starts next week, that ambiguity belongs in the acceptance criteria today. The checklist below comes from the current webvise codebase and names the evidence a buyer should receive before launch."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Require five separate events.** CTA click, form start, form submit, accepted submission, and failure answer different questions.",
+        "**Keep sales qualification downstream.** A successful server response records an accepted submission. The CRM or a person decides whether it is a qualified lead.",
+        "**Demand source context.** CTA location, variant, destination, referrer, UTM tags, and ad-click identifiers connect spend to accepted submissions.",
+        "**Put consent in the report.** The measured funnel covers the sessions that the consent setup allows each analytics tool to record.",
+        "**Test the failure path.** Production acceptance includes a forced error and proof that the error event reached the dashboard."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "[webvise's landing page service](/services/landing-pages) includes analytics tied to form sends, clicks, and the action each page is built to earn. The checks below define what that line item should produce."
+    },
+    {
+      "type": "h2",
+      "text": "Put five events in the acceptance criteria"
+    },
+    {
+      "type": "p",
+      "text": "The webvise contact funnel uses four form events plus the shared `cta_clicked` event. The CTA event runs across the hero, service pages, case studies, mid-page prompts, tools, and footer, while properties distinguish each location."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Production event",
+        "Capture point",
+        "Acceptance question",
+        "Buyer decision"
+      ],
+      "rows": [
+        [
+          "`cta_clicked`",
+          "The tracked button handler runs",
+          "Did the offer earn a click?",
+          "Compare message, location, variant, and destination"
+        ],
+        [
+          "`contact_form_started`",
+          "The first field receives focus",
+          "Did the click become form intent?",
+          "Review the handoff from CTA to form"
+        ],
+        [
+          "`contact_form_submitted`",
+          "Valid fields are sent to the server",
+          "Did the visitor finish the form?",
+          "Review fields, validation, and mobile input"
+        ],
+        [
+          "`contact_form_success`",
+          "The server mutation resolves",
+          "Did the application accept the request?",
+          "Count accepted submissions"
+        ],
+        [
+          "`contact_form_error`",
+          "The server mutation throws",
+          "Did delivery fail after clear intent?",
+          "Inspect the server path and alert its owner"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "The primary funnel is pageview, `cta_clicked`, `contact_form_started`, `contact_form_submitted`, and `contact_form_success`. Keep `contact_form_error` as a branch after submit. A proposal that says only form tracking leaves the buyer unable to separate friction from server failure."
+    },
+    {
+      "type": "h2",
+      "text": "Count accepted submissions before qualified leads"
+    },
+    {
+      "type": "p",
+      "text": "All four contact-form events entered the webvise production site in one commit on **March 13, 2026**. Form start fired on the first focus, submission before the request, success after the server accepted it, and error on the failure path."
+    },
+    {
+      "type": "p",
+      "text": "The capture code then changed without breaking the event history. On **April 30**, form start moved from React `onFocus` to a native `focusin` listener. On **May 1**, the request moved from `fetch()` to `trpcClient.contact.submit.mutate()`, while the same event names stayed in the dashboard."
+    },
+    {
+      "type": "p",
+      "text": "`contact_form_success` counts a server-accepted submission. Lead qualification belongs to a later CRM state or human review, so the landing-page report and the sales report answer separate questions."
+    },
+    {
+      "type": "h2",
+      "text": "Split conversions when the buyer action has two stages"
+    },
+    {
+      "type": "p",
+      "text": "The WordPress Health Report on webvise shows why one success event can be too broad. Submission, success, and error events shipped on **March 13, 2026**. A second report-access step followed on **March 30** when the tool added an email gate between teaser scores and the full report."
+    },
+    {
+      "type": "p",
+      "text": "The audit can finish while the visitor leaves before requesting the full result. Those outcomes support different decisions, so they need different events. A calculator, booking flow, or download gate should follow the same rule when completion and lead capture happen at separate moments."
+    },
+    {
+      "type": "p",
+      "text": "For product funnels with activation and return use after the landing page, the [MVP analytics checklist](/blog/mvp-analytics-checklist) extends this event method into the first 30 days."
+    },
+    {
+      "type": "h2",
+      "text": "Require source and CTA context"
+    },
+    {
+      "type": "p",
+      "text": "The webvise `track()` wrapper sends the same event name and property object to the Google `gtag` function and `posthog.capture()`. The application owns the event vocabulary, so both tools receive matching names."
+    },
+    {
+      "type": "p",
+      "text": "[PostHog's web analytics documentation](https://github.com/PostHog/posthog.com/blob/master/contents/docs/web-analytics/index.mdx) derives channels and campaigns from the session's entry referrer, UTM tags, and ad-click identifiers. The CTA components add `location`, `variant`, and `destination` before the event reaches either analytics tool."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Property",
+        "Where it comes from",
+        "What the buyer can compare"
+      ],
+      "rows": [
+        [
+          "`location`",
+          "Landing-page component",
+          "Hero, service detail, mid-page prompt, tool, and footer"
+        ],
+        [
+          "`variant`",
+          "Landing-page component",
+          "Primary, secondary, booking, contact, and tool actions"
+        ],
+        [
+          "`destination`",
+          "Landing-page component",
+          "Contact, case study, booking, and report paths"
+        ],
+        [
+          "Entry referrer",
+          "PostHog session data",
+          "Search, referral, social, and direct sessions"
+        ],
+        [
+          "UTM tags and ad-click ID",
+          "Campaign URL and PostHog ingestion",
+          "Campaign and creative against accepted submissions"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Ask the agency for one saved funnel broken down by source and CTA location. A screenshot of total conversions cannot show whether the campaign, page, form, or server caused the change."
+    },
+    {
+      "type": "h2",
+      "text": "Write consent into the denominator"
+    },
+    {
+      "type": "p",
+      "text": "webvise added Google Analytics on **April 15**, the consent banner on **April 23**, and consent-gated PostHog capture on **May 18, 2026**. The current banner updates `analytics_storage`, `ad_storage`, `ad_user_data`, and `ad_personalization`, then opts PostHog in or out."
+    },
+    {
+      "type": "p",
+      "text": "Google's [consent implementation guide](https://developers.google.com/tag-platform/security/guides/consent) requires the update where the visitor makes the choice and before a page transition. The banner stores the choice and sends the update as soon as the visitor decides."
+    },
+    {
+      "type": "p",
+      "text": "A PostHog funnel on webvise describes opted-in sessions. The agency report should name that denominator, keep the consent setup stable across comparisons, and avoid presenting measured sessions as every visitor."
+    },
+    {
+      "type": "h2",
+      "text": "Accept production evidence instead of a dashboard screenshot"
+    },
+    {
+      "type": "p",
+      "text": "Run acceptance in a clean browser on staging and production. Ad blockers, consent timing, server configuration, redirects, and deployed environment variables can change the result after local testing passes."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Acceptance test",
+        "Evidence the agency should hand over",
+        "Failure points to"
+      ],
+      "rows": [
+        [
+          "Grant analytics consent",
+          "Consent state changes and PostHog capture starts",
+          "Banner timing or analytics initialization"
+        ],
+        [
+          "Click one named CTA",
+          "One `cta_clicked` event with location, variant, and destination",
+          "Button wiring or the tracking wrapper"
+        ],
+        [
+          "Focus several form fields",
+          "One `contact_form_started` event",
+          "Duplicate focus capture or reset behavior"
+        ],
+        [
+          "Submit valid data",
+          "One submit event followed by one success event",
+          "Validation, request, or server confirmation"
+        ],
+        [
+          "Force a server failure",
+          "One submit event followed by one error event",
+          "Missing failure capture or unsafe retry behavior"
+        ],
+        [
+          "Open a URL with test UTM tags",
+          "Entry source and campaign appear on the session",
+          "Campaign URL, redirect, or analytics ingestion"
+        ],
+        [
+          "Decline analytics consent",
+          "PostHog stops capture and Google keeps the denied state",
+          "Consent persistence or tag configuration"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Save the funnel, error trend, and test date. Add a dated annotation after changes to the form, CTA, consent banner, or request path so later conversion changes have a code event beside them."
+    },
+    {
+      "type": "h2",
+      "text": "Keep the handover small and explicit"
+    },
+    {
+      "type": "p",
+      "text": "A useful analytics handover fits on one page. It should name the events, capture points, approved properties, consent states, saved funnel, error view, production test date, and the account owner for each analytics tool."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Event catalogue.** Exact names, capture points, and the action each event records.",
+        "**Property list.** Allowed fields, types, examples, and any data that must stay out of analytics.",
+        "**Funnel definition.** Ordered steps, error branches, conversion window, and denominator.",
+        "**Consent behavior.** Default state, accept and decline paths, storage, and verification result.",
+        "**Production receipt.** Dated events from a successful path and one forced failure.",
+        "**Access and ownership.** GA4, PostHog, tag configuration, repository, and deployment access in the buyer's control."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "The broader [landing page cost guide](/blog/landing-page-cost-2026) covers the price and scope drivers around this handover. webvise includes the live page, source ownership, SEO setup, analytics, hosting, and deployment inside one launch scope."
+    },
+    {
+      "type": "p",
+      "text": "If an agency proposal says analytics without naming the events and acceptance evidence, [send the scope to webvise](/#contact). The review will mark what is measurable before the first campaign click and what still depends on trust."
+    }
+  ]
+}

@@ -1,0 +1,274 @@
+{
+  "date": "2026-09-01",
+  "readingTime": 8,
+  "keyword": "Landingpage Conversion-Tracking",
+  "title": "Conversion-Tracking für Landingpages: Was Ihre Agentur liefern muss",
+  "excerpt": "Eine Abnahme-Checkliste für Auftraggeber aus dem produktiven Analytics-Stack von webvise: fünf Events, Quellenzuordnung, Einwilligungsverhalten, Fehlertests und belastbare Übergabenachweise vor dem Start des Kampagnenbudgets.",
+  "metaDescription": "Conversion-Tracking für Landingpages trennt den serverbestätigten Eingang vom qualifizierten Lead. Nutzen Sie die Agentur-Checkliste vor dem Traffic-Einkauf.",
+  "cta": "Tracking prüfen",
+  "tags": ["Lead Generation", "Marketing", "Web Development", "Process"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Das Conversion-Tracking einer Landingpage ist abnahmebereit, wenn Ihre Agentur fünf Events in der Produktionsumgebung nachweisen kann: CTA-Klick, Formularbeginn, Formularabsendung, vom Server bestätigter Eingang und fehlgeschlagene Übermittlung. Derselbe Nachweis muss die Traffic-Quelle, den Einwilligungsstatus und die genaue Stelle zeigen, an der eine Anfrage scheitert."
+    },
+    {
+      "type": "p",
+      "text": "Seit März 2026 hat webvise den Tracking-Code des Kontaktformulars zweimal geändert, ohne diese Events umzubenennen."
+    },
+    {
+      "type": "p",
+      "text": "Der Posten Analytics in einem Angebot kann alles bedeuten, von einem GA4-Pageview bis zu einem getesteten Lead-Funnel. Wenn das Kampagnenbudget nächste Woche startet, gehört diese Unschärfe heute in die Abnahmekriterien. Die folgende Checkliste stammt aus der aktuellen Codebasis von webvise und nennt die Nachweise, die ein Auftraggeber vor dem Launch erhalten sollte."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Fordern Sie fünf getrennte Events.** CTA-Klick, Formularbeginn, Formularabsendung, bestätigter Eingang und Fehler beantworten verschiedene Fragen.",
+        "**Ordnen Sie die Lead-Qualifizierung nachgelagert ein.** Eine erfolgreiche Serverantwort belegt, dass die Anfrage eingegangen ist. Erst das CRM oder ein Mensch entscheidet, ob daraus ein qualifizierter Lead wird.",
+        "**Verlangen Sie den Quellenkontext.** CTA-Position, Variante, Ziel, Referrer, UTM-Tags und Anzeigenklick-IDs verbinden das Kampagnenbudget mit den bestätigten Eingängen.",
+        "**Nehmen Sie die Einwilligung in den Bericht auf.** Der gemessene Funnel umfasst die Sessions, die das Einwilligungs-Setup für das jeweilige Analytics-Tool zur Erfassung freigibt.",
+        "**Testen Sie den Fehlerpfad.** Zur Produktionsabnahme gehören ein erzwungener Fehler und der Nachweis, dass das Fehler-Event im Dashboard angekommen ist."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Der [Landingpage-Service von webvise](/services/landing-pages) umfasst Analytics für Formularsendungen, Klicks und die Handlung, auf die jede Seite ausgerichtet ist. Die folgenden Prüfungen legen fest, was dieser Angebotsposten liefern sollte."
+    },
+    {
+      "type": "h2",
+      "text": "Nehmen Sie fünf Events in die Abnahmekriterien auf"
+    },
+    {
+      "type": "p",
+      "text": "Der Kontakt-Funnel von webvise nutzt vier Formular-Events und das gemeinsame Event `cta_clicked`. Das CTA-Event läuft im Hero, auf Service-Seiten, in Case Studies, bei Aufforderungen innerhalb der Seite, in Tools und im Footer. Properties unterscheiden die einzelnen Positionen."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Produktions-Event",
+        "Erfassungspunkt",
+        "Abnahmefrage",
+        "Entscheidung des Auftraggebers"
+      ],
+      "rows": [
+        [
+          "`cta_clicked`",
+          "Der Tracking-Handler des Buttons läuft",
+          "Hat das Angebot einen Klick ausgelöst?",
+          "Botschaft, Position, Variante und Ziel vergleichen"
+        ],
+        [
+          "`contact_form_started`",
+          "Das erste Formularfeld erhält den Fokus",
+          "Hat die Person nach dem Klick mit dem Formular begonnen?",
+          "Übergang vom CTA zum Formular prüfen"
+        ],
+        [
+          "`contact_form_submitted`",
+          "Gültige Felder werden an den Server gesendet",
+          "Hat die Person das Formular ausgefüllt?",
+          "Felder, Validierung und mobile Eingabe prüfen"
+        ],
+        [
+          "`contact_form_success`",
+          "Die Server-Mutation wird erfolgreich abgeschlossen",
+          "Hat die Anwendung den Eingang der Anfrage bestätigt?",
+          "Vom Server bestätigte Eingänge zählen"
+        ],
+        [
+          "`contact_form_error`",
+          "Die Server-Mutation löst einen Fehler aus",
+          "Ist die Übermittlung trotz klarer Absicht fehlgeschlagen?",
+          "Serverpfad prüfen und die zuständige Person benachrichtigen"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Der primäre Funnel besteht aus Pageview, `cta_clicked`, `contact_form_started`, `contact_form_submitted` und `contact_form_success`. `contact_form_error` bleibt ein Abzweig nach der Formularabsendung. Nennt ein Angebot nur Formular-Tracking, kann der Auftraggeber Reibungsverluste im Formular nicht von Serverfehlern trennen."
+    },
+    {
+      "type": "h2",
+      "text": "Zählen Sie bestätigte Eingänge vor qualifizierten Leads"
+    },
+    {
+      "type": "p",
+      "text": "Alle vier Kontaktformular-Events gingen mit einem Commit am **13. März 2026** auf der produktiven Website von webvise live. Beim ersten Fokus löste der Code das Start-Event aus, vor der Anfrage das Submit-Event, nach der Bestätigung durch den Server das Success-Event und im Fehlerpfad das Error-Event."
+    },
+    {
+      "type": "p",
+      "text": "Danach änderte sich der Erfassungscode, ohne die Event-Historie zu unterbrechen. Am **30. April** wechselte die Erfassung des Formularstarts von React `onFocus` zu einem nativen `focusin`-Listener. Am **1. Mai** wechselte die Anfrage von `fetch()` zu `trpcClient.contact.submit.mutate()`, während die Event-Namen im Dashboard gleich blieben."
+    },
+    {
+      "type": "p",
+      "text": "`contact_form_success` zählt den vom Server bestätigten Eingang einer Anfrage. Die Lead-Qualifizierung erfolgt erst später im CRM oder durch eine Person. Deshalb beantworten der Landingpage-Bericht und der Vertriebsbericht verschiedene Fragen."
+    },
+    {
+      "type": "h2",
+      "text": "Trennen Sie Conversions bei zweistufigen Handlungen"
+    },
+    {
+      "type": "p",
+      "text": "Der WordPress Health Report auf webvise zeigt, warum ein einziges Success-Event zu grob sein kann. Die Events für Formularabsendung, Erfolg und Fehler gingen am **13. März 2026** live. Am **30. März** folgte ein zweiter Schritt für den Berichtszugriff, als das Tool zwischen der Ergebnisvorschau und dem vollständigen Bericht eine E-Mail-Abfrage ergänzte."
+    },
+    {
+      "type": "p",
+      "text": "Der Audit kann abgeschlossen sein, obwohl die Person die Seite vor dem Abruf des vollständigen Ergebnisses verlässt. Diese Ergebnisse führen zu verschiedenen Entscheidungen und brauchen daher eigene Events. Für einen Rechner, einen Buchungsablauf oder einen Download mit vorgeschalteter Abfrage gilt dieselbe Regel, wenn Abschluss und Lead-Erfassung zu verschiedenen Zeitpunkten stattfinden."
+    },
+    {
+      "type": "p",
+      "text": "Für Produkt-Funnels, bei denen nach der Landingpage Aktivierung und wiederkehrende Nutzung zählen, überträgt die [MVP-Analytics-Checkliste](/blog/mvp-analytics-checklist) diese Event-Methode auf die ersten 30 Tage."
+    },
+    {
+      "type": "h2",
+      "text": "Fordern Sie Quellen- und CTA-Kontext"
+    },
+    {
+      "type": "p",
+      "text": "Der `track()`-Wrapper von webvise sendet denselben Event-Namen und dasselbe Property-Objekt an die Google-Funktion `gtag` und an `posthog.capture()`. Die Anwendung verwaltet die Event-Bezeichnungen, sodass beide Tools übereinstimmende Namen erhalten."
+    },
+    {
+      "type": "p",
+      "text": "Die [PostHog-Dokumentation zur Webanalyse](https://github.com/PostHog/posthog.com/blob/master/contents/docs/web-analytics/index.mdx) leitet Kanäle und Kampagnen aus dem Einstiegs-Referrer der Session, UTM-Tags und Anzeigenklick-IDs ab. Die CTA-Komponenten ergänzen `location`, `variant` und `destination`, bevor das Event eines der beiden Analytics-Tools erreicht."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Property",
+        "Quelle",
+        "Was der Auftraggeber vergleichen kann"
+      ],
+      "rows": [
+        [
+          "`location`",
+          "Landingpage-Komponente",
+          "Hero, Service-Detailseite, Aufforderung innerhalb der Seite, Tool und Footer"
+        ],
+        [
+          "`variant`",
+          "Landingpage-Komponente",
+          "Primäre und sekundäre Aktionen sowie Buchung, Kontakt und Tool"
+        ],
+        [
+          "`destination`",
+          "Landingpage-Komponente",
+          "Pfade zu Kontakt, Case Study, Buchung und Bericht"
+        ],
+        [
+          "Einstiegs-Referrer",
+          "PostHog-Session-Daten",
+          "Sessions aus Suche, Verweisen, Social Media und Direktzugriffen"
+        ],
+        [
+          "UTM-Tags und Anzeigenklick-ID",
+          "Kampagnen-URL und PostHog-Ingestion",
+          "Kampagnen und Werbemittel anhand bestätigter Eingänge"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Fordern Sie von der Agentur einen gespeicherten Funnel mit Aufschlüsselung nach Quelle und CTA-Position. Ein Screenshot der Gesamtzahl an Conversions zeigt nicht, ob Kampagne, Seite, Formular oder Server die Änderung verursacht haben."
+    },
+    {
+      "type": "h2",
+      "text": "Weisen Sie die Einwilligung im Nenner aus"
+    },
+    {
+      "type": "p",
+      "text": "webvise ergänzte Google Analytics am **15. April**, das Einwilligungsbanner am **23. April** und die an eine Einwilligung gebundene PostHog-Erfassung am **18. Mai 2026**. Das aktuelle Banner aktualisiert `analytics_storage`, `ad_storage`, `ad_user_data` und `ad_personalization`. Anschließend aktiviert oder deaktiviert es die PostHog-Erfassung."
+    },
+    {
+      "type": "p",
+      "text": "Googles [Leitfaden zur Implementierung von Einwilligungen](https://developers.google.com/tag-platform/security/guides/consent) schreibt das Update dort vor, wo die Person ihre Entscheidung trifft, und vor einem Seitenwechsel. Das Banner speichert die Auswahl und sendet das Update, sobald die Entscheidung fällt."
+    },
+    {
+      "type": "p",
+      "text": "Ein PostHog-Funnel auf webvise bildet Sessions mit erteilter Einwilligung ab. Der Agenturbericht sollte diesen Nenner benennen, das Einwilligungs-Setup über alle Vergleiche hinweg stabil halten und gemessene Sessions nicht als alle Besucher ausgeben."
+    },
+    {
+      "type": "h2",
+      "text": "Verlangen Sie Produktionsnachweise statt eines Dashboard-Screenshots"
+    },
+    {
+      "type": "p",
+      "text": "Führen Sie die Abnahme in einem sauberen Browser auf Staging und in der Produktionsumgebung durch. Werbeblocker, Zeitpunkt der Einwilligung, Serverkonfiguration, Weiterleitungen und bereitgestellte Umgebungsvariablen können das Ergebnis verändern, obwohl der lokale Test bestanden wurde."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Abnahmetest",
+        "Von der Agentur zu übergebender Nachweis",
+        "Mögliche Fehlerquelle"
+      ],
+      "rows": [
+        [
+          "Analytics-Einwilligung erteilen",
+          "Der Einwilligungsstatus ändert sich und die PostHog-Erfassung beginnt",
+          "Zeitpunkt des Banners oder Initialisierung der Analytics-Tools"
+        ],
+        [
+          "Einen benannten CTA anklicken",
+          "Ein Event `cta_clicked` mit Position, Variante und Ziel",
+          "Button-Anbindung oder Tracking-Wrapper"
+        ],
+        [
+          "Mehrere Formularfelder fokussieren",
+          "Ein Event `contact_form_started`",
+          "Doppelte Fokuserfassung oder Verhalten beim Zurücksetzen"
+        ],
+        [
+          "Gültige Daten absenden",
+          "Ein Submit-Event, gefolgt von einem Success-Event",
+          "Validierung, Anfrage oder Serverbestätigung"
+        ],
+        [
+          "Einen Serverfehler erzwingen",
+          "Ein Submit-Event, gefolgt von einem Error-Event",
+          "Fehlende Fehlererfassung oder unsichere Wiederholungslogik"
+        ],
+        [
+          "Eine URL mit Test-UTM-Tags öffnen",
+          "Einstiegsquelle und Kampagne erscheinen in der Session",
+          "Kampagnen-URL, Weiterleitung oder Analytics-Ingestion"
+        ],
+        [
+          "Analytics-Einwilligung ablehnen",
+          "PostHog stoppt die Erfassung und Google behält den abgelehnten Status",
+          "Speicherung der Einwilligung oder Tag-Konfiguration"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Speichern Sie den Funnel, den Fehlertrend und das Testdatum. Ergänzen Sie nach Änderungen am Formular, CTA, Einwilligungsbanner oder Anfragepfad eine datierte Annotation, damit Sie spätere Conversion-Änderungen mit einer Code-Änderung abgleichen können."
+    },
+    {
+      "type": "h2",
+      "text": "Halten Sie die Übergabe knapp und eindeutig"
+    },
+    {
+      "type": "p",
+      "text": "Eine brauchbare Analytics-Übergabe passt auf eine Seite. Sie sollte Events, Erfassungspunkte, freigegebene Properties, Einwilligungsstatus, gespeicherten Funnel, Fehleransicht, Datum des Produktionstests und die zuständige Person für jedes Analytics-Tool nennen."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Event-Katalog.** Genaue Namen, Erfassungspunkte und die Handlung, die jedes Event erfasst.",
+        "**Property-Liste.** Zulässige Felder, Typen, Beispiele und alle Daten, die nicht in Analytics gelangen dürfen.",
+        "**Funnel-Definition.** Geordnete Schritte, Fehlerabzweige, Conversion-Zeitraum und Nenner.",
+        "**Einwilligungsverhalten.** Ausgangszustand, Pfade für Zustimmung und Ablehnung, Speicherung und Prüfergebnis.",
+        "**Produktionsnachweis.** Datierte Events aus einem erfolgreichen Ablauf und einem erzwungenen Fehler.",
+        "**Zugriff und Verantwortung.** GA4, PostHog, Tag-Konfiguration, Repository und Deployment-Zugriff unter Kontrolle des Auftraggebers."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Der umfassendere [Leitfaden zu Landingpage-Kosten](/blog/landing-page-cost-2026) behandelt die Preis- und Umfangstreiber rund um diese Übergabe. Zum Startumfang von webvise gehören die fertige Seite, Eigentum am Quellcode, SEO-Setup, Analytics, Hosting und Deployment."
+    },
+    {
+      "type": "p",
+      "text": "Wenn eine Agentur in ihrem Angebot Analytics nennt, aber weder Events noch Abnahmenachweise festlegt, [senden Sie den Leistungsumfang an webvise](/#contact). Die Prüfung zeigt, was vor dem ersten Kampagnenklick messbar ist und welche Punkte weiter auf Vertrauen beruhen."
+    }
+  ]
+}
