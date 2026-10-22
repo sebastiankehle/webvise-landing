@@ -1,0 +1,189 @@
+{
+  "date": "2026-10-22",
+  "readingTime": 7,
+  "keyword": "PHP2Shell",
+  "title": "PHP2Shell: Welche PHP-Updates WordPress jetzt braucht",
+  "excerpt": "PHP2Shell betrifft die PHP-Laufzeit unter WordPress. Hier finden Sie die Versionen mit Fix, eine Hosting-Checkliste und eine Vorlage, um den Einbau beider Patches nachweisen zu lassen.",
+  "metaDescription": "PHP2Shell betrifft PHP hinter WordPress. Prüfen Sie die Updates und nutzen Sie die Vorlage, um sich vom Hoster die Patches Ihrer Website bestätigen zu lassen.",
+  "tags": ["WordPress", "Security", "Maintenance"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "**PHP2Shell erfordert ein dringendes PHP-Update, wenn Ihre Website eine betroffene Version nutzt.** Die ersten Versionen mit Fix sind **8.2.35, 8.3.36, 8.4.27 und 8.5.12**, veröffentlicht am 21. Oktober 2026. Wer eine WordPress-Website betreibt, sollte sich jetzt vom Hoster bestätigen lassen, dass die PHP-Laufzeit der Website beide Fehlerbehebungen enthält. [PHP-Veröffentlichungshinweis](https://www.php.net/archive/2026.php)."
+    },
+    {
+      "type": "p",
+      "text": "Auch wenn das WordPress-Dashboard keine ausstehenden Updates anzeigt, bleibt diese Frage offen. PHP läuft unterhalb von WordPress, und Ihr Hoster oder Serveradministrator verwaltet die Installation. Dieser Leitfaden erklärt die beiden Schwachstellen, welche Nachweise Sie anfordern sollten und was webvise bei der Prüfung der eigenen Website festgestellt hat."
+    },
+    {
+      "type": "p",
+      "text": "**Geprüft am 22. Oktober 2026.** Dieser Artikel behandelt [CVE-2026-109618](https://nvd.nist.gov/vuln/detail/CVE-2026-109618) und [CVE-2026-109619](https://nvd.nist.gov/vuln/detail/CVE-2026-109619), bekannt als PHP2Shell. Die folgenden technischen Angaben stützen sich auf die Sicherheitshinweise des PHP-Projekts."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "Aktualisieren Sie die PHP-Laufzeit und prüfen Sie, welche Version die laufende Website nutzt. Ein WordPress- oder Plugin-Update allein belegt nicht, dass diese Fehlerbehebungen installiert sind.",
+        "Beide CVEs betreffen die Speicherverwaltung von PHP. Sie unterscheiden sich in ihren Auslösern und den nachgewiesenen Angriffswegen.",
+        "Ein Hosting-Anbieter kann die Fehlerbehebungen auf ein Paket mit älterer PHP-Versionsnummer zurückportieren. Fordern Sie seinen Sicherheitshinweis und die Paketrevision an.",
+        "Patchen Sie zuerst die bestehende Website. Prüfen Sie eine Migration gesondert, sobald das unmittelbare Risiko behoben ist."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Welche PHP-Versionen beheben PHP2Shell?"
+    },
+    {
+      "type": "p",
+      "text": "Das PHP-Projekt hat Fehlerbehebungen für vier unterstützte Versionszweige veröffentlicht. Vergleichen Sie Ihren installierten Zweig mit der ersten korrigierten Version in der [offiziellen Ankündigung](https://www.php.net/archive/2026.php). Auch spätere Versionen dieses Zweigs können die Fehlerbehebungen enthalten."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "PHP-Versionszweig",
+        "Betroffene Upstream-Versionen",
+        "Erste Version mit Fix"
+      ],
+      "rows": [
+        ["8.2", "Vor 8.2.35", "8.2.35"],
+        ["8.3", "Vor 8.3.36", "8.3.36"],
+        ["8.4", "Vor 8.4.27", "8.4.27"],
+        ["8.5", "Vor 8.5.12", "8.5.12"]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Bei Distributionspaketen ist ein weiterer Abgleich nötig. Ein Anbieter kann die Sicherheitskorrekturen einbauen und dabei eine ältere Upstream-Versionsnummer beibehalten. Fordern Sie deshalb die Paketrevision und einen Sicherheitshinweis an, der beide CVEs nennt. Die Versionsnummer allein kann sowohl zu einer falschen Entwarnung als auch zu einem Fehlalarm führen."
+    },
+    {
+      "type": "p",
+      "text": "PHP 8.1 und ältere Versionen haben das Ende ihres regulären Upstream-Supports erreicht. Für diesen Vorfall hat das PHP-Team begrenzte Backports des Quellcodes für 7.4, 8.0 und 8.1 bereitgestellt. Fragen Sie Ihren Anbieter nach Paketen mit den Korrekturen und planen Sie den Wechsel auf einen unterstützten Versionszweig. Diese ausnahmsweise bereitgestellten Patches nehmen den laufenden Upstream-Support nicht wieder auf."
+    },
+    {
+      "type": "h2",
+      "text": "Worin unterscheiden sich die beiden CVEs?"
+    },
+    {
+      "type": "p",
+      "text": "**CVE-2026-109618 betrifft eine unterbrochene Speicherinitialisierung.** Bei einem Speicherengpass können die internen Anfragedaten von PHP nur teilweise initialisiert bleiben. Beim anschließenden Aufräumen kann PHP auf diese ungültigen Daten zugreifen. Der [PHP-Sicherheitshinweis](https://github.com/php/php-src/security/advisories/GHSA-w8hw-w9fx-j79w) beschreibt die Ausführung von Code aus der Ferne ohne Authentifizierung gegen Apache mod_php, einschließlich eines Angriffswegs, der vor dem Start des Anwendungscodes greift."
+    },
+    {
+      "type": "p",
+      "text": "**CVE-2026-109619 betrifft Zustände, die zwischen Anfragen erhalten bleiben.** Ein PHP-Worker kann Verweise auf Speicher behalten, den eine vorherige Anfrage bereits freigegeben hat. Eine spätere Anfrage an denselben Worker kann diesen veralteten Zustand verwenden. Der [separate Sicherheitshinweis](https://github.com/php/php-src/security/advisories/GHSA-6wmf-4rv5-p3rp) beschreibt die Ausführung von Code aus der Ferne über Abläufe im Session-Lebenszyklus sowohl gegen mod_php als auch gegen PHP-FPM."
+    },
+    {
+      "type": "p",
+      "text": "Dieser Unterschied ist wichtig, wenn ein Hoster auf den Einsatz von FPM verweist. Bei CVE-2026-109618 stuft der Sicherheitshinweis FPM anhand einer Quellcodeanalyse als anfällig ein, ohne einen vollständigen FPM-Exploit nachzuweisen. Für CVE-2026-109619 gibt es einen bestätigten Angriffsweg gegen FPM, der eine passende Operation der Anwendung voraussetzt. Auch mit FPM sollten Sie beide Fehlerbehebungen einspielen."
+    },
+    {
+      "type": "p",
+      "text": "Beide Sicherheitshinweise bewerten die Schwachstellen mit **CVSS v4.0 9,2** als kritisch. Bei erfolgreicher Codeausführung läuft der Code mit den Rechten des Web-Workers. Dessen Zugriff auf Dateien, Secrets und andere Dienste bestimmt, welcher Schaden auf dem jeweiligen System möglich ist."
+    },
+    {
+      "type": "h2",
+      "text": "Wie prüfen Sie Ihre WordPress-Website?"
+    },
+    {
+      "type": "p",
+      "text": "Öffnen Sie **Werkzeuge > Website-Zustand > Bericht > Server** und notieren Sie die PHP-Version. WordPress beschreibt diese Ansicht in seiner [Anleitung zum Website-Zustand](https://wordpress.org/documentation/article/site-health-screen/). Geben Sie die Version, die Domain und beide CVE-IDs in Ihrer Anfrage an den Hosting-Support an."
+    },
+    {
+      "type": "p",
+      "text": "PHP-Upgrades erfolgen in der Hosting-Umgebung. Die [PHP-Anleitung von WordPress](https://wordpress.org/documentation/update-php/) verweist dafür an den Hoster oder dessen Verwaltungsoberfläche. Lassen Sie sich von der zuständigen Serverbetreuung bestätigen, welches Paket die Webanfragen tatsächlich verarbeitet, einschließlich etwaiger Backports des Anbieters."
+    },
+    {
+      "type": "p",
+      "text": "Prüfen Sie jede Installation einzeln. Ein produktiver Shop, eine Staging-Website und eine alte Kampagnen-Subdomain können unterschiedliche PHP-Pools oder Hosting-Konten nutzen. Halten Sie für jede Installation fest, wer zuständig ist, und ordnen Sie die Bestätigung des Anbieters der jeweiligen Domain zu."
+    },
+    {
+      "type": "p",
+      "text": "Laut PHP-Projekt behebt ein Update die Schwachstellen vollständig. Die [technischen Sicherheitshinweise](https://github.com/php/php-src/security/advisories/GHSA-6wmf-4rv5-p3rp) beschreiben Teilmaßnahmen für bestimmte Angriffswege und nennen deren Grenzen ausdrücklich. Lassen Sie diese vom Serveradministrator prüfen, falls sich das Update verzögert. Eine vorübergehende Änderung der Einstellungen darf die Patch-Anfrage nicht abschließen."
+    },
+    {
+      "type": "h2",
+      "text": "Was webvise an der eigenen Website geprüft hat"
+    },
+    {
+      "type": "p",
+      "text": "Am 22. Oktober prüfte webvise das Repository der eigenen Website und die Laufzeit der produktiven Funktionen. Die Website nutzt **Next.js 16 und React**. Die geprüften Vercel-Funktionen meldeten **nodejs24.x**. Die Quellcodeprüfung verfolgte den Blog-Loader, den API-Handler und den Datenbankadapter, um die tatsächlich verwendete Laufzeit dieser Komponenten festzustellen."
+    },
+    {
+      "type": "table",
+      "headers": ["Geprüfte Komponente", "Nachweis", "Bezug zu PHP"],
+      "rows": [
+        [
+          "Blog-Inhalte",
+          "JSON-Dateien, geladen über die Dateisystem-API von Node",
+          "Dieser Inhaltsabruf nutzt Node ohne PHP-CMS"
+        ],
+        [
+          "Anwendungs-API",
+          "tRPC-Request-Handler in der Next.js-Anwendung",
+          "Verarbeitung der Anfragen durch JavaScript"
+        ],
+        [
+          "Datenbankverbindung",
+          "Drizzle mit dem node-postgres-Adapter",
+          "PostgreSQL-Zugriff über Node"
+        ],
+        [
+          "Versionierte Repository-Dateien",
+          "Kein PHP-Quellcode und keine Composer-Manifeste gefunden",
+          "Keine PHP-Anwendung in diesem Repository gefunden"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Diese Ergebnisse erlauben eine eng begrenzte Aussage. **Die geprüften Komponenten führen kein PHP aus.** Daraus folgt keine Aussage über die Sicherheit anderer Dienste, weiterer Websites oder der übrigen Infrastruktur. Next.js, Node und die Abhängigkeiten der Anwendung brauchen weiterhin eigene Updates und Sicherheitsprüfungen."
+    },
+    {
+      "type": "p",
+      "text": "Die Prüfung umfasste auch die Technologieerkennung hinter dem WordPress Health Report von webvise. Sie sucht nach öffentlich sichtbaren Hinweisen wie WordPress-Pfaden im HTML und PHP-bezogenen Antwort-Headern. Sie kann weder das installierte Serverpaket einsehen noch einen zurückportierten Fix bestätigen. Nutzen Sie einen öffentlichen Website-Scan als Ausgangspunkt für Rückfragen und fordern Sie den Patch-Nachweis beim Hoster an."
+    },
+    {
+      "type": "h2",
+      "text": "So stellen Sie Ihrem Hoster eine konkrete Anfrage"
+    },
+    {
+      "type": "p",
+      "text": "Eine brauchbare Antwort nennt das laufende Paket und bestätigt dessen Bereitstellung. Nach demselben Prinzip lief die Prüfung bei webvise ab. Sie verfolgte die Komponente, die eine Anfrage verarbeitet, und grenzte die Aussage auf das ab, was die Nachweise tatsächlich belegen. Kopieren Sie die folgende Anfrage und passen Sie sie für jedes Hosting-Konto an."
+    },
+    {
+      "type": "p",
+      "text": "Bitte bestätigen Sie, ob die PHP-Laufzeit für [Domain] die Fehlerbehebungen für CVE-2026-109618 und CVE-2026-109619 enthält. Nennen Sie die aktive PHP-Version und Paketrevision sowie den Sicherheitshinweis des Anbieters, falls Sie zurückportierte Patches verwenden. Bestätigen Sie die Bereitstellung auf allen Instanzen, die Anfragen verarbeiten, einschließlich Staging und Subdomains, sowie den erforderlichen Neustart oder Austausch der PHP-Worker. Falls eine Installation noch ungepatcht ist, benennen Sie diese und geben Sie an, wann das Update voraussichtlich abgeschlossen sein wird."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "Klären Sie vor der Änderung, ob ein aktuelles Backup vorliegt und wer bei Kompatibilitätsproblemen die Wiederherstellung übernimmt.",
+        "Fordern Sie nach der Änderung einen Nachweis aus der laufenden Web-Laufzeit an. Die PHP-Installation der Kommandozeile kann von der Installation abweichen, die Ihre Website bedient.",
+        "Prüfen Sie die Abläufe, auf die Ihr Geschäft angewiesen ist, etwa das Absenden einer Anfrage, die Anmeldung, den Medien-Upload oder gegebenenfalls den Checkout.",
+        "Halten Sie Paketrevision, abgedeckte Domains und Abschlusszeitpunkt im Wartungsprotokoll fest. Haken Sie bei unvollständigen Antworten nach, solange eine Installation ungeklärt bleibt."
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Halten Sie diese Zuständigkeit im Wartungsvertrag fest. Die [Checkliste für Sicherheitsanforderungen an Webanwendungen](/blog/web-application-security-requirements-checklist) von webvise erklärt, wie Sie vor der Übergabe eines Systems eine zuständige Person, eine Prüfung und einen Nachweis einfordern."
+    },
+    {
+      "type": "h2",
+      "text": "Ist dieser Vorfall ein Grund für eine WordPress-Migration?"
+    },
+    {
+      "type": "p",
+      "text": "Patchen Sie zuerst. Eine gut gewartete WordPress-Website bei einem Hoster, der klare Antworten liefert, kann weiterhin zum Unternehmen passen. Ein dringender PHP-Sicherheitshinweis allein reicht als Grundlage für den Austausch einer funktionierenden Website nicht aus."
+    },
+    {
+      "type": "p",
+      "text": "Bei einer Unternehmenswebsite zur Selbstdarstellung oder Kundengewinnung können wiederkehrende Unklarheiten beim Hosting und ungenutzte Plugins Anlass sein, den Aufbau gesondert zu prüfen. Der eigene Blog von webvise veröffentlicht JSON-Inhalte über Node. Ihr Team braucht möglicherweise andere Redaktionswerkzeuge, Integrationen oder Shop-Funktionen."
+    },
+    {
+      "type": "p",
+      "text": "Die [WordPress-Migration von webvise](/services/wordpress-migration) umfasst einen Neubau mit Next.js samt URL-Zuordnung, Weiterleitungen, Metadaten, Formularen und einem vereinbarten Redaktionsablauf. Wenn eine Anwendung kein PHP mehr nutzt, entfällt für diese Anwendung die Abhängigkeit von PHP-Patches. Bleibt WordPress als Headless-Backend im Einsatz, bleibt auch ein PHP-System erhalten, das weiter gewartet werden muss."
+    },
+    {
+      "type": "p",
+      "text": "Sobald Ihr Hoster die Fehlerbehebungen bestätigt hat, [kontaktieren Sie webvise](/#contact), wenn Sie prüfen möchten, ob ein einfacherer Website-Aufbau zu Ihrem Unternehmen passt. Bringen Sie die aktuelle URL, die von Ihrem Team genutzten Funktionen und die Antwort des Hosters mit."
+    }
+  ]
+}
