@@ -1,189 +1,181 @@
 {
   "date": "2026-10-22",
-  "readingTime": 7,
+  "readingTime": 6,
   "keyword": "PHP2Shell",
-  "title": "PHP2Shell: the PHP updates WordPress sites need now",
-  "excerpt": "PHP2Shell affects PHP beneath WordPress. Find the fixed releases, a hosting checklist and a request for proof that your live site has both patches.",
-  "metaDescription": "PHP2Shell affects the PHP runtime behind WordPress. Check fixed versions, get a request to send your host, and confirm that your live site runs the patch.",
+  "title": "PHP2Shell: Is your WordPress website affected?",
+  "excerpt": "Your business website may need a security update outside WordPress. Here is who to contact, what to ask, and how to tell whether the issue is resolved.",
+  "metaDescription": "PHP2Shell may affect your WordPress website. Find out who should fix it, copy a message to your host, and check their reply without needing technical expertise.",
   "tags": ["WordPress", "Security", "Maintenance"],
   "blocks": [
     {
       "type": "p",
-      "text": "**PHP2Shell requires an urgent PHP update if your website runs an affected version.** The first fixed releases are **8.2.35, 8.3.36, 8.4.27 and 8.5.12**, published on October 21, 2026. For WordPress owners, the immediate action is to have the host confirm that the PHP runtime serving the site includes both fixes. [PHP release notice](https://www.php.net/archive/2026.php)."
+      "text": "**If your business website uses WordPress, ask your hosting provider today whether it has installed both PHP2Shell security fixes.** PHP is the software on the server that runs WordPress. Your host manages that software separately from the updates you see in WordPress. [WordPress explains the distinction](https://wordpress.org/documentation/update-php/)."
     },
     {
       "type": "p",
-      "text": "A fully updated WordPress dashboard leaves that question open. PHP runs beneath WordPress, and your host or server administrator controls its installation. This guide explains the two flaws, the evidence to request, and what webvise found when checking its own website."
+      "text": "On October 21, 2026, the PHP project released urgent fixes for two flaws that can let attackers run their own code on an affected server. For a business website, that could put site content and data within the application's reach at risk. The exact exposure depends on the server setup. [Official PHP security notice](https://www.php.net/archive/2026.php)."
     },
     {
       "type": "p",
-      "text": "**Reviewed October 22, 2026.** This article covers [CVE-2026-109618](https://nvd.nist.gov/vuln/detail/CVE-2026-109618) and [CVE-2026-109619](https://nvd.nist.gov/vuln/detail/CVE-2026-109619), known as PHP2Shell. The technical details below follow the PHP project's advisories."
+      "text": "You can hand the technical work to your provider. What you need back is a clear answer for your website, a completion time if work remains, and confirmation that customers can still send inquiries or place orders."
     },
     {
       "type": "ul",
       "items": [
-        "Update the PHP runtime and verify what the live website runs. A WordPress or plugin update alone cannot establish that these fixes are installed.",
-        "Both CVEs concern PHP memory handling. Their triggers and the demonstrated attack paths differ.",
-        "A hosting vendor may backport the fixes to a package with an older PHP version number. Ask for its security advisory and package revision.",
-        "Patch the existing site first. Consider a migration separately, once the immediate exposure has been addressed."
+        "Contact the company that hosts your website, or ask your website agency to coordinate the update.",
+        "Get written confirmation that both fixes are active on your live website. An update notification in WordPress does not answer that question.",
+        "Patch the current site first. Any decision about replacing it can follow once the immediate issue is resolved."
       ]
     },
     {
       "type": "h2",
-      "text": "Which PHP versions fix PHP2Shell?"
+      "text": "Does this matter for a small company website?"
     },
     {
       "type": "p",
-      "text": "The PHP project released fixes for four supported branches. Match your installed branch to its first fixed release in the [official announcement](https://www.php.net/archive/2026.php). Later releases on that branch can also include the fixes."
+      "text": "Yes, if it runs an affected PHP version. A simple company website uses server software too, even when it only shows your services, opening hours and a contact form. The PHP warning covers websites using PHP, including WordPress; the site's size is no basis for assuming it is exempt."
+    },
+    {
+      "type": "p",
+      "text": "The PHP team demonstrated an attack on one common server setup before the website's own code even starts. That is why a WordPress login or security plugin cannot establish that this particular issue is fixed. Your provider needs to check PHP itself. [Technical advisory](https://github.com/php/php-src/security/advisories/GHSA-w8hw-w9fx-j79w)."
+    },
+    {
+      "type": "p",
+      "text": "A vulnerability notice also does not mean your website has been hacked. It means there is a known weakness to close. A site that looks and works normally still needs its update status checked."
+    },
+    {
+      "type": "h2",
+      "text": "Send this to your host or website agency today"
+    },
+    {
+      "type": "p",
+      "text": "Start with the support contact on your hosting invoice. If an agency handles the website, ask it to obtain the confirmation from the host and report back to you. Give one person responsibility for following up so the request has a clear owner."
+    },
+    {
+      "type": "callout",
+      "text": "Please check whether my website at [website address] is protected against both PHP2Shell vulnerabilities, CVE-2026-109618 and CVE-2026-109619. If an update is needed, please arrange it urgently and tell me when it will be complete. Please confirm that both fixes are active on the live website and any other installations in this account, including test sites and subdomains. Include the running PHP version and, if you use your own patched package, its package revision and security notice. Please also confirm that the required server processes have been restarted or replaced."
+    },
+    {
+      "type": "p",
+      "text": "You can send this without knowing your PHP version. Your provider can check it. If you manage the server yourself, pass the same request to the administrator responsible for updates."
+    },
+    {
+      "type": "h2",
+      "text": "What a useful reply looks like"
+    },
+    {
+      "type": "p",
+      "text": "Use these example replies to decide whether you need to follow up."
     },
     {
       "type": "table",
-      "headers": [
-        "PHP branch",
-        "Affected upstream releases",
-        "First fixed release"
-      ],
-      "rows": [
-        ["8.2", "Earlier than 8.2.35", "8.2.35"],
-        ["8.3", "Earlier than 8.3.36", "8.3.36"],
-        ["8.4", "Earlier than 8.4.27", "8.4.27"],
-        ["8.5", "Earlier than 8.5.12", "8.5.12"]
-      ]
-    },
-    {
-      "type": "p",
-      "text": "Distribution packages need a second check. A vendor can apply the security fixes while retaining an older upstream version number, so obtain the package revision and an advisory naming both CVEs. A number alone can give the wrong answer in either direction."
-    },
-    {
-      "type": "p",
-      "text": "PHP 8.1 and older have reached upstream end of life. For this incident, the PHP team provided limited source backports for 7.4, 8.0 and 8.1. Ask your vendor about packaged fixes and plan a move to a supported branch; those exceptional patches do not restore ongoing upstream support."
-    },
-    {
-      "type": "h2",
-      "text": "What is the difference between the two CVEs?"
-    },
-    {
-      "type": "p",
-      "text": "**CVE-2026-109618 concerns interrupted memory initialization.** An out-of-memory failure can leave PHP's internal request data only partly initialized. Cleanup can then use that invalid data. The [PHP advisory](https://github.com/php/php-src/security/advisories/GHSA-w8hw-w9fx-j79w) reports unauthenticated remote code execution against Apache mod_php, including a path that runs before application code starts."
-    },
-    {
-      "type": "p",
-      "text": "**CVE-2026-109619 concerns state surviving between requests.** A PHP worker can retain references to memory that a previous request has freed. A later request reaching the same worker may use that stale state. The [separate advisory](https://github.com/php/php-src/security/advisories/GHSA-6wmf-4rv5-p3rp) reports remote code execution through session lifecycle paths against both mod_php and PHP-FPM."
-    },
-    {
-      "type": "p",
-      "text": "That distinction matters when a host says it uses FPM. For CVE-2026-109618, the advisory describes FPM as susceptible based on source analysis, without a demonstrated complete FPM exploit. CVE-2026-109619 has a validated FPM path that depends on a suitable application operation. FPM users should apply both fixes."
-    },
-    {
-      "type": "p",
-      "text": "Both advisories rate the flaws critical at **CVSS v4.0 9.2**. Successful code execution uses the web worker's permissions. Its access to files, secrets and other services determines the damage possible on a particular system."
-    },
-    {
-      "type": "h2",
-      "text": "How should a WordPress owner check the site?"
-    },
-    {
-      "type": "p",
-      "text": "Start in **Tools > Site Health > Info > Server** and record the PHP version. WordPress documents that screen in its [Site Health guide](https://wordpress.org/documentation/article/site-health-screen/). Use the value to open a hosting support request, including the domain and the two CVE IDs."
-    },
-    {
-      "type": "p",
-      "text": "PHP upgrades happen through the hosting environment. [WordPress's PHP guidance](https://wordpress.org/documentation/update-php/) assigns that step to the host or its control panel. Ask whoever maintains the server to confirm the package actually serving web requests, including any vendor backport."
-    },
-    {
-      "type": "p",
-      "text": "Check each installation separately. A production shop, staging site and old campaign subdomain can use different PHP pools or hosting accounts. Write down the owner for each one, then keep the provider's confirmation beside the domain it covers."
-    },
-    {
-      "type": "p",
-      "text": "The PHP project says an update is the complete fix. Its [technical advisories](https://github.com/php/php-src/security/advisories/GHSA-6wmf-4rv5-p3rp) describe partial measures for specific paths, with explicit limits. Have the server administrator assess those if an update is delayed; a temporary setting change should never close the patch request."
-    },
-    {
-      "type": "h2",
-      "text": "What webvise checked on its own website"
-    },
-    {
-      "type": "p",
-      "text": "On October 22, webvise checked its landing site's repository and production function runtime. The site uses **Next.js 16 and React**. The inspected Vercel functions reported **nodejs24.x**. The source review followed the blog loader, API handler and database adapter to see which runtime those components actually use."
-    },
-    {
-      "type": "table",
-      "headers": ["Component checked", "Evidence", "PHP relevance"],
+      "headers": ["If the provider replies…", "Your next step"],
       "rows": [
         [
-          "Blog content",
-          "JSON files loaded through Node's filesystem API",
-          "This content path uses Node, with no PHP CMS"
+          "\"WordPress and all plugins are up to date.\"",
+          "Ask specifically whether PHP includes both PHP2Shell fixes."
         ],
         [
-          "Application API",
-          "tRPC request handler in the Next.js application",
-          "JavaScript request handling"
+          "\"Your hosting plan includes security updates.\"",
+          "Ask whether this update is already active for your domain."
         ],
         [
-          "Database connection",
-          "Drizzle with the node-postgres adapter",
-          "Node-based PostgreSQL access"
+          "\"Both fixes are active. Here is the PHP package and the list of sites covered.\"",
+          "Keep the confirmation and check your forms, login and checkout."
         ],
         [
-          "Tracked repository files",
-          "No PHP source or Composer manifests found",
-          "No PHP application found in this repository"
+          "\"The update is still pending.\"",
+          "Ask for a completion time and how the provider will protect the site while you wait."
         ]
       ]
     },
     {
       "type": "p",
-      "text": "Those findings support a narrow conclusion: **the inspected components do not run PHP**. They establish no security conclusion about unrelated services, other websites or the rest of the infrastructure. Next.js, Node and application dependencies still need their own updates and security review."
+      "text": "Be careful with a clean result from a public website scanner. The technology check in webvise's own WordPress Health Report reads visible page content and server headers. It can spot clues that a site uses WordPress or PHP, but it cannot verify the installed security patches. That confirmation has to come from someone with access to the hosting system."
     },
     {
       "type": "p",
-      "text": "The review also checked the technology detection behind webvise's WordPress Health Report. It looks for public clues such as WordPress paths in HTML and PHP-related response headers. It cannot inspect the installed server package or verify a backported fix. Treat a public website scan as a starting point for questions; get patch evidence from the host."
+      "text": "If the provider cannot update promptly, ask it to assess temporary protection and whether access to an affected site needs restricting. The PHP project says temporary measures have limits; **the update remains the complete fix**. [PHP mitigation guidance](https://github.com/php/php-src/security/advisories/GHSA-6wmf-4rv5-p3rp)."
     },
     {
       "type": "h2",
-      "text": "Send your host a request they can answer"
+      "text": "Which PHP versions contain the fixes?"
     },
     {
       "type": "p",
-      "text": "A useful reply identifies the running package and confirms deployment. The same principle guided the webvise review: follow the component that serves the request, then state exactly what the evidence covers. Copy and adapt this request for each hosting account."
+      "text": "Keep this table for your provider or use it to read their reply. These are the first official PHP releases that contain both fixes, as listed in the [PHP advisories](https://github.com/php/php-src/security/advisories/GHSA-w8hw-w9fx-j79w)."
     },
     {
-      "type": "p",
-      "text": "Please confirm whether the PHP runtime serving [domain] includes the fixes for CVE-2026-109618 and CVE-2026-109619. Provide the active PHP version and package revision, plus the vendor advisory if you use backported patches. Confirm deployment to every serving instance, including staging and subdomains, with PHP workers restarted or replaced as required. If any installation remains unpatched, identify it and give the expected completion time."
-    },
-    {
-      "type": "ul",
-      "items": [
-        "Before the change, confirm that a recent backup exists and that someone owns recovery if compatibility problems appear.",
-        "After the change, request evidence from the live web runtime. A command-line PHP installation can differ from the one serving the website.",
-        "Check the business flows that matter: submitting an inquiry, logging in, uploading media, or completing checkout where applicable.",
-        "Keep the package revision, covered domains and completion time in the maintenance record. Escalate an incomplete reply while any installation remains unresolved."
+      "type": "table",
+      "headers": ["Your PHP series", "First release with both fixes"],
+      "rows": [
+        ["8.2", "8.2.35"],
+        ["8.3", "8.3.36"],
+        ["8.4", "8.4.27"],
+        ["8.5", "8.5.12"]
       ]
     },
     {
       "type": "p",
-      "text": "Make that ownership part of the maintenance agreement. webvise's [web application security requirements checklist](/blog/web-application-security-requirements-checklist) explains how to ask for an owner, a check and evidence before handing a system over."
+      "text": "Some providers add the fixes to an older PHP package without changing its main version number. That can be legitimate. Ask for the provider's security notice and exact package revision confirming both fixes, rather than judging the version number alone."
+    },
+    {
+      "type": "p",
+      "text": "For PHP 8.1 or older, ask about an immediate fix and a move to a supported version. The PHP team supplied exceptional source patches for 7.4, 8.0 and 8.1, and some vendors offer their own fixes. Those exceptions do not restore regular PHP support. [PHP guidance for older versions](https://www.php.net/archive/2026.php)."
+    },
+    {
+      "type": "p",
+      "text": "For your technical contact: **CVE-2026-109618** concerns invalid internal data after PHP runs out of memory. **CVE-2026-109619** concerns old request data that a server process can reuse after its memory has been freed. Attack conditions differ, including on PHP-FPM, which also needs both fixes. The [second advisory](https://github.com/php/php-src/security/advisories/GHSA-6wmf-4rv5-p3rp) explains those differences."
     },
     {
       "type": "h2",
-      "text": "Should this incident prompt a WordPress migration?"
+      "text": "Before you consider the update finished"
     },
     {
       "type": "p",
-      "text": "Patch first. A well-maintained WordPress site with a host that responds clearly may still suit the business. An urgent PHP advisory alone gives too little information to justify replacing a working website."
+      "text": "Ask your provider to handle compatibility checks and confirm that a recent backup is available before changing PHP. Then check the parts of the website your business relies on:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "Send a test inquiry through the contact form and check that it arrives in the right inbox.",
+        "If you sell online or take bookings, test the relevant checkout or booking process.",
+        "Check that the people who edit the website can still log in and save a change.",
+        "Save the provider's confirmation with the covered domains and completion date. Include older campaign sites and test installations in that list."
+      ]
     },
     {
       "type": "p",
-      "text": "For a brochure or lead-generation site, recurring uncertainty about hosting and unused plugins can justify a separate review of the setup. webvise's own blog publishes JSON content through Node. Your team may need different editing tools, integrations or commerce functions."
+      "text": "Keep both the website test results and the host's patch confirmation. Together they document that the security fix is active and that customers can still use the site."
+    },
+    {
+      "type": "h2",
+      "text": "Does your website need a simpler setup?"
     },
     {
       "type": "p",
-      "text": "[webvise's WordPress migration service](/services/wordpress-migration) covers a Next.js rebuild with URL mapping, redirects, metadata, forms and an agreed editing workflow. Removing PHP from a particular application removes that application's dependence on PHP patches. Keeping WordPress as a headless backend retains a PHP system that still needs maintenance."
+      "text": "An urgent security update is a reason to maintain a website. A rebuild needs a separate business case. If WordPress supports your team's work and your provider handles updates well, keeping it can be the right decision."
     },
     {
       "type": "p",
-      "text": "Once your host has confirmed the fixes, [contact webvise](/#contact) if you want to assess whether a simpler website setup fits your business. Bring the current URL, the features your team uses and the hosting reply."
+      "text": "A broader review makes sense when routine upkeep consumes time you would rather spend on the business: unused plugins still need attention, ordinary edits need outside help, or nobody can say who owns security updates. Compare the cost of fixing that arrangement with the cost of replacing it, including how your team will edit content afterwards."
+    },
+    {
+      "type": "p",
+      "text": "There is a concrete example on this site. webvise's blog stores its articles as files that Next.js reads through Node, so that content path has no WordPress or PHP installation to patch. This is a finding from the site's code, not a claim about every service behind the business. Next.js and Node still need their own updates."
+    },
+    {
+      "type": "p",
+      "text": "That approach suits this blog's publishing workflow. Your team may need a visual editor, booking tools or a shop. If you consider a [WordPress migration with webvise](/services/wordpress-migration), the review starts with those needs and covers existing content, page URLs, redirects and contact forms. Keeping WordPress behind a new frontend would still leave PHP to maintain."
+    },
+    {
+      "type": "p",
+      "text": "For the longer-term decision, the [website security requirements checklist](/blog/web-application-security-requirements-checklist) helps you put maintenance duties and evidence in writing."
+    },
+    {
+      "type": "p",
+      "text": "**Reviewed October 22, 2026.** Once the urgent update is handled, [send webvise your website URL](/#contact) if you want to discuss its upkeep or a rebuild. Include what your team needs to change on the site and what currently takes too much time."
     }
-  ]
+  ],
+  "updated": "2026-10-22"
 }
