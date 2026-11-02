@@ -47,6 +47,8 @@ Suche nach `MP Bau`, `MP-Bau`, `MPBau` und Varianten. Ändere nur Nennungen dies
 
 Aktuelle Bilder liegen unter `apps/web/public/images/case-studies/mp-bau-construction/`. Alle sechs Bildrollen erneuern. Verwende echte Aufnahmen des finalen Website-/Portalstands, keine erfundenen UI-Mockups oder künstlich ergänzten Erfolgsergebnisse.
 
+Sebastian hat für die bestehenden Bilder **Eagle** verwendet; die App ist auf seinem Rechner installiert. Falls Format, Ausschnitt oder Export nicht eindeutig aus den Repo-Dateien hervorgehen, die vorhandenen Bilder und ihre Eigenschaften in Eagle als Referenz prüfen. Eagle ist eine verfügbare Hilfe, keine Pflicht für jeden Arbeitsschritt. Die Originale in der Bibliothek erhalten.
+
 | Datei | Bestehendes Format | Neuer Inhalt |
 | --- | --- | --- |
 | `hero.webp` | WebP, 1512 × 768 px | Freigegebenes Hero mit Skizze, Rohbau und fertigem Haus |
