@@ -47,8 +47,8 @@ export const services: Service[] = [
 		painPointCount: 3,
 		faqCount: 5,
 		proof: {
-			caseStudySlug: "mp-bau-construction",
-			image: "/images/case-studies/mp-bau-construction/hero.webp",
+			caseStudySlug: "maerkische-projekt-bau",
+			image: "/images/case-studies/mp-bau-construction/hero.webp?v=065b54f",
 		},
 	},
 	{
@@ -90,7 +90,8 @@ export const services: Service[] = [
 		faqCount: 4,
 		proof: {
 			caseStudySlug: "rautenberg-pitch-engine",
-			image: "/images/case-studies/rautenberg-pitch-engine/docx-output.webp",
+			image:
+				"/images/case-studies/rautenberg-pitch-engine/docx-output.webp?v=20261111-eagle-obsidian",
 		},
 	},
 	{
@@ -111,12 +112,12 @@ export const services: Service[] = [
 ];
 
 export const serviceCaseStudies: Record<string, string[]> = {
-	"landing-pages": ["old-world-labs", "mp-bau-construction"],
-	"wordpress-migration": ["mp-bau-construction"],
-	"ai-consulting": ["mp-bau-construction"],
-	"mvp-development": ["ohyp-fintech"],
-	"ai-automation": ["mp-bau-construction"],
-	"full-stack-applications": ["ohyp-fintech", "keel"],
+	"landing-pages": ["old-world-labs", "maerkische-projekt-bau"],
+	"wordpress-migration": ["maerkische-projekt-bau"],
+	"ai-consulting": ["maerkische-projekt-bau"],
+	"mvp-development": ["finanzierungszertifikat"],
+	"ai-automation": ["maerkische-projekt-bau"],
+	"full-stack-applications": ["finanzierungszertifikat", "keel"],
 };
 
 export const relatedServices: Record<string, string[]> = {

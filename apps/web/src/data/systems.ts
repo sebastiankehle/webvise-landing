@@ -53,7 +53,8 @@ export const customSystems: CustomSystem[] = [
 		faqCount: 3,
 		proof: {
 			caseStudySlug: "rautenberg-pitch-engine",
-			image: "/images/case-studies/rautenberg-pitch-engine/pipeline.webp",
+			image:
+				"/images/case-studies/rautenberg-pitch-engine/pipeline.webp?v=20261111-eagle-obsidian",
 		},
 		relatedSlugs: ["internal-tools-dashboards", "website-to-app-upgrades"],
 	},
@@ -82,7 +83,7 @@ export const customSystems: CustomSystem[] = [
 		outcomeCount: 4,
 		faqCount: 3,
 		proof: {
-			caseStudySlug: "ohyp-fintech",
+			caseStudySlug: "finanzierungszertifikat",
 			image: "/images/case-studies/ohyp-fintech/admin-dashboard.webp",
 		},
 		relatedSlugs: ["booking-event-platforms", "internal-tools-dashboards"],
@@ -97,7 +98,7 @@ export const customSystems: CustomSystem[] = [
 		outcomeCount: 4,
 		faqCount: 3,
 		proof: {
-			caseStudySlug: "ohyp-fintech",
+			caseStudySlug: "finanzierungszertifikat",
 			image: "/images/case-studies/ohyp-fintech/form.webp",
 		},
 		relatedSlugs: ["client-portals-business-apps", "website-to-app-upgrades"],

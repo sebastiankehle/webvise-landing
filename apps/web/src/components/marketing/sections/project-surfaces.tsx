@@ -51,13 +51,13 @@ const surfaceFrames: ReadonlyArray<{
 	{
 		slug: "rautenberg-pitch-engine",
 		captionKey: "pitchPipeline",
-		src: "/images/case-studies/rautenberg-pitch-engine/pipeline.webp",
+		src: "/images/case-studies/rautenberg-pitch-engine/pipeline.webp?v=20261111-eagle-obsidian",
 		className: "md:col-span-4",
 		imageClassName: "object-left-top",
 		featured: false,
 	},
 	{
-		slug: "ohyp-fintech",
+		slug: "finanzierungszertifikat",
 		captionKey: "ohypAdmin",
 		src: "/images/case-studies/ohyp-fintech/admin-dashboard.webp",
 		className: "md:col-span-4",
@@ -65,9 +65,9 @@ const surfaceFrames: ReadonlyArray<{
 		featured: false,
 	},
 	{
-		slug: "mp-bau-construction",
+		slug: "maerkische-projekt-bau",
 		captionKey: "mpbauChatbot",
-		src: "/images/case-studies/mp-bau-construction/chatbot.webp",
+		src: "/images/case-studies/mp-bau-construction/chatbot.webp?v=065b54f",
 		className: "md:col-span-4",
 		imageClassName: "object-right-bottom",
 		featured: false,

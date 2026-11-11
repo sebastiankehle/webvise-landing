@@ -335,6 +335,16 @@ export default async function CaseStudyPage({
 								</Lead>
 							</div>
 						)}
+						{cs.liveUrl && (
+							<a
+								className="mt-6 inline-block underline underline-offset-4"
+								href={cs.liveUrl}
+								rel="noopener noreferrer"
+								target="_blank"
+							>
+								{cs.liveUrlLabel ?? t("visitSite")}
+							</a>
+						)}
 					</div>
 
 					{cs.techStack.length > 0 && (

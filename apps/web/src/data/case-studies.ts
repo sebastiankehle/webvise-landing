@@ -3,18 +3,18 @@ import { join } from "node:path";
 import { z } from "zod";
 
 export const CASE_STUDY_COLLECTIONS = {
-	featured: ["hyyve", "ohyp-fintech", "rautenberg-pitch-engine"],
+	featured: ["hyyve", "finanzierungszertifikat", "rautenberg-pitch-engine"],
 	concept: ["relay", "keel", "morrow"],
 } as const;
 
 const CASE_STUDY_ORDER = [
 	"hyyve",
-	"ohyp-fintech",
+	"finanzierungszertifikat",
 	"rautenberg-pitch-engine",
 	"relay",
 	"keel",
 	"morrow",
-	"mp-bau-construction",
+	"maerkische-projekt-bau",
 	"old-world-labs",
 	"webvise",
 ] as const;

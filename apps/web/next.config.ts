@@ -14,6 +14,21 @@ const nextConfig: NextConfig = {
 		"/api/newsletter/confirm": ["./content/blog/**/*"],
 	},
 	images: {
+		localPatterns: [
+			{ pathname: "/**", search: "" },
+			{
+				pathname: "/images/case-studies/ohyp-fintech/**",
+				search: "?v=20261111-eagle-obsidian",
+			},
+			{
+				pathname: "/images/case-studies/rautenberg-pitch-engine/**",
+				search: "?v=20261111-eagle-obsidian",
+			},
+			{
+				pathname: "/images/case-studies/mp-bau-construction/**",
+				search: "?v=065b54f",
+			},
+		],
 		qualities: [75, 80, 85, 90, 95, 100],
 	},
 	skipTrailingSlashRedirect: true,
@@ -35,6 +50,26 @@ const nextConfig: NextConfig = {
 	},
 	async redirects() {
 		return [
+			{
+				source: "/case-studies/ohyp-fintech",
+				destination: "/case-studies/finanzierungszertifikat",
+				permanent: true,
+			},
+			{
+				source: "/:locale(en|de)/case-studies/ohyp-fintech",
+				destination: "/:locale/case-studies/finanzierungszertifikat",
+				permanent: true,
+			},
+			{
+				source: "/case-studies/mp-bau-construction",
+				destination: "/case-studies/maerkische-projekt-bau",
+				permanent: true,
+			},
+			{
+				source: "/:locale(en|de)/case-studies/mp-bau-construction",
+				destination: "/:locale/case-studies/maerkische-projekt-bau",
+				permanent: true,
+			},
 			{
 				source: "/apple-touch-icon.png",
 				destination: "/apple-icon",
