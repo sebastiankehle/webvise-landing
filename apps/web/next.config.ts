@@ -7,11 +7,6 @@ const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 const nextConfig: NextConfig = {
 	typedRoutes: true,
 	reactCompiler: true,
-	// The styles ship inside the document, so a first visit paints without
-	// waiting on a second request.
-	experimental: {
-		inlineCss: true,
-	},
 	transpilePackages: ["shiki"],
 	// The confirm route reads blog content at request time to pick the
 	// topic-specific welcome email; without this the files are not bundled.
