@@ -8,38 +8,45 @@ import "./hero-wall.css";
 const shots = "/images/case-studies";
 
 /** The frames on the wall, chosen by hand: only whole first screens and full
- * product screens, no sections cut from a page. Each column mixes projects,
- * light and dark. A wide frame is 2:1, the others 16:10, as the screens are. */
+ * product screens, no sections cut from a page. A wide frame is 2:1, the
+ * others 16:10, as the screens are.
+ *
+ * Every column holds two wide and two 16:10 frames. That keeps all columns
+ * the same height, which the seamless loop depends on.
+ *
+ * The order decides what stands in view when the page loads: the middle of
+ * each column, and in the three middle columns the client work leads there,
+ * light beside dark. The concept studies stand at the edges and drift in. */
 const COLUMNS: { src: string; wide?: boolean }[][] = [
 	[
-		{ src: `${shots}/mp-bau-construction/site-hero.webp`, wide: true },
-		{ src: `${shots}/keel/hero-v2.webp` },
-		{ src: `${shots}/morrow/dashboard-v3.webp` },
-		{ src: `${shots}/old-world-labs/services.webp`, wide: true },
-	],
-	[
-		{ src: `${shots}/ohyp-fintech/landing-v2.webp`, wide: true },
-		{ src: `${shots}/relay/hero-v2.webp` },
-		{ src: `${shots}/kernspan/hero-v2.webp` },
-		{ src: `${shots}/morrow/graph-v3.webp` },
-	],
-	[
 		{ src: `${shots}/screencurve/ask-the-film.webp`, wide: true },
-		{ src: `${shots}/morrow/hero-v3.webp` },
-		{ src: `${shots}/ohyp-fintech/certificate-v2.webp`, wide: true },
 		{ src: `${shots}/keel/view-2.webp` },
+		{ src: `${shots}/old-world-labs/services.webp`, wide: true },
+		{ src: `${shots}/morrow/dashboard-v3.webp` },
 	],
 	[
 		{ src: `${shots}/old-world-labs/hero.webp`, wide: true },
 		{ src: `${shots}/screencurve/landing.webp`, wide: true },
-		{ src: `${shots}/relay/view-3.webp` },
+		{ src: `${shots}/morrow/hero-v3.webp` },
+		{ src: `${shots}/mp-bau-construction/team.webp?v=065b54f` },
+	],
+	[
+		{ src: `${shots}/keel/hero-v2.webp` },
+		{ src: `${shots}/mp-bau-construction/site-hero.webp`, wide: true },
+		{ src: `${shots}/ohyp-fintech/landing-v2.webp`, wide: true },
+		{ src: `${shots}/relay/hero-v2.webp` },
+	],
+	[
+		{ src: `${shots}/morrow/graph-v3.webp` },
+		{ src: `${shots}/ohyp-fintech/certificate-v2.webp`, wide: true },
+		{ src: `${shots}/hyyve/hero.webp`, wide: true },
 		{ src: `${shots}/mp-bau-construction/references.webp?v=065b54f` },
 	],
 	[
-		{ src: `${shots}/hyyve/hero.webp`, wide: true },
-		{ src: `${shots}/kernspan/assembly-v2.webp` },
-		{ src: `${shots}/von-platen-coaching/view-2.webp` },
+		{ src: `${shots}/kernspan/hero-v2.webp` },
 		{ src: `${shots}/old-world-labs/sectors.webp`, wide: true },
+		{ src: `${shots}/von-platen-coaching/view-2.webp` },
+		{ src: `${shots}/screencurve/hero.webp`, wide: true },
 	],
 ];
 
