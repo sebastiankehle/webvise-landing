@@ -9,7 +9,8 @@
 	width: 250%;
 	transform: translate(-50%, -50%) rotate(-7deg);
 }
-.hw-col {
+.hw-col,
+.hw-pair {
 	gap: var(--hw-gap);
 }
 .hw-up {
@@ -38,6 +39,22 @@
 	}
 }
 
+/* A long page inside its frame rests at its top, scrolls to its end and
+   comes back. */
+.hw-page {
+	animation: hw-page var(--hw-page-seconds) ease-in-out infinite alternate;
+}
+@keyframes hw-page {
+	0%,
+	6% {
+		transform: translateY(0);
+	}
+	94%,
+	100% {
+		transform: translateY(var(--hw-page-to));
+	}
+}
+
 @media (min-width: 640px) {
 	.hw {
 		--hw-gap: 1.125rem;
@@ -49,7 +66,8 @@
 
 @media (prefers-reduced-motion: reduce) {
 	.hw-up,
-	.hw-down {
+	.hw-down,
+	.hw-page {
 		animation: none;
 	}
 }
