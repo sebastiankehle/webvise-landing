@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useLocale } from "next-intl";
 import type { ReactNode } from "react";
-
+import PageScroll from "./page-scroll";
 import HyyveOrbit from "./project-hyyve";
 import KernspanDamper from "./project-kernspan";
 import type { ProjectSceneSlug } from "./project-scene-slugs";
@@ -14,8 +14,9 @@ type Locale = "de" | "en";
 
 const FzScene = dynamic(() => import("./project-fz"), { ssr: false });
 const KeelScene = dynamic(() => import("./project-keel"), { ssr: false });
-const MpbScene = dynamic(() => import("./project-mpb"), { ssr: false });
-const OwlScene = dynamic(() => import("./project-owl"), { ssr: false });
+const MpbChatScene = dynamic(() => import("./project-mpb-chat"), {
+	ssr: false,
+});
 const RbScene = dynamic(() => import("./project-rb"), { ssr: false });
 const ScScene = dynamic(() => import("./project-sc"), { ssr: false });
 const VpScene = dynamic(() => import("./project-vp"), { ssr: false });
@@ -69,9 +70,18 @@ const scenes: Record<ProjectSceneSlug, Entry> = {
 	kernspan: {
 		plain: (_opening, sizes) => <KernspanDamper sizes={sizes} />,
 	},
-	"maerkische-projekt-bau": { live: () => <MpbScene /> },
+	"maerkische-projekt-bau": { live: () => <MpbChatScene /> },
 	morrow: { plain: sheet },
-	"old-world-labs": { live: () => <OwlScene /> },
+	"old-world-labs": {
+		plain: (_opening, sizes) => (
+			<PageScroll
+				height={3575}
+				sizes={sizes}
+				src="/images/case-studies/old-world-labs/fullpage.webp"
+				width={1512}
+			/>
+		),
+	},
 	"rautenberg-pitch-engine": {
 		live: (locale) => <RbScene locale={locale} />,
 	},

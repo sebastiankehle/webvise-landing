@@ -1,0 +1,102 @@
+/* The assistant on the Märkische Projekt Bau website, as a project card. It
+   borrows the chat's parts from the Automate scene and sets them on the
+   site's whole first screen, with the chat button that opens them. */
+.wva.wpc {
+	/* The site's page, whole across, off the bottom */
+	.wpc-win {
+		top: 18px;
+		width: 352px;
+		height: 330px;
+	}
+
+	.wpc-photo {
+		width: 352px;
+	}
+
+	/* Where the pointer waits once the question is asked: on the house */
+	.wpc-rest {
+		top: 120px;
+		left: 70px;
+	}
+
+	/* The chat button, drawn over the site's own on the page's lower right */
+	.wpc-launch {
+		position: absolute;
+		top: 207px;
+		right: 19px;
+		display: grid;
+		place-items: center;
+		width: 32px;
+		height: 32px;
+		color: #fff;
+		background: #0f1a2b;
+		border-radius: 50%;
+		box-shadow:
+			0 0 0 1px rgb(255 255 255 / 0.18),
+			0 10px 20px -8px rgb(0 0 0 / 0.6);
+		transition: scale 0.12s ease;
+		will-change: transform;
+	}
+
+	.wpc-launch[data-pressed] {
+		scale: 0.94;
+	}
+
+	.wpc-launch-icon {
+		position: absolute;
+		inset: 0;
+		display: grid;
+		place-items: center;
+		transition:
+			opacity 0.2s ease,
+			rotate 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+	}
+
+	.wpc-launch-close {
+		opacity: 0;
+		rotate: -60deg;
+	}
+	.wpc-launch[data-on] .wpc-launch-chat {
+		opacity: 0;
+		rotate: 60deg;
+	}
+	.wpc-launch[data-on] .wpc-launch-close {
+		opacity: 1;
+		rotate: 0deg;
+	}
+
+	/* The panel stands above the button and grows out of it */
+	.wpc-chat {
+		top: 10px;
+		right: 30px;
+		bottom: 90px;
+		width: 204px;
+		pointer-events: none;
+		opacity: 0;
+		transform-origin: 97% 113%;
+		scale: 0.4;
+		transition:
+			opacity 0.22s ease,
+			scale 0.42s cubic-bezier(0.2, 1.2, 0.35, 1);
+	}
+
+	.wpc-chat[data-on] {
+		opacity: 1;
+		scale: 1;
+	}
+
+	.wpc-chat .wva-head {
+		padding: 7px 10px;
+	}
+
+	.wpc-chat .wva-compose {
+		padding: 6px 6px 6px 10px;
+	}
+
+	/* As in a real chat, the newest message sits at the foot and older ones
+	   leave at the top */
+	.wpc-chat .wva-body {
+		justify-content: flex-end;
+		padding: 8px 10px;
+	}
+}

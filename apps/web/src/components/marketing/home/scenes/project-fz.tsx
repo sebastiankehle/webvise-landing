@@ -9,9 +9,9 @@ import {
 	Trees,
 	Warehouse,
 } from "lucide-react";
+import type { ComponentType } from "react";
 import {
 	type Act,
-	Bar,
 	Collapse,
 	Roll,
 	Stage,
@@ -20,43 +20,80 @@ import {
 } from "@/components/stageshow/kit";
 import "./project-fz.css";
 
-// project card: the financing application of
-// finanzierungszertifikat.com, the buyer's side, in its own look. Beats: the
-// pointer picks the kind of property; the tile takes the selection; progress
-// moves and the step count rolls; the next question arrives. Plays once.
+// project card: the financing application of finanzierungszertifikat.com,
+// the buyer's side, in its own look. Beats: the pointer answers three
+// questions in turn, each answer moving the progress and the step count on;
+// on the fourth it types the household income. Plays once.
 //
-// Real strings: the wordmark, the progress label, both questions, the six
-// kinds of property, Zurück and Weiter. The application has ten steps; the
-// scene shows the first.
+// Real strings: the wordmark, the progress label, the four questions in the
+// order the application asks them, their answers, the income field's label,
+// Monatlich and Jährlich, Zurück and Weiter. The application has ten steps;
+// the scene shows the first four.
 
-interface S {
-	next: boolean;
-	picked: boolean;
+interface Choice {
+	icon?: ComponentType<{ size?: number; strokeWidth?: number }>;
+	label: string;
 }
 
-const KINDS = [
-	{ label: "Haus", icon: House },
-	{ label: "Reihenhaus", icon: Warehouse },
-	{ label: "Eigentumswohnung", icon: Building },
-	{ label: "Grundstück", icon: Trees },
-	{ label: "Mehrfamilienhaus", icon: Building2 },
-	{ label: "Noch auf Suche", icon: Search },
-];
-const PICK = 2;
+interface S {
+	done: number;
+	income: string;
+	step: number;
+}
 
-const initial: S = { picked: false, next: false };
-const poster: S = { picked: true, next: true };
+const STEPS: { choices: Choice[]; pick: number; question: string }[] = [
+	{
+		question: "Welche Immobilie möchten Sie finanzieren?",
+		pick: 2,
+		choices: [
+			{ label: "Haus", icon: House },
+			{ label: "Reihenhaus", icon: Warehouse },
+			{ label: "Eigentumswohnung", icon: Building },
+			{ label: "Grundstück", icon: Trees },
+			{ label: "Mehrfamilienhaus", icon: Building2 },
+			{ label: "Noch auf Suche", icon: Search },
+		],
+	},
+	{
+		question: "Möchten Sie wissen, welcher Kaufpreis zu Ihnen passt?",
+		pick: 0,
+		choices: [{ label: "Ja" }, { label: "Nein" }],
+	},
+	{
+		question: "Berufliche Stellung",
+		pick: 0,
+		choices: [
+			{ label: "Angestellt" },
+			{ label: "Selbstständig" },
+			{ label: "Freiberuflich" },
+			{ label: "Beamter" },
+		],
+	},
+];
+const INCOME = "3.800";
+const TOTAL = 10;
+
+const initial: S = { done: 0, income: "", step: 1 };
+const poster: S = { done: 3, income: INCOME, step: 4 };
 
 async function script(a: Act<S>) {
-	await a.wait(1200);
-	a.mark("pick");
-	await a.move({ at: "pick", x: 0.7, y: 0.72 });
-	await a.wait(220);
-	await a.click({ at: "pick", x: 0.7, y: 0.72 });
-	a.put({ picked: true });
-	await a.wait(1100);
-	a.mark("next");
-	a.put({ next: true });
+	await a.wait(1000);
+	for (let i = 0; i < STEPS.length; i++) {
+		a.mark(`step-${i + 1}`);
+		await a.move({ at: `pick-${i}`, x: 0.7, y: 0.6 });
+		await a.wait(180);
+		await a.click({ at: `pick-${i}`, x: 0.7, y: 0.6 });
+		a.put({ done: i + 1 });
+		await a.wait(650);
+		a.put({ step: i + 2 });
+		await a.wait(550);
+	}
+	a.mark("income");
+	await a.move({ at: "income", x: 0.3, y: 0.5 });
+	await a.wait(150);
+	await a.click({ at: "income", x: 0.3, y: 0.5 });
+	await a.type("income", INCOME, { interval: 120 });
+	await a.wait(300);
 	await a.move("rest", { duration: 700 });
 	await a.wait(2400);
 }
@@ -82,59 +119,95 @@ export default function FzScene() {
 								<div className="wpf-progress-head">
 									<Text className="wpf-faint">Fortschritt Ihrer Anfrage</Text>
 									<span className="wpf-pct">
-										<Roll delay={150}>{s.picked ? "10 %" : "0 %"}</Roll>
+										<Roll delay={150}>{`${s.done * 10} %`}</Roll>
 									</span>
 								</div>
 								<div className="wpf-track">
-									<span className="wpf-fill" data-on={s.picked || undefined} />
+									<span
+										className="wpf-fill"
+										style={{ width: `${s.done * 10}%` }}
+									/>
 								</div>
 							</div>
 
-							<Collapse open={!s.next}>
-								<div className="wpf-step">
-									<Text className="wpf-q">
-										Welche Immobilie möchten Sie finanzieren?
-									</Text>
-									<div className="wpf-tiles">
-										{KINDS.map((kind, i) => (
-											<span
-												className="wpf-tile"
-												data-cursor={i === PICK ? "pointer" : undefined}
-												data-on={(i === PICK && s.picked) || undefined}
-												data-target={i === PICK ? "pick" : undefined}
-												key={kind.label}
-											>
-												<kind.icon size={14} strokeWidth={1.6} />
-												<Text>{kind.label}</Text>
-												{i === PICK && (
+							{STEPS.map((step, n) => (
+								<Collapse
+									from={n === 0 ? undefined : "below"}
+									key={step.question}
+									open={s.step === n + 1}
+									reveal={n === 0 ? undefined : "drop"}
+								>
+									<div className="wpf-step">
+										<Text className="wpf-q">{step.question}</Text>
+										<div
+											className={
+												step.choices.length === 2
+													? "wpf-tiles wpf-tiles--two"
+													: "wpf-tiles"
+											}
+										>
+											{step.choices.map((choice, i) => {
+												const picked = i === step.pick;
+												return (
 													<span
-														className="wpf-tick"
-														data-on={s.picked || undefined}
+														className={
+															step.choices.length === 2
+																? "wpf-tile wpf-tile--tall"
+																: "wpf-tile"
+														}
+														data-cursor={picked ? "pointer" : undefined}
+														data-on={(picked && s.done > n) || undefined}
+														data-target={picked ? `pick-${n}` : undefined}
+														key={choice.label}
 													>
-														<Tick size={9} strokeWidth={3} />
+														{choice.icon && (
+															<choice.icon size={14} strokeWidth={1.6} />
+														)}
+														<Text>{choice.label}</Text>
+														{picked && (
+															<span
+																className="wpf-tick"
+																data-on={s.done > n || undefined}
+															>
+																<Tick size={9} strokeWidth={3} />
+															</span>
+														)}
 													</span>
-												)}
-											</span>
-										))}
+												);
+											})}
+										</div>
 									</div>
-								</div>
-							</Collapse>
-							<Collapse from="below" open={s.next} reveal="drop">
+								</Collapse>
+							))}
+
+							<Collapse from="below" open={s.step === 4} reveal="drop">
 								<div className="wpf-step">
-									<Text className="wpf-q">
-										Möchten Sie wissen, welcher Kaufpreis zu Ihnen passt?
-									</Text>
-									<div className="wpf-tiles wpf-tiles--two">
-										<span className="wpf-tile wpf-tile--tall">
-											<Bar h={6} tone={3} w={46} />
-										</span>
-										<span className="wpf-tile wpf-tile--tall">
-											<Bar h={6} tone={3} w={58} />
-										</span>
+									<Text className="wpf-q">Haushaltsnettoeinkommen</Text>
+									<div className="wpf-seg">
+										<span className="wpf-seg-on">Monatlich</span>
+										<span>Jährlich</span>
 									</div>
+									<Text className="wpf-faint wpf-label">
+										Monatliches Haushaltsnettoeinkommen
+									</Text>
+									<span
+										className="wpf-field"
+										data-cursor="ibeam"
+										data-on={s.income.length > 0 || undefined}
+										data-target="income"
+									>
+										<span className="wpf-value">{s.income}</span>
+										<span className="wpf-caret" />
+										<span className="wpf-unit">€</span>
+									</span>
 									<div className="wpf-nav">
 										<span className="wpf-back">Zurück</span>
-										<span className="wpf-go">Weiter</span>
+										<span
+											className="wpf-go"
+											data-on={s.income.length > 0 || undefined}
+										>
+											Weiter
+										</span>
 									</div>
 								</div>
 							</Collapse>
@@ -145,8 +218,8 @@ export default function FzScene() {
 					<div className="wpf-count">
 						<Text className="wpf-faint">Schritt</Text>
 						<span className="wpf-count-n">
-							<Roll delay={250}>{s.next ? "2" : "1"}</Roll>
-							<span className="wpf-count-of">/ 10</span>
+							<Roll delay={250}>{`${s.step}`}</Roll>
+							<span className="wpf-count-of">/ {TOTAL}</span>
 						</span>
 					</div>
 				</>

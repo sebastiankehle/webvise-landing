@@ -1,0 +1,45 @@
+/* The frame is a size container, so the page can travel exactly until its
+   foot meets the frame's: its own height less the frame's. */
+.ps {
+	container-type: size;
+}
+
+.ps-page {
+	--ps-end: calc(-100% + 100cqh);
+	animation: ps-scroll 16s cubic-bezier(0.45, 0, 0.2, 1) 1.2s infinite;
+}
+
+/* Four stretches with a pause after each, a longer look at the end, then a
+   quick return to the top. The ease applies to every stretch. */
+@keyframes ps-scroll {
+	0%,
+	10% {
+		transform: translateY(0);
+	}
+	16%,
+	26% {
+		transform: translateY(calc(var(--ps-end) * 0.25));
+	}
+	32%,
+	42% {
+		transform: translateY(calc(var(--ps-end) * 0.5));
+	}
+	48%,
+	58% {
+		transform: translateY(calc(var(--ps-end) * 0.75));
+	}
+	64%,
+	80% {
+		transform: translateY(var(--ps-end));
+	}
+	88%,
+	100% {
+		transform: translateY(0);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ps-page {
+		animation: none;
+	}
+}

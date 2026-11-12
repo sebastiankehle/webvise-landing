@@ -21,13 +21,8 @@ type CardCaseStudy = Pick<
 >;
 
 /** Website projects whose card shows the site's real first screen. The other
- * projects keep their live scene, so a row mixes photographs and interfaces. */
-const SCREEN_FIRST = new Set([
-	"finanzierungszertifikat",
-	"maerkische-projekt-bau",
-	"old-world-labs",
-	"von-platen-coaching",
-]);
+ * projects run their live scene, so a row mixes photographs and interfaces. */
+const SCREEN_FIRST = new Set(["von-platen-coaching"]);
 
 export function screenFirst(
 	caseStudy: Pick<CardCaseStudy, "coverImage" | "slug">

@@ -96,10 +96,6 @@
 		transition: width 0.8s cubic-bezier(0.3, 0, 0.2, 1) 0.15s;
 	}
 
-	.wpf-fill[data-on] {
-		width: 10%;
-	}
-
 	.wpf-step {
 		padding-top: 16px;
 	}
@@ -249,5 +245,80 @@
 	.wpf-go {
 		color: #ffffff;
 		background: var(--ss-accent);
+		opacity: 0.45;
+		transition: opacity 0.25s ease;
+	}
+	.wpf-go[data-on] {
+		opacity: 1;
+	}
+
+	/* Monthly or yearly, as the application asks before the amount */
+	.wpf-seg {
+		display: inline-flex;
+		gap: 2px;
+		padding: 2px;
+		margin-bottom: 10px;
+		font-size: 10px;
+		font-weight: 600;
+		line-height: 14px;
+		color: var(--ss-text);
+		background: #f0f2f0;
+		border-radius: 999px;
+	}
+
+	.wpf-seg > span {
+		padding: 3px 10px;
+		border-radius: 999px;
+	}
+
+	.wpf-seg .wpf-seg-on {
+		color: var(--ss-text-strong);
+		background: #ffffff;
+		box-shadow: 0 1px 2px rgb(31 35 31 / 0.15);
+	}
+
+	.wpf-label {
+		display: block;
+		margin-bottom: 4px;
+	}
+
+	/* The amount field: the typed figure, a caret, the currency */
+	.wpf-field {
+		display: flex;
+		align-items: center;
+		height: 34px;
+		padding: 0 10px;
+		font-size: 13px;
+		font-weight: 600;
+		font-variant-numeric: tabular-nums;
+		color: var(--ss-text-strong);
+		background: #ffffff;
+		border-radius: 8px;
+		box-shadow: inset 0 0 0 1px var(--ss-line);
+		transition: box-shadow 0.2s ease;
+	}
+
+	.wpf-field[data-on] {
+		box-shadow: inset 0 0 0 1.5px var(--ss-accent);
+	}
+
+	.wpf-caret {
+		width: 1px;
+		height: 15px;
+		margin-left: 1px;
+		background: var(--ss-text-strong);
+		animation: wpf-blink 1s steps(1) infinite;
+	}
+
+	.wpf-unit {
+		margin-left: auto;
+		font-weight: 400;
+		color: var(--ss-text-faint);
+	}
+}
+
+@keyframes wpf-blink {
+	50% {
+		opacity: 0;
 	}
 }
