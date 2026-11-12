@@ -245,8 +245,84 @@ function ProjectsPicture({ thumbs }: { thumbs: ResultThumb[] }) {
 	);
 }
 
-/** Three weeks of one real launch: the page as a wireframe, half built,
- * and live under its own address. */
+// Week two's editor: a component's lines, by indent and token. Tags are green,
+// keywords and props orange, everything else plain.
+const CODE_TONES = {
+	key: "bg-brand",
+	tag: "bg-[#6fd3a1]",
+	text: "bg-white/45",
+} as const;
+const CODE: {
+	id: string;
+	indent: number;
+	parts: [keyof typeof CODE_TONES, number][];
+}[] = [
+	{
+		id: "export",
+		indent: 0,
+		parts: [
+			["key", 16],
+			["text", 30],
+		],
+	},
+	{ id: "return", indent: 6, parts: [["key", 14]] },
+	{
+		id: "section",
+		indent: 12,
+		parts: [
+			["tag", 22],
+			["key", 12],
+			["text", 26],
+		],
+	},
+	{
+		id: "h1",
+		indent: 18,
+		parts: [
+			["tag", 8],
+			["text", 52],
+		],
+	},
+	{
+		id: "h1b",
+		indent: 18,
+		parts: [
+			["text", 40],
+			["tag", 9],
+		],
+	},
+	{
+		id: "p",
+		indent: 18,
+		parts: [
+			["tag", 6],
+			["text", 64],
+		],
+	},
+	{
+		id: "button",
+		indent: 18,
+		parts: [
+			["tag", 18],
+			["key", 14],
+			["text", 20],
+		],
+	},
+	{
+		id: "image",
+		indent: 18,
+		parts: [
+			["tag", 16],
+			["key", 10],
+			["text", 34],
+		],
+	},
+	{ id: "close", indent: 12, parts: [["tag", 24]] },
+	{ id: "end", indent: 6, parts: [["text", 6]] },
+];
+
+/** Three weeks of one real launch: the page as a wireframe, as code in the
+ * editor, and live under its own address. */
 function WeeksPicture({
 	launch,
 	steps,
@@ -256,15 +332,6 @@ function WeeksPicture({
 	steps: string[];
 	week: string;
 }) {
-	const shot = (className?: string) => (
-		<Image
-			alt=""
-			className={cn("object-cover object-left-top", className)}
-			fill
-			sizes="200px"
-			src={launch.src}
-		/>
-	);
 	const states: ReactNode[] = [
 		// Design: the layout, before any picture or word is final
 		<span className="absolute inset-0 flex bg-white" key="design">
@@ -277,13 +344,43 @@ function WeeksPicture({
 			</span>
 			<span className="rt-hatch m-1.5 flex-1 rounded-[4px]" />
 		</span>,
-		// Build: the real page, not yet released
-		<span className="absolute inset-0" key="build">
-			{shot("opacity-80 grayscale")}
+		// Build: the page as code in an editor, its lines coloured by kind
+		<span
+			className="absolute inset-0 flex gap-1.5 bg-[#0e1217] p-2"
+			key="build"
+		>
+			<span className="flex flex-col gap-[5px] pt-px">
+				{CODE.map((line) => (
+					<i className="h-[3px] w-1.5 rounded-full bg-white/15" key={line.id} />
+				))}
+			</span>
+			<span className="flex min-w-0 flex-1 flex-col gap-[5px] pt-px">
+				{CODE.map((line) => (
+					<span
+						className="flex gap-1"
+						key={line.id}
+						style={{ paddingLeft: line.indent }}
+					>
+						{line.parts.map(([tone, width]) => (
+							<i
+								className={cn("h-[3px] rounded-full", CODE_TONES[tone])}
+								key={`${tone}-${width}`}
+								style={{ width }}
+							/>
+						))}
+					</span>
+				))}
+			</span>
 		</span>,
 		// Live: the same page under its address
 		<span className="absolute inset-0" key="live">
-			{shot()}
+			<Image
+				alt=""
+				className="object-cover object-left-top"
+				fill
+				sizes="200px"
+				src={launch.src}
+			/>
 			<span className="rt-pop absolute bottom-1.5 left-1.5 flex items-center gap-1 rounded-full bg-white px-1.5 py-0.5 text-[#0e1217] text-[0.5625rem] leading-none shadow-[0_4px_10px_-4px_rgba(0,0,0,0.5)]">
 				<i className="size-1.5 rounded-full bg-success" />
 				{launch.host}
