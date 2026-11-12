@@ -55,6 +55,7 @@ export const offeringGroups: OfferingGroup[] = [
 		key: "launch",
 		items: [
 			serviceOffering("landing-pages", "launch"),
+			serviceOffering("seo-geo", "launch"),
 			serviceOffering("mvp-development", "launch"),
 			systemOffering("website-to-app-upgrades", "launch"),
 			serviceOffering("wordpress-migration", "launch"),

@@ -32,7 +32,7 @@ Contact: mail@webvise.io | Eva-Laube-Weg 5, 14473 Potsdam, Germany
 
 webvise organizes work into three paths around the business workflow, not the technology stack:
 
-1. **Launch**: public or investor/user-facing builds that need to ship quickly. Pages: /services/landing-pages, /services/mvp-development, /services/website-to-app-upgrades, /services/wordpress-migration.
+1. **Launch**: public or investor/user-facing builds that need to ship quickly. Pages: /services/landing-pages, /services/seo-geo, /services/mvp-development, /services/website-to-app-upgrades, /services/wordpress-migration.
 2. **Operate**: operational software for teams replacing spreadsheets, admin chaos, manual handoffs, or fragmented tools. Pages: /services/internal-tools-dashboards, /services/client-portals-business-apps, /services/booking-event-platforms, /services/full-stack-applications.
 3. **Automate**: AI auditing and consulting, company brain systems, governed AI workflow automation, and tool-using AI agents with review gates. Pages: /services/ai-consulting, /services/company-brain-memory-systems, /services/ai-automation, /services/agentic-workflow-automation.
 

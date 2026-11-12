@@ -7,6 +7,7 @@ const baseUrl = SITE_URL;
 
 const offeringNames: Record<string, string> = {
 	"landing-pages": "Landing Pages and Launch Sites",
+	"seo-geo": "SEO and GEO",
 	"mvp-development": "MVPs and Product Prototypes",
 	"website-to-app-upgrades": "Website Workflow Layers",
 	"wordpress-migration": "WordPress and Legacy Migrations",
@@ -29,6 +30,8 @@ const groupTitles = {
 const offeringDescriptions: Record<string, string> = {
 	"landing-pages":
 		"Fast campaign and marketing pages with analytics, lead capture, and strong performance.",
+	"seo-geo":
+		"Technical SEO and generative engine optimization: crawlable, fast pages with structured data and llms.txt, so search engines rank them and AI assistants can cite them.",
 	"mvp-development":
 		"Lean first versions with auth, core workflows, data, deployment, and validation loops.",
 	"website-to-app-upgrades":

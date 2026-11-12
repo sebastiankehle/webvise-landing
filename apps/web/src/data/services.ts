@@ -34,6 +34,22 @@ export const services: Service[] = [
 		},
 	},
 	{
+		slug: "seo-geo",
+		translationKey: "seoGeo",
+		featureCount: 6,
+		deliverableCount: 5,
+		toolCount: 5,
+		painPointCount: 3,
+		faqCount: 4,
+		proof: {
+			// The work is judged on this site itself: its own Lighthouse report,
+			// structured data and llms.txt.
+			caseStudySlug: "webvise",
+			image: "/images/case-studies/webvise/hero-v2.webp",
+			still: true,
+		},
+	},
+	{
 		slug: "wordpress-migration",
 		translationKey: "wordpressMigration",
 		featureCount: 6,
@@ -120,6 +136,7 @@ export const serviceCaseStudies: Record<string, string[]> = {
 
 export const relatedServices: Record<string, string[]> = {
 	"landing-pages": ["wordpress-migration", "mvp-development"],
+	"seo-geo": ["landing-pages", "wordpress-migration"],
 	"wordpress-migration": ["landing-pages", "full-stack-applications"],
 	"ai-consulting": ["ai-automation", "mvp-development"],
 	"mvp-development": ["full-stack-applications", "ai-consulting"],
