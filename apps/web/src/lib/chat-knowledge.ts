@@ -1,3 +1,4 @@
+import { blogPosts, getBlogPosts } from "@/data/blog";
 import { getCaseStudies } from "@/data/case-studies";
 import { industries } from "@/data/industries";
 import { getOfferingTranslationKey, offeringGroups } from "@/data/offerings";
@@ -123,11 +124,37 @@ function fields(): string {
 		.join("\n");
 }
 
+// The newest articles by title; the rest are one click away on /blog.
+function articles(): string {
+	const german = new Map(
+		getBlogPosts("de").map((post) => [post.slug, post.title])
+	);
+	return [...blogPosts]
+		.sort((a, b) => b.date.localeCompare(a.date))
+		.slice(0, 20)
+		.map((post) => {
+			const title = german.get(post.slug);
+			return `- ${post.title}${title ? ` (German: ${title})` : ""}: /blog/${post.slug}`;
+		})
+		.join("\n");
+}
+
 /** What the website says about webvise, as plain text for the chat assistant.
- * It reads the same messages and case study files as the pages, so a new
- * service, project or figure reaches the assistant with the next deploy. */
+ * It reads the same messages and content files as the pages, so a new
+ * service, project, figure or article reaches the assistant with the next
+ * deploy. */
 export function siteKnowledge(): string {
-	return `## Services
+	return `## Pages
+- /services: every service, grouped as Launch, Operate and Automate
+- /case-studies: every project
+- /industries: the work by field
+- /about: Sebastian's background
+- /blog: articles
+- /faq: common questions
+- /book: book a call or write a message
+- /wp-health-report: the free WordPress check
+
+## Services
 Every service has its own page. Recommend the one that fits the visitor's workflow.
 
 ${services()}
@@ -151,6 +178,9 @@ ${about()}
 
 ## Industries
 ${fields()}
+
+## Newest articles on the blog
+${articles()}
 
 ## Contact
 ${text(en, "footer.address.email")}, ${text(en, "footer.address.street")}, ${text(en, "footer.address.city")}`;
