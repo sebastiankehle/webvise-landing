@@ -4,6 +4,7 @@ import { ChevronDown } from "lucide-react";
 import Image from "next/image";
 import {
 	Fragment,
+	type MouseEvent,
 	useCallback,
 	useEffect,
 	useId,
@@ -90,12 +91,19 @@ const panelLinkClassName =
 const mobileLinkClassName =
 	"block py-3 font-display text-[1.75rem] text-foreground leading-tight tracking-[-0.03em] outline-none focus-visible:underline";
 
-function Wordmark({ label }: { label: string }) {
+function Wordmark({
+	label,
+	onClick,
+}: {
+	label: string;
+	onClick: (event: MouseEvent<HTMLAnchorElement>) => void;
+}) {
 	return (
 		<Link
 			aria-label={label}
 			className="flex items-center gap-2 py-2 text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring/70 focus-visible:ring-offset-4 focus-visible:ring-offset-background lg:justify-self-start"
 			href="/"
+			onClick={onClick}
 		>
 			<Logo animated className="size-7" />
 			<span className="font-display text-xl leading-none tracking-[-0.035em]">
@@ -295,6 +303,29 @@ export default function NavbarShell({
 		return () => desktop.removeEventListener("change", onChange);
 	}, [mobileOpen]);
 
+	// The logo leads home. On the homepage itself a link to the same address
+	// does not move the page, so it scrolls back to the top instead.
+	const goHome = (event: MouseEvent<HTMLAnchorElement>) => {
+		setMobileOpen(false);
+		const newTab =
+			event.button !== 0 ||
+			event.metaKey ||
+			event.ctrlKey ||
+			event.shiftKey ||
+			event.altKey;
+		if (pathname !== "/" || newTab) {
+			return;
+		}
+		event.preventDefault();
+		const reduce = window.matchMedia(
+			"(prefers-reduced-motion: reduce)"
+		).matches;
+		// One frame later, once the menu has let go of the page
+		requestAnimationFrame(() =>
+			window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" })
+		);
+	};
+
 	// Mobile menu: lock the page behind it and keep focus inside.
 	useEffect(() => {
 		if (!mobileOpen) {
@@ -370,7 +401,7 @@ export default function NavbarShell({
 		<header className="sticky top-0 z-50 bg-background">
 			<div className="relative border-grid-line border-b">
 				<div className="mx-auto flex h-16 max-w-[1320px] items-center justify-between gap-6 px-6 lg:grid lg:h-[72px] lg:grid-cols-[1fr_auto_1fr]">
-					<Wordmark label={labels.home} />
+					<Wordmark label={labels.home} onClick={goHome} />
 
 					<nav
 						aria-label={labels.main}
