@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { usePathname } from "@/i18n/navigation";
 import { track } from "@/lib/track";
-import { trpcClient } from "@/utils/trpc";
 
 export type NewsletterPlacement = "footer" | "blog_article";
 
@@ -22,6 +21,8 @@ export function useNewsletterSubscribe(placement: NewsletterPlacement) {
 		track("newsletter_signup", { location: placement, path });
 
 		try {
+			// The API client loads with the first signup, not with every page.
+			const { trpcClient } = await import("@/utils/trpc");
 			await trpcClient.newsletter.subscribe.mutate({
 				email: email.trim(),
 				placement,
