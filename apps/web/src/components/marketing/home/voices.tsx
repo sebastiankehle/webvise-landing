@@ -18,20 +18,21 @@ const half = Math.ceil(HOME_TESTIMONIAL_KEYS.length / 2);
 const firstRow = HOME_TESTIMONIAL_KEYS.slice(0, half);
 const secondRow = HOME_TESTIMONIAL_KEYS.slice(half);
 
-/** Client quotes as two rows of cards that drift past each other and stop
- * under the pointer. Where the work has a case study, the card leads to it. */
+/** Client quotes. From tablets up, two rows of cards drift past each other;
+ * on a phone, where moving text cannot be read, they sit in one row to swipe.
+ * Where the work has a case study, the card leads to it. */
 export default async function Voices() {
 	const [tt, th] = await Promise.all([
 		getTranslations("testimonials"),
 		getTranslations("home"),
 	]);
 
-	const card = (key: QuoteKey) => {
+	const card = (key: QuoteKey, width: string) => {
 		const author = tt(`items.${key}.author`);
 		const project = testimonialProjects[author];
 		return (
 			<figure
-				className="surface-card flex h-full w-[82vw] shrink-0 flex-col justify-between gap-8 p-6 md:w-[420px] md:p-7 lg:w-[460px]"
+				className={`surface-card flex h-full shrink-0 flex-col justify-between gap-8 p-6 md:p-7 ${width}`}
 				key={key}
 			>
 				<div>
@@ -70,12 +71,19 @@ export default async function Voices() {
 	return (
 		<SectionWrapper id="voices" surface="alternate">
 			<SectionHeading description={tt("subtitle")} title={tt("title")} />
-			<StaggerChildren className="mt-10 flex flex-col gap-5 overflow-hidden [-webkit-mask-image:linear-gradient(to_right,transparent,black_2rem,black_calc(100%-2rem),transparent)] [mask-image:linear-gradient(to_right,transparent,black_2rem,black_calc(100%-2rem),transparent)] md:mt-14">
+			<ul className="-mx-6 mt-10 flex snap-x snap-mandatory scroll-px-6 gap-4 overflow-x-auto px-6 pb-2 [scrollbar-width:none] md:hidden [&::-webkit-scrollbar]:hidden">
+				{HOME_TESTIMONIAL_KEYS.map((key) => (
+					<li className="flex w-[86%] shrink-0 snap-start" key={key}>
+						{card(key, "w-full")}
+					</li>
+				))}
+			</ul>
+			<StaggerChildren className="mt-14 hidden flex-col gap-5 overflow-hidden [-webkit-mask-image:linear-gradient(to_right,transparent,black_2rem,black_calc(100%-2rem),transparent)] [mask-image:linear-gradient(to_right,transparent,black_2rem,black_calc(100%-2rem),transparent)] md:flex">
 				<Marquee className="[--duration:55s]" repeat={3}>
-					{firstRow.map(card)}
+					{firstRow.map((key) => card(key, "w-[420px] lg:w-[460px]"))}
 				</Marquee>
 				<Marquee className="[--duration:55s]" repeat={3} reverse>
-					{secondRow.map(card)}
+					{secondRow.map((key) => card(key, "w-[420px] lg:w-[460px]"))}
 				</Marquee>
 			</StaggerChildren>
 		</SectionWrapper>
