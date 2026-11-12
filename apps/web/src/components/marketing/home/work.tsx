@@ -24,9 +24,9 @@ export default async function Work() {
 				description={t("subtitle")}
 				title={t("title")}
 			/>
-			{/* Six projects as a wall of their real first screens, two to a row */}
+			{/* Six projects as a bento: one large, two beside it, three below */}
 			<div className="mt-10 md:mt-16">
-				<WorkWall projects={featured} />
+				<WorkWall bento projects={featured} />
 			</div>
 		</SectionWrapper>
 	);

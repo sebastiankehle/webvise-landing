@@ -1,34 +1,15 @@
 import Image from "next/image";
-import { getLocale, getTranslations } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 
 import { ActionLink } from "@/components/marketing/action";
 import HeroWall from "@/components/marketing/home/hero-wall";
 import { GridContainer } from "@/components/marketing/section-wrapper";
-import { getCaseStudies } from "@/data/case-studies";
-
-// Enough screens to fill six columns without a project showing twice in one.
-const WALL_SHOTS = 30;
 
 // The subtitle already says "three weeks", so the line keeps the other two.
 const factKeys = ["0", "2"] as const;
 
 export default async function Hero() {
-	const [t, locale] = await Promise.all([getTranslations("home"), getLocale()]);
-	// Every project's real screens: first each cover, then each second and
-	// third screen, so neighbours on the wall come from different projects.
-	const projects = [
-		...getCaseStudies(locale, { kind: "client" }),
-		...getCaseStudies(locale, { kind: "concept" }),
-	];
-	const shots = [0, 1, 2]
-		.flatMap((round) =>
-			projects.flatMap((project) => {
-				const src =
-					round === 0 ? project.coverImage : project.images?.[round - 1];
-				return src ? [{ alt: project.client, src }] : [];
-			})
-		)
-		.slice(0, WALL_SHOTS);
+	const t = await getTranslations("home");
 
 	return (
 		<section
@@ -111,7 +92,7 @@ export default async function Hero() {
 					</ul>
 
 					<div className="relative mx-auto mt-12 max-w-[1180px] md:mt-16">
-						<HeroWall label={t("stage.wall")} shots={shots} />
+						<HeroWall label={t("stage.wall")} />
 					</div>
 				</div>
 			</GridContainer>

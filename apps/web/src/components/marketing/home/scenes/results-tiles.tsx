@@ -114,25 +114,26 @@ function LighthousePicture({
 	value: string;
 }) {
 	return (
-		<div className={cn(card, "w-[25rem] px-4 py-3.5")}>
+		<div className={cn(card, "w-[25rem] px-4 py-3.5 lg:w-[21rem] lg:p-5")}>
 			<div className={cn("flex items-center justify-between text-xs", quiet)}>
 				<span>Performance</span>
 				<span className="font-mono">Lighthouse</span>
 			</div>
-			<div className="mt-3 flex items-center gap-5">
-				<span className="flex flex-col items-center gap-2">
+			{/* Side by side in a low tile, stacked where the tile stands tall */}
+			<div className="mt-3 flex items-center gap-5 lg:mt-5 lg:flex-col lg:gap-5">
+				<span className="flex flex-col items-center gap-2 lg:gap-3">
 					<Gauge
-						className="size-20"
+						className="size-20 lg:size-36"
 						stroke={9}
-						textClassName="text-3xl"
+						textClassName="text-3xl lg:text-6xl"
 						value={value}
 					/>
-					<span className="text-xs">webvise.io</span>
+					<span className="text-xs lg:text-sm">webvise.io</span>
 				</span>
-				<ul className="min-w-0 flex-1">
+				<ul className="min-w-0 flex-1 lg:w-full lg:flex-none">
 					{scores.map((score, i) => (
 						<li
-							className="rt-fade flex items-center justify-between gap-3 border-[#0e1217]/[0.08] border-b py-1 text-sm last:border-b-0"
+							className="rt-fade flex items-center justify-between gap-3 border-[#0e1217]/[0.08] border-b py-1 text-sm last:border-b-0 lg:py-2"
 							key={score.name}
 							style={index(i * 4)}
 						>
@@ -324,11 +325,11 @@ function WeeksPicture({
 /** A sum that grew, on a small chart, with its end marked. */
 function RaisedPicture({ value }: { value: string }) {
 	return (
-		<div className={cn(card, "relative w-[15rem] p-4")}>
+		<div className={cn(card, "relative w-[16.5rem] p-4 lg:w-[24rem] lg:p-5")}>
 			<span className="rt-pop absolute top-3 right-3 rounded-full bg-[#0e1217] px-2 py-0.5 text-white text-xs">
 				{value}
 			</span>
-			<div className="relative mt-5 h-[5.25rem]">
+			<div className="relative mt-5 h-[5.25rem] lg:h-28">
 				<span className="absolute inset-x-0 top-0 h-px bg-[#0e1217]/[0.07]" />
 				<span className="absolute inset-x-0 top-1/3 h-px bg-[#0e1217]/[0.07]" />
 				<span className="absolute inset-x-0 top-2/3 h-px bg-[#0e1217]/[0.07]" />
@@ -365,11 +366,11 @@ const BARS = [18, 24, 22, 31, 38, 36, 47, 55, 61, 72, 84, 100];
 /** Reach as a rising count, the latest bar marked. */
 function UsersPicture({ value }: { value: string }) {
 	return (
-		<div className={cn(card, "relative w-[15rem] p-4")}>
+		<div className={cn(card, "relative w-[16.5rem] p-4 lg:w-[24rem] lg:p-5")}>
 			<span className="rt-pop absolute top-3 right-3 rounded-full bg-[#0e1217] px-2 py-0.5 text-white text-xs">
 				{value}
 			</span>
-			<div className="mt-5 flex h-[5.25rem] items-end gap-1.5 border-[#0e1217]/[0.14] border-b">
+			<div className="mt-5 flex h-[5.25rem] items-end gap-1.5 border-[#0e1217]/[0.14] border-b lg:h-28 lg:gap-2">
 				{BARS.map((height, i) => (
 					<span
 						className={cn(
@@ -420,85 +421,69 @@ export default function ResultsTiles({
 		return () => observer.disconnect();
 	}, []);
 
-	const find = (kind: ResultKind) => items.find((item) => item.kind === kind);
-	// What webvise measures itself comes first; what clients went on to reach
-	// with the work shares the last card.
-	const cards: { figures: (ResultItem | undefined)[]; picture: ReactNode }[] = [
-		{
-			figures: [find("lighthouse")],
-			picture: (
-				<LighthousePicture
-					scores={scores}
-					value={find("lighthouse")?.value ?? ""}
-				/>
-			),
-		},
-		{
-			figures: [find("projects")],
-			picture: <ProjectsPicture thumbs={thumbs} />,
-		},
-		{
-			figures: [find("weeks")],
-			picture: <WeeksPicture launch={launch} steps={steps} week={week} />,
-		},
-		{
-			figures: [find("raised"), find("users")],
-			picture: (
-				<div className="flex gap-4">
-					<RaisedPicture value={find("raised")?.value ?? ""} />
-					<UsersPicture value={find("users")?.value ?? ""} />
-				</div>
-			),
-		},
-	];
+	const picture = (item: ResultItem): ReactNode => {
+		switch (item.kind) {
+			case "lighthouse":
+				return <LighthousePicture scores={scores} value={item.value} />;
+			case "projects":
+				return <ProjectsPicture thumbs={thumbs} />;
+			case "weeks":
+				return <WeeksPicture launch={launch} steps={steps} week={week} />;
+			case "raised":
+				return <RaisedPicture value={item.value} />;
+			default:
+				return <UsersPicture value={item.value} />;
+		}
+	};
+	// The bento: the Lighthouse report stands tall on the left, the projects
+	// and the three-week launch stack beside it, the two client figures share
+	// the row below.
+	const span: Record<ResultKind, string> = {
+		lighthouse: "lg:col-span-5 lg:row-span-2",
+		projects: "lg:col-span-7",
+		weeks: "lg:col-span-7",
+		raised: "lg:col-span-6",
+		users: "lg:col-span-6",
+	};
 
 	return (
 		<div
-			className="rt mt-10 grid grid-cols-1 gap-5 md:mt-16 lg:grid-cols-2"
+			className="rt mt-10 grid grid-cols-1 gap-5 md:mt-16 lg:grid-cols-12"
 			ref={root}
 		>
-			{cards.map((entry, i) => {
-				const figures = entry.figures.filter((item) => item !== undefined);
-				return (
+			{items.map((item) => (
+				<div
+					className={cn("surface-card flex flex-col p-2", span[item.kind])}
+					key={item.kind}
+				>
+					{/* The picture: the thing the figure counts, drawn in detail */}
 					<div
-						className="surface-card flex flex-col p-2"
-						key={figures.map((item) => item.kind).join("-")}
+						aria-hidden="true"
+						className={cn(
+							"rt-stage flex h-52 items-center justify-center overflow-hidden rounded-[14px] md:h-64",
+							item.kind === "lighthouse" && "lg:h-auto lg:flex-1"
+						)}
+						data-kind={item.kind}
 					>
-						{/* The picture: the thing the figure counts, drawn in detail */}
-						<div
-							aria-hidden="true"
-							className="rt-stage flex h-52 items-center justify-center overflow-hidden rounded-[14px] md:h-64"
-							data-kind={figures[0]?.kind}
-						>
-							<div
-								className={cn(
-									"sm:scale-100",
-									i < 2 ? "scale-[0.78]" : "scale-[0.62]"
-								)}
-							>
-								{entry.picture}
-							</div>
-						</div>
 						<div
 							className={cn(
-								"grid gap-x-6 px-4 pt-5 pb-4 md:px-5",
-								figures.length > 1 && "grid-cols-2"
+								"sm:scale-100",
+								item.kind === "weeks" ? "scale-[0.62]" : "scale-[0.78]"
 							)}
 						>
-							{figures.map((item) => (
-								<div key={item.kind}>
-									<div className="font-display text-3xl text-foreground leading-none md:text-4xl">
-										{item.value}
-									</div>
-									<div className="mt-2.5 text-base text-muted-foreground leading-snug">
-										{item.label}
-									</div>
-								</div>
-							))}
+							{picture(item)}
 						</div>
 					</div>
-				);
-			})}
+					<div className="px-4 pt-5 pb-4 md:px-5">
+						<div className="font-display text-3xl text-foreground leading-none md:text-4xl">
+							{item.value}
+						</div>
+						<div className="mt-2.5 text-base text-muted-foreground leading-snug">
+							{item.label}
+						</div>
+					</div>
+				</div>
+			))}
 		</div>
 	);
 }
