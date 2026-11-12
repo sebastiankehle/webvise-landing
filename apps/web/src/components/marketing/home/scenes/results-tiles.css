@@ -11,26 +11,15 @@
 	box-shadow: inset 0 0 0 1px
 		color-mix(in oklab, var(--foreground) 7%, transparent);
 }
-.rt-stage[data-kind="lighthouse"] {
+.rt-stage[data-kind="lighthouse"],
+.rt-stage[data-kind="users"] {
 	--glow: 66 133 244;
 }
 .rt-stage[data-kind="weeks"] {
-	--glow: 12 206 107;
+	--glow: 3 155 229;
 }
-.rt-stage[data-kind="raised"],
-.rt-stage[data-kind="users"] {
-	--glow: 255 136 26;
-}
-
-/* The picture slot of a wireframe: hatched, as on a layout sketch. */
-.rt-hatch {
-	background:
-		repeating-linear-gradient(
-			135deg,
-			rgb(14 18 23 / 0.1) 0 1px,
-			transparent 1px 5px
-		),
-		rgb(14 18 23 / 0.04);
+.rt-stage[data-kind="raised"] {
+	--glow: 24 128 56;
 }
 
 /* The result drawings rest empty and draw themselves once the tiles are
@@ -38,12 +27,6 @@
 .rt .rt-fade {
 	opacity: 0.14;
 	transition: opacity 0.4s ease-out calc(var(--i) * 34ms);
-}
-.rt .rt-fill {
-	transform: scaleX(0);
-	transform-origin: left;
-	transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1)
-		calc(var(--i) * 0.4s);
 }
 .rt .rt-pop {
 	opacity: 0;
@@ -61,9 +44,6 @@
 .rt[data-seen="true"] .rt-fade {
 	opacity: 1;
 }
-.rt[data-seen="true"] .rt-fill {
-	transform: none;
-}
 .rt[data-seen="true"] .rt-pop {
 	opacity: 1;
 	scale: 1;
@@ -77,10 +57,6 @@
 	.rt .rt-pop {
 		opacity: 1;
 		scale: 1;
-		transition: none;
-	}
-	.rt .rt-fill {
-		transform: none;
 		transition: none;
 	}
 	.rt .rt-draw {

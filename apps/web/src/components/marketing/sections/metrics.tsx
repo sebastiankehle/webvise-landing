@@ -27,12 +27,17 @@ export default async function Metrics() {
 	]);
 	// The three-week story is told with a site that took three weeks.
 	const launched = getCaseStudyBySlug("maerkische-projekt-bau", locale);
-	const launch = {
-		host: launched?.liveUrl
-			? new URL(launched.liveUrl).hostname.replace("www.", "")
-			: "",
-		src: launched?.images?.[3] ?? launched?.coverImage ?? "",
-	};
+	const host = launched?.liveUrl
+		? new URL(launched.liveUrl).hostname.replace("www.", "")
+		: "";
+	// Monday to Friday in the page's language; 1 Jan 2024 was a Monday.
+	const weekday = new Intl.DateTimeFormat(locale, {
+		timeZone: "UTC",
+		weekday: "short",
+	});
+	const days = [1, 2, 3, 4, 5].map((day) =>
+		weekday.format(new Date(Date.UTC(2024, 0, day)))
+	);
 	// Six real client projects stand for the count in the projects tile.
 	const thumbs = getCaseStudies(locale, { kind: "client" })
 		.slice(0, 6)
@@ -45,6 +50,8 @@ export default async function Metrics() {
 		<SectionWrapper hatch id="metrics" surface="inverted">
 			<H2 className="max-w-[640px]">{t("results.title")}</H2>
 			<ResultsTiles
+				days={days}
+				host={host}
 				items={kinds.map((kind) => ({
 					kind,
 					// The Lighthouse figure is the desktop run, and says so.
@@ -54,7 +61,6 @@ export default async function Metrics() {
 							: t(`results.items.${kind}.label`),
 					value: t(`results.items.${kind}.value`),
 				}))}
-				launch={launch}
 				steps={stepKeys.map((key) => t(`results.steps.${key}`))}
 				thumbs={thumbs}
 				week={ts("pictures.week")}

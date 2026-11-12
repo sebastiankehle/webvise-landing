@@ -25,12 +25,6 @@ export interface ResultThumb {
 	src: string;
 }
 
-/** One real site that went live in three weeks: its first screen and address. */
-export interface ResultLaunch {
-	host: string;
-	src: string;
-}
-
 const index = (i: number) => ({ "--i": i }) as CSSProperties;
 
 // The small product cards inside each tile are light, like the screens they show.
@@ -166,284 +160,252 @@ function LighthousePicture({ value }: { value: string }) {
 	);
 }
 
-/** A small browser window: its bar, then whatever the page shows. */
-function Frame({
-	children,
-	className,
-	style,
-}: {
-	children: ReactNode;
-	className?: string;
-	style?: CSSProperties;
-}) {
-	return (
-		<span
-			className={cn(
-				"block overflow-hidden rounded-[9px] bg-white shadow-[0_22px_44px_-20px_rgba(0,0,0,0.6),0_0_0_1px_rgba(14,18,23,0.08)]",
-				className
-			)}
-			style={style}
-		>
-			<span className="flex h-4 items-center gap-1 bg-[#eef0f3] px-2">
-				<i className="size-1 rounded-full bg-[#0e1217]/20" />
-				<i className="size-1 rounded-full bg-[#0e1217]/20" />
-				<i className="size-1 rounded-full bg-[#0e1217]/20" />
-			</span>
-			<span className="relative block aspect-[16/10]">{children}</span>
-		</span>
-	);
-}
+// Google Calendar's event colours: Peacock, Lavender, Basil.
+const EVENT_TONES = ["#039be5", "#7986cb", "#0b8043"];
+const WEEKDAYS = [0, 1, 2, 3, 4];
 
-// Five windows, the middle one in front: order, size and dimming by distance.
-const FAN = [
-	{ dim: 0.5, scale: 0.7, z: 1 },
-	{ dim: 0.78, scale: 0.85, z: 2 },
-	{ dim: 1, scale: 1, z: 3 },
-	{ dim: 0.78, scale: 0.85, z: 2 },
-	{ dim: 0.5, scale: 0.7, z: 1 },
-];
-
-/** Real project screens as a fan of browser windows. */
-function ProjectsPicture({ thumbs }: { thumbs: ResultThumb[] }) {
-	// The first project sits in the middle, the next ones to its sides.
-	const order = [3, 1, 0, 2, 4].flatMap((i) => (thumbs[i] ? [thumbs[i]] : []));
-	return (
-		<div className="flex w-[36rem] items-center justify-center">
-			{order.map((thumb, i) => {
-				const place = FAN[i + Math.floor((FAN.length - order.length) / 2)];
-				return (
-					<Frame
-						className="rt-fade relative -mx-[8%] w-[42%] flex-none"
-						key={thumb.src}
-						style={{
-							...index(Math.abs(i - 2) * 5),
-							filter: `brightness(${place?.dim ?? 1})`,
-							scale: String(place?.scale ?? 1),
-							zIndex: place?.z ?? 1,
-						}}
-					>
-						<Image
-							alt={thumb.alt}
-							className="object-cover object-left-top"
-							fill
-							sizes="260px"
-							src={thumb.src}
-						/>
-					</Frame>
-				);
-			})}
-		</div>
-	);
-}
-
-// Week two's editor: a component's lines, by indent and token. Tags are green,
-// keywords and props orange, everything else plain.
-const CODE_TONES = {
-	key: "bg-brand",
-	tag: "bg-[#6fd3a1]",
-	text: "bg-white/45",
-} as const;
-const CODE: {
-	id: string;
-	indent: number;
-	parts: [keyof typeof CODE_TONES, number][];
-}[] = [
-	{
-		id: "export",
-		indent: 0,
-		parts: [
-			["key", 16],
-			["text", 30],
-		],
-	},
-	{ id: "return", indent: 6, parts: [["key", 14]] },
-	{
-		id: "section",
-		indent: 12,
-		parts: [
-			["tag", 22],
-			["key", 12],
-			["text", 26],
-		],
-	},
-	{
-		id: "h1",
-		indent: 18,
-		parts: [
-			["tag", 8],
-			["text", 52],
-		],
-	},
-	{
-		id: "h1b",
-		indent: 18,
-		parts: [
-			["text", 40],
-			["tag", 9],
-		],
-	},
-	{
-		id: "p",
-		indent: 18,
-		parts: [
-			["tag", 6],
-			["text", 64],
-		],
-	},
-	{
-		id: "button",
-		indent: 18,
-		parts: [
-			["tag", 18],
-			["key", 14],
-			["text", 20],
-		],
-	},
-	{
-		id: "image",
-		indent: 18,
-		parts: [
-			["tag", 16],
-			["key", 10],
-			["text", 34],
-		],
-	},
-	{ id: "close", indent: 12, parts: [["tag", 24]] },
-	{ id: "end", indent: 6, parts: [["text", 6]] },
-];
-
-/** Three weeks of one real launch: the page as a wireframe, as code in the
- * editor, and live under its own address. */
+/** Three weeks of one real launch as a calendar month: a week per row, one
+ * event across each, and the launch day marked as today. The last event
+ * carries the address the site went live under. */
 function WeeksPicture({
-	launch,
+	days,
+	host,
 	steps,
+	title,
 	week,
 }: {
-	launch: ResultLaunch;
+	days: string[];
+	host: string;
 	steps: string[];
+	title: string;
 	week: string;
 }) {
-	const states: ReactNode[] = [
-		// Design: the layout, before any picture or word is final
-		<span className="absolute inset-0 flex bg-white" key="design">
-			<span className="flex w-3/5 flex-col justify-center gap-1.5 px-2.5">
-				<span className="h-1.5 w-4/5 rounded-full bg-[#0e1217]/30" />
-				<span className="h-1.5 w-3/5 rounded-full bg-[#0e1217]/30" />
-				<span className="mt-1 h-1 w-full rounded-full bg-[#0e1217]/10" />
-				<span className="h-1 w-2/3 rounded-full bg-[#0e1217]/10" />
-				<span className="mt-1.5 h-2.5 w-9 rounded-[3px] bg-[#0e1217]/70" />
-			</span>
-			<span className="rt-hatch m-1.5 flex-1 rounded-[4px]" />
-		</span>,
-		// Build: the page as code in an editor, its lines coloured by kind
-		<span
-			className="absolute inset-0 flex gap-1.5 bg-[#0e1217] p-2"
-			key="build"
-		>
-			<span className="flex flex-col gap-[5px] pt-px">
-				{CODE.map((line) => (
-					<i className="h-[3px] w-1.5 rounded-full bg-white/15" key={line.id} />
-				))}
-			</span>
-			<span className="flex min-w-0 flex-1 flex-col gap-[5px] pt-px">
-				{CODE.map((line) => (
-					<span
-						className="flex gap-1"
-						key={line.id}
-						style={{ paddingLeft: line.indent }}
+	return (
+		<div className={cn(card, "w-[31rem] overflow-hidden text-[#202124]")}>
+			<div className="flex items-center gap-2.5 border-[#dadce0] border-b px-3 py-1.5">
+				<span className="rounded-full border border-[#dadce0] px-2.5 py-0.5 text-xs">
+					Today
+				</span>
+				<svg
+					aria-hidden="true"
+					className="h-3 w-7 flex-none text-[#5f6368]"
+					fill="none"
+					stroke="currentColor"
+					strokeLinecap="round"
+					strokeLinejoin="round"
+					strokeWidth="1.5"
+					viewBox="0 0 28 12"
+				>
+					<path d="M7 2 3 6l4 4M21 2l4 4-4 4" />
+				</svg>
+				<span className="text-[0.9375rem]">{title}</span>
+				<span className="ml-auto flex items-center gap-1.5 rounded-full border border-[#dadce0] px-2.5 py-0.5 text-xs">
+					Month
+					<svg
+						aria-hidden="true"
+						className="size-2 text-[#5f6368]"
+						fill="currentColor"
+						viewBox="0 0 8 8"
 					>
-						{line.parts.map(([tone, width]) => (
-							<i
-								className={cn("h-[3px] rounded-full", CODE_TONES[tone])}
-								key={`${tone}-${width}`}
-								style={{ width }}
-							/>
-						))}
+						<path d="M0 2h8L4 7z" />
+					</svg>
+				</span>
+			</div>
+			<div className="grid grid-cols-[3.75rem_repeat(5,minmax(0,1fr))] pb-1">
+				<span />
+				{WEEKDAYS.map((day) => (
+					<span
+						className="border-[#dadce0] border-l py-1 text-center font-medium text-[#5f6368] text-[0.625rem] leading-none"
+						key={day}
+					>
+						{days[day]}
 					</span>
 				))}
-			</span>
-		</span>,
-		// Live: the same page under its address
-		<span className="absolute inset-0" key="live">
-			<Image
-				alt=""
-				className="object-cover object-left-top"
-				fill
-				sizes="200px"
-				src={launch.src}
-			/>
-			<span className="rt-pop absolute bottom-1.5 left-1.5 flex items-center gap-1 rounded-full bg-white px-1.5 py-0.5 text-[#0e1217] text-[0.5625rem] leading-none shadow-[0_4px_10px_-4px_rgba(0,0,0,0.5)]">
-				<i className="size-1.5 rounded-full bg-success" />
-				{launch.host}
-			</span>
-		</span>,
-	];
-	return (
-		<div className="flex w-[31rem] flex-col gap-4">
-			<div className="grid grid-cols-3 gap-3">
-				{states.map((state, i) => (
-					<Frame className="rt-fade" key={steps[i]} style={index(i * 9)}>
-						{state}
-					</Frame>
-				))}
-			</div>
-			<div className="relative h-px bg-foreground/15">
-				<span
-					className="rt-fill absolute inset-0 bg-foreground/70"
-					style={index(0.6)}
-				/>
-			</div>
-			<ol className="grid grid-cols-3 gap-3">
-				{steps.map((step, i) => (
-					<li
-						className="flex items-baseline gap-1.5 text-foreground text-xs"
-						key={step}
-					>
-						<span className="text-foreground/55 tabular-nums">
-							{week} {i + 1}
+				{steps.map((step, row) => (
+					<div className="col-span-6 grid grid-cols-subgrid" key={step}>
+						<span className="border-[#dadce0] border-t px-2 pt-1.5 text-[#5f6368] text-[0.625rem] leading-none">
+							{week} {row + 1}
 						</span>
-						{step}
-					</li>
+						<div className="relative col-span-5 grid h-10 grid-cols-5 border-[#dadce0] border-t">
+							{WEEKDAYS.map((day) => {
+								const today = row === steps.length - 1 && day === 4;
+								return (
+									<span
+										className="border-[#dadce0] border-l px-1 pt-1 text-[#5f6368] text-[0.625rem] leading-none"
+										key={day}
+									>
+										<span
+											className={cn(
+												"inline-grid size-3.5 place-items-center",
+												today && "rounded-full bg-[#1a73e8] text-white"
+											)}
+										>
+											{row * 7 + day + 1}
+										</span>
+									</span>
+								);
+							})}
+							<span
+								className="rt-fade absolute inset-x-1 bottom-1 flex h-[1.125rem] items-center gap-2 rounded-[4px] px-2 font-medium text-[0.6875rem] text-white leading-none"
+								style={{
+									...index(row * 8),
+									backgroundColor: EVENT_TONES[row % EVENT_TONES.length],
+								}}
+							>
+								{step}
+								{row === steps.length - 1 && host && (
+									<span className="font-normal opacity-85">{host}</span>
+								)}
+							</span>
+						</div>
+					</div>
 				))}
-			</ol>
+			</div>
 		</div>
 	);
 }
 
-/** A sum that grew, on a small chart, with its end marked. */
+/** Real projects as files in a Drive folder: each card a project's screen
+ * under its name. The row runs off the edge, as a folder with more in it. */
+function ProjectsPicture({ thumbs }: { thumbs: ResultThumb[] }) {
+	return (
+		<div className={cn(card, "w-[36rem] overflow-hidden text-[#202124]")}>
+			<div className="flex items-center gap-2 px-3.5 pt-2.5 text-[0.9375rem] leading-none">
+				<span className="text-[#5f6368]">My Drive</span>
+				<svg
+					aria-hidden="true"
+					className="size-2.5 text-[#5f6368]"
+					fill="none"
+					stroke="currentColor"
+					strokeLinecap="round"
+					strokeLinejoin="round"
+					strokeWidth="1.5"
+					viewBox="0 0 10 10"
+				>
+					<path d="m3.5 1.5 3.5 3.5-3.5 3.5" />
+				</svg>
+				<span>Projects</span>
+				<span className="ml-auto flex items-center overflow-hidden rounded-full border border-[#dadce0]">
+					<span className="flex h-5 w-7 flex-col items-center justify-center gap-[2px]">
+						<i className="h-px w-2.5 bg-[#5f6368]" />
+						<i className="h-px w-2.5 bg-[#5f6368]" />
+						<i className="h-px w-2.5 bg-[#5f6368]" />
+					</span>
+					<span className="grid h-5 w-7 grid-cols-2 place-content-center gap-[2px] bg-[#c2e7ff]">
+						<i className="size-1 bg-[#001d35]" />
+						<i className="size-1 bg-[#001d35]" />
+						<i className="size-1 bg-[#001d35]" />
+						<i className="size-1 bg-[#001d35]" />
+					</span>
+				</span>
+			</div>
+			<div className="flex gap-3 px-3.5 pt-3 pb-3.5">
+				{thumbs.slice(0, 5).map((thumb, i) => (
+					<div
+						className="rt-fade w-[9.25rem] flex-none rounded-xl bg-[#f0f4f9] p-2"
+						key={thumb.src}
+						style={index(i * 4)}
+					>
+						<div className="flex items-center gap-1.5 pb-2">
+							<span className="grid size-3.5 flex-none place-items-center rounded-[3px] bg-[#1a73e8]">
+								<i className="h-1.5 w-2 rounded-[1px] border border-white" />
+							</span>
+							<span className="min-w-0 flex-1 truncate font-medium text-[0.6875rem] leading-none">
+								{thumb.alt}
+							</span>
+							<span className="flex flex-none flex-col gap-[2px]">
+								<i className="size-[2px] rounded-full bg-[#5f6368]" />
+								<i className="size-[2px] rounded-full bg-[#5f6368]" />
+								<i className="size-[2px] rounded-full bg-[#5f6368]" />
+							</span>
+						</div>
+						<span className="relative block aspect-[16/10] overflow-hidden rounded-md bg-white">
+							<Image
+								alt=""
+								className="object-cover object-left-top"
+								fill
+								sizes="150px"
+								src={thumb.src}
+							/>
+						</span>
+					</div>
+				))}
+			</div>
+		</div>
+	);
+}
+
+const RANGES = ["1M", "6M", "YTD", "1Y", "5Y", "Max"];
+const GROWTH = "M0 56C40 55 70 49 100 44S160 32 190 24S250 10 296 3";
+
+/** A sum that grew, as Google's finance chart draws one: the range tabs,
+ * then the line in its gain green, its end marked. */
 function RaisedPicture({ value }: { value: string }) {
 	return (
-		<div className={cn(card, "relative w-[16.5rem] p-4")}>
-			<span className="rt-pop absolute top-3 right-3 rounded-full bg-[#0e1217] px-2 py-0.5 text-white text-xs">
-				{value}
-			</span>
-			<div className="relative mt-5 h-[5.25rem]">
-				<span className="absolute inset-x-0 top-0 h-px bg-[#0e1217]/[0.07]" />
-				<span className="absolute inset-x-0 top-1/3 h-px bg-[#0e1217]/[0.07]" />
-				<span className="absolute inset-x-0 top-2/3 h-px bg-[#0e1217]/[0.07]" />
-				<span className="absolute inset-x-0 bottom-0 h-px bg-[#0e1217]/[0.14]" />
+		<div className={cn(card, "w-[16.5rem] p-3.5 text-[#202124]")}>
+			<div className="flex items-center gap-2">
+				<span className="font-medium text-[0.9375rem] leading-none">
+					{value}
+				</span>
+				<span className="rt-pop grid size-4 place-items-center rounded-full bg-[#e6f4ea]">
+					<svg
+						aria-hidden="true"
+						className="size-2.5"
+						fill="none"
+						stroke={GOOGLE_PASS}
+						strokeLinecap="round"
+						strokeLinejoin="round"
+						strokeWidth="1.6"
+						viewBox="0 0 10 10"
+					>
+						<path d="M5 8.5v-7M2 4.5l3-3 3 3" />
+					</svg>
+				</span>
+			</div>
+			<div className="mt-2.5 flex gap-3 border-[#dadce0] border-b text-[#5f6368] text-[0.625rem] leading-none">
+				{RANGES.map((range) => (
+					<span
+						className={cn(
+							"-mb-px pb-1.5",
+							range === "Max" &&
+								"border-[#1a73e8] border-b-2 font-medium text-[#1a73e8]"
+						)}
+						key={range}
+					>
+						{range}
+					</span>
+				))}
+			</div>
+			<div className="relative mt-2.5 h-[3.75rem]">
+				<span className="absolute inset-x-0 bottom-0 border-[#dadce0] border-b border-dashed" />
 				<svg
 					aria-hidden="true"
 					className="absolute inset-0 size-full overflow-visible"
 					fill="none"
 					preserveAspectRatio="none"
-					viewBox="0 0 300 84"
+					viewBox="0 0 300 60"
 				>
 					<path
-						className="rt-fade fill-brand/15"
-						d="M0 78C40 76 70 68 100 62S160 46 190 36S250 16 296 6V84H0Z"
+						className="rt-fade"
+						d={`${GROWTH}V60H0Z`}
+						fill={GOOGLE_PASS}
+						fillOpacity="0.1"
 						style={index(18)}
 					/>
 					<path
-						className="rt-draw stroke-brand"
-						d="M0 78C40 76 70 68 100 62S160 46 190 36S250 16 296 6"
+						className="rt-draw"
+						d={GROWTH}
 						pathLength={1}
+						stroke={GOOGLE_PASS}
 						strokeLinecap="round"
-						strokeWidth={2.5}
+						strokeWidth={2}
 						vectorEffect="non-scaling-stroke"
 					/>
 				</svg>
-				<span className="rt-pop absolute top-[2px] right-0 size-2.5 rounded-full bg-brand shadow-[0_0_0_3px_#fff]" />
+				<span
+					className="rt-pop absolute top-0 right-0 size-2 rounded-full shadow-[0_0_0_3px_#fff]"
+					style={{ backgroundColor: GOOGLE_PASS }}
+				/>
 			</div>
 		</div>
 	);
@@ -451,19 +413,38 @@ function RaisedPicture({ value }: { value: string }) {
 
 const BARS = [18, 24, 22, 31, 38, 36, 47, 55, 61, 72, 84, 100];
 
-/** Reach as a rising count, the latest bar marked. */
+/** Reach as an analytics card shows it: the metric, its total, and bars
+ * that rise to the latest one. */
 function UsersPicture({ value }: { value: string }) {
 	return (
-		<div className={cn(card, "relative w-[16.5rem] p-4")}>
-			<span className="rt-pop absolute top-3 right-3 rounded-full bg-[#0e1217] px-2 py-0.5 text-white text-xs">
-				{value}
-			</span>
-			<div className="mt-5 flex h-[5.25rem] items-end gap-1.5 border-[#0e1217]/[0.14] border-b">
+		<div className={cn(card, "w-[16.5rem] p-3.5 text-[#202124]")}>
+			<div className="flex items-start justify-between">
+				<span>
+					<span className="block text-[#5f6368] text-[0.6875rem] leading-none">
+						Users
+					</span>
+					<span className="mt-1.5 block font-medium text-[0.9375rem] leading-none">
+						{value}
+					</span>
+				</span>
+				<span className="flex items-center gap-1.5 rounded-full border border-[#dadce0] px-2 py-1 text-[#5f6368] text-[0.625rem] leading-none">
+					All time
+					<svg
+						aria-hidden="true"
+						className="size-1.5"
+						fill="currentColor"
+						viewBox="0 0 8 8"
+					>
+						<path d="M0 2h8L4 7z" />
+					</svg>
+				</span>
+			</div>
+			<div className="mt-3 flex h-[4.5rem] items-end gap-1.5 border-[#dadce0] border-b">
 				{BARS.map((height, i) => (
 					<span
 						className={cn(
-							"rt-fade flex-1 rounded-t-[3px]",
-							i === BARS.length - 1 ? "bg-brand" : "bg-[#0e1217]/70"
+							"rt-fade flex-1 rounded-t-[2px]",
+							i === BARS.length - 1 ? "bg-[#174ea6]" : "bg-[#1a73e8]"
 						)}
 						key={height}
 						style={{ ...index(i * 2), height: `${height}%` }}
@@ -475,14 +456,18 @@ function UsersPicture({ value }: { value: string }) {
 }
 
 export default function ResultsTiles({
+	days,
+	host,
 	items,
-	launch,
 	steps,
 	thumbs,
 	week,
 }: {
+	/** Monday to Friday, as the locale abbreviates them. */
+	days: string[];
+	/** The address of one site that went live in three weeks. */
+	host: string;
 	items: ResultItem[];
-	launch: ResultLaunch;
 	steps: string[];
 	thumbs: ResultThumb[];
 	week: string;
@@ -514,7 +499,15 @@ export default function ResultsTiles({
 			case "projects":
 				return <ProjectsPicture thumbs={thumbs} />;
 			case "weeks":
-				return <WeeksPicture launch={launch} steps={steps} week={week} />;
+				return (
+					<WeeksPicture
+						days={days}
+						host={host}
+						steps={steps}
+						title={item.value}
+						week={week}
+					/>
+				);
 			case "raised":
 				return <RaisedPicture value={item.value} />;
 			default:
@@ -545,8 +538,8 @@ export default function ResultsTiles({
 	// Each picture is drawn once and scaled to the stage it stands on.
 	const scale: Record<ResultKind, string> = {
 		lighthouse: "",
-		weeks: "scale-[0.56] md:scale-[0.6] xl:scale-[0.8]",
-		projects: "scale-[0.62] md:scale-[0.72] lg:scale-[0.6] xl:scale-[0.7]",
+		weeks: "scale-[0.56] md:scale-[0.6] xl:scale-[0.76]",
+		projects: "scale-[0.48] md:scale-[0.54] xl:scale-[0.7]",
 		raised: "scale-[0.46] md:scale-100 lg:scale-75 xl:scale-[0.94]",
 		users: "scale-[0.46] md:scale-100 lg:scale-75 xl:scale-[0.94]",
 	};
