@@ -34,9 +34,12 @@ function StepSketch({
 			<div className="flex flex-wrap content-center justify-center gap-1.5">
 				{callFacts.map((fact, index) => (
 					<span
-						className={chip}
+						className={`${chip} process-pop`}
 						key={fact}
-						style={{ rotate: `${[-2, 1.5, -1][index % 3]}deg` }}
+						style={{
+							["--i" as string]: index,
+							rotate: `${[-2, 1.5, -1][index % 3]}deg`,
+						}}
 					>
 						{fact}
 					</span>
@@ -50,17 +53,27 @@ function StepSketch({
 					{ left: "0%", width: "46%", mark: "40%" },
 					{ left: "22%", width: "54%", mark: "62%" },
 					{ left: "48%", width: "52%", mark: "88%" },
-				].map((track) => (
+				].map((track, index) => (
 					<div className="relative h-1.5" key={track.left}>
 						<span className={`${bar} absolute inset-0 bg-foreground/[0.07]`} />
 						<span
-							className={`${bar} absolute top-0 bg-foreground/60`}
-							style={{ left: track.left, width: track.width }}
+							className={`${bar} process-grow-x absolute top-0 bg-foreground/60`}
+							style={{
+								["--i" as string]: index,
+								left: track.left,
+								width: track.width,
+							}}
 						/>
+						{/* The milestone lands once its track is drawn */}
 						<span
-							className="absolute top-1/2 size-2.5 -translate-x-1/2 -translate-y-1/2 rotate-45 bg-brand shadow-[0_0_0_2px_var(--card)]"
+							className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2"
 							style={{ left: track.mark }}
-						/>
+						>
+							<span
+								className="process-pop block size-2.5 rotate-45 bg-brand shadow-[0_0_0_2px_var(--card)]"
+								style={{ ["--i" as string]: index + 3 }}
+							/>
+						</span>
 					</div>
 				))}
 			</div>
@@ -70,11 +83,13 @@ function StepSketch({
 			<div className="grid w-full gap-1.5 px-3">
 				{["72%", "58%", "66%"].map((width, index) => (
 					<div
-						className="flex items-center gap-2 rounded-[7px] bg-card px-2 py-1.5 shadow-[0_0_0_1px_rgba(14,18,23,0.07)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.1)]"
+						className="process-rise flex items-center gap-2 rounded-[7px] bg-card px-2 py-1.5 shadow-[0_0_0_1px_rgba(14,18,23,0.07)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.1)]"
 						key={width}
+						style={{ ["--i" as string]: 2 - index }}
 					>
+						{/* The newest preview is the one online */}
 						<span
-							className={`size-1.5 shrink-0 rounded-full ${index === 0 ? "bg-success" : "bg-foreground/25"}`}
+							className={`size-1.5 shrink-0 rounded-full ${index === 0 ? "process-online bg-success" : "bg-foreground/25"}`}
 						/>
 						<span className={`${bar} bg-foreground/15`} style={{ width }} />
 						<span className="ml-auto text-[0.625rem] text-foreground/45 tabular-nums">
@@ -89,10 +104,16 @@ function StepSketch({
 			<div className="flex items-center justify-center gap-2.5">
 				{[0, 1, 2, 3].map((ring) => (
 					<span
-						className="flex size-9 items-center justify-center rounded-full text-success shadow-[inset_0_0_0_2px_currentColor]"
+						className="process-pop flex size-9 items-center justify-center rounded-full text-success shadow-[inset_0_0_0_2px_currentColor]"
 						key={ring}
+						style={{ ["--i" as string]: ring * 1.5 }}
 					>
-						<Check aria-hidden="true" className="size-4" strokeWidth={2.5} />
+						<Check
+							aria-hidden="true"
+							className="process-tick size-4"
+							strokeWidth={2.5}
+							style={{ ["--i" as string]: ring * 1.5 + 1 }}
+						/>
 					</span>
 				))}
 			</div>
@@ -111,10 +132,13 @@ function StepSketch({
 					{[60, 72, 64, 80, 70, 86, 78, 92, 84, 96, 88, 100].map(
 						(height, index) => (
 							<span
-								className="flex-1 rounded-[2px] bg-success/45"
+								className="process-grow-y flex-1 rounded-[2px] bg-success/45"
 								// biome-ignore lint/suspicious/noArrayIndexKey: static decorative bars
 								key={index}
-								style={{ height: `${height}%` }}
+								style={{
+									["--i" as string]: index * 0.5,
+									height: `${height}%`,
+								}}
 							/>
 						)
 					)}
@@ -151,6 +175,7 @@ export default async function Process() {
 						<li
 							className="flex flex-col rounded-[20px] bg-card p-2 shadow-[0_0_0_1px_rgba(14,18,23,0.06),0_24px_48px_-36px_rgba(14,18,23,0.35)] last:sm:col-span-2 last:lg:col-span-1 dark:shadow-[0_0_0_1px_rgba(255,255,255,0.08)]"
 							key={key}
+							style={{ ["--step" as string]: index }}
 						>
 							<StepSketch callFacts={callFacts} step={key} />
 							<div className="px-3 pt-4 pb-3">
@@ -158,10 +183,7 @@ export default async function Process() {
 									aria-hidden="true"
 									className="block h-0.5 overflow-hidden rounded-full bg-foreground/10"
 								>
-									<span
-										className="process-step-line block h-full origin-left bg-brand"
-										style={{ ["--step" as string]: index }}
-									/>
+									<span className="process-step-line block h-full origin-left bg-brand" />
 								</span>
 								<h3 className="mt-4 font-display text-foreground text-lg leading-snug">
 									{t(`steps.${key}.title`)}
