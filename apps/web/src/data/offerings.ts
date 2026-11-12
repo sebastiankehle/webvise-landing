@@ -68,12 +68,14 @@ export const offeringGroups: OfferingGroup[] = [
 			systemOffering("client-portals-business-apps", "operate"),
 			systemOffering("booking-event-platforms", "operate"),
 			serviceOffering("full-stack-applications", "operate"),
+			serviceOffering("coaching", "operate"),
 		],
 	},
 	{
 		key: "automate",
 		items: [
 			serviceOffering("ai-consulting", "automate"),
+			serviceOffering("ai-chatbots", "automate"),
 			systemOffering("company-brain-memory-systems", "automate"),
 			serviceOffering("ai-automation", "automate"),
 			systemOffering("agentic-workflow-automation", "automate"),

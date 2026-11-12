@@ -42,10 +42,38 @@ export const services: Service[] = [
 		painPointCount: 3,
 		faqCount: 4,
 		proof: {
-			// The work is judged on this site itself: its own Lighthouse report,
-			// structured data and llms.txt.
-			caseStudySlug: "webvise",
-			image: "/images/case-studies/webvise/hero-v2.webp",
+			// The site that ranks first for its search four weeks after relaunch.
+			caseStudySlug: "maerkische-projekt-bau",
+			image: "/images/case-studies/mp-bau-construction/site-hero.webp",
+			still: true,
+		},
+	},
+	{
+		slug: "coaching",
+		translationKey: "coaching",
+		featureCount: 6,
+		deliverableCount: 5,
+		toolCount: 5,
+		painPointCount: 3,
+		faqCount: 4,
+		proof: {
+			caseStudySlug: "rautenberg-pitch-engine",
+			image:
+				"/images/case-studies/rautenberg-pitch-engine/vault-structure.webp?v=20261111-eagle-obsidian",
+		},
+	},
+	{
+		slug: "ai-chatbots",
+		translationKey: "aiChatbots",
+		featureCount: 6,
+		deliverableCount: 5,
+		toolCount: 5,
+		painPointCount: 3,
+		faqCount: 4,
+		proof: {
+			// The assistant on the Märkische Projekt Bau website, live.
+			caseStudySlug: "maerkische-projekt-bau",
+			image: "/images/case-studies/mp-bau-construction/chatbot.webp?v=065b54f",
 			still: true,
 		},
 	},
@@ -137,6 +165,8 @@ export const serviceCaseStudies: Record<string, string[]> = {
 export const relatedServices: Record<string, string[]> = {
 	"landing-pages": ["wordpress-migration", "mvp-development"],
 	"seo-geo": ["landing-pages", "wordpress-migration"],
+	coaching: ["mvp-development", "full-stack-applications"],
+	"ai-chatbots": ["ai-automation", "ai-consulting"],
 	"wordpress-migration": ["landing-pages", "full-stack-applications"],
 	"ai-consulting": ["ai-automation", "mvp-development"],
 	"mvp-development": ["full-stack-applications", "ai-consulting"],

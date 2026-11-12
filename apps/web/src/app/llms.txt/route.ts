@@ -8,6 +8,8 @@ const baseUrl = SITE_URL;
 const offeringNames: Record<string, string> = {
 	"landing-pages": "Landing Pages and Launch Sites",
 	"seo-geo": "SEO and GEO",
+	coaching: "Coaching for Founders and Teams",
+	"ai-chatbots": "AI Chatbots and Assistants",
 	"mvp-development": "MVPs and Product Prototypes",
 	"website-to-app-upgrades": "Website Workflow Layers",
 	"wordpress-migration": "WordPress and Legacy Migrations",
@@ -32,6 +34,10 @@ const offeringDescriptions: Record<string, string> = {
 		"Fast campaign and marketing pages with analytics, lead capture, and strong performance.",
 	"seo-geo":
 		"Technical SEO and generative engine optimization: crawlable, fast pages with structured data and llms.txt, so search engines rank them and AI assistants can cite them.",
+	coaching:
+		"Sessions on the client's own code: architecture, code reviews, deployment and AI-assisted development, until the team ships without outside help.",
+	"ai-chatbots":
+		"AI assistants for websites, support and internal questions that answer from the client's own content, cite their source and hand requests to the team.",
 	"mvp-development":
 		"Lean first versions with auth, core workflows, data, deployment, and validation loops.",
 	"website-to-app-upgrades":
