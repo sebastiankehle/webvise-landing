@@ -69,7 +69,7 @@ export const services: Service[] = [
 		deliverableCount: 5,
 		toolCount: 5,
 		painPointCount: 3,
-		faqCount: 4,
+		faqCount: 5,
 		proof: {
 			// The assistant on the Märkische Projekt Bau website, live.
 			caseStudySlug: "maerkische-projekt-bau",

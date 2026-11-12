@@ -9,7 +9,7 @@ const offeringNames: Record<string, string> = {
 	"landing-pages": "Landing Pages and Launch Sites",
 	"seo-geo": "SEO and GEO",
 	coaching: "Coaching for Founders and Teams",
-	"ai-chatbots": "AI Chatbots and Assistants",
+	"ai-chatbots": "AI Chatbots and Phone Assistants",
 	"mvp-development": "MVPs and Product Prototypes",
 	"website-to-app-upgrades": "Website Workflow Layers",
 	"wordpress-migration": "WordPress and Legacy Migrations",
@@ -37,7 +37,7 @@ const offeringDescriptions: Record<string, string> = {
 	coaching:
 		"Sessions on the client's own code: architecture, code reviews, deployment and AI-assisted development, until the team ships without outside help.",
 	"ai-chatbots":
-		"AI assistants for websites, support and internal questions that answer from the client's own content, cite their source and hand requests to the team.",
+		"AI assistants for websites, phone lines, support and internal questions that answer from the client's own content, cite their source and hand requests to the team.",
 	"mvp-development":
 		"Lean first versions with auth, core workflows, data, deployment, and validation loops.",
 	"website-to-app-upgrades":
