@@ -39,19 +39,37 @@
 	}
 }
 
-/* A long page inside its frame rests at its top, scrolls to its end and
-   comes back. */
+/* A long page inside its frame scrolls the way a visitor scrolls it: four
+   stretches with a pause after each, a longer look at the end, then a quick
+   return to the top. The ease applies to every stretch. */
 .hw-page {
-	animation: hw-page var(--hw-page-seconds) ease-in-out infinite alternate;
+	animation: hw-page 15s cubic-bezier(0.45, 0, 0.2, 1) var(--hw-page-delay)
+		infinite;
 }
 @keyframes hw-page {
 	0%,
-	6% {
+	10% {
 		transform: translateY(0);
 	}
-	94%,
-	100% {
+	16%,
+	26% {
+		transform: translateY(calc(var(--hw-page-to) * 0.25));
+	}
+	32%,
+	42% {
+		transform: translateY(calc(var(--hw-page-to) * 0.5));
+	}
+	48%,
+	58% {
+		transform: translateY(calc(var(--hw-page-to) * 0.75));
+	}
+	64%,
+	80% {
 		transform: translateY(var(--hw-page-to));
+	}
+	88%,
+	100% {
+		transform: translateY(0);
 	}
 }
 

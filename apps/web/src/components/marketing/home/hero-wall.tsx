@@ -107,17 +107,16 @@ const frame =
 const SCREEN_SIZES = "(min-width: 1024px) 330px, (min-width: 640px) 30vw, 50vw";
 const PHONE_SIZES = "(min-width: 1024px) 160px, (min-width: 640px) 14vw, 25vw";
 
-/** What a frame shows: a still that fills it, or a long page that scrolls to
- * its end and back. `shape` is the frame's height over its width, `pace` the
- * seconds the page takes to travel one frame width. */
+/** What a frame shows: a still that fills it, or a long page that scrolls the
+ * way a visitor scrolls it: a stretch at a time, a pause to read, then back to
+ * the top. `shape` is the frame's height over its width. Each page starts at
+ * its own point of the cycle, so the scrolling never happens in step. */
 function Picture({
-	pace,
 	page,
 	shape,
 	sizes,
 	src,
 }: {
-	pace: number;
 	page?: number;
 	shape: number;
 	sizes: string;
@@ -135,12 +134,15 @@ function Picture({
 			/>
 		);
 	}
+	// A start point from the file name, so pages in view move at different times.
+	const start =
+		([...src].reduce((sum, char) => sum + char.charCodeAt(0), 0) * 7) % 15;
 	return (
 		<span
 			className="hw-page absolute inset-x-0 top-0 block"
 			style={
 				{
-					"--hw-page-seconds": `${Math.round((page - shape) * pace)}s`,
+					"--hw-page-delay": `-${start}s`,
 					"--hw-page-to": `${((shape / page - 1) * 100).toFixed(2)}%`,
 					aspectRatio: `1 / ${page}`,
 				} as CSSProperties
@@ -190,7 +192,6 @@ export default function HeroWall({ label }: { label: string }) {
 											{tile.phones.map((phone) => (
 												<span className={cn(frame, "flex-1")} key={phone.src}>
 													<Picture
-														pace={6}
 														page={phone.page}
 														shape={PHONE_FRAME}
 														sizes={PHONE_SIZES}
@@ -209,7 +210,6 @@ export default function HeroWall({ label }: { label: string }) {
 										key={`${round}-${tile.src}`}
 									>
 										<Picture
-											pace={13}
 											page={tile.page}
 											shape={tile.wide ? 0.5 : 0.625}
 											sizes={SCREEN_SIZES}
