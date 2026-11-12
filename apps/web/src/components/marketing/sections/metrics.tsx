@@ -8,12 +8,6 @@ import { H2 } from "@/components/ui/typography";
 import { getCaseStudies, getCaseStudyBySlug } from "@/data/case-studies";
 
 const stepKeys = ["0", "1", "2"] as const;
-// Client sites whose first figure is their own Lighthouse score.
-const scoreSlugs = [
-	"old-world-labs",
-	"finanzierungszertifikat",
-	"maerkische-projekt-bau",
-] as const;
 
 const kinds: ResultKind[] = [
 	"lighthouse",
@@ -39,13 +33,6 @@ export default async function Metrics() {
 			: "",
 		src: launched?.images?.[3] ?? launched?.coverImage ?? "",
 	};
-	const scores = scoreSlugs.flatMap((slug) => {
-		const project = getCaseStudyBySlug(slug, locale);
-		const score = project?.metrics?.[0];
-		return project && score
-			? [{ name: project.client, value: score.value }]
-			: [];
-	});
 	// Six real client projects stand for the count in the projects tile.
 	const thumbs = getCaseStudies(locale, { kind: "client" })
 		.slice(0, 6)
@@ -64,7 +51,6 @@ export default async function Metrics() {
 					value: t(`results.items.${kind}.value`),
 				}))}
 				launch={launch}
-				scores={scores}
 				steps={stepKeys.map((key) => t(`results.steps.${key}`))}
 				thumbs={thumbs}
 				week={ts("pictures.week")}

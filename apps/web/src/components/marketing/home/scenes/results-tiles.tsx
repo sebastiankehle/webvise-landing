@@ -25,11 +25,6 @@ export interface ResultThumb {
 	src: string;
 }
 
-export interface ResultScore {
-	name: string;
-	value: string;
-}
-
 /** One real site that went live in three weeks: its first screen and address. */
 export interface ResultLaunch {
 	host: string;
@@ -104,54 +99,68 @@ function Gauge({
 	);
 }
 
-/** The report as Lighthouse prints it: this site's score, and the scores of
- * three client sites measured the same way. */
-function LighthousePicture({
-	scores,
-	value,
-}: {
-	scores: ResultScore[];
-	value: string;
-}) {
+// What Lighthouse 12.8 measured on www.webvise.io, mobile, on 12 Nov 2026.
+// The performance score itself comes in as the tile's own figure.
+const CATEGORIES: { label: string; score?: string }[] = [
+	{ label: "Performance" },
+	{ label: "Accessibility", score: "97" },
+	{ label: "Best Practices", score: "100" },
+	{ label: "SEO", score: "100" },
+];
+// Lighthouse marks a metric by its range: a green dot passes, an orange
+// square needs work. LCP sits in the middle range on a phone.
+const METRICS: { good: boolean; name: string; value: string }[] = [
+	{ good: true, name: "First Contentful Paint", value: "1.4 s" },
+	{ good: false, name: "Largest Contentful Paint", value: "2.9 s" },
+	{ good: true, name: "Total Blocking Time", value: "10 ms" },
+	{ good: true, name: "Cumulative Layout Shift", value: "0" },
+	{ good: true, name: "Speed Index", value: "1.4 s" },
+];
+
+/** The Lighthouse report as Chrome prints it: the four category gauges, the
+ * large performance gauge with its legend, then the five metrics. A low tile
+ * shows the gauges and legend only; the tall tile shows the whole report. */
+function LighthousePicture({ value }: { value: string }) {
 	return (
-		<div className={cn(card, "w-[25rem] px-4 py-3.5 lg:w-[21rem] lg:p-5")}>
-			<div className={cn("flex items-center justify-between text-xs", quiet)}>
-				<span>Performance</span>
-				<span className="font-mono">Lighthouse</span>
+		<div className={cn(card, "w-[25rem] px-4 py-3.5 lg:w-[22rem] lg:p-5")}>
+			<div
+				className={cn("flex items-center justify-between gap-3 text-xs", quiet)}
+			>
+				<span className="truncate">https://www.webvise.io/</span>
+				<span className="flex-none">Mobile</span>
 			</div>
-			{/* Side by side in a low tile, stacked where the tile stands tall */}
-			<div className="mt-3 flex items-center gap-5 lg:mt-5 lg:flex-col lg:gap-5">
-				<span className="flex flex-col items-center gap-2 lg:gap-3">
-					<Gauge
-						className="size-20 lg:size-36"
-						stroke={9}
-						textClassName="text-3xl lg:text-6xl"
-						value={value}
-					/>
-					<span className="text-xs lg:text-sm">webvise.io</span>
-				</span>
-				<ul className="min-w-0 flex-1 lg:w-full lg:flex-none">
-					{scores.map((score, i) => (
-						<li
-							className="rt-fade flex items-center justify-between gap-3 border-[#0e1217]/[0.08] border-b py-1 text-sm last:border-b-0 lg:py-2"
-							key={score.name}
-							style={index(i * 4)}
-						>
-							<span className="min-w-0 truncate">{score.name}</span>
-							<Gauge
-								className="size-8"
-								stroke={12}
-								textClassName="text-[0.6875rem]"
-								value={score.value}
-							/>
-						</li>
-					))}
-				</ul>
+			<ul className="mt-3 grid grid-cols-4 gap-1 lg:mt-4">
+				{CATEGORIES.map((category, i) => (
+					<li
+						className="rt-fade flex flex-col items-center gap-1.5 text-center"
+						key={category.label}
+						style={index(i * 3)}
+					>
+						<Gauge
+							className="size-11"
+							stroke={10}
+							textClassName="text-sm"
+							value={category.score ?? value}
+						/>
+						<span className="text-[0.625rem] leading-tight">
+							{category.label}
+						</span>
+					</li>
+				))}
+			</ul>
+			<div className="mt-4 hidden flex-col items-center border-[#0e1217]/[0.08] border-t pt-5 lg:flex">
+				<Gauge
+					className="size-32"
+					stroke={8}
+					textClassName="text-5xl"
+					value={value}
+				/>
+				<span className="mt-3 text-xl">Performance</span>
 			</div>
 			{/* The report's own legend: fail, average, pass */}
 			<ul
 				className={cn(
-					"mt-3 flex items-center gap-4 border-[#0e1217]/[0.08] border-t pt-2.5 font-mono text-[0.6875rem]",
+					"mt-3 flex items-center justify-center gap-4 font-mono text-[0.6875rem]",
 					quiet
 				)}
 			>
@@ -171,6 +180,39 @@ function LighthousePicture({
 					90–100
 				</li>
 			</ul>
+			<div className="mt-4 hidden border-[#0e1217]/[0.08] border-t pt-3 lg:block">
+				<p className={cn("font-mono text-[0.625rem] tracking-[0.08em]", quiet)}>
+					METRICS
+				</p>
+				<ul className="mt-1.5">
+					{METRICS.map((metric, i) => (
+						<li
+							className="rt-fade flex items-center gap-2.5 border-[#0e1217]/[0.08] border-b py-1.5 text-[0.8125rem] last:border-b-0"
+							key={metric.name}
+							style={index(8 + i * 3)}
+						>
+							<span
+								className={cn(
+									"size-2 flex-none",
+									metric.good ? "rounded-full" : "bg-[#ffa400]"
+								)}
+								style={
+									metric.good ? { backgroundColor: LIGHTHOUSE_PASS } : undefined
+								}
+							/>
+							<span className="min-w-0 flex-1 truncate">{metric.name}</span>
+							<span
+								className={cn(
+									"flex-none tabular-nums",
+									metric.good ? "text-[#018642]" : "text-[#c33300]"
+								)}
+							>
+								{metric.value}
+							</span>
+						</li>
+					))}
+				</ul>
+			</div>
 		</div>
 	);
 }
@@ -486,14 +528,12 @@ function UsersPicture({ value }: { value: string }) {
 export default function ResultsTiles({
 	items,
 	launch,
-	scores,
 	steps,
 	thumbs,
 	week,
 }: {
 	items: ResultItem[];
 	launch: ResultLaunch;
-	scores: ResultScore[];
 	steps: string[];
 	thumbs: ResultThumb[];
 	week: string;
@@ -521,7 +561,7 @@ export default function ResultsTiles({
 	const picture = (item: ResultItem): ReactNode => {
 		switch (item.kind) {
 			case "lighthouse":
-				return <LighthousePicture scores={scores} value={item.value} />;
+				return <LighthousePicture value={item.value} />;
 			case "projects":
 				return <ProjectsPicture thumbs={thumbs} />;
 			case "weeks":
