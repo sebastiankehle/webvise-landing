@@ -31,187 +31,136 @@ export interface ResultLaunch {
 	src: string;
 }
 
-// Lighthouse's own gauge and its pass green, darkened for type on white.
-const RADIUS = 52;
-const RING = 2 * Math.PI * RADIUS;
-const LIGHTHOUSE_PASS = "#0cce6b";
 const index = (i: number) => ({ "--i": i }) as CSSProperties;
 
 // The small product cards inside each tile are light, like the screens they show.
 const card =
 	"rounded-[12px] bg-white text-[#0e1217] shadow-[0_24px_48px_-24px_rgba(0,0,0,0.6),0_0_0_1px_rgba(14,18,23,0.08)]";
-const quiet = "text-[#5b6470]";
 
-function Gauge({
-	className,
-	stroke,
-	textClassName,
-	value,
-}: {
-	className: string;
-	stroke: number;
-	textClassName: string;
-	value: string;
-}) {
-	return (
-		<span
-			className={cn("relative grid flex-none place-items-center", className)}
-		>
-			<svg
-				aria-hidden="true"
-				className="absolute inset-0 size-full -rotate-90"
-				viewBox="0 0 120 120"
-			>
-				<circle
-					cx="60"
-					cy="60"
-					fill={LIGHTHOUSE_PASS}
-					fillOpacity="0.12"
-					r={RADIUS}
-				/>
-				<circle
-					className="rt-ring"
-					cx="60"
-					cy="60"
-					fill="none"
-					r={RADIUS}
-					stroke={LIGHTHOUSE_PASS}
-					strokeDasharray={RING}
-					strokeLinecap="round"
-					strokeWidth={stroke}
-					style={
-						{
-							"--from": RING,
-							"--to": RING * (1 - Number.parseFloat(value) / 100),
-						} as CSSProperties
-					}
-				/>
-			</svg>
-			<span
-				className={cn(
-					"relative font-display text-[#018642] tabular-nums leading-none",
-					textClassName
-				)}
-			>
-				{value}
-			</span>
-		</span>
-	);
-}
+// Google's pass green, as its tools print a good value.
+const GOOGLE_PASS = "#188038";
 
-// What Lighthouse 12.8 measured on www.webvise.io, mobile, on 12 Nov 2026.
-// The performance score itself comes in as the tile's own figure.
-const CATEGORIES: { label: string; score?: string }[] = [
-	{ label: "Performance" },
-	{ label: "Accessibility", score: "97" },
-	{ label: "Best Practices", score: "100" },
-	{ label: "SEO", score: "100" },
+// What Lighthouse 12.8 measured on www.webvise.io, desktop, on 12 Nov 2026:
+// the median of five runs. The performance score itself comes in as the
+// tile's own figure. The four tones are Search Console's report tiles.
+const CATEGORIES: { label: string; score?: string; tone: string }[] = [
+	{ label: "Performance", tone: "#4285f4" },
+	{ label: "Accessibility", score: "97", tone: "#5e35b1" },
+	{ label: "Best Practices", score: "100", tone: "#00897b" },
+	{ label: "SEO", score: "100", tone: "#e8710a" },
 ];
-// Lighthouse marks a metric by its range: a green dot passes, an orange
-// square needs work. LCP sits in the middle range on a phone.
-const METRICS: { good: boolean; name: string; value: string }[] = [
-	{ good: true, name: "First Contentful Paint", value: "1.4 s" },
-	{ good: false, name: "Largest Contentful Paint", value: "2.9 s" },
-	{ good: true, name: "Total Blocking Time", value: "10 ms" },
-	{ good: true, name: "Cumulative Layout Shift", value: "0" },
-	{ good: true, name: "Speed Index", value: "1.4 s" },
+const METRICS: { name: string; value: string }[] = [
+	{ name: "First Contentful Paint", value: "0.3 s" },
+	{ name: "Largest Contentful Paint", value: "0.6 s" },
+	{ name: "Total Blocking Time", value: "0 ms" },
+	{ name: "Cumulative Layout Shift", value: "0" },
+	{ name: "Speed Index", value: "0.5 s" },
 ];
 
-/** The Lighthouse report as Chrome prints it: the four category gauges, the
- * large performance gauge with its legend, then the five metrics. A low tile
- * shows the gauges and legend only; the tall tile shows the whole report. */
+/** The measurement in the look of Google's Search Console: the bar with the
+ * address, the filter chips, the four coloured report tiles, then the table
+ * of metrics. A phone shows it down to the tiles; from a tablet up the table
+ * follows and the panel fills its stage. */
 function LighthousePicture({ value }: { value: string }) {
 	return (
-		<div className={cn(card, "w-[25rem] px-4 py-3.5 lg:w-[22rem] lg:p-5")}>
-			<div
-				className={cn("flex items-center justify-between gap-3 text-xs", quiet)}
-			>
-				<span className="truncate">https://www.webvise.io/</span>
-				<span className="flex-none">Mobile</span>
+		<div
+			className={cn(
+				card,
+				"@container flex w-full flex-col overflow-hidden text-[#202124]"
+			)}
+		>
+			<div className="flex items-center gap-2.5 border-[#dadce0] border-b px-3 py-2">
+				<span className="flex flex-none flex-col gap-[3px]">
+					<i className="h-[1.5px] w-3.5 bg-[#5f6368]" />
+					<i className="h-[1.5px] w-3.5 bg-[#5f6368]" />
+					<i className="h-[1.5px] w-3.5 bg-[#5f6368]" />
+				</span>
+				<span className="flex-none text-[#5f6368] text-sm">Lighthouse</span>
+				<span className="flex min-w-0 flex-1 items-center gap-1.5 rounded-md bg-[#f1f3f4] px-2 py-1 text-[#5f6368] text-[0.6875rem]">
+					<svg
+						aria-hidden="true"
+						className="size-3 flex-none"
+						fill="none"
+						stroke="currentColor"
+						strokeLinecap="round"
+						strokeWidth="1.4"
+						viewBox="0 0 12 12"
+					>
+						<circle cx="5.2" cy="5.2" r="3.4" />
+						<path d="m7.8 7.8 2.6 2.6" />
+					</svg>
+					<span className="truncate">https://www.webvise.io/</span>
+				</span>
+				<span className="grid size-5 flex-none place-items-center rounded-full bg-[#1a73e8] font-medium text-[0.625rem] text-white leading-none">
+					w
+				</span>
 			</div>
-			<ul className="mt-3 grid grid-cols-4 gap-1 lg:mt-4">
+			<div className="flex items-center gap-1.5 px-3 pt-2.5 text-[0.6875rem] leading-none">
+				<span className="rounded-full border border-[#dadce0] px-2 py-1">
+					Device: Desktop
+				</span>
+				<span className="rounded-full border border-[#dadce0] px-2 py-1">
+					Date: 12 Nov 2026
+				</span>
+				<span className="ml-auto @[24rem]:block hidden text-[#5f6368]">
+					Lighthouse 12.8
+				</span>
+			</div>
+			<ul className="mx-3 mt-2.5 mb-3 grid grid-cols-4 overflow-hidden rounded-lg md:mb-0">
 				{CATEGORIES.map((category, i) => (
 					<li
-						className="rt-fade flex flex-col items-center gap-1.5 text-center"
+						className="rt-fade flex flex-col gap-1.5 @[24rem]:px-2 px-1.5 py-2 text-white"
 						key={category.label}
-						style={index(i * 3)}
+						style={{ ...index(i * 3), backgroundColor: category.tone }}
 					>
-						<Gauge
-							className="size-11"
-							stroke={10}
-							textClassName="text-sm"
-							value={category.score ?? value}
-						/>
-						<span className="text-[0.625rem] leading-tight">
+						<span className="flex min-h-[1.375rem] items-start gap-1 @[24rem]:text-[0.625rem] text-[0.5625rem] leading-[1.2]">
+							<svg
+								aria-hidden="true"
+								className="mt-px @[24rem]:block hidden size-2.5 flex-none"
+								viewBox="0 0 12 12"
+							>
+								<rect fill="#fff" height="12" rx="2" width="12" />
+								<path
+									d="M3 6.2 5.1 8.3 9 4"
+									fill="none"
+									stroke={category.tone}
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									strokeWidth="1.6"
+								/>
+							</svg>
 							{category.label}
+						</span>
+						<span className="@[24rem]:text-2xl text-xl tabular-nums leading-none">
+							{category.score ?? value}
 						</span>
 					</li>
 				))}
 			</ul>
-			<div className="mt-4 hidden flex-col items-center border-[#0e1217]/[0.08] border-t pt-5 lg:flex">
-				<Gauge
-					className="size-32"
-					stroke={8}
-					textClassName="text-5xl"
-					value={value}
-				/>
-				<span className="mt-3 text-xl">Performance</span>
-			</div>
-			{/* The report's own legend: fail, average, pass */}
-			<ul
-				className={cn(
-					"mt-3 flex items-center justify-center gap-4 font-mono text-[0.6875rem]",
-					quiet
-				)}
-			>
-				<li className="flex items-center gap-1.5">
-					<span className="size-0 border-x-[4px] border-x-transparent border-b-[#ff4e42] border-b-[7px]" />
-					0–49
-				</li>
-				<li className="flex items-center gap-1.5">
-					<span className="size-2 bg-[#ffa400]" />
-					50–89
-				</li>
-				<li className="flex items-center gap-1.5">
-					<span
-						className="size-2 rounded-full"
-						style={{ backgroundColor: LIGHTHOUSE_PASS }}
-					/>
-					90–100
-				</li>
-			</ul>
-			<div className="mt-4 hidden border-[#0e1217]/[0.08] border-t pt-3 lg:block">
-				<p className={cn("font-mono text-[0.625rem] tracking-[0.08em]", quiet)}>
-					METRICS
-				</p>
-				<ul className="mt-1.5">
-					{METRICS.map((metric, i) => (
-						<li
-							className="rt-fade flex items-center gap-2.5 border-[#0e1217]/[0.08] border-b py-1.5 text-[0.8125rem] last:border-b-0"
-							key={metric.name}
-							style={index(8 + i * 3)}
+			<div className="hidden flex-1 flex-col px-3 pt-1 pb-1.5 md:flex">
+				<div className="flex justify-between border-[#dadce0] border-b py-2 font-medium text-[#5f6368] text-[0.6875rem] leading-none">
+					<span>Metric</span>
+					<span>Value</span>
+				</div>
+				{METRICS.map((metric, i) => (
+					<div
+						className="rt-fade flex min-h-7 flex-1 items-center gap-2 border-[#dadce0] border-b text-[0.8125rem] last:border-b-0"
+						key={metric.name}
+						style={index(8 + i * 3)}
+					>
+						<span
+							className="size-2 flex-none rounded-full"
+							style={{ backgroundColor: GOOGLE_PASS }}
+						/>
+						<span className="min-w-0 flex-1 truncate">{metric.name}</span>
+						<span
+							className="flex-none tabular-nums"
+							style={{ color: GOOGLE_PASS }}
 						>
-							<span
-								className={cn(
-									"size-2 flex-none",
-									metric.good ? "rounded-full" : "bg-[#ffa400]"
-								)}
-								style={
-									metric.good ? { backgroundColor: LIGHTHOUSE_PASS } : undefined
-								}
-							/>
-							<span className="min-w-0 flex-1 truncate">{metric.name}</span>
-							<span
-								className={cn(
-									"flex-none tabular-nums",
-									metric.good ? "text-[#018642]" : "text-[#c33300]"
-								)}
-							>
-								{metric.value}
-							</span>
-						</li>
-					))}
-				</ul>
+							{metric.value}
+						</span>
+					</div>
+				))}
 			</div>
 		</div>
 	);
@@ -464,11 +413,11 @@ function WeeksPicture({
 /** A sum that grew, on a small chart, with its end marked. */
 function RaisedPicture({ value }: { value: string }) {
 	return (
-		<div className={cn(card, "relative w-[16.5rem] p-4 lg:w-[24rem] lg:p-5")}>
+		<div className={cn(card, "relative w-[16.5rem] p-4")}>
 			<span className="rt-pop absolute top-3 right-3 rounded-full bg-[#0e1217] px-2 py-0.5 text-white text-xs">
 				{value}
 			</span>
-			<div className="relative mt-5 h-[5.25rem] lg:h-28">
+			<div className="relative mt-5 h-[5.25rem]">
 				<span className="absolute inset-x-0 top-0 h-px bg-[#0e1217]/[0.07]" />
 				<span className="absolute inset-x-0 top-1/3 h-px bg-[#0e1217]/[0.07]" />
 				<span className="absolute inset-x-0 top-2/3 h-px bg-[#0e1217]/[0.07]" />
@@ -505,11 +454,11 @@ const BARS = [18, 24, 22, 31, 38, 36, 47, 55, 61, 72, 84, 100];
 /** Reach as a rising count, the latest bar marked. */
 function UsersPicture({ value }: { value: string }) {
 	return (
-		<div className={cn(card, "relative w-[16.5rem] p-4 lg:w-[24rem] lg:p-5")}>
+		<div className={cn(card, "relative w-[16.5rem] p-4")}>
 			<span className="rt-pop absolute top-3 right-3 rounded-full bg-[#0e1217] px-2 py-0.5 text-white text-xs">
 				{value}
 			</span>
-			<div className="mt-5 flex h-[5.25rem] items-end gap-1.5 border-[#0e1217]/[0.14] border-b lg:h-28 lg:gap-2">
+			<div className="mt-5 flex h-[5.25rem] items-end gap-1.5 border-[#0e1217]/[0.14] border-b">
 				{BARS.map((height, i) => (
 					<span
 						className={cn(
@@ -572,50 +521,78 @@ export default function ResultsTiles({
 				return <UsersPicture value={item.value} />;
 		}
 	};
-	// The bento: the Lighthouse report stands tall on the left, the projects
-	// and the three-week launch stack beside it, the two client figures share
-	// the row below.
-	const span: Record<ResultKind, string> = {
-		lighthouse: "lg:col-span-5 lg:row-span-2",
-		projects: "lg:col-span-7",
-		weeks: "lg:col-span-7",
-		raised: "lg:col-span-6",
-		users: "lg:col-span-6",
+	// The bento: Google's panel stands tall on the left. Beside it the launch
+	// and the projects stack wide, the two client figures narrow. A tablet sets
+	// two columns; a phone stacks the tiles and lays the two charts flat beside
+	// their figures.
+	const tile: Record<ResultKind, string> = {
+		lighthouse:
+			"flex-col md:row-span-2 lg:col-span-9 lg:col-start-1 lg:row-start-1",
+		weeks: "flex-col lg:col-span-9 lg:col-start-10 lg:row-start-1",
+		projects: "flex-col lg:col-span-9 lg:col-start-10 lg:row-start-2",
+		raised:
+			"flex-row-reverse md:flex-col lg:col-span-6 lg:col-start-19 lg:row-start-1",
+		users:
+			"flex-row-reverse md:flex-col lg:col-span-6 lg:col-start-19 lg:row-start-2",
+	};
+	const stage: Record<ResultKind, string> = {
+		lighthouse: "items-stretch p-2.5 md:flex-1 md:p-3.5",
+		weeks: "h-32 items-center md:h-40",
+		projects: "h-32 items-center md:h-40",
+		raised: "h-24 w-[46%] flex-none items-center md:h-40 md:w-auto",
+		users: "h-24 w-[46%] flex-none items-center md:h-40 md:w-auto",
+	};
+	// Each picture is drawn once and scaled to the stage it stands on.
+	const scale: Record<ResultKind, string> = {
+		lighthouse: "",
+		weeks: "scale-[0.56] md:scale-[0.6] xl:scale-[0.8]",
+		projects: "scale-[0.62] md:scale-[0.72] lg:scale-[0.6] xl:scale-[0.7]",
+		raised: "scale-[0.46] md:scale-100 lg:scale-75 xl:scale-[0.94]",
+		users: "scale-[0.46] md:scale-100 lg:scale-75 xl:scale-[0.94]",
+	};
+	const text: Record<ResultKind, string> = {
+		lighthouse: "",
+		weeks: "",
+		projects: "",
+		raised: "min-w-0 flex-1 justify-center md:flex-none md:justify-start",
+		users: "min-w-0 flex-1 justify-center md:flex-none md:justify-start",
 	};
 
 	return (
 		<div
-			className="rt mt-10 grid grid-cols-1 gap-5 md:mt-16 lg:grid-cols-12"
+			className="rt mt-10 grid grid-cols-1 gap-3 md:mt-16 md:grid-cols-2 md:gap-5 lg:grid-cols-24"
 			ref={root}
 		>
 			{items.map((item) => (
 				<div
-					className={cn("surface-card flex flex-col p-2", span[item.kind])}
+					className={cn("surface-card flex p-2", tile[item.kind])}
 					key={item.kind}
 				>
 					{/* The picture: the thing the figure counts, drawn in detail */}
 					<div
 						aria-hidden="true"
 						className={cn(
-							"rt-stage flex h-52 items-center justify-center overflow-hidden rounded-[14px] md:h-64",
-							item.kind === "lighthouse" && "lg:h-auto lg:flex-1"
+							"rt-stage flex justify-center overflow-hidden rounded-[14px]",
+							stage[item.kind]
 						)}
 						data-kind={item.kind}
 					>
-						<div
-							className={cn(
-								"sm:scale-100",
-								item.kind === "weeks" ? "scale-[0.62]" : "scale-[0.78]"
-							)}
-						>
-							{picture(item)}
-						</div>
+						{item.kind === "lighthouse" ? (
+							picture(item)
+						) : (
+							<div className={scale[item.kind]}>{picture(item)}</div>
+						)}
 					</div>
-					<div className="px-4 pt-5 pb-4 md:px-5">
-						<div className="font-display text-3xl text-foreground leading-none md:text-4xl">
+					<div
+						className={cn(
+							"flex flex-col px-3 pt-4 pb-3 md:px-4",
+							text[item.kind]
+						)}
+					>
+						<div className="whitespace-nowrap font-display text-[1.625rem] text-foreground leading-none xl:text-3xl">
 							{item.value}
 						</div>
-						<div className="mt-2.5 text-base text-muted-foreground leading-snug">
+						<div className="mt-2 text-base text-muted-foreground leading-snug">
 							{item.label}
 						</div>
 					</div>

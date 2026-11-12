@@ -11,8 +11,8 @@ const stepKeys = ["0", "1", "2"] as const;
 
 const kinds: ResultKind[] = [
 	"lighthouse",
-	"projects",
 	"weeks",
+	"projects",
 	"raised",
 	"users",
 ];
@@ -47,7 +47,11 @@ export default async function Metrics() {
 			<ResultsTiles
 				items={kinds.map((kind) => ({
 					kind,
-					label: t(`results.items.${kind}.label`),
+					// The Lighthouse figure is the desktop run, and says so.
+					label:
+						kind === "lighthouse"
+							? t("results.items.lighthouse.deviceLabel")
+							: t(`results.items.${kind}.label`),
 					value: t(`results.items.${kind}.value`),
 				}))}
 				launch={launch}

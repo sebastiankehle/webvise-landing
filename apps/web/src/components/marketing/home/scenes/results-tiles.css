@@ -11,7 +11,9 @@
 	box-shadow: inset 0 0 0 1px
 		color-mix(in oklab, var(--foreground) 7%, transparent);
 }
-.rt-stage[data-kind="lighthouse"],
+.rt-stage[data-kind="lighthouse"] {
+	--glow: 66 133 244;
+}
 .rt-stage[data-kind="weeks"] {
 	--glow: 12 206 107;
 }
@@ -55,10 +57,6 @@
 	stroke-dashoffset: 1;
 	transition: stroke-dashoffset 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.1s;
 }
-.rt .rt-ring {
-	stroke-dashoffset: var(--from);
-	transition: stroke-dashoffset 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.15s;
-}
 
 .rt[data-seen="true"] .rt-fade {
 	opacity: 1;
@@ -69,9 +67,6 @@
 .rt[data-seen="true"] .rt-pop {
 	opacity: 1;
 	scale: 1;
-}
-.rt[data-seen="true"] .rt-ring {
-	stroke-dashoffset: var(--to);
 }
 .rt[data-seen="true"] .rt-draw {
 	stroke-dashoffset: 0;
@@ -86,10 +81,6 @@
 	}
 	.rt .rt-fill {
 		transform: none;
-		transition: none;
-	}
-	.rt .rt-ring {
-		stroke-dashoffset: var(--to);
 		transition: none;
 	}
 	.rt .rt-draw {

@@ -56,6 +56,7 @@ export default async function WpHealthReportPage({
 	// Measured scores: this site and three client sites webvise built.
 	const scores = [
 		{
+			label: tm("results.items.lighthouse.deviceLabel"),
 			name: "webvise.io",
 			slug: "webvise",
 			value: tm("results.items.lighthouse.value"),
@@ -64,7 +65,14 @@ export default async function WpHealthReportPage({
 			const project = getCaseStudyBySlug(slug, locale);
 			const metric = project?.metrics?.[0];
 			return project && metric
-				? [{ name: project.client, slug, value: metric.value }]
+				? [
+						{
+							label: tm("results.items.lighthouse.label"),
+							name: project.client,
+							slug,
+							value: metric.value,
+						},
+					]
 				: [];
 		}),
 	];
@@ -133,7 +141,7 @@ export default async function WpHealthReportPage({
 										{score.name}
 									</span>
 									<span className="mt-1 inline-flex items-center gap-1.5 text-muted-foreground text-sm">
-										{tm("results.items.lighthouse.label")}
+										{score.label}
 										<ActionArrow />
 									</span>
 								</span>
