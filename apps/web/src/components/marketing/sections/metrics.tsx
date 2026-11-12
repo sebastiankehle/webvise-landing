@@ -38,12 +38,21 @@ export default async function Metrics() {
 	const days = [1, 2, 3, 4, 5].map((day) =>
 		weekday.format(new Date(Date.UTC(2024, 0, day)))
 	);
-	// Six real client projects stand for the count in the projects tile.
-	const thumbs = getCaseStudies(locale, { kind: "client" })
-		.slice(0, 6)
+	// The client sites that are live stand for the count, as tabs in a browser.
+	const projects = getCaseStudies(locale, { kind: "client" })
+		.filter((project) => project.liveUrl && project.slug !== "webvise")
+		.slice(0, 5)
 		.flatMap((project) => {
-			const src = project.cardImage ?? project.coverImage;
-			return src ? [{ alt: project.client, src }] : [];
+			const src = project.coverImage ?? project.cardImage;
+			return project.liveUrl && src
+				? [
+						{
+							host: new URL(project.liveUrl).hostname.replace("www.", ""),
+							name: project.client,
+							src,
+						},
+					]
+				: [];
 		});
 
 	return (
@@ -61,8 +70,8 @@ export default async function Metrics() {
 							: t(`results.items.${kind}.label`),
 					value: t(`results.items.${kind}.value`),
 				}))}
+				projects={projects}
 				steps={stepKeys.map((key) => t(`results.steps.${key}`))}
-				thumbs={thumbs}
 				week={ts("pictures.week")}
 			/>
 		</SectionWrapper>

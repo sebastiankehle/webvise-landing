@@ -1,7 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { type CSSProperties, type ReactNode, useEffect, useRef } from "react";
+import {
+	type CSSProperties,
+	type ReactNode,
+	useEffect,
+	useRef,
+	useState,
+} from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -20,8 +26,10 @@ export interface ResultItem {
 	value: string;
 }
 
-export interface ResultThumb {
-	alt: string;
+/** A live project: its name, its address and its first screen. */
+export interface ResultProject {
+	host: string;
+	name: string;
 	src: string;
 }
 
@@ -265,70 +273,139 @@ function WeeksPicture({
 	);
 }
 
-/** Real projects as files in a Drive folder: each card a project's screen
- * under its name. The row runs off the edge, as a folder with more in it. */
-function ProjectsPicture({ thumbs }: { thumbs: ResultThumb[] }) {
+// Chrome's tab strip and toolbar icons, drawn at the size the window uses.
+const icon = {
+	fill: "none",
+	stroke: "currentColor",
+	strokeLinecap: "round",
+	strokeLinejoin: "round",
+	strokeWidth: 1.5,
+} as const;
+
+/** The live projects as tabs in one Chrome window. The window steps from tab
+ * to tab, and the address bar and the page follow. */
+function ProjectsPicture({ projects }: { projects: ResultProject[] }) {
+	const [active, setActive] = useState(0);
+
+	useEffect(() => {
+		if (
+			projects.length < 2 ||
+			window.matchMedia("(prefers-reduced-motion: reduce)").matches
+		) {
+			return;
+		}
+		const timer = window.setInterval(
+			() => setActive((current) => (current + 1) % projects.length),
+			2800
+		);
+		return () => window.clearInterval(timer);
+	}, [projects.length]);
+
 	return (
 		<div className={cn(card, "w-[36rem] overflow-hidden text-[#202124]")}>
-			<div className="flex items-center gap-2 px-3.5 pt-2.5 text-[0.9375rem] leading-none">
-				<span className="text-[#5f6368]">My Drive</span>
+			<div className="flex h-9 items-end bg-[#dee1e6] pr-2 pl-3">
+				<span className="mr-3 flex flex-none items-center gap-1.5 self-center">
+					<i className="size-2.5 rounded-full bg-[#ff5f57]" />
+					<i className="size-2.5 rounded-full bg-[#febc2e]" />
+					<i className="size-2.5 rounded-full bg-[#28c840]" />
+				</span>
+				{projects.map((project, i) => (
+					<span
+						className={cn(
+							"relative flex h-[1.875rem] min-w-0 flex-1 items-center gap-1.5 rounded-t-[8px] px-2.5 text-[0.6875rem] leading-none transition-colors duration-300",
+							i === active ? "bg-white text-[#202124]" : "text-[#3c4043]"
+						)}
+						key={project.host}
+					>
+						{/* The divider between two tabs that are both in the back */}
+						{i > 0 && i !== active && i - 1 !== active && (
+							<i className="absolute top-2 left-0 h-3.5 w-px bg-[#9aa0a6]/60" />
+						)}
+						<svg
+							aria-hidden="true"
+							className="size-3 flex-none text-[#5f6368]"
+							viewBox="0 0 12 12"
+							{...icon}
+							strokeWidth={1.1}
+						>
+							<circle cx="6" cy="6" r="4.6" />
+							<path d="M1.4 6h9.2M6 1.4c1.5 1.4 2.2 3 2.2 4.6S7.5 9.2 6 10.6M6 1.4C4.5 2.8 3.8 4.4 3.8 6s.7 3.2 2.2 4.6" />
+						</svg>
+						<span className="min-w-0 flex-1 truncate">{project.name}</span>
+						<svg
+							aria-hidden="true"
+							className="size-2 flex-none text-[#5f6368]"
+							viewBox="0 0 8 8"
+							{...icon}
+						>
+							<path d="m1.5 1.5 5 5m0-5-5 5" />
+						</svg>
+					</span>
+				))}
 				<svg
 					aria-hidden="true"
-					className="size-2.5 text-[#5f6368]"
-					fill="none"
-					stroke="currentColor"
-					strokeLinecap="round"
-					strokeLinejoin="round"
-					strokeWidth="1.5"
-					viewBox="0 0 10 10"
+					className="mb-2 ml-2 size-3 flex-none text-[#5f6368]"
+					viewBox="0 0 12 12"
+					{...icon}
 				>
-					<path d="m3.5 1.5 3.5 3.5-3.5 3.5" />
+					<path d="M6 1.5v9M1.5 6h9" />
 				</svg>
-				<span>Projects</span>
-				<span className="ml-auto flex items-center overflow-hidden rounded-full border border-[#dadce0]">
-					<span className="flex h-5 w-7 flex-col items-center justify-center gap-[2px]">
-						<i className="h-px w-2.5 bg-[#5f6368]" />
-						<i className="h-px w-2.5 bg-[#5f6368]" />
-						<i className="h-px w-2.5 bg-[#5f6368]" />
-					</span>
-					<span className="grid h-5 w-7 grid-cols-2 place-content-center gap-[2px] bg-[#c2e7ff]">
-						<i className="size-1 bg-[#001d35]" />
-						<i className="size-1 bg-[#001d35]" />
-						<i className="size-1 bg-[#001d35]" />
-						<i className="size-1 bg-[#001d35]" />
-					</span>
+			</div>
+			<div className="flex items-center gap-3 px-3 py-1.5 text-[#5f6368]">
+				<svg
+					aria-hidden="true"
+					className="size-3 flex-none"
+					viewBox="0 0 12 12"
+					{...icon}
+				>
+					<path d="M10 6H2m3.5-3.5L2 6l3.5 3.5" />
+				</svg>
+				<svg
+					aria-hidden="true"
+					className="size-3 flex-none opacity-40"
+					viewBox="0 0 12 12"
+					{...icon}
+				>
+					<path d="M2 6h8M6.5 2.5 10 6 6.5 9.5" />
+				</svg>
+				<svg
+					aria-hidden="true"
+					className="size-3 flex-none"
+					viewBox="0 0 12 12"
+					{...icon}
+				>
+					<path d="M10 6a4 4 0 1 1-1.2-2.85M10 1.8v2.5H7.5" />
+				</svg>
+				<span className="flex min-w-0 flex-1 items-center gap-2 rounded-full bg-[#f1f3f4] px-3 py-1 text-[#202124] text-xs">
+					<svg
+						aria-hidden="true"
+						className="size-3 flex-none text-[#5f6368]"
+						viewBox="0 0 12 12"
+						{...icon}
+					>
+						<path d="M2 3.5h5m2 0h1M2 8.5h1m2 0h5" />
+						<circle cx="8" cy="3.5" r="1.2" />
+						<circle cx="4" cy="8.5" r="1.2" />
+					</svg>
+					<span className="truncate">{projects[active]?.host}</span>
+				</span>
+				<span className="grid size-5 flex-none place-items-center rounded-full bg-[#1a73e8] font-medium text-[0.625rem] text-white leading-none">
+					w
 				</span>
 			</div>
-			<div className="flex gap-3 px-3.5 pt-3 pb-3.5">
-				{thumbs.slice(0, 5).map((thumb, i) => (
-					<div
-						className="rt-fade w-[9.25rem] flex-none rounded-xl bg-[#f0f4f9] p-2"
-						key={thumb.src}
-						style={index(i * 4)}
-					>
-						<div className="flex items-center gap-1.5 pb-2">
-							<span className="grid size-3.5 flex-none place-items-center rounded-[3px] bg-[#1a73e8]">
-								<i className="h-1.5 w-2 rounded-[1px] border border-white" />
-							</span>
-							<span className="min-w-0 flex-1 truncate font-medium text-[0.6875rem] leading-none">
-								{thumb.alt}
-							</span>
-							<span className="flex flex-none flex-col gap-[2px]">
-								<i className="size-[2px] rounded-full bg-[#5f6368]" />
-								<i className="size-[2px] rounded-full bg-[#5f6368]" />
-								<i className="size-[2px] rounded-full bg-[#5f6368]" />
-							</span>
-						</div>
-						<span className="relative block aspect-[16/10] overflow-hidden rounded-md bg-white">
-							<Image
-								alt=""
-								className="object-cover object-left-top"
-								fill
-								sizes="150px"
-								src={thumb.src}
-							/>
-						</span>
-					</div>
+			<div className="relative aspect-[16/9] border-[#dadce0] border-t">
+				{projects.map((project, i) => (
+					<Image
+						alt=""
+						className={cn(
+							"object-cover object-top transition-opacity duration-500",
+							i === active ? "opacity-100" : "opacity-0"
+						)}
+						fill
+						key={project.host}
+						sizes="420px"
+						src={project.src}
+					/>
 				))}
 			</div>
 		</div>
@@ -460,7 +537,7 @@ export default function ResultsTiles({
 	host,
 	items,
 	steps,
-	thumbs,
+	projects,
 	week,
 }: {
 	/** Monday to Friday, as the locale abbreviates them. */
@@ -469,7 +546,7 @@ export default function ResultsTiles({
 	host: string;
 	items: ResultItem[];
 	steps: string[];
-	thumbs: ResultThumb[];
+	projects: ResultProject[];
 	week: string;
 }) {
 	const root = useRef<HTMLDivElement>(null);
@@ -497,7 +574,7 @@ export default function ResultsTiles({
 			case "lighthouse":
 				return <LighthousePicture value={item.value} />;
 			case "projects":
-				return <ProjectsPicture thumbs={thumbs} />;
+				return <ProjectsPicture projects={projects} />;
 			case "weeks":
 				return (
 					<WeeksPicture
@@ -531,7 +608,7 @@ export default function ResultsTiles({
 	const stage: Record<ResultKind, string> = {
 		lighthouse: "items-stretch p-2.5 md:flex-1 md:p-3.5",
 		weeks: "h-32 items-center md:h-40",
-		projects: "h-32 items-center md:h-40",
+		projects: "h-32 items-start pt-3 md:h-40 md:pt-4",
 		raised: "h-24 w-[46%] flex-none items-center md:h-40 md:w-auto",
 		users: "h-24 w-[46%] flex-none items-center md:h-40 md:w-auto",
 	};
@@ -539,7 +616,7 @@ export default function ResultsTiles({
 	const scale: Record<ResultKind, string> = {
 		lighthouse: "",
 		weeks: "scale-[0.56] md:scale-[0.6] xl:scale-[0.76]",
-		projects: "scale-[0.48] md:scale-[0.54] xl:scale-[0.7]",
+		projects: "origin-top scale-[0.48] md:scale-[0.54] xl:scale-[0.7]",
 		raised: "scale-[0.46] md:scale-100 lg:scale-75 xl:scale-[0.94]",
 		users: "scale-[0.46] md:scale-100 lg:scale-75 xl:scale-[0.94]",
 	};
