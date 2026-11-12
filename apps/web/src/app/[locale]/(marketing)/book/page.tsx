@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { getLocale, getTranslations } from "next-intl/server";
-
+import { ActionArrow } from "@/components/marketing/action";
 import BookCall from "@/components/marketing/book-call";
 import BookNext from "@/components/marketing/book-next";
 import { FaqList } from "@/components/marketing/faq-list";
 import { QuoteAuthor } from "@/components/marketing/quote-author";
+import { QuoteSlider } from "@/components/marketing/quote-slider";
 import SectionWrapper, {
 	ConstructedGrid,
 	GridContainer,
@@ -13,7 +14,10 @@ import SectionWrapper, {
 import StaggerChildren from "@/components/marketing/stagger-children";
 import { H1, H2, inlineLinkClassName, Lead } from "@/components/ui/typography";
 import { socials } from "@/data/socials";
-import { HOME_TESTIMONIAL_KEYS } from "@/data/testimonials";
+import {
+	HOME_TESTIMONIAL_KEYS,
+	testimonialProjects,
+} from "@/data/testimonials";
 import { Link } from "@/i18n/navigation";
 import { type LocaleParams, pinLocale } from "@/i18n/static-locale";
 import { generateAlternates, localizedUrl } from "@/lib/seo";
@@ -46,14 +50,14 @@ const questionKeys = ["2", "1", "0", "5"] as const;
 
 export default async function BookPage({ params }: { params: LocaleParams }) {
 	await pinLocale(params);
-	const [t, tt, tf, tfoot, ta] = await Promise.all([
+	const [t, tt, tf, tfoot, ta, th] = await Promise.all([
 		getTranslations("book"),
 		getTranslations("testimonials"),
 		getTranslations("faq"),
 		getTranslations("footer"),
 		getTranslations("about"),
+		getTranslations("home"),
 	]);
-	const quote = `items.${HOME_TESTIMONIAL_KEYS[0]}` as const;
 	const email = tfoot("address.email");
 	const linkedin = socials.find((social) => social.name === "LinkedIn");
 
@@ -117,19 +121,71 @@ export default async function BookPage({ params }: { params: LocaleParams }) {
 						</div>
 
 						<div className="mt-12 md:mt-16">
-							<BookCall
-								aside={
-									<figure className="flex flex-col gap-8">
-										<blockquote className="text-foreground text-lg leading-[1.6]">
-											{tt(`${quote}.quote`)}
-										</blockquote>
-										<QuoteAuthor
-											author={tt(`${quote}.author`)}
-											detail={`${tt(`${quote}.role`)}, ${tt(`${quote}.company`)}`}
-										/>
-									</figure>
+							<BookCall />
+						</div>
+
+						{/* Clients in their own words. Each card names the company
+						    first, so nobody reads a client's title as webvise's. */}
+						<div className="mt-16 md:mt-24">
+							<QuoteSlider
+								heading={
+									<>
+										<H2>{tt("title")}</H2>
+										<Lead className="mt-4 max-w-[52ch]">{tt("subtitle")}</Lead>
+									</>
 								}
-							/>
+								next={tt("next")}
+								previous={tt("previous")}
+							>
+								{HOME_TESTIMONIAL_KEYS.map((key) => {
+									const author = tt(`items.${key}.author`);
+									const company = tt(`items.${key}.company`);
+									const project = testimonialProjects[author];
+									return (
+										<li
+											className="w-[86%] shrink-0 snap-start sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.834rem)]"
+											key={key}
+										>
+											<figure className="surface-card flex h-full flex-col justify-between gap-8 p-6 md:p-7">
+												<div>
+													<div className="flex items-center justify-between gap-4">
+														<span
+															aria-hidden="true"
+															className="block select-none font-display text-3xl text-brand-icon leading-none"
+														>
+															&ldquo;
+														</span>
+														<span className="text-muted-foreground text-sm">
+															{company}
+														</span>
+													</div>
+													<blockquote className="mt-3 text-[1.0625rem] text-foreground leading-[1.55]">
+														{tt(`items.${key}.quote`)}
+													</blockquote>
+												</div>
+												<div className="flex flex-wrap items-end justify-between gap-x-4 gap-y-3">
+													<QuoteAuthor
+														author={author}
+														detail={`${tt(`items.${key}.role`)}, ${company}`}
+													/>
+													{project && (
+														<Link
+															className="group/arrow inline-flex items-center gap-1.5 text-foreground text-sm outline-none focus-visible:underline focus-visible:underline-offset-4"
+															href={{
+																pathname: "/case-studies/[slug]",
+																params: { slug: project },
+															}}
+														>
+															{th("stage.link")}
+															<ActionArrow />
+														</Link>
+													)}
+												</div>
+											</figure>
+										</li>
+									);
+								})}
+							</QuoteSlider>
 						</div>
 					</div>
 				</GridContainer>

@@ -5,7 +5,7 @@ import { useForm } from "@tanstack/react-form";
 import { Check, Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
-import { type ReactNode, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import z from "zod";
 
 import { ActionArrow, actionVariants } from "@/components/marketing/action";
@@ -40,7 +40,7 @@ interface Prefill {
 /** Two ways to the discovery call in one card: pick a time, or write a
  * message. The message is an end in itself; the calendar after it is an
  * offer, with name and email already filled in. */
-export default function BookCall({ aside }: { aside?: ReactNode }) {
+export default function BookCall() {
 	const t = useTranslations("book");
 	const [topic, setTopic] = useState<BookingTopic>("website");
 	const [mode, setMode] = useState<"calendar" | "form">("calendar");
@@ -451,7 +451,6 @@ export default function BookCall({ aside }: { aside?: ReactNode }) {
 					</div>
 				)}
 			</div>
-			{aside && <div className="mt-10 max-w-[38rem]">{aside}</div>}
 		</div>
 	);
 }
