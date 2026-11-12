@@ -12,6 +12,8 @@ const nextConfig: NextConfig = {
 	// topic-specific welcome email; without this the files are not bundled.
 	outputFileTracingIncludes: {
 		"/api/newsletter/confirm": ["./content/blog/**/*"],
+		// The chat assistant knows every project from its case study file.
+		"/api/ai/chat": ["./content/case-studies/**/*"],
 	},
 	images: {
 		localPatterns: [
