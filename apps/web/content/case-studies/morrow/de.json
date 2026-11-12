@@ -1,25 +1,25 @@
 {
   "industry": "KI-Agenten / Unternehmensgedächtnis",
-  "title": "Morrow: ein Unternehmensgedächtnis, auf das sich KI-Agenten verlassen können",
-  "excerpt": "Morrow gibt KI-Agenten ein Unternehmensgedächtnis, auf das sie sich verlassen können. Es zieht Slack, Linear, GitHub, Notion, Calls und Tickets in eine geprüfte Ebene, macht daraus Skill-Dateien, die ein Agent ausführen kann, und liefert sie über eine API. Jede Antwort nennt den Beleg, aus dem sie stammt. webvise hat Morrow als Eigenentwicklung entworfen und gebaut, ohne Auftraggeber.",
-  "challenge": "Die Entscheidungen eines Unternehmens liegen verstreut in Slack-Threads, Calls, Tickets, Docs und Pull Requests. Die Suche liefert Bruchstücke, und die Dokumentation entfernt sich davon, wie das Team arbeitet. Agenten fragen dann entweder ständig Menschen oder antworten aus Quellen, die sich widersprechen. Morrow fragt, wie Agenten ein Gedächtnis bekommen, das jemand geprüft hat und aktuell hält, damit niemand jede Antwort kontrollieren muss.",
-  "solution": "Morrow besteht aus zwei Screens. Die Landingpage erklärt das Problem und den Workflow hinter dem Produkt: ingest, resolve, approve, publish und learn. Das Operator-Dashboard zeigt den Zustand des Gedächtnisses, den Status jedes Quell-Connectors und eine Queue der Widersprüche. Jeder Konflikt wird mit seinen Belegen gelöst und wartet auf die Freigabe durch einen Menschen. Das Dashboard enthält außerdem die erzeugten Skill-Dateien und einen Audit-Trail. Quellen, die sich widersprechen, werden zu Review-Aufgaben, und nichts erreicht einen Agenten, bevor ein Verantwortlicher freigibt. Freigegebener Kontext geht über abgesicherte API-Endpunkte an Agenten. Diese liefern geprüftes Gedächtnis und Skill-Dateien, nie die offene Queue. Die Oberfläche sieht aus wie ein Laborinstrument, mit einem animierten Graphen des Kontexts, und ist in Next.js 16 gebaut.",
+  "title": "Morrow: ein geprüftes Unternehmensgedächtnis für KI-Agenten",
+  "excerpt": "Morrow gibt KI-Agenten eine geprüfte Antwort auf Fragen dazu, wie ein Unternehmen arbeitet. Es liest Slack, Linear, GitHub, Notion, Call-Transkripte und Support-Tickets, findet Widersprüche zwischen ihnen und fragt das zuständige Team, welche Fassung gilt. Agenten bekommen nur freigegebene Antworten, jede mit ihren Quellen.",
+  "challenge": "Die Regeln eines Unternehmens stehen in Slack-Threads, Calls, Tickets, Dokumenten und Pull-Requests, und diese Quellen laufen auseinander. In einem Thread steht, dass wichtige Kunden innerhalb von vier Stunden eine Antwort bekommen. In den Vertragsbedingungen in Notion steht noch der nächste Werktag. Ein Agent, der sucht, findet beides. Er fragt dann einen Menschen oder gibt eine der Fassungen als Tatsache weiter. Niemand ist für die Antwort zuständig, und niemand weiß, welche Quellen veraltet sind.",
+  "solution": "Morrow bindet sechs Arten von Quellen an: Slack, Linear, GitHub, Notion, Call-Transkripte und Support-Tickets. Es liest sie und verknüpft jede Entscheidung mit der Nachricht, dem Dokument oder dem Commit, aus dem sie stammt. Jede Quelle trägt den Zeitpunkt ihrer letzten Synchronisierung. Daran erkennt Morrow veraltete Angaben. Danach markiert Morrow Quellen, die sich widersprechen, veraltete Regeln und Themen, für die niemand zuständig ist. Aus jedem Fund wird eine Review-Aufgabe mit den Belegen. Das zuständige Team, etwa Ops oder Security, wählt die richtige Fassung und gibt sie frei. Bis dahin bekommt ein Agent zu diesem Thema keine Antwort und wird an dieses Team verwiesen. Aus einer freigegebenen Antwort wird eine Skill-Datei. Sie sagt einem Agenten, wann er die Antwort verwendet und welche Belege er dafür braucht. Agenten rufen Antworten und Skill-Dateien über eine API oder als MCP-Tool ab, und jede Antwort nennt ihren Prüfstatus und ihre Quellen. Stellt ein Agent eine Frage, zu der es keine geprüfte Antwort gibt, nimmt Morrow sie in die Review-Queue auf. Ein Audit-Trail hält fest, wer was freigegeben oder geändert hat.",
   "metrics": [
     {
-      "value": "1",
-      "label": "Produkt als Eigenentwicklung"
+      "value": "6",
+      "label": "Arten von Quellen angebunden"
+    },
+    {
+      "value": "5",
+      "label": "Schritte im Workflow"
+    },
+    {
+      "value": "4",
+      "label": "Prüfstatus je Thema"
     },
     {
       "value": "3",
-      "label": "Wissensansichten entworfen"
-    },
-    {
-      "value": "1",
-      "label": "Review-Workflow als Prototyp"
-    },
-    {
-      "value": "2",
-      "label": "Agenten-Übergabestatus"
+      "label": "API-Endpunkte für Agenten"
     }
   ],
   "techStack": [

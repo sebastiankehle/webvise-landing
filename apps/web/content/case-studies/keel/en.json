@@ -13,26 +13,26 @@
   "fullPageImage": "/images/case-studies/keel/fullpage-v2.webp",
   "location": "Berlin, Germany",
   "liveUrlLabel": "Built in-house",
-  "title": "Keel: one governed endpoint that lets AI agents use a SaaS product",
-  "excerpt": "Keel makes a SaaS product usable by AI agents. It reads the product's API, UI and docs, turns every operation into a typed, named tool on a hosted MCP server, and puts one endpoint in front of them with scopes, guardrails and approval gates. Every call is traced and can be replayed. webvise designed and built Keel in-house, without a client.",
-  "challenge": "SaaS products are built for people. A button, a modal or a help article works for someone who can see and click. Adding an API does not close the gap, because an agent still cannot tell which calls are safe, whose permission it acts with, or what just happened. A single API key gives an autonomous caller all rights or none. And an agent that acts without a record leaves nothing to review or roll back. Keel asks how an existing product can be opened to agents without rebuilding it.",
-  "solution": "Keel has two screens. The landing page explains the problem and the loop behind the product: map, generate, guard, publish and observe. The loop runs on every change, so the tools an agent sees always match the product. The operator console shows live call metrics and the typed tool schema Keel writes for each operation. It also shows the hosted MCP server, which Keel regenerates whenever the product changes, the scopes of each tool, the rate and spend limits, and the approval gates on every call that changes data. Every call leaves a trace that can be replayed. Connectors bring in the products a team already runs, such as GitHub, Linear, Notion, Slack and Stripe. Keel turns each into typed tools behind one endpoint, and an agent signs in once. No call that changes data reaches a product before it passes its scope and its approval gate. The interface is dark, with animated beams between the connectors, and is built in Next.js 16.",
+  "title": "Keel: one guarded endpoint that lets AI agents use a SaaS product",
+  "excerpt": "Keel makes a SaaS product usable by AI agents. It reads the product's API, interface and docs, turns every operation into a typed tool on a hosted MCP server and puts one endpoint in front of them. Every call runs inside scopes and limits, a write that trips a guardrail waits for a person's approval, and each call leaves a trace that can be replayed.",
+  "challenge": "SaaS products are built for people. A button, a form or a help article works for someone who can see and click. An AI agent needs the same action as a typed tool it can plan with, and an API alone does not give it that. The agent still cannot tell which calls are safe or whose permission it acts with. One API key gives it all rights or none, and a call without a record cannot be reviewed or repeated. Teams close the gap with hand-written glue code for each integration, and that code falls behind whenever the product changes.",
+  "solution": "Keel works in a loop of five steps. First it maps the product. It reads the API, the interface and the docs and finds every operation, such as creating an invoice. Then it generates a typed tool for each operation, with a name, a description, an input schema and the scopes it needs, and hosts all tools on an MCP server. When the product changes, Keel maps and generates again, so the tools match the product. Next it guards each tool. An agent holds only the scopes it was granted, and Keel blocks any call outside them. Rate and spend limits apply to each tool. A write that trips a guardrail, such as an invoice above a set amount, is held until a person approves or denies it. Keel then publishes one endpoint and docs written for agents. Agents sign in once and call the tools over MCP, and a company's own services call the same tools over REST. Last, Keel records every call with its inputs, scope and outcome. A team can replay a call and see who made it and who approved it. Connectors bring in the products a team already runs, such as Stripe, Salesforce, Intercom, Linear, Slack and GitHub.",
   "metrics": [
     {
-      "value": "1",
-      "label": "Product built in-house"
-    },
-    {
-      "value": "2",
-      "label": "Product surfaces mapped"
+      "value": "5",
+      "label": "Steps in the loop"
     },
     {
       "value": "3",
-      "label": "Tool contracts designed"
+      "label": "Sources read per product"
     },
     {
-      "value": "1",
-      "label": "Operator console prototype"
+      "value": "4",
+      "label": "Kinds of control per tool"
+    },
+    {
+      "value": "3",
+      "label": "Open standards it builds on"
     }
   ],
   "techStack": [

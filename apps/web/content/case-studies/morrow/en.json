@@ -13,26 +13,26 @@
   "fullPageImage": "/images/case-studies/morrow/fullpage-v3.webp",
   "location": "Berlin, Germany",
   "liveUrlLabel": "Built in-house",
-  "title": "Morrow: company memory that AI agents can rely on",
-  "excerpt": "Morrow gives AI agents company memory they can rely on. It pulls Slack, Linear, GitHub, Notion, calls and tickets into one reviewed layer, turns it into skill files an agent can run, and serves it through an API. Every answer names the evidence it came from. webvise designed and built Morrow in-house, without a client.",
-  "challenge": "A company's decisions are scattered across Slack threads, calls, tickets, docs and pull requests. Search returns fragments, and docs drift from how the team works. Agents then either keep asking people or answer from sources that contradict each other. Morrow asks how agents can get memory that someone has reviewed and keeps current, so that nobody has to check every response.",
-  "solution": "Morrow has two screens. The landing page explains the problem and the workflow behind the product: ingest, resolve, approve, publish and learn. The operator dashboard shows the health of the memory, the state of each source connector and a queue of contradictions. Each conflict is resolved with its evidence and waits for a person to approve it. The dashboard also holds the generated skill files and an audit trail. Sources that contradict each other become review tasks, and nothing reaches an agent until an owner signs off. Approved context goes to agents through guarded API endpoints, which serve reviewed memory and skill files and never the open queue. The interface looks like a lab instrument, with an animated graph of the context, and is built in Next.js 16.",
+  "title": "Morrow: reviewed company memory for AI agents",
+  "excerpt": "Morrow gives AI agents one reviewed answer to questions about how a company works. It reads Slack, Linear, GitHub, Notion, call transcripts and support tickets, finds where they contradict each other and asks the team that owns the topic which version is right. Agents get only approved answers, each with the sources behind it.",
+  "challenge": "A company's rules live in Slack threads, calls, tickets, docs and pull requests, and these sources drift apart. One thread says priority accounts get a reply within four hours. The terms in Notion still say next business day. An agent that searches finds both. It then asks a person or passes one version on as fact. Nobody owns the answer, and nobody knows which sources are out of date.",
+  "solution": "Morrow connects to six kinds of source: Slack, Linear, GitHub, Notion, call transcripts and support tickets. It reads them and links every decision to the message, document or commit it came from. Each source carries the time of its last sync, so Morrow can tell when a claim is stale. Morrow then flags sources that contradict each other, rules that are out of date and topics that nobody owns. Each one becomes a review task with the evidence attached. The team that owns the topic, for example Ops or Security, picks the right version and approves it. Until then, an agent that asks about the topic gets no answer and is sent to that team. An approved answer becomes a skill file that tells an agent when to use the answer and what evidence it needs. Agents fetch answers and skill files through an API or as an MCP tool, and every response states its review status and its sources. If an agent asks a question that has no reviewed answer, Morrow adds it to the review queue. An audit trail records who approved or changed what.",
   "metrics": [
     {
-      "value": "1",
-      "label": "Product built in-house"
+      "value": "6",
+      "label": "Kinds of source connected"
+    },
+    {
+      "value": "5",
+      "label": "Steps in the workflow"
+    },
+    {
+      "value": "4",
+      "label": "Review states per topic"
     },
     {
       "value": "3",
-      "label": "Knowledge views designed"
-    },
-    {
-      "value": "1",
-      "label": "Review workflow prototype"
-    },
-    {
-      "value": "2",
-      "label": "Agent handoff states"
+      "label": "API endpoints for agents"
     }
   ],
   "techStack": [

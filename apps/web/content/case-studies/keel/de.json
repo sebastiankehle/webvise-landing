@@ -1,25 +1,25 @@
 {
   "industry": "KI-Agenten / Agenten-Infrastruktur",
   "title": "Keel: ein abgesicherter Endpunkt, über den KI-Agenten ein SaaS-Produkt bedienen",
-  "excerpt": "Keel macht ein SaaS-Produkt für KI-Agenten nutzbar. Es liest API, Oberfläche und Dokumentation des Produkts, macht aus jeder Operation ein typisiertes, benanntes Tool auf einem gehosteten MCP-Server und stellt einen Endpunkt davor, mit Scopes, Guardrails und Freigaben. Jeder Aufruf wird protokolliert und lässt sich wiederholen. webvise hat Keel als Eigenentwicklung entworfen und gebaut, ohne Auftraggeber.",
-  "challenge": "SaaS-Produkte sind für Menschen gebaut. Ein Button, ein Modal oder ein Hilfe-Artikel funktioniert für jemanden, der sehen und klicken kann. Eine zusätzliche API schließt die Lücke nicht, denn ein Agent erkennt weiterhin nicht, welche Aufrufe sicher sind, mit wessen Berechtigung er handelt und was gerade passiert ist. Ein einzelner API-Key gibt einem autonomen Aufrufer alle Rechte oder keine. Und ein Agent, der ohne Protokoll handelt, hinterlässt nichts, das sich prüfen oder zurückrollen lässt. Keel fragt, wie sich ein bestehendes Produkt für Agenten öffnen lässt, ohne es neu zu bauen.",
-  "solution": "Keel besteht aus zwei Screens. Die Landingpage erklärt das Problem und den Kreislauf hinter dem Produkt: map, generate, guard, publish und observe. Der Kreislauf läuft bei jeder Änderung, damit die Tools, die ein Agent sieht, immer zum Produkt passen. Die Operator-Konsole zeigt Live-Metriken der Aufrufe und das typisierte Tool-Schema, das Keel für jede Operation schreibt. Sie zeigt außerdem den gehosteten MCP-Server, den Keel bei jeder Produktänderung neu erzeugt, die Scopes jedes Tools, die Limits für Rate und Kosten und die Freigaben für jeden Aufruf, der Daten ändert. Jeder Aufruf hinterlässt einen Trace, der sich wiederholen lässt. Connectoren binden die Produkte an, die ein Team schon nutzt, etwa GitHub, Linear, Notion, Slack und Stripe. Keel macht aus jedem typisierte Tools hinter einem Endpunkt, an dem sich ein Agent einmal anmeldet. Kein Aufruf, der Daten ändert, erreicht ein Produkt, bevor er seinen Scope und seine Freigabe passiert hat. Die Oberfläche ist dunkel, mit animierten Strahlen zwischen den Connectoren, und in Next.js 16 gebaut.",
+  "excerpt": "Keel macht ein SaaS-Produkt für KI-Agenten nutzbar. Es liest API, Oberfläche und Dokumentation des Produkts, macht aus jeder Operation ein typisiertes Tool auf einem gehosteten MCP-Server und stellt einen Endpunkt davor. Jeder Aufruf läuft innerhalb von Scopes und Limits, ein Schreibzugriff, der eine Guardrail auslöst, wartet auf die Freigabe durch einen Menschen, und jeder Aufruf hinterlässt einen Trace, der sich wiederholen lässt.",
+  "challenge": "SaaS-Produkte sind für Menschen gebaut. Ein Button, ein Formular oder ein Hilfe-Artikel funktioniert für jemanden, der sehen und klicken kann. Ein KI-Agent braucht dieselbe Aktion als typisiertes Tool, mit dem er planen kann, und eine API allein liefert das nicht. Der Agent erkennt weiterhin nicht, welche Aufrufe sicher sind und mit wessen Berechtigung er handelt. Ein einzelner API-Key gibt ihm alle Rechte oder keine, und ein Aufruf ohne Protokoll lässt sich weder prüfen noch wiederholen. Teams schließen die Lücke mit handgeschriebenem Glue-Code für jede Integration, und dieser Code veraltet mit jeder Produktänderung.",
+  "solution": "Keel arbeitet in einem Kreislauf aus fünf Schritten. Zuerst kartiert es das Produkt. Es liest API, Oberfläche und Dokumentation und findet jede Operation, etwa das Anlegen einer Rechnung. Dann erzeugt es für jede Operation ein typisiertes Tool mit Name, Beschreibung, Eingabeschema und den nötigen Scopes und hostet alle Tools auf einem MCP-Server. Ändert sich das Produkt, kartiert und erzeugt Keel neu, damit die Tools zum Produkt passen. Danach sichert es jedes Tool ab. Ein Agent hält nur die Scopes, die ihm erteilt wurden, und Keel blockiert jeden Aufruf außerhalb davon. Für jedes Tool gelten Limits für Rate und Kosten. Ein Schreibzugriff, der eine Guardrail auslöst, etwa eine Rechnung über einem festgelegten Betrag, bleibt angehalten, bis ein Mensch ihn freigibt oder ablehnt. Dann veröffentlicht Keel einen Endpunkt und eine Dokumentation für Agenten. Agenten melden sich einmal an und rufen die Tools über MCP auf, und die eigenen Dienste eines Unternehmens nutzen dieselben Tools über REST. Zuletzt zeichnet Keel jeden Aufruf mit Eingaben, Scope und Ergebnis auf. Ein Team kann einen Aufruf wiederholen und sieht, wer ihn ausgelöst und wer ihn freigegeben hat. Connectoren binden die Produkte an, die ein Team schon nutzt, etwa Stripe, Salesforce, Intercom, Linear, Slack und GitHub.",
   "metrics": [
     {
-      "value": "1",
-      "label": "Produkt als Eigenentwicklung"
-    },
-    {
-      "value": "2",
-      "label": "Produktoberflächen kartiert"
+      "value": "5",
+      "label": "Schritte im Kreislauf"
     },
     {
       "value": "3",
-      "label": "Tool-Verträge entworfen"
+      "label": "Quellen je Produkt gelesen"
     },
     {
-      "value": "1",
-      "label": "Operator-Konsole als Prototyp"
+      "value": "4",
+      "label": "Arten von Kontrolle je Tool"
+    },
+    {
+      "value": "3",
+      "label": "Offene Standards als Grundlage"
     }
   ],
   "techStack": [
