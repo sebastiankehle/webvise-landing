@@ -26,7 +26,7 @@ const dbMock = vi.hoisted(() => {
 	);
 	const returning = vi.fn(
 		async (): Promise<Array<{ path: string; placement?: string }>> => [
-			{ path: "", placement: "unknown" },
+			{ path: "/en", placement: "unknown" },
 		]
 	);
 	const onConflictDoUpdate = vi.fn(() => ({ returning }));
@@ -73,7 +73,7 @@ describe("/api/newsletter/confirm", () => {
 		dbMock.returning.mockClear();
 		dbMock.findMany.mockClear();
 		dbMock.findMany.mockResolvedValue([]);
-		dbMock.returning.mockResolvedValue([{ path: "", placement: "unknown" }]);
+		dbMock.returning.mockResolvedValue([{ path: "/en", placement: "unknown" }]);
 	});
 
 	afterEach(() => {
@@ -134,7 +134,7 @@ describe("/api/newsletter/confirm", () => {
 
 		expect(response.status).toBe(303);
 		expect(response.headers.get("location")).toBe(
-			"https://webvise.io/newsletter-confirmed?success=true"
+			"https://webvise.io/en/newsletter-confirmed?success=true"
 		);
 		expect(fetchMock).toHaveBeenCalledTimes(3);
 		expect(fetchMock.mock.calls[0][0]).toBe("https://api.resend.com/contacts");
@@ -150,7 +150,7 @@ describe("/api/newsletter/confirm", () => {
 
 	it("notifies the team about the new subscriber and their source", async () => {
 		dbMock.returning.mockResolvedValue([
-			{ path: "/blog/llm-wiki-3-month-report", placement: "blog_article" },
+			{ path: "/en/blog/llm-wiki-3-month-report", placement: "blog_article" },
 		]);
 		const token = createNewsletterConfirmationToken(
 			"reader@example.com",
@@ -238,7 +238,7 @@ describe("/api/newsletter/confirm", () => {
 
 	it("sends a topic-specific welcome email when the signup came from a blog post", async () => {
 		dbMock.returning.mockResolvedValue([
-			{ path: "/blog/llm-wiki-3-month-report" },
+			{ path: "/en/blog/llm-wiki-3-month-report" },
 		]);
 		const token = createNewsletterConfirmationToken(
 			"reader@example.com",
@@ -270,7 +270,8 @@ describe("/api/newsletter/confirm", () => {
 		);
 		const welcomeBody = JSON.parse(fetchMock.mock.calls[1][1].body);
 		expect(welcomeBody.html).toContain(
-			"web performance, modern development, and what we&#39;re building"
+			// No signup page on record: the email falls back to the site's own language.
+			"Web-Performance, moderne Entwicklung und das, woran wir gerade bauen"
 		);
 	});
 

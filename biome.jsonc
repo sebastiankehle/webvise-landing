@@ -38,7 +38,9 @@
       "!**/.kiro",
       "!**/.windsurf",
       "!**/.superpowers",
-      "!**/docs/presentations"
+      "!**/docs/presentations",
+      "!**/components/stageshow/kit",
+      "!**/scenes/kernspan/damper-geometry.ts"
     ]
   },
   "formatter": {
@@ -68,6 +70,27 @@
     }
   },
   "overrides": [
+    {
+      // Hyyve's figures, ported unchanged from its own repository.
+      "includes": [
+        "apps/web/src/components/marketing/home/scenes/hyyve-figures.tsx"
+      ],
+      "linter": {
+        "rules": {
+          "style": { "noNestedTernary": "off", "useConsistentArrayType": "off" }
+        }
+      }
+    },
+    {
+      // Stageshow scenes draw their pictures at design size inside a scaled stage.
+      "includes": ["apps/web/src/components/marketing/home/scenes/**"],
+      "linter": {
+        "rules": {
+          "correctness": { "useImageSize": "off" },
+          "performance": { "noImgElement": "off" }
+        }
+      }
+    },
     {
       // Animated icon components vendored from the pqoqubbw registry (generated code).
       "includes": [

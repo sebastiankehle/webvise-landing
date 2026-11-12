@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { useCallback, useRef } from "react";
+import { LOGO_POLYGONS } from "@/components/logo";
 import { marketingSurfaceClassName } from "@/components/marketing/section-wrapper";
 import { Button } from "@/components/ui/button";
 import { Body, Caption } from "@/components/ui/typography";
@@ -10,19 +11,19 @@ type Variant = "light" | "inverted" | "brand";
 
 const mediaAssetCanvasPalette = {
 	brand: {
-		bg: "#e88730",
-		sub: "rgba(250,248,244,0.8)",
-		text: "#faf8f4",
+		bg: "#ff8918",
+		sub: "rgba(250,250,250,0.8)",
+		text: "#fafafa",
 	},
 	inverted: {
-		bg: "#15171c",
-		sub: "#a09c95",
-		text: "#f0eee8",
+		bg: "#050a0f",
+		sub: "#999fa4",
+		text: "#eceff1",
 	},
 	light: {
-		bg: "#fbfaf7",
-		sub: "#706a61",
-		text: "#211f1b",
+		bg: "#f8fafb",
+		sub: "#5a6169",
+		text: "#0e1217",
 	},
 } as const;
 // next/font registers Hanken Grotesk under a hashed family name; resolve it
@@ -74,80 +75,12 @@ const variantStyles: Record<
 	},
 };
 
-const logoPolygons = [
-	{
-		points: [
-			[16, 2],
-			[8, 10],
-			[16, 12],
-		],
-		fill: "#f97316",
-		opacity: 0.9,
-	},
-	{
-		points: [
-			[16, 2],
-			[24, 10],
-			[16, 12],
-		],
-		fill: "#fb923c",
-		opacity: 0.85,
-	},
-	{
-		points: [
-			[8, 10],
-			[4, 18],
-			[16, 12],
-		],
-		fill: "#fdba74",
-		opacity: 0.8,
-	},
-	{
-		points: [
-			[24, 10],
-			[28, 18],
-			[16, 12],
-		],
-		fill: "#f97316",
-		opacity: 0.75,
-	},
-	{
-		points: [
-			[16, 12],
-			[4, 18],
-			[10, 26],
-		],
-		fill: "#fb923c",
-		opacity: 0.9,
-	},
-	{
-		points: [
-			[16, 12],
-			[28, 18],
-			[22, 26],
-		],
-		fill: "#fdba74",
-		opacity: 0.85,
-	},
-	{
-		points: [
-			[16, 12],
-			[10, 26],
-			[16, 30],
-		],
-		fill: "#f97316",
-		opacity: 0.8,
-	},
-	{
-		points: [
-			[16, 12],
-			[22, 26],
-			[16, 30],
-		],
-		fill: "#fb923c",
-		opacity: 0.75,
-	},
-] as const;
+const logoPolygons = LOGO_POLYGONS.map((polygon) => ({
+	...polygon,
+	coordinates: polygon.points
+		.split(" ")
+		.map((point) => point.split(",").map(Number) as [number, number]),
+}));
 
 function drawLogoOnCanvas(
 	ctx: CanvasRenderingContext2D,
@@ -156,13 +89,13 @@ function drawLogoOnCanvas(
 	size: number
 ) {
 	const scale = size / 32;
-	for (const { points, fill, opacity } of logoPolygons) {
+	for (const { coordinates, fill, opacity } of logoPolygons) {
 		ctx.globalAlpha = opacity;
 		ctx.fillStyle = fill;
 		ctx.beginPath();
-		ctx.moveTo(x + points[0][0] * scale, y + points[0][1] * scale);
-		for (let i = 1; i < points.length; i++) {
-			ctx.lineTo(x + points[i][0] * scale, y + points[i][1] * scale);
+		ctx.moveTo(x + coordinates[0][0] * scale, y + coordinates[0][1] * scale);
+		for (let i = 1; i < coordinates.length; i++) {
+			ctx.lineTo(x + coordinates[i][0] * scale, y + coordinates[i][1] * scale);
 		}
 		ctx.closePath();
 		ctx.fill();
@@ -199,12 +132,12 @@ function WebviseLogo({ size = 64 }: { size?: number }) {
 			width={size}
 			xmlns="http://www.w3.org/2000/svg"
 		>
-			{logoPolygons.map(({ fill, opacity, points }) => (
+			{logoPolygons.map(({ className, fill, opacity, points }) => (
 				<polygon
 					fill={fill}
-					key={points.map(([x, y]) => `${x},${y}`).join(" ")}
+					key={className}
 					opacity={opacity}
-					points={points.map(([x, y]) => `${x},${y}`).join(" ")}
+					points={points}
 				/>
 			))}
 		</svg>

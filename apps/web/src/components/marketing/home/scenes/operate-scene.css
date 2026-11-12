@@ -1,0 +1,276 @@
+@font-face {
+	font-family: "Nunito";
+	src: url("./fonts/nunito-v24-latin-regular.woff2") format("woff2");
+	font-weight: 400;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Nunito";
+	src: url("./fonts/nunito-v24-latin-600.woff2") format("woff2");
+	font-weight: 600;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Nunito";
+	src: url("./fonts/nunito-v24-latin-700.woff2") format("woff2");
+	font-weight: 700;
+	font-display: swap;
+}
+
+.wvo {
+	/* The product's own look. The ground is left clear: the site's card shows through. */
+	& .ss-stage {
+		--gutter: 24px;
+		--ss-font: "Nunito", system-ui, sans-serif;
+		--ss-accent: #3d5a47;
+		--ss-accent-soft: rgb(61 90 71 / 0.09);
+		--ss-surface: #ffffff;
+		--ss-chrome: #eceeec;
+		--ss-text-strong: #1f231f;
+		--ss-text: #5b615a;
+		--ss-text-faint: #8b9089;
+		--ss-line: rgb(31 35 31 / 0.12);
+		--ss-line-faint: rgb(31 35 31 / 0.07);
+		--ss-success: #2c9d5c;
+		overflow: hidden;
+		background: transparent;
+	}
+
+	/* Pinned top-left, a third past the right edge and off the bottom. */
+	.wvo-win {
+		position: absolute;
+		top: var(--gutter);
+		left: 40px;
+		width: 520px;
+		height: 330px;
+		background: var(--ss-surface);
+		border-radius: 10px;
+		box-shadow: var(--ss-shadow-hero);
+	}
+
+	.wvo-page {
+		height: 100%;
+		padding: 14px 16px;
+		background: var(--ss-surface);
+	}
+
+	.wvo-titlebar {
+		display: flex;
+		gap: 7px;
+		align-items: baseline;
+		margin-bottom: 6px;
+	}
+
+	.wvo-title {
+		font-size: 14px;
+		font-weight: 600;
+		line-height: 18px;
+		color: var(--ss-text-strong);
+	}
+
+	.wvo-count {
+		font-size: 11px;
+		font-variant-numeric: tabular-nums;
+		line-height: 18px;
+		color: var(--ss-text-faint);
+	}
+
+	/* One grid for the head and every row, so the columns line up */
+	.wvo-cols {
+		display: grid;
+		grid-template-columns: 66px 62px 118px 52px;
+		column-gap: 8px;
+		align-items: center;
+	}
+
+	.wvo-head {
+		height: 22px;
+		border-bottom: 1px solid var(--ss-line);
+	}
+
+	.wvo-th {
+		font-size: 10px;
+		line-height: 14px;
+		color: var(--ss-text-faint);
+	}
+
+	.wvo-row {
+		height: 30px;
+		padding: 0 8px;
+		margin: 0 -8px;
+		border-bottom: 1px solid var(--ss-line-faint);
+	}
+
+	/* The request the story is about: the product's selection wash */
+	.wvo-row[data-fresh] {
+		background: var(--ss-accent-soft);
+		border-bottom-color: transparent;
+		border-radius: 8px;
+	}
+
+	.wvo-name {
+		font-size: 11.5px;
+		font-weight: 600;
+		line-height: 15px;
+		color: var(--ss-text-strong);
+	}
+
+	.wvo-price {
+		font-size: 11.5px;
+		font-variant-numeric: tabular-nums;
+		line-height: 15px;
+		color: var(--ss-text);
+	}
+
+	/* The product's status pills: solid for new, outlined once sent */
+	.wvo-pill {
+		display: inline-flex;
+		align-items: center;
+		justify-self: start;
+		height: 19px;
+		padding: 0 8px;
+		font-size: 10px;
+		font-weight: 600;
+		line-height: 1;
+		white-space: nowrap;
+		border-radius: 999px;
+		transition:
+			background 0.3s ease,
+			color 0.3s ease,
+			box-shadow 0.3s ease,
+			scale 0.15s ease;
+		will-change: transform;
+	}
+
+	.wvo-pill[data-kind="new"] {
+		color: #ffffff;
+		background: var(--ss-accent);
+	}
+
+	.wvo-pill[data-kind="new"]:is([data-hover], [data-open]) {
+		background: #334c3c;
+	}
+	.wvo-pill[data-pressed] {
+		scale: 0.97;
+	}
+
+	.wvo-pill[data-kind="contacted"] {
+		color: var(--ss-accent);
+		background: #dde4db;
+	}
+
+	.wvo-check {
+		justify-self: start;
+		margin-left: 14px;
+	}
+
+	.wvo-pill[data-kind="sent"] {
+		color: var(--ss-text);
+		background: #f6f8f6;
+		box-shadow: inset 0 0 0 1px rgb(31 35 31 / 0.16);
+	}
+
+	/* The status menu, where the product opens it: under the pill */
+	.wvo-menu {
+		--ss-popover-bg: #ffffff;
+		--ss-popover-shadow: var(--ss-shadow-float);
+		--ss-raised: #ffffff;
+		position: absolute;
+		z-index: 3;
+		min-width: 118px;
+		font-size: 10.5px;
+	}
+
+	/* The payoff: the certificate, over the window's lower-left edge and filler
+     rows only, a level above the window. It arrives whole. */
+	.wvo-cert {
+		position: absolute;
+		bottom: var(--gutter);
+		left: var(--gutter);
+		width: 176px;
+		padding: 12px 14px 6px;
+		background: #ffffff;
+		border-radius: 12px;
+		box-shadow: var(--ss-shadow-satellite);
+		opacity: 0;
+		transform: translateY(16px) scale(0.97);
+		transform-origin: 30% 100%;
+		transition:
+			opacity 0.3s ease,
+			transform 0.65s cubic-bezier(0.2, 0.9, 0.25, 1);
+		will-change: transform;
+	}
+
+	.wvo-cert[data-show] {
+		opacity: 1;
+		transform: none;
+	}
+
+	.wvo-cert-head {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		padding-bottom: 8px;
+		border-bottom: 1px solid var(--ss-line);
+	}
+
+	.wvo-cert-sub {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.wvo-cert-name {
+		font-size: 11.5px;
+		font-weight: 700;
+		line-height: 16px;
+		color: var(--ss-text-strong);
+		white-space: nowrap;
+	}
+
+	.wvo-cert-for {
+		font-size: 10.5px;
+		line-height: 14px;
+		color: var(--ss-text);
+	}
+
+	.wvo-cert-kind {
+		flex: none;
+		padding: 3px 4px;
+		font-size: 8px;
+		font-weight: 700;
+		line-height: 1;
+		color: var(--ss-accent);
+		letter-spacing: 0.04em;
+		background: var(--ss-accent-soft);
+		border-radius: 4px;
+	}
+
+	.wvo-cert-row {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		height: 28px;
+	}
+
+	.wvo-cert-label {
+		font-size: 10.5px;
+		color: var(--ss-text);
+	}
+
+	.wvo-cert-total {
+		font-size: 13px;
+		font-weight: 700;
+		font-variant-numeric: tabular-nums;
+		color: var(--ss-text-strong);
+	}
+
+	/* No platform chrome: a plain address bar without traffic lights */
+	.ss-window__lights {
+		display: none;
+	}
+
+	.ss-window__bar {
+		padding-inline: 10px;
+	}
+}

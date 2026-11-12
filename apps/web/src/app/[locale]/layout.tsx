@@ -1,6 +1,5 @@
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { GeistMono } from "geist/font/mono";
 import type { Metadata } from "next";
 import { Hanken_Grotesk } from "next/font/google";
 import { notFound } from "next/navigation";
@@ -14,8 +13,6 @@ import {
 import "../../index.css";
 import { ConsentBanner } from "@/components/marketing/consent-banner";
 import { ThemeProvider } from "@/components/theme-provider";
-import { Toaster } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import { routing } from "@/i18n/routing";
 import { generateAlternates, localizedUrl, SITE_URL } from "@/lib/seo";
 import { SITE_THEME_IDS } from "@/lib/themes";
@@ -27,13 +24,8 @@ const CLIENT_MESSAGE_NAMESPACES = [
 	"caseStudies",
 	"chatWidget",
 	"consent",
-	"contact",
-	"customSystems",
-	"faq",
 	"media",
-	"nav",
 	"reportDownload",
-	"services",
 	"themeSwitcher",
 	"wpHealthReport",
 ] as const;
@@ -162,9 +154,7 @@ export default async function LocaleLayout({
 					`}
 				</Script>
 			</head>
-			<body
-				className={`${hankenGrotesk.variable} ${GeistMono.variable} antialiased`}
-			>
+			<body className={`${hankenGrotesk.variable} antialiased`}>
 				<ThemeProvider
 					attribute="class"
 					defaultTheme="light"
@@ -173,10 +163,9 @@ export default async function LocaleLayout({
 					themes={SITE_THEME_IDS}
 				>
 					<NextIntlClientProvider messages={messages}>
-						<TooltipProvider>{children}</TooltipProvider>
+						{children}
 						<ConsentBanner />
 					</NextIntlClientProvider>
-					<Toaster richColors />
 					<Analytics />
 					<SpeedInsights />
 				</ThemeProvider>

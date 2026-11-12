@@ -4,7 +4,8 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { LegalPageShell } from "@/components/marketing/legal-page-shell";
 import { InlineLink } from "@/components/ui/typography";
 import { getLegalPage } from "@/data/legal";
-import { generateAlternates } from "@/lib/seo";
+import { type LocaleParams, pinLocale } from "@/i18n/static-locale";
+import { generateAlternates, localizedUrl } from "@/lib/seo";
 
 const EMAIL_RE = /([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/;
 
@@ -24,17 +25,33 @@ function renderLine(line: string) {
 	);
 }
 
-export async function generateMetadata(): Promise<Metadata> {
+export async function generateMetadata({
+	params,
+}: {
+	params: LocaleParams;
+}): Promise<Metadata> {
+	await pinLocale(params);
 	const locale = await getLocale();
 	const page = getLegalPage("imprint", locale);
 	return {
 		title: page?.title ?? "Imprint",
 		description: page?.subtitle,
 		alternates: generateAlternates("/imprint", locale),
+		openGraph: {
+			title: page?.title,
+			description: page?.subtitle,
+			siteName: "webvise",
+			url: localizedUrl("/imprint", locale),
+		},
 	};
 }
 
-export default async function ImprintPage() {
+export default async function ImprintPage({
+	params,
+}: {
+	params: LocaleParams;
+}) {
+	await pinLocale(params);
 	const locale = await getLocale();
 	const page = getLegalPage("imprint", locale);
 	if (!page) {

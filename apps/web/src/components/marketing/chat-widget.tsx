@@ -5,7 +5,6 @@ import { DefaultChatTransport } from "ai";
 import { MessageCircle, Send, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useTranslations } from "next-intl";
-import posthog from "posthog-js";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { Streamdown } from "streamdown";
 
@@ -13,6 +12,7 @@ import Logo from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Body, Caption, inlineLinkClassName } from "@/components/ui/typography";
+import { loadedPostHog } from "@/lib/posthog-client";
 import { track } from "@/lib/track";
 import { cn } from "@/lib/utils";
 
@@ -56,10 +56,8 @@ export default function ChatWidget() {
 		transport: new DefaultChatTransport({
 			api: "/api/ai/chat",
 			headers: (): Record<string, string> => {
-				if (
-					(posthog as { __loaded?: boolean }).__loaded &&
-					!posthog.has_opted_out_capturing()
-				) {
+				const posthog = loadedPostHog();
+				if (posthog && !posthog.has_opted_out_capturing()) {
 					return { "X-POSTHOG-DISTINCT-ID": posthog.get_distinct_id() };
 				}
 				return {};
@@ -178,9 +176,9 @@ export default function ChatWidget() {
 						aria-labelledby={titleId}
 						aria-modal="true"
 						className={cn(
-							"fixed z-50 flex flex-col overflow-hidden border border-border bg-background shadow-2xl",
+							"fixed z-50 flex flex-col overflow-hidden bg-card shadow-[0_0_0_1px_rgba(14,18,23,0.08),0_32px_64px_-24px_rgba(14,18,23,0.4),0_12px_24px_-16px_rgba(14,18,23,0.2)] md:rounded-[20px] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.1)]",
 							"inset-0 h-dvh",
-							"md:inset-auto md:right-6 md:bottom-20 md:h-[min(520px,80svh)] md:w-[400px]"
+							"md:inset-auto md:right-6 md:bottom-24 md:h-[min(560px,80svh)] md:w-[400px]"
 						)}
 						data-ai-disclosure="direct-interaction"
 						data-ai-system="chatbot"
@@ -192,7 +190,7 @@ export default function ChatWidget() {
 						role="dialog"
 						transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
 					>
-						<div className="flex items-center justify-between border-border/60 border-b bg-card px-4 py-3">
+						<div className="flex items-center justify-between border-foreground/[0.07] border-b px-5 py-4">
 							<div className="flex items-center gap-2.5">
 								<Logo className="h-5 w-5" />
 								<div>
@@ -217,7 +215,7 @@ export default function ChatWidget() {
 						</div>
 
 						<div
-							className="border-border/60 border-b bg-muted/30 px-4 py-2"
+							className="border-foreground/[0.07] border-b bg-foreground/[0.025] px-5 py-2"
 							data-ai-disclosure="true"
 							role="note"
 						>
@@ -226,7 +224,7 @@ export default function ChatWidget() {
 							</Caption>
 						</div>
 
-						<div className="flex-1 space-y-3 overflow-y-auto px-4 py-4">
+						<div className="flex-1 space-y-3 overflow-y-auto px-5 py-5">
 							{messages.length === 0 ? (
 								<div className="flex h-full flex-col justify-end gap-3">
 									<Caption className="text-center">{t("intro")}</Caption>
@@ -253,10 +251,10 @@ export default function ChatWidget() {
 									<motion.div
 										animate={{ opacity: 1, y: 0 }}
 										className={cn(
-											"max-w-[85%] px-3 py-2 text-sm",
+											"max-w-[85%] rounded-[14px] px-3.5 py-2.5 text-sm leading-6",
 											message.role === "user"
-												? "ml-auto bg-primary/10"
-												: "mr-auto bg-secondary/40"
+												? "ml-auto rounded-br-[4px] bg-foreground text-background"
+												: "mr-auto rounded-bl-[4px] bg-foreground/[0.05]"
 										)}
 										initial={{ opacity: 0, y: 8 }}
 										key={message.id}
@@ -282,7 +280,7 @@ export default function ChatWidget() {
 								))
 							)}
 							{isThinking && (
-								<div className="mr-auto flex items-center gap-1.5 bg-secondary/40 px-3 py-2.5">
+								<div className="mr-auto flex items-center gap-1.5 rounded-[14px] rounded-bl-[4px] bg-foreground/[0.05] px-3.5 py-3">
 									<span className="h-1.5 w-1.5 animate-pulse rounded-full bg-muted-foreground/50" />
 									<span className="h-1.5 w-1.5 animate-pulse rounded-full bg-muted-foreground/50 [animation-delay:150ms]" />
 									<span className="h-1.5 w-1.5 animate-pulse rounded-full bg-muted-foreground/50 [animation-delay:300ms]" />
@@ -293,7 +291,7 @@ export default function ChatWidget() {
 
 						<form
 							autoComplete="off"
-							className="flex items-center gap-2 border-border/60 border-t px-3 py-2.5 pb-[max(0.625rem,env(safe-area-inset-bottom))]"
+							className="flex items-center gap-2 border-foreground/[0.07] border-t px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]"
 							onSubmit={handleSubmit}
 						>
 							<Input
@@ -332,7 +330,7 @@ export default function ChatWidget() {
 				aria-expanded={open}
 				aria-label={open ? t("close") : t("open")}
 				className={cn(
-					"fixed right-6 bottom-6 z-40 size-12 shadow-lg",
+					"fixed right-6 bottom-6 z-40 size-13 rounded-full shadow-[0_12px_28px_-10px_rgba(14,18,23,0.6)]",
 					open && "max-md:hidden"
 				)}
 				data-marketing-floating="true"

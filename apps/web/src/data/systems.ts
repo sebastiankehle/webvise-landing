@@ -1,21 +1,14 @@
-import type { AnimatedIcon } from "@/components/marketing/card-hover-icon";
-import { BotMessageSquareIcon } from "@/components/ui/bot-message-square";
-import { BrainIcon } from "@/components/ui/brain";
-import { CalendarCheckIcon } from "@/components/ui/calendar-check";
-import { IdCardIcon } from "@/components/ui/id-card";
-import { LayoutGridIcon } from "@/components/ui/layout-grid";
-import { WorkflowIcon } from "@/components/ui/workflow";
-
 export interface CustomSystem {
 	capabilityCount: number;
 	exampleCount: number;
 	faqCount: number;
-	icon: AnimatedIcon;
 	moduleCount: number;
 	outcomeCount: number;
 	proof: {
 		caseStudySlug: string;
 		image: string;
+		shots?: string[];
+		still?: boolean;
 		imageClassName?: string;
 	};
 	relatedSlugs: string[];
@@ -27,15 +20,14 @@ export const customSystems: CustomSystem[] = [
 	{
 		slug: "internal-tools-dashboards",
 		translationKey: "internalTools",
-		icon: LayoutGridIcon,
 		exampleCount: 6,
 		capabilityCount: 6,
 		moduleCount: 6,
 		outcomeCount: 4,
 		faqCount: 3,
 		proof: {
-			caseStudySlug: "relay",
-			image: "/images/case-studies/relay/margin-dashboard.webp",
+			caseStudySlug: "screencurve",
+			image: "/images/case-studies/screencurve/archive.webp",
 		},
 		relatedSlugs: [
 			"agentic-workflow-automation",
@@ -45,7 +37,6 @@ export const customSystems: CustomSystem[] = [
 	{
 		slug: "agentic-workflow-automation",
 		translationKey: "aiWorkflows",
-		icon: BotMessageSquareIcon,
 		exampleCount: 6,
 		capabilityCount: 6,
 		moduleCount: 6,
@@ -61,22 +52,21 @@ export const customSystems: CustomSystem[] = [
 	{
 		slug: "company-brain-memory-systems",
 		translationKey: "companyBrain",
-		icon: BrainIcon,
 		exampleCount: 6,
 		capabilityCount: 6,
 		moduleCount: 6,
 		outcomeCount: 4,
 		faqCount: 3,
 		proof: {
-			caseStudySlug: "morrow",
-			image: "/images/case-studies/morrow/memory-health-dashboard.webp",
+			caseStudySlug: "rautenberg-pitch-engine",
+			image:
+				"/images/case-studies/rautenberg-pitch-engine/vault-structure.webp?v=20261111-eagle-obsidian",
 		},
 		relatedSlugs: ["agentic-workflow-automation", "internal-tools-dashboards"],
 	},
 	{
 		slug: "client-portals-business-apps",
 		translationKey: "portals",
-		icon: IdCardIcon,
 		exampleCount: 5,
 		capabilityCount: 6,
 		moduleCount: 6,
@@ -84,14 +74,18 @@ export const customSystems: CustomSystem[] = [
 		faqCount: 3,
 		proof: {
 			caseStudySlug: "finanzierungszertifikat",
-			image: "/images/case-studies/ohyp-fintech/admin-dashboard.webp",
+			image: "/images/case-studies/ohyp-fintech/admin-dashboard-v2.webp",
+			// A portal has two sides: what the client fills in, what the team sees.
+			shots: [
+				"/images/case-studies/ohyp-fintech/form-step-v2.webp",
+				"/images/case-studies/ohyp-fintech/admin-dashboard-v2.webp",
+			],
 		},
 		relatedSlugs: ["booking-event-platforms", "internal-tools-dashboards"],
 	},
 	{
 		slug: "booking-event-platforms",
 		translationKey: "booking",
-		icon: CalendarCheckIcon,
 		exampleCount: 6,
 		capabilityCount: 6,
 		moduleCount: 6,
@@ -99,22 +93,21 @@ export const customSystems: CustomSystem[] = [
 		faqCount: 3,
 		proof: {
 			caseStudySlug: "finanzierungszertifikat",
-			image: "/images/case-studies/ohyp-fintech/form.webp",
+			image: "/images/case-studies/ohyp-fintech/form-step-v2.webp",
 		},
 		relatedSlugs: ["client-portals-business-apps", "website-to-app-upgrades"],
 	},
 	{
 		slug: "website-to-app-upgrades",
 		translationKey: "websiteApps",
-		icon: WorkflowIcon,
 		exampleCount: 5,
 		capabilityCount: 6,
 		moduleCount: 6,
 		outcomeCount: 4,
 		faqCount: 3,
 		proof: {
-			caseStudySlug: "old-world-labs",
-			image: "/images/case-studies/old-world-labs/benefits.webp",
+			caseStudySlug: "maerkische-projekt-bau",
+			image: "/images/case-studies/mp-bau-construction/chatbot.webp?v=065b54f",
 		},
 		relatedSlugs: ["client-portals-business-apps", "internal-tools-dashboards"],
 	},

@@ -1,0 +1,57 @@
+/* Keel's own palette, kept inside its scene. */
+.keel-scene {
+	--k-brand: #1a4be0;
+	--k-soft: #e4eafc;
+	--k-bar: #b9c8f7;
+	--k-line: #e8e8e8;
+	--k-ground: #f4f4f4;
+	--k-ink: #111111;
+	--k-ink2: #3a3a3a;
+	--k-ink3: #5f5f5f;
+	--k-ink4: #707070;
+	--k-ok: #0a8052;
+	--k-danger: #cf2d47;
+	color: var(--k-ink);
+	background: #ffffff;
+}
+
+/* Tool names and scopes are identifiers: plain monospace, as typed. */
+.keel-scene code {
+	padding: 0;
+	font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+	text-transform: none;
+	letter-spacing: 0;
+	background: none;
+}
+
+/* The blue plane, sheared at the slope of the Keel mark. */
+.keel-plane {
+	background: var(--k-brand);
+	clip-path: polygon(0 118px, 100% 0, 100% 100%, 0 100%);
+}
+
+.keel-row-in {
+	animation: keel-row-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes keel-row-in {
+	from {
+		height: 0;
+		opacity: 0;
+	}
+}
+
+.keel-pulse {
+	animation: keel-pulse 2.6s ease-in-out infinite;
+}
+@keyframes keel-pulse {
+	50% {
+		opacity: 0.35;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.keel-row-in,
+	.keel-pulse {
+		animation: none;
+	}
+}

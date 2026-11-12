@@ -1,6 +1,6 @@
 # webvise Design System
 
-Portable specification for webvise web, sales, proposal, and print assets. Values below were taken from `apps/web/src/index.css` and the vault Print-Kit on 2026-08-18.
+Portable specification for webvise web, sales, proposal, and print assets. Values below were taken from `apps/web/src/index.css` and the vault Print-Kit on 2026-08-18; the web tokens and type steps were revised with the site redesign on 2026-11-12.
 
 If the repo is available, compare this file with `apps/web/src/index.css` before building. The live stylesheet wins when values differ; update this file in the same change.
 
@@ -25,6 +25,7 @@ If the repo is available, compare this file with `apps/web/src/index.css` before
 - Keep cards borderless on the web unless a documented pattern calls for a line. Print cards may use the Print-Kit hairline.
 - Use a 10 px base radius. Larger hero surfaces may use the documented 14–18 px print exceptions.
 - Keep the webvise mark and wordmark primary. Client branding requires an explicit brief and permission.
+- The mark is the faceted orange shape in `apps/web/src/components/logo.tsx`; every other drawing of it reads `LOGO_POLYGONS` from that file. The wordmark is lowercase `webvise` in Hanken Grotesk 500 at `-0.035em`.
 
 ## 2. Default light tokens
 
@@ -130,9 +131,24 @@ The default CI deliberately collapses every named weight to two real values:
 - Body: 400.
 - Strong, headings, labels, and display: 500.
 - Never synthesize 600–900.
-- Display letter-spacing: `-0.015em` on the site.
+- Letter-spacing on the site: `-0.035em` for the home display line, `-0.03em` for page titles, `-0.028em` for section titles, `-0.015em` for 18 px headings.
 - Body letter-spacing: `0` with `liga` and `calt` enabled.
 - Print uses tabular numerals.
+
+### Web type steps
+
+One family, six sizes. A new page uses these and adds none.
+
+| Role | Size | Weight | Component |
+|---|---:|---:|---|
+| Display (home hero only) | 72 px, 36 px on phones | 500 | `Display` |
+| Page title | 48 px, 30 px on phones | 500 | `H1` |
+| Section title | 40 px, 28 px on phones | 500 | `H2` |
+| Heading and lead | 18 px | 500 / 400 | `H3`, lead paragraphs |
+| Body | 16 px | 400 | running text, in full ink or `foreground/75` |
+| Small | 14 px | 400 | navigation, footer, meta, labels |
+
+No label above a heading and no second subtitle below it. No monospace outside code.
 
 ### Print type scale
 
@@ -216,6 +232,12 @@ No default border or shadow. Use surface contrast first.
 ```
 
 Use this as a quiet structural texture, not as a full-page motif.
+
+### Controls
+
+- One button shape: flat fill, 6 px radius (`--radius-sm`), 40 or 48 px tall (`actionVariants` in `apps/web/src/components/marketing/action.tsx`). Primary is orange with white text, the alternative is ink, the quiet one a 6% ink tint.
+- Inputs share the 6 px radius, 44 px height and 16 px text.
+- Pictures use one crop, 1512:768, with a 10 px radius and no border.
 
 ### Motion
 

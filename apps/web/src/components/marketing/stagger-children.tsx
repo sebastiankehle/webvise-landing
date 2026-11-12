@@ -1,6 +1,5 @@
 "use client";
 
-import { useInView } from "motion/react";
 import type { ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
 
@@ -16,12 +15,29 @@ export default function StaggerChildren({
 	className,
 }: StaggerChildrenProps) {
 	const ref = useRef<HTMLDivElement>(null);
-	const isInView = useInView(ref, { once: true, margin: "-60px" });
+	const [isInView, setIsInView] = useState(false);
 	const [fallbackVisible, setFallbackVisible] = useState(false);
 
 	useEffect(() => {
 		const timeout = window.setTimeout(() => setFallbackVisible(true), 1200);
-		return () => window.clearTimeout(timeout);
+		const node = ref.current;
+		// Once, when the block is 60px inside the viewport.
+		const observer = new IntersectionObserver(
+			([entry]) => {
+				if (entry?.isIntersecting) {
+					setIsInView(true);
+					observer.disconnect();
+				}
+			},
+			{ rootMargin: "-60px" }
+		);
+		if (node) {
+			observer.observe(node);
+		}
+		return () => {
+			window.clearTimeout(timeout);
+			observer.disconnect();
+		};
 	}, []);
 
 	const shouldShow = isInView || fallbackVisible;

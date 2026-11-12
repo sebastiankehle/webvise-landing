@@ -16,6 +16,8 @@ export const wpHealthRouter = router({
 				url: z.string().url(),
 				email: z.string().email().optional(),
 				firstName: z.string().max(100).optional(),
+				// Optional so client bundles from before this field keep working.
+				locale: z.enum(["de", "en"]).optional(),
 			})
 		)
 		.mutation(async ({ input }) => {

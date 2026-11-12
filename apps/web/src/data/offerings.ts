@@ -105,12 +105,6 @@ export function getRelatedOfferings(slug: string, count = 2): Offering[] {
 	return [...sameGroup, ...fallback].slice(0, count);
 }
 
-export function getOfferingIcon(offering: Offering) {
-	return offering.kind === "service"
-		? offering.service.icon
-		: offering.system.icon;
-}
-
 export function getOfferingProof(offering: Offering) {
 	return offering.kind === "service"
 		? offering.service.proof

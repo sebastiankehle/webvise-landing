@@ -1,18 +1,26 @@
-import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Search } from "lucide-react";
 import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 import JsonLd from "@/components/json-ld";
+import { ActionArrow } from "@/components/marketing/action";
 import {
 	ConstructedGrid,
 	GridContainer,
 } from "@/components/marketing/section-wrapper";
 import { Button } from "@/components/ui/button";
-import { Caption, H1, H3, Lead, Muted } from "@/components/ui/typography";
+import { H1 } from "@/components/ui/typography";
 import { getBlogPosts } from "@/data/blog";
+import { BLOG_TOPICS } from "@/data/blog-topics";
 import { Link } from "@/i18n/navigation";
+import { type LocaleParams, pinLocale } from "@/i18n/static-locale";
 import { generateAlternates, localizedUrl } from "@/lib/seo";
 
 const POSTS_PER_PAGE = 9;
+
+const TOPICS = BLOG_TOPICS;
+
+const chip =
+	"inline-flex h-9 items-center rounded-sm px-3 text-sm outline-none transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-ring/70";
 
 type PageItem = number | "ellipsis";
 
@@ -48,7 +56,12 @@ function computePageItems(page: number, totalPages: number): PageItem[] {
 	return items;
 }
 
-export async function generateMetadata(): Promise<Metadata> {
+export async function generateMetadata({
+	params,
+}: {
+	params: LocaleParams;
+}): Promise<Metadata> {
+	await pinLocale(params);
 	const [t, locale] = await Promise.all([getTranslations("blog"), getLocale()]);
 	const title = t("title");
 	const description = t("subtitle");
@@ -72,16 +85,37 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function BlogPage({
+	params,
 	searchParams,
 }: {
-	searchParams: Promise<{ page?: string }>;
+	params: LocaleParams;
+	searchParams: Promise<{ page?: string; q?: string; topic?: string }>;
 }) {
-	const [t, locale, params] = await Promise.all([
+	await pinLocale(params);
+	const [t, locale, query] = await Promise.all([
 		getTranslations("blog"),
 		getLocale(),
 		searchParams,
 	]);
-	const posts = getBlogPosts(locale);
+	const topic = TOPICS.find((entry) => entry.key === query.topic);
+	const search = query.q?.trim().slice(0, 80) ?? "";
+	const needle = search.toLowerCase();
+	const posts = getBlogPosts(locale).filter(
+		(post) =>
+			(!topic ||
+				post.tags?.some((tag) =>
+					(topic.tags as readonly string[]).includes(tag)
+				)) &&
+			(!needle ||
+				`${post.title} ${post.excerpt} ${post.keyword}`
+					.toLowerCase()
+					.includes(needle))
+	);
+	// Filters ride along in every pagination link.
+	const filters = {
+		...(topic ? { topic: topic.key } : {}),
+		...(search ? { q: search } : {}),
+	};
 	const blogUrl = localizedUrl("/blog", locale);
 
 	const jsonLd = {
@@ -100,8 +134,8 @@ export default async function BlogPage({
 		},
 	};
 
-	const currentPage = Math.max(1, Number(params.page) || 1);
-	const totalPages = Math.ceil(posts.length / POSTS_PER_PAGE);
+	const currentPage = Math.max(1, Number(query.page) || 1);
+	const totalPages = Math.max(1, Math.ceil(posts.length / POSTS_PER_PAGE));
 	const page = Math.min(currentPage, totalPages);
 	const paginatedPosts = posts.slice(
 		(page - 1) * POSTS_PER_PAGE,
@@ -113,47 +147,110 @@ export default async function BlogPage({
 	return (
 		<>
 			<JsonLd data={jsonLd} />
-			<section className="section-inverted relative pt-32 pb-24 md:pt-44 md:pb-44">
-				<ConstructedGrid hatch variant="page" />
+			<section className="relative pt-12 pb-20 md:pt-20 md:pb-28">
+				<ConstructedGrid variant="page" />
 				<GridContainer>
-					<div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-end">
-						<div className="max-w-[660px]">
-							<H1>{t("title")}</H1>
-						</div>
-						<div className="max-w-[560px] lg:justify-self-end">
-							<Lead>{t("subtitle")}</Lead>
-						</div>
+					<div className="grid gap-x-6 gap-y-6 lg:grid-cols-12 lg:items-end">
+						<H1 className="lg:col-span-6">{t("title")}</H1>
+						<p className="max-w-[52ch] text-foreground text-lg leading-[1.6] lg:col-span-5 lg:col-start-8">
+							{t("subtitle")}
+						</p>
 					</div>
 
-					<div className="mt-10 grid gap-5 md:mt-16 md:grid-cols-3">
-						{paginatedPosts.map((post) => (
-							<Link
-								className="surface-card group flex flex-col p-6 outline-none focus-visible:ring-2 focus-visible:ring-ring/50 md:p-7"
-								href={`/blog/${post.slug}` as "/blog"}
-								key={post.slug}
-							>
-								<div className="flex items-center justify-between gap-4">
-									<Caption className="text-brand-readable">
-										<time dateTime={post.date}>
-											{new Date(post.date).toLocaleDateString(locale, {
-												day: "numeric",
-												month: "short",
-												year: "numeric",
-											})}
-										</time>
-									</Caption>
-									<Caption className="tabular-nums">
-										{post.readingTime} {t("minRead")}
-									</Caption>
-								</div>
-								<H3 className="mt-5 line-clamp-2">{post.title}</H3>
-								<Muted className="mt-3 line-clamp-3">{post.excerpt}</Muted>
-								<div className="mt-auto flex items-center justify-end pt-6">
-									<ArrowRight className="h-4 w-4 text-brand-icon transition-transform duration-300 group-hover:translate-x-1" />
-								</div>
-							</Link>
-						))}
+					<div className="mt-10 flex flex-wrap items-center justify-between gap-x-6 gap-y-4 md:mt-14">
+						<ul className="flex flex-wrap gap-2">
+							{[undefined, ...TOPICS].map((entry) => (
+								<li key={entry?.key ?? "all"}>
+									<Link
+										aria-current={
+											entry?.key === topic?.key ? "true" : undefined
+										}
+										className={`${chip} ${
+											entry?.key === topic?.key
+												? "border border-foreground bg-foreground text-background"
+												: "border border-foreground/15 text-foreground hover:bg-foreground/[0.06]"
+										}`}
+										href={{
+											pathname: "/blog",
+											query: {
+												...(entry ? { topic: entry.key } : {}),
+												...(search ? { q: search } : {}),
+											},
+										}}
+									>
+										{t(`filter.topics.${entry?.key ?? "all"}`)}
+									</Link>
+								</li>
+							))}
+						</ul>
+						{/* A plain GET form: search works without script. */}
+						<form className="relative w-full sm:w-64">
+							{topic && <input name="topic" type="hidden" value={topic.key} />}
+							<label className="sr-only" htmlFor="blog-search">
+								{t("filter.search")}
+							</label>
+							<Search
+								aria-hidden="true"
+								className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-muted-foreground"
+							/>
+							<input
+								className="h-10 w-full rounded-sm bg-card pr-3 pl-10 text-base text-foreground shadow-[inset_0_0_0_1px_rgba(14,18,23,0.12)] outline-none transition-shadow placeholder:text-muted-foreground focus-visible:shadow-[inset_0_0_0_2px_var(--ring)] dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]"
+								defaultValue={search}
+								id="blog-search"
+								name="q"
+								placeholder={t("filter.search")}
+								type="search"
+							/>
+						</form>
 					</div>
+
+					{posts.length === 0 && (
+						<p className="mt-10 text-base text-foreground/75 leading-[1.6]">
+							{t("filter.empty")}{" "}
+							<Link
+								className="text-foreground underline decoration-foreground/30 underline-offset-4 hover:decoration-foreground"
+								href="/blog"
+							>
+								{t("filter.reset")}
+							</Link>
+						</p>
+					)}
+
+					<ul className="mt-6 md:mt-8">
+						{paginatedPosts.map((post) => (
+							<li key={post.slug}>
+								<Link
+									className="group/arrow -mx-4 grid gap-x-6 gap-y-1.5 rounded-[10px] px-4 py-6 outline-none transition-colors duration-150 hover:bg-card focus-visible:bg-card md:grid-cols-12 md:items-baseline"
+									href={`/blog/${post.slug}` as "/blog"}
+								>
+									<time
+										className="text-muted-foreground text-sm tabular-nums md:col-span-2"
+										dateTime={post.date}
+									>
+										{new Date(post.date).toLocaleDateString(locale, {
+											day: "numeric",
+											month: "short",
+											year: "numeric",
+										})}
+									</time>
+									<span className="md:col-span-8">
+										<h2 className="font-display text-foreground text-lg leading-snug">
+											{post.title}
+										</h2>
+										<span className="mt-1.5 line-clamp-2 block max-w-[68ch] text-base text-foreground/75 leading-[1.6]">
+											{post.excerpt}
+										</span>
+									</span>
+									<span className="flex items-center gap-3 text-muted-foreground text-sm tabular-nums md:col-span-2 md:justify-end">
+										{post.readingTime} {t("minRead")}
+										<span className="text-foreground">
+											<ActionArrow />
+										</span>
+									</span>
+								</Link>
+							</li>
+						))}
+					</ul>
 
 					{totalPages > 1 && (
 						<nav
@@ -167,7 +264,9 @@ export default async function BlogPage({
 											href={{
 												pathname: "/blog",
 												query:
-													page === 2 ? undefined : { page: String(page - 1) },
+													page === 2
+														? filters
+														: { ...filters, page: String(page - 1) },
 											}}
 										/>
 									}
@@ -214,7 +313,9 @@ export default async function BlogPage({
 														href={{
 															pathname: "/blog",
 															query:
-																item === 1 ? undefined : { page: String(item) },
+																item === 1
+																	? filters
+																	: { ...filters, page: String(item) },
 														}}
 													/>
 												}
@@ -234,7 +335,7 @@ export default async function BlogPage({
 										<Link
 											href={{
 												pathname: "/blog",
-												query: { page: String(page + 1) },
+												query: { ...filters, page: String(page + 1) },
 											}}
 										/>
 									}

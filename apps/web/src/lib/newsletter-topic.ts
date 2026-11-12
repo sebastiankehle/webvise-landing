@@ -1,4 +1,5 @@
 import type {
+	EmailLocale,
 	WelcomeSource,
 	WelcomeTopic,
 } from "@webvise-app/api/email/newsletter";
@@ -30,7 +31,8 @@ function pickTopic(tags: string[]): WelcomeTopic | undefined {
 }
 
 export function welcomeSourceFromPath(
-	path: string | null | undefined
+	path: string | null | undefined,
+	locale: EmailLocale = "en"
 ): WelcomeSource | undefined {
 	const slug = path?.match(BLOG_SLUG_RE)?.[1];
 	if (!slug) {
@@ -47,5 +49,11 @@ export function welcomeSourceFromPath(
 		return;
 	}
 
-	return { topic, postTitle: post.title };
+	// The topic map reads the English tags; the title follows the reader's language.
+	const postTitle =
+		locale === "en"
+			? post.title
+			: (getBlogPostBySlug(slug, locale)?.title ?? post.title);
+
+	return { topic, postTitle };
 }

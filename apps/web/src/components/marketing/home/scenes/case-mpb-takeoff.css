@@ -1,0 +1,167 @@
+.wct {
+	& .ss-stage {
+		--navy: #0f1a2b;
+		--mono: ui-monospace, "SF Mono", Menlo, monospace;
+		overflow: hidden;
+		background: transparent;
+	}
+
+	/* Pinned top-left, off the right and the bottom */
+	.wct-win {
+		position: absolute;
+		top: 22px;
+		left: 24px;
+		width: 420px;
+		height: 290px;
+		border-radius: 10px;
+		box-shadow: var(--ss-shadow-hero);
+	}
+
+	.ss-window__lights {
+		display: none;
+	}
+	.ss-window__bar {
+		padding-inline: 10px;
+	}
+
+	.wct-page {
+		height: 100%;
+		padding: 12px 14px;
+		background: #f3f4f6;
+	}
+
+	.wct-top {
+		display: flex;
+		gap: 12px;
+		align-items: center;
+		margin-bottom: 10px;
+	}
+
+	.wct-title {
+		font-size: 12.5px;
+		font-weight: 600;
+		color: var(--ss-text-strong);
+	}
+
+	.wct-plans {
+		display: flex;
+		gap: 5px;
+	}
+
+	/* The plans the agent reads */
+	.wct-plan {
+		display: inline-flex;
+		gap: 4px;
+		align-items: center;
+		height: 20px;
+		padding: 0 7px;
+		font-size: 9px;
+		color: var(--ss-text);
+		white-space: nowrap;
+		background: #fff;
+		border-radius: 6px;
+		box-shadow: inset 0 0 0 1px rgb(15 26 43 / 0.1);
+	}
+
+	.wct-plan svg {
+		flex: none;
+		color: #c2410c;
+	}
+
+	.wct-card {
+		min-height: 220px;
+		padding: 6px 12px 0;
+		background: #fff;
+		border-radius: 10px 10px 0 0;
+		box-shadow: 0 0 0 1px rgb(15 26 43 / 0.07);
+	}
+
+	/* One grid for the head and every row */
+	.wct-cols {
+		display: grid;
+		grid-template-columns: 20px 104px 30px 22px 1fr;
+		column-gap: 8px;
+		align-items: center;
+	}
+
+	.wct-head {
+		height: 20px;
+		font-size: 9px;
+		color: var(--ss-text-faint);
+		border-bottom: 1px solid rgb(15 26 43 / 0.1);
+	}
+
+	.wct-slot {
+		position: relative;
+		height: 23px;
+	}
+
+	.wct-row {
+		position: absolute;
+		inset: 0;
+		font-size: 10px;
+		color: var(--ss-text-strong);
+		border-bottom: 1px solid rgb(15 26 43 / 0.06);
+		transition: opacity 0.35s ease;
+	}
+
+	.wct-real {
+		opacity: 0;
+	}
+	.wct-slot[data-on] .wct-real {
+		opacity: 1;
+	}
+	.wct-slot[data-on] .wct-ghost {
+		opacity: 0;
+	}
+
+	.wct-section {
+		inset: 0 -12px;
+		display: flex;
+		align-items: center;
+		padding: 0 12px;
+		font-size: 9px;
+		font-weight: 700;
+		letter-spacing: 0.04em;
+		background: rgb(15 26 43 / 0.035);
+	}
+
+	.wct-pos {
+		font-family: var(--mono);
+		font-size: 9px;
+		color: var(--ss-text);
+	}
+
+	.wct-num {
+		justify-self: end;
+		font-variant-numeric: tabular-nums;
+	}
+
+	.wct-unit {
+		color: var(--ss-text);
+	}
+
+	/* Where the quantity comes from, as the agent writes it down */
+	.wct-from {
+		display: inline-flex;
+		gap: 6px;
+		align-items: center;
+		font-family: var(--mono);
+		font-size: 8.5px;
+		color: var(--ss-text);
+		white-space: nowrap;
+	}
+
+	/* An assumption, marked for the estimator to check */
+	.wct-note {
+		padding: 2px 4px;
+		font-family: var(--ss-font);
+		font-size: 7.5px;
+		font-weight: 700;
+		line-height: 1;
+		color: #92500e;
+		letter-spacing: 0.04em;
+		background: #fdecc8;
+		border-radius: 4px;
+	}
+}

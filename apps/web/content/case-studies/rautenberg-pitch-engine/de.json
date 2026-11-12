@@ -3,11 +3,23 @@
   "title": "Ein Claude-Code-Recherche-Studio für einen Doku-Produzenten",
   "liveUrlLabel": "Privates Repository",
   "excerpt": "Für einen Doku-Produzenten, der Deutschlands größte öffentlich-rechtliche Sender pitcht, entstand ein privates KI-Recherche- und Schreib-Studio. Das Hieronymus Vault kombiniert eine Obsidian-native Wissensbasis, einen versionierten stilometrischen Korpus, eigene Claude-Code-Skills und eine Multi-Agent-Fan-out-Architektur. Idee zu sendefertiger DOCX in unter drei Stunden. In seiner Stimme. Jede Aussage quellenverfolgt.",
+  "signature": {
+    "title": "Das System schreibt in der Stimme des Produzenten",
+    "body": "8 seiner früheren Pitches wurden in einen Stimmkorpus zerlegt, in dem das Modell schreibt. Recherche-Agenten arbeiten parallel an Quellen, Expertenbesetzung und Lücken im Senderportfolio, und das fertige Exposé entsteht als DOCX im Corporate Design des Verlags. Jede externe Korrektur fließt zurück in den Vault und schärft den Korpus."
+  },
   "challenge": "Ein einziger Doku-Auftrag bewegt sich im sechs- bis siebenstelligen Bereich und hängt an einem fünfzehnseitigen Exposé, das eine Redakteurin im exakt richtigen Ton erreicht. Doku-Produzenten verschicken Dutzende davon pro Jahr. Jeder Pitch verlangt tiefe historische Recherche über Kontinente, Sender-Portfolio-Lückenanalyse, Experten-Casting und Schreiben in einer Stimme, die die Redaktion sofort wiedererkennt. Die Arbeit ist kreativ; das Substrat ist Engineering. Deterministische Typografie, Quellenverfolgbarkeit jeder Aussage, Stimmtreue unter Generierung und null Tonabweichung über Hunderte von Seiten. Ein einziges brüchiges Exposé kostet den Auftrag. Der Kunde brauchte ein System, das seinen Durchsatz vervielfacht, ohne seine Stimme oder seinen Anspruch zu glätten.",
   "solution": "webvise baute das Hieronymus Vault, ein über Claude Code orchestriertes Recherche-Studio rund um ein einziges Obsidian-Vault, das zugleich Wissensbasis, stilometrischer Korpus und append-only-Audit-Trail ist. Schema-validierte YAML-Frontmatter über neun typisierte Entitätsklassen macht jede Notiz maschinennavigierbar ohne Datenbankschicht. Ein semantischer Index über die Notizen, Quellen, Experten-Akten und Archiv-Einträge stützt themenübergreifenden Recall, ohne den Orchestrierungs-Loop zu verlassen. Acht seiner bestehenden Pitches wurden in einen versionierten Stimm-Korpus rückentwickelt, in dem das Modell schreibt. Ein eigener /zdfinfo-format-Skill lädt diese Stimme und fächert parallele Recherche-Sub-Agenten (document-specialist, scientist, executor, explore) über Quellen, Experten-Casting und Sender-Portfolio-Lückenanalyse. Jeder Sub-Agent läuft in einem isolierten Kontextfenster, damit Recherchestränge sich nicht vermischen; die Synthese passiert beim Hauptagenten. Eine autonome Monitoring-Schicht pollt rund um die Uhr alle 30 Minuten Programmankündigungen, Archiv-Releases und Nachrichten. Das fertige Exposé wird über python-docx-Templates mit deterministischer Typografie als sendefertige DOCX-Datei in der Corporate Identity des Verlags gerendert. Ein Co-Autor-Roundtrip zieht jede externe Bearbeitung zurück ins Vault, diffed sie gegen die vorherige Fassung und speist das stilistische Delta in den Stimm-Korpus, sodass sich das System pro Zyklus selbst nachjustiert.",
+  "results": [
+    "Ein Obsidian-Vault als Wissensbasis, Stimmkorpus und Protokoll",
+    "Eigene Claude-Code-Skills für das Pitch-Format des Senders",
+    "Parallele Recherche-Agenten für Quellen, Experten und Lücken im Senderportfolio",
+    "Beobachtung von Ausschreibungsportalen, Archivfreigaben und Nachrichten",
+    "DOCX-Export im Corporate Design des Verlags",
+    "Rücklauf, der jede externe Korrektur zurück in den Vault bringt"
+  ],
   "metrics": [
     {
-      "value": "<3h",
+      "value": "<3 h",
       "label": "Idee bis sendefertiges Exposé"
     },
     {
@@ -26,7 +38,6 @@
   "techStack": [
     "Claude Code",
     "Anthropic API",
-    "Mastra",
     "Custom Skills",
     "Multi-Agent Orchestration",
     "Inngest",
@@ -41,5 +52,7 @@
     "quote": "Sebastian hat mir etwas gebaut, das es so am Markt nicht gibt. Ein Recherche-Studio, das in meiner Stimme denkt, während ich schlafe die Sender-Feeds scannt und am Ende die DOCX in unserer CI rendert, ohne dass ich ein einziges Template anfasse. Das Vault ist heute der Ort, an dem meine Arbeit wirklich lebt. Ich pitche mehr, schärfer, schneller.",
     "author": "Felix Rautenberg",
     "role": "Doku-Produzent, doclights"
-  }
+  },
+  "location": "Hamburg, Deutschland",
+  "deliveryTime": "2 Wochen"
 }

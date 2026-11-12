@@ -25,20 +25,19 @@ export default function CaseStudyHeroImage({
 		<>
 			<button
 				aria-label={clickable ? t("expandImage") : undefined}
-				className={`surface-card media-frame group relative w-full outline-none focus-visible:ring-2 focus-visible:ring-ring/50 ${clickable ? "cursor-zoom-in" : "cursor-default"}`}
+				className={`group relative block aspect-[4/3] w-full overflow-hidden rounded-[10px] bg-card outline-none focus-visible:ring-2 focus-visible:ring-ring/70 focus-visible:ring-offset-4 focus-visible:ring-offset-background sm:aspect-[1512/768] ${clickable ? "cursor-zoom-in" : "cursor-default"}`}
 				disabled={!clickable}
 				onClick={() => clickable && setOpen(true)}
 				type="button"
 			>
 				<Image
 					alt={alt}
-					className="h-auto w-full transition-opacity group-hover:opacity-90"
-					height={766}
+					className="object-cover object-left-top"
+					fill
 					priority
-					quality={95}
-					sizes="(max-width: 768px) 100vw, 880px"
+					quality={90}
+					sizes="(max-width: 1320px) 100vw, 1272px"
 					src={src}
-					width={1512}
 				/>
 				{clickable && <CaseStudyImageAction />}
 			</button>

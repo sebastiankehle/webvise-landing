@@ -1,5 +1,6 @@
 import { Shield } from "lucide-react";
 import type { Metadata } from "next";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import JsonLd from "@/components/json-ld";
@@ -27,6 +28,7 @@ import {
 	getBlogPostBySlug,
 	getBlogPosts,
 } from "@/data/blog";
+import { topicsForTags } from "@/data/blog-topics";
 import { Link } from "@/i18n/navigation";
 import { homepageSectionHref } from "@/lib/homepage-section-href";
 import { generateAlternates, localizedUrl } from "@/lib/seo";
@@ -128,6 +130,14 @@ function renderLink(href: string, label: string, key: string, locale: string) {
 	}
 
 	const homepageHashMatch = href.match(HOMEPAGE_HASH_LINK_RE);
+	// Articles link to "the contact form". That form now lives on /book.
+	if (homepageHashMatch?.[1] === "contact") {
+		return (
+			<Link className={inlineLinkClassName} href="/book" key={key}>
+				{label}
+			</Link>
+		);
+	}
 	if (homepageHashMatch) {
 		return (
 			<a
@@ -173,11 +183,37 @@ function getBlockKeys(blocks: Block[]) {
 	});
 }
 
-function RenderBlock({ block, locale }: { block: Block; locale: string }) {
+const DIACRITICS = /[\u0300-\u036f]/g;
+const NOT_WORD = /[^a-z0-9]+/g;
+const EDGE_DASHES = /^-|-$/g;
+
+/** An anchor for a heading, from its own words. */
+function headingAnchor(text: string) {
+	return text
+		.toLowerCase()
+		.normalize("NFKD")
+		.replace(DIACRITICS, "")
+		.replace(NOT_WORD, "-")
+		.replace(EDGE_DASHES, "")
+		.slice(0, 60);
+}
+
+function RenderBlock({
+	anchor,
+	block,
+	locale,
+}: {
+	anchor?: string;
+	block: Block;
+	locale: string;
+}) {
 	switch (block.type) {
 		case "h2":
 			return (
-				<H2 className="mt-14 mb-4 text-2xl leading-tight first:mt-0 md:text-2xl">
+				<H2
+					className="mt-14 mb-4 scroll-mt-28 text-2xl leading-tight first:mt-0 md:text-2xl"
+					id={anchor}
+				>
 					{block.text}
 				</H2>
 			);
@@ -268,11 +304,13 @@ export default async function BlogPostPage({
 	if (!post) {
 		notFound();
 	}
+	const topics = topicsForTags(post.tags ?? []);
 
 	const t = await getTranslations("blog");
 	const tn = await getTranslations("blog.newsletter");
 	const tschema = await getTranslations("schema");
 	const tt = await getTranslations("trust.blogBanner");
+	const ta = await getTranslations("about");
 	const postUrl = localizedUrl(`/blog/${slug}`, locale);
 	const { prev, next } = getAdjacentPosts(slug, locale);
 
@@ -318,12 +356,27 @@ export default async function BlogPostPage({
 		],
 	};
 
+	// Each h2 gets an anchor; a repeated heading gets its position added.
+	const anchors = new Map<number, string>();
+	const headings: { anchor: string; text: string }[] = [];
+	post.blocks.forEach((block, idx) => {
+		if (block.type !== "h2") {
+			return;
+		}
+		const base = headingAnchor(block.text) || `section-${idx}`;
+		const anchor = headings.some((heading) => heading.anchor === base)
+			? `${base}-${idx}`
+			: base;
+		anchors.set(idx, anchor);
+		headings.push({ anchor, text: block.text });
+	});
+
 	return (
 		<>
 			<JsonLd data={jsonLd} />
 
 			{/* Header */}
-			<section className="relative pt-32 pb-12 md:pt-44 md:pb-16">
+			<section className="relative pt-12 pb-12 md:pt-20 md:pb-16">
 				<ConstructedGrid variant="page" />
 				<GridContainer>
 					<div className="grid min-w-0 items-center gap-14 lg:grid-cols-[1.02fr_0.98fr] lg:gap-20">
@@ -352,14 +405,22 @@ export default async function BlogPostPage({
 								{" \u00B7 "}
 								{post.readingTime} {t("minRead")}
 							</Caption>
-							<H1 className="mt-4 max-w-full text-pretty break-words [overflow-wrap:anywhere] md:max-w-3xl md:text-4xl md:[overflow-wrap:normal]">
+							<H1 className="mt-4 max-w-full text-pretty break-words [overflow-wrap:anywhere] md:max-w-4xl md:[overflow-wrap:normal]">
 								{post.title}
 							</H1>
 							<Lead className="mt-8 max-w-2xl">{post.excerpt}</Lead>
-							{post.tags && post.tags.length > 0 && (
+							{topics.length > 0 && (
 								<div className="mt-6 flex flex-wrap items-center gap-2">
-									{post.tags.map((tag) => (
-										<MarketingTag key={tag}>{tag}</MarketingTag>
+									{topics.map((topic) => (
+										<Link
+											className="rounded-full outline-none focus-visible:ring-2 focus-visible:ring-ring/70"
+											href={{ pathname: "/blog", query: { topic } }}
+											key={topic}
+										>
+											<MarketingTag className="hover:bg-foreground/[0.06]">
+												{t(`filter.topics.${topic}`)}
+											</MarketingTag>
+										</Link>
 									))}
 								</div>
 							)}
@@ -388,7 +449,12 @@ export default async function BlogPostPage({
 						{(() => {
 							const keys = getBlockKeys(post.blocks);
 							return post.blocks.map((block, idx) => (
-								<RenderBlock block={block} key={keys[idx]} locale={locale} />
+								<RenderBlock
+									anchor={anchors.get(idx)}
+									block={block}
+									key={keys[idx]}
+									locale={locale}
+								/>
 							));
 						})()}
 
@@ -404,7 +470,49 @@ export default async function BlogPostPage({
 							</div>
 						)}
 					</article>
-					<div className="hidden lg:block" />
+					{/* Beside the text: who wrote it and where it goes */}
+					<aside className="hidden lg:sticky lg:top-28 lg:block">
+						<Link
+							className="group/arrow flex items-center gap-3 outline-none focus-visible:underline focus-visible:underline-offset-4"
+							href="/about"
+						>
+							<Image
+								alt=""
+								className="size-11 shrink-0 rounded-full object-cover"
+								height={44}
+								src="/images/founder.jpeg"
+								width={44}
+							/>
+							<span className="min-w-0">
+								<span className="block font-medium text-base text-foreground leading-6">
+									{ta("intro.name")}
+								</span>
+								<span className="block text-muted-foreground text-sm leading-5">
+									{ta("intro.role")}
+								</span>
+							</span>
+						</Link>
+						{headings.length > 1 && (
+							<nav
+								aria-label={t("contents")}
+								className="mt-8 border-foreground/[0.08] border-t pt-6"
+							>
+								<p className="text-muted-foreground text-sm">{t("contents")}</p>
+								<ol className="mt-3 grid gap-2.5">
+									{headings.map((heading) => (
+										<li key={heading.anchor}>
+											<a
+												className="text-base text-foreground/70 leading-snug outline-none transition-colors duration-150 hover:text-foreground focus-visible:text-foreground focus-visible:underline focus-visible:underline-offset-4"
+												href={`#${heading.anchor}`}
+											>
+												{heading.text}
+											</a>
+										</li>
+									))}
+								</ol>
+							</nav>
+						)}
+					</aside>
 				</div>
 			</SectionWrapper>
 

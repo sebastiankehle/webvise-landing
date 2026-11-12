@@ -1,20 +1,15 @@
-import type { AnimatedIcon } from "@/components/marketing/card-hover-icon";
-import { BlocksIcon } from "@/components/ui/blocks";
-import { FlaskIcon } from "@/components/ui/flask";
-import { LayersIcon } from "@/components/ui/layers";
-import { LayoutPanelTopIcon } from "@/components/ui/layout-panel-top";
-import { RouteIcon } from "@/components/ui/route";
-import { WaypointsIcon } from "@/components/ui/waypoints";
-
 export interface Service {
 	deliverableCount: number;
 	faqCount: number;
 	featureCount: number;
-	icon: AnimatedIcon;
 	painPointCount: number;
 	proof: {
 		caseStudySlug: string;
 		image: string;
+		/** Two screens to show under the approach, instead of the project's first two. */
+		shots?: string[];
+		/** Show the picture itself where the project would play its live scene. */
+		still?: boolean;
 		imageClassName?: string;
 	};
 	slug: string;
@@ -26,7 +21,6 @@ export const services: Service[] = [
 	{
 		slug: "landing-pages",
 		translationKey: "landingPages",
-		icon: LayoutPanelTopIcon,
 		featureCount: 6,
 		deliverableCount: 5,
 		toolCount: 5,
@@ -35,12 +29,13 @@ export const services: Service[] = [
 		proof: {
 			caseStudySlug: "hyyve",
 			image: "/images/case-studies/hyyve/hero.webp",
+			// A landing page is shown as the page itself, not as a diagram.
+			still: true,
 		},
 	},
 	{
 		slug: "wordpress-migration",
 		translationKey: "wordpressMigration",
-		icon: RouteIcon,
 		featureCount: 6,
 		deliverableCount: 5,
 		toolCount: 5,
@@ -48,41 +43,46 @@ export const services: Service[] = [
 		faqCount: 5,
 		proof: {
 			caseStudySlug: "maerkische-projekt-bau",
-			image: "/images/case-studies/mp-bau-construction/hero.webp?v=065b54f",
+			// A migration is judged by the site that came out of it: its real
+			// first screen and two of its pages, not the internal portal.
+			image: "/images/case-studies/mp-bau-construction/site-hero.webp",
+			shots: [
+				"/images/case-studies/mp-bau-construction/references.webp?v=065b54f",
+				"/images/case-studies/mp-bau-construction/team.webp?v=065b54f",
+			],
+			still: true,
 		},
 	},
 	{
 		slug: "ai-consulting",
 		translationKey: "aiConsulting",
-		icon: WaypointsIcon,
 		featureCount: 6,
 		deliverableCount: 5,
 		toolCount: 6,
 		painPointCount: 3,
 		faqCount: 4,
 		proof: {
-			caseStudySlug: "morrow",
-			image: "/images/case-studies/morrow/agent-safe-answer.webp",
+			caseStudySlug: "maerkische-projekt-bau",
+			image:
+				"/images/case-studies/mp-bau-construction/admin-portal.webp?v=065b54f",
 		},
 	},
 	{
 		slug: "mvp-development",
 		translationKey: "mvpDevelopment",
-		icon: FlaskIcon,
 		featureCount: 6,
 		deliverableCount: 5,
 		toolCount: 6,
 		painPointCount: 3,
 		faqCount: 4,
 		proof: {
-			caseStudySlug: "relay",
-			image: "/images/case-studies/relay/workflow-library.webp",
+			caseStudySlug: "screencurve",
+			image: "/images/case-studies/screencurve/hero.webp",
 		},
 	},
 	{
 		slug: "ai-automation",
 		translationKey: "aiAutomation",
-		icon: BlocksIcon,
 		featureCount: 6,
 		deliverableCount: 5,
 		toolCount: 6,
@@ -97,16 +97,14 @@ export const services: Service[] = [
 	{
 		slug: "full-stack-applications",
 		translationKey: "fullStackApps",
-		icon: LayersIcon,
 		featureCount: 6,
 		deliverableCount: 5,
 		toolCount: 6,
 		painPointCount: 3,
 		faqCount: 4,
 		proof: {
-			caseStudySlug: "keel",
-			image: "/images/case-studies/keel/typed-tool-contract.webp",
-			imageClassName: "object-contain object-center bg-black",
+			caseStudySlug: "screencurve",
+			image: "/images/case-studies/screencurve/ask-the-film.webp",
 		},
 	},
 ];

@@ -265,7 +265,7 @@
 @theme inline {
 	--font-sans: var(--theme-font-sans);
 	--font-display: var(--theme-font-display);
-	--font-mono: var(--font-geist-mono), ui-monospace, monospace;
+	--font-mono: var(--font-geist-mono, ui-monospace), ui-monospace, monospace;
 	--font-weight-thin: 400;
 	--font-weight-extralight: 400;
 	--font-weight-light: 400;
@@ -384,14 +384,15 @@
 	--surface-card-fill-hover: oklch(1 0 0 / 8%);
 }
 
+/* One card corner for the whole site: 20px outside, 14px for what sits inside. */
 .surface-card {
 	background-color: var(--surface-card-fill);
-	border-radius: var(--radius-2xl);
+	border-radius: 1.25rem;
 }
 
 .media-frame {
 	overflow: hidden;
-	border-radius: var(--radius-2xl) 0 var(--radius-2xl) 0;
+	border-radius: 0.875rem 0 1.25rem 0;
 }
 
 a.surface-card,
@@ -402,15 +403,6 @@ button.surface-card {
 a.surface-card:hover,
 button.surface-card:hover {
 	background-color: var(--surface-card-fill-hover);
-}
-
-/* Recharts focuses its svg surface on click; never show the global outline there */
-.recharts-wrapper,
-.recharts-wrapper:focus,
-.recharts-wrapper:focus-visible,
-.recharts-surface:focus,
-.recharts-surface:focus-visible {
-	outline: none !important;
 }
 
 .text-brand-readable {
@@ -495,21 +487,23 @@ button.surface-card:hover {
 	}
 }
 
-@keyframes marquee {
-	from {
-		transform: translateX(0);
-	}
-	to {
-		transform: translateX(calc(-100% - var(--gap)));
-	}
+/* The page title and its lead are in the first paint. They rise with the
+   rest but never start invisible, so the browser times them as the largest
+   element and not whatever loads late (the consent notice). */
+.stagger-visible > h1,
+.stagger-visible > h1 + p {
+	animation-name: stagger-rise;
+}
+.stagger-visible > :has(h1) {
+	animation-name: stagger-rise;
 }
 
-@keyframes marquee-vertical {
+@keyframes stagger-rise {
 	from {
-		transform: translateY(0);
+		transform: translateY(20px);
 	}
 	to {
-		transform: translateY(calc(-100% - var(--gap)));
+		transform: none;
 	}
 }
 
@@ -523,34 +517,7 @@ button.surface-card:hover {
 	animation: stagger-reveal 0.7s cubic-bezier(0.21, 0.47, 0.32, 0.98) both;
 }
 
-/* Scroll-driven per-character fill: statement ink-fills as it enters view */
-@keyframes scroll-fill-char-anim {
-	to {
-		color: var(--foreground);
-	}
-}
-
-.scroll-fill-char {
-	color: color-mix(in oklab, var(--foreground) 34%, transparent);
-	animation: scroll-fill-char-anim linear both;
-	animation-timeline: view();
-	animation-range: cover calc(12% + (var(--i) / var(--n)) * 55%) cover
-		calc(20% + (var(--i) / var(--n)) * 55%);
-}
-
-@supports not (animation-timeline: view()) {
-	.scroll-fill-char {
-		color: var(--foreground);
-		animation: none;
-	}
-}
-
 @media (prefers-reduced-motion: reduce) {
-	.scroll-fill-char {
-		color: var(--foreground);
-		animation: none;
-	}
-
 	.stagger-hidden > *,
 	.reveal-hidden {
 		opacity: 1;
@@ -560,6 +527,45 @@ button.surface-card:hover {
 	.stagger-visible > *,
 	.reveal-visible {
 		animation: none;
+	}
+}
+
+/* ── Theme switch - the leaving icon turns out, the arriving one turns in ─── */
+.theme-icon-out {
+	animation: theme-icon-out 150ms ease-out both;
+}
+
+.theme-icon-in {
+	animation: theme-icon-in 150ms ease-out 150ms both;
+}
+
+@keyframes theme-icon-out {
+	from {
+		opacity: 1;
+		rotate: 0deg;
+	}
+	to {
+		opacity: 0;
+		rotate: var(--turn-out);
+	}
+}
+
+@keyframes theme-icon-in {
+	from {
+		opacity: 0;
+		rotate: var(--turn-in);
+	}
+	to {
+		opacity: 1;
+		rotate: 0deg;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.theme-icon-out,
+	.theme-icon-in {
+		animation-duration: 1ms;
+		animation-delay: 0ms;
 	}
 }
 
@@ -612,5 +618,69 @@ button.surface-card:hover {
 	.logo-animated:hover .logo-seg {
 		fill-opacity: var(--seg-opacity, 1);
 		animation: none;
+	}
+}
+
+/* ── About: a year ruler behind the stations, each bar drawn in turn ──── */
+@media (min-width: 1024px) {
+	.career-track {
+		background-image: linear-gradient(
+			to right,
+			color-mix(in oklab, var(--foreground) 7%, transparent) 1px,
+			transparent 1px
+		);
+		background-size: calc(100% / var(--career-years)) 100%;
+	}
+}
+
+.career-bar {
+	transform-origin: left;
+}
+
+.career.stagger-hidden .career-bar {
+	transform: scaleX(0);
+}
+
+.career.stagger-visible .career-bar {
+	animation: process-line 0.8s cubic-bezier(0.21, 0.47, 0.32, 0.98) both;
+	animation-delay: calc(var(--row, 0) * 80ms + 250ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.career.stagger-visible .career-bar {
+		animation: none;
+	}
+
+	.career.stagger-hidden .career-bar {
+		transform: none;
+	}
+}
+
+/* ── Process: one line draws across the steps, in order ──── */
+.process-steps.stagger-hidden .process-step-line {
+	transform: scaleX(0);
+}
+
+.process-steps.stagger-visible .process-step-line {
+	animation: process-line 0.7s cubic-bezier(0.21, 0.47, 0.32, 0.98) both;
+	animation-delay: calc(var(--step, 0) * 220ms + 250ms);
+}
+
+@keyframes process-line {
+	from {
+		transform: scaleX(0);
+	}
+	to {
+		transform: scaleX(1);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.process-steps.stagger-visible .process-step-line {
+		animation: none;
+	}
+
+	.process-steps.stagger-hidden .process-step-line {
+		transform: none;
 	}
 }

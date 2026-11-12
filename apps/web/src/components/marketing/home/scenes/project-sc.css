@@ -1,0 +1,206 @@
+.wps {
+	& .ss-stage {
+		--teal: #0e7a6e;
+		--mono: ui-monospace, "SF Mono", Menlo, monospace;
+		overflow: hidden;
+		background: transparent;
+	}
+
+	/* Pinned top-left, whole across, off the bottom */
+	.wps-win {
+		position: absolute;
+		top: 22px;
+		left: 24px;
+		width: 352px;
+		height: 290px;
+		border-radius: 10px;
+		box-shadow: var(--ss-shadow-hero);
+	}
+
+	.ss-window__lights {
+		display: none;
+	}
+	.ss-window__bar {
+		padding-inline: 10px;
+	}
+
+	/* The page is laid out in stage coordinates, shifted to the window's own
+     corner, so the figure sits where the product draws it */
+	.wps-page {
+		position: relative;
+		height: 100%;
+		background: #f6fbfa;
+	}
+
+	.wps-page > * {
+		translate: -24px -60px;
+	}
+
+	.wps-copy {
+		position: absolute;
+		top: 96px;
+		left: 44px;
+		display: flex;
+		flex-direction: column;
+		gap: 9px;
+	}
+
+	.wps-eyebrow {
+		margin-bottom: 2px;
+		font-size: 10.5px;
+		font-weight: 600;
+		color: var(--teal);
+	}
+
+	.wps-key {
+		display: inline-flex;
+		gap: 8px;
+		align-items: center;
+		font-size: 10px;
+		color: #58656a;
+	}
+
+	.wps-line {
+		width: 18px;
+		height: 0;
+		border-top: 1.5px solid #8b979c;
+	}
+
+	.wps-line--dash {
+		border-top: 1.5px dashed var(--teal);
+	}
+
+	.wps-graph {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 400px;
+		height: 250px;
+		overflow: visible;
+	}
+
+	/* Alliances draw along their length */
+	.wps-tie {
+		fill: none;
+		stroke: #8b979c;
+		stroke-width: 1.2;
+		stroke-dasharray: 1;
+		stroke-dashoffset: 1;
+		transition: stroke-dashoffset 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	.wps-tie[data-on] {
+		stroke-dashoffset: 0;
+	}
+
+	/* Conflicts are dashed, so they fade in rather than draw */
+	.wps-clash {
+		opacity: 0;
+		fill: none;
+		stroke: var(--teal);
+		stroke-width: 1.2;
+		stroke-dasharray: 2.5 3;
+		transition:
+			opacity 0.5s ease,
+			stroke-width 0.25s ease;
+	}
+
+	.wps-clash[data-on] {
+		opacity: 0.85;
+	}
+	.wps-clash--probe[data-hot] {
+		opacity: 1;
+		stroke-width: 2;
+	}
+
+	.wps-node {
+		position: absolute;
+		display: grid;
+		place-items: center;
+		width: 20px;
+		height: 20px;
+		margin: -10px 0 0 -10px;
+		font-size: 7.5px;
+		font-weight: 600;
+		color: var(--teal);
+		letter-spacing: 0.02em;
+		background: #fff;
+		border-radius: 50%;
+		box-shadow: 0 0 0 1.2px var(--teal);
+		opacity: 0;
+		scale: 0.4;
+		transition:
+			opacity 0.25s ease,
+			scale 0.45s cubic-bezier(0.2, 1.5, 0.4, 1);
+		will-change: transform;
+	}
+
+	.wps-node[data-on] {
+		opacity: 1;
+		scale: 1;
+	}
+
+	.wps-node[data-centre] {
+		width: 28px;
+		height: 28px;
+		margin: -14px 0 0 -14px;
+		font-size: 9px;
+		color: #fff;
+		background: var(--teal);
+		box-shadow: 0 0 0 5px rgb(14 122 110 / 0.12);
+	}
+
+	.wps-name {
+		position: absolute;
+		top: 173px;
+		left: 258px;
+		font-size: 9px;
+		color: #1f2a2e;
+		opacity: 0;
+		translate: calc(-50% - 24px) -60px;
+		transition: opacity 0.4s ease 0.3s;
+	}
+
+	.wps-name[data-on] {
+		opacity: 1;
+	}
+
+	/* Where the pointer comes to rest: the middle of one conflict */
+	.wps-edge {
+		position: absolute;
+		top: 128px;
+		left: 258px;
+		width: 1px;
+		height: 1px;
+	}
+
+	.wps-tc {
+		position: absolute;
+		top: 117px;
+		left: 270px;
+		display: inline-flex;
+		align-items: center;
+		height: 20px;
+		padding: 0 7px;
+		font-family: var(--mono);
+		font-size: 10px;
+		color: var(--teal);
+		background: #fff;
+		border-radius: 6px;
+		box-shadow:
+			0 0 0 1px rgb(14 122 110 / 0.35),
+			0 6px 14px -6px rgb(14 60 55 / 0.35);
+		opacity: 0;
+		transform-origin: 0 50%;
+		scale: 0.85;
+		transition:
+			opacity 0.2s ease,
+			scale 0.35s cubic-bezier(0.2, 1.4, 0.4, 1);
+		will-change: transform;
+	}
+
+	.wps-tc[data-on] {
+		opacity: 1;
+		scale: 1;
+	}
+}

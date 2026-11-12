@@ -8,7 +8,8 @@ import { sql } from "drizzle-orm";
 import { z } from "zod";
 import {
 	buildNewsletterConfirmationHtml,
-	NEWSLETTER_CONFIRMATION_SUBJECT,
+	emailLocaleFromPath,
+	newsletterConfirmationSubject,
 	newsletterConfirmationText,
 } from "../email/newsletter";
 import { sendEmail } from "../email/resend";
@@ -72,13 +73,14 @@ export const newsletterRouter = router({
 				);
 			}
 
+			const locale = emailLocaleFromPath(path);
 			const emailResult = await sendEmail({
 				label: "newsletter-confirmation",
 				from: "webvise <hello@webvise.io>",
 				to: email,
-				subject: NEWSLETTER_CONFIRMATION_SUBJECT,
-				html: buildNewsletterConfirmationHtml(email),
-				text: newsletterConfirmationText(email),
+				subject: newsletterConfirmationSubject(locale),
+				html: buildNewsletterConfirmationHtml(email, locale),
+				text: newsletterConfirmationText(email, locale),
 			});
 			if (!emailResult.ok) {
 				throw new TRPCError({

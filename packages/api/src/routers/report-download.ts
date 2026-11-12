@@ -208,8 +208,8 @@ export const reportDownloadRouter = router({
         ${lang === "de" ? "Bei Fragen stehe ich gerne zur Verfügung." : "If you have any questions, feel free to reach out."}
       </p>
       <hr style="${s.hr}">
-      <p style="margin:0;font-size:13px;color:#1a1a1a;font-weight:500">Sebastian Kehle</p>
-      <p style="margin:4px 0 0;font-size:12px;color:#7a7a7a">sebastian.kehle@webvise.io</p>`,
+      <p style="margin:0;font-size:13px;color:#0e1217;font-weight:500">Sebastian Kehle</p>
+      <p style="margin:4px 0 0;font-size:12px;color:#525960">sebastian.kehle@webvise.io</p>`,
 				}),
 				attachments: [{ filename, content: pdfContent }],
 			});

@@ -3,26 +3,36 @@ import { join } from "node:path";
 import { z } from "zod";
 
 export const CASE_STUDY_COLLECTIONS = {
-	featured: ["hyyve", "finanzierungszertifikat", "rautenberg-pitch-engine"],
-	concept: ["relay", "keel", "morrow"],
+	featured: [
+		"maerkische-projekt-bau",
+		"screencurve",
+		"finanzierungszertifikat",
+		"rautenberg-pitch-engine",
+	],
+	concept: ["relay", "keel", "kernspan", "morrow"],
 } as const;
 
 const CASE_STUDY_ORDER = [
-	"hyyve",
+	"maerkische-projekt-bau",
+	"screencurve",
 	"finanzierungszertifikat",
 	"rautenberg-pitch-engine",
+	"old-world-labs",
+	"hyyve",
+	"von-platen-coaching",
+	"webvise",
 	"relay",
 	"keel",
+	"kernspan",
 	"morrow",
-	"maerkische-projekt-bau",
-	"old-world-labs",
-	"webvise",
 ] as const;
 
 export type CaseStudyCollection = keyof typeof CASE_STUDY_COLLECTIONS;
 export type CaseStudyKind = "client" | "concept";
 
 export interface CaseStudyMeta {
+	/** The composed picture for a 2:1 project card; falls back to `coverImage`. */
+	cardImage?: string;
 	client: string;
 	coverImage?: string;
 	date: string;
@@ -42,13 +52,21 @@ export interface CaseStudyMetric {
 	value: string;
 }
 
+/** The one thing that makes a project memorable, told on its detail page. */
+export interface CaseStudySignature {
+	body: string;
+	title: string;
+}
+
 export interface CaseStudyContent {
 	challenge: string;
 	excerpt: string;
 	liveUrlLabel?: string;
 	metrics?: CaseStudyMetric[];
 	results?: string[];
+	signature?: CaseStudySignature;
 	solution: string;
+	/** One line for cards: what was built and why it stands out. */
 	techStack: string[];
 	testimonial: {
 		quote: string;
@@ -79,6 +97,9 @@ const caseStudyContentSchema = z.object({
 	liveUrlLabel: z.string().min(1).optional(),
 	metrics: z.array(caseStudyMetricSchema).optional(),
 	results: z.array(z.string().min(1)).optional(),
+	signature: z
+		.object({ body: z.string().min(1), title: z.string().min(1) })
+		.optional(),
 	solution: z.string().min(1),
 	techStack: z.array(z.string().min(1)),
 	testimonial: caseStudyTestimonialSchema,
@@ -87,12 +108,15 @@ const caseStudyContentSchema = z.object({
 
 const localizedCaseStudyFileSchema = caseStudyContentSchema
 	.extend({
+		deliveryTime: z.string().min(1).optional(),
 		industry: z.string().min(1).optional(),
+		location: z.string().min(1).optional(),
 	})
 	.passthrough();
 
 const sourceCaseStudyFileSchema = caseStudyContentSchema
 	.extend({
+		cardImage: z.string().min(1).optional(),
 		client: z.string().min(1),
 		coverImage: z.string().min(1).optional(),
 		date: z
@@ -247,11 +271,12 @@ function toCaseStudy(slug: string, locale: string): CaseStudy | null {
 		industry: localeFile?.industry ?? enFile.industry,
 		services: [...enFile.services],
 		date: enFile.date,
+		cardImage: enFile.cardImage,
 		coverImage: enFile.coverImage,
 		images: enFile.images ? [...enFile.images] : undefined,
 		fullPageImage: enFile.fullPageImage,
-		location: enFile.location,
-		deliveryTime: enFile.deliveryTime,
+		location: localeFile?.location ?? enFile.location,
+		deliveryTime: localeFile?.deliveryTime ?? enFile.deliveryTime,
 		liveUrl: enFile.liveUrl,
 		title: content.title,
 		excerpt: content.excerpt,
@@ -261,6 +286,7 @@ function toCaseStudy(slug: string, locale: string): CaseStudy | null {
 		metrics: content.metrics
 			? content.metrics.map((metric) => ({ ...metric }))
 			: undefined,
+		signature: content.signature,
 		techStack: [...content.techStack],
 		testimonial: content.testimonial,
 		liveUrlLabel: content.liveUrlLabel,

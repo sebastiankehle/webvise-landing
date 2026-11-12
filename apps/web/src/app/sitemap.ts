@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 
 import { blogPosts } from "@/data/blog";
 import { getCaseStudies } from "@/data/case-studies";
+import { industries } from "@/data/industries";
 import { offerings } from "@/data/offerings";
 import { routing } from "@/i18n/routing";
 import { SITE_URL } from "@/lib/seo";
@@ -32,7 +33,7 @@ function localizedUrl(path: string, locale: string): string {
 	const resolved = localizedPath(path, locale);
 	return locale === routing.defaultLocale
 		? `${baseUrl}${resolved}`
-		: `${baseUrl}/${locale}${resolved}`;
+		: `${baseUrl}/${locale}${resolved === "/" ? "" : resolved}`;
 }
 
 function alternatesFor(path: string) {
@@ -77,6 +78,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
 			changeFrequency: "weekly",
 			priority: 0.8,
 		}),
+		...entriesForPath("/services", {
+			lastModified: now,
+			changeFrequency: "monthly",
+			priority: 0.8,
+		}),
+		...entriesForPath("/faq", {
+			lastModified: now,
+			changeFrequency: "monthly",
+			priority: 0.6,
+		}),
 		...entriesForPath("/wp-health-report", {
 			lastModified: now,
 			changeFrequency: "monthly",
@@ -109,6 +120,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
 		}),
 	];
 
+	const industryPages = [
+		...entriesForPath("/industries", {
+			lastModified: now,
+			changeFrequency: "monthly",
+			priority: 0.7,
+		}),
+		...industries.flatMap((industry) =>
+			entriesForPath(`/industries/${industry.slug}`, {
+				lastModified: now,
+				changeFrequency: "monthly",
+				priority: 0.7,
+			})
+		),
+	];
+
 	const servicePages = offerings.flatMap((offering) =>
 		entriesForPath(`/services/${offering.slug}`, {
 			lastModified: now,
@@ -133,5 +159,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
 		})
 	);
 
-	return [...staticPages, ...servicePages, ...caseStudyPages, ...blogPages];
+	return [
+		...staticPages,
+		...servicePages,
+		...industryPages,
+		...caseStudyPages,
+		...blogPages,
+	];
 }

@@ -1,34 +1,33 @@
 "use client";
 
 import { Moon, Sun } from "lucide-react";
-import { AnimatePresence, motion } from "motion/react";
 import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
-import { useCallback, useEffect, useState } from "react";
+import { type CSSProperties, useCallback, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { migrateLegacyThemeId, removeLegacyThemeClasses } from "@/lib/themes";
 import { cn } from "@/lib/utils";
 
 const triggerClassNames = {
 	compact:
-		"gap-1.5 border-0 bg-transparent px-3 text-muted-foreground hover:border-0 hover:bg-transparent hover:text-foreground",
-	floating:
-		"fixed bottom-6 left-6 z-40 hidden size-12 shadow-lg md:inline-flex",
+		"gap-1.5 border-0 bg-transparent px-3 text-muted-foreground text-sm hover:border-0 hover:bg-transparent hover:text-foreground pointer-coarse:h-11",
 	inline: "h-9 gap-2 px-3",
 } satisfies Record<NonNullable<ThemeSwitcherProps["variant"]>, string>;
 
 interface ThemeSwitcherProps {
 	className?: string;
-	variant?: "compact" | "floating" | "inline";
+	variant?: "compact" | "inline";
 }
 
 export default function ThemeSwitcher({
 	className,
-	variant = "floating",
+	variant = "inline",
 }: ThemeSwitcherProps) {
 	const t = useTranslations("themeSwitcher");
 	const { resolvedTheme, setTheme, theme } = useTheme();
 	const [mounted, setMounted] = useState(false);
+	// The icons only animate after a click, never on first paint.
+	const [turned, setTurned] = useState(false);
 
 	useEffect(() => {
 		setMounted(true);
@@ -50,8 +49,16 @@ export default function ThemeSwitcher({
 	const isDark = mounted && resolvedTheme === "dark";
 
 	const toggleTheme = useCallback(() => {
+		setTurned(true);
 		setTheme(isDark ? "light" : "dark");
 	}, [isDark, setTheme]);
+
+	const iconState = (shown: boolean) => {
+		if (!turned) {
+			return shown ? undefined : "opacity-0";
+		}
+		return shown ? "theme-icon-in" : "theme-icon-out";
+	};
 
 	const iconClassName = variant === "compact" ? "h-4 w-4" : "h-5 w-5";
 
@@ -59,11 +66,9 @@ export default function ThemeSwitcher({
 		<Button
 			aria-label={t("label")}
 			className={cn(triggerClassNames[variant], className)}
-			data-marketing-floating={variant === "floating" ? "true" : undefined}
 			onClick={toggleTheme}
-			size={variant === "floating" ? "icon-lg" : "default"}
 			type="button"
-			variant={variant === "floating" ? "brand" : "outline"}
+			variant="outline"
 		>
 			<span
 				className={cn(
@@ -71,33 +76,21 @@ export default function ThemeSwitcher({
 					variant === "compact" ? "h-4 w-4" : "h-5 w-5"
 				)}
 			>
-				<AnimatePresence initial={false} mode="wait">
-					{isDark ? (
-						<motion.span
-							animate={{ rotate: 0, opacity: 1 }}
-							exit={{ rotate: 90, opacity: 0 }}
-							initial={{ rotate: -90, opacity: 0 }}
-							key="sun"
-							transition={{ duration: 0.15 }}
-						>
-							<Sun className={iconClassName} />
-						</motion.span>
-					) : (
-						<motion.span
-							animate={{ rotate: 0, opacity: 1 }}
-							exit={{ rotate: -90, opacity: 0 }}
-							initial={{ rotate: 90, opacity: 0 }}
-							key="moon"
-							transition={{ duration: 0.15 }}
-						>
-							<Moon className={iconClassName} />
-						</motion.span>
-					)}
-				</AnimatePresence>
+				{/* Both icons stay mounted: one turns out, then the other turns in. */}
+				<Sun
+					className={cn("absolute", iconClassName, iconState(isDark))}
+					style={
+						{ "--turn-in": "-90deg", "--turn-out": "90deg" } as CSSProperties
+					}
+				/>
+				<Moon
+					className={cn("absolute", iconClassName, iconState(!isDark))}
+					style={
+						{ "--turn-in": "90deg", "--turn-out": "-90deg" } as CSSProperties
+					}
+				/>
 			</span>
-			{variant !== "floating" && (
-				<span className="truncate">{isDark ? t("light") : t("dark")}</span>
-			)}
+			<span className="truncate">{isDark ? t("light") : t("dark")}</span>
 		</Button>
 	);
 }

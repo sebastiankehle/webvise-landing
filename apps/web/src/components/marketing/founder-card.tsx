@@ -20,7 +20,7 @@ export default async function FounderCard() {
 			/>
 			<div className="min-w-0">
 				<div className="flex items-center gap-3">
-					<H3 className="text-lg">{t("name")}</H3>
+					<H3 className="text-lg leading-snug">{t("name")}</H3>
 					<Caption>{t("role")}</Caption>
 				</div>
 				<Muted className="mt-1 leading-relaxed">{t("description")}</Muted>

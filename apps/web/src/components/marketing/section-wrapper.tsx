@@ -191,21 +191,21 @@ export default function SectionWrapper({
 	className,
 	surface = "default",
 	hatch = false,
-	showGrid = true,
 	hideOnMobile = false,
+	showGrid = true,
 }: {
 	id: string;
 	children: React.ReactNode;
 	className?: string;
 	surface?: SectionSurface;
 	hatch?: boolean;
-	showGrid?: boolean;
 	hideOnMobile?: boolean;
+	showGrid?: boolean;
 }) {
 	return (
 		<section
 			className={cn(
-				"relative py-12 md:py-40",
+				"relative py-16 md:py-28",
 				hideOnMobile && "hidden md:block",
 				marketingSurfaceClassName(surface),
 				className

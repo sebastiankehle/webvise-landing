@@ -8,121 +8,219 @@ import {
 
 export type WelcomeTopic = "ai-agents" | "ai-automation" | "web";
 
+export type EmailLocale = "de" | "en";
+
 export interface WelcomeSource {
 	postTitle?: string;
 	topic: WelcomeTopic;
 }
 
-const TOPIC_COPY: Record<WelcomeTopic, { expect: string; offer: string }> = {
-	"ai-agents": {
-		expect:
-			"You'll mostly get emails about AI agents: what we run in production for clients, what works, what breaks.",
-		offer:
-			"If you're thinking about agents for your own business, reply to this email. We build them.",
+/** The language of the page a reader signed up on, read from its path. */
+export function emailLocaleFromPath(path: string | null | undefined) {
+	return path === "/en" || path?.startsWith("/en/") ? "en" : "de";
+}
+
+const TOPIC_COPY: Record<
+	EmailLocale,
+	Record<WelcomeTopic, { expect: string; offer: string }>
+> = {
+	en: {
+		"ai-agents": {
+			expect:
+				"You'll mostly get emails about AI agents: what we run in production for clients, what works, what breaks.",
+			offer:
+				"If you're thinking about agents for your own business, reply to this email. We build them.",
+		},
+		"ai-automation": {
+			expect:
+				"You'll mostly get emails about AI automation: real workflows we build for companies and what they cost.",
+			offer:
+				"If part of your operation still runs on copy-paste, reply and describe it. That's the work we do.",
+		},
+		web: {
+			expect:
+				"You'll mostly get emails about websites: performance, SEO, and what a fast site takes.",
+			offer:
+				"If your site is slow or brings in too few leads, reply to this email. We can take a look.",
+		},
 	},
-	"ai-automation": {
-		expect:
-			"You'll mostly get emails about AI automation: real workflows we build for companies and what they cost.",
-		offer:
-			"If part of your operation still runs on copy-paste, reply and describe it. That's the work we do.",
-	},
-	web: {
-		expect:
-			"You'll mostly get emails about websites: performance, SEO, and what a fast site takes.",
-		offer:
-			"If your site is slow or brings in too few leads, reply to this email. We can take a look.",
+	de: {
+		"ai-agents": {
+			expect:
+				"Sie erhalten vor allem E-Mails über KI-Agenten: was bei Kunden im Betrieb läuft, was funktioniert und was nicht.",
+			offer:
+				"Wenn Sie über Agenten für Ihr eigenes Unternehmen nachdenken, antworten Sie auf diese E-Mail. Wir bauen sie.",
+		},
+		"ai-automation": {
+			expect:
+				"Sie erhalten vor allem E-Mails über KI-Automation: echte Workflows, die wir für Unternehmen bauen, und was sie kosten.",
+			offer:
+				"Wenn ein Teil Ihres Betriebs noch über Kopieren und Einfügen läuft, antworten Sie und beschreiben Sie ihn. Das ist unsere Arbeit.",
+		},
+		web: {
+			expect:
+				"Sie erhalten vor allem E-Mails über Websites: Performance, SEO und was eine schnelle Seite braucht.",
+			offer:
+				"Wenn Ihre Website langsam ist oder zu wenige Anfragen bringt, antworten Sie auf diese E-Mail. Wir sehen sie uns an.",
+		},
 	},
 };
 
-const GENERIC_EXPECT =
-	"We send occasional emails on web performance, modern development, and what we're building.";
-const GENERIC_OFFER =
-	"If you have a project in mind, reply to this email. We read every reply.";
+const COPY = {
+	en: {
+		confirmSubject: "Confirm your webvise newsletter subscription",
+		confirmTitle: "Confirm your subscription",
+		confirmBody:
+			"You signed up for the webvise newsletter. One click and you're on the list.",
+		confirmAction: "Confirm subscription",
+		confirmIgnore: "If you did not request this, ignore this email.",
+		welcomeSubject: "Welcome to the webvise newsletter",
+		welcomeTitle: "Welcome",
+		onTheList: "You're on the list.",
+		signedUpReading: (title: string) =>
+			`You signed up while reading "${title}".`,
+		genericExpect:
+			"We send occasional emails on web performance, modern development, and what we're building.",
+		genericOffer:
+			"If you have a project in mind, reply to this email. We read every reply.",
+		noSpam: "No spam. Unsubscribe anytime by replying.",
+		bookCall: "Book a free call",
+		unsubscribe: "Unsubscribe",
+		signOff: "- The webvise team",
+	},
+	de: {
+		confirmSubject:
+			"Bitte bestätigen Sie Ihre Anmeldung zum webvise Newsletter",
+		confirmTitle: "Anmeldung bestätigen",
+		confirmBody:
+			"Sie haben sich für den webvise Newsletter angemeldet. Ein Klick, und Sie stehen auf der Liste.",
+		confirmAction: "Anmeldung bestätigen",
+		confirmIgnore:
+			"Falls Sie das nicht angefordert haben, ignorieren Sie diese E-Mail.",
+		welcomeSubject: "Willkommen beim webvise Newsletter",
+		welcomeTitle: "Willkommen",
+		onTheList: "Sie stehen auf der Liste.",
+		signedUpReading: (title: string) =>
+			`Sie haben sich beim Lesen von „${title}“ angemeldet.`,
+		genericExpect:
+			"Wir schreiben gelegentlich über Web-Performance, moderne Entwicklung und das, woran wir gerade bauen.",
+		genericOffer:
+			"Wenn Sie ein Projekt im Kopf haben, antworten Sie auf diese E-Mail. Wir lesen jede Antwort.",
+		noSpam:
+			"Kein Spam. Abmelden können Sie sich jederzeit mit einer Antwort auf diese E-Mail.",
+		bookCall: "Kostenloses Gespräch buchen",
+		unsubscribe: "Abmelden",
+		signOff: "- Das webvise Team",
+	},
+} as const;
 
-export const NEWSLETTER_CONFIRMATION_SUBJECT =
-	"Confirm your webvise newsletter subscription";
-export const NEWSLETTER_WELCOME_SUBJECT = "Welcome to the webvise newsletter";
+export const NEWSLETTER_CONFIRMATION_SUBJECT = COPY.en.confirmSubject;
+export const NEWSLETTER_WELCOME_SUBJECT = COPY.en.welcomeSubject;
 
-export function buildNewsletterConfirmationHtml(email: string) {
+export function newsletterConfirmationSubject(locale: EmailLocale = "en") {
+	return COPY[locale].confirmSubject;
+}
+
+export function newsletterWelcomeSubject(locale: EmailLocale = "en") {
+	return COPY[locale].welcomeSubject;
+}
+
+export function buildNewsletterConfirmationHtml(
+	email: string,
+	locale: EmailLocale = "en"
+) {
 	const confirmationUrl = newsletterConfirmationUrl(email);
+	const t = COPY[locale];
 
 	return emailLayout({
 		label: "Newsletter",
 		content: `
-      <h1 style="${s.h1}">Confirm your subscription</h1>
-      <p style="${s.p}">You signed up for the webvise newsletter. One click and you're on the list.</p>
+      <h1 style="${s.h1}">${t.confirmTitle}</h1>
+      <p style="${s.p}">${t.confirmBody}</p>
       <div style="margin:20px 0">
-        <a href="${confirmationUrl}" style="${s.button}">Confirm subscription</a>
+        <a href="${confirmationUrl}" style="${s.button}">${t.confirmAction}</a>
       </div>
       <hr style="${s.hr}">
-      <p style="${s.p};margin-bottom:0">If you did not request this, ignore this email.</p>`,
+      <p style="${s.p};margin-bottom:0">${t.confirmIgnore}</p>`,
 	});
 }
 
-export function newsletterConfirmationText(email: string) {
+export function newsletterConfirmationText(
+	email: string,
+	locale: EmailLocale = "en"
+) {
 	const confirmationUrl = newsletterConfirmationUrl(email);
+	const t = COPY[locale];
 
 	return [
-		"Confirm your webvise newsletter subscription",
+		t.confirmSubject,
 		"",
-		"You signed up for the webvise newsletter. One click and you're on the list.",
+		t.confirmBody,
 		"",
-		`Confirm subscription: ${confirmationUrl}`,
+		`${t.confirmAction}: ${confirmationUrl}`,
 		"",
-		"If you did not request this, ignore this email.",
+		t.confirmIgnore,
 		"",
-		"- The webvise team",
+		t.signOff,
 	].join("\n");
 }
 
-function welcomeCopy(source?: WelcomeSource) {
-	const topicCopy = source ? TOPIC_COPY[source.topic] : undefined;
+function welcomeCopy(source: WelcomeSource | undefined, locale: EmailLocale) {
+	const t = COPY[locale];
+	const topicCopy = source ? TOPIC_COPY[locale][source.topic] : undefined;
 	return {
 		intro: source?.postTitle
-			? `You signed up while reading "${source.postTitle}".`
-			: "You're on the list.",
-		expect: topicCopy?.expect ?? GENERIC_EXPECT,
-		offer: topicCopy?.offer ?? GENERIC_OFFER,
+			? t.signedUpReading(source.postTitle)
+			: t.onTheList,
+		expect: topicCopy?.expect ?? t.genericExpect,
+		offer: topicCopy?.offer ?? t.genericOffer,
 	};
 }
 
 export function buildNewsletterWelcomeHtml(
 	email: string,
-	source?: WelcomeSource
+	source?: WelcomeSource,
+	locale: EmailLocale = "en"
 ) {
-	const copy = welcomeCopy(source);
+	const copy = welcomeCopy(source, locale);
+	const t = COPY[locale];
 
 	return emailLayout({
 		label: "Newsletter",
 		unsubscribeEmail: email,
+		unsubscribeLabel: t.unsubscribe,
 		content: `
-      <h1 style="${s.h1}">Welcome</h1>
+      <h1 style="${s.h1}">${t.welcomeTitle}</h1>
       <p style="${s.p}">${escapeHtml(copy.intro)}</p>
       <p style="${s.p}">${escapeHtml(copy.expect)}</p>
-      <p style="${s.p}">No spam. Unsubscribe anytime by replying.</p>
+      <p style="${s.p}">${t.noSpam}</p>
       <hr style="${s.hr}">
       <p style="${s.p};margin-bottom:0">${escapeHtml(copy.offer)}</p>
       <div style="margin-top:16px">
-        <a href="https://cal.com/webvise" style="${s.button}">Book a free call</a>
+        <a href="https://cal.com/webvise" style="${s.button}">${t.bookCall}</a>
       </div>`,
 	});
 }
 
-export function newsletterWelcomeText(source?: WelcomeSource) {
-	const copy = welcomeCopy(source);
+export function newsletterWelcomeText(
+	source?: WelcomeSource,
+	locale: EmailLocale = "en"
+) {
+	const copy = welcomeCopy(source, locale);
+	const t = COPY[locale];
 
 	return [
-		"Welcome",
+		t.welcomeTitle,
 		"",
 		copy.intro,
 		copy.expect,
 		"",
-		"No spam. Unsubscribe anytime by replying.",
+		t.noSpam,
 		"",
 		copy.offer,
-		"Book a free call: https://cal.com/webvise",
+		`${t.bookCall}: https://cal.com/webvise`,
 		"",
-		"- The webvise team",
+		t.signOff,
 	].join("\n");
 }
 

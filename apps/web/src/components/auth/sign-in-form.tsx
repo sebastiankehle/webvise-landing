@@ -1,6 +1,5 @@
 import { useForm } from "@tanstack/react-form";
 import { useRouter } from "next/navigation";
-import posthog from "posthog-js";
 import { toast } from "sonner";
 import z from "zod";
 
@@ -10,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { H1 } from "@/components/ui/typography";
 import { authClient } from "@/lib/auth-client";
+import { getPostHog } from "@/lib/posthog-client";
 
 export default function SignInForm() {
 	const router = useRouter();
@@ -28,15 +28,19 @@ export default function SignInForm() {
 				},
 				{
 					onSuccess: (ctx) => {
-						posthog.identify(ctx.data.user.id, { email: ctx.data.user.email });
-						posthog.capture("user_signed_in");
+						const { id, email } = ctx.data.user;
+						getPostHog().then((posthog) => {
+							posthog?.identify(id, { email });
+							posthog?.capture("user_signed_in");
+						});
 						router.push("/dashboard" as never);
 						toast.success("Sign in successful");
 					},
 					onError: (error) => {
-						posthog.capture("user_sign_in_error", {
-							reason: error.error.message || error.error.statusText,
-						});
+						const reason = error.error.message || error.error.statusText;
+						getPostHog().then((posthog) =>
+							posthog?.capture("user_sign_in_error", { reason })
+						);
 						toast.error(error.error.message || error.error.statusText);
 					},
 				}

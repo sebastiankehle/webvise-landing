@@ -44,7 +44,7 @@ describe("newsletterRouter.subscribe", () => {
 		});
 
 		await expect(
-			caller.subscribe({ email: "reader@example.com" })
+			caller.subscribe({ email: "reader@example.com", path: "/en" })
 		).resolves.toEqual({ success: true });
 
 		expect(fetchMock).toHaveBeenCalledOnce();
@@ -56,6 +56,25 @@ describe("newsletterRouter.subscribe", () => {
 		expect(body.text).toContain("/api/newsletter/confirm?token=");
 	});
 
+	it("writes the confirmation in German for a signup on a German page", async () => {
+		const caller = newsletterRouter.createCaller({
+			ip: "newsletter-router-test-de",
+			session: null,
+		});
+
+		await caller.subscribe({
+			email: "leser@example.com",
+			placement: "footer",
+			path: "/blog",
+		});
+
+		const body = JSON.parse(fetchMock.mock.calls[0][1].body);
+		expect(body.subject).toBe(
+			"Bitte bestätigen Sie Ihre Anmeldung zum webvise Newsletter"
+		);
+		expect(body.html).toContain("Anmeldung bestätigen");
+	});
+
 	it("stores the pending subscriber and an immutable topic-interest event", async () => {
 		const caller = newsletterRouter.createCaller({
 			ip: "newsletter-router-test-2",
@@ -65,20 +84,20 @@ describe("newsletterRouter.subscribe", () => {
 		await caller.subscribe({
 			email: "Reader@Example.com",
 			placement: "blog_article",
-			path: "/blog/llm-wiki-3-month-report",
+			path: "/en/blog/llm-wiki-3-month-report",
 		});
 
 		expect(dbMock.insert).toHaveBeenCalledTimes(2);
 		expect(dbMock.values).toHaveBeenNthCalledWith(1, {
 			email: "reader@example.com",
 			placement: "blog_article",
-			path: "/blog/llm-wiki-3-month-report",
+			path: "/en/blog/llm-wiki-3-month-report",
 		});
 		expect(dbMock.values).toHaveBeenNthCalledWith(2, {
 			email: "reader@example.com",
 			eventType: "newsletter_signup",
 			placement: "blog_article",
-			path: "/blog/llm-wiki-3-month-report",
+			path: "/en/blog/llm-wiki-3-month-report",
 			topic: "llm-wiki-3-month-report",
 		});
 		expect(dbMock.onConflictDoUpdate).toHaveBeenCalledOnce();

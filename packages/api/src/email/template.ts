@@ -15,25 +15,29 @@ export function escapeHtml(str: string): string {
 	return str.replace(ESCAPE_RE, (ch) => ESCAPE_MAP[ch] ?? ch);
 }
 
-// Design tokens matching the website's oklch color system, converted to hex for email compatibility
-// Brand: oklch(0.75 0.18 55) → #ff8918 (warm amber)
-// Dark header: oklch(0.14 0.015 250) → #141418 (near-black, blue-tinted)
-// Foreground: oklch(0.145 0 0) → #1a1a1a
-// Muted foreground: oklch(0.556 0 0) → #7a7a7a
-// Border: oklch(0.922 0 0) → #e5e5e5
+// The site's colour tokens as hex, since mail clients do not read oklch.
+// Brand: oklch(0.75 0.18 55) → #ff8918
+// Ink (text, header, buttons): oklch(0.18 0.012 250) → #0e1217
+// Muted text: oklch(0.46 0.014 250) → #525960
+// Page ground: oklch(0.965 0.006 245) → #f0f4f7
+// Hairline: oklch(0.932 0.008 245) → #e4e9ee
 const c = {
 	brand: "#ff8918",
-	bgOuter: "#f5f5f5",
+	bgOuter: "#f0f4f7",
 	bgCard: "#ffffff",
-	header: "#141418",
-	text: "#1a1a1a",
-	textMuted: "#7a7a7a",
-	textFaint: "#999999",
-	border: "#e5e5e5",
+	header: "#0e1217",
+	text: "#0e1217",
+	textMuted: "#525960",
+	textFaint: "#7b8187",
+	border: "#e4e9ee",
 	green: "#16a34a",
 	yellow: "#ca8a04",
 	red: "#dc2626",
 } as const;
+
+// The mark as a picture: mail clients drop inline SVG. With pictures blocked,
+// the wordmark beside it still names the sender.
+const MARK_URL = "https://www.webvise.io/images/email/webvise-mark.png";
 
 const font =
 	"'Hanken Grotesk', Geist, Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
@@ -51,10 +55,11 @@ export function emailLayout(opts: {
 	content: string;
 	footer?: string;
 	unsubscribeEmail?: string;
+	unsubscribeLabel?: string;
 }) {
 	const unsubscribeHtml = opts.unsubscribeEmail
 		? `<div style="padding:14px 28px;border-top:1px solid ${c.border}">
-      <a href="${unsubscribeUrl(opts.unsubscribeEmail)}" style="font-size:12px;color:${c.textFaint};text-decoration:none">Unsubscribe</a>
+      <a href="${unsubscribeUrl(opts.unsubscribeEmail)}" style="font-size:12px;color:${c.textFaint};text-decoration:none">${escapeHtml(opts.unsubscribeLabel ?? "Unsubscribe")}</a>
     </div>`
 		: "";
 
@@ -64,7 +69,7 @@ export function emailLayout(opts: {
 <body style="margin:0;padding:0;background:${c.bgOuter};font-family:${font}">
   <div style="max-width:560px;margin:40px auto;background:${c.bgCard};border:1px solid ${c.border};border-radius:12px;overflow:hidden">
     <div style="background:${c.header};padding:20px 28px;border-radius:11px 11px 0 0">
-      <span style="color:#ffffff;font-size:17px;font-weight:600;letter-spacing:-0.02em;font-family:${font}">webvise</span>${opts.label ? `<span style="color:#8b8b93;font-size:13px;margin-left:10px;font-family:${font}">${escapeHtml(opts.label)}</span>` : ""}
+      <img src="${MARK_URL}" width="22" height="22" alt="" style="vertical-align:middle;margin-right:8px;border:0"><span style="color:#ffffff;font-size:17px;font-weight:600;letter-spacing:-0.02em;vertical-align:middle;font-family:${font}">webvise</span>${opts.label ? `<span style="color:#999fa4;font-size:13px;margin-left:10px;vertical-align:middle;font-family:${font}">${escapeHtml(opts.label)}</span>` : ""}
     </div>
     <div style="height:2px;background:${c.brand}"></div>
     <div style="padding:28px">
@@ -92,8 +97,8 @@ export const s = {
 	cellLabel: `padding:6px 16px 6px 0;color:${c.textMuted};font-size:13px;white-space:nowrap;vertical-align:top`,
 	cellValue: `padding:6px 0;color:${c.text};font-size:13px`,
 	link: `color:${c.brand};text-decoration:none`,
-	button: `display:inline-block;background:${c.header};color:#ffffff;text-decoration:none;padding:10px 20px;font-size:13px;font-weight:500;border-radius:8px`,
-	buttonOutline: `display:inline-block;border:1px solid ${c.border};color:${c.text};text-decoration:none;padding:10px 20px;font-size:13px;border-radius:8px`,
+	button: `display:inline-block;background:${c.header};color:#ffffff;text-decoration:none;padding:10px 20px;font-size:13px;font-weight:500;border-radius:6px`,
+	buttonOutline: `display:inline-block;border:1px solid ${c.border};color:${c.text};text-decoration:none;padding:10px 20px;font-size:13px;border-radius:6px`,
 	hr: `border:none;border-top:1px solid ${c.border};margin:20px 0`,
 	box: `border:1px solid ${c.border};border-radius:8px;padding:16px 20px;margin-bottom:20px`,
 	small: "font-size:12px;font-weight:600",

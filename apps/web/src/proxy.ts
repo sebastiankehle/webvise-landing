@@ -70,7 +70,10 @@ const DELETED_BLOG_SLUGS = new Set([
 	"wordpress-vs-nextjs-for-business-website",
 ]);
 
-const BLOG_PATH = /^\/(?:de\/)?blog\/([^/]+)\/?$/;
+/** German moved to the unprefixed URLs (2026-11). Old /de links move for good. */
+const OLD_GERMAN_PREFIX = /^\/de(?=\/|$)/;
+
+const BLOG_PATH = /^\/(?:(?:de|en)\/)?blog\/([^/]+)\/?$/;
 
 const GONE_BODY =
 	'<!doctype html><html lang="en"><head><meta charset="utf-8"><title>410 — page removed</title></head><body><p>This page has been permanently removed. <a href="/">Go to webvise.io</a></p></body></html>';
@@ -86,6 +89,11 @@ export default function proxy(request: NextRequest) {
 			status: 410,
 			headers: { "content-type": "text/html; charset=utf-8" },
 		});
+	}
+	if (OLD_GERMAN_PREFIX.test(pathname)) {
+		const url = request.nextUrl.clone();
+		url.pathname = pathname.replace(OLD_GERMAN_PREFIX, "") || "/";
+		return NextResponse.redirect(url, 308);
 	}
 	return intlMiddleware(request);
 }

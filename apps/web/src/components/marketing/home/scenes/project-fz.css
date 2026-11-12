@@ -1,0 +1,253 @@
+@font-face {
+	font-family: "Nunito";
+	src: url("./fonts/nunito-v24-latin-regular.woff2") format("woff2");
+	font-weight: 400;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Nunito";
+	src: url("./fonts/nunito-v24-latin-600.woff2") format("woff2");
+	font-weight: 600;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Nunito";
+	src: url("./fonts/nunito-v24-latin-700.woff2") format("woff2");
+	font-weight: 700;
+	font-display: swap;
+}
+
+.wpf {
+	& .ss-stage {
+		--gutter: 24px;
+		--ss-font: "Nunito", system-ui, sans-serif;
+		--ss-accent: #3d5a47;
+		--ss-accent-soft: rgb(61 90 71 / 0.1);
+		--ss-surface: #ffffff;
+		--ss-chrome: #eceeec;
+		--ss-text-strong: #1f231f;
+		--ss-text: #5b615a;
+		--ss-text-faint: #8b9089;
+		--ss-line: rgb(31 35 31 / 0.14);
+		overflow: hidden;
+		background: transparent;
+	}
+
+	/* Pinned top-left, whole across, off the bottom */
+	.wpf-win {
+		position: absolute;
+		top: 22px;
+		left: var(--gutter);
+		width: 316px;
+		height: 290px;
+		background: var(--ss-surface);
+		border-radius: 10px;
+		box-shadow: var(--ss-shadow-hero);
+	}
+
+	.ss-window__lights {
+		display: none;
+	}
+	.ss-window__bar {
+		padding-inline: 10px;
+	}
+
+	.wpf-page {
+		position: relative;
+		height: 100%;
+		padding: 14px 18px;
+		background: var(--ss-surface);
+	}
+
+	.wpf-faint {
+		font-size: 9.5px;
+		line-height: 13px;
+		color: var(--ss-text-faint);
+	}
+
+	.wpf-progress-head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 5px;
+	}
+
+	.wpf-pct {
+		font-size: 9.5px;
+		font-weight: 600;
+		font-variant-numeric: tabular-nums;
+		line-height: 13px;
+		color: var(--ss-text);
+	}
+
+	.wpf-track {
+		height: 4px;
+		overflow: hidden;
+		background: rgb(31 35 31 / 0.1);
+		border-radius: 2px;
+	}
+
+	.wpf-fill {
+		display: block;
+		width: 0;
+		height: 100%;
+		background: var(--ss-accent);
+		border-radius: 2px;
+		transition: width 0.8s cubic-bezier(0.3, 0, 0.2, 1) 0.15s;
+	}
+
+	.wpf-fill[data-on] {
+		width: 10%;
+	}
+
+	.wpf-step {
+		padding-top: 16px;
+	}
+
+	.wpf-q {
+		display: block;
+		margin-bottom: 11px;
+		font-size: 13px;
+		font-weight: 600;
+		line-height: 17px;
+		color: var(--ss-text-strong);
+		white-space: normal;
+	}
+
+	.wpf-tiles {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 7px;
+	}
+
+	/* The product's answer tiles: icon and label on a hairline */
+	.wpf-tile {
+		position: relative;
+		display: flex;
+		gap: 8px;
+		align-items: center;
+		height: 34px;
+		padding: 0 10px;
+		font-size: 10.5px;
+		line-height: 14px;
+		color: var(--ss-text);
+		background: #f6f8f6;
+		border-radius: 8px;
+		box-shadow: inset 0 0 0 1px var(--ss-line);
+		transition:
+			background 0.2s ease,
+			box-shadow 0.2s ease,
+			color 0.2s ease,
+			scale 0.12s ease;
+		will-change: transform;
+	}
+
+	.wpf-tile svg {
+		flex: none;
+	}
+	.wpf-tile[data-hover] {
+		box-shadow: inset 0 0 0 1px rgb(31 35 31 / 0.3);
+	}
+	.wpf-tile[data-pressed] {
+		scale: 0.98;
+	}
+
+	.wpf-tile[data-on] {
+		color: var(--ss-text-strong);
+		background: #e9eee7;
+		box-shadow: inset 0 0 0 1.5px var(--ss-accent);
+	}
+
+	.wpf-tick {
+		display: grid;
+		place-items: center;
+		width: 14px;
+		height: 14px;
+		margin-left: auto;
+		color: #ffffff;
+		background: var(--ss-accent);
+		border-radius: 50%;
+		opacity: 0;
+		scale: 0.5;
+		transition:
+			opacity 0.2s ease,
+			scale 0.35s cubic-bezier(0.2, 1.4, 0.4, 1);
+	}
+
+	.wpf-tick[data-on] {
+		opacity: 1;
+		scale: 1;
+	}
+
+	/* Between Zurück and Weiter, on empty page */
+	.wpf-rest {
+		position: absolute;
+		top: 162px;
+		left: 150px;
+		width: 1px;
+		height: 1px;
+	}
+
+	/* One fact about the whole form: where the buyer is in its ten steps */
+	.wpf-count {
+		position: absolute;
+		top: 78px;
+		right: var(--gutter);
+		display: flex;
+		flex-direction: column;
+		gap: 1px;
+		padding: 9px 12px 8px;
+		background: #ffffff;
+		border-radius: 12px;
+		box-shadow: var(--ss-shadow-satellite);
+		will-change: transform;
+	}
+
+	.wpf-count-n {
+		display: inline-flex;
+		gap: 4px;
+		align-items: baseline;
+		font-size: 17px;
+		font-weight: 700;
+		font-variant-numeric: tabular-nums;
+		line-height: 20px;
+		color: var(--ss-text-strong);
+	}
+
+	.wpf-count-of {
+		font-size: 10.5px;
+		font-weight: 600;
+		color: var(--ss-text-faint);
+	}
+
+	.wpf-tile--tall {
+		height: 38px;
+	}
+
+	.wpf-nav {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-top: 14px;
+	}
+
+	.wpf-back,
+	.wpf-go {
+		display: inline-flex;
+		align-items: center;
+		height: 26px;
+		padding: 0 12px;
+		font-size: 10.5px;
+		font-weight: 600;
+		border-radius: 999px;
+	}
+
+	.wpf-back {
+		color: var(--ss-text);
+		box-shadow: inset 0 0 0 1px var(--ss-line);
+	}
+	.wpf-go {
+		color: #ffffff;
+		background: var(--ss-accent);
+	}
+}

@@ -5,7 +5,7 @@ interface Polygon {
 	points: string;
 }
 
-const POLYGONS: readonly Polygon[] = [
+export const LOGO_POLYGONS: readonly Polygon[] = [
 	{
 		className: "logo-seg-1",
 		fill: "#f97316",
@@ -72,7 +72,7 @@ export default function Logo({
 			xmlns="http://www.w3.org/2000/svg"
 		>
 			<title>webvise</title>
-			{POLYGONS.map((p) => (
+			{LOGO_POLYGONS.map((p) => (
 				<polygon
 					className={animated ? `logo-seg ${p.className}` : undefined}
 					fill={p.fill}

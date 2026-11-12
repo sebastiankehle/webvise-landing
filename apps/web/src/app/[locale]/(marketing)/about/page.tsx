@@ -1,10 +1,10 @@
-import { ArrowUpRight, Link as LinkIcon } from "lucide-react";
+import { ArrowUpRight, Link as LinkIcon, Plus } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { getLocale, getTranslations } from "next-intl/server";
-
+import type { CSSProperties } from "react";
 import JsonLd from "@/components/json-ld";
-import { MarketingTag } from "@/components/marketing/marketing-tag";
+import { ActionArrow } from "@/components/marketing/action";
 import { OpenAiPartnerBadge } from "@/components/marketing/openai-partner-badge";
 import SectionWrapper, {
 	ConstructedGrid,
@@ -13,21 +13,22 @@ import SectionWrapper, {
 import BecomePartner from "@/components/marketing/sections/become-partner";
 import { skillIcons } from "@/components/marketing/skill-icons";
 import { SocialIconButton } from "@/components/marketing/social-icon-button";
-import { Button } from "@/components/ui/button";
-import {
-	Body,
-	Caption,
-	H1,
-	H2,
-	H3,
-	Lead,
-	Muted,
-	QuoteMark,
-} from "@/components/ui/typography";
+import StaggerChildren from "@/components/marketing/stagger-children";
+import WorkWall from "@/components/marketing/work-wall";
+import { Caption, H1, H2, H3 } from "@/components/ui/typography";
+import { getCaseStudies } from "@/data/case-studies";
+import { Link } from "@/i18n/navigation";
+import { type LocaleParams, pinLocale } from "@/i18n/static-locale";
 import { featureFlags } from "@/lib/feature-flags";
 import { generateAlternates, localizedUrl } from "@/lib/seo";
+import { cn } from "@/lib/utils";
 
-export async function generateMetadata(): Promise<Metadata> {
+export async function generateMetadata({
+	params,
+}: {
+	params: LocaleParams;
+}): Promise<Metadata> {
+	await pinLocale(params);
 	const [t, locale] = await Promise.all([
 		getTranslations("about"),
 		getLocale(),
@@ -54,10 +55,23 @@ export async function generateMetadata(): Promise<Metadata> {
 	};
 }
 
-const experienceCount = 7;
 const bioCount = 6;
-// Paragraph rendered as a pull-quote inside the bio column.
-const bioPullQuoteIndex = 2;
+
+// Start and end of each station as year fractions, in the order of
+// about.experience.items. A station without an end runs today.
+const careerSpans: [start: number, end?: number][] = [
+	[2016.58],
+	[2025.42],
+	[2022.58, 2025.42],
+	[2021.75, 2022.58],
+	[2017.58, 2021.75],
+	[2016.58, 2021.75],
+	[2013.75, 2017.58],
+];
+const careerStart = 2013;
+
+// The approved numbers, worded once in metrics.results.
+const facts = ["projects", "weeks", "raised", "users"] as const;
 
 const connectLinks = [
 	{ key: "linkedin" as const, href: "https://linkedin.com/in/sebastiankehle" },
@@ -67,24 +81,16 @@ const connectLinks = [
 	{ key: "personal" as const, href: "https://sebastiankehle.com" },
 ];
 
-// Mirrors sebastiankehle.com/skills — names are not translated.
+// Mirrors sebastiankehle.com/skills — names are not translated. The two long
+// lists share the first row, the three short ones the second.
 const stackSections = [
 	{
-		key: "languages" as const,
-		skills: [
-			{ name: "JavaScript", icon: "javascript" },
-			{ name: "TypeScript", icon: "typescript" },
-			{ name: "HTML", icon: "html" },
-			{ name: "CSS", icon: "css" },
-			{ name: "SQL", icon: "sql" },
-		],
-	},
-	{
 		key: "frameworks" as const,
+		wide: true,
 		skills: [
 			{ name: "React", icon: "react" },
 			{ name: "Next.js", icon: "nextjs" },
-			{ name: "TailwindCSS", icon: "tailwind" },
+			{ name: "Tailwind CSS", icon: "tailwind" },
 			{ name: "TanStack Query", icon: "tanstack" },
 			{ name: "Express.js", icon: "express" },
 			{ name: "Hono", icon: "hono" },
@@ -96,6 +102,7 @@ const stackSections = [
 	},
 	{
 		key: "backendData" as const,
+		wide: true,
 		skills: [
 			{ name: "PostgreSQL", icon: "postgres" },
 			{ name: "Drizzle", icon: "drizzle" },
@@ -107,6 +114,16 @@ const stackSections = [
 			{ name: "Supabase", icon: "supabase" },
 			{ name: "Better Auth", icon: "betterauth" },
 			{ name: "Convex", icon: "convex" },
+		],
+	},
+	{
+		key: "languages" as const,
+		skills: [
+			{ name: "JavaScript", icon: "javascript" },
+			{ name: "TypeScript", icon: "typescript" },
+			{ name: "HTML", icon: "html" },
+			{ name: "CSS", icon: "css" },
+			{ name: "SQL", icon: "sql" },
 		],
 	},
 	{
@@ -164,9 +181,26 @@ const network: {
 	},
 ];
 
-export default async function AboutPage() {
+export default async function AboutPage({ params }: { params: LocaleParams }) {
+	const locale = await pinLocale(params);
 	const t = await getTranslations("about");
+	const [tcs, tn, tm] = await Promise.all([
+		getTranslations("caseStudies"),
+		getTranslations("nav"),
+		getTranslations("metrics"),
+	]);
+	const work = getCaseStudies(locale, { kind: "client" }).slice(0, 6);
 	const tschema = await getTranslations("schema");
+
+	// The ruler runs from the first year to the end of this one.
+	const now = new Date();
+	const today = now.getFullYear() + now.getMonth() / 12;
+	const careerYears = now.getFullYear() + 1 - careerStart;
+	const share = (year: number) => ((year - careerStart) / careerYears) * 100;
+	const ticks = Array.from(
+		{ length: Math.floor(careerYears / 2) },
+		(_, i) => careerStart + 1 + i * 2
+	);
 
 	const jsonLd = {
 		"@context": "https://schema.org",
@@ -194,19 +228,19 @@ export default async function AboutPage() {
 			},
 			{
 				"@type": "BreadcrumbList",
-				"@id": "https://www.webvise.io/about#breadcrumb",
+				"@id": `${localizedUrl("/about", locale)}#breadcrumb`,
 				itemListElement: [
 					{
 						"@type": "ListItem",
 						position: 1,
 						name: tschema("home"),
-						item: "https://www.webvise.io",
+						item: localizedUrl("/", locale),
 					},
 					{
 						"@type": "ListItem",
 						position: 2,
 						name: t("title"),
-						item: "https://www.webvise.io/about",
+						item: localizedUrl("/about", locale),
 					},
 				],
 			},
@@ -217,161 +251,215 @@ export default async function AboutPage() {
 		<>
 			<JsonLd data={jsonLd} />
 
-			{/* Header */}
-			<section className="relative pt-32 pb-24 md:pt-44 md:pb-36">
+			<section className="relative pt-12 pb-16 md:pt-20 md:pb-24">
 				<ConstructedGrid variant="page" />
 				<GridContainer>
-					<div className="grid items-start gap-12 md:grid-cols-3 md:gap-16">
-						{/* Title + intro */}
-						<div className="md:col-span-2">
-							<div className="flex items-center gap-5">
-								<Image
-									alt={t("intro.name")}
-									className="h-[72px] w-[72px] shrink-0 rounded-lg object-cover"
-									height={72}
-									priority
-									quality={85}
-									src="/images/founder.jpeg"
-									width={72}
-								/>
-								<div>
-									<Caption>{t("intro.role")}</Caption>
-									<H1 className="mt-1">{t("intro.name")}</H1>
+					{/* CSS-only entrance: the first screen never waits for script */}
+					<div className="stagger-visible grid gap-x-6 gap-y-10 lg:grid-cols-12">
+						<div className="lg:col-span-8">
+							<H1>
+								<span className="mb-5 block font-sans text-base text-muted-foreground leading-normal tracking-normal">
+									<span className="text-foreground">{t("intro.name")}</span>
+									{", "}
+									{t("intro.role")}
+								</span>
+								{t("intro.statement")}
+							</H1>
+							<p className="mt-6 max-w-[58ch] text-foreground text-lg leading-[1.6]">
+								{t("intro.lead")}
+							</p>
+							<ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2">
+								{connectLinks.map(({ key, href }) => (
+									<li key={key}>
+										<a
+											className="group/arrow inline-flex items-center gap-1 text-base text-foreground underline decoration-foreground/25 underline-offset-4 outline-none transition-colors duration-150 hover:decoration-foreground focus-visible:decoration-foreground"
+											href={href}
+											rel="noopener noreferrer"
+											target="_blank"
+										>
+											{t(`connect.${key}`)}
+											<ArrowUpRight
+												aria-hidden="true"
+												className="size-3.5 text-foreground/50 transition-colors duration-150 group-hover/arrow:text-foreground"
+											/>
+										</a>
+									</li>
+								))}
+							</ul>
+						</div>
+						<div className="lg:col-span-3 lg:col-start-10">
+							<div className="max-w-[300px] rounded-[20px] bg-card p-2 shadow-[0_0_0_1px_rgba(14,18,23,0.06),0_24px_48px_-36px_rgba(14,18,23,0.35)] lg:ml-auto dark:shadow-[0_0_0_1px_rgba(255,255,255,0.08)]">
+								<div className="relative aspect-square overflow-hidden rounded-[14px]">
+									<Image
+										alt={t("intro.name")}
+										className="object-cover"
+										fill
+										priority
+										quality={95}
+										sizes="284px"
+										src="/images/founder.jpeg"
+									/>
 								</div>
 							</div>
-							<Lead className="mt-6">{t("intro.tagline")}</Lead>
-							<Lead className="mt-3">{t("intro.description")}</Lead>
-							<OpenAiPartnerBadge className="mt-8 w-[93px]" />
-						</div>
-
-						{/* Connect card */}
-						<div className="surface-card p-6 md:p-7">
-							<Caption className="mb-5 block">{t("connect.title")}</Caption>
-							<div className="flex flex-wrap gap-2">
-								{connectLinks.map(({ key, href }) => (
-									<Button
-										key={key}
-										render={
-											<a href={href} rel="noopener noreferrer" target="_blank">
-												{t(`connect.${key}`)}
-												<ArrowUpRight className="h-3 w-3" />
-											</a>
-										}
-										size="sm"
-										variant="outline"
-									/>
-								))}
+							<div className="mt-6 flex max-w-[300px] lg:ml-auto">
+								<OpenAiPartnerBadge className="w-[124px]" />
 							</div>
 						</div>
 					</div>
+
+					{/* The work so far, in the four approved numbers */}
+					<dl className="mt-10 grid grid-cols-2 gap-x-6 gap-y-7 border-foreground/[0.08] border-y py-7 md:mt-14 md:grid-cols-4">
+						{facts.map((key) => (
+							<div className="flex flex-col-reverse justify-end" key={key}>
+								<dt className="mt-2.5 text-muted-foreground text-sm leading-5">
+									{tm(`results.items.${key}.label`)}
+								</dt>
+								<dd className="font-display text-3xl text-foreground leading-none md:text-4xl">
+									{tm(`results.items.${key}.value`)}
+								</dd>
+							</div>
+						))}
+					</dl>
 				</GridContainer>
 			</section>
 
-			{/* Bio */}
 			<SectionWrapper id="background" surface="alternate">
-				<div className="grid items-start gap-12 md:grid-cols-[1.1fr_0.9fr] md:gap-20">
-					<div className="max-w-2xl">
-						<H2>{t("bio.title")}</H2>
-						<div className="mt-8 space-y-5">
-							{Array.from({ length: bioCount }, (_, i) => {
-								if (i === bioPullQuoteIndex) {
-									return null;
-								}
-								const paragraph = t(`bio.paragraphs.${i}`);
+				<div className="grid gap-x-6 gap-y-8 lg:grid-cols-12">
+					<H2 className="lg:col-span-4">{t("bio.title")}</H2>
+					<StaggerChildren className="lg:col-span-8">
+						{/* The first paragraph leads; the rest reads in two columns */}
+						<p className="max-w-[62ch] text-foreground text-lg leading-[1.6]">
+							{t("bio.paragraphs.0")}
+						</p>
+						<div className="mt-8 gap-x-10 md:columns-2">
+							{Array.from({ length: bioCount - 1 }, (_, i) => {
+								const paragraph = t(`bio.paragraphs.${i + 1}`);
 								return (
-									<Body className="text-muted-foreground" key={paragraph}>
+									<p
+										className="mb-5 break-inside-avoid text-base text-foreground/80 leading-[1.6]"
+										key={paragraph}
+									>
 										{paragraph}
-									</Body>
+									</p>
 								);
 							})}
 						</div>
-					</div>
-					<div className="surface-card w-full max-w-sm self-start p-6 md:justify-self-end md:p-7">
-						<QuoteMark className="block" />
-						<Muted className="mt-3 text-foreground/85 leading-relaxed">
-							{t(`bio.paragraphs.${bioPullQuoteIndex}`)}
-						</Muted>
-					</div>
+					</StaggerChildren>
 				</div>
 			</SectionWrapper>
 
-			{/* Experience - vertical timeline like personal site */}
 			<SectionWrapper id="experience">
-				<div className="max-w-3xl">
-					<H2>{t("experience.title")}</H2>
-					<ol className="surface-card mt-10 divide-y divide-border/60 overflow-hidden">
-						{Array.from({ length: experienceCount }, (_, i) => {
-							const company = t(`experience.items.${i}.company`);
-							const role = t(`experience.items.${i}.role`);
-							const period = t(`experience.items.${i}.period`);
-							const location = t(`experience.items.${i}.location`);
-							const description = t(`experience.items.${i}.description`);
-
-							return (
-								<li
-									className="grid gap-3 px-6 py-5 md:grid-cols-[180px_1fr] md:gap-8 md:px-7 md:py-6"
-									key={`${company}-${role}-${period}`}
+				<H2>{t("experience.title")}</H2>
+				{/* Each station is a row on one year ruler; its text opens on demand */}
+				<StaggerChildren className="career relative isolate mt-10 md:mt-14">
+					<div
+						aria-hidden="true"
+						className="hidden pb-3 lg:grid lg:grid-cols-12 lg:gap-x-6"
+					>
+						<div className="relative col-span-6 col-start-6 h-4">
+							{ticks.map((year) => (
+								<span
+									className="absolute top-0 -translate-x-1/2 text-muted-foreground text-xs tabular-nums"
+									key={year}
+									style={{ left: `${share(year)}%` }}
 								>
-									<div className="md:pt-1">
-										<Caption className="block tabular-nums">{period}</Caption>
-										<Caption className="mt-1 block text-muted-foreground">
-											{location}
-										</Caption>
+									{year}
+								</span>
+							))}
+						</div>
+					</div>
+					{careerSpans.map(([start, end], i) => {
+						const company = t(`experience.items.${i}.company`);
+						const role = t(`experience.items.${i}.role`);
+						const period = t(`experience.items.${i}.period`);
+						const location = t(`experience.items.${i}.location`);
+
+						return (
+							<details
+								className="group/q border-foreground/[0.08] border-b first-of-type:border-t"
+								key={`${company}-${role}-${period}`}
+								open={i === 0 || undefined}
+							>
+								<summary className="grid cursor-pointer list-none grid-cols-[1fr_auto] items-center gap-x-6 outline-none focus-visible:bg-foreground/[0.04] lg:grid-cols-12 [&::-webkit-details-marker]:hidden">
+									<div className="pt-5 pb-3 lg:col-span-5 lg:py-5">
+										<H3>
+											{role}, {company}
+										</H3>
+										<p className="mt-1 text-muted-foreground text-sm tabular-nums">
+											{period}, {location}
+										</p>
 									</div>
-									<div>
-										<Caption className="block text-brand-readable">
-											{company}
-										</Caption>
-										<H3 className="mt-1">{role}</H3>
-										<Muted className="mt-2 leading-relaxed">
-											{description}
-										</Muted>
+									<Plus
+										aria-hidden="true"
+										className="size-4 flex-none text-foreground/45 transition-transform duration-200 group-open/q:rotate-45 lg:order-last lg:justify-self-end"
+									/>
+									<div className="relative col-span-2 mb-5 h-2 lg:col-span-6 lg:mb-0 lg:h-auto lg:self-stretch">
+										<span className="absolute inset-x-0 inset-y-0 my-auto h-px bg-foreground/[0.08] lg:hidden" />
+										<span
+											className={cn(
+												"career-bar absolute inset-y-0 my-auto h-2 rounded-full",
+												end ? "bg-foreground/70" : "bg-brand"
+											)}
+											style={
+												{
+													left: `${share(start)}%`,
+													width: `${share(end ?? today) - share(start)}%`,
+													"--row": i,
+												} as CSSProperties
+											}
+										/>
 									</div>
-								</li>
-							);
-						})}
-					</ol>
-				</div>
+								</summary>
+								<p className="max-w-[62ch] pb-6 text-base text-foreground/80 leading-[1.6] lg:w-5/12 lg:pr-6">
+									{t(`experience.items.${i}.description`)}
+								</p>
+							</details>
+						);
+					})}
+					{/* The year lines, drawn once behind all rows */}
+					<div
+						aria-hidden="true"
+						className="pointer-events-none absolute inset-x-0 top-7 bottom-0 -z-10 hidden lg:grid lg:grid-cols-12 lg:gap-x-6"
+					>
+						<div
+							className="career-track col-span-6 col-start-6"
+							style={{ "--career-years": careerYears } as CSSProperties}
+						/>
+					</div>
+				</StaggerChildren>
 			</SectionWrapper>
 
 			{featureFlags.marketing.aboutNetworkSection && (
 				<SectionWrapper id="network" surface="alternate">
-					<div className="grid gap-8 md:grid-cols-3 md:gap-16">
-						<div className="md:col-span-1">
-							<H2>{t("network.title")}</H2>
-						</div>
-						<div className="md:col-span-2">
-							<Lead>{t("network.lead")}</Lead>
-						</div>
+					<div className="grid gap-x-6 gap-y-6 lg:grid-cols-12">
+						<H2 className="lg:col-span-4">{t("network.title")}</H2>
+						<p className="max-w-[62ch] text-foreground text-lg leading-[1.6] lg:col-span-7 lg:col-start-6">
+							{t("network.lead")}
+						</p>
 					</div>
-					<div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+					<StaggerChildren className="mt-12 grid gap-x-10 gap-y-12 md:mt-16 md:grid-cols-3 lg:gap-x-14">
 						{network.map((member) => {
 							const role = t(`network.members.${member.id}.role`);
 							const article = t(`network.members.${member.id}.article`);
 							return (
-								<div
-									className="surface-card flex flex-col p-6 md:p-7"
-									key={member.id}
-								>
-									<div className="flex items-start gap-4">
+								<div key={member.id}>
+									<div className="flex items-center gap-3">
 										<Image
-											alt={member.name}
-											className="h-12 w-12 shrink-0 rounded-lg object-cover"
+											alt=""
+											className="size-12 shrink-0 rounded-full object-cover"
 											height={48}
-											quality={85}
+											quality={90}
 											src={member.image}
 											width={48}
 										/>
 										<div className="min-w-0 flex-1">
-											<Body className="font-medium text-sm">{member.name}</Body>
-											<Caption className="mt-0.5 block text-muted-foreground">
-												{role}
-											</Caption>
+											<H3>{member.name}</H3>
+											<p className="text-muted-foreground text-sm">{role}</p>
 										</div>
-										<div className="flex shrink-0 gap-1">
+										<div className="flex shrink-0">
 											<SocialIconButton
 												href={member.linkedin}
-												label={`${member.name} — LinkedIn`}
+												label={`${member.name}, LinkedIn`}
 											>
 												<svg
 													aria-hidden="true"
@@ -386,18 +474,20 @@ export default async function AboutPage() {
 											{member.website && (
 												<SocialIconButton
 													href={member.website}
-													label={`${member.name} — Website`}
+													label={`${member.name}, Website`}
 												>
 													<LinkIcon aria-hidden="true" className="h-4 w-4" />
 												</SocialIconButton>
 											)}
 										</div>
 									</div>
-									<Muted className="mt-5 leading-relaxed">{article}</Muted>
+									<p className="mt-4 text-base text-foreground/80 leading-[1.6]">
+										{article}
+									</p>
 								</div>
 							);
 						})}
-					</div>
+					</StaggerChildren>
 				</SectionWrapper>
 			)}
 
@@ -414,9 +504,15 @@ export default async function AboutPage() {
 				}
 			>
 				<H2>{t("stack.title")}</H2>
-				<div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-					{stackSections.map(({ key, skills }) => (
-						<div className="surface-card p-6 md:p-7" key={key}>
+				<div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-6">
+					{stackSections.map(({ key, wide, skills }) => (
+						<div
+							className={cn(
+								"surface-card p-6 last:sm:col-span-2 md:p-7",
+								wide ? "lg:col-span-3" : "lg:col-span-2"
+							)}
+							key={key}
+						>
 							<Caption className="mb-4 block text-brand-readable">
 								{"<"}
 								{t(`stack.sections.${key}.label`)}
@@ -424,23 +520,39 @@ export default async function AboutPage() {
 							</Caption>
 							<div className="flex flex-wrap gap-2">
 								{skills.map(({ name, icon }) => (
-									<MarketingTag
-										className="gap-1.5"
+									<span
+										className="inline-flex h-8 items-center gap-2 rounded-full pr-3 pl-2.5 text-foreground text-sm shadow-[inset_0_0_0_1px_rgba(14,18,23,0.1)] dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]"
 										key={name}
-										variant="neutral"
 									>
 										<span
 											aria-hidden="true"
-											className="h-3.5 w-3.5 shrink-0 [&_svg]:h-full [&_svg]:w-full"
+											className="size-4 shrink-0 [&_svg]:h-full [&_svg]:w-full"
 											// biome-ignore lint/security/noDangerouslySetInnerHtml: static build-time SVG markup
 											dangerouslySetInnerHTML={{ __html: skillIcons[icon] }}
 										/>
 										{name}
-									</MarketingTag>
+									</span>
 								))}
 							</div>
 						</div>
 					))}
+				</div>
+			</SectionWrapper>
+
+			{/* The page is about a person; the work is the proof. */}
+			<SectionWrapper hatch id="work" surface="inverted">
+				<div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-3">
+					<H2>{tcs("title")}</H2>
+					<Link
+						className="group/arrow inline-flex items-center gap-1.5 text-base text-foreground outline-none focus-visible:underline focus-visible:underline-offset-4"
+						href="/case-studies"
+					>
+						{tn("menuAllWork")}
+						<ActionArrow />
+					</Link>
+				</div>
+				<div className="mt-10 md:mt-14">
+					<WorkWall projects={work} />
 				</div>
 			</SectionWrapper>
 		</>

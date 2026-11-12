@@ -20,7 +20,7 @@ export function SocialIconButton({
 		<Button
 			aria-label={label}
 			className={cn(
-				"border-0 text-muted-foreground hover:border-0 hover:bg-transparent",
+				"pointer-coarse:size-11 border-0 text-muted-foreground hover:border-0 hover:bg-transparent",
 				className
 			)}
 			onClick={onClick}

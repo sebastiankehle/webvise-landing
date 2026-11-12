@@ -1,4 +1,4 @@
-import posthog from "posthog-js";
+import { getPostHog } from "@/lib/posthog-client";
 
 type TrackProperties = Record<string, string | number | boolean | null>;
 
@@ -10,5 +10,5 @@ export function track(event: string, properties?: TrackProperties) {
 	if (typeof gtag === "function") {
 		(gtag as (...args: unknown[]) => void)("event", event, properties);
 	}
-	posthog.capture(event, properties);
+	getPostHog().then((posthog) => posthog?.capture(event, properties));
 }

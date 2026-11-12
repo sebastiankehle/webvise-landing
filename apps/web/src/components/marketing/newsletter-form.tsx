@@ -36,16 +36,17 @@ export function NewsletterForm({
 
 	if (status === "success") {
 		return (
-			<Muted className="fade-in slide-in-from-bottom-1 animate-in text-success text-xs duration-300 ease-out motion-reduce:animate-none">
+			<Muted className="fade-in slide-in-from-bottom-1 animate-in text-sm text-success duration-300 ease-out motion-reduce:animate-none">
 				{success}
 			</Muted>
 		);
 	}
 
 	return (
-		<form className="flex flex-col gap-2" onSubmit={handleSubscribe}>
+		<form className="flex flex-wrap gap-2" onSubmit={handleSubscribe}>
 			<Input
-				className="h-8 w-full text-xs"
+				aria-label={placeholder}
+				className="h-10 pointer-coarse:h-11 min-w-0 flex-1 rounded-sm pointer-coarse:text-base text-sm"
 				onChange={(e) => setEmail(e.target.value)}
 				placeholder={placeholder}
 				required
@@ -53,7 +54,7 @@ export function NewsletterForm({
 				value={email}
 			/>
 			<Button
-				className="h-8 self-start text-xs"
+				className="h-10 pointer-coarse:h-11 rounded-sm px-4 text-sm"
 				disabled={status === "loading"}
 				size="sm"
 				type="submit"
@@ -62,7 +63,7 @@ export function NewsletterForm({
 				{buttonLabel}
 			</Button>
 			{status === "error" && (
-				<Muted className="fade-in slide-in-from-bottom-1 animate-in text-destructive text-xs duration-300 ease-out motion-reduce:animate-none">
+				<Muted className="fade-in slide-in-from-bottom-1 w-full animate-in text-destructive text-sm duration-300 ease-out motion-reduce:animate-none">
 					{error}
 				</Muted>
 			)}

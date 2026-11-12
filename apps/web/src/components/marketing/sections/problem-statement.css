@@ -1,0 +1,71 @@
+/* The statement fills with ink as it scrolls into view, character by
+   character. */
+@keyframes scroll-fill-char-anim {
+	to {
+		color: var(--foreground);
+	}
+}
+
+.scroll-fill-char {
+	color: color-mix(in oklab, var(--foreground) 34%, transparent);
+	animation: scroll-fill-char-anim linear both;
+	animation-timeline: view();
+	animation-range: cover calc(12% + (var(--i) / var(--n)) * 55%) cover
+		calc(20% + (var(--i) / var(--n)) * 55%);
+}
+
+/* The four places the sentence names. They start as one pile and drift
+   apart while the sentence fills, then each gets its name. At rest, and
+   wherever scroll timelines are missing, they lie scattered. */
+.ps-piece {
+	--tx: var(--dx-small);
+	--ty: var(--dy-small);
+	rotate: var(--r);
+	animation: ps-spread linear both;
+	animation-timeline: view();
+	animation-range: entry 60% cover 42%;
+}
+.ps-label {
+	animation: ps-label linear both;
+	animation-timeline: view();
+	animation-range: cover 36% cover 46%;
+}
+@media (min-width: 768px) {
+	.ps-piece {
+		--tx: var(--dx);
+		--ty: 0px;
+	}
+}
+@keyframes ps-spread {
+	from {
+		translate: var(--tx) var(--ty);
+		rotate: 0deg;
+	}
+}
+@keyframes ps-label {
+	from {
+		opacity: 0;
+	}
+}
+
+@supports not (animation-timeline: view()) {
+	.scroll-fill-char {
+		color: var(--foreground);
+		animation: none;
+	}
+	.ps-piece,
+	.ps-label {
+		animation: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.scroll-fill-char {
+		color: var(--foreground);
+		animation: none;
+	}
+	.ps-piece,
+	.ps-label {
+		animation: none;
+	}
+}

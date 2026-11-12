@@ -1,0 +1,249 @@
+.wpm {
+	& .ss-stage {
+		--gutter: 24px;
+		--navy: #0f1a2b;
+		--ss-success: #2c9d5c;
+		--mono: ui-monospace, "SF Mono", Menlo, monospace;
+		overflow: hidden;
+		background: transparent;
+	}
+
+	/* Pinned top-left, whole across, off the bottom */
+	.wpm-win {
+		position: absolute;
+		top: 22px;
+		left: var(--gutter);
+		width: 352px;
+		height: 290px;
+		border-radius: 10px;
+		box-shadow: var(--ss-shadow-hero);
+	}
+
+	.ss-window__lights {
+		display: none;
+	}
+	.ss-window__bar {
+		padding-inline: 10px;
+	}
+
+	.wpm-page {
+		position: relative;
+		height: 100%;
+		padding: 12px 14px;
+		background: #f3f4f6;
+	}
+
+	.wpm-top {
+		display: flex;
+		gap: 10px;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 10px;
+	}
+
+	/* The tender, as it came in */
+	.wpm-file {
+		display: inline-flex;
+		gap: 6px;
+		align-items: center;
+		min-width: 0;
+		height: 26px;
+		padding: 0 8px;
+		font-size: 9.5px;
+		line-height: 14px;
+		color: var(--ss-text-strong);
+		background: #fff;
+		border-radius: 7px;
+		box-shadow: inset 0 0 0 1px rgb(15 26 43 / 0.1);
+	}
+
+	.wpm-file svg {
+		flex: none;
+		color: #c2410c;
+	}
+
+	/* The portal's download button: asleep until the positions are in */
+	.wpm-get {
+		display: inline-flex;
+		flex: none;
+		gap: 6px;
+		align-items: center;
+		height: 26px;
+		padding: 0 10px;
+		font-size: 9.5px;
+		font-weight: 600;
+		line-height: 14px;
+		color: #8a929c;
+		white-space: nowrap;
+		background: #dfe2e6;
+		border-radius: 7px;
+		transition:
+			background 0.4s ease,
+			color 0.4s ease,
+			scale 0.12s ease;
+		will-change: transform;
+	}
+
+	.wpm-get[data-on] {
+		color: #fff;
+		background: var(--navy);
+	}
+	.wpm-get[data-on][data-hover] {
+		background: #1b2a42;
+	}
+	.wpm-get[data-pressed] {
+		scale: 0.97;
+	}
+
+	.wpm-card {
+		min-height: 220px;
+		padding: 10px 12px 0;
+		background: #fff;
+		border-radius: 10px 10px 0 0;
+		box-shadow: 0 0 0 1px rgb(15 26 43 / 0.07);
+	}
+
+	.wpm-card-head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		height: 18px;
+		margin-bottom: 4px;
+	}
+
+	.wpm-title {
+		font-size: 11.5px;
+		font-weight: 600;
+		color: var(--ss-text-strong);
+	}
+
+	.wpm-count {
+		display: inline-flex;
+		gap: 4px;
+		align-items: center;
+		font-size: 10px;
+		font-variant-numeric: tabular-nums;
+		color: var(--ss-text);
+	}
+
+	/* A fixed slot, so the singular never moves the line */
+	.wpm-count-label {
+		display: inline-block;
+		width: 90px;
+	}
+
+	.wpm-count-tick {
+		display: grid;
+		place-items: center;
+		width: 12px;
+		height: 12px;
+		color: #fff;
+		background: rgb(15 26 43 / 0.14);
+		border-radius: 50%;
+		transition: background 0.35s ease;
+	}
+
+	.wpm-count[data-on] .wpm-count-tick {
+		background: var(--ss-success);
+	}
+
+	/* One grid for the head and every row */
+	.wpm-cols {
+		display: grid;
+		grid-template-columns: 44px 1fr 34px 30px;
+		column-gap: 8px;
+		align-items: center;
+	}
+
+	.wpm-head {
+		height: 20px;
+		font-size: 9.5px;
+		color: var(--ss-text-faint);
+		border-bottom: 1px solid rgb(15 26 43 / 0.1);
+	}
+
+	.wpm-row {
+		height: 22px;
+		font-size: 10.5px;
+		color: var(--ss-text-strong);
+		border-bottom: 1px solid rgb(15 26 43 / 0.06);
+	}
+
+	.wpm-slot {
+		position: relative;
+		height: 22px;
+	}
+
+	.wpm-slot .wpm-row {
+		position: absolute;
+		inset: 0;
+		transition: opacity 0.35s ease;
+	}
+
+	.wpm-real {
+		opacity: 0;
+	}
+	.wpm-slot[data-on] .wpm-real {
+		opacity: 1;
+	}
+	.wpm-slot[data-on] .wpm-ghost {
+		opacity: 0;
+	}
+
+	.wpm-slot[data-group] .wpm-row {
+		inset: 0 -12px;
+		padding: 0 12px;
+		font-weight: 600;
+	}
+
+	.wpm-slot[data-group][data-on] .wpm-real {
+		background: rgb(15 26 43 / 0.035);
+	}
+
+	.wpm-oz {
+		font-family: var(--mono);
+		font-size: 9.5px;
+		color: var(--ss-text);
+	}
+
+	.wpm-num {
+		justify-self: end;
+		font-variant-numeric: tabular-nums;
+	}
+
+	.wpm-unit {
+		color: var(--ss-text);
+	}
+
+	.wpm-rest {
+		position: absolute;
+		top: 150px;
+		right: 96px;
+		width: 1px;
+		height: 1px;
+	}
+
+	/* The file, saved: where a browser shows it, under the address bar */
+	.wpm-saved {
+		position: absolute;
+		top: 30px;
+		right: 36px;
+		height: 28px;
+		padding: 0 11px 0 8px;
+		font-family: var(--mono);
+		font-size: 9.5px;
+		color: #fff;
+		background: var(--navy);
+		border-radius: 9px;
+		box-shadow: var(--ss-shadow-float);
+	}
+
+	.wpm-saved-tick {
+		display: grid;
+		place-items: center;
+		width: 14px;
+		height: 14px;
+		background: var(--ss-success);
+		border-radius: 50%;
+	}
+}

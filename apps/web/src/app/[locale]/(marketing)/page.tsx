@@ -1,26 +1,27 @@
 import { getLocale, getTranslations } from "next-intl/server";
 
 import JsonLd from "@/components/json-ld";
-import BlogPreview from "@/components/marketing/sections/blog-preview";
-import CaseStudiesPreview from "@/components/marketing/sections/case-studies-preview";
+import Bento from "@/components/marketing/home/bento";
+import Closing from "@/components/marketing/home/closing";
+import Faq from "@/components/marketing/home/faq";
+import Hero from "@/components/marketing/home/hero";
+import Journal from "@/components/marketing/home/journal";
+import Process from "@/components/marketing/home/process";
+import Safeguards from "@/components/marketing/home/safeguards";
+import Services from "@/components/marketing/home/services";
+import Systems from "@/components/marketing/home/systems";
+import Voices from "@/components/marketing/home/voices";
+import Work from "@/components/marketing/home/work";
 import Comparison from "@/components/marketing/sections/comparison";
-import Contact from "@/components/marketing/sections/contact";
-import EngineerLed from "@/components/marketing/sections/engineer-led";
-import FAQ from "@/components/marketing/sections/faq";
-import Hero from "@/components/marketing/sections/hero";
 import Metrics from "@/components/marketing/sections/metrics";
 import MidCta from "@/components/marketing/sections/mid-cta";
 import ProblemStatement from "@/components/marketing/sections/problem-statement";
-import Process from "@/components/marketing/sections/process";
-import ProjectSurfaces from "@/components/marketing/sections/project-surfaces";
-import Services from "@/components/marketing/sections/services";
-import Support from "@/components/marketing/sections/support";
-import TechStack from "@/components/marketing/sections/tech-stack";
-import Testimonials from "@/components/marketing/sections/testimonials";
 import WpHealthCta from "@/components/marketing/sections/wp-health-cta";
+import { type LocaleParams, pinLocale } from "@/i18n/static-locale";
 import { localizedUrl } from "@/lib/seo";
 
-export default async function HomePage() {
+export default async function HomePage({ params }: { params: LocaleParams }) {
+	await pinLocale(params);
 	const [t, locale] = await Promise.all([
 		getTranslations("siteMetadata"),
 		getLocale(),
@@ -65,21 +66,20 @@ export default async function HomePage() {
 			<JsonLd data={jsonLd} />
 			<Hero />
 			<ProblemStatement />
-			<ProjectSurfaces />
+			<Work />
 			<Metrics />
 			<Services />
 			<MidCta />
-			<EngineerLed />
-			<TechStack />
-			<Testimonials />
-			<CaseStudiesPreview />
 			<Process />
 			<Comparison />
+			<Voices />
+			<Bento />
+			<Systems />
 			<WpHealthCta />
-			<Support />
-			<BlogPreview />
-			<FAQ />
-			<Contact />
+			<Journal />
+			<Faq />
+			<Safeguards />
+			<Closing />
 		</>
 	);
 }

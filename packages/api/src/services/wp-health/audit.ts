@@ -1,6 +1,12 @@
 import { sendEmail } from "../../email/resend";
 import { UrlValidationError, validateUrl } from "../../url-validation";
-import { buildAdminHtml, buildProspectHtml } from "./emails";
+import {
+	buildAdminHtml,
+	buildProspectHtml,
+	type ProspectLocale,
+	prospectSubject,
+	prospectText,
+} from "./emails";
 import {
 	extractCoreWebVitals,
 	extractTopIssues,
@@ -14,6 +20,8 @@ import { detectTechnology, type TechFlags } from "./tech-detect";
 export interface AuditInput {
 	email?: string;
 	firstName?: string;
+	/** Language of the page the report ran on; the prospect's email follows it. */
+	locale?: ProspectLocale;
 	url: string;
 }
 
@@ -169,36 +177,25 @@ export async function runWpHealthAudit(
 				from: "webvise <mail@webvise.io>",
 				to: input.email,
 				replyTo: adminEmail,
-				subject: `Your website report: ${input.url}`,
+				subject: prospectSubject(input.url, input.locale),
 				html: buildProspectHtml({
 					url: input.url,
 					firstName: input.firstName,
+					locale: input.locale,
 					mobileScore,
 					desktopScore,
 					projectedScore,
 					issues,
 				}),
-				text: [
-					`Hi ${input.firstName || "there"},`,
-					"",
-					`Here's your free WordPress health report for ${input.url}.`,
-					"",
-					`Mobile score: ${mobileScore}/100`,
-					`Desktop score: ${desktopScore}/100`,
-					`After migrating to Next.js: ${projectedScore}/100`,
-					"",
-					"Top issues found:",
-					...issues.map(
-						(i) => `- ${i.title}${i.displayValue ? ` (${i.displayValue})` : ""}`
-					),
-					"",
-					"Scope review: webvise can review your content model, integrations, SEO risk, and support needs before recommending the right rebuild path.",
-					"",
-					"Ready to talk? Book a free call: https://cal.com/webvise",
-					"Or reply to this email with any questions.",
-					"",
-					"- The webvise team",
-				].join("\n"),
+				text: prospectText({
+					url: input.url,
+					firstName: input.firstName,
+					locale: input.locale,
+					mobileScore,
+					desktopScore,
+					projectedScore,
+					issues,
+				}),
 			}),
 		]);
 	}

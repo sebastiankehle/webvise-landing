@@ -6,6 +6,7 @@ import ReportDownloadForm from "@/components/marketing/report-download-form";
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import { Body, Caption, H1, Lead, Muted } from "@/components/ui/typography";
 import { getDeckBySlug, getDeckTitle, serviceDecks } from "@/data/decks";
+import { pinLocale } from "@/i18n/static-locale";
 
 const DECK_PAGE_CARDS = [0, 1, 2] as const;
 
@@ -16,8 +17,9 @@ export function generateStaticParams() {
 export async function generateMetadata({
 	params,
 }: {
-	params: Promise<{ slug: string }>;
+	params: Promise<{ locale: string; slug: string }>;
 }): Promise<Metadata> {
+	await pinLocale(params);
 	const { slug } = await params;
 	const deck = getDeckBySlug(slug);
 	if (!deck) {
@@ -34,8 +36,9 @@ export async function generateMetadata({
 export default async function DeckGatePage({
 	params,
 }: {
-	params: Promise<{ slug: string }>;
+	params: Promise<{ locale: string; slug: string }>;
 }) {
+	await pinLocale(params);
 	const { slug } = await params;
 	const deck = getDeckBySlug(slug);
 

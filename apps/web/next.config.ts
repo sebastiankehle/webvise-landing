@@ -80,14 +80,15 @@ const nextConfig: NextConfig = {
 				destination: "/apple-icon",
 				permanent: false,
 			},
+			// English legal pages kept their own path names and now sit under /en.
 			{
-				source: "/impressum",
-				destination: "/de/impressum",
+				source: "/imprint",
+				destination: "/en/imprint",
 				permanent: true,
 			},
 			{
-				source: "/datenschutz",
-				destination: "/de/datenschutz",
+				source: "/privacy",
+				destination: "/en/privacy",
 				permanent: true,
 			},
 			{

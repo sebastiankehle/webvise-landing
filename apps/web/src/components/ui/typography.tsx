@@ -7,7 +7,7 @@ function Display({ className, ...props }: React.ComponentProps<"h1">) {
 	return (
 		<h1
 			className={cn(
-				"text-balance font-display text-3xl text-foreground leading-tight md:text-5xl",
+				"text-balance font-display text-[2.25rem] text-foreground leading-[1.05] tracking-[-0.035em] sm:text-5xl md:text-[3.5rem] lg:text-[4.5rem] lg:leading-[1.02]",
 				className
 			)}
 			data-slot="display"
@@ -21,7 +21,7 @@ function H1({ className, ...props }: React.ComponentProps<"h1">) {
 	return (
 		<h1
 			className={cn(
-				"text-balance font-display text-3xl text-foreground leading-tight md:text-5xl",
+				"text-balance font-display text-3xl text-foreground leading-[1.1] tracking-[-0.03em] md:text-5xl md:leading-[1.06]",
 				className
 			)}
 			data-slot="h1"
@@ -35,7 +35,7 @@ function H2({ className, ...props }: React.ComponentProps<"h2">) {
 	return (
 		<h2
 			className={cn(
-				"text-balance font-display text-[1.625rem] text-foreground leading-[1.15] md:text-4xl md:leading-tight",
+				"text-balance font-display text-[1.75rem] text-foreground leading-[1.12] tracking-[-0.028em] md:text-[2.5rem] md:leading-[1.08]",
 				className
 			)}
 			data-slot="h2"
@@ -49,7 +49,7 @@ function H3({ className, ...props }: React.ComponentProps<"h3">) {
 	return (
 		<h3
 			className={cn(
-				"font-display text-foreground text-xl leading-snug",
+				"font-display text-foreground text-lg leading-snug",
 				className
 			)}
 			data-slot="h3"
@@ -73,7 +73,7 @@ function H4({ className, ...props }: React.ComponentProps<"h4">) {
 function Lead({ className, ...props }: React.ComponentProps<"p">) {
 	return (
 		<p
-			className={cn("text-base text-muted-foreground leading-7", className)}
+			className={cn("text-lg text-muted-foreground leading-[1.6]", className)}
 			data-slot="lead"
 			{...props}
 		/>
@@ -102,22 +102,11 @@ function Muted({ className, ...props }: React.ComponentProps<"p">) {
 	);
 }
 
-/* ── Small ───────────────────────────────────────────────── */
-function Small({ className, ...props }: React.ComponentProps<"span">) {
-	return (
-		<span
-			className={cn("text-muted-foreground text-sm", className)}
-			data-slot="small"
-			{...props}
-		/>
-	);
-}
-
 /* ── Caption ─────────────────────────────────────────────── */
 function Caption({ className, ...props }: React.ComponentProps<"span">) {
 	return (
 		<span
-			className={cn("text-muted-foreground text-xs", className)}
+			className={cn("text-[0.8125rem] text-muted-foreground", className)}
 			data-slot="caption"
 			{...props}
 		/>
@@ -128,7 +117,7 @@ function Caption({ className, ...props }: React.ComponentProps<"span">) {
 function Label({ className, ...props }: React.ComponentProps<"span">) {
 	return (
 		<span
-			className={cn("text-muted-foreground text-xs", className)}
+			className={cn("text-[0.8125rem] text-muted-foreground", className)}
 			data-slot="label"
 			{...props}
 		/>
@@ -160,23 +149,17 @@ function Stat({ className, ...props }: React.ComponentProps<"span">) {
 	);
 }
 
-/* ── Quote mark (decorative quotation mark) ─────────────── */
-function QuoteMark({
-	children = "\u201C",
-	className,
-	...props
-}: React.ComponentProps<"span">) {
+const inlineLinkClassName =
+	"border border-transparent text-brand-readable text-sm underline decoration-brand-border/70 underline-offset-4 outline-none transition-colors hover:text-foreground focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring/50";
+
+/* ── Inline link ─────────────────────────────────────────── */
+function InlineLink({ className, ...props }: React.ComponentProps<"a">) {
 	return (
-		<span
-			className={cn(
-				"block select-none font-display text-3xl text-brand-icon leading-none",
-				className
-			)}
-			data-slot="quote-mark"
+		<a
+			className={cn(inlineLinkClassName, className)}
+			data-slot="inline-link"
 			{...props}
-		>
-			{children}
-		</span>
+		/>
 	);
 }
 
@@ -189,20 +172,6 @@ function DisplayH2({ className, ...props }: React.ComponentProps<"h2">) {
 				className
 			)}
 			data-slot="display-h2"
-			{...props}
-		/>
-	);
-}
-
-const inlineLinkClassName =
-	"border border-transparent text-brand-readable text-sm underline decoration-brand-border/70 underline-offset-4 outline-none transition-colors hover:text-foreground focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring/50";
-
-/* ── Inline link ─────────────────────────────────────────── */
-function InlineLink({ className, ...props }: React.ComponentProps<"a">) {
-	return (
-		<a
-			className={cn(inlineLinkClassName, className)}
-			data-slot="inline-link"
 			{...props}
 		/>
 	);
@@ -223,7 +192,5 @@ export {
 	Lead,
 	Mono,
 	Muted,
-	QuoteMark,
-	Small,
 	Stat,
 };

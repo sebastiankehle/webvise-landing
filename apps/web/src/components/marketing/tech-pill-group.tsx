@@ -36,7 +36,7 @@ export function TechPillGroup({ items }: { items: string[] }) {
 			{items.map((tech, index) => (
 				<MarketingTag
 					className={cn(
-						"border-transparent bg-foreground/10 text-foreground transition-colors duration-700",
+						"border-foreground/15 bg-transparent text-foreground transition-colors duration-700",
 						index === active && "bg-brand text-brand-foreground"
 					)}
 					key={tech}

@@ -2,6 +2,7 @@
 
 import DashboardProviders from "@/components/dashboard/dashboard-providers";
 import Header from "@/components/dashboard/header";
+import { Toaster } from "@/components/ui/sonner";
 
 export default function DashboardLayout({
 	children,
@@ -14,6 +15,9 @@ export default function DashboardLayout({
 				<Header />
 				{children}
 			</div>
+			{/* Only the sign-in form fires toasts, so the toaster lives here and
+			    stays out of the marketing pages' first load. */}
+			<Toaster richColors />
 		</DashboardProviders>
 	);
 }

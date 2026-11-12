@@ -74,7 +74,7 @@ export function buildAdminHtml(data: {
       </div>
       <table style="border-collapse:collapse;width:100%;margin-bottom:24px">${rows}</table>
       <div style="${s.box}">
-        <p style="${s.label}">Performance Scores</p>
+        <p style="${s.label}">Performance scores</p>
         <table style="border-collapse:collapse;width:100%">
           <tr>
             <td style="font-size:13px;color:${c.text};padding:4px 0">Mobile</td>
@@ -91,56 +91,131 @@ export function buildAdminHtml(data: {
         </table>
       </div>
       <div style="margin-bottom:16px">
-        <p style="${s.label}">Top Issues Found</p>
+        <p style="${s.label}">Top issues found</p>
         <ul style="margin:0;padding:0 0 0 18px">${issueRows}</ul>
       </div>
       <div style="margin-bottom:24px">
-        <p style="${s.label}">Security Flags</p>
+        <p style="${s.label}">Security flags</p>
         <ul style="margin:0;padding:0 0 0 18px">${securityRows}</ul>
       </div>
       <a href="mailto:${email}?subject=Your webvise WordPress health report&body=Hi ${firstName},%0A%0A" style="${s.button}">Reply to ${firstName}</a>`,
 	});
 }
 
-export function buildProspectHtml(data: {
-	url: string;
-	firstName?: string;
-	mobileScore: number;
+const PROSPECT_COPY = {
+	en: {
+		subject: (url: string) => `Your website report: ${url}`,
+		greeting: (name: string) => `Hi ${name}, here's your report`,
+		greetingNoName: "Hi there, here's your report",
+		analysedLead: "We've analysed",
+		analysedRest: "Here's what we found and what's possible.",
+		today: "Performance today",
+		mobile: "Mobile",
+		desktop: "Desktop",
+		projected: "After migrating to Next.js",
+		issues: "What's slowing you down",
+		scopeLabel: "Scope review",
+		scope:
+			"webvise can review your content model, integrations, SEO risk, and support needs before recommending the right rebuild path.",
+		bookCall: "Book a free call",
+		viewWork: "View our work",
+		siteUrl: "https://webvise.io/en",
+		note: "You're receiving this because you ran a free health report at webvise.io. Reply to this email if you have questions.",
+		textIntro: (url: string) =>
+			`Here's your free WordPress health report for ${url}.`,
+		textMobile: "Mobile score",
+		textDesktop: "Desktop score",
+		textIssues: "Top issues found:",
+		textCall: "Ready to talk? Book a free call: https://cal.com/webvise",
+		textReply: "Or reply to this email with any questions.",
+		signOff: "- The webvise team",
+	},
+	de: {
+		subject: (url: string) => `Ihr Website-Report: ${url}`,
+		greeting: (name: string) => `Hallo ${name}, hier ist Ihr Report`,
+		greetingNoName: "Guten Tag, hier ist Ihr Report",
+		analysedLead: "Wir haben",
+		analysedRest: "analysiert. Das haben wir gefunden, und das ist möglich.",
+		today: "Performance heute",
+		mobile: "Mobil",
+		desktop: "Desktop",
+		projected: "Nach der Migration zu Next.js",
+		issues: "Was Ihre Seite bremst",
+		scopeLabel: "Umfang prüfen",
+		scope:
+			"webvise prüft Inhaltsmodell, Integrationen, SEO-Risiko und Betreuungsbedarf, bevor wir den passenden Weg für den Neubau empfehlen.",
+		bookCall: "Kostenloses Gespräch buchen",
+		viewWork: "Projekte ansehen",
+		siteUrl: "https://webvise.io",
+		note: "Sie erhalten diese E-Mail, weil Sie auf webvise.io einen kostenlosen Health Report erstellt haben. Bei Fragen antworten Sie auf diese E-Mail.",
+		textIntro: (url: string) =>
+			`Hier ist Ihr kostenloser WordPress Health Report für ${url}.`,
+		textMobile: "Mobil",
+		textDesktop: "Desktop",
+		textIssues: "Die größten Bremsen:",
+		textCall:
+			"Bereit für ein Gespräch? Kostenlos buchen: https://cal.com/webvise",
+		textReply: "Oder antworten Sie mit Ihren Fragen auf diese E-Mail.",
+		signOff: "- Das webvise Team",
+	},
+} as const;
+
+export type ProspectLocale = keyof typeof PROSPECT_COPY;
+
+interface ProspectData {
 	desktopScore: number;
-	projectedScore: number;
+	firstName?: string;
 	issues: Array<{ title: string; displayValue?: string }>;
-}) {
-	const firstName = escapeHtml(data.firstName || "there");
+	locale?: ProspectLocale;
+	mobileScore: number;
+	projectedScore: number;
+	url: string;
+}
+
+export function prospectSubject(url: string, locale: ProspectLocale = "en") {
+	return PROSPECT_COPY[locale].subject(url);
+}
+
+export function buildProspectHtml(data: ProspectData) {
+	const t = PROSPECT_COPY[data.locale ?? "en"];
+	const greeting = data.firstName
+		? t.greeting(escapeHtml(data.firstName))
+		: t.greetingNoName;
 	const url = escapeHtml(data.url);
+	const site = `<strong style="color:${c.text}">${url}</strong>`;
+	const analysed =
+		data.locale === "de"
+			? `${t.analysedLead} ${site} ${t.analysedRest}`
+			: `${t.analysedLead} ${site}. ${t.analysedRest}`;
 
 	const issueRows = data.issues
 		.map(
 			(i) =>
-				`<li style="margin:0 0 6px;font-size:14px;color:${c.text}">${escapeHtml(i.title)}${i.displayValue ? ` - ${escapeHtml(i.displayValue)}` : ""}</li>`
+				`<li style="margin:0 0 6px;font-size:14px;color:${c.text}">${escapeHtml(i.title)}${i.displayValue ? ` <span style="color:${c.textMuted}">(${escapeHtml(i.displayValue)})</span>` : ""}</li>`
 		)
 		.join("");
 
 	return emailLayout({
 		label: "Health Report",
 		content: `
-      <h1 style="${s.h1}">Hi ${firstName}, here's your report</h1>
-      <p style="${s.p}">We've analysed <strong style="color:${c.text}">${url}</strong>. Here's what we found - and what's possible.</p>
+      <h1 style="${s.h1}">${greeting}</h1>
+      <p style="${s.p}">${analysed}</p>
       <div style="${s.box}">
-        <p style="${s.label}">Performance Today</p>
+        <p style="${s.label}">${t.today}</p>
         <table style="border-collapse:collapse;width:100%">
           <tr>
-            <td style="font-size:14px;color:${c.text};padding:6px 0">Mobile</td>
+            <td style="font-size:14px;color:${c.text};padding:6px 0">${t.mobile}</td>
             <td style="text-align:right;padding:6px 0">${scoreBadge(data.mobileScore)}</td>
           </tr>
           <tr>
-            <td style="font-size:14px;color:${c.text};padding:6px 0">Desktop</td>
+            <td style="font-size:14px;color:${c.text};padding:6px 0">${t.desktop}</td>
             <td style="text-align:right;padding:6px 0">${scoreBadge(data.desktopScore)}</td>
           </tr>
         </table>
         <div style="border-top:2px solid ${c.brand};margin:16px 0 12px"></div>
         <table style="border-collapse:collapse;width:100%">
           <tr>
-            <td style="font-size:14px;color:${c.brand};font-weight:500;padding:0">After migrating to Next.js</td>
+            <td style="font-size:14px;color:${c.brand};font-weight:500;padding:0">${t.projected}</td>
             <td style="text-align:right;padding:0">${scoreBadge(data.projectedScore)}</td>
           </tr>
         </table>
@@ -148,21 +223,52 @@ export function buildProspectHtml(data: {
       ${
 				data.issues.length > 0
 					? `<div style="margin-bottom:24px">
-        <p style="${s.label}">What's Slowing You Down</p>
+        <p style="${s.label}">${t.issues}</p>
         <ul style="margin:0;padding:0 0 0 20px">${issueRows}</ul>
       </div>`
 					: ""
 			}
       <div style="${s.box}">
-        <p style="${s.label};color:${c.brand}">Scope Review</p>
-        <p style="margin:0;font-size:15px;color:${c.text};line-height:1.6">webvise can review your content model, integrations, SEO risk, and support needs before recommending the right rebuild path.</p>
+        <p style="${s.label};color:${c.brand}">${t.scopeLabel}</p>
+        <p style="margin:0;font-size:15px;color:${c.text};line-height:1.6">${t.scope}</p>
       </div>
       <div style="margin-bottom:8px">
-        <a href="https://cal.com/webvise" style="${s.button};margin-right:12px">Book a Free Call</a>
-        <a href="https://webvise.io" style="${s.buttonOutline}">View Our Work</a>
+        <a href="https://cal.com/webvise" style="${s.button};margin-right:12px">${t.bookCall}</a>
+        <a href="${t.siteUrl}" style="${s.buttonOutline}">${t.viewWork}</a>
       </div>
       <p style="margin:24px 0 0;font-size:12px;color:${c.textFaint};line-height:1.6">
-        You're receiving this because you ran a free health report at webvise.io. Reply to this email if you have questions.
+        ${t.note}
       </p>`,
 	});
+}
+
+export function prospectText(data: ProspectData) {
+	const t = PROSPECT_COPY[data.locale ?? "en"];
+	const hello = data.locale === "de" ? "Hallo" : "Hi";
+	let salutation = `${hello} ${data.firstName},`;
+	if (!data.firstName) {
+		salutation = data.locale === "de" ? "Guten Tag," : "Hi there,";
+	}
+
+	return [
+		salutation,
+		"",
+		t.textIntro(data.url),
+		"",
+		`${t.textMobile}: ${data.mobileScore}/100`,
+		`${t.textDesktop}: ${data.desktopScore}/100`,
+		`${t.projected}: ${data.projectedScore}/100`,
+		"",
+		t.textIssues,
+		...data.issues.map(
+			(i) => `- ${i.title}${i.displayValue ? ` (${i.displayValue})` : ""}`
+		),
+		"",
+		`${t.scopeLabel}: ${t.scope}`,
+		"",
+		t.textCall,
+		t.textReply,
+		"",
+		t.signOff,
+	].join("\n");
 }

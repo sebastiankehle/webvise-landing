@@ -1,0 +1,210 @@
+@font-face {
+	font-family: "Nunito";
+	src: url("./fonts/nunito-v24-latin-regular.woff2") format("woff2");
+	font-weight: 400;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Nunito";
+	src: url("./fonts/nunito-v24-latin-600.woff2") format("woff2");
+	font-weight: 600;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Nunito";
+	src: url("./fonts/nunito-v24-latin-700.woff2") format("woff2");
+	font-weight: 700;
+	font-display: swap;
+}
+
+.wcf {
+	& .ss-stage {
+		--gutter: 24px;
+		--ss-font: "Nunito", system-ui, sans-serif;
+		--ss-accent: #3d5a47;
+		--ss-surface: #ffffff;
+		--ss-chrome: #eceeec;
+		--ss-text-strong: #1f231f;
+		--ss-text: #5b615a;
+		--ss-text-faint: #8b9089;
+		--ss-line: rgb(31 35 31 / 0.12);
+		overflow: hidden;
+		background: transparent;
+	}
+
+	/* Pinned top-left, off the bottom, ending before the card's outer part */
+	.wcf-win {
+		position: absolute;
+		top: 22px;
+		left: var(--gutter);
+		width: 292px;
+		height: 290px;
+		background: var(--ss-surface);
+		border-radius: 10px;
+		box-shadow: var(--ss-shadow-hero);
+	}
+
+	.ss-window__lights {
+		display: none;
+	}
+	.ss-window__bar {
+		padding-inline: 10px;
+	}
+
+	.wcf-page {
+		position: relative;
+		height: 100%;
+		padding: 12px 16px;
+		background: var(--ss-surface);
+	}
+
+	.wcf-title {
+		display: block;
+		margin-bottom: 6px;
+		font-size: 13px;
+		font-weight: 600;
+		line-height: 17px;
+		color: var(--ss-text-strong);
+	}
+
+	/* One line of the summary: what it is, what it costs */
+	.wcf-row {
+		display: flex;
+		gap: 6px;
+		align-items: center;
+		justify-content: space-between;
+		width: 204px;
+		height: 25px;
+		font-size: 10px;
+		color: var(--ss-text);
+		border-bottom: 1px solid rgb(31 35 31 / 0.07);
+	}
+
+	.wcf-row--total {
+		height: 30px;
+		font-size: 11.5px;
+		font-weight: 700;
+		color: var(--ss-text-strong);
+		border-bottom: 0;
+	}
+
+	.wcf-label {
+		display: inline-flex;
+		gap: 5px;
+		align-items: center;
+		min-width: 0;
+	}
+
+	.wcf-n {
+		flex: none;
+		font-variant-numeric: tabular-nums;
+		color: var(--ss-text-strong);
+	}
+
+	.wcf-n[data-empty] {
+		color: var(--ss-text-faint);
+	}
+
+	/* The state picker, as the app draws its selects */
+	.wcf-select {
+		display: inline-flex;
+		gap: 3px;
+		align-items: center;
+		height: 17px;
+		padding: 0 5px;
+		font-size: 8.5px;
+		color: var(--ss-text);
+		white-space: nowrap;
+		background: #f6f8f6;
+		border-radius: 6px;
+		box-shadow: inset 0 0 0 1px rgb(31 35 31 / 0.16);
+		transition:
+			box-shadow 0.2s ease,
+			color 0.2s ease,
+			scale 0.12s ease;
+		will-change: transform;
+	}
+
+	.wcf-select:is([data-hover], [data-open]) {
+		box-shadow: inset 0 0 0 1px rgb(31 35 31 / 0.34);
+	}
+	.wcf-select[data-pressed] {
+		scale: 0.97;
+	}
+	.wcf-select[data-set] {
+		font-weight: 600;
+		color: var(--ss-text-strong);
+	}
+
+	.wcf-adjust {
+		font-size: 9px;
+		font-weight: 600;
+		color: var(--ss-accent);
+		text-decoration: underline;
+		text-underline-offset: 2px;
+	}
+
+	.wcf-rest {
+		position: absolute;
+		top: 150px;
+		left: 150px;
+		width: 1px;
+		height: 1px;
+	}
+
+	.wcf-menu {
+		--ss-popover-bg: #ffffff;
+		--ss-raised: #ffffff;
+		position: absolute;
+		z-index: 3;
+		min-width: 96px;
+		font-size: 10px;
+	}
+
+	/* What the summary is for: the sum the buyer will need to finance */
+	.wcf-need {
+		position: absolute;
+		top: 84px;
+		right: var(--gutter);
+		width: 122px;
+		padding: 11px 12px 9px;
+		background: #ffffff;
+		border-radius: 12px;
+		box-shadow: var(--ss-shadow-satellite);
+	}
+
+	.wcf-need-label {
+		display: block;
+		font-size: 9.5px;
+		line-height: 13px;
+		color: var(--ss-text);
+		white-space: normal;
+	}
+
+	.wcf-need-n {
+		display: block;
+		margin: 5px 0 8px;
+		font-size: 16px;
+		font-weight: 700;
+		font-variant-numeric: tabular-nums;
+		line-height: 21px;
+		color: var(--ss-text-strong);
+		white-space: nowrap;
+	}
+
+	.wcf-need-foot {
+		display: flex;
+		flex-direction: column;
+		gap: 1px;
+		padding-top: 7px;
+		font-size: 9px;
+		line-height: 12px;
+		color: var(--ss-text-faint);
+		border-top: 1px solid var(--ss-line);
+	}
+
+	.wcf-need-foot span:last-child {
+		font-variant-numeric: tabular-nums;
+		color: var(--ss-text);
+	}
+}

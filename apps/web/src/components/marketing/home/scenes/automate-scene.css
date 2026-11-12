@@ -1,0 +1,252 @@
+.wva {
+	& .ss-stage {
+		--gutter: 24px;
+		--ss-accent: #0f1a2b;
+		overflow: hidden;
+		background: transparent;
+	}
+
+	/* Pinned top-left, whole across, off the bottom */
+	.wva-win {
+		position: absolute;
+		top: var(--gutter);
+		left: var(--gutter);
+		width: 292px;
+		height: 330px;
+		border-radius: 10px;
+		box-shadow: var(--ss-shadow-hero);
+	}
+
+	.wva-site {
+		position: relative;
+		height: 100%;
+		overflow: hidden;
+		background: #0f1a2b;
+	}
+
+	/* The house from the site's own first screen, clear of its headline */
+	.wva-photo {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 292px;
+		max-width: none;
+	}
+
+	/* The assistant: in front, across the window's right edge, whole */
+	.wva-chat {
+		position: absolute;
+		top: 75px;
+		right: var(--gutter);
+		bottom: var(--gutter);
+		display: flex;
+		flex-direction: column;
+		width: 196px;
+		overflow: hidden;
+		background: #fff;
+		border-radius: 12px;
+		box-shadow: var(--ss-shadow-satellite);
+	}
+
+	.wva-head {
+		display: flex;
+		gap: 8px;
+		align-items: center;
+		padding: 10px 12px;
+		border-bottom: 1px solid var(--ss-line-faint);
+	}
+
+	.wva-avatar {
+		display: grid;
+		flex: none;
+		place-items: center;
+		width: 22px;
+		height: 22px;
+		border-radius: 50%;
+		background: #111418;
+		color: #fff;
+		font-size: 8px;
+		font-weight: 700;
+		letter-spacing: 0.02em;
+		text-box: trim-both cap alphabetic;
+	}
+
+	.wva-who {
+		display: flex;
+		flex-direction: column;
+		gap: 5px;
+		min-width: 0;
+	}
+
+	.wva-name {
+		font-size: 11px;
+		font-weight: 600;
+		line-height: 14px;
+		color: var(--ss-text-strong);
+		white-space: nowrap;
+	}
+
+	.wva-body {
+		display: flex;
+		flex: 1;
+		flex-direction: column;
+		align-items: stretch;
+		justify-content: flex-start;
+		min-height: 0;
+		padding: 8px 12px;
+		overflow: hidden;
+	}
+
+	.wva-hello {
+		display: block;
+		margin-bottom: 4px;
+		font-size: 9.5px;
+		line-height: 13.5px;
+		color: var(--ss-text);
+		text-align: center;
+		white-space: normal;
+	}
+
+	/* The product's suggestions: small squared chips on a hairline */
+	.wva-q {
+		display: inline-flex;
+		align-items: center;
+		height: 20px;
+		padding: 0 8px;
+		font-size: 9.5px;
+		line-height: 1;
+		color: var(--ss-text);
+		white-space: nowrap;
+		border-radius: 4px;
+		box-shadow: inset 0 0 0 1px var(--ss-line);
+	}
+
+	.wva-compose {
+		display: flex;
+		gap: 8px;
+		align-items: center;
+		justify-content: space-between;
+		padding: 8px 8px 8px 12px;
+		border-top: 1px solid var(--ss-line-faint);
+	}
+
+	.wva-placeholder {
+		font-size: 10px;
+		line-height: 14px;
+		color: var(--ss-text-faint);
+	}
+
+	.wva-send {
+		display: grid;
+		flex: none;
+		place-items: center;
+		width: 22px;
+		height: 22px;
+		color: var(--ss-icon);
+		background: var(--ss-ink-2, #e4e4e7);
+		border-radius: 5px;
+	}
+
+	/* No platform chrome: a plain address bar without traffic lights */
+	.ss-window__lights {
+		display: none;
+	}
+
+	.ss-window__bar {
+		padding-inline: 10px;
+	}
+
+	/* Where the pointer waits: on the photograph, clear of the assistant */
+	.wva-rest {
+		position: absolute;
+		top: 150px;
+		left: 96px;
+		width: 1px;
+		height: 1px;
+	}
+
+	.wva-opening {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+		align-items: center;
+	}
+
+	.wva-q {
+		transition:
+			background 0.15s ease,
+			color 0.15s ease,
+			scale 0.12s ease;
+		will-change: transform;
+	}
+
+	.wva-q[data-hover] {
+		background: rgb(17 20 24 / 0.06);
+	}
+	.wva-q[data-pressed] {
+		scale: 0.97;
+	}
+
+	/* The visitor's message, as the product draws it: dark, on the right */
+	.wva-mine {
+		display: flex;
+		justify-content: flex-end;
+		width: 100%;
+		padding-bottom: 8px;
+	}
+
+	.wva-mine > * {
+		padding: 6px 9px;
+		font-size: 9.5px;
+		line-height: 13px;
+		color: #fff;
+		white-space: nowrap;
+		background: #111418;
+		border-radius: 9px 9px 2px 9px;
+	}
+
+	.wva-answer {
+		padding: 7px 9px;
+		font-size: 9.5px;
+		line-height: 13.5px;
+		color: var(--ss-text-strong);
+		background: rgb(17 20 24 / 0.05);
+		border-radius: 9px 9px 9px 2px;
+	}
+
+	.wva-dots {
+		display: inline-flex;
+		gap: 3px;
+		padding: 8px 9px;
+		background: rgb(17 20 24 / 0.05);
+		border-radius: 9px 9px 9px 2px;
+	}
+
+	.wva-dots i {
+		width: 4px;
+		height: 4px;
+		background: var(--ss-text-faint);
+		border-radius: 50%;
+		animation: wva-dot 1s ease-in-out infinite;
+	}
+
+	.wva-dots i:nth-child(2) {
+		animation-delay: 0.15s;
+	}
+	.wva-dots i:nth-child(3) {
+		animation-delay: 0.3s;
+	}
+}
+
+@keyframes wva-dot {
+	0%,
+	60%,
+	100% {
+		opacity: 0.35;
+		translate: 0 0;
+	}
+	30% {
+		opacity: 1;
+		translate: 0 -2px;
+	}
+}

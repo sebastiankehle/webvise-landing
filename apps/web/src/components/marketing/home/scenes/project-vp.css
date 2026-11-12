@@ -1,0 +1,54 @@
+/* von Platen Coaching's own tones, kept inside its scene. */
+.vp-scene {
+	--vp-ground: #0f1e1b;
+	--vp-soft: #8ca998;
+	--vp-line: #305747;
+	--vp-mint: #dfecd9;
+	color: #ffffff;
+	background: var(--vp-ground);
+}
+
+/* The stress scale: the marker rests at the exhausted end and glides to the
+   middle once the picture is seen; then the note under it appears. */
+.vp-bar {
+	background: linear-gradient(to right, #4a4a4a, #305747, #ffffff);
+}
+.vp-marker {
+	left: 90%;
+	transition: left 2.4s cubic-bezier(0.22, 1, 0.36, 1) 0.5s;
+}
+.vp-mid,
+.vp-note {
+	transition:
+		color 0.6s ease-out 2.3s,
+		opacity 0.7s ease-out 2.5s;
+}
+.vp-note {
+	opacity: 0;
+}
+.vp-scene[data-seen="true"] .vp-marker {
+	left: 50%;
+}
+.vp-scene[data-seen="true"] .vp-mid {
+	color: #ffffff;
+}
+.vp-scene[data-seen="true"] .vp-note {
+	opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.vp-marker,
+	.vp-mid,
+	.vp-note {
+		transition: none;
+	}
+	.vp-marker {
+		left: 50%;
+	}
+	.vp-mid {
+		color: #ffffff;
+	}
+	.vp-note {
+		opacity: 1;
+	}
+}

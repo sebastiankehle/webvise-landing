@@ -1,7 +1,8 @@
 import {
 	buildNewsletterWelcomeHtml,
 	buildSubscriberNotificationHtml,
-	NEWSLETTER_WELCOME_SUBJECT,
+	emailLocaleFromPath,
+	newsletterWelcomeSubject,
 	newsletterWelcomeText,
 	subscriberNotificationText,
 } from "@webvise-app/api/email/newsletter";
@@ -23,7 +24,8 @@ interface Interest {
 function redirectToResult(
 	request: Request,
 	params: Record<string, string>,
-	status: 303 | 307 = 307
+	status: 303 | 307 = 307,
+	locale: "de" | "en" = "de"
 ) {
 	const forwardedHost = request.headers.get("x-forwarded-host");
 	const forwardedProto = request.headers.get("x-forwarded-proto");
@@ -31,7 +33,11 @@ function redirectToResult(
 	const publicOrigin = forwardedHost
 		? `${forwardedProto === "http" ? "http" : "https"}://${forwardedHost}`
 		: fallbackOrigin;
-	const url = new URL("/newsletter-confirmed", publicOrigin);
+	// German has no prefix; a reader who signed up in English lands on /en.
+	const url = new URL(
+		locale === "en" ? "/en/newsletter-confirmed" : "/newsletter-confirmed",
+		publicOrigin
+	);
 	for (const [key, value] of Object.entries(params)) {
 		url.searchParams.set(key, value);
 	}
@@ -143,19 +149,20 @@ export async function POST(request: Request) {
 		);
 	}
 
-	const source = welcomeSourceFromPath(subscriberPath);
+	const locale = emailLocaleFromPath(subscriberPath);
+	const source = welcomeSourceFromPath(subscriberPath, locale);
 	const interests = await getInterests(email);
 	const emailResult = await sendEmail({
 		label: "newsletter-welcome",
 		from: "webvise <hello@webvise.io>",
 		to: email,
-		subject: NEWSLETTER_WELCOME_SUBJECT,
+		subject: newsletterWelcomeSubject(locale),
 		headers: {
 			"List-Unsubscribe": `<${unsubscribeUrl(email)}>`,
 			"List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
 		},
-		html: buildNewsletterWelcomeHtml(email, source),
-		text: newsletterWelcomeText(source),
+		html: buildNewsletterWelcomeHtml(email, source, locale),
+		text: newsletterWelcomeText(source, locale),
 	});
 	if (!emailResult.ok) {
 		console.error(
@@ -193,5 +200,5 @@ export async function POST(request: Request) {
 		);
 	}
 
-	return redirectToResult(request, { success: "true" }, 303);
+	return redirectToResult(request, { success: "true" }, 303, locale);
 }

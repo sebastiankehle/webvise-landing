@@ -62,7 +62,7 @@ function buildPartnerHtml(data: {
 					? `
       <hr style="${s.hr}">
       <p style="${s.label}">Message</p>
-      <p style="margin:0;font-size:14px;color:#1a1a1a;line-height:1.6;white-space:pre-wrap">${message}</p>`
+      <p style="margin:0;font-size:14px;color:#0e1217;line-height:1.6;white-space:pre-wrap">${message}</p>`
 					: ""
 			}
       <div style="margin:24px 0 0">

@@ -401,6 +401,7 @@ function TeaserResults({
 
 export default function WpHealthReport() {
 	const t = useTranslations("wpHealthReport");
+	const locale = useLocale();
 	const [phase, setPhase] = useState<"form" | "teaser" | "full">("form");
 	const [report, setReport] = useState<ReportData | null>(null);
 	const [errorMessage, setErrorMessage] = useState("");
@@ -454,6 +455,7 @@ export default function WpHealthReport() {
 					url: report.url,
 					email,
 					firstName: firstName || undefined,
+					locale: locale === "de" ? "de" : "en",
 				})
 				.catch(() => {
 					// fire-and-forget

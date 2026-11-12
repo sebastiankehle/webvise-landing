@@ -35,7 +35,9 @@ export default async function Comparison() {
 						key={key}
 					>
 						<div className="flex items-center gap-3">
-							<H3 className="text-xl">{t(`options.${key}.name`)}</H3>
+							<H3 className="text-xl leading-snug">
+								{t(`options.${key}.name`)}
+							</H3>
 							{highlight && (
 								<MarketingTag variant="brand">
 									{t(`options.${key}.badge`)}

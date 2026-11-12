@@ -21,14 +21,17 @@ interface CaseStudyLightboxProps {
 }
 
 const imageDimensions: Record<string, { height: number; width: number }> = {
-	"/images/case-studies/keel/fullpage.webp": { height: 9349, width: 1512 },
-	"/images/case-studies/morrow/fullpage.webp": { height: 8131, width: 1600 },
+	"/images/case-studies/keel/fullpage-v2.webp": { height: 10_738, width: 1440 },
+	"/images/case-studies/morrow/fullpage-v3.webp": {
+		height: 10_182,
+		width: 1440,
+	},
 	"/images/case-studies/mp-bau-construction/fullpage.webp": {
 		height: 10_030,
 		width: 1512,
 	},
-	"/images/case-studies/ohyp-fintech/fullpage.webp": {
-		height: 4340,
+	"/images/case-studies/ohyp-fintech/fullpage-v2.webp": {
+		height: 4423,
 		width: 1512,
 	},
 	"/images/case-studies/old-world-labs/fullpage.webp": {
@@ -39,8 +42,15 @@ const imageDimensions: Record<string, { height: number; width: number }> = {
 		height: 1774,
 		width: 3024,
 	},
-	"/images/case-studies/relay/fullpage.webp": { height: 6037, width: 1512 },
-	"/images/case-studies/webvise/fullpage.png": { height: 17_317, width: 1512 },
+	"/images/case-studies/relay/fullpage-v2.webp": { height: 7393, width: 1440 },
+	"/images/case-studies/von-platen-coaching/fullpage.webp": {
+		height: 9823,
+		width: 1440,
+	},
+	"/images/case-studies/webvise/fullpage-v2.webp": {
+		height: 14_546,
+		width: 1440,
+	},
 };
 
 export default function CaseStudyLightbox({

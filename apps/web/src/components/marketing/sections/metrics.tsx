@@ -1,57 +1,73 @@
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 
-import CardHoverIcon from "@/components/marketing/card-hover-icon";
-import MiniChartLazy from "@/components/marketing/mini-chart-lazy";
+import ResultsTiles, {
+	type ResultKind,
+} from "@/components/marketing/home/scenes/results-tiles";
 import SectionWrapper from "@/components/marketing/section-wrapper";
-import StaggerChildren from "@/components/marketing/stagger-children";
-import { BlocksIcon } from "@/components/ui/blocks";
-import { CompassIcon } from "@/components/ui/compass";
-import { Body, H2, Lead, Muted } from "@/components/ui/typography";
-import { UserIcon } from "@/components/ui/user";
-import { WrenchIcon } from "@/components/ui/wrench";
+import { H2 } from "@/components/ui/typography";
+import { getCaseStudies, getCaseStudyBySlug } from "@/data/case-studies";
 
-const metricKeys = [
-	{ key: "projects", icon: UserIcon },
-	{ key: "raised", icon: CompassIcon },
-	{ key: "users", icon: BlocksIcon },
-	{ key: "launch", icon: WrenchIcon },
+const stepKeys = ["0", "1", "2"] as const;
+// Client sites whose first figure is their own Lighthouse score.
+const scoreSlugs = [
+	"old-world-labs",
+	"finanzierungszertifikat",
+	"maerkische-projekt-bau",
+] as const;
+
+const kinds: ResultKind[] = [
+	"lighthouse",
+	"projects",
+	"weeks",
+	"raised",
+	"users",
 ];
 
+/** What the work has added up to: five figures, each with a detailed picture
+ * of what it counts. */
 export default async function Metrics() {
-	const t = await getTranslations("metrics");
+	const [t, ts, locale] = await Promise.all([
+		getTranslations("metrics"),
+		getTranslations("home.safeguards"),
+		getLocale(),
+	]);
+	// The three-week story is told with a site that took three weeks.
+	const launched = getCaseStudyBySlug("maerkische-projekt-bau", locale);
+	const launch = {
+		host: launched?.liveUrl
+			? new URL(launched.liveUrl).hostname.replace("www.", "")
+			: "",
+		src: launched?.images?.[3] ?? launched?.coverImage ?? "",
+	};
+	const scores = scoreSlugs.flatMap((slug) => {
+		const project = getCaseStudyBySlug(slug, locale);
+		const score = project?.metrics?.[0];
+		return project && score
+			? [{ name: project.client, value: score.value }]
+			: [];
+	});
+	// Six real client projects stand for the count in the projects tile.
+	const thumbs = getCaseStudies(locale, { kind: "client" })
+		.slice(0, 6)
+		.flatMap((project) => {
+			const src = project.cardImage ?? project.coverImage;
+			return src ? [{ alt: project.client, src }] : [];
+		});
 
 	return (
 		<SectionWrapper hatch id="metrics" surface="inverted">
-			<div className="grid gap-10 lg:grid-cols-[1fr_auto] lg:items-end">
-				<div className="max-w-[640px]">
-					<H2>{t("title")}</H2>
-					<Lead className="mt-5 max-w-[520px]">{t("subtitle")}</Lead>
-				</div>
-			</div>
-			<StaggerChildren className="mt-10 grid gap-5 sm:grid-cols-2 md:mt-16 lg:grid-cols-4">
-				{metricKeys.map(({ key, icon: Icon }) => (
-					<div className="surface-card p-6 md:p-7" key={key}>
-						<CardHoverIcon className="shrink-0 text-brand-icon" icon={Icon} />
-						<Body className="mt-6 font-medium text-sm leading-6 md:mt-10">
-							{t(`${key}.value`)}
-						</Body>
-						<Muted className="mt-2 leading-relaxed">{t(`${key}.label`)}</Muted>
-					</div>
-				))}
-			</StaggerChildren>
-			<MiniChartLazy
-				translations={{
-					conversionLabel: t("chart.conversionLabel"),
-					conversionDescription: t("chart.conversionDescription"),
-					engagementLabel: t("chart.engagementLabel"),
-					engagementDescription: t("chart.engagementDescription"),
-					speedLabel: t("chart.speedLabel"),
-					speedDescription: t("chart.speedDescription"),
-					before: t("chart.before"),
-					afterWebvise: t("chart.afterWebvise"),
-					after: t("chart.after"),
-					resultNote: t("chart.resultNote"),
-				}}
+			<H2 className="max-w-[640px]">{t("results.title")}</H2>
+			<ResultsTiles
+				items={kinds.map((kind) => ({
+					kind,
+					label: t(`results.items.${kind}.label`),
+					value: t(`results.items.${kind}.value`),
+				}))}
+				launch={launch}
+				scores={scores}
+				steps={stepKeys.map((key) => t(`results.steps.${key}`))}
+				thumbs={thumbs}
+				week={ts("pictures.week")}
 			/>
 		</SectionWrapper>
 	);

@@ -1,20 +1,28 @@
-import { GeistMono } from "geist/font/mono";
 import { Inter } from "next/font/google";
 import { getTranslations } from "next-intl/server";
 import { H1, Lead, Mono } from "@/components/ui/typography";
+import { routing } from "@/i18n/routing";
 import "../index.css";
 
 const inter = Inter({
 	variable: "--font-inter",
 	subsets: ["latin"],
+	// Only the 404 page uses it; without this every page preloads it.
+	preload: false,
 	weight: ["400", "500"],
 });
 
 export default async function GlobalNotFound() {
-	const t = await getTranslations("notFound");
+	// Next renders this fallback with every page, outside the locale layout.
+	// Reading the request locale here would force every page to render on
+	// demand, so it names its language itself, the one in its <html lang>.
+	const t = await getTranslations({
+		locale: routing.defaultLocale,
+		namespace: "notFound",
+	});
 
 	return (
-		<html className={`${inter.variable} ${GeistMono.variable}`} lang="en">
+		<html className={inter.variable} lang="en">
 			<body className="flex min-h-screen flex-col items-center justify-center bg-background px-6 font-sans antialiased">
 				<Mono className="text-muted-foreground">404</Mono>
 				<H1 className="mt-4">{t("title")}</H1>

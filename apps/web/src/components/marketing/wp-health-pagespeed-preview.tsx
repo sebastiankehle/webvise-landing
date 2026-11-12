@@ -1,4 +1,5 @@
 import { ArrowRight } from "lucide-react";
+import { useLocale } from "next-intl";
 
 import { cn } from "@/lib/utils";
 
@@ -43,8 +44,8 @@ function PageSpeedMetricCard({
 	value: string;
 }) {
 	const valueClassName =
-		color === "lime" ? "text-[#a8d95f]" : "text-brand-readable";
-	const barClassName = color === "lime" ? "bg-[#a8d95f]" : "bg-brand";
+		color === "lime" ? "text-success" : "text-brand-readable";
+	const barClassName = color === "lime" ? "bg-success" : "bg-brand";
 
 	return (
 		<div
@@ -79,18 +80,27 @@ function PageSpeedMetricCard({
 }
 
 function ComparisonColumn({ tone }: { tone: "before" | "after" }) {
+	// Label and decimals follow the page's language.
+	const german = useLocale() === "de";
 	return (
 		<div className="grid gap-3">
 			{pageSpeedComparisons.map((metric) => (
 				<PageSpeedMetricCard
 					color={tone === "after" ? "lime" : "brand"}
 					key={`${tone}-${metric.label}`}
-					label={metric.label}
+					label={
+						german && metric.label === "PageSpeed score"
+							? "PageSpeed-Score"
+							: metric.label
+					}
 					progress={
 						tone === "after" ? metric.afterProgress : metric.beforeProgress
 					}
 					unit={metric.unit}
-					value={tone === "after" ? metric.afterValue : metric.beforeValue}
+					value={(tone === "after"
+						? metric.afterValue
+						: metric.beforeValue
+					).replace(".", german ? "," : ".")}
 				/>
 			))}
 		</div>

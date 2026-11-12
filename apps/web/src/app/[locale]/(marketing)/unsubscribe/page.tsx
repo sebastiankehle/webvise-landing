@@ -6,9 +6,15 @@ import {
 	GridContainer,
 } from "@/components/marketing/section-wrapper";
 import { Body, H1, InlineLink, Muted } from "@/components/ui/typography";
+import { type LocaleParams, pinLocale } from "@/i18n/static-locale";
 import { CAL_URL } from "@/lib/cal";
 
-export async function generateMetadata(): Promise<Metadata> {
+export async function generateMetadata({
+	params,
+}: {
+	params: LocaleParams;
+}): Promise<Metadata> {
+	await pinLocale(params);
 	const t = await getTranslations("unsubscribe");
 
 	return {
@@ -18,12 +24,15 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function UnsubscribePage({
+	params,
 	searchParams,
 }: {
+	params: LocaleParams;
 	searchParams: Promise<{ success?: string; error?: string }>;
 }) {
-	const params = await searchParams;
-	const hasError = !!params.error;
+	await pinLocale(params);
+	const query = await searchParams;
+	const hasError = !!query.error;
 	const t = await getTranslations("unsubscribe");
 
 	return (

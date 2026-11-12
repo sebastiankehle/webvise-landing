@@ -24,7 +24,7 @@ export function localizedUrl(path: string, locale: string): string {
 	const resolved = localizedPath(path, locale);
 	return locale === routing.defaultLocale
 		? `${BASE_URL}${resolved}`
-		: `${BASE_URL}/${locale}${resolved}`;
+		: `${BASE_URL}/${locale}${resolved === "/" ? "" : resolved}`;
 }
 
 /**

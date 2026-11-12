@@ -1,0 +1,160 @@
+.wpo {
+	& .ss-stage {
+		--violet: #6d4ef0;
+		overflow: hidden;
+		background: transparent;
+	}
+
+	/* Pinned top-left, whole across, off the bottom */
+	.wpo-win {
+		position: absolute;
+		top: 22px;
+		left: 24px;
+		width: 352px;
+		height: 290px;
+		border-radius: 10px;
+		box-shadow: var(--ss-shadow-hero);
+	}
+
+	.ss-window__lights {
+		display: none;
+	}
+	.ss-window__bar {
+		padding-inline: 10px;
+	}
+
+	.wpo-page {
+		height: 100%;
+		padding: 8px 10px 0;
+		background: #f2f2f2;
+	}
+
+	/* The site's own navigation: a white pill over the page */
+	.wpo-nav {
+		display: flex;
+		gap: 8px;
+		align-items: center;
+		height: 30px;
+		padding: 0 6px 0 10px;
+		background: #fff;
+		border-radius: 15px;
+	}
+
+	.wpo-logo {
+		flex: none;
+		width: 42px;
+	}
+
+	.wpo-links {
+		display: flex;
+		flex: 1;
+		gap: 10px;
+		align-items: center;
+		justify-content: center;
+		min-width: 0;
+	}
+
+	.wpo-link {
+		font-size: 8.5px;
+		line-height: 12px;
+		color: #8a8a8f;
+		white-space: nowrap;
+	}
+
+	.wpo-link[data-on] {
+		color: #111;
+	}
+
+	.wpo-globe {
+		display: grid;
+		flex: none;
+		place-items: center;
+		width: 20px;
+		height: 20px;
+		color: #333;
+		border-radius: 50%;
+		transition:
+			background 0.15s ease,
+			scale 0.12s ease;
+	}
+
+	.wpo-globe:is([data-hover], [data-open]) {
+		background: rgb(0 0 0 / 0.07);
+	}
+	.wpo-globe[data-pressed] {
+		scale: 0.92;
+	}
+
+	.wpo-mail {
+		display: inline-flex;
+		flex: none;
+		align-items: center;
+		height: 20px;
+		padding: 0 8px;
+		font-size: 8.5px;
+		font-weight: 600;
+		color: #111;
+		white-space: nowrap;
+		border-radius: 10px;
+		box-shadow: inset 0 0 0 1px var(--violet);
+	}
+
+	.wpo-hero {
+		position: relative;
+		height: 220px;
+		margin-top: 10px;
+		overflow: hidden;
+		background: #1a1a1c;
+		border-radius: 12px 12px 0 0;
+	}
+
+	.wpo-hero img {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: 0 0;
+	}
+
+	.wpo-rest {
+		position: absolute;
+		top: 88px;
+		left: 132px;
+		width: 1px;
+		height: 1px;
+	}
+
+	/* The language menu, where the site opens it: under the globe */
+	.wpo-menu {
+		--ss-popover-bg: #fff;
+		--ss-raised: #fff;
+		position: absolute;
+		z-index: 3;
+		display: flex;
+		flex-direction: column;
+		width: 108px;
+		padding: 4px;
+		border-radius: 10px;
+	}
+
+	.wpo-lang {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		height: 17px;
+		padding: 0 8px;
+		font-size: 9.5px;
+		line-height: 12px;
+		color: #2a2a2e;
+		border-radius: 6px;
+	}
+
+	.wpo-lang[data-hover] {
+		background: rgb(0 0 0 / 0.06);
+	}
+	.wpo-lang[data-current] {
+		font-weight: 600;
+		color: var(--violet);
+	}
+}

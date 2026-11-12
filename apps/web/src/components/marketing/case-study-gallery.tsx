@@ -26,18 +26,18 @@ export default function CaseStudyGallery({
 
 	return (
 		<>
-			<div className="grid gap-5 md:grid-cols-3">
+			<div className="grid gap-x-6 gap-y-6 md:grid-cols-3">
 				{items.map((src, i) => (
 					<button
 						aria-label={t("expandImage")}
-						className="surface-card media-frame group relative min-h-[220px] cursor-zoom-in outline-none focus-visible:ring-2 focus-visible:ring-ring/50 md:min-h-[260px]"
+						className="group relative aspect-[1512/768] cursor-zoom-in overflow-hidden rounded-[10px] bg-card outline-none focus-visible:ring-2 focus-visible:ring-ring/70 focus-visible:ring-offset-4 focus-visible:ring-offset-background"
 						key={src}
 						onClick={() => setLightboxSrc(src)}
 						type="button"
 					>
 						<Image
 							alt={`${alt} - screenshot ${i + 1}`}
-							className="object-cover object-left-top transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+							className="object-cover object-left-top transition-transform duration-700 ease-out group-hover:scale-[1.015]"
 							decoding="async"
 							fill
 							loading="lazy"

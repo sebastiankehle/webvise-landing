@@ -1,0 +1,544 @@
+.wvh {
+	/* Screencurve's dark look: near-black panels, one teal */
+	& .ss-stage {
+		--ss-accent: #2aa698;
+		--ss-accent-soft: rgb(42 166 152 / 0.16);
+		--line: rgb(255 255 255 / 0.08);
+		--strong: #f1f3f4;
+		--text: #aab0b6;
+		--faint: #6f767d;
+		--mono: ui-monospace, "SF Mono", Menlo, monospace;
+		overflow: hidden;
+		font-size: 12.5px;
+		color: var(--text);
+		background: #0f1214;
+	}
+
+	.wvh-app {
+		position: absolute;
+		inset: 0;
+		display: grid;
+		grid-template-columns: 196px 1fr;
+	}
+
+	/* The sidebar: real project names, filler under them */
+	.wvh-side {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		padding: 14px 10px;
+		background: #0c0e10;
+		border-right: 1px solid var(--line);
+	}
+
+	.wvh-org {
+		display: flex;
+		gap: 8px;
+		align-items: center;
+		height: 30px;
+		padding: 0 6px;
+	}
+
+	.wvh-org-mark {
+		display: grid;
+		flex: none;
+		place-items: center;
+		width: 22px;
+		height: 22px;
+		border-radius: 6px;
+		background: #17544e;
+		color: #d9f3ef;
+		font-size: 9px;
+		font-weight: 700;
+		text-box: trim-both cap alphabetic;
+	}
+
+	.wvh-org-name {
+		font-size: 12.5px;
+		font-weight: 600;
+		color: var(--strong);
+		white-space: nowrap;
+	}
+
+	.wvh-side-label {
+		margin: 16px 8px 6px;
+		font-size: 10.5px;
+		color: var(--faint);
+	}
+
+	.wvh-nav {
+		display: flex;
+		gap: 9px;
+		align-items: center;
+		height: 28px;
+		padding: 0 8px;
+		font-size: 12.5px;
+		color: var(--text);
+		border-radius: 7px;
+	}
+
+	.wvh-nav[data-on] {
+		color: #fff;
+		background: #154741;
+	}
+
+	.wvh-nav--sub {
+		height: 26px;
+		padding-left: 29px;
+		color: var(--faint);
+	}
+
+	.wvh-side-rest {
+		padding: 12px 10px 0;
+		margin: 12px -10px 0;
+		border-top: 1px solid var(--line);
+	}
+
+	.wvh-side-foot {
+		margin-top: auto;
+	}
+
+	.wvh-main {
+		display: grid;
+		grid-template-rows: 54px 40px 1fr;
+		min-width: 0;
+		min-height: 0;
+	}
+
+	.wvh-head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 0 20px;
+	}
+
+	.wvh-title {
+		font-size: 16px;
+		font-weight: 600;
+		color: var(--strong);
+		letter-spacing: -0.01em;
+	}
+
+	.wvh-export {
+		display: inline-flex;
+		align-items: center;
+		height: 28px;
+		padding: 0 12px;
+		font-size: 12px;
+		font-weight: 600;
+		color: #04211d;
+		background: var(--ss-accent);
+		border-radius: 7px;
+	}
+
+	.wvh-tabs {
+		display: flex;
+		gap: 4px;
+		align-items: flex-start;
+		padding: 0 14px;
+		border-bottom: 1px solid var(--line);
+	}
+
+	.wvh-tab {
+		display: inline-flex;
+		align-items: center;
+		height: 28px;
+		padding: 0 10px;
+		color: var(--faint);
+		white-space: nowrap;
+		border-radius: 7px;
+	}
+
+	.wvh-tab[data-on] {
+		color: var(--strong);
+		background: rgb(255 255 255 / 0.08);
+	}
+
+	.wvh-cols {
+		display: grid;
+		grid-template-columns: 1fr 344px;
+		min-height: 0;
+	}
+
+	.wvh-chat {
+		display: flex;
+		flex-direction: column;
+		min-width: 0;
+		padding: 18px 20px 16px;
+	}
+
+	/* The composer closes the pane: the thread sits on top, it at the foot */
+	.wvh-composer {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		height: 40px;
+		padding: 0 6px 0 14px;
+		margin-top: auto;
+		background: rgb(255 255 255 / 0.04);
+		border-radius: 11px;
+		box-shadow: inset 0 0 0 1px var(--line);
+	}
+
+	.wvh-composer-hint {
+		font-size: 13px;
+		color: var(--faint);
+	}
+
+	.wvh-send {
+		display: grid;
+		flex: none;
+		place-items: center;
+		width: 28px;
+		height: 28px;
+		color: var(--strong);
+		background: rgb(255 255 255 / 0.08);
+		border-radius: 8px;
+	}
+
+	.wvh-intro {
+		display: block;
+		max-width: 470px;
+		line-height: 18px;
+		color: var(--text);
+		white-space: normal;
+	}
+
+	.wvh-chips {
+		display: flex;
+		gap: 8px;
+		margin: 12px 0 18px;
+	}
+
+	.wvh-chip {
+		display: inline-flex;
+		flex: none;
+		align-items: center;
+		height: 28px;
+		padding: 0 11px;
+		font-size: 12px;
+		color: var(--strong);
+		white-space: nowrap;
+		border-radius: 7px;
+		box-shadow: inset 0 0 0 1px var(--line);
+		transition:
+			background 0.15s ease,
+			opacity 0.3s ease,
+			scale 0.12s ease;
+		will-change: transform;
+	}
+
+	.wvh-chip[data-hover] {
+		background: rgb(255 255 255 / 0.07);
+	}
+	.wvh-chip[data-pressed] {
+		scale: 0.97;
+	}
+	.wvh-chip[data-used] {
+		opacity: 0.45;
+	}
+
+	.wvh-thread {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+	}
+
+	/* Where the pointer waits: empty thread, low and right of the answers */
+	.wvh-rest {
+		position: absolute;
+		top: 236px;
+		right: 60px;
+		width: 1px;
+		height: 1px;
+	}
+
+	/* The person's turn: a quiet bubble on the right */
+	.wvh-q {
+		display: flex;
+		justify-content: flex-end;
+		padding-bottom: 10px;
+	}
+
+	.wvh-q > * {
+		max-width: 78%;
+		padding: 8px 12px;
+		font-size: 13px;
+		line-height: 18px;
+		color: var(--strong);
+		white-space: normal;
+		background: rgb(255 255 255 / 0.08);
+		border-radius: 12px;
+	}
+
+	/* The answer: plain text, its timecode at the end of the last line */
+	.wvh-a {
+		max-width: 88%;
+		padding-bottom: 16px;
+		font-size: 13px;
+		line-height: 20px;
+		color: #dfe3e6;
+	}
+
+	.wvh-thinking {
+		display: block;
+		padding-bottom: 16px;
+		font-size: 13px;
+		line-height: 20px;
+		color: var(--faint);
+	}
+
+	.wvh-tc {
+		display: inline-flex;
+		align-items: center;
+		height: 20px;
+		padding: 0 7px;
+		margin-left: 8px;
+		font-family: var(--mono);
+		font-size: 11px;
+		vertical-align: 1px;
+		color: #7fd6cb;
+		background: var(--ss-accent-soft);
+		border-radius: 6px;
+		opacity: 0;
+		scale: 0.9;
+		transition:
+			opacity 0.25s ease,
+			scale 0.35s cubic-bezier(0.2, 1.3, 0.4, 1),
+			box-shadow 0.25s ease,
+			background 0.15s ease;
+		will-change: transform;
+	}
+
+	.wvh-tc[data-on] {
+		opacity: 1;
+		scale: 1;
+	}
+	.wvh-tc[data-hover] {
+		background: rgb(42 166 152 / 0.28);
+	}
+	.wvh-tc[data-active] {
+		box-shadow: 0 0 0 1px rgb(42 166 152 / 0.7);
+	}
+
+	/* The player: the frame the last opened timecode points at */
+	.wvh-player {
+		padding: 16px 18px;
+		border-left: 1px solid var(--line);
+	}
+
+	.wvh-player-head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		height: 20px;
+		margin-bottom: 10px;
+	}
+
+	.wvh-label {
+		font-size: 12px;
+		font-weight: 600;
+		color: var(--strong);
+	}
+
+	.wvh-label--frames {
+		display: block;
+		margin-bottom: 10px;
+	}
+
+	.wvh-range {
+		display: inline-flex;
+		gap: 8px;
+		font-family: var(--mono);
+		font-size: 11px;
+		color: var(--faint);
+	}
+
+	.wvh-time {
+		font-family: var(--mono);
+		font-variant-numeric: tabular-nums;
+		color: #7fd6cb;
+	}
+
+	.wvh-screen {
+		position: relative;
+		aspect-ratio: 16 / 9;
+		overflow: hidden;
+		background: #000;
+		border-radius: 8px;
+	}
+
+	.wvh-screen img {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.wvh-screen-next {
+		opacity: 0;
+		transition: opacity 0.5s ease;
+	}
+
+	.wvh-screen-next[data-on] {
+		opacity: 1;
+	}
+
+	.wvh-scrub {
+		--at: 39%;
+		position: relative;
+		height: 3px;
+		margin: 12px 0 18px;
+		background: rgb(255 255 255 / 0.12);
+		border-radius: 2px;
+	}
+
+	.wvh-scrub[data-jumped] {
+		--at: 91%;
+	}
+
+	.wvh-scrub-fill {
+		position: absolute;
+		inset: 0 auto 0 0;
+		width: var(--at);
+		background: var(--ss-accent);
+		border-radius: 2px;
+		transition: width 0.7s cubic-bezier(0.3, 0, 0.2, 1);
+	}
+
+	.wvh-scrub-knob {
+		position: absolute;
+		top: 50%;
+		left: var(--at);
+		width: 9px;
+		height: 9px;
+		margin: -4.5px 0 0 -4.5px;
+		background: #fff;
+		border-radius: 50%;
+		transition: left 0.7s cubic-bezier(0.3, 0, 0.2, 1);
+	}
+
+	.wvh-frames {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 8px;
+	}
+
+	.wvh-frame {
+		position: relative;
+		aspect-ratio: 16 / 9;
+		margin: 0;
+		overflow: hidden;
+		border-radius: 6px;
+		box-shadow: 0 0 0 0 var(--ss-accent);
+		transition: box-shadow 0.3s ease;
+	}
+
+	.wvh-frame[data-on] {
+		box-shadow: 0 0 0 2px var(--ss-accent);
+	}
+
+	.wvh-frame img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.wvh-frame figcaption {
+		position: absolute;
+		bottom: 5px;
+		left: 6px;
+		font-family: var(--mono);
+		font-size: 10px;
+		color: #fff;
+		text-shadow: 0 1px 2px rgb(0 0 0 / 0.7);
+	}
+
+	/* Narrow: the frame as a strip, the exchange under it, the composer at the foot */
+	.wvh-app--compact {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.wvh-strip {
+		position: relative;
+		flex: none;
+		height: 88px;
+	}
+
+	.wvh-strip .wvh-screen {
+		height: 100%;
+		aspect-ratio: auto;
+		border-radius: 0;
+	}
+
+	.wvh-strip-meta {
+		position: absolute;
+		inset: auto 0 0;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 18px 12px 8px;
+		font-size: 11px;
+		background: linear-gradient(transparent, rgb(0 0 0 / 0.72));
+	}
+
+	.wvh-strip-title {
+		font-weight: 600;
+		color: #fff;
+	}
+
+	.wvh-app--compact .wvh-thread {
+		flex: 1;
+		min-height: 0;
+		padding: 10px 12px 0;
+	}
+	.wvh-app--compact .wvh-rest {
+		top: 96px;
+		right: 34px;
+	}
+	.wvh-app--compact .wvh-intro {
+		font-size: 12px;
+		line-height: 17px;
+	}
+	.wvh-app--compact .wvh-chips {
+		margin: 10px 0 0;
+		overflow: hidden;
+	}
+	.wvh-app--compact .wvh-chip {
+		height: 26px;
+		font-size: 11.5px;
+	}
+	.wvh-app--compact .wvh-q {
+		padding-bottom: 8px;
+	}
+	.wvh-app--compact .wvh-q > * {
+		max-width: 86%;
+		padding: 6px 10px;
+		font-size: 12px;
+		line-height: 16px;
+	}
+	.wvh-app--compact .wvh-a {
+		max-width: 100%;
+		padding-bottom: 0;
+		font-size: 12px;
+		line-height: 17px;
+	}
+	.wvh-app--compact .wvh-thinking {
+		padding-bottom: 0;
+		font-size: 12px;
+	}
+	.wvh-app--compact .wvh-composer {
+		flex: none;
+		height: 34px;
+		margin: 0 12px 10px;
+	}
+	.wvh-app--compact .wvh-composer-hint {
+		font-size: 12px;
+	}
+	.wvh-app--compact .wvh-send {
+		width: 24px;
+		height: 24px;
+	}
+}

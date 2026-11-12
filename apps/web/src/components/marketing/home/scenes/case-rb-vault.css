@@ -1,0 +1,109 @@
+.wcv {
+	& .ss-stage {
+		--gutter: 24px;
+		overflow: hidden;
+		background: transparent;
+	}
+
+	/* Pinned top-left, off the right and the bottom */
+	.wcv-win {
+		position: absolute;
+		top: var(--gutter);
+		left: var(--gutter);
+		width: 440px;
+		height: 330px;
+		border-radius: 10px;
+		box-shadow: var(--ss-shadow-hero);
+	}
+
+	.ss-window__lights {
+		display: none;
+	}
+
+	/* The vault's folders, as Obsidian lists them */
+	.wcv-tree {
+		display: flex;
+		flex-direction: column;
+		gap: 1px;
+		padding: 14px 8px;
+	}
+
+	.wcv-item {
+		display: flex;
+		gap: 5px;
+		align-items: center;
+		height: 21px;
+		padding: 0 6px;
+		font-size: 10.5px;
+		color: #b4bac0;
+		border-radius: 5px;
+	}
+
+	.wcv-item svg {
+		flex: none;
+		color: #7d858c;
+	}
+	.wcv-item[data-kind="child"] {
+		padding-left: 32px;
+		color: #8f979e;
+	}
+	.wcv-item[data-kind="file"] {
+		padding-left: 21px;
+	}
+	.wcv-item[data-kind="open"] {
+		color: #f1f3f4;
+	}
+
+	.wcv-note {
+		display: flex;
+		flex-direction: column;
+		gap: 9px;
+		padding: 18px 20px;
+	}
+
+	/* The note's properties: a key and a value per line */
+	.wcv-props {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		padding: 10px 12px;
+		margin: 4px 0 8px;
+		border-radius: 8px;
+		box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.08);
+	}
+
+	.wcv-prop {
+		display: grid;
+		grid-template-columns: 62px 1fr;
+		align-items: center;
+	}
+
+	/* Two facts about the vault, a level above the note */
+	.wcv-facts {
+		position: absolute;
+		right: var(--gutter);
+		bottom: var(--gutter);
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+		width: 172px;
+		padding: 12px 14px;
+		background: #fff;
+		border-radius: 12px;
+		box-shadow: var(--ss-shadow-satellite);
+	}
+
+	.wcv-fact {
+		display: block;
+		font-size: 10.5px;
+		font-weight: 600;
+		line-height: 14px;
+		color: #14181c;
+		white-space: normal;
+	}
+
+	.wcv-fact + .wcv-fact {
+		padding-top: 6px;
+		border-top: 1px solid rgb(20 24 28 / 0.1);
+	}
+}

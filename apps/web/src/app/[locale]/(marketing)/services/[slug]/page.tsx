@@ -1,82 +1,62 @@
-import { ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
-import NextLink from "next/link";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 
 import JsonLd from "@/components/json-ld";
-import {
-	RelatedLinkCardContent,
-	relatedLinkCardClassName,
-} from "@/components/marketing/related-link-card";
+import { ActionArrow, ActionLink } from "@/components/marketing/action";
+import { CaseStudyCard } from "@/components/marketing/case-study-card";
+import { FaqList } from "@/components/marketing/faq-list";
+import ProjectScene from "@/components/marketing/home/scenes/project-scene";
+import { hasProjectScene } from "@/components/marketing/home/scenes/project-scene-slugs";
 import ReportDownloadForm from "@/components/marketing/report-download-form";
 import SectionWrapper, {
 	ConstructedGrid,
 	GridContainer,
 } from "@/components/marketing/section-wrapper";
-import { FaqAccordion } from "@/components/marketing/sections/faq";
-import { TrackClick } from "@/components/marketing/track-click";
-import { Button } from "@/components/ui/button";
+import StaggerChildren from "@/components/marketing/stagger-children";
+import { H1, H2, H3 } from "@/components/ui/typography";
+import type { BookingTopic } from "@/data/booking";
 import {
-	Body,
-	Caption,
-	H1,
-	H2,
-	H3,
-	Lead,
-	Muted,
-} from "@/components/ui/typography";
-import { getCaseStudyBySlug } from "@/data/case-studies";
+	getCaseStudies,
+	getCaseStudyBySlug,
+	getFeaturedCaseStudies,
+} from "@/data/case-studies";
 import { getDeckBySlug } from "@/data/decks";
 import {
 	getOfferingBySlug,
-	getOfferingIcon,
 	getOfferingProof,
 	getOfferingTranslationKey,
 	getRelatedOfferings,
 	type Offering,
+	type OfferingGroupKey,
 	offerings,
 } from "@/data/offerings";
 import { Link } from "@/i18n/navigation";
-import { homepageSectionHref } from "@/lib/homepage-section-href";
+import { pinLocale } from "@/i18n/static-locale";
 import { generateAlternates, localizedUrl } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 
-const terminalHeadingPunctuationPattern = /[.!?]+$/;
-
-function HeroSummary({
-	items,
-}: {
-	items: Array<{ label: string; value: string }>;
-}) {
-	return (
-		<dl className="mt-10 grid max-w-xl grid-cols-2 gap-5">
-			{items.map((item) => (
-				<div key={item.label}>
-					<dt className="text-muted-foreground text-xs">{item.label}</dt>
-					<dd className="mt-1.5 text-foreground text-sm leading-6">
-						{item.value}
-					</dd>
-				</div>
-			))}
-		</dl>
-	);
-}
-
-function trimHeading(value: string) {
-	return value.replace(terminalHeadingPunctuationPattern, "");
-}
+/** The booking flow opens on the topic that matches the offering's group. */
+const groupTopics: Record<OfferingGroupKey, BookingTopic> = {
+	launch: "website",
+	operate: "software",
+	automate: "automation",
+};
 
 export function generateStaticParams() {
 	return offerings.map((offering) => ({ slug: offering.slug }));
 }
 
+// Every system page names three situations it is built for.
+const SYSTEM_PAIN_POINTS = 3;
+
 export async function generateMetadata({
 	params,
 }: {
-	params: Promise<{ slug: string }>;
+	params: Promise<{ locale: string; slug: string }>;
 }): Promise<Metadata> {
+	await pinLocale(params);
 	const { slug } = await params;
 	const offering = getOfferingBySlug(slug);
 	if (!offering) {
@@ -121,8 +101,9 @@ export async function generateMetadata({
 export default async function ServicePage({
 	params,
 }: {
-	params: Promise<{ slug: string }>;
+	params: Promise<{ locale: string; slug: string }>;
 }) {
+	await pinLocale(params);
 	const { slug } = await params;
 	const offering = getOfferingBySlug(slug);
 
@@ -135,20 +116,35 @@ export default async function ServicePage({
 
 async function ServiceOfferingPage({ offering }: { offering: Offering }) {
 	const slug = offering.slug;
-	const [t, tc, td, tg, tschema, locale] = await Promise.all([
+	const [t, tc, td, tg, th, tschema, locale] = await Promise.all([
 		getTranslations("services"),
 		getTranslations("customSystems"),
 		getTranslations("serviceDetail"),
 		getTranslations("deckGate"),
+		getTranslations("home"),
 		getTranslations("schema"),
 		getLocale(),
 	]);
 	const deck = getDeckBySlug(slug);
 	const key = getOfferingTranslationKey(offering);
-	const OfferingIcon = getOfferingIcon(offering);
 	const proof = getOfferingProof(offering);
 	const proofCaseStudy = getCaseStudyBySlug(proof.caseStudySlug, locale);
+	const proofShots = proof.shots ?? (proofCaseStudy?.images ?? []).slice(0, 2);
 	const relatedOfferings = getRelatedOfferings(slug);
+	// Projects that used this offering first, then other featured work. The
+	// project already shown as proof is left out.
+	const relatedWork = [
+		...getCaseStudies(locale, { kind: "client" }).filter((caseStudy) =>
+			caseStudy.services.includes(slug)
+		),
+		...getFeaturedCaseStudies(locale),
+	]
+		.filter(
+			(caseStudy, index, all) =>
+				caseStudy.slug !== proof.caseStudySlug &&
+				all.findIndex((other) => other.slug === caseStudy.slug) === index
+		)
+		.slice(0, 3);
 	const detail =
 		offering.kind === "service"
 			? {
@@ -170,6 +166,7 @@ async function ServiceOfferingPage({ offering }: { offering: Offering }) {
 						(_, i) => t(`${key}.features.${i}`)
 					),
 					outcome: t(`${key}.outcome`),
+					outcomeItems: [],
 					painPoints: Array.from(
 						{ length: offering.service.painPointCount },
 						(_, i) => ({
@@ -210,19 +207,14 @@ async function ServiceOfferingPage({ offering }: { offering: Offering }) {
 						(_, i) => tc(`items.${key}.detail.capabilities.${i}`)
 					),
 					outcome: tc(`items.${key}.detail.outcome`),
-					painPoints: Array.from(
-						{
-							length: Math.min(
-								3,
-								offering.system.capabilityCount,
-								offering.system.outcomeCount
-							),
-						},
-						(_, i) => ({
-							description: tc(`items.${key}.detail.outcomes.${i}`),
-							heading: trimHeading(tc(`items.${key}.detail.capabilities.${i}`)),
-						})
+					outcomeItems: Array.from(
+						{ length: offering.system.outcomeCount },
+						(_, i) => tc(`items.${key}.detail.outcomes.${i}`)
 					),
+					painPoints: Array.from({ length: SYSTEM_PAIN_POINTS }, (_, i) => ({
+						description: tc(`items.${key}.detail.painPoints.${i}.description`),
+						heading: tc(`items.${key}.detail.painPoints.${i}.heading`),
+					})),
 					schemaDescription: tc(`items.${key}.description`),
 					schemaTitle: tc(`items.${key}.title`),
 					summaryItems: [
@@ -238,12 +230,13 @@ async function ServiceOfferingPage({ offering }: { offering: Offering }) {
 					title: tc(`items.${key}.title`),
 				};
 
+	const serviceUrl = localizedUrl(`/services/${slug}`, locale);
 	const faqEntries =
 		detail.faqItems.length > 0
 			? [
 					{
 						"@type": "FAQPage" as const,
-						"@id": `https://webvise.io/services/${slug}#faq`,
+						"@id": `${serviceUrl}#faq`,
 						mainEntity: detail.faqItems.map((item) => ({
 							"@type": "Question" as const,
 							name: item.question,
@@ -261,7 +254,7 @@ async function ServiceOfferingPage({ offering }: { offering: Offering }) {
 		"@graph": [
 			{
 				"@type": "Service",
-				"@id": `https://webvise.io/services/${slug}#service`,
+				"@id": `${serviceUrl}#service`,
 				name: detail.schemaTitle,
 				description: detail.schemaDescription,
 				provider: {
@@ -275,25 +268,25 @@ async function ServiceOfferingPage({ offering }: { offering: Offering }) {
 			},
 			{
 				"@type": "BreadcrumbList",
-				"@id": `https://webvise.io/services/${slug}#breadcrumb`,
+				"@id": `${serviceUrl}#breadcrumb`,
 				itemListElement: [
 					{
 						"@type": "ListItem",
 						position: 1,
 						name: tschema("home"),
-						item: "https://www.webvise.io",
+						item: localizedUrl("/", locale),
 					},
 					{
 						"@type": "ListItem",
 						position: 2,
 						name: tschema("services"),
-						item: "https://www.webvise.io/#services",
+						item: localizedUrl("/services", locale),
 					},
 					{
 						"@type": "ListItem",
 						position: 3,
 						name: detail.schemaTitle,
-						item: `https://webvise.io/services/${slug}`,
+						item: serviceUrl,
 					},
 				],
 			},
@@ -301,60 +294,107 @@ async function ServiceOfferingPage({ offering }: { offering: Offering }) {
 		],
 	};
 
+	const offeringTitle = (related: Offering) => {
+		const relatedKey = getOfferingTranslationKey(related);
+		return related.kind === "service"
+			? t(`${relatedKey}.title`)
+			: tc(`items.${relatedKey}.title`);
+	};
+	const offeringLine = (related: Offering) => {
+		const relatedKey = getOfferingTranslationKey(related);
+		return related.kind === "service"
+			? t(`${relatedKey}.tagline`)
+			: tc(`items.${relatedKey}.description`);
+	};
+
 	return (
 		<>
 			<JsonLd data={jsonLd} />
 
-			<section className="relative pt-32 pb-24 md:pt-44 md:pb-36">
+			<section className="relative pt-12 pb-16 md:pt-20 md:pb-24">
 				<ConstructedGrid variant="page" />
 				<GridContainer>
-					<div className="grid items-center gap-14 lg:grid-cols-[1.02fr_0.98fr] lg:gap-20">
-						<div>
-							<div className="flex items-center">
-								<OfferingIcon className="text-brand-icon" size={24} />
-								<Caption className="sr-only">
-									{t(`groups.${offering.group}.title`)}
-								</Caption>
-							</div>
-							<H1 className="mt-6 max-w-3xl">{detail.title}</H1>
-							<Lead className="mt-5 max-w-lg">{detail.description}</Lead>
-							<HeroSummary items={detail.summaryItems} />
+					{/* CSS-only entrance: the first screen never waits for script */}
+					<div className="stagger-visible grid gap-x-10 gap-y-12 lg:grid-cols-12 lg:items-center">
+						<div className="lg:col-span-6">
+							<H1>{detail.title}</H1>
+							<p className="mt-6 max-w-[54ch] text-foreground text-lg leading-[1.6]">
+								{detail.description}
+							</p>
+							<ActionLink
+								arrow
+								className="mt-8"
+								href={{
+									pathname: "/book",
+									query: { topic: groupTopics[offering.group] },
+								}}
+								location="service_detail"
+							>
+								{th("hero.cta")}
+							</ActionLink>
+							<dl className="mt-10 grid grid-cols-2 gap-x-8 gap-y-5">
+								{detail.summaryItems.map((item) => (
+									<div key={item.label}>
+										<dt className="text-muted-foreground text-sm">
+											{item.label}
+										</dt>
+										<dd className="mt-1 text-base text-foreground">
+											{item.value}
+										</dd>
+									</div>
+								))}
+							</dl>
 						</div>
 
+						{/* The proof project, as its live scene in a frame */}
 						{proofCaseStudy && (
 							<Link
-								className="surface-card media-frame group relative block outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+								className="group/arrow block outline-none lg:col-span-6"
 								href={{
 									pathname: "/case-studies/[slug]",
 									params: { slug: proofCaseStudy.slug },
 								}}
 							>
-								<div className="relative aspect-[16/10]">
-									<Image
-										alt={`${proofCaseStudy.client}: ${proofCaseStudy.title}`}
-										className={cn(
-											"object-cover object-left-top",
-											proof.imageClassName
+								<div className="rounded-[20px] bg-card p-2 shadow-[0_0_0_1px_rgba(14,18,23,0.06),0_24px_48px_-36px_rgba(14,18,23,0.35)] ring-ring/70 ring-offset-4 ring-offset-background group-focus-visible/arrow:ring-2 dark:shadow-[0_0_0_1px_rgba(255,255,255,0.08)]">
+									<div className="relative aspect-[16/10] overflow-hidden rounded-[14px] bg-foreground/[0.04]">
+										{hasProjectScene(proofCaseStudy.slug) && !proof.still ? (
+											<ProjectScene
+												opening={
+													proofCaseStudy.cardImage ??
+													proofCaseStudy.coverImage ??
+													proof.image
+												}
+												sizes="(min-width: 1024px) 620px, 100vw"
+												slug={proofCaseStudy.slug}
+											/>
+										) : (
+											<Image
+												alt={`${proofCaseStudy.client}: ${proofCaseStudy.title}`}
+												className={cn(
+													"object-cover object-left-top",
+													proof.imageClassName
+												)}
+												fill
+												priority
+												quality={90}
+												sizes="(min-width: 1024px) 620px, 100vw"
+												src={proof.image}
+											/>
 										)}
-										fill
-										priority
-										quality={95}
-										sizes="(min-width: 1024px) 46vw, 100vw"
-										src={proof.image}
-									/>
+									</div>
 								</div>
-								<div className="flex items-center justify-between gap-4 border-border/60 border-t px-5 py-3.5">
-									<Caption className="text-brand-readable">
+								<div className="mt-4 flex flex-wrap items-center justify-between gap-x-8 gap-y-1 px-2 text-base">
+									<span className="text-foreground">
 										{td(
 											proofCaseStudy.kind === "concept"
 												? "conceptStudyLabel"
 												: "recentProjectLabel",
 											{ client: proofCaseStudy.client }
 										)}
-									</Caption>
-									<span className="inline-flex items-center gap-1.5 text-muted-foreground text-xs">
+									</span>
+									<span className="inline-flex items-center gap-1.5 font-medium text-foreground">
 										{td("proofCta")}
-										<ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
+										<ActionArrow />
 									</span>
 								</div>
 							</Link>
@@ -363,31 +403,149 @@ async function ServiceOfferingPage({ offering }: { offering: Offering }) {
 				</GridContainer>
 			</section>
 
-			<SectionWrapper className="pt-8 md:pt-12" id="approach">
-				<div className="grid gap-16 md:grid-cols-2 md:gap-20">
-					<div>
-						<H3>{td("approachTitle")}</H3>
-						<Lead className="mt-4 leading-relaxed">{detail.approach}</Lead>
+			<SectionWrapper id="why" surface="alternate">
+				{detail.painPoints.length > 0 && (
+					<>
+						<H2>{td("fitTitle")}</H2>
+						<StaggerChildren className="mt-10 grid gap-x-10 gap-y-10 md:mt-14 md:grid-cols-3 lg:gap-x-14">
+							{detail.painPoints.map((item) => (
+								<div key={item.heading}>
+									<H3>{item.heading}</H3>
+									<p className="mt-2.5 text-base text-foreground/75 leading-[1.6]">
+										{item.description}
+									</p>
+								</div>
+							))}
+						</StaggerChildren>
+					</>
+				)}
+				{detail.outcomeItems.length > 0 && (
+					<div
+						className={cn(
+							"grid gap-x-6 gap-y-10 lg:grid-cols-12",
+							detail.painPoints.length > 0 && "mt-16 md:mt-24"
+						)}
+					>
+						<H2 className="lg:col-span-4">{td("changeTitle")}</H2>
+						<StaggerChildren className="lg:col-span-7 lg:col-start-6">
+							<ol className="border-foreground/[0.08] border-t">
+								{detail.outcomeItems.map((item, index) => (
+									<li
+										className="flex gap-5 border-foreground/[0.08] border-b py-4 text-foreground text-lg leading-[1.6]"
+										key={item}
+									>
+										<span
+											aria-hidden="true"
+											className="w-6 shrink-0 text-muted-foreground text-sm tabular-nums leading-[1.95]"
+										>
+											{String(index + 1).padStart(2, "0")}
+										</span>
+										{item}
+									</li>
+								))}
+							</ol>
+						</StaggerChildren>
 					</div>
-					<div>
-						<H3>{td("outcomeTitle")}</H3>
-						<Lead className="mt-4 leading-relaxed">{detail.outcome}</Lead>
+				)}
+			</SectionWrapper>
+
+			<SectionWrapper id="approach">
+				<StaggerChildren className="grid gap-x-6 gap-y-12 md:grid-cols-2 lg:grid-cols-12">
+					<div className="lg:col-span-5">
+						<H2>{td("approachTitle")}</H2>
+						<p className="mt-5 text-foreground text-lg leading-[1.6]">
+							{detail.approach}
+						</p>
 					</div>
-				</div>
+					<div className="lg:col-span-5 lg:col-start-7">
+						<H2>{td("outcomeTitle")}</H2>
+						<p className="mt-5 text-foreground text-lg leading-[1.6]">
+							{detail.outcome}
+						</p>
+					</div>
+				</StaggerChildren>
+				{/* Two real screens of the project that backs this page */}
+				{proofCaseStudy && proofShots.length > 0 && (
+					<Link
+						className="group/arrow mt-12 block outline-none md:mt-16"
+						href={{
+							pathname: "/case-studies/[slug]",
+							params: { slug: proofCaseStudy.slug },
+						}}
+					>
+						<span className="grid gap-5 md:grid-cols-2">
+							{proofShots.map((shot) => (
+								<span
+									className="block rounded-[20px] bg-card p-2 shadow-[0_0_0_1px_rgba(14,18,23,0.06),0_24px_48px_-36px_rgba(14,18,23,0.35)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.08)]"
+									key={shot}
+								>
+									<span className="relative block aspect-[16/10] overflow-hidden rounded-[14px] bg-foreground/[0.04]">
+										<Image
+											alt={`${proofCaseStudy.client}: ${proofCaseStudy.title}`}
+											className="object-cover object-left-top"
+											fill
+											sizes="(min-width: 768px) 50vw, 100vw"
+											src={shot}
+										/>
+									</span>
+								</span>
+							))}
+						</span>
+						<span className="mt-4 inline-flex items-center gap-1.5 text-base text-foreground group-focus-visible/arrow:underline group-focus-visible/arrow:underline-offset-4">
+							{proofCaseStudy.client}
+							<span className="text-muted-foreground">{th("stage.link")}</span>
+							<ActionArrow />
+						</span>
+					</Link>
+				)}
+			</SectionWrapper>
+
+			<SectionWrapper id="features" surface="alternate">
+				<H2>{td("includedTitle")}</H2>
+				<StaggerChildren className="mt-10 md:mt-14">
+					<div className="grid gap-x-10 gap-y-12 md:grid-cols-2 lg:gap-x-14">
+						<div>
+							<H3>{td("featuresTitle")}</H3>
+							<ul className="mt-5 border-foreground/[0.08] border-t">
+								{detail.featureItems.map((item) => (
+									<li
+										className="border-foreground/[0.08] border-b py-3.5 text-base text-foreground leading-[1.6]"
+										key={item}
+									>
+										{item}
+									</li>
+								))}
+							</ul>
+						</div>
+						<div id="deliverables">
+							<H3>{td("deliverablesTitle")}</H3>
+							<ul className="mt-5 border-foreground/[0.08] border-t">
+								{detail.deliverableItems.map((item) => (
+									<li
+										className="border-foreground/[0.08] border-b py-3.5 text-base text-foreground leading-[1.6]"
+										key={item}
+									>
+										{item}
+									</li>
+								))}
+							</ul>
+						</div>
+					</div>
+				</StaggerChildren>
 			</SectionWrapper>
 
 			{deck && (
-				<SectionWrapper className="pt-8 md:pt-12" id="service-deck">
-					<div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-16">
-						<div>
-							<Caption className="text-brand-readable">{tg("eyebrow")}</Caption>
-							<H2 className="mt-3">{tg("sectionTitle")}</H2>
-							<Muted className="mt-4 leading-relaxed">
+				<SectionWrapper id="service-deck">
+					<div className="grid gap-x-6 gap-y-10 lg:grid-cols-12 lg:items-center">
+						<div className="lg:col-span-5">
+							<H2>{tg("sectionTitle")}</H2>
+							<p className="mt-5 max-w-[48ch] text-foreground text-lg leading-[1.6]">
 								{tg("description")}
-							</Muted>
+							</p>
 						</div>
 						<ReportDownloadForm
 							buttonLabel={tg("formButton")}
+							className="my-0 lg:col-span-6 lg:col-start-7"
 							description={tg("formDescription")}
 							reportId={deck.reportId}
 							title={tg("formTitle")}
@@ -396,178 +554,64 @@ async function ServiceOfferingPage({ offering }: { offering: Offering }) {
 				</SectionWrapper>
 			)}
 
-			<SectionWrapper className="pt-8 md:pt-12" id="why">
-				<div className="grid gap-x-8 gap-y-10 md:grid-cols-3">
-					{detail.painPoints.map((item, i) => (
-						<div className="group" key={item.heading}>
-							<Caption className="mb-3 block text-brand-readable tabular-nums">
-								{String(i + 1).padStart(2, "0")}
-							</Caption>
-							<H3>{item.heading}</H3>
-							<Muted className="mt-3 leading-relaxed">{item.description}</Muted>
-						</div>
-					))}
-				</div>
-			</SectionWrapper>
-
-			<SectionWrapper id="features" surface="inverted">
-				<div className="grid items-start gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20">
-					<div>
-						<H3>{td("featuresTitle")}</H3>
-						<ol className="mt-8 border-grid-line border-t">
-							{detail.featureItems.map((item, i) => (
-								<li
-									className="flex items-baseline gap-5 border-grid-line border-b py-4"
-									key={item}
-								>
-									<Caption className="shrink-0 text-brand-readable tabular-nums">
-										{String(i + 1).padStart(2, "0")}
-									</Caption>
-									<Body className="text-sm leading-relaxed">{item}</Body>
-								</li>
-							))}
-						</ol>
-					</div>
-
-					<div id="deliverables">
-						<H3>{td("deliverablesTitle")}</H3>
-						<div className="surface-card mt-8 divide-y divide-border/40">
-							{detail.deliverableItems.map((item) => (
-								<div
-									className="flex items-baseline gap-4 px-5 py-3.5"
-									key={item}
-								>
-									<span
-										aria-hidden="true"
-										className="h-1.5 w-1.5 shrink-0 self-center bg-brand"
-									/>
-									<Muted className="text-foreground/90 text-sm leading-relaxed">
-										{item}
-									</Muted>
-								</div>
-							))}
-						</div>
-					</div>
-				</div>
-			</SectionWrapper>
-
 			{detail.faqItems.length > 0 && (
-				<SectionWrapper id="faq" surface="alternate">
-					<div className="grid gap-12 md:grid-cols-[1fr_2fr] md:gap-20">
-						<div>
-							<H2>{td("faqTitle")}</H2>
+				<SectionWrapper id="faq" surface={deck ? "alternate" : "default"}>
+					<div className="grid gap-x-6 gap-y-10 lg:grid-cols-12">
+						<div className="lg:col-span-4">
+							<H2 className="lg:sticky lg:top-28">{td("faqTitle")}</H2>
 						</div>
-						<FaqAccordion items={detail.faqItems} />
+						<StaggerChildren className="lg:col-span-7 lg:col-start-6">
+							<FaqList items={detail.faqItems} />
+						</StaggerChildren>
 					</div>
 				</SectionWrapper>
 			)}
 
-			<OfferingNextStep
-				ctaButton={td("ctaButton")}
-				ctaDescription={td("ctaDescription")}
-				ctaEyebrow={td("ctaEyebrow")}
-				ctaTitle={td("ctaTitle")}
-				getRelatedDescription={(relatedOffering) => {
-					const relatedKey = getOfferingTranslationKey(relatedOffering);
+			{relatedWork.length > 0 && (
+				<SectionWrapper
+					id="related-work"
+					surface={deck ? "default" : "alternate"}
+				>
+					<H2>{td("relatedWorkTitle")}</H2>
+					<StaggerChildren className="mt-10 grid gap-5 md:mt-14 md:grid-cols-2 lg:grid-cols-3">
+						{relatedWork.map((caseStudy) => (
+							<CaseStudyCard caseStudy={caseStudy} key={caseStudy.slug} />
+						))}
+					</StaggerChildren>
+				</SectionWrapper>
+			)}
 
-					return relatedOffering.kind === "service"
-						? t(`${relatedKey}.tagline`)
-						: tc(`items.${relatedKey}.description`);
-				}}
-				getRelatedTitle={(relatedOffering) => {
-					const relatedKey = getOfferingTranslationKey(relatedOffering);
-
-					return relatedOffering.kind === "service"
-						? t(`${relatedKey}.title`)
-						: tc(`items.${relatedKey}.title`);
-				}}
-				locale={locale}
-				relatedOfferings={relatedOfferings}
-				relatedTitle={td("relatedOfferingsTitle")}
-			/>
+			{relatedOfferings.length > 0 && (
+				<SectionWrapper
+					id="related-offerings"
+					surface={deck ? "alternate" : "default"}
+				>
+					<H2>{td("relatedOfferingsTitle")}</H2>
+					<ul className="mt-8 md:mt-12">
+						{relatedOfferings.map((related) => (
+							<li key={related.slug}>
+								<Link
+									className="group/arrow -mx-4 grid gap-x-6 gap-y-1 rounded-[10px] px-4 py-5 outline-none transition-colors duration-150 hover:bg-card focus-visible:bg-card md:grid-cols-12 md:items-baseline md:py-6"
+									href={{
+										pathname: "/services/[slug]",
+										params: { slug: related.slug },
+									}}
+								>
+									<h3 className="font-display text-foreground text-lg leading-snug md:col-span-4">
+										{offeringTitle(related)}
+									</h3>
+									<span className="text-base text-foreground/75 leading-[1.6] md:col-span-7">
+										{offeringLine(related)}
+									</span>
+									<span className="hidden text-foreground md:col-span-1 md:flex md:justify-end">
+										<ActionArrow />
+									</span>
+								</Link>
+							</li>
+						))}
+					</ul>
+				</SectionWrapper>
+			)}
 		</>
-	);
-}
-
-function OfferingNextStep({
-	ctaButton,
-	ctaDescription,
-	ctaEyebrow,
-	ctaTitle,
-	getRelatedDescription,
-	getRelatedTitle,
-	locale,
-	relatedOfferings,
-	relatedTitle,
-}: {
-	ctaButton: string;
-	ctaDescription: string;
-	ctaEyebrow: string;
-	ctaTitle: string;
-	getRelatedDescription: (offering: Offering) => string;
-	getRelatedTitle: (offering: Offering) => string;
-	locale: string;
-	relatedOfferings: Offering[];
-	relatedTitle: string;
-}) {
-	return (
-		<SectionWrapper id="offering-next-step" surface="inverted">
-			<div className="grid gap-12 lg:grid-cols-[0.86fr_1.14fr] lg:items-start lg:gap-16">
-				<div className="max-w-xl">
-					<Caption className="text-brand-readable">{ctaEyebrow}</Caption>
-					<H2 className="mt-3">{ctaTitle}</H2>
-					<Muted className="mt-4 leading-relaxed">{ctaDescription}</Muted>
-					<TrackClick
-						event="cta_clicked"
-						properties={{
-							location: "service_detail",
-							variant: "primary",
-							destination: "contact",
-						}}
-					>
-						<Button
-							className="mt-8"
-							render={
-								<NextLink
-									aria-label={ctaButton}
-									href={homepageSectionHref("contact", locale)}
-								/>
-							}
-							variant="brand"
-						>
-							{ctaButton}
-						</Button>
-					</TrackClick>
-				</div>
-
-				{relatedOfferings.length > 0 && (
-					<div>
-						<Caption className="text-brand-readable">{relatedTitle}</Caption>
-						<div className="mt-5 grid gap-4 md:grid-cols-2">
-							{relatedOfferings.map((relatedOffering) => {
-								const Icon = getOfferingIcon(relatedOffering);
-
-								return (
-									<Link
-										className={relatedLinkCardClassName}
-										href={{
-											pathname: "/services/[slug]",
-											params: { slug: relatedOffering.slug },
-										}}
-										key={relatedOffering.slug}
-									>
-										<RelatedLinkCardContent
-											description={getRelatedDescription(relatedOffering)}
-											icon={Icon}
-											title={getRelatedTitle(relatedOffering)}
-										/>
-									</Link>
-								);
-							})}
-						</div>
-					</div>
-				)}
-			</div>
-		</SectionWrapper>
 	);
 }

@@ -1,13 +1,13 @@
 {
   "industry": "KI-Agenten / Agenten-Infrastruktur",
-  "title": "Keel: Ein Konzept für agenten-native Infrastruktur für SaaS-Produkte",
-  "excerpt": "Eine designgetriebene MVP-Konzeptstudie, die jedes SaaS-Produkt für KI-Agenten nutzbar macht. Keel analysiert API, UI und Dokumentation eines Produkts, macht aus jeder Operation ein typisiertes, benanntes Tool mit gehostetem MCP-Server und stellt einen einzigen abgesicherten Endpunkt hinter Scopes, Guardrails und Freigabe-Gates bereit. Jeder Aufruf ist gescoped, nachverfolgt und wiederholbar.",
-  "challenge": "SaaS-Produkte stellen Agenten noch immer Oberflächen bereit, die für Menschen gedacht sind. Ein Button, ein Modal, ein Hilfe-Artikel ist eine Oberfläche für einen Menschen, der sehen und klicken kann, und eine angeflanschte API schließt die Lücke nicht: Ein Agent kann weiterhin nicht erkennen, was er gefahrlos aufrufen darf, mit wessen Berechtigung oder was gerade passiert ist. Dokumentation sagt einem Agenten nicht, welche Aufrufe sicher, begrenzt oder freigegeben sind. Ein einzelner API-Key ist alles-oder-nichts, viel zu viel Macht für einen autonomen Aufrufer. Ein Agent ohne Protokoll hinterlässt keinen Audit-Trail für Prüfung oder Rollback. Die Frage war: Wie macht man ein bestehendes SaaS-Produkt sicher für Agenten bedienbar, typisiert, gescoped und nachverfolgt, ohne es neu zu bauen?",
-  "solution": "Keel wurde über zwei responsive Screens entworfen und gebaut. Die Landingpage zeigt das Problem und den geschlossenen Kreislauf dahinter: map, generate, guard, publish, observe, ausgeführt bei jeder Änderung, sodass die Agenten-Oberfläche nie vom darunterliegenden Produkt abweicht. In der Operator-Console passiert die eigentliche Arbeit. Sie zeigt Live-Aufrufmetriken, die typisierten Tool-Schemata, die Keel für jede Operation erzeugt, einen gehosteten MCP-Server, der bei jeder Produktänderung neu generiert wird, Least-Privilege-Scopes pro Tool, Rate- und Spend-Guardrails, Freigabe-Gates für alles Verändernde sowie einen wiederholbaren Trace jedes Aufrufs. Connectoren speisen aus den Produkten ein, die ein Team bereits nutzt, GitHub, Linear, Notion, Slack, Stripe und mehr, und Keel normalisiert jede Oberfläche in typisierte Tools hinter einem einzigen MCP/API-Endpunkt, an dem sich ein Agent einmal authentifiziert. Nichts Veränderndes erreicht ein Produkt, bevor es seinen Scope und sein Freigabe-Gate passiert hat. Die Oberfläche setzt auf eine konstruierte, instrumentenartige dunkle Ästhetik mit animierten Connector-Beam-Visualisierungen, gebaut in Next.js 16.",
+  "title": "Keel: ein abgesicherter Endpunkt, über den KI-Agenten ein SaaS-Produkt bedienen",
+  "excerpt": "Keel macht ein SaaS-Produkt für KI-Agenten nutzbar. Es liest API, Oberfläche und Dokumentation des Produkts, macht aus jeder Operation ein typisiertes, benanntes Tool auf einem gehosteten MCP-Server und stellt einen Endpunkt davor, mit Scopes, Guardrails und Freigaben. Jeder Aufruf wird protokolliert und lässt sich wiederholen. webvise hat Keel als Eigenentwicklung entworfen und gebaut, ohne Auftraggeber.",
+  "challenge": "SaaS-Produkte sind für Menschen gebaut. Ein Button, ein Modal oder ein Hilfe-Artikel funktioniert für jemanden, der sehen und klicken kann. Eine zusätzliche API schließt die Lücke nicht, denn ein Agent erkennt weiterhin nicht, welche Aufrufe sicher sind, mit wessen Berechtigung er handelt und was gerade passiert ist. Ein einzelner API-Key gibt einem autonomen Aufrufer alle Rechte oder keine. Und ein Agent, der ohne Protokoll handelt, hinterlässt nichts, das sich prüfen oder zurückrollen lässt. Keel fragt, wie sich ein bestehendes Produkt für Agenten öffnen lässt, ohne es neu zu bauen.",
+  "solution": "Keel besteht aus zwei Screens. Die Landingpage erklärt das Problem und den Kreislauf hinter dem Produkt: map, generate, guard, publish und observe. Der Kreislauf läuft bei jeder Änderung, damit die Tools, die ein Agent sieht, immer zum Produkt passen. Die Operator-Konsole zeigt Live-Metriken der Aufrufe und das typisierte Tool-Schema, das Keel für jede Operation schreibt. Sie zeigt außerdem den gehosteten MCP-Server, den Keel bei jeder Produktänderung neu erzeugt, die Scopes jedes Tools, die Limits für Rate und Kosten und die Freigaben für jeden Aufruf, der Daten ändert. Jeder Aufruf hinterlässt einen Trace, der sich wiederholen lässt. Connectoren binden die Produkte an, die ein Team schon nutzt, etwa GitHub, Linear, Notion, Slack und Stripe. Keel macht aus jedem typisierte Tools hinter einem Endpunkt, an dem sich ein Agent einmal anmeldet. Kein Aufruf, der Daten ändert, erreicht ein Produkt, bevor er seinen Scope und seine Freigabe passiert hat. Die Oberfläche ist dunkel, mit animierten Strahlen zwischen den Connectoren, und in Next.js 16 gebaut.",
   "metrics": [
     {
       "value": "1",
-      "label": "Agenten-Infrastruktur-Konzept"
+      "label": "Produkt als Eigenentwicklung"
     },
     {
       "value": "2",
@@ -31,5 +31,7 @@
     "Vercel"
   ],
   "testimonial": null,
-  "liveUrlLabel": "Konzeptstudie"
+  "liveUrlLabel": "Eigenentwicklung",
+  "location": "Berlin, Deutschland",
+  "deliveryTime": "1 Woche"
 }
