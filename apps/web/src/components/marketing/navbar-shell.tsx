@@ -94,7 +94,7 @@ function Wordmark({ label }: { label: string }) {
 	return (
 		<Link
 			aria-label={label}
-			className="flex items-center gap-2 py-2 text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring/70 focus-visible:ring-offset-4 focus-visible:ring-offset-background md:justify-self-start"
+			className="flex items-center gap-2 py-2 text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring/70 focus-visible:ring-offset-4 focus-visible:ring-offset-background lg:justify-self-start"
 			href="/"
 		>
 			<Logo animated className="size-7" />
@@ -284,7 +284,7 @@ export default function NavbarShell({
 		if (!mobileOpen) {
 			return;
 		}
-		const desktop = window.matchMedia("(min-width: 768px)");
+		const desktop = window.matchMedia("(min-width: 1024px)");
 		const onChange = () => {
 			if (desktop.matches) {
 				setMobileOpen(false);
@@ -369,12 +369,12 @@ export default function NavbarShell({
 	return (
 		<header className="sticky top-0 z-50 bg-background">
 			<div className="relative border-grid-line border-b">
-				<div className="mx-auto flex h-16 max-w-[1320px] items-center justify-between gap-6 px-6 md:grid md:h-[72px] md:grid-cols-[1fr_auto_1fr]">
+				<div className="mx-auto flex h-16 max-w-[1320px] items-center justify-between gap-6 px-6 lg:grid lg:h-[72px] lg:grid-cols-[1fr_auto_1fr]">
 					<Wordmark label={labels.home} />
 
 					<nav
 						aria-label={labels.main}
-						className="hidden h-full items-center md:flex"
+						className="hidden h-full items-center lg:flex"
 					>
 						{MENUS.map((key) => (
 							<Fragment key={key}>
@@ -417,7 +417,7 @@ export default function NavbarShell({
 									className={cn(
 										"pointer-events-none absolute inset-x-0 top-full hidden px-6 pt-2",
 										openMenu === key &&
-											"fade-in slide-in-from-top-1 animate-in duration-200 ease-out motion-reduce:animate-none md:block"
+											"fade-in slide-in-from-top-1 animate-in duration-200 ease-out motion-reduce:animate-none lg:block"
 									)}
 									id={`${panelId}-${key}`}
 								>
@@ -615,7 +615,7 @@ export default function NavbarShell({
 						</Link>
 					</nav>
 
-					<div className="hidden items-center gap-2 md:flex md:justify-self-end">
+					<div className="hidden items-center gap-2 lg:flex lg:justify-self-end">
 						<LanguageSwitcher id="lang-desktop" />
 						<ActionLink href="/book" location="navbar" size="md">
 							{labels.bookCall}
@@ -626,7 +626,7 @@ export default function NavbarShell({
 						aria-controls={mobileMenuId}
 						aria-expanded={mobileOpen}
 						aria-label={mobileOpen ? labels.closeMenu : labels.openMenu}
-						className="-mr-2 flex size-11 items-center justify-center text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring/70 md:hidden"
+						className="-mr-2 flex size-11 items-center justify-center text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring/70 lg:hidden"
 						onClick={() => setMobileOpen((open) => !open)}
 						ref={mobileToggleRef}
 						type="button"
@@ -639,7 +639,7 @@ export default function NavbarShell({
 			{/* Mobile menu */}
 			<div
 				className={cn(
-					"fixed inset-x-0 top-16 bottom-0 overflow-y-auto overscroll-contain bg-background md:hidden",
+					"fixed inset-x-0 top-16 bottom-0 overflow-y-auto overscroll-contain bg-background lg:hidden",
 					mobileOpen
 						? "fade-in animate-in duration-200 ease-out motion-reduce:animate-none"
 						: "hidden"
