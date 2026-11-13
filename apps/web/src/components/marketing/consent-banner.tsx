@@ -5,41 +5,13 @@ import { useEffect, useState } from "react";
 
 import { actionVariants } from "@/components/marketing/action";
 import { Link } from "@/i18n/navigation";
+import {
+	clearAnalyticsStorage,
+	readConsent,
+	writeConsent,
+} from "@/lib/consent";
 import { getPostHog } from "@/lib/posthog-client";
 import { cn } from "@/lib/utils";
-
-const STORAGE_KEY = "webvise-consent-v1";
-
-type ConsentChoice = "granted" | "denied";
-
-type GtagFn = (...args: unknown[]) => void;
-
-function updateConsent(choice: ConsentChoice) {
-	if (typeof window === "undefined") {
-		return;
-	}
-	const gtag = (window as unknown as { gtag?: GtagFn }).gtag;
-	if (typeof gtag !== "function") {
-		return;
-	}
-	gtag("consent", "update", {
-		analytics_storage: choice === "granted" ? "granted" : "denied",
-		ad_storage: choice === "granted" ? "granted" : "denied",
-		ad_user_data: choice === "granted" ? "granted" : "denied",
-		ad_personalization: choice === "granted" ? "granted" : "denied",
-	});
-}
-
-function persistChoice(choice: ConsentChoice) {
-	try {
-		window.localStorage.setItem(
-			STORAGE_KEY,
-			JSON.stringify({ choice, ts: Date.now() })
-		);
-	} catch {
-		// ignore (Safari private mode etc.)
-	}
-}
 
 export function ConsentBanner() {
 	const t = useTranslations("consent");
@@ -47,12 +19,7 @@ export function ConsentBanner() {
 	const [closing, setClosing] = useState(false);
 
 	useEffect(() => {
-		try {
-			const stored = window.localStorage.getItem(STORAGE_KEY);
-			if (!stored) {
-				setVisible(true);
-			}
-		} catch {
+		if (readConsent() === null) {
 			setVisible(true);
 		}
 	}, []);
@@ -67,20 +34,14 @@ export function ConsentBanner() {
 	}
 
 	function handleAccept() {
-		updateConsent("granted");
-		persistChoice("granted");
-		getPostHog().then((posthog) => {
-			posthog?.set_config({ persistence: "localStorage+cookie" });
-			posthog?.opt_in_capturing();
-			posthog?.capture("consent_accepted");
-		});
+		writeConsent("granted");
+		getPostHog().then((posthog) => posthog?.capture("consent_accepted"));
 		dismiss();
 	}
 
 	function handleDecline() {
-		updateConsent("denied");
-		persistChoice("denied");
-		getPostHog().then((posthog) => posthog?.opt_out_capturing());
+		writeConsent("denied");
+		clearAnalyticsStorage();
 		dismiss();
 	}
 

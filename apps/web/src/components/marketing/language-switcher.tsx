@@ -43,8 +43,6 @@ export default function LanguageSwitcher({
 		const hash = sectionHash ? `#${sectionHash}` : "";
 		const newUrl = `${newPath}${window.location.search}${hash}`;
 
-		// biome-ignore lint/suspicious/noDocumentCookie: Cookie Store API not supported in all browsers yet
-		document.cookie = `NEXT_LOCALE=${nextLocale};path=/;max-age=31536000;SameSite=Lax`;
 		window.location.href = newUrl;
 	}
 

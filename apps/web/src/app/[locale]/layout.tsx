@@ -3,7 +3,6 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { Hanken_Grotesk } from "next/font/google";
 import { notFound } from "next/navigation";
-import Script from "next/script";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import {
 	getMessages,
@@ -12,6 +11,7 @@ import {
 } from "next-intl/server";
 import "../../index.css";
 import { ConsentBanner } from "@/components/marketing/consent-banner";
+import { GoogleAnalytics } from "@/components/marketing/google-analytics";
 import { ThemeProvider } from "@/components/theme-provider";
 import { routing } from "@/i18n/routing";
 import { generateAlternates, localizedUrl, SITE_URL } from "@/lib/seo";
@@ -134,26 +134,6 @@ export default async function LocaleLayout({
 
 	return (
 		<html data-scroll-behavior="smooth" lang={locale} suppressHydrationWarning>
-			<head>
-				<Script
-					src="https://www.googletagmanager.com/gtag/js?id=G-D5466MRK51"
-					strategy="lazyOnload"
-				/>
-				<Script id="gtag-init" strategy="lazyOnload">
-					{`
-						window.dataLayer = window.dataLayer || [];
-						function gtag(){dataLayer.push(arguments);}
-						gtag('consent', 'default', {
-							analytics_storage: 'denied',
-							ad_storage: 'denied',
-							ad_user_data: 'denied',
-							ad_personalization: 'denied',
-						});
-						gtag('js', new Date());
-						gtag('config', 'G-D5466MRK51');
-					`}
-				</Script>
-			</head>
 			<body className={`${hankenGrotesk.variable} antialiased`}>
 				<ThemeProvider
 					attribute="class"
@@ -166,6 +146,7 @@ export default async function LocaleLayout({
 						{children}
 						<ConsentBanner />
 					</NextIntlClientProvider>
+					<GoogleAnalytics />
 					<Analytics />
 					<SpeedInsights />
 				</ThemeProvider>

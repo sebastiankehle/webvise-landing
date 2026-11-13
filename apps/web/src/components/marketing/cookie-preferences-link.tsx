@@ -2,18 +2,17 @@
 
 import { useTranslations } from "next-intl";
 
-const STORAGE_KEY = "webvise-consent-v1";
+import { clearAnalyticsStorage, clearConsent } from "@/lib/consent";
+import { loadedPostHog } from "@/lib/posthog-client";
 
 export function CookiePreferencesLink() {
 	const t = useTranslations("consent");
 
 	function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
 		e.preventDefault();
-		try {
-			window.localStorage.removeItem(STORAGE_KEY);
-		} catch {
-			// ignore
-		}
+		loadedPostHog()?.reset();
+		clearConsent();
+		clearAnalyticsStorage();
 		window.location.reload();
 	}
 
