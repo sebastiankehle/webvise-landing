@@ -1,149 +1,153 @@
 import { ArrowRight } from "lucide-react";
-import { useLocale } from "next-intl";
 
 import { cn } from "@/lib/utils";
 
-const pageSpeedComparisons = [
+// Lighthouse's own gauge: radius 56 in a 120 box, its fail red and pass green.
+const RING = 2 * Math.PI * 56;
+const TONES = {
+	fail: {
+		ring: "#ff4e42",
+		text: "text-[#c00] dark:text-[#ff4e42]",
+	},
+	pass: {
+		ring: "#0cce6b",
+		text: "text-[#018642] dark:text-[#0cce6b]",
+	},
+} as const;
+
+type Tone = keyof typeof TONES;
+
+/** The same site measured before and after its rebuild. */
+const REPORTS: {
+	metrics: { name: string; value: string }[];
+	score: number;
+	stack: string;
+	tone: Tone;
+}[] = [
 	{
-		afterProgress: 96,
-		afterValue: "96",
-		beforeProgress: 34,
-		beforeValue: "34",
-		label: "PageSpeed score",
-		unit: "",
+		metrics: [
+			{ name: "First Contentful Paint", value: "3.8 s" },
+			{ name: "Largest Contentful Paint", value: "4.2 s" },
+		],
+		score: 34,
+		stack: "WordPress",
+		tone: "fail",
 	},
 	{
-		afterProgress: 88,
-		afterValue: "1.11",
-		beforeProgress: 38,
-		beforeValue: "3.8",
-		label: "First Contentful Paint",
-		unit: "s",
-	},
-	{
-		afterProgress: 86,
-		afterValue: "1.14",
-		beforeProgress: 32,
-		beforeValue: "4.2",
-		label: "Largest Contentful Paint",
-		unit: "s",
+		metrics: [
+			{ name: "First Contentful Paint", value: "1.11 s" },
+			{ name: "Largest Contentful Paint", value: "1.14 s" },
+		],
+		score: 96,
+		stack: "Next.js",
+		tone: "pass",
 	},
 ];
 
-function PageSpeedMetricCard({
-	color,
-	label,
-	progress,
-	unit,
-	value,
-}: {
-	color: "brand" | "lime";
-	label: string;
-	progress: number;
-	unit: string;
-	value: string;
-}) {
-	const valueClassName =
-		color === "lime" ? "text-success" : "text-brand-readable";
-	const barClassName = color === "lime" ? "bg-success" : "bg-brand";
-
+/** Lighthouse marks a failing value with a triangle and a passing one with a
+ * circle. */
+function Mark({ tone }: { tone: Tone }) {
 	return (
-		<div
-			className="relative min-h-fit w-full overflow-hidden rounded-2xl bg-card p-3 text-card-foreground"
-			data-pagespeed-metric={label}
-		>
-			<div className="flex items-start justify-between gap-4">
-				<div className="min-w-0">
-					<p className="font-medium text-muted-foreground text-xs md:text-sm">
-						{label}
-					</p>
-				</div>
-				<div className="flex shrink-0 items-end gap-1">
-					<span
-						className={cn("font-medium text-xl leading-none", valueClassName)}
+		<svg aria-hidden="true" className="size-2.5 flex-none" viewBox="0 0 10 10">
+			{tone === "fail" ? (
+				<path d="M5 1 9.5 9h-9z" fill={TONES.fail.ring} />
+			) : (
+				<circle cx="5" cy="5" fill={TONES.pass.ring} r="4.5" />
+			)}
+		</svg>
+	);
+}
+
+/** One PageSpeed report: the stack it ran on, the performance gauge and the
+ * two paint times. */
+function Report({ metrics, score, stack, tone }: (typeof REPORTS)[number]) {
+	const { ring, text } = TONES[tone];
+	return (
+		<div className="flex w-full max-w-[17rem] flex-col rounded-[12px] bg-card p-4 shadow-[0_0_0_1px_rgba(14,18,23,0.07),0_16px_32px_-20px_rgba(14,18,23,0.4)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.09)]">
+			<div className="flex items-center justify-between gap-3 text-sm">
+				<span className="text-muted-foreground">PageSpeed Insights</span>
+				<span
+					className={cn(
+						"rounded-full px-2 py-0.5 text-xs",
+						tone === "pass"
+							? "bg-foreground text-background"
+							: "text-muted-foreground shadow-[inset_0_0_0_1px_rgba(14,18,23,0.14)] dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.18)]"
+					)}
+				>
+					{stack}
+				</span>
+			</div>
+			<div className="mt-5 flex flex-col items-center gap-2">
+				<span className="relative grid size-24 place-items-center">
+					<svg
+						aria-hidden="true"
+						className="absolute inset-0 size-full -rotate-90"
+						viewBox="0 0 120 120"
 					>
-						{value}
+						<circle cx="60" cy="60" fill={ring} fillOpacity="0.1" r="56" />
+						<circle
+							cx="60"
+							cy="60"
+							fill="none"
+							r="56"
+							stroke={ring}
+							strokeDasharray={`${(RING * score) / 100} ${RING}`}
+							strokeLinecap="round"
+							strokeWidth="8"
+						/>
+					</svg>
+					<span
+						className={cn(
+							"font-display text-3xl tabular-nums leading-none tracking-[-0.03em]",
+							text
+						)}
+					>
+						{score}
 					</span>
-					{unit ? (
-						<span className="pb-0.5 text-muted-foreground text-xs">{unit}</span>
-					) : null}
-				</div>
+				</span>
+				<span className="text-foreground text-sm">Performance</span>
 			</div>
-			<div className="mt-3 h-1 overflow-hidden rounded-full bg-muted">
-				<div
-					className={cn("h-full rounded-full", barClassName)}
-					style={{ width: `${progress}%` }}
-				/>
-			</div>
+			<ul className="mt-5 border-foreground/[0.08] border-t">
+				{metrics.map((metric) => (
+					<li
+						className="flex items-center gap-2 border-foreground/[0.08] border-b py-2.5 text-sm last:border-b-0 last:pb-0"
+						key={metric.name}
+					>
+						<Mark tone={tone} />
+						<span className="min-w-0 flex-1 truncate text-foreground">
+							{metric.name}
+						</span>
+						<span className={cn("flex-none tabular-nums", text)}>
+							{metric.value}
+						</span>
+					</li>
+				))}
+			</ul>
 		</div>
 	);
 }
 
-function ComparisonColumn({ tone }: { tone: "before" | "after" }) {
-	// Label and decimals follow the page's language.
-	const german = useLocale() === "de";
-	return (
-		<div className="grid gap-3">
-			{pageSpeedComparisons.map((metric) => (
-				<PageSpeedMetricCard
-					color={tone === "after" ? "lime" : "brand"}
-					key={`${tone}-${metric.label}`}
-					label={
-						german && metric.label === "PageSpeed score"
-							? "PageSpeed-Score"
-							: metric.label
-					}
-					progress={
-						tone === "after" ? metric.afterProgress : metric.beforeProgress
-					}
-					unit={metric.unit}
-					value={(tone === "after"
-						? metric.afterValue
-						: metric.beforeValue
-					).replace(".", german ? "," : ".")}
-				/>
-			))}
-		</div>
-	);
-}
-
-function ComparisonArrow() {
-	return (
-		<div className="flex items-center justify-center text-brand-readable">
-			<ArrowRight
-				aria-hidden="true"
-				className="size-6 rotate-90 lg:rotate-0"
-				strokeWidth={1.75}
-			/>
-		</div>
-	);
-}
-
-function PageSpeedComparison() {
-	return (
-		<div className="grid gap-4 lg:grid-cols-[1fr_auto_1fr] lg:items-center">
-			<ComparisonColumn tone="before" />
-			<ComparisonArrow />
-			<ComparisonColumn tone="after" />
-		</div>
-	);
-}
-
+/** A WordPress site's PageSpeed report beside the one it scored after its
+ * rebuild, drawn the way Google's tool shows them. */
 export function WpHealthPageSpeedPreview({
 	className,
-	hint,
 }: {
 	className?: string;
-	hint?: string;
 }) {
 	return (
-		<div className={cn("w-full", className)}>
-			<PageSpeedComparison />
-			{hint ? (
-				<p className="mx-auto mt-4 max-w-[440px] text-center text-muted-foreground text-sm leading-6">
-					{hint}
-				</p>
-			) : null}
+		<div
+			className={cn(
+				"flex flex-col items-center gap-4 sm:flex-row sm:justify-center",
+				className
+			)}
+		>
+			<Report {...REPORTS[0]} />
+			<ArrowRight
+				aria-hidden="true"
+				className="size-5 flex-none rotate-90 text-muted-foreground sm:rotate-0"
+				strokeWidth={1.75}
+			/>
+			<Report {...REPORTS[1]} />
 		</div>
 	);
 }
