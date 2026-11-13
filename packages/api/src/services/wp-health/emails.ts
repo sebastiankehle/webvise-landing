@@ -7,6 +7,7 @@ import {
 	tableRow,
 } from "../../email/template";
 import { SITE_URL } from "../../site";
+import type { GeoResult } from "./geo-checks";
 
 function urgencyLabel(mobileScore: number): { text: string; color: string } {
 	if (mobileScore < 40) {
@@ -30,6 +31,8 @@ export function buildAdminHtml(data: {
 	projectedScore: number;
 	issues: Array<{ title: string; displayValue?: string; savingsMs?: number }>;
 	securityFlags: string[];
+	seoScore: number | null;
+	geo: GeoResult;
 	timestamp: string;
 }) {
 	const urgency = urgencyLabel(data.mobileScore);
@@ -57,6 +60,25 @@ export function buildAdminHtml(data: {
 					)
 					.join("")
 			: `<li style="margin:0;font-size:13px;color:${c.green}">No flags detected</li>`;
+
+	const blockedList =
+		data.geo.blockedCrawlers.length > 0
+			? ` (${escapeHtml(data.geo.blockedCrawlers.join(", "))})`
+			: "";
+	const geoRows = [
+		tableRow(
+			"SEO score",
+			data.seoScore === null ? "n/a" : `${data.seoScore}/100`
+		),
+		tableRow("llms.txt", data.geo.llmsTxt ? "Yes" : "No"),
+		tableRow("AI crawlers", `${escapeHtml(data.geo.aiCrawlers)}${blockedList}`),
+		tableRow(
+			"Structured data",
+			data.geo.jsonLdTypes.length > 0
+				? escapeHtml(data.geo.jsonLdTypes.join(", "))
+				: "None"
+		),
+	].join("");
 
 	const rows = [
 		tableRow("Name", firstName),
@@ -101,6 +123,10 @@ export function buildAdminHtml(data: {
         <p style="${s.label}">Security flags</p>
         <ul style="margin:0;padding:0 0 0 18px">${securityRows}</ul>
       </div>
+      <div style="margin-bottom:24px">
+        <p style="${s.label}">SEO &amp; AI readiness</p>
+        <table style="border-collapse:collapse;width:100%">${geoRows}</table>
+      </div>
       <a href="${replyHref}" style="${s.button}">Reply to ${firstName}</a>`,
 	});
 }
@@ -122,6 +148,16 @@ const PROSPECT_COPY = {
 		bookCall: "Book a free call",
 		viewWork: "View our work",
 		siteUrl: `${SITE_URL}/en`,
+		seoTitle: "SEO & AI readiness",
+		seoScore: "SEO score",
+		noLlms: "No llms.txt found — AI assistants get no summary of your site.",
+		crawlersBlocked: (bots: string) =>
+			`AI crawlers are blocked in robots.txt: ${bots}`,
+		noJsonLd: "No structured data (JSON-LD) on the homepage",
+		geoAllGood:
+			"AI readiness looks good: llms.txt, crawler access and structured data are in place.",
+		geoMore: "More on SEO & GEO",
+		geoUrl: `${SITE_URL}/en/services/seo-geo`,
 		note: "You're receiving this because you ran a free health report at webvise.io. Reply to this email if you have questions.",
 		textIntro: (url: string) =>
 			`Here's your free WordPress health report for ${url}.`,
@@ -148,6 +184,17 @@ const PROSPECT_COPY = {
 		bookCall: "Kostenloses Gespräch buchen",
 		viewWork: "Projekte ansehen",
 		siteUrl: SITE_URL,
+		seoTitle: "SEO & KI-Sichtbarkeit",
+		seoScore: "SEO-Score",
+		noLlms:
+			"Keine llms.txt gefunden – KI-Assistenten erhalten keine Zusammenfassung Ihrer Website.",
+		crawlersBlocked: (bots: string) =>
+			`KI-Crawler sind in der robots.txt gesperrt: ${bots}`,
+		noJsonLd: "Keine strukturierten Daten (JSON-LD) auf der Startseite",
+		geoAllGood:
+			"Die KI-Sichtbarkeit sieht gut aus: llms.txt, Crawler-Zugriff und strukturierte Daten sind vorhanden.",
+		geoMore: "Mehr zu SEO & GEO",
+		geoUrl: `${SITE_URL}/services/seo-geo`,
 		note: "Sie erhalten diese E-Mail, weil Sie auf webvise.io einen kostenlosen Health Report erstellt haben. Bei Fragen antworten Sie auf diese E-Mail.",
 		textIntro: (url: string) =>
 			`Hier ist Ihr kostenloser WordPress Health Report für ${url}.`,
@@ -165,11 +212,30 @@ export type ProspectLocale = keyof typeof PROSPECT_COPY;
 
 interface ProspectData {
 	desktopScore: number;
+	geo: GeoResult;
 	issues: Array<{ title: string; displayValue?: string }>;
 	locale?: ProspectLocale;
 	mobileScore: number;
 	projectedScore: number;
+	seoScore: number | null;
 	url: string;
+}
+
+type ProspectCopy = (typeof PROSPECT_COPY)[ProspectLocale];
+
+/** Plain-text problems only; values from the audited site are not escaped here. */
+function geoFindings(data: ProspectData, t: ProspectCopy): string[] {
+	const findings: string[] = [];
+	if (!data.geo.llmsTxt) {
+		findings.push(t.noLlms);
+	}
+	if (data.geo.blockedCrawlers.length > 0) {
+		findings.push(t.crawlersBlocked(data.geo.blockedCrawlers.join(", ")));
+	}
+	if (data.geo.jsonLdTypes.length === 0) {
+		findings.push(t.noJsonLd);
+	}
+	return findings.length > 0 ? findings : [t.geoAllGood];
 }
 
 export function prospectSubject(locale: ProspectLocale = "en") {
@@ -192,6 +258,17 @@ export function buildProspectHtml(data: ProspectData) {
 				`<li style="margin:0 0 6px;font-size:14px;color:${c.text}">${escapeHtml(i.title)}${i.displayValue ? ` <span style="color:${c.textMuted}">(${escapeHtml(i.displayValue)})</span>` : ""}</li>`
 		)
 		.join("");
+
+	const geoItems = geoFindings(data, t)
+		.map(
+			(f) =>
+				`<li style="margin:0 0 6px;font-size:14px;color:${c.text}">${escapeHtml(f)}</li>`
+		)
+		.join("");
+	const seoLine =
+		data.seoScore === null
+			? ""
+			: `<p style="margin:0 0 12px;font-size:14px;color:${c.text}">${t.seoScore}: ${scoreBadge(data.seoScore)}</p>`;
 
 	return emailLayout({
 		label: "Health Report",
@@ -226,6 +303,12 @@ export function buildProspectHtml(data: ProspectData) {
       </div>`
 					: ""
 			}
+      <div style="margin-bottom:24px">
+        <p style="${s.label}">${t.seoTitle}</p>
+        ${seoLine}
+        <ul style="margin:0 0 8px;padding:0 0 0 20px">${geoItems}</ul>
+        <a href="${t.geoUrl}" style="${s.link}">${t.geoMore}</a>
+      </div>
       <div style="${s.box}">
         <p style="${s.label};color:${c.brand}">${t.scopeLabel}</p>
         <p style="margin:0;font-size:15px;color:${c.text};line-height:1.6">${t.scope}</p>
@@ -257,6 +340,11 @@ export function prospectText(data: ProspectData) {
 		...data.issues.map(
 			(i) => `- ${i.title}${i.displayValue ? ` (${i.displayValue})` : ""}`
 		),
+		"",
+		t.seoTitle,
+		...(data.seoScore === null ? [] : [`${t.seoScore}: ${data.seoScore}/100`]),
+		...geoFindings(data, t).map((f) => `- ${f}`),
+		`${t.geoMore}: ${t.geoUrl}`,
 		"",
 		`${t.scopeLabel}: ${t.scope}`,
 		"",

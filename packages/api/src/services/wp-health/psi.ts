@@ -33,6 +33,7 @@ export interface PSIResult {
 	lighthouseResult: {
 		categories: {
 			performance: { score: number };
+			seo?: { score: number | null };
 		};
 		audits: Record<string, PSIAudit>;
 	};
@@ -48,6 +49,7 @@ export async function runPageSpeedInsights(
 		strategy,
 		category: "performance",
 	});
+	params.append("category", "seo");
 	if (apiKey) {
 		params.set("key", apiKey);
 	}
@@ -82,6 +84,11 @@ export async function runPageSpeedInsights(
 		throw new PSIError("unknown", message);
 	}
 	return res.json() as Promise<PSIResult>;
+}
+
+export function extractSeoScore(result: PSIResult): number | null {
+	const score = result.lighthouseResult?.categories?.seo?.score;
+	return score == null ? null : Math.round(score * 100);
 }
 
 export function extractCoreWebVitals(result: PSIResult) {

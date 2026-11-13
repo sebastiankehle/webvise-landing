@@ -1,5 +1,6 @@
 import {
 	extractCoreWebVitals,
+	extractSeoScore,
 	extractTopIssues,
 	PSIError,
 	type PSIResult,
@@ -41,7 +42,7 @@ describe("runPageSpeedInsights", () => {
 		expect(url.pathname).toBe("/pagespeedonline/v5/runPagespeed");
 		expect(url.searchParams.get("url")).toBe("https://example.com");
 		expect(url.searchParams.get("strategy")).toBe("mobile");
-		expect(url.searchParams.get("category")).toBe("performance");
+		expect(url.searchParams.getAll("category")).toEqual(["performance", "seo"]);
 		expect(url.searchParams.get("key")).toBe("k123");
 	});
 
@@ -166,5 +167,27 @@ describe("extractTopIssues", () => {
 	it("respects the count cap", () => {
 		const issues = extractTopIssues(sampleResult, 1);
 		expect(issues).toHaveLength(1);
+	});
+});
+
+describe("extractSeoScore", () => {
+	const withCategories = (categories: Record<string, unknown>) =>
+		({ lighthouseResult: { categories, audits: {} } }) as unknown as PSIResult;
+
+	it("returns the SEO score as a rounded 0-100 number", () => {
+		expect(
+			extractSeoScore(
+				withCategories({ performance: { score: 0.5 }, seo: { score: 0.87 } })
+			)
+		).toBe(87);
+	});
+
+	it("returns null when the SEO category is missing or null", () => {
+		expect(
+			extractSeoScore(withCategories({ performance: { score: 0.5 } }))
+		).toBeNull();
+		expect(
+			extractSeoScore(withCategories({ seo: { score: null } }))
+		).toBeNull();
 	});
 });

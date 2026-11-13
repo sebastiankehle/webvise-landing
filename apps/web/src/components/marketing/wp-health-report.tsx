@@ -1,6 +1,7 @@
 "use client";
 
 import { useForm } from "@tanstack/react-form";
+import { Check, X } from "lucide-react";
 import { animate, motion, useMotionValue, useTransform } from "motion/react";
 import NextLink from "next/link";
 import { useLocale, useTranslations } from "next-intl";
@@ -24,6 +25,7 @@ import {
 	Lead,
 	Muted,
 } from "@/components/ui/typography";
+import { Link } from "@/i18n/navigation";
 import { CAL_URL } from "@/lib/cal";
 import { homepageSectionHref } from "@/lib/homepage-section-href";
 import { track } from "@/lib/track";
@@ -42,12 +44,21 @@ interface ReportVital {
 	score: number | null;
 }
 
+interface ReportGeo {
+	aiCrawlers: "allowed" | "partly-blocked" | "blocked" | "unknown";
+	blockedCrawlers: string[];
+	jsonLdTypes: string[];
+	llmsTxt: boolean;
+}
+
 interface ReportData {
 	desktop: { score: number };
+	geo: ReportGeo;
 	issues: ReportIssue[];
 	mobile: { score: number };
 	projectedScore: number;
 	securityFlags: string[];
+	seo: { score: number | null };
 	url: string;
 	vitals?: ReportVital[];
 }
@@ -135,6 +146,56 @@ function ScoreRing({
 	);
 }
 
+function GeoRow({ ok, children }: { ok: boolean; children: React.ReactNode }) {
+	const Icon = ok ? Check : X;
+	return (
+		<li className="flex items-start gap-3 font-normal text-sm">
+			<Icon
+				aria-hidden="true"
+				className={cn(
+					"mt-0.5 size-4 shrink-0",
+					ok ? "text-success" : "text-destructive"
+				)}
+			/>
+			<Body className="text-foreground text-sm">{children}</Body>
+		</li>
+	);
+}
+
+function GeoBlock({ geo }: { geo: ReportGeo }) {
+	const t = useTranslations("wpHealthReport");
+	const bots = geo.blockedCrawlers.join(", ");
+	const crawlerText = {
+		allowed: t("results.geoCrawlersAllowed"),
+		"partly-blocked": t("results.geoCrawlersPartly", { bots }),
+		blocked: t("results.geoCrawlersBlocked"),
+		unknown: t("results.geoCrawlersUnknown"),
+	}[geo.aiCrawlers];
+
+	return (
+		<div className="surface-card mt-4 p-5">
+			<Caption className="block">{t("results.geoTitle")}</Caption>
+			<ul className="mt-3 space-y-2">
+				<GeoRow ok={geo.llmsTxt}>
+					{geo.llmsTxt ? t("results.geoLlmsTxtYes") : t("results.geoLlmsTxtNo")}
+				</GeoRow>
+				<GeoRow ok={geo.aiCrawlers === "allowed"}>{crawlerText}</GeoRow>
+				<GeoRow ok={geo.jsonLdTypes.length > 0}>
+					{geo.jsonLdTypes.length > 0
+						? t("results.geoJsonLdFound", { types: geo.jsonLdTypes.join(", ") })
+						: t("results.geoJsonLdNone")}
+				</GeoRow>
+			</ul>
+			<Link
+				className="mt-4 inline-block text-brand-readable text-sm underline underline-offset-4"
+				href={{ pathname: "/services/[slug]", params: { slug: "seo-geo" } }}
+			>
+				{t("results.geoCta")}
+			</Link>
+		</div>
+	);
+}
+
 function ReportResults({ data }: { data: ReportData }) {
 	const locale = useLocale();
 	const t = useTranslations("wpHealthReport");
@@ -151,13 +212,23 @@ function ReportResults({ data }: { data: ReportData }) {
 			</div>
 
 			{/* Scores row */}
-			<div className="mt-8 grid grid-cols-2 gap-4">
+			<div
+				className={cn(
+					"mt-8 grid gap-4",
+					data.seo.score === null ? "grid-cols-2" : "grid-cols-3"
+				)}
+			>
 				<div className="surface-card flex flex-col items-center justify-center p-4">
 					<ScoreRing label={t("results.mobile")} score={data.mobile.score} />
 				</div>
 				<div className="surface-card flex flex-col items-center justify-center p-4">
 					<ScoreRing label={t("results.desktop")} score={data.desktop.score} />
 				</div>
+				{data.seo.score !== null && (
+					<div className="surface-card flex flex-col items-center justify-center p-4">
+						<ScoreRing label={t("results.seo")} score={data.seo.score} />
+					</div>
+				)}
 			</div>
 
 			{/* Projected score - visually separated */}
@@ -234,6 +305,8 @@ function ReportResults({ data }: { data: ReportData }) {
 					</ul>
 				</div>
 			)}
+
+			<GeoBlock geo={data.geo} />
 
 			{/* Scope review + CTA */}
 			<div className="surface-card mt-4 grid items-center gap-6 p-6 md:grid-cols-[1fr_auto]">

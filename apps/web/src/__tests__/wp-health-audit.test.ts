@@ -37,7 +37,10 @@ const { runWpHealthAudit } = await import(
 
 const PSI_OK = (mobile: number, desktop: number) => ({
 	lighthouseResult: {
-		categories: { performance: { score: mobile / 100 } },
+		categories: {
+			performance: { score: mobile / 100 },
+			seo: { score: 0.87 },
+		},
 		audits: {
 			"first-contentful-paint": {
 				title: "FCP",
@@ -111,6 +114,68 @@ describe("runWpHealthAudit", () => {
 		expect(out.result).not.toHaveProperty("migrationEstimate");
 		expect(out.result.issues.length).toBeGreaterThan(0);
 		expect(out.result.vitals.length).toBeGreaterThan(0);
+		expect(out.result.seo).toEqual({ score: 87 });
+		// The stubbed page serves HTML for llms.txt too, so it does not count.
+		expect(out.result.geo.llmsTxt).toBe(false);
+		expect(out.result.geo.jsonLdTypes).toEqual([]);
+	});
+
+	it("reports llms.txt, blocked AI crawlers and JSON-LD types", async () => {
+		fetchMock.mockImplementation((url: string) => {
+			if (url.includes("googleapis.com")) {
+				return Promise.resolve(
+					new Response(JSON.stringify(PSI_OK(80, 90)), { status: 200 })
+				);
+			}
+			if (url.endsWith("/llms.txt")) {
+				return Promise.resolve(new Response("# Example", { status: 200 }));
+			}
+			if (url.endsWith("/robots.txt")) {
+				return Promise.resolve(
+					new Response("User-agent: GPTBot\nDisallow: /", { status: 200 })
+				);
+			}
+			return Promise.resolve(
+				new Response(
+					'<script type="application/ld+json">{"@type":"Organization"}</script>',
+					{ status: 200 }
+				)
+			);
+		});
+		const out = await runWpHealthAudit({ url: "https://example.com" });
+		expect(out.ok).toBe(true);
+		if (!out.ok) {
+			return;
+		}
+		expect(out.result.geo).toEqual({
+			llmsTxt: true,
+			aiCrawlers: "partly-blocked",
+			blockedCrawlers: ["GPTBot"],
+			jsonLdTypes: ["Organization"],
+		});
+	});
+
+	it("still returns ok when the llms.txt and robots.txt fetches fail", async () => {
+		fetchMock.mockImplementation((url: string) => {
+			if (url.includes("googleapis.com")) {
+				return Promise.resolve(
+					new Response(JSON.stringify(PSI_OK(80, 90)), { status: 200 })
+				);
+			}
+			if (url.endsWith("/llms.txt") || url.endsWith("/robots.txt")) {
+				return Promise.reject(new Error("boom"));
+			}
+			return Promise.resolve(
+				new Response("<html>plain</html>", { status: 200 })
+			);
+		});
+		const out = await runWpHealthAudit({ url: "https://example.com" });
+		expect(out.ok).toBe(true);
+		if (!out.ok) {
+			return;
+		}
+		expect(out.result.geo.llmsTxt).toBe(false);
+		expect(out.result.geo.aiCrawlers).toBe("unknown");
 	});
 
 	it("computes a lower projected score when mobile score is critical", async () => {

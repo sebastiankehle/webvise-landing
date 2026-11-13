@@ -3,6 +3,7 @@ import { leadEvent } from "@webvise-app/db/schema/newsletter";
 import { env } from "@webvise-app/env/server";
 import { and, eq, gt } from "drizzle-orm";
 import { sendEmail } from "../../email/resend";
+import { safeFetchText } from "../../safe-fetch";
 import { UrlValidationError, validateUrl } from "../../url-validation";
 import {
 	buildAdminHtml,
@@ -11,15 +12,21 @@ import {
 	prospectSubject,
 	prospectText,
 } from "./emails";
+import { type GeoResult, runGeoChecks } from "./geo-checks";
 import {
 	extractCoreWebVitals,
+	extractSeoScore,
 	extractTopIssues,
 	PSIError,
 	type PSIErrorCode,
 	type PSIResult,
 	runPageSpeedInsights,
 } from "./psi";
-import { detectTechnology, type TechFlags } from "./tech-detect";
+import {
+	detectTechnologyFromPage,
+	PAGE_FETCH_OPTIONS,
+	type TechFlags,
+} from "./tech-detect";
 
 export interface AuditInput {
 	email?: string;
@@ -31,10 +38,12 @@ export interface AuditInput {
 
 export interface AuditResultData {
 	desktop: { score: number };
+	geo: GeoResult;
 	issues: ReturnType<typeof extractTopIssues>;
 	mobile: { score: number };
 	projectedScore: number;
 	securityFlags: string[];
+	seo: { score: number | null };
 	url: string;
 	vitals: ReturnType<typeof extractCoreWebVitals>;
 }
@@ -106,6 +115,35 @@ async function recordProspectEmail(email: string, url: string): Promise<void> {
 	}
 }
 
+function geoTextLines(seoScore: number | null, geo: GeoResult): string[] {
+	const blocked = geo.blockedCrawlers.length
+		? ` (${geo.blockedCrawlers.join(", ")})`
+		: "";
+	return [
+		`SEO score: ${seoScore === null ? "n/a" : `${seoScore}/100`}`,
+		`llms.txt: ${geo.llmsTxt ? "yes" : "no"}`,
+		`AI crawlers: ${geo.aiCrawlers}${blocked}`,
+		`Structured data: ${geo.jsonLdTypes.length ? geo.jsonLdTypes.join(", ") : "none"}`,
+	];
+}
+
+/** Fetch the homepage once; a failed fetch or check never fails the audit. */
+async function inspectSite(
+	url: string
+): Promise<{ tech: TechFlags; geo: GeoResult }> {
+	let page: Awaited<ReturnType<typeof safeFetchText>> | null = null;
+	try {
+		page = await safeFetchText(url, PAGE_FETCH_OPTIONS);
+	} catch {
+		page = null;
+	}
+	const tech = page
+		? detectTechnologyFromPage(page)
+		: { isWordPress: false, isPHP: false };
+	const geo = await runGeoChecks(url, page?.text ?? null);
+	return { tech, geo };
+}
+
 export async function runWpHealthAudit(
 	input: AuditInput
 ): Promise<AuditOutcome> {
@@ -126,10 +164,13 @@ export async function runWpHealthAudit(
 
 	let mobile: PSIResult;
 	let desktop: PSIResult;
+	let tech: TechFlags;
+	let geo: GeoResult;
 	try {
-		[mobile, desktop] = await Promise.all([
+		[mobile, desktop, { tech, geo }] = await Promise.all([
 			runPageSpeedInsights(input.url, "mobile"),
 			runPageSpeedInsights(input.url, "desktop"),
+			inspectSite(input.url),
 		]);
 	} catch (psiError) {
 		console.error("PageSpeed Insights API failed:", psiError);
@@ -154,7 +195,7 @@ export async function runWpHealthAudit(
 
 	const mobileScore = Math.round(mobileRawScore * 100);
 	const desktopScore = Math.round(desktopRawScore * 100);
-	const tech = await detectTechnology(input.url);
+	const seoScore = extractSeoScore(mobile);
 	const issues = extractTopIssues(mobile);
 	const vitals = extractCoreWebVitals(mobile);
 	const projectedScore = computeProjectedScore(mobileScore);
@@ -187,6 +228,8 @@ export async function runWpHealthAudit(
 					projectedScore,
 					issues,
 					securityFlags,
+					seoScore,
+					geo,
 					timestamp,
 				}),
 				text: [
@@ -208,6 +251,8 @@ export async function runWpHealthAudit(
 					),
 					"",
 					`Security: ${securityFlags.length ? securityFlags.join(", ") : "None"}`,
+					"",
+					...geoTextLines(seoScore, geo),
 				]
 					.filter(Boolean)
 					.join("\n"),
@@ -229,6 +274,8 @@ export async function runWpHealthAudit(
 						desktopScore,
 						projectedScore,
 						issues,
+						seoScore,
+						geo,
 					}),
 					text: prospectText({
 						url: input.url,
@@ -237,6 +284,8 @@ export async function runWpHealthAudit(
 						desktopScore,
 						projectedScore,
 						issues,
+						seoScore,
+						geo,
 					}),
 				}).then(async (sent) => {
 					if (sent.ok) {
@@ -260,6 +309,8 @@ export async function runWpHealthAudit(
 			vitals,
 			projectedScore,
 			securityFlags,
+			seo: { score: seoScore },
+			geo,
 		},
 	};
 }
