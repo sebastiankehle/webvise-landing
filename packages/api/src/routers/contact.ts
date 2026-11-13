@@ -1,4 +1,5 @@
 import { TRPCError } from "@trpc/server";
+import { env } from "@webvise-app/env/server";
 import { z } from "zod";
 import { sendEmail } from "../email/resend";
 import { c, emailLayout, escapeHtml, s, tableRow } from "../email/template";
@@ -83,7 +84,7 @@ export const contactRouter = router({
 				return { success: true };
 			}
 
-			const contactEmail = process.env.CONTACT_EMAIL_TO || "mail@webvise.io";
+			const contactEmail = env.CONTACT_EMAIL_TO;
 			const timestamp = new Date().toLocaleString("en-GB", {
 				dateStyle: "long",
 				timeStyle: "short",

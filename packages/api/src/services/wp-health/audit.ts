@@ -1,5 +1,6 @@
 import { db } from "@webvise-app/db";
 import { leadEvent } from "@webvise-app/db/schema/newsletter";
+import { env } from "@webvise-app/env/server";
 import { and, eq, gt } from "drizzle-orm";
 import { sendEmail } from "../../email/resend";
 import { UrlValidationError, validateUrl } from "../../url-validation";
@@ -108,7 +109,7 @@ async function recordProspectEmail(email: string, url: string): Promise<void> {
 export async function runWpHealthAudit(
 	input: AuditInput
 ): Promise<AuditOutcome> {
-	if (!process.env.GOOGLE_PAGESPEED_API_KEY) {
+	if (!env.GOOGLE_PAGESPEED_API_KEY) {
 		console.error("Missing GOOGLE_PAGESPEED_API_KEY environment variable");
 		return { ok: false, error: { kind: "missing_psi_key" } };
 	}
@@ -160,7 +161,7 @@ export async function runWpHealthAudit(
 	const securityFlags = buildSecurityFlags(input.url, tech);
 
 	if (input.email) {
-		const adminEmail = process.env.CONTACT_EMAIL_TO || "mail@webvise.io";
+		const adminEmail = env.CONTACT_EMAIL_TO;
 		const timestamp = new Date().toLocaleString("en-GB", {
 			dateStyle: "long",
 			timeStyle: "short",

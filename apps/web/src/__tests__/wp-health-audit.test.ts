@@ -4,6 +4,12 @@ const lookupMock = vi.fn();
 const sendEmailMock = vi.fn();
 const findFirstMock = vi.fn();
 const insertValuesMock = vi.fn();
+const envMock = vi.hoisted(() => ({
+	GOOGLE_PAGESPEED_API_KEY: undefined as string | undefined,
+	CONTACT_EMAIL_TO: "mail@webvise.io",
+}));
+
+vi.mock("@webvise-app/env/server", () => ({ env: envMock }));
 
 vi.mock("@webvise-app/db", () => ({
 	db: {
@@ -51,7 +57,6 @@ const PSI_OK = (mobile: number, desktop: number) => ({
 
 describe("runWpHealthAudit", () => {
 	const fetchMock = vi.fn();
-	const ORIG_PSI_KEY = process.env.GOOGLE_PAGESPEED_API_KEY;
 
 	beforeEach(() => {
 		fetchMock.mockReset();
@@ -62,18 +67,13 @@ describe("runWpHealthAudit", () => {
 		findFirstMock.mockResolvedValue(undefined);
 		insertValuesMock.mockResolvedValue(undefined);
 		vi.stubGlobal("fetch", fetchMock);
-		process.env.GOOGLE_PAGESPEED_API_KEY = "psi-key";
+		envMock.GOOGLE_PAGESPEED_API_KEY = "psi-key";
 		// Default: dns resolves to a public IP so validateUrl passes
 		lookupMock.mockResolvedValue([{ address: "93.184.216.34", family: 4 }]);
 	});
 
 	afterEach(() => {
 		vi.unstubAllGlobals();
-		if (ORIG_PSI_KEY === undefined) {
-			delete process.env.GOOGLE_PAGESPEED_API_KEY;
-		} else {
-			process.env.GOOGLE_PAGESPEED_API_KEY = ORIG_PSI_KEY;
-		}
 	});
 
 	function setupPsi(mobile: number, desktop: number) {
@@ -161,7 +161,7 @@ describe("runWpHealthAudit", () => {
 	});
 
 	it("returns missing_psi_key when the env var is unset", async () => {
-		delete process.env.GOOGLE_PAGESPEED_API_KEY;
+		envMock.GOOGLE_PAGESPEED_API_KEY = undefined;
 		const out = await runWpHealthAudit({ url: "https://example.com" });
 		expect(out.ok).toBe(false);
 		expect(out.ok === false && out.error.kind).toBe("missing_psi_key");

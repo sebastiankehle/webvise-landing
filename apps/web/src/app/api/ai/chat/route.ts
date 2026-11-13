@@ -4,6 +4,7 @@ import {
 	getClientIP,
 	rateLimitResponse,
 } from "@webvise-app/api/rate-limit";
+import { env } from "@webvise-app/env/server";
 import { convertToModelMessages, streamText, type UIMessage } from "ai";
 import { NextResponse } from "next/server";
 import { CAL_URL } from "@/lib/cal";
@@ -70,9 +71,7 @@ Do not promise confirmed prices, delivery dates, support coverage, or bookings b
 const BOOKING_LINK_PROMPT = `## Booking link
 The public booking link for a free 30-minute consultation with Sebastian is ${CAL_URL}. When visitors ask to book, schedule, talk, or arrange a consultation, share this exact link as a Markdown link whose target is ${CAL_URL}, for example [book a call](${CAL_URL}) or [Gespräch buchen](${CAL_URL}). Do not invent another booking link.`;
 
-const SYSTEM_PROMPT = `${
-	process.env.AI_CHAT_SYSTEM_PROMPT || DEFAULT_SYSTEM_PROMPT
-}
+const SYSTEM_PROMPT = `${env.AI_CHAT_SYSTEM_PROMPT ?? DEFAULT_SYSTEM_PROMPT}
 
 ${BOOKING_LINK_PROMPT}
 

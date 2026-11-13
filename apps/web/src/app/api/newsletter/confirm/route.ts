@@ -11,6 +11,7 @@ import { sendEmail, setContact } from "@webvise-app/api/email/resend";
 import { unsubscribeUrl } from "@webvise-app/api/email/template";
 import { db } from "@webvise-app/db";
 import { newsletterSubscriber } from "@webvise-app/db/schema/newsletter";
+import { env } from "@webvise-app/env/server";
 import { eq, sql } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { welcomeSourceFromPath } from "@/lib/newsletter-topic";
@@ -220,7 +221,7 @@ export async function POST(request: Request) {
 	const notifyResult = await sendEmail({
 		label: "newsletter-notify",
 		from: "webvise <noreply@webvise.io>",
-		to: process.env.CONTACT_EMAIL_TO || "mail@webvise.io",
+		to: env.CONTACT_EMAIL_TO,
 		subject: `New newsletter subscriber: ${email}`,
 		html: buildSubscriberNotificationHtml({
 			email,

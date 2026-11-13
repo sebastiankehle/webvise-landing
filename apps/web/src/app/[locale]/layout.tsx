@@ -1,5 +1,6 @@
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { env } from "@webvise-app/env/server";
 import type { Metadata } from "next";
 import { Hanken_Grotesk } from "next/font/google";
 import { notFound } from "next/navigation";
@@ -60,7 +61,7 @@ export async function generateMetadata({
 
 	return {
 		verification: {
-			google: process.env.GOOGLE_VERIFICATION_CODE,
+			google: env.GOOGLE_VERIFICATION_CODE,
 		},
 		icons: {
 			icon: { url: "/icon.svg", type: "image/svg+xml" },

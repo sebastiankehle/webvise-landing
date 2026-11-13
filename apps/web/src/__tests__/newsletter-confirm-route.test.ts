@@ -6,6 +6,7 @@ const envMock = vi.hoisted(() => ({
 	BETTER_AUTH_SECRET: "test-secret-that-is-at-least-32-chars!!",
 	NODE_ENV: "test",
 	RESEND_API_KEY: "test-key",
+	CONTACT_EMAIL_TO: "mail@webvise.io",
 }));
 
 vi.mock("@webvise-app/env/server", () => ({

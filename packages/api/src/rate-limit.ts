@@ -16,6 +16,7 @@ interface RateLimitResult {
 const stores = new Map<string, Map<string, RateLimitEntry>>();
 const durableLimiters = new Map<string, Ratelimit>();
 let durableRedis: Redis | null = null;
+let warnedNoDurableRedis = false;
 
 function getStore(name: string): Map<string, RateLimitEntry> {
 	let store = stores.get(name);
@@ -31,6 +32,12 @@ function getDurableRedis(): Redis | null {
 		return null;
 	}
 	if (!(env.UPSTASH_REDIS_REST_URL && env.UPSTASH_REDIS_REST_TOKEN)) {
+		if (env.NODE_ENV === "production" && !warnedNoDurableRedis) {
+			warnedNoDurableRedis = true;
+			console.warn(
+				"[rate-limit] UPSTASH_REDIS_REST_URL/TOKEN are not set; rate limits fall back to per-instance memory."
+			);
+		}
 		return null;
 	}
 	if (!durableRedis) {

@@ -5,11 +5,40 @@ const MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
 const PURPOSE = "newsletter-confirmation";
 
 function getSecret(secret?: string): string {
-	const resolved = secret ?? env.BETTER_AUTH_SECRET;
+	const resolved = secret ?? env.EMAIL_TOKEN_SECRET ?? env.BETTER_AUTH_SECRET;
 	if (!resolved) {
 		throw new Error("Newsletter confirmation token secret is not configured");
 	}
 	return resolved;
+}
+
+// Tokens signed before EMAIL_TOKEN_SECRET existed used BETTER_AUTH_SECRET.
+function getVerifySecrets(secret?: string): string[] {
+	if (secret) {
+		return [secret];
+	}
+	const secrets = [env.EMAIL_TOKEN_SECRET, env.BETTER_AUTH_SECRET].filter(
+		(s): s is string => Boolean(s)
+	);
+	if (secrets.length === 0) {
+		throw new Error("Newsletter confirmation token secret is not configured");
+	}
+	return [...new Set(secrets)];
+}
+
+function signatureMatches(
+	payload: string,
+	signature: string,
+	secrets: string[]
+): boolean {
+	const sigBuf = Buffer.from(signature, "utf-8");
+	return secrets.some((candidate) => {
+		const expectedBuf = Buffer.from(sign(payload, candidate), "utf-8");
+		return (
+			sigBuf.length === expectedBuf.length &&
+			timingSafeEqual(sigBuf, expectedBuf)
+		);
+	});
 }
 
 function sign(payload: string, secret: string): string {
@@ -45,13 +74,7 @@ export function verifyNewsletterConfirmationToken(
 		string,
 	];
 	const payload = `${emailPart}.${issuedAtPart}`;
-	const expected = sign(payload, getSecret(secret));
-	const sigBuf = Buffer.from(signature, "utf-8");
-	const expectedBuf = Buffer.from(expected, "utf-8");
-	if (
-		sigBuf.length !== expectedBuf.length ||
-		!timingSafeEqual(sigBuf, expectedBuf)
-	) {
+	if (!signatureMatches(payload, signature, getVerifySecrets(secret))) {
 		return { ok: false };
 	}
 	const issuedAt = Number(issuedAtPart);

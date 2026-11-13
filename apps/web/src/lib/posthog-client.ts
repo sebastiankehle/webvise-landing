@@ -1,8 +1,9 @@
+import { env } from "@webvise-app/env/web";
 import type { PostHog } from "posthog-js";
 
 import { hasAnalyticsConsent } from "@/lib/consent";
 
-const token = process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN;
+const token = env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN;
 
 // Only run analytics in production. The /ingest reverse proxy does not exist in
 // local dev, so initializing here floods the console with "Failed to fetch".
