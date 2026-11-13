@@ -19,7 +19,6 @@ import { Caption, H1, H2, H3 } from "@/components/ui/typography";
 import { getCaseStudies } from "@/data/case-studies";
 import { Link } from "@/i18n/navigation";
 import { type LocaleParams, pinLocale } from "@/i18n/static-locale";
-import { featureFlags } from "@/lib/feature-flags";
 import { generateAlternates, localizedUrl } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 
@@ -36,19 +35,11 @@ export async function generateMetadata({
 
 	return {
 		title: t("meta.title"),
-		description: t(
-			featureFlags.marketing.aboutNetworkSection
-				? "meta.networkDescription"
-				: "meta.description"
-		),
+		description: t("meta.networkDescription"),
 		alternates: generateAlternates("/about", locale),
 		openGraph: {
 			title: t("meta.title"),
-			description: t(
-				featureFlags.marketing.aboutNetworkSection
-					? "meta.networkDescription"
-					: "meta.description"
-			),
+			description: t("meta.networkDescription"),
 			siteName: "webvise",
 			url: localizedUrl("/about", locale),
 		},
@@ -429,80 +420,70 @@ export default async function AboutPage({ params }: { params: LocaleParams }) {
 				</StaggerChildren>
 			</SectionWrapper>
 
-			{featureFlags.marketing.aboutNetworkSection && (
-				<SectionWrapper id="network" surface="alternate">
-					<div className="grid gap-x-6 gap-y-6 lg:grid-cols-12">
-						<H2 className="lg:col-span-4">{t("network.title")}</H2>
-						<p className="max-w-[62ch] text-foreground text-lg leading-[1.6] lg:col-span-7 lg:col-start-6">
-							{t("network.lead")}
-						</p>
-					</div>
-					<StaggerChildren className="mt-12 grid gap-x-10 gap-y-12 md:mt-16 md:grid-cols-3 lg:gap-x-14">
-						{network.map((member) => {
-							const role = t(`network.members.${member.id}.role`);
-							const article = t(`network.members.${member.id}.article`);
-							return (
-								<div key={member.id}>
-									<div className="flex items-center gap-3">
-										<Image
-											alt=""
-											className="size-12 shrink-0 rounded-full object-cover"
-											height={48}
-											quality={90}
-											src={member.image}
-											width={48}
-										/>
-										<div className="min-w-0 flex-1">
-											<H3>{member.name}</H3>
-											<p className="text-muted-foreground text-sm">{role}</p>
-										</div>
-										<div className="flex shrink-0">
-											<SocialIconButton
-												href={member.linkedin}
-												label={`${member.name}, LinkedIn`}
-											>
-												<svg
-													aria-hidden="true"
-													className="h-4 w-4"
-													fill="currentColor"
-													focusable="false"
-													viewBox="0 0 24 24"
-												>
-													<path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-												</svg>
-											</SocialIconButton>
-											{member.website && (
-												<SocialIconButton
-													href={member.website}
-													label={`${member.name}, Website`}
-												>
-													<LinkIcon aria-hidden="true" className="h-4 w-4" />
-												</SocialIconButton>
-											)}
-										</div>
+			<SectionWrapper id="network" surface="alternate">
+				<div className="grid gap-x-6 gap-y-6 lg:grid-cols-12">
+					<H2 className="lg:col-span-4">{t("network.title")}</H2>
+					<p className="max-w-[62ch] text-foreground text-lg leading-[1.6] lg:col-span-7 lg:col-start-6">
+						{t("network.lead")}
+					</p>
+				</div>
+				<StaggerChildren className="mt-12 grid gap-x-10 gap-y-12 md:mt-16 md:grid-cols-3 lg:gap-x-14">
+					{network.map((member) => {
+						const role = t(`network.members.${member.id}.role`);
+						const article = t(`network.members.${member.id}.article`);
+						return (
+							<div key={member.id}>
+								<div className="flex items-center gap-3">
+									<Image
+										alt=""
+										className="size-12 shrink-0 rounded-full object-cover"
+										height={48}
+										quality={90}
+										src={member.image}
+										width={48}
+									/>
+									<div className="min-w-0 flex-1">
+										<H3>{member.name}</H3>
+										<p className="text-muted-foreground text-sm">{role}</p>
 									</div>
-									<p className="mt-4 text-base text-foreground/80 leading-[1.6]">
-										{article}
-									</p>
+									<div className="flex shrink-0">
+										<SocialIconButton
+											href={member.linkedin}
+											label={`${member.name}, LinkedIn`}
+										>
+											<svg
+												aria-hidden="true"
+												className="h-4 w-4"
+												fill="currentColor"
+												focusable="false"
+												viewBox="0 0 24 24"
+											>
+												<path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+											</svg>
+										</SocialIconButton>
+										{member.website && (
+											<SocialIconButton
+												href={member.website}
+												label={`${member.name}, Website`}
+											>
+												<LinkIcon aria-hidden="true" className="h-4 w-4" />
+											</SocialIconButton>
+										)}
+									</div>
 								</div>
-							);
-						})}
-					</StaggerChildren>
-				</SectionWrapper>
-			)}
+								<p className="mt-4 text-base text-foreground/80 leading-[1.6]">
+									{article}
+								</p>
+							</div>
+						);
+					})}
+				</StaggerChildren>
+			</SectionWrapper>
 
-			{featureFlags.marketing.aboutNetworkSection &&
-				featureFlags.marketing.aboutPartnerForm && (
-					<BecomePartner surface="inverted" />
-				)}
+			<BecomePartner surface="inverted" />
 
 			{/* Skills */}
-			<SectionWrapper
-				id="skills"
-				surface={
-					featureFlags.marketing.aboutNetworkSection ? "default" : "alternate"
-				}
-			>
+			<SectionWrapper id="skills" surface="default">
 				<H2>{t("stack.title")}</H2>
 				<div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-6">
 					{stackSections.map(({ key, wide, skills }) => (

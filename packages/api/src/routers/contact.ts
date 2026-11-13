@@ -5,15 +5,6 @@ import { c, emailLayout, escapeHtml, s, tableRow } from "../email/template";
 import { rateLimitedProcedure, router } from "../index";
 import { syncContactToAttio } from "../services/attio";
 
-const SERVICE_LABELS: Record<string, string> = {
-	"landing-pages": "Landing Pages",
-	"wordpress-migration": "WordPress Migration",
-	"ai-consulting": "AI Consulting",
-	"mvp-development": "MVP Development",
-	"ai-automation": "AI Automation",
-	"full-stack-applications": "Full-Stack Applications",
-};
-
 function buildContactHtml(data: {
 	name: string;
 	email: string;
@@ -26,9 +17,7 @@ function buildContactHtml(data: {
 	const email = escapeHtml(data.email);
 	const company = data.company ? escapeHtml(data.company) : undefined;
 	const message = data.message ? escapeHtml(data.message) : null;
-	const serviceLabel = data.service
-		? escapeHtml(SERVICE_LABELS[data.service] ?? data.service)
-		: null;
+	const serviceLabel = data.service ? escapeHtml(data.service) : null;
 
 	const rows = [
 		tableRow("Name", name),
@@ -100,9 +89,7 @@ export const contactRouter = router({
 				timeStyle: "short",
 				timeZone: "Europe/Berlin",
 			});
-			const serviceLabel = input.service
-				? (SERVICE_LABELS[input.service] ?? input.service)
-				: null;
+			const serviceLabel = input.service ?? null;
 
 			const subject = [
 				input.company ? `${input.name} (${input.company})` : input.name,

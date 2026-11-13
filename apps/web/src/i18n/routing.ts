@@ -33,8 +33,5 @@ export const routing = defineRouting({
 			de: "/impressum",
 		},
 		"/media": "/media",
-		"/login": "/login",
-		"/dashboard": "/dashboard",
-		"/ai": "/ai",
 	},
 });
