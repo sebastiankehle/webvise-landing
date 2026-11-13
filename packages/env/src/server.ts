@@ -32,6 +32,14 @@ export const env = createEnv({
 			.enum(["development", "production", "test"])
 			.default("development"),
 	},
-	runtimeEnv: process.env,
+	// The Upstash integration on Vercel names its REST credentials
+	// KV_REST_API_URL / KV_REST_API_TOKEN; accept those as well.
+	runtimeEnv: {
+		...process.env,
+		UPSTASH_REDIS_REST_URL:
+			process.env.UPSTASH_REDIS_REST_URL || process.env.KV_REST_API_URL,
+		UPSTASH_REDIS_REST_TOKEN:
+			process.env.UPSTASH_REDIS_REST_TOKEN || process.env.KV_REST_API_TOKEN,
+	},
 	emptyStringAsUndefined: true,
 });

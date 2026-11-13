@@ -48,7 +48,7 @@ describe("newsletterRouter.subscribe", () => {
 		).resolves.toEqual({ success: true });
 
 		expect(fetchMock).toHaveBeenCalledOnce();
-		const [url, init] = fetchMock.mock.calls[0];
+		const [url, init] = fetchMock.mock.calls[0] ?? [];
 		expect(url).toBe("https://api.resend.com/emails");
 		const body = JSON.parse(init.body);
 		expect(body.subject).toBe("Confirm your webvise newsletter subscription");
