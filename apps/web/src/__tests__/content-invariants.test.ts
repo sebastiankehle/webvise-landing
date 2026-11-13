@@ -1,17 +1,11 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import { describe, expect, it, vi } from "vitest";
+import { REPORTS } from "@webvise-app/api/reports";
+import { describe, expect, it } from "vitest";
 import { z } from "zod";
 import { serviceDecks } from "@/data/decks";
 import { services } from "@/data/services";
 import { customSystems } from "@/data/systems";
-
-vi.mock("@webvise-app/env/server", () => ({
-	env: { NODE_ENV: "test" },
-}));
-vi.mock("@webvise-app/db", () => ({ db: {} }));
-
-const { REPORTS } = await import("@webvise-app/api/routers/report-download");
 
 const LOCALES = ["en", "de"] as const;
 const WEB_DIR = join(import.meta.dirname, "../..");
