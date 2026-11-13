@@ -1,36 +1,32 @@
 "use client";
 
 import { useForm } from "@tanstack/react-form";
-import { Check, X } from "lucide-react";
+import { Check, Loader2, X } from "lucide-react";
 import { animate, motion, useMotionValue, useTransform } from "motion/react";
 import NextLink from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import z from "zod";
 
+import { ArrowLink, actionVariants } from "@/components/marketing/action";
 import {
 	ConstructedGrid,
 	GridContainer,
 } from "@/components/marketing/section-wrapper";
-import { Button } from "@/components/ui/button";
 import { FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { SubmitButton } from "@/components/ui/submit-button";
-import {
-	Body,
-	Caption,
-	H1,
-	H2,
-	Label,
-	Lead,
-	Muted,
-} from "@/components/ui/typography";
-import { Link } from "@/i18n/navigation";
+import { Body, H1, H2, H3, Lead, Muted } from "@/components/ui/typography";
 import { CAL_URL } from "@/lib/cal";
 import { homepageSectionHref } from "@/lib/homepage-section-href";
 import { track } from "@/lib/track";
 import { cn } from "@/lib/utils";
 import { trpcClient } from "@/utils/trpc";
+
+// The site's form controls: 44 px fields with 16 px text, and a button of the
+// same height beside them.
+const fieldClassName =
+	"h-11 rounded-sm bg-background px-3.5 text-base md:text-base";
+const submitClassName = actionVariants({ size: "md", className: "h-11" });
 
 interface ReportIssue {
 	displayValue?: string;
@@ -63,32 +59,36 @@ interface ReportData {
 	vitals?: ReportVital[];
 }
 
-function scoreColor(score: number | null) {
+// Panels, headings and ruled rows as the rest of the site draws them.
+const panelClassName = "surface-card p-6 md:p-8";
+const ruleClassName = "border-foreground/[0.08]";
+
+// Text and ring follow the surface, so the colours hold on light and dark.
+function scoreTone(score: number | null) {
 	if (score === null) {
-		return { text: "text-muted-foreground", stroke: "stroke-muted-foreground" };
+		return "text-muted-foreground";
 	}
 	if (score >= 90) {
-		return { text: "text-success", stroke: "stroke-success" };
+		return "text-success";
 	}
 	if (score >= 50) {
-		return { text: "text-brand-readable", stroke: "stroke-brand" };
+		return "text-brand-readable";
 	}
-	return { text: "text-destructive", stroke: "stroke-destructive" };
+	return "text-destructive";
 }
 
+// Lighthouse's own gauge: radius 56 in a 120 box.
+const RING = 2 * Math.PI * 56;
+
 function ScoreRing({
-	score,
+	large = false,
 	label,
-	size = 72,
+	score,
 }: {
-	score: number;
+	large?: boolean;
 	label: string;
-	size?: number;
+	score: number;
 }) {
-	const radius = (size - 6) / 2;
-	const circumference = 2 * Math.PI * radius;
-	const offset = circumference - (score / 100) * circumference;
-	const { text, stroke } = scoreColor(score);
 	const count = useMotionValue(0);
 	const rounded = useTransform(count, (v) => Math.round(v));
 
@@ -101,47 +101,111 @@ function ScoreRing({
 	}, [count, score]);
 
 	return (
-		<div className="flex flex-col items-center gap-1.5">
-			<div className="relative" style={{ width: size, height: size }}>
+		<div className="flex flex-col items-center gap-3">
+			<span
+				className={cn(
+					"relative grid place-items-center",
+					large ? "size-32" : "size-20 sm:size-28",
+					scoreTone(score)
+				)}
+			>
 				<svg
 					aria-hidden="true"
-					className="-rotate-90"
-					height={size}
-					width={size}
+					className="absolute inset-0 size-full -rotate-90"
+					viewBox="0 0 120 120"
 				>
 					<circle
-						className="text-border"
-						cx={size / 2}
-						cy={size / 2}
-						fill="none"
-						r={radius}
-						stroke="currentColor"
-						strokeWidth={3}
+						cx="60"
+						cy="60"
+						fill="currentColor"
+						fillOpacity="0.1"
+						r="56"
 					/>
 					<motion.circle
-						animate={{ strokeDashoffset: offset }}
-						className={stroke}
-						cx={size / 2}
-						cy={size / 2}
+						animate={{ strokeDashoffset: RING - (RING * score) / 100 }}
+						cx="60"
+						cy="60"
 						fill="none"
-						initial={{ strokeDashoffset: circumference }}
-						r={radius}
-						strokeDasharray={circumference}
-						strokeLinecap="butt"
-						strokeWidth={3}
+						initial={{ strokeDashoffset: RING }}
+						r="56"
+						stroke="currentColor"
+						strokeDasharray={RING}
+						strokeLinecap="round"
+						strokeWidth="8"
 						transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
 					/>
 				</svg>
-				<Body
+				<motion.span
 					className={cn(
-						"absolute inset-0 flex items-center justify-center font-medium text-base",
-						text
+						"font-display tabular-nums leading-none tracking-[-0.03em]",
+						large ? "text-4xl" : "text-2xl sm:text-3xl"
 					)}
 				>
-					<motion.span>{rounded}</motion.span>
-				</Body>
+					{rounded}
+				</motion.span>
+			</span>
+			<span className="text-base text-foreground">{label}</span>
+		</div>
+	);
+}
+
+/** The report's title and the address it ran on. */
+function ReportHeader({ url }: { url: string }) {
+	const t = useTranslations("wpHealthReport");
+	return (
+		<div className="flex flex-col gap-2 md:flex-row md:items-baseline md:justify-between">
+			<H2>{t("results.title")}</H2>
+			<p className="text-base text-muted-foreground">
+				{t("results.resultsFor")} <span className="text-foreground">{url}</span>
+			</p>
+		</div>
+	);
+}
+
+/** One tile per measured score, side by side. */
+function ScoreTiles({
+	scores,
+}: {
+	scores: { label: string; score: number }[];
+}) {
+	return (
+		<div
+			className={cn(
+				"grid gap-3 sm:gap-5",
+				scores.length === 3 ? "grid-cols-3" : "grid-cols-2"
+			)}
+		>
+			{scores.map((item) => (
+				<div
+					className="surface-card flex justify-center px-2 py-6 sm:px-4 sm:py-7"
+					key={item.label}
+				>
+					<ScoreRing label={item.label} score={item.score} />
+				</div>
+			))}
+		</div>
+	);
+}
+
+/** What the same site would score once rebuilt. */
+function ProjectedScore({ score }: { score: number }) {
+	const t = useTranslations("wpHealthReport");
+	return (
+		<div
+			className={cn(
+				panelClassName,
+				"grid items-center gap-8 md:grid-cols-[1fr_auto] md:gap-12"
+			)}
+		>
+			<div>
+				<H3 className="text-xl">{t("results.projectedLabel")}</H3>
+				<p className="mt-2 max-w-[52ch] text-base text-muted-foreground leading-[1.6]">
+					{t("results.projectedHint")}
+				</p>
 			</div>
-			<Caption>{label}</Caption>
+			<div className="justify-self-center md:px-6">
+				<ScoreRing label={t("results.afterNextjs")} large score={score} />
+			</div>
 		</div>
 	);
 }
@@ -149,15 +213,20 @@ function ScoreRing({
 function GeoRow({ ok, children }: { ok: boolean; children: React.ReactNode }) {
 	const Icon = ok ? Check : X;
 	return (
-		<li className="flex items-start gap-3 font-normal text-sm">
+		<li
+			className={cn(
+				"flex items-start gap-3 border-b py-3 text-base text-foreground leading-[1.6]",
+				ruleClassName
+			)}
+		>
 			<Icon
 				aria-hidden="true"
 				className={cn(
-					"mt-0.5 size-4 shrink-0",
+					"mt-1 size-4 shrink-0",
 					ok ? "text-success" : "text-destructive"
 				)}
 			/>
-			<Body className="text-foreground text-sm">{children}</Body>
+			{children}
 		</li>
 	);
 }
@@ -173,9 +242,9 @@ function GeoBlock({ geo }: { geo: ReportGeo }) {
 	}[geo.aiCrawlers];
 
 	return (
-		<div className="surface-card mt-4 p-5">
-			<Caption className="block">{t("results.geoTitle")}</Caption>
-			<ul className="mt-3 space-y-2">
+		<div className={panelClassName}>
+			<H3 className="text-xl">{t("results.geoTitle")}</H3>
+			<ul className={cn("mt-5 border-t", ruleClassName)}>
 				<GeoRow ok={geo.llmsTxt}>
 					{geo.llmsTxt ? t("results.geoLlmsTxtYes") : t("results.geoLlmsTxtNo")}
 				</GeoRow>
@@ -186,12 +255,12 @@ function GeoBlock({ geo }: { geo: ReportGeo }) {
 						: t("results.geoJsonLdNone")}
 				</GeoRow>
 			</ul>
-			<Link
-				className="mt-4 inline-block text-brand-readable text-sm underline underline-offset-4"
+			<ArrowLink
+				className="mt-6"
 				href={{ pathname: "/services/[slug]", params: { slug: "seo-geo" } }}
 			>
 				{t("results.geoCta")}
-			</Link>
+			</ArrowLink>
 		</div>
 	);
 }
@@ -202,151 +271,125 @@ function ReportResults({ data }: { data: ReportData }) {
 
 	return (
 		<div className="stagger-visible">
-			{/* Header */}
-			<div className="flex flex-col gap-1 md:flex-row md:items-baseline md:justify-between">
-				<H2>{t("results.title")}</H2>
-				<Muted>
-					{t("results.resultsFor")}{" "}
-					<Label className="font-medium text-foreground">{data.url}</Label>
-				</Muted>
-			</div>
+			<ReportHeader url={data.url} />
 
-			{/* Scores row */}
-			<div
-				className={cn(
-					"mt-8 grid gap-4",
-					data.seo.score === null ? "grid-cols-2" : "grid-cols-3"
-				)}
-			>
-				<div className="surface-card flex flex-col items-center justify-center p-4">
-					<ScoreRing label={t("results.mobile")} score={data.mobile.score} />
-				</div>
-				<div className="surface-card flex flex-col items-center justify-center p-4">
-					<ScoreRing label={t("results.desktop")} score={data.desktop.score} />
-				</div>
-				{data.seo.score !== null && (
-					<div className="surface-card flex flex-col items-center justify-center p-4">
-						<ScoreRing label={t("results.seo")} score={data.seo.score} />
-					</div>
-				)}
-			</div>
+			<div className="mt-10 grid gap-5">
+				<ScoreTiles
+					scores={[
+						{ label: t("results.mobile"), score: data.mobile.score },
+						{ label: t("results.desktop"), score: data.desktop.score },
+						...(data.seo.score === null
+							? []
+							: [{ label: t("results.seo"), score: data.seo.score }]),
+					]}
+				/>
 
-			{/* Projected score - visually separated */}
-			<div className="surface-card mt-4 p-5">
-				<Caption className="mb-3 block text-center text-brand-readable">
-					{t("results.projectedLabel")}
-				</Caption>
-				<div className="flex justify-center">
-					<ScoreRing
-						label={t("results.afterNextjs")}
-						score={data.projectedScore}
-						size={88}
-					/>
-				</div>
-				<Caption className="mt-3 block text-center">
-					{t("results.projectedHint")}
-				</Caption>
-			</div>
+				<ProjectedScore score={data.projectedScore} />
 
-			{/* Core Web Vitals with explanations */}
-			{data.vitals && data.vitals.length > 0 && (
-				<div className="surface-card mt-4 overflow-hidden">
-					<div className="border-border/40 border-b px-5 py-3">
-						<Caption className="block">{t("results.webVitalsTitle")}</Caption>
-						<Caption className="mt-1 block">
+				{/* Core Web Vitals, each with what it means for a visitor */}
+				{data.vitals && data.vitals.length > 0 && (
+					<div className={panelClassName}>
+						<H3 className="text-xl">{t("results.webVitalsTitle")}</H3>
+						<p className="mt-2 max-w-[60ch] text-base text-muted-foreground leading-[1.6]">
 							{t("results.webVitalsSubtitle")}
-						</Caption>
-					</div>
-					<div className="divide-y divide-border/40">
-						{data.vitals.map((vital) => {
-							const { text } = scoreColor(vital.score);
-							const explanationKey =
-								`results.vitalExplanations.${vital.label}` as const;
-							return (
-								<div
-									className="flex items-start gap-4 px-5 py-3"
-									key={vital.label}
-								>
+						</p>
+						<dl className={cn("mt-6 border-t", ruleClassName)}>
+							{data.vitals.map((vital) => {
+								const explanationKey =
+									`results.vitalExplanations.${vital.label}` as const;
+								return (
 									<div
-										className="flex shrink-0 flex-col items-center gap-0.5"
-										style={{ minWidth: 48 }}
+										className={cn(
+											"grid gap-x-8 gap-y-2 border-b py-5 md:grid-cols-[9rem_1fr]",
+											ruleClassName
+										)}
+										key={vital.label}
 									>
-										<Body className={cn("font-medium text-sm", text)}>
-											{vital.displayValue}
-										</Body>
-										<Caption>{vital.label}</Caption>
+										<dt className="flex flex-col-reverse gap-1.5">
+											<span className="text-muted-foreground text-sm">
+												{vital.label}
+											</span>
+											<span
+												className={cn(
+													"font-display text-2xl tabular-nums leading-none",
+													scoreTone(vital.score)
+												)}
+											>
+												{vital.displayValue}
+											</span>
+										</dt>
+										<dd className="text-base text-foreground/75 leading-[1.6]">
+											{t.has(explanationKey)
+												? t(explanationKey)
+												: t("results.vitalExplanations.default")}
+										</dd>
 									</div>
-									<Caption className="leading-relaxed">
-										{t.has(explanationKey)
-											? t(explanationKey)
-											: t("results.vitalExplanations.default")}
-									</Caption>
-								</div>
-							);
-						})}
+								);
+							})}
+						</dl>
 					</div>
-				</div>
-			)}
+				)}
 
-			{/* Security flags - only show if present */}
-			{data.securityFlags.length > 0 && (
-				<div className="surface-card mt-4 p-5">
-					<Caption className="block">{t("results.securityRisks")}</Caption>
-					<ul className="mt-3 space-y-2">
-						{data.securityFlags.map((flag) => (
-							<li
-								className="flex items-start gap-3 font-normal text-sm"
-								key={flag}
-							>
-								<span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand" />
-								<Body className="text-foreground text-sm">{flag}</Body>
-							</li>
-						))}
-					</ul>
-				</div>
-			)}
+				{/* Security flags - only show if present */}
+				{data.securityFlags.length > 0 && (
+					<div className={panelClassName}>
+						<H3 className="text-xl">{t("results.securityRisks")}</H3>
+						<ul className={cn("mt-5 border-t", ruleClassName)}>
+							{data.securityFlags.map((flag) => (
+								<li
+									className={cn(
+										"border-b py-3 text-base text-foreground leading-[1.6]",
+										ruleClassName
+									)}
+									key={flag}
+								>
+									{flag}
+								</li>
+							))}
+						</ul>
+					</div>
+				)}
 
-			<GeoBlock geo={data.geo} />
+				<GeoBlock geo={data.geo} />
 
-			{/* Scope review + CTA */}
-			<div className="surface-card mt-4 grid items-center gap-6 p-6 md:grid-cols-[1fr_auto]">
-				<div>
-					<Caption className="block">{t("results.scopeReview")}</Caption>
-					<Muted className="mt-2 leading-relaxed">
-						{t("results.migrationText")}
-					</Muted>
-				</div>
-				<div className="flex flex-wrap gap-3">
-					<Button
-						onClick={() =>
-							track("book_call_clicked", { location: "analyzer_results" })
-						}
-						render={
-							// biome-ignore lint/a11y/useAnchorContent: content provided by Button children
-							<a href={CAL_URL} rel="noopener noreferrer" target="_blank" />
-						}
-						variant="brand"
-					>
-						{t("results.bookCall")}
-					</Button>
-					<Button
-						className=""
-						onClick={() =>
-							track("cta_clicked", {
-								location: "analyzer_results",
-								variant: "contact",
-							})
-						}
-						render={
-							<NextLink
-								aria-label={t("results.getInTouch")}
-								href={homepageSectionHref("contact", locale)}
-							/>
-						}
-						variant="outline"
-					>
-						{t("results.getInTouch")}
-					</Button>
+				{/* Scope review + CTA */}
+				<div
+					className={cn(
+						panelClassName,
+						"grid items-center gap-6 md:grid-cols-[1fr_auto] md:gap-12"
+					)}
+				>
+					<div>
+						<H3 className="text-xl">{t("results.scopeReview")}</H3>
+						<p className="mt-2 max-w-[60ch] text-base text-muted-foreground leading-[1.6]">
+							{t("results.migrationText")}
+						</p>
+					</div>
+					<div className="flex flex-wrap gap-3">
+						<a
+							className={actionVariants({ size: "md" })}
+							href={CAL_URL}
+							onClick={() =>
+								track("book_call_clicked", { location: "analyzer_results" })
+							}
+							rel="noopener noreferrer"
+							target="_blank"
+						>
+							{t("results.bookCall")}
+						</a>
+						<NextLink
+							className={actionVariants({ size: "md", variant: "quiet" })}
+							href={homepageSectionHref("contact", locale)}
+							onClick={() =>
+								track("cta_clicked", {
+									location: "analyzer_results",
+									variant: "contact",
+								})
+							}
+						>
+							{t("results.getInTouch")}
+						</NextLink>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -390,84 +433,62 @@ function TeaserResults({
 
 	return (
 		<div className="stagger-visible">
-			<div className="flex flex-col gap-1 md:flex-row md:items-baseline md:justify-between">
-				<H2>{t("results.title")}</H2>
-				<Muted>
-					{t("results.resultsFor")}{" "}
-					<Label className="font-medium text-foreground">{data.url}</Label>
-				</Muted>
-			</div>
+			<ReportHeader url={data.url} />
 
-			{/* Scores row */}
-			<div className="mt-8 grid grid-cols-2 gap-4">
-				<div className="surface-card flex flex-col items-center justify-center p-4">
-					<ScoreRing label={t("results.mobile")} score={data.mobile.score} />
-				</div>
-				<div className="surface-card flex flex-col items-center justify-center p-4">
-					<ScoreRing label={t("results.desktop")} score={data.desktop.score} />
-				</div>
-			</div>
+			<div className="mt-10 grid gap-5">
+				<ScoreTiles
+					scores={[
+						{ label: t("results.mobile"), score: data.mobile.score },
+						{ label: t("results.desktop"), score: data.desktop.score },
+					]}
+				/>
 
-			{/* Projected score */}
-			<div className="surface-card mt-4 p-5">
-				<Caption className="mb-3 block text-center text-brand-readable">
-					{t("results.projectedLabel")}
-				</Caption>
-				<div className="flex justify-center">
-					<ScoreRing
-						label={t("results.afterNextjs")}
-						score={data.projectedScore}
-						size={88}
-					/>
-				</div>
-				<Caption className="mt-3 block text-center">
-					{t("results.projectedHint")}
-				</Caption>
-			</div>
+				<ProjectedScore score={data.projectedScore} />
 
-			{/* Email gate */}
-			<form
-				className="surface-card mt-6 p-6"
-				noValidate
-				onSubmit={handleUnlock}
-			>
-				<Body className="font-medium text-sm">{t("gate.title")}</Body>
-				<Caption className="mt-1 block">{t("gate.subtitle")}</Caption>
-				<div className="mt-4 grid gap-3 md:grid-cols-[1fr_1fr_auto]">
-					<FormItem>
-						<FormLabel className="sr-only" htmlFor={emailInputId}>
-							{t("form.email")}
-						</FormLabel>
-						<Input
-							aria-invalid={!!emailError}
-							className="h-10 text-base md:h-8 md:text-xs"
-							id={emailInputId}
-							onChange={(e) => setEmail(e.target.value)}
-							placeholder={t("form.emailPlaceholder")}
-							required
-							type="email"
-							value={email}
-						/>
-						<FormMessage errors={emailError ? [emailError] : []} />
-					</FormItem>
-					<FormItem>
-						<FormLabel className="sr-only" htmlFor={firstNameInputId}>
-							{t("form.name")}
-						</FormLabel>
-						<Input
-							className="h-10 text-base md:h-8 md:text-xs"
-							id={firstNameInputId}
-							onChange={(e) => setFirstName(e.target.value)}
-							placeholder={t("form.namePlaceholder")}
-							value={firstName}
-						/>
-					</FormItem>
-					<Button className="md:h-8 md:text-xs" type="submit" variant="brand">
-						{t("gate.viewReport")}
-					</Button>
-				</div>
-				<Caption className="mt-3 block">{t("gate.privacy")}</Caption>
-			</form>
+				{/* Email gate */}
+				<form className={panelClassName} noValidate onSubmit={handleUnlock}>
+					<H3 className="text-xl">{t("gate.title")}</H3>
+					<p className="mt-2 max-w-[60ch] text-base text-muted-foreground leading-[1.6]">
+						{t("gate.subtitle")}
+					</p>
+					<div className="mt-6 grid gap-3 md:grid-cols-[1fr_1fr_auto] md:items-start">
+						<FormItem>
+							<FormLabel className="sr-only" htmlFor={emailInputId}>
+								{t("form.email")}
+							</FormLabel>
+							<Input
+								aria-invalid={!!emailError}
+								className={fieldClassName}
+								id={emailInputId}
+								onChange={(e) => setEmail(e.target.value)}
+								placeholder={t("form.emailPlaceholder")}
+								required
+								type="email"
+								value={email}
+							/>
+							<FormMessage errors={emailError ? [emailError] : []} />
+						</FormItem>
+						<FormItem>
+							<FormLabel className="sr-only" htmlFor={firstNameInputId}>
+								{t("form.name")}
+							</FormLabel>
+							<Input
+								className={fieldClassName}
+								id={firstNameInputId}
+								onChange={(e) => setFirstName(e.target.value)}
+								placeholder={t("form.namePlaceholder")}
+								value={firstName}
+							/>
+						</FormItem>
+						<button className={submitClassName} type="submit">
+							{t("gate.viewReport")}
+						</button>
+					</div>
+					<p className="mt-4 text-muted-foreground text-sm">
+						{t("gate.privacy")}
+					</p>
+				</form>
+			</div>
 		</div>
 	);
 }
@@ -561,7 +582,7 @@ export default function WpHealthReport() {
 								<form
 									aria-label={t("form.ariaLabel")}
 									autoComplete="off"
-									className="space-y-4"
+									className="grid gap-3"
 									noValidate
 									onSubmit={(e) => {
 										e.preventDefault();
@@ -569,56 +590,68 @@ export default function WpHealthReport() {
 										form.handleSubmit();
 									}}
 								>
-									<form.Field
-										name="url"
-										validators={{
-											onSubmit: ({ value }) => {
-												if (!value.trim()) {
-													return t("errors.urlRequired");
-												}
-												if (!isValidUrl(value)) {
-													return t("errors.urlInvalid");
-												}
-												return;
-											},
-										}}
+									<FormLabel
+										className="font-medium text-base text-foreground"
+										htmlFor="url"
 									>
-										{(field) => (
-											<FormItem>
-												<FormLabel htmlFor={field.name}>
-													{t("form.url")}
-												</FormLabel>
-												<Input
-													aria-invalid={field.state.meta.errors.length > 0}
-													autoComplete="off"
-													className="h-10 text-base md:h-8 md:text-xs"
-													id={field.name}
-													name={field.name}
-													onBlur={field.handleBlur}
-													onChange={(e) => field.handleChange(e.target.value)}
-													placeholder={t("form.urlPlaceholder")}
-													type="url"
-													value={field.state.value}
-												/>
-												<FormMessage errors={field.state.meta.errors} />
-											</FormItem>
-										)}
-									</form.Field>
-									<form.Subscribe
-										selector={(state) => [state.canSubmit, state.isSubmitting]}
-									>
-										{([canSubmit, isSubmitting]) => (
-											<SubmitButton
-												className="self-start md:h-8 md:text-xs"
-												disabled={!canSubmit}
-												isSubmitting={isSubmitting}
-												size="lg"
-												variant="brand"
-											>
-												{t("form.submit")}
-											</SubmitButton>
-										)}
-									</form.Subscribe>
+										{t("form.url")}
+									</FormLabel>
+									<div className="flex flex-col gap-3 sm:flex-row sm:items-start">
+										<form.Field
+											name="url"
+											validators={{
+												onSubmit: ({ value }) => {
+													if (!value.trim()) {
+														return t("errors.urlRequired");
+													}
+													if (!isValidUrl(value)) {
+														return t("errors.urlInvalid");
+													}
+													return;
+												},
+											}}
+										>
+											{(field) => (
+												<FormItem className="flex-1">
+													<Input
+														aria-invalid={field.state.meta.errors.length > 0}
+														autoComplete="off"
+														className={fieldClassName}
+														id={field.name}
+														name={field.name}
+														onBlur={field.handleBlur}
+														onChange={(e) => field.handleChange(e.target.value)}
+														placeholder={t("form.urlPlaceholder")}
+														type="url"
+														value={field.state.value}
+													/>
+													<FormMessage errors={field.state.meta.errors} />
+												</FormItem>
+											)}
+										</form.Field>
+										<form.Subscribe
+											selector={(state) => [
+												state.canSubmit,
+												state.isSubmitting,
+											]}
+										>
+											{([canSubmit, isSubmitting]) => (
+												<button
+													className={submitClassName}
+													disabled={!canSubmit || isSubmitting}
+													type="submit"
+												>
+													{isSubmitting && (
+														<Loader2
+															aria-hidden="true"
+															className="size-4 animate-spin"
+														/>
+													)}
+													{t("form.submit")}
+												</button>
+											)}
+										</form.Subscribe>
+									</div>
 									<div aria-atomic="true" aria-live="polite">
 										{errorMessage && (
 											<Body className="text-destructive text-sm" role="alert">
@@ -630,21 +663,27 @@ export default function WpHealthReport() {
 							</div>
 						</div>
 
-						<div className="mt-14 grid gap-5 md:grid-cols-3">
+						{/* Three steps as ruled columns, numbered like the build list on
+						    a case study */}
+						<ol className="mt-16 grid gap-x-6 md:mt-20 md:grid-cols-3">
 							{[0, 1, 2].map((i) => (
-								<div className="surface-card p-6 md:p-7" key={i}>
-									<Caption className="block text-brand-readable">
+								<li
+									className={cn("border-t pt-5 pb-8 md:pb-0", ruleClassName)}
+									key={i}
+								>
+									<span
+										aria-hidden="true"
+										className="text-muted-foreground text-sm tabular-nums"
+									>
 										{String(i + 1).padStart(2, "0")}
-									</Caption>
-									<Body className="mt-5 font-medium text-foreground text-sm">
-										{t(`hero.steps.${i}.title`)}
-									</Body>
-									<Muted className="mt-1.5 text-sm leading-relaxed">
+									</span>
+									<H3 className="mt-3 text-xl">{t(`hero.steps.${i}.title`)}</H3>
+									<p className="mt-2 max-w-[38ch] text-base text-muted-foreground leading-[1.6]">
 										{t(`hero.steps.${i}.description`)}
-									</Muted>
-								</div>
+									</p>
+								</li>
 							))}
-						</div>
+						</ol>
 
 						<form.Subscribe selector={(state) => state.isSubmitting}>
 							{(isSubmitting) =>
