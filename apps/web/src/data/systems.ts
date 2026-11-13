@@ -11,7 +11,6 @@ export interface CustomSystem {
 		still?: boolean;
 		imageClassName?: string;
 	};
-	relatedSlugs: string[];
 	slug: string;
 	translationKey: string;
 }
@@ -29,10 +28,6 @@ export const customSystems: CustomSystem[] = [
 			caseStudySlug: "screencurve",
 			image: "/images/case-studies/screencurve/archive.webp",
 		},
-		relatedSlugs: [
-			"agentic-workflow-automation",
-			"client-portals-business-apps",
-		],
 	},
 	{
 		slug: "agentic-workflow-automation",
@@ -47,7 +42,6 @@ export const customSystems: CustomSystem[] = [
 			image:
 				"/images/case-studies/rautenberg-pitch-engine/pipeline.webp?v=20261111-eagle-obsidian",
 		},
-		relatedSlugs: ["internal-tools-dashboards", "website-to-app-upgrades"],
 	},
 	{
 		slug: "company-brain-memory-systems",
@@ -62,7 +56,6 @@ export const customSystems: CustomSystem[] = [
 			image:
 				"/images/case-studies/rautenberg-pitch-engine/vault-structure.webp?v=20261111-eagle-obsidian",
 		},
-		relatedSlugs: ["agentic-workflow-automation", "internal-tools-dashboards"],
 	},
 	{
 		slug: "client-portals-business-apps",
@@ -81,7 +74,6 @@ export const customSystems: CustomSystem[] = [
 				"/images/case-studies/ohyp-fintech/admin-dashboard-v2.webp",
 			],
 		},
-		relatedSlugs: ["booking-event-platforms", "internal-tools-dashboards"],
 	},
 	{
 		slug: "booking-event-platforms",
@@ -95,7 +87,6 @@ export const customSystems: CustomSystem[] = [
 			caseStudySlug: "finanzierungszertifikat",
 			image: "/images/case-studies/ohyp-fintech/form-step-v2.webp",
 		},
-		relatedSlugs: ["client-portals-business-apps", "website-to-app-upgrades"],
 	},
 	{
 		slug: "website-to-app-upgrades",
@@ -109,15 +100,9 @@ export const customSystems: CustomSystem[] = [
 			caseStudySlug: "maerkische-projekt-bau",
 			image: "/images/case-studies/mp-bau-construction/chatbot.webp?v=065b54f",
 		},
-		relatedSlugs: ["client-portals-business-apps", "internal-tools-dashboards"],
 	},
 ];
 
 export function getCustomSystemBySlug(slug: string): CustomSystem | undefined {
 	return customSystems.find((system) => system.slug === slug);
-}
-
-export function getCustomSystemNumber(slug: string): string {
-	const index = customSystems.findIndex((system) => system.slug === slug);
-	return String(index + 1).padStart(2, "0");
 }

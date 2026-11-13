@@ -153,27 +153,6 @@ export const services: Service[] = [
 	},
 ];
 
-export const serviceCaseStudies: Record<string, string[]> = {
-	"landing-pages": ["old-world-labs", "maerkische-projekt-bau"],
-	"wordpress-migration": ["maerkische-projekt-bau"],
-	"ai-consulting": ["maerkische-projekt-bau"],
-	"mvp-development": ["finanzierungszertifikat"],
-	"ai-automation": ["maerkische-projekt-bau"],
-	"full-stack-applications": ["finanzierungszertifikat", "keel"],
-};
-
-export const relatedServices: Record<string, string[]> = {
-	"landing-pages": ["wordpress-migration", "mvp-development"],
-	"seo-geo": ["landing-pages", "wordpress-migration"],
-	coaching: ["mvp-development", "full-stack-applications"],
-	"ai-chatbots": ["ai-automation", "ai-consulting"],
-	"wordpress-migration": ["landing-pages", "full-stack-applications"],
-	"ai-consulting": ["ai-automation", "mvp-development"],
-	"mvp-development": ["full-stack-applications", "ai-consulting"],
-	"ai-automation": ["ai-consulting", "full-stack-applications"],
-	"full-stack-applications": ["mvp-development", "ai-automation"],
-};
-
 export function getServiceBySlug(slug: string): Service | undefined {
 	return services.find((s) => s.slug === slug);
 }

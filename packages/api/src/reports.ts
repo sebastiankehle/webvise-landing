@@ -112,7 +112,7 @@ export const DECKS: DeckEntry[] = [
 
 const PDF_EXTENSION_PATTERN = /\.pdf$/;
 
-function deckReport(deck: DeckEntry): [string, ReportEntry] {
+function reportForDeck(deck: DeckEntry): [string, ReportEntry] {
 	const base = deck.file.replace(PDF_EXTENSION_PATTERN, "");
 	return [
 		`deck-${deck.slug}`,
@@ -131,5 +131,5 @@ export const REPORTS: Record<string, ReportEntry> = {
 		en: "reports/ai-coding-tools-deep-dive-en.pdf",
 		subject: "AI, Agents & AI Coding Tools - Deep Dive Report",
 	},
-	...Object.fromEntries(DECKS.map(deckReport)),
+	...Object.fromEntries(DECKS.map(reportForDeck)),
 };

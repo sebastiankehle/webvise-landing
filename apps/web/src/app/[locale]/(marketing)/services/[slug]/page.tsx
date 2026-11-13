@@ -26,7 +26,6 @@ import { getDeckBySlug } from "@/data/decks";
 import {
 	getOfferingBySlug,
 	getOfferingProof,
-	getOfferingTranslationKey,
 	getRelatedOfferings,
 	type Offering,
 	type OfferingGroupKey,
@@ -34,6 +33,12 @@ import {
 } from "@/data/offerings";
 import { Link } from "@/i18n/navigation";
 import { pinLocale } from "@/i18n/static-locale";
+import {
+	offeringDetail,
+	offeringMeta,
+	offeringTagline,
+	offeringTitle,
+} from "@/lib/offering-content";
 import { generateAlternates, localizedUrl } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 
@@ -47,9 +52,6 @@ const groupTopics: Record<OfferingGroupKey, BookingTopic> = {
 export function generateStaticParams() {
 	return offerings.map((offering) => ({ slug: offering.slug }));
 }
-
-// Every system page names three situations it is built for.
-const SYSTEM_PAIN_POINTS = 3;
 
 export async function generateMetadata({
 	params,
@@ -69,15 +71,7 @@ export async function generateMetadata({
 		getLocale(),
 	]);
 
-	const key = getOfferingTranslationKey(offering);
-	const title =
-		offering.kind === "service"
-			? ts(`${key}.title`)
-			: tc(`items.${key}.detail.metaTitle`);
-	const description =
-		offering.kind === "service"
-			? ts(`${key}.description`)
-			: tc(`items.${key}.detail.metaDescription`);
+	const { description, title } = offeringMeta(offering, ts, tc);
 	const path = `/services/${slug}`;
 
 	return {
@@ -126,7 +120,6 @@ async function ServiceOfferingPage({ offering }: { offering: Offering }) {
 		getLocale(),
 	]);
 	const deck = getDeckBySlug(slug);
-	const key = getOfferingTranslationKey(offering);
 	const proof = getOfferingProof(offering);
 	const proofCaseStudy = getCaseStudyBySlug(proof.caseStudySlug, locale);
 	const proofShots = proof.shots ?? (proofCaseStudy?.images ?? []).slice(0, 2);
@@ -145,90 +138,7 @@ async function ServiceOfferingPage({ offering }: { offering: Offering }) {
 				all.findIndex((other) => other.slug === caseStudy.slug) === index
 		)
 		.slice(0, 3);
-	const detail =
-		offering.kind === "service"
-			? {
-					approach: t(`${key}.approach`),
-					deliverableItems: Array.from(
-						{ length: offering.service.deliverableCount },
-						(_, i) => t(`${key}.deliverables.${i}`)
-					),
-					description: t(`${key}.description`),
-					faqItems: Array.from(
-						{ length: offering.service.faqCount },
-						(_, i) => ({
-							answer: t(`${key}.faq.${i}.answer`),
-							question: t(`${key}.faq.${i}.question`),
-						})
-					),
-					featureItems: Array.from(
-						{ length: offering.service.featureCount },
-						(_, i) => t(`${key}.features.${i}`)
-					),
-					outcome: t(`${key}.outcome`),
-					outcomeItems: [],
-					painPoints: Array.from(
-						{ length: offering.service.painPointCount },
-						(_, i) => ({
-							description: t(`${key}.painPoints.${i}.description`),
-							heading: t(`${key}.painPoints.${i}.heading`),
-						})
-					),
-					schemaDescription: t(`${key}.description`),
-					schemaTitle: t(`${key}.title`),
-					summaryItems: [
-						{
-							label: td("pricingLabel"),
-							value: t(`${key}.price`),
-						},
-						{
-							label: td("timelineLabel"),
-							value: t(`${key}.timeline`),
-						},
-					],
-					title: t(`${key}.title`),
-				}
-			: {
-					approach: tc(`items.${key}.detail.approach`),
-					deliverableItems: Array.from(
-						{ length: offering.system.moduleCount },
-						(_, i) => tc(`items.${key}.detail.modules.${i}`)
-					),
-					description: tc(`items.${key}.description`),
-					faqItems: Array.from(
-						{ length: offering.system.faqCount },
-						(_, i) => ({
-							answer: tc(`items.${key}.detail.faq.${i}.answer`),
-							question: tc(`items.${key}.detail.faq.${i}.question`),
-						})
-					),
-					featureItems: Array.from(
-						{ length: offering.system.capabilityCount },
-						(_, i) => tc(`items.${key}.detail.capabilities.${i}`)
-					),
-					outcome: tc(`items.${key}.detail.outcome`),
-					outcomeItems: Array.from(
-						{ length: offering.system.outcomeCount },
-						(_, i) => tc(`items.${key}.detail.outcomes.${i}`)
-					),
-					painPoints: Array.from({ length: SYSTEM_PAIN_POINTS }, (_, i) => ({
-						description: tc(`items.${key}.detail.painPoints.${i}.description`),
-						heading: tc(`items.${key}.detail.painPoints.${i}.heading`),
-					})),
-					schemaDescription: tc(`items.${key}.description`),
-					schemaTitle: tc(`items.${key}.title`),
-					summaryItems: [
-						{
-							label: td("pricingLabel"),
-							value: td("estimatedAfterDiscovery"),
-						},
-						{
-							label: td("timelineLabel"),
-							value: td("plannedAfterDiscovery"),
-						},
-					],
-					title: tc(`items.${key}.title`),
-				};
+	const detail = offeringDetail(offering, t, tc, td);
 
 	const serviceUrl = localizedUrl(`/services/${slug}`, locale);
 	const faqEntries =
@@ -292,19 +202,6 @@ async function ServiceOfferingPage({ offering }: { offering: Offering }) {
 			},
 			...faqEntries,
 		],
-	};
-
-	const offeringTitle = (related: Offering) => {
-		const relatedKey = getOfferingTranslationKey(related);
-		return related.kind === "service"
-			? t(`${relatedKey}.title`)
-			: tc(`items.${relatedKey}.title`);
-	};
-	const offeringLine = (related: Offering) => {
-		const relatedKey = getOfferingTranslationKey(related);
-		return related.kind === "service"
-			? t(`${relatedKey}.tagline`)
-			: tc(`items.${relatedKey}.description`);
 	};
 
 	return (
@@ -598,10 +495,10 @@ async function ServiceOfferingPage({ offering }: { offering: Offering }) {
 									}}
 								>
 									<h3 className="font-display text-foreground text-lg leading-snug md:col-span-4">
-										{offeringTitle(related)}
+										{offeringTitle(related, t, tc)}
 									</h3>
 									<span className="text-base text-foreground/75 leading-[1.6] md:col-span-7">
-										{offeringLine(related)}
+										{offeringTagline(related, t, tc)}
 									</span>
 									<span className="hidden text-foreground md:col-span-1 md:flex md:justify-end">
 										<ActionArrow />
