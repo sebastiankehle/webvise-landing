@@ -1,13 +1,5 @@
 import { env } from "@webvise-app/env/server";
 
-interface ContactLead {
-	company?: string;
-	email: string;
-	message?: string;
-	name: string;
-	service?: string;
-}
-
 interface AttioLead {
 	email: string;
 	name?: string;
@@ -87,21 +79,4 @@ export async function syncLeadToAttio(lead: AttioLead): Promise<void> {
 			err instanceof Error ? err.message : String(err)
 		);
 	}
-}
-
-/** Mirrors a contact form submission into Attio. */
-export function syncContactToAttio(lead: ContactLead): Promise<void> {
-	return syncLeadToAttio({
-		email: lead.email,
-		name: lead.name,
-		noteTitle: "Website contact form",
-		noteContent: [
-			`Email: ${lead.email}`,
-			lead.company ? `Company: ${lead.company}` : null,
-			lead.service ? `Service: ${lead.service}` : null,
-			lead.message ? `\n${lead.message}` : null,
-		]
-			.filter(Boolean)
-			.join("\n"),
-	});
 }
