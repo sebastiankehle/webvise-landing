@@ -22,7 +22,7 @@ export default async function GlobalNotFound() {
 	});
 
 	return (
-		<html className={inter.variable} lang="en">
+		<html className={inter.variable} lang={routing.defaultLocale}>
 			<body className="flex min-h-screen flex-col items-center justify-center bg-background px-6 font-sans antialiased">
 				<Mono className="text-muted-foreground">404</Mono>
 				<H1 className="mt-4">{t("title")}</H1>
