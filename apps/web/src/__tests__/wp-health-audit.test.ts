@@ -324,7 +324,7 @@ describe("runWpHealthAudit", () => {
 		});
 		const labels = sendEmailMock.mock.calls.map((c) => c[0].label);
 		expect(labels).toEqual(["wp-health-admin"]);
-		expect(insertValuesMock).not.toHaveBeenCalled();
+		expect(insertValuesMock).toHaveBeenCalledOnce();
 	});
 
 	it("sends only the admin email when the cap lookup throws", async () => {
@@ -359,13 +359,14 @@ describe("runWpHealthAudit", () => {
 		expect(prospect.text).not.toContain("Mallory");
 	});
 
-	it("records a wp_health_report lead event after the prospect email is sent", async () => {
+	it("records one wp_health_report lead event per request", async () => {
 		setupPsi(45, 80);
 		sendEmailMock.mockResolvedValue({ ok: true });
 		await runWpHealthAudit({
 			url: "https://example.com/page",
 			email: " Lead@Example.com ",
 		});
+		expect(insertValuesMock).toHaveBeenCalledOnce();
 		expect(insertValuesMock).toHaveBeenCalledWith({
 			email: "lead@example.com",
 			eventType: "wp_health_report",
@@ -373,5 +374,11 @@ describe("runWpHealthAudit", () => {
 			path: "/wp-health-report",
 			topic: "example.com",
 		});
+	});
+
+	it("records no lead event when no email is given", async () => {
+		setupPsi(45, 80);
+		await runWpHealthAudit({ url: "https://example.com" });
+		expect(insertValuesMock).not.toHaveBeenCalled();
 	});
 });

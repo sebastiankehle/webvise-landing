@@ -4,7 +4,7 @@ import { z } from "zod";
 import { sendEmail } from "../email/resend";
 import { c, emailLayout, escapeHtml, s, tableRow } from "../email/template";
 import { rateLimitedProcedure, router } from "../index";
-import { syncContactToAttio } from "../services/attio";
+import { recordLead } from "../services/leads";
 
 function buildContactHtml(data: {
 	name: string;
@@ -134,12 +134,24 @@ export const contactRouter = router({
 				});
 			}
 
-			await syncContactToAttio({
-				name: input.name,
+			await recordLead({
+				type: "contact",
 				email: input.email,
-				company: input.company,
-				service: serviceLabel ?? undefined,
-				message: input.message,
+				name: input.name,
+				placement: "contact_form",
+				path: "/book",
+				topic: serviceLabel,
+				note: {
+					title: "Website contact form",
+					content: [
+						`Email: ${input.email}`,
+						input.company ? `Company: ${input.company}` : null,
+						serviceLabel ? `Service: ${serviceLabel}` : null,
+						input.message ? `\n${input.message}` : null,
+					]
+						.filter(Boolean)
+						.join("\n"),
+				},
 			});
 
 			return { success: true };

@@ -4,6 +4,7 @@ import { z } from "zod";
 import { sendEmail } from "../email/resend";
 import { emailLayout, escapeHtml, s, tableRow } from "../email/template";
 import { rateLimitedProcedure, router } from "../index";
+import { recordLead } from "../services/leads";
 
 const INTEREST_LABELS: Record<string, string> = {
 	network: "Join the network (work on webvise projects)",
@@ -161,6 +162,29 @@ export const partnerRouter = router({
 							: "Failed to send email",
 				});
 			}
+
+			await recordLead({
+				type: "partner_application",
+				email: input.email,
+				name: input.name,
+				placement: "partner_form",
+				path: "/about",
+				topic: input.interest,
+				note: {
+					title: "Partner application",
+					content: [
+						`Email: ${input.email}`,
+						`Discipline: ${input.discipline}`,
+						input.linkedin ? `LinkedIn: ${input.linkedin}` : null,
+						input.x ? `X: ${input.x}` : null,
+						input.site ? `Website: ${input.site}` : null,
+						`Interest: ${interestLabel}`,
+						input.message ? `\n${input.message}` : null,
+					]
+						.filter(Boolean)
+						.join("\n"),
+				},
+			});
 
 			return { success: true };
 		}),

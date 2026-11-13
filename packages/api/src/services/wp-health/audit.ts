@@ -5,6 +5,7 @@ import { and, eq, gt } from "drizzle-orm";
 import { sendEmail } from "../../email/resend";
 import { safeFetchText } from "../../safe-fetch";
 import { UrlValidationError, validateUrl } from "../../url-validation";
+import { recordLead } from "../leads";
 import {
 	buildAdminHtml,
 	buildProspectHtml,
@@ -98,20 +99,6 @@ async function canSendProspectEmail(email: string): Promise<boolean> {
 	} catch (e) {
 		console.error("[wp-health] could not check report email cap:", e);
 		return false;
-	}
-}
-
-async function recordProspectEmail(email: string, url: string): Promise<void> {
-	try {
-		await db.insert(leadEvent).values({
-			email,
-			eventType: "wp_health_report",
-			placement: "wp_health_report",
-			path: "/wp-health-report",
-			topic: new URL(url).hostname,
-		});
-	} catch (e) {
-		console.error("[wp-health] could not record report email:", e);
 	}
 }
 
@@ -212,7 +199,27 @@ export async function runWpHealthAudit(
 		const normalizedEmail = input.email.trim().toLowerCase();
 		const sendProspect = await canSendProspectEmail(normalizedEmail);
 
+		// The cap check above must stay before this write: recordLead stores this
+		// request's wp_health_report row, which the next request's cap check reads.
 		const sends: Promise<unknown>[] = [
+			recordLead({
+				type: "wp_health_report",
+				email: normalizedEmail,
+				name: input.firstName,
+				placement: "wp_health_report",
+				path: "/wp-health-report",
+				topic: new URL(input.url).hostname,
+				note: {
+					title: "WP Health report",
+					content: [
+						`URL: ${input.url}`,
+						`Mobile: ${mobileScore}/100`,
+						`Desktop: ${desktopScore}/100`,
+						`Security: ${securityFlags.length ? securityFlags.join(", ") : "None"}`,
+						...geoTextLines(seoScore, geo),
+					].join("\n"),
+				},
+			}),
 			sendEmail({
 				label: "wp-health-admin",
 				from: "webvise <noreply@webvise.io>",
@@ -287,11 +294,6 @@ export async function runWpHealthAudit(
 						seoScore,
 						geo,
 					}),
-				}).then(async (sent) => {
-					if (sent.ok) {
-						await recordProspectEmail(normalizedEmail, input.url);
-					}
-					return sent;
 				})
 			);
 		}

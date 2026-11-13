@@ -22,7 +22,13 @@ export const leadEvent = pgTable(
 		id: uuid("id").primaryKey().defaultRandom(),
 		email: text("email").notNull(),
 		eventType: text("event_type", {
-			enum: ["newsletter_signup", "deck_request", "wp_health_report"],
+			enum: [
+				"newsletter_signup",
+				"deck_request",
+				"wp_health_report",
+				"contact",
+				"partner_application",
+			],
 		}).notNull(),
 		placement: text("placement").notNull(),
 		path: text("path").notNull(),

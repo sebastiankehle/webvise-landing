@@ -8,18 +8,25 @@ interface ContactLead {
 	service?: string;
 }
 
+interface AttioLead {
+	email: string;
+	name?: string;
+	noteContent: string;
+	noteTitle: string;
+}
+
 const ATTIO_API = "https://api.attio.com/v2";
 const WHITESPACE = /\s+/;
 
 /**
- * Mirrors a contact form submission into Attio: upserts the person by email
- * and attaches the submission as a note. Never throws — the email to
- * mail@webvise.io is the primary channel; Attio is best-effort.
+ * Upserts the person by email in Attio and attaches a note. Never throws:
+ * the notification email is the primary channel; Attio is best-effort.
  */
-export async function syncContactToAttio(lead: ContactLead): Promise<void> {
+export async function syncLeadToAttio(lead: AttioLead): Promise<void> {
+	const tag = `[attio:${lead.noteTitle}]`;
 	const apiKey = env.ATTIO_API_KEY;
 	if (!apiKey) {
-		console.error("[attio:contact] ATTIO_API_KEY not configured");
+		console.error(`${tag} ATTIO_API_KEY not configured`);
 		return;
 	}
 
@@ -29,47 +36,34 @@ export async function syncContactToAttio(lead: ContactLead): Promise<void> {
 	};
 
 	try {
-		const [firstName = "", ...rest] = lead.name.split(WHITESPACE);
+		const values: Record<string, unknown> = {
+			email_addresses: [{ email_address: lead.email }],
+		};
+		if (lead.name) {
+			const [firstName = "", ...rest] = lead.name.split(WHITESPACE);
+			values.name = [
+				{
+					first_name: firstName,
+					last_name: rest.join(" "),
+					full_name: lead.name,
+				},
+			];
+		}
 		const personRes = await fetch(
 			`${ATTIO_API}/objects/people/records?matching_attribute=email_addresses`,
 			{
 				method: "PUT",
 				headers,
-				body: JSON.stringify({
-					data: {
-						values: {
-							email_addresses: [{ email_address: lead.email }],
-							name: [
-								{
-									first_name: firstName,
-									last_name: rest.join(" "),
-									full_name: lead.name,
-								},
-							],
-						},
-					},
-				}),
+				body: JSON.stringify({ data: { values } }),
 			}
 		);
 		if (!personRes.ok) {
-			console.error(
-				"[attio:contact] person upsert failed:",
-				await personRes.text()
-			);
+			console.error(`${tag} person upsert failed:`, await personRes.text());
 			return;
 		}
 		const person = (await personRes.json()) as {
 			data: { id: { record_id: string } };
 		};
-
-		const content = [
-			`Email: ${lead.email}`,
-			lead.company ? `Company: ${lead.company}` : null,
-			lead.service ? `Service: ${lead.service}` : null,
-			lead.message ? `\n${lead.message}` : null,
-		]
-			.filter(Boolean)
-			.join("\n");
 
 		const noteRes = await fetch(`${ATTIO_API}/notes`, {
 			method: "POST",
@@ -78,22 +72,36 @@ export async function syncContactToAttio(lead: ContactLead): Promise<void> {
 				data: {
 					parent_object: "people",
 					parent_record_id: person.data.id.record_id,
-					title: "Website contact form",
+					title: lead.noteTitle,
 					format: "plaintext",
-					content,
+					content: lead.noteContent,
 				},
 			}),
 		});
 		if (!noteRes.ok) {
-			console.error(
-				"[attio:contact] note create failed:",
-				await noteRes.text()
-			);
+			console.error(`${tag} note create failed:`, await noteRes.text());
 		}
 	} catch (err) {
 		console.error(
-			"[attio:contact] sync failed:",
+			`${tag} sync failed:`,
 			err instanceof Error ? err.message : String(err)
 		);
 	}
+}
+
+/** Mirrors a contact form submission into Attio. */
+export function syncContactToAttio(lead: ContactLead): Promise<void> {
+	return syncLeadToAttio({
+		email: lead.email,
+		name: lead.name,
+		noteTitle: "Website contact form",
+		noteContent: [
+			`Email: ${lead.email}`,
+			lead.company ? `Company: ${lead.company}` : null,
+			lead.service ? `Service: ${lead.service}` : null,
+			lead.message ? `\n${lead.message}` : null,
+		]
+			.filter(Boolean)
+			.join("\n"),
+	});
 }
