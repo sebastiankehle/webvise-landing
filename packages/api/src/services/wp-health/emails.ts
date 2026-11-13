@@ -6,6 +6,7 @@ import {
 	scoreBadge,
 	tableRow,
 } from "../../email/template";
+import { SITE_URL } from "../../site";
 
 function urgencyLabel(mobileScore: number): { text: string; color: string } {
 	if (mobileScore < 40) {
@@ -120,7 +121,7 @@ const PROSPECT_COPY = {
 			"webvise can review your content model, integrations, SEO risk, and support needs before recommending the right rebuild path.",
 		bookCall: "Book a free call",
 		viewWork: "View our work",
-		siteUrl: "https://webvise.io/en",
+		siteUrl: `${SITE_URL}/en`,
 		note: "You're receiving this because you ran a free health report at webvise.io. Reply to this email if you have questions.",
 		textIntro: (url: string) =>
 			`Here's your free WordPress health report for ${url}.`,
@@ -146,7 +147,7 @@ const PROSPECT_COPY = {
 			"webvise prüft Inhaltsmodell, Integrationen, SEO-Risiko und Betreuungsbedarf, bevor wir den passenden Weg für den Neubau empfehlen.",
 		bookCall: "Kostenloses Gespräch buchen",
 		viewWork: "Projekte ansehen",
-		siteUrl: "https://webvise.io",
+		siteUrl: SITE_URL,
 		note: "Sie erhalten diese E-Mail, weil Sie auf webvise.io einen kostenlosen Health Report erstellt haben. Bei Fragen antworten Sie auf diese E-Mail.",
 		textIntro: (url: string) =>
 			`Hier ist Ihr kostenloser WordPress Health Report für ${url}.`,

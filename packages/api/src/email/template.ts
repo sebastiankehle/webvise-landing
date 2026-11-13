@@ -1,3 +1,4 @@
+import { SITE_URL } from "../site";
 import { createNewsletterConfirmationToken } from "./newsletter-confirmation-token";
 import { createUnsubscribeToken } from "./unsubscribe-token";
 
@@ -37,17 +38,17 @@ const c = {
 
 // The mark as a picture: mail clients drop inline SVG. With pictures blocked,
 // the wordmark beside it still names the sender.
-const MARK_URL = "https://www.webvise.io/images/email/webvise-mark.png";
+const MARK_URL = `${SITE_URL}/images/email/webvise-mark.png`;
 
 const font =
 	"'Hanken Grotesk', Geist, Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
 
 export function unsubscribeUrl(email: string): string {
-	return `https://www.webvise.io/api/unsubscribe?token=${createUnsubscribeToken(email)}`;
+	return `${SITE_URL}/api/unsubscribe?token=${createUnsubscribeToken(email)}`;
 }
 
 export function newsletterConfirmationUrl(email: string): string {
-	return `https://www.webvise.io/api/newsletter/confirm?token=${createNewsletterConfirmationToken(email)}`;
+	return `${SITE_URL}/api/newsletter/confirm?token=${createNewsletterConfirmationToken(email)}`;
 }
 
 export function emailLayout(opts: {
@@ -81,7 +82,7 @@ export function emailLayout(opts: {
 				: ""
 		}
     <div style="padding:14px 28px;border-top:1px solid ${c.border}">
-      <a href="https://www.webvise.io" style="font-size:12px;color:${c.textFaint};text-decoration:none">webvise.io</a>
+      <a href="${SITE_URL}" style="font-size:12px;color:${c.textFaint};text-decoration:none">webvise.io</a>
     </div>${unsubscribeHtml}
   </div>
 </body>

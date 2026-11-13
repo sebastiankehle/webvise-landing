@@ -5,9 +5,7 @@ import { getCaseStudies } from "@/data/case-studies";
 import { industries } from "@/data/industries";
 import { offerings } from "@/data/offerings";
 import { routing } from "@/i18n/routing";
-import { SITE_URL } from "@/lib/seo";
-
-const baseUrl = SITE_URL;
+import { generateAlternates, localizedUrl } from "@/lib/seo";
 
 type ChangeFrequency = NonNullable<
 	MetadataRoute.Sitemap[number]["changeFrequency"]
@@ -19,43 +17,17 @@ interface EntryOptions {
 	priority: number;
 }
 
-/** Resolve per-locale pathnames (e.g. /imprint → /impressum for de) so the
- * sitemap never lists a URL that 307-redirects to its localized twin. */
-function localizedPath(path: string, locale: string): string {
-	const pathnames = routing.pathnames[path as keyof typeof routing.pathnames];
-	if (typeof pathnames === "object" && pathnames !== null) {
-		return (pathnames as Record<string, string>)[locale] ?? path;
-	}
-	return path;
-}
-
-function localizedUrl(path: string, locale: string): string {
-	const resolved = localizedPath(path, locale);
-	return locale === routing.defaultLocale
-		? `${baseUrl}${resolved}`
-		: `${baseUrl}/${locale}${resolved === "/" ? "" : resolved}`;
-}
-
-function alternatesFor(path: string) {
-	const languages: Record<string, string> = {};
-	for (const locale of routing.locales) {
-		languages[locale] = localizedUrl(path, locale);
-	}
-	languages["x-default"] = localizedUrl(path, routing.defaultLocale);
-	return { languages };
-}
-
 function entriesForPath(
 	path: string,
 	options: EntryOptions
 ): MetadataRoute.Sitemap {
-	const alternates = alternatesFor(path);
+	const { languages } = generateAlternates(path, routing.defaultLocale);
 	return routing.locales.map((locale) => ({
 		url: localizedUrl(path, locale),
 		lastModified: options.lastModified,
 		changeFrequency: options.changeFrequency,
 		priority: options.priority,
-		alternates,
+		alternates: { languages },
 	}));
 }
 

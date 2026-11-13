@@ -1,8 +1,8 @@
+import { SITE_URL } from "@webvise-app/api/site";
+
 import { routing } from "@/i18n/routing";
 
-/** Production host. Must match the Vercel primary domain (www), or canonicals
- * and hreflang point at URLs that 308-redirect away from themselves. */
-export const SITE_URL = "https://www.webvise.io";
+export { SITE_URL } from "@webvise-app/api/site";
 
 const BASE_URL = SITE_URL;
 
