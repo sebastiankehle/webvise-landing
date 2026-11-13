@@ -60,4 +60,19 @@ describe("reportDownloadRouter.request", () => {
 			topic: "website-to-app-upgrades",
 		});
 	});
+
+	it.each([
+		"__proto__",
+		"toString",
+		"constructor",
+	])("rejects prototype key %s as NOT_FOUND", async (reportId) => {
+		const caller = reportDownloadRouter.createCaller({
+			ip: `report-download-proto-${reportId}`,
+			session: null,
+		});
+
+		await expect(
+			caller.request({ email: "reader@example.com", reportId })
+		).rejects.toMatchObject({ code: "NOT_FOUND" });
+	});
 });

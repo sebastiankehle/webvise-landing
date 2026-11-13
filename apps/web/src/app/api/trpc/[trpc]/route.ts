@@ -9,6 +9,14 @@ function handler(req: NextRequest) {
 		req,
 		router: appRouter,
 		createContext: () => createContext(req),
+		onError({ error, path }) {
+			if (error.code === "INTERNAL_SERVER_ERROR") {
+				console.error(
+					`[trpc] ${path ?? "<no path>"} failed:`,
+					error.cause ?? error
+				);
+			}
+		},
 	});
 }
 

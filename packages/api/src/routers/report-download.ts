@@ -135,7 +135,9 @@ export const reportDownloadRouter = router({
 			})
 		)
 		.mutation(async ({ input }) => {
-			const report = REPORTS[input.reportId];
+			const report = Object.hasOwn(REPORTS, input.reportId)
+				? REPORTS[input.reportId]
+				: undefined;
 			if (!report) {
 				throw new TRPCError({
 					code: "NOT_FOUND",

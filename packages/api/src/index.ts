@@ -3,7 +3,30 @@ import { initTRPC, TRPCError } from "@trpc/server";
 import type { Context } from "./context";
 import { createRateLimiter } from "./rate-limit";
 
-export const t = initTRPC.context<Context>().create();
+export const GENERIC_ERROR_MESSAGE =
+	"Something went wrong. Please try again later.";
+
+/** True when tRPC wrapped an unexpected (non-TRPCError) throw. */
+export function isUnexpectedError(error: TRPCError): boolean {
+	return (
+		error.code === "INTERNAL_SERVER_ERROR" &&
+		error.cause !== undefined &&
+		!(error.cause instanceof TRPCError)
+	);
+}
+
+export const t = initTRPC.context<Context>().create({
+	errorFormatter({ shape, error }) {
+		if (!isUnexpectedError(error)) {
+			return shape;
+		}
+		return {
+			...shape,
+			message: GENERIC_ERROR_MESSAGE,
+			data: { ...shape.data, stack: undefined },
+		};
+	},
+});
 
 export const router = t.router;
 
