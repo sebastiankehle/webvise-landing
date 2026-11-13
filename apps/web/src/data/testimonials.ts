@@ -2,7 +2,7 @@
  * the messages and case study files. */
 export const testimonialAvatars: Record<string, string> = {
 	"Anna-Maria von Platen": "/images/testimonials/anna-maria-von-platen.png",
-	"Felix Rautenberg": "/images/testimonials/felix-rautenberg.jpeg",
+	"Felix von Rautenberg": "/images/testimonials/felix-rautenberg.jpeg",
 	"Joshua Kunisch": "/images/testimonials/joshua-kunisch.png",
 	"Lennart Brauer": "/images/testimonials/lennart-brauer.webp",
 	"Nick Liverman": "/images/testimonials/nick-liverman.jpg",
@@ -15,6 +15,7 @@ export const testimonialAvatars: Record<string, string> = {
  * work without a public case study have no entry. */
 export const testimonialProjects: Record<string, string> = {
 	"Anna-Maria von Platen": "von-platen-coaching",
+	"Felix von Rautenberg": "rautenberg-pitch-engine",
 	"Richard Heinbach": "finanzierungszertifikat",
 	"Sebastian Kundoch": "maerkische-projekt-bau",
 };
