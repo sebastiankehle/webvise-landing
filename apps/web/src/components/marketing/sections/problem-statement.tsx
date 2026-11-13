@@ -33,98 +33,137 @@ function ScrollFillHeading({ text }: { text: string }) {
 	);
 }
 
-const bar = "h-1.5 rounded-full bg-foreground/15";
 const row =
-	"flex items-center gap-2 border-foreground/[0.07] border-b py-[7px]";
+	"flex items-center gap-1.5 border-foreground/[0.07] border-b py-[3px] md:py-[6px]";
+const tiny = "text-[0.5rem] leading-none md:text-[0.625rem]";
 
-/** The four places the sentence names, each as a scrap of its own screen. */
-const pieces: { key: string; picture: ReactNode; turn: number }[] = [
-	{
-		key: "sheets",
-		turn: -5,
-		picture: (
-			<div className="grid h-full grid-cols-4 grid-rows-4 gap-px overflow-hidden rounded-[6px] bg-foreground/10">
-				{Array.from({ length: 16 }, (_, cell) => (
-					<span
-						className={`flex items-center px-1.5 ${
-							cell < 4 ? "bg-foreground/[0.05]" : "bg-card"
-						} ${cell === 9 ? "shadow-[inset_0_0_0_1.5px_var(--brand)]" : ""}`}
-						// biome-ignore lint/suspicious/noArrayIndexKey: a fixed grid of cells
-						key={cell}
-					>
-						{cell % 3 === 1 ? null : (
-							<span className={`${bar} ${cell % 2 ? "w-2/3" : "w-full"}`} />
-						)}
-					</span>
-				))}
-			</div>
-		),
-	},
-	{
-		key: "inboxes",
-		turn: 3,
-		picture: (
-			<div className="flex h-full flex-col justify-center">
-				{[true, true, false, false].map((unread, mail) => (
-					// biome-ignore lint/suspicious/noArrayIndexKey: a fixed list of mails
-					<div className={row} key={mail}>
+type Translate = (key: string) => string;
+
+/** The four places the sentence names, each as a scrap of its own screen with
+ * the few words that make it recognizable, and the one thing wrong in it. */
+function pieces(
+	t: Translate
+): { key: string; picture: ReactNode; turn: number }[] {
+	const cols = [0, 1, 2, 3];
+	return [
+		{
+			key: "sheets",
+			turn: -5,
+			// A sheet with a broken cell where a figure should be
+			picture: (
+				<div
+					className={`grid h-full grid-cols-[1.2fr_1fr_1.2fr] grid-rows-4 gap-px overflow-hidden rounded-[6px] bg-foreground/10 md:grid-cols-[1.25fr_1fr_1.1fr_0.8fr] ${tiny}`}
+				>
+					{cols.map((col) => (
 						<span
-							className={`size-1.5 flex-none rounded-full ${
-								unread ? "bg-brand" : "bg-foreground/15"
-							}`}
-						/>
-						<span className={`${bar} w-9 flex-none`} />
-						<span
-							className={`${bar} ${mail % 2 ? "w-1/2" : "flex-1"} ${
-								unread ? "bg-foreground/35" : ""
-							}`}
-						/>
-					</div>
-				))}
-			</div>
-		),
-	},
-	{
-		key: "admin",
-		turn: -2,
-		picture: (
-			<div className="flex h-full flex-col justify-center">
-				{[true, false, true].map((on, setting) => (
-					// biome-ignore lint/suspicious/noArrayIndexKey: a fixed list of settings
-					<div className={`${row} justify-between`} key={setting}>
-						<span className={`${bar} ${setting === 1 ? "w-16" : "w-24"}`} />
-						<span
-							className={`flex h-3.5 w-6 flex-none items-center rounded-full px-0.5 ${
-								on ? "justify-end bg-brand" : "bg-foreground/15"
-							}`}
+							className={`items-center bg-foreground/[0.05] px-1 font-medium text-foreground/70 ${col === 3 ? "hidden md:flex" : "flex"}`}
+							key={`head-${col}`}
 						>
-							<span className="size-2.5 rounded-full bg-card" />
+							{t(`sketch.sheet.cols.${col}`)}
 						</span>
-					</div>
-				))}
-				<span className="mt-2.5 h-5 w-14 self-end rounded-[5px] bg-foreground/80" />
-			</div>
-		),
-	},
-	{
-		key: "ai",
-		turn: 6,
-		picture: (
-			<div className="flex h-full flex-col justify-between">
-				<div className="grid gap-1.5">
-					<span className="h-5 w-3/5 justify-self-end rounded-[8px] rounded-br-[3px] bg-foreground/80" />
-					<span className="grid w-4/5 gap-1 rounded-[8px] rounded-bl-[3px] bg-foreground/[0.07] p-2">
-						<span className={bar} />
-						<span className={`${bar} w-2/3`} />
+					))}
+					{[0, 1, 2].map((line) =>
+						cols.map((col) => {
+							const broken = line === 1 && col === 2;
+							return (
+								<span
+									className={`items-center truncate bg-card px-1 ${col === 3 ? "hidden md:flex" : "flex"} ${
+										broken
+											? "font-medium text-brand shadow-[inset_0_0_0_1.5px_var(--brand)]"
+											: "text-foreground/65"
+									} ${col === 2 && !broken ? "justify-end tabular-nums" : ""}`}
+									key={`${line}-${col}`}
+								>
+									{t(`sketch.sheet.rows.${line}.${col}`)}
+								</span>
+							);
+						})
+					)}
+				</div>
+			),
+		},
+		{
+			key: "inboxes",
+			turn: 3,
+			// Threads that keep coming back
+			picture: (
+				<div className="flex h-full flex-col justify-center">
+					{[true, true, false, false].map((unread, mail) => (
+						<div
+							className={`${row} ${tiny}`}
+							key={t(`sketch.inbox.${mail}.from`)}
+						>
+							<span
+								className={`size-1.5 flex-none rounded-full ${
+									unread ? "bg-brand" : "bg-foreground/15"
+								}`}
+							/>
+							<span
+								className={`w-7 flex-none md:w-9 ${unread ? "font-medium text-foreground" : "text-foreground/55"}`}
+							>
+								{t(`sketch.inbox.${mail}.from`)}
+							</span>
+							<span
+								className={`min-w-0 truncate ${unread ? "text-foreground/80" : "text-foreground/50"}`}
+							>
+								{t(`sketch.inbox.${mail}.subject`)}
+							</span>
+						</div>
+					))}
+				</div>
+			),
+		},
+		{
+			key: "admin",
+			turn: -2,
+			// Settings someone once switched, and nobody knows why
+			picture: (
+				<div className="flex h-full flex-col justify-center">
+					{[true, false, true].map((on, setting) => (
+						<div
+							className={`${row} ${tiny} justify-between text-foreground/70`}
+							key={t(`sketch.admin.${setting}`)}
+						>
+							<span className="truncate">{t(`sketch.admin.${setting}`)}</span>
+							<span
+								className={`flex h-3 w-5 flex-none items-center rounded-full px-0.5 md:h-3.5 md:w-6 ${
+									on ? "justify-end bg-brand" : "bg-foreground/15"
+								}`}
+							>
+								<span className="size-2 rounded-full bg-card md:size-2.5" />
+							</span>
+						</div>
+					))}
+					<span
+						className={`mt-1.5 flex h-4 flex-none items-center self-end rounded-[4px] bg-foreground/80 px-2 text-background md:h-5 ${tiny}`}
+					>
+						{t("sketch.admin.save")}
 					</span>
 				</div>
-				<span className="flex h-6 items-center rounded-full px-2.5 shadow-[inset_0_0_0_1px_rgba(14,18,23,0.12)] dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]">
-					<span className="h-3 w-px bg-brand" />
-				</span>
-			</div>
-		),
-	},
-];
+			),
+		},
+		{
+			key: "ai",
+			turn: 6,
+			// An assistant that answers from two sources that disagree
+			picture: (
+				<div className={`flex h-full flex-col justify-between ${tiny}`}>
+					<div className="grid gap-1.5">
+						<span className="max-w-[85%] justify-self-end text-balance rounded-[7px] rounded-br-[2px] bg-foreground/80 px-1.5 py-1 text-background leading-[1.3]">
+							{t("sketch.ai.question")}
+						</span>
+						<span className="max-w-[85%] text-balance rounded-[7px] rounded-bl-[2px] bg-foreground/[0.07] px-1.5 py-1 text-foreground/80 leading-[1.3]">
+							{t("sketch.ai.answer")}
+						</span>
+					</div>
+					<span className="flex h-5 items-center rounded-full px-2 shadow-[inset_0_0_0_1px_rgba(14,18,23,0.12)] md:h-6 dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]">
+						<span className="h-2.5 w-px bg-brand" />
+					</span>
+				</div>
+			),
+		},
+	];
+}
 
 export default async function ProblemStatement() {
 	const t = await getTranslations("problemStatement");
@@ -133,7 +172,7 @@ export default async function ProblemStatement() {
 		<SectionWrapper className="md:py-28" id="problem" surface="alternate">
 			<ScrollFillHeading text={`${t("known")} ${t("pain")}`} />
 			<ul className="mx-auto mt-12 grid max-w-[1040px] grid-cols-2 gap-x-4 gap-y-8 md:mt-16 md:grid-cols-4 md:gap-x-5">
-				{pieces.map((piece, place) => (
+				{pieces((key) => t(key)).map((piece, place) => (
 					<li
 						className={place % 2 ? "mt-4 md:mt-5" : undefined}
 						key={piece.key}
