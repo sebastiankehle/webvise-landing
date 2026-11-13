@@ -316,7 +316,8 @@ export function mountDamper(
 		} else {
 			journey += (held - journey) * (1 - Math.exp(-dt * 12));
 		}
-		const j = reduced ? 0 : journey;
+		// A scrubbed value shows even under reduced motion; the free loop does not.
+		const j = reduced && held === null ? 0 : journey;
 
 		const explode = track(j, EXPLODE);
 		const split = settleRange(0.72, 0.84, j) * (1 - settleRange(0.9, 0.98, j));
@@ -400,6 +401,7 @@ export function mountDamper(
 			cancelAnimationFrame(frame);
 			observer.disconnect();
 			damper.dispose();
+			renderer.forceContextLoss();
 			renderer.dispose();
 		},
 		release: () => {
@@ -409,9 +411,17 @@ export function mountDamper(
 			held = null;
 			clock =
 				Math.floor(clock / LOOP) * LOOP + REST + journey * (LOOP - 2 * REST);
+			if (!running) {
+				draw(0);
+			}
 		},
 		scrub: (value) => {
 			held = clamp01(value);
+			if (!running) {
+				// No loop to ease toward it: jump there and draw one frame.
+				journey = held;
+				draw(0);
+			}
 		},
 		setRunning: (next) => {
 			if (next === running || reduced) {

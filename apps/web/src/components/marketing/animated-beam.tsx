@@ -3,6 +3,8 @@
 import type { RefObject } from "react";
 import { useEffect, useId, useRef, useState } from "react";
 
+import { useInView } from "@/hooks/use-in-view";
+
 export interface AnimatedBeamProps {
 	className?: string;
 	containerRef: RefObject<HTMLElement | null>;
@@ -46,6 +48,25 @@ export function AnimatedBeam({
 	const svgRef = useRef<SVGSVGElement>(null);
 	const [pathD, setPathD] = useState("");
 	const [svgDimensions, setSvgDimensions] = useState({ width: 0, height: 0 });
+
+	const [reduced, setReduced] = useState(false);
+	const inView = useInView(containerRef);
+
+	useEffect(() => {
+		const query = window.matchMedia("(prefers-reduced-motion: reduce)");
+		setReduced(query.matches);
+		const onChange = (event: MediaQueryListEvent) => setReduced(event.matches);
+		query.addEventListener("change", onChange);
+		return () => query.removeEventListener("change", onChange);
+	}, []);
+
+	useEffect(() => {
+		if (inView) {
+			svgRef.current?.unpauseAnimations();
+		} else {
+			svgRef.current?.pauseAnimations();
+		}
+	}, [inView, reduced]);
 
 	const x1Values = reverse ? "90%;-10%" : "10%;110%";
 	const x2Values = reverse ? "100%;0%" : "0%;100%";
@@ -132,20 +153,24 @@ export function AnimatedBeam({
 					gradientUnits="userSpaceOnUse"
 					id={id}
 				>
-					<animate
-						attributeName="x1"
-						begin={`${delay}s`}
-						dur={`${duration}s`}
-						repeatCount="indefinite"
-						values={x1Values}
-					/>
-					<animate
-						attributeName="x2"
-						begin={`${delay}s`}
-						dur={`${duration}s`}
-						repeatCount="indefinite"
-						values={x2Values}
-					/>
+					{!reduced && (
+						<>
+							<animate
+								attributeName="x1"
+								begin={`${delay}s`}
+								dur={`${duration}s`}
+								repeatCount="indefinite"
+								values={x1Values}
+							/>
+							<animate
+								attributeName="x2"
+								begin={`${delay}s`}
+								dur={`${duration}s`}
+								repeatCount="indefinite"
+								values={x2Values}
+							/>
+						</>
+					)}
 					<stop stopColor={gradientStartColor} stopOpacity="0" />
 					<stop stopColor={gradientStartColor} />
 					<stop offset="32.5%" stopColor={gradientStopColor} />

@@ -9,6 +9,7 @@ import {
 	useState,
 } from "react";
 
+import { useInView } from "@/hooks/use-in-view";
 import { cn } from "@/lib/utils";
 
 import "./results-tiles.css";
@@ -286,9 +287,12 @@ const icon = {
  * to tab, and the address bar and the page follow. */
 function ProjectsPicture({ projects }: { projects: ResultProject[] }) {
 	const [active, setActive] = useState(0);
+	const ref = useRef<HTMLDivElement>(null);
+	const inView = useInView(ref, { threshold: 0.3 });
 
 	useEffect(() => {
 		if (
+			!inView ||
 			projects.length < 2 ||
 			window.matchMedia("(prefers-reduced-motion: reduce)").matches
 		) {
@@ -299,10 +303,13 @@ function ProjectsPicture({ projects }: { projects: ResultProject[] }) {
 			2800
 		);
 		return () => window.clearInterval(timer);
-	}, [projects.length]);
+	}, [projects.length, inView]);
 
 	return (
-		<div className={cn(card, "w-[36rem] overflow-hidden text-[#202124]")}>
+		<div
+			className={cn(card, "w-[36rem] overflow-hidden text-[#202124]")}
+			ref={ref}
+		>
 			<div className="flex h-9 items-end bg-[#dee1e6] pr-2 pl-3">
 				<span className="mr-3 flex flex-none items-center gap-1.5 self-center">
 					<i className="size-2.5 rounded-full bg-[#ff5f57]" />

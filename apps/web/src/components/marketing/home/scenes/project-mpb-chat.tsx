@@ -14,7 +14,7 @@ import {
 import "./automate-scene.css";
 import "./project-mpb-chat.css";
 
-const site = "/images/case-studies/mp-bau-construction/fullpage.webp";
+const site = "/images/case-studies/mp-bau-construction/chat-scene.webp";
 
 // project card: the website of Märkische Projekt Bau and its AI
 // assistant. Beats: the pointer opens the chat from its button; the panel

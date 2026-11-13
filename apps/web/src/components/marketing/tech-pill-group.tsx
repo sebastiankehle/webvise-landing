@@ -1,15 +1,21 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { MarketingTag } from "@/components/marketing/marketing-tag";
+import { useInView } from "@/hooks/use-in-view";
 import { cn } from "@/lib/utils";
 
 export function TechPillGroup({ items }: { items: string[] }) {
 	const [active, setActive] = useState(-1);
+	const ref = useRef<HTMLDivElement>(null);
+	const inView = useInView(ref, { threshold: 0.3 });
 
 	useEffect(() => {
-		if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+		if (
+			!inView ||
+			window.matchMedia("(prefers-reduced-motion: reduce)").matches
+		) {
 			return;
 		}
 		let interval: ReturnType<typeof setInterval> | undefined;
@@ -29,10 +35,10 @@ export function TechPillGroup({ items }: { items: string[] }) {
 				clearInterval(interval);
 			}
 		};
-	}, [items.length]);
+	}, [items.length, inView]);
 
 	return (
-		<div className="flex flex-wrap gap-2">
+		<div className="flex flex-wrap gap-2" ref={ref}>
 			{items.map((tech, index) => (
 				<MarketingTag
 					className={cn(

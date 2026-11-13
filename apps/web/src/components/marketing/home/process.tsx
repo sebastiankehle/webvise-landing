@@ -245,7 +245,7 @@ export default async function Process() {
 			<SectionHeading description={t("subtitle")} title={t("title")} />
 			{/* The order is carried by the list itself and by the line that
 			    draws through the steps once they come into view. */}
-			<StaggerChildren className="process-steps mt-10 md:mt-14">
+			<StaggerChildren className="process-steps mt-10 md:mt-14" trackVisibility>
 				<ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
 					{stepKeys.map((key, index) => (
 						<li

@@ -51,11 +51,13 @@ export default function KernspanDamper({
 				stage.current = mountDamper(canvas.current, el, {
 					// With the rail, the part keeps the band it sits in clear.
 					inset: rail ? 60 : 0,
-					onJourney: (j) => {
-						if (!dragging.current) {
-							setJourney(Math.round(j * 200) / 200);
-						}
-					},
+					onJourney: rail
+						? (j) => {
+								if (!dragging.current) {
+									setJourney(Math.round(j * 200) / 200);
+								}
+							}
+						: undefined,
 					onReady: () => setLive(true),
 				});
 			} catch {
@@ -70,7 +72,11 @@ export default function KernspanDamper({
 			([entry]) => {
 				if (entry?.isIntersecting) {
 					near.disconnect();
-					mount().then(() => seen.observe(el));
+					mount().then(() => {
+						if (!gone) {
+							seen.observe(el);
+						}
+					});
 				}
 			},
 			{ rootMargin: "400px" }
