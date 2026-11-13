@@ -4,7 +4,7 @@ import { z } from "zod";
 export const env = createEnv({
 	client: {
 		NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN: z.string().optional(),
-		NEXT_PUBLIC_POSTHOG_HOST: z.url().optional(),
+		NEXT_PUBLIC_POSTHOG_HOST: z.string().optional(),
 	},
 	runtimeEnv: {
 		NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN:
