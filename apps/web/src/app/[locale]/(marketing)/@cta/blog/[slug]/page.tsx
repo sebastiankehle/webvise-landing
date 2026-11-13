@@ -1,6 +1,8 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
-import FooterCtaBanner from "@/components/marketing/footer-cta-banner";
+import FooterCtaBanner, {
+	bannerCovers,
+} from "@/components/marketing/footer-cta-banner";
 import { getBlogPostBySlug, getBlogPosts } from "@/data/blog";
 
 export function generateStaticParams() {
@@ -57,6 +59,7 @@ export default async function BlogCta({
 	return (
 		<FooterCtaBanner
 			buttonText={buttonText}
+			covers={bannerCovers(locale)}
 			headline={headline}
 			subtext={subtext}
 		/>
