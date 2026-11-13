@@ -13,8 +13,8 @@ export const wpHealthRouter = router({
 	run: wpHealthProcedure
 		.input(
 			z.object({
-				url: z.string().url(),
-				email: z.string().email().optional(),
+				url: z.string().url().max(2000),
+				email: z.string().email().max(200).optional(),
 				firstName: z.string().max(100).optional(),
 				// Optional so client bundles from before this field keep working.
 				locale: z.enum(["de", "en"]).optional(),

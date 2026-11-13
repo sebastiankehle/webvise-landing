@@ -10,7 +10,7 @@ vi.mock("node:dns/promises", () => ({
 	lookup: (...args: unknown[]) => lookupMock(...args),
 }));
 
-const { UrlValidationError, validateUrl } = await import(
+const { isBlockedAddress, UrlValidationError, validateUrl } = await import(
 	"@webvise-app/api/url-validation"
 );
 
@@ -88,18 +88,49 @@ describe("validateUrl", () => {
 	});
 
 	it("rejects when DNS resolves to a private IP (rebinding defence)", async () => {
-		lookupMock.mockResolvedValueOnce({ address: "10.0.0.5", family: 4 });
+		lookupMock.mockResolvedValueOnce([{ address: "10.0.0.5", family: 4 }]);
 		await expect(validateUrl("http://attacker.example.com")).rejects.toThrow(
 			NOT_ALLOWED_RE
 		);
 	});
 
 	it("accepts when DNS resolves to a public IP", async () => {
-		lookupMock.mockResolvedValueOnce({
-			address: "93.184.216.34",
-			family: 4,
-		});
+		lookupMock.mockResolvedValueOnce([{ address: "93.184.216.34", family: 4 }]);
 		await expect(validateUrl("https://example.com")).resolves.toBeUndefined();
+		expect(lookupMock).toHaveBeenCalledWith("example.com", { all: true });
+	});
+
+	it("rejects when any resolved address is private", async () => {
+		lookupMock.mockResolvedValueOnce([
+			{ address: "93.184.216.34", family: 4 },
+			{ address: "10.0.0.5", family: 4 },
+		]);
+		await expect(validateUrl("http://mixed.example.com")).rejects.toThrow(
+			NOT_ALLOWED_RE
+		);
+	});
+
+	it("rejects when DNS returns no addresses", async () => {
+		lookupMock.mockResolvedValueOnce([]);
+		await expect(validateUrl("http://empty.example.com")).rejects.toThrow(
+			NOT_ALLOWED_RE
+		);
+	});
+
+	it.each([
+		"http://[::ffff:127.0.0.1]/",
+		"http://[::ffff:a9fe:a9fe]/",
+		"http://[fe90::1]/",
+		"http://100.100.100.200/",
+		"http://198.18.0.1/",
+		"http://224.0.0.1/",
+	])("rejects special-range literal %s", async (url) => {
+		await expect(validateUrl(url)).rejects.toThrow(NOT_ALLOWED_RE);
+	});
+
+	it("isBlockedAddress allows public addresses", () => {
+		expect(isBlockedAddress("8.8.8.8")).toBe(false);
+		expect(isBlockedAddress("2606:4700::1")).toBe(false);
 	});
 
 	it("rejects when DNS lookup fails", async () => {

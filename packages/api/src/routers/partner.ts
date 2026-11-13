@@ -10,7 +10,22 @@ const INTEREST_LABELS: Record<string, string> = {
 	bring: "Bring webvise into their own projects",
 };
 
-function buildPartnerHtml(data: {
+function linkCell(value: string): string {
+	const candidates = [value, `https://${value}`];
+	for (const candidate of candidates) {
+		try {
+			const parsed = new URL(candidate);
+			if (parsed.protocol === "http:" || parsed.protocol === "https:") {
+				return `<a href="${escapeHtml(parsed.href)}" style="${s.link}">${escapeHtml(value)}</a>`;
+			}
+		} catch {
+			// not a URL in this form; try the next one
+		}
+	}
+	return escapeHtml(value);
+}
+
+export function buildPartnerHtml(data: {
 	name: string;
 	email: string;
 	discipline: string;
@@ -23,9 +38,6 @@ function buildPartnerHtml(data: {
 }) {
 	const name = escapeHtml(data.name);
 	const email = escapeHtml(data.email);
-	const linkedin = data.linkedin ? escapeHtml(data.linkedin) : null;
-	const x = data.x ? escapeHtml(data.x) : null;
-	const site = data.site ? escapeHtml(data.site) : null;
 	const message = data.message ? escapeHtml(data.message) : null;
 	const interestLabel = escapeHtml(
 		INTEREST_LABELS[data.interest] ?? data.interest
@@ -38,16 +50,9 @@ function buildPartnerHtml(data: {
 			`<a href="mailto:${email}" style="${s.link}">${email}</a>`
 		),
 		tableRow("Discipline", escapeHtml(data.discipline)),
-		linkedin
-			? tableRow(
-					"LinkedIn",
-					`<a href="${linkedin}" style="${s.link}">${linkedin}</a>`
-				)
-			: "",
-		x ? tableRow("X", `<a href="${x}" style="${s.link}">${x}</a>`) : "",
-		site
-			? tableRow("Website", `<a href="${site}" style="${s.link}">${site}</a>`)
-			: "",
+		data.linkedin ? tableRow("LinkedIn", linkCell(data.linkedin)) : "",
+		data.x ? tableRow("X", linkCell(data.x)) : "",
+		data.site ? tableRow("Website", linkCell(data.site)) : "",
 		tableRow("Interest", interestLabel),
 		tableRow("Received", data.timestamp),
 	].join("");

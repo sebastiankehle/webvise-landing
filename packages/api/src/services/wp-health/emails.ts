@@ -34,8 +34,10 @@ export function buildAdminHtml(data: {
 	const urgency = urgencyLabel(data.mobileScore);
 	const url = escapeHtml(data.url);
 	const email = escapeHtml(data.email);
-	const firstName = escapeHtml(
-		data.firstName || data.email.split("@")[0] || data.email
+	const rawName = data.firstName || data.email.split("@")[0] || data.email;
+	const firstName = escapeHtml(rawName);
+	const replyHref = escapeHtml(
+		`mailto:${encodeURIComponent(data.email)}?subject=${encodeURIComponent("Your webvise WordPress health report")}&body=${encodeURIComponent(`Hi ${rawName},\n\n`)}`
 	);
 
 	const issueRows = data.issues
@@ -98,15 +100,14 @@ export function buildAdminHtml(data: {
         <p style="${s.label}">Security flags</p>
         <ul style="margin:0;padding:0 0 0 18px">${securityRows}</ul>
       </div>
-      <a href="mailto:${email}?subject=Your webvise WordPress health report&body=Hi ${firstName},%0A%0A" style="${s.button}">Reply to ${firstName}</a>`,
+      <a href="${replyHref}" style="${s.button}">Reply to ${firstName}</a>`,
 	});
 }
 
 const PROSPECT_COPY = {
 	en: {
-		subject: (url: string) => `Your website report: ${url}`,
-		greeting: (name: string) => `Hi ${name}, here's your report`,
-		greetingNoName: "Hi there, here's your report",
+		subject: "Your website report from webvise",
+		greeting: "Hi there, here's your report",
 		analysedLead: "We've analysed",
 		analysedRest: "Here's what we found and what's possible.",
 		today: "Performance today",
@@ -131,9 +132,8 @@ const PROSPECT_COPY = {
 		signOff: "- The webvise team",
 	},
 	de: {
-		subject: (url: string) => `Ihr Website-Report: ${url}`,
-		greeting: (name: string) => `Hallo ${name}, hier ist Ihr Report`,
-		greetingNoName: "Guten Tag, hier ist Ihr Report",
+		subject: "Ihr Website-Report von webvise",
+		greeting: "Guten Tag, hier ist Ihr Report",
 		analysedLead: "Wir haben",
 		analysedRest: "analysiert. Das haben wir gefunden, und das ist möglich.",
 		today: "Performance heute",
@@ -164,7 +164,6 @@ export type ProspectLocale = keyof typeof PROSPECT_COPY;
 
 interface ProspectData {
 	desktopScore: number;
-	firstName?: string;
 	issues: Array<{ title: string; displayValue?: string }>;
 	locale?: ProspectLocale;
 	mobileScore: number;
@@ -172,15 +171,13 @@ interface ProspectData {
 	url: string;
 }
 
-export function prospectSubject(url: string, locale: ProspectLocale = "en") {
-	return PROSPECT_COPY[locale].subject(url);
+export function prospectSubject(locale: ProspectLocale = "en") {
+	return PROSPECT_COPY[locale].subject;
 }
 
 export function buildProspectHtml(data: ProspectData) {
 	const t = PROSPECT_COPY[data.locale ?? "en"];
-	const greeting = data.firstName
-		? t.greeting(escapeHtml(data.firstName))
-		: t.greetingNoName;
+	const greeting = t.greeting;
 	const url = escapeHtml(data.url);
 	const site = `<strong style="color:${c.text}">${url}</strong>`;
 	const analysed =
@@ -244,11 +241,7 @@ export function buildProspectHtml(data: ProspectData) {
 
 export function prospectText(data: ProspectData) {
 	const t = PROSPECT_COPY[data.locale ?? "en"];
-	const hello = data.locale === "de" ? "Hallo" : "Hi";
-	let salutation = `${hello} ${data.firstName},`;
-	if (!data.firstName) {
-		salutation = data.locale === "de" ? "Guten Tag," : "Hi there,";
-	}
+	const salutation = data.locale === "de" ? "Guten Tag," : "Hi there,";
 
 	return [
 		salutation,

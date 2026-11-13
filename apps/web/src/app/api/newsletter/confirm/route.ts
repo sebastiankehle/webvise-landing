@@ -46,7 +46,7 @@ function redirectToResult(
 
 async function getInterests(email: string): Promise<Interest[]> {
 	try {
-		return await db.query.leadEvent.findMany({
+		const events = await db.query.leadEvent.findMany({
 			where: (event, { eq }) => eq(event.email, email),
 			orderBy: (event, { asc }) => [asc(event.createdAt)],
 			columns: {
@@ -56,6 +56,10 @@ async function getInterests(email: string): Promise<Interest[]> {
 			},
 			limit: 20,
 		});
+		// Health-report events are not newsletter interests.
+		return events.filter(
+			(event): event is Interest => event.eventType !== "wp_health_report"
+		);
 	} catch (err) {
 		console.error(
 			"[email:newsletter-confirm] failed to read interest events:",

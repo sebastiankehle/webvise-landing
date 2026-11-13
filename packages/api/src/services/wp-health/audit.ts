@@ -1,3 +1,6 @@
+import { db } from "@webvise-app/db";
+import { leadEvent } from "@webvise-app/db/schema/newsletter";
+import { and, eq, gt } from "drizzle-orm";
 import { sendEmail } from "../../email/resend";
 import { UrlValidationError, validateUrl } from "../../url-validation";
 import {
@@ -69,6 +72,39 @@ function buildSecurityFlags(url: string, tech: TechFlags): string[] {
 	return flags;
 }
 
+const PROSPECT_EMAIL_WINDOW_MS = 24 * 60 * 60 * 1000;
+
+/** At most one report email per address per day. Fails closed on DB errors. */
+async function canSendProspectEmail(email: string): Promise<boolean> {
+	try {
+		const prior = await db.query.leadEvent.findFirst({
+			where: and(
+				eq(leadEvent.email, email),
+				eq(leadEvent.eventType, "wp_health_report"),
+				gt(leadEvent.createdAt, new Date(Date.now() - PROSPECT_EMAIL_WINDOW_MS))
+			),
+		});
+		return !prior;
+	} catch (e) {
+		console.error("[wp-health] could not check report email cap:", e);
+		return false;
+	}
+}
+
+async function recordProspectEmail(email: string, url: string): Promise<void> {
+	try {
+		await db.insert(leadEvent).values({
+			email,
+			eventType: "wp_health_report",
+			placement: "wp_health_report",
+			path: "/wp-health-report",
+			topic: new URL(url).hostname,
+		});
+	} catch (e) {
+		console.error("[wp-health] could not record report email:", e);
+	}
+}
+
 export async function runWpHealthAudit(
 	input: AuditInput
 ): Promise<AuditOutcome> {
@@ -131,7 +167,10 @@ export async function runWpHealthAudit(
 			timeZone: "Europe/Berlin",
 		});
 
-		await Promise.allSettled([
+		const normalizedEmail = input.email.trim().toLowerCase();
+		const sendProspect = await canSendProspectEmail(normalizedEmail);
+
+		const sends: Promise<unknown>[] = [
 			sendEmail({
 				label: "wp-health-admin",
 				from: "webvise <noreply@webvise.io>",
@@ -172,32 +211,42 @@ export async function runWpHealthAudit(
 					.filter(Boolean)
 					.join("\n"),
 			}),
-			sendEmail({
-				label: "wp-health-prospect",
-				from: "webvise <mail@webvise.io>",
-				to: input.email,
-				replyTo: adminEmail,
-				subject: prospectSubject(input.url, input.locale),
-				html: buildProspectHtml({
-					url: input.url,
-					firstName: input.firstName,
-					locale: input.locale,
-					mobileScore,
-					desktopScore,
-					projectedScore,
-					issues,
-				}),
-				text: prospectText({
-					url: input.url,
-					firstName: input.firstName,
-					locale: input.locale,
-					mobileScore,
-					desktopScore,
-					projectedScore,
-					issues,
-				}),
-			}),
-		]);
+		];
+
+		if (sendProspect) {
+			sends.push(
+				sendEmail({
+					label: "wp-health-prospect",
+					from: "webvise <mail@webvise.io>",
+					to: input.email,
+					replyTo: adminEmail,
+					subject: prospectSubject(input.locale),
+					html: buildProspectHtml({
+						url: input.url,
+						locale: input.locale,
+						mobileScore,
+						desktopScore,
+						projectedScore,
+						issues,
+					}),
+					text: prospectText({
+						url: input.url,
+						locale: input.locale,
+						mobileScore,
+						desktopScore,
+						projectedScore,
+						issues,
+					}),
+				}).then(async (sent) => {
+					if (sent.ok) {
+						await recordProspectEmail(normalizedEmail, input.url);
+					}
+					return sent;
+				})
+			);
+		}
+
+		await Promise.allSettled(sends);
 	}
 
 	return {

@@ -1,11 +1,22 @@
-import { detectTechnology } from "@webvise-app/api/services/wp-health/tech-detect";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+
+const lookupMock = vi.fn();
+
+vi.mock("node:dns/promises", () => ({
+	lookup: (...args: unknown[]) => lookupMock(...args),
+}));
+
+const { detectTechnology } = await import(
+	"@webvise-app/api/services/wp-health/tech-detect"
+);
 
 describe("detectTechnology", () => {
 	const fetchMock = vi.fn();
 
 	beforeEach(() => {
 		fetchMock.mockReset();
+		lookupMock.mockReset();
+		lookupMock.mockResolvedValue([{ address: "93.184.216.34", family: 4 }]);
 		vi.stubGlobal("fetch", fetchMock);
 	});
 
@@ -87,5 +98,14 @@ describe("detectTechnology", () => {
 		const t = await detectTechnology("https://example.com");
 		expect(t.isWordPress).toBe(false);
 		expect(t.isPHP).toBe(false);
+	});
+
+	it("returns false flags when a redirect points at a private address", async () => {
+		fetchMock.mockResolvedValueOnce(
+			Response.redirect("http://127.0.0.1/wp-content/", 302)
+		);
+		const t = await detectTechnology("https://example.com");
+		expect(t).toEqual({ isWordPress: false, isPHP: false });
+		expect(fetchMock).toHaveBeenCalledTimes(1);
 	});
 });

@@ -2,6 +2,19 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const lookupMock = vi.fn();
 const sendEmailMock = vi.fn();
+const findFirstMock = vi.fn();
+const insertValuesMock = vi.fn();
+
+vi.mock("@webvise-app/db", () => ({
+	db: {
+		query: {
+			leadEvent: { findFirst: (...args: unknown[]) => findFirstMock(...args) },
+		},
+		insert: () => ({
+			values: (...args: unknown[]) => insertValuesMock(...args),
+		}),
+	},
+}));
 
 vi.mock("node:dns/promises", () => ({
 	lookup: (...args: unknown[]) => lookupMock(...args),
@@ -44,10 +57,14 @@ describe("runWpHealthAudit", () => {
 		fetchMock.mockReset();
 		lookupMock.mockReset();
 		sendEmailMock.mockReset();
+		findFirstMock.mockReset();
+		insertValuesMock.mockReset();
+		findFirstMock.mockResolvedValue(undefined);
+		insertValuesMock.mockResolvedValue(undefined);
 		vi.stubGlobal("fetch", fetchMock);
 		process.env.GOOGLE_PAGESPEED_API_KEY = "psi-key";
 		// Default: dns resolves to a public IP so validateUrl passes
-		lookupMock.mockResolvedValue({ address: "93.184.216.34", family: 4 });
+		lookupMock.mockResolvedValue([{ address: "93.184.216.34", family: 4 }]);
 	});
 
 	afterEach(() => {
@@ -151,7 +168,7 @@ describe("runWpHealthAudit", () => {
 	});
 
 	it("returns invalid_url when DNS resolves to a private IP (rebinding)", async () => {
-		lookupMock.mockResolvedValueOnce({ address: "10.0.0.1", family: 4 });
+		lookupMock.mockResolvedValueOnce([{ address: "10.0.0.1", family: 4 }]);
 		const out = await runWpHealthAudit({ url: "https://attacker.example" });
 		expect(out.ok).toBe(false);
 		expect(out.ok === false && out.error.kind).toBe("invalid_url");
@@ -230,5 +247,66 @@ describe("runWpHealthAudit", () => {
 		);
 		expect(adminCall?.[0].subject).toContain("https://example.com");
 		expect(adminCall?.[0].subject).toContain("42");
+	});
+
+	it("sends only the admin email when a report went to the address in the last 24h", async () => {
+		setupPsi(45, 80);
+		sendEmailMock.mockResolvedValue({ ok: true });
+		findFirstMock.mockResolvedValue({ id: "prior" });
+		await runWpHealthAudit({
+			url: "https://example.com",
+			email: "Lead@Example.com",
+		});
+		const labels = sendEmailMock.mock.calls.map((c) => c[0].label);
+		expect(labels).toEqual(["wp-health-admin"]);
+		expect(insertValuesMock).not.toHaveBeenCalled();
+	});
+
+	it("sends only the admin email when the cap lookup throws", async () => {
+		setupPsi(45, 80);
+		sendEmailMock.mockResolvedValue({ ok: true });
+		findFirstMock.mockRejectedValue(new Error("db down"));
+		const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {
+			// silence expected log
+		});
+		await runWpHealthAudit({
+			url: "https://example.com",
+			email: "lead@example.com",
+		});
+		errorSpy.mockRestore();
+		const labels = sendEmailMock.mock.calls.map((c) => c[0].label);
+		expect(labels).toEqual(["wp-health-admin"]);
+	});
+
+	it("keeps visitor-typed text and the URL out of the prospect email", async () => {
+		setupPsi(45, 80);
+		sendEmailMock.mockResolvedValue({ ok: true });
+		await runWpHealthAudit({
+			url: "https://example.com",
+			email: "lead@example.com",
+			firstName: "Mallory",
+		});
+		const prospect = sendEmailMock.mock.calls.find(
+			(c) => c[0].label === "wp-health-prospect"
+		)?.[0];
+		expect(prospect.subject).not.toContain("example.com");
+		expect(prospect.html).not.toContain("Mallory");
+		expect(prospect.text).not.toContain("Mallory");
+	});
+
+	it("records a wp_health_report lead event after the prospect email is sent", async () => {
+		setupPsi(45, 80);
+		sendEmailMock.mockResolvedValue({ ok: true });
+		await runWpHealthAudit({
+			url: "https://example.com/page",
+			email: " Lead@Example.com ",
+		});
+		expect(insertValuesMock).toHaveBeenCalledWith({
+			email: "lead@example.com",
+			eventType: "wp_health_report",
+			placement: "wp_health_report",
+			path: "/wp-health-report",
+			topic: "example.com",
+		});
 	});
 });
