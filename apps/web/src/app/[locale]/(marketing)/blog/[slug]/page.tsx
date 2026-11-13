@@ -243,6 +243,16 @@ function RenderBlock({
 					))}
 				</ul>
 			);
+		case "ol":
+			return (
+				<ol className="mb-6 list-decimal space-y-2 break-words pl-5 text-base text-muted-foreground leading-7 marker:text-brand-readable/50">
+					{block.items.map((item) => (
+						<li className="pl-1" key={item}>
+							{renderInline(item, locale)}
+						</li>
+					))}
+				</ol>
+			);
 		case "table":
 			return (
 				<div className="mb-5 max-w-full overflow-x-auto">

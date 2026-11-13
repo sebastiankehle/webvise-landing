@@ -8,6 +8,7 @@ export type Block =
 	| { type: "h2"; text: string }
 	| { type: "h3"; text: string }
 	| { type: "ul"; items: string[] }
+	| { type: "ol"; items: string[] }
 	| { type: "table"; headers: string[]; rows: string[][] }
 	| { type: "download"; title: string; description: string; reportId: string };
 
