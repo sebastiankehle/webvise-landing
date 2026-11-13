@@ -97,7 +97,7 @@ describe("unsubscribeUrl", () => {
 	it("produces a signed token with three dot-separated segments", () => {
 		const url = unsubscribeUrl("user@example.com");
 		const parsed = new URL(url);
-		expect(parsed.host).toBe("webvise.io");
+		expect(parsed.host).toBe("www.webvise.io");
 		expect(parsed.pathname).toBe("/api/unsubscribe");
 		const token = parsed.searchParams.get("token");
 		expect(token).toBeTruthy();
@@ -109,7 +109,7 @@ describe("newsletterConfirmationUrl", () => {
 	it("produces a signed token with three dot-separated segments", () => {
 		const url = newsletterConfirmationUrl("user@example.com");
 		const parsed = new URL(url);
-		expect(parsed.host).toBe("webvise.io");
+		expect(parsed.host).toBe("www.webvise.io");
 		expect(parsed.pathname).toBe("/api/newsletter/confirm");
 		const token = parsed.searchParams.get("token");
 		expect(token).toBeTruthy();

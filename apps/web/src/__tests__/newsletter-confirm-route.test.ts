@@ -24,6 +24,11 @@ const dbMock = vi.hoisted(() => {
 			}>
 		> => []
 	);
+	const findFirst = vi.fn(
+		async (): Promise<
+			{ status: string; path: string; placement: string } | undefined
+		> => ({ status: "pending", path: "/en", placement: "unknown" })
+	);
 	const returning = vi.fn(
 		async (): Promise<Array<{ path: string; placement?: string }>> => [
 			{ path: "/en", placement: "unknown" },
@@ -32,13 +37,16 @@ const dbMock = vi.hoisted(() => {
 	const onConflictDoUpdate = vi.fn(() => ({ returning }));
 	const values = vi.fn(() => ({ onConflictDoUpdate }));
 	const insert = vi.fn(() => ({ values }));
-	return { findMany, insert, values, onConflictDoUpdate, returning };
+	return { findMany, findFirst, insert, values, onConflictDoUpdate, returning };
 });
 
 vi.mock("@webvise-app/db", () => ({
 	db: {
 		insert: dbMock.insert,
-		query: { leadEvent: { findMany: dbMock.findMany } },
+		query: {
+			leadEvent: { findMany: dbMock.findMany },
+			newsletterSubscriber: { findFirst: dbMock.findFirst },
+		},
 	},
 }));
 
@@ -73,6 +81,12 @@ describe("/api/newsletter/confirm", () => {
 		dbMock.returning.mockClear();
 		dbMock.findMany.mockClear();
 		dbMock.findMany.mockResolvedValue([]);
+		dbMock.findFirst.mockReset();
+		dbMock.findFirst.mockResolvedValue({
+			status: "pending",
+			path: "/en",
+			placement: "unknown",
+		});
 		dbMock.returning.mockResolvedValue([{ path: "/en", placement: "unknown" }]);
 	});
 
@@ -220,7 +234,11 @@ describe("/api/newsletter/confirm", () => {
 	});
 
 	it("does not send duplicate emails when the subscriber is already confirmed", async () => {
-		dbMock.returning.mockResolvedValue([]);
+		dbMock.findFirst.mockResolvedValue({
+			status: "confirmed",
+			path: "/en",
+			placement: "unknown",
+		});
 		const token = createNewsletterConfirmationToken(
 			"reader@example.com",
 			Date.now(),
@@ -234,11 +252,61 @@ describe("/api/newsletter/confirm", () => {
 			"https://webvise.io/newsletter-confirmed?success=true"
 		);
 		expect(fetchMock).not.toHaveBeenCalled();
+		expect(dbMock.insert).not.toHaveBeenCalled();
+	});
+
+	it("does not mark the row confirmed when Resend fails", async () => {
+		fetchMock.mockResolvedValue(new Response("{}", { status: 500 }));
+		const token = createNewsletterConfirmationToken(
+			"reader@example.com",
+			Date.now(),
+			envMock.BETTER_AUTH_SECRET
+		);
+
+		const response = await postConfirmation(token);
+
+		expect(response.status).toBe(303);
+		expect(response.headers.get("location")).toBe(
+			"https://webvise.io/newsletter-confirmed?error=failed"
+		);
+		expect(dbMock.insert).not.toHaveBeenCalled();
+	});
+
+	it("confirms a previously unsubscribed subscriber", async () => {
+		dbMock.findFirst.mockResolvedValue({
+			status: "unsubscribed",
+			path: "/en",
+			placement: "footer",
+		});
+		const token = createNewsletterConfirmationToken(
+			"reader@example.com",
+			Date.now(),
+			envMock.BETTER_AUTH_SECRET
+		);
+
+		const response = await postConfirmation(token);
+
+		expect(response.status).toBe(303);
+		expect(fetchMock.mock.calls[0][0]).toBe("https://api.resend.com/contacts");
+		expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toEqual({
+			email: "reader@example.com",
+			unsubscribed: false,
+		});
+		expect(fetchMock.mock.calls[1][0]).toBe("https://api.resend.com/emails");
+		expect(JSON.parse(fetchMock.mock.calls[1][1].body).subject).toBe(
+			"Welcome to the webvise newsletter"
+		);
+		expect(dbMock.insert).toHaveBeenCalledOnce();
 	});
 
 	it("sends a topic-specific welcome email when the signup came from a blog post", async () => {
+		dbMock.findFirst.mockResolvedValue({
+			status: "pending",
+			path: "/en/blog/llm-wiki-3-month-report",
+			placement: "blog_article",
+		});
 		dbMock.returning.mockResolvedValue([
-			{ path: "/en/blog/llm-wiki-3-month-report" },
+			{ path: "/en/blog/llm-wiki-3-month-report", placement: "blog_article" },
 		]);
 		const token = createNewsletterConfirmationToken(
 			"reader@example.com",
@@ -255,6 +323,7 @@ describe("/api/newsletter/confirm", () => {
 	});
 
 	it("falls back to the generic welcome email when the subscriber row is missing", async () => {
+		dbMock.findFirst.mockRejectedValue(new Error("db down"));
 		dbMock.returning.mockRejectedValue(new Error("db down"));
 		const token = createNewsletterConfirmationToken(
 			"reader@example.com",

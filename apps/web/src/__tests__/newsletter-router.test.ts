@@ -103,6 +103,25 @@ describe("newsletterRouter.subscribe", () => {
 		expect(dbMock.onConflictDoUpdate).toHaveBeenCalledOnce();
 	});
 
+	it("sets an unsubscribed subscriber back to pending when they sign up again", async () => {
+		const caller = newsletterRouter.createCaller({
+			ip: "newsletter-router-test-resubscribe",
+			session: null,
+		});
+
+		await caller.subscribe({
+			email: "reader@example.com",
+			placement: "footer",
+			path: "/en",
+		});
+
+		expect(dbMock.onConflictDoUpdate).toHaveBeenCalledWith(
+			expect.objectContaining({
+				set: expect.objectContaining({ status: "pending" }),
+			})
+		);
+	});
+
 	it("falls back to an unknown source when the client sends none", async () => {
 		const caller = newsletterRouter.createCaller({
 			ip: "newsletter-router-test-3",

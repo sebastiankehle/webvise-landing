@@ -47,9 +47,10 @@ export const newsletterRouter = router({
 					.values({ email, placement, path })
 					.onConflictDoUpdate({
 						target: newsletterSubscriber.email,
-						set: { placement, path, updatedAt: new Date() },
-						// Confirmed subscribers keep their first-touch source.
-						setWhere: sql`${newsletterSubscriber.status} = 'pending'`,
+						set: { placement, path, status: "pending", updatedAt: new Date() },
+						// Confirmed subscribers keep their first-touch source; an
+						// unsubscribed row goes back to pending until they confirm again.
+						setWhere: sql`${newsletterSubscriber.status} <> 'confirmed'`,
 					});
 			} catch (err) {
 				console.error(

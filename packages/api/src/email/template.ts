@@ -43,11 +43,11 @@ const font =
 	"'Hanken Grotesk', Geist, Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
 
 export function unsubscribeUrl(email: string): string {
-	return `https://webvise.io/api/unsubscribe?token=${createUnsubscribeToken(email)}`;
+	return `https://www.webvise.io/api/unsubscribe?token=${createUnsubscribeToken(email)}`;
 }
 
 export function newsletterConfirmationUrl(email: string): string {
-	return `https://webvise.io/api/newsletter/confirm?token=${createNewsletterConfirmationToken(email)}`;
+	return `https://www.webvise.io/api/newsletter/confirm?token=${createNewsletterConfirmationToken(email)}`;
 }
 
 export function emailLayout(opts: {

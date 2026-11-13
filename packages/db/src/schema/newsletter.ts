@@ -5,7 +5,7 @@ export const newsletterSubscriber = pgTable("newsletter_subscriber", {
 	email: text("email").notNull().unique(),
 	placement: text("placement").notNull(),
 	path: text("path").notNull(),
-	status: text("status", { enum: ["pending", "confirmed"] })
+	status: text("status", { enum: ["pending", "confirmed", "unsubscribed"] })
 		.default("pending")
 		.notNull(),
 	createdAt: timestamp("created_at").defaultNow().notNull(),

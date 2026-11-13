@@ -11,7 +11,7 @@ import { sendEmail, setContact } from "@webvise-app/api/email/resend";
 import { unsubscribeUrl } from "@webvise-app/api/email/template";
 import { db } from "@webvise-app/db";
 import { newsletterSubscriber } from "@webvise-app/db/schema/newsletter";
-import { sql } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { welcomeSourceFromPath } from "@/lib/newsletter-topic";
 
@@ -81,23 +81,34 @@ export function GET(request: Request) {
 	return redirectToResult(request, { token });
 }
 
-export async function POST(request: Request) {
-	const formData = await request.formData();
-	const token = formData.get("token");
-	if (typeof token !== "string") {
-		return redirectToResult(request, { error: "missing" }, 303);
-	}
+interface SubscriberSource {
+	path: string;
+	placement: string;
+}
 
-	const verified = verifyNewsletterConfirmationToken(token);
-	if (!verified.ok) {
-		return redirectToResult(request, { error: "invalid" }, 303);
+async function readSubscriber(
+	email: string
+): Promise<(SubscriberSource & { status: string }) | undefined> {
+	try {
+		return await db.query.newsletterSubscriber.findFirst({
+			where: eq(newsletterSubscriber.email, email),
+			columns: { status: true, path: true, placement: true },
+		});
+	} catch (err) {
+		console.error(
+			"[email:newsletter-confirm] failed to read subscriber row:",
+			err instanceof Error ? err.message : err
+		);
+		return;
 	}
-	const email = verified.email;
+}
 
-	// Confirm the subscriber row and read back the signup source. The insert
-	// covers the edge case where the pending row was never written.
-	let subscriberPath: string | null = null;
-	let subscriberPlacement = "unknown";
+// Returns the confirmed row, null when a concurrent click already confirmed
+// it, or undefined when the write failed. The insert covers the edge case
+// where the pending row was never written.
+async function markConfirmed(
+	email: string
+): Promise<SubscriberSource | null | undefined> {
 	try {
 		const [row] = await db
 			.insert(newsletterSubscriber)
@@ -115,23 +126,43 @@ export async function POST(request: Request) {
 					confirmedAt: new Date(),
 					updatedAt: new Date(),
 				},
-				setWhere: sql`${newsletterSubscriber.status} = 'pending'`,
+				setWhere: sql`${newsletterSubscriber.status} <> 'confirmed'`,
 			})
 			.returning({
 				path: newsletterSubscriber.path,
 				placement: newsletterSubscriber.placement,
 			});
-		subscriberPath = row?.path ?? null;
-		subscriberPlacement = row?.placement ?? "unknown";
-		if (!row) {
-			return redirectToResult(request, { success: "true" }, 303);
-		}
+		return row ?? null;
 	} catch (err) {
 		console.error(
 			"[email:newsletter-confirm] failed to update subscriber row:",
 			err instanceof Error ? err.message : err
 		);
+		return;
 	}
+}
+
+export async function POST(request: Request) {
+	const formData = await request.formData();
+	const token = formData.get("token");
+	if (typeof token !== "string") {
+		return redirectToResult(request, { error: "missing" }, 303);
+	}
+
+	const verified = verifyNewsletterConfirmationToken(token);
+	if (!verified.ok) {
+		return redirectToResult(request, { error: "invalid" }, 303);
+	}
+	const email = verified.email;
+
+	// Read the current row first. Nothing is written until Resend accepts the
+	// contact, so a failed attempt can be retried from a clean state.
+	const existing = await readSubscriber(email);
+	if (existing?.status === "confirmed") {
+		return redirectToResult(request, { success: "true" }, 303);
+	}
+	let subscriberPath: string | null = existing?.path ?? null;
+	let subscriberPlacement = existing?.placement ?? "unknown";
 
 	const contactResult = await setContact({
 		label: "newsletter-confirm",
@@ -147,6 +178,16 @@ export async function POST(request: Request) {
 			},
 			303
 		);
+	}
+
+	const confirmed = await markConfirmed(email);
+	if (confirmed === null) {
+		// A concurrent click already confirmed this subscriber.
+		return redirectToResult(request, { success: "true" }, 303);
+	}
+	if (confirmed) {
+		subscriberPath = confirmed.path;
+		subscriberPlacement = confirmed.placement;
 	}
 
 	const locale = emailLocaleFromPath(subscriberPath);
