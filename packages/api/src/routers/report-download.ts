@@ -29,7 +29,7 @@ function deckReport(
 	};
 }
 
-const REPORTS: Record<
+export const REPORTS: Record<
 	string,
 	{ de: string; en: string; subject: string; subjectEn?: string }
 > = {
