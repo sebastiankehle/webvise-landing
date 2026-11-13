@@ -1,35 +1,65 @@
 "use client";
 
+import { MessageCircle } from "lucide-react";
 import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
+import { useState } from "react";
 
-const ChatWidget = dynamic(() => import("./chat-widget"), { ssr: false });
+import { Button } from "@/components/ui/button";
 
-const FIRST_SIGNS = ["pointermove", "scroll", "keydown", "touchstart"] as const;
-const QUIET_LIMIT = 8000;
+function Launcher({
+	disabled,
+	onClick,
+	onPrefetch,
+}: {
+	disabled?: boolean;
+	onClick?: () => void;
+	onPrefetch?: () => void;
+}) {
+	const t = useTranslations("chatWidget");
+	return (
+		<Button
+			aria-controls="webvise-chat-widget"
+			aria-expanded={false}
+			aria-label={t("open")}
+			className="fixed right-6 bottom-6 z-40 size-13 rounded-full shadow-[0_12px_28px_-10px_rgba(14,18,23,0.6)]"
+			data-marketing-floating="true"
+			disabled={disabled}
+			onClick={onClick}
+			onFocus={onPrefetch}
+			onPointerEnter={onPrefetch}
+			onTouchStart={onPrefetch}
+			size="icon-lg"
+			type="button"
+			variant="brand"
+		>
+			<MessageCircle className="h-5 w-5" />
+		</Button>
+	);
+}
 
-/** The chat widget brings a markdown renderer and the AI client with it, so
- * it stays out of the first load: it mounts on the visitor's first sign of
- * life, or after a few quiet seconds. */
+const ChatWidget = dynamic(() => import("./chat-widget"), {
+	loading: () => <Launcher disabled />,
+	ssr: false,
+});
+
+const loadChat = () => import("./chat-widget");
+
+/** Only this launcher ships with the page. The chat widget brings a markdown
+ * renderer and the AI client, so it loads when the visitor hovers, focuses or
+ * clicks the button. */
 export default function ChatWidgetMount() {
-	const [show, setShow] = useState(false);
+	const [ready, setReady] = useState(false);
 
-	useEffect(() => {
-		const reveal = () => setShow(true);
-		const timer = window.setTimeout(reveal, QUIET_LIMIT);
-		for (const sign of FIRST_SIGNS) {
-			window.addEventListener(sign, reveal, { once: true, passive: true });
-		}
-		return () => {
-			window.clearTimeout(timer);
-			for (const sign of FIRST_SIGNS) {
-				window.removeEventListener(sign, reveal);
-			}
-		};
-	}, []);
-
-	if (!show) {
-		return null;
+	if (ready) {
+		return <ChatWidget defaultOpen />;
 	}
-	return <ChatWidget />;
+	return (
+		<Launcher
+			onClick={() => setReady(true)}
+			onPrefetch={() => {
+				loadChat();
+			}}
+		/>
+	);
 }

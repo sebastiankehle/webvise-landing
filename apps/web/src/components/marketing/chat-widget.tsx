@@ -41,9 +41,13 @@ function useIsMobile() {
 	return mobile;
 }
 
-export default function ChatWidget() {
+export default function ChatWidget({
+	defaultOpen = false,
+}: {
+	defaultOpen?: boolean;
+}) {
 	const t = useTranslations("chatWidget");
-	const [open, setOpen] = useState(false);
+	const [open, setOpen] = useState(defaultOpen);
 	const [input, setInput] = useState("");
 	const messagesEndRef = useRef<HTMLDivElement>(null);
 	const inputRef = useRef<HTMLInputElement>(null);
@@ -78,6 +82,13 @@ export default function ChatWidget() {
 			inputRef.current?.focus();
 		}
 	}, [open]);
+
+	// biome-ignore lint/correctness/useExhaustiveDependencies: runs once on mount
+	useEffect(() => {
+		if (defaultOpen) {
+			track("chat_opened");
+		}
+	}, []);
 
 	const closeChat = useCallback(() => {
 		setOpen(false);
