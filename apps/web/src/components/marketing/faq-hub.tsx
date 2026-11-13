@@ -133,7 +133,7 @@ export default function FaqHub({
 						{shown.map((topic) => (
 							<section aria-labelledby={`faq-${topic.id}`} key={topic.id}>
 								<h2
-									className="font-display text-2xl text-foreground leading-snug"
+									className="text-balance font-display text-2xl text-foreground leading-snug"
 									id={`faq-${topic.id}`}
 								>
 									{topic.slug ? (

@@ -26,12 +26,9 @@ export default async function MidCta() {
 							brand: (chunks) => (
 								<span className="text-brand-readable">{chunks}</span>
 							),
-							br: () => (
-								<>
-									<span className="md:hidden"> </span>
-									<br className="hidden md:block" />
-								</>
-							),
+							// Each sentence starts its own line, on a phone too, so no
+							// line ends in the middle of the next sentence
+							br: () => <br />,
 						})}
 					</H2>
 					<Muted className="mt-4 max-w-[560px]">{t("subtitle")}</Muted>

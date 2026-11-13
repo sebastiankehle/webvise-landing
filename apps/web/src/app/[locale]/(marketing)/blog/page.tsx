@@ -234,7 +234,7 @@ export default async function BlogPage({
 										})}
 									</time>
 									<span className="md:col-span-8">
-										<h2 className="font-display text-foreground text-lg leading-snug">
+										<h2 className="text-pretty font-display text-foreground text-lg leading-snug">
 											{post.title}
 										</h2>
 										<span className="mt-1.5 line-clamp-2 block max-w-[68ch] text-base text-foreground/75 leading-[1.6]">
