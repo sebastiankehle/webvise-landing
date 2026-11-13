@@ -68,7 +68,7 @@ describe("newsletterRouter.subscribe", () => {
 			path: "/blog",
 		});
 
-		const body = JSON.parse(fetchMock.mock.calls[0][1].body);
+		const body = JSON.parse(fetchMock.mock.calls[0]?.[1].body);
 		expect(body.subject).toBe(
 			"Bitte bestätigen Sie Ihre Anmeldung zum webvise Newsletter"
 		);

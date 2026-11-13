@@ -37,7 +37,7 @@ describe("runPageSpeedInsights", () => {
 		envMock.GOOGLE_PAGESPEED_API_KEY = "k123";
 		fetchMock.mockResolvedValueOnce(new Response("{}", { status: 200 }));
 		await runPageSpeedInsights("https://example.com", "mobile");
-		const url = new URL(fetchMock.mock.calls[0][0]);
+		const url = new URL(fetchMock.mock.calls[0]?.[0]);
 		expect(url.host).toBe("www.googleapis.com");
 		expect(url.pathname).toBe("/pagespeedonline/v5/runPagespeed");
 		expect(url.searchParams.get("url")).toBe("https://example.com");
@@ -50,7 +50,7 @@ describe("runPageSpeedInsights", () => {
 		envMock.GOOGLE_PAGESPEED_API_KEY = undefined;
 		fetchMock.mockResolvedValueOnce(new Response("{}", { status: 200 }));
 		await runPageSpeedInsights("https://example.com", "desktop");
-		const url = new URL(fetchMock.mock.calls[0][0]);
+		const url = new URL(fetchMock.mock.calls[0]?.[0]);
 		expect(url.searchParams.has("key")).toBe(false);
 	});
 

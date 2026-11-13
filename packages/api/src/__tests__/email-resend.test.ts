@@ -51,7 +51,7 @@ describe("sendEmail", () => {
 		});
 		expect(r.ok).toBe(true);
 		expect(fetchMock).toHaveBeenCalledOnce();
-		const [url, init] = fetchMock.mock.calls[0];
+		const [url, init] = fetchMock.mock.calls[0] ?? [];
 		expect(url).toBe("https://api.resend.com/emails");
 		expect(init.method).toBe("POST");
 		expect(init.headers.Authorization).toBe("Bearer test-key");
@@ -75,7 +75,7 @@ describe("sendEmail", () => {
 			subject: "s",
 			html: "h",
 		});
-		const body = JSON.parse(fetchMock.mock.calls[0][1].body);
+		const body = JSON.parse(fetchMock.mock.calls[0]?.[1].body);
 		expect(body.reply_to).toBe("reply@x");
 	});
 
@@ -88,7 +88,7 @@ describe("sendEmail", () => {
 			subject: "s",
 			html: "h",
 		});
-		const body = JSON.parse(fetchMock.mock.calls[0][1].body);
+		const body = JSON.parse(fetchMock.mock.calls[0]?.[1].body);
 		expect(body.to).toEqual(["single@x"]);
 	});
 
@@ -103,7 +103,7 @@ describe("sendEmail", () => {
 			headers: { "List-Unsubscribe": "<mailto:u@x>" },
 			attachments: [{ filename: "x.pdf", content: "BASE64" }],
 		});
-		const body = JSON.parse(fetchMock.mock.calls[0][1].body);
+		const body = JSON.parse(fetchMock.mock.calls[0]?.[1].body);
 		expect(body.headers).toEqual({ "List-Unsubscribe": "<mailto:u@x>" });
 		expect(body.attachments).toEqual([
 			{ filename: "x.pdf", content: "BASE64" },
@@ -160,7 +160,7 @@ describe("setContact", () => {
 			subscribed: true,
 		});
 		expect(r.ok).toBe(true);
-		const [url, init] = fetchMock.mock.calls[0];
+		const [url, init] = fetchMock.mock.calls[0] ?? [];
 		expect(url).toBe("https://api.resend.com/contacts");
 		expect(JSON.parse(init.body)).toEqual({
 			email: "a@x",
@@ -175,7 +175,7 @@ describe("setContact", () => {
 			email: "a@x",
 			subscribed: false,
 		});
-		expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toEqual({
+		expect(JSON.parse(fetchMock.mock.calls[0]?.[1].body)).toEqual({
 			email: "a@x",
 			unsubscribed: true,
 		});

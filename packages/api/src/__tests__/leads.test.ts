@@ -70,7 +70,7 @@ describe("recordLead", () => {
 	it("sends the person and the note to Attio", async () => {
 		await recordLead(lead);
 		expect(fetchMock).toHaveBeenCalledTimes(2);
-		const noteBody = JSON.parse(fetchMock.mock.calls[1][1].body);
+		const noteBody = JSON.parse(fetchMock.mock.calls[1]?.[1].body);
 		expect(noteBody.data.title).toBe("Website contact form");
 		expect(noteBody.data.parent_record_id).toBe("rec_1");
 	});

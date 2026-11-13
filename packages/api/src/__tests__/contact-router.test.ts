@@ -88,7 +88,7 @@ describe("contactRouter.submit", () => {
 		).toHaveLength(1);
 		expect(urls.some((u) => u.includes("attio.com/v2/notes"))).toBe(true);
 		expect(insertValuesMock).toHaveBeenCalledOnce();
-		expect(insertValuesMock.mock.calls[0][0]).toMatchObject({
+		expect(insertValuesMock.mock.calls[0]?.[0]).toMatchObject({
 			email: "lead@example.com",
 			eventType: "contact",
 		});
