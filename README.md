@@ -16,7 +16,7 @@ See [webvise.io/#services](https://webvise.io/#services) for the current model.
 
 ## Free Tools
 
-- **[WordPress Health Report](https://webvise.io/wp-health-report)**, instant PageSpeed, SEO, security, and AI-readability audit for any WordPress site.
+- **[WordPress Health Report](https://webvise.io/wp-health-report)**, instant audit for any WordPress site: performance, PageSpeed SEO score, three security flags, and AI readiness (llms.txt, AI crawler rules in robots.txt, JSON-LD types).
 
 ## Tech Stack
 
@@ -35,11 +35,11 @@ Deployed on Vercel with Analytics and Speed Insights.
 ```
 webvise-app/
 ├── apps/
-│   └── web/            # Next.js marketing site + dashboard
+│   └── web/            # Next.js marketing site, blog and free tools
 └── packages/
     ├── api/            # tRPC routers
     ├── auth/           # Better-Auth config
-    ├── db/             # Drizzle schema and migrations
+    ├── db/             # Drizzle schema
     └── env/            # Typed environment variables
 ```
 

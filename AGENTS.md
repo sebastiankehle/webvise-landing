@@ -4,7 +4,7 @@ Guidance for AI agents working in this repo. Mirrors the role of `CLAUDE.md` but
 
 ## Project
 
-**webvise** — source for [webvise.io](https://webvise.io). Marketing site, dashboard, blog, and free tools for a digital product agency.
+**webvise** — source for [webvise.io](https://webvise.io). Marketing site, blog, and free tools for a digital product agency.
 
 ## Stack
 
@@ -18,10 +18,10 @@ Guidance for AI agents working in this repo. Mirrors the role of `CLAUDE.md` but
 ## Monorepo
 
 ```
-apps/web              # Next.js marketing site + dashboard
+apps/web              # Next.js marketing site, blog and free tools
 packages/api          # tRPC routers
 packages/auth         # Better-Auth config
-packages/db           # Drizzle schema + migrations
+packages/db           # Drizzle schema
 packages/env          # Typed env vars
 ```
 
@@ -31,12 +31,14 @@ packages/env          # Typed env vars
 | ------------ | ---------------------- |
 | Dev (all)    | `pnpm dev`             |
 | Dev (web)    | `pnpm dev:web`         |
+| Dev (web, plain Next) | `pnpm --filter web dev:app` |
 | Build        | `pnpm build`           |
 | Type-check   | `pnpm check-types`     |
 | Lint         | `pnpm lint`            |
 | Format       | `pnpm format`          |
 | Fix          | `pnpm check`           |
 | Test         | `pnpm test`            |
+| Coverage (api) | `pnpm --filter @webvise-app/api coverage` |
 | Verify (all) | `pnpm verify`          |
 | DB push      | `pnpm db:push`         |
 | DB studio    | `pnpm db:studio`       |
@@ -45,7 +47,9 @@ packages/env          # Typed env vars
 | DB start     | `pnpm db:start`        |
 | DB stop      | `pnpm db:stop`         |
 
-Package manager: **pnpm 10.1.0**. Don't use npm or yarn.
+`pnpm dev` runs `portless`, which serves the app at a stable `.localhost` name (config: `apps/web/portless.json`).
+
+Package manager: **pnpm 10.1.0**. Don't use npm or yarn. Node 24 (`.nvmrc`; Vercel runs Node 24).
 
 ## Conventions
 
@@ -55,7 +59,8 @@ Package manager: **pnpm 10.1.0**. Don't use npm or yarn.
 - **Env**: typed in `packages/env`. Don't read `process.env` directly in app code.
 - **Components**: shadcn/ui first; only build custom when shadcn doesn't fit.
 - **Server vs client**: prefer Server Components; mark `"use client"` only when needed (state, effects, event handlers, browser APIs).
-- **Database**: schema lives in `packages/db`. Migrations via Drizzle — never hand-edit migration SQL after generation.
+- **Database**: schema lives in `packages/db`. There is no migration history yet: schema changes are applied with `pnpm db:push`. Enum-like columns (`status`, `event_type`) are `text` with a TypeScript-only enum, so new values need no database change.
+- **Tests**: API package tests in `packages/api/src/__tests__/`; web, routing, content and route-handler tests in `apps/web/src/__tests__/`.
 
 ## Skills
 
@@ -66,6 +71,7 @@ Project-local skills live in `.agents/skills/` and are surfaced to Claude Code v
 | `animation-vocabulary`         | Name a motion effect from a vague description        |
 | `apple-design`                 | Apple-style interface design and motion for the web  |
 | `blog-article`                 | Author blog posts in EN + DE                         |
+| `design-webvise-asset`         | Design webvise-branded sales, marketing and web assets |
 | `emil-design-eng`              | Emil Kowalski's UI polish and animation philosophy   |
 | `find-animation-opportunities` | Find UI spots that should animate but don't          |
 | `improve-animations`           | Audit motion code and plan improvements              |
