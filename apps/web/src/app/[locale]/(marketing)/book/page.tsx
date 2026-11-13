@@ -7,6 +7,7 @@ import BookNext from "@/components/marketing/book-next";
 import { FaqList } from "@/components/marketing/faq-list";
 import { QuoteAuthor } from "@/components/marketing/quote-author";
 import { QuoteSlider } from "@/components/marketing/quote-slider";
+import { QuoteStack } from "@/components/marketing/quote-stack";
 import SectionWrapper, {
 	ConstructedGrid,
 	GridContainer,
@@ -58,6 +59,50 @@ export default async function BookPage({ params }: { params: LocaleParams }) {
 		getTranslations("about"),
 		getTranslations("home"),
 	]);
+	const quoteCards = HOME_TESTIMONIAL_KEYS.map((key) => {
+		const author = tt(`items.${key}.author`);
+		const company = tt(`items.${key}.company`);
+		const project = testimonialProjects[author];
+		return (
+			<figure
+				className="surface-card flex h-full flex-col justify-between gap-8 p-6 md:p-7"
+				key={key}
+			>
+				<div>
+					<div className="flex items-center justify-between gap-4">
+						<span
+							aria-hidden="true"
+							className="block select-none font-display text-3xl text-brand-icon leading-none"
+						>
+							&ldquo;
+						</span>
+						<span className="text-muted-foreground text-sm">{company}</span>
+					</div>
+					<blockquote className="mt-3 text-[1.0625rem] text-foreground leading-[1.55]">
+						{tt(`items.${key}.quote`)}
+					</blockquote>
+				</div>
+				<div className="flex flex-wrap items-end justify-between gap-x-4 gap-y-3">
+					<QuoteAuthor
+						author={author}
+						detail={`${tt(`items.${key}.role`)}, ${company}`}
+					/>
+					{project && (
+						<Link
+							className="group/arrow inline-flex items-center gap-1.5 text-foreground text-sm outline-none focus-visible:underline focus-visible:underline-offset-4"
+							href={{
+								pathname: "/case-studies/[slug]",
+								params: { slug: project },
+							}}
+						>
+							{th("stage.link")}
+							<ActionArrow />
+						</Link>
+					)}
+				</div>
+			</figure>
+		);
+	});
 	const email = tfoot("address.email");
 	const linkedin = socials.find((social) => social.name === "LinkedIn");
 
@@ -125,8 +170,16 @@ export default async function BookPage({ params }: { params: LocaleParams }) {
 						</div>
 
 						{/* Clients in their own words. Each card names the company
-						    first, so nobody reads a client's title as webvise's. */}
-						<div className="mt-16 md:mt-24">
+						    first, so nobody reads a client's title as webvise's. On a
+						    phone the cards stand one under the other. */}
+						<div className="mt-16 md:hidden">
+							<H2>{tt("title")}</H2>
+							<Lead className="mt-4">{tt("subtitle")}</Lead>
+							<div className="mt-8">
+								<QuoteStack items={quoteCards} more={tt("more")} />
+							</div>
+						</div>
+						<div className="mt-24 hidden md:block">
 							<QuoteSlider
 								heading={
 									<>
@@ -137,54 +190,14 @@ export default async function BookPage({ params }: { params: LocaleParams }) {
 								next={tt("next")}
 								previous={tt("previous")}
 							>
-								{HOME_TESTIMONIAL_KEYS.map((key) => {
-									const author = tt(`items.${key}.author`);
-									const company = tt(`items.${key}.company`);
-									const project = testimonialProjects[author];
-									return (
-										<li
-											className="w-[86%] shrink-0 snap-start sm:w-[calc(50%-0.625rem)] lg:w-[calc(33.333%-0.834rem)]"
-											key={key}
-										>
-											<figure className="surface-card flex h-full flex-col justify-between gap-8 p-6 md:p-7">
-												<div>
-													<div className="flex items-center justify-between gap-4">
-														<span
-															aria-hidden="true"
-															className="block select-none font-display text-3xl text-brand-icon leading-none"
-														>
-															&ldquo;
-														</span>
-														<span className="text-muted-foreground text-sm">
-															{company}
-														</span>
-													</div>
-													<blockquote className="mt-3 text-[1.0625rem] text-foreground leading-[1.55]">
-														{tt(`items.${key}.quote`)}
-													</blockquote>
-												</div>
-												<div className="flex flex-wrap items-end justify-between gap-x-4 gap-y-3">
-													<QuoteAuthor
-														author={author}
-														detail={`${tt(`items.${key}.role`)}, ${company}`}
-													/>
-													{project && (
-														<Link
-															className="group/arrow inline-flex items-center gap-1.5 text-foreground text-sm outline-none focus-visible:underline focus-visible:underline-offset-4"
-															href={{
-																pathname: "/case-studies/[slug]",
-																params: { slug: project },
-															}}
-														>
-															{th("stage.link")}
-															<ActionArrow />
-														</Link>
-													)}
-												</div>
-											</figure>
-										</li>
-									);
-								})}
+								{quoteCards.map((quoteCard, index) => (
+									<li
+										className="w-[calc(50%-0.625rem)] shrink-0 snap-start lg:w-[calc(33.333%-0.834rem)]"
+										key={HOME_TESTIMONIAL_KEYS[index]}
+									>
+										{quoteCard}
+									</li>
+								))}
 							</QuoteSlider>
 						</div>
 					</div>
