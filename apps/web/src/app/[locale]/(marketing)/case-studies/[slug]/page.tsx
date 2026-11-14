@@ -207,7 +207,7 @@ export default async function CaseStudyPage({
 						<div className="grid gap-x-6 gap-y-10 lg:grid-cols-12 lg:items-end">
 							<div className="lg:col-span-8">
 								<div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
-									<H1>{cs.client}</H1>
+									<H1 className="[overflow-wrap:anywhere]">{cs.client}</H1>
 									{cs.kind === "concept" && (
 										<span className="text-base text-muted-foreground">
 											{t("conceptNote")}
@@ -234,7 +234,7 @@ export default async function CaseStudyPage({
 										<dt className="text-muted-foreground text-sm">
 											{t("liveProject")}
 										</dt>
-										<dd className="mt-1 text-base text-foreground">
+										<dd className="mt-1 break-words text-base text-foreground">
 											<a
 												aria-label={cs.liveUrlLabel}
 												className={factLinkClassName}

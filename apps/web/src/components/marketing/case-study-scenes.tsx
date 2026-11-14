@@ -258,7 +258,9 @@ const frame =
 const shapes: Record<Tile["shape"], string> = {
 	film: "aspect-[4/3] bg-[#1f262d] @[600px]:aspect-[2/1]",
 	full: "aspect-[358/268] bg-[#0f1214] @[600px]:aspect-[1164/592]",
-	tall: "aspect-[4/3] max-md:min-h-[340px]",
+	// No min-height here: with an aspect ratio it turns into a min-width
+	// (340px tall is 453px wide at 4:3) and pushes the tile off a phone screen
+	tall: "aspect-[4/3]",
 	wide: "aspect-[16/10]",
 };
 

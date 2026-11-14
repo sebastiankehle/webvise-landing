@@ -9,6 +9,9 @@ import { HyyveMark, MARKS, SlackColorMark } from "./project-hyyve";
 
 // Hyyve's own beam visual, ported from its landing page (magic-visuals.tsx):
 // each connected tool sends a beam into the hive.
+//
+// Sizes follow the tile's height (cqh), capped at the original sizes from
+// 400px up, so the column of five nodes fits a short tile on a phone.
 
 function BeamNode({
 	children,
@@ -22,7 +25,7 @@ function BeamNode({
 	return (
 		<div
 			className={cn(
-				"z-10 flex size-11 items-center justify-center rounded-full bg-[#0f1012] shadow-[0_0_22px_-10px_rgba(0,0,0,0.9)]",
+				"z-10 flex size-[min(2.75rem,11cqh)] items-center justify-center rounded-full bg-[#0f1012] shadow-[0_0_22px_-10px_rgba(0,0,0,0.9)]",
 				className
 			)}
 			ref={ref}
@@ -46,18 +49,18 @@ export default function HyyveBeam() {
 
 	return (
 		<div
-			className="absolute inset-0 flex items-center justify-between bg-[#050506] px-10 py-8 text-[#f2f3f5] sm:px-16"
+			className="absolute inset-0 flex items-center justify-between bg-[#050506] px-10 text-[#f2f3f5] [container-type:size] sm:px-16"
 			ref={containerRef}
 		>
-			<div className="flex flex-col justify-center gap-5">
+			<div className="flex flex-col justify-center gap-[min(1.25rem,5cqh)]">
 				<BeamNode ref={r0}>
-					<SlackColorMark className="size-5" />
+					<SlackColorMark className="size-[min(1.25rem,5cqh)]" />
 				</BeamNode>
 				{TOOLS.map((mark, i) => (
 					<BeamNode key={mark.label} ref={refs[i + 1]}>
 						<svg
 							aria-hidden="true"
-							className="size-5"
+							className="size-[min(1.25rem,5cqh)]"
 							fill={mark.color}
 							viewBox="0 0 24 24"
 						>
@@ -66,8 +69,8 @@ export default function HyyveBeam() {
 					</BeamNode>
 				))}
 			</div>
-			<BeamNode className="size-16" ref={hubRef}>
-				<HyyveMark className="size-9" />
+			<BeamNode className="size-[min(4rem,16cqh)]" ref={hubRef}>
+				<HyyveMark className="size-[min(2.25rem,9cqh)]" />
 			</BeamNode>
 			{refs.map((ref, i) => (
 				<AnimatedBeam
