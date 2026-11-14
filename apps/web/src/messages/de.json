@@ -1245,6 +1245,154 @@
       "title": "Werte von Seiten, die webvise gebaut hat"
     }
   },
+  "robotsLlmsGenerator": {
+    "meta": {
+      "title": "Kostenloser robots.txt- und llms.txt-Generator",
+      "description": "Erlauben oder sperren Sie Such- und KI-Crawler in der robots.txt, und geben Sie KI-Tools mit der llms.txt eine Übersicht Ihrer Website. Kostenlos, direkt im Browser erstellt.",
+      "ogTitle": "Kostenloser robots.txt- und llms.txt-Generator - webvise"
+    },
+    "hero": {
+      "title": "Legen Sie fest, was <brand>Suche und KI</brand> auf Ihrer Website lesen dürfen",
+      "subtitle": "Erstellen Sie eine robots.txt, die jeden Crawler erlaubt oder sperrt, und eine llms.txt, die KI-Tools eine kurze Übersicht Ihrer Website gibt. Kostenlos, und die Dateien entstehen in Ihrem Browser.",
+      "steps": {
+        "0": {
+          "title": "URL eingeben",
+          "description": "Optional. Wir füllen das Formular aus Ihrer aktuellen robots.txt, Sitemap und Startseite."
+        },
+        "1": {
+          "title": "Regeln festlegen",
+          "description": "Erlauben oder sperren Sie jeden Crawler, und wählen Sie die Seiten, die KI-Tools kennen sollen."
+        },
+        "2": {
+          "title": "Beide Dateien kopieren",
+          "description": "Laden Sie robots.txt und llms.txt herunter, und legen Sie sie im Hauptverzeichnis Ihrer Domain ab."
+        }
+      }
+    },
+    "prefill": {
+      "ariaLabel": "Website auslesen",
+      "label": "Ihre Website",
+      "placeholder": "ihre-website.de",
+      "submit": "Aus meiner Website füllen",
+      "hint": "Optional. Sie können das Formular unten auch selbst ausfüllen.",
+      "loading": "Ihre Website wird gelesen...",
+      "resultsFor": "Ausgefüllt aus {host}",
+      "robotsFound": "robots.txt gefunden: Ihre aktuellen Regeln sind eingetragen.",
+      "robotsMissing": "Keine robots.txt gefunden: Alle Crawler sind zunächst erlaubt.",
+      "sitemapFound": "Sitemap gefunden: {count, plural, one {# Link} other {# Links}} in die llms.txt übernommen.",
+      "sitemapEmpty": "Sitemap gefunden, aber sie enthält keine nutzbaren Seiten.",
+      "sitemapMissing": "Keine Sitemap gefunden: Tragen Sie Ihre Links selbst ein.",
+      "metaFound": "Titel und Beschreibung der Startseite gefunden.",
+      "metaMissing": "Kein Titel und keine Beschreibung auf der Startseite gefunden."
+    },
+    "errors": {
+      "urlRequired": "Bitte geben Sie eine Website-URL ein.",
+      "urlInvalid": "Bitte geben Sie eine gültige URL ein (z. B. ihre-website.de).",
+      "unreachable": "Wir konnten diese Website nicht lesen. Prüfen Sie die URL, oder füllen Sie das Formular selbst aus.",
+      "rateLimited": "Zu viele Anfragen. Bitte warten Sie eine Minute, und versuchen Sie es erneut.",
+      "failed": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut, oder füllen Sie das Formular selbst aus."
+    },
+    "robots": {
+      "title": "robots.txt",
+      "subtitle": "Sagt Crawlern, welche Teile Ihrer Website sie lesen dürfen. Die meisten Such- und KI-Crawler halten sich daran.",
+      "presetsLabel": "Schnellstart",
+      "presets": {
+        "allowAll": "Alle erlauben",
+        "blockTraining": "KI-Training sperren",
+        "blockAi": "Alle KI sperren"
+      },
+      "allow": "Erlauben",
+      "block": "Sperren",
+      "kinds": {
+        "search": {
+          "title": "Suchmaschinen",
+          "description": "Klassische Websuche. Wenn Sie diese sperren, verschwinden Ihre Seiten aus den Suchergebnissen."
+        },
+        "aiSearch": {
+          "title": "KI-Suche",
+          "description": "Indexieren Seiten, damit KI-Assistenten sie in Antworten zeigen und verlinken."
+        },
+        "training": {
+          "title": "KI-Training",
+          "description": "Sammeln Seiten, um KI-Modelle zu trainieren. Eine Sperre nimmt Sie nicht aus der Suche."
+        },
+        "user": {
+          "title": "Auf Anfrage",
+          "description": "Öffnen eine Seite, wenn jemand einen KI-Assistenten danach fragt. Manche halten sich dabei nicht an die robots.txt."
+        }
+      },
+      "crawlers": {
+        "Googlebot": "Google-Suche, auch die KI-Übersichten. Eine Sperre nimmt Ihre Website aus Google.",
+        "Bingbot": "Bing-Suche. Ihr Index speist auch Copilot und andere Suchmaschinen.",
+        "OAI-SearchBot": "Zeigt Ihre Seiten in den Suchantworten von ChatGPT.",
+        "Claude-SearchBot": "Indexiert Seiten für Suchergebnisse in Claude.",
+        "PerplexityBot": "Indexiert Seiten für Antworten in Perplexity. Laut Perplexity nicht für Training genutzt.",
+        "GPTBot": "Sammelt Seiten, mit denen OpenAI seine Modelle trainieren kann.",
+        "ClaudeBot": "Sammelt Seiten, mit denen Anthropic seine Modelle trainieren kann.",
+        "Google-Extended": "Legt fest, ob Google Ihre Seiten für das Training von Gemini und für dessen Antworten nutzen darf. Die Google-Suche bleibt unberührt.",
+        "Applebot-Extended": "Legt fest, ob Apple Ihre Seiten für das Training seiner KI-Modelle nutzen darf. Siri und die Spotlight-Suche bleiben unberührt.",
+        "Meta-ExternalAgent": "Sammelt Seiten, um die KI-Modelle von Meta zu trainieren.",
+        "CCBot": "Baut das offene Archiv von Common Crawl auf, mit dem viele KI-Firmen trainieren.",
+        "Bytespider": "Sammelt Seiten für die KI-Modelle von ByteDance, der Firma hinter TikTok.",
+        "ChatGPT-User": "Öffnet eine Seite, wenn jemand in ChatGPT danach fragt. Laut OpenAI gilt die robots.txt dabei unter Umständen nicht.",
+        "Claude-User": "Öffnet eine Seite, wenn jemand in Claude danach fragt.",
+        "Perplexity-User": "Öffnet eine Seite, wenn jemand in Perplexity danach fragt. Laut Perplexity wird die robots.txt dabei meist ignoriert."
+      },
+      "disallowLabel": "Gesperrte Pfade",
+      "disallowHint": "Gelten für jeden Crawler, den Sie erlauben. Ein Pfad pro Zeile, z. B. /wp-admin/",
+      "allowLabel": "Erlaubte Pfade",
+      "allowHint": "Pfade in einem gesperrten Ordner, die offen bleiben, z. B. /wp-admin/admin-ajax.php",
+      "sitemapLabel": "Sitemap-URL",
+      "sitemapPlaceholder": "https://ihre-website.de/sitemap.xml",
+      "replaceHint": "Diese Datei ersetzt Ihre aktuelle robots.txt. Regeln für Crawler, die nicht in dieser Liste stehen, werden nicht übernommen."
+    },
+    "llms": {
+      "title": "llms.txt",
+      "subtitle": "Eine kurze Markdown-Datei, die KI-Tools sagt, wer Sie sind und welche Seiten am wichtigsten sind. Sie folgt dem Format von llmstxt.org.",
+      "siteName": "Name der Website",
+      "siteNamePlaceholder": "Ihre Firma",
+      "summary": "Zusammenfassung",
+      "summaryPlaceholder": "Ein oder zwei Sätze dazu, wer Sie sind und was Sie anbieten.",
+      "details": "Mehr Kontext (optional)",
+      "detailsPlaceholder": "Was sollten KI-Tools wissen? Z. B. wo Sie arbeiten, für wen, und was Sie auszeichnet.",
+      "sectionsLabel": "Abschnitte und Links",
+      "sectionsHint": "Gruppieren Sie Ihre wichtigsten Seiten. Nennen Sie einen Abschnitt „Optional“ für Links, die KI-Tools bei wenig Platz weglassen dürfen.",
+      "sectionTitle": "Name des Abschnitts",
+      "linkTitle": "Linktitel",
+      "linkUrl": "URL",
+      "linkNote": "Kurze Notiz (optional)",
+      "addLink": "Link hinzufügen",
+      "addSection": "Abschnitt hinzufügen",
+      "removeLink": "Link entfernen",
+      "removeSection": "Abschnitt entfernen",
+      "defaultSection": "Seiten",
+      "newSection": "Neuer Abschnitt"
+    },
+    "output": {
+      "copy": "Kopieren",
+      "copied": "Kopiert",
+      "download": "Herunterladen"
+    },
+    "guide": {
+      "title": "Wohin die Dateien gehören",
+      "subtitle": "Beides sind einfache Textdateien. Sobald sie online sind, öffnen Sie sie zur Kontrolle im Browser.",
+      "items": {
+        "0": {
+          "title": "robots.txt",
+          "description": "Laden Sie sie ins Hauptverzeichnis Ihrer Domain, sodass sie unter ihre-website.de/robots.txt erreichbar ist. Crawler lesen sie vor allem anderen."
+        },
+        "1": {
+          "title": "llms.txt",
+          "description": "Legen Sie sie neben die robots.txt, unter ihre-website.de/llms.txt. KI-Tools, die das Format kennen, finden darüber Ihre wichtigsten Seiten."
+        },
+        "2": {
+          "title": "WordPress",
+          "description": "WordPress erzeugt eine eigene robots.txt. Eine Datei, die Sie ins Hauptverzeichnis laden, ersetzt sie. Viele SEO-Plugins haben auch einen robots.txt-Editor, in den Sie die Regeln einfügen können."
+        }
+      },
+      "cta": "Unsere SEO- & GEO-Leistung ansehen"
+    }
+  },
   "trust": {
     "meta": {
       "title": "Sicherheit und KI-Compliance - webvise",

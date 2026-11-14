@@ -3,6 +3,7 @@ import { contactRouter } from "./contact";
 import { newsletterRouter } from "./newsletter";
 import { partnerRouter } from "./partner";
 import { reportDownloadRouter } from "./report-download";
+import { robotsLlmsRouter } from "./robots-llms";
 import { wpHealthRouter } from "./wp-health";
 
 export const appRouter = router({
@@ -11,6 +12,7 @@ export const appRouter = router({
 	newsletter: newsletterRouter,
 	partner: partnerRouter,
 	reportDownload: reportDownloadRouter,
+	robotsLlms: robotsLlmsRouter,
 	wpHealth: wpHealthRouter,
 });
 export type AppRouter = typeof appRouter;

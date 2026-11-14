@@ -17,7 +17,9 @@ export interface GeoResult {
 
 interface RobotsGroup {
 	agents: string[];
+	allow: string[];
 	allowAll: boolean;
+	disallow: string[];
 	disallowAll: boolean;
 }
 
@@ -28,7 +30,13 @@ function applyDirective(
 	field: string,
 	value: string
 ): void {
-	if (!group || value !== "/") {
+	if (!group) {
+		return;
+	}
+	if (value) {
+		(field === "disallow" ? group.disallow : group.allow).push(value);
+	}
+	if (value !== "/") {
 		return;
 	}
 	if (field === "disallow") {
@@ -54,7 +62,13 @@ function parseGroups(robotsTxt: string): RobotsGroup[] {
 
 		if (field === "user-agent") {
 			if (!(current && collectingAgents)) {
-				current = { agents: [], disallowAll: false, allowAll: false };
+				current = {
+					agents: [],
+					allow: [],
+					allowAll: false,
+					disallow: [],
+					disallowAll: false,
+				};
 				groups.push(current);
 			}
 			current.agents.push(value.toLowerCase());
@@ -71,13 +85,17 @@ function isBlocked(group: RobotsGroup | undefined): boolean {
 	return !!group && group.disallowAll && !group.allowAll;
 }
 
-export function parseRobotsForAiCrawlers(robotsTxt: string): {
+/** `bots` defaults to the AI crawlers the health report checks. */
+export function parseRobotsForAiCrawlers(
+	robotsTxt: string,
+	bots: readonly string[] = AI_CRAWLERS
+): {
 	status: GeoResult["aiCrawlers"];
 	blocked: string[];
 } {
 	const groups = parseGroups(robotsTxt);
 	const wildcard = groups.find((g) => g.agents.includes("*"));
-	const blocked = AI_CRAWLERS.filter((bot) => {
+	const blocked = bots.filter((bot) => {
 		const own = groups.find((g) => g.agents.includes(bot.toLowerCase()));
 		return isBlocked(own ?? wildcard);
 	});
@@ -85,10 +103,22 @@ export function parseRobotsForAiCrawlers(robotsTxt: string): {
 	let status: GeoResult["aiCrawlers"] = "partly-blocked";
 	if (blocked.length === 0) {
 		status = "allowed";
-	} else if (blocked.length === AI_CRAWLERS.length) {
+	} else if (blocked.length === bots.length) {
 		status = "blocked";
 	}
 	return { status, blocked: [...blocked] };
+}
+
+/** The Allow and Disallow paths of the `*` group. */
+export function parseRobotsWildcardRules(robotsTxt: string): {
+	allow: string[];
+	disallow: string[];
+} {
+	const wildcard = parseGroups(robotsTxt).find((g) => g.agents.includes("*"));
+	return {
+		allow: [...(wildcard?.allow ?? [])],
+		disallow: [...(wildcard?.disallow ?? [])],
+	};
 }
 
 const JSON_LD_RE =

@@ -1245,6 +1245,154 @@
       "title": "Scores from sites webvise built"
     }
   },
+  "robotsLlmsGenerator": {
+    "meta": {
+      "title": "Free robots.txt and llms.txt generator",
+      "description": "Allow or block search and AI crawlers in robots.txt, and give AI tools a map of your site with llms.txt. Free, and built in your browser.",
+      "ogTitle": "Free robots.txt and llms.txt generator - webvise"
+    },
+    "hero": {
+      "title": "Decide what <brand>search and AI</brand> may read on your site",
+      "subtitle": "Build a robots.txt that allows or blocks each crawler, and an llms.txt that gives AI tools a short map of your site. Free, and the files are built in your browser.",
+      "steps": {
+        "0": {
+          "title": "Enter your URL",
+          "description": "Optional. We fill in the form from your current robots.txt, sitemap and homepage."
+        },
+        "1": {
+          "title": "Set the rules",
+          "description": "Allow or block each crawler and pick the pages AI tools should know about."
+        },
+        "2": {
+          "title": "Copy both files",
+          "description": "Download robots.txt and llms.txt and upload them to the root of your domain."
+        }
+      }
+    },
+    "prefill": {
+      "ariaLabel": "Read your site",
+      "label": "Your website",
+      "placeholder": "yoursite.com",
+      "submit": "Fill in from my site",
+      "hint": "Optional. You can also fill in the form yourself below.",
+      "loading": "Reading your site...",
+      "resultsFor": "Filled in from {host}",
+      "robotsFound": "robots.txt found: your current rules are filled in.",
+      "robotsMissing": "No robots.txt found: all crawlers start as allowed.",
+      "sitemapFound": "Sitemap found: {count, plural, one {# link} other {# links}} added to llms.txt.",
+      "sitemapEmpty": "Sitemap found, but it lists no pages we could use.",
+      "sitemapMissing": "No sitemap found: add your links by hand.",
+      "metaFound": "Homepage title and description found.",
+      "metaMissing": "No title or description found on the homepage."
+    },
+    "errors": {
+      "urlRequired": "Please enter a website URL.",
+      "urlInvalid": "Please enter a valid URL (e.g. yoursite.com).",
+      "unreachable": "We could not read this site. Check the URL, or fill in the form by hand.",
+      "rateLimited": "Too many requests. Please wait a minute and try again.",
+      "failed": "Something went wrong. Please try again, or fill in the form by hand."
+    },
+    "robots": {
+      "title": "robots.txt",
+      "subtitle": "Tells crawlers which parts of your site they may read. Most search and AI crawlers follow it.",
+      "presetsLabel": "Quick start",
+      "presets": {
+        "allowAll": "Allow all",
+        "blockTraining": "Block AI training",
+        "blockAi": "Block all AI"
+      },
+      "allow": "Allow",
+      "block": "Block",
+      "kinds": {
+        "search": {
+          "title": "Search engines",
+          "description": "Classic web search. Blocking these takes your pages out of search results."
+        },
+        "aiSearch": {
+          "title": "AI search",
+          "description": "Index pages so AI assistants can show and link them in answers."
+        },
+        "training": {
+          "title": "AI training",
+          "description": "Collect pages to train AI models. Blocking them does not take you out of search."
+        },
+        "user": {
+          "title": "On request",
+          "description": "Open a page when a person asks an AI assistant about it. Some of these may not follow robots.txt."
+        }
+      },
+      "crawlers": {
+        "Googlebot": "Google Search, including AI Overviews. Blocking it takes your site out of Google.",
+        "Bingbot": "Bing search. Its index also feeds Copilot and other search engines.",
+        "OAI-SearchBot": "Shows your pages in ChatGPT search answers.",
+        "Claude-SearchBot": "Indexes pages for search results in Claude.",
+        "PerplexityBot": "Indexes pages for Perplexity answers. Perplexity says it does not train on them.",
+        "GPTBot": "Collects pages that may be used to train OpenAI's models.",
+        "ClaudeBot": "Collects pages that may be used to train Anthropic's models.",
+        "Google-Extended": "Decides whether Google may use your pages to train Gemini and ground its answers. Google Search is not affected.",
+        "Applebot-Extended": "Decides whether Apple may use your pages to train its AI models. Siri and Spotlight search are not affected.",
+        "Meta-ExternalAgent": "Collects pages to train Meta's AI models.",
+        "CCBot": "Builds the open Common Crawl archive, which many AI companies train on.",
+        "Bytespider": "Collects pages for the AI models of ByteDance, the company behind TikTok.",
+        "ChatGPT-User": "Opens a page when a ChatGPT user asks for it. OpenAI says robots.txt may not apply.",
+        "Claude-User": "Opens a page when a Claude user asks for it.",
+        "Perplexity-User": "Opens a page when a Perplexity user asks for it. Perplexity says it generally ignores robots.txt."
+      },
+      "disallowLabel": "Blocked paths",
+      "disallowHint": "Apply to every crawler you allow. One path per line, e.g. /wp-admin/",
+      "allowLabel": "Allowed paths",
+      "allowHint": "Paths inside a blocked folder that stay open, e.g. /wp-admin/admin-ajax.php",
+      "sitemapLabel": "Sitemap URL",
+      "sitemapPlaceholder": "https://yoursite.com/sitemap.xml",
+      "replaceHint": "This file replaces your current robots.txt. Rules for crawlers not on this list are not carried over."
+    },
+    "llms": {
+      "title": "llms.txt",
+      "subtitle": "A short Markdown file that tells AI tools who you are and which pages matter most. It follows the format proposed at llmstxt.org.",
+      "siteName": "Site name",
+      "siteNamePlaceholder": "Your company",
+      "summary": "Summary",
+      "summaryPlaceholder": "One or two sentences on who you are and what you offer.",
+      "details": "More context (optional)",
+      "detailsPlaceholder": "What should AI tools know? E.g. where you work, who you work for, what sets you apart.",
+      "sectionsLabel": "Sections and links",
+      "sectionsHint": "Group your most useful pages. Name a section \"Optional\" for links AI tools may skip when space is short.",
+      "sectionTitle": "Section name",
+      "linkTitle": "Link title",
+      "linkUrl": "URL",
+      "linkNote": "Short note (optional)",
+      "addLink": "Add link",
+      "addSection": "Add section",
+      "removeLink": "Remove link",
+      "removeSection": "Remove section",
+      "defaultSection": "Pages",
+      "newSection": "New section"
+    },
+    "output": {
+      "copy": "Copy",
+      "copied": "Copied",
+      "download": "Download"
+    },
+    "guide": {
+      "title": "Where the files go",
+      "subtitle": "Both are plain text files. Once they are live, open them in your browser to check.",
+      "items": {
+        "0": {
+          "title": "robots.txt",
+          "description": "Upload it to the root of your domain, so it opens at yoursite.com/robots.txt. Crawlers read it before anything else."
+        },
+        "1": {
+          "title": "llms.txt",
+          "description": "Put it next to robots.txt, at yoursite.com/llms.txt. AI tools that support the format read it to find your key pages."
+        },
+        "2": {
+          "title": "WordPress",
+          "description": "WordPress writes its own robots.txt. A file you upload to the root replaces it. Many SEO plugins also have a robots.txt editor where you can paste the rules."
+        }
+      },
+      "cta": "See our SEO & GEO service"
+    }
+  },
   "trust": {
     "meta": {
       "title": "Security and AI Compliance - webvise",
