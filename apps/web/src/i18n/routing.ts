@@ -22,6 +22,7 @@ export const routing = defineRouting({
 		"/decks/[slug]": "/decks/[slug]",
 		"/wp-health-report": "/wp-health-report",
 		"/tools/robots-llms-generator": "/tools/robots-llms-generator",
+		"/tools/ai-visibility-check": "/tools/ai-visibility-check",
 		"/about": "/about",
 		"/book": "/book",
 		"/privacy": {

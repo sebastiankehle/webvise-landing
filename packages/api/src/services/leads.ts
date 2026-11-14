@@ -2,7 +2,11 @@ import { db } from "@webvise-app/db";
 import { leadEvent } from "@webvise-app/db/schema/newsletter";
 import { syncLeadToAttio } from "./attio";
 
-export type LeadType = "contact" | "partner_application" | "wp_health_report";
+export type LeadType =
+	| "ai_visibility_check"
+	| "contact"
+	| "partner_application"
+	| "wp_health_report";
 
 export interface LeadInput {
 	email: string;

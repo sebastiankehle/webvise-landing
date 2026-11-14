@@ -70,6 +70,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
 			changeFrequency: "monthly",
 			priority: 0.7,
 		}),
+		...entriesForPath("/tools/ai-visibility-check", {
+			lastModified: now,
+			changeFrequency: "monthly",
+			priority: 0.7,
+		}),
 		...entriesForPath("/about", {
 			lastModified: now,
 			changeFrequency: "monthly",

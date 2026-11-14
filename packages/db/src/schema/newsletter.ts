@@ -28,6 +28,7 @@ export const leadEvent = pgTable(
 				"wp_health_report",
 				"contact",
 				"partner_application",
+				"ai_visibility_check",
 			],
 		}).notNull(),
 		placement: text("placement").notNull(),

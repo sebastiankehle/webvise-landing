@@ -1,4 +1,5 @@
 import { publicProcedure, router } from "../index";
+import { aiVisibilityRouter } from "./ai-visibility";
 import { contactRouter } from "./contact";
 import { newsletterRouter } from "./newsletter";
 import { partnerRouter } from "./partner";
@@ -8,6 +9,7 @@ import { wpHealthRouter } from "./wp-health";
 
 export const appRouter = router({
 	healthCheck: publicProcedure.query(() => "OK"),
+	aiVisibility: aiVisibilityRouter,
 	contact: contactRouter,
 	newsletter: newsletterRouter,
 	partner: partnerRouter,
