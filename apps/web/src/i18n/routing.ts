@@ -23,6 +23,7 @@ export const routing = defineRouting({
 		"/wp-health-report": "/wp-health-report",
 		"/tools/robots-llms-generator": "/tools/robots-llms-generator",
 		"/tools/ai-visibility-check": "/tools/ai-visibility-check",
+		"/tools/project-scope": "/tools/project-scope",
 		"/about": "/about",
 		"/book": "/book",
 		"/privacy": {
