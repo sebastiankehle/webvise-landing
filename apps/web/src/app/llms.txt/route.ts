@@ -115,7 +115,11 @@ ${blogLines}
 
 - [About](${baseUrl}/about): Who we are and how we work.
 - [Contact](${baseUrl}/#contact): Get in touch about a project.
+- [Free Tools](${baseUrl}/tools): Every free tool on the site.
 - [WP Health Report](${baseUrl}/wp-health-report): Free WordPress site health audit tool.
+- [AI Visibility Check](${baseUrl}/tools/ai-visibility-check): Free check of whether ChatGPT, Gemini and Perplexity know a business and cite its website.
+- [robots.txt and llms.txt Generator](${baseUrl}/tools/robots-llms-generator): Free generator for robots.txt crawler rules and llms.txt files.
+- [Project Scope Estimator](${baseUrl}/tools/project-scope): Free questionnaire that shows a project's scope and what drives the effort.
 
 ## Optional
 

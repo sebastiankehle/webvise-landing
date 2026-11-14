@@ -65,6 +65,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
 			changeFrequency: "monthly",
 			priority: 0.7,
 		}),
+		...entriesForPath("/tools", {
+			lastModified: now,
+			changeFrequency: "monthly",
+			priority: 0.7,
+		}),
 		...entriesForPath("/tools/robots-llms-generator", {
 			lastModified: now,
 			changeFrequency: "monthly",

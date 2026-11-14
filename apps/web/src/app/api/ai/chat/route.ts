@@ -54,8 +54,12 @@ Frontend: Next.js, React, TypeScript, Tailwind CSS, shadcn/ui. Backend: Node.js,
 ## Compliance
 webvise follows ISO 27001 (information security) and ISO 42001 (AI management) patterns. Formal certification is in progress.
 
-## Free tool
-The WP Health Report at /wp-health-report audits a WordPress site for free.
+## Free tools
+All free tools are listed at /tools:
+- The WP Health Report at /wp-health-report audits a WordPress site.
+- The AI visibility check at /tools/ai-visibility-check shows whether ChatGPT, Gemini and Perplexity know a business and cite its website.
+- The robots.txt and llms.txt generator at /tools/robots-llms-generator builds both files.
+- The project scope estimator at /tools/project-scope shows a project's scope and what drives the effort. It gives no prices.
 
 ## Booking
 Visitors can book a free 30-minute video call directly with Sebastian, with no pitch and no obligation. The /book page offers the calendar or a written message instead. Replies come within 24 hours.

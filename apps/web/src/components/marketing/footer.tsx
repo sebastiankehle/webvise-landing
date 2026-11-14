@@ -151,6 +151,11 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 						</FooterColumn>
 						<FooterColumn title={t("sections.resources")}>
 							<li>
+								<Link className={linkClassName} href="/tools">
+									{tn("freeTools")}
+								</Link>
+							</li>
+							<li>
 								<Link className={linkClassName} href="/wp-health-report">
 									{tn("wpHealthReport")}
 								</Link>

@@ -152,7 +152,11 @@ export function siteKnowledge(): string {
 - /blog: articles
 - /faq: common questions
 - /book: book a call or write a message
+- /tools: every free tool
 - /wp-health-report: the free WordPress check
+- /tools/ai-visibility-check: the free check of whether ChatGPT, Gemini and Perplexity know a business and cite its website
+- /tools/robots-llms-generator: the free robots.txt and llms.txt generator
+- /tools/project-scope: the free project scope estimator, which shows a project's scope and what drives the effort, without prices
 
 ## Services
 Every service has its own page. Recommend the one that fits the visitor's workflow.
