@@ -4,14 +4,17 @@ import { type Act, Stage, Text, Window } from "@/components/stageshow/kit";
 import "./project-sc.css";
 
 // project card: Screencurve's character constellation, in the
-// product's light look. Beats: the figures of the episode are there; their
-// alliances draw in, then their conflicts; the pointer rests on the conflict
-// between Marek and Ferretti and its timecode shows. Plays once.
+// product's light look. Beats: the figures of the film are there; their
+// alliances draw in, then their conflict; the pointer rests on the conflict
+// between Thom and Celia and its Timecode shows. Plays once.
 //
-// The figure is the product's own (the constellation from "Undertow"): the
-// same initials, the solid ties for alliances and the dashed ones for
-// conflicts. Real strings: the eyebrow, the legend, the name under the
-// centre, the timecode (the one the hero's answer links to).
+// The figure is the product's own: the constellation of Tears of Steel from
+// screencurve's analysis (`src/demo/tears-of-steel.ts`), laid out as the
+// Characters chapter draws it, with the same initials (Celia and Captain
+// both "C"), solid ties for alliances and a dashed one for the conflict.
+// Old Thom and Tech head have no ties in the analysis. Real strings: the
+// eyebrow, the legend, the name under the centre, the Timecode of the
+// conflict.
 
 type Locale = "de" | "en";
 interface S {
@@ -34,49 +37,37 @@ const COPY = {
 	},
 } as const;
 
+// The Characters chapter's ellipse, scaled into the card
 const N = {
-	MV: [176, 84],
-	AH: [340, 84],
-	LF: [258, 99],
-	ID: [196, 137],
-	SL: [320, 137],
-	AM: [258, 156],
-	IB: [219, 201],
-	TR: [296, 201],
-	SO: [176, 226],
-	KM: [340, 226],
+	T: [258, 155],
+	OT: [222, 91],
+	K: [294, 91],
+	TH: [176, 139],
+	B: [340, 139],
+	D: [192, 199],
+	CA: [324, 199],
+	CE: [258, 226],
 } as const;
 type Id = keyof typeof N;
-const ORDER: Id[] = [
-	"AM",
-	"LF",
-	"SL",
-	"ID",
-	"MV",
-	"AH",
-	"IB",
-	"TR",
-	"SO",
-	"KM",
-];
+const LABEL: Record<Id, string> = {
+	T: "T",
+	OT: "OT",
+	K: "K",
+	TH: "TH",
+	B: "B",
+	D: "D",
+	CA: "C",
+	CE: "C",
+};
+const ORDER: Id[] = ["T", "K", "B", "CE", "CA", "D", "TH", "OT"];
 const ALLIANCES: [Id, Id, number?][] = [
-	["MV", "ID", 10],
-	["LF", "AH", -14],
-	["AH", "SL", -10],
-	["LF", "SL", -10],
-	["AM", "SL"],
-	["LF", "SO"],
-	["TR", "KM"],
+	["T", "B"],
+	["T", "K"],
+	["K", "B", -10],
+	["CA", "D", -12],
 ];
-const CONFLICTS: [Id, Id, number?][] = [
-	["MV", "LF"],
-	["LF", "SL"],
-	["ID", "AM"],
-	["AM", "TR"],
-	["IB", "TR", 12],
-	["SO", "KM", 10],
-];
-const PROBE: [Id, Id] = ["LF", "AM"];
+// Thom and Celia, the analysis's one conflict: the pointer rests on it
+const PROBE: [Id, Id] = ["T", "CE"];
 
 // A straight tie, or a shallow arc when `bow` pushes its middle sideways
 function path(a: Id, b: Id, bow = 0) {
@@ -148,28 +139,19 @@ export default function ScScene({ locale }: { locale: Locale }) {
 									style={{ transitionDelay: `${i * 90}ms` }}
 								/>
 							))}
-							{CONFLICTS.map(([a, b, bow], i) => (
-								<path
-									className="wps-clash"
-									d={path(a, b, bow)}
-									data-on={s.conflicts || undefined}
-									key={`${a}${b}`}
-									style={{ transitionDelay: `${i * 90}ms` }}
-								/>
-							))}
 							<path
 								className="wps-clash wps-clash--probe"
 								d={path(...PROBE)}
 								data-hot={s.probe || undefined}
 								data-on={s.conflicts || undefined}
-								style={{ transitionDelay: s.probe ? "0ms" : "540ms" }}
+								style={{ transitionDelay: s.probe ? "0ms" : "90ms" }}
 							/>
 						</svg>
 
 						{ORDER.map((id, i) => (
 							<span
 								className="wps-node"
-								data-centre={id === "AM" || undefined}
+								data-centre={id === "T" || undefined}
 								data-on={s.nodes || undefined}
 								key={id}
 								style={{
@@ -178,16 +160,16 @@ export default function ScScene({ locale }: { locale: Locale }) {
 									transitionDelay: `${i * 70}ms`,
 								}}
 							>
-								{id}
+								{LABEL[id]}
 							</span>
 						))}
 						<Text className="wps-name" data-on={s.nodes || undefined}>
-							Adrian Marek
+							Thom
 						</Text>
 
 						<span className="wps-edge" data-target="edge" />
 						<span className="wps-tc" data-on={s.probe || undefined}>
-							10:17:46
+							00:00:25
 						</span>
 					</div>
 				</Window>

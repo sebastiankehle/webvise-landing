@@ -8,12 +8,15 @@ import CaseStudyLightbox from "./case-study-lightbox";
 
 interface CaseStudyGalleryProps {
 	alt: string;
+	/** Alt texts in the order of `images`; `alt` covers the rest. */
+	alts?: string[];
 	images?: string[];
 }
 
 export default function CaseStudyGallery({
 	images,
 	alt,
+	alts,
 }: CaseStudyGalleryProps) {
 	const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
 	const t = useTranslations("caseStudies");
@@ -36,7 +39,7 @@ export default function CaseStudyGallery({
 						type="button"
 					>
 						<Image
-							alt={`${alt} - screenshot ${i + 1}`}
+							alt={alts?.[i] ?? `${alt} - screenshot ${i + 1}`}
 							className="object-cover object-left-top transition-transform duration-700 ease-out group-hover:scale-[1.015]"
 							decoding="async"
 							fill
@@ -52,7 +55,7 @@ export default function CaseStudyGallery({
 
 			{lightboxSrc && (
 				<CaseStudyLightbox
-					alt={alt}
+					alt={alts?.[items.indexOf(lightboxSrc)] ?? alt}
 					onOpenChange={(open) => !open && setLightboxSrc(null)}
 					open={!!lightboxSrc}
 					src={lightboxSrc}

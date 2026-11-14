@@ -10,6 +10,10 @@ import {
 import CaseStudyGallery from "@/components/marketing/case-study-gallery";
 import CaseStudyHeroImage from "@/components/marketing/case-study-hero-image";
 import CaseStudyScenes from "@/components/marketing/case-study-scenes";
+import {
+	FilmCredits,
+	FilmCreditsCaption,
+} from "@/components/marketing/film-credits";
 import { hasProjectScene } from "@/components/marketing/home/scenes/project-scene-slugs";
 import { QuoteAuthor } from "@/components/marketing/quote-author";
 import SectionWrapper, {
@@ -283,12 +287,14 @@ export default async function CaseStudyPage({
 						{hasProjectScene(cs.slug) && (
 							<CaseStudyScenes
 								alt={`${cs.client}: ${cs.title}`}
+								imageAlts={cs.imageAlts}
 								images={cs.images}
 								metrics={cs.metrics}
 								results={cs.results}
 								slug={cs.slug}
 							/>
 						)}
+						<FilmCreditsCaption slug={cs.slug} />
 					</div>
 				</GridContainer>
 			</section>
@@ -321,9 +327,14 @@ export default async function CaseStudyPage({
 				</StaggerChildren>
 				{cs.images && cs.images.length > 0 && (
 					<div className="mt-14 md:mt-20">
-						<CaseStudyGallery alt={cs.client} images={cs.images} />
+						<CaseStudyGallery
+							alt={cs.client}
+							alts={cs.imageAlts}
+							images={cs.images}
+						/>
 					</div>
 				)}
+				<FilmCredits slug={cs.slug} />
 			</SectionWrapper>
 
 			<SectionWrapper id="case-study-build" surface="alternate">
