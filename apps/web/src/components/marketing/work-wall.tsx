@@ -75,9 +75,9 @@ export default function WorkWall({
 							</span>
 						</span>
 						<span className="mt-3 flex items-center justify-between gap-4 px-2">
-							<span className="min-w-0 truncate text-base text-foreground">
+							<span className="flex min-w-0 flex-col text-base text-foreground md:block md:truncate">
 								{project.client}
-								<span className="ml-2 text-muted-foreground">
+								<span className="text-muted-foreground md:ml-2">
 									{project.industry}
 								</span>
 							</span>
