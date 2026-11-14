@@ -65,6 +65,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
 			changeFrequency: "monthly",
 			priority: 0.7,
 		}),
+		...entriesForPath("/tools/project-scope", {
+			lastModified: now,
+			changeFrequency: "monthly",
+			priority: 0.7,
+		}),
 		...entriesForPath("/about", {
 			lastModified: now,
 			changeFrequency: "monthly",
