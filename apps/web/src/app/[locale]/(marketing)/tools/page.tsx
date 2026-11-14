@@ -8,16 +8,10 @@ import {
 	GridContainer,
 } from "@/components/marketing/section-wrapper";
 import { H1, H3, inlineLinkClassName } from "@/components/ui/typography";
+import { freeTools } from "@/data/free-tools";
 import { Link } from "@/i18n/navigation";
 import { type LocaleParams, pinLocale } from "@/i18n/static-locale";
 import { generateAlternates, localizedUrl } from "@/lib/seo";
-
-const tools = [
-	{ key: "aiVisibilityCheck", href: "/tools/ai-visibility-check" },
-	{ key: "robotsLlmsGenerator", href: "/tools/robots-llms-generator" },
-	{ key: "wpHealthReport", href: "/wp-health-report" },
-	{ key: "projectScope", href: "/tools/project-scope" },
-] as const;
 
 export async function generateMetadata({
 	params,
@@ -63,7 +57,7 @@ export default async function ToolsPage({ params }: { params: LocaleParams }) {
 							{t("lead")}
 						</p>
 						<div className="mt-12 grid gap-5 md:mt-16 md:grid-cols-2">
-							{tools.map((tool) => (
+							{freeTools.map((tool) => (
 								<Link
 									className="group/arrow flex flex-col rounded-[20px] bg-card p-6 shadow-[0_0_0_1px_rgba(14,18,23,0.06),0_24px_48px_-36px_rgba(14,18,23,0.35)] outline-none transition-shadow duration-200 hover:shadow-[0_0_0_1px_rgba(14,18,23,0.1),0_28px_56px_-32px_rgba(14,18,23,0.45)] focus-visible:ring-2 focus-visible:ring-ring/70 md:p-7 dark:shadow-[0_0_0_1px_rgba(255,255,255,0.08)]"
 									href={tool.href}

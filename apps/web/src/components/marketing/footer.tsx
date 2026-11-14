@@ -9,6 +9,7 @@ import { OpenAiPartnerBadge } from "@/components/marketing/openai-partner-badge"
 import { marketingSurfaceClassName } from "@/components/marketing/section-wrapper";
 import { SocialIconButton } from "@/components/marketing/social-icon-button";
 import ThemeSwitcher from "@/components/marketing/theme-switcher";
+import { freeTools } from "@/data/free-tools";
 import { industries } from "@/data/industries";
 import { offeringGroups } from "@/data/offerings";
 import { socials } from "@/data/socials";
@@ -46,7 +47,7 @@ function FooterColumn({
 }
 
 export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
-	const [locale, t, tn, tb, ts, th, ti] = await Promise.all([
+	const [locale, t, tn, tb, ts, th, ti, tt] = await Promise.all([
 		getLocale(),
 		getTranslations("footer"),
 		getTranslations("nav"),
@@ -54,6 +55,7 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 		getTranslations("services"),
 		getTranslations("home.hero"),
 		getTranslations("industries"),
+		getTranslations("freeTools"),
 	]);
 	const year = new Date().getFullYear();
 	const email = t("address.email");
@@ -144,23 +146,6 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 								</Link>
 							</li>
 							<li>
-								<Link className={linkClassName} href="/book">
-									{tn("bookCall")}
-								</Link>
-							</li>
-						</FooterColumn>
-						<FooterColumn title={t("sections.resources")}>
-							<li>
-								<Link className={linkClassName} href="/tools">
-									{tn("freeTools")}
-								</Link>
-							</li>
-							<li>
-								<Link className={linkClassName} href="/wp-health-report">
-									{tn("wpHealthReport")}
-								</Link>
-							</li>
-							<li>
 								<Link className={linkClassName} href="/faq">
 									{t("links.faq")}
 								</Link>
@@ -168,6 +153,25 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 							<li>
 								<Link className={linkClassName} href="/media">
 									{t("links.media")}
+								</Link>
+							</li>
+							<li>
+								<Link className={linkClassName} href="/book">
+									{tn("bookCall")}
+								</Link>
+							</li>
+						</FooterColumn>
+						<FooterColumn title={t("sections.freeTools")}>
+							{freeTools.map((tool) => (
+								<li key={tool.key}>
+									<Link className={linkClassName} href={tool.href}>
+										{tt(`items.${tool.key}.title`)}
+									</Link>
+								</li>
+							))}
+							<li>
+								<Link className={linkClassName} href="/tools">
+									{t("allTools")}
 								</Link>
 							</li>
 						</FooterColumn>
