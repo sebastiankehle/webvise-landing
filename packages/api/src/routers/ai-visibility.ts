@@ -1,14 +1,34 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { rateLimitedProcedure, router } from "../index";
+import { createRateLimiter } from "../rate-limit";
 import { runAiVisibilityCheck } from "../services/ai-visibility/check";
 
-// Each check makes up to nine paid model calls, so the limit is strict.
+const DAY_MS = 24 * 60 * 60_000;
+
+// Each check makes up to nine paid model calls with web search (measured at
+// about 15 cents), so the limits are strict: per visitor per hour and per
+// day, and a site-wide daily cap that bounds the total spend however many
+// visitors there are.
 const aiVisibilityProcedure = rateLimitedProcedure({
 	name: "ai-visibility-check",
-	maxRequests: 5,
+	maxRequests: 3,
 	windowMs: 60 * 60_000,
 });
+const dailyPerVisitor = createRateLimiter({
+	name: "ai-visibility-check-day",
+	maxRequests: 5,
+	windowMs: DAY_MS,
+});
+const dailySiteWide = createRateLimiter({
+	name: "ai-visibility-check-site",
+	maxRequests: 25,
+	windowMs: DAY_MS,
+	failClosed: true,
+});
+
+/** The client shows its "try again tomorrow" message for this. */
+const DAILY_LIMIT_MESSAGE = "DAILY_LIMIT";
 
 const SINGLE_LINE_RE = /^[^\r\n]*$/;
 const text = (max: number) => z.string().trim().max(max).regex(SINGLE_LINE_RE);
@@ -30,7 +50,19 @@ export const aiVisibilityRouter = router({
 				locale: z.enum(["de", "en"]),
 			})
 		)
-		.mutation(async ({ input }) => {
+		.mutation(async ({ ctx, input }) => {
+			// The site-wide count only moves once the visitor's own limits pass.
+			for (const [limiter, key] of [
+				[dailyPerVisitor, ctx.ip],
+				[dailySiteWide, "site"],
+			] as const) {
+				if ((await limiter.check(key)).limited) {
+					throw new TRPCError({
+						code: "TOO_MANY_REQUESTS",
+						message: DAILY_LIMIT_MESSAGE,
+					});
+				}
+			}
 			const check = await runAiVisibilityCheck(input);
 			if (check.ok) {
 				return check.result;

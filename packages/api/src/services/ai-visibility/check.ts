@@ -1,6 +1,8 @@
 import { gateway } from "@ai-sdk/gateway";
+import { google } from "@ai-sdk/google";
+import { openai } from "@ai-sdk/openai";
 import { env } from "@webvise-app/env/server";
-import { generateText } from "ai";
+import { generateText, type ToolSet } from "ai";
 import { sendEmail } from "../../email/resend";
 import { emailLayout, escapeHtml, s, tableRow } from "../../email/template";
 import { safeFetchText } from "../../safe-fetch";
@@ -23,28 +25,33 @@ export type CheckLocale = "de" | "en";
 /**
  * One model per assistant, as listed on AI Gateway (checked November 2026).
  * Reasoning stays off or low: these are short factual answers, and reasoning
- * tokens would count against the output cap.
+ * tokens would count against the output cap. GPT and Gemini search the web,
+ * as their apps do; Perplexity's Sonar always searches.
  */
 export const ASSISTANT_MODELS = [
 	{
 		assistant: "chatgpt",
 		model: "openai/gpt-6.1-terra",
 		providerOptions: { openai: { reasoningEffort: "none" } },
+		tools: { web_search: openai.tools.webSearch({ searchContextSize: "low" }) },
 	},
 	{
 		assistant: "gemini",
 		model: "google/gemini-3.8-flash",
 		providerOptions: { google: { thinkingConfig: { thinkingLevel: "low" } } },
+		tools: { google_search: google.tools.googleSearch({}) },
 	},
 	{
 		assistant: "perplexity",
 		model: "perplexity/sonar",
 		providerOptions: {},
+		tools: {},
 	},
 ] as const satisfies readonly {
 	assistant: Assistant;
 	model: string;
 	providerOptions: Record<string, Record<string, unknown>>;
+	tools: ToolSet;
 }[];
 
 const SYSTEM_PROMPT =
@@ -130,7 +137,12 @@ async function ask(
 		maxOutputTokens: MAX_OUTPUT_TOKENS,
 		maxRetries: 1,
 		abortSignal: AbortSignal.timeout(MODEL_TIMEOUT_MS),
-		providerOptions: entry.providerOptions,
+		tools: entry.tools,
+		// The tag splits this tool's spend out in the AI Gateway dashboard.
+		providerOptions: {
+			...entry.providerOptions,
+			gateway: { tags: ["ai-visibility-check"] },
+		},
 	});
 	return {
 		text: result.text,

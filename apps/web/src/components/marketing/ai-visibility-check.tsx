@@ -63,7 +63,10 @@ function errorKey(err: unknown) {
 			? (err.data as { code?: string } | undefined)?.code
 			: undefined;
 	if (code === "TOO_MANY_REQUESTS") {
-		return "errors.rateLimited";
+		// The server sends DAILY_LIMIT when a daily cap, not the hourly one, is hit.
+		return (err as Error).message === "DAILY_LIMIT"
+			? "errors.dailyLimit"
+			: "errors.rateLimited";
 	}
 	return code === "BAD_REQUEST" ? "errors.siteInvalid" : "errors.checkFailed";
 }

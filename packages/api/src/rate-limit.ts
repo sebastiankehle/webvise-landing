@@ -79,6 +79,11 @@ export function createRateLimiter(opts: {
 	name: string;
 	maxRequests: number;
 	windowMs: number;
+	/**
+	 * Refuse every request in production when Redis is not configured. Use it
+	 * for site-wide spend caps: a per-instance count cannot cap the total.
+	 */
+	failClosed?: boolean;
 }) {
 	const store = getStore(opts.name);
 	const durableLimiter = getDurableLimiter(opts);
@@ -102,6 +107,12 @@ export function createRateLimiter(opts: {
 					retryAfterSec: result.success
 						? 0
 						: Math.max(0, Math.ceil((result.reset - Date.now()) / 1000)),
+				};
+			}
+			if (opts.failClosed && env.NODE_ENV === "production") {
+				return {
+					limited: true,
+					retryAfterSec: Math.ceil(opts.windowMs / 1000),
 				};
 			}
 

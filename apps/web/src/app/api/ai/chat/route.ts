@@ -14,10 +14,26 @@ import { parseChatBody } from "./schema";
 
 export const maxDuration = 60;
 
+const DAY_MS = 24 * 60 * 60_000;
+
+// Every message is a paid model call. Per visitor per minute and per day,
+// plus a site-wide daily cap that bounds the total spend however many
+// visitors there are.
 const limiter = createRateLimiter({
 	name: "ai-chat",
 	maxRequests: 10,
 	windowMs: 60_000,
+});
+const dailyPerVisitor = createRateLimiter({
+	name: "ai-chat-day",
+	maxRequests: 40,
+	windowMs: DAY_MS,
+});
+const dailySiteWide = createRateLimiter({
+	name: "ai-chat-site",
+	maxRequests: 500,
+	windowMs: DAY_MS,
+	failClosed: true,
 });
 
 const DEFAULT_SYSTEM_PROMPT = `You are the assistant on webvise.io. You help visitors understand what webvise builds, point them to the right service and project, and guide them toward a conversation with Sebastian.
@@ -82,7 +98,8 @@ ${BOOKING_LINK_PROMPT}
 ${TRANSPARENCY_PROMPT}`;
 
 export async function POST(req: Request) {
-	const { limited, retryAfterSec } = await limiter.check(getClientIP(req));
+	const ip = getClientIP(req);
+	const { limited, retryAfterSec } = await limiter.check(ip);
 	if (limited) {
 		return rateLimitResponse(retryAfterSec);
 	}
@@ -91,6 +108,17 @@ export async function POST(req: Request) {
 	const parsed = parseChatBody(body);
 	if (!parsed.ok) {
 		return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+	}
+	// Daily caps count valid requests only, the site-wide one after the
+	// visitor's own.
+	for (const [daily, key] of [
+		[dailyPerVisitor, ip],
+		[dailySiteWide, "site"],
+	] as const) {
+		const day = await daily.check(key);
+		if (day.limited) {
+			return rateLimitResponse(day.retryAfterSec);
+		}
 	}
 	const messages = parsed.messages as unknown as UIMessage[];
 
@@ -115,6 +143,8 @@ export async function POST(req: Request) {
 		messages: await convertToModelMessages(messages),
 		abortSignal: req.signal,
 		maxOutputTokens: 1024,
+		// The tag splits the chat's spend out in the AI Gateway dashboard.
+		providerOptions: { gateway: { tags: ["ai-chat"] } },
 	});
 
 	return result.toUIMessageStreamResponse();

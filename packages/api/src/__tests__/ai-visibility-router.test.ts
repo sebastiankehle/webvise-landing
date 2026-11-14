@@ -260,17 +260,88 @@ describe("aiVisibilityRouter.run", () => {
 		});
 	});
 
-	it("allows five checks per hour from one address", async () => {
+	it("allows three checks per hour from one address", async () => {
 		const sameIp = aiVisibilityRouter.createCaller({
 			ip: "ai-visibility-rate-limit",
 			session: null,
 		});
-		for (let i = 0; i < 5; i++) {
+		for (let i = 0; i < 3; i++) {
 			await sameIp.run(BASE_INPUT);
 		}
 		const blocked = await sameIp.run(BASE_INPUT).catch((e: unknown) => e);
 		expect(blocked).toBeInstanceOf(TRPCError);
 		expect((blocked as TRPCError).code).toBe("TOO_MANY_REQUESTS");
-		expect(mocks.generateText).toHaveBeenCalledTimes(45);
+		expect((blocked as TRPCError).message).not.toBe("DAILY_LIMIT");
+		expect(mocks.generateText).toHaveBeenCalledTimes(27);
+	});
+
+	it("lets GPT and Gemini search the web and tags the spend", async () => {
+		await caller().run(BASE_INPUT);
+		const calls = mocks.generateText.mock.calls.map(
+			([call]) =>
+				call as GenerateCall & {
+					providerOptions: { gateway?: { tags?: string[] } };
+					tools: Record<string, unknown>;
+				}
+		);
+		const toolsFor = (prefix: string) =>
+			calls
+				.filter((c) => c.model.gatewayModel.startsWith(prefix))
+				.map((c) => Object.keys(c.tools));
+		expect(new Set(toolsFor("openai/").flat())).toEqual(
+			new Set(["web_search"])
+		);
+		expect(new Set(toolsFor("google/").flat())).toEqual(
+			new Set(["google_search"])
+		);
+		expect(toolsFor("perplexity/").flat()).toEqual([]);
+		for (const call of calls) {
+			expect(call.providerOptions.gateway?.tags).toEqual([
+				"ai-visibility-check",
+			]);
+		}
+	});
+
+	it("allows five checks a day from one address", async () => {
+		vi.useFakeTimers({ toFake: ["Date"] });
+		try {
+			const sameIp = aiVisibilityRouter.createCaller({
+				ip: "ai-visibility-daily",
+				session: null,
+			});
+			for (const checks of [3, 2]) {
+				for (let i = 0; i < checks; i++) {
+					await sameIp.run(BASE_INPUT);
+				}
+				// Past the hourly window, still inside the day.
+				vi.advanceTimersByTime(61 * 60_000);
+			}
+			mocks.generateText.mockClear();
+			const blocked = await sameIp.run(BASE_INPUT).catch((e: unknown) => e);
+			expect((blocked as TRPCError).code).toBe("TOO_MANY_REQUESTS");
+			expect((blocked as TRPCError).message).toBe("DAILY_LIMIT");
+			expect(mocks.generateText).not.toHaveBeenCalled();
+		} finally {
+			vi.useRealTimers();
+		}
+	});
+
+	it("stops all checks once the site-wide daily cap of 25 is reached", async () => {
+		// Earlier tests already used part of the cap, so count only up to it.
+		let blocked: unknown;
+		let passed = 0;
+		for (let i = 0; i <= 25 && !blocked; i++) {
+			mocks.generateText.mockClear();
+			try {
+				await caller().run(BASE_INPUT);
+				passed += 1;
+			} catch (e) {
+				blocked = e;
+			}
+		}
+		expect(passed).toBeLessThan(25);
+		expect((blocked as TRPCError).code).toBe("TOO_MANY_REQUESTS");
+		expect((blocked as TRPCError).message).toBe("DAILY_LIMIT");
+		expect(mocks.generateText).not.toHaveBeenCalled();
 	});
 });

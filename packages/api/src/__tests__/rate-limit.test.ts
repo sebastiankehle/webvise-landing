@@ -1,8 +1,11 @@
-import {
-	createRateLimiter,
-	getClientIPFromHeaders,
-} from "@webvise-app/api/rate-limit";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+
+const envMock = vi.hoisted(() => ({ NODE_ENV: "test" }));
+vi.mock("@webvise-app/env/server", () => ({ env: envMock }));
+
+const { createRateLimiter, getClientIPFromHeaders } = await import(
+	"@webvise-app/api/rate-limit"
+);
 
 describe("getClientIPFromHeaders", () => {
 	it("uses x-forwarded-for first IP", () => {
@@ -107,5 +110,38 @@ describe("createRateLimiter", () => {
 		expect(r.limited).toBe(true);
 		expect(r.retryAfterSec).toBeLessThanOrEqual(6);
 		expect(r.retryAfterSec).toBeGreaterThan(0);
+	});
+
+	describe("in production without Redis", () => {
+		beforeEach(() => {
+			envMock.NODE_ENV = "production";
+			vi.spyOn(console, "warn").mockImplementation(() => undefined);
+		});
+		afterEach(() => {
+			envMock.NODE_ENV = "test";
+			vi.restoreAllMocks();
+		});
+
+		it("refuses every request when failClosed is set", async () => {
+			const l = createRateLimiter({
+				name: `t-closed-${Math.random()}`,
+				maxRequests: 100,
+				windowMs: 60_000,
+				failClosed: true,
+			});
+			const r = await l.check("site");
+			expect(r.limited).toBe(true);
+			expect(r.retryAfterSec).toBe(60);
+		});
+
+		it("falls back to memory without failClosed", async () => {
+			const l = createRateLimiter({
+				name: `t-open-${Math.random()}`,
+				maxRequests: 1,
+				windowMs: 60_000,
+			});
+			expect((await l.check("a")).limited).toBe(false);
+			expect((await l.check("a")).limited).toBe(true);
+		});
 	});
 });
