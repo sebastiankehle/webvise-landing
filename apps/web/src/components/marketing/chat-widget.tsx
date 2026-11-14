@@ -128,7 +128,9 @@ export default function ChatWidget({
 			document.body.style.left = "";
 			document.body.style.right = "";
 			document.body.style.overflow = "";
-			window.scrollTo(0, scrollY);
+			// The page sets scroll-behavior: smooth; restore instantly so it
+			// does not visibly scroll back down from the top.
+			window.scrollTo({ top: scrollY, behavior: "instant" });
 		};
 	}, [open, isMobile]);
 

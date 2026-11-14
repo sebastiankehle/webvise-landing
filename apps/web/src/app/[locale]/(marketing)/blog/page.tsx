@@ -1,15 +1,16 @@
-import { ChevronLeft, ChevronRight, Search } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 import JsonLd from "@/components/json-ld";
 import { ActionArrow } from "@/components/marketing/action";
+import { BlogSearch } from "@/components/marketing/blog-search";
 import {
 	ConstructedGrid,
 	GridContainer,
 } from "@/components/marketing/section-wrapper";
 import { Button } from "@/components/ui/button";
 import { H1 } from "@/components/ui/typography";
-import { getBlogPosts } from "@/data/blog";
+import { getBlogPosts, searchBlogPosts } from "@/data/blog";
 import { BLOG_TOPICS } from "@/data/blog-topics";
 import { Link } from "@/i18n/navigation";
 import { type LocaleParams, pinLocale } from "@/i18n/static-locale";
@@ -99,17 +100,15 @@ export default async function BlogPage({
 	]);
 	const topic = TOPICS.find((entry) => entry.key === query.topic);
 	const search = query.q?.trim().slice(0, 80) ?? "";
-	const needle = search.toLowerCase();
-	const posts = getBlogPosts(locale).filter(
-		(post) =>
-			(!topic ||
+	const posts = searchBlogPosts(
+		getBlogPosts(locale).filter(
+			(post) =>
+				!topic ||
 				post.tags?.some((tag) =>
 					(topic.tags as readonly string[]).includes(tag)
-				)) &&
-			(!needle ||
-				`${post.title} ${post.excerpt} ${post.keyword}`
-					.toLowerCase()
-					.includes(needle))
+				)
+		),
+		search
 	);
 	// Filters ride along in every pagination link.
 	const filters = {
@@ -183,25 +182,11 @@ export default async function BlogPage({
 								</li>
 							))}
 						</ul>
-						{/* A plain GET form: search works without script. */}
-						<form className="relative w-full sm:w-64">
-							{topic && <input name="topic" type="hidden" value={topic.key} />}
-							<label className="sr-only" htmlFor="blog-search">
-								{t("filter.search")}
-							</label>
-							<Search
-								aria-hidden="true"
-								className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-muted-foreground"
-							/>
-							<input
-								className="h-10 w-full rounded-sm bg-card pr-3 pl-10 text-base text-foreground shadow-[inset_0_0_0_1px_rgba(14,18,23,0.12)] outline-none transition-shadow placeholder:text-muted-foreground focus-visible:shadow-[inset_0_0_0_2px_var(--ring)] dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)]"
-								defaultValue={search}
-								id="blog-search"
-								name="q"
-								placeholder={t("filter.search")}
-								type="search"
-							/>
-						</form>
+						<BlogSearch
+							label={t("filter.search")}
+							search={search}
+							topic={topic?.key}
+						/>
 					</div>
 
 					{posts.length === 0 && (

@@ -174,6 +174,52 @@ export function getBlogPosts(locale: string): BlogPost[] {
 	return posts;
 }
 
+function blockText(block: Block): string[] {
+	switch (block.type) {
+		case "ul":
+		case "ol":
+			return block.items;
+		case "table":
+			return [...block.headers, ...block.rows.flat()];
+		case "download":
+			return [block.title, block.description];
+		default:
+			return [block.text];
+	}
+}
+
+/** Body text without markdown link targets and markers. */
+function bodyText(blocks: Block[]): string {
+	return blocks
+		.flatMap(blockText)
+		.join(" ")
+		.replace(/\]\([^)]*\)/g, "")
+		.replace(/[*[\]`]/g, "");
+}
+
+/** Posts that mention the query in title, excerpt or keyword come first,
+ * then posts that mention it only in the body. */
+export function searchBlogPosts(posts: BlogPost[], query: string): BlogPost[] {
+	const needle = query.toLowerCase();
+	if (!needle) {
+		return posts;
+	}
+	const inSummary: BlogPost[] = [];
+	const inBody: BlogPost[] = [];
+	for (const post of posts) {
+		if (
+			`${post.title} ${post.excerpt} ${post.keyword}`
+				.toLowerCase()
+				.includes(needle)
+		) {
+			inSummary.push(post);
+		} else if (bodyText(post.blocks).toLowerCase().includes(needle)) {
+			inBody.push(post);
+		}
+	}
+	return [...inSummary, ...inBody];
+}
+
 export function getBlogIndex(locale: string): BlogIndexEntry[] {
 	if (!isDev) {
 		const cached = indexCache.get(locale);
