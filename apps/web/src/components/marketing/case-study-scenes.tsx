@@ -82,6 +82,7 @@ const HyyveStepsScene = dynamic(
 
 /** What the page knows about the project, for the lines under the tiles. */
 interface Facts {
+	imageAlts?: string[];
 	images?: string[];
 	metrics?: { label: string; value: string }[];
 	results?: string[];
@@ -396,6 +397,7 @@ function rows(list: Tile[]): Tile[][] {
  * score, each with the line of the case study it stands for. */
 export default function CaseStudyScenes({
 	alt,
+	imageAlts,
 	images,
 	metrics,
 	results,
@@ -405,18 +407,20 @@ export default function CaseStudyScenes({
 	slug: ProjectSceneSlug;
 }) {
 	const locale: Locale = useLocale() === "de" ? "de" : "en";
-	const facts: Facts = { images, metrics, results };
+	const facts: Facts = { imageAlts, images, metrics, results };
 
 	const content = (tile: Tile) => {
 		if (tile.render) {
 			return <WhenNear>{tile.render(locale, facts)}</WhenNear>;
 		}
 		const picture = tile.image === undefined ? undefined : images?.[tile.image];
+		const pictureAlt =
+			(tile.image === undefined ? undefined : imageAlts?.[tile.image]) ?? alt;
 		if (picture && tile.shape === "full") {
 			// A whole screen of the project, shown whole
 			return (
 				<Image
-					alt={alt}
+					alt={pictureAlt}
 					className="object-cover object-top"
 					fill
 					sizes="(min-width: 1280px) 1180px, 100vw"
@@ -430,7 +434,7 @@ export default function CaseStudyScenes({
 			return (
 				<div className="absolute top-[9%] left-[7%] aspect-[16/10] w-[118%] overflow-hidden rounded-[10px] bg-card shadow-[0_0_0_1px_rgba(14,18,23,0.08),0_24px_48px_-24px_rgba(14,18,23,0.4)]">
 					<Image
-						alt={alt}
+						alt={pictureAlt}
 						className="object-cover object-left-top"
 						fill
 						sizes="(min-width: 768px) 55vw, 120vw"

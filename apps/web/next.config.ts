@@ -30,6 +30,14 @@ const nextConfig: NextConfig = {
 				pathname: "/images/case-studies/mp-bau-construction/**",
 				search: "?v=065b54f",
 			},
+			{
+				pathname: "/images/case-studies/screencurve/**",
+				search: "?v=20261114-open-movies",
+			},
+			{
+				pathname: "/images/home/work/screencurve.webp",
+				search: "?v=20261114-open-movies",
+			},
 		],
 		qualities: [75, 80, 85, 90, 95, 100],
 	},

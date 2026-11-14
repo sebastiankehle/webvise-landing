@@ -8,6 +8,7 @@ import "./hero-wall.css";
 const shots = "/images/case-studies";
 const wall = "/images/home/wall";
 const obsidian = "?v=20261111-eagle-obsidian";
+const openMovies = "?v=20261114-open-movies";
 
 /** A desktop screen. A wide one is 2:1, the others 16:10, as the screens
  * are. With `page`, the picture is a long page (its height over its width)
@@ -47,7 +48,7 @@ const COLUMNS: Tile[][] = [
 		{ src: `${shots}/relay/view-3.webp` },
 		{ src: `${shots}/old-world-labs/sectors.webp`, wide: true },
 		{ src: `${shots}/morrow/hero-v3.webp` },
-		{ src: `${shots}/screencurve/ask-the-film.webp`, wide: true },
+		{ src: `${shots}/screencurve/ask-the-film.webp${openMovies}`, wide: true },
 		{ src: `${shots}/kernspan/assembly-v2.webp` },
 	],
 	[
@@ -91,7 +92,7 @@ const COLUMNS: Tile[][] = [
 			wide: true,
 		},
 		{ src: `${shots}/relay/hero-v2.webp` },
-		{ src: `${shots}/screencurve/landing.webp`, wide: true },
+		{ src: `${shots}/screencurve/landing.webp${openMovies}`, wide: true },
 		{ src: `${shots}/keel/view-1.webp` },
 		{ src: `${shots}/hyyve/how-it-works.webp`, wide: true },
 		{ src: `${shots}/morrow/graph-v3.webp` },

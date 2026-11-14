@@ -4,6 +4,10 @@ import type { ReactNode } from "react";
 import Logo from "@/components/logo";
 import { assistantMarks } from "@/components/marketing/assistant-marks";
 import { CookiePreferencesLink } from "@/components/marketing/cookie-preferences-link";
+import {
+	FILM_CREDITS_ID,
+	FILM_CREDITS_SLUG,
+} from "@/components/marketing/film-credits";
 import { NewsletterForm } from "@/components/marketing/newsletter-form";
 import { OpenAiPartnerBadge } from "@/components/marketing/openai-partner-badge";
 import { marketingSurfaceClassName } from "@/components/marketing/section-wrapper";
@@ -265,6 +269,16 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 							href="/imprint"
 						>
 							{t("legal.imprint")}
+						</Link>
+						<Link
+							className="pointer-coarse:py-2 outline-none transition-colors duration-150 hover:text-foreground focus-visible:text-foreground"
+							href={{
+								pathname: "/case-studies/[slug]",
+								params: { slug: FILM_CREDITS_SLUG },
+								hash: FILM_CREDITS_ID,
+							}}
+						>
+							{t("legal.filmCredits")}
 						</Link>
 						<CookiePreferencesLink />
 					</div>

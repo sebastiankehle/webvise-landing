@@ -61,6 +61,8 @@ export interface CaseStudySignature {
 export interface CaseStudyContent {
 	challenge: string;
 	excerpt: string;
+	/** Alt texts for `images`, in the same order. */
+	imageAlts?: string[];
 	liveUrlLabel?: string;
 	metrics?: CaseStudyMetric[];
 	results?: string[];
@@ -94,6 +96,7 @@ const caseStudyTestimonialSchema = z
 const caseStudyContentSchema = z.object({
 	challenge: z.string().min(1),
 	excerpt: z.string().min(1),
+	imageAlts: z.array(z.string().min(1)).optional(),
 	liveUrlLabel: z.string().min(1).optional(),
 	metrics: z.array(caseStudyMetricSchema).optional(),
 	results: z.array(z.string().min(1)).optional(),
@@ -274,6 +277,7 @@ function toCaseStudy(slug: string, locale: string): CaseStudy | null {
 		cardImage: enFile.cardImage,
 		coverImage: enFile.coverImage,
 		images: enFile.images ? [...enFile.images] : undefined,
+		imageAlts: content.imageAlts ? [...content.imageAlts] : undefined,
 		fullPageImage: enFile.fullPageImage,
 		location: localeFile?.location ?? enFile.location,
 		deliveryTime: localeFile?.deliveryTime ?? enFile.deliveryTime,

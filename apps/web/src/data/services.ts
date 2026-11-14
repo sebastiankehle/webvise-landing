@@ -121,7 +121,8 @@ export const services: Service[] = [
 		faqCount: 4,
 		proof: {
 			caseStudySlug: "screencurve",
-			image: "/images/case-studies/screencurve/hero.webp",
+			image:
+				"/images/case-studies/screencurve/hero.webp?v=20261114-open-movies",
 		},
 	},
 	{
@@ -148,7 +149,8 @@ export const services: Service[] = [
 		faqCount: 4,
 		proof: {
 			caseStudySlug: "screencurve",
-			image: "/images/case-studies/screencurve/ask-the-film.webp",
+			image:
+				"/images/case-studies/screencurve/ask-the-film.webp?v=20261114-open-movies",
 		},
 	},
 ];
