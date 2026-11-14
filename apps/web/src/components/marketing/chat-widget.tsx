@@ -299,6 +299,11 @@ export default function ChatWidget({
 									<span className="h-1.5 w-1.5 animate-pulse rounded-full bg-muted-foreground/50 [animation-delay:300ms]" />
 								</div>
 							)}
+							{status === "error" && (
+								<Caption className="mr-auto" role="alert">
+									{t("error")}
+								</Caption>
+							)}
 							<div ref={messagesEndRef} />
 						</div>
 
