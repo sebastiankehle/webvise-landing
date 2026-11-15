@@ -98,6 +98,9 @@ interface Tile {
 	render?: (locale: Locale, facts: Facts) => ReactNode;
 	ring?: number;
 	shape: "film" | "full" | "tall" | "wide";
+	/** For a screen whose crop has to be chosen: the sheet's top, its shape
+	 * and where the screen sits in it. */
+	sheet?: { aspect: number; position: string; top: string };
 }
 
 const result = (index: number) => (facts: Facts) => facts.results?.[index];
@@ -238,7 +241,16 @@ const tiles: Record<ProjectSceneSlug, Tile[]> = {
 			line: result(2),
 			render: (locale) => <ScScene locale={locale} />,
 		},
-		{ id: "overview", shape: "tall", line: result(0), image: 3 },
+		// The Überblick from the lead frame to the end of the premise (15–76% of
+		// the screen's width); the sheet ends between the Belege's Timecodes
+		// and their claims (84% of its height), so no sentence is cut
+		{
+			id: "overview",
+			shape: "tall",
+			line: result(0),
+			image: 3,
+			sheet: { aspect: 1.5136, position: "65.7% 0%", top: "12.3%" },
+		},
 	],
 	"von-platen-coaching": [
 		{
@@ -432,13 +444,22 @@ export default function CaseStudyScenes({
 			// One of the project's own screens, set like the scenes: a framed
 			// sheet pinned top-left that runs off the right and the bottom
 			return (
-				<div className="absolute top-[9%] left-[7%] aspect-[16/10] w-[118%] overflow-hidden rounded-[10px] bg-card shadow-[0_0_0_1px_rgba(14,18,23,0.08),0_24px_48px_-24px_rgba(14,18,23,0.4)]">
+				<div
+					className="absolute top-[9%] left-[7%] aspect-[16/10] w-[118%] overflow-hidden rounded-[10px] bg-card shadow-[0_0_0_1px_rgba(14,18,23,0.08),0_24px_48px_-24px_rgba(14,18,23,0.4)]"
+					style={
+						tile.sheet && {
+							aspectRatio: tile.sheet.aspect,
+							top: tile.sheet.top,
+						}
+					}
+				>
 					<Image
 						alt={pictureAlt}
 						className="object-cover object-left-top"
 						fill
 						sizes="(min-width: 768px) 55vw, 120vw"
 						src={picture}
+						style={tile.sheet && { objectPosition: tile.sheet.position }}
 					/>
 				</div>
 			);
