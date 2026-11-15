@@ -3,25 +3,26 @@
 import { type Act, Stage, Text, Window } from "@/components/stageshow/kit";
 import "./project-sc.css";
 
-// project card: Screencurve's character constellation, in the
-// product's light look. Beats: the figures of the film are there; their
-// alliances draw in, then their conflict; the pointer rests on the conflict
-// between Thom and Celia and its Timecode shows. Plays once.
+// project card: Screencurve's character constellation, in the product's
+// light look. Beats: the three figures of the film are there; the tie
+// between Birgitta and P-O draws, its Timecode arrives; then the tie between
+// Birgitta and Lennart; the pointer opens the first Timecode, which lights up
+// and brings its frame: the couple at their kitchen table. Plays once.
 //
-// The figure is the product's own: the constellation of Tears of Steel from
-// screencurve's analysis (`src/demo/tears-of-steel.ts`), laid out as the
-// Characters chapter draws it, with the same initials (Celia and Captain
-// both "C"), solid ties for alliances and a dashed one for the conflict.
-// Old Thom and Tech head have no ties in the analysis. Real strings: the
-// eyebrow, the legend, the name under the centre, the Timecode of the
-// conflict.
+// The figure is the product's own: the constellation of The Car Spotter
+// from screencurve's analysis (export "The Car Spotter (Ohne Abspann)"),
+// laid out as the Characters chapter draws it, with the busiest figure at
+// the centre and the product's initials. Both ties are alliances, with the
+// Timecodes the analysis gives them. Only the three figures the film has are
+// drawn; the export's fourth is a duplicate the analysis invented. The frame
+// is the first picture of 00:01:49 and shows what the tie says: a married
+// couple side by side, each busy with their own thing.
 
 type Locale = "de" | "en";
 interface S {
-	conflicts: boolean;
 	nodes: boolean;
-	probe: boolean;
-	ties: boolean;
+	open: boolean;
+	ties: number;
 }
 
 const COPY = {
@@ -37,65 +38,72 @@ const COPY = {
 	},
 } as const;
 
-// The Characters chapter's ellipse, scaled into the card
+// The Characters chapter's layout, fitted into the card: Birgitta leads,
+// the other two sit on the ring below her
 const N = {
-	T: [258, 155],
-	OT: [222, 91],
-	K: [294, 91],
-	TH: [176, 139],
-	B: [340, 139],
-	D: [192, 199],
-	CA: [324, 199],
-	CE: [258, 226],
+	B: { at: [282, 128], name: "Birgitta", label: "above" },
+	P: { at: [202, 190], name: "P-O", label: "below" },
+	L: { at: [352, 196], name: "Lennart", label: "below" },
 } as const;
 type Id = keyof typeof N;
-const LABEL: Record<Id, string> = {
-	T: "T",
-	OT: "OT",
-	K: "K",
-	TH: "TH",
-	B: "B",
-	D: "D",
-	CA: "C",
-	CE: "C",
-};
-const ORDER: Id[] = ["T", "K", "B", "CE", "CA", "D", "TH", "OT"];
-const ALLIANCES: [Id, Id, number?][] = [
-	["T", "B"],
-	["T", "K"],
-	["K", "B", -10],
-	["CA", "D", -12],
-];
-// Thom and Celia, the analysis's one conflict: the pointer rests on it
-const PROBE: [Id, Id] = ["T", "CE"];
+const ORDER: Id[] = ["B", "P", "L"];
 
-// A straight tie, or a shallow arc when `bow` pushes its middle sideways
-function path(a: Id, b: Id, bow = 0) {
-	const [x1, y1] = N[a];
-	const [x2, y2] = N[b];
-	if (!bow) {
-		return `M${x1} ${y1}L${x2} ${y2}`;
-	}
-	const mx = (x1 + x2) / 2;
-	const my = (y1 + y2) / 2;
-	const len = Math.hypot(x2 - x1, y2 - y1);
-	return `M${x1} ${y1}Q${mx - ((y2 - y1) / len) * bow} ${my + ((x2 - x1) / len) * bow} ${x2} ${y2}`;
+/** The analysis's ties, in the order they draw, each with its Timecode. */
+const TIES: { a: Id; b: Id; bow: number; tc: string }[] = [
+	{ a: "B", b: "P", bow: 12, tc: "00:01:49" },
+	{ a: "B", b: "L", bow: -12, tc: "00:02:46" },
+];
+
+const FRAME = "/images/case-studies/screencurve/car-spotter/00109.webp";
+
+/** The product's monogram: the first letter of the first and last word. */
+function initials(name: string) {
+	const parts = name.trim().split(" ");
+	return (
+		(parts[0]?.[0] ?? "") + (parts.length > 1 ? (parts.at(-1)?.[0] ?? "") : "")
+	).toUpperCase();
 }
 
-const initial: S = { nodes: true, ties: false, conflicts: false, probe: false };
-const poster: S = { nodes: true, ties: true, conflicts: true, probe: true };
+// A tie as a shallow arc: `bow` pushes its control point sideways
+function control(a: Id, b: Id, bow: number) {
+	const [x1, y1] = N[a].at;
+	const [x2, y2] = N[b].at;
+	const len = Math.hypot(x2 - x1, y2 - y1);
+	return [
+		(x1 + x2) / 2 - ((y2 - y1) / len) * bow,
+		(y1 + y2) / 2 + ((x2 - x1) / len) * bow,
+	];
+}
+
+function path(a: Id, b: Id, bow: number) {
+	const [cx, cy] = control(a, b, bow);
+	return `M${N[a].at.join(" ")}Q${cx} ${cy} ${N[b].at.join(" ")}`;
+}
+
+/** The middle of the arc, where the tie's Timecode sits on the line. */
+function middle(a: Id, b: Id, bow: number) {
+	const [cx, cy] = control(a, b, bow);
+	return {
+		left: (N[a].at[0] + 2 * cx + N[b].at[0]) / 4,
+		top: (N[a].at[1] + 2 * cy + N[b].at[1]) / 4,
+	};
+}
+
+const initial: S = { nodes: true, ties: 0, open: false };
+const poster: S = { nodes: true, ties: 2, open: true };
 
 async function script(a: Act<S>) {
+	await a.wait(1000);
+	a.mark("ties");
+	a.put({ ties: 1 });
+	await a.wait(1100);
+	a.put({ ties: 2 });
 	await a.wait(1200);
-	a.mark("alliances");
-	a.put({ ties: true });
-	await a.wait(1300);
-	a.mark("conflicts");
-	a.put({ conflicts: true });
-	await a.wait(1200);
-	a.mark("probe");
-	await a.move("edge", { duration: 800 });
-	a.put({ probe: true });
+	a.mark("open");
+	await a.move({ at: "tie0", x: 0.5, y: 0.6 }, { duration: 800 });
+	await a.wait(160);
+	await a.click({ at: "tie0", x: 0.5, y: 0.6 });
+	a.put({ open: true });
 	await a.wait(2800);
 }
 
@@ -128,49 +136,60 @@ export default function ScScene({ locale }: { locale: Locale }) {
 							</span>
 						</div>
 
+						{/* The opened tie: its frame and its figures */}
+						<figure className="wps-frame" data-on={s.open || undefined}>
+							<img alt="" src={FRAME} />
+							<figcaption>
+								<span className="wps-frame-tc">{TIES[0].tc}</span>
+								<Text>{`${N.B.name} · ${N.P.name}`}</Text>
+							</figcaption>
+						</figure>
+
 						<svg aria-hidden="true" className="wps-graph" viewBox="0 0 400 250">
-							{ALLIANCES.map(([a, b, bow], i) => (
+							{TIES.map((tie, i) => (
 								<path
 									className="wps-tie"
-									d={path(a, b, bow)}
-									data-on={s.ties || undefined}
-									key={`${a}${b}`}
+									d={path(tie.a, tie.b, tie.bow)}
+									data-hot={(i === 0 && s.open) || undefined}
+									data-on={s.ties > i || undefined}
+									key={tie.tc}
 									pathLength={1}
-									style={{ transitionDelay: `${i * 90}ms` }}
 								/>
 							))}
-							<path
-								className="wps-clash wps-clash--probe"
-								d={path(...PROBE)}
-								data-hot={s.probe || undefined}
-								data-on={s.conflicts || undefined}
-								style={{ transitionDelay: s.probe ? "0ms" : "90ms" }}
-							/>
 						</svg>
 
 						{ORDER.map((id, i) => (
 							<span
 								className="wps-node"
-								data-centre={id === "T" || undefined}
+								data-centre={id === "B" || undefined}
 								data-on={s.nodes || undefined}
 								key={id}
 								style={{
-									left: N[id][0],
-									top: N[id][1],
-									transitionDelay: `${i * 70}ms`,
+									left: N[id].at[0],
+									top: N[id].at[1],
+									transitionDelay: `${i * 90}ms`,
 								}}
 							>
-								{LABEL[id]}
+								{initials(N[id].name)}
+								<Text className="wps-name" data-at={N[id].label}>
+									{N[id].name}
+								</Text>
 							</span>
 						))}
-						<Text className="wps-name" data-on={s.nodes || undefined}>
-							Thom
-						</Text>
 
-						<span className="wps-edge" data-target="edge" />
-						<span className="wps-tc" data-on={s.probe || undefined}>
-							00:00:25
-						</span>
+						{TIES.map((tie, i) => (
+							<span
+								className="wps-tc"
+								data-cursor={i === 0 ? "pointer" : undefined}
+								data-lit={(i === 0 && s.open) || undefined}
+								data-on={s.ties > i || undefined}
+								data-target={`tie${i}`}
+								key={tie.tc}
+								style={middle(tie.a, tie.b, tie.bow)}
+							>
+								{tie.tc}
+							</span>
+						))}
 					</div>
 				</Window>
 			)}

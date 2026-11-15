@@ -1,6 +1,13 @@
 .wps {
+	/* The product's light look: neutral canvas, ink text, teal only on the
+	   Timecodes, the lead figure and the opened tie */
 	& .ss-stage {
-		--teal: #0e7a6e;
+		--ink: #202126;
+		--mark: #0d9488;
+		--mark-text: #0f766e;
+		--mark-soft: #0d948814;
+		--quiet: #58656a;
+		--tie: #8b979c;
 		--mono: ui-monospace, "SF Mono", Menlo, monospace;
 		overflow: hidden;
 		background: transparent;
@@ -29,7 +36,7 @@
 	.wps-page {
 		position: relative;
 		height: 100%;
-		background: #f6fbfa;
+		background: #f8fafb;
 	}
 
 	.wps-page > * {
@@ -38,36 +45,36 @@
 
 	.wps-copy {
 		position: absolute;
-		top: 96px;
+		top: 92px;
 		left: 44px;
 		display: flex;
 		flex-direction: column;
-		gap: 9px;
+		gap: 8px;
 	}
 
 	.wps-eyebrow {
 		margin-bottom: 2px;
 		font-size: 10.5px;
 		font-weight: 600;
-		color: var(--teal);
+		color: var(--ink);
 	}
 
 	.wps-key {
 		display: inline-flex;
 		gap: 8px;
 		align-items: center;
-		font-size: 10px;
-		color: #58656a;
+		font-size: 9.5px;
+		color: var(--quiet);
 	}
 
 	.wps-line {
-		width: 18px;
+		width: 16px;
 		height: 0;
-		border-top: 1.5px solid #8b979c;
+		border-top: 1.5px solid var(--tie);
 	}
 
 	.wps-line--dash {
-		border-top: 1.5px dashed var(--teal);
+		border-top: 1.5px dashed var(--mark);
 	}
 
 	.wps-graph {
@@ -79,54 +86,42 @@
 		overflow: visible;
 	}
 
-	/* Alliances draw along their length */
+	/* A tie draws along its length; the opened one turns teal */
 	.wps-tie {
 		fill: none;
-		stroke: #8b979c;
-		stroke-width: 1.2;
+		stroke: var(--tie);
+		stroke-width: 1.3;
+		stroke-linecap: round;
 		stroke-dasharray: 1;
 		stroke-dashoffset: 1;
-		transition: stroke-dashoffset 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+		transition:
+			stroke-dashoffset 0.9s cubic-bezier(0.4, 0, 0.2, 1),
+			stroke 0.25s ease,
+			stroke-width 0.25s ease;
 	}
 
 	.wps-tie[data-on] {
 		stroke-dashoffset: 0;
 	}
-
-	/* Conflicts are dashed, so they fade in rather than draw */
-	.wps-clash {
-		opacity: 0;
-		fill: none;
-		stroke: var(--teal);
-		stroke-width: 1.2;
-		stroke-dasharray: 2.5 3;
-		transition:
-			opacity 0.5s ease,
-			stroke-width 0.25s ease;
-	}
-
-	.wps-clash[data-on] {
-		opacity: 0.85;
-	}
-	.wps-clash--probe[data-hot] {
-		opacity: 1;
-		stroke-width: 2;
+	.wps-tie[data-hot] {
+		stroke: var(--mark);
+		stroke-width: 1.8;
 	}
 
 	.wps-node {
 		position: absolute;
 		display: grid;
 		place-items: center;
-		width: 20px;
-		height: 20px;
-		margin: -10px 0 0 -10px;
-		font-size: 7.5px;
+		width: 22px;
+		height: 22px;
+		margin: -11px 0 0 -11px;
+		font-size: 8px;
 		font-weight: 600;
-		color: var(--teal);
+		color: var(--mark-text);
 		letter-spacing: 0.02em;
 		background: #fff;
 		border-radius: 50%;
-		box-shadow: 0 0 0 1.2px var(--teal);
+		box-shadow: 0 0 0 1.2px var(--mark);
 		opacity: 0;
 		scale: 0.4;
 		transition:
@@ -140,70 +135,116 @@
 		scale: 1;
 	}
 
+	/* The busiest figure leads, as in the chapter */
 	.wps-node[data-centre] {
-		width: 28px;
-		height: 28px;
-		margin: -14px 0 0 -14px;
-		font-size: 9px;
+		width: 30px;
+		height: 30px;
+		margin: -15px 0 0 -15px;
+		font-size: 10px;
 		color: #fff;
-		background: var(--teal);
-		box-shadow: 0 0 0 5px rgb(14 122 110 / 0.12);
+		background: var(--mark);
+		box-shadow: 0 0 0 5px rgb(13 148 136 / 0.12);
 	}
 
 	.wps-name {
 		position: absolute;
-		top: 173px;
-		left: 258px;
-		padding: 0 3px;
+		left: 50%;
 		font-size: 9px;
-		color: #1f2a2e;
-		/* The conflict below passes behind the name */
-		background: #f6fbfa;
-		opacity: 0;
-		translate: calc(-50% - 24px) -60px;
-		transition: opacity 0.4s ease 0.3s;
+		font-weight: 500;
+		color: var(--ink);
+		letter-spacing: 0;
+		white-space: nowrap;
+		translate: -50% 0;
 	}
 
-	.wps-name[data-on] {
-		opacity: 1;
+	.wps-name[data-at="below"] {
+		top: calc(100% + 4px);
+	}
+	.wps-name[data-at="above"] {
+		bottom: calc(100% + 4px);
 	}
 
-	/* Where the pointer comes to rest: the conflict, just under the name */
-	.wps-edge {
-		position: absolute;
-		top: 192px;
-		left: 258px;
-		width: 1px;
-		height: 1px;
-	}
-
+	/* A tie's Timecode, as the app sets it; it arrives with its tie */
 	.wps-tc {
 		position: absolute;
-		top: 216px;
-		left: 274px;
 		display: inline-flex;
 		align-items: center;
-		height: 20px;
-		padding: 0 7px;
+		height: 15px;
+		padding: 0 5px;
 		font-family: var(--mono);
-		font-size: 10px;
-		color: var(--teal);
-		background: #fff;
-		border-radius: 6px;
-		box-shadow:
-			0 0 0 1px rgb(14 122 110 / 0.35),
-			0 6px 14px -6px rgb(14 60 55 / 0.35);
+		font-size: 8.5px;
+		font-variant-numeric: tabular-nums;
+		color: var(--mark-text);
+		background: #e8f4f2;
+		border-radius: 4px;
 		opacity: 0;
-		transform-origin: 0 50%;
-		scale: 0.85;
+		scale: 0.9;
+		translate: calc(-50% - 24px) calc(-50% - 60px);
 		transition:
-			opacity 0.2s ease,
-			scale 0.35s cubic-bezier(0.2, 1.4, 0.4, 1);
-		will-change: transform;
+			opacity 0.25s ease 0.45s,
+			scale 0.35s cubic-bezier(0.2, 1.3, 0.4, 1) 0.45s,
+			color 0.14s ease,
+			background 0.14s ease;
 	}
 
 	.wps-tc[data-on] {
 		opacity: 1;
 		scale: 1;
+	}
+
+	/* Opened, it lights up as the app's chip does */
+	.wps-tc[data-lit] {
+		color: #f8fafb;
+		background: var(--mark);
+		transition-delay: 0s;
+	}
+
+	/* The opened tie's frame, beside the legend */
+	.wps-frame {
+		position: absolute;
+		top: 156px;
+		left: 44px;
+		width: 116px;
+		padding: 3px;
+		margin: 0;
+		background: #fff;
+		border-radius: 7px;
+		box-shadow:
+			0 0 0 1px rgb(14 18 23 / 0.07),
+			0 12px 24px -12px rgb(14 18 23 / 0.35);
+		opacity: 0;
+		transform-origin: 0 0;
+		scale: 0.96;
+		transition:
+			opacity 0.2s ease,
+			scale 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+	}
+
+	.wps-frame[data-on] {
+		opacity: 1;
+		scale: 1;
+	}
+
+	.wps-frame img {
+		display: block;
+		width: 100%;
+		aspect-ratio: 2 / 1;
+		object-fit: cover;
+		border-radius: 4px;
+	}
+
+	.wps-frame figcaption {
+		display: flex;
+		gap: 5px;
+		align-items: center;
+		padding: 4px 2px 1px;
+		font-size: 8px;
+		color: var(--quiet);
+	}
+
+	.wps-frame-tc {
+		font-family: var(--mono);
+		font-variant-numeric: tabular-nums;
+		color: var(--mark-text);
 	}
 }

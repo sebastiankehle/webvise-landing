@@ -1,8 +1,11 @@
 .wvh {
-	/* Screencurve's dark look: near-black panels, one teal */
+	/* Screencurve's dark look: near-black panels; actions are light, teal
+	   marks only Timecodes, the selection and the playhead */
 	& .ss-stage {
-		--ss-accent: #2aa698;
-		--ss-accent-soft: rgb(42 166 152 / 0.16);
+		--ss-accent: #64c4b8;
+		--ss-accent-soft: #203d3b;
+		--ink: #e7e9ec;
+		--on-ink: #141619;
 		--line: rgb(255 255 255 / 0.08);
 		--strong: #f1f3f4;
 		--text: #aab0b6;
@@ -46,8 +49,8 @@
 		width: 22px;
 		height: 22px;
 		border-radius: 6px;
-		background: #17544e;
-		color: #d9f3ef;
+		background: var(--ink);
+		color: var(--on-ink);
 		font-size: 9px;
 		font-weight: 700;
 		text-box: trim-both cap alphabetic;
@@ -79,7 +82,7 @@
 
 	.wvh-nav[data-on] {
 		color: #fff;
-		background: #154741;
+		background: rgb(255 255 255 / 0.07);
 	}
 
 	.wvh-nav--sub {
@@ -96,7 +99,7 @@
 		width: 12px;
 		font-size: 8px;
 		font-weight: 600;
-		color: #7fd6cb;
+		color: var(--ss-accent);
 		letter-spacing: 0.02em;
 	}
 
@@ -128,8 +131,8 @@
 		padding: 0 12px;
 		font-size: 12px;
 		font-weight: 600;
-		color: #04211d;
-		background: var(--ss-accent);
+		color: var(--on-ink);
+		background: var(--ink);
 		border-radius: 7px;
 	}
 
@@ -222,10 +225,10 @@
 		padding: 0 12px;
 		font-size: 12px;
 		font-weight: 600;
-		color: #04211d;
-		background: var(--ss-accent);
+		color: var(--on-ink);
+		background: var(--ink);
 		border-radius: 7px;
-		opacity: 0.5;
+		opacity: 0.45;
 		transition:
 			opacity 0.2s ease,
 			scale 0.12s ease;
@@ -315,38 +318,80 @@
 		color: var(--faint);
 	}
 
+	/* A cited Timecode arrives with its sentence, in brackets */
+	.wvh-cite {
+		white-space: nowrap;
+		opacity: 0;
+		transition: opacity 0.3s ease;
+	}
+
+	.wvh-cite[data-on] {
+		opacity: 1;
+	}
+
 	.wvh-tc {
+		position: relative;
 		display: inline-flex;
 		align-items: center;
-		height: 20px;
-		padding: 0 7px;
-		margin-left: 6px;
+		height: 19px;
+		padding: 0 6px;
 		font-family: var(--mono);
 		font-size: 11px;
 		vertical-align: 1px;
-		color: #7fd6cb;
+		color: var(--ss-accent);
 		background: var(--ss-accent-soft);
-		border-radius: 6px;
-		opacity: 0;
-		scale: 0.9;
+		border-radius: 4px;
 		transition:
-			opacity 0.25s ease,
-			scale 0.35s cubic-bezier(0.2, 1.3, 0.4, 1),
-			box-shadow 0.25s ease,
-			background 0.15s ease;
-		will-change: transform;
+			color 0.14s ease,
+			background 0.14s ease,
+			box-shadow 0.2s ease;
 	}
 
-	.wvh-tc[data-on] {
-		opacity: 1;
-		scale: 1;
-	}
-
-	.wvh-tc[data-hover] {
-		background: rgb(42 166 152 / 0.28);
+	/* Pointed at, it lights up as the app's chip does */
+	.wvh-tc[data-lit] {
+		color: var(--on-ink);
+		background: var(--ss-accent);
 	}
 	.wvh-tc[data-active] {
-		box-shadow: 0 0 0 1px rgb(42 166 152 / 0.7);
+		box-shadow: 0 0 0 1px rgb(100 196 184 / 0.55);
+	}
+
+	/* The frame at that Timecode, above the chip */
+	.wvh-tip {
+		position: absolute;
+		bottom: calc(100% + 8px);
+		left: 50%;
+		z-index: 2;
+		width: 172px;
+		padding: 3px;
+		pointer-events: none;
+		background: #1f2226;
+		border-radius: 7px;
+		box-shadow:
+			0 0 0 1px rgb(255 255 255 / 0.1),
+			0 14px 30px -10px rgb(0 0 0 / 0.7);
+		opacity: 0;
+		transform-origin: 50% 100%;
+		scale: 0.96;
+		translate: -50% 4px;
+		transition:
+			opacity 0.16s ease,
+			translate 0.22s cubic-bezier(0.2, 0.8, 0.2, 1),
+			scale 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+	}
+
+	.wvh-tip[data-open] {
+		opacity: 1;
+		scale: 1;
+		translate: -50% 0;
+	}
+
+	.wvh-tip img {
+		display: block;
+		width: 100%;
+		aspect-ratio: 2 / 1;
+		object-fit: cover;
+		border-radius: 4px;
 	}
 
 	/* The player: the frame the last opened timecode points at */
@@ -385,7 +430,7 @@
 	.wvh-time {
 		font-family: var(--mono);
 		font-variant-numeric: tabular-nums;
-		color: #7fd6cb;
+		color: var(--ss-accent);
 	}
 
 	.wvh-screen {
@@ -396,38 +441,31 @@
 		border-radius: 8px;
 	}
 
+	/* Opening a Timecode cuts the picture, as a seek does */
 	.wvh-screen img {
 		position: absolute;
 		inset: 0;
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
+		opacity: 0;
+		transition: opacity 0.12s linear;
+	}
+
+	.wvh-screen img[data-on] {
+		opacity: 1;
 	}
 
 	.wvh-player .wvh-screen img {
 		object-fit: contain;
 	}
 
-	.wvh-screen-next {
-		opacity: 0;
-		transition: opacity 0.5s ease;
-	}
-
-	.wvh-screen-next[data-on] {
-		opacity: 1;
-	}
-
 	.wvh-scrub {
-		--at: 42.5%;
 		position: relative;
 		height: 3px;
 		margin: 12px 0 18px;
 		background: rgb(255 255 255 / 0.12);
 		border-radius: 2px;
-	}
-
-	.wvh-scrub[data-jumped] {
-		--at: 3.4%;
 	}
 
 	.wvh-scrub-fill {
@@ -521,10 +559,17 @@
 		color: #fff;
 	}
 
+	/* The latest lines stay in view, as a chat keeps to its end */
 	.wvh-app--compact .wvh-thread {
 		flex: 1;
+		justify-content: flex-end;
 		min-height: 0;
-		padding: 10px 12px 0;
+		padding: 10px 12px 8px;
+		overflow: hidden;
+	}
+	/* The strip above shows the opened frame large */
+	.wvh-app--compact .wvh-tip {
+		display: none;
 	}
 	.wvh-app--compact .wvh-rest {
 		top: 96px;
