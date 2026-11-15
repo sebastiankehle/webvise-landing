@@ -145,7 +145,7 @@ const stackSections = [
 // Independent partners in Sebastian's network.
 // `role` and `article` are translated; names are not.
 const network: {
-	id: "alexander" | "felix" | "lennart";
+	id: "alexander" | "felix";
 	name: string;
 	image: string;
 	linkedin: string;
@@ -162,13 +162,6 @@ const network: {
 		name: "Felix von Rautenberg",
 		image: "/images/network/felix.jpeg",
 		linkedin: "https://www.linkedin.com/in/felix-von-rautenberg-259a05246/",
-	},
-	{
-		id: "lennart",
-		name: "Lennart Brauer",
-		image: "/images/network/lennart.jpeg",
-		linkedin: "https://www.linkedin.com/in/lennart-brauer0427/",
-		website: "https://www.lennartbrauer.com/",
 	},
 ];
 
@@ -427,7 +420,7 @@ export default async function AboutPage({ params }: { params: LocaleParams }) {
 						{t("network.lead")}
 					</p>
 				</div>
-				<StaggerChildren className="mt-12 grid gap-x-10 gap-y-12 md:mt-16 md:grid-cols-3 lg:gap-x-14">
+				<StaggerChildren className="mt-12 grid gap-x-10 gap-y-12 md:mt-16 md:grid-cols-2 lg:gap-x-14">
 					{network.map((member) => {
 						const role = t(`network.members.${member.id}.role`);
 						const article = t(`network.members.${member.id}.article`);

@@ -38,7 +38,7 @@ When the vault is unavailable, locate the shared `webvise-ci-reference-pack` fol
 
 The Print-Kit contains `webvise-ci.css`, embedded Hanken Grotesk, `build.py`, source bodies, and fit rules. Use it instead of rebuilding A4 chrome from memory.
 
-## The 12 service decks
+## The 13 service decks
 
 The numbered files live in `$HOME/Documents/webvise/presentations/internal/service-catalog/de/`:
 
@@ -54,6 +54,7 @@ The numbered files live in `$HOME/Documents/webvise/presentations/internal/servi
 - `10_WEBVISE_Automate_Company-Brain-Systeme.html`
 - `11_WEBVISE_Automate_KI-Workflow-Automation.html`
 - `12_WEBVISE_Automate_KI-Agenten-mit-Review-Gates.html`
+- `13_WEBVISE_Launch_SEO-und-GEO.html` (added 2026-11-15 after the set, so it is not yet in `00_WEBVISE_Leistungsuebersicht.html`)
 
 ## DEKRA boundaries
 

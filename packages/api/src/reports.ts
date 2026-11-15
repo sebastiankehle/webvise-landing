@@ -108,6 +108,11 @@ export const DECKS: DeckEntry[] = [
 			en: "AI Agents with Review Gates",
 		},
 	},
+	{
+		slug: "seo-geo",
+		file: "13_WEBVISE_Launch_SEO-und-GEO.pdf",
+		title: { de: "SEO und GEO", en: "SEO & GEO" },
+	},
 ];
 
 const PDF_EXTENSION_PATTERN = /\.pdf$/;
