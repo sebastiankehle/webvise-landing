@@ -12,32 +12,15 @@ export const FILM_CREDITS_ID = "film-credits";
 
 const LICENCE = "https://creativecommons.org/licenses/by/3.0/";
 
-/** The films in screencurve's demo analyses, credited as each project asks
- * (screencurve `docs/validation/demo-material.md`). */
+/** The films the pictures show, credited as each project asks (screencurve
+ * `docs/validation/demo-material.md`). Interim: only Tears of Steel, since
+ * the archive picture with the other three films is gone. */
 const FILMS = [
 	{
 		title: "Tears of Steel",
 		year: 2012,
 		credit: "(CC) Blender Foundation |",
 		source: "mango.blender.org",
-	},
-	{
-		title: "Sintel",
-		year: 2010,
-		credit: "© copyright Blender Foundation |",
-		source: "durian.blender.org",
-	},
-	{
-		title: "Cosmos Laundromat",
-		year: 2015,
-		credit: "(CC) Blender Foundation |",
-		source: "gooseberry.blender.org",
-	},
-	{
-		title: "Big Buck Bunny",
-		year: 2008,
-		credit: "(c) copyright 2008, Blender Foundation /",
-		source: "www.bigbuckbunny.org",
 	},
 ];
 

@@ -24,11 +24,14 @@ const frames = "/images/case-studies/screencurve/tears-of-steel";
 // - The labels follow the product's message files in both languages, and the
 //   chrome is the redesigned one: Overview, Formatbibel and Ask the Film, then
 //   the Understand, Check and Put to work groups.
-// - Both exchanges come from the product's analysis of Tears of Steel
-//   (screencurve `src/demo/tears-of-steel.ts`, pairs 0 and 4 of the chat),
-//   shortened; the English is a translation. The stills are that analysis's
-//   key frames, and each Timecode lands on a still that shows what the
-//   answer names. The suggestions stay unused: the run never asked them.
+// - The exchange comes from the product's analysis of Tears of Steel
+//   (screencurve `src/demo/tears-of-steel.ts`, pair 0 of the chat), its
+//   answer cut to the first sentence; the English is a translation. The
+//   player starts on the poster and the Timecode lands on the bridge, which
+//   shows what the answer names. The suggestions stay unused: the run never
+//   asked them.
+// - Interim: only the calm stills at 00:00:25, 00:03:03, 00:05:12 and
+//   00:05:30 appear, the seconds screencurve's own landing keeps.
 // - The answer grows in place (Stream) and the thread moves as one.
 // - The hero frame around it is the window: no second chrome inside.
 //
@@ -66,13 +69,8 @@ const COPY = {
 		thinking: "screencurve is thinking",
 		placeholder: "Ask the Film…",
 		submit: "Ask",
-		q1: "Where does the central conflict between the main characters begin, and how does the film show it?",
-		a1: "The central conflict between Thom and Celia begins in the prologue, on a real Amsterdam canal bridge in front of historic buildings.",
-		q2: "At what point does the plot tip from preparation into confrontation?",
-		a2: [
-			"The shift from preparation to confrontation happens in two stages. With the physical press of the “PLAYBACK” switch",
-			"and the start of the holographic dome, the preparation ends and the actual mission begins.",
-		],
+		q: "Where does the central conflict between the main characters begin, and how does the film show it?",
+		a: "The central conflict between Thom and Celia begins in the prologue, on a real Amsterdam canal bridge in front of historic buildings.",
 	},
 	de: {
 		tabs: ["Überblick", "Formatbibel", "Frag den Film"],
@@ -94,27 +92,23 @@ const COPY = {
 		thinking: "screencurve denkt nach",
 		placeholder: "Frag den Film…",
 		submit: "Fragen",
-		q1: "Wo beginnt der zentrale Konflikt zwischen den Hauptfiguren, und wie zeigt der Film ihn?",
-		a1: "Der zentrale Konflikt zwischen Thom und Celia beginnt im Prolog auf einer realen Amsterdamer Grachtenbrücke vor historischer Kulisse.",
-		q2: "An welcher Stelle kippt die Handlung von Vorbereitung zu Konfrontation?",
-		a2: [
-			"Der Übergang von der Vorbereitung zur Konfrontation vollzieht sich in zwei Stufen. Mit der physischen Betätigung des „PLAYBACK“-Schalters",
-			"und dem Start der holografischen Kuppel endet die Vorbereitung und der eigentliche Einsatz beginnt.",
-		],
+		q: "Wo beginnt der zentrale Konflikt zwischen den Hauptfiguren, und wie zeigt der Film ihn?",
+		a: "Der zentrale Konflikt zwischen Thom und Celia beginnt im Prolog auf einer realen Amsterdamer Grachtenbrücke vor historischer Kulisse.",
 	},
 } as const;
 
 const TITLE = "Tears of Steel";
 // The project marks the sidebar draws before each name
 const MARKS = [null, "OM", "KÜ", "HA"];
-const FIRST = "00:00:25";
-const SECOND = "00:04:56";
+// The player starts on the poster and jumps to the answer's Timecode
+const FIRST = "00:05:12";
+const SECOND = "00:00:25";
 const END = "00:12:14";
 const FRAMES = [
-	{ src: `${frames}/00025.webp`, at: FIRST },
-	{ src: `${frames}/00084.webp`, at: "00:01:24" },
-	{ src: `${frames}/00296.webp`, at: SECOND },
-	{ src: `${frames}/00499.webp`, at: "00:08:19" },
+	{ src: `${frames}/00025.webp`, at: SECOND },
+	{ src: `${frames}/00183.webp`, at: "00:03:03" },
+	{ src: `${frames}/00312.webp`, at: FIRST },
+	{ src: `${frames}/00330.webp`, at: "00:05:30" },
 ];
 
 const initial: S = {
@@ -126,9 +120,7 @@ const initial: S = {
 	jumped: false,
 };
 
-const count = (text: string) => text.split(" ").length;
-
-function script(question: string, lead: number, words: number) {
+function script(question: string, words: number) {
 	return async (a: Act<S>) => {
 		await a.wait(1300);
 		a.mark("ask");
@@ -150,13 +142,10 @@ function script(question: string, lead: number, words: number) {
 		a.put({ phase: "answer" });
 		for (let i = 1; i <= words; i++) {
 			a.put({ words: i });
-			// The Timecode lands where the answer cites it
-			if (i === lead) {
-				await a.wait(200);
-				a.put({ chip: true });
-			}
 			await a.wait(44);
 		}
+		await a.wait(250);
+		a.put({ chip: true });
 		await a.wait(750);
 		a.mark("jump");
 		await a.move({ at: "tc", x: 0.8, y: 0.8 });
@@ -170,12 +159,12 @@ function script(question: string, lead: number, words: number) {
 function Player({ jumped }: { jumped: boolean }) {
 	return (
 		<div className="wvh-screen">
-			<img alt="" src={FRAMES[0].src} />
+			<img alt="" src={FRAMES[2].src} />
 			<img
 				alt=""
 				className="wvh-screen-next"
 				data-on={jumped || undefined}
-				src={FRAMES[2].src}
+				src={FRAMES[0].src}
 			/>
 		</div>
 	);
@@ -183,8 +172,7 @@ function Player({ jumped }: { jumped: boolean }) {
 
 export default function HeroScene({ locale }: { locale: Locale }) {
 	const t = COPY[locale];
-	const lead = count(t.a2[0]);
-	const words = lead + count(t.a2[1]);
+	const words = t.a.split(" ").length;
 	const poster: S = {
 		asked: true,
 		phase: "answer",
@@ -203,7 +191,7 @@ export default function HeroScene({ locale }: { locale: Locale }) {
 			initial={initial}
 			play="once"
 			poster={poster}
-			script={script(t.q2, lead, words)}
+			script={script(t.q, words)}
 			theme="dark"
 			width={1164}
 		>
@@ -213,7 +201,7 @@ export default function HeroScene({ locale }: { locale: Locale }) {
 					<>
 						<Collapse from="below" open={s.asked} reveal="drop">
 							<div className="wvh-q">
-								<Text>{t.q2}</Text>
+								<Text>{t.q}</Text>
 							</div>
 						</Collapse>
 						<Collapse open={s.phase === "thinking"}>
@@ -221,11 +209,7 @@ export default function HeroScene({ locale }: { locale: Locale }) {
 						</Collapse>
 						<Collapse open={s.phase === "answer"}>
 							<div className="wvh-a">
-								<Stream
-									className="wvh-stream"
-									count={Math.min(s.words, lead)}
-									text={t.a2[0]}
-								/>
+								<Stream className="wvh-stream" count={s.words} text={t.a} />
 								<span
 									className="wvh-tc"
 									data-active={s.jumped || undefined}
@@ -235,24 +219,6 @@ export default function HeroScene({ locale }: { locale: Locale }) {
 								>
 									{SECOND}
 								</span>
-								{/* Narrow, the answer stops at its Timecode */}
-								{compact ? (
-									<span
-										className="wvh-more"
-										data-on={s.words > lead || undefined}
-									>
-										…
-									</span>
-								) : (
-									<>
-										{" "}
-										<Stream
-											className="wvh-stream"
-											count={Math.max(s.words - lead, 0)}
-											text={t.a2[1]}
-										/>
-									</>
-								)}
 							</div>
 						</Collapse>
 					</>
@@ -384,19 +350,6 @@ export default function HeroScene({ locale }: { locale: Locale }) {
 									</div>
 									<div className="wvh-thread">
 										<span className="wvh-rest" data-target="rest" />
-										<div className="wvh-q">
-											<Text>{t.q1}</Text>
-										</div>
-										<div className="wvh-a">
-											<span className="wvh-stream">{t.a1}</span>
-											<span
-												className="wvh-tc"
-												data-active={!s.jumped || undefined}
-												data-on
-											>
-												{FIRST}
-											</span>
-										</div>
 										{answer}
 									</div>
 									{composer}
