@@ -32,11 +32,15 @@ const nextConfig: NextConfig = {
 			},
 			{
 				pathname: "/images/case-studies/screencurve/**",
-				search: "?v=20261114-open-movies",
+				search: "?v=20261115-laufzeitleiste",
 			},
 			{
 				pathname: "/images/home/work/screencurve.webp",
-				search: "?v=20261114-open-movies",
+				search: "?v=20261115-laufzeitleiste",
+			},
+			{
+				pathname: "/images/home/work/screencurve-de.webp",
+				search: "?v=20261115-laufzeitleiste",
 			},
 			{
 				pathname: "/images/home/work/mpb.webp",

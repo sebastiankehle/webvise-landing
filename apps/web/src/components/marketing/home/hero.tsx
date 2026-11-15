@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 
 import { ActionLink } from "@/components/marketing/action";
 import HeroWall from "@/components/marketing/home/hero-wall";
@@ -10,6 +10,7 @@ const factKeys = ["0", "2"] as const;
 
 export default async function Hero() {
 	const t = await getTranslations("home");
+	const locale = await getLocale();
 
 	return (
 		<section
@@ -92,7 +93,7 @@ export default async function Hero() {
 					</ul>
 
 					<div className="relative mx-auto mt-12 max-w-[1180px] md:mt-16">
-						<HeroWall label={t("stage.wall")} />
+						<HeroWall label={t("stage.wall")} locale={locale} />
 					</div>
 				</div>
 			</GridContainer>

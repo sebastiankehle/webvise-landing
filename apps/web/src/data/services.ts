@@ -122,7 +122,7 @@ export const services: Service[] = [
 		proof: {
 			caseStudySlug: "screencurve",
 			image:
-				"/images/case-studies/screencurve/hero.webp?v=20261114-open-movies",
+				"/images/case-studies/screencurve/hero.webp?v=20261115-laufzeitleiste",
 		},
 	},
 	{
@@ -150,7 +150,7 @@ export const services: Service[] = [
 		proof: {
 			caseStudySlug: "screencurve",
 			image:
-				"/images/case-studies/screencurve/ask-the-film.webp?v=20261114-open-movies",
+				"/images/case-studies/screencurve/ask-the-film.webp?v=20261115-laufzeitleiste",
 		},
 	},
 ];

@@ -8,12 +8,15 @@ import "./hero-wall.css";
 const shots = "/images/case-studies";
 const wall = "/images/home/wall";
 const obsidian = "?v=20261111-eagle-obsidian";
-const openMovies = "?v=20261114-open-movies";
+const laufzeitleiste = "?v=20261115-laufzeitleiste";
 
 /** A desktop screen. A wide one is 2:1, the others 16:10, as the screens
  * are. With `page`, the picture is a long page (its height over its width)
  * that scrolls inside the frame. */
 interface Screen {
+	/** The same screen in German, for a product whose pictures follow the
+	 * page's locale. */
+	de?: string;
 	page?: number;
 	src: string;
 	wide?: boolean;
@@ -48,7 +51,11 @@ const COLUMNS: Tile[][] = [
 		{ src: `${shots}/relay/view-3.webp` },
 		{ src: `${shots}/old-world-labs/sectors.webp`, wide: true },
 		{ src: `${shots}/morrow/hero-v3.webp` },
-		{ src: `${shots}/screencurve/ask-the-film.webp${openMovies}`, wide: true },
+		{
+			src: `${shots}/screencurve/ask-the-film.webp${laufzeitleiste}`,
+			de: `${shots}/screencurve/ask-the-film-de.webp${laufzeitleiste}`,
+			wide: true,
+		},
 		{ src: `${shots}/kernspan/assembly-v2.webp` },
 	],
 	[
@@ -92,7 +99,11 @@ const COLUMNS: Tile[][] = [
 			wide: true,
 		},
 		{ src: `${shots}/relay/hero-v2.webp` },
-		{ src: `${shots}/screencurve/landing.webp${openMovies}`, wide: true },
+		{
+			src: `${shots}/screencurve/landing.webp${laufzeitleiste}`,
+			de: `${shots}/screencurve/landing-de.webp${laufzeitleiste}`,
+			wide: true,
+		},
 		{ src: `${shots}/keel/view-1.webp` },
 		{ src: `${shots}/hyyve/how-it-works.webp`, wide: true },
 		{ src: `${shots}/morrow/graph-v3.webp` },
@@ -157,7 +168,13 @@ function Picture({
 /** The first screen's showreel: real screens of the projects as one wall,
  * turned a few degrees, its columns drifting slowly against each other.
  * Every frame is shown whole and undistorted, and a few pages scroll. */
-export default function HeroWall({ label }: { label: string }) {
+export default function HeroWall({
+	label,
+	locale,
+}: {
+	label: string;
+	locale: string;
+}) {
 	return (
 		<div
 			aria-label={label}
@@ -214,7 +231,7 @@ export default function HeroWall({ label }: { label: string }) {
 											page={tile.page}
 											shape={tile.wide ? 0.5 : 0.625}
 											sizes={SCREEN_SIZES}
-											src={tile.src}
+											src={(locale === "de" && tile.de) || tile.src}
 										/>
 									</span>
 								)

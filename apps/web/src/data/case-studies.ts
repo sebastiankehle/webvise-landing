@@ -111,7 +111,11 @@ const caseStudyContentSchema = z.object({
 
 const localizedCaseStudyFileSchema = caseStudyContentSchema
 	.extend({
+		// Pictures of a product shown in this locale's own interface
+		cardImage: z.string().min(1).optional(),
+		coverImage: z.string().min(1).optional(),
 		deliveryTime: z.string().min(1).optional(),
+		images: z.array(z.string().min(1)).optional(),
 		industry: z.string().min(1).optional(),
 		location: z.string().min(1).optional(),
 	})
@@ -266,6 +270,7 @@ function toCaseStudy(slug: string, locale: string): CaseStudy | null {
 
 	const localeFile = locale === "en" ? null : getLocalizedFile(slug, locale);
 	const content = localeFile ?? enFile;
+	const images = localeFile?.images ?? enFile.images;
 
 	return {
 		slug,
@@ -274,9 +279,9 @@ function toCaseStudy(slug: string, locale: string): CaseStudy | null {
 		industry: localeFile?.industry ?? enFile.industry,
 		services: [...enFile.services],
 		date: enFile.date,
-		cardImage: enFile.cardImage,
-		coverImage: enFile.coverImage,
-		images: enFile.images ? [...enFile.images] : undefined,
+		cardImage: localeFile?.cardImage ?? enFile.cardImage,
+		coverImage: localeFile?.coverImage ?? enFile.coverImage,
+		images: images ? [...images] : undefined,
 		imageAlts: content.imageAlts ? [...content.imageAlts] : undefined,
 		fullPageImage: enFile.fullPageImage,
 		location: localeFile?.location ?? enFile.location,
