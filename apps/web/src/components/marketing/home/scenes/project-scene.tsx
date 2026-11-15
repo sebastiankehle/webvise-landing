@@ -110,9 +110,12 @@ export default function ProjectScene({
 	}
 	return (
 		<div className="group/scene absolute inset-0">
+			{/* Laid out like the stage, so the swap does not shift: as wide as
+			    the frame up to twice the scenes' 400px design width, centred,
+			    pinned to the top and run off the bottom */}
 			<Image
 				alt=""
-				className="object-cover group-has-[.ss-stage]/scene:hidden"
+				className="mx-auto max-w-[800px] object-cover object-top group-has-[.ss-stage]/scene:hidden"
 				fill
 				quality={90}
 				sizes={sizes}

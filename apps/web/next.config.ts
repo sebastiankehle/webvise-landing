@@ -38,6 +38,10 @@ const nextConfig: NextConfig = {
 				pathname: "/images/home/work/screencurve.webp",
 				search: "?v=20261114-open-movies",
 			},
+			{
+				pathname: "/images/home/work/mpb.webp",
+				search: "?v=20261115-chat",
+			},
 		],
 		qualities: [75, 80, 85, 90, 95, 100],
 	},
