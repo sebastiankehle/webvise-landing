@@ -38,23 +38,19 @@ When the vault is unavailable, locate the shared `webvise-ci-reference-pack` fol
 
 The Print-Kit contains `webvise-ci.css`, embedded Hanken Grotesk, `build.py`, source bodies, and fit rules. Use it instead of rebuilding A4 chrome from memory.
 
-## The 13 service decks
+## The 15 service decks
 
-The numbered files live in `$HOME/Documents/webvise/presentations/internal/service-catalog/de/`:
+The decks are generated, not hand-edited. `$HOME/Documents/webvise/presentations/internal/service-catalog/_build/` holds:
 
-- `01_WEBVISE_Launch_Landing-Pages.html`
-- `02_WEBVISE_Launch_MVPs-und-Produktprototypen.html`
-- `03_WEBVISE_Launch_Website-Workflows.html`
-- `04_WEBVISE_Launch_WordPress-und-Legacy-Migrationen.html`
-- `05_WEBVISE_Operate_Interne-Tools-und-Dashboards.html`
-- `06_WEBVISE_Operate_Kundenportale-und-Geschaeftsanwendungen.html`
-- `07_WEBVISE_Operate_Booking-und-Event-Plattformen.html`
-- `08_WEBVISE_Operate_Individuelle-Business-Anwendungen.html`
-- `09_WEBVISE_Automate_KI-Audit-und-Beratung.html`
-- `10_WEBVISE_Automate_Company-Brain-Systeme.html`
-- `11_WEBVISE_Automate_KI-Workflow-Automation.html`
-- `12_WEBVISE_Automate_KI-Agenten-mit-Review-Gates.html`
-- `13_WEBVISE_Launch_SEO-und-GEO.html` (added 2026-11-15 after the set, so it is not yet in `00_WEBVISE_Leistungsuebersicht.html`)
+- `content/NN_<slug>.json`: German and English copy for one deck; `00_leistungsuebersicht.json` is the one-page overview
+- `content/_shared.json`: labels, links and the "Stand" date shared by every deck
+- `BRIEF.md`: source, claim and writing rules for deck copy
+- `build.py`: renders `../de` and `../en` HTML; `--check` runs the fit probe and character budgets; `--pdf` prints the PDFs into `apps/web/public/reports/decks/`
+- `audit/`: the 2026-11-15 audit notes per deck
+
+To change a deck, edit its JSON, run `python3 _build/build.py --check --pdf <file>`, then commit the PDFs in the repo. A new deck also needs an entry in `packages/api/src/reports.ts`. The hand-built August originals are archived in `_archive/2026-08-18-originals/`.
+
+Numbering: 01-12 follow the August set, 13 is SEO und GEO, 14 is Coaching, 15 is KI-Chatbots und Telefon-Assistenten. The overview lists all 15 in the website's order.
 
 ## DEKRA boundaries
 
