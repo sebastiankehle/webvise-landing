@@ -27,7 +27,7 @@ export const customSystems: CustomSystem[] = [
 		proof: {
 			caseStudySlug: "screencurve",
 			image:
-				"/images/case-studies/screencurve/archive.webp?v=20261114-open-movies",
+				"/images/case-studies/screencurve/hero.webp?v=20261115-calm-frames",
 		},
 	},
 	{

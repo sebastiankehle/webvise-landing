@@ -238,7 +238,7 @@ const tiles: Record<ProjectSceneSlug, Tile[]> = {
 			line: result(2),
 			render: (locale) => <ScScene locale={locale} />,
 		},
-		{ id: "archive", shape: "tall", line: result(3), image: 2 },
+		{ id: "overview", shape: "tall", line: result(0), image: 2 },
 	],
 	"von-platen-coaching": [
 		{

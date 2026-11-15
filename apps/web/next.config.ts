@@ -32,11 +32,11 @@ const nextConfig: NextConfig = {
 			},
 			{
 				pathname: "/images/case-studies/screencurve/**",
-				search: "?v=20261114-open-movies",
+				search: "?v=20261115-calm-frames",
 			},
 			{
 				pathname: "/images/home/work/screencurve.webp",
-				search: "?v=20261114-open-movies",
+				search: "?v=20261115-calm-frames",
 			},
 			{
 				pathname: "/images/home/work/mpb.webp",
