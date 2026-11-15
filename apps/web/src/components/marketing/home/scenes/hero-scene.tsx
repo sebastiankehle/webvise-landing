@@ -60,7 +60,7 @@ const COPY = {
 		chips: ["When does the mood shift?", "Who drives the plot?"],
 		keyFrames: "Key frames",
 		projects: "Projects",
-		nav: ["Overview", "Kurzfilme (Demo)", "Küstenwache", "Hafenlichter"],
+		nav: ["Overview", "Open Movies (Demo)", "Küstenwache", "Hafenlichter"],
 		sub: ["Unsorted"],
 		admin: "Administration",
 		adminNav: ["Production company", "Company groups"],
@@ -77,7 +77,7 @@ const COPY = {
 		chips: ["Wann kippt die Stimmung?", "Wer treibt die Handlung?"],
 		keyFrames: "Schlüssel-Frames",
 		projects: "Projekte",
-		nav: ["Übersicht", "Kurzfilme (Demo)", "Küstenwache", "Hafenlichter"],
+		nav: ["Übersicht", "Open Movies (Demo)", "Küstenwache", "Hafenlichter"],
 		sub: ["Unsortiert"],
 		admin: "Verwaltung",
 		adminNav: ["Produktionsfirma", "Unternehmensgruppen"],
@@ -114,7 +114,7 @@ const TITLE = "The Car Spotter";
 const RUNTIME = 773;
 // The project marks the sidebar draws before each name: the first letters of
 // the first two words, or the first two of a single word
-const MARKS = [null, "KD", "KÜ", "HA"];
+const MARKS = [null, "OM", "KÜ", "HA"];
 
 /** A second as the product writes it: the broadcast Timecode, no offset. */
 function timecode(seconds: number) {
