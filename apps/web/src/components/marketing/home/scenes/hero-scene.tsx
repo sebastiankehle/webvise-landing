@@ -23,10 +23,10 @@ const frames = "/images/case-studies/screencurve/car-spotter";
 // once; the couple on their camping chairs is the payoff.
 //
 // What makes it read as the product:
-// - The question and its answer are pair 3 of the product's chat about the
+// - The question and its answer are pair 6 of the product's chat about the
 //   film (screencurve's export of "The Car Spotter (Ohne Abspann)"), word for
-//   word. They stay German on English pages, as the product shows an
-//   analysis in its own language.
+//   word, asked in plain words. They stay German on English pages, as the
+//   product shows an analysis in its own language.
 // - A Timecode chip shows its frame when pointed at and seeks the player
 //   when opened, as the app's chip does (ADR-0059). Each frame is the first
 //   picture of its second, cut from the film, and shows what the sentence
@@ -87,26 +87,33 @@ const COPY = {
 	},
 } as const;
 
-// Pair 1 of the chat, already in the thread on wide screens; its Timecodes
-// stay closed, so none brings a frame
+// Pair 5 of the chat, already in the thread on wide screens, set as the
+// product renders its answer: a lead line, then a list with bold labels. Its
+// Timecodes stay closed, so none brings a frame
 const EARLIER = {
-	question: "Wo ist das Oldsmobile zu sehen? Bitte kurz, mit Timecodes.",
-	answer: [
-		"Das Oldsmobile ist zum einen direkt auf der freien Landstraße als herannahendes Oldtimer-Cabriolet in Fahraufnahmen und Nahaufnahmen zu sehen",
-		[618, 646, 665],
-		"Zum anderen ist das Oldsmobile Cutlass Supreme als gerahmtes Belegfoto an einer grün gestrichenen Wand im Haus zu sehen",
-		[697, 701],
+	question: "Wo ist das Oldsmobile zu sehen?",
+	lead: "Das Oldsmobile ist an folgenden Stellen zu sehen:",
+	items: [
+		{
+			label: "Auf der Landstraße:",
+			text: "In dynamischen Fahraufnahmen sowie in frontaler Nahaufnahme als herannahendes cremefarbenes Cabriolet",
+			seconds: [618, 646, 665],
+		},
+		{
+			label: "Im Wohnhaus:",
+			text: "Als gerahmtes Belegfoto des Oldsmobile Cutlass Supreme an einer grün gestrichenen Holzwand",
+			seconds: [697, 701],
+		},
 	],
 } as const;
 
-// Pair 3 of the chat, as the analysis wrote it; each sentence ends on its
+// Pair 6 of the chat, as the analysis wrote it; each sentence ends on its
 // Timecode, which the product sets in brackets
-const QUESTION =
-	"Wie endet der Film für das Paar? Bitte in zwei Sätzen, mit Timecodes.";
+const QUESTION = "Wie endet der Film für das Paar?";
 const ANSWER: [string, Second, string, Second] = [
-	"Nach der erfolgreichen Auto-Jagd betrachtet das versöhnte Paar zu Hause gemeinsam das gerahmte Trophäenfoto des Oldsmobile an der Wand",
+	"Der Film endet für das Paar in versöhnter Zweisamkeit: Beide betrachten im Haus zunächst gemeinsam das an der Wand aufgehängte Belegfoto des Oldsmobile Cutlass Supreme",
 	701,
-	"Der Film endet schließlich mit einer gelassenen neuen Routine, in der beide einträchtig nebeneinander in Klappstühlen mit Wolldecke und Rätselheft am Straßenrand sitzen und Autos beobachten",
+	"Schließlich etablieren sie eine neue, gelassene Routine, bei der sie einträchtig nebeneinander in Campingklappstühlen mit Wolldecke und Rätselheft am Straßenrand sitzen und gemeinsam Autos beobachten",
 	749,
 ];
 
@@ -489,22 +496,23 @@ export default function HeroScene({ locale }: { locale: Locale }) {
 
 							<div className="wvh-cols">
 								<section className="wvh-chat">
-									<Text className="wvh-intro">{t.intro}</Text>
-									<div className="wvh-chips">
-										{t.chips.map((chip) => (
-											<span className="wvh-chip" key={chip}>
-												{chip}
-											</span>
-										))}
-									</div>
+									{/* The thread already holds pair 5, so the empty state with
+									    its intro and suggestions has left, as in the product */}
 									<div className="wvh-thread">
 										<span className="wvh-rest" data-target="rest" />
 										<div className="wvh-q">
 											<Text lang="de">{EARLIER.question}</Text>
 										</div>
 										<div className="wvh-a" lang="de">
-											{EARLIER.answer[0]} <Cites seconds={EARLIER.answer[1]} />{" "}
-											{EARLIER.answer[2]} <Cites seconds={EARLIER.answer[3]} />
+											{EARLIER.lead}
+											<ul className="wvh-list">
+												{EARLIER.items.map((item) => (
+													<li key={item.label}>
+														<strong>{item.label}</strong> {item.text}{" "}
+														<Cites seconds={item.seconds} />
+													</li>
+												))}
+											</ul>
 										</div>
 										{answer}
 									</div>
