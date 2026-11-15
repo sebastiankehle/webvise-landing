@@ -98,7 +98,7 @@ describe("system copy matches its counts", () => {
 });
 
 describe("decks and report ids", () => {
-	it("lists the 14 service decks", () => {
+	it("lists the 16 service decks", () => {
 		expect(serviceDecks.map((deck) => deck.slug)).toEqual([
 			"leistungsuebersicht",
 			"landing-pages",
@@ -114,6 +114,8 @@ describe("decks and report ids", () => {
 			"ai-automation",
 			"agentic-workflow-automation",
 			"seo-geo",
+			"coaching",
+			"ai-chatbots",
 		]);
 	});
 

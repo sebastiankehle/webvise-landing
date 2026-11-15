@@ -43,7 +43,7 @@ export const DECKS: DeckEntry[] = [
 	{
 		slug: "website-to-app-upgrades",
 		file: "03_WEBVISE_Launch_Website-Workflows.pdf",
-		title: { de: "Website-Workflows", en: "Website Workflows" },
+		title: { de: "Website-Workflows", en: "Website Workflow Layers" },
 	},
 	{
 		slug: "wordpress-migration",
@@ -66,7 +66,7 @@ export const DECKS: DeckEntry[] = [
 		file: "06_WEBVISE_Operate_Kundenportale-und-Geschaeftsanwendungen.pdf",
 		title: {
 			de: "Kundenportale und Geschäftsanwendungen",
-			en: "Client Portals & Business Applications",
+			en: "Client Portals & Business Apps",
 		},
 	},
 	{
@@ -88,7 +88,7 @@ export const DECKS: DeckEntry[] = [
 	{
 		slug: "ai-consulting",
 		file: "09_WEBVISE_Automate_KI-Audit-und-Beratung.pdf",
-		title: { de: "KI-Audit und Beratung", en: "AI Audit & Consulting" },
+		title: { de: "KI-Audit und Beratung", en: "AI Auditing & Consulting" },
 	},
 	{
 		slug: "company-brain-memory-systems",
@@ -112,6 +112,22 @@ export const DECKS: DeckEntry[] = [
 		slug: "seo-geo",
 		file: "13_WEBVISE_Launch_SEO-und-GEO.pdf",
 		title: { de: "SEO und GEO", en: "SEO & GEO" },
+	},
+	{
+		slug: "coaching",
+		file: "14_WEBVISE_Operate_Coaching-fuer-Gruender-und-Teams.pdf",
+		title: {
+			de: "Coaching für Gründer und Teams",
+			en: "Coaching for Founders & Teams",
+		},
+	},
+	{
+		slug: "ai-chatbots",
+		file: "15_WEBVISE_Automate_KI-Chatbots-und-Telefon-Assistenten.pdf",
+		title: {
+			de: "KI-Chatbots und Telefon-Assistenten",
+			en: "AI Chatbots & Phone Assistants",
+		},
 	},
 ];
 
