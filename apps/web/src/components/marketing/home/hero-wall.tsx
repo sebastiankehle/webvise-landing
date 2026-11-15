@@ -8,7 +8,7 @@ import "./hero-wall.css";
 const shots = "/images/case-studies";
 const wall = "/images/home/wall";
 const obsidian = "?v=20261111-eagle-obsidian";
-const carSpotter = "?v=20261115-car-spotter";
+const carSpotter = "?v=20261115-car-spotter-views";
 
 /** A desktop screen. A wide one is 2:1, the others 16:10, as the screens
  * are. With `page`, the picture is a long page (its height over its width)
@@ -53,6 +53,7 @@ const COLUMNS: Tile[][] = [
 		{ src: `${shots}/morrow/hero-v3.webp` },
 		{
 			src: `${shots}/screencurve/ask-the-film.webp${carSpotter}`,
+			de: `${shots}/screencurve/ask-the-film-de.webp${carSpotter}`,
 			wide: true,
 		},
 		{ src: `${shots}/kernspan/assembly-v2.webp` },
