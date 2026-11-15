@@ -1,6 +1,6 @@
 "use client";
 
-import type { CSSProperties } from "react";
+import { type CSSProperties, useEffect, useState } from "react";
 import {
 	type Act,
 	Bar,
@@ -36,7 +36,8 @@ const frames = "/images/case-studies/screencurve/car-spotter";
 // - The labels follow the product's message files in both languages.
 //
 // Narrow, it is a second design: the frame as a strip, the exchange under it
-// kept to its latest lines, the same clicks.
+// kept to its latest lines. It opens only the first Timecode and ends on the
+// couple at the framed photo, the stronger picture at that size.
 
 type Locale = "de" | "en";
 type Second = 575 | 701 | 749;
@@ -56,14 +57,10 @@ const COPY = {
 		export: "Export",
 		intro:
 			"Ask the Film answers questions from the analysis and links every answer to a Timecode.",
-		chips: [
-			"When does the mood shift?",
-			"Who drives the plot?",
-			"Are there continuity errors?",
-		],
+		chips: ["When does the mood shift?", "Who drives the plot?"],
 		keyFrames: "Key frames",
 		projects: "Projects",
-		nav: ["Overview", "Open Movies (Demo)", "Küstenwache", "Hafenlichter"],
+		nav: ["Overview", "Kurzfilme (Demo)", "Küstenwache", "Hafenlichter"],
 		sub: ["Unsorted"],
 		admin: "Administration",
 		adminNav: ["Production company", "Company groups"],
@@ -77,14 +74,10 @@ const COPY = {
 		export: "Exportieren",
 		intro:
 			"Frag den Film beantwortet Fragen aus der Analyse und verlinkt jede Antwort mit einem Timecode.",
-		chips: [
-			"Wann kippt die Stimmung?",
-			"Wer treibt die Handlung?",
-			"Gibt es Anschlussfehler?",
-		],
+		chips: ["Wann kippt die Stimmung?", "Wer treibt die Handlung?"],
 		keyFrames: "Schlüssel-Frames",
 		projects: "Projekte",
-		nav: ["Übersicht", "Open Movies (Demo)", "Küstenwache", "Hafenlichter"],
+		nav: ["Übersicht", "Kurzfilme (Demo)", "Küstenwache", "Hafenlichter"],
 		sub: ["Unsortiert"],
 		admin: "Verwaltung",
 		adminNav: ["Produktionsfirma", "Unternehmensgruppen"],
@@ -119,8 +112,9 @@ const ANSWER: [string, Second, string, Second] = [
 
 const TITLE = "The Car Spotter";
 const RUNTIME = 773;
-// The project marks the sidebar draws before each name
-const MARKS = [null, "OM", "KÜ", "HA"];
+// The project marks the sidebar draws before each name: the first letters of
+// the first two words, or the first two of a single word
+const MARKS = [null, "KD", "KÜ", "HA"];
 
 /** A second as the product writes it: the broadcast Timecode, no offset. */
 function timecode(seconds: number) {
@@ -159,9 +153,10 @@ const initial: S = {
 	words: 0,
 };
 
+// The still ends on the stronger picture, the couple at the framed photo
 const poster: S = {
 	asked: true,
-	at: 749,
+	at: 701,
 	phase: "answer",
 	tip: null,
 	typed: "",
@@ -206,6 +201,10 @@ async function script(a: Act<S>) {
 	await a.wait(450);
 	a.mark("open");
 	await open(a, 701);
+	if (a.layout === "compact") {
+		await a.wait(2600);
+		return;
+	}
 	await a.wait(250);
 	await open(a, 749);
 	await a.wait(2600);
@@ -259,6 +258,42 @@ function Cite({
 	);
 }
 
+/** While the Ask button passes under the site's chat button, the chat button
+ * steps aside, so the pointer never clicks under it. */
+function useLauncherAside(target: HTMLElement | null) {
+	useEffect(() => {
+		if (!target) {
+			return;
+		}
+		const root = document.documentElement;
+		let io: IntersectionObserver | undefined;
+		const watch = () => {
+			io?.disconnect();
+			const launcher = document.querySelector("[data-chat-launcher]");
+			if (!launcher) {
+				return;
+			}
+			// The viewport, cut down to the chat button's own box
+			const r = launcher.getBoundingClientRect();
+			io = new IntersectionObserver(
+				([entry]) =>
+					root.toggleAttribute("data-launcher-aside", entry.isIntersecting),
+				{
+					rootMargin: `${-r.top}px ${r.right - innerWidth}px ${r.bottom - innerHeight}px ${-r.left}px`,
+				}
+			);
+			io.observe(target);
+		};
+		watch();
+		addEventListener("resize", watch);
+		return () => {
+			removeEventListener("resize", watch);
+			io?.disconnect();
+			root.removeAttribute("data-launcher-aside");
+		};
+	}, [target]);
+}
+
 function Player({ at }: { at: Second }) {
 	return (
 		<div className="wvh-screen">
@@ -277,6 +312,8 @@ function Player({ at }: { at: Second }) {
 
 export default function HeroScene({ locale }: { locale: Locale }) {
 	const t = COPY[locale];
+	const [send, setSend] = useState<HTMLElement | null>(null);
+	useLauncherAside(send);
 	return (
 		<Stage<S>
 			className="wvh"
@@ -357,6 +394,7 @@ export default function HeroScene({ locale }: { locale: Locale }) {
 							data-cursor="pointer"
 							data-ready={s.typed ? true : undefined}
 							data-target="send"
+							ref={setSend}
 						>
 							{t.submit}
 						</span>

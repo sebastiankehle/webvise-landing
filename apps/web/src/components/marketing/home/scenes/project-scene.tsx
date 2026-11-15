@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import type { ReactNode } from "react";
 import PageScroll from "./page-scroll";
 import HyyveOrbit from "./project-hyyve";
@@ -92,6 +92,22 @@ const scenes: Record<ProjectSceneSlug, Entry> = {
 	},
 };
 
+/** The credit of the film still Screencurve's scene opens, set like a photo
+ * credit in the strip above the scene's window (22 of its 400 design pixels),
+ * flush with the window's right edge. Plain text, since the card around it
+ * is a link to the project and its credits. */
+function StillCredit() {
+	const t = useTranslations("caseStudies.filmCredits");
+	return (
+		<span
+			aria-hidden="true"
+			className="pointer-events-none absolute inset-x-[6%] top-0 z-10 flex aspect-[400/22] items-center justify-end text-[10.5px] text-muted-foreground leading-none"
+		>
+			<span className="truncate">{t("still")}</span>
+		</span>
+	);
+}
+
 /** A project card's picture: its live scene, its own illustration or one of
  * its screens. */
 export default function ProjectScene({
@@ -122,6 +138,7 @@ export default function ProjectScene({
 				src={opening}
 			/>
 			<WhenNear>{entry.live?.(locale)}</WhenNear>
+			{slug === "screencurve" && <StillCredit />}
 		</div>
 	);
 }

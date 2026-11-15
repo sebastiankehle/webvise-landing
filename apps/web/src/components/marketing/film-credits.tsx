@@ -1,12 +1,15 @@
 import { getTranslations } from "next-intl/server";
 import type { ReactNode } from "react";
 
-import { InlineLink } from "@/components/ui/typography";
+import { InlineLink, inlineLinkClassName } from "@/components/ui/typography";
+import { Link } from "@/i18n/navigation";
+import { cn } from "@/lib/utils";
 
 /** The case study whose pictures show stills from a CC BY short film, and
- * the anchor of its credits on its page. The footer links
- * there, because the pictures also appear on the home page, on service
- * pages and in the banner behind every page's call to action. */
+ * the anchor of its credits on its page. Wherever else a still shows, a
+ * caption names the film and links here: under the home page's wall of
+ * screens, under a service page's screens and on every card of the project.
+ * The footer links here too. */
 export const FILM_CREDITS_SLUG = "screencurve";
 export const FILM_CREDITS_ID = "film-credits";
 
@@ -46,6 +49,40 @@ export async function FilmCreditsCaption({ slug }: { slug: string }) {
 				licence: (chunks) => <Licence>{chunks}</Licence>,
 				credits: (chunks) => (
 					<InlineLink href={`#${FILM_CREDITS_ID}`}>{chunks}</InlineLink>
+				),
+			})}
+		</p>
+	);
+}
+
+/** One line under Screencurve screens shown away from the case study: whose
+ * stills they are, their licence and where the credits are. */
+export async function FilmStillsNote({
+	className,
+	slug,
+}: {
+	className?: string;
+	slug: string;
+}) {
+	if (slug !== FILM_CREDITS_SLUG) {
+		return null;
+	}
+	const t = await getTranslations("caseStudies.filmCredits");
+	return (
+		<p className={cn("text-muted-foreground text-xs leading-5", className)}>
+			{t.rich("screens", {
+				licence: (chunks) => <Licence>{chunks}</Licence>,
+				credits: (chunks) => (
+					<Link
+						className={inlineLinkClassName}
+						href={{
+							pathname: "/case-studies/[slug]",
+							params: { slug: FILM_CREDITS_SLUG },
+							hash: FILM_CREDITS_ID,
+						}}
+					>
+						{chunks}
+					</Link>
 				),
 			})}
 		</p>

@@ -22,7 +22,8 @@ function Launcher({
 			aria-controls="webvise-chat-widget"
 			aria-expanded={false}
 			aria-label={t("open")}
-			className="fixed right-6 bottom-6 z-40 size-13 rounded-full shadow-[0_12px_28px_-10px_rgba(14,18,23,0.6)]"
+			className="fixed right-6 bottom-6 z-40 size-13 rounded-full shadow-[0_12px_28px_-10px_rgba(14,18,23,0.6)] [html[data-launcher-aside]_&]:pointer-events-none [html[data-launcher-aside]_&]:opacity-0"
+			data-chat-launcher
 			data-marketing-floating="true"
 			disabled={disabled}
 			onClick={onClick}

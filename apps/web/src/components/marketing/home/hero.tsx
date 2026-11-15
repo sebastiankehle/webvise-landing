@@ -2,6 +2,10 @@ import Image from "next/image";
 import { getLocale, getTranslations } from "next-intl/server";
 
 import { ActionLink } from "@/components/marketing/action";
+import {
+	FILM_CREDITS_SLUG,
+	FilmStillsNote,
+} from "@/components/marketing/film-credits";
 import HeroWall from "@/components/marketing/home/hero-wall";
 import { GridContainer } from "@/components/marketing/section-wrapper";
 
@@ -94,6 +98,10 @@ export default async function Hero() {
 
 					<div className="relative mx-auto mt-12 max-w-[1180px] md:mt-16">
 						<HeroWall label={t("stage.wall")} locale={locale} />
+						<FilmStillsNote
+							className="mt-4 text-center"
+							slug={FILM_CREDITS_SLUG}
+						/>
 					</div>
 				</div>
 			</GridContainer>

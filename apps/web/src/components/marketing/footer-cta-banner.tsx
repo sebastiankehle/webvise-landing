@@ -2,12 +2,15 @@ import Image from "next/image";
 import type { ComponentProps, ReactNode } from "react";
 
 import { ActionLink } from "@/components/marketing/action";
+import { FILM_CREDITS_SLUG } from "@/components/marketing/film-credits";
 import { H2 } from "@/components/ui/typography";
 import { getCaseStudies } from "@/data/case-studies";
 
-/** Six real project screens, the picture behind every banner. */
+/** Six real project screens, the picture behind every banner. Screencurve's
+ * show film stills, which the banner has no room to credit. */
 export function bannerCovers(locale: string) {
 	return getCaseStudies(locale)
+		.filter((project) => project.slug !== FILM_CREDITS_SLUG)
 		.flatMap((project) => (project.coverImage ? [project.coverImage] : []))
 		.slice(0, 6);
 }

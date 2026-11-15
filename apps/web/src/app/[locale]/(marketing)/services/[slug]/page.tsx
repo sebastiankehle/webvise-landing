@@ -7,6 +7,7 @@ import JsonLd from "@/components/json-ld";
 import { ActionArrow, ActionLink } from "@/components/marketing/action";
 import { CaseStudyCard } from "@/components/marketing/case-study-card";
 import { FaqList } from "@/components/marketing/faq-list";
+import { FilmStillsNote } from "@/components/marketing/film-credits";
 import ProjectScene from "@/components/marketing/home/scenes/project-scene";
 import { hasProjectScene } from "@/components/marketing/home/scenes/project-scene-slugs";
 import ReportDownloadForm from "@/components/marketing/report-download-form";
@@ -394,6 +395,9 @@ async function ServiceOfferingPage({ offering }: { offering: Offering }) {
 							<ActionArrow />
 						</span>
 					</Link>
+				)}
+				{proofCaseStudy && proofShots.length > 0 && (
+					<FilmStillsNote className="mt-3" slug={proofCaseStudy.slug} />
 				)}
 			</SectionWrapper>
 
