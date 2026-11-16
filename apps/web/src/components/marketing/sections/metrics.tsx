@@ -1,5 +1,6 @@
 import { getLocale, getTranslations } from "next-intl/server";
 
+import { FILM_CREDITS_SLUG } from "@/components/marketing/film-credits";
 import ResultsTiles, {
 	type ResultKind,
 } from "@/components/marketing/home/scenes/results-tiles";
@@ -39,8 +40,14 @@ export default async function Metrics() {
 		weekday.format(new Date(Date.UTC(2024, 0, day)))
 	);
 	// The client sites that are live stand for the count, as tabs in a browser.
+	// Screencurve's screen shows film stills, which a tab has no room to credit.
 	const projects = getCaseStudies(locale, { kind: "client" })
-		.filter((project) => project.liveUrl && project.slug !== "webvise")
+		.filter(
+			(project) =>
+				project.liveUrl &&
+				project.slug !== "webvise" &&
+				project.slug !== FILM_CREDITS_SLUG
+		)
 		.slice(0, 5)
 		.flatMap((project) => {
 			const src = project.coverImage ?? project.cardImage;

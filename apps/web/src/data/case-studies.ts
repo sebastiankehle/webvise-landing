@@ -2,6 +2,8 @@ import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { z } from "zod";
 
+import { versioned } from "@/data/asset-version";
+
 export const CASE_STUDY_COLLECTIONS = {
 	featured: [
 		"maerkische-projekt-bau",
@@ -43,7 +45,13 @@ export interface CaseStudyMeta {
 	kind: CaseStudyKind;
 	liveUrl?: string;
 	location?: string;
+	/** The menu's preview, where the card picture would crop badly; falls back
+	 * to `cardImage`. */
+	menuImage?: string;
 	services: string[];
+	/** The picture a share card draws (2400 × 1260); falls back to
+	 * `coverImage`. */
+	shareImage?: string;
 	slug: string;
 }
 
@@ -63,9 +71,14 @@ export interface CaseStudyContent {
 	excerpt: string;
 	/** Alt texts for `images`, in the same order. */
 	imageAlts?: string[];
+	/** Which view each of `images` shows, in the same order: a label under a
+	 * gallery picture, or the line under a tile. */
+	imageLabels?: string[];
 	liveUrlLabel?: string;
 	metrics?: CaseStudyMetric[];
 	results?: string[];
+	/** The share card's alt text, with the credit a still needs. */
+	shareImageAlt?: string;
 	signature?: CaseStudySignature;
 	solution: string;
 	/** One line for cards: what was built and why it stands out. */
@@ -97,9 +110,11 @@ const caseStudyContentSchema = z.object({
 	challenge: z.string().min(1),
 	excerpt: z.string().min(1),
 	imageAlts: z.array(z.string().min(1)).optional(),
+	imageLabels: z.array(z.string().min(1)).optional(),
 	liveUrlLabel: z.string().min(1).optional(),
 	metrics: z.array(caseStudyMetricSchema).optional(),
 	results: z.array(z.string().min(1)).optional(),
+	shareImageAlt: z.string().min(1).optional(),
 	signature: z
 		.object({ body: z.string().min(1), title: z.string().min(1) })
 		.optional(),
@@ -111,9 +126,15 @@ const caseStudyContentSchema = z.object({
 
 const localizedCaseStudyFileSchema = caseStudyContentSchema
 	.extend({
+		// Pictures of a product shown in this locale's own interface
+		cardImage: z.string().min(1).optional(),
+		coverImage: z.string().min(1).optional(),
 		deliveryTime: z.string().min(1).optional(),
+		images: z.array(z.string().min(1)).optional(),
 		industry: z.string().min(1).optional(),
 		location: z.string().min(1).optional(),
+		menuImage: z.string().min(1).optional(),
+		shareImage: z.string().min(1).optional(),
 	})
 	.passthrough();
 
@@ -134,7 +155,9 @@ const sourceCaseStudyFileSchema = caseStudyContentSchema
 		industry: z.string().min(1),
 		liveUrl: z.string().min(1).optional(),
 		location: z.string().min(1).optional(),
+		menuImage: z.string().min(1).optional(),
 		services: z.array(z.string().min(1)),
+		shareImage: z.string().min(1).optional(),
 	})
 	.strict();
 
@@ -266,6 +289,8 @@ function toCaseStudy(slug: string, locale: string): CaseStudy | null {
 
 	const localeFile = locale === "en" ? null : getLocalizedFile(slug, locale);
 	const content = localeFile ?? enFile;
+	const images = localeFile?.images ?? enFile.images;
+	const picture = (path: string | undefined) => path && versioned(path);
 
 	return {
 		slug,
@@ -274,10 +299,14 @@ function toCaseStudy(slug: string, locale: string): CaseStudy | null {
 		industry: localeFile?.industry ?? enFile.industry,
 		services: [...enFile.services],
 		date: enFile.date,
-		cardImage: enFile.cardImage,
-		coverImage: enFile.coverImage,
-		images: enFile.images ? [...enFile.images] : undefined,
+		cardImage: picture(localeFile?.cardImage ?? enFile.cardImage),
+		coverImage: picture(localeFile?.coverImage ?? enFile.coverImage),
+		menuImage: picture(localeFile?.menuImage ?? enFile.menuImage),
+		shareImage: picture(localeFile?.shareImage ?? enFile.shareImage),
+		images: images ? images.map(versioned) : undefined,
 		imageAlts: content.imageAlts ? [...content.imageAlts] : undefined,
+		imageLabels: content.imageLabels ? [...content.imageLabels] : undefined,
+		shareImageAlt: content.shareImageAlt,
 		fullPageImage: enFile.fullPageImage,
 		location: localeFile?.location ?? enFile.location,
 		deliveryTime: localeFile?.deliveryTime ?? enFile.deliveryTime,

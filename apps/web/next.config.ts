@@ -2,6 +2,11 @@ import "@webvise-app/env/web";
 import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
 
+import {
+	SCREENCURVE_PATTERNS,
+	SCREENCURVE_VERSION,
+} from "./src/data/asset-version";
+
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
 const nextConfig: NextConfig = {
@@ -30,14 +35,10 @@ const nextConfig: NextConfig = {
 				pathname: "/images/case-studies/mp-bau-construction/**",
 				search: "?v=065b54f",
 			},
-			{
-				pathname: "/images/case-studies/screencurve/**",
-				search: "?v=20261115-calm-frames",
-			},
-			{
-				pathname: "/images/home/work/screencurve.webp",
-				search: "?v=20261115-calm-frames",
-			},
+			...SCREENCURVE_PATTERNS.map((pathname) => ({
+				pathname,
+				search: `?v=${SCREENCURVE_VERSION}`,
+			})),
 			{
 				pathname: "/images/home/work/mpb.webp",
 				search: "?v=20261115-chat",

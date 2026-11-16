@@ -7,6 +7,7 @@ import JsonLd from "@/components/json-ld";
 import { ActionArrow, ActionLink } from "@/components/marketing/action";
 import { CaseStudyCard } from "@/components/marketing/case-study-card";
 import { FaqList } from "@/components/marketing/faq-list";
+import { FilmStillsNote } from "@/components/marketing/film-credits";
 import ProjectScene from "@/components/marketing/home/scenes/project-scene";
 import { hasProjectScene } from "@/components/marketing/home/scenes/project-scene-slugs";
 import ReportDownloadForm from "@/components/marketing/report-download-form";
@@ -18,6 +19,7 @@ import StaggerChildren from "@/components/marketing/stagger-children";
 import { H1, H2, H3 } from "@/components/ui/typography";
 import type { BookingTopic } from "@/data/booking";
 import {
+	type CaseStudy,
 	getCaseStudies,
 	getCaseStudyBySlug,
 	getFeaturedCaseStudies,
@@ -108,6 +110,18 @@ export default async function ServicePage({
 	return <ServiceOfferingPage offering={offering} />;
 }
 
+/** The two proof screens with their alt texts: the service's own screens,
+ * or the case study's first two pictures with the case study's alts. */
+function proofScreens(shots: string[] | undefined, caseStudy?: CaseStudy) {
+	const generic = caseStudy ? `${caseStudy.client}: ${caseStudy.title}` : "";
+	if (shots) {
+		return shots.map((src) => ({ alt: generic, src }));
+	}
+	return (caseStudy?.images ?? [])
+		.slice(0, 2)
+		.map((src, i) => ({ alt: caseStudy?.imageAlts?.[i] ?? generic, src }));
+}
+
 async function ServiceOfferingPage({ offering }: { offering: Offering }) {
 	const slug = offering.slug;
 	const [t, tc, td, tg, th, tschema, locale] = await Promise.all([
@@ -122,7 +136,7 @@ async function ServiceOfferingPage({ offering }: { offering: Offering }) {
 	const deck = getDeckBySlug(slug);
 	const proof = getOfferingProof(offering);
 	const proofCaseStudy = getCaseStudyBySlug(proof.caseStudySlug, locale);
-	const proofShots = proof.shots ?? (proofCaseStudy?.images ?? []).slice(0, 2);
+	const proofShots = proofScreens(proof.shots, proofCaseStudy);
 	const relatedOfferings = getRelatedOfferings(slug);
 	// Projects that used this offering first, then other featured work. The
 	// project already shown as proof is left out.
@@ -259,8 +273,10 @@ async function ServiceOfferingPage({ offering }: { offering: Offering }) {
 												opening={
 													proofCaseStudy.cardImage ??
 													proofCaseStudy.coverImage ??
-													proof.image
+													proof.image ??
+													""
 												}
+												priority
 												sizes="(min-width: 1024px) 620px, 100vw"
 												slug={proofCaseStudy.slug}
 											/>
@@ -275,7 +291,7 @@ async function ServiceOfferingPage({ offering }: { offering: Offering }) {
 												priority
 												quality={90}
 												sizes="(min-width: 1024px) 620px, 100vw"
-												src={proof.image}
+												src={proof.image ?? proofCaseStudy.coverImage ?? ""}
 											/>
 										)}
 									</div>
@@ -374,15 +390,18 @@ async function ServiceOfferingPage({ offering }: { offering: Offering }) {
 							{proofShots.map((shot) => (
 								<span
 									className="block rounded-[20px] bg-card p-2 shadow-[0_0_0_1px_rgba(14,18,23,0.06),0_24px_48px_-36px_rgba(14,18,23,0.35)] dark:shadow-[0_0_0_1px_rgba(255,255,255,0.08)]"
-									key={shot}
+									key={shot.src}
 								>
-									<span className="relative block aspect-[16/10] overflow-hidden rounded-[14px] bg-foreground/[0.04]">
+									<span
+										className="relative block aspect-[16/10] overflow-hidden rounded-[14px] bg-foreground/[0.04]"
+										style={{ aspectRatio: proof.shotAspect }}
+									>
 										<Image
-											alt={`${proofCaseStudy.client}: ${proofCaseStudy.title}`}
+											alt={shot.alt}
 											className="object-cover object-left-top"
 											fill
 											sizes="(min-width: 768px) 50vw, 100vw"
-											src={shot}
+											src={shot.src}
 										/>
 									</span>
 								</span>
@@ -394,6 +413,9 @@ async function ServiceOfferingPage({ offering }: { offering: Offering }) {
 							<ActionArrow />
 						</span>
 					</Link>
+				)}
+				{proofCaseStudy && proofShots.length > 0 && (
+					<FilmStillsNote className="mt-3" slug={proofCaseStudy.slug} />
 				)}
 			</SectionWrapper>
 
