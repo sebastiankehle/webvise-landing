@@ -8,7 +8,7 @@ import "./hero-wall.css";
 const shots = "/images/case-studies";
 const wall = "/images/home/wall";
 const obsidian = "?v=20261111-eagle-obsidian";
-const carSpotter = "?v=20261116-car-spotter-final";
+const carSpotter = "?v=20261116-car-spotter-79";
 
 /** A desktop screen. A wide one is 2:1, the others 16:10, as the screens
  * are. With `page`, the picture is a long page (its height over its width)

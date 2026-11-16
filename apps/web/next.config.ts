@@ -32,15 +32,15 @@ const nextConfig: NextConfig = {
 			},
 			{
 				pathname: "/images/case-studies/screencurve/**",
-				search: "?v=20261116-car-spotter-final",
+				search: "?v=20261116-car-spotter-79",
 			},
 			{
 				pathname: "/images/home/work/screencurve.webp",
-				search: "?v=20261116-car-spotter-final",
+				search: "?v=20261116-car-spotter-79",
 			},
 			{
 				pathname: "/images/home/work/screencurve-de.webp",
-				search: "?v=20261116-car-spotter-final",
+				search: "?v=20261116-car-spotter-79",
 			},
 			{
 				pathname: "/images/home/work/mpb.webp",
