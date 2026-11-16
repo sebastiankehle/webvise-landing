@@ -1,8 +1,9 @@
 "use client";
 
 import type { RefObject } from "react";
-import { useEffect, useId, useRef, useState } from "react";
+import { useContext, useEffect, useId, useRef, useState } from "react";
 
+import { Playback } from "@/components/stageshow/kit/playback";
 import { useInView } from "@/hooks/use-in-view";
 
 export interface AnimatedBeamProps {
@@ -51,6 +52,7 @@ export function AnimatedBeam({
 
 	const [reduced, setReduced] = useState(false);
 	const inView = useInView(containerRef);
+	const { paused } = useContext(Playback);
 
 	useEffect(() => {
 		const query = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -61,12 +63,12 @@ export function AnimatedBeam({
 	}, []);
 
 	useEffect(() => {
-		if (inView) {
+		if (inView && !paused) {
 			svgRef.current?.unpauseAnimations();
 		} else {
 			svgRef.current?.pauseAnimations();
 		}
-	}, [inView, reduced]);
+	}, [inView, paused, reduced]);
 
 	const x1Values = reverse ? "90%;-10%" : "10%;110%";
 	const x2Values = reverse ? "100%;0%" : "0%;100%";

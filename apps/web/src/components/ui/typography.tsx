@@ -150,7 +150,7 @@ function Stat({ className, ...props }: React.ComponentProps<"span">) {
 }
 
 const inlineLinkClassName =
-	"border border-transparent text-brand-readable text-sm underline decoration-brand-border/70 underline-offset-4 outline-none transition-colors hover:text-foreground focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring/50";
+	"border border-transparent text-brand-link text-sm underline decoration-brand-border/70 underline-offset-4 outline-none transition-colors hover:text-foreground focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring/50";
 
 /* ── Inline link ─────────────────────────────────────────── */
 function InlineLink({ className, ...props }: React.ComponentProps<"a">) {

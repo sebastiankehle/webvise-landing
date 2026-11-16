@@ -27,6 +27,7 @@ const CLIENT_MESSAGE_NAMESPACES = [
 	"consent",
 	"media",
 	"reportDownload",
+	"scenes",
 	"themeSwitcher",
 	"wpHealthReport",
 ] as const;

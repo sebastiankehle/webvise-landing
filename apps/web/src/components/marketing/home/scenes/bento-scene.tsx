@@ -1,7 +1,9 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { useTranslations } from "next-intl";
 
+import { ScenePlayer } from "@/components/marketing/scene-player";
 import WhenNear from "./when-near";
 
 const scenes = {
@@ -13,9 +15,14 @@ const scenes = {
 /** A live scene from a real project, set into a bento tile. */
 export default function BentoScene({ kind }: { kind: keyof typeof scenes }) {
 	const Scene = scenes[kind];
+	const names = useTranslations("scenes.names");
 	return (
-		<WhenNear>
-			<Scene />
-		</WhenNear>
+		<ScenePlayer className="absolute inset-0">
+			<div aria-label={names(kind)} className="absolute inset-0" role="img">
+				<WhenNear>
+					<Scene />
+				</WhenNear>
+			</div>
+		</ScenePlayer>
 	);
 }

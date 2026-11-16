@@ -1,14 +1,18 @@
 "use client";
 
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import {
 	type CSSProperties,
 	type ReactNode,
+	useContext,
 	useEffect,
 	useRef,
 	useState,
 } from "react";
 
+import { ScenePlayer } from "@/components/marketing/scene-player";
+import { Playback } from "@/components/stageshow/kit/playback";
 import { useInView } from "@/hooks/use-in-view";
 import { cn } from "@/lib/utils";
 
@@ -289,10 +293,12 @@ function ProjectsPicture({ projects }: { projects: ResultProject[] }) {
 	const [active, setActive] = useState(0);
 	const ref = useRef<HTMLDivElement>(null);
 	const inView = useInView(ref, { threshold: 0.3 });
+	const { paused } = useContext(Playback);
 
 	useEffect(() => {
 		if (
 			!inView ||
+			paused ||
 			projects.length < 2 ||
 			window.matchMedia("(prefers-reduced-motion: reduce)").matches
 		) {
@@ -303,7 +309,7 @@ function ProjectsPicture({ projects }: { projects: ResultProject[] }) {
 			2800
 		);
 		return () => window.clearInterval(timer);
-	}, [projects.length, inView]);
+	}, [projects.length, inView, paused]);
 
 	return (
 		<div
@@ -557,6 +563,7 @@ export default function ResultsTiles({
 	week: string;
 }) {
 	const root = useRef<HTMLDivElement>(null);
+	const names = useTranslations("scenes.names");
 
 	useEffect(() => {
 		const el = root.current;
@@ -645,21 +652,39 @@ export default function ResultsTiles({
 					className={cn("surface-card flex p-2", tile[item.kind])}
 					key={item.kind}
 				>
-					{/* The picture: the thing the figure counts, drawn in detail */}
-					<div
-						aria-hidden="true"
-						className={cn(
-							"rt-stage flex justify-center overflow-hidden rounded-[14px]",
-							stage[item.kind]
-						)}
-						data-kind={item.kind}
-					>
-						{item.kind === "lighthouse" ? (
-							picture(item)
-						) : (
-							<div className={scale[item.kind]}>{picture(item)}</div>
-						)}
-					</div>
+					{/* The picture: the thing the figure counts, drawn in detail. The
+					    projects step through on their own, so that one is a scene:
+					    named, with pause and restart buttons */}
+					{item.kind === "projects" ? (
+						<ScenePlayer controls="right-2 bottom-2">
+							<div
+								aria-label={names("results")}
+								className={cn(
+									"rt-stage flex justify-center overflow-hidden rounded-[14px]",
+									stage[item.kind]
+								)}
+								data-kind={item.kind}
+								role="img"
+							>
+								<div className={scale[item.kind]}>{picture(item)}</div>
+							</div>
+						</ScenePlayer>
+					) : (
+						<div
+							aria-hidden="true"
+							className={cn(
+								"rt-stage flex justify-center overflow-hidden rounded-[14px]",
+								stage[item.kind]
+							)}
+							data-kind={item.kind}
+						>
+							{item.kind === "lighthouse" ? (
+								picture(item)
+							) : (
+								<div className={scale[item.kind]}>{picture(item)}</div>
+							)}
+						</div>
+					)}
 					<div
 						className={cn(
 							"flex flex-col px-3 pt-4 pb-3 md:px-4",

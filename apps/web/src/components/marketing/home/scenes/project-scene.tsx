@@ -22,9 +22,11 @@ const ScScene = dynamic(() => import("./project-sc"), { ssr: false });
 const VpScene = dynamic(() => import("./project-vp"), { ssr: false });
 
 /** A card's picture. `live` scenes load after the page and get the opening
- * frame as a stand-in; `plain` ones are markup and render at once. */
+ * frame as a stand-in; `plain` ones are markup and render at once. `name`
+ * (a key of scenes.names) is what a screen reader hears for a scene. */
 interface Entry {
 	live?: (locale: Locale) => ReactNode;
+	name?: string;
 	plain?: (opening: string, sizes: string) => ReactNode;
 }
 
@@ -49,9 +51,10 @@ const sheet = (opening: string, sizes: string) => (
 );
 
 const scenes: Record<ProjectSceneSlug, Entry> = {
-	finanzierungszertifikat: { live: () => <FzScene /> },
-	hyyve: { plain: () => <HyyveOrbit /> },
+	finanzierungszertifikat: { live: () => <FzScene />, name: "fz" },
+	hyyve: { name: "hyyveOrbit", plain: () => <HyyveOrbit /> },
 	keel: {
+		name: "keel",
 		plain: (opening, sizes) => (
 			<>
 				<Image
@@ -68,11 +71,13 @@ const scenes: Record<ProjectSceneSlug, Entry> = {
 		),
 	},
 	kernspan: {
+		name: "kernspan",
 		plain: (_opening, sizes) => <KernspanDamper sizes={sizes} />,
 	},
-	"maerkische-projekt-bau": { live: () => <MpbChatScene /> },
+	"maerkische-projekt-bau": { live: () => <MpbChatScene />, name: "mpbChat" },
 	morrow: { plain: sheet },
 	"old-world-labs": {
+		name: "owlPage",
 		plain: (_opening, sizes) => (
 			<PageScroll
 				height={3575}
@@ -84,11 +89,13 @@ const scenes: Record<ProjectSceneSlug, Entry> = {
 	},
 	"rautenberg-pitch-engine": {
 		live: (locale) => <RbScene locale={locale} />,
+		name: "rb",
 	},
 	relay: { plain: sheet },
-	screencurve: { live: (locale) => <ScScene locale={locale} /> },
+	screencurve: { live: (locale) => <ScScene locale={locale} />, name: "sc" },
 	"von-platen-coaching": {
 		live: (locale) => <VpScene locale={locale} />,
+		name: "vp",
 	},
 };
 
@@ -123,11 +130,11 @@ export default function ProjectScene({
 	slug: ProjectSceneSlug;
 }) {
 	const locale: Locale = useLocale() === "de" ? "de" : "en";
+	const names = useTranslations("scenes.names");
 	const entry = scenes[slug];
-	if (entry.plain) {
-		return entry.plain(opening, sizes);
-	}
-	return (
+	const picture = entry.plain ? (
+		entry.plain(opening, sizes)
+	) : (
 		<div className="group/scene absolute inset-0">
 			{/* Laid out like the stage, so the swap does not shift: as wide as
 			    the frame up to twice the scenes' 400px design width, centred,
@@ -144,5 +151,12 @@ export default function ProjectScene({
 			<WhenNear>{entry.live?.(locale)}</WhenNear>
 			{slug === "screencurve" && <StillCredit />}
 		</div>
+	);
+	return entry.name ? (
+		<div aria-label={names(entry.name)} className="absolute inset-0" role="img">
+			{picture}
+		</div>
+	) : (
+		picture
 	);
 }

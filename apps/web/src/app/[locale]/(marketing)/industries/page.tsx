@@ -4,7 +4,11 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { ActionArrow } from "@/components/marketing/action";
 import Closing from "@/components/marketing/home/closing";
 import ProjectScene from "@/components/marketing/home/scenes/project-scene";
-import { hasProjectScene } from "@/components/marketing/home/scenes/project-scene-slugs";
+import {
+	hasProjectScene,
+	projectSceneControls,
+} from "@/components/marketing/home/scenes/project-scene-slugs";
+import { ScenePlayer } from "@/components/marketing/scene-player";
 import {
 	ConstructedGrid,
 	GridContainer,
@@ -68,38 +72,46 @@ export default async function IndustriesPage({
 							{industries.map((industry) => {
 								const project = getCaseStudyBySlug(industry.proof[0], locale);
 								return (
-									<Link
-										className="group/arrow flex flex-col rounded-[20px] bg-card p-2 shadow-[0_0_0_1px_rgba(14,18,23,0.06),0_24px_48px_-36px_rgba(14,18,23,0.35)] outline-none transition-shadow duration-200 hover:shadow-[0_0_0_1px_rgba(14,18,23,0.1),0_28px_56px_-32px_rgba(14,18,23,0.45)] focus-visible:ring-2 focus-visible:ring-ring/70 dark:shadow-[0_0_0_1px_rgba(255,255,255,0.08)]"
-										href={{
-											pathname: "/industries/[slug]",
-											params: { slug: industry.slug },
-										}}
+									// The scene's buttons sit beside the link, over the picture's corner
+									<ScenePlayer
+										className="flex"
+										controls={
+											project ? projectSceneControls(project.slug, true) : false
+										}
 										key={industry.slug}
 									>
-										<div className="relative aspect-[16/10] overflow-hidden rounded-[14px] bg-foreground/[0.04]">
-											{project && hasProjectScene(project.slug) && (
-												<ProjectScene
-													opening={
-														project.cardImage ?? project.coverImage ?? ""
-													}
-													sizes="(min-width: 1024px) 400px, 100vw"
-													slug={project.slug}
-												/>
-											)}
-										</div>
-										<div className="flex flex-1 flex-col px-4 pt-4 pb-3 md:px-5">
-											<div className="text-brand-readable text-sm">
-												{t(`items.${industry.slug}.name`)}
+										<Link
+											className="group/arrow flex flex-1 flex-col rounded-[20px] bg-card p-2 shadow-[0_0_0_1px_rgba(14,18,23,0.06),0_24px_48px_-36px_rgba(14,18,23,0.35)] outline-none transition-shadow duration-200 hover:shadow-[0_0_0_1px_rgba(14,18,23,0.1),0_28px_56px_-32px_rgba(14,18,23,0.45)] focus-visible:ring-2 focus-visible:ring-ring/70 dark:shadow-[0_0_0_1px_rgba(255,255,255,0.08)]"
+											href={{
+												pathname: "/industries/[slug]",
+												params: { slug: industry.slug },
+											}}
+										>
+											<div className="relative aspect-[16/10] overflow-hidden rounded-[14px] bg-foreground/[0.04]">
+												{project && hasProjectScene(project.slug) && (
+													<ProjectScene
+														opening={
+															project.cardImage ?? project.coverImage ?? ""
+														}
+														sizes="(min-width: 1024px) 400px, 100vw"
+														slug={project.slug}
+													/>
+												)}
 											</div>
-											<H3 className="mt-1.5 text-xl leading-snug">
-												{t(`items.${industry.slug}.title`)}
-											</H3>
-											<span className="mt-5 inline-flex items-center gap-1.5 text-base text-foreground">
-												{t("more")}
-												<ActionArrow />
-											</span>
-										</div>
-									</Link>
+											<div className="flex flex-1 flex-col px-4 pt-4 pb-3 md:px-5">
+												<div className="text-brand-readable text-sm">
+													{t(`items.${industry.slug}.name`)}
+												</div>
+												<H3 className="mt-1.5 text-xl leading-snug">
+													{t(`items.${industry.slug}.title`)}
+												</H3>
+												<span className="mt-5 inline-flex items-center gap-1.5 text-base text-foreground">
+													{t("more")}
+													<ActionArrow />
+												</span>
+											</div>
+										</Link>
+									</ScenePlayer>
 								);
 							})}
 						</div>

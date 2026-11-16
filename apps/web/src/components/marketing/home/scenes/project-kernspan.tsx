@@ -1,14 +1,17 @@
 "use client";
 
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import {
 	type KeyboardEvent,
 	type PointerEvent,
+	useContext,
 	useEffect,
 	useRef,
 	useState,
 } from "react";
 
+import { Playback } from "@/components/stageshow/kit/playback";
 import type { DamperStage } from "./kernspan/damper-stage";
 
 const TICKS = 34;
@@ -17,8 +20,10 @@ const STILL = "/images/case-studies/kernspan/damper.webp";
 
 /** Kernspan's damper, rendered live: it comes apart and goes back together
  * on a loop. With `rail`, the project's own tick rail sits under it and
- * scrubs the sequence by pointer or arrow keys. Three.js loads only once the
- * picture is near the screen; until then, and without WebGL, the still shows. */
+ * scrubs the sequence by pointer or arrow keys; the picture then carries its
+ * own name, since a host cannot name it as one image with a slider inside.
+ * Three.js loads only once the picture is near the screen; until then, and
+ * without WebGL, the still shows. */
 export default function KernspanDamper({
 	label,
 	rail = false,
@@ -28,6 +33,7 @@ export default function KernspanDamper({
 	rail?: boolean;
 	sizes: string;
 }) {
+	const names = useTranslations("scenes.names");
 	const host = useRef<HTMLDivElement>(null);
 	const canvas = useRef<HTMLCanvasElement>(null);
 	const railRef = useRef<HTMLDivElement>(null);
@@ -35,6 +41,14 @@ export default function KernspanDamper({
 	const dragging = useRef(false);
 	const [live, setLive] = useState(false);
 	const [journey, setJourney] = useState(0);
+	const { paused } = useContext(Playback);
+	const held = useRef(paused);
+	const visible = useRef(false);
+
+	useEffect(() => {
+		held.current = paused;
+		stage.current?.setRunning(visible.current && !paused);
+	}, [paused]);
 
 	useEffect(() => {
 		const el = host.current;
@@ -65,7 +79,10 @@ export default function KernspanDamper({
 			}
 		};
 		const seen = new IntersectionObserver(
-			([entry]) => stage.current?.setRunning(Boolean(entry?.isIntersecting)),
+			([entry]) => {
+				visible.current = Boolean(entry?.isIntersecting);
+				stage.current?.setRunning(visible.current && !held.current);
+			},
 			{ threshold: 0.2 }
 		);
 		const near = new IntersectionObserver(
@@ -133,13 +150,8 @@ export default function KernspanDamper({
 	};
 
 	const active = Math.round(journey * (TICKS - 1));
-
-	return (
-		<div
-			className="absolute inset-0 overflow-hidden"
-			ref={host}
-			style={{ backgroundColor: STAGE_GROUND }}
-		>
+	const picture = (
+		<>
 			<Image
 				alt=""
 				className="object-cover"
@@ -154,6 +166,26 @@ export default function KernspanDamper({
 				}`}
 				ref={canvas}
 			/>
+		</>
+	);
+
+	return (
+		<div
+			className="absolute inset-0 overflow-hidden"
+			ref={host}
+			style={{ backgroundColor: STAGE_GROUND }}
+		>
+			{rail ? (
+				<div
+					aria-label={names("kernspan")}
+					className="absolute inset-0"
+					role="img"
+				>
+					{picture}
+				</div>
+			) : (
+				picture
+			)}
 			{rail && live ? (
 				<div
 					aria-label={label}

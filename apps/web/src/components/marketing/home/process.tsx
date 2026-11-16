@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import type { ReactNode } from "react";
-
+import { ScenePlayer } from "@/components/marketing/scene-player";
 import { SectionHeading } from "@/components/marketing/section-heading";
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import StaggerChildren from "@/components/marketing/stagger-children";
@@ -245,33 +245,36 @@ export default async function Process() {
 			<SectionHeading description={t("subtitle")} title={t("title")} />
 			{/* The order is carried by the list itself and by the line that
 			    draws through the steps once they come into view. */}
-			<StaggerChildren className="process-steps mt-10 md:mt-14" trackVisibility>
-				<ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-					{stepKeys.map((key, index) => (
-						<li
-							className="flex flex-col rounded-[20px] bg-card p-2 shadow-[0_0_0_1px_rgba(14,18,23,0.06),0_24px_48px_-36px_rgba(14,18,23,0.35)] last:sm:col-span-2 last:lg:col-span-1 dark:shadow-[0_0_0_1px_rgba(255,255,255,0.08)]"
-							key={key}
-							style={{ ["--step" as string]: index }}
-						>
-							<StepSketch callFacts={callFacts} step={key} you={t("you")} />
-							<div className="px-3 pt-4 pb-3">
-								<span
-									aria-hidden="true"
-									className="block h-0.5 overflow-hidden rounded-full bg-foreground/10"
-								>
-									<span className="process-step-line block h-full origin-left bg-brand" />
-								</span>
-								<h3 className="mt-4 font-display text-foreground text-lg leading-snug">
-									{t(`steps.${key}.title`)}
-								</h3>
-								<p className="mt-1.5 text-muted-foreground text-sm leading-6">
-									{t(`steps.${key}.description`)}
-								</p>
-							</div>
-						</li>
-					))}
-				</ol>
-			</StaggerChildren>
+			{/* The sketches loop while in view: the buttons sit above them */}
+			<ScenePlayer className="mt-10 md:mt-14" controls="-top-11 right-0">
+				<StaggerChildren className="process-steps" trackVisibility>
+					<ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+						{stepKeys.map((key, index) => (
+							<li
+								className="flex flex-col rounded-[20px] bg-card p-2 shadow-[0_0_0_1px_rgba(14,18,23,0.06),0_24px_48px_-36px_rgba(14,18,23,0.35)] last:sm:col-span-2 last:lg:col-span-1 dark:shadow-[0_0_0_1px_rgba(255,255,255,0.08)]"
+								key={key}
+								style={{ ["--step" as string]: index }}
+							>
+								<StepSketch callFacts={callFacts} step={key} you={t("you")} />
+								<div className="px-3 pt-4 pb-3">
+									<span
+										aria-hidden="true"
+										className="block h-0.5 overflow-hidden rounded-full bg-foreground/10"
+									>
+										<span className="process-step-line block h-full origin-left bg-brand" />
+									</span>
+									<h3 className="mt-4 font-display text-foreground text-lg leading-snug">
+										{t(`steps.${key}.title`)}
+									</h3>
+									<p className="mt-1.5 text-muted-foreground text-sm leading-6">
+										{t(`steps.${key}.description`)}
+									</p>
+								</div>
+							</li>
+						))}
+					</ol>
+				</StaggerChildren>
+			</ScenePlayer>
 		</SectionWrapper>
 	);
 }

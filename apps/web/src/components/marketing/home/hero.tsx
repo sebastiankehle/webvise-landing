@@ -7,6 +7,7 @@ import {
 	FilmStillsNote,
 } from "@/components/marketing/film-credits";
 import HeroWall from "@/components/marketing/home/hero-wall";
+import { ScenePlayer } from "@/components/marketing/scene-player";
 import { GridContainer } from "@/components/marketing/section-wrapper";
 
 // The subtitle already says "three weeks", so the line keeps the other two.
@@ -97,7 +98,9 @@ export default async function Hero() {
 					</ul>
 
 					<div className="relative mx-auto mt-12 max-w-[1180px] md:mt-16">
-						<HeroWall label={t("stage.wall")} locale={locale} />
+						<ScenePlayer>
+							<HeroWall label={t("stage.wall")} locale={locale} />
+						</ScenePlayer>
 						<FilmStillsNote
 							className="mt-4 text-center"
 							slug={FILM_CREDITS_SLUG}

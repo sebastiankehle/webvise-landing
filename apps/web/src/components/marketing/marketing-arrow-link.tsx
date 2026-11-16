@@ -14,7 +14,7 @@ export function MarketingArrowLink({
 	return (
 		<Link
 			className={cn(
-				"group inline-flex items-center gap-1.5 text-brand-readable text-sm outline-none transition-colors hover:text-foreground focus-visible:ring-1 focus-visible:ring-ring/50",
+				"group inline-flex items-center gap-1.5 text-brand-link text-sm outline-none transition-colors hover:text-foreground focus-visible:ring-1 focus-visible:ring-ring/50",
 				className
 			)}
 			{...props}
