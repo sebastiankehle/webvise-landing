@@ -2,7 +2,9 @@ import Image from "next/image";
 
 import { ActionArrow } from "@/components/marketing/action";
 import { screenFirst } from "@/components/marketing/case-study-card";
-import ProjectScene from "@/components/marketing/home/scenes/project-scene";
+import ProjectScene, {
+	ProjectSceneDescription,
+} from "@/components/marketing/home/scenes/project-scene";
 import {
 	hasProjectScene,
 	projectSceneControls,
@@ -54,6 +56,9 @@ export default function WorkWall({
 									? `wall-scene-${project.slug}`
 									: undefined
 							}
+							// Client and industry are inline text, which Chromium joins
+							// without a space; the label keeps the name in words
+							aria-label={`${project.client}, ${project.industry}`}
 							className="group/arrow flex min-w-0 flex-1 flex-col outline-none"
 							href={{
 								pathname: "/case-studies/[slug]",
@@ -75,7 +80,7 @@ export default function WorkWall({
 								>
 									{hasProjectScene(project.slug) && !screenFirst(project) ? (
 										<ProjectScene
-											describedBy={`wall-scene-${project.slug}`}
+											inLink
 											opening={project.cardImage ?? project.coverImage}
 											sizes="(min-width: 768px) 50vw, 100vw"
 											slug={project.slug}
@@ -93,8 +98,8 @@ export default function WorkWall({
 							</span>
 							<span className="mt-3 flex items-center justify-between gap-4 px-2">
 								<span className="flex min-w-0 flex-col text-base text-foreground md:block md:truncate">
-									{project.client}{" "}
-									<span className="text-muted-foreground md:ml-1">
+									{project.client}
+									<span className="text-muted-foreground md:ml-2">
 										{project.industry}
 									</span>
 								</span>
@@ -103,6 +108,12 @@ export default function WorkWall({
 								</span>
 							</span>
 						</Link>
+						{hasProjectScene(project.slug) && !screenFirst(project) && (
+							<ProjectSceneDescription
+								id={`wall-scene-${project.slug}`}
+								slug={project.slug}
+							/>
+						)}
 					</ScenePlayer>
 				) : null
 			)}

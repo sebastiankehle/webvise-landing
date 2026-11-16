@@ -120,16 +120,17 @@ function StillCredit() {
 /** A project card's picture: its live scene, its own illustration or one of
  * its screens. `priority` loads the opening still at once, for a card above
  * the fold. Outside a link the scene is an image with its name. Inside a
- * card link, `describedBy` keeps it out of the link's name: the scene is
- * hidden and its name becomes the link's description, by that id. */
+ * card link (`inLink`) it is hidden, so it stays out of the link's name; the
+ * host puts a ProjectSceneDescription beside the link and points the link's
+ * aria-describedby at it. */
 export default function ProjectScene({
-	describedBy,
+	inLink = false,
 	opening,
 	priority = false,
 	sizes,
 	slug,
 }: {
-	describedBy?: string;
+	inLink?: boolean;
 	opening: string;
 	priority?: boolean;
 	sizes: string;
@@ -160,13 +161,10 @@ export default function ProjectScene({
 			{slug === "screencurve" && <StillCredit />}
 		</div>
 	);
-	if (describedBy) {
+	if (inLink) {
 		return (
 			<div aria-hidden="true" className="absolute inset-0">
 				{picture}
-				<span className="sr-only" id={describedBy}>
-					{entry.name ? names(entry.name) : null}
-				</span>
 			</div>
 		);
 	}
@@ -176,5 +174,28 @@ export default function ProjectScene({
 		</div>
 	) : (
 		picture
+	);
+}
+
+/** A card scene's name as the description of the card's link, by `id`. It
+ * sits outside the link, so it stays out of the link's name, and is hidden,
+ * so a screen reader reads it only as the link's description. Nothing for a
+ * card without a scene (no `slug`). */
+export function ProjectSceneDescription({
+	id,
+	slug,
+}: {
+	id: string;
+	slug: ProjectSceneSlug | undefined;
+}) {
+	const names = useTranslations("scenes.names");
+	if (!slug) {
+		return null;
+	}
+	const name = scenes[slug].name;
+	return (
+		<span hidden id={id}>
+			{name ? names(name) : null}
+		</span>
 	);
 }

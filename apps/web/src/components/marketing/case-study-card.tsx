@@ -1,7 +1,9 @@
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 
-import ProjectScene from "@/components/marketing/home/scenes/project-scene";
+import ProjectScene, {
+	ProjectSceneDescription,
+} from "@/components/marketing/home/scenes/project-scene";
 import {
 	hasProjectScene,
 	projectSceneControls,
@@ -93,7 +95,7 @@ export function CaseStudyCard({
 					<div className="media-frame relative aspect-[16/10] w-full bg-foreground/[0.04]">
 						{sceneSlug ? (
 							<ProjectScene
-								describedBy={described}
+								inLink
 								opening={image}
 								sizes={sizes}
 								slug={sceneSlug}
@@ -122,6 +124,12 @@ export function CaseStudyCard({
 					</div>
 				</div>
 			</Link>
+			{sceneSlug && (
+				<ProjectSceneDescription
+					id={`card-scene-${sceneSlug}`}
+					slug={sceneSlug}
+				/>
+			)}
 		</ScenePlayer>
 	);
 }

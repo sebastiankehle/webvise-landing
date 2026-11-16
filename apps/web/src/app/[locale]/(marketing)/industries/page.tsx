@@ -3,7 +3,9 @@ import { getLocale, getTranslations } from "next-intl/server";
 
 import { ActionArrow } from "@/components/marketing/action";
 import Closing from "@/components/marketing/home/closing";
-import ProjectScene from "@/components/marketing/home/scenes/project-scene";
+import ProjectScene, {
+	ProjectSceneDescription,
+} from "@/components/marketing/home/scenes/project-scene";
 import {
 	hasProjectScene,
 	projectSceneControls,
@@ -95,7 +97,7 @@ export default async function IndustriesPage({
 											<div className="relative aspect-[16/10] overflow-hidden rounded-[14px] bg-foreground/[0.04]">
 												{project && hasProjectScene(project.slug) && (
 													<ProjectScene
-														describedBy={`industry-scene-${industry.slug}`}
+														inLink
 														opening={
 															project.cardImage ?? project.coverImage ?? ""
 														}
@@ -118,6 +120,12 @@ export default async function IndustriesPage({
 												</span>
 											</div>
 										</Link>
+										{project && hasProjectScene(project.slug) && (
+											<ProjectSceneDescription
+												id={`industry-scene-${industry.slug}`}
+												slug={project.slug}
+											/>
+										)}
 									</ScenePlayer>
 								);
 							})}

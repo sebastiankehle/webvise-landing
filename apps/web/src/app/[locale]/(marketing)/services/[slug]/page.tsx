@@ -8,7 +8,9 @@ import { ActionArrow, ActionLink } from "@/components/marketing/action";
 import { CaseStudyCard } from "@/components/marketing/case-study-card";
 import { FaqList } from "@/components/marketing/faq-list";
 import { FilmStillsNote } from "@/components/marketing/film-credits";
-import ProjectScene from "@/components/marketing/home/scenes/project-scene";
+import ProjectScene, {
+	ProjectSceneDescription,
+} from "@/components/marketing/home/scenes/project-scene";
 import {
 	hasProjectScene,
 	projectSceneControls,
@@ -295,7 +297,7 @@ async function ServiceOfferingPage({ offering }: { offering: Offering }) {
 										<div className="relative aspect-[16/10] overflow-hidden rounded-[14px] bg-foreground/[0.04]">
 											{proofScene ? (
 												<ProjectScene
-													describedBy={`proof-scene-${proofScene}`}
+													inLink
 													opening={
 														proofCaseStudy.cardImage ??
 														proofCaseStudy.coverImage ??
@@ -337,6 +339,10 @@ async function ServiceOfferingPage({ offering }: { offering: Offering }) {
 										</span>
 									</div>
 								</Link>
+								<ProjectSceneDescription
+									id={`proof-scene-${proofScene}`}
+									slug={proofScene}
+								/>
 							</ScenePlayer>
 						)}
 					</div>
