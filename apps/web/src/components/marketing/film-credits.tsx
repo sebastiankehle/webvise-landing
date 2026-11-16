@@ -15,6 +15,9 @@ export const FILM_CREDITS_ID = "film-credits";
 
 const LICENCE = "https://creativecommons.org/licenses/by/3.0/";
 
+/** Every credit link keeps its sentence's colour; the underline marks it. */
+const CREDIT_LINK = "text-inherit";
+
 /** The film the pictures show, credited as its maker's page asks: title,
  * year, author, source and licence (screencurve's demo-film note). */
 const FILM = {
@@ -53,9 +56,13 @@ export async function FilmCreditsCaption({ slug }: { slug: string }) {
 	return (
 		<p className="mt-6 text-muted-foreground text-sm leading-5">
 			{t.rich("caption", {
-				licence: (chunks) => <Licence>{chunks}</Licence>,
+				licence: (chunks) => (
+					<Licence className={CREDIT_LINK}>{chunks}</Licence>
+				),
 				credits: (chunks) => (
-					<InlineLink href={`#${FILM_CREDITS_ID}`}>{chunks}</InlineLink>
+					<InlineLink className={CREDIT_LINK} href={`#${FILM_CREDITS_ID}`}>
+						{chunks}
+					</InlineLink>
 				),
 			})}
 		</p>
@@ -75,8 +82,8 @@ export async function FilmStillsNote({
 		return null;
 	}
 	const t = await getTranslations("caseStudies.filmCredits");
-	// The links keep the sentence's size and colour; the underline marks them
-	const link = "text-inherit text-xs";
+	// The links also keep the sentence's smaller size
+	const link = cn(CREDIT_LINK, "text-xs");
 	return (
 		<p className={cn("text-muted-foreground text-xs leading-5", className)}>
 			{t.rich("screens", {
@@ -116,13 +123,14 @@ export async function FilmCredits({ slug }: { slug: string }) {
 			<p className="mt-2">
 				{FILM.title}, {FILM.year}, {FILM.author},{" "}
 				<InlineLink
+					className={CREDIT_LINK}
 					href={`https://${FILM.source}`}
 					rel="noopener noreferrer"
 					target="_blank"
 				>
 					{FILM.source}
 				</InlineLink>
-				, <Licence>CC BY 3.0</Licence>
+				, <Licence className={CREDIT_LINK}>CC BY 3.0</Licence>
 			</p>
 			<p className="mt-2 max-w-[72ch]">{t("notice")}</p>
 		</div>
