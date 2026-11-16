@@ -109,13 +109,16 @@ function StillCredit() {
 }
 
 /** A project card's picture: its live scene, its own illustration or one of
- * its screens. */
+ * its screens. `priority` loads the opening still at once, for a card above
+ * the fold. */
 export default function ProjectScene({
 	opening,
+	priority = false,
 	sizes,
 	slug,
 }: {
 	opening: string;
+	priority?: boolean;
 	sizes: string;
 	slug: ProjectSceneSlug;
 }) {
@@ -133,6 +136,7 @@ export default function ProjectScene({
 				alt=""
 				className="mx-auto max-w-[800px] object-cover object-top group-has-[.ss-stage]/scene:hidden"
 				fill
+				priority={priority}
 				quality={90}
 				sizes={sizes}
 				src={opening}

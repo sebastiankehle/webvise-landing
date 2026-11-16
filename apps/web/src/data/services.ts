@@ -5,9 +5,13 @@ export interface Service {
 	painPointCount: number;
 	proof: {
 		caseStudySlug: string;
-		image: string;
+		/** The picture for a still proof, or the stand-in before a live scene
+		 * loads when the project has no card picture. */
+		image?: string;
 		/** Two screens to show under the approach, instead of the project's first two. */
 		shots?: string[];
+		/** The screens' shape, when it is not 16:10 (CSS aspect-ratio). */
+		shotAspect?: string;
 		/** Show the picture itself where the project would play its live scene. */
 		still?: boolean;
 		imageClassName?: string;
@@ -121,8 +125,8 @@ export const services: Service[] = [
 		faqCount: 4,
 		proof: {
 			caseStudySlug: "screencurve",
-			image:
-				"/images/case-studies/screencurve/hero.webp?v=20261116-car-spotter-79",
+			// Screencurve's views are 1512:768, as the case study's gallery
+			shotAspect: "1512 / 768",
 		},
 	},
 	{
@@ -149,8 +153,8 @@ export const services: Service[] = [
 		faqCount: 4,
 		proof: {
 			caseStudySlug: "screencurve",
-			image:
-				"/images/case-studies/screencurve/ask-the-film.webp?v=20261116-car-spotter-79",
+			// Screencurve's views are 1512:768, as the case study's gallery
+			shotAspect: "1512 / 768",
 		},
 	},
 ];

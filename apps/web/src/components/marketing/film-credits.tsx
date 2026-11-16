@@ -24,9 +24,16 @@ const FILM = {
 	source: "vimeo.com/759806477",
 };
 
-function Licence({ children }: { children: ReactNode }) {
+function Licence({
+	children,
+	className,
+}: {
+	children: ReactNode;
+	className?: string;
+}) {
 	return (
 		<InlineLink
+			className={className}
 			href={LICENCE}
 			rel="license noopener noreferrer"
 			target="_blank"
@@ -68,13 +75,15 @@ export async function FilmStillsNote({
 		return null;
 	}
 	const t = await getTranslations("caseStudies.filmCredits");
+	// The links keep the sentence's size and colour; the underline marks them
+	const link = "text-inherit text-xs";
 	return (
 		<p className={cn("text-muted-foreground text-xs leading-5", className)}>
 			{t.rich("screens", {
-				licence: (chunks) => <Licence>{chunks}</Licence>,
+				licence: (chunks) => <Licence className={link}>{chunks}</Licence>,
 				credits: (chunks) => (
 					<Link
-						className={inlineLinkClassName}
+						className={cn(inlineLinkClassName, link)}
 						href={{
 							pathname: "/case-studies/[slug]",
 							params: { slug: FILM_CREDITS_SLUG },

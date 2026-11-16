@@ -1,6 +1,7 @@
 "use client";
 
 import { type Act, Stage, Text, Window } from "@/components/stageshow/kit";
+import { versioned } from "@/data/asset-version";
 import "./project-sc.css";
 
 // project card: Screencurve's character constellation, in the product's
@@ -54,7 +55,9 @@ const TIES: { a: Id; b: Id; bow: number; tc: string }[] = [
 	{ a: "B", b: "L", bow: -12, tc: "00:02:46" },
 ];
 
-const FRAME = "/images/case-studies/screencurve/car-spotter/00109.webp";
+const FRAME = versioned(
+	"/images/case-studies/screencurve/car-spotter/00109.webp"
+);
 
 /** The product's monogram: the first letter of the first and last word. */
 function initials(name: string) {

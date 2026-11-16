@@ -58,6 +58,20 @@ export async function generateMetadata({
 	}
 
 	const path = `/case-studies/${slug}`;
+	// A purpose-made share card (2400 × 1260) where the project has one
+	const share = cs.shareImage
+		? {
+				url: cs.shareImage,
+				width: 2400,
+				height: 1260,
+				alt: cs.shareImageAlt ?? `${cs.client} - ${cs.title}`,
+			}
+		: cs.coverImage && {
+				url: cs.coverImage,
+				width: 1512,
+				height: 766,
+				alt: `${cs.client} - ${cs.title}`,
+			};
 
 	return {
 		title: cs.title,
@@ -69,22 +83,13 @@ export async function generateMetadata({
 			type: "article",
 			siteName: "webvise",
 			url: localizedUrl(path, locale),
-			...(cs.coverImage && {
-				images: [
-					{
-						url: cs.coverImage,
-						width: 1512,
-						height: 766,
-						alt: `${cs.client} - ${cs.title}`,
-					},
-				],
-			}),
+			...(share && { images: [share] }),
 		},
 		twitter: {
 			card: "summary_large_image",
 			title: cs.title,
 			description: cs.excerpt,
-			...(cs.coverImage && { images: [cs.coverImage] }),
+			...(share && { images: [share] }),
 		},
 	};
 }
@@ -331,6 +336,7 @@ export default async function CaseStudyPage({
 							alt={cs.client}
 							alts={cs.imageAlts}
 							images={cs.images}
+							labels={cs.imageLabels}
 						/>
 					</div>
 				)}

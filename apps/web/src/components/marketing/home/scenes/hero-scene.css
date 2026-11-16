@@ -9,7 +9,8 @@
 		--line: rgb(255 255 255 / 0.08);
 		--strong: #f1f3f4;
 		--text: #aab0b6;
-		--faint: #6f767d;
+		/* 4.5:1 or more on the panels and the composer */
+		--faint: #848b92;
 		--mono: ui-monospace, "SF Mono", Menlo, monospace;
 		overflow: hidden;
 		font-size: 12.5px;
@@ -379,10 +380,11 @@
 		box-shadow: 0 0 0 1px rgb(100 196 184 / 0.55);
 	}
 
-	/* The frame at that Timecode, above the chip */
+	/* The frame at that Timecode, under the chip, so its sentence stays
+	   readable */
 	.wvh-tip {
 		position: absolute;
-		bottom: calc(100% + 8px);
+		top: calc(100% + 8px);
 		left: 50%;
 		z-index: 2;
 		width: 172px;
@@ -394,9 +396,9 @@
 			0 0 0 1px rgb(255 255 255 / 0.1),
 			0 14px 30px -10px rgb(0 0 0 / 0.7);
 		opacity: 0;
-		transform-origin: 50% 100%;
+		transform-origin: 50% 0;
 		scale: 0.96;
-		translate: -50% 4px;
+		translate: -50% -4px;
 		transition:
 			opacity 0.16s ease,
 			translate 0.22s cubic-bezier(0.2, 0.8, 0.2, 1),
@@ -453,7 +455,7 @@
 	.wvh-time {
 		font-family: var(--mono);
 		font-variant-numeric: tabular-nums;
-		color: var(--ss-accent);
+		color: var(--text);
 	}
 
 	.wvh-screen {
@@ -512,40 +514,38 @@
 		transition: left 0.7s cubic-bezier(0.3, 0, 0.2, 1);
 	}
 
+	/* The product's six key frames, three to a row, each Timecode under its
+	   picture */
 	.wvh-frames {
 		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 8px;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 10px 8px;
 	}
 
 	.wvh-frame {
-		position: relative;
-		aspect-ratio: 16 / 9;
 		margin: 0;
-		overflow: hidden;
-		border-radius: 6px;
+	}
+
+	.wvh-frame img {
+		display: block;
+		width: 100%;
+		aspect-ratio: 16 / 9;
+		object-fit: cover;
+		border-radius: 5px;
 		box-shadow: 0 0 0 0 var(--ss-accent);
 		transition: box-shadow 0.3s ease;
 	}
 
-	.wvh-frame[data-on] {
+	.wvh-frame[data-on] img {
 		box-shadow: 0 0 0 2px var(--ss-accent);
 	}
 
-	.wvh-frame img {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-	}
-
 	.wvh-frame figcaption {
-		position: absolute;
-		bottom: 5px;
-		left: 6px;
+		margin-top: 4px;
 		font-family: var(--mono);
 		font-size: 10px;
-		color: #fff;
-		text-shadow: 0 1px 2px rgb(0 0 0 / 0.7);
+		font-variant-numeric: tabular-nums;
+		color: var(--faint);
 	}
 
 	/* Narrow: the frame as a strip, the exchange under it, the composer at the foot */
@@ -554,10 +554,11 @@
 		flex-direction: column;
 	}
 
+	/* High enough that the frame reads as a picture */
 	.wvh-strip {
 		position: relative;
 		flex: none;
-		height: 78px;
+		height: 152px;
 	}
 
 	.wvh-strip .wvh-screen {
@@ -619,6 +620,7 @@
 		padding: 6px 10px;
 		font-size: 12px;
 		line-height: 16px;
+		white-space: nowrap;
 	}
 	.wvh-app--compact .wvh-a {
 		max-width: 100%;

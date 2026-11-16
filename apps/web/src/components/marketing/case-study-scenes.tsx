@@ -89,11 +89,14 @@ interface Facts {
 }
 
 /** One tile: a live scene, one of the project's own screens (`image`, an
- * index into its pictures) or a metric drawn as a ring (`ring`, an index
- * into its metrics). `line` is the result or metric the tile stands for. */
+ * index into its pictures, or a picture's file name without its locale
+ * suffix) or a metric drawn as a ring (`ring`, an index into its metrics).
+ * `line` is the result or metric the tile stands for. `frame` replaces the
+ * shape's classes, for a scene with its own shapes. */
 interface Tile {
+	frame?: string;
 	id: string;
-	image?: number;
+	image?: number | string;
 	line?: (facts: Facts) => string | undefined;
 	render?: (locale: Locale, facts: Facts) => ReactNode;
 	ring?: number;
@@ -104,6 +107,21 @@ interface Tile {
 }
 
 const result = (index: number) => (facts: Facts) => facts.results?.[index];
+
+const PICTURE_SUFFIX = /(-de)?\.webp$/;
+
+/** Where a tile's picture sits in the project's pictures. */
+function pictureIndex(tile: Tile, images: string[] | undefined) {
+	if (typeof tile.image !== "string") {
+		return tile.image;
+	}
+	const name = tile.image;
+	const index = images?.findIndex(
+		(src) =>
+			src.split("?")[0].split("/").at(-1)?.replace(PICTURE_SUFFIX, "") === name
+	);
+	return index === undefined || index < 0 ? undefined : index;
+}
 const metric = (index: number) => (facts: Facts) => {
 	const entry = facts.metrics?.[index];
 	return entry ? `${entry.value} ${entry.label}` : undefined;
@@ -232,6 +250,10 @@ const tiles: Record<ProjectSceneSlug, Tile[]> = {
 		{
 			id: "ask",
 			shape: "full",
+			// The scene's phone design runs until the wide one is readable
+			// (1000px); a hairline keeps the dark scene's edge on a dark page
+			frame:
+				"aspect-[358/376] bg-[#0f1214] @[1000px]:aspect-[1164/592] dark:ring-1 dark:ring-white/10",
 			line: result(1),
 			render: (locale) => <HeroScene locale={locale} />,
 		},
@@ -241,15 +263,16 @@ const tiles: Record<ProjectSceneSlug, Tile[]> = {
 			line: result(2),
 			render: (locale) => <ScScene locale={locale} />,
 		},
-		// The Überblick from the lead frame to the end of the premise (15–76% of
-		// the screen's width); the sheet ends between the Belege's Timecodes
-		// and their claims (84% of its height), so no sentence is cut
+		// The Formatbibel from inside the panel's edge past its text column
+		// (14–61.7% of the screen's width, so the text keeps 16px and more clear
+		// of the tile's edges); the sheet ends between its first chapter and the
+		// next heading (69% of its height), so no sentence is cut
 		{
-			id: "overview",
+			id: "formatbibel",
 			shape: "tall",
 			line: result(0),
-			image: 3,
-			sheet: { aspect: 1.5136, position: "65.7% 0%", top: "12.3%" },
+			image: "formatbibel",
+			sheet: { aspect: 1.193, position: "35.5% 0%", top: "9%" },
 		},
 	],
 	"von-platen-coaching": [
@@ -425,9 +448,10 @@ export default function CaseStudyScenes({
 		if (tile.render) {
 			return <WhenNear>{tile.render(locale, facts)}</WhenNear>;
 		}
-		const picture = tile.image === undefined ? undefined : images?.[tile.image];
+		const index = pictureIndex(tile, images);
+		const picture = index === undefined ? undefined : images?.[index];
 		const pictureAlt =
-			(tile.image === undefined ? undefined : imageAlts?.[tile.image]) ?? alt;
+			(index === undefined ? undefined : imageAlts?.[index]) ?? alt;
 		if (picture && tile.shape === "full") {
 			// A whole screen of the project, shown whole
 			return (
@@ -495,7 +519,7 @@ export default function CaseStudyScenes({
 								)}
 								key={tile.id}
 							>
-								<div className={cn(frame, shapes[tile.shape])}>
+								<div className={cn(frame, tile.frame ?? shapes[tile.shape])}>
 									{content(tile)}
 								</div>
 								<Line>{tile.line?.(facts)}</Line>

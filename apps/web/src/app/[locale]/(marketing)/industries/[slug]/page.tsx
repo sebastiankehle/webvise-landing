@@ -117,6 +117,7 @@ export default async function IndustryPage({
 								<div className="relative aspect-[16/10] overflow-hidden rounded-[14px] bg-foreground/[0.04]">
 									<ProjectScene
 										opening={lead.cardImage ?? lead.coverImage ?? ""}
+										priority
 										sizes="(min-width: 1024px) 620px, 100vw"
 										slug={lead.slug}
 									/>

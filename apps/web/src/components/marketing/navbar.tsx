@@ -43,7 +43,7 @@ export default async function Navbar() {
 		...getCaseStudies(locale, { kind: "concept" }),
 	].map((project) => ({
 		client: project.client,
-		image: project.cardImage ?? project.coverImage,
+		image: project.menuImage ?? project.cardImage ?? project.coverImage,
 		industry: project.industry,
 		slug: project.slug,
 	}));
@@ -54,7 +54,7 @@ export default async function Navbar() {
 			industries={industries.map((industry) => {
 				const proof = getCaseStudyBySlug(industry.proof[0], locale);
 				return {
-					image: proof?.cardImage ?? proof?.coverImage,
+					image: proof?.menuImage ?? proof?.cardImage ?? proof?.coverImage,
 					line: ti(`items.${industry.slug}.title`),
 					name: ti(`items.${industry.slug}.name`),
 					slug: industry.slug,

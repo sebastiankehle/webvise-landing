@@ -11,6 +11,7 @@ import {
 	Stream,
 	Text,
 } from "@/components/stageshow/kit";
+import { versioned } from "@/data/asset-version";
 import "./hero-scene.css";
 
 const frames = "/images/case-studies/screencurve/car-spotter";
@@ -35,13 +36,16 @@ const frames = "/images/case-studies/screencurve/car-spotter";
 //   marks only Timecodes, the selection and the playhead.
 // - The labels follow the product's message files in both languages.
 //
-// Narrow, it is a second design: the frame as a strip, the exchange under it
-// kept to its latest lines. It opens only the first Timecode and ends on the
-// couple at the framed photo, the stronger picture at that size.
+// Narrow (below 1000px, where the wide design would shrink past reading), it
+// is a second design: the frame as a strip high enough to read as a picture,
+// the question and its answer under it. It opens only the first Timecode and
+// ends on the couple at the framed photo, the stronger picture at that size.
 
 type Locale = "de" | "en";
 type Second = 575 | 701 | 749;
 interface S {
+	/** The pointer is on its way to Ask: the site's chat button steps aside. */
+	aside: boolean;
 	asked: boolean;
 	at: Second;
 	phase: "idle" | "thinking" | "answer";
@@ -60,7 +64,7 @@ const COPY = {
 		chips: ["When does the mood shift?", "Who drives the plot?"],
 		keyFrames: "Key frames",
 		projects: "Projects",
-		nav: ["Overview", "Open Movies (Demo)", "Küstenwache", "Hafenlichter"],
+		nav: ["Overview", "Open Movies (Demo)", "Vorabendserie", "Hafenlichter"],
 		sub: ["Unsorted"],
 		admin: "Administration",
 		adminNav: ["Production company", "Company groups"],
@@ -77,7 +81,7 @@ const COPY = {
 		chips: ["Wann kippt die Stimmung?", "Wer treibt die Handlung?"],
 		keyFrames: "Schlüssel-Frames",
 		projects: "Projekte",
-		nav: ["Übersicht", "Open Movies (Demo)", "Küstenwache", "Hafenlichter"],
+		nav: ["Übersicht", "Open Movies (Demo)", "Vorabendserie", "Hafenlichter"],
 		sub: ["Unsortiert"],
 		admin: "Verwaltung",
 		adminNav: ["Produktionsfirma", "Unternehmensgruppen"],
@@ -121,7 +125,7 @@ const TITLE = "The Car Spotter";
 const RUNTIME = 773;
 // The project marks the sidebar draws before each name: the first letters of
 // the first two words, or the first two of a single word
-const MARKS = [null, "OM", "KÜ", "HA"];
+const MARKS = [null, "OM", "VO", "HA"];
 
 /** A second as the product writes it: the broadcast Timecode, no offset. */
 function timecode(seconds: number) {
@@ -132,7 +136,7 @@ function timecode(seconds: number) {
 }
 
 const still = (seconds: number) =>
-	`${frames}/${String(seconds).padStart(5, "0")}.webp`;
+	versioned(`${frames}/${String(seconds).padStart(5, "0")}.webp`);
 
 // The player starts on the poster, then cuts to each opened Timecode; the
 // narrow strip crops each frame to its faces
@@ -142,8 +146,9 @@ const FOCUS: Record<Second, string> = {
 	701: "50% 45%",
 	749: "50% 28%",
 };
-// The analysis's key frames: kitchen, the Oldsmobile, the photo, the chairs
-const KEY_FRAMES = [109, 618, 701, 749];
+// The product's six key frames: the lane, the kitchen, the phone call, the
+// meeting, the Oldsmobile, the chairs
+const KEY_FRAMES = [18, 109, 454, 575, 618, 749];
 
 const count = (text: string) => text.split(" ").length;
 const LEAD = count(ANSWER[0]);
@@ -152,6 +157,7 @@ const TAIL = count(ANSWER[2]);
 const WORDS = LEAD + 1 + TAIL + 1;
 
 const initial: S = {
+	aside: false,
 	asked: false,
 	at: 575,
 	phase: "idle",
@@ -162,6 +168,7 @@ const initial: S = {
 
 // The still ends on the stronger picture, the couple at the framed photo
 const poster: S = {
+	aside: false,
 	asked: true,
 	at: 701,
 	phase: "answer",
@@ -189,10 +196,11 @@ async function script(a: Act<S>) {
 	await a.click({ at: "composer", x: 0.3, y: 0.5 });
 	await a.type("typed", QUESTION, { interval: 24 });
 	await a.wait(280);
+	a.put({ aside: true });
 	await a.move({ at: "send", x: 0.5, y: 0.5 });
 	await a.wait(120);
 	await a.click({ at: "send", x: 0.5, y: 0.5 });
-	a.put({ asked: true, typed: "" });
+	a.put({ aside: false, asked: true, typed: "" });
 	// Off the composer, onto empty thread, while the film is asked
 	const away = a.move("rest", { duration: 700 });
 	await a.wait(550);
@@ -271,30 +279,41 @@ function Cite({
 	);
 }
 
-/** While the Ask button passes under the site's chat button, the chat button
- * steps aside, so the pointer never clicks under it. */
-function useLauncherAside(target: HTMLElement | null) {
+/** While the demo pointer travels to the Ask button and clicks it, the
+ * site's chat button steps aside where it would cover that button, and is
+ * inert meanwhile. At any other time, and under reduced motion, it stays. */
+function LauncherAside({
+	active,
+	target,
+}: {
+	active: boolean;
+	target: HTMLElement | null;
+}) {
 	useEffect(() => {
-		if (!target) {
+		if (!(active && target)) {
 			return;
 		}
 		const root = document.documentElement;
+		const launchers = () =>
+			document.querySelectorAll<HTMLElement>("[data-chat-launcher]");
+		const aside = (on: boolean) => {
+			root.toggleAttribute("data-launcher-aside", on);
+			for (const launcher of launchers()) {
+				launcher.inert = on;
+			}
+		};
 		let io: IntersectionObserver | undefined;
 		const watch = () => {
 			io?.disconnect();
-			const launcher = document.querySelector("[data-chat-launcher]");
+			const launcher = launchers()[0];
 			if (!launcher) {
 				return;
 			}
 			// The viewport, cut down to the chat button's own box
 			const r = launcher.getBoundingClientRect();
-			io = new IntersectionObserver(
-				([entry]) =>
-					root.toggleAttribute("data-launcher-aside", entry.isIntersecting),
-				{
-					rootMargin: `${-r.top}px ${r.right - innerWidth}px ${r.bottom - innerHeight}px ${-r.left}px`,
-				}
-			);
+			io = new IntersectionObserver(([entry]) => aside(entry.isIntersecting), {
+				rootMargin: `${-r.top}px ${r.right - innerWidth}px ${r.bottom - innerHeight}px ${-r.left}px`,
+			});
 			io.observe(target);
 		};
 		watch();
@@ -302,9 +321,10 @@ function useLauncherAside(target: HTMLElement | null) {
 		return () => {
 			removeEventListener("resize", watch);
 			io?.disconnect();
-			root.removeAttribute("data-launcher-aside");
+			aside(false);
 		};
-	}, [target]);
+	}, [active, target]);
+	return null;
 }
 
 function Player({ at }: { at: Second }) {
@@ -326,12 +346,11 @@ function Player({ at }: { at: Second }) {
 export default function HeroScene({ locale }: { locale: Locale }) {
 	const t = COPY[locale];
 	const [send, setSend] = useState<HTMLElement | null>(null);
-	useLauncherAside(send);
 	return (
 		<Stage<S>
 			className="wvh"
-			compact={{ below: 600, width: 358, height: 268 }}
-			cursor={{ at: { wide: { x: 640, y: 470 }, compact: { x: 300, y: 236 } } }}
+			compact={{ below: 1000, width: 358, height: 376 }}
+			cursor={{ at: { wide: { x: 640, y: 470 }, compact: { x: 300, y: 330 } } }}
 			fill
 			height={592}
 			initial={initial}
@@ -389,6 +408,7 @@ export default function HeroScene({ locale }: { locale: Locale }) {
 				);
 				const composer = (
 					<div className="wvh-composer">
+						<LauncherAside active={s.aside} target={send} />
 						<span
 							className="wvh-composer-field"
 							data-cursor="ibeam"

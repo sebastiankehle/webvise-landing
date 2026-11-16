@@ -12,6 +12,7 @@ import {
 	DialogPortal,
 	DialogTitle,
 } from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
 
 interface CaseStudyLightboxProps {
 	alt: string;
@@ -51,6 +52,15 @@ const imageDimensions: Record<string, { height: number; width: number }> = {
 		height: 14_546,
 		width: 1440,
 	},
+	// Screencurve's app views, 1800 × 914 CSS at 2880 px wide, both locales
+	...Object.fromEntries(
+		["ask-the-film", "image-camera", "hero", "formatbibel"].flatMap((name) =>
+			["", "-de"].map((suffix) => [
+				`/images/case-studies/screencurve/${name}${suffix}.webp`,
+				{ height: 1462, width: 2880 },
+			])
+		)
+	),
 };
 
 export default function CaseStudyLightbox({
@@ -64,6 +74,8 @@ export default function CaseStudyLightbox({
 		height: 7150,
 		width: 3024,
 	};
+	// A wide screen opens large enough to read; a long page keeps its column
+	const landscape = dimensions.width > dimensions.height;
 
 	return (
 		<Dialog onOpenChange={onOpenChange} open={open}>
@@ -72,7 +84,12 @@ export default function CaseStudyLightbox({
 					className={`${marketingSurfaceClassName("inverted")} bg-background/90 backdrop-blur-sm`}
 				/>
 				<DialogContent
-					className="data-open:zoom-in-97 data-closed:zoom-out-97 fixed inset-0 mx-auto max-w-3xl translate-x-0 translate-y-0 overflow-y-auto overscroll-contain bg-transparent p-0 ring-0 sm:inset-6 sm:max-w-3xl"
+					className={cn(
+						"data-open:zoom-in-97 data-closed:zoom-out-97 fixed inset-0 mx-auto translate-x-0 translate-y-0 overflow-y-auto overscroll-contain bg-transparent p-0 ring-0 sm:inset-6",
+						landscape
+							? "max-w-[1400px] sm:max-w-[min(1400px,calc(100vw-3rem))]"
+							: "max-w-3xl sm:max-w-3xl"
+					)}
 					showCloseButton={false}
 				>
 					<DialogTitle className="sr-only">{alt}</DialogTitle>
@@ -82,7 +99,11 @@ export default function CaseStudyLightbox({
 							className="m-auto h-auto w-full"
 							height={dimensions.height}
 							quality={100}
-							sizes="(max-width: 768px) 100vw, 768px"
+							sizes={
+								landscape
+									? "(max-width: 1400px) 100vw, 1400px"
+									: "(max-width: 768px) 100vw, 768px"
+							}
 							src={src}
 							unoptimized
 							width={dimensions.width}

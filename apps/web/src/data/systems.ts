@@ -6,8 +6,12 @@ export interface CustomSystem {
 	outcomeCount: number;
 	proof: {
 		caseStudySlug: string;
-		image: string;
+		/** The picture for a still proof, or the stand-in before a live scene
+		 * loads when the project has no card picture. */
+		image?: string;
 		shots?: string[];
+		/** The screens' shape, when it is not 16:10 (CSS aspect-ratio). */
+		shotAspect?: string;
 		still?: boolean;
 		imageClassName?: string;
 	};
@@ -26,8 +30,8 @@ export const customSystems: CustomSystem[] = [
 		faqCount: 3,
 		proof: {
 			caseStudySlug: "screencurve",
-			image:
-				"/images/case-studies/screencurve/hero.webp?v=20261116-car-spotter-79",
+			// Screencurve's views are 1512:768, as the case study's gallery
+			shotAspect: "1512 / 768",
 		},
 	},
 	{
