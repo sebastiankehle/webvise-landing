@@ -59,7 +59,7 @@ const nextConfig: NextConfig = {
 			},
 			{
 				pathname: "/images/case-studies/webvise/**",
-				search: "?v=20261116-lowercase",
+				search: "?v=20261116-light",
 			},
 		],
 		qualities: [75, 80, 85, 90, 95, 100],

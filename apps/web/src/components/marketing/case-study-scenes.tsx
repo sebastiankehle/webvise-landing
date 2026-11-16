@@ -299,9 +299,9 @@ const tiles: Record<ProjectSceneSlug, Tile[]> = {
 			id: "ask",
 			shape: "full",
 			// The scene's phone design runs until the wide one is readable
-			// (1000px); a hairline keeps the dark scene's edge on a dark page
+			// (1000px); a hairline keeps the white scene's edge on a light page
 			frame:
-				"aspect-[358/376] bg-[#0f1214] @[1000px]:aspect-[1164/592] dark:ring-1 dark:ring-white/10",
+				"aspect-[358/376] bg-white ring-1 ring-[#e3e8ee] @[1000px]:aspect-[1164/592] dark:ring-0",
 			// On the phone design the composer runs along the foot, so the
 			// buttons sit over the film still at the top
 			controls: "top-3 right-3 @[1000px]:top-auto @[1000px]:bottom-3",

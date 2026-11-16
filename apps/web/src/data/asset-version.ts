@@ -2,7 +2,7 @@
  * picture is recaptured under the same name. `next/image` serves a local
  * picture only when its search matches a `localPatterns` entry, so
  * `next.config.ts` builds those entries from the same constant. */
-export const SCREENCURVE_VERSION = "20261116-landing-2";
+export const SCREENCURVE_VERSION = "20261116-light";
 
 /** The paths `next.config.ts` lets through with the tag. */
 export const SCREENCURVE_PATTERNS = [
