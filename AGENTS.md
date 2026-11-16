@@ -39,6 +39,7 @@ packages/env          # Typed env vars
 | Fix          | `pnpm check`           |
 | Test         | `pnpm test`            |
 | Coverage (api) | `pnpm --filter @webvise-app/api coverage` |
+| Browser tests (web, after build) | `pnpm --filter web e2e` |
 | Verify (all) | `pnpm verify`          |
 | DB push      | `pnpm db:push`         |
 | DB studio    | `pnpm db:studio`       |
