@@ -13,6 +13,13 @@ const nextConfig: NextConfig = {
 	typedRoutes: true,
 	reactCompiler: true,
 	transpilePackages: ["shiki"],
+	experimental: {
+		// Off (on by default in Next 16.4): the client predicted the tree of
+		// unvisited /en pages, the @cta catch-all came back different, and
+		// Next retried that prefetch without pause for as long as the link
+		// stayed in view (WEB-589). /de pages are rewritten, so never predicted.
+		optimisticRouting: false,
+	},
 	// The confirm route reads blog content at request time to pick the
 	// topic-specific welcome email; without this the files are not bundled.
 	outputFileTracingIncludes: {
