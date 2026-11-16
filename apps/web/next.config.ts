@@ -43,6 +43,10 @@ const nextConfig: NextConfig = {
 				pathname: "/images/home/work/mpb.webp",
 				search: "?v=20261115-chat",
 			},
+			{
+				pathname: "/images/case-studies/webvise/**",
+				search: "?v=20261116-lowercase",
+			},
 		],
 		qualities: [75, 80, 85, 90, 95, 100],
 	},
