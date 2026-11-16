@@ -49,7 +49,7 @@ const imageDimensions: Record<string, { height: number; width: number }> = {
 		width: 1440,
 	},
 	"/images/case-studies/webvise/fullpage-v2.webp": {
-		height: 14_546,
+		height: 15_484,
 		width: 1440,
 	},
 	// Screencurve's app views, 1800 × 914 CSS at 2880 px wide, both locales
