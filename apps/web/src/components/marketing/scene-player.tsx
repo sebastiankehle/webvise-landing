@@ -2,7 +2,7 @@
 
 import { Pause, Play, RotateCcw } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { type ReactNode, useState } from "react";
+import { Fragment, type ReactNode, useContext, useRef, useState } from "react";
 
 import { Playback } from "@/components/stageshow/kit/playback";
 import { cn } from "@/lib/utils";
@@ -14,13 +14,15 @@ const button =
  * Pause and restart for anything that moves on its own for longer than 5 s
  * (WCAG 2.2.2). Paused, a stage shows its still and CSS animations hold
  * where they are; scenes that run on timers read `Playback` themselves.
- * Restart mounts the scene afresh, so it plays from its start whatever
- * drives it. The buttons sit top right, where the scenes' windows, pinned
- * top left, leave margin; `controls` places them elsewhere (false: none, for
- * a card whose picture holds still). A host whose scene sits inside a
- * link wraps the link, so the buttons stay out of it. Under reduced motion
- * the scenes are stills already, and without JavaScript the buttons could
- * do nothing: both hide them.
+ * Restart sets looping CSS animations back to their start in place and
+ * mounts each `SceneLayer` afresh, so a scene plays from its start while
+ * the text and links around it stay mounted. The buttons sit top right,
+ * where the scenes' windows, pinned top left, leave margin; `controls`
+ * places them elsewhere (false: none, for a card whose picture holds
+ * still). A host whose scene sits inside a link wraps the link, so the
+ * buttons stay out of it. Under reduced motion the scenes are stills
+ * already, and without JavaScript the buttons could do nothing: both hide
+ * them.
  */
 export function ScenePlayer({
 	children,
@@ -34,15 +36,29 @@ export function ScenePlayer({
 	const t = useTranslations("scenes");
 	const [paused, setPaused] = useState(false);
 	const [run, setRun] = useState(0);
+	const root = useRef<HTMLDivElement>(null);
+	const restart = () => {
+		setPaused(false);
+		setRun((r) => r + 1);
+		for (const animation of root.current?.getAnimations({ subtree: true }) ??
+			[]) {
+			if (
+				animation instanceof CSSAnimation &&
+				animation.effect?.getComputedTiming().iterations ===
+					Number.POSITIVE_INFINITY
+			) {
+				animation.currentTime = 0;
+			}
+		}
+	};
 	return (
-		<Playback.Provider value={{ paused }}>
+		<Playback.Provider value={{ paused, run }}>
 			<div
 				className={cn("relative", className)}
 				data-scene-paused={paused || undefined}
+				ref={root}
 			>
-				<div className="contents" key={run}>
-					{children}
-				</div>
+				{children}
 				{controls !== false && (
 					<div
 						className={cn(
@@ -66,10 +82,7 @@ export function ScenePlayer({
 						<button
 							aria-label={t("restart")}
 							className={button}
-							onClick={() => {
-								setPaused(false);
-								setRun((r) => r + 1);
-							}}
+							onClick={restart}
 							title={t("restart")}
 							type="button"
 						>
@@ -80,4 +93,12 @@ export function ScenePlayer({
 			</div>
 		</Playback.Provider>
 	);
+}
+
+/** A scene's moving layer: mounted afresh on Restart, so a scene driven by
+ * a script or timers plays from its start. Wrap only what moves; text and
+ * links stay outside it. */
+export function SceneLayer({ children }: { children: ReactNode }) {
+	const { run } = useContext(Playback);
+	return <Fragment key={run}>{children}</Fragment>;
 }

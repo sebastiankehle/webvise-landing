@@ -11,7 +11,7 @@ import {
 	useState,
 } from "react";
 
-import { ScenePlayer } from "@/components/marketing/scene-player";
+import { SceneLayer, ScenePlayer } from "@/components/marketing/scene-player";
 import { Playback } from "@/components/stageshow/kit/playback";
 import { useInView } from "@/hooks/use-in-view";
 import { cn } from "@/lib/utils";
@@ -666,7 +666,9 @@ export default function ResultsTiles({
 								data-kind={item.kind}
 								role="img"
 							>
-								<div className={scale[item.kind]}>{picture(item)}</div>
+								<SceneLayer>
+									<div className={scale[item.kind]}>{picture(item)}</div>
+								</SceneLayer>
 							</div>
 						</ScenePlayer>
 					) : (

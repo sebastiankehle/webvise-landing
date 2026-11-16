@@ -245,8 +245,9 @@ export default async function Process() {
 			<SectionHeading description={t("subtitle")} title={t("title")} />
 			{/* The order is carried by the list itself and by the line that
 			    draws through the steps once they come into view. */}
-			{/* The sketches loop while in view: the buttons sit above them */}
-			<ScenePlayer className="mt-10 md:mt-14" controls="-top-11 right-0">
+			{/* The sketches loop while in view: the buttons sit above them, in
+			    the gap under the description (mt-12 keeps them clear of it) */}
+			<ScenePlayer className="mt-12 md:mt-14" controls="-top-11 right-0">
 				<StaggerChildren className="process-steps" trackVisibility>
 					<ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
 						{stepKeys.map((key, index) => (

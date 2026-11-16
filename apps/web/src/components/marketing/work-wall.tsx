@@ -49,6 +49,11 @@ export default function WorkWall({
 						key={project.slug}
 					>
 						<Link
+							aria-describedby={
+								hasProjectScene(project.slug) && !screenFirst(project)
+									? `wall-scene-${project.slug}`
+									: undefined
+							}
 							className="group/arrow flex min-w-0 flex-1 flex-col outline-none"
 							href={{
 								pathname: "/case-studies/[slug]",
@@ -70,6 +75,7 @@ export default function WorkWall({
 								>
 									{hasProjectScene(project.slug) && !screenFirst(project) ? (
 										<ProjectScene
+											describedBy={`wall-scene-${project.slug}`}
 											opening={project.cardImage ?? project.coverImage}
 											sizes="(min-width: 768px) 50vw, 100vw"
 											slug={project.slug}
@@ -87,8 +93,8 @@ export default function WorkWall({
 							</span>
 							<span className="mt-3 flex items-center justify-between gap-4 px-2">
 								<span className="flex min-w-0 flex-col text-base text-foreground md:block md:truncate">
-									{project.client}
-									<span className="text-muted-foreground md:ml-2">
+									{project.client}{" "}
+									<span className="text-muted-foreground md:ml-1">
 										{project.industry}
 									</span>
 								</span>

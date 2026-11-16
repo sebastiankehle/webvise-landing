@@ -413,12 +413,16 @@
 }
 
 a.surface-card,
-button.surface-card {
+button.surface-card,
+.surface-card:has(> a) {
 	transition: background-color 0.2s ease;
 }
 
+/* A card whose link is stretched over it (after:inset-0) lights like a
+   card that is a link */
 a.surface-card:hover,
-button.surface-card:hover {
+button.surface-card:hover,
+.surface-card:has(> a:hover) {
 	background-color: var(--surface-card-fill-hover);
 }
 

@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
 
-import { ScenePlayer } from "@/components/marketing/scene-player";
+import { SceneLayer, ScenePlayer } from "@/components/marketing/scene-player";
 import WhenNear from "./when-near";
 
 type Kind = "automate" | "launch" | "operate";
@@ -52,7 +52,9 @@ export default function ServiceScene({
 					sizes="(max-width: 1024px) 100vw, 400px"
 					src={opening}
 				/>
-				<WhenNear>{scenes[kind](locale)}</WhenNear>
+				<SceneLayer>
+					<WhenNear>{scenes[kind](locale)}</WhenNear>
+				</SceneLayer>
 			</div>
 		</ScenePlayer>
 	);

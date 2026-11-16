@@ -1,7 +1,7 @@
 import { getTranslations } from "next-intl/server";
 
 import SystemsBeam from "@/components/marketing/home/scenes/systems-beam";
-import { ScenePlayer } from "@/components/marketing/scene-player";
+import { SceneLayer, ScenePlayer } from "@/components/marketing/scene-player";
 import { SectionHeading } from "@/components/marketing/section-heading";
 import SectionWrapper from "@/components/marketing/section-wrapper";
 
@@ -22,7 +22,9 @@ export default async function Systems() {
 						className="absolute inset-0"
 						role="img"
 					>
-						<SystemsBeam internal={t("internal")} />
+						<SceneLayer>
+							<SystemsBeam internal={t("internal")} />
+						</SceneLayer>
 					</div>
 				</ScenePlayer>
 			</div>

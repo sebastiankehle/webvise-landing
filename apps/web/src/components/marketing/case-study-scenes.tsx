@@ -15,7 +15,7 @@ import HyyveOrbit from "@/components/marketing/home/scenes/project-hyyve";
 import KernspanDamper from "@/components/marketing/home/scenes/project-kernspan";
 import type { ProjectSceneSlug } from "@/components/marketing/home/scenes/project-scene-slugs";
 import WhenNear from "@/components/marketing/home/scenes/when-near";
-import { ScenePlayer } from "@/components/marketing/scene-player";
+import { SceneLayer, ScenePlayer } from "@/components/marketing/scene-player";
 import { versioned } from "@/data/asset-version";
 import { cn } from "@/lib/utils";
 
@@ -530,7 +530,9 @@ function SceneTile({
 					/>
 				</div>
 			)}
-			<WhenNear>{tile.render?.(locale, facts)}</WhenNear>
+			<SceneLayer>
+				<WhenNear>{tile.render?.(locale, facts)}</WhenNear>
+			</SceneLayer>
 		</>
 	);
 	return (

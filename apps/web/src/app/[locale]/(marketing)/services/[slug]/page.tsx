@@ -98,6 +98,17 @@ export async function generateMetadata({
 	};
 }
 
+/** The slug of the proof's live scene, when the card shows one; the scene
+ * then describes the card's link. */
+function liveSceneSlug(
+	caseStudy: ReturnType<typeof getCaseStudyBySlug>,
+	still: boolean | undefined
+) {
+	return caseStudy && hasProjectScene(caseStudy.slug) && !still
+		? caseStudy.slug
+		: undefined;
+}
+
 export default async function ServicePage({
 	params,
 }: {
@@ -140,6 +151,7 @@ async function ServiceOfferingPage({ offering }: { offering: Offering }) {
 	const deck = getDeckBySlug(slug);
 	const proof = getOfferingProof(offering);
 	const proofCaseStudy = getCaseStudyBySlug(proof.caseStudySlug, locale);
+	const proofScene = liveSceneSlug(proofCaseStudy, proof.still);
 	const proofShots = proofScreens(proof.shots, proofCaseStudy);
 	const relatedOfferings = getRelatedOfferings(slug);
 	// Projects that used this offering first, then other featured work. The
@@ -272,6 +284,7 @@ async function ServiceOfferingPage({ offering }: { offering: Offering }) {
 								}
 							>
 								<Link
+									aria-describedby={proofScene && `proof-scene-${proofScene}`}
 									className="group/arrow block outline-none"
 									href={{
 										pathname: "/case-studies/[slug]",
@@ -280,8 +293,9 @@ async function ServiceOfferingPage({ offering }: { offering: Offering }) {
 								>
 									<div className="rounded-[20px] bg-card p-2 shadow-[0_0_0_1px_rgba(14,18,23,0.06),0_24px_48px_-36px_rgba(14,18,23,0.35)] ring-ring/70 ring-offset-4 ring-offset-background group-focus-visible/arrow:ring-2 dark:shadow-[0_0_0_1px_rgba(255,255,255,0.08)]">
 										<div className="relative aspect-[16/10] overflow-hidden rounded-[14px] bg-foreground/[0.04]">
-											{hasProjectScene(proofCaseStudy.slug) && !proof.still ? (
+											{proofScene ? (
 												<ProjectScene
+													describedBy={`proof-scene-${proofScene}`}
 													opening={
 														proofCaseStudy.cardImage ??
 														proofCaseStudy.coverImage ??
@@ -290,7 +304,7 @@ async function ServiceOfferingPage({ offering }: { offering: Offering }) {
 													}
 													priority
 													sizes="(min-width: 1024px) 620px, 100vw"
-													slug={proofCaseStudy.slug}
+													slug={proofScene}
 												/>
 											) : (
 												<Image
@@ -316,7 +330,7 @@ async function ServiceOfferingPage({ offering }: { offering: Offering }) {
 													: "recentProjectLabel",
 												{ client: proofCaseStudy.client }
 											)}
-										</span>
+										</span>{" "}
 										<span className="inline-flex items-center gap-1.5 font-medium text-foreground">
 											{td("proofCta")}
 											<ActionArrow />

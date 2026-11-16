@@ -165,6 +165,7 @@ export default async function IndustryPage({
 									controls={projectSceneControls(second.slug, true)}
 								>
 									<Link
+										aria-describedby={`second-scene-${second.slug}`}
 										className="group/arrow block rounded-[20px] bg-card p-2 shadow-[0_0_0_1px_rgba(14,18,23,0.06),0_24px_48px_-36px_rgba(14,18,23,0.35)] outline-none focus-visible:ring-2 focus-visible:ring-ring/70 dark:shadow-[0_0_0_1px_rgba(255,255,255,0.08)]"
 										href={{
 											pathname: "/case-studies/[slug]",
@@ -173,6 +174,7 @@ export default async function IndustryPage({
 									>
 										<div className="relative aspect-[16/10] overflow-hidden rounded-[14px] bg-foreground/[0.04]">
 											<ProjectScene
+												describedBy={`second-scene-${second.slug}`}
 												opening={second.cardImage ?? second.coverImage ?? ""}
 												sizes="(min-width: 1024px) 480px, 100vw"
 												slug={second.slug}

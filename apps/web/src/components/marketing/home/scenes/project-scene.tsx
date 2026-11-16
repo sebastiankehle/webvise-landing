@@ -4,6 +4,8 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import type { ReactNode } from "react";
+
+import { SceneLayer } from "@/components/marketing/scene-player";
 import PageScroll from "./page-scroll";
 import HyyveOrbit from "./project-hyyve";
 import KernspanDamper from "./project-kernspan";
@@ -117,13 +119,17 @@ function StillCredit() {
 
 /** A project card's picture: its live scene, its own illustration or one of
  * its screens. `priority` loads the opening still at once, for a card above
- * the fold. */
+ * the fold. Outside a link the scene is an image with its name. Inside a
+ * card link, `describedBy` keeps it out of the link's name: the scene is
+ * hidden and its name becomes the link's description, by that id. */
 export default function ProjectScene({
+	describedBy,
 	opening,
 	priority = false,
 	sizes,
 	slug,
 }: {
+	describedBy?: string;
 	opening: string;
 	priority?: boolean;
 	sizes: string;
@@ -133,7 +139,7 @@ export default function ProjectScene({
 	const names = useTranslations("scenes.names");
 	const entry = scenes[slug];
 	const picture = entry.plain ? (
-		entry.plain(opening, sizes)
+		<SceneLayer>{entry.plain(opening, sizes)}</SceneLayer>
 	) : (
 		<div className="group/scene absolute inset-0">
 			{/* Laid out like the stage, so the swap does not shift: as wide as
@@ -148,10 +154,22 @@ export default function ProjectScene({
 				sizes={sizes}
 				src={opening}
 			/>
-			<WhenNear>{entry.live?.(locale)}</WhenNear>
+			<SceneLayer>
+				<WhenNear>{entry.live?.(locale)}</WhenNear>
+			</SceneLayer>
 			{slug === "screencurve" && <StillCredit />}
 		</div>
 	);
+	if (describedBy) {
+		return (
+			<div aria-hidden="true" className="absolute inset-0">
+				{picture}
+				<span className="sr-only" id={describedBy}>
+					{entry.name ? names(entry.name) : null}
+				</span>
+			</div>
+		);
+	}
 	return entry.name ? (
 		<div aria-label={names(entry.name)} className="absolute inset-0" role="img">
 			{picture}

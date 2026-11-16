@@ -67,6 +67,12 @@ export function CaseStudyCard({
 	const image = screen
 		? (caseStudy.coverImage ?? caseStudy.cardImage)
 		: (caseStudy.cardImage ?? caseStudy.coverImage);
+	// A live scene describes the link instead of opening its name
+	const sceneSlug =
+		image && hasProjectScene(caseStudy.slug) && !screen
+			? caseStudy.slug
+			: undefined;
+	const described = sceneSlug && `card-scene-${sceneSlug}`;
 	return (
 		// The scene's buttons sit beside the link, over the picture's corner
 		<ScenePlayer
@@ -76,6 +82,7 @@ export function CaseStudyCard({
 			}
 		>
 			<Link
+				aria-describedby={described}
 				className="surface-card group flex flex-1 flex-col justify-between overflow-hidden outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
 				href={{
 					pathname: "/case-studies/[slug]",
@@ -84,11 +91,12 @@ export function CaseStudyCard({
 			>
 				{image && (
 					<div className="media-frame relative aspect-[16/10] w-full bg-foreground/[0.04]">
-						{hasProjectScene(caseStudy.slug) && !screen ? (
+						{sceneSlug ? (
 							<ProjectScene
+								describedBy={described}
 								opening={image}
 								sizes={sizes}
-								slug={caseStudy.slug}
+								slug={sceneSlug}
 							/>
 						) : (
 							<Image
@@ -103,10 +111,11 @@ export function CaseStudyCard({
 					</div>
 				)}
 				<div className="flex flex-1 flex-col p-6 md:p-7">
+					{/* The spaces keep the link's name in words */}
 					<Caption className="block text-brand-readable">
 						{caseStudy.industry}
-					</Caption>
-					<H3 className="mt-3">{caseStudy.title}</H3>
+					</Caption>{" "}
+					<H3 className="mt-3">{caseStudy.title}</H3>{" "}
 					<Muted className="mt-3 line-clamp-4">{caseStudy.excerpt}</Muted>
 					<div className="mt-auto flex items-center justify-end pt-6">
 						<ArrowRight className="h-4 w-4 text-brand-icon transition-transform duration-300 group-hover:translate-x-1" />
@@ -129,7 +138,7 @@ export function CaseStudyListCard({
 	priority?: boolean;
 }) {
 	return (
-		<div className="surface-card group relative flex min-h-[340px] flex-col overflow-hidden transition-colors hover:bg-[var(--surface-card-fill-hover)] has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-ring/50 md:min-h-0">
+		<div className="surface-card group relative flex min-h-[340px] flex-col overflow-hidden has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-ring/50 md:min-h-0">
 			<Link
 				className="flex items-start justify-between gap-4 p-5 outline-none after:absolute after:inset-0 after:z-[1] md:p-6 md:pb-4"
 				href={{

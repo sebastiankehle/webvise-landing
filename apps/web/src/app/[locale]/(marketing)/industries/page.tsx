@@ -81,6 +81,11 @@ export default async function IndustriesPage({
 										key={industry.slug}
 									>
 										<Link
+											aria-describedby={
+												project && hasProjectScene(project.slug)
+													? `industry-scene-${industry.slug}`
+													: undefined
+											}
 											className="group/arrow flex flex-1 flex-col rounded-[20px] bg-card p-2 shadow-[0_0_0_1px_rgba(14,18,23,0.06),0_24px_48px_-36px_rgba(14,18,23,0.35)] outline-none transition-shadow duration-200 hover:shadow-[0_0_0_1px_rgba(14,18,23,0.1),0_28px_56px_-32px_rgba(14,18,23,0.45)] focus-visible:ring-2 focus-visible:ring-ring/70 dark:shadow-[0_0_0_1px_rgba(255,255,255,0.08)]"
 											href={{
 												pathname: "/industries/[slug]",
@@ -90,6 +95,7 @@ export default async function IndustriesPage({
 											<div className="relative aspect-[16/10] overflow-hidden rounded-[14px] bg-foreground/[0.04]">
 												{project && hasProjectScene(project.slug) && (
 													<ProjectScene
+														describedBy={`industry-scene-${industry.slug}`}
 														opening={
 															project.cardImage ?? project.coverImage ?? ""
 														}
@@ -99,12 +105,13 @@ export default async function IndustriesPage({
 												)}
 											</div>
 											<div className="flex flex-1 flex-col px-4 pt-4 pb-3 md:px-5">
+												{/* The spaces keep the link's name in words */}
 												<div className="text-brand-readable text-sm">
 													{t(`items.${industry.slug}.name`)}
-												</div>
+												</div>{" "}
 												<H3 className="mt-1.5 text-xl leading-snug">
 													{t(`items.${industry.slug}.title`)}
-												</H3>
+												</H3>{" "}
 												<span className="mt-5 inline-flex items-center gap-1.5 text-base text-foreground">
 													{t("more")}
 													<ActionArrow />

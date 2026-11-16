@@ -3,7 +3,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import BentoScene from "@/components/marketing/home/scenes/bento-scene";
 import KernspanDamper from "@/components/marketing/home/scenes/project-kernspan";
 import { MarketingArrowLink } from "@/components/marketing/marketing-arrow-link";
-import { ScenePlayer } from "@/components/marketing/scene-player";
+import { SceneLayer, ScenePlayer } from "@/components/marketing/scene-player";
 import { SectionHeading } from "@/components/marketing/section-heading";
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import { TechPillGroup } from "@/components/marketing/tech-pill-group";
@@ -172,7 +172,9 @@ export default async function Bento() {
 								className="absolute inset-0"
 								role="img"
 							>
-								<KernspanDamper sizes="(min-width: 1024px) 400px, 100vw" />
+								<SceneLayer>
+									<KernspanDamper sizes="(min-width: 1024px) 400px, 100vw" />
+								</SceneLayer>
 							</div>
 						</ScenePlayer>
 					</div>
