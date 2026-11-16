@@ -217,6 +217,10 @@ async function script(a: Act<S>) {
 	await a.wait(2600);
 }
 
+// Cited seconds without a checked frame: the product sets them as plain
+// Timecode text, not as a chip
+const PLAIN = new Set([646, 697]);
+
 /** Timecodes the answer cites together, in one pair of brackets. */
 function Cites({ seconds }: { seconds: readonly number[] }) {
 	return (
@@ -225,7 +229,9 @@ function Cites({ seconds }: { seconds: readonly number[] }) {
 			{seconds.map((second, i) => (
 				<span key={second}>
 					{i > 0 && ", "}
-					<span className="wvh-tc">{timecode(second)}</span>
+					<span className={PLAIN.has(second) ? "wvh-tc-plain" : "wvh-tc"}>
+						{timecode(second)}
+					</span>
 				</span>
 			))}
 			).
