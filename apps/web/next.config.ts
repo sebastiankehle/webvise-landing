@@ -14,10 +14,17 @@ const nextConfig: NextConfig = {
 	reactCompiler: true,
 	transpilePackages: ["shiki"],
 	experimental: {
-		// Off (on by default in Next 16.4): the client predicted the tree of
-		// unvisited /en pages, the @cta catch-all came back different, and
-		// Next retried that prefetch without pause for as long as the link
-		// stayed in view (WEB-589). /de pages are rewritten, so never predicted.
+		// Works around a Next 16.4 bug (WEB-589). Route prediction, on by
+		// default and undocumented, never fills the `rest` param of a slot's
+		// [...rest] page beside a dynamic children route (`reifyRouteTree` in
+		// optimistic-routes.js: "This should never happen"). The server's @cta
+		// segment then differs from the guess, and the client re-requests it
+		// without pause while the link is in view. /de URLs are rewritten, so
+		// never predicted. The flag may not last: Next's code for the off path
+		// "will be removed once optimisticRouting is stable". Upstream:
+		// vercel/next.js#100055, fixed by #101477 (16.5.0-canary.46, not in
+		// 16.4.6). Remove this flag on the first stable release with #101477,
+		// once `pnpm --filter web e2e` passes without it.
 		optimisticRouting: false,
 	},
 	// The confirm route reads blog content at request time to pick the

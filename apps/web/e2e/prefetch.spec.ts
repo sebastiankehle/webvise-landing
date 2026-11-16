@@ -21,7 +21,8 @@ const pages = routes.flatMap((route) => [route || "/", `/en${route}`]);
 const MAX_REPEATS = 2;
 /** Time after the scroll for the last prefetches to finish. */
 const SETTLE_MS = 2000;
-/** Then no prefetch at all for this long. */
+/** Then no prefetch may repeat for this long. Under load, first-time
+ * prefetches still arrive here; a loop repeats the same ones. */
 const QUIET_MS = 3000;
 
 /** Scroll down one screen at a time, so every link enters the viewport. */
@@ -43,7 +44,8 @@ function scrollToEnd(page: Page) {
 for (const url of pages) {
 	test(`${url} prefetches each link once, then stops`, async ({ page }) => {
 		const counts = new Map<string, number>();
-		const sentAt: number[] = [];
+		const repeatedLate: string[] = [];
+		let settled = Number.POSITIVE_INFINITY;
 		page.on("request", (request) => {
 			const headers = request.headers();
 			const segment = headers["next-router-segment-prefetch"];
@@ -51,19 +53,22 @@ for (const url of pages) {
 				return;
 			}
 			const key = `${new URL(request.url()).pathname} ${segment ?? ""}`;
-			counts.set(key, (counts.get(key) ?? 0) + 1);
-			sentAt.push(Date.now());
+			const sent = counts.get(key) ?? 0;
+			if (sent > 0 && Date.now() >= settled) {
+				repeatedLate.push(key);
+			}
+			counts.set(key, sent + 1);
 		});
 
 		const response = await page.goto(url);
 		expect(response?.ok()).toBe(true);
 		await scrollToEnd(page);
 		await page.waitForTimeout(SETTLE_MS);
-		const settled = Date.now();
+		settled = Date.now();
 		await page.waitForTimeout(QUIET_MS);
 
 		const repeated = [...counts].filter(([, n]) => n > MAX_REPEATS);
 		expect(repeated).toEqual([]);
-		expect(sentAt.filter((t) => t >= settled)).toEqual([]);
+		expect(repeatedLate).toEqual([]);
 	});
 }
