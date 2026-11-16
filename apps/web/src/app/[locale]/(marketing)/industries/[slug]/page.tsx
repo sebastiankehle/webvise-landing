@@ -6,9 +6,15 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { ActionArrow, ActionLink } from "@/components/marketing/action";
 import { CaseStudyCard } from "@/components/marketing/case-study-card";
 import Closing from "@/components/marketing/home/closing";
-import ProjectScene from "@/components/marketing/home/scenes/project-scene";
-import { hasProjectScene } from "@/components/marketing/home/scenes/project-scene-slugs";
+import ProjectScene, {
+	ProjectSceneDescription,
+} from "@/components/marketing/home/scenes/project-scene";
+import {
+	hasProjectScene,
+	projectSceneControls,
+} from "@/components/marketing/home/scenes/project-scene-slugs";
 import { QuoteAuthor } from "@/components/marketing/quote-author";
+import { ScenePlayer } from "@/components/marketing/scene-player";
 import SectionWrapper, {
 	ConstructedGrid,
 	GridContainer,
@@ -115,12 +121,17 @@ export default async function IndustryPage({
 						{lead && hasProjectScene(lead.slug) && (
 							<div className="rounded-[20px] bg-card p-2 shadow-[0_0_0_1px_rgba(14,18,23,0.06),0_24px_48px_-36px_rgba(14,18,23,0.35)] lg:col-span-6 dark:shadow-[0_0_0_1px_rgba(255,255,255,0.08)]">
 								<div className="relative aspect-[16/10] overflow-hidden rounded-[14px] bg-foreground/[0.04]">
-									<ProjectScene
-										opening={lead.cardImage ?? lead.coverImage ?? ""}
-										priority
-										sizes="(min-width: 1024px) 620px, 100vw"
-										slug={lead.slug}
-									/>
+									<ScenePlayer
+										className="absolute inset-0"
+										controls={projectSceneControls(lead.slug)}
+									>
+										<ProjectScene
+											opening={lead.cardImage ?? lead.coverImage ?? ""}
+											priority
+											sizes="(min-width: 1024px) 620px, 100vw"
+											slug={lead.slug}
+										/>
+									</ScenePlayer>
 								</div>
 							</div>
 						)}
@@ -150,27 +161,39 @@ export default async function IndustryPage({
 						<div className="lg:sticky lg:top-28">
 							<H2>{t("buildsTitle")}</H2>
 							{second && hasProjectScene(second.slug) && (
-								<Link
-									className="group/arrow mt-8 block rounded-[20px] bg-card p-2 shadow-[0_0_0_1px_rgba(14,18,23,0.06),0_24px_48px_-36px_rgba(14,18,23,0.35)] outline-none focus-visible:ring-2 focus-visible:ring-ring/70 dark:shadow-[0_0_0_1px_rgba(255,255,255,0.08)]"
-									href={{
-										pathname: "/case-studies/[slug]",
-										params: { slug: second.slug },
-									}}
+								// The scene's buttons sit beside the link, over the picture's corner
+								<ScenePlayer
+									className="mt-8"
+									controls={projectSceneControls(second.slug, true)}
 								>
-									<div className="relative aspect-[16/10] overflow-hidden rounded-[14px] bg-foreground/[0.04]">
-										<ProjectScene
-											opening={second.cardImage ?? second.coverImage ?? ""}
-											sizes="(min-width: 1024px) 480px, 100vw"
-											slug={second.slug}
-										/>
-									</div>
-									<span className="flex items-center justify-between gap-4 px-3 pt-3 pb-1.5 text-base text-foreground">
-										{second.client}
-										<span className="text-foreground/50 transition-colors group-hover/arrow:text-foreground">
-											<ActionArrow />
+									<Link
+										aria-describedby={`second-scene-${second.slug}`}
+										className="group/arrow block rounded-[20px] bg-card p-2 shadow-[0_0_0_1px_rgba(14,18,23,0.06),0_24px_48px_-36px_rgba(14,18,23,0.35)] outline-none focus-visible:ring-2 focus-visible:ring-ring/70 dark:shadow-[0_0_0_1px_rgba(255,255,255,0.08)]"
+										href={{
+											pathname: "/case-studies/[slug]",
+											params: { slug: second.slug },
+										}}
+									>
+										<div className="relative aspect-[16/10] overflow-hidden rounded-[14px] bg-foreground/[0.04]">
+											<ProjectScene
+												inLink
+												opening={second.cardImage ?? second.coverImage ?? ""}
+												sizes="(min-width: 1024px) 480px, 100vw"
+												slug={second.slug}
+											/>
+										</div>
+										<span className="flex items-center justify-between gap-4 px-3 pt-3 pb-1.5 text-base text-foreground">
+											{second.client}
+											<span className="text-foreground/50 transition-colors group-hover/arrow:text-foreground">
+												<ActionArrow />
+											</span>
 										</span>
-									</span>
-								</Link>
+									</Link>
+									<ProjectSceneDescription
+										id={`second-scene-${second.slug}`}
+										slug={second.slug}
+									/>
+								</ScenePlayer>
 							)}
 						</div>
 					</div>

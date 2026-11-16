@@ -4,6 +4,8 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import type { ReactNode } from "react";
+
+import { SceneLayer } from "@/components/marketing/scene-player";
 import PageScroll from "./page-scroll";
 import HyyveOrbit from "./project-hyyve";
 import KernspanDamper from "./project-kernspan";
@@ -22,9 +24,11 @@ const ScScene = dynamic(() => import("./project-sc"), { ssr: false });
 const VpScene = dynamic(() => import("./project-vp"), { ssr: false });
 
 /** A card's picture. `live` scenes load after the page and get the opening
- * frame as a stand-in; `plain` ones are markup and render at once. */
+ * frame as a stand-in; `plain` ones are markup and render at once. `name`
+ * (a key of scenes.names) is what a screen reader hears for a scene. */
 interface Entry {
 	live?: (locale: Locale) => ReactNode;
+	name?: string;
 	plain?: (opening: string, sizes: string) => ReactNode;
 }
 
@@ -49,9 +53,10 @@ const sheet = (opening: string, sizes: string) => (
 );
 
 const scenes: Record<ProjectSceneSlug, Entry> = {
-	finanzierungszertifikat: { live: () => <FzScene /> },
-	hyyve: { plain: () => <HyyveOrbit /> },
+	finanzierungszertifikat: { live: () => <FzScene />, name: "fz" },
+	hyyve: { name: "hyyveOrbit", plain: () => <HyyveOrbit /> },
 	keel: {
+		name: "keel",
 		plain: (opening, sizes) => (
 			<>
 				<Image
@@ -68,11 +73,13 @@ const scenes: Record<ProjectSceneSlug, Entry> = {
 		),
 	},
 	kernspan: {
+		name: "kernspan",
 		plain: (_opening, sizes) => <KernspanDamper sizes={sizes} />,
 	},
-	"maerkische-projekt-bau": { live: () => <MpbChatScene /> },
+	"maerkische-projekt-bau": { live: () => <MpbChatScene />, name: "mpbChat" },
 	morrow: { plain: sheet },
 	"old-world-labs": {
+		name: "owlPage",
 		plain: (_opening, sizes) => (
 			<PageScroll
 				height={3575}
@@ -84,11 +91,13 @@ const scenes: Record<ProjectSceneSlug, Entry> = {
 	},
 	"rautenberg-pitch-engine": {
 		live: (locale) => <RbScene locale={locale} />,
+		name: "rb",
 	},
 	relay: { plain: sheet },
-	screencurve: { live: (locale) => <ScScene locale={locale} /> },
+	screencurve: { live: (locale) => <ScScene locale={locale} />, name: "sc" },
 	"von-platen-coaching": {
 		live: (locale) => <VpScene locale={locale} />,
+		name: "vp",
 	},
 };
 
@@ -110,24 +119,29 @@ function StillCredit() {
 
 /** A project card's picture: its live scene, its own illustration or one of
  * its screens. `priority` loads the opening still at once, for a card above
- * the fold. */
+ * the fold. Outside a link the scene is an image with its name. Inside a
+ * card link (`inLink`) it is hidden, so it stays out of the link's name; the
+ * host puts a ProjectSceneDescription beside the link and points the link's
+ * aria-describedby at it. */
 export default function ProjectScene({
+	inLink = false,
 	opening,
 	priority = false,
 	sizes,
 	slug,
 }: {
+	inLink?: boolean;
 	opening: string;
 	priority?: boolean;
 	sizes: string;
 	slug: ProjectSceneSlug;
 }) {
 	const locale: Locale = useLocale() === "de" ? "de" : "en";
+	const names = useTranslations("scenes.names");
 	const entry = scenes[slug];
-	if (entry.plain) {
-		return entry.plain(opening, sizes);
-	}
-	return (
+	const picture = entry.plain ? (
+		<SceneLayer>{entry.plain(opening, sizes)}</SceneLayer>
+	) : (
 		<div className="group/scene absolute inset-0">
 			{/* Laid out like the stage, so the swap does not shift: as wide as
 			    the frame up to twice the scenes' 400px design width, centred,
@@ -141,8 +155,47 @@ export default function ProjectScene({
 				sizes={sizes}
 				src={opening}
 			/>
-			<WhenNear>{entry.live?.(locale)}</WhenNear>
+			<SceneLayer>
+				<WhenNear>{entry.live?.(locale)}</WhenNear>
+			</SceneLayer>
 			{slug === "screencurve" && <StillCredit />}
 		</div>
+	);
+	if (inLink) {
+		return (
+			<div aria-hidden="true" className="absolute inset-0">
+				{picture}
+			</div>
+		);
+	}
+	return entry.name ? (
+		<div aria-label={names(entry.name)} className="absolute inset-0" role="img">
+			{picture}
+		</div>
+	) : (
+		picture
+	);
+}
+
+/** A card scene's name as the description of the card's link, by `id`. It
+ * sits outside the link, so it stays out of the link's name, and is hidden,
+ * so a screen reader reads it only as the link's description. Nothing for a
+ * card without a scene (no `slug`). */
+export function ProjectSceneDescription({
+	id,
+	slug,
+}: {
+	id: string;
+	slug: ProjectSceneSlug | undefined;
+}) {
+	const names = useTranslations("scenes.names");
+	if (!slug) {
+		return null;
+	}
+	const name = scenes[slug].name;
+	return (
+		<span hidden id={id}>
+			{name ? names(name) : null}
+		</span>
 	);
 }

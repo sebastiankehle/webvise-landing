@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react'
+import { useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 import './stage.css'
 import { checkSeam, createAct, Stopped, type Script } from './act'
 import { Cursor, ripple as spawnRipple, type CursorKind, type CursorStyle } from './cursor'
@@ -6,6 +6,7 @@ import { Keycaps, type Keys, type KeysAt } from './keys'
 import { LookContext, type Fidelity, type Layout, type Palette, type Theme } from './looks'
 import { EMPTY, nameOf, rectOf, sameRects, stageSpace, targetRectOf, thumb, type Point, type Rect, type Target } from './measure'
 import { StillContext, useReducedMotion } from './reduced-motion'
+import { Playback } from './playback'
 import { clock } from './clock'
 import { clamp, easeInOutCubic, isDev, warn } from './util'
 
@@ -132,7 +133,8 @@ export function Stage<S extends object>({
   const rootRef = useRef<HTMLDivElement>(null)
   const cursorRef = useRef<HTMLDivElement>(null)
   const reduced = useReducedMotion()
-  const still = !script || reduced
+  const playback = useContext(Playback)
+  const still = !script || reduced || playback.paused
 
   const [state, setState] = useState<S>(() => (still && poster ? poster : initial))
   const stateRef = useRef(state)

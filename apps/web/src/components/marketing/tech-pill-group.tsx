@@ -18,22 +18,23 @@ export function TechPillGroup({ items }: { items: string[] }) {
 		) {
 			return;
 		}
-		let interval: ReturnType<typeof setInterval> | undefined;
+		// Moves for under 5 s, so it needs no pause button (WCAG 2.2.2): a
+		// pill lights within 1.2 s, the light moves on once, 2.6 s later, and
+		// then holds.
+		let step: ReturnType<typeof setTimeout> | undefined;
 		const start = setTimeout(() => {
 			setActive(Math.floor(Math.random() * items.length));
-			interval = setInterval(() => {
+			step = setTimeout(() => {
 				setActive((prev) => {
 					const next = Math.floor(Math.random() * items.length);
 					return next === prev ? (next + 1) % items.length : next;
 				});
 			}, 2600);
-		}, Math.random() * 2600);
+		}, Math.random() * 1200);
 
 		return () => {
 			clearTimeout(start);
-			if (interval) {
-				clearInterval(interval);
-			}
+			clearTimeout(step);
 		};
 	}, [items.length, inView]);
 

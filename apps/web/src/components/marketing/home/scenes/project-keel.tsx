@@ -11,7 +11,9 @@ import {
 	ShieldCheck,
 } from "lucide-react";
 import { Stack_Sans_Headline, Stack_Sans_Text } from "next/font/google";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
+
+import { Playback } from "@/components/stageshow/kit/playback";
 
 import "./project-keel.css";
 
@@ -150,6 +152,7 @@ export default function KeelScene() {
 	const [scale, setScale] = useState(0);
 	const [rows, setRows] = useState(seed);
 	const [count, setCount] = useState(START_COUNT);
+	const { paused } = useContext(Playback);
 
 	useEffect(() => {
 		const el = root.current;
@@ -160,7 +163,7 @@ export default function KeelScene() {
 			setScale(el.clientWidth / DESIGN_WIDTH)
 		);
 		fit.observe(el);
-		if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+		if (paused || matchMedia("(prefers-reduced-motion: reduce)").matches) {
 			return () => fit.disconnect();
 		}
 
@@ -203,7 +206,7 @@ export default function KeelScene() {
 				clearTimeout(settle);
 			}
 		};
-	}, []);
+	}, [paused]);
 
 	return (
 		<div

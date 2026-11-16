@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import type { ReactNode } from "react";
 
 import HyyveBeam from "@/components/marketing/home/scenes/hyyve-beam";
@@ -15,6 +15,8 @@ import HyyveOrbit from "@/components/marketing/home/scenes/project-hyyve";
 import KernspanDamper from "@/components/marketing/home/scenes/project-kernspan";
 import type { ProjectSceneSlug } from "@/components/marketing/home/scenes/project-scene-slugs";
 import WhenNear from "@/components/marketing/home/scenes/when-near";
+import { SceneLayer, ScenePlayer } from "@/components/marketing/scene-player";
+import { versioned } from "@/data/asset-version";
 import { cn } from "@/lib/utils";
 
 type Locale = "de" | "en";
@@ -92,18 +94,27 @@ interface Facts {
  * index into its pictures, or a picture's file name without its locale
  * suffix) or a metric drawn as a ring (`ring`, an index into its metrics).
  * `line` is the result or metric the tile stands for. `frame` replaces the
- * shape's classes, for a scene with its own shapes. */
+ * shape's classes, for a scene with its own shapes. A scene has a `name` (a
+ * key of scenes.names) and pause and restart buttons, unless `controls` is
+ * false (it holds still or ends within 5 s) or puts them elsewhere;
+ * `interactive` scenes name
+ * their picture themselves; `stills` are what the server sends until the
+ * scene loads, and all there is without JavaScript. */
 interface Tile {
+	controls?: string | false;
 	frame?: string;
 	id: string;
 	image?: number | string;
+	interactive?: true;
 	line?: (facts: Facts) => string | undefined;
+	name?: string;
 	render?: (locale: Locale, facts: Facts) => ReactNode;
 	ring?: number;
 	shape: "film" | "full" | "tall" | "wide";
 	/** For a screen whose crop has to be chosen: the sheet's top, its shape
 	 * and where the screen sits in it. */
 	sheet?: { aspect: number; position: string; top: string };
+	stills?: (locale: Locale) => { compact: string; wide: string };
 }
 
 const result = (index: number) => (facts: Facts) => facts.results?.[index];
@@ -129,28 +140,48 @@ const metric = (index: number) => (facts: Facts) => {
 
 const tiles: Record<ProjectSceneSlug, Tile[]> = {
 	finanzierungszertifikat: [
-		{ id: "form", shape: "wide", line: result(1), render: () => <FzScene /> },
+		{
+			id: "form",
+			shape: "wide",
+			line: result(1),
+			name: "fz",
+			render: () => <FzScene />,
+		},
 		{
 			id: "admin",
 			shape: "tall",
 			line: result(3),
+			name: "operate",
 			render: () => <OperateScene />,
 		},
 		{
 			id: "summary",
 			shape: "wide",
 			line: result(2),
+			name: "summary",
 			render: () => <FzSummaryScene />,
 		},
 		{ id: "certificate", shape: "tall", line: result(4), image: 1 },
 	],
 	hyyve: [
-		{ id: "orbit", shape: "wide", render: () => <HyyveOrbit /> },
-		{ id: "beam", shape: "tall", line: metric(3), render: () => <HyyveBeam /> },
+		{
+			id: "orbit",
+			shape: "wide",
+			name: "hyyveOrbit",
+			render: () => <HyyveOrbit />,
+		},
+		{
+			id: "beam",
+			shape: "tall",
+			line: metric(3),
+			name: "hyyveBeam",
+			render: () => <HyyveBeam />,
+		},
 		{
 			id: "steps",
 			shape: "wide",
 			line: metric(1),
+			name: "steps",
 			render: () => <HyyveStepsScene />,
 		},
 		{ id: "screen", shape: "tall", image: 2 },
@@ -160,6 +191,7 @@ const tiles: Record<ProjectSceneSlug, Tile[]> = {
 			id: "calls",
 			shape: "wide",
 			line: metric(3),
+			name: "keel",
 			render: () => <KeelScene />,
 		},
 		{ id: "guard", shape: "tall", line: metric(2), image: 0 },
@@ -167,8 +199,10 @@ const tiles: Record<ProjectSceneSlug, Tile[]> = {
 	kernspan: [
 		{
 			id: "film",
+			interactive: true,
 			shape: "film",
 			line: metric(1),
+			name: "kernspan",
 			render: (locale) => (
 				<KernspanDamper
 					label={
@@ -187,17 +221,25 @@ const tiles: Record<ProjectSceneSlug, Tile[]> = {
 	"maerkische-projekt-bau": [
 		// The site's own first screen leads: the house, half drawing, half built.
 		{ id: "hero", shape: "full", line: result(0), image: 3 },
-		{ id: "gaeb", shape: "wide", line: result(4), render: () => <MpbScene /> },
+		{
+			id: "gaeb",
+			shape: "wide",
+			line: result(4),
+			name: "mpb",
+			render: () => <MpbScene />,
+		},
 		{
 			id: "assistant",
 			shape: "tall",
 			line: result(2),
+			name: "automate",
 			render: () => <AutomateScene />,
 		},
 		{
 			id: "takeoff",
 			shape: "wide",
 			line: result(5),
+			name: "takeoff",
 			render: () => <TakeoffScene />,
 		},
 		{ id: "site", shape: "tall", line: result(1), image: 1 },
@@ -211,12 +253,14 @@ const tiles: Record<ProjectSceneSlug, Tile[]> = {
 			id: "languages",
 			shape: "wide",
 			line: metric(1),
+			name: "owl",
 			render: () => <OwlScene />,
 		},
 		{
 			id: "launch",
 			shape: "tall",
 			line: metric(2),
+			name: "launch",
 			render: (locale) => <LaunchScene locale={locale} />,
 		},
 		{ id: "score", shape: "wide", ring: 0 },
@@ -227,12 +271,16 @@ const tiles: Record<ProjectSceneSlug, Tile[]> = {
 			id: "session",
 			shape: "wide",
 			line: result(2),
+			name: "rb",
 			render: (locale) => <RbScene locale={locale} />,
 		},
 		{
+			// A still: nothing moves
+			controls: false,
 			id: "vault",
 			shape: "tall",
 			line: result(0),
+			name: "vault",
 			render: (_locale, facts) => (
 				<VaultScene
 					facts={[metric(2)(facts), metric(1)(facts)].filter(
@@ -254,13 +302,28 @@ const tiles: Record<ProjectSceneSlug, Tile[]> = {
 			// (1000px); a hairline keeps the dark scene's edge on a dark page
 			frame:
 				"aspect-[358/376] bg-[#0f1214] @[1000px]:aspect-[1164/592] dark:ring-1 dark:ring-white/10",
+			// On the phone design the composer runs along the foot, so the
+			// buttons sit over the film still at the top
+			controls: "top-3 right-3 @[1000px]:top-auto @[1000px]:bottom-3",
 			line: result(1),
+			name: "ask",
 			render: (locale) => <HeroScene locale={locale} />,
+			// The scene's own still (its last frame, as reduced motion shows it),
+			// in both designs
+			stills: (locale) => {
+				const suffix = locale === "de" ? "-de" : "";
+				const base = "/images/case-studies/screencurve/ask-the-film-scene";
+				return {
+					compact: versioned(`${base}-compact${suffix}.webp`),
+					wide: versioned(`${base}${suffix}.webp`),
+				};
+			},
 		},
 		{
 			id: "constellation",
 			shape: "wide",
 			line: result(2),
+			name: "sc",
 			render: (locale) => <ScScene locale={locale} />,
 		},
 		// The Formatbibel from inside the panel's edge past its text column
@@ -277,9 +340,12 @@ const tiles: Record<ProjectSceneSlug, Tile[]> = {
 	],
 	"von-platen-coaching": [
 		{
+			// Comes to rest within 5 s
+			controls: false,
 			id: "scale",
 			shape: "wide",
 			line: result(5),
+			name: "vp",
 			render: (locale) => <VpScene locale={locale} />,
 		},
 		{ id: "topics", shape: "tall", line: result(3), image: 1 },
@@ -428,6 +494,64 @@ function rows(list: Tile[]): Tile[][] {
 	return out;
 }
 
+/** A live scene in its tile: named for screen readers, with its pause and
+ * restart buttons, and its stills until it loads. A scene with controls of
+ * its own (the Kernspan rail) names its picture itself, so they stay
+ * reachable. */
+function SceneTile({
+	facts,
+	locale,
+	tile,
+}: {
+	facts: Facts;
+	locale: Locale;
+	tile: Tile;
+}) {
+	const names = useTranslations("scenes.names");
+	const label = tile.name ? names(tile.name) : undefined;
+	const stills = tile.stills?.(locale);
+	const body = (
+		<>
+			{stills && (
+				<div className="absolute inset-0 group-has-[.ss-stage]/scene:hidden">
+					<Image
+						alt=""
+						className="@[1000px]:hidden object-cover"
+						fill
+						sizes="100vw"
+						src={stills.compact}
+					/>
+					<Image
+						alt=""
+						className="@[1000px]:block hidden object-cover"
+						fill
+						sizes="(min-width: 1280px) 1180px, 100vw"
+						src={stills.wide}
+					/>
+				</div>
+			)}
+			<SceneLayer>
+				<WhenNear>{tile.render?.(locale, facts)}</WhenNear>
+			</SceneLayer>
+		</>
+	);
+	return (
+		<ScenePlayer className="absolute inset-0" controls={tile.controls}>
+			{tile.interactive ? (
+				<div className="group/scene absolute inset-0">{body}</div>
+			) : (
+				<div
+					aria-label={label}
+					className="group/scene absolute inset-0"
+					role="img"
+				>
+					{body}
+				</div>
+			)}
+		</ScenePlayer>
+	);
+}
+
 /** The project in tiles: its live scenes, some of its own screens and a
  * score, each with the line of the case study it stands for. */
 export default function CaseStudyScenes({
@@ -446,7 +570,7 @@ export default function CaseStudyScenes({
 
 	const content = (tile: Tile) => {
 		if (tile.render) {
-			return <WhenNear>{tile.render(locale, facts)}</WhenNear>;
+			return <SceneTile facts={facts} locale={locale} tile={tile} />;
 		}
 		const index = pictureIndex(tile, images);
 		const picture = index === undefined ? undefined : images?.[index];

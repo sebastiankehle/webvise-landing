@@ -4,6 +4,7 @@ import { Marquee } from "@/components/magicui/marquee";
 import { ActionArrow } from "@/components/marketing/action";
 import { QuoteAuthor } from "@/components/marketing/quote-author";
 import { QuoteStack } from "@/components/marketing/quote-stack";
+import { ScenePlayer } from "@/components/marketing/scene-player";
 import { SectionHeading } from "@/components/marketing/section-heading";
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import StaggerChildren from "@/components/marketing/stagger-children";
@@ -78,14 +79,17 @@ export default async function Voices() {
 					more={tt("more")}
 				/>
 			</div>
-			<StaggerChildren className="mt-14 hidden flex-col gap-5 overflow-hidden [-webkit-mask-image:linear-gradient(to_right,transparent,black_2rem,black_calc(100%-2rem),transparent)] [mask-image:linear-gradient(to_right,transparent,black_2rem,black_calc(100%-2rem),transparent)] md:flex">
-				<Marquee className="[--duration:55s]" repeat={3}>
-					{firstRow.map((key) => card(key, "w-[420px] lg:w-[460px]"))}
-				</Marquee>
-				<Marquee className="[--duration:55s]" repeat={3} reverse>
-					{secondRow.map((key) => card(key, "w-[420px] lg:w-[460px]"))}
-				</Marquee>
-			</StaggerChildren>
+			{/* The rows scroll on their own: the buttons sit above them, clear of the quotes */}
+			<ScenePlayer className="mt-14 hidden md:block" controls="-top-11 right-0">
+				<StaggerChildren className="flex flex-col gap-5 overflow-hidden [-webkit-mask-image:linear-gradient(to_right,transparent,black_2rem,black_calc(100%-2rem),transparent)] [mask-image:linear-gradient(to_right,transparent,black_2rem,black_calc(100%-2rem),transparent)]">
+					<Marquee className="[--duration:55s]" repeat={3}>
+						{firstRow.map((key) => card(key, "w-[420px] lg:w-[460px]"))}
+					</Marquee>
+					<Marquee className="[--duration:55s]" repeat={3} reverse>
+						{secondRow.map((key) => card(key, "w-[420px] lg:w-[460px]"))}
+					</Marquee>
+				</StaggerChildren>
+			</ScenePlayer>
 		</SectionWrapper>
 	);
 }

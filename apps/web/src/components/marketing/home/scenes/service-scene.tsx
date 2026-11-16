@@ -2,8 +2,10 @@
 
 import dynamic from "next/dynamic";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
 
+import { SceneLayer, ScenePlayer } from "@/components/marketing/scene-player";
 import WhenNear from "./when-near";
 
 type Kind = "automate" | "launch" | "operate";
@@ -34,17 +36,26 @@ export default function ServiceScene({
 		operate: "/images/home/services/operate-v2.webp",
 	};
 	const opening = openings[kind];
+	const names = useTranslations("scenes.names");
 	return (
-		<div className="group/scene absolute inset-0">
-			<Image
-				alt=""
-				className="object-cover group-has-[.ss-stage]/scene:hidden"
-				fill
-				quality={90}
-				sizes="(max-width: 1024px) 100vw, 400px"
-				src={opening}
-			/>
-			<WhenNear>{scenes[kind](locale)}</WhenNear>
-		</div>
+		<ScenePlayer className="absolute inset-0">
+			<div
+				aria-label={names(kind)}
+				className="group/scene absolute inset-0"
+				role="img"
+			>
+				<Image
+					alt=""
+					className="object-cover group-has-[.ss-stage]/scene:hidden"
+					fill
+					quality={90}
+					sizes="(max-width: 1024px) 100vw, 400px"
+					src={opening}
+				/>
+				<SceneLayer>
+					<WhenNear>{scenes[kind](locale)}</WhenNear>
+				</SceneLayer>
+			</div>
+		</ScenePlayer>
 	);
 }

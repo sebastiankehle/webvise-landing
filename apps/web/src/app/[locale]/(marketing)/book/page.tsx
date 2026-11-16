@@ -138,7 +138,11 @@ export default async function BookPage({ params }: { params: LocaleParams }) {
 											className="absolute -right-0.5 -bottom-0.5 flex size-4 items-center justify-center rounded-full bg-background"
 										>
 											<span className="relative flex size-2.5">
-												<span className="absolute inset-0 animate-ping rounded-full bg-success/60 motion-reduce:animate-none" />
+												{/* Three pings, then still: under 5 s (WCAG 2.2.2) */}
+												<span
+													className="absolute inset-0 animate-ping rounded-full bg-success/60 motion-reduce:animate-none"
+													style={{ animationIterationCount: 3 }}
+												/>
 												<span className="relative size-2.5 rounded-full bg-success" />
 											</span>
 										</span>

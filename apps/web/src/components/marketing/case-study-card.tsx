@@ -1,8 +1,14 @@
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 
-import ProjectScene from "@/components/marketing/home/scenes/project-scene";
-import { hasProjectScene } from "@/components/marketing/home/scenes/project-scene-slugs";
+import ProjectScene, {
+	ProjectSceneDescription,
+} from "@/components/marketing/home/scenes/project-scene";
+import {
+	hasProjectScene,
+	projectSceneControls,
+} from "@/components/marketing/home/scenes/project-scene-slugs";
+import { ScenePlayer } from "@/components/marketing/scene-player";
 import { Caption, H3, Muted } from "@/components/ui/typography";
 import type { CaseStudy } from "@/data/case-studies";
 import { Link } from "@/i18n/navigation";
@@ -63,48 +69,75 @@ export function CaseStudyCard({
 	const image = screen
 		? (caseStudy.coverImage ?? caseStudy.cardImage)
 		: (caseStudy.cardImage ?? caseStudy.coverImage);
+	// A live scene describes the link instead of opening its name
+	const sceneSlug =
+		image && hasProjectScene(caseStudy.slug) && !screen
+			? caseStudy.slug
+			: undefined;
+	const described = sceneSlug && `card-scene-${sceneSlug}`;
 	return (
-		<Link
-			className={cn(
-				"surface-card group flex flex-col justify-between overflow-hidden outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
-				className
-			)}
-			href={{
-				pathname: "/case-studies/[slug]",
-				params: { slug: caseStudy.slug },
-			}}
+		// The scene's buttons sit beside the link, over the picture's corner
+		<ScenePlayer
+			className={cn("flex", className)}
+			controls={
+				Boolean(image) && !screen && projectSceneControls(caseStudy.slug)
+			}
 		>
-			{image && (
-				<div className="media-frame relative aspect-[16/10] w-full bg-foreground/[0.04]">
-					{hasProjectScene(caseStudy.slug) && !screen ? (
-						<ProjectScene opening={image} sizes={sizes} slug={caseStudy.slug} />
-					) : (
-						<Image
-							alt={`${caseStudy.client} - ${caseStudy.title}`}
-							className="object-cover object-left-top transition-all duration-500 group-hover:brightness-110"
-							fill
-							priority={priority}
-							sizes={sizes}
-							src={image}
-						/>
-					)}
+			<Link
+				aria-describedby={described}
+				className="surface-card group flex flex-1 flex-col justify-between overflow-hidden outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+				href={{
+					pathname: "/case-studies/[slug]",
+					params: { slug: caseStudy.slug },
+				}}
+			>
+				{image && (
+					<div className="media-frame relative aspect-[16/10] w-full bg-foreground/[0.04]">
+						{sceneSlug ? (
+							<ProjectScene
+								inLink
+								opening={image}
+								sizes={sizes}
+								slug={sceneSlug}
+							/>
+						) : (
+							<Image
+								alt={`${caseStudy.client} - ${caseStudy.title}`}
+								className="object-cover object-left-top transition-all duration-500 group-hover:brightness-110"
+								fill
+								priority={priority}
+								sizes={sizes}
+								src={image}
+							/>
+						)}
+					</div>
+				)}
+				<div className="flex flex-1 flex-col p-6 md:p-7">
+					{/* The spaces keep the link's name in words */}
+					<Caption className="block text-brand-readable">
+						{caseStudy.industry}
+					</Caption>{" "}
+					<H3 className="mt-3">{caseStudy.title}</H3>{" "}
+					<Muted className="mt-3 line-clamp-4">{caseStudy.excerpt}</Muted>
+					<div className="mt-auto flex items-center justify-end pt-6">
+						<ArrowRight className="h-4 w-4 text-brand-icon transition-transform duration-300 group-hover:translate-x-1" />
+					</div>
 				</div>
+			</Link>
+			{sceneSlug && (
+				<ProjectSceneDescription
+					id={`card-scene-${sceneSlug}`}
+					slug={sceneSlug}
+				/>
 			)}
-			<div className="flex flex-1 flex-col p-6 md:p-7">
-				<Caption className="block text-brand-readable">
-					{caseStudy.industry}
-				</Caption>
-				<H3 className="mt-3">{caseStudy.title}</H3>
-				<Muted className="mt-3 line-clamp-4">{caseStudy.excerpt}</Muted>
-				<div className="mt-auto flex items-center justify-end pt-6">
-					<ArrowRight className="h-4 w-4 text-brand-icon transition-transform duration-300 group-hover:translate-x-1" />
-				</div>
-			</div>
-		</Link>
+		</ScenePlayer>
 	);
 }
 
-/** The card of the work overview: text first, the picture set in below. */
+/** The card of the work overview: text first, the picture set in below.
+ * The text is the link, stretched over the whole card; the picture sits
+ * beside it, so a live scene's pause and restart buttons stay out of the
+ * link and sit on the picture's top corner, clear of the scene. */
 export function CaseStudyListCard({
 	caseStudy,
 	priority = false,
@@ -113,14 +146,14 @@ export function CaseStudyListCard({
 	priority?: boolean;
 }) {
 	return (
-		<Link
-			className="surface-card group relative flex min-h-[340px] flex-col overflow-hidden outline-none focus-visible:ring-2 focus-visible:ring-ring/50 md:min-h-0"
-			href={{
-				pathname: "/case-studies/[slug]",
-				params: { slug: caseStudy.slug },
-			}}
-		>
-			<div className="flex items-start justify-between gap-4 p-5 md:p-6 md:pb-4">
+		<div className="surface-card group relative flex min-h-[340px] flex-col overflow-hidden has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-ring/50 md:min-h-0">
+			<Link
+				className="flex items-start justify-between gap-4 p-5 outline-none after:absolute after:inset-0 after:z-[1] md:p-6 md:pb-4"
+				href={{
+					pathname: "/case-studies/[slug]",
+					params: { slug: caseStudy.slug },
+				}}
+			>
 				<div className="min-w-0">
 					<Caption className="block text-brand-readable">
 						{caseStudy.client} &middot; {caseStudy.industry}
@@ -149,17 +182,20 @@ export function CaseStudyListCard({
 					)}
 				</div>
 				<ArrowRight className="h-4 w-4 shrink-0 text-brand-icon transition-transform duration-300 group-hover:translate-x-1" />
-			</div>
+			</Link>
 			{caseStudy.coverImage && (
 				<div className="relative mt-auto min-h-0 flex-1 pl-5 md:pl-6">
 					{hasProjectScene(caseStudy.slug) && !screenFirst(caseStudy) ? (
-						<div className="media-frame relative aspect-[16/10] w-full bg-foreground/[0.04]">
+						<ScenePlayer
+							className="media-frame aspect-[16/10] w-full bg-foreground/[0.04]"
+							controls={projectSceneControls(caseStudy.slug)}
+						>
 							<ProjectScene
 								opening={caseStudy.cardImage ?? caseStudy.coverImage}
 								sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
 								slug={caseStudy.slug}
 							/>
-						</div>
+						</ScenePlayer>
 					) : (
 						<div className="media-frame relative h-full min-h-[180px] w-full">
 							<Image
@@ -174,6 +210,6 @@ export function CaseStudyListCard({
 					)}
 				</div>
 			)}
-		</Link>
+		</div>
 	);
 }

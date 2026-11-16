@@ -33,6 +33,9 @@
 	--brand: oklch(0.75 0.18 55);
 	--brand-hover: oklch(0.68 0.19 50);
 	--brand-text: oklch(0.75 0.18 55);
+	/* Text links: the brand orange darkened to 4.5:1 or more
+	   on every light surface (WCAG 1.4.3). */
+	--brand-link: oklch(0.525 0.13 55);
 	--brand-icon: oklch(0.75 0.18 55);
 	--brand-border: oklch(0.82 0.12 62);
 	--brand-surface: oklch(0.965 0.032 70);
@@ -41,6 +44,7 @@
 	--brand-base: oklch(0.75 0.18 55);
 	--brand-hover-base: oklch(0.68 0.19 50);
 	--brand-text-base: oklch(0.75 0.18 55);
+	--brand-link-base: oklch(0.525 0.13 55);
 	--brand-icon-base: oklch(0.75 0.18 55);
 	--brand-border-base: oklch(0.82 0.12 62);
 	--brand-surface-base: oklch(0.965 0.032 70);
@@ -66,6 +70,7 @@
 	--surface-inverted-brand: oklch(0.75 0.18 55);
 	--surface-inverted-brand-hover: oklch(0.68 0.19 50);
 	--surface-inverted-brand-text: oklch(0.75 0.18 55);
+	--surface-inverted-brand-link: oklch(0.75 0.18 55);
 	--surface-inverted-brand-icon: oklch(0.75 0.18 55);
 	--surface-inverted-brand-border: oklch(0.45 0.08 55);
 	--surface-inverted-brand-surface: oklch(0.23 0.035 55);
@@ -120,6 +125,7 @@
 	--brand: oklch(0.75 0.18 55);
 	--brand-hover: oklch(0.68 0.19 50);
 	--brand-text: oklch(0.75 0.18 55);
+	--brand-link: oklch(0.75 0.18 55);
 	--brand-icon: oklch(0.75 0.18 55);
 	--brand-border: oklch(0.46 0.08 55);
 	--brand-surface: oklch(0.25 0.04 55);
@@ -128,6 +134,7 @@
 	--brand-base: oklch(0.75 0.18 55);
 	--brand-hover-base: oklch(0.68 0.19 50);
 	--brand-text-base: oklch(0.75 0.18 55);
+	--brand-link-base: oklch(0.75 0.18 55);
 	--brand-icon-base: oklch(0.75 0.18 55);
 	--brand-border-base: oklch(0.46 0.08 55);
 	--brand-surface-base: oklch(0.25 0.04 55);
@@ -153,6 +160,7 @@
 	--surface-inverted-brand: oklch(0.75 0.18 55);
 	--surface-inverted-brand-hover: oklch(0.68 0.19 50);
 	--surface-inverted-brand-text: oklch(0.75 0.18 55);
+	--surface-inverted-brand-link: oklch(0.525 0.13 55);
 	--surface-inverted-brand-icon: oklch(0.75 0.18 55);
 	--surface-inverted-brand-border: oklch(0.82 0.12 62);
 	--surface-inverted-brand-surface: oklch(0.965 0.032 70);
@@ -200,6 +208,7 @@
 	--brand: var(--alternate-brand, var(--brand-base));
 	--brand-hover: var(--alternate-brand-hover, var(--brand-hover-base));
 	--brand-text: var(--alternate-brand-text, var(--brand-text-base));
+	--brand-link: var(--alternate-brand-link, var(--brand-link-base));
 	--brand-icon: var(--alternate-brand-icon, var(--brand-icon-base));
 	--brand-border: var(--alternate-brand-border, var(--brand-border-base));
 	--brand-surface: var(--alternate-brand-surface, var(--brand-surface-base));
@@ -239,6 +248,7 @@
 	--brand: var(--surface-inverted-brand, var(--brand-base));
 	--brand-hover: var(--surface-inverted-brand-hover, var(--brand-hover-base));
 	--brand-text: var(--surface-inverted-brand-text, var(--brand-text-base));
+	--brand-link: var(--surface-inverted-brand-link, var(--brand-link-base));
 	--brand-icon: var(--surface-inverted-brand-icon, var(--brand-icon-base));
 	--brand-border: var(
 		--surface-inverted-brand-border,
@@ -308,6 +318,7 @@
 	--color-brand: var(--brand);
 	--color-brand-hover: var(--brand-hover);
 	--color-brand-text: var(--brand-text);
+	--color-brand-link: var(--brand-link);
 	--color-brand-icon: var(--brand-icon);
 	--color-brand-border: var(--brand-border);
 	--color-brand-surface: var(--brand-surface);
@@ -402,12 +413,16 @@
 }
 
 a.surface-card,
-button.surface-card {
+button.surface-card,
+.surface-card:has(> a) {
 	transition: background-color 0.2s ease;
 }
 
+/* A card whose link is stretched over it (after:inset-0) lights like a
+   card that is a link */
 a.surface-card:hover,
-button.surface-card:hover {
+button.surface-card:hover,
+.surface-card:has(> a:hover) {
 	background-color: var(--surface-card-fill-hover);
 }
 
@@ -689,4 +704,11 @@ button.surface-card:hover {
 	.process-steps.stagger-hidden .process-step-line {
 		transform: none;
 	}
+}
+
+/* ── Paused scenes (ScenePlayer): CSS animations hold where they are ── */
+[data-scene-paused] *,
+[data-scene-paused] *::before,
+[data-scene-paused] *::after {
+	animation-play-state: paused !important;
 }

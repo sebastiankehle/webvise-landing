@@ -8,9 +8,15 @@ import { ActionArrow, ActionLink } from "@/components/marketing/action";
 import { CaseStudyCard } from "@/components/marketing/case-study-card";
 import { FaqList } from "@/components/marketing/faq-list";
 import { FilmStillsNote } from "@/components/marketing/film-credits";
-import ProjectScene from "@/components/marketing/home/scenes/project-scene";
-import { hasProjectScene } from "@/components/marketing/home/scenes/project-scene-slugs";
+import ProjectScene, {
+	ProjectSceneDescription,
+} from "@/components/marketing/home/scenes/project-scene";
+import {
+	hasProjectScene,
+	projectSceneControls,
+} from "@/components/marketing/home/scenes/project-scene-slugs";
 import ReportDownloadForm from "@/components/marketing/report-download-form";
+import { ScenePlayer } from "@/components/marketing/scene-player";
 import SectionWrapper, {
 	ConstructedGrid,
 	GridContainer,
@@ -94,6 +100,17 @@ export async function generateMetadata({
 	};
 }
 
+/** The slug of the proof's live scene, when the card shows one; the scene
+ * then describes the card's link. */
+function liveSceneSlug(
+	caseStudy: ReturnType<typeof getCaseStudyBySlug>,
+	still: boolean | undefined
+) {
+	return caseStudy && hasProjectScene(caseStudy.slug) && !still
+		? caseStudy.slug
+		: undefined;
+}
+
 export default async function ServicePage({
 	params,
 }: {
@@ -136,6 +153,7 @@ async function ServiceOfferingPage({ offering }: { offering: Offering }) {
 	const deck = getDeckBySlug(slug);
 	const proof = getOfferingProof(offering);
 	const proofCaseStudy = getCaseStudyBySlug(proof.caseStudySlug, locale);
+	const proofScene = liveSceneSlug(proofCaseStudy, proof.still);
 	const proofShots = proofScreens(proof.shots, proofCaseStudy);
 	const relatedOfferings = getRelatedOfferings(slug);
 	// Projects that used this offering first, then other featured work. The
@@ -259,58 +277,73 @@ async function ServiceOfferingPage({ offering }: { offering: Offering }) {
 
 						{/* The proof project, as its live scene in a frame */}
 						{proofCaseStudy && (
-							<Link
-								className="group/arrow block outline-none lg:col-span-6"
-								href={{
-									pathname: "/case-studies/[slug]",
-									params: { slug: proofCaseStudy.slug },
-								}}
+							// The scene's buttons sit beside the link, over the picture's corner
+							<ScenePlayer
+								className="lg:col-span-6"
+								controls={
+									!proof.still &&
+									projectSceneControls(proofCaseStudy.slug, true)
+								}
 							>
-								<div className="rounded-[20px] bg-card p-2 shadow-[0_0_0_1px_rgba(14,18,23,0.06),0_24px_48px_-36px_rgba(14,18,23,0.35)] ring-ring/70 ring-offset-4 ring-offset-background group-focus-visible/arrow:ring-2 dark:shadow-[0_0_0_1px_rgba(255,255,255,0.08)]">
-									<div className="relative aspect-[16/10] overflow-hidden rounded-[14px] bg-foreground/[0.04]">
-										{hasProjectScene(proofCaseStudy.slug) && !proof.still ? (
-											<ProjectScene
-												opening={
-													proofCaseStudy.cardImage ??
-													proofCaseStudy.coverImage ??
-													proof.image ??
-													""
-												}
-												priority
-												sizes="(min-width: 1024px) 620px, 100vw"
-												slug={proofCaseStudy.slug}
-											/>
-										) : (
-											<Image
-												alt={`${proofCaseStudy.client}: ${proofCaseStudy.title}`}
-												className={cn(
-													"object-cover object-left-top",
-													proof.imageClassName
-												)}
-												fill
-												priority
-												quality={90}
-												sizes="(min-width: 1024px) 620px, 100vw"
-												src={proof.image ?? proofCaseStudy.coverImage ?? ""}
-											/>
-										)}
+								<Link
+									aria-describedby={proofScene && `proof-scene-${proofScene}`}
+									className="group/arrow block outline-none"
+									href={{
+										pathname: "/case-studies/[slug]",
+										params: { slug: proofCaseStudy.slug },
+									}}
+								>
+									<div className="rounded-[20px] bg-card p-2 shadow-[0_0_0_1px_rgba(14,18,23,0.06),0_24px_48px_-36px_rgba(14,18,23,0.35)] ring-ring/70 ring-offset-4 ring-offset-background group-focus-visible/arrow:ring-2 dark:shadow-[0_0_0_1px_rgba(255,255,255,0.08)]">
+										<div className="relative aspect-[16/10] overflow-hidden rounded-[14px] bg-foreground/[0.04]">
+											{proofScene ? (
+												<ProjectScene
+													inLink
+													opening={
+														proofCaseStudy.cardImage ??
+														proofCaseStudy.coverImage ??
+														proof.image ??
+														""
+													}
+													priority
+													sizes="(min-width: 1024px) 620px, 100vw"
+													slug={proofScene}
+												/>
+											) : (
+												<Image
+													alt={`${proofCaseStudy.client}: ${proofCaseStudy.title}`}
+													className={cn(
+														"object-cover object-left-top",
+														proof.imageClassName
+													)}
+													fill
+													priority
+													quality={90}
+													sizes="(min-width: 1024px) 620px, 100vw"
+													src={proof.image ?? proofCaseStudy.coverImage ?? ""}
+												/>
+											)}
+										</div>
 									</div>
-								</div>
-								<div className="mt-4 flex flex-wrap items-center justify-between gap-x-8 gap-y-1 px-2 text-base">
-									<span className="text-foreground">
-										{td(
-											proofCaseStudy.kind === "concept"
-												? "conceptStudyLabel"
-												: "recentProjectLabel",
-											{ client: proofCaseStudy.client }
-										)}
-									</span>
-									<span className="inline-flex items-center gap-1.5 font-medium text-foreground">
-										{td("proofCta")}
-										<ActionArrow />
-									</span>
-								</div>
-							</Link>
+									<div className="mt-4 flex flex-wrap items-center justify-between gap-x-8 gap-y-1 px-2 text-base">
+										<span className="text-foreground">
+											{td(
+												proofCaseStudy.kind === "concept"
+													? "conceptStudyLabel"
+													: "recentProjectLabel",
+												{ client: proofCaseStudy.client }
+											)}
+										</span>{" "}
+										<span className="inline-flex items-center gap-1.5 font-medium text-foreground">
+											{td("proofCta")}
+											<ActionArrow />
+										</span>
+									</div>
+								</Link>
+								<ProjectSceneDescription
+									id={`proof-scene-${proofScene}`}
+									slug={proofScene}
+								/>
+							</ScenePlayer>
 						)}
 					</div>
 				</GridContainer>
