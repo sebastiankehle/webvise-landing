@@ -11,6 +11,7 @@ import {
 	RetrievalFigure,
 	SourceFigure,
 } from "@/components/marketing/home/scenes/hyyve-figures";
+import PageScroll from "@/components/marketing/home/scenes/page-scroll";
 import HyyveOrbit from "@/components/marketing/home/scenes/project-hyyve";
 import KernspanDamper from "@/components/marketing/home/scenes/project-kernspan";
 import type { ProjectSceneSlug } from "@/components/marketing/home/scenes/project-scene-slugs";
@@ -336,6 +337,29 @@ const tiles: Record<ProjectSceneSlug, Tile[]> = {
 			line: result(0),
 			image: "formatbibel",
 			sheet: { aspect: 1.193, position: "35.5% 0%", top: "9%" },
+		},
+		// The product's own landing page, whole, as a visitor scrolls it. The
+		// page is white, so the tile gets the hairline of the scene above; the
+		// buttons sit at the foot, clear of the page's header
+		{
+			id: "landing",
+			shape: "full",
+			frame:
+				"aspect-[358/268] bg-white ring-1 ring-[#e3e8ee] @[600px]:aspect-[1164/592] dark:ring-0",
+			controls: "right-3 bottom-3",
+			line: result(9),
+			name: "scPage",
+			render: (locale) => (
+				<PageScroll
+					height={9120}
+					long
+					sizes="(min-width: 1320px) 1272px, 100vw"
+					src={versioned(
+						`/images/case-studies/screencurve/landing-page${locale === "de" ? "-de" : ""}.webp`
+					)}
+					width={2160}
+				/>
+			),
 		},
 	],
 	"von-platen-coaching": [
