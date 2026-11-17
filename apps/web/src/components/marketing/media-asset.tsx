@@ -12,16 +12,19 @@ type Variant = "light" | "inverted" | "brand";
 const mediaAssetCanvasPalette = {
 	brand: {
 		bg: "#ff8918",
+		rest: "rgba(250,250,250,0.7)",
 		sub: "rgba(250,250,250,0.8)",
 		text: "#fafafa",
 	},
 	inverted: {
 		bg: "#050a0f",
+		rest: "rgba(236,239,241,0.45)",
 		sub: "#999fa4",
 		text: "#eceff1",
 	},
 	light: {
 		bg: "#f8fafb",
+		rest: "rgba(14,18,23,0.45)",
 		sub: "#5a6169",
 		text: "#0e1217",
 	},
@@ -43,34 +46,42 @@ const variantStyles: Record<
 	{
 		bg: string;
 		text: string;
+		rest: string;
 		sub: string;
 		canvasBg: string;
 		canvasText: string;
+		canvasRest: string;
 		canvasSub: string;
 	}
 > = {
 	light: {
 		bg: "bg-background",
 		text: "text-foreground",
+		rest: "text-foreground/45",
 		sub: "text-muted-foreground",
 		canvasBg: mediaAssetCanvasPalette.light.bg,
 		canvasText: mediaAssetCanvasPalette.light.text,
+		canvasRest: mediaAssetCanvasPalette.light.rest,
 		canvasSub: mediaAssetCanvasPalette.light.sub,
 	},
 	inverted: {
 		bg: marketingSurfaceClassName("inverted"),
 		text: "text-foreground",
+		rest: "text-foreground/45",
 		sub: "text-muted-foreground",
 		canvasBg: mediaAssetCanvasPalette.inverted.bg,
 		canvasText: mediaAssetCanvasPalette.inverted.text,
+		canvasRest: mediaAssetCanvasPalette.inverted.rest,
 		canvasSub: mediaAssetCanvasPalette.inverted.sub,
 	},
 	brand: {
 		bg: "bg-brand",
 		text: "text-brand-foreground",
+		rest: "text-brand-foreground/70",
 		sub: "text-brand-foreground/80",
 		canvasBg: mediaAssetCanvasPalette.brand.bg,
 		canvasText: mediaAssetCanvasPalette.brand.text,
+		canvasRest: mediaAssetCanvasPalette.brand.rest,
 		canvasSub: mediaAssetCanvasPalette.brand.sub,
 	},
 };
@@ -119,6 +130,37 @@ function drawGridPattern(ctx: CanvasRenderingContext2D, w: number, h: number) {
 		ctx.lineTo(w, y);
 		ctx.stroke();
 	}
+}
+
+/** The home page's headline: its lead and its rest. */
+export type Tagline = readonly [lead: string, rest: string];
+
+/** The headline in two lines, the second one quieter, set as the home page
+ * sets it. `y` is the middle of the first line. */
+function drawTagline(
+	ctx: CanvasRenderingContext2D,
+	[lead, rest]: Tagline,
+	{
+		colors,
+		fontFamily,
+		size,
+		x,
+		y,
+	}: {
+		colors: { canvasRest: string; canvasText: string };
+		fontFamily: string;
+		size: number;
+		x: number;
+		y: number;
+	}
+) {
+	ctx.font = `500 ${size}px ${fontFamily}`;
+	ctx.letterSpacing = `${-0.03 * size}px`;
+	ctx.fillStyle = colors.canvasText;
+	ctx.fillText(lead, x, y);
+	ctx.fillStyle = colors.canvasRest;
+	ctx.fillText(rest, x, y + Math.round(size * 1.14));
+	ctx.letterSpacing = "0px";
 }
 
 function WebviseLogo({ size = 64 }: { size?: number }) {
@@ -229,7 +271,7 @@ interface BannerProps {
 	filename: string;
 	height: number;
 	subtitle: string;
-	tagline: string;
+	tagline: Tagline;
 	variant?: Variant;
 	width: number;
 }
@@ -280,23 +322,22 @@ export function BannerAsset({
 				ctx.textAlign = "right";
 				ctx.textBaseline = "middle";
 
-				const mainFontSize = Math.round(42 * scaleFactor);
 				const subFontSize = Math.round(22 * scaleFactor);
 
-				ctx.fillStyle = style.canvasText;
-				ctx.font = `400 ${mainFontSize}px ${fontFamily}`;
-				ctx.fillText(
-					tagline,
-					textRightEdge,
-					height / 2 - Math.round(14 * scaleFactor)
-				);
+				drawTagline(ctx, tagline, {
+					colors: style,
+					fontFamily,
+					size: Math.round(42 * scaleFactor),
+					x: textRightEdge,
+					y: height / 2 - Math.round(42 * scaleFactor),
+				});
 
 				ctx.fillStyle = style.canvasSub;
 				ctx.font = `400 ${subFontSize}px ${fontFamily}`;
 				ctx.fillText(
 					subtitle,
 					textRightEdge,
-					height / 2 + Math.round(24 * scaleFactor)
+					height / 2 + Math.round(52 * scaleFactor)
 				);
 
 				ctx.fillStyle = mediaAssetCanvasPalette.brand.bg;
@@ -343,9 +384,11 @@ export function BannerAsset({
 					<div className="flex items-center gap-6">
 						<div className="text-right">
 							<Body
-								className={`font-normal text-[clamp(12px,2.2vw,32px)] leading-tight ${style.text}`}
+								className={`font-medium text-[clamp(12px,2.2vw,32px)] leading-[1.14] tracking-[-0.03em] ${style.text}`}
 							>
-								{tagline}
+								{tagline[0]}
+								<br />
+								<span className={style.rest}>{tagline[1]}</span>
 							</Body>
 							<Body
 								className={`mt-1 font-normal text-[clamp(8px,1.2vw,16px)] ${style.sub}`}
@@ -384,7 +427,7 @@ interface WallpaperProps {
 	filename: string;
 	height: number;
 	subtitle: string;
-	tagline: string;
+	tagline: Tagline;
 	variant?: Variant;
 	width: number;
 }
@@ -429,23 +472,26 @@ export function WallpaperAsset({
 				drawLogoOnCanvas(
 					ctx,
 					(width - logoSize) / 2,
-					height / 2 - logoSize - Math.round(20 * scale),
+					height / 2 - logoSize - Math.round(48 * scale),
 					logoSize
 				);
 
 				ctx.textAlign = "center";
 				ctx.textBaseline = "middle";
 
-				const mainFontSize = Math.round(48 * scale);
 				const subFontSize = Math.round(24 * scale);
 
-				ctx.fillStyle = style.canvasText;
-				ctx.font = `400 ${mainFontSize}px ${fontFamily}`;
-				ctx.fillText(tagline, width / 2, height / 2 + Math.round(30 * scale));
+				drawTagline(ctx, tagline, {
+					colors: style,
+					fontFamily,
+					size: Math.round(48 * scale),
+					x: width / 2,
+					y: height / 2 + Math.round(2 * scale),
+				});
 
 				ctx.fillStyle = style.canvasSub;
 				ctx.font = `400 ${subFontSize}px ${fontFamily}`;
-				ctx.fillText(subtitle, width / 2, height / 2 + Math.round(70 * scale));
+				ctx.fillText(subtitle, width / 2, height / 2 + Math.round(108 * scale));
 
 				ctx.fillStyle = mediaAssetCanvasPalette.brand.bg;
 				ctx.fillRect(0, height - 4, width, 4);
@@ -489,9 +535,11 @@ export function WallpaperAsset({
 					<WebviseLogo size={64} />
 					<div className="text-center">
 						<Body
-							className={`font-normal text-[clamp(12px,2vw,28px)] leading-tight ${style.text}`}
+							className={`font-medium text-[clamp(12px,2vw,28px)] leading-[1.14] tracking-[-0.03em] ${style.text}`}
 						>
-							{tagline}
+							{tagline[0]}
+							<br />
+							<span className={style.rest}>{tagline[1]}</span>
 						</Body>
 						<Body
 							className={`mt-1 font-normal text-[clamp(8px,1vw,14px)] ${style.sub}`}
