@@ -66,19 +66,12 @@ Package manager: **pnpm 10.1.0**. Don't use npm or yarn. Node 24 (`.nvmrc`; Verc
 
 ## Skills
 
-Project-local skills live in `.agents/skills/` and are surfaced to Claude Code via symlinks in `.claude/skills/`.
+Project-local skills live in `.agents/skills/` and are surfaced to Claude Code via symlinks in `.claude/skills/`. Keep only skills tied to this repo here; general design, animation and shadcn skills are installed globally in `~/.agents/skills/`.
 
-| Skill                          | Purpose                                              |
-| ------------------------------ | ---------------------------------------------------- |
-| `animation-vocabulary`         | Name a motion effect from a vague description        |
-| `apple-design`                 | Apple-style interface design and motion for the web  |
-| `blog-article`                 | Author blog posts in EN + DE                         |
-| `design-webvise-asset`         | Design webvise-branded sales, marketing and web assets |
-| `emil-design-eng`              | Emil Kowalski's UI polish and animation philosophy   |
-| `find-animation-opportunities` | Find UI spots that should animate but don't          |
-| `improve-animations`           | Audit motion code and plan improvements              |
-| `review-animations`            | Review animation code against a high craft bar       |
-| `shadcn`                       | Add, compose, and debug shadcn/ui components         |
+| Skill                  | Purpose                                                                                     |
+| ---------------------- | ------------------------------------------------------------------------------------------- |
+| `blog-article`         | Author blog posts in EN + DE                                                                |
+| `design-webvise-asset` | Design webvise-branded sales, marketing and web assets; also linked globally for decks and proposals |
 
 To register a new `.agents/skills/<name>` skill for Claude Code:
 

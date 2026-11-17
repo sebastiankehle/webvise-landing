@@ -14,6 +14,8 @@ Read both local references before designing:
 - [references/design.md](references/design.md) — exact web and print styles
 - [references/reference-map.md](references/reference-map.md) — which example fits which asset
 
+Repo paths in this skill and its references, such as `apps/web/src/index.css`, are relative to the webvise-landing repo at `~/Documents/webvise/repos/internals/webvise-landing`. Resolve them there when you work from another folder.
+
 Use sources in this order:
 
 1. Treat `apps/web/src/index.css` and the live site components as the current CI.
