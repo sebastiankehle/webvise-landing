@@ -2,22 +2,25 @@
 
 import { type Act, Stage, Text, Window } from "@/components/stageshow/kit";
 import { versioned } from "@/data/asset-version";
+import { screencurveType } from "./screencurve-type";
 import "./project-sc.css";
 
 // project card: Screencurve's character constellation, in the product's
-// light look. Beats: the three figures of the film are there; the tie
-// between Birgitta and P-O draws, its Timecode arrives; then the tie between
+// look. Beats: the three figures of the film are there; the tie between
+// Birgitta and P-O draws and its Timecode arrives; then the tie between
 // Birgitta and Lennart; the pointer opens the first Timecode, which lights up
 // and brings its frame: the couple at their kitchen table. Plays once.
 //
 // The figure is the product's own: the constellation of The Car Spotter
 // from screencurve's analysis (export "The Car Spotter (Ohne Abspann)"),
-// laid out as the Characters chapter draws it, with the busiest figure at
-// the centre and the product's initials. Both ties are alliances, with the
-// Timecodes the analysis gives them. Only the three figures the film has are
-// drawn; the export's fourth is a duplicate the analysis invented. The frame
-// is the first picture of 00:01:49 and shows what the tie says: a married
-// couple side by side, each busy with their own thing.
+// drawn as the product draws it: the figure with the most ties as a solid
+// disc at the top, the other two as tinted discs on one line below, straight
+// ties with their kind on the line, and the product's monograms. Both ties
+// are alliances, listed beside the figure with the Timecodes the analysis
+// gives them. Only the three figures the film has are drawn; the export's
+// fourth is a duplicate the analysis invented. The frame is the first picture
+// of 00:01:49 and shows what the tie says: a married couple side by side,
+// each busy with their own thing.
 
 type Locale = "de" | "en";
 interface S {
@@ -30,65 +33,50 @@ const COPY = {
 	en: {
 		eyebrow: "Character constellation",
 		alliance: "Alliance",
-		conflict: "Conflict",
 	},
 	de: {
 		eyebrow: "Figurenkonstellation",
 		alliance: "Allianz",
-		conflict: "Konflikt",
 	},
 } as const;
 
-// The Characters chapter's layout, fitted into the card: Birgitta leads,
-// the other two sit on the ring below her
+// The product's triangle, fitted into the card: Birgitta leads at the top,
+// her name beside her; the other two stand below, each over its name
 const N = {
-	B: { at: [282, 128], name: "Birgitta", label: "above" },
-	P: { at: [202, 190], name: "P-O", label: "below" },
-	L: { at: [352, 196], name: "Lennart", label: "below" },
+	B: { at: [290, 104], name: "Birgitta", label: "beside" },
+	P: { at: [230, 176], name: "P-O", label: "below" },
+	L: { at: [350, 176], name: "Lennart", label: "below" },
 } as const;
 type Id = keyof typeof N;
 const ORDER: Id[] = ["B", "P", "L"];
 
 /** The analysis's ties, in the order they draw, each with its Timecode. */
-const TIES: { a: Id; b: Id; bow: number; tc: string }[] = [
-	{ a: "B", b: "P", bow: 12, tc: "00:01:49" },
-	{ a: "B", b: "L", bow: -12, tc: "00:02:46" },
+const TIES: { a: Id; b: Id; tc: string }[] = [
+	{ a: "B", b: "P", tc: "00:01:49" },
+	{ a: "B", b: "L", tc: "00:02:46" },
 ];
 
 const FRAME = versioned(
 	"/images/case-studies/screencurve/car-spotter/00109.webp"
 );
 
-/** The product's monogram: the first letter of the first and last word. */
-function initials(name: string) {
-	const parts = name.trim().split(" ");
-	return (
-		(parts[0]?.[0] ?? "") + (parts.length > 1 ? (parts.at(-1)?.[0] ?? "") : "")
-	).toUpperCase();
+const SEPARATORS = /[\s-]+/;
+
+/** The product's monogram: the first letters of a name, two at most. */
+function monogram(name: string) {
+	return name
+		.split(SEPARATORS)
+		.map((word) => word.charAt(0))
+		.join("")
+		.slice(0, 2)
+		.toUpperCase();
 }
 
-// A tie as a shallow arc: `bow` pushes its control point sideways
-function control(a: Id, b: Id, bow: number) {
-	const [x1, y1] = N[a].at;
-	const [x2, y2] = N[b].at;
-	const len = Math.hypot(x2 - x1, y2 - y1);
-	return [
-		(x1 + x2) / 2 - ((y2 - y1) / len) * bow,
-		(y1 + y2) / 2 + ((x2 - x1) / len) * bow,
-	];
-}
-
-function path(a: Id, b: Id, bow: number) {
-	const [cx, cy] = control(a, b, bow);
-	return `M${N[a].at.join(" ")}Q${cx} ${cy} ${N[b].at.join(" ")}`;
-}
-
-/** The middle of the arc, where the tie's Timecode sits on the line. */
-function middle(a: Id, b: Id, bow: number) {
-	const [cx, cy] = control(a, b, bow);
+/** The middle of a tie, where its kind sits on the line. */
+function middle(a: Id, b: Id) {
 	return {
-		left: (N[a].at[0] + 2 * cx + N[b].at[0]) / 4,
-		top: (N[a].at[1] + 2 * cy + N[b].at[1]) / 4,
+		left: (N[a].at[0] + N[b].at[0]) / 2,
+		top: (N[a].at[1] + N[b].at[1]) / 2,
 	};
 }
 
@@ -114,7 +102,7 @@ export default function ScScene({ locale }: { locale: Locale }) {
 	const t = COPY[locale];
 	return (
 		<Stage<S>
-			className="wps"
+			className={`wps ${screencurveType}`}
 			cursor={{ at: { x: 118, y: 196 } }}
 			fill
 			height={250}
@@ -127,16 +115,26 @@ export default function ScScene({ locale }: { locale: Locale }) {
 			{(s) => (
 				<Window className="wps-win" url="screencurve.com">
 					<div className="wps-page">
+						{/* The ties as the product lists them: Timecode, then who */}
 						<div className="wps-copy">
 							<Text className="wps-eyebrow">{t.eyebrow}</Text>
-							<span className="wps-key">
-								<i className="wps-line" />
-								<Text>{t.alliance}</Text>
-							</span>
-							<span className="wps-key">
-								<i className="wps-line wps-line--dash" />
-								<Text>{t.conflict}</Text>
-							</span>
+							{TIES.map((tie, i) => (
+								<span
+									className="wps-row"
+									data-on={s.ties > i || undefined}
+									key={tie.tc}
+								>
+									<span
+										className="wps-tc"
+										data-cursor={i === 0 ? "pointer" : undefined}
+										data-lit={(i === 0 && s.open) || undefined}
+										data-target={`tie${i}`}
+									>
+										{tie.tc}
+									</span>
+									<Text>{`${N[tie.a].name} ↔ ${N[tie.b].name}`}</Text>
+								</span>
+							))}
 						</div>
 
 						{/* The opened tie: its frame and its figures */}
@@ -152,7 +150,7 @@ export default function ScScene({ locale }: { locale: Locale }) {
 							{TIES.map((tie, i) => (
 								<path
 									className="wps-tie"
-									d={path(tie.a, tie.b, tie.bow)}
+									d={`M${N[tie.a].at.join(" ")}L${N[tie.b].at.join(" ")}`}
 									data-hot={(i === 0 && s.open) || undefined}
 									data-on={s.ties > i || undefined}
 									key={tie.tc}
@@ -161,10 +159,21 @@ export default function ScScene({ locale }: { locale: Locale }) {
 							))}
 						</svg>
 
+						{TIES.map((tie, i) => (
+							<Text
+								className="wps-kind"
+								data-on={s.ties > i || undefined}
+								key={tie.tc}
+								style={middle(tie.a, tie.b)}
+							>
+								{t.alliance}
+							</Text>
+						))}
+
 						{ORDER.map((id, i) => (
 							<span
 								className="wps-node"
-								data-centre={id === "B" || undefined}
+								data-lead={id === "B" || undefined}
 								data-on={s.nodes || undefined}
 								key={id}
 								style={{
@@ -173,24 +182,10 @@ export default function ScScene({ locale }: { locale: Locale }) {
 									transitionDelay: `${i * 90}ms`,
 								}}
 							>
-								{initials(N[id].name)}
+								{monogram(N[id].name)}
 								<Text className="wps-name" data-at={N[id].label}>
 									{N[id].name}
 								</Text>
-							</span>
-						))}
-
-						{TIES.map((tie, i) => (
-							<span
-								className="wps-tc"
-								data-cursor={i === 0 ? "pointer" : undefined}
-								data-lit={(i === 0 && s.open) || undefined}
-								data-on={s.ties > i || undefined}
-								data-target={`tie${i}`}
-								key={tie.tc}
-								style={middle(tie.a, tie.b, tie.bow)}
-							>
-								{tie.tc}
 							</span>
 						))}
 					</div>

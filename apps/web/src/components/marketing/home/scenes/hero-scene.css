@@ -1,21 +1,23 @@
 .wvh {
-	/* Screencurve's dark look: near-black panels; actions are light, teal
-	   marks only Timecodes, the selection and the playhead */
+	/* Screencurve's light look: white panels beside a cool white sidebar,
+	   navy ink, slate for second text. Blurple is the primary action, the
+	   selected tab and the playhead; a lit Timecode takes the pale blurple */
 	& .ss-stage {
-		--ss-accent: #64c4b8;
-		--ss-accent-soft: #203d3b;
-		--ink: #e7e9ec;
-		--on-ink: #141619;
-		--line: rgb(255 255 255 / 0.08);
-		--strong: #f1f3f4;
-		--text: #aab0b6;
-		/* 4.5:1 or more on the panels and the composer */
-		--faint: #848b92;
-		--mono: ui-monospace, "SF Mono", Menlo, monospace;
+		--ss-accent: #5f57f7;
+		--ss-accent-soft: rgb(95 87 247 / 0.1);
+		--ink: #0b2540;
+		--slate: #46586d;
+		--line: #e3e8ee;
+		--ground: #f6f9fc;
+		--bubble: #eef2f7;
+		--mark: #d9d6ff;
+		--tint: rgb(11 37 64 / 0.06);
+		--ss-font: var(--sc-sans), system-ui, sans-serif;
+		--mono: var(--sc-mono), ui-monospace, "SF Mono", Menlo, monospace;
 		overflow: hidden;
 		font-size: 12.5px;
-		color: var(--text);
-		background: #0f1214;
+		color: var(--ink);
+		background: #fff;
 	}
 
 	.wvh-app {
@@ -31,7 +33,7 @@
 		flex-direction: column;
 		gap: 2px;
 		padding: 14px 10px;
-		background: #0c0e10;
+		background: var(--ground);
 		border-right: 1px solid var(--line);
 	}
 
@@ -50,24 +52,24 @@
 		width: 22px;
 		height: 22px;
 		border-radius: 6px;
-		background: var(--ink);
-		color: var(--on-ink);
+		background: var(--ss-accent);
+		color: #fff;
 		font-size: 9px;
-		font-weight: 700;
+		font-weight: 500;
 		text-box: trim-both cap alphabetic;
 	}
 
 	.wvh-org-name {
 		font-size: 12.5px;
-		font-weight: 600;
-		color: var(--strong);
+		font-weight: 500;
+		color: var(--ink);
 		white-space: nowrap;
 	}
 
 	.wvh-side-label {
 		margin: 16px 8px 6px;
 		font-size: 10.5px;
-		color: var(--faint);
+		color: var(--slate);
 	}
 
 	.wvh-nav {
@@ -77,19 +79,18 @@
 		height: 28px;
 		padding: 0 8px;
 		font-size: 12.5px;
-		color: var(--text);
-		border-radius: 7px;
+		color: var(--ink);
+		border-radius: 6px;
 	}
 
 	.wvh-nav[data-on] {
-		color: #fff;
-		background: rgb(255 255 255 / 0.07);
+		font-weight: 500;
+		background: var(--tint);
 	}
 
 	.wvh-nav--sub {
 		height: 26px;
 		padding-left: 29px;
-		color: var(--faint);
 	}
 
 	/* A project's initials, as the sidebar draws them */
@@ -98,10 +99,12 @@
 		flex: none;
 		place-items: center;
 		width: 12px;
-		font-size: 8px;
-		font-weight: 600;
+		height: 12px;
+		font-size: 6px;
+		font-weight: 500;
 		color: var(--ss-accent);
-		letter-spacing: 0.02em;
+		background: var(--ss-accent-soft);
+		border-radius: 3px;
 	}
 
 	.wvh-main {
@@ -120,8 +123,8 @@
 
 	.wvh-title {
 		font-size: 16px;
-		font-weight: 600;
-		color: var(--strong);
+		font-weight: 500;
+		color: var(--ink);
 		letter-spacing: -0.01em;
 	}
 
@@ -131,10 +134,10 @@
 		height: 28px;
 		padding: 0 12px;
 		font-size: 12px;
-		font-weight: 600;
-		color: var(--on-ink);
-		background: var(--ink);
-		border-radius: 7px;
+		font-weight: 500;
+		color: #fff;
+		background: var(--ss-accent);
+		border-radius: 6px;
 	}
 
 	/* Three tabs, a rule, then the groups that open a second row */
@@ -150,12 +153,13 @@
 		display: inline-flex;
 		gap: 3px;
 		align-items: center;
-		color: var(--faint);
+		color: var(--slate);
 		white-space: nowrap;
 	}
 
 	.wvh-tab[data-on] {
-		color: var(--strong);
+		font-weight: 500;
+		color: var(--ink);
 		box-shadow: inset 0 -2px 0 var(--ss-accent);
 	}
 
@@ -168,28 +172,31 @@
 
 	.wvh-cols {
 		display: grid;
-		grid-template-columns: 1fr 344px;
+		grid-template-columns: 1fr 324px;
+		gap: 20px;
 		min-height: 0;
+		padding: 16px 20px;
 	}
 
+	/* The chat is one card, set off by a hairline as the app's cards are */
 	.wvh-chat {
 		display: flex;
 		flex-direction: column;
 		min-width: 0;
-		padding: 18px 20px 16px;
+		overflow: hidden;
+		border-radius: 10px;
+		box-shadow: inset 0 0 0 1px var(--line);
 	}
 
-	/* The composer closes the pane: the thread sits on top, it at the foot */
+	/* The composer closes the card: the thread sits on top, it at the foot */
 	.wvh-composer {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		height: 40px;
-		padding: 0 6px 0 14px;
+		height: 46px;
+		padding: 0 8px 0 16px;
 		margin-top: auto;
-		background: rgb(255 255 255 / 0.04);
-		border-radius: 11px;
-		box-shadow: inset 0 0 0 1px var(--line);
+		border-top: 1px solid var(--line);
 	}
 
 	/* Typed text runs off the left once it is longer than the field */
@@ -210,12 +217,12 @@
 
 	.wvh-composer-hint {
 		font-size: 13px;
-		color: var(--faint);
+		color: var(--slate);
 	}
 
 	.wvh-composer-typed {
 		font-size: 13px;
-		color: var(--strong);
+		color: var(--ink);
 	}
 
 	.wvh-send {
@@ -225,11 +232,11 @@
 		height: 28px;
 		padding: 0 12px;
 		font-size: 12px;
-		font-weight: 600;
-		color: var(--on-ink);
-		background: var(--ink);
-		border-radius: 7px;
-		opacity: 0.45;
+		font-weight: 500;
+		color: #fff;
+		background: var(--ss-accent);
+		border-radius: 6px;
+		opacity: 0.5;
 		transition:
 			opacity 0.2s ease,
 			scale 0.12s ease;
@@ -246,7 +253,7 @@
 		display: block;
 		max-width: 470px;
 		line-height: 18px;
-		color: var(--text);
+		color: var(--slate);
 		white-space: normal;
 	}
 
@@ -263,16 +270,17 @@
 		height: 28px;
 		padding: 0 11px;
 		font-size: 12px;
-		color: var(--strong);
+		color: var(--slate);
 		white-space: nowrap;
-		border-radius: 7px;
-		box-shadow: inset 0 0 0 1px var(--line);
+		background: var(--bubble);
+		border-radius: 6px;
 	}
 
 	.wvh-thread {
 		position: relative;
 		display: flex;
 		flex-direction: column;
+		padding: 16px 18px 0;
 	}
 
 	/* Where the pointer waits: empty thread, low and right of the answers */
@@ -296,19 +304,19 @@
 		padding: 8px 12px;
 		font-size: 13px;
 		line-height: 18px;
-		color: var(--strong);
+		color: var(--ink);
 		white-space: normal;
-		background: rgb(255 255 255 / 0.08);
-		border-radius: 12px;
+		background: var(--bubble);
+		border-radius: 10px;
 	}
 
 	/* The answer: plain text, its timecode at the end of the last line */
 	.wvh-a {
-		max-width: 88%;
+		max-width: 92%;
 		padding-bottom: 16px;
 		font-size: 13px;
 		line-height: 20px;
-		color: #dfe3e6;
+		color: var(--ink);
 	}
 
 	/* A list in an answer, as the product sets its markdown */
@@ -323,8 +331,7 @@
 	}
 
 	.wvh-list strong {
-		font-weight: 600;
-		color: var(--strong);
+		font-weight: 500;
 	}
 
 	.wvh-thinking {
@@ -332,10 +339,10 @@
 		padding-bottom: 16px;
 		font-size: 13px;
 		line-height: 20px;
-		color: var(--faint);
+		color: var(--slate);
 	}
 
-	/* A cited Timecode arrives with its sentence, in brackets */
+	/* A cited Timecode arrives with its sentence */
 	.wvh-cite {
 		white-space: nowrap;
 		opacity: 0;
@@ -346,6 +353,7 @@
 		opacity: 1;
 	}
 
+	/* A Timecode as the app sets it: a light tint at rest, no outline */
 	.wvh-tc {
 		position: relative;
 		display: inline-flex;
@@ -354,30 +362,21 @@
 		padding: 0 4px;
 		font-family: var(--mono);
 		font-size: 11px;
+		font-variant-numeric: tabular-nums;
 		vertical-align: 1px;
-		color: var(--ss-accent);
-		background: var(--ss-accent-soft);
+		color: var(--ink);
+		background: var(--tint);
 		border-radius: 4px;
-		transition:
-			color 0.14s ease,
-			background 0.14s ease,
-			box-shadow 0.2s ease;
+		transition: background 0.14s ease;
 	}
 
-	/* Pointed at, it lights up as the app's chip does */
+	.wvh-tc + .wvh-tc {
+		margin-left: 4px;
+	}
+
+	/* Pointed at, or open in the player, it lights up as the app's chip does */
 	.wvh-tc[data-lit] {
-		color: var(--on-ink);
-		background: var(--ss-accent);
-	}
-	/* A cited second without a checked frame: Timecode text, no chip */
-	.wvh-tc-plain {
-		font-family: var(--mono);
-		font-size: 11px;
-		color: var(--faint);
-	}
-
-	.wvh-tc[data-active] {
-		box-shadow: 0 0 0 1px rgb(100 196 184 / 0.55);
+		background: var(--mark);
 	}
 
 	/* The frame at that Timecode, under the chip, so its sentence stays
@@ -390,11 +389,11 @@
 		width: 172px;
 		padding: 3px;
 		pointer-events: none;
-		background: #1f2226;
+		background: #fff;
 		border-radius: 7px;
 		box-shadow:
-			0 0 0 1px rgb(255 255 255 / 0.1),
-			0 14px 30px -10px rgb(0 0 0 / 0.7);
+			0 0 0 1px var(--line),
+			0 14px 30px -10px rgb(11 37 64 / 0.35);
 		opacity: 0;
 		transform-origin: 50% 0;
 		scale: 0.96;
@@ -421,49 +420,66 @@
 
 	/* The player: the frame the last opened timecode points at */
 	.wvh-player {
-		padding: 16px 18px;
-		border-left: 1px solid var(--line);
+		min-width: 0;
+	}
+
+	/* Its card: the window in the head, the transport at the foot */
+	.wvh-deck {
+		overflow: hidden;
+		border-radius: 10px;
+		box-shadow: inset 0 0 0 1px var(--line);
 	}
 
 	.wvh-player-head {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		height: 20px;
-		margin-bottom: 10px;
+		height: 30px;
+		padding: 0 10px;
+	}
+
+	/* The app's status dot: neutral at rest */
+	.wvh-proxy {
+		display: inline-flex;
+		gap: 6px;
+		align-items: center;
+		font-size: 11px;
+		color: var(--slate);
+	}
+
+	.wvh-proxy::before {
+		width: 5px;
+		height: 5px;
+		content: "";
+		background: rgb(11 37 64 / 0.25);
+		border-radius: 50%;
 	}
 
 	.wvh-label {
-		font-size: 12px;
-		font-weight: 600;
-		color: var(--strong);
-	}
-
-	.wvh-label--frames {
 		display: block;
-		margin-bottom: 10px;
+		margin: 16px 0 10px;
+		font-size: 13px;
+		font-weight: 500;
+		color: var(--ink);
 	}
 
 	.wvh-range {
-		display: inline-flex;
-		gap: 8px;
 		font-family: var(--mono);
-		font-size: 11px;
-		color: var(--faint);
+		font-size: 10.5px;
+		font-variant-numeric: tabular-nums;
+		color: var(--slate);
 	}
 
 	.wvh-time {
 		font-family: var(--mono);
 		font-variant-numeric: tabular-nums;
-		color: var(--text);
 	}
 
 	.wvh-screen {
 		position: relative;
-		aspect-ratio: 16 / 9;
+		aspect-ratio: 2 / 1;
 		overflow: hidden;
 		background: #000;
-		border-radius: 8px;
 	}
 
 	/* Opening a Timecode cuts the picture, as a seek does */
@@ -481,15 +497,32 @@
 		opacity: 1;
 	}
 
-	.wvh-player .wvh-screen img {
-		object-fit: contain;
+	/* The app's transport: play, the position, the track, sound, full screen */
+	.wvh-transport {
+		display: flex;
+		gap: 8px;
+		align-items: center;
+		height: 32px;
+		padding: 0 10px;
+		color: var(--ink);
+	}
+
+	.wvh-transport .wvh-time {
+		display: inline-flex;
+		align-items: center;
+		height: 19px;
+		padding: 0 4px;
+		font-size: 11px;
+		color: var(--ss-accent);
+		background: var(--ss-accent-soft);
+		border-radius: 4px;
 	}
 
 	.wvh-scrub {
 		position: relative;
+		flex: 1;
 		height: 3px;
-		margin: 12px 0 18px;
-		background: rgb(255 255 255 / 0.12);
+		background: rgb(11 37 64 / 0.15);
 		border-radius: 2px;
 	}
 
@@ -497,20 +530,20 @@
 		position: absolute;
 		inset: 0 auto 0 0;
 		width: var(--at);
-		background: var(--ss-accent);
+		background: rgb(11 37 64 / 0.5);
 		border-radius: 2px;
 		transition: width 0.7s cubic-bezier(0.3, 0, 0.2, 1);
 	}
 
-	.wvh-scrub-knob {
+	.wvh-scrub-head {
 		position: absolute;
 		top: 50%;
 		left: var(--at);
-		width: 9px;
-		height: 9px;
-		margin: -4.5px 0 0 -4.5px;
-		background: #fff;
-		border-radius: 50%;
+		width: 2px;
+		height: 13px;
+		margin: -6.5px 0 0 -1px;
+		background: var(--ss-accent);
+		border-radius: 1px;
 		transition: left 0.7s cubic-bezier(0.3, 0, 0.2, 1);
 	}
 
@@ -529,7 +562,7 @@
 	.wvh-frame img {
 		display: block;
 		width: 100%;
-		aspect-ratio: 16 / 9;
+		aspect-ratio: 2 / 1;
 		object-fit: cover;
 		border-radius: 5px;
 		box-shadow: 0 0 0 0 var(--ss-accent);
@@ -545,7 +578,7 @@
 		font-family: var(--mono);
 		font-size: 10px;
 		font-variant-numeric: tabular-nums;
-		color: var(--faint);
+		color: var(--slate);
 	}
 
 	/* Narrow: the frame as a strip, the exchange under it, the composer at the foot */
@@ -564,9 +597,9 @@
 	.wvh-strip .wvh-screen {
 		height: 100%;
 		aspect-ratio: auto;
-		border-radius: 0;
 	}
 
+	/* Title and position lie on the picture, so they stay light */
 	.wvh-strip-meta {
 		position: absolute;
 		inset: auto 0 0;
@@ -575,11 +608,12 @@
 		justify-content: space-between;
 		padding: 18px 12px 8px;
 		font-size: 11px;
+		color: rgb(255 255 255 / 0.85);
 		background: linear-gradient(transparent, rgb(0 0 0 / 0.72));
 	}
 
 	.wvh-strip-title {
-		font-weight: 600;
+		font-weight: 500;
 		color: #fff;
 	}
 
@@ -634,8 +668,8 @@
 	}
 	.wvh-app--compact .wvh-composer {
 		flex: none;
-		height: 34px;
-		margin: 0 12px 8px;
+		height: 40px;
+		padding: 0 8px 0 12px;
 	}
 	.wvh-app--compact .wvh-composer-hint,
 	.wvh-app--compact .wvh-composer-typed {

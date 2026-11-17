@@ -1,5 +1,6 @@
 "use client";
 
+import { Maximize, Volume2 } from "lucide-react";
 import { type CSSProperties, useEffect, useState } from "react";
 import {
 	type Act,
@@ -12,12 +13,13 @@ import {
 	Text,
 } from "@/components/stageshow/kit";
 import { versioned } from "@/data/asset-version";
+import { screencurveType } from "./screencurve-type";
 import "./hero-scene.css";
 
 const frames = "/images/case-studies/screencurve/car-spotter";
 
 // Screencurve's "Ask the Film" at work on The Car Spotter, in the product's
-// dark look. Beats: the pointer types a question into the composer and asks
+// light look. Beats: the pointer types a question into the composer and asks
 // it; a short Thinking; the answer streams in and its Timecodes arrive with
 // it; the pointer points at the first Timecode, which lights up and shows its
 // frame, and opens it, so the player cuts there; then the second. Plays
@@ -32,8 +34,10 @@ const frames = "/images/case-studies/screencurve/car-spotter";
 //   when opened, as the app's chip does (ADR-0059). Each frame is the first
 //   picture of its second, cut from the film, and shows what the sentence
 //   before its Timecode says.
-// - The identity is the redesigned one: actions are light on dark, teal
-//   marks only Timecodes, the selection and the playhead.
+// - The identity is the redesigned one: white panels beside a cool white
+//   sidebar, navy ink, slate for second text. Blurple is the primary action,
+//   the selected tab and the playhead. A Timecode is a light tint at rest
+//   and takes the pale blurple while it is pointed at or open in the player.
 // - The labels follow the product's message files in both languages.
 //
 // Narrow (below 1000px, where the wide design would shrink past reading), it
@@ -112,7 +116,7 @@ const EARLIER = {
 } as const;
 
 // Pair 6 of the chat, as the analysis wrote it; each sentence ends on its
-// Timecode, which the product sets in brackets
+// Timecode, which the product sets as a chip before the full stop
 const QUESTION = "Wie endet der Film für das Paar?";
 const ANSWER: [string, Second, string, Second] = [
 	"Der Film endet für das Paar in versöhnter Zweisamkeit: Beide betrachten im Haus zunächst gemeinsam das an der Wand aufgehängte Belegfoto des Oldsmobile Cutlass Supreme",
@@ -225,29 +229,22 @@ async function script(a: Act<S>) {
 	await a.wait(2600);
 }
 
-// Cited seconds without a checked frame: the product sets them as plain
-// Timecode text, not as a chip
-const PLAIN = new Set([646, 697]);
-
-/** Timecodes the answer cites together, in one pair of brackets. */
+/** Timecodes the answer cites together: a chip each, then the full stop. */
 function Cites({ seconds }: { seconds: readonly number[] }) {
 	return (
 		<span className="wvh-cite" data-on>
-			(
-			{seconds.map((second, i) => (
-				<span key={second}>
-					{i > 0 && ", "}
-					<span className={PLAIN.has(second) ? "wvh-tc-plain" : "wvh-tc"}>
-						{timecode(second)}
-					</span>
+			{seconds.map((second) => (
+				<span className="wvh-tc" key={second}>
+					{timecode(second)}
 				</span>
 			))}
-			).
+			.
 		</span>
 	);
 }
 
-/** A cited Timecode as the answer sets it: in brackets, after its sentence. */
+/** A cited Timecode as the answer sets it: a chip after its sentence. It is
+ * lit while the pointer is on it and while the player shows its second. */
 function Cite({
 	active,
 	on,
@@ -261,12 +258,10 @@ function Cite({
 }) {
 	return (
 		<span className="wvh-cite" data-on={on || undefined}>
-			(
 			<span
 				className="wvh-tc"
-				data-active={active || undefined}
 				data-cursor="pointer"
-				data-lit={tip || undefined}
+				data-lit={tip || active || undefined}
 				data-target={`tc${seconds}`}
 			>
 				{timecode(seconds)}
@@ -274,7 +269,7 @@ function Cite({
 					<img alt="" src={still(seconds)} />
 				</span>
 			</span>
-			).
+			.
 		</span>
 	);
 }
@@ -348,7 +343,7 @@ export default function HeroScene({ locale }: { locale: Locale }) {
 	const [send, setSend] = useState<HTMLElement | null>(null);
 	return (
 		<Stage<S>
-			className="wvh"
+			className={`wvh ${screencurveType}`}
 			compact={{ below: 1000, width: 358, height: 376 }}
 			cursor={{ at: { wide: { x: 640, y: 470 }, compact: { x: 300, y: 330 } } }}
 			fill
@@ -357,7 +352,6 @@ export default function HeroScene({ locale }: { locale: Locale }) {
 			play="once"
 			poster={poster}
 			script={script}
-			theme="dark"
 			width={1164}
 		>
 			{(s, _rect, layout) => {
@@ -546,26 +540,35 @@ export default function HeroScene({ locale }: { locale: Locale }) {
 								</section>
 
 								<section className="wvh-player">
-									<div className="wvh-player-head">
-										<Text className="wvh-label">Proxy</Text>
-										<span className="wvh-range">
+									{/* The player as the app frames it: its window in the head,
+									    the position and the track under the picture */}
+									<div className="wvh-deck">
+										<div className="wvh-player-head">
+											<Text className="wvh-proxy">Proxy</Text>
+											<span className="wvh-range">
+												{`${timecode(0)} – ${timecode(RUNTIME)}`}
+											</span>
+										</div>
+										<Player at={s.at} />
+										<div
+											className="wvh-transport"
+											style={
+												{
+													"--at": `${(s.at / RUNTIME) * 100}%`,
+												} as CSSProperties
+											}
+										>
+											<Icon name="play" size={13} />
 											{readout}
-											<span className="wvh-range-end">{timecode(RUNTIME)}</span>
-										</span>
+											<span className="wvh-scrub">
+												<span className="wvh-scrub-fill" />
+												<span className="wvh-scrub-head" />
+											</span>
+											<Volume2 aria-hidden size={13} strokeWidth={1.5} />
+											<Maximize aria-hidden size={13} strokeWidth={1.5} />
+										</div>
 									</div>
-									<Player at={s.at} />
-									<div
-										className="wvh-scrub"
-										style={
-											{ "--at": `${(s.at / RUNTIME) * 100}%` } as CSSProperties
-										}
-									>
-										<span className="wvh-scrub-fill" />
-										<span className="wvh-scrub-knob" />
-									</div>
-									<Text className="wvh-label wvh-label--frames">
-										{t.keyFrames}
-									</Text>
+									<Text className="wvh-label">{t.keyFrames}</Text>
 									<div className="wvh-frames">
 										{KEY_FRAMES.map((seconds) => (
 											<figure
