@@ -113,7 +113,7 @@ export default async function IndustryPage({
 							<ActionLink
 								arrow
 								className="mt-8"
-								href={{ pathname: "/book", query: { topic: industry.topic } }}
+								href="/book"
 								location="industry_detail"
 							>
 								{th("hero.cta")}
@@ -250,7 +250,7 @@ export default async function IndustryPage({
 						{projects.length % 3 !== 0 && (
 							<Link
 								className="surface-card group flex flex-col justify-between overflow-hidden outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
-								href={{ pathname: "/book", query: { topic: industry.topic } }}
+								href="/book"
 							>
 								<div className="media-frame relative flex aspect-[16/10] w-full items-center justify-center bg-foreground/[0.04]">
 									<span className="flex size-14 items-center justify-center rounded-[14px] border border-foreground/25 border-dashed text-foreground/45 transition-colors duration-300 group-hover:border-foreground/45 group-hover:text-foreground/70">

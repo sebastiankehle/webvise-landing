@@ -1,5 +1,3 @@
-import type { BookingTopic } from "@/data/booking";
-
 /** A broad field webvise has built for. `proof` lists the projects that back
  * the page, first one shown live in the hero; `services` are the offerings
  * its three "what webvise builds" lines link to, in the same order. */
@@ -7,7 +5,6 @@ export interface Industry {
 	proof: string[];
 	services: [string, string, string];
 	slug: string;
-	topic: BookingTopic;
 }
 
 export const industries: Industry[] = [
@@ -19,13 +16,11 @@ export const industries: Industry[] = [
 			"agentic-workflow-automation",
 			"full-stack-applications",
 		],
-		topic: "software",
 	},
 	{
 		slug: "manufacturing",
 		proof: ["old-world-labs", "kernspan"],
 		services: ["landing-pages", "landing-pages", "wordpress-migration"],
-		topic: "website",
 	},
 	{
 		slug: "media-entertainment",
@@ -35,7 +30,6 @@ export const industries: Industry[] = [
 			"company-brain-memory-systems",
 			"ai-consulting",
 		],
-		topic: "automation",
 	},
 	{
 		slug: "software-it",
@@ -45,7 +39,6 @@ export const industries: Industry[] = [
 			"mvp-development",
 			"agentic-workflow-automation",
 		],
-		topic: "software",
 	},
 	{
 		slug: "professional-services",
@@ -55,13 +48,11 @@ export const industries: Industry[] = [
 			"landing-pages",
 			"client-portals-business-apps",
 		],
-		topic: "software",
 	},
 	{
 		slug: "local-business",
 		proof: ["von-platen-coaching", "maerkische-projekt-bau", "kernspan"],
 		services: ["landing-pages", "landing-pages", "wordpress-migration"],
-		topic: "website",
 	},
 ];
 
