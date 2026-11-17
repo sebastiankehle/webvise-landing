@@ -5,6 +5,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import type { CSSProperties } from "react";
 import JsonLd from "@/components/json-ld";
 import { ActionArrow } from "@/components/marketing/action";
+import { ClaudeCodeBadge } from "@/components/marketing/claude-code-badge";
 import { OpenAiPartnerBadge } from "@/components/marketing/openai-partner-badge";
 import SectionWrapper, {
 	ConstructedGrid,
@@ -286,8 +287,9 @@ export default async function AboutPage({ params }: { params: LocaleParams }) {
 									/>
 								</div>
 							</div>
-							<div className="mt-6 flex max-w-[300px] lg:ml-auto">
+							<div className="mt-6 flex max-w-[300px] items-center gap-6 lg:ml-auto">
 								<OpenAiPartnerBadge className="w-[124px]" />
+								<ClaudeCodeBadge />
 							</div>
 						</div>
 					</div>

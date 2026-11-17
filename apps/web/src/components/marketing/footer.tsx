@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 
 import Logo from "@/components/logo";
 import { assistantMarks } from "@/components/marketing/assistant-marks";
+import { ClaudeCodeBadge } from "@/components/marketing/claude-code-badge";
 import { CookiePreferencesLink } from "@/components/marketing/cookie-preferences-link";
 import {
 	FILM_CREDITS_ID,
@@ -246,7 +247,10 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 						))}
 						<ThemeSwitcher variant="compact" />
 					</div>
-					<OpenAiPartnerBadge className="w-[116px]" />
+					<div className="flex items-center gap-6">
+						<OpenAiPartnerBadge className="w-[116px]" />
+						<ClaudeCodeBadge />
+					</div>
 				</div>
 
 				<div className="mt-8 flex flex-col gap-4 text-muted-foreground text-sm md:flex-row md:items-center md:justify-between md:pr-20 min-[1500px]:pr-0">
