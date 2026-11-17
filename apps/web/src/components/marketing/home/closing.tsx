@@ -1,28 +1,21 @@
-import { getLocale, getTranslations } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 
+import { ActionLink } from "@/components/marketing/action";
 import { QuoteAuthor } from "@/components/marketing/quote-author";
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import StaggerChildren from "@/components/marketing/stagger-children";
-import { TopicPicker } from "@/components/marketing/topic-picker";
 import { H2 } from "@/components/ui/typography";
-import { BOOKING_TOPICS, type BookingTopic } from "@/data/booking";
 import { CLOSING_TESTIMONIAL_KEY } from "@/data/testimonials";
-import { getPathname } from "@/i18n/navigation";
 
 /** The strongest client voice sits right beside the one action of the page. */
 export default async function Closing() {
-	const [t, tc, tb, tt, tf, locale] = await Promise.all([
+	const [t, tc, tt, tf] = await Promise.all([
 		getTranslations("home"),
 		getTranslations("contact"),
-		getTranslations("book"),
 		getTranslations("testimonials"),
 		getTranslations("footer"),
-		getLocale(),
 	]);
 	const quote = `items.${CLOSING_TESTIMONIAL_KEY}` as const;
-	const topics = Object.fromEntries(
-		BOOKING_TOPICS.map((topic) => [topic, tb(`topics.${topic}`)])
-	) as Record<BookingTopic, string>;
 	const email = tf("address.email");
 
 	return (
@@ -34,14 +27,14 @@ export default async function Closing() {
 						{tc("subtitle")}
 					</p>
 					<p className="mt-4 text-muted-foreground text-sm">{tc("promise")}</p>
-					<TopicPicker
-						action={getPathname({ href: "/book", locale })}
+					<ActionLink
+						arrow
 						className="mt-10"
-						cta={tc("booking.cta")}
-						label={t("closing.topicLabel")}
+						href="/book"
 						location="home_closing"
-						topics={topics}
-					/>
+					>
+						{tc("booking.cta")}
+					</ActionLink>
 					<p className="mt-8 text-base text-muted-foreground">
 						{t("closing.mail")}{" "}
 						<a

@@ -23,7 +23,6 @@ import SectionWrapper, {
 } from "@/components/marketing/section-wrapper";
 import StaggerChildren from "@/components/marketing/stagger-children";
 import { H1, H2, H3 } from "@/components/ui/typography";
-import type { BookingTopic } from "@/data/booking";
 import {
 	type CaseStudy,
 	getCaseStudies,
@@ -36,7 +35,6 @@ import {
 	getOfferingProof,
 	getRelatedOfferings,
 	type Offering,
-	type OfferingGroupKey,
 	offerings,
 } from "@/data/offerings";
 import { Link } from "@/i18n/navigation";
@@ -49,13 +47,6 @@ import {
 } from "@/lib/offering-content";
 import { generateAlternates, localizedUrl, shareImage } from "@/lib/seo";
 import { cn } from "@/lib/utils";
-
-/** The booking flow opens on the topic that matches the offering's group. */
-const groupTopics: Record<OfferingGroupKey, BookingTopic> = {
-	launch: "website",
-	operate: "software",
-	automate: "automation",
-};
 
 export function generateStaticParams() {
 	return offerings.map((offering) => ({ slug: offering.slug }));
@@ -254,10 +245,7 @@ async function ServiceOfferingPage({ offering }: { offering: Offering }) {
 							<ActionLink
 								arrow
 								className="mt-8"
-								href={{
-									pathname: "/book",
-									query: { topic: groupTopics[offering.group] },
-								}}
+								href="/book"
 								location="service_detail"
 							>
 								{th("hero.cta")}
