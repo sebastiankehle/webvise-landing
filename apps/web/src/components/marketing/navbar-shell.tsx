@@ -558,7 +558,7 @@ export default function NavbarShell({
 																<span className="block truncate font-medium text-base text-foreground">
 																	{project.client}
 																</span>
-																<span className="mt-0.5 block truncate text-muted-foreground text-sm">
+																<span className="mt-0.5 line-clamp-2 text-muted-foreground text-sm">
 																	{project.industry}
 																</span>
 															</Link>
