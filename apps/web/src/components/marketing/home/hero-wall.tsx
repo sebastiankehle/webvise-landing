@@ -19,6 +19,10 @@ interface Screen {
 	de?: string;
 	page?: number;
 	src: string;
+	/** Where in its cycle a scrolling page starts, in seconds. Without it a
+	 * point taken from the file name; 0 starts at the page's top, and a
+	 * negative value waits that long there first. */
+	start?: number;
 	wide?: boolean;
 }
 /** A phone screen. With `page`, a long page that scrolls inside the frame. */
@@ -80,6 +84,9 @@ const COLUMNS: Tile[][] = [
 			page: SCREENCURVE_PAGE,
 			src: versioned(`${shots}/screencurve/landing-page.webp`),
 			de: versioned(`${shots}/screencurve/landing-page-de.webp`),
+			// The wall's centre frame: it opens on the page's first screen and
+			// holds it for four seconds before the first stretch
+			start: -2.5,
 			wide: true,
 		},
 		{ src: `${shots}/kernspan/hero-v2.webp` },
@@ -131,11 +138,13 @@ function Picture({
 	shape,
 	sizes,
 	src,
+	start,
 }: {
 	page?: number;
 	shape: number;
 	sizes: string;
 	src: string;
+	start?: number;
 }) {
 	if (!page) {
 		return (
@@ -149,15 +158,17 @@ function Picture({
 			/>
 		);
 	}
-	// A start point from the file name, so pages in view move at different times.
-	const start =
+	// A start point from the file name, so pages in view move at different
+	// times, unless the frame names its own.
+	const from =
+		start ??
 		([...src].reduce((sum, char) => sum + char.charCodeAt(0), 0) * 7) % 15;
 	return (
 		<span
 			className="hw-page absolute inset-x-0 top-0 block"
 			style={
 				{
-					"--hw-page-delay": `-${start}s`,
+					"--hw-page-delay": `${-from}s`,
 					"--hw-page-to": `${((shape / page - 1) * 100).toFixed(2)}%`,
 					aspectRatio: `1 / ${page}`,
 				} as CSSProperties
@@ -235,6 +246,7 @@ export default function HeroWall({
 											shape={tile.wide ? 0.5 : 0.625}
 											sizes={SCREEN_SIZES}
 											src={(locale === "de" && tile.de) || tile.src}
+											start={tile.start}
 										/>
 									</span>
 								)
