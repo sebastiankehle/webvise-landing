@@ -30,6 +30,8 @@ type Tile = Screen | { phones: [Phone, Phone] };
 
 // The long phone captures are four screens tall, the long desktop page three.
 const PHONE_PAGE = 9.1483;
+// screencurve's whole landing page, 2160 × 9120.
+const SCREENCURVE_PAGE = 9120 / 2160;
 // A phone frame's height over its width, on the generous side so a scrolled
 // page never shows its end.
 const PHONE_FRAME = 2.6;
@@ -43,8 +45,8 @@ const PHONE_FRAME = 2.6;
  *
  * The order decides what stands in view when the page loads: the middle of
  * each column. There the wall shows Old World Labs, Märkische Projekt Bau,
- * Hyyve, Keel, Kernspan and the Obsidian vault, each pair of phones beside a
- * desktop screen. The other projects fill the rest and drift in. */
+ * screencurve, Keel, Kernspan and the Obsidian vault, each pair of phones
+ * beside a desktop screen. The other projects fill the rest and drift in. */
 const COLUMNS: Tile[][] = [
 	[
 		{ src: `${shots}/ohyp-fintech/landing-v2.webp`, wide: true },
@@ -74,7 +76,12 @@ const COLUMNS: Tile[][] = [
 		{ src: `${shots}/von-platen-coaching/view-2.webp` },
 		{ src: `${shots}/keel/hero-v2.webp` },
 		{ src: `${shots}/mp-bau-construction/site-hero.webp`, wide: true },
-		{ page: 3, src: `${wall}/hyyve-page.webp`, wide: true },
+		{
+			page: SCREENCURVE_PAGE,
+			src: versioned(`${shots}/screencurve/landing-page.webp`),
+			de: versioned(`${shots}/screencurve/landing-page-de.webp`),
+			wide: true,
+		},
 		{ src: `${shots}/kernspan/hero-v2.webp` },
 		{ src: `${shots}/ohyp-fintech/form-step-v2.webp`, wide: true },
 	],
@@ -99,11 +106,7 @@ const COLUMNS: Tile[][] = [
 			wide: true,
 		},
 		{ src: `${shots}/relay/hero-v2.webp` },
-		{
-			src: versioned(`${shots}/screencurve/landing.webp`),
-			de: versioned(`${shots}/screencurve/landing-de.webp`),
-			wide: true,
-		},
+		{ page: 3, src: `${wall}/hyyve-page.webp`, wide: true },
 		{ src: `${shots}/keel/view-1.webp` },
 		{ src: `${shots}/hyyve/how-it-works.webp`, wide: true },
 		{ src: `${shots}/morrow/graph-v3.webp` },

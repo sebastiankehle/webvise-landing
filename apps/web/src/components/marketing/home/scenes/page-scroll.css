@@ -38,6 +38,51 @@
 	}
 }
 
+/* A long page takes seven stretches, each as quick as the four above. */
+.ps-long {
+	animation-name: ps-scroll-long;
+	animation-duration: 28s;
+}
+
+@keyframes ps-scroll-long {
+	0%,
+	6% {
+		transform: translateY(0);
+	}
+	9.5%,
+	17% {
+		transform: translateY(calc(var(--ps-end) / 7));
+	}
+	20.5%,
+	28% {
+		transform: translateY(calc(var(--ps-end) * 2 / 7));
+	}
+	31.5%,
+	39% {
+		transform: translateY(calc(var(--ps-end) * 3 / 7));
+	}
+	42.5%,
+	50% {
+		transform: translateY(calc(var(--ps-end) * 4 / 7));
+	}
+	53.5%,
+	61% {
+		transform: translateY(calc(var(--ps-end) * 5 / 7));
+	}
+	64.5%,
+	72% {
+		transform: translateY(calc(var(--ps-end) * 6 / 7));
+	}
+	75.5%,
+	90% {
+		transform: translateY(var(--ps-end));
+	}
+	96%,
+	100% {
+		transform: translateY(0);
+	}
+}
+
 @media (prefers-reduced-motion: reduce) {
 	.ps-page {
 		animation: none;
