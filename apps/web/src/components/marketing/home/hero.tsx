@@ -6,8 +6,9 @@ import HeroWall from "@/components/marketing/home/hero-wall";
 import { ScenePlayer } from "@/components/marketing/scene-player";
 import { GridContainer } from "@/components/marketing/section-wrapper";
 
-// The subtitle already says "three weeks", so the line skips that fact.
-const factKeys = ["0", "2", "3"] as const;
+// Credentials first, then the track record. The subtitle already says
+// "three weeks", so the line skips that fact.
+const factKeys = ["3", "0"] as const;
 
 export default async function Hero() {
 	const t = await getTranslations("home");
@@ -66,7 +67,7 @@ export default async function Hero() {
 							{t("hero.secondary")}
 						</ActionLink>
 					</div>
-					<ul className="mt-7 flex flex-col items-center gap-1 text-foreground/55 text-sm md:flex-row md:justify-center md:gap-0">
+					<ul className="mt-7 flex flex-col items-center gap-1.5 text-foreground/55 text-sm lg:flex-row lg:justify-center lg:gap-0">
 						{/* One quiet line: the person first, then the proof */}
 						<li className="flex items-center gap-2 whitespace-nowrap text-foreground/75">
 							<Image
@@ -79,16 +80,20 @@ export default async function Hero() {
 							{t("hero.direct")}
 						</li>
 						{factKeys.map((key) => (
-							<li className="flex items-center whitespace-nowrap" key={key}>
-								{
-									<span
-										aria-hidden="true"
-										className="mx-2.5 hidden text-foreground/25 md:inline"
-									>
-										·
-									</span>
-								}
-								{t(`hero.facts.${key}`)}
+							<li className="flex items-center" key={key}>
+								<span
+									aria-hidden="true"
+									className="mx-2.5 hidden text-foreground/25 lg:inline"
+								>
+									·
+								</span>
+								<span className="text-balance text-center lg:whitespace-nowrap">
+									{t.rich(`hero.facts.${key}`, {
+										nb: (chunks) => (
+											<span className="whitespace-nowrap">{chunks}</span>
+										),
+									})}
+								</span>
 							</li>
 						))}
 					</ul>
