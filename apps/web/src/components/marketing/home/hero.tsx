@@ -6,8 +6,8 @@ import HeroWall from "@/components/marketing/home/hero-wall";
 import { ScenePlayer } from "@/components/marketing/scene-player";
 import { GridContainer } from "@/components/marketing/section-wrapper";
 
-// The subtitle already says "three weeks", so the line keeps the other two.
-const factKeys = ["0", "2"] as const;
+// The subtitle already says "three weeks", so the line skips that fact.
+const factKeys = ["0", "2", "3"] as const;
 
 export default async function Hero() {
 	const t = await getTranslations("home");

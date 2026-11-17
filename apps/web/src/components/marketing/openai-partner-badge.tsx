@@ -1,19 +1,21 @@
 import Image from "next/image";
 
-import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
+
+// OpenAI's own page on the partner network, the link OpenAI gave with the
+// badge in its approved social copy.
+const OPENAI_PARTNERS_URL = "https://openai.com/business/partners/";
 
 // Official OpenAI Partner Network badge — must be used as provided,
 // referenced in copy as "OpenAI Select Partner" (OPN brand guidance).
 export function OpenAiPartnerBadge({ className }: { className?: string }) {
 	return (
-		<Link
+		<a
 			aria-label="OpenAI Select Partner"
 			className={cn("inline-flex shrink-0", className)}
-			href={{
-				pathname: "/blog/[slug]",
-				params: { slug: "openai-select-partner" },
-			}}
+			href={OPENAI_PARTNERS_URL}
+			rel="noopener noreferrer"
+			target="_blank"
 		>
 			<Image
 				alt="OpenAI Select Partner"
@@ -22,6 +24,6 @@ export function OpenAiPartnerBadge({ className }: { className?: string }) {
 				src="/images/openai-select-partner.svg"
 				width={375}
 			/>
-		</Link>
+		</a>
 	);
 }

@@ -1,0 +1,172 @@
+{
+  "date": "2026-11-17",
+  "readingTime": 5,
+  "keyword": "Claude Code rollout",
+  "title": "Claude Code Rollout: 8 Decisions Before Your Team Starts",
+  "excerpt": "A Claude Code rollout comes down to eight decisions, from model choice to the pilot. Here they are in the order Anthropic teaches them, with the setup webvise runs in its own repository.",
+  "metaDescription": "A Claude Code rollout needs eight decisions, from deployment path to spend limits. The order webvise uses, and what Anthropic's Claude Code badge covers.",
+  "cta": "Plan your Claude Code rollout",
+  "tags": ["AI", "AI Agents", "Process"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "A Claude Code rollout comes down to eight decisions: model choice, installation, deployment path, configuration, extensions, security, administration and the pilot plan. Settle them before the first seat goes live, because the deployment path in particular shapes billing, sign-in and compliance and is hard to change once the team depends on it."
+    },
+    {
+      "type": "p",
+      "text": "On 17 November 2026, Sebastian Kehle, who runs webvise, completed Anthropic's Partner Academy path for the **Claude Partner Badge: Claude Code** and passed its 34-question assessment with 33 correct answers. The path walks through exactly these eight decisions, and webvise has made each of them in its own repository, where every line of code is written through Claude Code."
+    },
+    {
+      "type": "p",
+      "text": "If your company already pays for Claude Code seats and the team still uses it like autocomplete, the gap usually sits in setup, rules and measurement, the part [webvise's coaching for teams](/services/coaching) works on. This article goes through the eight decisions in the order Anthropic's course teaches them. Where webvise has a concrete setup of its own, it is named."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Decide the deployment path first.** It sets billing, sign-in, compliance and the features your team gets, and it is the hardest choice to undo.",
+        "**Write the rules once.** One instruction file that every coding agent reads keeps Claude Code, Codex and Cursor on the same conventions.",
+        "**Let the repository enforce limits.** Branch rules and commit checks hold even when an agent works with a developer's own access.",
+        "**Measure from day one.** Seat roles, spend limits and a baseline before the pilot decide whether the rollout pays off.",
+        "**The badge is personal.** Anthropic grants the Claude Code badge to Sebastian as a person. Partner Network tiers and proctored certifications are separate credentials."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "What Anthropic's Claude Code badge covers"
+    },
+    {
+      "type": "p",
+      "text": "Anthropic's Partner Academy offers the Claude Code badge as a free path for consultants who set up Claude Code for clients. It has eight courses, a capstone with four guided exercises in a real repository, and a final assessment of 34 scenario questions. Anthropic issues the result through Credly, under the holder's own name."
+    },
+    {
+      "type": "p",
+      "text": "The badge belongs to Sebastian as a person, and webvise shows it with his name. Anthropic's proctored exams, such as Claude Certified Developer, and its Partner Network tiers are separate credentials with their own requirements. For a buyer, the badge means that the person setting up your rollout has worked through Anthropic's own playbook for it, from the install to the measurement."
+    },
+    {
+      "type": "h2",
+      "text": "The eight decisions in a Claude Code rollout"
+    },
+    {
+      "type": "p",
+      "text": "Each course in the path maps to one decision. The table lists them in the order Anthropic teaches them, with webvise's own setup where one exists."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Decision",
+        "What to settle before rollout",
+        "In webvise's repository"
+      ],
+      "rows": [
+        [
+          "1. Model choice",
+          "Which of Haiku, Sonnet and Opus handles which tasks, and who may switch",
+          "Decided with each client"
+        ],
+        [
+          "2. Installation",
+          "CLI, VS Code or JetBrains, dev containers, headless CI",
+          "CLI sessions, several at once in separate git worktrees"
+        ],
+        [
+          "3. Deployment path",
+          "Which of the four deployment paths, how billing and sign-in work, where data stays",
+          "Decided with each client"
+        ],
+        [
+          "4. Configuration",
+          "Which of the four settings levels holds which rule, and what goes into CLAUDE.md",
+          "One AGENTS.md for every agent, CLAUDE.md as a one-line pointer to it"
+        ],
+        [
+          "5. Extensions",
+          "Which MCP servers, Skills, hooks and subagents the team may use",
+          "Nine project skills, stored once and linked into Claude Code"
+        ],
+        [
+          "6. Security and governance",
+          "Permissions, managed settings, sandboxing, SSO and SCIM, data retention",
+          "Only admins can update main, and Claude Code declined to merge past that rule"
+        ],
+        [
+          "7. Administration and measurement",
+          "Seat roles, spend limits, telemetry, cost per team",
+          "Every commit runs the formatter and more than 1,100 tests"
+        ],
+        [
+          "8. Delivery",
+          "Which use case to pilot, which baseline to record, who champions it",
+          "Decided with each client"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "If your team wants to settle these eight points on its own code, [webvise's coaching for founders and teams](/services/coaching) covers exactly that. The sessions run on your repository, and Claude Code ends up configured for your company's own rules."
+    },
+    {
+      "type": "h2",
+      "text": "Configuration: one instruction file for every agent"
+    },
+    {
+      "type": "p",
+      "text": "Claude Code reads its settings from four levels, and a fixed order decides which one wins when they conflict. The project instructions in CLAUDE.md are the level a team edits most. Several coding agents work in webvise's repositories, so the rules have to live in a file all of them read."
+    },
+    {
+      "type": "p",
+      "text": "Each webvise repository therefore keeps one tool-agnostic AGENTS.md with the commands, conventions and behaviour rules. CLAUDE.md contains a single line that imports it, so Claude Code reads the same rules as Codex or Cursor."
+    },
+    {
+      "type": "p",
+      "text": "Project skills follow the same idea. This website's repository holds nine of them, from shadcn component work to animation reviews, stored once in a shared folder and linked into Claude Code's skills folder with one symlink each. A new rule lands in one file and every agent picks it up on the next session."
+    },
+    {
+      "type": "h2",
+      "text": "Security: let the repository hold the line"
+    },
+    {
+      "type": "p",
+      "text": "Governance in Claude Code starts with permissions and managed settings, which an admin can lock for every seat. The second layer sits outside Claude Code, in the repository host, and it holds whichever tool or token makes the change."
+    },
+    {
+      "type": "p",
+      "text": "On 17 November 2026, Sebastian asked a Claude Code session working on this website to merge its own pull request. The main branch only accepts updates from admins, and the session ran with Sebastian's GitHub access. Claude Code's auto mode declined to use those admin rights to pass the rule, so the merge waited until Sebastian made it himself."
+    },
+    {
+      "type": "p",
+      "text": "A company rollout can copy that pattern: protect the branches that deploy, require checks before every merge, and keep the decision to ship with a person. The agent then works quickly inside limits it does not control."
+    },
+    {
+      "type": "h2",
+      "text": "Measurement: decide what counts before the pilot"
+    },
+    {
+      "type": "p",
+      "text": "The administration course spends most of its time on day-one failures that have nothing to do with code: the wrong seat role, a spend limit still at zero, no telemetry. Seat roles, spend limits and an OpenTelemetry pipeline are settings, and they belong in the plan before the first developer logs in."
+    },
+    {
+      "type": "p",
+      "text": "Quality needs its own baseline. In webvise's repository every commit runs the formatter and more than 1,100 tests, and a change written by Claude Code passes the same gate as any other. A pilot that records cycle time and failed checks before and after the rollout gives the team a number to judge it by."
+    },
+    {
+      "type": "p",
+      "text": "Usage limits are the other early surprise. [Ten checks before you upgrade a Claude plan](/blog/stop-hitting-claude-usage-limits) cover that side of the rollout."
+    },
+    {
+      "type": "h2",
+      "text": "How webvise runs a Claude Code rollout for a team"
+    },
+    {
+      "type": "p",
+      "text": "Sebastian leads every webvise project himself and works with Claude Code every day. A rollout for your team starts with one session on your own repository, where the eight decisions get settled and written into your AGENTS.md and settings."
+    },
+    {
+      "type": "p",
+      "text": "After that, the team runs a pilot on one use case while Sebastian reviews the first changes, and the baseline from the start shows whether the rollout paid off. Formats and scope are on the [coaching page](/services/coaching)."
+    },
+    {
+      "type": "p",
+      "text": "If you plan a Claude Code rollout and want the eight decisions settled before the seats go live, [send webvise a short note](/#contact) with your team size and the repository the pilot should start on."
+    }
+  ]
+}
