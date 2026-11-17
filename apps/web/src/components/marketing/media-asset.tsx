@@ -518,7 +518,7 @@ export function WallpaperAsset({
 	return (
 		<div className="space-y-3">
 			<div
-				className={`relative overflow-hidden ${style.bg}`}
+				className={`@container relative overflow-hidden ${style.bg}`}
 				style={{
 					aspectRatio: `${width} / ${height}`,
 					maxWidth: width > height ? undefined : 300,
@@ -534,8 +534,10 @@ export function WallpaperAsset({
 				<div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
 					<WebviseLogo size={64} />
 					<div className="text-center">
+						{/* Each line stays whole, as in the PNG; the size follows the
+						    preview's width so the narrow phone preview fits it */}
 						<Body
-							className={`font-medium text-[clamp(12px,2vw,28px)] leading-[1.14] tracking-[-0.03em] ${style.text}`}
+							className={`whitespace-nowrap font-medium text-[min(clamp(12px,2vw,28px),7.5cqw)] leading-[1.14] tracking-[-0.03em] ${style.text}`}
 						>
 							{tagline[0]}
 							<br />
