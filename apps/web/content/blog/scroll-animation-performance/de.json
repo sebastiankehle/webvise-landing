@@ -126,7 +126,7 @@
     },
     {
       "type": "p",
-      "text": "Daraus entstehen drei Probleme. Das eigene Scroll-Verhalten fühlt sich auf dem Trackpad falsch an und auf dem Smartphone noch schlechter, wo der Daumen die Seite eigentlich direkt bewegen soll. Nutzer von Screen-Readern und Tastatur verlieren die normale Lesereihenfolge. Und jeder Scroll-Frame führt JavaScript aus, also genau die Arbeit auf dem main thread, die INP ruiniert."
+      "text": "Daraus entstehen drei Probleme. Das selbst gebaute Scroll-Verhalten fühlt sich auf dem Trackpad falsch an und auf dem Smartphone noch schlechter, wo der Daumen die Seite eigentlich direkt bewegen soll. Nutzer von Screen-Readern und Tastatur verlieren die normale Lesereihenfolge. Und jeder Scroll-Frame führt JavaScript aus, also genau die Arbeit auf dem main thread, die INP ruiniert."
     },
     {
       "type": "p",
@@ -145,7 +145,7 @@
       "items": [
         "**Nur Compositor-Eigenschaften animieren.** Bei opacity, translate, scale und rotate bleiben, damit die GPU die Arbeit macht und der main thread frei bleibt.",
         "**Bei Sichtbarkeit auslösen, nicht bei der Scroll-Position.** IntersectionObserver feuert einmal, wenn ein Element in den Viewport kommt, statt bei jedem Scroll-Frame Code auszuführen.",
-        "**Listener auf passive setzen.** Ein passive Scroll-Listener sagt dem Browser, dass er das Scrollen nicht blockiert, und schützt so den INP-Score.",
+        "**Listener auf passive setzen.** Ein passiver Scroll-Listener sagt dem Browser, dass er das Scrollen nicht blockiert, und schützt so den INP-Score.",
         "**Das Timing budgetieren.** Micro-Interaktionen laufen 120ms bis 250ms, Einblendungen 500ms bis 800ms, größere Choreografien 800ms bis 1500ms. Alles, was langsamer ist, wirkt kaputt.",
         "**Einen reduced-motion-Fallback liefern.** prefers-reduced-motion respektieren, damit Menschen, die empfindlich auf Bewegung reagieren, und die Tools, die darauf prüfen, eine ruhige Version bekommen.",
         "**Animations-Code als Island laden.** Eine Client-only-Komponente, die beim Navigieren aufräumt, hält Animations-JavaScript aus dem ersten Paint heraus."
@@ -157,7 +157,7 @@
     },
     {
       "type": "p",
-      "text": "Am Ende geht es um bares Geld. Schnellere Seiten konvertieren besser, und die genaue Rechnung dazu steht in [wie sich die Geschwindigkeit einer Website auf Conversions auswirkt](/blog/website-speed-and-conversions). Animation, die diese Rechnung berücksichtigt, wirkt hochwertig und kostet kein Tempo."
+      "text": "Am Ende geht es um bares Geld. Schnellere Seiten konvertieren besser, und die genaue Rechnung dazu steht im Beitrag [Wie sich die Ladezeit auf Conversions auswirkt](/blog/website-speed-and-conversions). Animation, die diese Rechnung berücksichtigt, wirkt hochwertig und kostet kein Tempo."
     },
     {
       "type": "h2",
@@ -174,7 +174,7 @@
         "**Einen Performance-Trace in Chrome DevTools aufzeichnen,** während gescrollt wird. Lange rote Tasks auf dem main thread bedeuten, dass die Scroll-Handler zu viel tun.",
         "**Die Layout-Shifts beim Laden beobachten.** Alles, was spät eingeblendet wird, ist ein CLS-Risiko.",
         "**Das JavaScript-Bundle auf Animationsbibliotheken prüfen.** Eine einzelne Scroll-Bibliothek über 40KB sollte man hinterfragen.",
-        "**prefers-reduced-motion im Rendering-Panel der DevTools aktivieren.** Wenn die Seite zerbricht oder leer wirkt, war die Animation nie optional.",
+        "**prefers-reduced-motion im Rendering-Panel der DevTools aktivieren.** Wenn die Seite kaputtgeht oder leer wirkt, war die Animation nie optional.",
         "**Auf einem echten Android-Mittelklassegerät testen,** nicht auf dem Laptop. Auf dem Smartphone zeigt sich das Ruckeln."
       ]
     },

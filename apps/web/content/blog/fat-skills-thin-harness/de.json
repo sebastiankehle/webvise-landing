@@ -24,9 +24,9 @@
       "items": [
         "**Intelligenz gehört in Markdown-Skill-Dateien, nicht in Framework-Code.** Skills sind portabel, versionierbar und verbessern sich automatisch, wenn das Modell besser wird.",
         "**Das Harness sollte genau vier Dinge tun, nicht mehr.** Modell in einer Schleife ausführen, Dateien lesen und schreiben, Kontext verwalten, Sicherheit durchsetzen. Jedes Feature darüber hinaus frisst Kontext und verlangsamt das Reasoning.",
-        "**Fünf Entwickler veröffentlichten dieselbe These innerhalb von drei Tagen (12. bis 15. April 2026).** Garry Tan, Andrej Karpathy, Viv Trivedy, Daniel Miessler und ein Community-Repo mit 19.700 Sternen. Konvergenz aus unabhängigen Quellen ist ein starkes Signal dafür, dass ein Architekturmuster trägt.",
+        "**Fünf Entwickler veröffentlichten dieselbe These innerhalb von drei Tagen (12. bis 15. April 2026).** Garry Tan, Andrej Karpathy, Viv Trivedy, Daniel Miessler und ein Community-Repo mit 19.700 Sternen. Konvergenz aus unabhängigen Quellen ist eines von mehreren Signalen dafür, dass ein Architekturmuster tragfähig ist.",
         "**LangChain sieht das anders und hat Benchmarks als Beweis.** Harrison Chase argumentiert, das Harness sei das Produkt. Die Antwort hängt möglicherweise davon ab, ob Consumer-Tools oder Enterprise-Pipelines gebaut werden.",
-        "**Prescriptive Instructions verfallen. Kontext nicht.** Jedes Schritt-für-Schritt-Rezept für eine KI verliert mit dem nächsten Modell-Release seinen Wert. Kontext über Identität und Ziele kumuliert sich."
+        "**Starre Schritt-für-Schritt-Anweisungen verfallen. Kontext nicht.** Jedes Rezept, das Sie für eine KI schreiben, verliert mit dem nächsten Modell-Release seinen Wert. Kontext über Identität und Ziele wird mit der Zeit immer wertvoller."
       ]
     },
     {
@@ -72,7 +72,7 @@
     },
     {
       "type": "p",
-      "text": "Wer KI-gestützte Tools oder Workflows für sein Unternehmen aufbaut, für den entscheidet [die richtige Architektur von Anfang an](/#contact) darüber, ob am Ende ein beeindruckender Demo oder ein produktives Live-System steht."
+      "text": "Wer KI-gestützte Tools oder Workflows für sein Unternehmen aufbaut, für den entscheidet [die richtige Architektur von Anfang an](/#contact) darüber, ob am Ende eine beeindruckende Demo oder ein produktives Live-System steht."
     },
     {
       "type": "h2",
@@ -92,7 +92,7 @@
     },
     {
       "type": "p",
-      "text": "Tans Beispiel: Ein Skill namens /investigate hat sieben Schritte (Datensatz eingrenzen, Timeline aufbauen, jedes Dokument diarisieren, synthetisieren, beide Seiten argumentieren, Quellen zitieren). Auf einen Sicherheitswissenschaftler und 2,1 Millionen Discovery-E-Mails gerichtet, entsteht ein medizinischer Forschungsanalyst. Auf eine Briefkastenfirma und FEC-Unterlagen gerichtet, entsteht ein forensischer Ermittler. Gleiche sieben Schritte: der jeweilige Kontext der Anwendung definiert die Welt."
+      "text": "Tans Beispiel: Ein Skill namens /investigate hat sechs Schritte (Datensatz eingrenzen, Timeline aufbauen, jedes Dokument diarisieren, synthetisieren, beide Seiten argumentieren, Quellen zitieren). Setzt man ihn auf einen Sicherheitswissenschaftler und 2,1 Millionen Discovery-E-Mails an, entsteht ein medizinischer Forschungsanalyst. Setzt man ihn auf eine Briefkastenfirma und FEC-Unterlagen an, entsteht ein forensischer Ermittler. Gleiche sechs Schritte: der jeweilige Kontext der Anwendung definiert die Welt."
     },
     {
       "type": "h3",
@@ -116,11 +116,11 @@
     },
     {
       "type": "p",
-      "text": "Das Modell liest alles über ein Thema und erstellt ein strukturiertes Profil. Kein SQL-Query erzeugt das. Keine RAG-Pipeline erzeugt das. Das Modell muss lesen, Widersprüche im Kopf halten, Veränderungen und deren Zeitpunkt bemerken und daraus strukturierte Erkenntnisse synthetisieren."
+      "text": "Das Modell liest alles über ein Thema und erstellt ein strukturiertes Profil. Keine SQL-Abfrage erzeugt das. Keine RAG-Pipeline erzeugt das. Das Modell muss lesen, Widersprüche im Kopf halten, Veränderungen und deren Zeitpunkt bemerken und daraus strukturierte Erkenntnisse synthetisieren."
     },
     {
       "type": "p",
-      "text": "Tans Team entwickelte ein System für YC Startup School, das auf diese Weise 6.000 Gründerprofile verwaltet. Die Diarisierungsausgabe entdeckt Dinge, die keine Keyword-Suche finden würde: eine Gründerin, die sagt \"Datadog für KI-Agenten\", deren GitHub-Commits jedoch zu 80 Prozent aus Billing-Code bestehen. Sie baut ein FinOps-Tool, das als Observability-Produkt getarnt ist. Diese Lücke zwischen \"sagt\" und \"baut tatsächlich\" erfordert, die Commit-Historie, den Antrag und das Advisor-Transkript gleichzeitig zu lesen. Keine Embedding-Ähnlichkeitssuche findet das."
+      "text": "Tans Team entwickelte ein System für YC Startup School, das auf diese Weise 6.000 Gründerprofile verwaltet. Die Diarisierungsausgabe entdeckt Dinge, die keine Keyword-Suche finden würde: eine Gründerin, die sagt \"Datadog für KI-Agenten\", deren GitHub-Commits jedoch zu 80 Prozent aus Billing-Code bestehen. Sie baut ein FinOps-Tool, das als Observability-Produkt getarnt ist. Um diese Lücke zwischen \"sagt\" und \"baut tatsächlich\" zu sehen, muss man Commit-Historie, Antrag und Advisor-Transkript gleichzeitig lesen. Keine Embedding-Ähnlichkeitssuche findet das."
     },
     {
       "type": "h3",
@@ -128,7 +128,7 @@
     },
     {
       "type": "p",
-      "text": "Tans Anweisung an seine KI lautet: \"Wenn ich dich bitte, etwas zu tun, das so ist, als würde es wieder vorkommen müssen, kodifiziere es in eine Skill-Datei. Wenn es automatisch laufen soll, richte einen Cron ein. Wenn ich dich zweimal nach derselben Sache fragen muss, hast du versagt.\" Jeder geschriebene Skill ist ein permanentes Upgrade. Er verfällt nicht. Mit jedem neuen Modell werden alle Skills automatisch besser. Das System kumuliert sich."
+      "text": "Tans Anweisung an seine KI lautet: \"Wenn ich dich um etwas bitte, das wieder vorkommen wird, halte es in einer Skill-Datei fest. Wenn es automatisch laufen soll, richte einen Cron ein. Wenn ich dich zweimal nach derselben Sache fragen muss, hast du versagt.\" Jeder geschriebene Skill ist ein permanentes Upgrade. Er verfällt nicht. Mit jedem neuen Modell werden alle Skills automatisch besser. Der Nutzen des Systems wächst mit jedem Skill."
     },
     {
       "type": "h2",
@@ -171,11 +171,11 @@
     },
     {
       "type": "p",
-      "text": "Tan gelangte dorthin über den Aufbau [einer hohen Menge an Produktionscode in zwei Monaten, wobei die Zeilenanzahl ein Durchsatz-Metrik ist und dieser Durchsatz ungewöhnlich war](https://codex.danielvaughan.com/2026/03/30/gstack-garry-tan-production-skills-toolkit/) mit gstack (23.000+ GitHub-Sterne in der ersten Woche; Sternzahlen messen Sichtbarkeit, nicht Produktionsreife). Karpathy gelangte dorthin durch das Debuggen der drei persistenten Fehlermodi von KI-Coding-Assistenten. Trivedy durch über 30 iterierte Harness-Design-Versionen. Miessler durch die Anwendung von [Richard Suttons Bitter Lesson](http://www.incompleteideas.net/IncIdeas/BitterLesson.html) auf KI-Tooling."
+      "text": "Tan kam über gstack dorthin: Mit dem Toolkit (23.000+ GitHub-Sterne in der ersten Woche; Sternzahlen messen Sichtbarkeit, nicht Produktionsreife) schrieb er in zwei Monaten [ungewöhnlich viel Produktionscode](https://codex.danielvaughan.com/2026/03/30/gstack-garry-tan-production-skills-toolkit/). Karpathy gelangte dorthin durch das Debuggen der drei persistenten Fehlermodi von KI-Coding-Assistenten. Trivedy durch über 30 iterierte Harness-Design-Versionen. Miessler durch die Anwendung von [Richard Suttons Bitter Lesson](http://www.incompleteideas.net/IncIdeas/BitterLesson.html) auf KI-Tooling."
     },
     {
       "type": "p",
-      "text": "Konvergenz aus mehreren unabhängigen Quellen ist eines der stärksten Signale dafür, dass ein Architekturmuster tragfähig ist."
+      "text": "Konvergenz aus unabhängigen Quellen ist eines von mehreren Signalen dafür, dass ein Architekturmuster tragfähig ist."
     },
     {
       "type": "h2",
@@ -195,7 +195,7 @@
     },
     {
       "type": "p",
-      "text": "Die meisten Unternehmen, die erstmals KI-Features entwickeln, sollten schlank starten und Infrastruktur nur dann hinzufügen, wenn konkrete Zuverlässigkeitsgrenzen erreicht werden. Unklar, wo Ihr Projekt steht? [webvise](/#contact) berät, welche Architektur passt."
+      "text": "Die meisten Unternehmen, die erstmals KI-Features entwickeln, sollten schlank starten und Infrastruktur nur dann hinzufügen, wenn konkrete Zuverlässigkeitsgrenzen erreicht werden. Unklar, wo Ihr Projekt steht? [webvise](/#contact) berät Sie zur passenden Architektur."
     },
     {
       "type": "h2",
@@ -207,7 +207,7 @@
     },
     {
       "type": "p",
-      "text": "Auf KI-Tools angewendet: Schlechtes Harness-Engineering bedeutet prescriptive Instructions: Zuerst diese Datei kopieren, dann das laden, dann dieses tun, dann jenes. Schritt-für-Schritt-Mikromanagement der KI-Ausführung. Dieser Ansatz verschlechtert sich, je intelligenter Modelle werden, denn übermäßig starre Schritte verhindern, dass das Modell sein eigenes Reasoning anwendet."
+      "text": "Auf KI-Tools angewendet: Schlechtes Harness-Engineering bedeutet starre Schritt-für-Schritt-Anweisungen: Zuerst diese Datei kopieren, dann das laden, dann dieses tun, dann jenes. Mikromanagement der KI-Ausführung bis ins Detail. Dieser Ansatz verschlechtert sich, je intelligenter Modelle werden, denn übermäßig starre Schritte verhindern, dass das Modell sein eigenes Reasoning anwendet."
     },
     {
       "type": "p",
@@ -215,7 +215,7 @@
     },
     {
       "type": "p",
-      "text": "Miesslers Diagnose ist einfach: Liest sich die Konfiguration wie ein Rezept (Schritt 1, Schritt 2, Schritt 3), ist das schlechtes Harness-Engineering. Liest sie sich wie ein Briefing-Dokument (wer ich bin, was zählt, welche Tools vorhanden sind), ist das gutes Harness-Engineering. Kontext über die eigene Identität verfällt nie. Prescriptive Instructions werden mit jedem Modell-Update obsolet."
+      "text": "Miesslers Diagnose ist einfach: Liest sich die Konfiguration wie ein Rezept (Schritt 1, Schritt 2, Schritt 3), ist das schlechtes Harness-Engineering. Liest sie sich wie ein Briefing-Dokument (wer ich bin, was zählt, welche Tools vorhanden sind), ist das gutes Harness-Engineering. Kontext über die eigene Identität verfällt nie. Starre Schritt-für-Schritt-Anweisungen werden mit jedem Modell-Update obsolet."
     },
     {
       "type": "p",

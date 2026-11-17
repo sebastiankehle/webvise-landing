@@ -90,14 +90,14 @@ const COPY = {
 	},
 	de: {
 		confirmSubject:
-			"Bitte bestätigen Sie Ihre Anmeldung zum webvise Newsletter",
+			"Bitte bestätigen Sie Ihre Anmeldung zum webvise-Newsletter",
 		confirmTitle: "Anmeldung bestätigen",
 		confirmBody:
-			"Sie haben sich für den webvise Newsletter angemeldet. Ein Klick, und Sie stehen auf der Liste.",
+			"Sie haben sich für den webvise-Newsletter angemeldet. Ein Klick, und Sie stehen auf der Liste.",
 		confirmAction: "Anmeldung bestätigen",
 		confirmIgnore:
 			"Falls Sie das nicht angefordert haben, ignorieren Sie diese E-Mail.",
-		welcomeSubject: "Willkommen beim webvise Newsletter",
+		welcomeSubject: "Willkommen beim webvise-Newsletter",
 		welcomeTitle: "Willkommen",
 		onTheList: "Sie stehen auf der Liste.",
 		signedUpReading: (title: string) =>

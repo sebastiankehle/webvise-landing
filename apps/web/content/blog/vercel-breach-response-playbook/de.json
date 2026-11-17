@@ -10,7 +10,7 @@
   "blocks": [
     {
       "type": "p",
-      "text": "Am 19. April 2026 [legte Vercel einen Sicherheitsvorfall offen](https://x.com/vercel/status/2045865072074035664), der auf eine kompromittierte OAuth-Drittanbieteranwendung innerhalb von Vercels Google Workspace zurückzuführen war. Die Response wurde noch am selben Wochenende über alle von webvise verwalteten Vercel-Projekte durchgeführt; Audit-Logs auf Vercel sowie in den administrierten Google Workspaces kamen sauber zurück. **Dabei handelte es sich nicht um eine Schwachstelle in Vercels eigenem Code. Es war ein Supply-Chain-Kompromiss über einen SaaS-zu-SaaS-Vertrauenspfad durch eine OAuth-Vertrauensgrenze, und diese Angriffsform verändert, wie eine angemessene Response aussehen muss.**"
+      "text": "Am 19. April 2026 [legte Vercel einen Sicherheitsvorfall offen](https://x.com/vercel/status/2045865072074035664), der auf eine kompromittierte OAuth-Drittanbieteranwendung innerhalb von Vercels Google Workspace zurückzuführen war. Die Response wurde noch am selben Wochenende über alle von webvise verwalteten Vercel-Projekte durchgeführt; Audit-Logs auf Vercel sowie in den administrierten Google Workspaces waren unauffällig. **Dabei handelte es sich nicht um eine Schwachstelle in Vercels eigenem Code. Es war eine Kompromittierung der Lieferkette: Der Angreifer kam über eine OAuth-Freigabe von einem SaaS-Tool ins nächste, und diese Angriffsform verändert, wie eine angemessene Response aussehen muss.**"
     },
     {
       "type": "p",
@@ -18,14 +18,14 @@
     },
     {
       "type": "p",
-      "text": "Sie haben die Offenlegung gelesen und jeden auffindbaren Key rotiert. Das ist der richtige erste Schritt. Dieser Artikel beschreibt, was tatsächlich von Anfang bis Ende durchgeführt wurde, den technischen Fallstrick, der Rotation auch auf laufende Functions anwendbar macht, und warum die Angriffsform dieses Breaches den nächsten Response-Plan verändern sollte."
+      "text": "Sie haben die Offenlegung gelesen und jeden auffindbaren Key rotiert. Das ist der richtige erste Schritt. Dieser Artikel beschreibt, was tatsächlich von Anfang bis Ende durchgeführt wurde, den oft übersehenen Schritt, ohne den die Rotation laufende Functions nicht erreicht, und warum die Angriffsform dieses Breaches den nächsten Response-Plan verändern sollte."
     },
     {
       "type": "ul",
       "items": [
         "**Die Rotation von Vercel-Umgebungsvariablen aktualisiert die Konfiguration, nicht die laufenden Function-Instanzen; ein Redeploy ist nötig, damit die Änderungen wirksam werden.** Neue Werte greifen erst beim nächsten Deploy.",
         "**Der Google Workspace OAuth-Audit ist die Hälfte, über die kaum gesprochen wird.** Das ist der Vertrauenspfad, den der Angreifer genutzt hat, um in Vercel einzudringen.",
-        "**Das war keine Vercel-Schwachstelle.** Es war ein SaaS-zu-SaaS-Kompromiss über einen OAuth-Grant, und eine normale CVE-Response schließt die Lücke nicht vollständig.",
+        "**Das war keine Vercel-Schwachstelle.** Es war eine Kompromittierung über einen OAuth-Grant zwischen zwei SaaS-Tools, und eine normale CVE-Response schließt die Lücke nicht vollständig.",
         "**Langfristig sollten Secrets aus Umgebungsvariablen heraus** in einen Runtime-Secret-Manager verlagert werden. Phishing-resistente MFA ist Pflicht für alle, die OAuth-Apps installieren dürfen.",
         "**Monatliche OAuth-Grant-Audits** im Identity Provider gehören ab sofort zur Baseline, nicht zu einem optionalen Reifegrad-Upgrade."
       ]
@@ -36,7 +36,7 @@
     },
     {
       "type": "p",
-      "text": "Kurzfassung: Eine OAuth-Drittanbieteranwendung mit Zugriff auf Vercels Google Workspace wurde kompromittiert. Der Angreifer nutzte diese Vertrauensgrenze, um über einen SaaS-zu-SaaS-Vertrauenspfad auf die Werte von Umgebungsvariablen in einer Teilmenge von Kundenprojekten zuzugreifen. Vercel [veröffentlichte eine OAuth-Client-ID als Indicator of Compromise](https://x.com/vercel/status/2045865072074035664) und forderte alle Kunden auf, jeden als Umgebungsvariable gespeicherten Secret zu rotieren. Vercels eigener Code war nicht betroffen. Die Angriffsfläche war der Identitäts-Vertrauensgraph zwischen zwei SaaS-Tools."
+      "text": "Kurzfassung: Eine OAuth-Drittanbieteranwendung mit Zugriff auf Vercels Google Workspace wurde kompromittiert. Der Angreifer nutzte diese Vertrauensgrenze, um über einen SaaS-zu-SaaS-Vertrauenspfad auf die Werte von Umgebungsvariablen in einer Teilmenge von Kundenprojekten zuzugreifen. Vercel [veröffentlichte eine OAuth-Client-ID als Indicator of Compromise](https://x.com/vercel/status/2045865072074035664) und forderte alle Kunden auf, jedes als Umgebungsvariable gespeicherte Secret zu rotieren. Vercels eigener Code war nicht betroffen. Die Angriffsfläche war der Identitäts-Vertrauensgraph zwischen zwei SaaS-Tools."
     },
     {
       "type": "p",
@@ -70,22 +70,22 @@
     },
     {
       "type": "h2",
-      "text": "Schritt 2: Neu deployen (der technische Fallstrick, der Rotation erst wirksam macht)"
+      "text": "Schritt 2: Neu deployen (erst damit erreicht die Rotation laufende Functions)"
     },
     {
       "type": "p",
-      "text": "Diesen Schritt behandeln die meisten Response-Checklisten zu oberflächlich. Vercel übernimmt Änderungen an Umgebungsvariablen zum Zeitpunkt von Build und Deploy, nicht zur Laufzeit. Ein Projekt, das aktualisiert aber nicht neu deployt wurde, läuft noch immer den gestrigen Build, in dem der alte Secret in die Laufzeitumgebung eingebacken ist. Das Dashboard wurde rotiert, das System nicht."
+      "text": "Diesen Schritt behandeln die meisten Response-Checklisten zu oberflächlich. Vercel übernimmt Änderungen an Umgebungsvariablen zum Zeitpunkt von Build und Deploy, nicht zur Laufzeit. Auf einem Projekt, das aktualisiert, aber nicht neu deployt wurde, läuft noch immer der gestrige Build, in dem das alte Secret in die Laufzeitumgebung eingebacken ist. Das Dashboard wurde rotiert, das System nicht."
     },
     {
       "type": "p",
-      "text": "Konkretes Beispiel: Der Resend-API-Key wird um 10:14 Uhr rotiert, dann wird ein neuer Tab geöffnet. Um 10:17 Uhr versucht eine Function, eine Verifizierungs-E-Mail zu senden, ruft Resend mit dem alten, noch im deployt Env eingebackenen Key auf, und Resend lehnt die Anfrage ab. Der Nutzer erhält seine E-Mail nicht. Multipliziert mit jeder Function, jedem Cron-Job und jedem Webhook-Handler, der noch den alten Build ausführt."
+      "text": "Konkretes Beispiel: Der Resend-API-Key wird um 10:14 Uhr rotiert, dann wird ein neuer Tab geöffnet. Um 10:17 Uhr versucht eine Function, eine Verifizierungs-E-Mail zu senden, ruft Resend mit dem alten, noch im deployten Env eingebackenen Key auf, und Resend lehnt die Anfrage ab. Der Nutzer erhält seine E-Mail nicht. Multipliziert mit jeder Function, jedem Cron-Job und jedem Webhook-Handler, der noch den alten Build ausführt."
     },
     {
       "type": "table",
       "headers": [
         "Was getan wurde",
         "Was sich geändert hat",
-        "Was noch den alten Secret verwendet"
+        "Was noch das alte Secret verwendet"
       ],
       "rows": [
         [
@@ -153,7 +153,7 @@
     },
     {
       "type": "p",
-      "text": "Das Verteidigungsmodell muss dem Angriffsmodell entsprechen. Das bedeutet: OAuth-Grants als Produktionsabhängigkeiten behandeln, sie regelmäßig auditieren und Secrets aus Umgebungsvariablen herausverlagern, wo ein Angreifer mit dem entsprechenden Grant sie lesen kann. Die Audit-Logs dieses Wochenendes kamen sauber zurück, ein Ergebnis dieses Vorfalls, während das Response-Modell selbst weiterhin eine geplante Überprüfung braucht."
+      "text": "Das Verteidigungsmodell muss dem Angriffsmodell entsprechen. Das bedeutet: OAuth-Grants als Produktionsabhängigkeiten behandeln, sie regelmäßig auditieren und Secrets aus Umgebungsvariablen herausverlagern, wo ein Angreifer mit dem entsprechenden Grant sie lesen kann. Die Audit-Logs dieses Wochenendes waren unauffällig. Das Response-Modell braucht trotzdem eine regelmäßige Überprüfung."
     },
     {
       "type": "p",

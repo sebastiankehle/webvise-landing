@@ -3,103 +3,103 @@
   "readingTime": 10,
   "keyword": "OpenAI Privacy Filter",
   "title": "OpenAI Privacy Filter: Das Open-Weight-PII-Modell, das im Browser läuft (und wo es in einen Agent-Stack gehört)",
-  "excerpt": "OpenAIs neuer Open-Weight-PII-Klassifikator läuft im Browser und schließt eine Governance-Lücke, die viele Agent-Stacks vernachlässigen. Wie das Modell funktioniert, wo es passt und was es aufbricht.",
-  "metaDescription": "Die meisten Agent-Stacks haben keine Data-Minimization-Schicht. OpenAIs neuer Apache-2.0-PII-Klassifikator läuft im Browser und behebt das. So binden Sie ihn ein.",
+  "excerpt": "OpenAIs neuer Open-Weight-PII-Klassifikator läuft im Browser und schließt eine Governance-Lücke, die in vielen Agent-Stacks zu wenig Beachtung findet. Wie das Modell funktioniert, wo es hingehört und wo es an Grenzen stößt.",
+  "metaDescription": "Den meisten Agent-Stacks fehlt eine Schicht zur Datenminimierung. OpenAIs neuer PII-Klassifikator unter Apache 2.0 läuft im Browser und schließt diese Lücke. So binden Sie ihn ein.",
   "tags": ["AI Agents", "Security", "Open Source", "Self-Hosted"],
   "blocks": [
     {
       "type": "p",
-      "text": "OpenAI hat ein Privacy-Classifier-Tool veröffentlicht. **openai/privacy-filter** ist ein bidirektionaler Token-Klassifikator mit 1,5 Milliarden Parametern, lizenziert unter Apache 2.0, der im Browser läuft, acht Kategorien personenbezogener Daten in einem einzigen Forward Pass erkennt und eine Governance-Schicht schließt, die in vielen Agent-Stacks zu wenig Gewicht hat."
+      "text": "OpenAI hat gerade einen Datenschutz-Klassifikator veröffentlicht. **openai/privacy-filter** ist ein bidirektionaler Token-Klassifikator mit 1,5 Milliarden Parametern unter Apache-2.0-Lizenz. Er läuft im Browser, erkennt in einem einzigen Forward Pass acht Kategorien personenbezogener Daten und schließt eine Governance-Lücke, die in vielen Agent-Stacks zu wenig Beachtung findet."
     },
     {
       "type": "p",
-      "text": "Wer das Release als weiteren Modell-Drop liest, verpasst das eigentliche Signal."
+      "text": "Wer in den Release Notes nur ein weiteres neues Modell sieht, übersieht das eigentliche Signal."
     },
     {
       "type": "p",
-      "text": "Wer heute Agenten auf Kundendaten betreibt, löst PII-Redaktion meist per Regex-Bibliothek oder leitet Anfragen durch ein LLM, beides mit eigenen Kompromissen. Dieser Artikel zeigt, was openai/privacy-filter tatsächlich ist, welche Architekturentscheidungen zählen und wo das Modell in einen echten Agent-Governance-Stack gehört. Außerdem erkläre ich, warum dieses Release meine Position zu Agenten auf nicht vertrauenswürdigen Eingaben aktualisiert und was das für regulierte Workloads bedeutet."
+      "text": "Wer heute Agenten auf Kundendaten betreibt, schwärzt PII meist mit einer selbst gepflegten Regex-Bibliothek oder schickt die Anfragen durch ein LLM. Beide Wege haben Nachteile. Dieser Artikel zeigt, was openai/privacy-filter tatsächlich ist, welche Architekturentscheidungen zählen und wo das Modell in einen echten Agent-Governance-Stack gehört. Außerdem erkläre ich, warum ich wegen dieses Releases meine Haltung zu Agenten ändere, die nicht vertrauenswürdige Eingaben lesen, und was Sie damit tun sollten, wenn Sie regulierte Workloads ausliefern."
     },
     {
       "type": "h2",
-      "text": "Governance constraints"
+      "text": "Das Wichtigste in Kürze"
     },
     {
       "type": "ul",
       "items": [
-        "**openai/privacy-filter ist ein zwecktrainierter Klassifikator, kein General-LLM.** 1,5 Milliarden Parameter insgesamt, 50 Millionen aktiv per MoE-Routing, 128.000-Token-Kontext, Apache-2.0-Lizenz.",
-        "**Die Architektur entstammt der gpt-oss-Linie.** Der Language-Model-Head ist durch einen 33-Class-BIOES-Token-Classification-Head ersetzt. Dekodiert mit Constrained Viterbi für Span-Kohärenz.",
-        "**Ausführung im Browser-Tab über Transformers.js und WebGPU.** Kein API-Round-Trip, kein Server-Egress, kein OpenAI-Account zur Laufzeit nötig.",
+        "**openai/privacy-filter ist ein eigens trainierter Klassifikator, kein Allzweck-LLM.** 1,5 Milliarden Parameter insgesamt, davon 50 Millionen aktiv per MoE-Routing, 128.000 Tokens Kontext, Apache-2.0-Lizenz.",
+        "**Die Architektur stammt aus der gpt-oss-Linie.** An die Stelle des Language-Model-Heads tritt ein BIOES-Token-Classification-Head mit 33 Klassen. Das Decoding läuft über Constrained Viterbi, damit Spans zusammenhängend bleiben.",
+        "**Läuft im Browser-Tab über Transformers.js und WebGPU.** Kein API-Roundtrip, keine Übertragung an einen Server, kein OpenAI-Account zur Laufzeit.",
         "**Erkennt acht PII-Kategorien:** private_person, private_email, private_phone, private_address, private_url, private_date, account_number, secret.",
-        "**Keine Anonymisierung.** Englisch-first mit nachlassender Trefferquote auf Nicht-Latein-Schriften. Statische Label-Taxonomie, für Erweiterungen ist Fine-Tuning erforderlich."
+        "**Keine Anonymisierung.** Auf Englisch ausgelegt, mit schwächerem Recall bei nicht-lateinischen Schriften. Feste Label-Taxonomie, die sich nur per Fine-Tuning erweitern lässt."
       ]
     },
     {
       "type": "h2",
-      "text": "OpenAI hat ein Privacy-Classifier-Tool veröffentlicht."
+      "text": "OpenAI hat einen Datenschutz-Klassifikator veröffentlicht."
     },
     {
       "type": "p",
-      "text": "Die meisten Berichte werden das als weiteren OpenAI-Drop auf Hugging Face einordnen. Das Architektursignal ist ein anderes. Hier handelt es sich um einen bidirektionalen Klassifikator, der aus einem autoregressiven gpt-oss-Checkpoint post-trainiert wurde, mit einem durch einen 33-Class-Token-Classification-Head über acht Privacy-Span-Kategorien plus Background-Class ersetzten Language-Model-Head."
+      "text": "Die meisten Medien werden das als eine weitere OpenAI-Veröffentlichung auf Hugging Face melden. Die Architektur sagt etwas anderes. Es handelt sich um einen bidirektionalen Klassifikator, nachtrainiert aus einem autoregressiven Checkpoint in gpt-oss-Bauweise. Der Language-Model-Head wurde durch einen 33-Class-Token-Classification-Head ersetzt, der acht Privacy-Span-Kategorien plus eine Background-Class abdeckt."
     },
     {
       "type": "p",
-      "text": "OpenAI hat kein Modell zum Chatten veröffentlicht. Veröffentlicht wurde ein Tool, das Eingaben und Ausgaben anderer Modelle absichert."
+      "text": "OpenAI hat ein Werkzeug veröffentlicht, das kontrolliert, was in andere Modelle hineingeht und was aus ihnen herauskommt. Zum Chatten ist es nicht gedacht."
     },
     {
       "type": "p",
-      "text": "Das ist bedeutsam, weil die Branche dazu neigt, generative LLMs für Aufgaben einzusetzen, die zwecktrainierte Klassifikatoren besser lösen, darunter PII-Erkennung. Ein 70-Milliarden-Parameter-General-Purpose-Modell auf jede eingehende Anfrage zum PII-Masking anzuwenden, ist rechnerisch teuer für eine im Kern einfache Klassifikationsaufgabe. Ein 1,5-Milliarden-Parameter-Klassifikator mit 50 Millionen aktiven MoE-Parametern erledigt dasselbe in einem Forward Pass, läuft auf einem Laptop und kann keine neuen E-Mail-Adressen halluzinieren."
+      "text": "Das ist wichtig, weil die Branche bisher gern zu generativen LLMs greift, auch für Aufgaben wie die PII-Erkennung, die eigens trainierte Klassifikatoren besser lösen. Wer für die PII-Maskierung jede eingehende Anfrage durch ein Allzweckmodell mit 70 Milliarden Parametern schickt, verbraucht viel Rechenleistung für eine Aufgabe, die im Kern eine Klassifikation ist. Ein Klassifikator mit 1,5 Milliarden Parametern, davon 50 Millionen aktive MoE-Parameter, erledigt dieselbe Arbeit in einem Forward Pass, läuft auf einem Laptop und kann keine neuen E-Mail-Adressen halluzinieren."
     },
     {
       "type": "p",
-      "text": "Dass die Herleitung von **gpt-oss** selten kommentiert wird, ist das eigentliche Versäumnis. OpenAI signalisiert, dass die gpt-oss-Familie zur Grundlage für zweckgebaute Hilfsmodelle wird, die Behörden und Engineering-Teams lokal betreiben sollen. Damit ist zu rechnen: Es werden weitere folgen."
+      "text": "Die Ableitung von **gpt-oss** ist der Teil, über den kaum jemand berichtet. OpenAI signalisiert damit, dass die gpt-oss-Familie zur Grundlage für spezialisierte Hilfsmodelle wird, die Agenturen und Engineering-Teams lokal betreiben sollen. Es werden weitere folgen."
     },
     {
       "type": "p",
-      "text": "Für die Bewertung eines Agent-Governance-Stacks für regulierte Workloads [entwirft webvise compliance-konforme Stacks von Grund auf](/#contact)."
+      "text": "Prüfen Sie gerade einen Agent-Governance-Stack für einen regulierten Workload? [webvise entwirft Stacks, die von Anfang an auf Compliance ausgelegt sind](/#contact)."
     },
     {
       "type": "h2",
-      "text": "Die Architektur, in klaren Worten"
+      "text": "Die Architektur in einfachen Worten"
     },
     {
       "type": "p",
-      "text": "Privacy Filter ist ein Pre-Norm-Encoder-Stack aus acht Blöcken mit Grouped-Query-Attention (14 Query-Heads, 2 KV-Heads, Gruppengröße 7), Rotary Positional Embeddings und einem 128-Expert-Sparse-MoE-Feed-Forward-Block mit Top-4-Routing. Die Residual-Stream-Breite beträgt 640. Gesamtparameter: 1,5 Milliarden, aktive Parameter pro Token: 50 Millionen."
+      "text": "Privacy Filter ist ein Pre-Norm-Encoder-Stack aus acht Blöcken mit Grouped-Query-Attention (14 Query-Heads, 2 KV-Heads, Gruppengröße 7), Rotary Positional Embeddings und einem Sparse-MoE-Feed-Forward-Block mit 128 Experten und Top-4-Routing. Die Breite des Residual Streams beträgt 640. Insgesamt kommt das Modell auf 1,5 Milliarden Parameter, pro Token sind 50 Millionen aktiv."
     },
     {
       "type": "p",
-      "text": "Banded Attention mit einer Bandbreite von 128 ergibt ein effektives Fenster von 257 Tokens. Bei einer Kontextlänge von 128.000 Tokens entfällt das Chunking für typische Long-Document-Workloads."
+      "text": "Das Modell nutzt Banded Attention mit einer Bandgröße von 128, was ein effektives Fenster von 257 Tokens ergibt. Der Kontext reicht bis 128.000 Tokens, sodass bei typischen Workloads mit langen Dokumenten kein Chunking mehr nötig ist."
     },
     {
       "type": "p",
-      "text": "Der Labeling-Head gibt 33 Logits pro Token aus: ein Background-Label plus acht Span-Kategorien, aufgefächert in BIOES-Tags (Begin, Inside, End, Single). Die Inferenz verwendet einen Constrained-Viterbi-Decoder mit Linear-Chain-Transition-Scoring über vollständige Label-Pfade. Sechs Transition-Bias-Parameter steuern Background-Persistenz, Span-Einstieg, Fortsetzung, Abschluss und Boundary-to-Boundary-Übergabe. Der praktische Effekt: Span-Grenzen bleiben kohärent in Mischformat-Text, wo unabhängiges Argmax-Decoding fragmentiert."
+      "text": "Der Labeling-Head gibt pro Token 33 Logits aus: ein Background-Label plus acht Span-Kategorien, aufgefächert in BIOES-Tags (Begin, Inside, End, Single). Bei der Inferenz bewertet ein Constrained-Viterbi-Decoder mit Linear-Chain-Transition-Scoring vollständige Label-Pfade. Sechs Transition-Bias-Parameter steuern Background-Persistenz, Span-Beginn, Fortsetzung, Abschluss und den direkten Übergang von einer Span-Grenze zur nächsten. In der Praxis bleiben Span-Grenzen dadurch auch in Text mit gemischten Formaten zusammenhängend, wo unabhängiges Argmax-Decoding sie zerstückelt."
     },
     {
       "type": "p",
-      "text": "Laufzeit-Operating-Points erlauben die Feinjustierung des Precision-vs.-Recall-Tradeoffs ohne Retraining. Bias Richtung Span-Einstieg und Fortsetzung führt zu Over-Redaktion (compliance-freundlich, aber lauter). Bias Richtung Background-Persistenz zu Under-Redaktion (erhält Kontext, riskiert Leakage). Die vollständige Model Card inklusive Evaluierungsmethodik liegt unter [huggingface.co/openai/privacy-filter](https://huggingface.co/openai/privacy-filter)."
+      "text": "Über Operating Points zur Laufzeit stellen Sie das Verhältnis von Precision und Recall ein, ohne neu zu trainieren. Gewichten Sie Span-Beginn und Fortsetzung stärker, wird eher zu viel geschwärzt (compliance-freundlich, aber mit mehr Fehlalarmen). Gewichten Sie die Background-Persistenz stärker, wird eher zu wenig geschwärzt (der Kontext bleibt erhalten, dafür können Daten durchrutschen). Die vollständige Model Card samt Evaluierungsmethodik finden Sie unter [huggingface.co/openai/privacy-filter](https://huggingface.co/openai/privacy-filter)."
     },
     {
       "type": "h2",
-      "text": "Warum Browser-Ausführbarkeit die Platzierungsentscheidung verändert"
+      "text": "Warum die Ausführung im Browser die Platzierung verändert"
     },
     {
       "type": "p",
-      "text": "Die meisten PII-Redaktions-Middlewares laufen serverseitig. Daten überqueren die Leitung im Klartext, treffen auf einen Redaktions-Service, werden bereinigt und gelangen dann zur Model-API. Jeder Schritt addiert Latenz, Kosten und einen Punkt, an dem die Klartextversion in Logs landet."
+      "text": "Die meiste Middleware für PII-Schwärzung läuft auf dem Server. Die Daten werden im Klartext übertragen, landen bei einem Schwärzungsdienst, werden bereinigt und gehen dann weiter an die Model-API. Jeder Schritt kostet Latenz und Geld und schafft eine weitere Stelle, an der die Klartextversion in Logs liegt."
     },
     {
       "type": "p",
-      "text": "Privacy Filter läuft in einem Browser-Tab via Transformers.js mit WebGPU und q4-Quantisierung. Die Konsequenz: Benutzereingaben lassen sich im Browser redaktieren, bevor der Text das Gerät verlässt."
+      "text": "Privacy Filter läuft in einem Browser-Tab über Transformers.js mit WebGPU und q4-Quantisierung. Das heißt: Sie können die Eingabe der Nutzer in deren eigenem Browser schwärzen, bevor der Text das Gerät überhaupt verlässt."
     },
     {
       "type": "p",
-      "text": "Der Server empfängt eine redaktierte Version. Der Log-Speicher sieht eine redaktierte Version. Der LLM-Provider sieht eine redaktierte Version. Die eigene Infrastruktur muss nicht fehlerfrei sein, weil der Klartext sie niemals erreicht."
+      "text": "Der Server sieht eine geschwärzte Version. Der Log-Speicher sieht eine geschwärzte Version. Der LLM-Anbieter sieht eine geschwärzte Version. Ihre eigene Infrastruktur muss nicht fehlerfrei sein, weil der Klartext sie nie erreicht."
     },
     {
       "type": "p",
-      "text": "Das verändert die Platzierungsrechnung auf drei Wegen. Client-seitige Inferenz verschiebt die Trust-Boundary aus dem eigenen Rechenzentrum heraus. Ein Modell mit 50 Millionen aktiven Parametern ist klein genug, um es als Teil eines Standardbundles auszuliefern, ohne das Ladebudget einer modernen Web-App zu sprengen. Und die Apache-2.0-Lizenz erlaubt Fine-Tuning auf eigenen Domain-Daten und Re-Hosting der Weights, ohne eine kommerzielle Vereinbarung aushandeln zu müssen."
+      "text": "Das verändert die Rechnung bei der Platzierung in drei Punkten. Inferenz auf dem Client verlegt die Trust Boundary aus Ihrem Rechenzentrum heraus. Ein Modell mit 50 Millionen aktiven Parametern ist klein genug, um es im normalen Bundle auszuliefern, ohne das Ladebudget einer modernen Web-App zu sprengen. Und dank der Apache-2.0-Lizenz können Sie auf eigenen Domain-Daten fine-tunen und die Weights selbst hosten, ohne eine kommerzielle Vereinbarung auszuhandeln."
     },
     {
       "type": "p",
-      "text": "Reale Kosten bestehen: WebGPU-Support ist außerhalb von Chromium-Browsern inkonsistent, Model-Weights müssen einmal pro Cache-Bust heruntergeladen werden, und das Inferenzfenster ist durch den verfügbaren Gerätespeicher begrenzt. Für einen Compliance-Workflow in einer Desktop-Web-App sind diese Kosten vertretbar. Für eine Mobile-Webview mit aggressiver Cache-Eviction meistens nicht."
+      "text": "Das hat einen echten Preis. Außerhalb von Chromium-Browsern ist die WebGPU-Unterstützung lückenhaft, die Model-Weights müssen nach jedem Cache-Bust einmal neu geladen werden, und der verfügbare Gerätespeicher begrenzt das Inferenzfenster. Für einen Compliance-Workflow in einer Desktop-Web-App ist dieser Preis vertretbar. In einer mobilen Webview mit aggressiver Cache-Eviction ist er es meist nicht."
     },
     {
       "type": "h2",
@@ -107,22 +107,22 @@
     },
     {
       "type": "p",
-      "text": "Ein echter Agent-Governance-Stack hat klare Schichten. Das Arbeitsmodell, das bei webvise zum Einsatz kommt, sieht so aus:"
+      "text": "Ein echter Agent-Governance-Stack besteht aus klar getrennten Schichten. Mein Arbeitsmodell bei webvise sieht so aus:"
     },
     {
       "type": "ul",
       "items": [
-        "**Layer 1:** Ingress-Authentifizierung und Rate Limiting",
-        "**Layer 2:** Data Minimization (Input Redaction)",
-        "**Layer 3:** Prompt-Komposition und Context Assembly",
-        "**Layer 4:** Model Inference",
-        "**Layer 5:** Output Filtering (PII, Safety, Policy)",
-        "**Layer 6:** Egress zu Action-Handlern, Storage, Drittanbieter-APIs"
+        "**Schicht 1:** Authentifizierung und Rate Limiting am Eingang",
+        "**Schicht 2:** Datenminimierung (Schwärzung der Eingaben)",
+        "**Schicht 3:** Prompt-Aufbau und Zusammenstellung des Kontexts",
+        "**Schicht 4:** Modell-Inferenz",
+        "**Schicht 5:** Output-Filterung (PII, Safety, Policy)",
+        "**Schicht 6:** Weitergabe an Action-Handler, Speicher und Drittanbieter-APIs"
       ]
     },
     {
       "type": "p",
-      "text": "openai/privacy-filter passt klar auf Layer 2 und, mit anderer Operating-Point-Kalibrierung, auf Layer 5. Safety-Modelle, Prompt-Injection-Detektoren oder Agent-Level-Policy-Engines ersetzt es nicht. Die bisher gepflegte Regex-Bibliothek schon, mit Architektur-Eigenschaften, die regelbasierte Ansätze nicht erreichen."
+      "text": "openai/privacy-filter passt sauber in Schicht 2 und, mit anders kalibriertem Operating Point, in Schicht 5. Dort ersetzt es die Regex-Bibliothek, die Sie bisher pflegen, und bringt Architektureigenschaften mit, an die regelbasierte Ansätze nicht herankommen. Safety-Modelle, Prompt-Injection-Detektoren und Policy-Engines auf Agent-Ebene braucht der Stack weiterhin."
     },
     {
       "type": "table",
@@ -130,8 +130,8 @@
       "rows": [
         [
           "Client-seitig (Browser + WebGPU)",
-          "Klartext verlässt das Gerät nicht",
-          "Compliance-first-Web-Apps, regulierte Branchen, interne Tools"
+          "Klartext verlässt das Gerät nie",
+          "Web-Apps mit Compliance-Fokus, regulierte Branchen, interne Tools"
         ],
         [
           "Server-Middleware (Node + Transformers)",
@@ -139,89 +139,89 @@
           "APIs, Backend-Agenten, Batch-Pipelines"
         ],
         [
-          "Output-Filter (post-response)",
-          "Model-Output erreicht den Client nicht im Rohzustand",
-          "Chat-Agenten, generierte Inhalte, nutzerseitige RAG-Flows"
+          "Output-Filter (nach der Antwort)",
+          "Rohe Modellausgabe erreicht den Client nie",
+          "Chat-Agenten, generierte Inhalte, RAG-Flows für Endnutzer"
         ]
       ]
     },
     {
       "type": "p",
-      "text": "Für die meisten Client-Stacks lautet die Antwort: Layer 2 und Layer 5 in Kombination. Der browser-lokale Check verhindert, dass versehentliche PII das Context-Window überhaupt erst betritt. Der serverseitige Output-Check fängt ab, was das Modell generiert oder in seiner Antwort durchsickern lässt. Defense in depth ist das Ziel."
+      "text": "Für die meisten Kunden-Stacks, die ich entwerfe, lautet die Antwort: Schicht 2 und Schicht 5 zusammen. Der Check im Browser verhindert, dass PII überhaupt erst versehentlich ins Context Window gelangt. Der Output-Check auf dem Server fängt alles ab, was das Modell in seiner Antwort erzeugt oder preisgibt. Das Ziel ist Defense in Depth."
     },
     {
       "type": "p",
-      "text": "Wer Datenflüsse heute gegen eine Governance-Schicht mapped, [spricht mit webvise über Stack-Design, bevor Entscheidungen fallen](/#contact)."
+      "text": "Wenn Sie Ihre Datenflüsse gerade an einer Governance-Schicht ausrichten, [sprechen Sie mit webvise über das Stack-Design, bevor Sie sich festlegen](/#contact)."
     },
     {
       "type": "h2",
-      "text": "Die acht Kategorien und wo das Modell versagt"
+      "text": "Die acht Kategorien und wo das Modell an Grenzen stößt"
     },
     {
       "type": "p",
-      "text": "Die Label-Taxonomie von Privacy Filter ist statisch. Acht Kategorien plus eine Background-Class, mit BIOES-Boundary-Tags pro Kategorie."
+      "text": "Die Label-Taxonomie von Privacy Filter ist fest. Acht Kategorien plus eine Background-Class, mit BIOES-Boundary-Tags pro Kategorie."
     },
     {
       "type": "table",
-      "headers": ["Kategorie", "Was erkannt wird", "Bekannte Fehlerquelle"],
+      "headers": ["Kategorie", "Was erkannt wird", "Bekannte Schwäche"],
       "rows": [
         [
           "private_person",
           "Personennamen",
-          "Seltene Regionalnamen, Initialen, ehrentitelgeprägte Referenzen werden untererkannt"
+          "Seltene regionale Namen, Initialen und Nennungen mit Anrede oder Titel werden zu selten erkannt"
         ],
         [
           "private_email",
           "E-Mail-Adressen",
-          "Solide Abdeckung. Verschleierte Formate (\"name at domain\") können entgehen"
+          "Gute Abdeckung. Verschleierte Formate („name at domain“) können übersehen werden"
         ],
         [
           "private_phone",
           "Telefonnummern",
-          "Internationale Formate zuverlässig. Nicht-standardmäßige Trennzeichen fragmentieren gelegentlich"
+          "Internationale Formate zuverlässig. Unübliche Trennzeichen zerstückeln die Erkennung gelegentlich"
         ],
         [
           "private_address",
-          "Postadressen",
-          "Mehrzeilige Adressen in dichtem Layout fragmentieren an Grenzen"
+          "Postanschriften",
+          "Mehrzeilige Adressen in dichten Layouts zerfallen an den Rändern in Bruchstücke"
         ],
         [
           "private_url",
           "Identifizierende URLs",
-          "Over-Redaktion bei URLs öffentlicher Entitäten bei ambigem lokalem Kontext"
+          "Schwärzt URLs öffentlicher Organisationen unnötig, wenn der lokale Kontext mehrdeutig ist"
         ],
         [
           "private_date",
           "Geburtsdaten, Termine",
-          "Kontextsensitiv. Kalenderdaten in Terminierungstexten werden gelegentlich over-redaktiert"
+          "Kontextabhängig. Kalenderdaten in Terminabsprachen werden manchmal unnötig geschwärzt"
         ],
         [
           "account_number",
-          "Bank-, Kunden-, Patienten-IDs",
-          "Domainspezifische Identifier-Muster werden untererkannt"
+          "Bank-, Kunden-, Patientennummern",
+          "Domänenspezifische ID-Muster werden zu selten erkannt"
         ],
         [
           "secret",
-          "API-Keys, Credentials, Tokens",
+          "API-Keys, Zugangsdaten, Tokens",
           "Neue Credential-Formate und aufgeteilte Secrets werden übersehen"
         ]
       ]
     },
     {
       "type": "p",
-      "text": "Wer in der eigenen Domain Kategorien jenseits dieser Liste benötigt, muss fine-tunen. Die Model Card ist explizit: Die Label-Policy lässt sich zur Laufzeit nicht ändern. Das ist der Preis eines 50-Millionen-aktiven-Parameter-Klassifikators: Die Taxonomie ist eingebrannt. Teams, die Optionen vergleichen, finden im Leitfaden zu [den besten lokalen KI-Modellen für compliance-konforme Unternehmen 2026](/blog/best-local-ai-models-2026) die General-Purpose-LLM-Seite derselben Entscheidung."
+      "text": "Braucht Ihre Domäne Kategorien außerhalb dieser Liste, bleibt nur Fine-Tuning. Die Model Card stellt klar, dass sich die Label-Policy zur Laufzeit nicht ändern lässt. Das ist der Preis eines Klassifikators mit 50 Millionen aktiven Parametern: Die Taxonomie ist fest eingebaut. Für den Vergleich der Optionen behandelt der Leitfaden zu [den besten lokalen KI-Modellen für Unternehmen mit Compliance-Pflichten 2026](/blog/best-local-ai-models-2026) dieselbe Entscheidung aus Sicht der Allzweck-LLMs."
     },
     {
       "type": "p",
-      "text": "OpenAIs Model Card ist ungewöhnlich direkt. Drei Grenzen, die ernst zu nehmen sind, bevor Sie etwas ausliefern."
+      "text": "Die Model Card von OpenAI ist ungewöhnlich offen. Drei Grenzen sollten Sie ernst nehmen, bevor Sie ausliefern."
     },
     {
       "type": "h3",
-      "text": "Englisch-first: mehrsprachige Performance"
+      "text": "Mehrsprachig, aber auf Englisch optimiert"
     },
     {
       "type": "p",
-      "text": "Das Modell wurde auf ausgewählten mehrsprachigen Benchmarks getestet. Die Genauigkeit sinkt bei Nicht-Latein-Schriften und bei Namenskonventionen geschützter Gruppen. Wer Kundendaten mit deutschen, polnischen oder italienischen Personennamen verarbeitet, muss mit nachlassender Trefferquote rechnen. Empfehlung: Fine-Tuning auf In-Domain-Beispielen oder ein zweiter Regex-Fallback für die kritischsten Kategorien."
+      "text": "OpenAI hat das Modell auf ausgewählten mehrsprachigen Benchmarks getestet. Bei nicht-lateinischen Schriften und bei Namenskonventionen geschützter Gruppen sinkt die Genauigkeit. Verarbeitet Ihr Kunde deutsche, polnische oder italienische personenbezogene Daten, rechnen Sie mit schwächerem Recall. Fine-tunen Sie auf Beispielen aus der eigenen Domäne, oder setzen Sie für die wichtigsten Kategorien einen zweiten Durchlauf mit Regex als Fallback dahinter."
     },
     {
       "type": "h3",
@@ -229,39 +229,39 @@
     },
     {
       "type": "p",
-      "text": "Das Modell ist ein Redaktionshilfsmittel, keine Anonymisierungsgarantie. Oberflächliche PII zu entfernen eliminiert kein Re-Identifikationsrisiko, wenn Quasi-Identifikatoren (PLZ, Alter, seltene Diagnose) gehäuft auftreten. Wer eine DSGVO-Anonymisierung oder HIPAA-De-Identifizierung nach der Safe-Harbor-Methode als Compliance-Pflicht hat, braucht eine dedizierte Pipeline darüber, nicht nur dieses Modell. Der Überblick zu [KI-Regulierungen und Zertifizierungen in Deutschland und Europa](/blog/ai-act-transparency-obligations-2026) kartiert den Regulierungsstack im Detail."
+      "text": "Das Modell hilft beim Schwärzen, eine Anonymisierung garantiert es nicht. Wer sichtbare PII entfernt, beseitigt damit kein Re-Identifizierungsrisiko, wenn Quasi-Identifikatoren (PLZ, Alter, seltene Diagnose) zusammenkommen. Müssen Sie eine Anonymisierung nach DSGVO oder eine De-Identifizierung nach HIPAA mit der Safe-Harbor-Methode leisten, brauchen Sie zusätzlich eine eigene Pipeline, das Modell allein genügt nicht. Mein Beitrag zu [KI-Regulierung und Zertifizierungen in Deutschland und Europa](/blog/ai-act-transparency-obligations-2026) ordnet den regulatorischen Rahmen im Detail ein."
     },
     {
       "type": "h3",
-      "text": "Hochsensible Workflows brauchen Menschen in der Schleife"
+      "text": "Hochsensible Workflows brauchen menschliche Prüfung"
     },
     {
       "type": "p",
-      "text": "Medizin, Recht, Finanzen, HR, Bildung, öffentliche Verwaltung: In diesen Vertikalen legen False Negatives Daten offen und False Positives entziehen Reviewern den Kontext, den sie für Entscheidungen brauchen. Privacy Filter ist in diesen Umgebungen eine Eingabe in einen Reviewprozess, kein Ersatz dafür."
+      "text": "Medizin, Recht, Finanzen, HR, Bildung, öffentliche Verwaltung. In diesen Branchen legen False Negatives Daten offen, und False Positives nehmen Prüfern den Kontext, den sie für ihre Entscheidungen brauchen. Privacy Filter liefert hier die Grundlage für eine menschliche Prüfung und ersetzt sie nicht."
     },
     {
       "type": "p",
-      "text": "Meine Regel: Privacy Filter sitzt in einem Stack mit mindestens einem weiteren Check nachgelagert. Ist es die einzige Schicht, ist man ein Modell-Update entfernt von einer Regression, die niemand bemerkt."
+      "text": "Meine Regel: Hinter Privacy Filter folgt im Stack mindestens ein weiterer Check. Ist der Filter die einzige Schicht, genügt ein Modell-Update für eine Regression, die niemand bemerkt."
     },
     {
       "type": "h2",
-      "text": "Meine Position zu \"Agenten im offenen Web\" aktualisiert"
+      "text": "Ich revidiere meine Haltung „keine Agenten im offenen Web“"
     },
     {
       "type": "p",
-      "text": "Anfang dieses Monats habe ich eine Position veröffentlicht: Für Kunden werden keine KI-Agenten ausgeliefert, die das offene Web lesen. Der Grund war konkret. Angreifer-kontrollierte Eingaben (eine gecrawlte Seite, eine nutzerseitig eingereichte URL, ein Drittanbieter-Feed) liefern dem Agenten PII, Credentials oder Prompt-Injection-Payloads, die in nachgelagerte Aktionen durchsickern."
+      "text": "Anfang des Monats habe ich öffentlich Position bezogen: webvise liefert Kunden keine KI-Agenten, die das offene Web lesen. Der Grund war konkret. Eingaben, die ein Angreifer kontrolliert (eine gecrawlte Seite, eine von Nutzern eingereichte URL, ein Feed eines Drittanbieters), spielen dem Agenten PII, Zugangsdaten oder Prompt-Injection-Payloads zu, die bis in nachgelagerte Aktionen durchsickern."
     },
     {
       "type": "p",
-      "text": "openai/privacy-filter verändert diese Abwägung partiell. Auf der Input-Leakage-Seite stumpft ein browser-lokaler Klassifikator über gecrawlten Content, bevor er in den Prompt-Kontext eintritt, zwei spezifische Muster ab: Sensitive-Data-Exposure und Context-Poisoning via eingebetteter PII."
+      "text": "openai/privacy-filter ändert diese Abwägung teilweise, und zwar auf der Seite der Eingaben. Läuft ein browser-lokaler Klassifikator über gecrawlte Inhalte, bevor sie in den Prompt-Kontext gelangen, schwächt das zwei Muster ab: die Offenlegung sensibler Daten und Context Poisoning über eingebettete PII."
     },
     {
       "type": "p",
-      "text": "Den Prompt-Injection-Vektor berührt das nicht. Eine sorgfältig präparierte Seite, die dem Agenten befiehlt, seinen Speicherinhalt zu mailen, wird nicht gestoppt. Verhindert wird aber, dass diese Seite versehentlich die Heimadresse eines Kunden ins Kontext-Fenster des Modells trägt."
+      "text": "Am Angriffsweg über Prompt Injection ändert das nichts. Eine gezielt präparierte Seite kann den Agenten weiterhin anweisen, seinen Speicherinhalt per E-Mail zu verschicken. Der Filter verhindert aber, dass dieselbe Seite versehentlich die Privatadresse eines Kunden ins Context Window des Modells trägt."
     },
     {
       "type": "p",
-      "text": "Die aktualisierte Position: Schmale Open-Web-Reader für nicht-sensible Workflows (öffentliche Datenaggregation, Competitive Intelligence, Marktforschung) werden nun gebaut, wenn Privacy Filter auf beiden Seiten des Modell-Calls verdrahtet ist. Für Workflows, die Kundendaten, interne Dokumente oder authentifizierte Aktionen berühren, gilt das ohne vorherigen dedizierten Red-Team-Durchlauf weiterhin nicht."
+      "text": "Meine neue Haltung: Eng begrenzte Open-Web-Reader für nicht sensible Workflows (Aggregation öffentlicher Daten, Wettbewerbsanalyse, Marktforschung) liefere ich jetzt aus, sofern Privacy Filter auf beiden Seiten des Modellaufrufs eingebunden ist. Für Workflows, die Kundendaten, interne Dokumente oder authentifizierte Aktionen berühren, liefere ich sie weiterhin erst nach einem eigenen Red-Team-Durchlauf aus."
     },
     {
       "type": "h2",
@@ -269,7 +269,7 @@
     },
     {
       "type": "p",
-      "text": "Zwei gängige Muster, beide direkt aus der Model Card. Die Python-Pipeline für serverseitige Redaktion:"
+      "text": "Zwei gängige Muster, beide direkt aus der Model Card. Die Python-Pipeline zum Schwärzen auf dem Server:"
     },
     {
       "type": "p",
@@ -277,7 +277,7 @@
     },
     {
       "type": "p",
-      "text": "Und die Transformers.js-Pipeline für browser-seitige Redaktion via WebGPU:"
+      "text": "Und die Transformers.js-Pipeline zum Schwärzen im Browser über WebGPU:"
     },
     {
       "type": "p",
@@ -285,15 +285,15 @@
     },
     {
       "type": "p",
-      "text": "Die Browser-Pipeline gehört in einen Web Worker, damit Inferenz den Main Thread nicht blockiert. Model-Weights per Service Worker cachen, damit der First-Visit-Penalty nur einmal pro Cache-Bust anfällt. Den Operating Point im Staging-Umfeld mit repräsentativen Daten justieren, bevor Production angefasst wird. Das [offizielle Repository](https://github.com/openai/privacy-filter) enthält die vollständige Model Card, einen Demo-Space und Fine-Tuning-Guidance."
+      "text": "Legen Sie die Browser-Pipeline in einen Web Worker, damit die Inferenz den Main Thread nicht blockiert. Cachen Sie die Model-Weights per Service Worker, damit die Ladezeit beim ersten Besuch nur einmal pro Cache-Bust anfällt. Stimmen Sie den Operating Point im Staging mit repräsentativen Daten ab, bevor Sie damit in Produktion gehen. Das [offizielle Repository](https://github.com/openai/privacy-filter) enthält die vollständige Model Card, einen Demo-Space und eine Anleitung zum Fine-Tuning."
     },
     {
       "type": "p",
-      "text": "Das Privacy-Filter-Release von OpenAI ist eine These darüber, wohin die Branche steuert: zweckgebaute, browser-ausführbare, Apache-2.0-Klassifikatoren an den Rändern des Stacks, die steuern, was LLMs sehen und was sie zurückgeben. Das ist die Form der Compliance-Arbeit, die bei webvise geleistet wird, und es ist die Form der Governance-Schicht, die den meisten Agenten heute fehlt."
+      "text": "Mit privacy-filter stellt OpenAI eine These darüber auf, wohin sich die Branche bewegt: spezialisierte Klassifikatoren unter Apache 2.0, die im Browser laufen, an den Rändern Ihres Stacks sitzen und kontrollieren, was Ihre LLMs sehen und was sie zurückgeben. So sieht die Compliance-Arbeit aus, die ich bei webvise mache, und so sieht die Governance-Schicht aus, die den meisten Agenten heute fehlt."
     },
     {
       "type": "p",
-      "text": "Agent-Stacks ohne Data-Minimization-Schicht haben mit diesem Release einen soliden Open-Weight-Ausgangspunkt. Wer Hilfe beim Einbinden in etwas braucht, auf das Kunden in der Produktion verlässlich aufbauen können, [baut webvise das](/#contact)."
+      "text": "Agent-Stacks ohne Schicht zur Datenminimierung bekommen mit diesem Release einen starken Open-Weight-Ausgangspunkt. Wenn Sie es in etwas einbinden wollen, auf das sich Kunden in der Produktion wirklich verlassen können, [baut webvise das für Sie](/#contact)."
     }
   ]
 }

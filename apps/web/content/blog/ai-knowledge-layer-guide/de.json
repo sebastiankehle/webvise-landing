@@ -10,7 +10,7 @@
   "blocks": [
     {
       "type": "p",
-      "text": "Andrej Karpathy veröffentlichte im April 2026 einen [Gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f), der ein Muster für den Aufbau persönlicher Wissensbasen mit LLMs beschreibt. Innerhalb einer Woche: 99.000 Bookmarks. Mehrere Implementierungen wurden binnen Tagen Open Source. [graphify](https://github.com/safishamsi/graphify) erschien nach 48 Stunden und sammelte 27.000 weitere ein. Das Muster traf einen Nerv, weil es ein vertrautes Problem benennt: Die meisten Agenten verfügen über kein persistentes Gedächtnis zwischen Sitzungen. Jedes Gespräch beginnt bei null. Geschäftskontext, Ziele, Stimme und Hintergrund werden jedes Mal neu erklärt, und das Ergebnis bleibt generisch, weil der Input nichts hatte, womit er hätte arbeiten können."
+      "text": "Andrej Karpathy veröffentlichte im April 2026 einen [Gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f), der ein Muster für den Aufbau persönlicher Wissensbasen mit LLMs beschreibt. Innerhalb einer Woche: 99.000 Bookmarks. Mehrere Implementierungen wurden binnen Tagen Open Source. [graphify](https://github.com/safishamsi/graphify) erschien nach 48 Stunden und sammelte 27.000 weitere ein. Das Muster traf einen Nerv, weil es ein vertrautes Problem benennt: Die meisten Agenten verfügen über kein persistentes Gedächtnis zwischen Sitzungen. Jedes Gespräch beginnt bei null. Geschäftskontext, Ziele, Stimme und Hintergrund werden jedes Mal neu erklärt, und das Ergebnis bleibt generisch, weil das Modell nichts hat, womit es arbeiten könnte."
     },
     {
       "type": "p",
@@ -77,9 +77,9 @@
       "items": [
         "**Die Schemadatei ist entscheidend.** Alles andere ergibt sich daraus. Ein gut geschriebenes Schema erzeugt ein diszipliniertes Wiki mit konsistenten Konventionen. Ein vages Schema erzeugt Halluzinationen und Wildwuchs. Die aktuelle Version umfasst rund 200 Zeilen und deckt Verzeichnisstruktur, Seitenformat, alle sechs Operationen, Namenskonventionen und den Umgang mit Widersprüchen ab. Mehrere Iterationen waren nötig, um es zu verfeinern.",
         "**Dedup-first verhindert Seiten-Wildwuchs.** Die Regel: Bevor eine neue Seite angelegt wird, wird das bestehende Wiki auf überlappende Inhalte durchsucht. Deckt eine vorhandene Seite 60 Prozent oder mehr desselben Inhalts ab, wird diese Seite angereichert statt eine neue angelegt. Ohne diese Regel füllt sich das Wiki mit redundanten Seiten, die Wissen in unbrauchbare Fragmente zersplittern.",
-        "**Anfragen verdichten sich zur Wissensbasis.** Liefert eine gute Frage eine nützliche Antwort, wird diese als neue Wiki-Seite abgelegt. Bei der nächsten verwandten Frage steht dem Agenten bereits eine vorkompilierte Synthese zur Verfügung. Das ist der Compounding-Effekt, der das System über die Zeit besser statt nur größer macht.",
+        "**Anfragen verdichten sich zur Wissensbasis.** Liefert eine gute Frage eine nützliche Antwort, wird diese als neue Wiki-Seite abgelegt. Bei der nächsten verwandten Frage steht dem Agenten bereits eine vorkompilierte Synthese zur Verfügung. Das ist der Compounding-Effekt, der das System mit der Zeit besser statt nur größer macht.",
         "**Ingest-Qualität hängt von Disziplin ab.** Eine rohe Quelle mit dem Befehl \"ingest this\" einzuspielen liefert eine dünne Zusammenfassung. Den Agenten durch die Quelle zu führen, Erkenntnisse zu besprechen und Schwerpunkte zu setzen, erzeugt Seiten, die im wachsenden Wiki nützlich bleiben. Ein strikter Workflow gilt: Rohdatei bereinigen, Kernpunkte besprechen, Freigabe abwarten, dann vollständig extrahieren.",
-        "**Die Indexdatei ist das Retrieval-System.** Der Root-Index hat 22 Zeilen. Jedes Unterverzeichnis hat einen eigenen Index, der jede Seite mit einer einzeiligen Beschreibung auflistet. Der Agent liest den Root-Index bei rund 400 Tokens, identifiziert das richtige Unterverzeichnis, liest dessen Index und ruft dann die spezifischen Seiten ab. Die meisten Anfragen sind mit drei Lesevorgängen und rund 1.000 Tokens an Vault-Inhalt abgeschlossen."
+        "**Die Indexdatei ist das Retrieval-System.** Der Root-Index hat 22 Zeilen. Jedes Unterverzeichnis hat einen eigenen Index, der jede Seite mit einer einzeiligen Beschreibung auflistet. Der Agent liest den rund 400 Tokens langen Root-Index, identifiziert das richtige Unterverzeichnis, liest dessen Index und ruft dann die spezifischen Seiten ab. Die meisten Anfragen sind mit drei Lesevorgängen und rund 1.000 Tokens an Vault-Inhalt abgeschlossen."
       ]
     },
     {
@@ -88,7 +88,7 @@
     },
     {
       "type": "p",
-      "text": "Karpathy nennt es das Schema. Bei webvise heißt es CLAUDE.md. Manche Frameworks teilen es in einen Knowledge Base Layer und eine Brand Foundation auf. Der Name ist zweitrangig. Die operationale Tatsache ist: Diese eine Datei steuert, wie der Agent sich in jeder Sitzung verhält."
+      "text": "Karpathy nennt es das Schema. Bei webvise heißt es CLAUDE.md. Manche Frameworks teilen es in einen Knowledge Base Layer und eine Brand Foundation auf. Der Name ist zweitrangig. Entscheidend ist: Diese eine Datei steuert, wie der Agent sich in jeder Sitzung verhält."
     },
     {
       "type": "p",
@@ -99,7 +99,7 @@
       "items": [
         "**Verzeichnisstruktur.** Wo Rohdatenquellen abgelegt werden, wo Wiki-Seiten liegen, wie sie in Kategorien organisiert sind.",
         "**Seitenformat.** Frontmatter-Felder, Abschnittsstruktur, Quellenangabe-Regeln, Querverweiskonventionen.",
-        "**Operationen.** Schritt-für-Schritt-Workflows für das Ingestieren von Quellen, das Beantworten von Anfragen, das Ausführen von Health Checks und die Pflege des Wikis über die Zeit.",
+        "**Operationen.** Schritt-für-Schritt-Workflows für das Ingestieren von Quellen, das Beantworten von Anfragen, das Ausführen von Health Checks und die laufende Pflege des Wikis.",
         "**Qualitätssicherung.** Was eine Seite vollständig macht. Wann Unsicherheit zu markieren ist. Wie mit widersprüchlichen Quellen umzugehen ist. Die Regel, dass jede Aussage auf eine Quelle zurückführbar sein muss."
       ]
     },
@@ -120,7 +120,7 @@
       "items": [
         "**Ein Obsidian-Vault mit zwei Ordnern.** `raw/` für Quelldokumente und `wiki/` für agentengenerierte Seiten. In Obsidian geöffnet, stehen Graph-Ansicht und Navigation zur Verfügung.",
         "**Eine Schemadatei.** Ausgangspunkt ist Karpathys [Gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f). Verzeichnisstruktur und Seitenformat auf die eigene Domäne anpassen. Zum Start unter 200 Zeilen halten.",
-        "**Ein LLM-Agent mit Dateizugriff.** [Claude Code](https://docs.anthropic.com/en/docs/claude-code), OpenAI Codex oder jeder Agent, der Markdown-Dateien lesen und schreiben kann. Auf den Vault ausrichten, den er beim Start liest.",
+        "**Ein LLM-Agent mit Dateizugriff.** [Claude Code](https://docs.anthropic.com/en/docs/claude-code), OpenAI Codex oder jeder Agent, der Markdown-Dateien lesen und schreiben kann. Den Agenten im Vault starten; das Schema liest er beim Start.",
         "**Die erste Quelle.** Einen Artikel, Notizen oder ein Dokument in `raw/` ablegen. Den Agenten anweisen, ihn zu ingestieren. Er erstellt Wiki-Seiten, baut Querverweise auf und aktualisiert den Index."
       ]
     },
@@ -154,7 +154,7 @@
     },
     {
       "type": "p",
-      "text": "Das Muster ist identisch: Rohdatenquellen gehen ein, der Agent kompiliert strukturierte Seiten, Querverweise entstehen automatisch, Menschen validieren. Der Unterschied liegt darin, dass neue Teammitglieder dank einer gemeinsamen Wissensschicht sofort produktiv sind. Ihr Agent kennt bereits die Kundenhistorie, die internen Konventionen und den Projektkontext. Kein sechswöchiges Einarbeiten. Kein Stammwissen, das im Kopf einer einzelnen Person gesperrt bleibt."
+      "text": "Das Muster ist identisch: Rohdatenquellen gehen ein, der Agent kompiliert strukturierte Seiten, Querverweise entstehen automatisch, Menschen validieren. Der Unterschied liegt darin, dass neue Teammitglieder dank einer gemeinsamen Wissensschicht sofort produktiv sind. Ihr Agent kennt bereits die Kundenhistorie, die internen Konventionen und den Projektkontext. Kein sechswöchiges Einarbeiten. Kein Wissen, das nur im Kopf einer einzelnen Person steckt."
     },
     {
       "type": "p",

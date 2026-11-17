@@ -5,7 +5,7 @@
   "title": "Hermes Desktop: persönliche Agenten startklar",
   "excerpt": "Hermes Desktop gibt Hermes eine echte persönliche Agenten-Laufzeitumgebung: Profile, Remote-Gateways, Portal-Einrichtung, sichtbarer Zustand und Richtliniengrenzen für dauerhaften Betrieb.",
   "metaDescription": "Hermes Desktop macht persönliche Agenten betriebsbereit: Profile, Remote-Gateways und Portal-Setup, bevor Dauer-Agenten Dateien oder Zugangsdaten berühren.",
-  "cta": "Agenten-Workflow kartieren",
+  "cta": "Agenten-Workflow planen",
   "tags": ["AI Agents", "AI", "Open Source", "Automation"],
   "blocks": [
     {
@@ -24,7 +24,7 @@
       "type": "ul",
       "items": [
         "**Hermes Desktop ist eine gemeinsame Oberfläche über denselben Agentenzustand.** Laut offizieller Dokumentation teilen Desktop, CLI, TUI, Dashboard und Gateway dieselbe Kernkonfiguration, statt separate Agenten zu erzeugen.",
-        "**Profile sind jetzt der Heimatort wiederkehrender Agentenrollen.** Sie trennen Config, `.env`, `SOUL.md`, Memory, Sessions, Skills, Cron-Jobs und Gateway-Zustand, während die Dateisystem-Isolation weiterhin explizite Backend-Grenzen erfordert.",
+        "**In Profilen leben jetzt die wiederkehrenden Agentenrollen.** Sie trennen Config, `.env`, `SOUL.md`, Memory, Sessions, Skills, Cron-Jobs und Gateway-Zustand, während die Dateisystem-Isolation weiterhin explizite Backend-Grenzen erfordert.",
         "**Nous Portal beseitigt das Konto-Chaos beim ersten Start.** Ein einziger OAuth-Fluss genügt, um Modellzugang und Tool-Gateway-Zugang einzurichten, statt Suche, Browser, Bildgenerierung, TTS und Sandbox-Tools einzeln zu verdrahten.",
         "**Die Diskussion um lokale Agenten wird zur Sicherheitsdiskussion.** NVIDIA und Microsoft sprechen jetzt über Identität, Containment, Richtlinien und OpenShell für Agenten, die den primären Rechner berühren."
       ]
@@ -81,7 +81,7 @@
     },
     {
       "type": "p",
-      "text": "[Hermes-Profile](https://hermes-agent.nousresearch.com/docs/user-guide/profiles/) sind heute der klarste Ausgangspunkt für wiederkehrende Agentenrollen. Jedes Profil ist ein eigenes Hermes-Home-Verzeichnis mit eigenem Config, Secrets-Datei, Persönlichkeitsdatei, Memories, Sessions, Skills, Cron-Jobs und State-Datenbank."
+      "text": "[Hermes-Profile](https://hermes-agent.nousresearch.com/docs/user-guide/profiles/) sind heute der klarste Ausgangspunkt für wiederkehrende Agentenrollen. Jedes Profil ist ein eigenes Hermes-Home-Verzeichnis mit eigener Config, Secrets-Datei, Persönlichkeitsdatei, Memories, Sessions, Skills, Cron-Jobs und State-Datenbank."
     },
     {
       "type": "p",
@@ -93,7 +93,7 @@
     },
     {
       "type": "p",
-      "text": "Das hat am 8. und 9. Juni 2026 die eigenen Setup-Notizen verändert. Zuvor lag der Gedanke bei separaten Boxen für separate Agenten. Nachdem Profile in der tatsächlichen Architektur verfügbar waren, wurde die sauberere Standardlösung klar: eine Hermes-Installation, Desktop als Bedienoberfläche, Profile als Rollentrennung."
+      "text": "Am 8. und 9. Juni 2026 habe ich deshalb meine Setup-Notizen geändert. Vorher hatte ich für jeden Agenten einen eigenen Rechner eingeplant. Nachdem Profile in der tatsächlichen Architektur verfügbar waren, wurde die sauberere Standardlösung klar: eine Hermes-Installation, Desktop als Bedienoberfläche, Profile als Rollentrennung."
     },
     {
       "type": "p",
@@ -160,13 +160,13 @@
       "headers": ["Option", "Sinnvoll wenn", "Nicht geeignet für"],
       "rows": [
         [
-          "Desktop auf lokalem Runtime",
+          "Desktop auf lokaler Runtime",
           "Ein persönlicher Agent auf dem bereits verwendeten Rechner genügt.",
           "Riskante Dateisystemarbeit ohne Sandbox."
         ],
         [
           "Desktop plus Remote Gateway",
-          "Die UI soll lokal laufen, der Hermes-Runtime auf einem Remote-Rechner.",
+          "Die UI soll lokal laufen, die Hermes-Runtime auf einem Remote-Rechner.",
           "Das Kaschieren schwacher Profilberechtigungen."
         ],
         [
@@ -188,7 +188,7 @@
     },
     {
       "type": "p",
-      "text": "Bittet ein Team webvise, dieses Setup zu kartieren, beginnt die Arbeit mit der Berechtigungstabelle, bevor auch nur ein einziger Skill geschrieben wird. [Der AI-Automatisierungsansatz](/services/ai-automation) zahlt sich aus, sobald Verantwortliche, Tools, Zugangsdaten und Review-Gates klar genug definiert sind, dass ein fehlgelaufener Agentenlauf sofort sichtbar ist."
+      "text": "Bittet ein Team webvise, dieses Setup zu planen, beginnt die Arbeit mit der Berechtigungstabelle, bevor auch nur ein einziger Skill geschrieben wird. [Der AI-Automatisierungsansatz](/services/ai-automation) zahlt sich aus, sobald Verantwortliche, Tools, Zugangsdaten und Review-Gates klar genug definiert sind, dass ein fehlgelaufener Agentenlauf sofort sichtbar ist."
     },
     {
       "type": "h2",
@@ -208,7 +208,7 @@
     },
     {
       "type": "p",
-      "text": "Portal verändert auch, wo Secrets leben. Laut Dokumentation hinterlässt OAuth ein Refresh-Token in `~/.hermes/auth.json` und prägt kurzlebige JWTs pro Anfrage, statt `.env` mit Dutzenden langlebiger API-Keys zu füllen. Das ist sauberere Setup-Hygiene, aber Regeln auf Rollenebene bleiben trotzdem nötig."
+      "text": "Portal verändert auch, wo Secrets leben. Laut Dokumentation hinterlässt OAuth ein Refresh-Token in `~/.hermes/auth.json` und stellt pro Anfrage kurzlebige JWTs aus, statt `.env` mit Dutzenden langlebiger API-Keys zu füllen. Das ist sauberere Setup-Hygiene, aber Regeln auf Rollenebene bleiben trotzdem nötig."
     },
     {
       "type": "p",
@@ -240,7 +240,7 @@
     },
     {
       "type": "p",
-      "text": "Empfehlenswert ist ein Einstieg mit einem Runtime und drei Profilen. Das Assistenz-Profil wird zur Standard-Route für menschliche Anfragen. Recherche- und Schreib-Profil arbeiten als separate Worker. Secrets bleiben aus dem Schreib-Profil heraus."
+      "text": "Empfehlenswert ist ein Einstieg mit einer Runtime und drei Profilen. Das Assistenz-Profil wird zur Standard-Route für menschliche Anfragen. Recherche- und Schreib-Profil arbeiten als separate Worker. Secrets bleiben aus dem Schreib-Profil heraus."
     },
     {
       "type": "table",
@@ -264,12 +264,12 @@
         [
           "Desktop mit Remote-Backend verbinden",
           "`hermes dashboard` auf dem VPS starten, Desktop über Remote-Gateway verbinden.",
-          "Desktop sieht Sessions und Profilzustand des Remote-Runtimes."
+          "Desktop sieht Sessions und Profilzustand der Remote-Runtime."
         ],
         [
           "Reparaturschicht bereithalten",
           "Eine Admin-Oberfläche außerhalb von Hermes einrichten.",
-          "Dashboard, Gateway und Config lassen sich beheben, wenn Hermes selbst nicht mehr reagiert."
+          "Probleme mit Dashboard, Gateway und Config lassen sich beheben, wenn Hermes selbst nicht mehr reagiert."
         ],
         [
           "Berechtigungsregel schreiben",
@@ -279,7 +279,7 @@
         [
           "Memory-Timing prüfen",
           "Eingebautes Memory als Kontext zum Session-Start behandeln.",
-          "Memory-Schreibvorgänge mid-Session werden zuverlässiger Kontext in der nächsten Session, nicht sofort."
+          "Was während einer Session ins Memory geschrieben wird, steht erst in der nächsten Session zuverlässig als Kontext bereit."
         ]
       ]
     },
@@ -289,7 +289,7 @@
     },
     {
       "type": "p",
-      "text": "Bei **[webvise](/#contact)** entscheidet diese Art von Agenten-Setup-Analyse, welche Workflows Automatisierung verdienen und welche als geprüfte Tools besser aufgehoben sind. Eine gute erste Kartierung zeigt den wiederkehrenden Prozess, die berührten Tools und die Aktionen, bei denen ein fehlgelaufener Agent echten Schaden anrichten könnte."
+      "text": "Bei **[webvise](/#contact)** entscheidet diese Art von Agenten-Setup-Analyse, welche Workflows Automatisierung verdienen und welche als geprüfte Tools besser aufgehoben sind. Eine gute erste Bestandsaufnahme zeigt den wiederkehrenden Prozess, die berührten Tools und die Aktionen, bei denen ein fehlgelaufener Agent echten Schaden anrichten könnte."
     }
   ]
 }

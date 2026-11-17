@@ -9,7 +9,7 @@
   "blocks": [
     {
       "type": "p",
-      "text": "Eine agentengepflegte Wissensbasis überlebt, sobald man aufhört, ihr Bibliothekar zu sein. Mein LLM-Wiki erreichte in 3 Monaten 490 Seiten, und es hält zusammen wegen dreier Entscheidungen: Agenten besitzen die kompilierte Ebene, jede Interaktion läuft über eine von sechs benannten Operationen, und ein Linter mit 20 Prüfungen blockiert jeden Commit, der die Messlatte verfehlt. Fast keine dieser Seiten habe ich von Hand geschrieben."
+      "text": "Eine agentengepflegte Wissensbasis überlebt, sobald man aufhört, ihr Bibliothekar zu sein. Mein LLM-Wiki erreichte in 3 Monaten 490 Seiten, und dass es zusammenhält, liegt an drei Entscheidungen: Agenten verantworten die kompilierte Ebene, jede Interaktion läuft über eine von sechs benannten Operationen, und ein Linter mit 20 Prüfungen blockiert jeden Commit, der die Messlatte verfehlt. Fast keine dieser Seiten habe ich von Hand geschrieben."
     },
     {
       "type": "p",
@@ -18,28 +18,28 @@
     {
       "type": "ul",
       "items": [
-        "**Eigentum zuerst trennen.** Eine Ebene für Quellen gehört Ihnen, eine Ebene für kompilierte Seiten gehört den Agenten, Wissen fließt nur in eine Richtung. Diese eine Entscheidung macht die Pflege delegierbar.",
+        "**Zuständigkeit zuerst trennen.** Eine Ebene für Quellen gehört Ihnen, eine Ebene für kompilierte Seiten gehört den Agenten, Wissen fließt nur in eine Richtung. Diese eine Entscheidung macht die Pflege delegierbar.",
         "**Ein geschlossenes Set an Operationen schlägt Improvisation.** Sechs benannte Operationen (Ingest, Update, Query, Lint, Enrich, Reorganize) verhindern, dass Agenten in jeder Sitzung einen neuen Workflow erfinden.",
-        "**Deterministische Gates schlagen geschriebene Richtlinien.** Agenten respektieren eine fehlschlagende Prüfung, an Fließtext-Regeln driften sie vorbei. Ein Linter mit 1.671 Zeilen und 20 Prüfungen läuft bei jedem Commit.",
+        "**Deterministische Gates schlagen geschriebene Richtlinien.** Agenten respektieren eine fehlschlagende Prüfung, Fließtext-Regeln dagegen ignorieren sie mit der Zeit. Ein Linter mit 1.671 Zeilen und 20 Prüfungen läuft bei jedem Commit.",
         "**Eine gesunde Wissensbasis schrumpft manchmal.** Die zwei Wochen, in denen die Seitenzahl sank, waren Konsolidierungsdurchläufe, und sie waren die gesündesten Wochen im Log.",
         "**Jede Regel sollte auf einen Fehlschlag zurückführen.** Das Regelwerk mit 246 Zeilen wuchs wie ein Changelog der Dinge, die schiefliefen, und genau deshalb halten Agenten sich daran."
       ]
     },
     {
       "type": "h2",
-      "text": "Eigentum trennen, noch bevor irgendetwas anderes zählt"
+      "text": "Zuständigkeit trennen, noch bevor irgendetwas anderes zählt"
     },
     {
       "type": "p",
-      "text": "Der Vault liegt in Obsidian, aufgeteilt in zwei Ebenen, und alles hier überträgt sich auf jeden Ordner mit Markdown-Dateien. Die **raw**-Ebene gehört mir: 341 gespeicherte Artikel, 20 Transkripte, Notizen und Journaleinträge, die Agenten lesen, aber nie umschreiben. Die **wiki**-Ebene gehört den Agenten: Jede Seite wird von ihnen generiert und gepflegt, Korrekturen geschehen im Gespräch statt von Hand. Wissen fließt nur in eine Richtung, von raw zu wiki, nie zurück."
+      "text": "Der Vault liegt in Obsidian, aufgeteilt in zwei Ebenen, und alles hier lässt sich auf jeden Ordner mit Markdown-Dateien übertragen. Die **raw**-Ebene gehört mir: 341 gespeicherte Artikel, 20 Transkripte, Notizen und Journaleinträge, die Agenten lesen, aber nie umschreiben. Die **wiki**-Ebene gehört den Agenten: Jede Seite wird von ihnen generiert und gepflegt, Korrekturen geschehen im Gespräch statt von Hand. Wissen fließt nur in eine Richtung, von raw zu wiki, nie zurück."
     },
     {
       "type": "p",
-      "text": "Diese Trennung macht die Pflege delegierbar. Teilen sich menschliche Notizen und Agentennotizen eine Datei, kann jede Agenten-Bearbeitung etwas Gemeintes überschreiben, sodass am Ende alles geprüft werden muss, wieder der Bibliothekarsjob. Trennt man die Ebenen, schrumpft die Prüfung auf eine Frage: Ist das kompilierte Verständnis den Quellen treu?"
+      "text": "Diese Trennung macht die Pflege delegierbar. Teilen sich menschliche Notizen und Agentennotizen eine Datei, kann jede Bearbeitung durch einen Agenten etwas überschreiben, das Sie bewusst so geschrieben haben, und am Ende muss alles geprüft werden: wieder der Bibliothekarsjob. Trennt man die Ebenen, schrumpft die Prüfung auf eine Frage: Ist das kompilierte Verständnis den Quellen treu?"
     },
     {
       "type": "p",
-      "text": "Dieselbe Eigentumsfrage entscheidet, ob eine Wissensbasis im Unternehmen funktioniert. Herauszufinden, welche Seite welche Tatsache besitzt, ist auch die erste Übung in webvises [KI-Audit- und Beratungssprint](/services/ai-consulting), denn eine Automatisierung auf Basis widersprüchlicher Dokumente automatisiert den Widerspruch."
+      "text": "Dieselbe Zuständigkeitsfrage entscheidet, ob eine Wissensbasis im Unternehmen funktioniert. Herauszufinden, welche Seite für welche Tatsache maßgeblich ist, ist auch die erste Übung in webvises [KI-Audit- und Beratungssprint](/services/ai-consulting), denn eine Automatisierung auf Basis widersprüchlicher Dokumente automatisiert den Widerspruch."
     },
     {
       "type": "h2",
@@ -54,7 +54,7 @@
       "items": [
         "**Keine Erfindung.** Jede Behauptung führt auf eine Quelle zurück oder wird als unbelegt markiert.",
         "**Ein Chat ist keine Quelle.** Ein bereinigter Auszug wird zuerst als Datei gespeichert, erst dann wird die Datei zitiert. \"Nutzer sagte das im Chat\" ist ein Beleg, der sich nie wieder öffnen lässt.",
-        "**Eine Eigentümerseite pro veränderlicher Tatsache.** Jede andere Seite verlinkt darauf, statt sie zu kopieren.",
+        "**Eine Stammseite pro veränderlicher Tatsache.** Jede andere Seite verlinkt darauf, statt sie zu kopieren.",
         "**Jede Erwähnung einer bekannten Entität ist ein Link.** Eine unverlinkte Tatsache ist für den Graphen und für das Retrieval unsichtbar."
       ]
     },
@@ -77,12 +77,12 @@
         [
           "Ingest",
           "Neue Dateien landen in der raw-Ebene",
-          "Kompiliert Quellen zu Wiki-Seiten, dedupliziert gegen bestehende"
+          "Kompiliert Quellen zu Wiki-Seiten und gleicht sie mit bestehenden ab"
         ],
         [
           "Update",
           "\"File this\"",
-          "Trägt eine genannte Tatsache in ihre eine Eigentümerseite ein"
+          "Trägt eine genannte Tatsache in ihre Stammseite ein"
         ],
         [
           "Query",
@@ -116,7 +116,7 @@
     },
     {
       "type": "p",
-      "text": "Agenten respektieren ein fehlschlagendes Gate, an einer geschriebenen Richtlinie driften sie vorbei. Man kann \"Indizes synchron halten\" in ein Regelwerk schreiben und zusehen, wie es binnen einer Woche verfällt, oder man kann einen nicht synchronen Index eine Prüfung scheitern lassen, die den Commit blockiert, und das Problem verschwindet dauerhaft."
+      "text": "Agenten respektieren ein fehlschlagendes Gate, über eine geschriebene Richtlinie gehen sie mit der Zeit hinweg. Man kann \"Indizes synchron halten\" in ein Regelwerk schreiben und zusehen, wie es binnen einer Woche verfällt, oder man lässt eine Prüfung jeden Commit blockieren, sobald ein Index nicht mehr synchron ist, und das Problem verschwindet dauerhaft."
     },
     {
       "type": "p",
@@ -124,7 +124,7 @@
     },
     {
       "type": "p",
-      "text": "Das Gate liest alles, auch Texte über das Gate selbst. Beim Verfassen der Langfassung dieses Berichts am 2026-07-21 formulierte ich beispielhaft eine deutsche Frist-Wendung aus, und der Linter interpretierte sie als abgelaufene Frist im Artikel. Ein Beispiel-Zitatstempel wurde als in der Quellenliste fehlende Quelle registriert. Beide Passagen mussten umformuliert werden, bevor der Commit durchging."
+      "text": "Das Gate liest alles, auch Texte über das Gate selbst. Beim Verfassen der Langfassung dieses Berichts am 21. Juli 2026 formulierte ich beispielhaft eine deutsche Frist-Wendung aus, und der Linter interpretierte sie als abgelaufene Frist im Artikel. Ein Beispiel-Zitatstempel galt dem Linter als Quelle, die in der Quellenliste fehlt. Beide Passagen mussten umformuliert werden, bevor der Commit durchging."
     },
     {
       "type": "table",
@@ -148,15 +148,15 @@
     },
     {
       "type": "p",
-      "text": "Die wöchentlichen Berichte zeigen die Seitenzahl bei 188 Mitte April, 279 Anfang Mai, dann auf 263 nach einem Konsolidierungsdurchlauf, hoch auf 479 Anfang Juli, dann runter auf 430, bevor sie Ende Juli 490 erreichte. Die beiden Rückgänge waren die gesündesten Wochen im Log, weil sie dünne und doppelte Seiten in ihre Eigentümerseiten überführten. Ungepflegte Wissensbasen wachsen nur. Ist Ihre Seitenzahl noch nie gesunken, pflegt niemand den Garten."
+      "text": "Laut den Wochenberichten lag die Seitenzahl Mitte April bei 188 und Anfang Mai bei 279, fiel nach einem Konsolidierungsdurchlauf auf 263, stieg bis Anfang Juli auf 479, sank dann auf 430 und erreichte Ende Juli 490. Die beiden Rückgänge waren die gesündesten Wochen im Log, weil sie dünne und doppelte Seiten in ihre Stammseiten überführten. Ungepflegte Wissensbasen wachsen nur. Ist Ihre Seitenzahl noch nie gesunken, pflegt niemand den Garten."
     },
     {
       "type": "p",
-      "text": "Ein Audit des gesamten Vaults am 2026-06-22 fand eine Preistabelle, die auf 4 verschiedenen Seiten wiederholt war, und die Geschichte eines Projekts, dreimal in Absatzlänge erzählt. Jede Kopie war beim Schreiben korrekt, und jede Kopie war eine künftige Lüge, weil die nächste Änderung eine von ihnen träfe und die übrigen verfehlte. Die Lösung war Eigentum statt Zusammenführung: Ein Register nennt genau eine Eigentümerseite pro veränderlicher Tatsache, und kleine Einzelthema-Seiten bleiben klein, weil diese Form am besten abrufbar ist. Dasselbe Audit fand über mehr als 400 Seiten hinweg null harte faktische Widersprüche, weil die Struktur Widersprüchen keinen Ort zum Bestehen lässt."
+      "text": "Ein Audit des gesamten Vaults am 22. Juni 2026 fand eine Preistabelle, die auf 4 verschiedenen Seiten wiederholt war, und die Geschichte eines Projekts, dreimal in Absatzlänge erzählt. Jede Kopie war beim Schreiben korrekt, und jede Kopie war eine künftige Lüge, weil die nächste Änderung eine von ihnen träfe und die übrigen verfehlte. Die Lösung war klare Zuständigkeit statt Zusammenführung: Ein Register nennt genau eine Stammseite pro veränderlicher Tatsache, und kleine Einzelthema-Seiten bleiben klein, weil diese Form am besten abrufbar ist. Dasselbe Audit fand über mehr als 400 Seiten hinweg null harte faktische Widersprüche, weil die Struktur Widersprüchen keinen Ort zum Bestehen lässt."
     },
     {
       "type": "p",
-      "text": "Die Bewertungsmethode, die sich zu kopieren lohnt, ist eine Scorecard statt einer Graphenansicht. Schreiben Sie die 15 Fragen auf, die die Wissensbasis am dringendsten beantworten muss, stellen Sie sie kalt, und bewerten Sie jede Antwort als eindeutig oder verstreut. Bei mir kamen 13 eindeutig zurück, und die 2 verstreuten drehten sich beide um Geschmack, der in nie aufgeschriebenen Entscheidungen lebt. Ob das System echte Fragen in einem Schritt beantwortet, ist die Kennzahl."
+      "text": "Die Bewertungsmethode, die sich zu kopieren lohnt, ist eine Scorecard statt einer Graphenansicht. Schreiben Sie die 15 Fragen auf, die die Wissensbasis am dringendsten beantworten muss, stellen Sie sie ohne Vorbereitung, und bewerten Sie jede Antwort als eindeutig oder verstreut. Bei mir kamen 13 eindeutig zurück, und die 2 verstreuten drehten sich beide um Geschmack, der in nie aufgeschriebenen Entscheidungen lebt. Ob das System echte Fragen in einem Schritt beantwortet, ist die Kennzahl."
     },
     {
       "type": "p",
@@ -176,7 +176,7 @@
     },
     {
       "type": "p",
-      "text": "Dedizierte Memory-Produkte versprechen, das Retrieval jenseits der 10.000-Seiten-Grenze zu lösen, und die ehrliche Antwort ist, dass dieser Vault weit unter dieser Grenze liegt. Die Aufteilung dieses Marktes in zwei Lager steht in Kontext-Substrate für langläufige Agenten."
+      "text": "Dedizierte Memory-Produkte versprechen, das Retrieval jenseits der 10.000-Seiten-Grenze zu lösen, und die ehrliche Antwort ist, dass dieser Vault weit unter dieser Grenze liegt. Die Aufteilung dieses Marktes in zwei Lager steht im Artikel „Kontext-Substrate für langlaufende Agenten“."
     },
     {
       "type": "h2",
@@ -188,7 +188,7 @@
     },
     {
       "type": "p",
-      "text": "Die Urteilsarbeit liegt im Setup: welche Tatsachen Eigentümerseiten bekommen, wo Prüfgates sitzen, und wohin Agenten schreiben dürfen. Diese Zuordnung ist die Form von webvises [KI-Audit- und Beratungsengagement](/services/ai-consulting): einen Workflow auswählen, Eingaben, Ausnahmen und Prüfpunkte kartieren, und mit einem funktionierenden Prototyp und einem Bauplan herausgehen. Die Wissensschicht erweist sich meist als Voraussetzung für jede Automatisierung, die danach kommt."
+      "text": "Die Urteilsarbeit liegt im Setup: welche Tatsachen Stammseiten bekommen, wo Prüfgates sitzen, und wohin Agenten schreiben dürfen. Genau diese Zuordnung leistet webvises [KI-Audit- und Beratungsprojekt](/services/ai-consulting): einen Workflow auswählen, Eingaben, Ausnahmen und Prüfpunkte kartieren, und mit einem funktionierenden Prototyp und einem Bauplan herausgehen. Die Wissensschicht erweist sich meist als Voraussetzung für jede Automatisierung, die danach kommt."
     },
     {
       "type": "p",

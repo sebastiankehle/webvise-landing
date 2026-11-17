@@ -22,7 +22,7 @@
     },
     {
       "type": "p",
-      "text": "Das feste Fünf-Minuten-Zeitbudget pro Experiment ist eine bewusste Designentscheidung. Es macht Ergebnisse über Läufe hinweg vergleichbar, verhindert, dass der Agent unverhältnismäßig viel Zeit auf eine einzelne Hypothese verwendet, und passt zum Kostenrahmen einer einzigen H100-GPU, die über Nacht läuft. Die Beschränkung zwingt das System zur Effizienz statt zur Erschöpfungssuche."
+      "text": "Das feste Fünf-Minuten-Zeitbudget pro Experiment ist eine bewusste Designentscheidung. Es macht Ergebnisse über Läufe hinweg vergleichbar, verhindert, dass der Agent unverhältnismäßig viel Zeit auf eine einzelne Hypothese verwendet, und passt zum Kostenrahmen einer einzigen H100-GPU, die über Nacht läuft. Die Beschränkung zwingt das System zur Effizienz, statt alles erschöpfend durchzuprobieren."
     },
     {
       "type": "h2",
@@ -54,11 +54,11 @@
     },
     {
       "type": "p",
-      "text": "Das ist eine bedeutsame Verschiebung gegenüber der verbreiteten Vorstellung von KI-Coding-Tools. Die gängige Rahmung positioniert KI als Assistenten, der hilft, Code schneller zu schreiben. AutoResearch dreht das um: Der Agent schreibt den Code, führt die Experimente durch und wertet die Ergebnisse aus. Der Mensch liefert die Forschungsrichtung. Das eigentliche Arbeitsergebnis des Menschen ist das Strategiedokument, nicht die Implementierung."
+      "text": "Das ist eine bedeutsame Verschiebung gegenüber der verbreiteten Vorstellung von KI-Coding-Tools. Meist wird KI als Assistent dargestellt, der hilft, Code schneller zu schreiben. AutoResearch dreht das um: Der Agent schreibt den Code, führt die Experimente durch und wertet die Ergebnisse aus. Der Mensch liefert die Forschungsrichtung. Das eigentliche Arbeitsergebnis des Menschen ist das Strategiedokument, nicht die Implementierung."
     },
     {
       "type": "p",
-      "text": "Ob diese Rahmung über ML-Forschung hinaus verallgemeinert werden kann, bleibt offen. Innerhalb iterativer Experimente, bei denen es darum geht, einen großen Raum möglicher Ansätze zu durchsuchen und herauszufinden, was funktioniert, passt sie jedoch präzise. Der Agent durchsucht diesen Raum um ein Vielfaches schneller als jedes menschliche Team."
+      "text": "Ob sich diese Sichtweise über ML-Forschung hinaus verallgemeinern lässt, bleibt offen. Innerhalb iterativer Experimente, bei denen es darum geht, einen großen Raum möglicher Ansätze zu durchsuchen und herauszufinden, was funktioniert, passt sie jedoch präzise. Der Agent durchsucht diesen Raum um ein Vielfaches schneller als jedes menschliche Team."
     },
     {
       "type": "h2",
@@ -78,7 +78,7 @@
     },
     {
       "type": "p",
-      "text": "Das feste Fünf-Minuten-Budget löst zugleich ein subtiles Problem der ML-Forschung: Wie vergleicht man Ansätze, die sich in ihrer Rechenkomplexität unterscheiden? Benötigt eine Technik doppelt so viel Compute, würde ein längerer Trainingslauf sie besser aussehen lassen als sie ist. Durch konstante Zeit stellt AutoResearch sicher, dass Verbesserungen auf echten algorithmischen Vorteilen beruhen und nicht auf der Strategie, schlicht mehr Rechenleistung einzusetzen."
+      "text": "Das feste Fünf-Minuten-Budget löst zugleich ein subtiles Problem der ML-Forschung: Wie vergleicht man Ansätze, die sich in ihrer Rechenkomplexität unterscheiden? Benötigt eine Technik doppelt so viel Compute, würde ein längerer Trainingslauf sie besser aussehen lassen, als sie ist. Weil die Zeit konstant bleibt, stellt AutoResearch sicher, dass Verbesserungen auf echten algorithmischen Vorteilen beruhen und nicht auf der Strategie, schlicht mehr Rechenleistung einzusetzen."
     },
     {
       "type": "h2",
@@ -91,7 +91,7 @@
     {
       "type": "ol",
       "items": [
-        "**Einzelne GPU als Zielplattform.** Das System ist für eine H100 ausgelegt, nicht für ein Cluster. Das hält Setup und Kosten beherrschbar. Ein einzelner Nachtlauf kostet ungefähr so viel wie eine mittelklassige Cloud-Instanz.",
+        "**Einzelne GPU als Zielplattform.** Das System ist für eine H100 ausgelegt, nicht für einen Cluster. Das hält Setup und Kosten beherrschbar. Ein einzelner Nachtlauf kostet ungefähr so viel wie eine mittelklassige Cloud-Instanz.",
         "**Änderungen nur in einer Datei.** Die Beschränkung auf train.py macht Diffs lesbar und Änderungen auditierbar. Ob etwas schiefläuft oder unerwartet funktioniert, lässt sich zurückverfolgen.",
         "**Feste Evaluierungsmetrik.** val_bpb gibt dem Agenten ein eindeutiges Signal. Qualität muss nicht subjektiv beurteilt werden, es gibt eine Zahl zu optimieren.",
         "**Rollback bei Regression.** Fehlgeschlagene Experimente akkumulieren sich nicht. Der Agent macht Änderungen rückgängig, die den Score verschlechtern, sodass die Baseline sich nur vorwärts bewegt."
@@ -115,7 +115,7 @@
     },
     {
       "type": "p",
-      "text": "Die Implikationen reichen über ML-Forschung hinaus. Jeder Bereich mit einer klaren Evaluierungsmetrik, einem veränderbaren Artefakt und einem großen Suchraum möglicher Ansätze kommt als Kandidat für dieses Muster in Frage: Software-Optimierung, Wirkstoffentwicklung, Materialwissenschaft, Finanzmodellierung. Der Engpass ist in jedem Fall die Kosten von Experimenten. Wer diese Kosten senkt, verändert, was überhaupt machbar ist."
+      "text": "Die Implikationen reichen über ML-Forschung hinaus. Jeder Bereich mit einer klaren Evaluierungsmetrik, einem Gegenstand, den ein Agent verändern kann, und einem großen Suchraum möglicher Ansätze kommt für dieses Muster in Frage: Software-Optimierung, Wirkstoffentwicklung, Materialwissenschaft, Finanzmodellierung. Der Engpass sind in jedem Fall die Kosten der Experimente. Wer diese Kosten senkt, verändert, was überhaupt machbar ist."
     },
     {
       "type": "h2",
@@ -143,7 +143,7 @@
     },
     {
       "type": "p",
-      "text": "AutoResearch ist ein Forschungswerkzeug. Teams können den Zyklus adaptieren: einen Kandidaten generieren, testen, Fehlschläge festhalten und die nächste Iteration gegen diese Fehlschläge laufen lassen."
+      "text": "AutoResearch ist ein Forschungswerkzeug. Teams können den Zyklus adaptieren: einen Kandidaten generieren, testen, Fehlschläge festhalten und die nächste Iteration an diesen Fehlschlägen messen."
     },
     {
       "type": "h3",
@@ -151,7 +151,7 @@
     },
     {
       "type": "p",
-      "text": "Wenn der Agent die Experimente durchführt, liegt der menschliche Wert darin, die richtigen Fragen zu stellen. Eine gute program.md zu schreiben setzt voraus zu verstehen, welche Ansätze es wert sind, erkundet zu werden, welche Einschränkungen relevant sind und wie Erfolg tatsächlich aussieht. Das ist anspruchsvollere Arbeit als Code zu schreiben, und sie erfordert Domänenwissen und Urteilsvermögen. Die Arbeit verlagert sich von der Implementierung zur Ausrichtung."
+      "text": "Wenn der Agent die Experimente durchführt, liegt der menschliche Wert darin, die richtigen Fragen zu stellen. Eine gute program.md zu schreiben setzt voraus zu verstehen, welche Ansätze sich zu erkunden lohnen, welche Einschränkungen relevant sind und wie Erfolg tatsächlich aussieht. Das ist anspruchsvollere Arbeit als Code zu schreiben, und sie erfordert Domänenwissen und Urteilsvermögen. Die Arbeit verlagert sich von der Implementierung zur Ausrichtung."
     },
     {
       "type": "h3",
@@ -159,7 +159,7 @@
     },
     {
       "type": "p",
-      "text": "Die meisten Teams, die Cloud-Infrastruktur betreiben, haben über Nacht ungenutzte GPU-Kapazität. AutoResearch macht das Argument, dass diese Kapazität produktive experimentelle Arbeit leisten könnte statt unbenutzt zu bleiben. Die Frage für jedes Team mit einem klaren Optimierungsziel und einer messbaren Metrik ist, ob das gleiche Muster auf das eigene Problem anwendbar ist."
+      "text": "Die meisten Teams, die Cloud-Infrastruktur betreiben, haben über Nacht ungenutzte GPU-Kapazität. AutoResearch zeigt, dass diese Kapazität produktive experimentelle Arbeit leisten könnte, statt ungenutzt zu bleiben. Die Frage für jedes Team mit einem klaren Optimierungsziel und einer messbaren Metrik ist, ob das gleiche Muster auf das eigene Problem anwendbar ist."
     },
     {
       "type": "h3",
@@ -167,7 +167,7 @@
     },
     {
       "type": "p",
-      "text": "Die Einzeldatei-Beschränkung in AutoResearch ist ein Nachvollziehbarkeitsmerkmal. Wenn Agenten beliebige Dateien anfassen können, erfordert das Verstehen ihrer Handlungen erheblichen Reverse-Engineering-Aufwand. Systeme zu entwerfen, in denen Agentenaktionen begrenzt und auditierbar sind, wird wichtiger, je mehr Autonomie zunimmt. Teams, die Agenten-produzierte Arbeit vertrauen und iterieren können, sind jene, die Interpretierbarkeit von Anfang an eingeplant haben."
+      "text": "Die Einzeldatei-Beschränkung in AutoResearch ist ein Nachvollziehbarkeitsmerkmal. Wenn Agenten beliebige Dateien anfassen können, erfordert das Verstehen ihrer Handlungen erheblichen Reverse-Engineering-Aufwand. Systeme zu entwerfen, in denen Agentenaktionen begrenzt und auditierbar sind, wird umso wichtiger, je autonomer Agenten arbeiten. Der Arbeit ihrer Agenten vertrauen und darauf aufbauen können nur Teams, die Interpretierbarkeit von Anfang an eingeplant haben."
     },
     {
       "type": "h2",
@@ -179,7 +179,7 @@
     },
     {
       "type": "p",
-      "text": "Die interessantere Frage ist, was man eigentlich untersuchen würde. AutoResearch liefert den Mechanismus. Die Forschungsrichtung kommt, wie immer, aus dem Verständnis, welche Probleme es wert sind, gelöst zu werden."
+      "text": "Die interessantere Frage ist, was man eigentlich untersuchen würde. AutoResearch liefert den Mechanismus. Die Forschungsrichtung kommt, wie immer, aus dem Verständnis, welche Probleme sich zu lösen lohnen."
     },
     {
       "type": "p",
