@@ -27,21 +27,21 @@ const TOPIC_COPY: Record<
 	en: {
 		"ai-agents": {
 			expect:
-				"You'll mostly get emails about AI agents: what we run in production for clients, what works, what breaks.",
+				"You'll mostly get emails about AI agents: what I run in production for clients, what works, what breaks.",
 			offer:
-				"If you're thinking about agents for your own business, reply to this email. We build them.",
+				"If you're thinking about agents for your own business, reply to this email. I build them.",
 		},
 		"ai-automation": {
 			expect:
-				"You'll mostly get emails about AI automation: real workflows we build for companies and what they cost.",
+				"You'll mostly get emails about AI automation: real workflows I build for companies and what they cost.",
 			offer:
-				"If part of your operation still runs on copy-paste, reply and describe it. That's the work we do.",
+				"If part of your operation still runs on copy-paste, reply and describe it. That's the work I do.",
 		},
 		web: {
 			expect:
 				"You'll mostly get emails about websites: performance, SEO, and what a fast site takes.",
 			offer:
-				"If your site is slow or brings in too few leads, reply to this email. We can take a look.",
+				"If your site is slow or brings in too few leads, reply to this email. I can take a look.",
 		},
 	},
 	de: {
@@ -49,19 +49,19 @@ const TOPIC_COPY: Record<
 			expect:
 				"Sie erhalten vor allem E-Mails über KI-Agenten: was bei Kunden im Betrieb läuft, was funktioniert und was nicht.",
 			offer:
-				"Wenn Sie über Agenten für Ihr eigenes Unternehmen nachdenken, antworten Sie auf diese E-Mail. Wir bauen sie.",
+				"Wenn Sie über Agenten für Ihr eigenes Unternehmen nachdenken, antworten Sie auf diese E-Mail. Ich baue sie.",
 		},
 		"ai-automation": {
 			expect:
-				"Sie erhalten vor allem E-Mails über KI-Automation: echte Workflows, die wir für Unternehmen bauen, und was sie kosten.",
+				"Sie erhalten vor allem E-Mails über KI-Automation: echte Workflows, die ich für Unternehmen baue, und was sie kosten.",
 			offer:
-				"Wenn ein Teil Ihres Betriebs noch über Kopieren und Einfügen läuft, antworten Sie und beschreiben Sie ihn. Das ist unsere Arbeit.",
+				"Wenn ein Teil Ihres Betriebs noch über Kopieren und Einfügen läuft, antworten Sie und beschreiben Sie ihn. Das ist meine Arbeit.",
 		},
 		web: {
 			expect:
 				"Sie erhalten vor allem E-Mails über Websites: Performance, SEO und was eine schnelle Seite braucht.",
 			offer:
-				"Wenn Ihre Website langsam ist oder zu wenige Anfragen bringt, antworten Sie auf diese E-Mail. Wir sehen sie uns an.",
+				"Wenn Ihre Website langsam ist oder zu wenige Anfragen bringt, antworten Sie auf diese E-Mail. Ich sehe sie mir an.",
 		},
 	},
 };
@@ -80,13 +80,13 @@ const COPY = {
 		signedUpReading: (title: string) =>
 			`You signed up while reading "${title}".`,
 		genericExpect:
-			"We send occasional emails on web performance, modern development, and what we're building.",
+			"I send occasional emails on web performance, modern development, and what I'm building.",
 		genericOffer:
-			"If you have a project in mind, reply to this email. We read every reply.",
+			"If you have a project in mind, reply to this email. I read every reply.",
 		noSpam: "No spam. Unsubscribe anytime by replying.",
 		bookCall: "Book a free call",
 		unsubscribe: "Unsubscribe",
-		signOff: "- The webvise team",
+		signOff: "- Sebastian",
 	},
 	de: {
 		confirmSubject:
@@ -103,14 +103,14 @@ const COPY = {
 		signedUpReading: (title: string) =>
 			`Sie haben sich beim Lesen von „${title}“ angemeldet.`,
 		genericExpect:
-			"Wir schreiben gelegentlich über Web-Performance, moderne Entwicklung und das, woran wir gerade bauen.",
+			"Ich schreibe gelegentlich über Web-Performance, moderne Entwicklung und das, woran ich gerade baue.",
 		genericOffer:
-			"Wenn Sie ein Projekt im Kopf haben, antworten Sie auf diese E-Mail. Wir lesen jede Antwort.",
+			"Wenn Sie ein Projekt im Kopf haben, antworten Sie auf diese E-Mail. Ich lese jede Antwort.",
 		noSpam:
 			"Kein Spam. Abmelden können Sie sich jederzeit mit einer Antwort auf diese E-Mail.",
 		bookCall: "Kostenloses Gespräch buchen",
 		unsubscribe: "Abmelden",
-		signOff: "- Das webvise Team",
+		signOff: "- Sebastian",
 	},
 } as const;
 

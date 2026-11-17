@@ -341,7 +341,7 @@ describe("/api/newsletter/confirm", () => {
 		const welcomeBody = JSON.parse(fetchMock.mock.calls[1][1].body);
 		expect(welcomeBody.html).toContain(
 			// No signup page on record: the email falls back to the site's own language.
-			"Web-Performance, moderne Entwicklung und das, woran wir gerade bauen"
+			"Web-Performance, moderne Entwicklung und das, woran ich gerade baue"
 		);
 	});
 

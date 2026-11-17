@@ -135,8 +135,8 @@ const PROSPECT_COPY = {
 	en: {
 		subject: "Your website report from webvise",
 		greeting: "Hi there, here's your report",
-		analysedLead: "We've analysed",
-		analysedRest: "Here's what we found and what's possible.",
+		analysedLead: "I've analysed",
+		analysedRest: "Here's what I found and what's possible.",
 		today: "Performance today",
 		mobile: "Mobile",
 		desktop: "Desktop",
@@ -146,7 +146,7 @@ const PROSPECT_COPY = {
 		scope:
 			"webvise can review your content model, integrations, SEO risk, and support needs before recommending the right rebuild path.",
 		bookCall: "Book a free call",
-		viewWork: "View our work",
+		viewWork: "View my work",
 		siteUrl: `${SITE_URL}/en`,
 		seoTitle: "SEO & AI readiness",
 		seoScore: "SEO score",
@@ -166,13 +166,13 @@ const PROSPECT_COPY = {
 		textIssues: "Top issues found:",
 		textCall: "Ready to talk? Book a free call: https://cal.com/webvise",
 		textReply: "Or reply to this email with any questions.",
-		signOff: "- The webvise team",
+		signOff: "- Sebastian",
 	},
 	de: {
 		subject: "Ihr Website-Report von webvise",
 		greeting: "Guten Tag, hier ist Ihr Report",
-		analysedLead: "Wir haben",
-		analysedRest: "analysiert. Das haben wir gefunden, und das ist möglich.",
+		analysedLead: "Ich habe",
+		analysedRest: "analysiert. Das habe ich gefunden, und das ist möglich.",
 		today: "Performance heute",
 		mobile: "Mobil",
 		desktop: "Desktop",
@@ -180,7 +180,7 @@ const PROSPECT_COPY = {
 		issues: "Was Ihre Seite bremst",
 		scopeLabel: "Umfang prüfen",
 		scope:
-			"webvise prüft Inhaltsmodell, Integrationen, SEO-Risiko und Betreuungsbedarf, bevor wir den passenden Weg für den Neubau empfehlen.",
+			"webvise prüft Inhaltsmodell, Integrationen, SEO-Risiko und Betreuungsbedarf und empfiehlt dann den passenden Weg für den Neubau.",
 		bookCall: "Kostenloses Gespräch buchen",
 		viewWork: "Projekte ansehen",
 		siteUrl: SITE_URL,
@@ -204,7 +204,7 @@ const PROSPECT_COPY = {
 		textCall:
 			"Bereit für ein Gespräch? Kostenlos buchen: https://cal.com/webvise",
 		textReply: "Oder antworten Sie mit Ihren Fragen auf diese E-Mail.",
-		signOff: "- Das webvise Team",
+		signOff: "- Sebastian",
 	},
 } as const;
 
