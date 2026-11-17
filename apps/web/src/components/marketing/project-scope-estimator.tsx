@@ -441,6 +441,9 @@ function Result({
 						<p className="mt-4 max-w-[52ch] text-base text-muted-foreground leading-[1.6]">
 							{t(`bands.${result.band}.description`)}
 						</p>
+						<p className="mt-4 max-w-[52ch] text-base text-foreground leading-[1.6]">
+							{t("result.priceFloor")}
+						</p>
 					</div>
 					<BandMeter
 						labels={BANDS.map((band) => t(`bands.${band}.title`))}

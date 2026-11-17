@@ -2,8 +2,9 @@ import type { OfferingGroupKey } from "@/data/offerings";
 
 /**
  * The project scope estimator: ten questions, each answer worth a few effort
- * points, and the sum read as a band. It shows no prices, by design: webvise
- * estimates effort after a discovery call, not from a form.
+ * points, and the sum read as a band. The result names only the minimum
+ * project price: webvise estimates effort after a discovery call, not from a
+ * form.
  */
 
 /** What is being built, grouped by the service it leads to. */
