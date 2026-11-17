@@ -25,7 +25,7 @@ import { getCaseStudyBySlug } from "@/data/case-studies";
 import { getIndustryBySlug, industries } from "@/data/industries";
 import { Link } from "@/i18n/navigation";
 import { pinLocale } from "@/i18n/static-locale";
-import { generateAlternates, localizedUrl } from "@/lib/seo";
+import { generateAlternates, localizedUrl, shareImage } from "@/lib/seo";
 
 const items = ["0", "1", "2"] as const;
 
@@ -60,6 +60,7 @@ export async function generateMetadata({
 			description,
 			siteName: "webvise",
 			url: localizedUrl(path, locale),
+			images: [shareImage(title)],
 		},
 		twitter: {
 			card: "summary_large_image",

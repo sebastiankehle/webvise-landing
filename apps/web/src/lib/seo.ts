@@ -27,6 +27,13 @@ export function localizedUrl(path: string, locale: string): string {
 		: `${BASE_URL}/${locale}${resolved === "/" ? "" : resolved}`;
 }
 
+/** The site's share image: the English home page's first screen, 2400 ×
+ * 1260, for both locales. `pnpm --filter web share-image` captures it again
+ * after the hero changes. */
+export function shareImage(alt: string | undefined) {
+	return { url: "/images/home/share.jpg", width: 2400, height: 1260, alt };
+}
+
 /**
  * Generate alternates metadata (canonical + hreflang) for a given path and locale.
  */

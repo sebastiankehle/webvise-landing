@@ -5,7 +5,7 @@ import { LegalPageShell } from "@/components/marketing/legal-page-shell";
 import { InlineLink } from "@/components/ui/typography";
 import { getLegalPage } from "@/data/legal";
 import { type LocaleParams, pinLocale } from "@/i18n/static-locale";
-import { generateAlternates, localizedUrl } from "@/lib/seo";
+import { generateAlternates, localizedUrl, shareImage } from "@/lib/seo";
 
 const EMAIL_RE = /([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/;
 
@@ -42,6 +42,7 @@ export async function generateMetadata({
 			description: page?.subtitle,
 			siteName: "webvise",
 			url: localizedUrl("/imprint", locale),
+			images: [shareImage(page?.title)],
 		},
 	};
 }

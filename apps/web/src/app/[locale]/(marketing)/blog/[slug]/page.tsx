@@ -31,7 +31,7 @@ import {
 import { topicsForTags } from "@/data/blog-topics";
 import { Link } from "@/i18n/navigation";
 import { homepageSectionHref } from "@/lib/homepage-section-href";
-import { generateAlternates, localizedUrl } from "@/lib/seo";
+import { generateAlternates, localizedUrl, shareImage } from "@/lib/seo";
 
 const BOLD_RE = /^\*\*(.*?)\*\*$/;
 const LINK_RE = /^\[(.*?)\]\((.*?)\)$/;
@@ -69,20 +69,13 @@ export async function generateMetadata({
 			type: "article",
 			publishedTime: post.date,
 			modifiedTime: post.updated,
-			images: [
-				{
-					url: "/opengraph-image",
-					width: 1200,
-					height: 630,
-					alt: post.title,
-				},
-			],
+			images: [shareImage(post.title)],
 		},
 		twitter: {
 			card: "summary_large_image",
 			title: `${post.title} | webvise`,
 			description,
-			images: ["/twitter-image"],
+			images: [shareImage(post.title)],
 		},
 	};
 }

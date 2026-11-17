@@ -12,7 +12,7 @@ import { H1, H2, H3 } from "@/components/ui/typography";
 import { getOfferingTranslationKey, offeringGroups } from "@/data/offerings";
 import { Link } from "@/i18n/navigation";
 import { type LocaleParams, pinLocale } from "@/i18n/static-locale";
-import { generateAlternates, localizedUrl } from "@/lib/seo";
+import { generateAlternates, localizedUrl, shareImage } from "@/lib/seo";
 
 export async function generateMetadata({
 	params,
@@ -35,6 +35,7 @@ export async function generateMetadata({
 			description,
 			siteName: "webvise",
 			url: localizedUrl("/services", locale),
+			images: [shareImage(title)],
 		},
 	};
 }

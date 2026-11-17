@@ -47,7 +47,7 @@ import {
 	offeringTagline,
 	offeringTitle,
 } from "@/lib/offering-content";
-import { generateAlternates, localizedUrl } from "@/lib/seo";
+import { generateAlternates, localizedUrl, shareImage } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 
 /** The booking flow opens on the topic that matches the offering's group. */
@@ -91,6 +91,7 @@ export async function generateMetadata({
 			description,
 			siteName: "webvise",
 			url: localizedUrl(path, locale),
+			images: [shareImage(title)],
 		},
 		twitter: {
 			card: "summary_large_image",
