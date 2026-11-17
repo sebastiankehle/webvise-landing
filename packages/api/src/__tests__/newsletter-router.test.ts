@@ -70,7 +70,7 @@ describe("newsletterRouter.subscribe", () => {
 
 		const body = JSON.parse(fetchMock.mock.calls[0]?.[1].body);
 		expect(body.subject).toBe(
-			"Bitte bestätigen Sie Ihre Anmeldung zum webvise Newsletter"
+			"Bitte bestätigen Sie Ihre Anmeldung zum webvise-Newsletter"
 		);
 		expect(body.html).toContain("Anmeldung bestätigen");
 	});
