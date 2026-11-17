@@ -21,7 +21,7 @@ import {
 } from "@/data/testimonials";
 import { Link } from "@/i18n/navigation";
 import { type LocaleParams, pinLocale } from "@/i18n/static-locale";
-import { generateAlternates, localizedUrl } from "@/lib/seo";
+import { generateAlternates, localizedUrl, shareImage } from "@/lib/seo";
 
 export async function generateMetadata({
 	params,
@@ -40,6 +40,7 @@ export async function generateMetadata({
 			description: t("meta.description"),
 			siteName: "webvise",
 			url: localizedUrl("/book", locale),
+			images: [shareImage(t("meta.title"))],
 		},
 	};
 }

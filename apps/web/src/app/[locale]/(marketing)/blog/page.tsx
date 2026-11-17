@@ -14,7 +14,7 @@ import { getBlogPosts, searchBlogPosts } from "@/data/blog";
 import { BLOG_TOPICS } from "@/data/blog-topics";
 import { Link } from "@/i18n/navigation";
 import { type LocaleParams, pinLocale } from "@/i18n/static-locale";
-import { generateAlternates, localizedUrl } from "@/lib/seo";
+import { generateAlternates, localizedUrl, shareImage } from "@/lib/seo";
 
 const POSTS_PER_PAGE = 9;
 
@@ -76,6 +76,7 @@ export async function generateMetadata({
 			description,
 			siteName: "webvise",
 			url: localizedUrl("/blog", locale),
+			images: [shareImage(title)],
 		},
 		twitter: {
 			card: "summary_large_image",

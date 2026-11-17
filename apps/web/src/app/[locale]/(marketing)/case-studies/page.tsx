@@ -10,7 +10,7 @@ import { H1, Lead } from "@/components/ui/typography";
 import { getCaseStudies } from "@/data/case-studies";
 import { industries } from "@/data/industries";
 import { type LocaleParams, pinLocale } from "@/i18n/static-locale";
-import { generateAlternates, localizedUrl } from "@/lib/seo";
+import { generateAlternates, localizedUrl, shareImage } from "@/lib/seo";
 
 export async function generateMetadata({
 	params,
@@ -34,6 +34,7 @@ export async function generateMetadata({
 			description,
 			siteName: "webvise",
 			url: localizedUrl("/case-studies", locale),
+			images: [shareImage(title)],
 		},
 		twitter: {
 			card: "summary_large_image",

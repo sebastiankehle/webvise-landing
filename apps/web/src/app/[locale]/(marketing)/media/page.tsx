@@ -6,7 +6,7 @@ import {
 } from "@/components/marketing/section-wrapper";
 import { H1, Lead } from "@/components/ui/typography";
 import { type LocaleParams, pinLocale } from "@/i18n/static-locale";
-import { generateAlternates, localizedUrl } from "@/lib/seo";
+import { generateAlternates, localizedUrl, shareImage } from "@/lib/seo";
 import MediaContent from "./media-content";
 
 export async function generateMetadata({
@@ -32,6 +32,7 @@ export async function generateMetadata({
 			description,
 			siteName: "webvise",
 			url: localizedUrl("/media", locale),
+			images: [shareImage(title)],
 		},
 	};
 }

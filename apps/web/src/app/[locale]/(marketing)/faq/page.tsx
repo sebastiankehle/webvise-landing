@@ -11,7 +11,7 @@ import {
 import { H1 } from "@/components/ui/typography";
 import { getOfferingTranslationKey, offeringGroups } from "@/data/offerings";
 import { type LocaleParams, pinLocale } from "@/i18n/static-locale";
-import { generateAlternates, localizedUrl } from "@/lib/seo";
+import { generateAlternates, localizedUrl, shareImage } from "@/lib/seo";
 
 const generalKeys = ["0", "1", "2", "3", "4", "5", "9", "6", "7", "8"] as const;
 
@@ -33,6 +33,7 @@ export async function generateMetadata({
 			description,
 			siteName: "webvise",
 			url: localizedUrl("/faq", locale),
+			images: [shareImage(title)],
 		},
 	};
 }

@@ -11,7 +11,7 @@ import { H1, H3, inlineLinkClassName } from "@/components/ui/typography";
 import { freeTools } from "@/data/free-tools";
 import { Link } from "@/i18n/navigation";
 import { type LocaleParams, pinLocale } from "@/i18n/static-locale";
-import { generateAlternates, localizedUrl } from "@/lib/seo";
+import { generateAlternates, localizedUrl, shareImage } from "@/lib/seo";
 
 export async function generateMetadata({
 	params,
@@ -34,6 +34,7 @@ export async function generateMetadata({
 			description,
 			siteName: "webvise",
 			url: localizedUrl("/tools", locale),
+			images: [shareImage(title)],
 		},
 	};
 }

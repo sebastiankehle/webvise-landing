@@ -12,7 +12,7 @@ import { getOfferingBySlug } from "@/data/offerings";
 import { type LocaleParams, pinLocale } from "@/i18n/static-locale";
 import { offeringTagline, offeringTitle } from "@/lib/offering-content";
 import { BANDS, PROJECT_TYPES, type ProjectType } from "@/lib/project-scope";
-import { generateAlternates, localizedUrl } from "@/lib/seo";
+import { generateAlternates, localizedUrl, shareImage } from "@/lib/seo";
 
 const PATH = "/tools/project-scope";
 const factorKeys = ["0", "1", "2", "3"] as const;
@@ -31,6 +31,7 @@ export async function generateMetadata({
 		openGraph: {
 			title: t("meta.ogTitle"),
 			description: t("meta.description"),
+			images: [shareImage(t("meta.ogTitle"))],
 		},
 	};
 }

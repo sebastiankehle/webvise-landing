@@ -8,7 +8,7 @@ import { H2 } from "@/components/ui/typography";
 import { getCaseStudyBySlug } from "@/data/case-studies";
 import { Link } from "@/i18n/navigation";
 import { type LocaleParams, pinLocale } from "@/i18n/static-locale";
-import { generateAlternates } from "@/lib/seo";
+import { generateAlternates, shareImage } from "@/lib/seo";
 
 const benefitKeys = ["0", "1", "2", "3"] as const;
 /** Projects whose first metric is their Lighthouse performance score. */
@@ -38,6 +38,7 @@ export async function generateMetadata({
 		openGraph: {
 			title: t("meta.ogTitle"),
 			description: t("meta.description"),
+			images: [shareImage(t("meta.ogTitle"))],
 		},
 	};
 }

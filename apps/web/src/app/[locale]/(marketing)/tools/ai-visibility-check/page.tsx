@@ -6,7 +6,7 @@ import AiVisibilityCheck from "@/components/marketing/ai-visibility-check";
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import { H2 } from "@/components/ui/typography";
 import { type LocaleParams, pinLocale } from "@/i18n/static-locale";
-import { generateAlternates } from "@/lib/seo";
+import { generateAlternates, shareImage } from "@/lib/seo";
 
 const pointKeys = ["0", "1", "2", "3"] as const;
 
@@ -27,6 +27,7 @@ export async function generateMetadata({
 		openGraph: {
 			title: t("meta.ogTitle"),
 			description: t("meta.description"),
+			images: [shareImage(t("meta.ogTitle"))],
 		},
 	};
 }

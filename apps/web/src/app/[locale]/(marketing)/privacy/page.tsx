@@ -4,7 +4,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { LegalPageShell } from "@/components/marketing/legal-page-shell";
 import { getLegalPage } from "@/data/legal";
 import { type LocaleParams, pinLocale } from "@/i18n/static-locale";
-import { generateAlternates, localizedUrl } from "@/lib/seo";
+import { generateAlternates, localizedUrl, shareImage } from "@/lib/seo";
 
 export async function generateMetadata({
 	params,
@@ -23,6 +23,7 @@ export async function generateMetadata({
 			description: page?.subtitle,
 			siteName: "webvise",
 			url: localizedUrl("/privacy", locale),
+			images: [shareImage(page?.title)],
 		},
 	};
 }

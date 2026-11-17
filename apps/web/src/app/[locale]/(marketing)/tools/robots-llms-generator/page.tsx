@@ -6,7 +6,7 @@ import RobotsLlmsGenerator from "@/components/marketing/robots-llms-generator";
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import { H2, H3 } from "@/components/ui/typography";
 import { type LocaleParams, pinLocale } from "@/i18n/static-locale";
-import { generateAlternates } from "@/lib/seo";
+import { generateAlternates, shareImage } from "@/lib/seo";
 
 const guideKeys = ["0", "1", "2"] as const;
 
@@ -27,6 +27,7 @@ export async function generateMetadata({
 		openGraph: {
 			title: t("meta.ogTitle"),
 			description: t("meta.description"),
+			images: [shareImage(t("meta.ogTitle"))],
 		},
 	};
 }
