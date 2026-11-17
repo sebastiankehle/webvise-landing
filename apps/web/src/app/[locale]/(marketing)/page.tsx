@@ -18,7 +18,7 @@ import MidCta from "@/components/marketing/sections/mid-cta";
 import ProblemStatement from "@/components/marketing/sections/problem-statement";
 import WpHealthCta from "@/components/marketing/sections/wp-health-cta";
 import { type LocaleParams, pinLocale } from "@/i18n/static-locale";
-import { localizedUrl } from "@/lib/seo";
+import { areaServed, localizedUrl } from "@/lib/seo";
 
 export default async function HomePage({ params }: { params: LocaleParams }) {
 	await pinLocale(params);
@@ -36,6 +36,7 @@ export default async function HomePage({ params }: { params: LocaleParams }) {
 				name: "webvise",
 				url: "https://www.webvise.io",
 				description: t("organizationDescription"),
+				areaServed: areaServed(locale),
 				sameAs: [
 					"https://github.com/webvise",
 					"https://linkedin.com/company/webvise",

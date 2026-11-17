@@ -3,7 +3,23 @@ import { join } from "node:path";
 
 import { describe, expect, it } from "vitest";
 
-import { generateAlternates, localizedUrl, shareImage } from "@/lib/seo";
+import {
+	areaServed,
+	generateAlternates,
+	localizedUrl,
+	shareImage,
+} from "@/lib/seo";
+
+describe("areaServed", () => {
+	it.each([
+		["de", ["Deutschland", "Österreich", "Schweiz"]],
+		["en", ["Germany", "Austria", "Switzerland"]],
+	])("names the three countries in %s", (locale, names) => {
+		expect(areaServed(locale)).toEqual(
+			names.map((name) => ({ "@type": "Country", name }))
+		);
+	});
+});
 
 describe("shareImage", () => {
 	it("points at a picture that exists", () => {

@@ -34,6 +34,16 @@ export function shareImage(alt: string | undefined) {
 	return { url: "/images/home/share.jpg", width: 2400, height: 1260, alt };
 }
 
+/** The countries webvise works in, named in the page's language, for the
+ * `areaServed` of the organization and its services. */
+export function areaServed(locale: string) {
+	const names = new Intl.DisplayNames([locale], { type: "region" });
+	return ["DE", "AT", "CH"].map((code) => ({
+		"@type": "Country",
+		name: names.of(code),
+	}));
+}
+
 /**
  * Generate alternates metadata (canonical + hreflang) for a given path and locale.
  */

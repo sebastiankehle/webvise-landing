@@ -45,7 +45,12 @@ import {
 	offeringTagline,
 	offeringTitle,
 } from "@/lib/offering-content";
-import { generateAlternates, localizedUrl, shareImage } from "@/lib/seo";
+import {
+	areaServed,
+	generateAlternates,
+	localizedUrl,
+	shareImage,
+} from "@/lib/seo";
 import { cn } from "@/lib/utils";
 
 export function generateStaticParams() {
@@ -194,10 +199,7 @@ async function ServiceOfferingPage({ offering }: { offering: Offering }) {
 				provider: {
 					"@id": "https://www.webvise.io/#organization",
 				},
-				areaServed: {
-					"@type": "GeoShape",
-					name: tschema("worldwide"),
-				},
+				areaServed: areaServed(locale),
 				serviceType: detail.schemaTitle,
 			},
 			{
