@@ -1,6 +1,18 @@
+import { existsSync } from "node:fs";
+import { join } from "node:path";
+
 import { describe, expect, it } from "vitest";
 
-import { generateAlternates, localizedUrl } from "@/lib/seo";
+import { generateAlternates, localizedUrl, shareImage } from "@/lib/seo";
+
+describe("shareImage", () => {
+	it("points at a picture that exists", () => {
+		const { url } = shareImage("");
+		expect(existsSync(join(import.meta.dirname, "../../public", url))).toBe(
+			true
+		);
+	});
+});
 
 describe("localizedUrl", () => {
 	it.each([

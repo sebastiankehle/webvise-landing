@@ -99,6 +99,5 @@ export default function proxy(request: NextRequest) {
 }
 
 export const config = {
-	matcher:
-		"/((?!api|trpc|ingest|_next|_vercel|apple-icon|opengraph-image|twitter-image|.*\\..*).*)",
+	matcher: "/((?!api|trpc|ingest|_next|_vercel|apple-icon|.*\\..*).*)",
 };

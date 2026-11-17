@@ -40,6 +40,7 @@ packages/env          # Typed env vars
 | Test         | `pnpm test`            |
 | Coverage (api) | `pnpm --filter @webvise-app/api coverage` |
 | Browser tests (web, after build) | `pnpm --filter web e2e` |
+| Share image (after the hero changes; site running) | `pnpm --filter web share-image <url>` |
 | Verify (all) | `pnpm verify`          |
 | DB push      | `pnpm db:push`         |
 | DB studio    | `pnpm db:studio`       |
