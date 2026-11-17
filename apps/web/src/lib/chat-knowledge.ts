@@ -76,7 +76,8 @@ function figures(): string {
 		(item) => `- ${item.value} ${item.deviceLabel ?? item.label}`
 	);
 	const facts = entries<string>(en, "home.hero.facts").map(
-		(fact) => `- ${fact}`
+		// Drop the <nb> line-break markup the hero uses
+		(fact) => `- ${fact.replace(/<\/?nb>/g, "")}`
 	);
 	return [...results, ...facts].join("\n");
 }
