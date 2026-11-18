@@ -95,7 +95,7 @@ export function GET() {
 
 	const body = `# Webvise
 
-> Webvise is an engineer-led AI-native software studio for custom software, internal tools, portals, dashboards, agentic workflows, and production-ready business applications.
+> Webvise is an engineer-led AI-native software studio for digital products and automated workflows: websites, custom software, internal tools, portals, dashboards, and production-ready business applications.
 
 We ship custom business software with direct engineering ownership, practical AI-native delivery, performance, accessibility, SEO, and measurable business outcomes. Services are organized as Launch, Operate, and Automate so buyers can start from the workflow before choosing technology. This file follows the llmstxt.org convention to help language models discover our most useful, human-authored content.
 
