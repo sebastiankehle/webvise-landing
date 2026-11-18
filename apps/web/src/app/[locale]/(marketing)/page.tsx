@@ -16,7 +16,6 @@ import Comparison from "@/components/marketing/sections/comparison";
 import Metrics from "@/components/marketing/sections/metrics";
 import MidCta from "@/components/marketing/sections/mid-cta";
 import ProblemStatement from "@/components/marketing/sections/problem-statement";
-import WpHealthCta from "@/components/marketing/sections/wp-health-cta";
 import { type LocaleParams, pinLocale } from "@/i18n/static-locale";
 import { areaServed, localizedUrl } from "@/lib/seo";
 
@@ -76,7 +75,6 @@ export default async function HomePage({ params }: { params: LocaleParams }) {
 			<Voices />
 			<Bento />
 			<Systems />
-			<WpHealthCta />
 			<Journal />
 			<Faq />
 			<Safeguards />
