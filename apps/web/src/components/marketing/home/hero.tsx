@@ -55,7 +55,7 @@ export default async function Hero() {
 							location="hero"
 							variant="ink"
 						>
-							{t("hero.workflowCta")}
+							{t("hero.cta")}
 						</ActionLink>
 						<ActionLink
 							className="h-11 bg-card px-5 text-[0.9375rem] shadow-[0_0_0_1px_rgba(14,18,23,0.09),0_2px_6px_-2px_rgba(14,18,23,0.14)] hover:bg-card/70 dark:shadow-[0_0_0_1px_rgba(255,255,255,0.1)]"
