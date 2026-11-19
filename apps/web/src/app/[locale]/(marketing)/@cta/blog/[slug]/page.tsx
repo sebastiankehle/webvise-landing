@@ -54,11 +54,10 @@ export default async function BlogCta({
 	const subtext = category
 		? t(`ctas.${category}.description`)
 		: t("ctaDescription");
-	const buttonText = category ? t(`ctas.${category}.button`) : t("ctaButton");
 
 	return (
 		<FooterCtaBanner
-			buttonText={buttonText}
+			buttonText={t("ctaButton")}
 			covers={bannerCovers(locale)}
 			headline={headline}
 			subtext={subtext}

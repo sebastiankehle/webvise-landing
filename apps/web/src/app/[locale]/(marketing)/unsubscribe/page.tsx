@@ -7,9 +7,15 @@ import {
 	GridContainer,
 } from "@/components/marketing/section-wrapper";
 import { Button } from "@/components/ui/button";
-import { Body, H1, InlineLink, Muted } from "@/components/ui/typography";
+import {
+	Body,
+	H1,
+	InlineLink,
+	inlineLinkClassName,
+	Muted,
+} from "@/components/ui/typography";
+import { Link } from "@/i18n/navigation";
 import { type LocaleParams, pinLocale } from "@/i18n/static-locale";
-import { CAL_URL } from "@/lib/cal";
 
 export async function generateMetadata({
 	params,
@@ -71,7 +77,9 @@ export default async function UnsubscribePage({
 				</Body>
 				<Muted className="mt-8">
 					{t("projectPrompt")}{" "}
-					<InlineLink href={CAL_URL}>{t("cta")}</InlineLink>
+					<Link className={inlineLinkClassName} href="/book">
+						{t("cta")}
+					</Link>
 				</Muted>
 			</>
 		);
