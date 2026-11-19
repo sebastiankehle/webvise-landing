@@ -10,10 +10,14 @@ import { expect, type Page, test } from "@playwright/test";
  * second. A page may prefetch each link once, then go quiet.
  */
 
+// Each case study is a folder; a stray file such as .DS_Store is not one.
 const caseStudies = readdirSync(
 	// biome-ignore lint/correctness/noGlobalDirnameFilename: Playwright loads this spec as CommonJS, where import.meta fails.
-	path.join(__dirname, "../content/case-studies")
-);
+	path.join(__dirname, "../content/case-studies"),
+	{ withFileTypes: true }
+)
+	.filter((entry) => entry.isDirectory())
+	.map((entry) => entry.name);
 const routes = ["", "/book", ...caseStudies.map((s) => `/case-studies/${s}`)];
 const pages = routes.flatMap((route) => [route || "/", `/en${route}`]);
 
