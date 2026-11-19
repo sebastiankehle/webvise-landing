@@ -15,6 +15,14 @@ const reportDownloadProcedure = rateLimitedProcedure({
 	windowMs: 60_000,
 });
 
+// Submissions faster than this are almost certainly bots, not humans typing.
+const MIN_FILL_MS = 2000;
+
+// Honeypot tripped or form submitted impossibly fast.
+function isBotSubmission(input: { website?: string; elapsedMs: number }) {
+	return Boolean(input.website) || input.elapsedMs < MIN_FILL_MS;
+}
+
 export const reportDownloadRouter = router({
 	request: reportDownloadProcedure
 		.input(
@@ -23,9 +31,20 @@ export const reportDownloadRouter = router({
 				reportId: z.string().max(100),
 				locale: z.string().max(5).optional(),
 				path: z.string().startsWith("/").max(300).optional(),
+				// Anti-spam: honeypot field + time-to-submit. Never set by real users.
+				website: z.string().max(200).optional(),
+				// Required: this endpoint mails a file to any address, so a request
+				// that skips the form must not send.
+				elapsedMs: z.number().nonnegative(),
 			})
 		)
 		.mutation(async ({ input }) => {
+			// Silently accept and discard so the bot believes it succeeded and
+			// stops retrying.
+			if (isBotSubmission(input)) {
+				return { success: true };
+			}
+
 			const report = Object.hasOwn(REPORTS, input.reportId)
 				? REPORTS[input.reportId]
 				: undefined;

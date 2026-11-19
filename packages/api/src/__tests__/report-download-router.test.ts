@@ -49,8 +49,10 @@ describe("reportDownloadRouter.request", () => {
 			reportId: "deck-website-to-app-upgrades",
 			locale: "en",
 			path: "/services/website-to-app-upgrades",
+			elapsedMs: 5000,
 		});
 
+		expect(fetchMock).toHaveBeenCalledOnce();
 		expect(dbMock.insert).toHaveBeenCalledOnce();
 		expect(dbMock.values).toHaveBeenCalledWith({
 			email: "reader@example.com",
@@ -72,7 +74,58 @@ describe("reportDownloadRouter.request", () => {
 		});
 
 		await expect(
-			caller.request({ email: "reader@example.com", reportId })
+			caller.request({ email: "reader@example.com", reportId, elapsedMs: 5000 })
 		).rejects.toMatchObject({ code: "NOT_FOUND" });
+	});
+
+	it("discards a honeypot submission without email or lead", async () => {
+		const caller = reportDownloadRouter.createCaller({
+			ip: "report-download-honeypot",
+			session: null,
+		});
+
+		await expect(
+			caller.request({
+				email: "reader@example.com",
+				reportId: "deck-website-to-app-upgrades",
+				website: "https://spam.example",
+				elapsedMs: 5000,
+			})
+		).resolves.toEqual({ success: true });
+		expect(fetchMock).not.toHaveBeenCalled();
+		expect(dbMock.insert).not.toHaveBeenCalled();
+	});
+
+	it("discards a submission filled in too fast", async () => {
+		const caller = reportDownloadRouter.createCaller({
+			ip: "report-download-too-fast",
+			session: null,
+		});
+
+		await expect(
+			caller.request({
+				email: "reader@example.com",
+				reportId: "deck-website-to-app-upgrades",
+				elapsedMs: 500,
+			})
+		).resolves.toEqual({ success: true });
+		expect(fetchMock).not.toHaveBeenCalled();
+		expect(dbMock.insert).not.toHaveBeenCalled();
+	});
+
+	it("rejects a request that skips the form's timing field", async () => {
+		const caller = reportDownloadRouter.createCaller({
+			ip: "report-download-no-timing",
+			session: null,
+		});
+
+		await expect(
+			caller.request({
+				email: "reader@example.com",
+				reportId: "deck-website-to-app-upgrades",
+			} as unknown as Parameters<typeof caller.request>[0])
+		).rejects.toMatchObject({ code: "BAD_REQUEST" });
+		expect(fetchMock).not.toHaveBeenCalled();
+		expect(dbMock.insert).not.toHaveBeenCalled();
 	});
 });
