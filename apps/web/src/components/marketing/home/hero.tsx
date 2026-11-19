@@ -6,8 +6,7 @@ import HeroWall from "@/components/marketing/home/hero-wall";
 import { ScenePlayer } from "@/components/marketing/scene-player";
 import { GridContainer } from "@/components/marketing/section-wrapper";
 
-// Credentials first, then the track record. The subtitle already says
-// "three weeks", so the line skips that fact.
+// Credentials first, then the track record.
 const factKeys = ["3", "0"] as const;
 
 export default async function Hero() {
@@ -34,7 +33,7 @@ export default async function Hero() {
 			<GridContainer>
 				{/* CSS-only entrance: the first screen never waits for script */}
 				<div className="stagger-visible">
-					<h1 className="mx-auto max-w-[70rem] text-balance text-center font-display text-[2.125rem] text-foreground leading-[1.06] tracking-[-0.04em] sm:text-5xl lg:text-[4.5rem] lg:leading-[1.04]">
+					<h1 className="mx-auto max-w-[70rem] text-balance text-center font-display text-[2.125rem] text-foreground leading-[1.06] tracking-[-0.04em] sm:text-5xl lg:text-[4rem] lg:leading-[1.04] xl:text-[4.5rem]">
 						{t("hero.titleLead")}
 						<br />
 						<span className="text-foreground/45">
