@@ -3,7 +3,6 @@
 import { useForm } from "@tanstack/react-form";
 import { Check, Loader2, X } from "lucide-react";
 import { animate, motion, useMotionValue, useTransform } from "motion/react";
-import NextLink from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import z from "zod";
@@ -16,8 +15,7 @@ import {
 import { FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Body, H1, H2, H3, Lead, Muted } from "@/components/ui/typography";
-import { CAL_URL } from "@/lib/cal";
-import { homepageSectionHref } from "@/lib/homepage-section-href";
+import { Link } from "@/i18n/navigation";
 import { track } from "@/lib/track";
 import { cn } from "@/lib/utils";
 import { trpcClient } from "@/utils/trpc";
@@ -266,7 +264,6 @@ function GeoBlock({ geo }: { geo: ReportGeo }) {
 }
 
 function ReportResults({ data }: { data: ReportData }) {
-	const locale = useLocale();
 	const t = useTranslations("wpHealthReport");
 
 	return (
@@ -366,20 +363,18 @@ function ReportResults({ data }: { data: ReportData }) {
 						</p>
 					</div>
 					<div className="flex flex-wrap gap-3">
-						<a
+						<Link
 							className={actionVariants({ size: "md" })}
-							href={CAL_URL}
+							href="/book"
 							onClick={() =>
 								track("book_call_clicked", { location: "analyzer_results" })
 							}
-							rel="noopener noreferrer"
-							target="_blank"
 						>
 							{t("results.bookCall")}
-						</a>
-						<NextLink
+						</Link>
+						<a
 							className={actionVariants({ size: "md", variant: "quiet" })}
-							href={homepageSectionHref("contact", locale)}
+							href="mailto:mail@webvise.io"
 							onClick={() =>
 								track("cta_clicked", {
 									location: "analyzer_results",
@@ -388,7 +383,7 @@ function ReportResults({ data }: { data: ReportData }) {
 							}
 						>
 							{t("results.getInTouch")}
-						</NextLink>
+						</a>
 					</div>
 				</div>
 			</div>

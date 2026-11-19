@@ -6,8 +6,7 @@ import {
 } from "@/components/marketing/footer-cta-banner";
 import SectionWrapper from "@/components/marketing/section-wrapper";
 
-/** The banner that closes every inner page, set halfway down the homepage.
- * Its button leads to the form at the end of this page. */
+/** The banner that closes every inner page, set halfway down the homepage. */
 export default async function MidCta() {
 	const [locale, t] = await Promise.all([
 		getLocale(),
@@ -27,7 +26,6 @@ export default async function MidCta() {
 					// line ends in the middle of the next sentence
 					br: () => <br />,
 				})}
-				href={{ pathname: "/", hash: "contact" }}
 				location="mid-cta"
 				subtext={t("subtitle")}
 			/>

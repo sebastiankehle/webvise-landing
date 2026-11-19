@@ -1,4 +1,4 @@
-import { getLocale, getTranslations } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 
 import BentoScene from "@/components/marketing/home/scenes/bento-scene";
 import KernspanDamper from "@/components/marketing/home/scenes/project-kernspan";
@@ -7,7 +7,6 @@ import { SceneLayer, ScenePlayer } from "@/components/marketing/scene-player";
 import { SectionHeading } from "@/components/marketing/section-heading";
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import { TechPillGroup } from "@/components/marketing/tech-pill-group";
-import { homepageSectionHref } from "@/lib/homepage-section-href";
 import { cn } from "@/lib/utils";
 
 const stack = [
@@ -78,13 +77,12 @@ const copy = "flex flex-col justify-end px-4 pt-4 pb-3 md:px-5";
 /** How the work gets built and kept running, one thought per tile. Each
  * picture is a live piece of a real project, set in as it is. */
 export default async function Bento() {
-	const [te, ts, tp, th, names, locale] = await Promise.all([
+	const [te, ts, tp, th, names] = await Promise.all([
 		getTranslations("engineerLed"),
 		getTranslations("techStack"),
 		getTranslations("support"),
 		getTranslations("home.bento"),
 		getTranslations("scenes.names"),
-		getLocale(),
 	]);
 
 	return (
@@ -199,12 +197,9 @@ export default async function Bento() {
 						<div className={cn(copy, "max-lg:order-2")}>
 							<h3 className={title}>{tp("title")}</h3>
 							<p className={text}>{tp("subtitle")}</p>
-							<a
-								className="group mt-4 inline-flex items-center gap-1.5 text-base text-brand-link outline-none transition-colors hover:text-foreground focus-visible:ring-1 focus-visible:ring-ring/50"
-								href={homepageSectionHref("contact", locale)}
-							>
+							<MarketingArrowLink className="mt-4 text-base" href="/book">
 								{tp("contactLink")}
-							</a>
+							</MarketingArrowLink>
 						</div>
 						<div className={cn(frame, "aspect-[16/10]")}>
 							<BentoScene kind="steps" />

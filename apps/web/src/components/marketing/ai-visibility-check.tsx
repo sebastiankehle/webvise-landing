@@ -15,7 +15,7 @@ import {
 import { FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Body, H1, H2, H3, Lead, Muted } from "@/components/ui/typography";
-import { CAL_URL } from "@/lib/cal";
+import { Link } from "@/i18n/navigation";
 import { track } from "@/lib/track";
 import { cn } from "@/lib/utils";
 import { trpcClient } from "@/utils/trpc";
@@ -350,19 +350,17 @@ function Results({
 						</p>
 					</div>
 					<div className="flex flex-wrap gap-3">
-						<a
+						<Link
 							className={actionVariants({ size: "md" })}
-							href={CAL_URL}
+							href="/book"
 							onClick={() =>
 								track("book_call_clicked", {
 									location: "ai_visibility_results",
 								})
 							}
-							rel="noopener noreferrer"
-							target="_blank"
 						>
 							{t("results.bookCall")}
-						</a>
+						</Link>
 						<button
 							className={actionVariants({ size: "md", variant: "quiet" })}
 							onClick={onReset}
