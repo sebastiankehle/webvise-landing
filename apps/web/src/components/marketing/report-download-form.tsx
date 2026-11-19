@@ -3,7 +3,7 @@
 import { useForm } from "@tanstack/react-form";
 import { Check, Loader2 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import z from "zod";
 
 import { actionVariants } from "@/components/marketing/action";
@@ -34,12 +34,15 @@ export default function ReportDownloadForm({
 	const [submitStatus, setSubmitStatus] = useState<
 		"idle" | "success" | "error"
 	>("idle");
+	const mountedAt = useRef(Date.now());
 
 	const form = useForm({
-		defaultValues: { email: "" },
+		// Honeypot `website`: hidden from humans, only bots fill it.
+		defaultValues: { email: "", website: "" },
 		validators: {
 			onSubmit: z.object({
 				email: z.email(t("emailInvalid")),
+				website: z.string(),
 			}),
 		},
 		onSubmit: async ({ value }) => {
@@ -56,6 +59,8 @@ export default function ReportDownloadForm({
 					reportId,
 					locale,
 					path,
+					website: value.website,
+					elapsedMs: Date.now() - mountedAt.current,
 				});
 				setSubmitStatus("success");
 				getPostHog().then((posthog) =>
@@ -131,6 +136,22 @@ export default function ReportDownloadForm({
 									/>
 									<FormMessage errors={field.state.meta.errors} />
 								</FormItem>
+							)}
+						</form.Field>
+						{/* Honeypot: hidden from humans; bots that fill it are dropped server-side. */}
+						<form.Field name="website">
+							{(field) => (
+								<div aria-hidden="true" className="sr-only">
+									<label htmlFor={field.name}>Leave this field empty</label>
+									<input
+										autoComplete="off"
+										id={field.name}
+										name={field.name}
+										onChange={(e) => field.handleChange(e.target.value)}
+										tabIndex={-1}
+										value={field.state.value}
+									/>
+								</div>
 							)}
 						</form.Field>
 						<form.Subscribe
