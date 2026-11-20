@@ -195,37 +195,6 @@ export function ClearSpace() {
 	);
 }
 
-/** The browser tab's mark on its 16 by 16 grid, built from whole pixels, as
- * the versions slide draws it. White on the dark square, as the favicon sets it. */
-const PIXEL_MARK =
-	"M80 80h60v20h-60zM180 80h100v20h-100zM100 100h60v20h-60zM200 100h80v20h-80zM20 120h60v20h-60zM120 120h60v20h-60zM220 120h40v20h-40zM20 140h60v20h-60zM120 140h60v20h-60zM40 160h60v20h-60zM140 160h60v20h-60zM60 180h60v20h-60zM160 180h60v20h-60zM80 200h40v20h-40zM180 200h40v20h-40z";
-const PIXEL_GRID = Array.from(
-	{ length: 15 },
-	(_, i) => `M${(i + 1) * 20} 0V320M0 ${(i + 1) * 20}H320`
-).join("");
-
-export function PixelGrid({ label }: { label: string }) {
-	return (
-		<svg
-			aria-label={label}
-			className="size-52"
-			role="img"
-			viewBox="0 0 320 320"
-			xmlns="http://www.w3.org/2000/svg"
-		>
-			<rect fill="#050a0f" height="320" width="320" />
-			<path
-				d={PIXEL_GRID}
-				fill="none"
-				stroke="#ffffff"
-				strokeOpacity="0.14"
-				strokeWidth="1"
-			/>
-			<path d={PIXEL_MARK} fill="#ffffff" />
-		</svg>
-	);
-}
-
 /** The four ways the deck says the mark breaks. These drawings are wrong on
  * purpose, so they are hidden from assistive tech and carry a visible
  * "Wrong" caption. Each one changes the mark's own paths. */
