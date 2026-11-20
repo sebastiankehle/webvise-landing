@@ -8,7 +8,22 @@ import {
 	generateAlternates,
 	localizedUrl,
 	shareImage,
+	shareTitle,
+	tabTitle,
 } from "@/lib/seo";
+
+describe("page titles", () => {
+	it("leave the site name to the layout and the share card", () => {
+		expect(tabTitle("Recent articles")).toBe("Recent articles");
+		expect(shareTitle("Recent articles")).toBe("Recent articles | webvise");
+	});
+
+	it("never name webvise twice", () => {
+		const title = "What webvise builds";
+		expect(tabTitle(title)).toEqual({ absolute: title });
+		expect(shareTitle(title)).toBe(title);
+	});
+});
 
 describe("areaServed", () => {
 	it.each([
