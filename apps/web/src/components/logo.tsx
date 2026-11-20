@@ -1,61 +1,41 @@
-interface Polygon {
-	className: string;
-	fill: string;
-	opacity: number;
-	points: string;
+import { cn } from "@/lib/utils";
+
+// The logo, copied from parts.json in the logo presentation
+// (presentations/internal/webvise-logo-presentation/assets). Never redraw,
+// retype or move a part: the only change allowed on a part is opacity.
+
+/** The mark: two slanted bars and the wedge, in a 30.25 × 15 box. */
+export const MARK_PARTS = [
+	"M7 3.667H0L7.66 13.88A2.8 2.8 0 0 0 12.14 10.52Z",
+	"M15.25 0H8.25L18.66 13.88A2.8 2.8 0 0 0 23.14 10.52Z",
+	"M26.95 0H19.25L24.16 6.547A2.8 2.8 0 0 0 28.64 6.547L29.59 5.28A3.3 3.3 0 0 0 26.95 0Z",
+] as const;
+export const MARK_WIDTH = 30.25;
+export const MARK_HEIGHT = 15;
+
+/** The word, in em units on its baseline. */
+const WORD =
+	"M0.198 0 0.011 -0.544H0.149L0.263 -0.201L0.384 -0.544H0.5L0.62 -0.202L0.734 -0.544H0.872L0.685 0H0.568L0.442 -0.367L0.314 0ZM1.172 0.012Q1.088 0.012 1.025 -0.026Q0.962 -0.064 0.927 -0.129Q0.892 -0.194 0.892 -0.273Q0.892 -0.355 0.9275 -0.4185Q0.963 -0.482 1.0245 -0.519Q1.086 -0.556 1.162 -0.556Q1.226 -0.556 1.2745 -0.535Q1.323 -0.514 1.357 -0.477Q1.391 -0.44 1.409 -0.3925Q1.427 -0.345 1.427 -0.29Q1.427 -0.276 1.4255 -0.261Q1.424 -0.246 1.42 -0.235H1.028Q1.031 -0.207 1.042 -0.184Q1.059 -0.145 1.0935 -0.124Q1.128 -0.103 1.173 -0.103Q1.218 -0.103 1.2495 -0.122Q1.281 -0.141 1.299 -0.173L1.405 -0.121Q1.389 -0.082 1.355 -0.052Q1.321 -0.022 1.2745 -0.005Q1.228 0.012 1.172 0.012ZM1.031 -0.335H1.287Q1.286 -0.354 1.28 -0.37Q1.266 -0.406 1.2355 -0.427Q1.205 -0.448 1.162 -0.448Q1.121 -0.448 1.089 -0.4275Q1.057 -0.407 1.041 -0.368Q1.034 -0.352 1.031 -0.335ZM1.803 0.012Q1.744 0.012 1.695 -0.012Q1.655 -0.03 1.629 -0.062V0H1.506V-0.757H1.637V-0.489Q1.66 -0.515 1.693 -0.532Q1.741 -0.556 1.804 -0.556Q1.881 -0.556 1.943 -0.518Q2.005 -0.48 2.0415 -0.416Q2.078 -0.352 2.078 -0.272Q2.078 -0.193 2.042 -0.128Q2.006 -0.063 1.944 -0.0255Q1.882 0.012 1.803 0.012ZM1.788 -0.108Q1.833 -0.108 1.868 -0.129Q1.903 -0.15 1.9225 -0.187Q1.942 -0.224 1.942 -0.272Q1.942 -0.32 1.9225 -0.3565Q1.903 -0.393 1.868 -0.4145Q1.833 -0.436 1.788 -0.436Q1.745 -0.436 1.7105 -0.415Q1.676 -0.394 1.6565 -0.3565Q1.637 -0.319 1.637 -0.272Q1.637 -0.224 1.6565 -0.187Q1.676 -0.15 1.7105 -0.129Q1.745 -0.108 1.788 -0.108ZM2.312 0 2.098 -0.544H2.241L2.37 -0.189L2.499 -0.544H2.642L2.428 0ZM2.694 0V-0.544H2.825V0ZM2.694 -0.605V-0.745H2.825V-0.605ZM3.133 0.012Q3.046 0.012 2.9815 -0.0295Q2.917 -0.071 2.893 -0.142L2.991 -0.189Q3.012 -0.143 3.0495 -0.117Q3.087 -0.091 3.133 -0.091Q3.169 -0.091 3.19 -0.107Q3.211 -0.123 3.211 -0.149Q3.211 -0.165 3.2025 -0.1755Q3.194 -0.186 3.1795 -0.1935Q3.165 -0.201 3.148 -0.206L3.059 -0.231Q2.99 -0.251 2.9545 -0.292Q2.919 -0.333 2.919 -0.389Q2.919 -0.439 2.9445 -0.4765Q2.97 -0.514 3.0155 -0.535Q3.061 -0.556 3.12 -0.556Q3.197 -0.556 3.256 -0.519Q3.315 -0.482 3.34 -0.415L3.24 -0.368Q3.226 -0.405 3.193 -0.427Q3.16 -0.449 3.119 -0.449Q3.086 -0.449 3.067 -0.434Q3.048 -0.419 3.048 -0.395Q3.048 -0.38 3.056 -0.369Q3.064 -0.358 3.0785 -0.351Q3.093 -0.344 3.112 -0.338L3.199 -0.312Q3.266 -0.292 3.3025 -0.252Q3.339 -0.212 3.339 -0.154Q3.339 -0.105 3.313 -0.0675Q3.287 -0.03 3.241 -0.009Q3.195 0.012 3.133 0.012ZM3.678 0.012Q3.594 0.012 3.531 -0.026Q3.468 -0.064 3.433 -0.129Q3.398 -0.194 3.398 -0.273Q3.398 -0.355 3.4335 -0.4185Q3.469 -0.482 3.5305 -0.519Q3.592 -0.556 3.668 -0.556Q3.732 -0.556 3.7805 -0.535Q3.829 -0.514 3.863 -0.477Q3.897 -0.44 3.915 -0.3925Q3.933 -0.345 3.933 -0.29Q3.933 -0.276 3.9315 -0.261Q3.93 -0.246 3.926 -0.235H3.534Q3.537 -0.207 3.548 -0.184Q3.565 -0.145 3.5995 -0.124Q3.634 -0.103 3.679 -0.103Q3.724 -0.103 3.7555 -0.122Q3.787 -0.141 3.805 -0.173L3.911 -0.121Q3.895 -0.082 3.861 -0.052Q3.827 -0.022 3.7805 -0.005Q3.734 0.012 3.678 0.012ZM3.537 -0.335H3.793Q3.792 -0.354 3.786 -0.37Q3.772 -0.406 3.7415 -0.427Q3.711 -0.448 3.668 -0.448Q3.627 -0.448 3.595 -0.4275Q3.563 -0.407 3.547 -0.368Q3.54 -0.352 3.537 -0.335Z";
+
+/** The mark alone, the browser-tab version. Size it by width or height; it
+ * keeps its 2:1 shape. Ink or white through `text-logo`, or `text-white`. */
+export function Mark({ className }: { className?: string }) {
+	return (
+		<svg
+			aria-hidden="true"
+			className={cn("text-logo", className)}
+			viewBox={`0 0 ${MARK_WIDTH} ${MARK_HEIGHT}`}
+			xmlns="http://www.w3.org/2000/svg"
+		>
+			{MARK_PARTS.map((d) => (
+				<path d={d} fill="currentColor" key={d} />
+			))}
+		</svg>
+	);
 }
 
-export const LOGO_POLYGONS: readonly Polygon[] = [
-	{
-		className: "logo-seg-1",
-		fill: "#f97316",
-		opacity: 0.9,
-		points: "16,2 8,10 16,12",
-	},
-	{
-		className: "logo-seg-2",
-		fill: "#fb923c",
-		opacity: 0.85,
-		points: "16,2 24,10 16,12",
-	},
-	{
-		className: "logo-seg-3",
-		fill: "#fdba74",
-		opacity: 0.8,
-		points: "8,10 4,18 16,12",
-	},
-	{
-		className: "logo-seg-4",
-		fill: "#f97316",
-		opacity: 0.75,
-		points: "24,10 28,18 16,12",
-	},
-	{
-		className: "logo-seg-5",
-		fill: "#fb923c",
-		opacity: 0.9,
-		points: "16,12 4,18 10,26",
-	},
-	{
-		className: "logo-seg-6",
-		fill: "#fdba74",
-		opacity: 0.85,
-		points: "16,12 28,18 22,26",
-	},
-	{
-		className: "logo-seg-7",
-		fill: "#f97316",
-		opacity: 0.8,
-		points: "16,12 10,26 16,30",
-	},
-	{
-		className: "logo-seg-8",
-		fill: "#fb923c",
-		opacity: 0.75,
-		points: "16,12 22,26 16,30",
-	},
-];
-
+/** The main logo: the mark beside the word, as logo-ink.svg sets it. Set its
+ * height; the width follows. */
 export default function Logo({
 	className,
 	animated,
@@ -65,25 +45,29 @@ export default function Logo({
 }) {
 	return (
 		<svg
-			aria-hidden="true"
-			className={`${animated ? "logo-animated" : ""} ${className ?? ""}`}
-			fill="none"
-			viewBox="0 0 32 32"
+			aria-label="webvise"
+			className={cn("text-logo", animated && "logo-animated", className)}
+			role="img"
+			viewBox="0 -16.9 124.365 18.6"
 			xmlns="http://www.w3.org/2000/svg"
 		>
-			<title>webvise</title>
-			{LOGO_POLYGONS.map((p) => (
-				<polygon
-					className={animated ? `logo-seg ${p.className}` : undefined}
-					fill={p.fill}
-					key={p.className}
-					opacity={animated ? undefined : p.opacity}
-					points={p.points}
-					style={
-						animated ? { ["--seg-opacity" as string]: p.opacity } : undefined
-					}
+			<g transform="translate(0 -13.5)">
+				{MARK_PARTS.map((d) => (
+					<path
+						className={animated ? "logo-part" : undefined}
+						d={d}
+						fill="currentColor"
+						key={d}
+					/>
+				))}
+			</g>
+			<g transform="translate(37.75 0)">
+				<path
+					d={WORD}
+					fill="currentColor"
+					transform="translate(-0.243 0) scale(22.059)"
 				/>
-			))}
+			</g>
 		</svg>
 	);
 }

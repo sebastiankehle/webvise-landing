@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { useCallback, useRef } from "react";
-import { LOGO_POLYGONS } from "@/components/logo";
+import { MARK_HEIGHT, MARK_PARTS, MARK_WIDTH, Mark } from "@/components/logo";
 import { marketingSurfaceClassName } from "@/components/marketing/section-wrapper";
 import { Button } from "@/components/ui/button";
 import { Body, Caption } from "@/components/ui/typography";
@@ -12,18 +12,21 @@ type Variant = "light" | "inverted" | "brand";
 const mediaAssetCanvasPalette = {
 	brand: {
 		bg: "#ff8918",
+		logo: "#ffffff",
 		rest: "rgba(250,250,250,0.7)",
 		sub: "rgba(250,250,250,0.8)",
 		text: "#fafafa",
 	},
 	inverted: {
 		bg: "#050a0f",
+		logo: "#ffffff",
 		rest: "rgba(236,239,241,0.45)",
 		sub: "#999fa4",
 		text: "#eceff1",
 	},
 	light: {
 		bg: "#f8fafb",
+		logo: "#0e1217",
 		rest: "rgba(14,18,23,0.45)",
 		sub: "#5a6169",
 		text: "#0e1217",
@@ -52,6 +55,9 @@ const variantStyles: Record<
 		canvasText: string;
 		canvasRest: string;
 		canvasSub: string;
+		canvasLogo: string;
+		/** The preview's logo colour; empty keeps the theme's ink or white */
+		logo: string;
 	}
 > = {
 	light: {
@@ -63,6 +69,8 @@ const variantStyles: Record<
 		canvasText: mediaAssetCanvasPalette.light.text,
 		canvasRest: mediaAssetCanvasPalette.light.rest,
 		canvasSub: mediaAssetCanvasPalette.light.sub,
+		canvasLogo: mediaAssetCanvasPalette.light.logo,
+		logo: "",
 	},
 	inverted: {
 		bg: marketingSurfaceClassName("inverted"),
@@ -73,6 +81,8 @@ const variantStyles: Record<
 		canvasText: mediaAssetCanvasPalette.inverted.text,
 		canvasRest: mediaAssetCanvasPalette.inverted.rest,
 		canvasSub: mediaAssetCanvasPalette.inverted.sub,
+		canvasLogo: mediaAssetCanvasPalette.inverted.logo,
+		logo: "",
 	},
 	brand: {
 		bg: "bg-brand",
@@ -83,35 +93,28 @@ const variantStyles: Record<
 		canvasText: mediaAssetCanvasPalette.brand.text,
 		canvasRest: mediaAssetCanvasPalette.brand.rest,
 		canvasSub: mediaAssetCanvasPalette.brand.sub,
+		canvasLogo: mediaAssetCanvasPalette.brand.logo,
+		logo: "text-white",
 	},
 };
 
-const logoPolygons = LOGO_POLYGONS.map((polygon) => ({
-	...polygon,
-	coordinates: polygon.points
-		.split(" ")
-		.map((point) => point.split(",").map(Number) as [number, number]),
-}));
-
-function drawLogoOnCanvas(
+/** The mark `width` wide, its top-left corner at x, y. */
+function drawMarkOnCanvas(
 	ctx: CanvasRenderingContext2D,
 	x: number,
 	y: number,
-	size: number
+	width: number,
+	color: string
 ) {
-	const scale = size / 32;
-	for (const { coordinates, fill, opacity } of logoPolygons) {
-		ctx.globalAlpha = opacity;
-		ctx.fillStyle = fill;
-		ctx.beginPath();
-		ctx.moveTo(x + coordinates[0][0] * scale, y + coordinates[0][1] * scale);
-		for (let i = 1; i < coordinates.length; i++) {
-			ctx.lineTo(x + coordinates[i][0] * scale, y + coordinates[i][1] * scale);
-		}
-		ctx.closePath();
-		ctx.fill();
+	const scale = width / MARK_WIDTH;
+	ctx.save();
+	ctx.translate(x, y);
+	ctx.scale(scale, scale);
+	ctx.fillStyle = color;
+	for (const d of MARK_PARTS) {
+		ctx.fill(new Path2D(d));
 	}
-	ctx.globalAlpha = 1;
+	ctx.restore();
 }
 
 function drawGridPattern(ctx: CanvasRenderingContext2D, w: number, h: number) {
@@ -163,29 +166,6 @@ function drawTagline(
 	ctx.letterSpacing = "0px";
 }
 
-function WebviseLogo({ size = 64 }: { size?: number }) {
-	return (
-		<svg
-			aria-label="webvise logo"
-			fill="none"
-			height={size}
-			role="img"
-			viewBox="0 0 32 32"
-			width={size}
-			xmlns="http://www.w3.org/2000/svg"
-		>
-			{logoPolygons.map(({ className, fill, opacity, points }) => (
-				<polygon
-					fill={fill}
-					key={className}
-					opacity={opacity}
-					points={points}
-				/>
-			))}
-		</svg>
-	);
-}
-
 // --- Logo-only asset (square) ---
 
 export function LogoAsset({
@@ -217,12 +197,16 @@ export function LogoAsset({
 			ctx.fillStyle = style.canvasBg;
 			ctx.fillRect(0, 0, size, size);
 
-			const logoSize = size * 0.6;
-			drawLogoOnCanvas(
+			// The mark spans 600 of 1024, as in the presentation's profile
+			// pictures, so a circle crop keeps all of it
+			const markWidth = (size * 600) / 1024;
+			const markHeight = (markWidth * MARK_HEIGHT) / MARK_WIDTH;
+			drawMarkOnCanvas(
 				ctx,
-				(size - logoSize) / 2,
-				(size - logoSize) / 2,
-				logoSize
+				(size - markWidth) / 2,
+				(size - markHeight) / 2,
+				markWidth,
+				style.canvasLogo
 			);
 		},
 		[style, size]
@@ -245,7 +229,7 @@ export function LogoAsset({
 				className={`relative flex items-center justify-center overflow-hidden ${style.bg}`}
 				style={{ aspectRatio: "1 / 1", maxWidth: 200 }}
 			>
-				<WebviseLogo size={120} />
+				<Mark className={`w-[58.6%] ${style.logo}`} />
 			</div>
 			<canvas className="hidden" ref={initCanvas} />
 			<div className="flex items-center justify-between">
@@ -315,8 +299,8 @@ export function BannerAsset({
 
 				const logoSize = Math.round(80 * scaleFactor);
 				const logoX = width - Math.round(130 * scaleFactor) - logoSize;
-				const logoY = (height - logoSize) / 2;
-				drawLogoOnCanvas(ctx, logoX, logoY, logoSize);
+				const logoY = (height - (logoSize * MARK_HEIGHT) / MARK_WIDTH) / 2;
+				drawMarkOnCanvas(ctx, logoX, logoY, logoSize, style.canvasLogo);
 
 				const textRightEdge = logoX - Math.round(30 * scaleFactor);
 				ctx.textAlign = "right";
@@ -397,7 +381,7 @@ export function BannerAsset({
 							</Body>
 						</div>
 						<div className="shrink-0">
-							<WebviseLogo size={48} />
+							<Mark className={`w-12 ${style.logo}`} />
 						</div>
 					</div>
 				</div>
@@ -469,11 +453,14 @@ export function WallpaperAsset({
 
 				const scale = Math.min(width, height) / 1000;
 				const logoSize = Math.round(160 * scale);
-				drawLogoOnCanvas(
+				drawMarkOnCanvas(
 					ctx,
 					(width - logoSize) / 2,
-					height / 2 - logoSize - Math.round(48 * scale),
-					logoSize
+					height / 2 -
+						(logoSize * MARK_HEIGHT) / MARK_WIDTH -
+						Math.round(48 * scale),
+					logoSize,
+					style.canvasLogo
 				);
 
 				ctx.textAlign = "center";
@@ -532,7 +519,7 @@ export function WallpaperAsset({
 					}}
 				/>
 				<div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
-					<WebviseLogo size={64} />
+					<Mark className={`w-16 ${style.logo}`} />
 					<div className="text-center">
 						{/* Each line stays whole, as in the PNG; the size follows the
 						    preview's width so the narrow phone preview fits it */}

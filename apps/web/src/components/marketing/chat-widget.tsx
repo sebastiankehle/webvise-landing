@@ -8,7 +8,7 @@ import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { Streamdown } from "streamdown";
 
-import Logo from "@/components/logo";
+import { Mark } from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Body, Caption, inlineLinkClassName } from "@/components/ui/typography";
@@ -205,7 +205,7 @@ export default function ChatWidget({
 					>
 						<div className="flex items-center justify-between border-foreground/[0.07] border-b px-5 py-4">
 							<div className="flex items-center gap-2.5">
-								<Logo className="h-5 w-5" />
+								<Mark className="w-6 shrink-0" />
 								<div>
 									<Body
 										className="font-medium text-sm leading-none"

@@ -24,8 +24,17 @@ If the repo is available, compare this file with `apps/web/src/index.css` before
 - Use orange as the sole brand accent. Let neutral surfaces, type, space, and lines carry the layout.
 - Keep cards borderless on the web unless a documented pattern calls for a line. Print cards may use the Print-Kit hairline.
 - Use a 10 px base radius. Larger hero surfaces may use the documented 14–18 px print exceptions.
-- Keep the webvise mark and wordmark primary. Client branding requires an explicit brief and permission.
-- The mark is the faceted orange shape in `apps/web/src/components/logo.tsx`; every other drawing of it reads `LOGO_POLYGONS` from that file. The wordmark is lowercase `webvise` in Hanken Grotesk 500 at `-0.035em`.
+- Keep the webvise logo primary. Client branding requires an explicit brief and permission.
+
+### The logo
+
+The logo is a mark of three parts, two slanted bars and a wedge, beside the lowercase word `webvise`. Every path comes from `parts.json` in `~/Documents/webvise/presentations/internal/webvise-logo-presentation/assets/`, next to the finished `logo-*`, `stacked-*` and `mark-*` SVGs in ink and white; that folder's `export/` holds PNGs, profile pictures and icons built from them. On the site, `apps/web/src/components/logo.tsx` holds the same paths (`MARK_PARTS` and the word), and every drawing of the logo reads them from there.
+
+- Four versions: the main logo, the mark beside the word (`logo-*.svg`, `Logo` on the site); the stacked logo, mark above word, for narrow places (`stacked-*.svg`); the app icon, the white mark across 65 % of a dark `#050a0f` square with square corners, which the system rounds; and the browser tab, the mark alone (`mark-*.svg`, `Mark` on the site). The favicon sets that mark white on the dark square so it reads on light and dark tab strips.
+- Colour: ink `oklch(0.18 0.012 250)` (`#0e1217`) or white `oklch(1 0 0)`, nothing else. No tint, no second colour, no gradient. Ink sits on paper `#f8fafb`, white on the dark surface `#050a0f`. On orange `#ff8918` the logo is white, never ink. On the site, `text-logo` (the `--logo` token) picks ink or white for the theme and for inverted surfaces.
+- The mark never appears without its wedge and is never stretched. Never scale, move or recolour one part on its own; opacity is the only change allowed on a part.
+- The word is never cut, and no letter is replaced by the mark.
+- Never redraw the logo, set the word in a font in its place, or generate it with an AI model. Copy the paths or the files.
 
 ## 2. Default light tokens
 
