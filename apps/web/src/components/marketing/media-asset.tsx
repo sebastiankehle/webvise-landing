@@ -502,6 +502,11 @@ export function WallpaperAsset({
 		link.click();
 	}, [filename]);
 
+	// The preview is the PNG scaled down: each size is the canvas size in
+	// container-width units, so a line fits here exactly when it fits the PNG
+	const previewSize = (canvasPx: number) =>
+		`${(canvasPx * Math.min(width, height) * 100) / 1000 / width}cqw`;
+
 	return (
 		<div className="space-y-3">
 			<div
@@ -518,20 +523,25 @@ export function WallpaperAsset({
 						backgroundSize: "40px 40px",
 					}}
 				/>
-				<div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
-					<Mark className={`w-16 ${style.logo}`} />
-					<div className="text-center">
-						{/* Each line stays whole, as in the PNG; the size follows the
-						    preview's width so the narrow phone preview fits it */}
+				<div className="absolute inset-0 flex flex-col items-center justify-center">
+					<div style={{ width: previewSize(160) }}>
+						<Mark className={`w-full ${style.logo}`} />
+					</div>
+					{/* The gaps follow the canvas: the mark ends 48 above the middle,
+					    the first line's box starts 25.4 above it, and the second
+					    line's box ends 12 above the subtitle's */}
+					<div className="text-center" style={{ marginTop: previewSize(22.6) }}>
 						<Body
-							className={`whitespace-nowrap font-medium text-[min(clamp(12px,2vw,28px),7.5cqw)] leading-[1.14] tracking-[-0.03em] ${style.text}`}
+							className={`whitespace-nowrap font-medium leading-[1.14] tracking-[-0.03em] ${style.text}`}
+							style={{ fontSize: previewSize(48) }}
 						>
 							{tagline[0]}
 							<br />
 							<span className={style.rest}>{tagline[1]}</span>
 						</Body>
 						<Body
-							className={`mt-1 font-normal text-[clamp(8px,1vw,14px)] ${style.sub}`}
+							className={`whitespace-nowrap font-normal leading-none ${style.sub}`}
+							style={{ fontSize: previewSize(24), marginTop: previewSize(12) }}
 						>
 							{subtitle}
 						</Body>
