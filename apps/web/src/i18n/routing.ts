@@ -37,5 +37,6 @@ export const routing = defineRouting({
 			de: "/impressum",
 		},
 		"/media": "/media",
+		"/brand": "/brand",
 	},
 });
