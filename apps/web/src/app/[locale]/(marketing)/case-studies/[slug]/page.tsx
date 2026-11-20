@@ -34,7 +34,12 @@ import {
 } from "@/data/offerings";
 import { Link } from "@/i18n/navigation";
 import { pinLocale } from "@/i18n/static-locale";
-import { generateAlternates, localizedUrl, SITE_URL } from "@/lib/seo";
+import {
+	generateAlternates,
+	localizedUrl,
+	SITE_URL,
+	tabTitle,
+} from "@/lib/seo";
 import { cn } from "@/lib/utils";
 
 const factLinkClassName =
@@ -74,7 +79,7 @@ export async function generateMetadata({
 			};
 
 	return {
-		title: cs.title,
+		title: tabTitle(cs.title),
 		description: cs.excerpt,
 		alternates: generateAlternates(path, locale),
 		openGraph: {

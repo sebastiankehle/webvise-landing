@@ -105,7 +105,7 @@ function Wordmark({
 			href="/"
 			onClick={onClick}
 		>
-			<Logo animated className="h-5 w-auto" />
+			<Logo animated className="h-[17px] w-auto" />
 		</Link>
 	);
 }

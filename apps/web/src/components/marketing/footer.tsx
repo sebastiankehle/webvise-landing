@@ -77,7 +77,7 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 							className="inline-flex items-center gap-2 py-2 text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring/70 focus-visible:ring-offset-4 focus-visible:ring-offset-background"
 							href="/"
 						>
-							<Logo animated className="h-5 w-auto" />
+							<Logo animated className="h-[17px] w-auto" />
 						</Link>
 						<p className="mt-3 max-w-[34ch] text-foreground/75 text-sm leading-6">
 							{t("tagline")}

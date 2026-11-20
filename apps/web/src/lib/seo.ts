@@ -27,6 +27,20 @@ export function localizedUrl(path: string, locale: string): string {
 		: `${BASE_URL}/${locale}${resolved === "/" ? "" : resolved}`;
 }
 
+const NAME_IN_TITLE = /webvise/i;
+
+/** A page's tab title. The layout adds " - webvise" to it, unless the title
+ * already names webvise, so no title says the name twice. */
+export function tabTitle(title: string) {
+	return NAME_IN_TITLE.test(title) ? { absolute: title } : title;
+}
+
+/** The same title for Open Graph and X, with the site name after a pipe
+ * unless the title already names webvise. */
+export function shareTitle(title: string) {
+	return NAME_IN_TITLE.test(title) ? title : `${title} | webvise`;
+}
+
 /** The site's share image: the English home page's first screen, 2400 ×
  * 1260, for both locales. `pnpm --filter web share-image` captures it again
  * after the hero changes. */

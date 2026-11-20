@@ -31,7 +31,13 @@ import {
 import { topicsForTags } from "@/data/blog-topics";
 import { Link } from "@/i18n/navigation";
 import { homepageSectionHref } from "@/lib/homepage-section-href";
-import { generateAlternates, localizedUrl, shareImage } from "@/lib/seo";
+import {
+	generateAlternates,
+	localizedUrl,
+	shareImage,
+	shareTitle,
+	tabTitle,
+} from "@/lib/seo";
 
 const BOLD_RE = /^\*\*(.*?)\*\*$/;
 const LINK_RE = /^\[(.*?)\]\((.*?)\)$/;
@@ -57,12 +63,12 @@ export async function generateMetadata({
 	const path = `/blog/${slug}`;
 
 	return {
-		title: post.title,
+		title: tabTitle(post.title),
 		description,
 		keywords: post.keyword,
 		alternates: generateAlternates(path, locale),
 		openGraph: {
-			title: `${post.title} | webvise`,
+			title: shareTitle(post.title),
 			description,
 			siteName: "webvise",
 			url: localizedUrl(path, locale),
@@ -73,7 +79,7 @@ export async function generateMetadata({
 		},
 		twitter: {
 			card: "summary_large_image",
-			title: `${post.title} | webvise`,
+			title: shareTitle(post.title),
 			description,
 			images: [shareImage(post.title)],
 		},
