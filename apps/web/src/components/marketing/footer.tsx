@@ -158,6 +158,11 @@ export default async function Footer({ ctaBanner }: { ctaBanner?: ReactNode }) {
 								</Link>
 							</li>
 							<li>
+								<Link className={linkClassName} href="/brand">
+									{t("links.brand")}
+								</Link>
+							</li>
+							<li>
 								<Link className={linkClassName} href="/book">
 									{tn("bookCall")}
 								</Link>

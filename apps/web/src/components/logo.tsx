@@ -34,6 +34,33 @@ export function Mark({ className }: { className?: string }) {
 	);
 }
 
+/** The stacked logo, for narrow places: the mark above the word, as
+ * stacked-ink.svg sets it. Set its height or width; the other follows. */
+export function StackedLogo({ className }: { className?: string }) {
+	return (
+		<svg
+			aria-label="webvise"
+			className={cn("text-logo", className)}
+			role="img"
+			viewBox="-1 -0.2 87.715 43.8"
+			xmlns="http://www.w3.org/2000/svg"
+		>
+			<g transform="translate(-1 0) scale(1.4)">
+				{MARK_PARTS.map((d) => (
+					<path d={d} fill="currentColor" key={d} />
+				))}
+			</g>
+			<g transform="translate(0 43.3)">
+				<path
+					d={WORD}
+					fill="currentColor"
+					transform="translate(-0.243 0) scale(22.059)"
+				/>
+			</g>
+		</svg>
+	);
+}
+
 /** The main logo: the mark beside the word, as logo-ink.svg sets it. Set its
  * height; the width follows. */
 export default function Logo({
