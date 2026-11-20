@@ -42,10 +42,10 @@ export function StackedLogo({ className }: { className?: string }) {
 			aria-label="webvise"
 			className={cn("text-logo", className)}
 			role="img"
-			viewBox="-1 -0.2 87.715 43.8"
+			viewBox="-0.6 -0.2 87.715 43.8"
 			xmlns="http://www.w3.org/2000/svg"
 		>
-			<g transform="translate(-1 0) scale(1.4)">
+			<g transform="translate(22.083 0) scale(1.4)">
 				{MARK_PARTS.map((d) => (
 					<path d={d} fill="currentColor" key={d} />
 				))}

@@ -11,7 +11,6 @@ import {
 	type Ground,
 	type MisuseKind,
 	MisuseMark,
-	PixelGrid,
 	Tile,
 	WrongLabel,
 } from "./brand-figures";
@@ -334,7 +333,7 @@ export default function BrandContent() {
 				paragraphs={[t("sections.icon.body")]}
 				title={t("sections.icon.title")}
 			>
-				<div className="grid gap-x-6 gap-y-10 sm:grid-cols-3">
+				<div className="grid gap-x-6 gap-y-10 sm:grid-cols-2">
 					<Figure caption={t("sections.icon.app")}>
 						<Tile className="min-h-64" ground="panel">
 							<Image
@@ -345,11 +344,6 @@ export default function BrandContent() {
 								unoptimized
 								width={144}
 							/>
-						</Tile>
-					</Figure>
-					<Figure caption={t("sections.icon.grid")}>
-						<Tile className="min-h-64" ground="panel">
-							<PixelGrid label={t("sections.icon.grid")} />
 						</Tile>
 					</Figure>
 					<Figure caption={t("sections.icon.actual")}>
