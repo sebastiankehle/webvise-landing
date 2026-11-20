@@ -9,6 +9,9 @@
 .light {
 	--background: oklch(0.984 0.0025 245);
 	--foreground: oklch(0.18 0.012 250);
+	/* The logo is ink or white, never a tint: see components/logo.tsx */
+	--logo: oklch(0.18 0.012 250);
+	--surface-inverted-logo: oklch(1 0 0);
 	--card: oklch(1 0 0);
 	--card-foreground: oklch(0.18 0.012 250);
 	--popover: oklch(1 0 0);
@@ -101,6 +104,8 @@
 .dark {
 	--background: oklch(0.17 0.006 250);
 	--foreground: oklch(0.93 0.008 80);
+	--logo: oklch(1 0 0);
+	--surface-inverted-logo: oklch(0.18 0.012 250);
 	--card: oklch(0.22 0.008 250);
 	--card-foreground: oklch(0.93 0.008 80);
 	--popover: oklch(0.22 0.008 250);
@@ -230,6 +235,7 @@
 	--grid-line-strong: var(--surface-inverted-grid-line-strong);
 	--background: var(--surface-inverted);
 	--foreground: var(--surface-inverted-foreground);
+	--logo: var(--surface-inverted-logo);
 	--card: var(--surface-inverted-secondary);
 	--card-foreground: var(--surface-inverted-foreground);
 	--popover: var(--surface-inverted-secondary);
@@ -315,6 +321,7 @@
 	--color-card-foreground: var(--card-foreground);
 	--color-card: var(--card);
 	--color-foreground: var(--foreground);
+	--color-logo: var(--logo);
 	--color-brand: var(--brand);
 	--color-brand-hover: var(--brand-hover);
 	--color-brand-text: var(--brand-text);
@@ -590,54 +597,28 @@ button.surface-card:hover,
 	}
 }
 
-/* ── Logo hover animation - segments assemble clockwise ─── */
-.logo-animated .logo-seg {
-	fill-opacity: var(--seg-opacity, 1);
-	transition: fill-opacity 0.15s ease-out;
+/* ── Logo hover: the mark's three parts fade in, left to right ───
+   Opacity is the only change the logo rules allow on a part. */
+.logo-animated:hover .logo-part {
+	animation: logo-part-in 0.2s ease-out backwards;
 }
 
-.logo-animated:hover .logo-seg {
-	fill-opacity: 0;
-	animation: logo-seg-in 0.2s ease-out forwards;
+.logo-animated:hover .logo-part:nth-child(2) {
+	animation-delay: 0.05s;
 }
 
-@keyframes logo-seg-in {
+.logo-animated:hover .logo-part:nth-child(3) {
+	animation-delay: 0.1s;
+}
+
+@keyframes logo-part-in {
 	from {
 		fill-opacity: 0;
 	}
-	to {
-		fill-opacity: var(--seg-opacity, 1);
-	}
-}
-
-.logo-animated:hover .logo-seg-1 {
-	animation-delay: 0s;
-}
-.logo-animated:hover .logo-seg-2 {
-	animation-delay: 0.05s;
-}
-.logo-animated:hover .logo-seg-3 {
-	animation-delay: 0.1s;
-}
-.logo-animated:hover .logo-seg-4 {
-	animation-delay: 0.15s;
-}
-.logo-animated:hover .logo-seg-5 {
-	animation-delay: 0.2s;
-}
-.logo-animated:hover .logo-seg-6 {
-	animation-delay: 0.25s;
-}
-.logo-animated:hover .logo-seg-7 {
-	animation-delay: 0.3s;
-}
-.logo-animated:hover .logo-seg-8 {
-	animation-delay: 0.35s;
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.logo-animated:hover .logo-seg {
-		fill-opacity: var(--seg-opacity, 1);
+	.logo-animated:hover .logo-part {
 		animation: none;
 	}
 }

@@ -1,7 +1,12 @@
 import { ImageResponse } from "next/og";
+import { MARK_HEIGHT, MARK_PARTS, MARK_WIDTH } from "@/components/logo";
 
 export const size = { width: 180, height: 180 };
 export const contentType = "image/png";
+
+// The app icon: the white mark across 65 % of a dark square, as in the logo
+// presentation's export. Square corners; the system rounds them.
+const markWidth = size.width * 0.65;
 
 export default function AppleIcon() {
 	return new ImageResponse(
@@ -12,26 +17,20 @@ export default function AppleIcon() {
 				display: "flex",
 				alignItems: "center",
 				justifyContent: "center",
-				background: "transparent",
+				background: "#050a0f",
 			}}
 		>
 			<svg
-				aria-label="webvise logo"
-				fill="none"
-				height="160"
+				aria-label="webvise"
+				height={(markWidth * MARK_HEIGHT) / MARK_WIDTH}
 				role="img"
-				viewBox="0 0 32 32"
-				width="160"
+				viewBox={`0 0 ${MARK_WIDTH} ${MARK_HEIGHT}`}
+				width={markWidth}
 				xmlns="http://www.w3.org/2000/svg"
 			>
-				<polygon fill="#f97316" opacity="0.9" points="16,2 8,10 16,12" />
-				<polygon fill="#fb923c" opacity="0.85" points="16,2 24,10 16,12" />
-				<polygon fill="#fdba74" opacity="0.8" points="8,10 4,18 16,12" />
-				<polygon fill="#f97316" opacity="0.75" points="24,10 28,18 16,12" />
-				<polygon fill="#fb923c" opacity="0.9" points="16,12 4,18 10,26" />
-				<polygon fill="#fdba74" opacity="0.85" points="16,12 28,18 22,26" />
-				<polygon fill="#f97316" opacity="0.8" points="16,12 10,26 16,30" />
-				<polygon fill="#fb923c" opacity="0.75" points="16,12 22,26 16,30" />
+				{MARK_PARTS.map((d) => (
+					<path d={d} fill="#ffffff" key={d} />
+				))}
 			</svg>
 		</div>,
 		{ ...size }

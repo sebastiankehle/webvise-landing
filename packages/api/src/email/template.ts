@@ -36,9 +36,10 @@ const c = {
 	red: "#dc2626",
 } as const;
 
-// The mark as a picture: mail clients drop inline SVG. With pictures blocked,
-// the wordmark beside it still names the sender.
-const MARK_URL = `${SITE_URL}/images/email/webvise-mark.png`;
+// The white logo as a picture: mail clients drop inline SVG. With pictures
+// blocked, its alt text names the sender. webvise-mark.png beside it stays for
+// emails sent before the new logo.
+const LOGO_URL = `${SITE_URL}/images/email/webvise-logo.png`;
 
 const font =
 	"'Hanken Grotesk', Geist, Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
@@ -70,7 +71,7 @@ export function emailLayout(opts: {
 <body style="margin:0;padding:0;background:${c.bgOuter};font-family:${font}">
   <div style="max-width:560px;margin:40px auto;background:${c.bgCard};border:1px solid ${c.border};border-radius:12px;overflow:hidden">
     <div style="background:${c.header};padding:20px 28px;border-radius:11px 11px 0 0">
-      <img src="${MARK_URL}" width="22" height="22" alt="" style="vertical-align:middle;margin-right:8px;border:0"><span style="color:#ffffff;font-size:17px;font-weight:600;letter-spacing:-0.02em;vertical-align:middle;font-family:${font}">webvise</span>${opts.label ? `<span style="color:#999fa4;font-size:13px;margin-left:10px;vertical-align:middle;font-family:${font}">${escapeHtml(opts.label)}</span>` : ""}
+      <img src="${LOGO_URL}" width="100" alt="webvise" style="height:auto;vertical-align:middle;border:0;color:#ffffff;font-size:17px;font-family:${font}">${opts.label ? `<span style="color:#999fa4;font-size:13px;margin-left:10px;vertical-align:middle;font-family:${font}">${escapeHtml(opts.label)}</span>` : ""}
     </div>
     <div style="height:2px;background:${c.brand}"></div>
     <div style="padding:28px">

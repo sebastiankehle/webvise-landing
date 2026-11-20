@@ -10,9 +10,10 @@ export default function manifest(): MetadataRoute.Manifest {
 		display: "standalone",
 		background_color: "#f8fafb",
 		theme_color: "#ff8918",
+		// The app icon: the white mark on the dark square
 		icons: [
 			{
-				src: "/icon.svg",
+				src: "/app-icon.svg",
 				sizes: "any",
 				type: "image/svg+xml",
 			},

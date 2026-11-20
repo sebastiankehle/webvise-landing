@@ -2,7 +2,7 @@
 
 import { type ReactNode, type Ref, useRef } from "react";
 
-import Logo from "@/components/logo";
+import { Mark } from "@/components/logo";
 import { AnimatedBeam } from "@/components/marketing/animated-beam";
 import { cn } from "@/lib/utils";
 
@@ -97,7 +97,7 @@ export default function SystemsBeam({ internal }: { internal: string }) {
 				)}
 				ref={hub}
 			>
-				<Logo className="size-9 sm:size-11" />
+				<Mark className="w-10 text-white sm:w-13" />
 			</div>
 
 			<div className="flex flex-col items-start gap-4 sm:gap-5">

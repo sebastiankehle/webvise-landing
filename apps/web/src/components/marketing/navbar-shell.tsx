@@ -105,10 +105,7 @@ function Wordmark({
 			href="/"
 			onClick={onClick}
 		>
-			<Logo animated className="size-7" />
-			<span className="font-display text-xl leading-none tracking-[-0.035em]">
-				webvise
-			</span>
+			<Logo animated className="h-5 w-auto" />
 		</Link>
 	);
 }

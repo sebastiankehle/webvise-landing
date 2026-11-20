@@ -66,6 +66,35 @@ export default function MediaContent({ tagline }: { tagline: Tagline }) {
 				</div>
 			</div>
 
+			{/* X Banners: X shows headers at 3:1, so the LinkedIn banner would
+			    lose its sides and cut the mark at the wedge */}
+			<div>
+				<H4 className="mb-2 text-lg">{t("xBanners")}</H4>
+				<Muted className="mb-8">{t("xBannersDescription")}</Muted>
+				<div className="grid gap-16">
+					{VARIANTS.map((v) => (
+						<div key={v}>
+							<Label className="mb-3 block font-medium text-foreground text-sm">
+								{t(
+									`variant${v[0].toUpperCase()}${v.slice(1)}` as
+										| "variantLight"
+										| "variantInverted"
+										| "variantBrand"
+								)}
+							</Label>
+							<BannerAsset
+								filename={`webvise-x-banner-${v}.png`}
+								height={500}
+								subtitle={t("subtitle")}
+								tagline={tagline}
+								variant={v}
+								width={1500}
+							/>
+						</div>
+					))}
+				</div>
+			</div>
+
 			{/* Desktop Wallpapers */}
 			<div>
 				<H4 className="mb-2 text-lg">{t("desktopWallpapers")}</H4>
