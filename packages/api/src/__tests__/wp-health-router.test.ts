@@ -116,7 +116,7 @@ describe("wpHealthRouter.unlock", () => {
 		const err = await caller()
 			.unlock({ reportToken: tampered, email: "lead@example.com" })
 			.catch((e: unknown) => e);
-		expect((err as TRPCError).code).toBe("BAD_REQUEST");
+		expect((err as TRPCError).code).toBe("PRECONDITION_FAILED");
 		expect(mocks.sendEmail).not.toHaveBeenCalled();
 	});
 
@@ -127,7 +127,7 @@ describe("wpHealthRouter.unlock", () => {
 			const err = await caller()
 				.unlock({ reportToken: report.reportToken, email: "lead@example.com" })
 				.catch((e: unknown) => e);
-			expect((err as TRPCError).code).toBe("BAD_REQUEST");
+			expect((err as TRPCError).code).toBe("PRECONDITION_FAILED");
 		} finally {
 			vi.useRealTimers();
 		}

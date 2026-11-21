@@ -1,6 +1,7 @@
 "use client";
 
 import { useForm } from "@tanstack/react-form";
+import { TRPCClientError } from "@trpc/client";
 import { Check, Loader2, X } from "lucide-react";
 import { animate, motion, useMotionValue, useTransform } from "motion/react";
 import { useLocale, useTranslations } from "next-intl";
@@ -577,7 +578,8 @@ export default function WpHealthReport() {
 	});
 
 	// The report opens once the lead is saved; a failure keeps the gate open
-	// with the message, and submitting again retries.
+	// with the message, and submitting again retries. A token older than a day
+	// cannot be retried: the visitor runs the report again.
 	async function handleUnlock(email: string, firstName: string) {
 		if (!report) {
 			return;
@@ -594,9 +596,17 @@ export default function WpHealthReport() {
 			setEmailed(result.emailed);
 			setPhase("full");
 			track("analyzer_unlocked", { url: report.url, email });
-		} catch {
-			setUnlockError(t("errors.unlockFailed"));
-			track("analyzer_error", { url: report.url, reason: "unlock_failed" });
+		} catch (err) {
+			const expired =
+				err instanceof TRPCClientError &&
+				err.data?.code === "PRECONDITION_FAILED";
+			setUnlockError(
+				expired ? t("errors.reportExpired") : t("errors.unlockFailed")
+			);
+			track("analyzer_error", {
+				url: report.url,
+				reason: expired ? "report_expired" : "unlock_failed",
+			});
 		} finally {
 			setUnlocking(false);
 		}

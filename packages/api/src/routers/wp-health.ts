@@ -108,8 +108,9 @@ export const wpHealthRouter = router({
 		.mutation(async ({ input }) => {
 			const report = verifyReportToken(input.reportToken);
 			if (!report) {
+				// Not BAD_REQUEST: the client tells an expired report from bad input.
 				throw new TRPCError({
-					code: "BAD_REQUEST",
+					code: "PRECONDITION_FAILED",
 					message: "This report has expired. Please run it again.",
 				});
 			}
