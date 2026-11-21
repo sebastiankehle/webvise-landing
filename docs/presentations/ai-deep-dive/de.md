@@ -35,7 +35,7 @@ Was ich heute vorstelle, sind Tools und Workflows, die ich im Alltag einsetze - 
 GitHub Copilot brachte AI in den Editor. Zeilenvervollständigung, Funktionsvorschläge, Boilerplate-Generierung. Hilfreich, aber begrenzt. Der Entwickler blieb am Steuer, AI war ein besseres IntelliSense.
 
 **Welle 2: Chat & Copilot (2023-2025)**
-ChatGPT, Claude und spezialisierte Coding-Assistenten ermöglichten Konversationen über Code. Entwickler konnten ganze Funktionen beschreiben und generieren lassen. Cursor und Windsurf integrierten AI tief in die IDE. Der Kontext wuchs von einzelnen Dateien auf ganze Projekte.
+ChatGPT, Claude und spezialisierte Coding-Assistenten ermöglichten Konversationen über Code. Entwickler konnten ganze Funktionen beschreiben und generieren lassen. Windsurf integrierte AI tief in die IDE. Der Kontext wuchs von einzelnen Dateien auf ganze Projekte.
 
 **Welle 3: Autonome Agents (2025-heute)**
 AI-Systeme, die eigenständig planen, Tools nutzen, Code schreiben, testen und deployen. Nicht ein Prompt, eine Antwort - sondern ein Ziel, viele Schritte. Claude Code, Codex CLI und Gemini CLI arbeiten direkt im Terminal, navigieren Codebases, führen Tests aus und erstellen Pull Requests. Das ist der aktuelle Stand.
@@ -69,13 +69,6 @@ Wenn Entwickler 30% produktiver werden, ist das kein marginaler Effekt - das ist
 - **Modelle:** GPT-4o, Claude Sonnet, Gemini (wählbar)
 - **Preis:** ab $19/Monat pro Entwickler
 
-#### Cursor
-- **Typ:** Fork von VS Code mit nativer AI-Integration
-- **Stärke:** Multi-File-Editing, Codebase-Kontext, Composer für komplexe Aufgaben
-- **Modelle:** Claude, GPT-4o, eigene Modelle
-- **Enterprise:** Cursor for Business mit SSO und Admin-Controls
-- **Preis:** ab $20/Monat pro Entwickler
-
 #### Claude Code (CLI)
 - **Typ:** Terminal-basierter autonomer Agent
 - **Stärke:** Agentic Coding - plant, implementiert, testet autonom. Versteht gesamte Codebase. Arbeitet mit Git, Shell, APIs
@@ -101,15 +94,15 @@ Wenn Entwickler 30% produktiver werden, ist das kein marginaler Effekt - das ist
 
 ### Vergleichsmatrix
 
-| Kriterium | Copilot | Cursor | Claude Code | Windsurf |
-|---|---|---|---|---|
-| Autonomie-Level | Niedrig-Mittel | Mittel-Hoch | Sehr Hoch | Mittel-Hoch |
-| Codebase-Verständnis | Begrenzt | Sehr gut | Exzellent | Gut |
-| Multi-File-Editing | Ja | Ja | Ja | Ja |
-| Terminal-Integration | Begrenzt | Begrenzt | Nativ | Begrenzt |
-| Enterprise-Features | Sehr gut | Gut | API-flexibel | Mittel |
-| Offline-fähig | Nein | Nein | Nein* | Nein |
-| Compliance-Controls | Gut | Mittel | Hoch | Mittel |
+| Kriterium | Copilot | Claude Code | Windsurf |
+|---|---|---|---|
+| Autonomie-Level | Niedrig-Mittel | Sehr Hoch | Mittel-Hoch |
+| Codebase-Verständnis | Begrenzt | Exzellent | Gut |
+| Multi-File-Editing | Ja | Ja | Ja |
+| Terminal-Integration | Begrenzt | Nativ | Begrenzt |
+| Enterprise-Features | Sehr gut | API-flexibel | Mittel |
+| Offline-fähig | Nein | Nein* | Nein |
+| Compliance-Controls | Gut | Hoch | Mittel |
 
 *Claude Code kann mit lokalen MCP-Servern und Proxy-Konfigurationen betrieben werden.
 
@@ -213,7 +206,7 @@ Das ist kein theoretisches Szenario. Das ist mein tatsächlicher Workflow bei we
 #### Skills - Wiederverwendbare Agent-Fähigkeiten
 
 Skills sind Markdown-basierte Anweisungen, die Agents spezifische Fähigkeiten verleihen. Sie sind:
-- **Portabel** - funktionieren in Claude Code, Cursor, Copilot und 19+ weiteren AI-Tools
+- **Portabel** - funktionieren in Claude Code, Copilot und 19+ weiteren AI-Tools
 - **Versionierbar** - in Git, teilbar über Teams
 - **Komponierbar** - Skills können andere Skills aufrufen
 
@@ -341,7 +334,7 @@ Fur Unternehmen, die selbst Audits durchfuhren, ist Nachvollziehbarkeit entschei
 **Ziel:** Erfahrung sammeln, Quick Wins identifizieren
 
 - **Pilot-Team:** 5-10 Entwickler aus verschiedenen Teams
-- **Tools:** GitHub Copilot oder Cursor (niedrige Einstiegshürde)
+- **Tools:** GitHub Copilot oder Windsurf (niedrige Einstiegshürde)
 - **Use Cases:** Code-Completion, Dokumentation, Unit-Tests
 - **Governance:** Basis-Richtlinien für Datenklassifizierung
 - **Messung:** Entwickler-Zufriedenheit, Code-Output, Fehlerrate
@@ -356,7 +349,7 @@ Fur Unternehmen, die selbst Audits durchfuhren, ist Nachvollziehbarkeit entschei
 **Ziel:** Standards etablieren, breiter ausrollen
 
 - **Ausweitung:** 50-100 Entwickler
-- **Tools:** Claude Code / Cursor für komplexere Aufgaben, erste MCP-Server
+- **Tools:** Claude Code für komplexere Aufgaben, erste MCP-Server
 - **Use Cases:** Feature-Entwicklung, Refactoring, Bug-Fixing, CI/CD-Integration
 - **Governance:** AI-Coding-Richtlinie, DPA mit Anbietern, Klassifizierung der Apps
 - **Skills:** Erste unternehmensspezifische Skills erstellen (Coding-Standards, Review-Checklisten)
