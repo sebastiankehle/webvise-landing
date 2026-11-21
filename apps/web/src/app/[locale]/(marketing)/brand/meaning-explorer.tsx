@@ -104,7 +104,7 @@ function Label({
 }) {
 	return (
 		<text
-			className="brand-pop"
+			className="brand-pop brand-label"
 			dominantBaseline={central ? "central" : undefined}
 			fill={strong ? INK : MUTED}
 			fontSize={size}
@@ -332,7 +332,12 @@ export function MeaningExplorer({
 
 	return (
 		<div className="grid gap-8 lg:grid-cols-12 lg:gap-x-6">
-			<Tile className="p-4 sm:p-8 lg:col-span-7" ground="panel">
+			{/* On phones the drawing sticks under the section bar, so a reading
+			    chosen further down still shows its measure */}
+			<Tile
+				className="z-10 p-4 max-lg:sticky max-lg:top-[7.75rem] sm:p-8 lg:col-span-7"
+				ground="panel"
+			>
 				<MeaningFigure active={active} label={current?.figure ?? ""} />
 			</Tile>
 			<ol

@@ -4,6 +4,7 @@ import { useLocale } from "next-intl";
 import { type ReactNode, useState } from "react";
 
 import { MARK_PARTS, WORD } from "@/components/logo";
+import { Option, Segmented } from "@/components/marketing/segmented";
 import { H3 } from "@/components/ui/typography";
 import {
 	after,
@@ -20,7 +21,6 @@ import {
 	Tile,
 	vDim,
 } from "./brand-figures";
-import { Option, Segmented } from "./segmented";
 
 export type PlateKey = "sheet" | "measures" | "lockup" | "stacked" | "icon";
 
@@ -590,7 +590,7 @@ function PlateDrawing({ label, plate }: { label: string; plate: PlateKey }) {
 	return (
 		<svg
 			aria-label={label}
-			className="brand-stage-in h-auto w-full min-w-[600px]"
+			className="brand-stage-in h-auto w-full"
 			key={plate}
 			role="img"
 			viewBox="0 0 1000 500"
@@ -628,7 +628,7 @@ export function ConstructionViewer({
 					))}
 				</Segmented>
 			</div>
-			<Tile className="mt-4 block overflow-x-auto p-4 md:p-8" ground="panel">
+			<Tile className="mt-4 block p-2 sm:p-4 md:p-8" ground="panel">
 				<PlateDrawing label={current?.figure ?? ""} plate={active} />
 			</Tile>
 			<div aria-live="polite" className="brand-pop mt-6" key={active}>

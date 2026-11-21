@@ -144,7 +144,7 @@ export function Measure({
 }) {
 	return (
 		<text
-			className="brand-pop"
+			className="brand-pop brand-measure"
 			dominantBaseline="central"
 			fill={strong ? INK : fill}
 			fontSize="18"
@@ -398,7 +398,7 @@ export function MisuseMark({ kind }: { kind: MisuseKind }) {
 		return (
 			<svg
 				aria-hidden="true"
-				className="h-24 w-auto max-w-full"
+				className="h-14 w-auto max-w-full sm:h-24"
 				viewBox="0 0 420 110"
 				xmlns="http://www.w3.org/2000/svg"
 			>
@@ -411,17 +411,17 @@ export function MisuseMark({ kind }: { kind: MisuseKind }) {
 
 	if (kind === "font") {
 		return (
-			<div aria-hidden="true" className="flex items-center gap-3">
+			<div aria-hidden="true" className="flex items-center gap-2 sm:gap-3">
 				<svg
 					aria-hidden="true"
-					className="h-8 w-auto"
+					className="h-5 w-auto sm:h-8"
 					viewBox="0 0 30.25 15"
 					xmlns="http://www.w3.org/2000/svg"
 				>
 					<MarkPaths fill={INK} />
 				</svg>
 				<span
-					className="font-display font-medium text-[2.5rem] tracking-[-0.028em]"
+					className="font-display font-medium text-[1.75rem] tracking-[-0.028em] sm:text-[2.5rem]"
 					style={{ color: INK }}
 				>
 					webvise
@@ -434,7 +434,7 @@ export function MisuseMark({ kind }: { kind: MisuseKind }) {
 		return (
 			<svg
 				aria-hidden="true"
-				className="h-24 w-auto overflow-visible"
+				className="h-14 w-auto overflow-visible sm:h-24"
 				viewBox="0 0 300 149"
 				xmlns="http://www.w3.org/2000/svg"
 			>
@@ -449,7 +449,7 @@ export function MisuseMark({ kind }: { kind: MisuseKind }) {
 		return (
 			<svg
 				aria-hidden="true"
-				className="h-24 w-auto overflow-visible"
+				className="h-14 w-auto overflow-visible sm:h-24"
 				viewBox="0 0 300 149"
 				xmlns="http://www.w3.org/2000/svg"
 			>
@@ -488,7 +488,7 @@ export function MisuseMark({ kind }: { kind: MisuseKind }) {
 	return (
 		<svg
 			aria-hidden="true"
-			className="h-24 w-auto"
+			className="h-14 w-auto sm:h-24"
 			viewBox="0 0 300 149"
 			xmlns="http://www.w3.org/2000/svg"
 		>
@@ -506,8 +506,12 @@ export function MisuseMark({ kind }: { kind: MisuseKind }) {
 /** The caption of a wrong example, with a cross. */
 export function WrongLabel({ children }: { children: ReactNode }) {
 	return (
-		<span className="inline-flex items-center gap-1.5 text-foreground">
-			<X aria-hidden="true" className="size-3.5 text-destructive" />
+		<span className="inline-flex items-start gap-1.5 text-foreground">
+			{/* On the first line's middle, also when the caption wraps */}
+			<X
+				aria-hidden="true"
+				className="mt-[0.3125rem] size-3.5 shrink-0 text-destructive"
+			/>
 			{children}
 		</span>
 	);

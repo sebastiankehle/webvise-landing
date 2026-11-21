@@ -3,9 +3,9 @@
 import { type CSSProperties, useState } from "react";
 
 import { MARK_PARTS, WORD } from "@/components/logo";
+import { Option, Segmented } from "@/components/marketing/segmented";
 import { cn } from "@/lib/utils";
 import { GROUNDS } from "./brand-figures";
-import { Option, Segmented } from "./segmented";
 
 const STAGE_GROUNDS = ["paper", "dark", "orange"] as const;
 type StageGround = (typeof STAGE_GROUNDS)[number];

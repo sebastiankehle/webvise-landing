@@ -1,11 +1,12 @@
 "use client";
 
+import { ArrowDownToLine } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useCallback, useRef } from "react";
+import { type CSSProperties, type ReactNode, useCallback, useRef } from "react";
 import { MARK_HEIGHT, MARK_PARTS, MARK_WIDTH, Mark } from "@/components/logo";
-import { marketingSurfaceClassName } from "@/components/marketing/section-wrapper";
-import { Button } from "@/components/ui/button";
+import { actionVariants } from "@/components/marketing/action";
 import { Body, Caption } from "@/components/ui/typography";
+import { cn } from "@/lib/utils";
 
 type Variant = "light" | "inverted" | "brand";
 
@@ -41,62 +42,115 @@ function mediaAssetCanvasFontFamily() {
 	return family ? `${family}, sans-serif` : '"Hanken Grotesk", sans-serif';
 }
 const mediaAssetCanvasGridLine = "rgba(0,0,0,0.03)";
-const mediaAssetPreviewGridImage =
-	"linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px)";
+/** The preview draws the canvas's own grid line, so the preview is the PNG. */
+const mediaAssetPreviewGridImage = `linear-gradient(${mediaAssetCanvasGridLine} 1px, transparent 1px), linear-gradient(90deg, ${mediaAssetCanvasGridLine} 1px, transparent 1px)`;
 
+/** Each variant's colours. Canvas and preview both read them, so the preview
+ * keeps the PNG's colours in every site theme. */
 const variantStyles: Record<
 	Variant,
 	{
-		bg: string;
-		text: string;
-		rest: string;
-		sub: string;
 		canvasBg: string;
 		canvasText: string;
 		canvasRest: string;
 		canvasSub: string;
 		canvasLogo: string;
-		/** The preview's logo colour; empty keeps the theme's ink or white */
-		logo: string;
 	}
 > = {
 	light: {
-		bg: "bg-background",
-		text: "text-foreground",
-		rest: "text-foreground/45",
-		sub: "text-muted-foreground",
 		canvasBg: mediaAssetCanvasPalette.light.bg,
 		canvasText: mediaAssetCanvasPalette.light.text,
 		canvasRest: mediaAssetCanvasPalette.light.rest,
 		canvasSub: mediaAssetCanvasPalette.light.sub,
 		canvasLogo: mediaAssetCanvasPalette.light.logo,
-		logo: "",
 	},
 	inverted: {
-		bg: marketingSurfaceClassName("inverted"),
-		text: "text-foreground",
-		rest: "text-foreground/45",
-		sub: "text-muted-foreground",
 		canvasBg: mediaAssetCanvasPalette.inverted.bg,
 		canvasText: mediaAssetCanvasPalette.inverted.text,
 		canvasRest: mediaAssetCanvasPalette.inverted.rest,
 		canvasSub: mediaAssetCanvasPalette.inverted.sub,
 		canvasLogo: mediaAssetCanvasPalette.inverted.logo,
-		logo: "",
 	},
 	brand: {
-		bg: "bg-brand",
-		text: "text-brand-foreground",
-		rest: "text-brand-foreground/70",
-		sub: "text-brand-foreground/80",
 		canvasBg: mediaAssetCanvasPalette.brand.bg,
 		canvasText: mediaAssetCanvasPalette.brand.text,
 		canvasRest: mediaAssetCanvasPalette.brand.rest,
 		canvasSub: mediaAssetCanvasPalette.brand.sub,
 		canvasLogo: mediaAssetCanvasPalette.brand.logo,
-		logo: "text-white",
 	},
 };
+
+/** The preview's frame: the PNG's ratio and ground, the canvas grid at the
+ * canvas step (40 of 1584), the site's card corner. */
+function PreviewFrame({
+	children,
+	height,
+	maxWidth,
+	variant,
+	width,
+}: {
+	children: ReactNode;
+	height: number;
+	maxWidth?: number;
+	variant: Variant;
+	width: number;
+}) {
+	const style = variantStyles[variant];
+	const step = `${(40 * 100) / 1584}cqw`;
+	return (
+		<div
+			className={cn(
+				"@container relative overflow-hidden rounded-[1.25rem]",
+				variant === "light" && "shadow-[inset_0_0_0_1px_rgba(14,18,23,0.08)]"
+			)}
+			style={
+				{
+					aspectRatio: `${width} / ${height}`,
+					backgroundColor: style.canvasBg,
+					maxWidth,
+					"--logo": style.canvasLogo,
+				} as CSSProperties
+			}
+		>
+			<div
+				className="pointer-events-none absolute inset-0"
+				style={{
+					backgroundImage: mediaAssetPreviewGridImage,
+					backgroundSize: `${step} ${step}`,
+				}}
+			/>
+			{children}
+		</div>
+	);
+}
+
+/** The size and the download, under every preview. */
+function AssetFooter({
+	height,
+	onDownload,
+	width,
+}: {
+	height: number;
+	onDownload: () => void;
+	width: number;
+}) {
+	const t = useTranslations("media");
+	return (
+		<div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
+			<Caption className="tabular-nums">
+				{width} × {height} px
+			</Caption>
+			<button
+				className={actionVariants({ variant: "quiet", size: "md" })}
+				onClick={onDownload}
+				type="button"
+			>
+				<ArrowDownToLine aria-hidden="true" className="size-4" />
+				{t("download")}
+			</button>
+		</div>
+	);
+}
 
 /** The mark `width` wide, its top-left corner at x, y. */
 function drawMarkOnCanvas(
@@ -166,89 +220,6 @@ function drawTagline(
 	ctx.letterSpacing = "0px";
 }
 
-// --- Logo-only asset (square) ---
-
-export function LogoAsset({
-	variant = "light",
-	size = 512,
-}: {
-	variant?: Variant;
-	size?: number;
-}) {
-	const canvasRef = useRef<HTMLCanvasElement>(null);
-	const t = useTranslations("media");
-	const style = variantStyles[variant];
-
-	const initCanvas = useCallback(
-		(canvas: HTMLCanvasElement | null) => {
-			if (!canvas) {
-				return;
-			}
-			canvasRef.current = canvas;
-			const dpr = 2;
-			canvas.width = size * dpr;
-			canvas.height = size * dpr;
-			const ctx = canvas.getContext("2d");
-			if (!ctx) {
-				return;
-			}
-			ctx.scale(dpr, dpr);
-
-			ctx.fillStyle = style.canvasBg;
-			ctx.fillRect(0, 0, size, size);
-
-			// The mark spans 600 of 1024, as in the presentation's profile
-			// pictures, so a circle crop keeps all of it
-			const markWidth = (size * 600) / 1024;
-			const markHeight = (markWidth * MARK_HEIGHT) / MARK_WIDTH;
-			drawMarkOnCanvas(
-				ctx,
-				(size - markWidth) / 2,
-				(size - markHeight) / 2,
-				markWidth,
-				style.canvasLogo
-			);
-		},
-		[style, size]
-	);
-
-	const handleDownload = useCallback(() => {
-		const canvas = canvasRef.current;
-		if (!canvas) {
-			return;
-		}
-		const link = document.createElement("a");
-		link.download = `webvise-logo-${variant}-${size}x${size}.png`;
-		link.href = canvas.toDataURL("image/png");
-		link.click();
-	}, [variant, size]);
-
-	return (
-		<div className="space-y-3">
-			<div
-				className={`relative flex items-center justify-center overflow-hidden ${style.bg}`}
-				style={{ aspectRatio: "1 / 1", maxWidth: 200 }}
-			>
-				<Mark className={`w-[58.6%] ${style.logo}`} />
-			</div>
-			<canvas className="hidden" ref={initCanvas} />
-			<div className="flex items-center justify-between">
-				<Caption>
-					{size} x {size}px
-				</Caption>
-				<Button
-					onClick={handleDownload}
-					size="sm"
-					type="button"
-					variant="outline"
-				>
-					{t("download")}
-				</Button>
-			</div>
-		</div>
-	);
-}
-
 // --- Banner asset (LinkedIn, wallpaper, etc.) ---
 
 interface BannerProps {
@@ -269,7 +240,6 @@ export function BannerAsset({
 	filename,
 }: BannerProps) {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
-	const t = useTranslations("media");
 	const style = variantStyles[variant];
 
 	const scaleFactor = width / 1584;
@@ -351,56 +321,50 @@ export function BannerAsset({
 		link.click();
 	}, [filename]);
 
+	// Canvas sizes are in units of a 1584 wide banner; in the preview they are
+	// container-width units, so it scales exactly as the PNG does
+	const cq = (canvasPx: number) => `${(canvasPx * 100) / 1584}cqw`;
+
 	return (
 		<div className="space-y-3">
-			<div
-				className={`relative overflow-hidden ${style.bg}`}
-				style={{ aspectRatio: `${width} / ${height}` }}
-			>
+			<PreviewFrame height={height} variant={variant} width={width}>
 				<div
-					className="pointer-events-none absolute inset-0 opacity-[0.03]"
-					style={{
-						backgroundImage: mediaAssetPreviewGridImage,
-						backgroundSize: "40px 40px",
-					}}
-				/>
-				<div className="absolute inset-0 flex items-center justify-end pr-[8%]">
-					<div className="flex items-center gap-6">
+					className="absolute inset-0 flex items-center justify-end"
+					style={{ paddingRight: cq(130) }}
+				>
+					<div className="flex items-center" style={{ gap: cq(30) }}>
 						<div className="text-right">
 							<Body
-								className={`font-medium text-[clamp(12px,2.2vw,32px)] leading-[1.14] tracking-[-0.03em] ${style.text}`}
+								className="whitespace-nowrap font-medium leading-[1.14] tracking-[-0.03em]"
+								style={{ color: style.canvasText, fontSize: cq(42) }}
 							>
 								{tagline[0]}
 								<br />
-								<span className={style.rest}>{tagline[1]}</span>
+								<span style={{ color: style.canvasRest }}>{tagline[1]}</span>
 							</Body>
 							<Body
-								className={`mt-1 font-normal text-[clamp(8px,1.2vw,16px)] ${style.sub}`}
+								className="whitespace-nowrap font-normal leading-none"
+								style={{
+									color: style.canvasSub,
+									fontSize: cq(22),
+									marginTop: cq(11.2),
+								}}
 							>
 								{subtitle}
 							</Body>
 						</div>
-						<div className="shrink-0">
-							<Mark className={`w-12 ${style.logo}`} />
+						<div className="shrink-0" style={{ width: cq(80) }}>
+							<Mark className="w-full" />
 						</div>
 					</div>
 				</div>
-				<div className="absolute right-0 bottom-0 left-0 h-1 bg-brand" />
-			</div>
+				<div
+					className="absolute right-0 bottom-0 left-0 bg-brand"
+					style={{ height: cq(4) }}
+				/>
+			</PreviewFrame>
 			<canvas className="hidden" ref={initCanvas} />
-			<div className="flex items-center justify-between">
-				<Caption>
-					{width} x {height}px
-				</Caption>
-				<Button
-					onClick={handleDownload}
-					size="sm"
-					type="button"
-					variant="outline"
-				>
-					{t("download")}
-				</Button>
-			</div>
+			<AssetFooter height={height} onDownload={handleDownload} width={width} />
 		</div>
 	);
 }
@@ -423,7 +387,6 @@ export function WallpaperAsset({
 	filename,
 }: WallpaperProps) {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
-	const t = useTranslations("media");
 	const style = variantStyles[variant];
 
 	const initCanvas = useCallback(
@@ -505,53 +468,33 @@ export function WallpaperAsset({
 
 	return (
 		<div className="space-y-3">
-			<div
-				className={`@container relative overflow-hidden ${style.bg}`}
-				style={{
-					aspectRatio: `${width} / ${height}`,
-					maxWidth: width > height ? undefined : 300,
-				}}
+			<PreviewFrame
+				height={height}
+				maxWidth={width > height ? undefined : 300}
+				variant={variant}
+				width={width}
 			>
-				<div
-					className="pointer-events-none absolute inset-0 opacity-[0.03]"
-					style={{
-						backgroundImage: mediaAssetPreviewGridImage,
-						backgroundSize: "40px 40px",
-					}}
-				/>
 				<div className="absolute inset-0 flex flex-col items-center justify-center">
 					<div style={{ width: previewSize(160) }}>
-						<Mark className={`w-full ${style.logo}`} />
+						<Mark className="w-full" />
 					</div>
 					{/* The gaps follow the canvas: 22.6 between the mark and the
 					    first line's box, the whole block centred */}
 					<div className="text-center" style={{ marginTop: previewSize(22.6) }}>
 						<Body
-							className={`whitespace-nowrap font-medium leading-[1.14] tracking-[-0.03em] ${style.text}`}
-							style={{ fontSize: previewSize(48) }}
+							className="whitespace-nowrap font-medium leading-[1.14] tracking-[-0.03em]"
+							style={{ color: style.canvasText, fontSize: previewSize(48) }}
 						>
 							{tagline[0]}
 							<br />
-							<span className={style.rest}>{tagline[1]}</span>
+							<span style={{ color: style.canvasRest }}>{tagline[1]}</span>
 						</Body>
 					</div>
 				</div>
 				<div className="absolute right-0 bottom-0 left-0 h-1 bg-brand" />
-			</div>
+			</PreviewFrame>
 			<canvas className="hidden" ref={initCanvas} />
-			<div className="flex items-center justify-between">
-				<Caption>
-					{width} x {height}px
-				</Caption>
-				<Button
-					onClick={handleDownload}
-					size="sm"
-					type="button"
-					variant="outline"
-				>
-					{t("download")}
-				</Button>
-			</div>
+			<AssetFooter height={height} onDownload={handleDownload} width={width} />
 		</div>
 	);
 }
