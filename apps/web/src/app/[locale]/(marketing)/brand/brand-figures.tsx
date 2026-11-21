@@ -1,5 +1,4 @@
 import { X } from "lucide-react";
-import { useLocale } from "next-intl";
 import type { CSSProperties, ReactNode } from "react";
 
 import Logo, { MARK_PARTS } from "@/components/logo";
@@ -17,9 +16,10 @@ export const GROUNDS = {
 
 export type Ground = keyof typeof GROUNDS;
 
-const MUTED = "#585e65";
-const INK = "#0e1217";
-const GUIDE = "#b0b9c0";
+/** Fixed specimen colours: a figure looks the same in every site theme. */
+export const MUTED = "#585e65";
+export const INK = "#0e1217";
+export const GUIDE = "#b0b9c0";
 
 /** A rounded field in one ground. Everything inside reads `--logo` for its
  * colour, so a logo set to `text-logo` takes the ground's ink or white. */
@@ -36,7 +36,7 @@ export function Tile({
 	return (
 		<div
 			className={cn(
-				"relative flex min-h-48 items-center justify-center overflow-hidden rounded-2xl p-6",
+				"relative flex min-h-48 items-center justify-center overflow-hidden rounded-[1.25rem] p-6",
 				ring && "shadow-[inset_0_0_0_1px_rgba(14,18,23,0.08)]",
 				className
 			)}
@@ -73,95 +73,174 @@ export function Figure({
 	);
 }
 
-/** The construction slide: the mark on four guide lines with the widths of a
- * stroke, a gap and the wedge above it, the lean as a 3 by 4 triangle and the
- * height of each part below. Numbers are the deck's; the mark is `MARK_PARTS`. */
-const GUIDE_LINES = "M0 90H960M0 200H960M0 320H960M0 540H960";
-const DIMENSION_LINES =
-	"M273.5 42V58M273.5 50H483.5M483.5 42V58M603.5 42V58M603.5 50H933.5M933.5 42V58M60 400V520H150Z";
-const WIDTHS = [
-	{ x: 378, value: 7 },
-	{ x: 543, value: 4 },
-	{ x: 768, value: 11 },
-] as const;
-const LEVELS = [
-	{ y: 90, value: 0 },
-	{ y: 200, value: 3.7 },
-	{ y: 320, value: 7.7 },
-	{ y: 540, value: 15 },
-] as const;
-const LENGTHS = [
-	{ x: 206, value: 11.3 },
-	{ x: 497, value: 15 },
-	{ x: 768, value: 7.7 },
-] as const;
+/** Construction lines: MUTED (#585e65) at 55 %, so no new grey enters. */
+export const LINE = "rgba(88, 94, 101, 0.55)";
 
-export function ConstructionDrawing({ label }: { label: string }) {
-	const locale = useLocale();
-	const format = (value: number) => new Intl.NumberFormat(locale).format(value);
+/** A delay for the draw-in animations, read by `.brand-draw` and `.brand-pop`. */
+export const after = (ms: number) => ({ "--d": `${ms}ms` }) as CSSProperties;
 
+/** A solid line that draws itself in: `pathLength` is 1, so the dash that
+ * hides it is one path long whatever its real length. */
+export function Draw({
+	d,
+	ms = 0,
+	stroke = MUTED,
+	width = 2,
+}: {
+	d: string;
+	ms?: number;
+	stroke?: string;
+	width?: number;
+}) {
 	return (
-		<div className="w-full overflow-x-auto">
-			<svg
-				aria-label={label}
-				className="h-auto w-full min-w-[520px] text-logo"
-				role="img"
-				viewBox="0 0 1100 640"
-				xmlns="http://www.w3.org/2000/svg"
-			>
-				<path
-					d={GUIDE_LINES}
-					fill="none"
-					stroke={GUIDE}
-					strokeDasharray="8 8"
-					strokeWidth="2"
-				/>
-				<path d={DIMENSION_LINES} fill="none" stroke={MUTED} strokeWidth="2" />
-				<g transform="translate(26 90) scale(30)">
-					{MARK_PARTS.map((d) => (
-						<path d={d} fill="currentColor" key={d} />
-					))}
-				</g>
-				<g fill={MUTED} fontSize="24">
-					{WIDTHS.map(({ x, value }) => (
-						<text key={x} textAnchor="middle" x={x} y="26">
-							{format(value)}
-						</text>
-					))}
-					<text dominantBaseline="central" x="24" y="460">
-						4
-					</text>
-					<text dominantBaseline="central" textAnchor="middle" x="105" y="548">
-						3
-					</text>
-				</g>
-				<g fill={MUTED} fontSize="28">
-					{LEVELS.map(({ y, value }) => (
-						<text dominantBaseline="central" key={y} x="990" y={y}>
-							{format(value)}
-						</text>
-					))}
-				</g>
-				<g fill={INK} fontSize="28" fontWeight="500">
-					{LENGTHS.map(({ x, value }) => (
-						<text
-							dominantBaseline="central"
-							key={x}
-							textAnchor="middle"
-							x={x}
-							y="601"
-						>
-							{format(value)}
-						</text>
-					))}
-				</g>
-			</svg>
-		</div>
+		<path
+			className="brand-draw"
+			d={d}
+			fill="none"
+			pathLength={1}
+			stroke={stroke}
+			strokeLinecap="round"
+			strokeWidth={width}
+			style={after(ms)}
+		/>
 	);
 }
 
-/** The logo inside its clear space: the depth of the wedge (7.7 units of the
- * logo's 124.365 × 18.6) on every side. */
+/** Anything that fades in after the lines: labels, dashed guides, fills. */
+export function Pop({
+	children,
+	ms = 0,
+}: {
+	children: ReactNode;
+	ms?: number;
+}) {
+	return (
+		<g className="brand-pop" style={after(ms)}>
+			{children}
+		</g>
+	);
+}
+
+/** A measure label in the drawings: 18 units, centred unless told. A halo in
+ * the ground's colour keeps it legible where construction lines cross it. */
+export function Measure({
+	anchor = "middle",
+	children,
+	fill = MUTED,
+	halo = "#eef0f2",
+	ms = 0,
+	strong = false,
+	x,
+	y,
+}: {
+	anchor?: "start" | "middle" | "end";
+	children: ReactNode;
+	fill?: string;
+	halo?: string;
+	ms?: number;
+	strong?: boolean;
+	x: number;
+	y: number;
+}) {
+	return (
+		<text
+			className="brand-pop"
+			dominantBaseline="central"
+			fill={strong ? INK : fill}
+			fontSize="18"
+			fontWeight={strong ? 500 : 400}
+			paintOrder="stroke"
+			stroke={halo}
+			strokeLinejoin="round"
+			strokeWidth="6"
+			style={after(ms)}
+			textAnchor={anchor}
+			x={x}
+			y={y}
+		>
+			{children}
+		</text>
+	);
+}
+
+/** Dimension lines with end ticks. */
+export const hDim = (x1: number, x2: number, y: number) =>
+	`M${x1} ${y - 6}V${y + 6}M${x1} ${y}H${x2}M${x2} ${y - 6}V${y + 6}`;
+export const vDim = (x: number, y1: number, y2: number) =>
+	`M${x - 6} ${y1}H${x + 6}M${x} ${y1}V${y2}M${x - 6} ${y2}H${x + 6}`;
+/** A full circle as one path, so it can draw itself in. */
+export const circle = (cx: number, cy: number, r: number) =>
+	`M${cx - r} ${cy}a${r} ${r} 0 1 0 ${2 * r} 0a${r} ${r} 0 1 0 ${-2 * r} 0`;
+/** A small cross on a centre point. */
+export const cross = (x: number, y: number) =>
+	`M${x - 6} ${y}H${x + 6}M${x} ${y - 6}V${y + 6}`;
+
+/** The mark's construction, in its own units (30.25 × 15), checked against
+ * the paths in `logo.tsx`. Every straight edge lies on one of these lines and
+ * every curve on one of these circles. */
+export const GEOMETRY = {
+	/** Edges leaning 3 across for 4 down, as x = a + 0.75v: the left and right
+	 * edge of each bar and the wedge's left edge. Left edges cross the top
+	 * line 11 apart: −2.75, 8.25, 19.25. */
+	leans: [-2.75, 4.25, 8.25, 15.25, 19.25],
+	/** The wedge's right edge leans the other way: x = 33.55 − 0.75v. */
+	counter: 33.55,
+	/** The bars' centre lines, through the centres of their round ends. */
+	axes: [0.75, 11.75],
+	/** The round ends (r 2.8) touch both edges and the base line; the tip of
+	 * the wedge (r 2.8) touches both its edges; the corner (r 3.3) touches the
+	 * top line, the right side of the box and the wedge's right edge. */
+	circles: [
+		{ cx: 9.9, cy: 12.2, r: 2.8 },
+		{ cx: 20.9, cy: 12.2, r: 2.8 },
+		{ cx: 26.4, cy: 4.867, r: 2.8 },
+		{ cx: 26.95, cy: 3.3, r: 3.3 },
+	],
+	/** Where each curve meets a straight line or the box. */
+	tangents: [
+		[7.66, 13.88],
+		[12.14, 10.52],
+		[9.9, 15],
+		[18.66, 13.88],
+		[23.14, 10.52],
+		[20.9, 15],
+		// The wedge's right edge, carried down, touches the second round end
+		[23.14, 13.88],
+		[24.16, 6.547],
+		[28.64, 6.547],
+		[26.4, 7.667],
+		[26.95, 0],
+		[29.59, 5.28],
+		[30.25, 3.3],
+	],
+	/** The wedge's two edges, carried on, meet here at 73.74°. */
+	apex: [26.4, 9.533],
+} as const;
+
+/** The construction lines of a mark drawn at `scale` with its top-left
+ * corner at (left, top), carried far enough to cross any drawing. */
+export function markConstruction(left: number, top: number, scale: number) {
+	const px = (u: number) => left + scale * u;
+	const py = (v: number) => top + scale * v;
+	const reach = 1200 / scale;
+	const lean = (a: number) =>
+		`M${px(a - 0.75 * reach)} ${py(-reach)}L${px(a + 0.75 * reach)} ${py(reach)}`;
+	return {
+		edges: [
+			...GEOMETRY.leans.map(lean),
+			`M${px(GEOMETRY.counter + 0.75 * reach)} ${py(-reach)}L${px(GEOMETRY.counter - 0.75 * reach)} ${py(reach)}`,
+		],
+		axes: GEOMETRY.axes.map(lean),
+		circles: GEOMETRY.circles.map(
+			({ cx, cy, r }) =>
+				`${circle(px(cx), py(cy), r * scale)}${cross(px(cx), py(cy))}`
+		),
+		tangents: GEOMETRY.tangents.map(([u, v]) => [px(u), py(v)] as const),
+	};
+}
+
+/** The logo inside its clear space: the depth of the wedge (7.67 units of the
+ * logo's 124.365 × 18.6, rounded up to 7.7) on every side. */
 const LOGO_WIDTH = 124.365;
 const LOGO_HEIGHT = 18.6;
 const CLEAR_SPACE = 7.7;
@@ -195,12 +274,124 @@ export function ClearSpace() {
 	);
 }
 
-/** The four ways the deck says the mark breaks. These drawings are wrong on
- * purpose, so they are hidden from assistive tech and carry a visible
- * "Wrong" caption. Each one changes the mark's own paths. */
-export type MisuseKind = "colour" | "tints" | "wedge" | "stretch";
+/** The logo deck's step drawing: the parts up to this step solid, the rest at
+ * a fifth, so the mark builds up left to right. Opacity is the only change the
+ * rules allow on a part. Inside a stagger list, the solid parts light up in
+ * turn when the list comes into view (`.brand-step-part` in index.css). */
+export function StepMark({
+	className,
+	step,
+}: {
+	className?: string;
+	step: number;
+}) {
+	return (
+		<svg
+			aria-hidden="true"
+			className={cn("text-foreground", className)}
+			viewBox="0 0 30.25 15"
+			xmlns="http://www.w3.org/2000/svg"
+		>
+			{MARK_PARTS.map((d, i) => (
+				<path
+					className="brand-step-part"
+					d={d}
+					data-on={i < step ? "" : undefined}
+					fill="currentColor"
+					fillOpacity={i < step ? 1 : 0.2}
+					key={d}
+					style={{ "--i": i } as CSSProperties}
+				/>
+			))}
+		</svg>
+	);
+}
+
+/** The smallest sizes, drawn at their real pixel size: the logo at 96 px wide
+ * and the mark alone from 16 px. Labels keep the specimen's fixed grey. */
+const MARK_SIZES = [16, 24, 32] as const;
+
+export function SmallestSizes() {
+	return (
+		<div className="flex w-full flex-col items-center gap-10 py-4">
+			<div className="flex flex-col items-center gap-3">
+				<Logo className="h-auto w-24" />
+				<span
+					className="text-[0.8125rem] tabular-nums"
+					style={{ color: MUTED }}
+				>
+					96 px
+				</span>
+			</div>
+			<div className="flex items-end gap-8">
+				{MARK_SIZES.map((size) => (
+					<div className="flex flex-col items-center gap-3" key={size}>
+						<svg
+							aria-hidden="true"
+							className="text-logo"
+							style={{ width: size, height: size / 2 }}
+							viewBox="0 0 30.25 15"
+							xmlns="http://www.w3.org/2000/svg"
+						>
+							{MARK_PARTS.map((d) => (
+								<path d={d} fill="currentColor" key={d} />
+							))}
+						</svg>
+						<span
+							className="text-[0.8125rem] tabular-nums"
+							style={{ color: MUTED }}
+						>
+							{size} px
+						</span>
+					</div>
+				))}
+			</div>
+		</div>
+	);
+}
+
+/** The ways the logo breaks. These drawings are wrong on purpose, so they are
+ * hidden from assistive tech and carry a visible "Wrong" caption. Each one
+ * changes the mark's own paths; none redraws them. */
+export type MisuseKind =
+	| "colour"
+	| "tints"
+	| "wedge"
+	| "stretch"
+	| "inkOrange"
+	| "rotate"
+	| "font"
+	| "effects";
 
 const TINTS = [0.35, 0.65, 1] as const;
+
+function MarkPaths({
+	fill,
+	skipWedge,
+	tints,
+}: {
+	fill: string;
+	skipWedge?: boolean;
+	tints?: boolean;
+}) {
+	return (
+		<>
+			{MARK_PARTS.map((d, i) => {
+				if (skipWedge && i === 2) {
+					return null;
+				}
+				return (
+					<path
+						d={d}
+						fill={fill}
+						fillOpacity={tints ? TINTS[i] : undefined}
+						key={d}
+					/>
+				);
+			})}
+		</>
+	);
+}
 
 export function MisuseMark({ kind }: { kind: MisuseKind }) {
 	if (kind === "stretch") {
@@ -211,9 +402,83 @@ export function MisuseMark({ kind }: { kind: MisuseKind }) {
 				viewBox="0 0 420 110"
 				xmlns="http://www.w3.org/2000/svg"
 			>
-				<g fill={INK} transform="scale(13.8843 7.3333)">
+				<g transform="scale(13.8843 7.3333)">
+					<MarkPaths fill={INK} />
+				</g>
+			</svg>
+		);
+	}
+
+	if (kind === "font") {
+		return (
+			<div aria-hidden="true" className="flex items-center gap-3">
+				<svg
+					aria-hidden="true"
+					className="h-8 w-auto"
+					viewBox="0 0 30.25 15"
+					xmlns="http://www.w3.org/2000/svg"
+				>
+					<MarkPaths fill={INK} />
+				</svg>
+				<span
+					className="font-display font-medium text-[2.5rem] tracking-[-0.028em]"
+					style={{ color: INK }}
+				>
+					webvise
+				</span>
+			</div>
+		);
+	}
+
+	if (kind === "rotate") {
+		return (
+			<svg
+				aria-hidden="true"
+				className="h-24 w-auto overflow-visible"
+				viewBox="0 0 300 149"
+				xmlns="http://www.w3.org/2000/svg"
+			>
+				<g transform="rotate(-16 150 74.5) translate(21.4 10.7) scale(8.5)">
+					<MarkPaths fill={INK} />
+				</g>
+			</svg>
+		);
+	}
+
+	if (kind === "effects") {
+		return (
+			<svg
+				aria-hidden="true"
+				className="h-24 w-auto overflow-visible"
+				viewBox="0 0 300 149"
+				xmlns="http://www.w3.org/2000/svg"
+			>
+				<defs>
+					<filter
+						height="160%"
+						id="brand-misuse-shadow"
+						width="140%"
+						x="-20%"
+						y="-20%"
+					>
+						<feDropShadow
+							dx="0"
+							dy="8"
+							floodColor={INK}
+							floodOpacity="0.45"
+							stdDeviation="6"
+						/>
+					</filter>
+				</defs>
+				<g filter="url(#brand-misuse-shadow)" transform="scale(9.91736)">
 					{MARK_PARTS.map((d) => (
-						<path d={d} key={d} />
+						<path
+							d={d}
+							fill="#ffffff"
+							key={d}
+							stroke={INK}
+							strokeWidth="0.35"
+						/>
 					))}
 				</g>
 			</svg>
@@ -227,22 +492,12 @@ export function MisuseMark({ kind }: { kind: MisuseKind }) {
 			viewBox="0 0 300 149"
 			xmlns="http://www.w3.org/2000/svg"
 		>
-			<g
-				fill={kind === "colour" ? GROUNDS.orange.background : INK}
-				transform="scale(9.91736)"
-			>
-				{MARK_PARTS.map((d, i) => {
-					if (kind === "wedge" && i === 2) {
-						return null;
-					}
-					return (
-						<path
-							d={d}
-							fillOpacity={kind === "tints" ? TINTS[i] : undefined}
-							key={d}
-						/>
-					);
-				})}
+			<g transform="scale(9.91736)">
+				<MarkPaths
+					fill={kind === "colour" ? GROUNDS.orange.background : INK}
+					skipWedge={kind === "wedge"}
+					tints={kind === "tints"}
+				/>
 			</g>
 		</svg>
 	);
