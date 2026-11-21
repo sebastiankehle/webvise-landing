@@ -136,7 +136,6 @@ const stackSections = [
 	{
 		key: "tools" as const,
 		skills: [
-			{ name: "Cursor", icon: "cursor" },
 			{ name: "Figma", icon: "figma" },
 			{ name: "Claude", icon: "claude" },
 			{ name: "Codex", icon: "codex" },
