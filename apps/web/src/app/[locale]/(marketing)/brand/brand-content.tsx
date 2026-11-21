@@ -1,10 +1,13 @@
-import { ArrowDownToLine, Check, X } from "lucide-react";
+import { Check, X } from "lucide-react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
-import type { CSSProperties, ReactNode } from "react";
+import type { CSSProperties } from "react";
 
-import Logo, { Mark, StackedLogo } from "@/components/logo";
+import Logo from "@/components/logo";
 import { ActionLink } from "@/components/marketing/action";
+import { BrandNav } from "@/components/marketing/brand-nav";
+import { GuideSection } from "@/components/marketing/guide-section";
+import { LogoFiles, PROFILES } from "@/components/marketing/logo-files";
 import { MarketingTag } from "@/components/marketing/marketing-tag";
 import SectionWrapper from "@/components/marketing/section-wrapper";
 import StaggerChildren from "@/components/marketing/stagger-children";
@@ -22,7 +25,6 @@ import {
 	WrongLabel,
 } from "./brand-figures";
 import { PARTS } from "./brand-hero";
-import { BrandNav } from "./brand-nav";
 import { ConstructionViewer, type PlateKey } from "./construction-viewer";
 import { CopyValue } from "./copy-value";
 import { LogoStage } from "./logo-stage";
@@ -39,7 +41,6 @@ const SECTIONS = [
 	"use",
 	"misuse",
 ] as const;
-type SectionId = (typeof SECTIONS)[number];
 
 const READING_KEYS = [
 	"craft",
@@ -70,60 +71,6 @@ const SHEET_POINTS = [
 
 /** What the key says about each part, besides its name. */
 const KEY_ROWS = ["step", "history", "shape"] as const;
-
-/** The logo files in `public/brand-assets`, copied from the logo
- * presentation's `export/` folder. */
-type FileVariant = "ink" | "white" | "dark" | "paper" | "orange";
-const FILE_GROUPS = [
-	{
-		key: "main",
-		files: [
-			["SVG", "ink", "webvise-logo-ink.svg"],
-			["SVG", "white", "webvise-logo-white.svg"],
-			["PNG", "ink", "webvise-logo-ink.png"],
-			["PNG", "white", "webvise-logo-white.png"],
-		],
-	},
-	{
-		key: "stacked",
-		files: [
-			["SVG", "ink", "webvise-stacked-ink.svg"],
-			["SVG", "white", "webvise-stacked-white.svg"],
-			["PNG", "ink", "webvise-stacked-ink.png"],
-			["PNG", "white", "webvise-stacked-white.png"],
-		],
-	},
-	{
-		key: "mark",
-		files: [
-			["SVG", "ink", "webvise-mark-ink.svg"],
-			["SVG", "white", "webvise-mark-white.svg"],
-			["PNG", "ink", "webvise-mark-ink.png"],
-			["PNG", "white", "webvise-mark-white.png"],
-		],
-	},
-	{
-		key: "app",
-		files: [
-			["SVG", null, "webvise-app-icon-512.svg"],
-			["PNG", null, "webvise-app-icon-512.png"],
-		],
-	},
-	{
-		key: "profile",
-		files: [
-			["PNG", "dark", "webvise-profile-dark.png"],
-			["PNG", "paper", "webvise-profile-paper.png"],
-			["PNG", "orange", "webvise-profile-orange.png"],
-		],
-	},
-] as const satisfies readonly {
-	key: string;
-	files: readonly (readonly [string, FileVariant | null, string])[];
-}[];
-type FileGroupKey = (typeof FILE_GROUPS)[number]["key"];
-
-const PROFILES = ["dark", "paper", "orange"] as const;
 
 const SWATCHES = [
 	{
@@ -237,71 +184,6 @@ const MISUSES = [
 	{ kind: "effects", ground: "panel" },
 ] as const satisfies readonly { kind: MisuseKind; ground: Ground }[];
 
-function BrandSection({
-	children,
-	id,
-	paragraphs,
-	title,
-}: {
-	children: ReactNode;
-	id: SectionId;
-	paragraphs: readonly string[];
-	title: string;
-}) {
-	return (
-		<SectionWrapper className="scroll-mt-12" id={id}>
-			<div className="grid gap-5 lg:grid-cols-12 lg:gap-x-6">
-				<H2 className="lg:col-span-5">{title}</H2>
-				<div className="max-w-[60ch] space-y-4 lg:col-span-6 lg:col-start-7 lg:pt-2">
-					{paragraphs.map((text) => (
-						<Body className="text-foreground/75" key={text}>
-							{text}
-						</Body>
-					))}
-				</div>
-			</div>
-			<div className="mt-12 md:mt-16">{children}</div>
-		</SectionWrapper>
-	);
-}
-
-function FilePreview({ group }: { group: FileGroupKey }) {
-	if (group === "main") {
-		return <Logo className="h-auto w-32" />;
-	}
-	if (group === "stacked") {
-		return <StackedLogo className="h-auto w-20" />;
-	}
-	if (group === "mark") {
-		return <Mark className="h-auto w-14" />;
-	}
-	if (group === "app") {
-		return (
-			<Image
-				alt=""
-				className="size-14 rounded-[23%]"
-				height={56}
-				src="/brand-assets/webvise-app-icon-512.png"
-				width={56}
-			/>
-		);
-	}
-	return (
-		<div className="flex -space-x-3">
-			{PROFILES.map((key) => (
-				<Image
-					alt=""
-					className="size-12 rounded-full ring-2 ring-[#eef0f2]"
-					height={48}
-					key={key}
-					src={`/brand-assets/webvise-profile-${key}.png`}
-					width={48}
-				/>
-			))}
-		</div>
-	);
-}
-
 export default function BrandContent() {
 	const t = useTranslations("brand");
 	const locale = useLocale();
@@ -317,7 +199,7 @@ export default function BrandContent() {
 				label={t("navLabel")}
 			/>
 
-			<BrandSection
+			<GuideSection
 				id="meaning"
 				paragraphs={[t("sections.meaning.body"), t("sections.meaning.intro")]}
 				title={t("sections.meaning.title")}
@@ -371,9 +253,9 @@ export default function BrandContent() {
 						}))}
 					/>
 				</div>
-			</BrandSection>
+			</GuideSection>
 
-			<BrandSection
+			<GuideSection
 				id="logo"
 				paragraphs={[t("sections.logo.body"), t("sections.logo.rules")]}
 				title={t("sections.logo.title")}
@@ -403,58 +285,11 @@ export default function BrandContent() {
 							{t("sections.logo.files.body")}
 						</p>
 					</div>
-					<StaggerChildren
-						as="ul"
-						className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-5"
-					>
-						{FILE_GROUPS.map((group) => {
-							const item = t(`sections.logo.files.items.${group.key}`);
-							return (
-								<li className="surface-card flex flex-col p-3" key={group.key}>
-									<div
-										className="flex h-32 items-center justify-center rounded-[0.875rem] bg-[#eef0f2] text-[#0e1217]"
-										style={{ "--logo": INK } as CSSProperties}
-									>
-										<FilePreview group={group.key} />
-									</div>
-									<p className="mt-4 px-2 text-foreground text-sm">{item}</p>
-									<ul className="mt-2 flex flex-col gap-0.5 px-2 pb-2 text-sm">
-										{group.files.map(([format, variant, file]) => {
-											const variantName = variant
-												? t(`sections.logo.files.${variant}`)
-												: null;
-											return (
-												<li key={file}>
-													<a
-														aria-label={t("sections.logo.files.download", {
-															item,
-															format,
-															variant: variantName ?? "",
-														})}
-														className="inline-flex items-center gap-1.5 rounded-sm py-1 text-muted-foreground outline-none transition-colors duration-150 hover:text-foreground focus-visible:text-foreground focus-visible:ring-2 focus-visible:ring-ring/70"
-														download
-														href={`/brand-assets/${file}`}
-													>
-														<ArrowDownToLine
-															aria-hidden="true"
-															className="size-3.5 shrink-0"
-														/>
-														{variantName
-															? `${format} · ${variantName}`
-															: format}
-													</a>
-												</li>
-											);
-										})}
-									</ul>
-								</li>
-							);
-						})}
-					</StaggerChildren>
+					<LogoFiles className="mt-6" />
 				</div>
-			</BrandSection>
+			</GuideSection>
 
-			<BrandSection
+			<GuideSection
 				id="construction"
 				paragraphs={[t("sections.construction.body")]}
 				title={t("sections.construction.title")}
@@ -498,9 +333,9 @@ export default function BrandContent() {
 						</Tile>
 					</Figure>
 				</div>
-			</BrandSection>
+			</GuideSection>
 
-			<BrandSection
+			<GuideSection
 				id="colour"
 				paragraphs={[t("sections.colour.body")]}
 				title={t("sections.colour.title")}
@@ -554,8 +389,8 @@ export default function BrandContent() {
 						<div
 							className={
 								key === "paper"
-									? "flex min-h-72 flex-col rounded-[1.25rem] p-5 shadow-[inset_0_0_0_1px_rgba(14,18,23,0.08)]"
-									: "flex min-h-72 flex-col rounded-[1.25rem] p-5"
+									? "flex min-h-52 flex-col rounded-[1.25rem] p-5 shadow-[inset_0_0_0_1px_rgba(14,18,23,0.08)] sm:min-h-72"
+									: "flex min-h-52 flex-col rounded-[1.25rem] p-5 sm:min-h-72"
 							}
 							key={key}
 							style={{ backgroundColor: hex, color }}
@@ -631,9 +466,9 @@ export default function BrandContent() {
 						);
 					})}
 				</ul>
-			</BrandSection>
+			</GuideSection>
 
-			<BrandSection
+			<GuideSection
 				id="type"
 				paragraphs={[t("sections.type.body")]}
 				title={t("sections.type.title")}
@@ -690,9 +525,9 @@ export default function BrandContent() {
 						</Tile>
 					</Figure>
 				</div>
-			</BrandSection>
+			</GuideSection>
 
-			<BrandSection
+			<GuideSection
 				id="voice"
 				paragraphs={[t("sections.voice.body")]}
 				title={t("sections.voice.title")}
@@ -735,9 +570,9 @@ export default function BrandContent() {
 						</li>
 					))}
 				</ul>
-			</BrandSection>
+			</GuideSection>
 
-			<BrandSection
+			<GuideSection
 				id="use"
 				paragraphs={[t("sections.use.body")]}
 				title={t("sections.use.title")}
@@ -782,14 +617,14 @@ export default function BrandContent() {
 						))}
 					</Tile>
 				</Figure>
-			</BrandSection>
+			</GuideSection>
 
-			<BrandSection
+			<GuideSection
 				id="misuse"
 				paragraphs={[t("sections.misuse.body"), t("sections.misuse.more")]}
 				title={t("sections.misuse.title")}
 			>
-				<StaggerChildren className="grid gap-x-4 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
+				<StaggerChildren className="grid grid-cols-2 gap-x-3 gap-y-6 sm:gap-x-4 sm:gap-y-8 lg:grid-cols-4">
 					{MISUSES.map(({ ground, kind }) => (
 						<Figure
 							key={kind}
@@ -802,13 +637,13 @@ export default function BrandContent() {
 								</WrongLabel>
 							}
 						>
-							<Tile className="min-h-44" ground={ground}>
+							<Tile className="min-h-32 p-4 sm:min-h-44 sm:p-6" ground={ground}>
 								<MisuseMark kind={kind} />
 							</Tile>
 						</Figure>
 					))}
 				</StaggerChildren>
-			</BrandSection>
+			</GuideSection>
 
 			<SectionWrapper id="questions">
 				<div className="grid gap-6 lg:grid-cols-12 lg:gap-x-6">
