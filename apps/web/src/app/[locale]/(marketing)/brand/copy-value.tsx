@@ -48,11 +48,21 @@ export function CopyValue({
 			type="button"
 		>
 			<span>{value}</span>
-			{copied ? (
-				<Check aria-hidden="true" className="size-3.5 shrink-0" />
-			) : (
-				<Copy aria-hidden="true" className="size-3.5 shrink-0 opacity-60" />
-			)}
+			{/* Both icons share one cell and cross-fade, so the swap never jumps */}
+			<span aria-hidden="true" className="grid size-3.5 shrink-0">
+				<Copy
+					className={cn(
+						"col-start-1 row-start-1 size-3.5 transition-[opacity,scale] duration-150 ease-out",
+						copied ? "scale-[0.8] opacity-0" : "opacity-60"
+					)}
+				/>
+				<Check
+					className={cn(
+						"col-start-1 row-start-1 size-3.5 transition-[opacity,scale] duration-150 ease-out",
+						copied ? "opacity-100" : "scale-[0.8] opacity-0"
+					)}
+				/>
+			</span>
 			<span aria-live="polite" className="sr-only">
 				{copied ? copiedLabel : ""}
 			</span>

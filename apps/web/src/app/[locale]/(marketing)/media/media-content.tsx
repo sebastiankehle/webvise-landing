@@ -113,7 +113,6 @@ export default function MediaContent({ tagline }: { tagline: Tagline }) {
 							<WallpaperAsset
 								filename={`webvise-wallpaper-desktop-${v}.png`}
 								height={1440}
-								subtitle={t("subtitle")}
 								tagline={tagline}
 								variant={v}
 								width={2560}
@@ -141,7 +140,6 @@ export default function MediaContent({ tagline }: { tagline: Tagline }) {
 							<WallpaperAsset
 								filename={`webvise-wallpaper-mobile-${v}.png`}
 								height={2532}
-								subtitle={t("subtitle")}
 								tagline={tagline}
 								variant={v}
 								width={1170}

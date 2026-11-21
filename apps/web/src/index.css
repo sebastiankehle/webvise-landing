@@ -623,6 +623,145 @@ button.surface-card:hover,
 	}
 }
 
+/* ── Brand page: the cover mark fades in part by part, left to right ───
+   Opacity is the only change the logo rules allow on a part. A step's
+   caption and its part light together; the other two step back. */
+.brand-hero-part {
+	transition: fill-opacity 0.2s ease;
+	animation: brand-part-in 0.7s cubic-bezier(0.21, 0.47, 0.32, 0.98) backwards;
+}
+.brand-hero-part[data-part="2"] {
+	animation-delay: 0.15s;
+}
+.brand-hero-part[data-part="3"] {
+	animation-delay: 0.3s;
+}
+
+.brand-hero-step {
+	transition: opacity 0.2s ease;
+	animation: brand-step-in 0.6s cubic-bezier(0.21, 0.47, 0.32, 0.98) backwards;
+}
+.brand-hero-step[data-step="1"] {
+	animation-delay: 0.25s;
+}
+.brand-hero-step[data-step="2"] {
+	animation-delay: 0.4s;
+}
+.brand-hero-step[data-step="3"] {
+	animation-delay: 0.55s;
+}
+
+@keyframes brand-part-in {
+	from {
+		fill-opacity: 0;
+	}
+}
+
+@keyframes brand-step-in {
+	from {
+		opacity: 0;
+		transform: translateY(8px);
+	}
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.brand-hero:has([data-step="1"]:hover, [data-part="1"]:hover)
+		.brand-hero-part:not([data-part="1"]),
+	.brand-hero:has([data-step="2"]:hover, [data-part="2"]:hover)
+		.brand-hero-part:not([data-part="2"]),
+	.brand-hero:has([data-step="3"]:hover, [data-part="3"]:hover)
+		.brand-hero-part:not([data-part="3"]) {
+		fill-opacity: 0.2;
+	}
+	.brand-hero:has([data-step="1"]:hover, [data-part="1"]:hover)
+		.brand-hero-step:not([data-step="1"]),
+	.brand-hero:has([data-step="2"]:hover, [data-part="2"]:hover)
+		.brand-hero-step:not([data-step="2"]),
+	.brand-hero:has([data-step="3"]:hover, [data-part="3"]:hover)
+		.brand-hero-step:not([data-step="3"]) {
+		opacity: 0.4;
+	}
+}
+
+/* Brand page drawings: measures draw themselves in when a plate or reading
+   is chosen. Lines carry pathLength="1", so one dash hides any of them;
+   labels and dashed guides fade in after. `--d` staggers each element. */
+.brand-draw {
+	stroke-dasharray: 1;
+	stroke-dashoffset: 1;
+	animation: brand-draw 0.6s cubic-bezier(0.21, 0.47, 0.32, 0.98) forwards;
+	animation-delay: var(--d, 0ms);
+}
+
+@keyframes brand-draw {
+	to {
+		stroke-dashoffset: 0;
+	}
+}
+
+.brand-pop {
+	animation: brand-fade-in 0.2s ease-out backwards;
+	animation-delay: var(--d, 0ms);
+}
+
+/* The meaning key: as the cards come into view, each card's solid parts
+   light up in turn, so the mark builds up as the studio did. */
+.stagger-hidden .brand-step-part[data-on] {
+	fill-opacity: 0.2;
+}
+
+.stagger-visible .brand-step-part[data-on] {
+	animation: brand-step-on 0.6s cubic-bezier(0.21, 0.47, 0.32, 0.98) backwards;
+	animation-delay: calc(var(--card, 0) * 70ms + var(--i, 0) * 150ms + 350ms);
+}
+
+@keyframes brand-step-on {
+	from {
+		fill-opacity: 0.2;
+	}
+}
+
+/* Switching the logo on the brand page stage */
+.brand-stage-in {
+	animation: brand-stage-in 0.2s ease-out;
+}
+
+@keyframes brand-stage-in {
+	from {
+		opacity: 0;
+		transform: scale(0.98);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.brand-hero-part,
+	.brand-hero-step,
+	.stagger-visible .brand-step-part[data-on] {
+		animation: none;
+	}
+	.stagger-hidden .brand-step-part[data-on] {
+		fill-opacity: 1;
+	}
+	.brand-stage-in {
+		animation: brand-fade-in 0.2s ease;
+	}
+	/* Lines appear whole and labels fade quickly, with no stagger */
+	.brand-draw {
+		stroke-dashoffset: 0;
+		animation: none;
+	}
+	.brand-pop {
+		animation-duration: 0.15s;
+		animation-delay: 0ms;
+	}
+}
+
+@keyframes brand-fade-in {
+	from {
+		opacity: 0;
+	}
+}
+
 /* ── About: a year ruler behind the stations, each bar drawn in turn ──── */
 @media (min-width: 1024px) {
 	.career-track {

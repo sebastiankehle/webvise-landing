@@ -1,12 +1,16 @@
 "use client";
 
-import type { ReactNode } from "react";
+import type { ReactNode, RefObject } from "react";
 import { useEffect, useRef, useState } from "react";
 
 import { useInView } from "@/hooks/use-in-view";
 import { cn } from "@/lib/utils";
 
 interface StaggerChildrenProps {
+	/** The list's accessible name, when it renders as a list. */
+	"aria-label"?: string;
+	/** The element to render: a div, or a list when the items are a list. */
+	as?: "div" | "ol" | "ul";
 	children: ReactNode;
 	className?: string;
 	/** Set data-playing on the wrapper while it is on screen. */
@@ -14,11 +18,13 @@ interface StaggerChildrenProps {
 }
 
 export default function StaggerChildren({
+	"aria-label": ariaLabel,
+	as: Tag = "div",
 	children,
 	className,
 	trackVisibility,
 }: StaggerChildrenProps) {
-	const ref = useRef<HTMLDivElement>(null);
+	const ref = useRef<HTMLElement>(null);
 	const [isInView, setIsInView] = useState(false);
 	const [fallbackVisible, setFallbackVisible] = useState(false);
 	const onScreen = useInView(ref);
@@ -49,15 +55,17 @@ export default function StaggerChildren({
 	const shouldShow = isInView || fallbackVisible;
 
 	return (
-		<div
+		<Tag
+			aria-label={ariaLabel}
 			className={cn(
 				className,
 				shouldShow ? "stagger-visible" : "stagger-hidden"
 			)}
 			data-playing={trackVisibility && onScreen ? "true" : undefined}
-			ref={ref}
+			// One ref serves all three element types
+			ref={ref as RefObject<HTMLDivElement & HTMLOListElement>}
 		>
 			{children}
-		</div>
+		</Tag>
 	);
 }
