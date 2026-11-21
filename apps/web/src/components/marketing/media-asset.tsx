@@ -410,7 +410,6 @@ export function BannerAsset({
 interface WallpaperProps {
 	filename: string;
 	height: number;
-	subtitle: string;
 	tagline: Tagline;
 	variant?: Variant;
 	width: number;
@@ -421,7 +420,6 @@ export function WallpaperAsset({
 	width,
 	height,
 	tagline,
-	subtitle,
 	filename,
 }: WallpaperProps) {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -453,12 +451,16 @@ export function WallpaperAsset({
 
 				const scale = Math.min(width, height) / 1000;
 				const logoSize = Math.round(160 * scale);
+				// The mark, a gap of 22.6 and the two headline lines (1.14 × 48
+				// each) stand as one block in the middle, as the preview sets them
+				const markHeight = (logoSize * MARK_HEIGHT) / MARK_WIDTH;
+				const gap = 22.6 * scale;
+				const line = 48 * 1.14 * scale;
+				const top = height / 2 - (markHeight + gap + 2 * line) / 2;
 				drawMarkOnCanvas(
 					ctx,
 					(width - logoSize) / 2,
-					height / 2 -
-						(logoSize * MARK_HEIGHT) / MARK_WIDTH -
-						Math.round(48 * scale),
+					top,
 					logoSize,
 					style.canvasLogo
 				);
@@ -466,19 +468,13 @@ export function WallpaperAsset({
 				ctx.textAlign = "center";
 				ctx.textBaseline = "middle";
 
-				const subFontSize = Math.round(24 * scale);
-
 				drawTagline(ctx, tagline, {
 					colors: style,
 					fontFamily,
 					size: Math.round(48 * scale),
 					x: width / 2,
-					y: height / 2 + Math.round(2 * scale),
+					y: top + markHeight + gap + line / 2,
 				});
-
-				ctx.fillStyle = style.canvasSub;
-				ctx.font = `400 ${subFontSize}px ${fontFamily}`;
-				ctx.fillText(subtitle, width / 2, height / 2 + Math.round(108 * scale));
 
 				ctx.fillStyle = mediaAssetCanvasPalette.brand.bg;
 				ctx.fillRect(0, height - 4, width, 4);
@@ -488,7 +484,7 @@ export function WallpaperAsset({
 			// Redraw once webfonts are in so the exported PNG uses Hanken Grotesk.
 			document.fonts.ready.then(draw);
 		},
-		[style, width, height, tagline, subtitle]
+		[style, width, height, tagline]
 	);
 
 	const handleDownload = useCallback(() => {
@@ -527,9 +523,8 @@ export function WallpaperAsset({
 					<div style={{ width: previewSize(160) }}>
 						<Mark className={`w-full ${style.logo}`} />
 					</div>
-					{/* The gaps follow the canvas: the mark ends 48 above the middle,
-					    the first line's box starts 25.4 above it, and the second
-					    line's box ends 12 above the subtitle's */}
+					{/* The gaps follow the canvas: 22.6 between the mark and the
+					    first line's box, the whole block centred */}
 					<div className="text-center" style={{ marginTop: previewSize(22.6) }}>
 						<Body
 							className={`whitespace-nowrap font-medium leading-[1.14] tracking-[-0.03em] ${style.text}`}
@@ -538,12 +533,6 @@ export function WallpaperAsset({
 							{tagline[0]}
 							<br />
 							<span className={style.rest}>{tagline[1]}</span>
-						</Body>
-						<Body
-							className={`whitespace-nowrap font-normal leading-none ${style.sub}`}
-							style={{ fontSize: previewSize(24), marginTop: previewSize(12) }}
-						>
-							{subtitle}
 						</Body>
 					</div>
 				</div>
