@@ -75,6 +75,26 @@ describe("newsletterRouter.subscribe", () => {
 		expect(body.html).toContain("Anmeldung bestätigen");
 	});
 
+	it("writes the confirmation in the language the client sends", async () => {
+		const caller = newsletterRouter.createCaller({
+			ip: "newsletter-router-test-locale",
+			session: null,
+		});
+
+		await caller.subscribe({
+			email: "reader@example.com",
+			placement: "blog_article",
+			path: "/en/blog/ai-agents-in-production",
+			locale: "en",
+		});
+
+		const body = JSON.parse(fetchMock.mock.calls[0]?.[1].body);
+		expect(body.subject).toBe("Confirm your webvise newsletter subscription");
+		expect(dbMock.values).toHaveBeenCalledWith(
+			expect.objectContaining({ topic: "ai-agents-in-production" })
+		);
+	});
+
 	it("stores the pending subscriber and an immutable topic-interest event", async () => {
 		const caller = newsletterRouter.createCaller({
 			ip: "newsletter-router-test-2",

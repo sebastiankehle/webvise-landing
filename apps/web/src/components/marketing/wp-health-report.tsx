@@ -41,8 +41,10 @@ interface ReportVital {
 interface ReportGeo {
 	aiCrawlers: "allowed" | "partly-blocked" | "blocked" | "unknown";
 	blockedCrawlers: string[];
-	jsonLdTypes: string[];
-	llmsTxt: boolean;
+	/** null: the homepage could not be read. */
+	jsonLdTypes: string[] | null;
+	/** null: llms.txt could not be read. */
+	llmsTxt: boolean | null;
 }
 
 interface ReportData {
@@ -51,6 +53,8 @@ interface ReportData {
 	issues: ReportIssue[];
 	mobile: { score: number };
 	projectedScore: number;
+	/** The report signed by the server; unlocking sends it back. */
+	reportToken: string;
 	securityFlags: string[];
 	seo: { score: number | null };
 	url: string;
@@ -238,20 +242,27 @@ function GeoBlock({ geo }: { geo: ReportGeo }) {
 		blocked: t("results.geoCrawlersBlocked"),
 		unknown: t("results.geoCrawlersUnknown"),
 	}[geo.aiCrawlers];
+	let llmsTxtText = t("results.geoLlmsTxtUnknown");
+	if (geo.llmsTxt !== null) {
+		llmsTxtText = geo.llmsTxt
+			? t("results.geoLlmsTxtYes")
+			: t("results.geoLlmsTxtNo");
+	}
+	let jsonLdText = t("results.geoJsonLdUnknown");
+	if (geo.jsonLdTypes !== null) {
+		jsonLdText =
+			geo.jsonLdTypes.length > 0
+				? t("results.geoJsonLdFound", { types: geo.jsonLdTypes.join(", ") })
+				: t("results.geoJsonLdNone");
+	}
 
 	return (
 		<div className={panelClassName}>
 			<H3 className="text-xl">{t("results.geoTitle")}</H3>
 			<ul className={cn("mt-5 border-t", ruleClassName)}>
-				<GeoRow ok={geo.llmsTxt}>
-					{geo.llmsTxt ? t("results.geoLlmsTxtYes") : t("results.geoLlmsTxtNo")}
-				</GeoRow>
+				<GeoRow ok={geo.llmsTxt === true}>{llmsTxtText}</GeoRow>
 				<GeoRow ok={geo.aiCrawlers === "allowed"}>{crawlerText}</GeoRow>
-				<GeoRow ok={geo.jsonLdTypes.length > 0}>
-					{geo.jsonLdTypes.length > 0
-						? t("results.geoJsonLdFound", { types: geo.jsonLdTypes.join(", ") })
-						: t("results.geoJsonLdNone")}
-				</GeoRow>
+				<GeoRow ok={(geo.jsonLdTypes?.length ?? 0) > 0}>{jsonLdText}</GeoRow>
 			</ul>
 			<ArrowLink
 				className="mt-6"
@@ -263,12 +274,23 @@ function GeoBlock({ geo }: { geo: ReportGeo }) {
 	);
 }
 
-function ReportResults({ data }: { data: ReportData }) {
+function ReportResults({
+	data,
+	emailed,
+}: {
+	data: ReportData;
+	emailed: boolean;
+}) {
 	const t = useTranslations("wpHealthReport");
 
 	return (
 		<div className="stagger-visible">
 			<ReportHeader url={data.url} />
+			{!emailed && (
+				<p className="mt-4 text-base text-muted-foreground">
+					{t("results.notEmailed")}
+				</p>
+			)}
 
 			<div className="mt-10 grid gap-5">
 				<ScoreTiles
@@ -404,9 +426,13 @@ function isValidUrl(value: string): boolean {
 function TeaserResults({
 	data,
 	onUnlock,
+	unlockError,
+	unlocking,
 }: {
 	data: ReportData;
 	onUnlock: (email: string, firstName: string) => void;
+	unlockError: string;
+	unlocking: boolean;
 }) {
 	const t = useTranslations("wpHealthReport");
 	const [email, setEmail] = useState("");
@@ -475,9 +501,23 @@ function TeaserResults({
 								value={firstName}
 							/>
 						</FormItem>
-						<button className={submitClassName} type="submit">
+						<button
+							className={submitClassName}
+							disabled={unlocking}
+							type="submit"
+						>
+							{unlocking && (
+								<Loader2 aria-hidden="true" className="size-4 animate-spin" />
+							)}
 							{t("gate.viewReport")}
 						</button>
+					</div>
+					<div aria-atomic="true" aria-live="polite">
+						{unlockError && (
+							<Body className="mt-4 text-destructive text-sm" role="alert">
+								{unlockError}
+							</Body>
+						)}
 					</div>
 					<p className="mt-4 text-muted-foreground text-sm">
 						{t("gate.privacy")}
@@ -494,6 +534,9 @@ export default function WpHealthReport() {
 	const [phase, setPhase] = useState<"form" | "teaser" | "full">("form");
 	const [report, setReport] = useState<ReportData | null>(null);
 	const [errorMessage, setErrorMessage] = useState("");
+	const [unlocking, setUnlocking] = useState(false);
+	const [unlockError, setUnlockError] = useState("");
+	const [emailed, setEmailed] = useState(false);
 
 	const form = useForm({
 		defaultValues: { url: "" },
@@ -533,22 +576,29 @@ export default function WpHealthReport() {
 		},
 	});
 
-	function handleUnlock(email: string, firstName: string) {
-		setPhase("full");
-		track("analyzer_unlocked", { url: report?.url ?? "", email });
-
-		// Fire-and-forget: re-submit with email to trigger notification emails
-		if (report) {
-			trpcClient.wpHealth.run
-				.mutate({
-					url: report.url,
-					email,
-					firstName: firstName || undefined,
-					locale: locale === "de" ? "de" : "en",
-				})
-				.catch(() => {
-					// fire-and-forget
-				});
+	// The report opens once the lead is saved; a failure keeps the gate open
+	// with the message, and submitting again retries.
+	async function handleUnlock(email: string, firstName: string) {
+		if (!report) {
+			return;
+		}
+		setUnlocking(true);
+		setUnlockError("");
+		try {
+			const result = await trpcClient.wpHealth.unlock.mutate({
+				reportToken: report.reportToken,
+				email,
+				firstName: firstName || undefined,
+				locale: locale === "de" ? "de" : "en",
+			});
+			setEmailed(result.emailed);
+			setPhase("full");
+			track("analyzer_unlocked", { url: report.url, email });
+		} catch {
+			setUnlockError(t("errors.unlockFailed"));
+			track("analyzer_error", { url: report.url, reason: "unlock_failed" });
+		} finally {
+			setUnlocking(false);
 		}
 	}
 
@@ -694,10 +744,17 @@ export default function WpHealthReport() {
 				)}
 
 				{phase === "teaser" && report && (
-					<TeaserResults data={report} onUnlock={handleUnlock} />
+					<TeaserResults
+						data={report}
+						onUnlock={handleUnlock}
+						unlockError={unlockError}
+						unlocking={unlocking}
+					/>
 				)}
 
-				{phase === "full" && report && <ReportResults data={report} />}
+				{phase === "full" && report && (
+					<ReportResults data={report} emailed={emailed} />
+				)}
 			</GridContainer>
 		</section>
 	);

@@ -27,8 +27,12 @@ export interface RobotsSnapshot {
 	/** Generator crawlers the current file blocks from the whole site. */
 	blocked: string[];
 	disallow: string[];
-	found: boolean;
 	sitemaps: string[];
+	/**
+	 * "missing" only for a 404 or a file with no rules. A timeout, 403 or 5xx
+	 * is "unreadable": the site may have rules we could not see.
+	 */
+	status: "found" | "missing" | "unreadable";
 }
 
 export interface PageMeta {
@@ -182,13 +186,20 @@ async function fetchOrNull(
 }
 
 function readRobots(res: SafeFetchResult | null): RobotsSnapshot {
-	const text = res?.status === 200 ? res.text : "";
+	const empty = { blocked: [], allow: [], disallow: [], sitemaps: [] };
+	if (res?.status === 404) {
+		return { status: "missing", ...empty };
+	}
+	if (res?.status !== 200) {
+		return { status: "unreadable", ...empty };
+	}
+	const text = res.text;
 	// Some sites answer every path, robots.txt included, with an HTML page.
 	if (!text.trim() || text.trimStart().startsWith("<")) {
-		return { found: false, blocked: [], allow: [], disallow: [], sitemaps: [] };
+		return { status: "missing", ...empty };
 	}
 	return {
-		found: true,
+		status: "found",
 		blocked: parseRobotsForAiCrawlers(text, GENERATOR_CRAWLER_NAMES).blocked,
 		...parseRobotsWildcardRules(text),
 		sitemaps: extractSitemapLines(text),

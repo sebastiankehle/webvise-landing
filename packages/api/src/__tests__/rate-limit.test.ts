@@ -131,6 +131,7 @@ describe("createRateLimiter", () => {
 			});
 			const r = await l.check("site");
 			expect(r.limited).toBe(true);
+			expect(r.unavailable).toBe(true);
 			expect(r.retryAfterSec).toBe(60);
 		});
 
@@ -141,7 +142,9 @@ describe("createRateLimiter", () => {
 				windowMs: 60_000,
 			});
 			expect((await l.check("a")).limited).toBe(false);
-			expect((await l.check("a")).limited).toBe(true);
+			const second = await l.check("a");
+			expect(second.limited).toBe(true);
+			expect(second.unavailable).toBeUndefined();
 		});
 	});
 });

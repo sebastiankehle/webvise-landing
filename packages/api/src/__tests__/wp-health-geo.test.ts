@@ -123,7 +123,7 @@ describe("runGeoChecks", () => {
 			new Response("# Site", { status: 200 }),
 			new Response("", { status: 404 })
 		);
-		const r = await runGeoChecks("https://example.com/page", null);
+		const r = await runGeoChecks("https://example.com/page", "<html></html>");
 		expect(r.llmsTxt).toBe(true);
 		expect(r.aiCrawlers).toBe("allowed");
 		expect(r.jsonLdTypes).toEqual([]);
@@ -156,11 +156,25 @@ describe("runGeoChecks", () => {
 		route(new Error("boom"), new Error("boom"));
 		const r = await runGeoChecks("https://example.com", null);
 		expect(r).toEqual({
-			llmsTxt: false,
+			llmsTxt: null,
 			aiCrawlers: "unknown",
 			blockedCrawlers: [],
-			jsonLdTypes: [],
+			jsonLdTypes: null,
 		});
+	});
+
+	it("reads a 404 llms.txt as missing and a 403 as unknown", async () => {
+		route(new Response("", { status: 404 }), new Response("", { status: 404 }));
+		expect((await runGeoChecks("https://example.com", null)).llmsTxt).toBe(
+			false
+		);
+		route(
+			new Response("Access denied", { status: 403 }),
+			new Response("", { status: 404 })
+		);
+		expect(
+			(await runGeoChecks("https://example.com", null)).llmsTxt
+		).toBeNull();
 	});
 
 	it("returns unknown for a non-200, non-404 robots.txt", async () => {

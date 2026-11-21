@@ -16,7 +16,7 @@ export const env = createEnv({
 		BETTER_AUTH_URL: z.url().optional(),
 		CORS_ORIGIN: z.url().optional(),
 		RESEND_API_KEY: isProduction ? z.string().min(1) : z.string().optional(),
-		ATTIO_API_KEY: z.string().optional(),
+		ATTIO_API_KEY: isProduction ? z.string().min(1) : z.string().optional(),
 		GOOGLE_PAGESPEED_API_KEY: isProduction
 			? z.string().min(1)
 			: z.string().optional(),
@@ -28,6 +28,8 @@ export const env = createEnv({
 		AI_CHAT_SYSTEM_PROMPT: z.string().optional(),
 		EMAIL_TOKEN_SECRET: z.string().min(32).optional(),
 		VERCEL_ENV: z.enum(["production", "preview", "development"]).optional(),
+		// The deployment's own host, without https://. Set by Vercel.
+		VERCEL_URL: z.string().optional(),
 		NODE_ENV: z
 			.enum(["development", "production", "test"])
 			.default("development"),

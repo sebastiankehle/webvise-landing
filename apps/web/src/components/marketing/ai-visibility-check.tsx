@@ -56,7 +56,7 @@ function optional(value: string): string | undefined {
 	return value.trim() || undefined;
 }
 
-/** The message for a failed check: rate limit, unreachable site, or anything else. */
+/** The message for a failed check: rate limit, unavailable, unreachable site, or anything else. */
 function errorKey(err: unknown) {
 	const code =
 		err instanceof TRPCClientError
@@ -67,6 +67,9 @@ function errorKey(err: unknown) {
 		return (err as Error).message === "DAILY_LIMIT"
 			? "errors.dailyLimit"
 			: "errors.rateLimited";
+	}
+	if (code === "SERVICE_UNAVAILABLE") {
+		return "errors.unavailable";
 	}
 	return code === "BAD_REQUEST" ? "errors.siteInvalid" : "errors.checkFailed";
 }
@@ -216,20 +219,27 @@ function GeoBlock({ geo }: { geo: CheckResult["geo"] }) {
 		blocked: t("results.geoCrawlersBlocked"),
 		unknown: t("results.geoCrawlersUnknown"),
 	}[geo.aiCrawlers];
+	let llmsTxtText = t("results.geoLlmsTxtUnknown");
+	if (geo.llmsTxt !== null) {
+		llmsTxtText = geo.llmsTxt
+			? t("results.geoLlmsTxtYes")
+			: t("results.geoLlmsTxtNo");
+	}
+	let jsonLdText = t("results.geoJsonLdUnknown");
+	if (geo.jsonLdTypes !== null) {
+		jsonLdText =
+			geo.jsonLdTypes.length > 0
+				? t("results.geoJsonLdFound", { types: geo.jsonLdTypes.join(", ") })
+				: t("results.geoJsonLdNone");
+	}
 
 	return (
 		<div className={panelClassName}>
 			<H3 className="text-xl">{t("results.geoTitle")}</H3>
 			<ul className={cn("mt-5 border-t", ruleClassName)}>
-				<GeoRow ok={geo.llmsTxt}>
-					{geo.llmsTxt ? t("results.geoLlmsTxtYes") : t("results.geoLlmsTxtNo")}
-				</GeoRow>
+				<GeoRow ok={geo.llmsTxt === true}>{llmsTxtText}</GeoRow>
 				<GeoRow ok={geo.aiCrawlers === "allowed"}>{crawlerText}</GeoRow>
-				<GeoRow ok={geo.jsonLdTypes.length > 0}>
-					{geo.jsonLdTypes.length > 0
-						? t("results.geoJsonLdFound", { types: geo.jsonLdTypes.join(", ") })
-						: t("results.geoJsonLdNone")}
-				</GeoRow>
+				<GeoRow ok={(geo.jsonLdTypes?.length ?? 0) > 0}>{jsonLdText}</GeoRow>
 			</ul>
 			<ArrowLink
 				className="mt-6"
@@ -272,6 +282,11 @@ function Results({
 					.filter(Boolean)
 					.join(" ")}
 			</Lead>
+			{data.emailLost && (
+				<p className="mt-4 text-base text-destructive" role="alert">
+					{t("results.emailLost")}
+				</p>
+			)}
 
 			<div className="mt-10 grid gap-5">
 				<div className="grid gap-3 sm:grid-cols-3 sm:gap-5">

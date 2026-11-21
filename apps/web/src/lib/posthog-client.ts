@@ -5,9 +5,11 @@ import { hasAnalyticsConsent } from "@/lib/consent";
 
 const token = env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN;
 
-// Only run analytics in production. The /ingest reverse proxy does not exist in
-// local dev, so initializing here floods the console with "Failed to fetch".
-const enabled = Boolean(token) && process.env.NODE_ENV === "production";
+// Only run analytics on the production deployment. Previews also build with
+// NODE_ENV "production", and their visits would count as real traffic. The
+// /ingest reverse proxy does not exist in local dev, so initializing there
+// floods the console with "Failed to fetch".
+const enabled = Boolean(token) && env.NEXT_PUBLIC_VERCEL_ENV === "production";
 
 let ready: Promise<PostHog | null> | undefined;
 let client: PostHog | null = null;

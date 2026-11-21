@@ -56,7 +56,15 @@ export const aiVisibilityRouter = router({
 				[dailyPerVisitor, ctx.ip],
 				[dailySiteWide, "site"],
 			] as const) {
-				if ((await limiter.check(key)).limited) {
+				const { limited, unavailable } = await limiter.check(key);
+				if (unavailable) {
+					// No store to count the site-wide cap in: not a reached limit.
+					throw new TRPCError({
+						code: "SERVICE_UNAVAILABLE",
+						message: "The check is unavailable right now.",
+					});
+				}
+				if (limited) {
 					throw new TRPCError({
 						code: "TOO_MANY_REQUESTS",
 						message: DAILY_LIMIT_MESSAGE,

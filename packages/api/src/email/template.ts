@@ -1,3 +1,4 @@
+import { env } from "@webvise-app/env/server";
 import { SITE_URL } from "../site";
 import { createNewsletterConfirmationToken } from "./newsletter-confirmation-token";
 import { createUnsubscribeToken } from "./unsubscribe-token";
@@ -44,12 +45,23 @@ const LOGO_URL = `${SITE_URL}/images/email/webvise-logo.png`;
 const font =
 	"'Hanken Grotesk', Geist, Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
 
+/**
+ * Where confirm and unsubscribe links go: the deployment that sent the email,
+ * so a preview never changes a production subscriber. Production and local
+ * dev (no VERCEL_URL) use the production host.
+ */
+function actionBaseUrl(): string {
+	return env.VERCEL_ENV !== "production" && env.VERCEL_URL
+		? `https://${env.VERCEL_URL}`
+		: SITE_URL;
+}
+
 export function unsubscribeUrl(email: string): string {
-	return `${SITE_URL}/api/unsubscribe?token=${createUnsubscribeToken(email)}`;
+	return `${actionBaseUrl()}/api/unsubscribe?token=${createUnsubscribeToken(email)}`;
 }
 
 export function newsletterConfirmationUrl(email: string): string {
-	return `${SITE_URL}/api/newsletter/confirm?token=${createNewsletterConfirmationToken(email)}`;
+	return `${actionBaseUrl()}/api/newsletter/confirm?token=${createNewsletterConfirmationToken(email)}`;
 }
 
 export function emailLayout(opts: {

@@ -31,7 +31,7 @@ vi.mock("@webvise-app/api/email/resend", () => ({
 	setContact: vi.fn(),
 }));
 
-const { runWpHealthAudit } = await import(
+const { runWpHealthAudit, sendReportLead } = await import(
 	"@webvise-app/api/services/wp-health/audit"
 );
 
@@ -118,6 +118,52 @@ describe("runWpHealthAudit", () => {
 		// The stubbed page serves HTML for llms.txt too, so it does not count.
 		expect(out.result.geo.llmsTxt).toBe(false);
 		expect(out.result.geo.jsonLdTypes).toEqual([]);
+		expect(out.result.homepageRead).toBe(true);
+	});
+
+	it("treats a blocked homepage as unread, not as a site without findings", async () => {
+		fetchMock.mockImplementation((url: string) => {
+			if (url.includes("googleapis.com")) {
+				return Promise.resolve(
+					new Response(JSON.stringify(PSI_OK(80, 90)), { status: 200 })
+				);
+			}
+			// A WAF challenge page: WordPress markers, but not the homepage.
+			return Promise.resolve(
+				new Response('<link href="/wp-content/challenge.css" />', {
+					status: 403,
+				})
+			);
+		});
+		sendEmailMock.mockResolvedValue({ ok: true });
+		const out = await runWpHealthAudit({
+			url: "https://example.com",
+			email: "lead@example.com",
+		});
+		expect(out.ok).toBe(true);
+		if (!out.ok) {
+			return;
+		}
+		expect(out.result.homepageRead).toBe(false);
+		expect(out.result.securityFlags).toEqual([]);
+		expect(out.result.geo.llmsTxt).toBeNull();
+		expect(out.result.geo.jsonLdTypes).toBeNull();
+		const admin = sendEmailMock.mock.calls.find(
+			(c) => c[0].label === "wp-health-admin"
+		)?.[0];
+		expect(admin.text).toContain(
+			"Security: homepage could not be read, WordPress and PHP not checked"
+		);
+		expect(admin.text).toContain("llms.txt: could not read");
+		expect(admin.text).toContain(
+			"Structured data: could not read the homepage"
+		);
+		expect(admin.html).not.toContain("No flags detected");
+		const prospect = sendEmailMock.mock.calls.find(
+			(c) => c[0].label === "wp-health-prospect"
+		)?.[0];
+		expect(prospect.text).toContain("Could not read your homepage");
+		expect(prospect.text).not.toContain("AI readiness looks good");
 	});
 
 	it("reports llms.txt, blocked AI crawlers and JSON-LD types", async () => {
@@ -174,7 +220,7 @@ describe("runWpHealthAudit", () => {
 		if (!out.ok) {
 			return;
 		}
-		expect(out.result.geo.llmsTxt).toBe(false);
+		expect(out.result.geo.llmsTxt).toBeNull();
 		expect(out.result.geo.aiCrawlers).toBe("unknown");
 	});
 
@@ -327,7 +373,7 @@ describe("runWpHealthAudit", () => {
 		expect(insertValuesMock).toHaveBeenCalledOnce();
 	});
 
-	it("sends only the admin email when the cap lookup throws", async () => {
+	it("still sends the report when the cap lookup throws", async () => {
 		setupPsi(45, 80);
 		sendEmailMock.mockResolvedValue({ ok: true });
 		findFirstMock.mockRejectedValue(new Error("db down"));
@@ -340,7 +386,7 @@ describe("runWpHealthAudit", () => {
 		});
 		errorSpy.mockRestore();
 		const labels = sendEmailMock.mock.calls.map((c) => c[0].label);
-		expect(labels).toEqual(["wp-health-admin"]);
+		expect(labels).toEqual(["wp-health-admin", "wp-health-prospect"]);
 	});
 
 	it("keeps visitor-typed text and the URL out of the prospect email", async () => {
@@ -380,5 +426,76 @@ describe("runWpHealthAudit", () => {
 		setupPsi(45, 80);
 		await runWpHealthAudit({ url: "https://example.com" });
 		expect(insertValuesMock).not.toHaveBeenCalled();
+	});
+});
+
+describe("sendReportLead", () => {
+	const report = {
+		url: "https://example.com",
+		mobile: { score: 42 },
+		desktop: { score: 80 },
+		issues: [
+			{
+				title: "Eliminate render-blocking",
+				displayValue: "Save 1s",
+				savingsMs: 1000,
+			},
+		],
+		vitals: [],
+		projectedScore: 93,
+		securityFlags: [],
+		homepageRead: true,
+		seo: { score: 87 },
+		geo: {
+			llmsTxt: false,
+			aiCrawlers: "allowed" as const,
+			blockedCrawlers: [],
+			jsonLdTypes: [],
+		},
+	};
+
+	beforeEach(() => {
+		sendEmailMock.mockReset();
+		findFirstMock.mockReset();
+		insertValuesMock.mockReset();
+		findFirstMock.mockResolvedValue(undefined);
+		insertValuesMock.mockResolvedValue(undefined);
+		vi.spyOn(console, "error").mockImplementation(() => {
+			// silence expected logs
+		});
+	});
+
+	afterEach(() => {
+		vi.restoreAllMocks();
+	});
+
+	it("emails the given report and says the visitor got it", async () => {
+		sendEmailMock.mockResolvedValue({ ok: true });
+		const out = await sendReportLead(report, { email: "lead@example.com" });
+		expect(out).toEqual({ emailed: true, lost: false });
+		const admin = sendEmailMock.mock.calls.find(
+			(c) => c[0].label === "wp-health-admin"
+		)?.[0];
+		expect(admin.subject).toBe("WP Lead: https://example.com - mobile 42/100");
+	});
+
+	it("says the visitor got no email when one already went out today", async () => {
+		sendEmailMock.mockResolvedValue({ ok: true });
+		findFirstMock.mockResolvedValue({ id: "prior" });
+		const out = await sendReportLead(report, { email: "lead@example.com" });
+		expect(out).toEqual({ emailed: false, lost: false });
+	});
+
+	it("keeps the lead when the admin email fails but the DB stored it", async () => {
+		sendEmailMock.mockResolvedValue({ ok: false, reason: "api_error" });
+		const out = await sendReportLead(report, { email: "lead@example.com" });
+		expect(out).toEqual({ emailed: false, lost: false });
+	});
+
+	it("reports the lead lost when the admin email and every store fail", async () => {
+		sendEmailMock.mockResolvedValue({ ok: false, reason: "api_error" });
+		insertValuesMock.mockRejectedValue(new Error("db down"));
+		const out = await sendReportLead(report, { email: "lead@example.com" });
+		expect(out.lost).toBe(true);
 	});
 });

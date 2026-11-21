@@ -1,5 +1,6 @@
 "use client";
 
+import { useLocale } from "next-intl";
 import { useState } from "react";
 import { usePathname } from "@/i18n/navigation";
 import { track } from "@/lib/track";
@@ -7,7 +8,10 @@ import { track } from "@/lib/track";
 export type NewsletterPlacement = "footer" | "blog_article";
 
 export function useNewsletterSubscribe(placement: NewsletterPlacement) {
+	// The route template without the locale, e.g. /blog/[slug]: fine for
+	// analytics, but the signup stores the real address.
 	const path = usePathname();
+	const locale = useLocale();
 	const [status, setStatus] = useState<
 		"idle" | "loading" | "success" | "error"
 	>("idle");
@@ -26,7 +30,8 @@ export function useNewsletterSubscribe(placement: NewsletterPlacement) {
 			await trpcClient.newsletter.subscribe.mutate({
 				email: email.trim(),
 				placement,
-				path,
+				path: window.location.pathname,
+				locale: locale === "en" ? "en" : "de",
 			});
 			setStatus("success");
 			track("newsletter_success", { location: placement, path });

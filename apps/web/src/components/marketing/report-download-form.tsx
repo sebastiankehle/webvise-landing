@@ -10,7 +10,6 @@ import { actionVariants } from "@/components/marketing/action";
 import { FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { H3, Muted } from "@/components/ui/typography";
-import { usePathname } from "@/i18n/navigation";
 import { getPostHog } from "@/lib/posthog-client";
 import { cn } from "@/lib/utils";
 import { trpcClient } from "@/utils/trpc";
@@ -29,7 +28,6 @@ export default function ReportDownloadForm({
 	className?: string;
 }) {
 	const locale = useLocale();
-	const path = usePathname();
 	const t = useTranslations("reportDownload");
 	const [submitStatus, setSubmitStatus] = useState<
 		"idle" | "success" | "error"
@@ -58,7 +56,8 @@ export default function ReportDownloadForm({
 					email: value.email.trim(),
 					reportId,
 					locale,
-					path,
+					// The real address; next-intl's usePathname gives /decks/[slug].
+					path: window.location.pathname,
 					website: value.website,
 					elapsedMs: Date.now() - mountedAt.current,
 				});

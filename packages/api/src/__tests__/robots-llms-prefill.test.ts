@@ -202,7 +202,7 @@ describe("prefillFromSite", () => {
 			result: {
 				siteUrl: "https://www.example.com",
 				robots: {
-					found: true,
+					status: "found",
 					blocked: ["GPTBot", "CCBot"],
 					allow: ["/wp-admin/admin-ajax.php"],
 					disallow: ["/wp-admin/"],
@@ -240,7 +240,7 @@ describe("prefillFromSite", () => {
 		});
 
 		const outcome = await prefillFromSite("https://example.com");
-		expect(outcome.ok && outcome.result.robots.found).toBe(false);
+		expect(outcome.ok && outcome.result.robots.status).toBe("missing");
 		expect(outcome.ok && outcome.result.sitemapUrl).toBe(
 			"https://example.com/sitemap.xml"
 		);
@@ -249,14 +249,14 @@ describe("prefillFromSite", () => {
 		]);
 	});
 
-	it("returns an empty result when every fetch fails", async () => {
+	it("returns an empty result, robots.txt unreadable, when every fetch fails", async () => {
 		fetchMock.mockRejectedValue(new Error("boom"));
 		expect(await prefillFromSite("https://example.com")).toEqual({
 			ok: true,
 			result: {
 				siteUrl: "https://example.com",
 				robots: {
-					found: false,
+					status: "unreadable",
 					blocked: [],
 					allow: [],
 					disallow: [],
@@ -269,6 +269,18 @@ describe("prefillFromSite", () => {
 				siteName: null,
 			},
 		});
+	});
+
+	it.each([
+		[404, "missing"],
+		[403, "unreadable"],
+		[503, "unreadable"],
+	])("reports a robots.txt answering %s as %s", async (status, expected) => {
+		serve({
+			"https://example.com/robots.txt": new Response("Blocked", { status }),
+		});
+		const outcome = await prefillFromSite("https://example.com");
+		expect(outcome.ok && outcome.result.robots.status).toBe(expected);
 	});
 
 	it("refuses private addresses without fetching", async () => {

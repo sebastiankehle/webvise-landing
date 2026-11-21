@@ -1,13 +1,16 @@
 "use client";
 
+import { env } from "@webvise-app/env/web";
 import Script from "next/script";
 import { useEffect, useState } from "react";
 
 import { hasAnalyticsConsent } from "@/lib/consent";
 
 const GA_ID = "G-D5466MRK51";
+// Previews and local builds would count as real traffic.
+const enabled = env.NEXT_PUBLIC_VERCEL_ENV === "production";
 
-/** Loads the Google tag only after the visitor has accepted analytics. */
+/** Loads the Google tag on production, only after the visitor has accepted analytics. */
 export function GoogleAnalytics() {
 	const [granted, setGranted] = useState(false);
 
@@ -20,7 +23,7 @@ export function GoogleAnalytics() {
 		return () => window.removeEventListener("webvise:consent", onConsent);
 	}, []);
 
-	if (!granted) {
+	if (!(enabled && granted)) {
 		return null;
 	}
 
