@@ -57,7 +57,7 @@ export const services: Service[] = [
 		translationKey: "coaching",
 		featureCount: 6,
 		deliverableCount: 5,
-		toolCount: 5,
+		toolCount: 4,
 		painPointCount: 3,
 		faqCount: 4,
 		proof: {
