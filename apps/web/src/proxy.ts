@@ -75,6 +75,25 @@ const OLD_GERMAN_PREFIX = /^\/de(?=\/|$)/;
 
 const BLOG_PATH = /^\/(?:(?:de|en)\/)?blog\/([^/]+)\/?$/;
 
+/** next-intl falls back to German, the unprefixed language, for a browser
+ * that asks for neither German nor English. Such readers get English.
+ * Crawlers send no language list and keep German. */
+function preferEnglishOverGerman(request: NextRequest) {
+	const header = request.headers.get("accept-language");
+	if (!header) {
+		return;
+	}
+	const tags = header
+		.split(",")
+		.map((part) => part.split(";")[0].trim().toLowerCase());
+	if (
+		tags.some((tag) => tag === "*" || tag === "de" || tag.startsWith("de-"))
+	) {
+		return;
+	}
+	request.headers.set("accept-language", "en");
+}
+
 const GONE_BODY =
 	'<!doctype html><html lang="en"><head><meta charset="utf-8"><title>410 — page removed</title></head><body><p>This page has been permanently removed. <a href="/">Go to webvise.io</a></p></body></html>';
 
@@ -95,7 +114,17 @@ export default function proxy(request: NextRequest) {
 		url.pathname = pathname.replace(OLD_GERMAN_PREFIX, "") || "/";
 		return NextResponse.redirect(url, 308);
 	}
-	return intlMiddleware(request);
+	preferEnglishOverGerman(request);
+	const response = intlMiddleware(request);
+	// Only a page load may change the locale cookie. The router's own fetches
+	// (prefetches, client navigations) can still be in flight when the reader
+	// switches language, and would undo the switch. Next hides its prefetch
+	// headers from the proxy, so the browser's fetch metadata tells them
+	// apart. The locale cookie is the only one this proxy sets.
+	if (request.headers.get("sec-fetch-dest") === "empty") {
+		response.headers.delete("set-cookie");
+	}
+	return response;
 }
 
 export const config = {
