@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Guidance for AI agents working in this repo. Mirrors the role of `CLAUDE.md` but is tool-agnostic (Claude Code, Codex, Gemini, Cursor, etc.).
+Guidance for AI agents working in this repo. Mirrors the role of `CLAUDE.md` but is tool-agnostic (Claude Code, Codex, Gemini, etc.).
 
 ## Project
 

@@ -35,7 +35,7 @@ What I'm presenting today are tools and workflows I use in my daily work - at lu
 GitHub Copilot brought AI into the editor. Line completion, function suggestions, boilerplate generation. Helpful but limited. The developer stayed in control, AI was a better IntelliSense.
 
 **Wave 2: Chat & Copilot (2023-2025)**
-ChatGPT, Claude, and specialized coding assistants enabled conversations about code. Developers could describe and generate entire functions. Cursor and Windsurf integrated AI deeply into the IDE. Context grew from single files to entire projects.
+ChatGPT, Claude, and specialized coding assistants enabled conversations about code. Developers could describe and generate entire functions. Windsurf integrated AI deeply into the IDE. Context grew from single files to entire projects.
 
 **Wave 3: Autonomous Agents (2025-present)**
 AI systems that independently plan, use tools, write code, test, and deploy. Not one prompt, one answer - but one goal, many steps. Claude Code, Codex CLI, and Gemini CLI work directly in the terminal, navigate codebases, run tests, and create pull requests. This is the current state.
@@ -69,13 +69,6 @@ When developers become 30% more productive, it's not a marginal improvement - it
 - **Models:** GPT-4o, Claude Sonnet, Gemini (selectable)
 - **Price:** from $19/month per developer
 
-#### Cursor
-- **Type:** VS Code fork with native AI integration
-- **Strength:** Multi-file editing, codebase context, Composer for complex tasks
-- **Models:** Claude, GPT-4o, proprietary models
-- **Enterprise:** Cursor for Business with SSO and admin controls
-- **Price:** from $20/month per developer
-
 #### Claude Code (CLI)
 - **Type:** Terminal-based autonomous agent
 - **Strength:** Agentic coding - plans, implements, tests autonomously. Understands entire codebase. Works with Git, shell, APIs
@@ -101,15 +94,15 @@ When developers become 30% more productive, it's not a marginal improvement - it
 
 ### Comparison Matrix
 
-| Criterion | Copilot | Cursor | Claude Code | Windsurf |
-|---|---|---|---|---|
-| Autonomy Level | Medium | Medium-High | Very High | Medium-High |
-| Codebase Understanding | Good | Very Good | Excellent | Good |
-| Multi-File Editing | Yes | Yes | Yes | Yes |
-| Terminal Integration | Limited | Limited | Native | Limited |
-| Enterprise Features | Very Good | Good | API-flexible | Medium |
-| Offline Capable | No | No | No* | No |
-| Compliance Controls | Good | Medium | High | Medium |
+| Criterion | Copilot | Claude Code | Windsurf |
+|---|---|---|---|
+| Autonomy Level | Medium | Very High | Medium-High |
+| Codebase Understanding | Good | Excellent | Good |
+| Multi-File Editing | Yes | Yes | Yes |
+| Terminal Integration | Limited | Native | Limited |
+| Enterprise Features | Very Good | API-flexible | Medium |
+| Offline Capable | No | No* | No |
+| Compliance Controls | Good | High | Medium |
 
 *Claude Code can be operated with local MCP servers and proxy configurations.
 
@@ -213,7 +206,7 @@ This is not a theoretical scenario. This is my actual workflow for webvise clien
 #### Skills - Reusable Agent Capabilities
 
 Skills are Markdown-based instructions that give agents specific capabilities. They are:
-- **Portable** - work in Claude Code, Cursor, Copilot, and 19+ other AI tools
+- **Portable** - work in Claude Code, Copilot, and 19+ other AI tools
 - **Versionable** - in Git, shareable across teams
 - **Composable** - skills can invoke other skills
 
@@ -341,7 +334,7 @@ For organizations that conduct audits themselves, traceability is critical:
 **Goal:** Gather experience, identify quick wins
 
 - **Pilot Team:** 5-10 developers from different teams
-- **Tools:** GitHub Copilot or Cursor (low barrier to entry)
+- **Tools:** GitHub Copilot or Windsurf (low barrier to entry)
 - **Use Cases:** Code completion, documentation, unit tests
 - **Governance:** Basic guidelines for data classification
 - **Measurement:** Developer satisfaction, code output, error rate
@@ -356,7 +349,7 @@ For organizations that conduct audits themselves, traceability is critical:
 **Goal:** Establish standards, expand rollout
 
 - **Expansion:** 50-100 developers
-- **Tools:** Claude Code / Cursor for complex tasks, first MCP servers
+- **Tools:** Claude Code for complex tasks, first MCP servers
 - **Use Cases:** Feature development, refactoring, bug fixing, CI/CD integration
 - **Governance:** AI coding policy, DPA with providers, app classification
 - **Skills:** Create first company-specific skills (coding standards, review checklists)
