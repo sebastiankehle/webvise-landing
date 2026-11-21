@@ -14,6 +14,9 @@ export default defineConfig({
 		...devices["Desktop Chrome"],
 		baseURL: `http://localhost:${PORT}`,
 		viewport: { width: 1440, height: 900 },
+		// Unprefixed URLs follow the browser's language; a German browser
+		// keeps them German.
+		locale: "de-DE",
 	},
 	webServer: {
 		command: `next start --port ${PORT}`,

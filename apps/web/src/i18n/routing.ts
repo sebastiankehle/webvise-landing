@@ -3,11 +3,11 @@ import { defineRouting } from "next-intl/routing";
 export const routing = defineRouting({
 	locales: ["de", "en"],
 	// German is the site's own language and has no prefix; English lives
-	// under /en. The URL alone decides the language, so a shared link opens
-	// the same page for everyone.
+	// under /en. An unprefixed URL follows the NEXT_LOCALE cookie, then the
+	// browser's language, so English readers from a shared link land on /en.
+	// Crawlers send no language and get German.
 	defaultLocale: "de",
 	localePrefix: "as-needed",
-	localeDetection: false,
 	pathnames: {
 		"/": "/",
 		"/services": "/services",
