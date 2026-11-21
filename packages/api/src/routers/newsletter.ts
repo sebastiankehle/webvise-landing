@@ -29,6 +29,8 @@ export const newsletterRouter = router({
 				// Optional so stale client bundles deployed before source tracking keep working.
 				placement: z.enum(["footer", "blog_article"]).optional(),
 				path: z.string().startsWith("/").max(300).optional(),
+				// Optional for bundles from before it; they fall back to the path.
+				locale: z.enum(["de", "en"]).optional(),
 			})
 		)
 		.mutation(async ({ input }) => {
@@ -74,7 +76,7 @@ export const newsletterRouter = router({
 				);
 			}
 
-			const locale = emailLocaleFromPath(path);
+			const locale = input.locale ?? emailLocaleFromPath(path);
 			const emailResult = await sendEmail({
 				label: "newsletter-confirmation",
 				from: "webvise <hello@webvise.io>",

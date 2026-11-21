@@ -7,8 +7,12 @@ import { sendEmail } from "../../email/resend";
 import { emailLayout, escapeHtml, s, tableRow } from "../../email/template";
 import { safeFetchText } from "../../safe-fetch";
 import { UrlValidationError, validateUrl } from "../../url-validation";
-import { recordLead } from "../leads";
-import { type GeoResult, runGeoChecks } from "../wp-health/geo-checks";
+import { recordLead, reportLeadNotificationFailure } from "../leads";
+import {
+	type GeoResult,
+	readableText,
+	runGeoChecks,
+} from "../wp-health/geo-checks";
 import { PAGE_FETCH_OPTIONS } from "../wp-health/tech-detect";
 import {
 	analyzeAnswer,
@@ -113,6 +117,8 @@ export interface VisibilityAnswer {
 export interface VisibilityResult {
 	answers: VisibilityAnswer[];
 	brand: string;
+	/** The visitor left an email, but webvise was not told and nothing stored it. */
+	emailLost?: true;
 	geo: GeoResult;
 	host: string;
 	models: { assistant: Assistant; model: string }[];
@@ -152,11 +158,14 @@ async function ask(
 	};
 }
 
-/** Fetch the homepage once; a failed fetch still runs the robots.txt and llms.txt checks. */
+/**
+ * Fetch the homepage once; a failed fetch still runs the robots.txt and
+ * llms.txt checks. A non-2xx answer counts as unread, not as the homepage.
+ */
 async function checkSite(url: string): Promise<GeoResult> {
 	let html: string | null = null;
 	try {
-		html = (await safeFetchText(url, PAGE_FETCH_OPTIONS)).text;
+		html = readableText(await safeFetchText(url, PAGE_FETCH_OPTIONS));
 	} catch {
 		html = null;
 	}
@@ -171,7 +180,7 @@ function verdictText(verdict: boolean | null): string {
 }
 
 function leadLines(result: VisibilityResult, input: CheckInput): string[] {
-	const { summary } = result;
+	const { geo, summary } = result;
 	const count = (tally: { of: number; yes: number }) =>
 		`${tally.yes}/${tally.of}`;
 	return [
@@ -184,19 +193,20 @@ function leadLines(result: VisibilityResult, input: CheckInput): string[] {
 			(m) =>
 				`${m.model}: knows ${verdictText(m.knows)}, recommends ${verdictText(m.recommends)}, cites site ${verdictText(m.citesSite)}`
 		),
-		`llms.txt: ${result.geo.llmsTxt ? "yes" : "no"}`,
-		`AI crawlers: ${result.geo.aiCrawlers}`,
-		`Structured data: ${result.geo.jsonLdTypes.join(", ") || "none"}`,
+		`llms.txt: ${geo.llmsTxt === null ? "could not read" : verdictText(geo.llmsTxt)}`,
+		`AI crawlers: ${geo.aiCrawlers}`,
+		`Structured data: ${geo.jsonLdTypes === null ? "could not read the homepage" : geo.jsonLdTypes.join(", ") || "none"}`,
 	].filter((line): line is string => line !== null);
 }
 
+/** Resolves true when the lead is lost: webvise was not told and nothing stored it. */
 async function captureLead(
 	email: string,
 	input: CheckInput,
 	result: VisibilityResult
-): Promise<void> {
+): Promise<boolean> {
 	const lines = leadLines(result, input);
-	await Promise.allSettled([
+	const [stored, admin] = await Promise.all([
 		recordLead({
 			type: "ai_visibility_check",
 			email,
@@ -237,6 +247,10 @@ async function captureLead(
 				.join("\n"),
 		}),
 	]);
+	if (!admin.ok) {
+		await reportLeadNotificationFailure("ai_visibility_check", admin, stored);
+	}
+	return !(admin.ok || stored);
 }
 
 /**
@@ -316,8 +330,11 @@ export async function runAiVisibilityCheck(
 		geo,
 	};
 
-	if (input.email) {
-		await captureLead(input.email.trim().toLowerCase(), input, result);
+	if (
+		input.email &&
+		(await captureLead(input.email.trim().toLowerCase(), input, result))
+	) {
+		result.emailLost = true;
 	}
 
 	return { ok: true, result };

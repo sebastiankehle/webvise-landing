@@ -5,6 +5,7 @@ const REQUIRED_IN_PRODUCTION = [
 	"BETTER_AUTH_SECRET",
 	"RESEND_API_KEY",
 	"GOOGLE_PAGESPEED_API_KEY",
+	"ATTIO_API_KEY",
 ] as const;
 
 describe("server env", () => {
@@ -19,6 +20,17 @@ describe("server env", () => {
 		for (const name of REQUIRED_IN_PRODUCTION) {
 			vi.stubEnv(name, "");
 		}
+		await expect(import("@webvise-app/env/server")).rejects.toThrow();
+	});
+
+	it("throws in production when only ATTIO_API_KEY is missing", async () => {
+		vi.resetModules();
+		vi.stubEnv("VERCEL_ENV", "production");
+		vi.stubEnv("DATABASE_URL", "postgresql://user:pass@localhost:5432/db");
+		vi.stubEnv("BETTER_AUTH_SECRET", "test-secret-that-is-at-least-32-chars!!");
+		vi.stubEnv("RESEND_API_KEY", "re_test");
+		vi.stubEnv("GOOGLE_PAGESPEED_API_KEY", "psi_test");
+		vi.stubEnv("ATTIO_API_KEY", "");
 		await expect(import("@webvise-app/env/server")).rejects.toThrow();
 	});
 

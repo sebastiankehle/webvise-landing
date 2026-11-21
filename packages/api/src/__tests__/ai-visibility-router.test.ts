@@ -260,6 +260,59 @@ describe("aiVisibilityRouter.run", () => {
 		});
 	});
 
+	it("tells the visitor when their email reached neither webvise nor a store", async () => {
+		const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {
+			// expected failures
+		});
+		mocks.sendEmail.mockResolvedValue({ ok: false, reason: "api_error" });
+		mocks.insertValues.mockRejectedValue(new Error("db down"));
+		const result = await caller().run({
+			...BASE_INPUT,
+			email: "ada@example.com",
+		});
+		errorSpy.mockRestore();
+		expect(result.emailLost).toBe(true);
+	});
+
+	it("keeps the result quiet when the lead was stored", async () => {
+		const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {
+			// Attio is not configured in tests
+		});
+		mocks.sendEmail.mockResolvedValue({ ok: false, reason: "api_error" });
+		const result = await caller().run({
+			...BASE_INPUT,
+			email: "ada@example.com",
+		});
+		errorSpy.mockRestore();
+		expect(result.emailLost).toBeUndefined();
+	});
+
+	it("reads a blocked homepage as unread", async () => {
+		fetchMock.mockImplementation(() =>
+			Promise.resolve(new Response("Access denied", { status: 403 }))
+		);
+		const result = await caller().run(BASE_INPUT);
+		expect(result.geo).toEqual({
+			llmsTxt: null,
+			aiCrawlers: "unknown",
+			blockedCrawlers: [],
+			jsonLdTypes: null,
+		});
+	});
+
+	it("says the check is unavailable, not over its limit, without a store for the site-wide cap", async () => {
+		envMock.NODE_ENV = "production";
+		try {
+			const err = await caller()
+				.run(BASE_INPUT)
+				.catch((e: unknown) => e);
+			expect((err as TRPCError).code).toBe("SERVICE_UNAVAILABLE");
+			expect(mocks.generateText).not.toHaveBeenCalled();
+		} finally {
+			envMock.NODE_ENV = "test";
+		}
+	});
+
 	it("allows three checks per hour from one address", async () => {
 		const sameIp = aiVisibilityRouter.createCaller({
 			ip: "ai-visibility-rate-limit",

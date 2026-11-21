@@ -95,7 +95,7 @@ interface PrefillSummary {
 	host: string;
 	linkCount: number;
 	metaFound: boolean;
-	robotsFound: boolean;
+	robotsStatus: PrefillResult["robots"]["status"];
 	sitemapFound: boolean;
 }
 
@@ -141,10 +141,14 @@ function PrefillStatus({ summary }: { summary: PrefillSummary }) {
 				{t("prefill.resultsFor", { host: summary.host })}
 			</p>
 			<ul className={cn("mt-2 border-t", ruleClassName)}>
-				<StatusRow ok={summary.robotsFound}>
-					{summary.robotsFound
-						? t("prefill.robotsFound")
-						: t("prefill.robotsMissing")}
+				<StatusRow ok={summary.robotsStatus === "found"}>
+					{
+						{
+							found: t("prefill.robotsFound"),
+							missing: t("prefill.robotsMissing"),
+							unreadable: t("prefill.robotsUnreadable"),
+						}[summary.robotsStatus]
+					}
 				</StatusRow>
 				<StatusRow ok={summary.linkCount > 0}>{sitemapText}</StatusRow>
 				<StatusRow ok={summary.metaFound}>
@@ -572,7 +576,7 @@ export default function RobotsLlmsGenerator() {
 			host,
 			linkCount: found.reduce((n, s) => n + s.links.length, 0),
 			metaFound: Boolean(result.title || result.description),
-			robotsFound: result.robots.found,
+			robotsStatus: result.robots.status,
 			sitemapFound: result.sitemapUrl !== null,
 		});
 	}
@@ -611,7 +615,7 @@ export default function RobotsLlmsGenerator() {
 			applyPrefill(result);
 			track("robots_llms_prefill_success", {
 				url: origin,
-				robots_found: result.robots.found,
+				robots_found: result.robots.status === "found",
 				page_urls: result.pageUrls.length,
 			});
 		} catch (err) {

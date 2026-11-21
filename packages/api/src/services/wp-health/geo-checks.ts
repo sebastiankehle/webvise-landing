@@ -11,8 +11,10 @@ export const AI_CRAWLERS = [
 export interface GeoResult {
 	aiCrawlers: "allowed" | "partly-blocked" | "blocked" | "unknown";
 	blockedCrawlers: string[];
-	jsonLdTypes: string[];
-	llmsTxt: boolean;
+	/** null when the homepage could not be read. */
+	jsonLdTypes: string[] | null;
+	/** null when llms.txt could not be read; only a 404 means there is none. */
+	llmsTxt: boolean | null;
 }
 
 interface RobotsGroup {
@@ -162,19 +164,33 @@ export function extractJsonLdTypes(html: string): string[] {
 	return [...types].sort();
 }
 
+/** The body of a 2xx answer; anything else (a 403 challenge page, a 500) is not the page. */
+export function readableText(
+	res: { status: number; text: string } | null
+): string | null {
+	return res && res.status >= 200 && res.status < 300 ? res.text : null;
+}
+
 const FETCH_OPTIONS = {
 	timeoutMs: 8000,
 	maxBytes: 200_000,
 	maxRedirects: 3,
 };
 
-async function checkLlmsTxt(origin: string): Promise<boolean> {
+async function checkLlmsTxt(origin: string): Promise<boolean | null> {
 	try {
 		const res = await safeFetchText(`${origin}/llms.txt`, FETCH_OPTIONS);
+		if (res.status === 404) {
+			return false;
+		}
+		if (res.status !== 200) {
+			return null;
+		}
+		// Some sites answer every path with an HTML page.
 		const text = res.text.trim();
-		return res.status === 200 && text.length > 0 && !text.startsWith("<");
+		return text.length > 0 && !text.startsWith("<");
 	} catch {
-		return false;
+		return null;
 	}
 }
 
@@ -195,6 +211,7 @@ async function checkRobots(
 	return { status: "unknown", blocked: [] };
 }
 
+/** `homepageHtml` is null when the homepage could not be read. */
 export async function runGeoChecks(
 	pageUrl: string,
 	homepageHtml: string | null
@@ -208,6 +225,7 @@ export async function runGeoChecks(
 		llmsTxt,
 		aiCrawlers: robots.status,
 		blockedCrawlers: robots.blocked,
-		jsonLdTypes: homepageHtml ? extractJsonLdTypes(homepageHtml) : [],
+		jsonLdTypes:
+			homepageHtml === null ? null : extractJsonLdTypes(homepageHtml),
 	};
 }

@@ -11,6 +11,11 @@ interface RateLimitEntry {
 interface RateLimitResult {
 	limited: boolean;
 	retryAfterSec: number;
+	/**
+	 * Set with `limited` when a fail-closed limiter has no store to count in:
+	 * the request is refused, but no limit was reached.
+	 */
+	unavailable?: boolean;
 }
 
 const stores = new Map<string, Map<string, RateLimitEntry>>();
@@ -113,6 +118,7 @@ export function createRateLimiter(opts: {
 				return {
 					limited: true,
 					retryAfterSec: Math.ceil(opts.windowMs / 1000),
+					unavailable: true,
 				};
 			}
 

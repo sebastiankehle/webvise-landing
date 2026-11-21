@@ -22,6 +22,20 @@ function urgencyLabel(mobileScore: number): { text: string; color: string } {
 	return { text: "COOL LEAD - already decent performance", color: c.textMuted };
 }
 
+function yesNoUnknown(value: boolean | null): string {
+	if (value === null) {
+		return "Could not read";
+	}
+	return value ? "Yes" : "No";
+}
+
+function structuredDataCell(types: string[] | null): string {
+	if (types === null) {
+		return "Could not read the homepage";
+	}
+	return types.length > 0 ? escapeHtml(types.join(", ")) : "None";
+}
+
 export function buildAdminHtml(data: {
 	url: string;
 	email: string;
@@ -31,6 +45,7 @@ export function buildAdminHtml(data: {
 	projectedScore: number;
 	issues: Array<{ title: string; displayValue?: string; savingsMs?: number }>;
 	securityFlags: string[];
+	homepageRead: boolean;
 	seoScore: number | null;
 	geo: GeoResult;
 	timestamp: string;
@@ -51,15 +66,18 @@ export function buildAdminHtml(data: {
 		)
 		.join("");
 
-	const securityRows =
-		data.securityFlags.length > 0
-			? data.securityFlags
-					.map(
-						(f) =>
-							`<li style="margin:0 0 4px;font-size:13px;color:${c.red}">${escapeHtml(f)}</li>`
-					)
-					.join("")
-			: `<li style="margin:0;font-size:13px;color:${c.green}">No flags detected</li>`;
+	const flagRows = data.securityFlags
+		.map(
+			(f) =>
+				`<li style="margin:0 0 4px;font-size:13px;color:${c.red}">${escapeHtml(f)}</li>`
+		)
+		.join("");
+	let securityRows = flagRows;
+	if (!data.homepageRead) {
+		securityRows += `<li style="margin:0;font-size:13px;color:${c.textMuted}">Could not read the homepage: WordPress and PHP not checked</li>`;
+	} else if (data.securityFlags.length === 0) {
+		securityRows = `<li style="margin:0;font-size:13px;color:${c.green}">No flags detected</li>`;
+	}
 
 	const blockedList =
 		data.geo.blockedCrawlers.length > 0
@@ -70,14 +88,9 @@ export function buildAdminHtml(data: {
 			"SEO score",
 			data.seoScore === null ? "n/a" : `${data.seoScore}/100`
 		),
-		tableRow("llms.txt", data.geo.llmsTxt ? "Yes" : "No"),
+		tableRow("llms.txt", yesNoUnknown(data.geo.llmsTxt)),
 		tableRow("AI crawlers", `${escapeHtml(data.geo.aiCrawlers)}${blockedList}`),
-		tableRow(
-			"Structured data",
-			data.geo.jsonLdTypes.length > 0
-				? escapeHtml(data.geo.jsonLdTypes.join(", "))
-				: "None"
-		),
+		tableRow("Structured data", structuredDataCell(data.geo.jsonLdTypes)),
 	].join("");
 
 	const rows = [
@@ -151,9 +164,13 @@ const PROSPECT_COPY = {
 		seoTitle: "SEO & AI readiness",
 		seoScore: "SEO score",
 		noLlms: "No llms.txt found — AI assistants get no summary of your site.",
+		llmsUnknown: "Could not read your llms.txt.",
 		crawlersBlocked: (bots: string) =>
 			`AI crawlers are blocked in robots.txt: ${bots}`,
+		crawlersUnknown: "Could not read your robots.txt.",
 		noJsonLd: "No structured data (JSON-LD) on the homepage",
+		jsonLdUnknown:
+			"Could not read your homepage, so structured data (JSON-LD) was not checked.",
 		geoAllGood:
 			"AI readiness looks good: llms.txt, crawler access and structured data are in place.",
 		geoMore: "More on SEO & GEO",
@@ -188,9 +205,13 @@ const PROSPECT_COPY = {
 		seoScore: "SEO-Score",
 		noLlms:
 			"Keine llms.txt gefunden – KI-Assistenten erhalten keine Zusammenfassung Ihrer Website.",
+		llmsUnknown: "Ihre llms.txt ließ sich nicht lesen.",
 		crawlersBlocked: (bots: string) =>
 			`KI-Crawler sind in der robots.txt gesperrt: ${bots}`,
+		crawlersUnknown: "Ihre robots.txt ließ sich nicht lesen.",
 		noJsonLd: "Keine strukturierten Daten (JSON-LD) auf der Startseite",
+		jsonLdUnknown:
+			"Ihre Startseite ließ sich nicht lesen, daher wurden strukturierte Daten (JSON-LD) nicht geprüft.",
 		geoAllGood:
 			"Die KI-Sichtbarkeit sieht gut aus: llms.txt, Crawler-Zugriff und strukturierte Daten sind vorhanden.",
 		geoMore: "Mehr zu SEO & GEO",
@@ -225,14 +246,21 @@ type ProspectCopy = (typeof PROSPECT_COPY)[ProspectLocale];
 
 /** Plain-text problems only; values from the audited site are not escaped here. */
 function geoFindings(data: ProspectData, t: ProspectCopy): string[] {
+	const { geo } = data;
 	const findings: string[] = [];
-	if (!data.geo.llmsTxt) {
+	if (geo.llmsTxt === null) {
+		findings.push(t.llmsUnknown);
+	} else if (!geo.llmsTxt) {
 		findings.push(t.noLlms);
 	}
-	if (data.geo.blockedCrawlers.length > 0) {
-		findings.push(t.crawlersBlocked(data.geo.blockedCrawlers.join(", ")));
+	if (geo.aiCrawlers === "unknown") {
+		findings.push(t.crawlersUnknown);
+	} else if (geo.blockedCrawlers.length > 0) {
+		findings.push(t.crawlersBlocked(geo.blockedCrawlers.join(", ")));
 	}
-	if (data.geo.jsonLdTypes.length === 0) {
+	if (geo.jsonLdTypes === null) {
+		findings.push(t.jsonLdUnknown);
+	} else if (geo.jsonLdTypes.length === 0) {
 		findings.push(t.noJsonLd);
 	}
 	return findings.length > 0 ? findings : [t.geoAllGood];

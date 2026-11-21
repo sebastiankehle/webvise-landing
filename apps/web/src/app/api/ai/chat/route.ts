@@ -1,4 +1,5 @@
 import { gateway } from "@ai-sdk/gateway";
+import { getPostHogClient } from "@webvise-app/api/posthog";
 import {
 	createRateLimiter,
 	getClientIP,
@@ -9,7 +10,6 @@ import { convertToModelMessages, streamText, type UIMessage } from "ai";
 import { NextResponse } from "next/server";
 import { CAL_URL } from "@/lib/cal";
 import { siteKnowledge } from "@/lib/chat-knowledge";
-import { getPostHogClient } from "@/lib/posthog-server";
 import { parseChatBody } from "./schema";
 
 export const maxDuration = 60;
@@ -117,6 +117,12 @@ export async function POST(req: Request) {
 		[dailySiteWide, "site"],
 	] as const) {
 		const day = await daily.check(key);
+		if (day.unavailable) {
+			return NextResponse.json(
+				{ error: "Chat is unavailable right now." },
+				{ status: 503 }
+			);
+		}
 		if (day.limited) {
 			return rateLimitResponse(day.retryAfterSec);
 		}

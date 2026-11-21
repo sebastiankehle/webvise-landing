@@ -9,11 +9,15 @@ import {
 	tableRow,
 	unsubscribeUrl,
 } from "@webvise-app/api/email/template";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
-vi.mock("@webvise-app/env/server", () => ({
-	env: { BETTER_AUTH_SECRET: "test-secret-that-is-at-least-32-chars!!" },
+const envMock = vi.hoisted(() => ({
+	BETTER_AUTH_SECRET: "test-secret-that-is-at-least-32-chars!!",
+	VERCEL_ENV: undefined as string | undefined,
+	VERCEL_URL: undefined as string | undefined,
 }));
+
+vi.mock("@webvise-app/env/server", () => ({ env: envMock }));
 
 const UNSUBSCRIBE_TOKEN_RE = /\/api\/unsubscribe\?token=.+\..+\..+/;
 const THREE_SEGMENT_TOKEN_RE = /^.+\..+\..+$/;
@@ -114,6 +118,35 @@ describe("newsletterConfirmationUrl", () => {
 		const token = parsed.searchParams.get("token");
 		expect(token).toBeTruthy();
 		expect(token).toMatch(THREE_SEGMENT_TOKEN_RE);
+	});
+});
+
+describe("email action links on Vercel", () => {
+	afterEach(() => {
+		envMock.VERCEL_ENV = undefined;
+		envMock.VERCEL_URL = undefined;
+	});
+
+	it("point at the preview that sent them", () => {
+		envMock.VERCEL_ENV = "preview";
+		envMock.VERCEL_URL = "webvise-landing-abc123.vercel.app";
+		for (const url of [
+			unsubscribeUrl("user@example.com"),
+			newsletterConfirmationUrl("user@example.com"),
+		]) {
+			expect(new URL(url).host).toBe("webvise-landing-abc123.vercel.app");
+		}
+	});
+
+	it("point at the production host on production", () => {
+		envMock.VERCEL_ENV = "production";
+		envMock.VERCEL_URL = "webvise-landing-abc123.vercel.app";
+		expect(new URL(unsubscribeUrl("user@example.com")).host).toBe(
+			"www.webvise.io"
+		);
+		expect(new URL(newsletterConfirmationUrl("user@example.com")).host).toBe(
+			"www.webvise.io"
+		);
 	});
 });
 

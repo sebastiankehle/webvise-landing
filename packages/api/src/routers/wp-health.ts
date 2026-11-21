@@ -1,10 +1,19 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { rateLimitedProcedure, router } from "../index";
-import { runWpHealthAudit } from "../services/wp-health/audit";
+import { runWpHealthAudit, sendReportLead } from "../services/wp-health/audit";
+import {
+	createReportToken,
+	verifyReportToken,
+} from "../services/wp-health/report-token";
 
 const wpHealthProcedure = rateLimitedProcedure({
 	name: "wp-health-report",
+	maxRequests: 5,
+	windowMs: 60_000,
+});
+const unlockProcedure = rateLimitedProcedure({
+	name: "wp-health-unlock",
 	maxRequests: 5,
 	windowMs: 60_000,
 });
@@ -14,6 +23,7 @@ export const wpHealthRouter = router({
 		.input(
 			z.object({
 				url: z.string().url().max(2000),
+				// The lead fields: only client bundles from before `unlock` send them.
 				email: z.string().email().max(200).optional(),
 				firstName: z.string().max(100).optional(),
 				// Optional so client bundles from before this field keep working.
@@ -80,6 +90,37 @@ export const wpHealthRouter = router({
 					}
 				}
 			}
-			return audit.result;
+			return {
+				...audit.result,
+				reportToken: createReportToken(audit.result),
+			};
+		}),
+	/** Emails the report the visitor saw; the token stops anyone editing it. */
+	unlock: unlockProcedure
+		.input(
+			z.object({
+				reportToken: z.string().max(50_000),
+				email: z.string().email().max(200),
+				firstName: z.string().max(100).optional(),
+				locale: z.enum(["de", "en"]).optional(),
+			})
+		)
+		.mutation(async ({ input }) => {
+			const report = verifyReportToken(input.reportToken);
+			if (!report) {
+				// Not BAD_REQUEST: the client tells an expired report from bad input.
+				throw new TRPCError({
+					code: "PRECONDITION_FAILED",
+					message: "This report has expired. Please run it again.",
+				});
+			}
+			const lead = await sendReportLead(report, input);
+			if (lead.lost) {
+				throw new TRPCError({
+					code: "INTERNAL_SERVER_ERROR",
+					message: "Your email could not be saved. Please try again.",
+				});
+			}
+			return { emailed: lead.emailed };
 		}),
 });

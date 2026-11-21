@@ -13,13 +13,14 @@ const WHITESPACE = /\s+/;
 /**
  * Upserts the person by email in Attio and attaches a note. Never throws:
  * the notification email is the primary channel; Attio is best-effort.
+ * Resolves true once both the person and the note are in Attio.
  */
-export async function syncLeadToAttio(lead: AttioLead): Promise<void> {
+export async function syncLeadToAttio(lead: AttioLead): Promise<boolean> {
 	const tag = `[attio:${lead.noteTitle}]`;
 	const apiKey = env.ATTIO_API_KEY;
 	if (!apiKey) {
 		console.error(`${tag} ATTIO_API_KEY not configured`);
-		return;
+		return false;
 	}
 
 	const headers = {
@@ -51,7 +52,7 @@ export async function syncLeadToAttio(lead: AttioLead): Promise<void> {
 		);
 		if (!personRes.ok) {
 			console.error(`${tag} person upsert failed:`, await personRes.text());
-			return;
+			return false;
 		}
 		const person = (await personRes.json()) as {
 			data: { id: { record_id: string } };
@@ -72,11 +73,14 @@ export async function syncLeadToAttio(lead: AttioLead): Promise<void> {
 		});
 		if (!noteRes.ok) {
 			console.error(`${tag} note create failed:`, await noteRes.text());
+			return false;
 		}
+		return true;
 	} catch (err) {
 		console.error(
 			`${tag} sync failed:`,
 			err instanceof Error ? err.message : String(err)
 		);
+		return false;
 	}
 }
