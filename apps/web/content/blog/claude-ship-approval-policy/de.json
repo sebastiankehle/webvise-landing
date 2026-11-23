@@ -10,11 +10,11 @@
   "blocks": [
     {
       "type": "p",
-      "text": "**Claude Ship** ist Anthropics Set aus Agenten, die einen Pull Request prüfen, die Korrekturen pushen und entscheiden, ob die Änderung noch einen Menschen braucht. Es startete am 23. November 2026 als Beta und lässt jedem Team eine Aufgabe, die kein Agent übernimmt: die Approval Policy zu schreiben, also die Datei, die festlegt, welche Änderungen Claude freigeben darf."
+      "text": "**Claude Ship** ist eine Gruppe von Agenten von Anthropic, die einen Pull Request prüfen, die Korrekturen pushen und entscheiden, ob die Änderung noch einen Menschen braucht. Der Start als Beta war am 23. November 2026. Eine Aufgabe bleibt bei jedem Team, weil kein Agent sie übernimmt: die Approval Policy zu schreiben, also die Datei, die festlegt, welche Änderungen Claude freigeben darf."
     },
     {
       "type": "p",
-      "text": "Im November 2026 nahm das Repository hinter webvise.io 58 Pull Requests auf, jeden einzelnen über Claude Code geschrieben. In den letzten 30 Tagen lag die mediane Zeit bis zum Merge bei etwa acht Minuten, mit vollständigem Testlauf und Preview-Deployment dazwischen."
+      "text": "Im November 2026 nahm das Repository hinter webvise.io 58 Pull Requests auf, und jeder einzelne entstand mit Claude Code. In den letzten 30 Tagen vergingen vom Öffnen bis zum Merge im Median etwa acht Minuten, vollständiger Testlauf und Preview-Deployment eingeschlossen."
     },
     {
       "type": "p",
@@ -75,7 +75,7 @@
     },
     {
       "type": "p",
-      "text": "Die Agenten für ganze Repositories muss ein Owner der Organisation aktivieren, Repository für Repository. Der Befehl braucht nichts von einem Admin und zählt als normale Claude-Code-Nutzung. Diese Trennung zählt für kleine Teams: Ein Entwickler kann die Schleife heute an einem einzelnen Pull Request ausprobieren, lange bevor jemand über einen Rollout in der Organisation entscheidet."
+      "text": "Die Agenten für ganze Repositories muss ein Owner der Organisation aktivieren, Repository für Repository. Der Befehl braucht nichts von einem Admin und zählt als normale Claude-Code-Nutzung. Für kleine Teams ist diese Trennung wichtig: Ein Entwickler kann die Schleife heute an einem einzelnen Pull Request ausprobieren, lange bevor jemand über einen Rollout in der Organisation entscheidet."
     },
     {
       "type": "h2",
@@ -87,15 +87,15 @@
     },
     {
       "type": "p",
-      "text": "Jeder Pull Request im November durchlief dasselbe Gate. Ein CI-Job führt Typprüfung, Linter, 1.200 Tests, den Produktions-Build und Browser-Tests aus, und Vercel baut ein Preview-Deployment. Die Regeln auf dem Main-Branch akzeptieren eine Änderung nur über einen Pull Request mit freigebendem Review und erfolgreichem Deployment."
+      "text": "Jeder Pull Request im November durchlief dieselbe Prüfung. Ein CI-Job führt Typprüfung, Linter, 1.200 Tests, den Produktions-Build und Browser-Tests aus, und Vercel baut ein Preview-Deployment. Jeder von ihnen kam über einen Pull Request mit erfolgreichem Deployment auf den Main-Branch."
     },
     {
       "type": "p",
-      "text": "Auch ein KI-Reviewer hat hier eine Bilanz. Von März bis Juni 2026 prüfte CodeRabbit in diesem Repository 58 Pull Requests und hinterließ Review-Befunde zu 10 davon, etwa einem von sechs. Fünf von sechs liefen ohne Inline-Befund durch, und dieser Routineanteil lässt sich per Policy an einen Agenten übergeben."
+      "text": "Auch für einen KI-Reviewer gibt es hier Zahlen. Von März bis Juni 2026 prüfte CodeRabbit in diesem Repository 58 Pull Requests und hinterließ Review-Befunde zu 10 davon, etwa einem von sechs. Fünf von sechs liefen ohne Inline-Befund durch, und dieser Routineanteil lässt sich per Policy an einen Agenten übergeben."
     },
     {
       "type": "p",
-      "text": "Bei diesem Tempo ist der Code der kurze Teil. Bleibt ein Urteil pro Pull Request: Braucht diese Änderung einen genaueren Blick, oder ist sie Routine? In einem kleinen Team sitzt dieses Urteil im Kopf einer Person, und es ist der Schritt, den Claude Approvals Sie aufschreiben lässt."
+      "text": "Bei diesem Tempo ist der Code der kleinere Teil. Übrig bleibt ein Urteil pro Pull Request: Braucht diese Änderung einen genaueren Blick, oder ist sie Routine? In einem kleinen Team sitzt dieses Urteil im Kopf einer Person, und genau diesen Schritt müssen Sie für Claude Approvals aufschreiben."
     },
     {
       "type": "h2",
@@ -103,7 +103,7 @@
     },
     {
       "type": "p",
-      "text": "Die Policy liegt unter **.claude/approvals.yml** auf dem Default-Branch. Jede Regel nennt die Pfade, die sie abdeckt, wie viele Personen eine Änderung daran freigeben müssen und ob Claude freigibt, kommentiert oder blockiert. Ein Override kann die Hürde senken, solange eine Bedingung gilt, etwa solange die Code-Review-Läufe von Claude bestehen. Anthropics [Policy-Referenz](https://code.claude.com/docs/en/approvals-policy) listet jeden Schlüssel auf."
+      "text": "Die Policy liegt unter **.claude/approvals.yml** auf dem Default-Branch. Jede Regel nennt die Pfade, die sie abdeckt, wie viele Personen eine Änderung daran freigeben müssen und ob Claude freigibt, kommentiert oder blockiert. Ein Override kann die Hürde senken, solange eine Bedingung gilt, etwa solange Claudes eigenes Code Review bestanden ist. Anthropics [Policy-Referenz](https://code.claude.com/docs/en/approvals-policy) listet jeden Schlüssel auf."
     },
     {
       "type": "p",
@@ -135,11 +135,11 @@
     },
     {
       "type": "p",
-      "text": "Drei Details der Referenz entscheiden, ob eine Policy sicher ist. Eine Regel, die Claude freigeben lässt, startet von sich aus kein Review, daher lässt eine Regel ohne Klassifikator Claude eine Änderung freigeben, die niemand gelesen hat. Regeln kombinieren sich zum strengsten Urteil, weshalb die geschützten Pfade eine eigene Regel bekommen. Sobald die Datei auf dem Default-Branch liegt, stoppen automatische Code Reviews normalerweise bei Pull Requests, bei denen keine passende Regel **claude/code_review** nennt."
+      "text": "Drei Details der Referenz entscheiden, ob eine Policy sicher ist. Eine Regel, die Claude freigeben lässt, startet von sich aus kein Review, daher lässt eine Regel ohne Klassifikator Claude eine Änderung freigeben, die niemand gelesen hat. Greifen mehrere Regeln, gilt das strengste Urteil, weshalb die geschützten Pfade eine eigene Regel bekommen. Sobald die Datei auf dem Default-Branch liegt, stoppen automatische Code Reviews normalerweise bei Pull Requests, bei denen keine passende Regel **claude/code_review** nennt."
     },
     {
       "type": "p",
-      "text": "Grenzen im Repository zählen, weil ein Agent mit dem Zugriff des Entwicklers arbeitet. Am 17. November 2026 sollte eine Claude-Code-Sitzung in diesem Repository ihren eigenen Pull Request mergen und lehnte es ab, Admin-Rechte zu nutzen, um die Branch-Regel zu umgehen. [Der Artikel zum Claude-Code-Rollout](/blog/claude-code-rollout) erzählt diese Geschichte. Die Policy-Datei folgt demselben Gedanken: Die Grenze liegt im Repository, wo jedes Werkzeug auf sie trifft."
+      "text": "Grenzen im Repository sind wichtig, weil ein Agent mit dem Zugriff des Entwicklers arbeitet. Am 17. November 2026 sollte eine Claude-Code-Sitzung in diesem Repository ihren eigenen Pull Request mergen und lehnte es ab, Admin-Rechte zu nutzen, um die Branch-Regel zu umgehen. [Der Artikel zum Claude-Code-Rollout](/blog/claude-code-rollout) erzählt diese Geschichte. Die Policy-Datei folgt demselben Gedanken: Die Grenze liegt im Repository, wo jedes Werkzeug auf sie trifft."
     },
     {
       "type": "h2",
@@ -151,7 +151,7 @@
     },
     {
       "type": "p",
-      "text": "Der Befehl braucht Claude Code 2.1.330 oder neuer, GitHub CLI 2.63 oder neuer und git 2.38 oder neuer. Am Starttag meldete die Claude-Code-CLI auf dem Rechner von webvise 2.1.328, zwei Patch-Releases zu wenig, während GitHub CLI 2.105 und git 2.48 die Anforderung bereits erfüllten. Aktualisieren Sie zuerst, wenn der Befehl nicht erscheint."
+      "text": "Der Befehl braucht Claude Code 2.1.330 oder neuer, GitHub CLI 2.63 oder neuer und git 2.38 oder neuer. Am Tag des Launchs meldete die Claude-Code-CLI auf dem Rechner von webvise 2.1.328, zwei Patch-Releases zu wenig, während GitHub CLI 2.105 und git 2.48 die Anforderung bereits erfüllten. Aktualisieren Sie zuerst, wenn der Befehl nicht erscheint."
     },
     {
       "type": "ul",
@@ -161,7 +161,7 @@
         "**Die Commit-Nachricht stammt aus dem Gespräch der Sitzung.** Jeder, der den Pull Request sehen kann, kann sie lesen.",
         "**Der Watch braucht die geöffnete Sitzung im Vordergrund.** Wer sie in den Hintergrund schickt, den Branch wechselt oder Esc drückt, beendet ihn, und nach spätestens sieben Tagen endet er ohnehin.",
         "**Die nächste Änderung braucht einen eigenen Ordner.** Claude bearbeitet während eines Watch Dateien im selben Checkout. webvise betreibt bereits mehrere Sitzungen in getrennten git Worktrees, sodass die nächste Aufgabe in einem anderen beginnt.",
-        "**Auto-Merge verändert das Bild.** Claude Code blockiert Merge-, Approve- und Force-Push-Befehle, solange Claude allein handelt, aber bei aktivem GitHub Auto-Merge kann ein gepushter Fix dennoch zu einem Merge führen."
+        "**Auto-Merge ändert die Lage.** Claude Code blockiert Merge-, Approve- und Force-Push-Befehle, solange Claude allein handelt, aber bei aktivem GitHub Auto-Merge kann ein gepushter Fix dennoch zu einem Merge führen."
       ]
     },
     {
@@ -178,7 +178,7 @@
     },
     {
       "type": "p",
-      "text": "Beim Novembervolumen von webvise würde eine Policy wie die obige mindestens 58 abgerechnete Reviews pro Monat auslösen, mit jedem zusätzlichen Push mehr. Die Kosten hängen von der Größe jeder Änderung und der Review-Stufe ab, daher ist das monatliche Ausgabenlimit die Zahl, die vor dem ersten Review zu setzen ist. Berechtigte Enterprise-Organisationen können bis zum 15. Januar 2027 mindestens 10.000 US-Dollar an Credits für Claude Ship beanspruchen. [Der Artikel zu den Usage Credits von Fable 5](/blog/fable-5-leaves-subscriptions-usage-credits) zeigt, wie Usage Credits neben einem Plan stehen."
+      "text": "Beim Novembervolumen von webvise würde eine Policy wie die obige mindestens 58 abgerechnete Reviews pro Monat auslösen, mit jedem zusätzlichen Push mehr. Die Kosten hängen von der Größe jeder Änderung und der Review-Stufe ab, daher ist das monatliche Ausgabenlimit die Zahl, die vor dem ersten Review zu setzen ist. Berechtigte Enterprise-Organisationen können bis zum 15. Januar 2027 mindestens 10.000 US-Dollar an Credits für Claude Ship beanspruchen. [Der Artikel zu den Usage Credits von Fable 5](/blog/fable-5-leaves-subscriptions-usage-credits) erklärt, wie Usage Credits neben einem Plan funktionieren."
     },
     {
       "type": "h2",
@@ -229,11 +229,11 @@
     },
     {
       "type": "p",
-      "text": "Anthropic berichtet, dass sich die gemergten Pull Requests im Claude-Code-Team von Juni bis September 2026 mehr als verdoppelten, während der Anteil der zurückgenommenen um mehr als 40% sank. Das sind Herstellerzahlen aus einem Team, in dem Claudes Review nur eine von mehreren Schichten ist. Die öffentlichen Reaktionen auf den Launch stellten die berechtigte Frage: Wer verantwortet es, wenn eine freigegebene Änderung die Produktion lahmlegt?"
+      "text": "Anthropic berichtet, dass sich die gemergten Pull Requests im Claude-Code-Team von Juni bis September 2026 mehr als verdoppelten, während der Anteil der zurückgenommenen um mehr als 40 Prozent sank. Das sind Herstellerzahlen aus einem Team, in dem Claudes Review nur eine von mehreren Schichten ist. Die öffentlichen Reaktionen auf den Launch stellten die berechtigte Frage: Wer verantwortet es, wenn eine freigegebene Änderung die Produktion lahmlegt?"
     },
     {
       "type": "p",
-      "text": "Die Antwort steht in der Datei. Wer Policy und Branch-Regeln schreibt, hat entschieden, was Claude freigeben darf, weshalb eine Änderung an der Policy selbst immer eine Person brauchen sollte. Anthropics Starter-Policies setzen vor der Durchsetzung außerdem zwei Personen mit Schreibzugriff voraus, ein Detail, um das jedes kleine Repository herumplanen muss."
+      "text": "Die Antwort steht in der Datei. Wer Policy und Branch-Regeln schreibt, hat entschieden, was Claude freigeben darf, weshalb eine Änderung an der Policy selbst immer eine Person brauchen sollte. Anthropics Starter-Policies setzen vor der Durchsetzung außerdem zwei Personen mit Schreibzugriff voraus, ein Detail, das jedes kleine Repository einplanen muss."
     },
     {
       "type": "p",
