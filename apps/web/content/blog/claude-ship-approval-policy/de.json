@@ -1,0 +1,243 @@
+{
+  "date": "2026-11-23",
+  "readingTime": 8,
+  "keyword": "Claude Ship",
+  "title": "Claude Ship: Die Approval Policy schreiben, bevor Claude einen Pull Request freigibt",
+  "excerpt": "Claude Ship prüft Pull Requests, pusht Korrekturen und kann freigeben, was die Policy eines Teams erlaubt. Was jeder Agent tut, was er kostet und in welcher Reihenfolge Sie ihn aktivieren.",
+  "metaDescription": "Claude Ship lässt Claude Pull Requests prüfen, korrigieren und freigeben: was jeder Agent tut, was er abrechnet und in welcher Reihenfolge Teams starten.",
+  "cta": "Rollout von Claude Ship planen",
+  "tags": ["AI", "AI Agents", "Process"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "**Claude Ship** ist eine Gruppe von Agenten von Anthropic, die einen Pull Request prüfen, die Korrekturen pushen und entscheiden, ob die Änderung noch einen Menschen braucht. Der Start als Beta war am 23. November 2026. Eine Aufgabe bleibt bei jedem Team, weil kein Agent sie übernimmt: die Approval Policy zu schreiben, also die Datei, die festlegt, welche Änderungen Claude freigeben darf."
+    },
+    {
+      "type": "p",
+      "text": "Im November 2026 nahm das Repository hinter webvise.io 58 Pull Requests auf, und jeder einzelne entstand mit Claude Code. In den letzten 30 Tagen vergingen vom Öffnen bis zum Merge im Median etwa acht Minuten, vollständiger Testlauf und Preview-Deployment eingeschlossen."
+    },
+    {
+      "type": "p",
+      "text": "Wenn Ihre Entwickler bereits mit Coding-Agenten bauen, hat sich die Warteschlange vom Schreiben des Codes zum Prüfen und Freigeben verlagert. Genau diese Übergabe richtet [das Coaching von webvise für Teams](/services/coaching) im eigenen Repository des Kunden ein. Der Artikel behandelt die drei Agenten, den Befehl /ship, die Abrechnung des Organisations-Setups und die Reihenfolge der Aktivierung. Zahlen und Dateien aus dem eigenen Repository von webvise sind genannt, wo es sie gibt."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Claude Ship besteht aus drei Agenten und einem Befehl.** Code Review findet Probleme, PR Steward pusht Korrekturen, Claude Approvals wendet Ihre Policy an, und /ship führt dieselbe Schleife aus der Sitzung eines einzelnen Entwicklers aus.",
+        "**Der Merge bleibt bei GitHub.** Branch-Regeln und erforderliche Checks entscheiden, was gemergt wird, und der Approvals-Check blockiert einen Merge nur dort, wo Sie ihn zum erforderlichen Check machen.",
+        "**Die Policy-Datei ist die eigentliche Arbeit.** Eine Regel nennt Pfade, die Zahl der Personen, die freigeben müssen, und ob Claude freigibt, kommentiert oder blockiert.",
+        "**Beginnen Sie im Observe-Modus.** Der Check meldet dann, was die Policy entscheiden würde, und der Observe-Modus wird bereits abgerechnet.",
+        "**Setzen Sie Ausgabenlimits vor dem ersten Review.** Die Agenten der Organisation rechnen Tokens über Usage Credits ab, getrennt vom enthaltenen Kontingent des Plans."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Was Claude Ship ist: drei Agenten und ein Befehl"
+    },
+    {
+      "type": "p",
+      "text": "Anthropics [Launch-Artikel](https://claude.com/resources/articles/introducing-claude-ship) beschreibt Claude Ship als Code Review, das bereits allgemein verfügbar ist, plus zwei neue Agenten in der Beta. Die [Dokumentation](https://code.claude.com/docs/en/claude-ship) nennt die Grenzen. Es läuft auf Team- und Enterprise-Plänen und auf GitHub-Repositories, und es ist nicht verfügbar für Organisationen mit Zero Data Retention, mit HIPAA-Konfiguration oder mit kundenverwalteten Verschlüsselungsschlüsseln."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Baustein",
+        "Was er tut",
+        "Wo er aufhört",
+        "Status am 23. November 2026"
+      ],
+      "rows": [
+        [
+          "Code Review",
+          "Liest die Änderung im Kontext des umgebenden Codes und postet Befunde als Inline-Kommentare, nach Schweregrad geordnet",
+          "Findet Probleme, ändert keinen Code",
+          "Allgemein verfügbar"
+        ],
+        [
+          "PR Steward",
+          "Bearbeitet fehlschlagende Checks, Merge-Konflikte und Review-Kommentare und pusht Commits mit seinen Korrekturen",
+          "Soll Freigabe und Merge anderen überlassen",
+          "Beta"
+        ],
+        [
+          "Claude Approvals",
+          "Ein GitHub-Check, der die Policy-Datei im Repository anwendet und meldet, wer noch freigeben muss",
+          "Blockiert einen Merge nur dort, wo der Check in GitHub erforderlich ist",
+          "Beta"
+        ],
+        [
+          "/ship in Claude Code",
+          "Öffnet den Pull Request, prüft ihn und arbeitet aus der Sitzung des Entwicklers weiter an Feedback und fehlschlagenden Checks",
+          "Der Entwickler führt den Merge aus",
+          "Wird in CLI und Desktop-App ausgerollt"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Die Agenten für ganze Repositories muss ein Owner der Organisation aktivieren, Repository für Repository. Der Befehl braucht nichts von einem Admin und zählt als normale Claude-Code-Nutzung. Für kleine Teams ist diese Trennung wichtig: Ein Entwickler kann die Schleife heute an einem einzelnen Pull Request ausprobieren, lange bevor jemand über einen Rollout in der Organisation entscheidet."
+    },
+    {
+      "type": "h2",
+      "text": "Nach dem Pull Request: was das Repository von webvise zeigt"
+    },
+    {
+      "type": "p",
+      "text": "Das Repository von webvise.io hat seit März 2026 mehr als 110 Pull Requests aufgenommen, 58 davon allein im November. Von den 55 Pull Requests, die in den letzten 30 Tagen gemergt wurden, liefen 52 innerhalb einer Stunde nach dem Öffnen durch. Der Median lag bei etwa acht Minuten."
+    },
+    {
+      "type": "p",
+      "text": "Jeder Pull Request im November durchlief dieselbe Prüfung. Ein CI-Job führt Typprüfung, Linter, 1.200 Tests, den Produktions-Build und Browser-Tests aus, und Vercel baut ein Preview-Deployment. Jeder von ihnen kam über einen Pull Request mit erfolgreichem Deployment auf den Main-Branch."
+    },
+    {
+      "type": "p",
+      "text": "Auch für einen KI-Reviewer gibt es hier Zahlen. Von März bis Juni 2026 prüfte CodeRabbit in diesem Repository 58 Pull Requests und hinterließ Review-Befunde zu 10 davon, etwa einem von sechs. Fünf von sechs liefen ohne Inline-Befund durch, und dieser Routineanteil lässt sich per Policy an einen Agenten übergeben."
+    },
+    {
+      "type": "p",
+      "text": "Bei diesem Tempo ist der Code der kleinere Teil. Übrig bleibt ein Urteil pro Pull Request: Braucht diese Änderung einen genaueren Blick, oder ist sie Routine? In einem kleinen Team sitzt dieses Urteil im Kopf einer Person, und genau diesen Schritt müssen Sie für Claude Approvals aufschreiben."
+    },
+    {
+      "type": "h2",
+      "text": "Die Approval Policy ist die Arbeit"
+    },
+    {
+      "type": "p",
+      "text": "Die Policy liegt unter **.claude/approvals.yml** auf dem Default-Branch. Jede Regel nennt die Pfade, die sie abdeckt, wie viele Personen eine Änderung daran freigeben müssen und ob Claude freigibt, kommentiert oder blockiert. Ein Override kann die Hürde senken, solange eine Bedingung gilt, etwa solange Claudes eigenes Code Review bestanden ist. Anthropics [Policy-Referenz](https://code.claude.com/docs/en/approvals-policy) listet jeden Schlüssel auf."
+    },
+    {
+      "type": "p",
+      "text": "Das Repository von webvise enthält inzwischen eine eigene Policy-Datei im Observe-Modus. Anthropics Starter-Policy verlangt zwei Personen für jede Änderung, was ein Repository mit einem Maintainer nie erfüllen kann. Die Datei ist darauf angepasst: ein Platz, den der Autor besetzt, und Claude darf Routineänderungen freigeben, sobald die Policy durchgesetzt wird."
+    },
+    {
+      "type": "table",
+      "headers": ["Pfade", "Benötigte Personen", "Claude darf", "Grund"],
+      "rows": [
+        [
+          "Alles",
+          "1, der Autor zählt mit",
+          "Freigeben, wenn sein Code Review besteht, sonst kommentieren",
+          "Routineänderungen: Texte, Blogbeiträge, Komponenten"
+        ],
+        [
+          ".claude/, .agents/, AGENTS.md, .github/",
+          "1",
+          "Nur kommentieren",
+          "Diese Dateien steuern die Agenten und die Checks, daher zeichnet eine Person jede Änderung ab"
+        ],
+        [
+          "packages/db, packages/auth, packages/env",
+          "1",
+          "Nur kommentieren",
+          "Datenbankschema, Anmeldung und Umgebungsvariablen tragen das höchste Risiko"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Drei Details der Referenz entscheiden, ob eine Policy sicher ist. Eine Regel, die Claude freigeben lässt, startet von sich aus kein Review, daher lässt eine Regel ohne Klassifikator Claude eine Änderung freigeben, die niemand gelesen hat. Greifen mehrere Regeln, gilt das strengste Urteil, weshalb die geschützten Pfade eine eigene Regel bekommen. Sobald die Datei auf dem Default-Branch liegt, stoppen automatische Code Reviews normalerweise bei Pull Requests, bei denen keine passende Regel **claude/code_review** nennt."
+    },
+    {
+      "type": "p",
+      "text": "Grenzen im Repository sind wichtig, weil ein Agent mit dem Zugriff des Entwicklers arbeitet. Am 17. November 2026 sollte eine Claude-Code-Sitzung in diesem Repository ihren eigenen Pull Request mergen und lehnte es ab, Admin-Rechte zu nutzen, um die Branch-Regel zu umgehen. [Der Artikel zum Claude-Code-Rollout](/blog/claude-code-rollout) erzählt diese Geschichte. Die Policy-Datei folgt demselben Gedanken: Die Grenze liegt im Repository, wo jedes Werkzeug auf sie trifft."
+    },
+    {
+      "type": "h2",
+      "text": "/ship für einen Entwickler: Voraussetzungen und Grenzen"
+    },
+    {
+      "type": "p",
+      "text": "Der Befehl **/ship** committet die Arbeit, pusht den Branch, öffnet den Pull Request und prüft ihn. Danach startet er, was die [Dokumentation](https://code.claude.com/docs/en/ship-command) einen Watch nennt: Claude bleibt aus der offenen Sitzung am Pull Request und bearbeitet fehlschlagende Checks, Merge-Konflikte und Review-Kommentare. Ein zweiter Befehl, **/steward**, überspringt das Review und startet den Watch auf einem bereits offenen Pull Request."
+    },
+    {
+      "type": "p",
+      "text": "Der Befehl braucht Claude Code 2.1.330 oder neuer, GitHub CLI 2.63 oder neuer und git 2.38 oder neuer. Am Tag des Launchs meldete die Claude-Code-CLI auf dem Rechner von webvise 2.1.328, zwei Patch-Releases zu wenig, während GitHub CLI 2.105 und git 2.48 die Anforderung bereits erfüllten. Aktualisieren Sie zuerst, wenn der Befehl nicht erscheint."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Keine Bestätigungsabfrage.** Vor dem Commit und vor dem Push erscheint eine Zeile, die auf \"Esc to cancel\" endet, und /ship macht nach wenigen Sekunden weiter. Führen Sie zuerst git status aus, denn der Befehl kann jede nicht committete Datei committen.",
+        "**Secrets werden nur am Dateinamen erkannt.** Ein Schlüssel, der in eine gewöhnliche Datei eingefügt wurde, landet im Commit.",
+        "**Die Commit-Nachricht stammt aus dem Gespräch der Sitzung.** Jeder, der den Pull Request sehen kann, kann sie lesen.",
+        "**Der Watch braucht die geöffnete Sitzung im Vordergrund.** Wer sie in den Hintergrund schickt, den Branch wechselt oder Esc drückt, beendet ihn, und nach spätestens sieben Tagen endet er ohnehin.",
+        "**Die nächste Änderung braucht einen eigenen Ordner.** Claude bearbeitet während eines Watch Dateien im selben Checkout. webvise betreibt bereits mehrere Sitzungen in getrennten git Worktrees, sodass die nächste Aufgabe in einem anderen beginnt.",
+        "**Auto-Merge ändert die Lage.** Claude Code blockiert Merge-, Approve- und Force-Push-Befehle, solange Claude allein handelt, aber bei aktivem GitHub Auto-Merge kann ein gepushter Fix dennoch zu einem Merge führen."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Was das Organisations-Setup abrechnet"
+    },
+    {
+      "type": "p",
+      "text": "Code Review, PR Steward und Approvals rechnen Tokens über die Usage Credits der Organisation ab, getrennt vom enthaltenen Kontingent des Plans. Der Betrag folgt der Zahl und Größe der Pull Requests, der Review-Stufe, der Häufigkeit der Reviews und dem Umfang der Korrekturen von PR Steward. Ein Lauf von /ship zählt als normale Claude-Code-Nutzung."
+    },
+    {
+      "type": "p",
+      "text": "Drei Abrechnungsdetails übersieht man leicht. PR Steward hat kein eigenes Ausgabenlimit, bis ein Owner eines setzt. Approvals hat keine Grundgebühr, doch eine Policy, die Claudes Review ausliest, startet beim Öffnen eines Pull Requests und bei jedem Push ein abgerechnetes Code Review, auch im Observe-Modus. Ein aktiver Agent rechnet weiter ab, nachdem Usage Credits abgeschaltet wurden."
+    },
+    {
+      "type": "p",
+      "text": "Beim Novembervolumen von webvise würde eine Policy wie die obige mindestens 58 abgerechnete Reviews pro Monat auslösen, mit jedem zusätzlichen Push mehr. Die Kosten hängen von der Größe jeder Änderung und der Review-Stufe ab, daher ist das monatliche Ausgabenlimit die Zahl, die vor dem ersten Review zu setzen ist. Berechtigte Enterprise-Organisationen können bis zum 15. Januar 2027 mindestens 10.000 US-Dollar an Credits für Claude Ship beanspruchen. [Der Artikel zu den Usage Credits von Fable 5](/blog/fable-5-leaves-subscriptions-usage-credits) erklärt, wie Usage Credits neben einem Plan funktionieren."
+    },
+    {
+      "type": "h2",
+      "text": "Die Reihenfolge der Aktivierung"
+    },
+    {
+      "type": "p",
+      "text": "Anthropics Dokumentation empfiehlt einen Agenten nach dem anderen in einem Repository, und webvise stellt den Befehl an den Anfang dieser Reihenfolge. Jeder Schritt sollte lange genug laufen, um zu zeigen, was er kostet und was er findet."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Schritt",
+        "Was aktiviert wird",
+        "Was vor dem nächsten Schritt zu prüfen ist"
+      ],
+      "rows": [
+        [
+          "1",
+          "/ship auf den eigenen Pull Requests eines Entwicklers",
+          "Ob Befunde und Korrekturen dem entsprechen, worum ein Kollege gebeten hätte"
+        ],
+        [
+          "2",
+          "Code Review in einem Repository, mit Review-Stufe und monatlichem Ausgabenlimit",
+          "Kosten pro Pull Request und Anteil der Befunde, die berechtigt waren"
+        ],
+        [
+          "3",
+          "PR Steward mit manuellem Trigger, @claude steward",
+          "Sein Ausgabenlimit und ob eine seiner Korrekturen rückgängig gemacht werden musste"
+        ],
+        [
+          "4",
+          "Die Approval Policy im Observe-Modus",
+          "Ob die Urteile des Checks mit den Entscheidungen Ihrer Reviewer übereinstimmen"
+        ],
+        [
+          "5",
+          "Durchsetzung: die Observe-Zeile löschen und den Claude-Approvals-Check in GitHub zur Pflicht machen",
+          "Dass Auto-Merge überall aus ist, wo die Policy keine Person verlangt"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Wenn Ihr Team diese Reihenfolge an eigenem Code durchspielen will, deckt [das Coaching von webvise für Gründer und Teams](/services/coaching) die Policy-Datei, die Ausgabenlimits und den ersten Piloten ab. Die Sitzungen laufen auf Ihrem Repository."
+    },
+    {
+      "type": "p",
+      "text": "Anthropic berichtet, dass sich die gemergten Pull Requests im Claude-Code-Team von Juni bis September 2026 mehr als verdoppelten, während der Anteil der zurückgenommenen um mehr als 40 Prozent sank. Das sind Herstellerzahlen aus einem Team, in dem Claudes Review nur eine von mehreren Schichten ist. Die öffentlichen Reaktionen auf den Launch stellten die berechtigte Frage: Wer verantwortet es, wenn eine freigegebene Änderung die Produktion lahmlegt?"
+    },
+    {
+      "type": "p",
+      "text": "Die Antwort steht in der Datei. Wer Policy und Branch-Regeln schreibt, hat entschieden, was Claude freigeben darf, weshalb eine Änderung an der Policy selbst immer eine Person brauchen sollte. Anthropics Starter-Policies setzen vor der Durchsetzung außerdem zwei Personen mit Schreibzugriff voraus, ein Detail, das jedes kleine Repository einplanen muss."
+    },
+    {
+      "type": "p",
+      "text": "Claude Ship beschleunigt alles nach dem Pull Request, und die Policy hält die Freigabe in den Händen Ihres Teams. Wenn Sie Policy, Ausgabenlimits und Rollout-Reihenfolge auf Ihrem eigenen Repository klären wollen, [schreiben Sie webvise eine kurze Nachricht](/#contact) mit Ihrer Teamgröße und dem Repository, mit dem Sie beginnen würden."
+    }
+  ]
+}
