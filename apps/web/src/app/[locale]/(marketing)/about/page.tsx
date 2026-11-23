@@ -70,6 +70,7 @@ const connectLinks = [
 	{ key: "linkedin" as const, href: "https://linkedin.com/in/sebastiankehle" },
 	{ key: "github" as const, href: "https://github.com/sebastiankehle" },
 	{ key: "twitter" as const, href: "https://x.com/sebastiankehle" },
+	{ key: "instagram" as const, href: "https://www.instagram.com/webvise.io" },
 	{ key: "email" as const, href: "mailto:sebastian.kehle@webvise.io" },
 	{ key: "personal" as const, href: "https://sebastiankehle.com" },
 ];
