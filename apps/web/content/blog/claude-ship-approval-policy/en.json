@@ -1,0 +1,243 @@
+{
+  "date": "2026-11-23",
+  "readingTime": 8,
+  "keyword": "Claude Ship",
+  "title": "Claude Ship: Write the Approval Policy Before Claude Approves a Pull Request",
+  "excerpt": "Claude Ship reviews pull requests, pushes fixes and can approve what a team's policy allows. What each agent does, what it bills, and the order to turn it on.",
+  "metaDescription": "Claude Ship lets Claude review, fix and approve pull requests. What each agent does, what it bills, and the order webvise would turn it on for a team.",
+  "cta": "Plan your Claude Ship rollout",
+  "tags": ["AI", "AI Agents", "Process"],
+  "blocks": [
+    {
+      "type": "p",
+      "text": "**Claude Ship** is Anthropic's set of agents that review a pull request, push the fixes and decide whether the change still needs a person. It launched in beta on 23 November 2026, and it leaves every team one job no agent takes over: writing the approval policy, the file that says which changes Claude may approve."
+    },
+    {
+      "type": "p",
+      "text": "In November 2026, the repository behind webvise.io took 58 pull requests, each one written through Claude Code. Over the last 30 days the median pull request merged about eight minutes after it opened, with a full test run and a preview deployment in between."
+    },
+    {
+      "type": "p",
+      "text": "If your developers already build with coding agents, the queue has moved from writing code to reviewing it and signing it off. That handover is what [webvise's coaching for teams](/services/coaching) sets up on a client's own repository. This article covers the three agents, the /ship command, what the organization setup bills, and the order to turn it on. Numbers and files from webvise's own repository are named where they exist."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**Claude Ship is three agents and one command.** Code Review finds problems, PR Steward pushes fixes, Claude Approvals applies your policy, and /ship runs the same loop from one developer's session.",
+        "**The merge stays with GitHub.** Branch rules and required checks decide what merges, and the Approvals check blocks a merge only where you make it a required check.",
+        "**The policy file is the real work.** A rule names paths, the number of people who must approve, and whether Claude approves, comments or blocks.",
+        "**Start in observe mode.** The check then reports what the policy would decide, and observe mode is already billed.",
+        "**Set spend limits before the first review.** The organization agents bill tokens through usage credits, separately from the plan's included usage."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "What Claude Ship is: three agents and one command"
+    },
+    {
+      "type": "p",
+      "text": "Anthropic's [launch article](https://claude.com/resources/articles/introducing-claude-ship) describes Claude Ship as Code Review, which is already generally available, plus two new agents in beta. The [documentation](https://code.claude.com/docs/en/claude-ship) adds the limits. It runs on Team and Enterprise plans, on GitHub repositories, and it is closed to organizations with Zero Data Retention, the HIPAA configuration or customer-managed encryption keys."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Part",
+        "What it does",
+        "Where it stops",
+        "Status on 23 November 2026"
+      ],
+      "rows": [
+        [
+          "Code Review",
+          "Reads the change against the surrounding code and posts findings as inline comments, ranked by severity",
+          "Finds problems, changes no code",
+          "Generally available"
+        ],
+        [
+          "PR Steward",
+          "Works on failing checks, merge conflicts and review comments, and pushes commits with its fixes",
+          "Designed to leave approving and merging to others",
+          "Beta"
+        ],
+        [
+          "Claude Approvals",
+          "A GitHub check that applies the policy file in the repository and reports who still has to approve",
+          "Blocks a merge only where the check is required in GitHub",
+          "Beta"
+        ],
+        [
+          "/ship in Claude Code",
+          "Opens the pull request, reviews it and keeps working on feedback and failing checks from the developer's session",
+          "The developer merges",
+          "Rolling out in the CLI and desktop app"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "The agents for whole repositories need an organization Owner to turn them on, one repository at a time. The command needs nothing from an admin and counts as regular Claude Code usage. That split matters for small teams: one developer can try the loop on a single pull request today, long before anyone decides on an organization rollout."
+    },
+    {
+      "type": "h2",
+      "text": "After the pull request: what webvise's repository shows"
+    },
+    {
+      "type": "p",
+      "text": "webvise.io's repository has taken more than 110 pull requests since March 2026, and 58 of them opened in November alone. Of the 55 that merged in the last 30 days, 52 merged within an hour of opening. The median was about eight minutes."
+    },
+    {
+      "type": "p",
+      "text": "Each November pull request passed the same gate. A CI job runs the type check, the linter, 1,200 tests, the production build and browser tests, and Vercel builds a preview deployment. The rules on the main branch accept a change only through a pull request with an approving review and a passing deployment."
+    },
+    {
+      "type": "p",
+      "text": "An AI reviewer has a record here too. From March to June 2026, CodeRabbit reviewed 58 pull requests in this repository and left review findings on 10 of them, about one in six. Five in six went through without an inline finding, and that routine share is what a policy can hand to an agent."
+    },
+    {
+      "type": "p",
+      "text": "At that pace the code is the short part. What remains is one judgement per pull request: does this change need a closer look, or is it routine? In a small team that judgement lives in one person's head, and it is the step Claude Approvals asks you to write down."
+    },
+    {
+      "type": "h2",
+      "text": "The approval policy is the work"
+    },
+    {
+      "type": "p",
+      "text": "The policy lives at **.claude/approvals.yml** on the default branch. Each rule names the paths it covers, how many people must approve a change to them, and whether Claude approves, comments or blocks. An override can lower the bar while a condition holds, for example while Claude's own Code Review reads pass. Anthropic's [policy reference](https://code.claude.com/docs/en/approvals-policy) lists every key."
+    },
+    {
+      "type": "p",
+      "text": "webvise's repository now carries its own policy file, in observe mode. Anthropic's starter policy asks for two people on every change, which a repository with one maintainer can never meet. The file is adapted to that: one seat, which the author fills, and Claude may approve routine changes once the policy is enforced."
+    },
+    {
+      "type": "table",
+      "headers": ["Paths", "People needed", "Claude may", "Reason"],
+      "rows": [
+        [
+          "Everything",
+          "1, and the author counts",
+          "Approve when its Code Review passes, comment otherwise",
+          "Routine changes: copy, blog posts, components"
+        ],
+        [
+          ".claude/, .agents/, AGENTS.md, .github/",
+          "1",
+          "Comment only",
+          "These files steer the agents and the checks, so a person signs every change"
+        ],
+        [
+          "packages/db, packages/auth, packages/env",
+          "1",
+          "Comment only",
+          "Database schema, sign-in and environment variables carry the most risk"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Three details in the reference decide whether a policy is safe. A rule that says Claude approves starts no review by itself, so a rule that reads no classifier lets Claude approve a change nobody has read. Rules combine to the strictest verdict, which is why the protected paths get their own rule. Once the file is on the default branch, automatic Code Reviews normally stop on pull requests where no matching rule names **claude/code_review**."
+    },
+    {
+      "type": "p",
+      "text": "Limits in the repository matter because an agent works with a developer's own access. On 17 November 2026, a Claude Code session on this repository was asked to merge its own pull request and declined to use admin rights to get past the branch rule. [The Claude Code rollout article](/blog/claude-code-rollout) tells that story. The policy file follows the same idea: the limit sits in the repository, where every tool meets it."
+    },
+    {
+      "type": "h2",
+      "text": "/ship for one developer: requirements and limits"
+    },
+    {
+      "type": "p",
+      "text": "The **/ship** command commits the work, pushes the branch, opens the pull request and reviews it. Then it starts what the [documentation](https://code.claude.com/docs/en/ship-command) calls a watch: Claude stays on the pull request from the open session and works on failing checks, merge conflicts and review comments. A second command, **/steward**, skips the review and starts the watch on a pull request that is already open."
+    },
+    {
+      "type": "p",
+      "text": "The command needs Claude Code 2.1.330 or later, GitHub CLI 2.63 or later and git 2.38 or later. On launch day the Claude Code CLI on webvise's machine reported 2.1.328, two patch releases short, while GitHub CLI 2.105 and git 2.48 already met the bar. Update first if the command does not appear."
+    },
+    {
+      "type": "ul",
+      "items": [
+        "**No confirmation prompt.** A line ending in \"Esc to cancel\" appears before the commit and before the push, and /ship continues after a few seconds. Run git status first, because it can commit every uncommitted file.",
+        "**Secrets are detected by file name only.** A key pasted into an ordinary file goes into the commit.",
+        "**The commit message comes from the session's conversation.** Everyone who can see the pull request can read it.",
+        "**The watch needs the session open and in the foreground.** Sending it to the background, switching branches or pressing Esc ends it, and it ends after seven days at the latest.",
+        "**The next change needs its own folder.** Claude edits files in the same checkout during a watch. webvise already runs several sessions in separate git worktrees, so the next task starts in another one.",
+        "**Auto-merge changes the picture.** Claude Code blocks merge, approve and force-push commands while Claude acts alone, but with GitHub auto-merge on, a pushed fix can still lead to a merge."
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "What the organization setup bills"
+    },
+    {
+      "type": "p",
+      "text": "Code Review, PR Steward and Approvals bill tokens through the organization's usage credits, separately from the plan's included usage. The amount follows the number and size of pull requests, the review level, how often reviews run and how much fixing PR Steward does. Running /ship counts as regular Claude Code usage."
+    },
+    {
+      "type": "p",
+      "text": "Three billing details are easy to miss. PR Steward has no spend limit of its own until an Owner sets one. Approvals has no base charge, yet a policy that reads Claude's review starts a billed Code Review when a pull request opens and at each push, in observe mode too. An agent that is on keeps billing after usage credits are turned off."
+    },
+    {
+      "type": "p",
+      "text": "At webvise's November volume, a policy like the one above would start at least 58 billed reviews a month, and more with every extra push. Cost depends on the size of each change and the review level, so the monthly spend limit is the number to set before the first review runs. Eligible Enterprise organizations can claim at least $10,000 in Claude Ship credits by 15 January 2027. [The Fable 5 usage credits article](/blog/fable-5-leaves-subscriptions-usage-credits) shows how usage credits sit beside a plan."
+    },
+    {
+      "type": "h2",
+      "text": "The order to turn it on"
+    },
+    {
+      "type": "p",
+      "text": "Anthropic's documentation recommends one agent at a time in one repository, and webvise puts the command in front of that order. Every step should run long enough to show what it costs and what it catches."
+    },
+    {
+      "type": "table",
+      "headers": [
+        "Step",
+        "What to turn on",
+        "What to check before the next step"
+      ],
+      "rows": [
+        [
+          "1",
+          "/ship on one developer's own pull requests",
+          "Whether the findings and fixes match what a colleague would have asked for"
+        ],
+        [
+          "2",
+          "Code Review on one repository, with a review level and a monthly spend limit",
+          "Cost per pull request and the share of findings that were real"
+        ],
+        [
+          "3",
+          "PR Steward with the manual trigger, @claude steward",
+          "Its spend limit, and whether any of its fixes had to be undone"
+        ],
+        [
+          "4",
+          "The approval policy in observe mode",
+          "Whether the check's verdicts match what your reviewers decided"
+        ],
+        [
+          "5",
+          "Enforcement: delete the observe line and require the Claude Approvals check in GitHub",
+          "That auto-merge is off wherever the policy needs no person"
+        ]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "If your team wants this order run on its own code, [webvise's coaching for founders and teams](/services/coaching) covers the policy file, the spend limits and the first pilot. The sessions run on your repository."
+    },
+    {
+      "type": "p",
+      "text": "Anthropic reports that merged pull requests on the Claude Code team more than doubled from June to September 2026 while the share of reverted ones fell by more than 40%. Those are vendor figures from a team where Claude's review is one layer of several. The public replies to the launch asked the fair question: who answers when an approved change takes production down?"
+    },
+    {
+      "type": "p",
+      "text": "The answer is in the file. Whoever writes the policy and the branch rules has decided what Claude may approve, which is why a change to the policy itself should always need a person. Anthropic's starter policies also assume two people with write access before enforcement, a detail every small repository has to plan around."
+    },
+    {
+      "type": "p",
+      "text": "Claude Ship speeds up everything after the pull request, and the policy keeps the sign-off in your team's hands. If you want the policy, the spend limits and the rollout order settled on your own repository, [send webvise a short note](/#contact) with your team size and the repository you would start on."
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+# .claude/approvals.yml
+# Claude Approvals policy. Reference: https://code.claude.com/docs/en/approvals-policy
+# One person has write access here, so each rule asks for one seat, which the author fills.
+version: 1
+mode: observe
+rules:
+  - purpose: "A routine change needs its author. When Claude's review passes, Claude approves."
+    paths: ["**"]
+    verdict: { claude: comments, seats: 1 }
+    override:
+      - { if: "claude/code_review = pass", verdict: { claude: approves, seats: 1 } }
+  - purpose: "Files that steer the agents and the checks: Claude comments and a person signs."
+    paths: ["**/.claude/**", ".agents/**", "AGENTS.md", ".github/**"]
+    nested: inherit
+    verdict: { claude: comments, seats: 1 }
+  - purpose: "Database schema, sign-in and environment variables: Claude comments and a person signs."
+    paths: ["packages/db/**", "packages/auth/**", "packages/env/**"]
+    verdict: { claude: comments, seats: 1 }
