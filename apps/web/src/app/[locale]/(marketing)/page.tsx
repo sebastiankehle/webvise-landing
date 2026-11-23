@@ -39,6 +39,7 @@ export default async function HomePage({ params }: { params: LocaleParams }) {
 				sameAs: [
 					"https://github.com/webvise",
 					"https://linkedin.com/company/webvise",
+					"https://www.instagram.com/webvise.io",
 				],
 			},
 			{
